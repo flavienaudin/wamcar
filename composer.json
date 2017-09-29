@@ -1,0 +1,17 @@
+{
+  "name": "novaproject/wamcar",
+  "license": "proprietary",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.1.0",
+    "myclabs/php-enum": "^1.5"
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+}
