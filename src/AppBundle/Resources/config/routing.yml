@@ -1,0 +1,7 @@
+default:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: :front:homepage.html.twig
+
+

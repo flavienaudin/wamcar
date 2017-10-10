@@ -1,0 +1,13 @@
+{
+  "name": "wamcar",
+  "version": "1.0.0",
+  "description": "Wamcar main website",
+  "scripts": {
+    "lah": "ls -lah node_modules/.bin",
+    "start": "echo \"Not implemented yet\"",
+    "build": "echo \"Not implemented yet\"",
+    "proxy": "echo \"Not implemented yet\""
+  },
+  "author": "Novaway",
+  "license": "UNLICENSED"
+}

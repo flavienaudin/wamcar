@@ -1,0 +1,85 @@
+version: '3'
+services:
+    mysql:
+        image: mysql:5.5
+        ports:
+            - ${MYSQL_PORT}:3306
+        environment:
+             - MYSQL_DATABASE
+             - MYSQL_USER
+             - MYSQL_PASSWORD
+             - MYSQL_ROOT_PASSWORD
+        networks:
+            wamcar:
+                aliases:
+                    - service.mysql
+        volumes:
+            - "./app/config/docker/mysql.cnf:/etc/mysql/conf.d/myapp.cnf:ro"
+
+    php:
+        image: "registry-gitlab.novaway.net/dev-team/dockerfiles/php-fpm:7.1"
+        volumes:
+            - "$HOME/.ssh/config:/var/tmp/sshconf:ro"
+            - "$HOME/.ssh/known_hosts:/var/tmp/ssh_hosts:ro"
+            - "$HOME/.ssh/id_rsa:/var/tmp/id:ro"
+            - ".:/var/www/myapp:cached"
+        environment:
+            LOCAL_USER_ID: $USER_ID
+        working_dir: /var/www/myapp
+        depends_on:
+            - mysql
+        expose:
+            - 9000
+        networks:
+            wamcar:
+                aliases:
+                    - service.php
+        environment:
+            - XDEBUG_CONFIG
+
+    nginx:
+        image: nginx:1.11-alpine
+        ports:
+            - ${WEB_PORT}:80
+        networks:
+            wamcar:
+                aliases:
+                    - wamcar.local
+                    - myapp.local
+
+        depends_on:
+            - php
+        volumes:
+            - "./app/config/docker/nginx.conf:/etc/nginx/nginx.conf:ro"
+            - "./app/config/docker/symfony.conf:/etc/nginx/sites-available/symfony.conf:ro"
+            - "./app/config/docker/symfony.conf:/etc/nginx/sites-enabled/symfony.conf:ro"
+            - "./app/config/docker/upstream.conf:/etc/nginx/conf.d/upstream.conf:ro"
+            - ".:/var/www/myapp:cached"
+
+# Todo : Add phantomjs to the Novaway registry
+#    phantomjs:
+#        image: "registry-gitlab.novaway.net/dev-team/dockerfiles/phantomjs:latest"
+#        ports:
+#            - 8643:8643
+#        volumes:
+#            - ".:/var/www/myapp:cached"
+#        networks:
+#            wamcar:
+#                aliases:
+#                    - service.phantomjs
+
+    composer:
+        image: composer:1.5
+        volumes:
+            - ".:/app:cached"
+
+    npm:
+        image: "registry-gitlab.novaway.net/dev-team/dockerfiles/npm:5"
+        volumes:
+            - ".:/usr/src/app:cached"
+        environment:
+            - USER_ID
+            - USER_GID
+
+networks:
+    wamcar: {}
