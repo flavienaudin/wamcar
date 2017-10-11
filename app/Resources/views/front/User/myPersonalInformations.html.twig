@@ -1,0 +1,12 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set userInformationsActivePage = true %}
+
+{% trans_default_domain 'user' %}
+{% block title %}{% endblock title %}
+
+{% block body %}
+
+    {% include 'front/User/includes/userPersonalInformationsForm.html.twig' %}
+
+{% endblock %}
