@@ -1,2 +1,19 @@
 imports:
     - { resource: services/controllers.yml }
+    - { resource: services/repositories.yml }
+
+services:
+    # SECURITY
+    wamcar.security.password_encoder:
+        class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+        factory: ['@security.encoder_factory', 'getEncoder']
+        arguments: [AppBundle\Entity\ApplicationUser]
+
+    wamcar.security.user_registration_service:
+        class: AppBundle\Security\UserRegistrationService
+        arguments:
+            - '@wamcar.security.password_encoder'
+            - '@wamcar.repository.user.doctrine'
+            - '@security.token_storage'
+            - '@session'
+>>>>>>> add user entity + dto + security controller

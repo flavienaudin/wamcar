@@ -15,3 +15,13 @@ services:
         autoconfigure: false
         parent: AppBundle\Controller\Front\BaseController
         tags: ['controller.service_arguments']
+
+#
+#    wamcar.app.controller.security:
+#        class: AppBundle\Controller\SecurityController
+#        parent: wamcar.app.controller.base
+#        arguments:
+#            - '@form.factory'
+#            - '@wamcar.security.user_registration_service'
+#            - '@security.authentication_utils'
+#            - '@wamcar.repository.user.doctrine'
