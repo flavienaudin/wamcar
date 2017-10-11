@@ -6,48 +6,127 @@ use Wamcar\Vehicle\Vehicle;
 
 class User
 {
+    /** @var int */
+    protected $id;
     /** @var string */
-    private $email;
+    protected $email;
+    /** @var  ?Title */
+    protected $title;
     /** @var ?string */
-    private $civility;
+    protected $name;
     /** @var ?string */
-    private $name;
-    /** @var ?string */
-    private $phone;
-    /** @var ?string */
-    private $zipCode;
-    /** @var ?string */
-    private $city;
+    protected $phone;
+    /** @var  ?City */
+    protected $city;
+    /** @var  array */
+    protected $roles;
+    /** @var  \DateTimeInterface */
+    protected $createdAt;
+
     /** @var Vehicle[]|array */
-    private $vehicles;
+    protected $vehicles;
 
     /**
      * User constructor.
      * @param string $email
+     * @param Title $title
      * @param string|null $name
-     * @param string|null $civility
      * @param string|null $phone
-     * @param string|null $zipCode
-     * @param string|null $city
+     * @param City|null $city
+     * @param array $roles
+     * @param \DateTimeInterface|null $createdAt
      * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
+        Title $title = null,
         string $name = null,
-        string $civility = null,
         string $phone = null,
-        string $zipCode = null,
-        string $city = null,
-        Vehicle $firstVehicle = null)
+        City $city = null,
+        array $roles = ['ROLE_USER'],
+        \DateTimeInterface $createdAt = null,
+        Vehicle $firstVehicle = null
+    )
     {
         $this->email = $email;
-        $this->civility = $civility;
+        $this->title = $title;
         $this->name = $name;
         $this->phone = $phone;
-        $this->zipCode = $zipCode;
         $this->city = $city;
+        $this->roles = $roles;
+        $this->createdAt = $createdAt ?: new \DateTimeImmutable();
         $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return array|Vehicle[]
+     */
+    public function getVehicles()
+    {
+        return $this->vehicles;
+    }
 }

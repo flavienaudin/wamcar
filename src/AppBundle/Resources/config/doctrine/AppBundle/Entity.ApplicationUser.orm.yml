@@ -1,0 +1,37 @@
+AppBundle\Entity\ApplicationUser:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
+
+    exclusion_policy: ALL
+
+    fields:
+        password:
+            type: string
+        salt:
+            type: string
+        lastLoginIp:
+            type: string
+            length: 45
+        registrationIp:
+            type: string
+            length: 45
+        newsletterOptin:
+            type: boolean
+        registrationToken:
+            type: string
+            length: 32
+            nullable: true
+            unique: true
+        passwordResetToken:
+            type: string
+            length: 32
+            nullable: true
+            unique: true
+        slug:
+          type: string
+          length: 128
+          gedmo:
+            slug:
+              fields:
+                - name

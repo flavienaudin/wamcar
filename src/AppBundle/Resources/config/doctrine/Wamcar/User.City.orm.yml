@@ -1,0 +1,10 @@
+Wamcar\User\City:
+    type: embeddable
+    columnPrefix: city_
+    fields:
+        postalCode:
+            type: string
+            nullable: true # should be null for nullable embedded
+        city:
+            type: string
+            nullable: true # should be null for nullable embedded

@@ -1,0 +1,7 @@
+services:
+
+    # DOCTRINE REPOSITORIES
+    wamcar.repository.user.doctrine:
+        class: AppBundle\Doctrine\Repository\DoctrineUserRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: [AppBundle\Entity\ApplicationUser]
