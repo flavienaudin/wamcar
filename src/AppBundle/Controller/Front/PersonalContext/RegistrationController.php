@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Front\PrivateContext;
+namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use Symfony\Component\HttpFoundation\Request;

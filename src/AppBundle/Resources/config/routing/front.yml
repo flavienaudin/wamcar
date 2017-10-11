@@ -7,4 +7,4 @@ front_default:
 front_vehicle_registration:
     path: /je-vends-mon-vehicule
     defaults:
-        _controller: AppBundle:Front\PrivateContext\Registration:vehicleRegistration
+        _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
