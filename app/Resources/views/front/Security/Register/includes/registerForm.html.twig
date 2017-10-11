@@ -1,0 +1,34 @@
+
+{{ form_start(form) }}
+
+{# Adresse e-mail #}
+<div class="small-4 large-4">
+    <div class="column small-4 medium-3 large-12 input-field-container">
+        {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans}) }}
+    </div>
+</div>
+
+{# Mot de passe #}
+<div class="column small-4 medium-3 large-4 input-field-container">
+    {{ form_label(form.password.first) }}
+    {{ form_widget(form.password.first, {'id': 'password-first'}) }}
+    <a class="js-show-password button-show-password icon-eye">{{ 'user.field.password.show'|trans}}</a>
+    <small class="form-error">{{ 'user.field.password.first.error'|trans}}</small>
+</div>
+
+{# Mot de passe confirmation #}
+<div class="column small-4 medium-3 large-4 input-field-container">
+    {{ form_label(form.password.second) }}
+    {{ form_widget(form.password.second, {'attr': {'data-equalto': 'password-first'}}) }}
+    <a class="js-show-password button-show-password icon-eye">{{ 'user.field.password.show'|trans}}</a>
+    <small class="form-error">{{ 'user.field.password.second.error'|trans}}</small>
+</div>
+
+
+{# Button submit #}
+<div class="column small-4 medium-3 large-4">
+    <button type="submit" class="button button-animate small-4">{{ 'user.submit.IRegister'|trans }}</button>
+    <br><br>
+</div>
+
+{{ form_end(form) }}

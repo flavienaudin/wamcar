@@ -16,4 +16,3 @@ services:
             - '@wamcar.repository.user.doctrine'
             - '@security.token_storage'
             - '@session'
->>>>>>> add user entity + dto + security controller
