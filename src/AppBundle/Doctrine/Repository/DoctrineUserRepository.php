@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
 
-class DoctrineUserRepository extends EntityRepository implements UserRepository
+class DoctrineUserRepository extends EntityRepository implements UserRepository, RegistrationTokenable
 {
     /**
      * {@inheritdoc}
@@ -72,4 +72,12 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository
     {
         return $this->findOneBy(['email' => $email]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByRegistrationToken($registrationToken) {
+        return $this->findOneBy(['registrationToken' => $registrationToken]);
+    }
+
 }

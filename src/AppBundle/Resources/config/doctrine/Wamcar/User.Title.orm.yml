@@ -4,3 +4,4 @@ Wamcar\User\Title:
     fields:
         value:
             type: string
+            nullable: true

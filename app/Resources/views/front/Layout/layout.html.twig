@@ -1,0 +1,25 @@
+{% set flashBags = app.session.flashBag.all() %}
+
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% set defaultDescription =  'default.meta.description'|trans({}, 'seo') %}
+    <meta name="description" content="{% block meta_description %}{{ defaultDescription }}{% endblock %}">
+
+    {% block canonical %}{% endblock canonical %}
+
+    {% if seo_noindex is defined %}
+    {% endif %}
+
+</head>
+<body>
+
+    {% block body %}{% endblock %}
+    {% block javascripts %}{% endblock %}
+
+</body>
+</html>
