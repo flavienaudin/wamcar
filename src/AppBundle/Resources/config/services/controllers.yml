@@ -1,0 +1,17 @@
+services:
+
+    AppBundle\Controller\Front\BaseController:
+        abstract: true
+        calls:
+            - ['setTemplatingEngine', ['@templating']]
+            - ['setRouter', ['@router']]
+            - ['setSession', ['@session']]
+
+    AppBundle\Controller\Front\:
+        resource: '../../../Controller/Front'
+        exclude: '../../../Controller/Front/BaseController.php'
+        public: false
+        autowire: true
+        autoconfigure: false
+        parent: AppBundle\Controller\Front\BaseController
+        tags: ['controller.service_arguments']

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
-class DefaultController
+class DefaultController extends BaseController
 {
 
 }

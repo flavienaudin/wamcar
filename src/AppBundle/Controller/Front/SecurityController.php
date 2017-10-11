@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Controller\Front\BaseController;
 use AppBundle\DTO\Form\RegistrationData;
 use AppBundle\Entity\AbleToLogin;
 use AppBundle\Entity\ApplicationUser;
@@ -68,7 +69,7 @@ class SecurityController extends BaseController
 
             $this->addFlash(
                 'flash.success.registration_success',
-                self::FLASH_LEVEL_SUCCESS
+                self::FLASH_LEVEL_INFO
             );
 
             return $this->redirectToRoute('homepage');
@@ -138,7 +139,7 @@ class SecurityController extends BaseController
 
             $this->addFlash(
                 'flash.success.reset_password_success',
-                self::FLASH_LEVEL_SUCCESS
+                self::FLASH_LEVEL_INFO
             );
         }
 
@@ -207,7 +208,7 @@ class SecurityController extends BaseController
 
             $this->addFlash(
                 'flash.success.password_changed',
-                self::FLASH_LEVEL_SUCCESS
+                self::FLASH_LEVEL_INFO
             );
 
             return $this->redirectToRoute($this->defaultTargetPath);
@@ -248,7 +249,7 @@ class SecurityController extends BaseController
 
         $this->addFlash(
             'flash.success.registration_confirmed',
-            self::FLASH_LEVEL_SUCCESS
+            self::FLASH_LEVEL_INFO
         );
         // redirect to login page, to allow user to enter his credentials
         return $this->redirectToRoute('security_login');

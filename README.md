@@ -47,6 +47,16 @@ Afin de travailler avec des domaines plutôt que des IP (plus souple pour ce qui
 127.0.0.1        myapp.local
 ```
 
+### Utilisation du registry Novaway
+
+Certaines images dockers sont hébergé sur le registry interne à Novaway. Il s'authentifier pour les utiliser.
+
+```
+$ docker login registry-gitlab.novaway.net
+```
+
+> **Note** : Pour utiliser s'authentifier avec l'option 2FA d'activée, il faut passer par [un jeton d'accès perso](https://gitlab.novaway.net/help/user/profile/account/two_factor_authentication#personal-access-tokens)
+
 ### Installation automatique
 
 ```sh
