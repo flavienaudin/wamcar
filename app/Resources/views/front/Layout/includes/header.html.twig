@@ -1,4 +1,4 @@
-<header class="l-header block-grid column">
+<header class="l-header column">
      {% include "front/Layout/includes/logo.html.twig" %}
      {% block headerCenter %}
           {% include "front/Layout/includes/navigation/primary.html.twig" %}
@@ -6,7 +6,7 @@
      {% block headerRight %}
           <div class="block-grid small-right medium-3">
                <button type="button" class="icon-user small-right" data-toggle="js-off-canvas-user"><span class="show-for-large">Espace membre</span></button>
-               <button type="button" class="hamburger" data-toggle="js-off-canvas-navigation"><span class="hamburger-line">Navigation</span></button>
+               <button type="button" class="hamburger hide-for-large" data-toggle="js-off-canvas-navigation"><span class="hamburger-line">Navigation</span></button>
           </div>
      {% endblock %}
 </header>
