@@ -1,3 +1,4 @@
+{% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
@@ -12,7 +13,7 @@
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:title" content="{{ block('title') }} - {{ site_name }}">
     <meta property="og:description" content="{{ block('meta_description') }}">
-    <meta property="og:url" content="{{ site_url ~ app.request.requestUri }}">
+    <meta property="og:url" content="{{ current_url }}">
     <meta property="og:image" content="{% block seo_img %}{{ asset('og-image.jpg') }}{% endblock %}">
 
     <meta name="twitter:card" content="summary_large_image">
@@ -30,7 +31,7 @@
     <meta name="msapplication-config" content="{{ asset('assets/images/favicons/browserconfig.xml') }}">
     <meta name="theme-color" content="#ffffff">
 
-    <link rel="canonical" href="{% block canonical %}{{ site_url ~ app.request.requestUri }}{% endblock canonical %}">
+    <link rel="canonical" href="{% block canonical %}{{ current_url }}{% endblock canonical %}">
 
     {% if seo_noindex is defined %}
         <meta name="robots" content="noindex, nofollow">
@@ -38,7 +39,7 @@
 
      <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}">
 </head>
-{% if app.environment == 'dev' %}
+{% if app.environment == 'inte' %}
     <body id="js-body" data-toggler=".debug">
         <style>{% include 'front/Layout/css/debug.css' %}</style>
         {% include 'front/Layout/includes/debug.html.twig' %}
