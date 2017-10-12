@@ -42,7 +42,8 @@ class SecurityController extends BaseController
         );
 
         $registrationForm->handleRequest($request);
-        if ($registrationForm->isValid()) {
+
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
                 $this->userRegistrationService->registerUser($registrationForm->getData());
             } catch (UniqueConstraintViolationException $exception) {
@@ -51,7 +52,7 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_DANGER
                 );
 
-                return $this->render('front/Security/Register/register.html.twig', [
+                return $this->render('front/Security/register.html.twig', [
                     'form' => $registrationForm->createView(),
                 ]);
             }
@@ -64,7 +65,7 @@ class SecurityController extends BaseController
             return $this->redirectToRoute('front_default');
         }
 
-        return $this->render('front/Security/Register/register.html.twig', [
+        return $this->render('front/Security/register.html.twig', [
             'form' => $registrationForm->createView(),
         ]);
     }
