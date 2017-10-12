@@ -3,7 +3,6 @@
    =========================================================================== */
 
 .off-canvas {
-  border-left: rem-calc(3) solid $primary-color;
 
   @include breakpoint(medium down) {
     top: $header-height;
@@ -12,6 +11,10 @@
   @include breakpoint(medium) {
     width: $offcanvas-size-medium;
     transform: translateX($offcanvas-size-medium);
+  }
+
+  @include breakpoint(large) {
+    border-left: rem-calc(3) solid $primary-color;
   }
 
 
@@ -47,7 +50,33 @@
   }
 
   &-header {
+    display: flex;
+    align-items: center;
+    height: rem-calc(80);
     background: $primary-color;
-    color: white;
+    font-size: rem-calc(18);
+
+    @include breakpoint(xlarge) {
+      height: rem-calc(100);
+      font-size: rem-calc(24);
+    }
+
+    /* Componenbts */
+
+    > * { color: white; }
+  }
+
+
+  /*
+     Content
+     ===================================== */
+
+  &-content {
+    border-top: rem-calc(1) solid $border-color;
+    padding-top: rem-calc(15);
+
+    @include breakpoint(large) {
+      padding-top: rem-calc(30);
+    }
   }
 }

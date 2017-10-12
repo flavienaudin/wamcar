@@ -43,6 +43,7 @@
       }
 
       @include breakpoint(large) {
+        border-color: currentColor;
         border-width: 0 0 0 rem-calc(1);
         padding-right: rem-calc(25);
         padding-left: rem-calc(25);

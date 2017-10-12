@@ -27,6 +27,10 @@
       .l-header & { margin-right: 0; }
     }
   }
+
+  &.no-margin {
+    &::before { margin-right: 0; }
+  }
 }
 
 
@@ -35,6 +39,9 @@
    Icon list
    ===================================== */
 
+.icon-close:before {
+  content: "\e906";
+}
 .icon-heart-o:before {
   content: "\e904";
 }
