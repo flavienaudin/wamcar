@@ -7,6 +7,8 @@
    Settings
    ===================================== */
 
+$header-height: rem-calc(60);
+$header-height-medium: rem-calc(90);
 $header-background: white;
 
 
@@ -21,18 +23,33 @@ $header-background: white;
   left: 0;
   display: flex;
   align-items: center;
-  height: rem-calc(60);
+  height: $header-height;
   background: $header-background;
   box-shadow: 0 rem-calc(2) rem-calc(10) rgba(black, .1);
   z-index: 2;
 
-  @include breakpoint(medium) {
-    height: rem-calc(90);
+  @include breakpoint(large) {
+    height: $header-height-medium;
   }
 
 
-  /* Components */
+  /*
+     Button
+     ===================================== */
 
-  button {
+  &-button {
+    @include breakpoint(medium down) {
+      text-align: center;
+      justify-content: center;
+      width: rem-calc(60);
+      height: rem-calc(60);
+      border-left: rem-calc(1) solid $border-color;
+
+      &::before {
+        width: 100%;
+        font-size: rem-calc(17);
+        margin-right: 0 !important;
+      }
+    }
   }
 }

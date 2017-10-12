@@ -17,6 +17,11 @@ figure {
 html {
   @include breakpoint(small only) {
     line-height: 1.4;
+  }
+}
+
+body {
+  @include breakpoint(small only) {
     font-size: rem-calc(13);
   }
 }
@@ -32,5 +37,6 @@ p {
 }
 
 button {
+  color: $body-font-color;
   cursor: pointer;
 }

@@ -3,7 +3,7 @@
    =========================================================================== */
 
 .logo {
-  width: rem-calc(150);
+  width: rem-calc(120);
 
   @include breakpoint(medium) {
     width: rem-calc(190);

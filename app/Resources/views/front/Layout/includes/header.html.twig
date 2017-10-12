@@ -1,12 +1,23 @@
-<header class="l-header column">
+<header class="l-header column small-right-collapse large-right-uncollapse">
      {% include "front/Layout/includes/logo.html.twig" %}
      {% block headerCenter %}
           {% include "front/Layout/includes/navigation/primary.html.twig" %}
      {% endblock %}
-     {% block headerRight %}
-          <div class="block-grid small-right medium-3">
-               <button type="button" class="icon-user small-right" data-toggle="js-off-canvas-user"><span class="show-for-large">Espace membre</span></button>
-               <button type="button" class="hamburger hide-for-large" data-toggle="js-off-canvas-navigation"><span class="hamburger-line">Navigation</span></button>
-          </div>
-     {% endblock %}
+     <div class="l-header-right block-grid column small-collapse small-right medium-3 large-uncollapse">
+          {% block headerRight %}
+               <button type="button" class="l-header-button icon-user small-right" data-toggle="js-off-canvas-user"><span class="show-for-large">Espace membre</span></button>
+               <button class="l-header-button icon-hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation"><span class="show-for-sr">Navigation</span></button>
+          {% endblock %}
+     </div>
 </header>
+
+<div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
+     <header class="off-canvas-header">
+          <strong>Espace membre</strong>
+          <button data-toggle="js-off-canvas-user">Fermer</button>
+     </header>
+     <div class="off-canvas-content">
+          <form>// Login</form>
+     </div>
+</div>
+<div class="off-canvas position-right" id="js-off-canvas-navigation" data-off-canvas>// NAVIGATION</div>

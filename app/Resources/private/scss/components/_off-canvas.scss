@@ -1,0 +1,38 @@
+/* ===========================================================================
+   Offcanvas
+   =========================================================================== */
+
+.off-canvas {
+  border-left: rem-calc(3) solid $primary-color;
+  // top: $header-height;
+
+  @include breakpoint(medium) {
+    width: $offcanvas-size-medium;
+    transform: translateX($offcanvas-size-medium);
+  }
+
+  // @include breakpoint(large) {
+  //   top: $header-height-medium;
+  // }
+
+
+  /*
+     Header
+     ===================================== */
+
+  &-header,
+  &-content {
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
+    }
+  }
+
+  &-header {
+    background: $primary-color;
+    color: white;
+  }
+}
