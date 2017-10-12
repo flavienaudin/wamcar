@@ -50,7 +50,7 @@ $input-padding: 0 rem-calc(10);
    Input
    ===================================== */
 
-#{$input},
+.input,
 .checkbox + label::before,
 textarea {
   @extend %input-style;
@@ -61,13 +61,13 @@ textarea {
   }
 }
 
-#{$input},
+.input,
 textarea {
   width: 100%;
   margin-bottom: $input-margin-bottom;
 }
 
-#{$input} {
+.input {
   height: $input-height;
   line-height: $input-line-height;
   padding: $input-padding;

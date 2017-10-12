@@ -1,0 +1,64 @@
+/* ===========================================================================
+   Button
+   =========================================================================== */
+
+
+
+/*
+   Style
+   ===================================== */
+
+@mixin buttonStyle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem-calc(50);
+  background: $primary-color;
+  color: white;
+  border: rem-calc(2) solid $primary-color;
+
+  @include breakpoint(medium) {
+    height: rem-calc(60);
+  }
+}
+
+
+
+/*
+   Theme
+   ===================================== */
+
+@mixin buttonTheme($background, $color) {
+  background: $background;
+  color: $color;
+  border-color: currentColor;
+}
+
+
+
+/*
+   Class
+   ===================================== */
+
+button {
+  color: $body-font-color;
+  cursor: pointer;
+}
+
+.button {
+  @include buttonStyle;
+
+  /* Size */
+
+  &.small {
+    @include breakpoint(medium) {
+      height: rem-calc(50);
+    }
+  }
+
+  /* Theme */
+
+  &.white {
+    @include buttonTheme(white, $primary-color);
+  }
+}

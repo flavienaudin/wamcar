@@ -13,3 +13,25 @@ nav {
 figure {
   margin: 0;
 }
+
+html {
+  @include breakpoint(small only) {
+    line-height: 1.4;
+  }
+}
+
+body {
+  @include breakpoint(small only) {
+    font-size: rem-calc(13);
+  }
+}
+
+p {
+  &.small {
+    font-size: rem-calc(11);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(14);
+    }
+  }
+}

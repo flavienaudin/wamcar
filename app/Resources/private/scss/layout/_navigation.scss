@@ -2,4 +2,70 @@
    Navigation
    =========================================================================== */
 
-.l-navigation {}
+.l-navigation {
+
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    transition: $global-transition;
+
+    @include breakpoint(medium down) {
+      display: block;
+      font-size: rem-calc(24);
+      padding: rem-calc(15) rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      &:nth-child(2) { margin-right: rem-calc(10); }
+    }
+
+    @include breakpoint(xlarge) {
+      &:nth-child(2) { margin-right: rem-calc(15); }
+    }
+
+    /* Black color */
+
+    &.black-color {
+      @include breakpoint(large) {
+        padding-right: rem-calc(9);
+        padding-left: rem-calc(9);
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(25);
+        padding-left: rem-calc(25);
+      }
+    }
+
+    /* Body font color */
+
+    &.body-font-color {
+      @include breakpoint(large) {
+        position: relative;
+        padding-right: rem-calc(20);
+        padding-left: rem-calc(20);
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: calc(50% - #{rem-calc(9)});
+          left: 0;
+          height: rem-calc(20);
+          width: rem-calc(1);
+          background: currentColor;
+        }
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(40);
+        padding-left: rem-calc(40);
+      }
+    }
+
+  } // End &-item
+
+}

@@ -43,4 +43,13 @@
 
 .text-uppercase { text-transform: uppercase; }
 .text-lowercase { text-transform: lowercase; }
-.text-hide      { font-size: 0; }
+
+
+/*
+   Color
+   ===================================== */
+
+.primary-color { color: $primary-color; }
+.secondary-color { color: $secondary-color; }
+.body-font-color { color: $body-font-color; }
+.black-color { color: black; }
