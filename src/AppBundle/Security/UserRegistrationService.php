@@ -2,9 +2,9 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\DTO\Form\RegistrationData;
 use AppBundle\Entity\ApplicationUser;
 use AppBundle\Entity\RegisteredUser;
+use AppBundle\Form\DTO\RegistrationData;
 use AppBundle\Utils\TokenUtils;
 use Wamcar\User\UserRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\DTO\Form;
+namespace AppBundle\Form\DTO;
 
 
 class RegistrationData

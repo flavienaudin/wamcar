@@ -3,7 +3,7 @@
 namespace AppBundle\Form;
 
 
-use AppBundle\DTO\Form\RegistrationData;
+use AppBundle\Form\DTO\RegistrationData;
 use AppBundle\Form\Traits\HasPasswordTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
