@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Front;
 
-
 use AppBundle\DTO\Form\RegistrationData;
 use AppBundle\Form\Registration;
 use AppBundle\Security\UserRegistrationService;

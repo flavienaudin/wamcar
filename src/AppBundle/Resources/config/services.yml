@@ -1,7 +1,6 @@
 imports:
-    - { resource: repositories.yml }
     - { resource: services/controllers.yml }
-
+    - { resource: services/repositories.yml }
 
 services:
     # SECURITY
