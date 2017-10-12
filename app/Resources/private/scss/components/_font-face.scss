@@ -1,0 +1,16 @@
+/* ===========================================================================
+   Font face
+   =========================================================================== */
+
+
+
+/*
+   Icomoon
+   ===================================== */
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('#{$css-folder}/fonts/icomoon/icomoon.woff#{$assets-version}') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}

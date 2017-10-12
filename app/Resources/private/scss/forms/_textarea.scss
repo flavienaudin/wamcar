@@ -1,0 +1,24 @@
+/* ===========================================================================
+   Textarea
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$textarea-padding: rem-calc(10);
+$textarea-min-height: rem-calc(150);
+
+
+
+/*
+   Textarea
+   ===================================== */
+
+textarea {
+  min-height: $textarea-min-height;
+  padding: $textarea-padding;
+  resize: none;
+}

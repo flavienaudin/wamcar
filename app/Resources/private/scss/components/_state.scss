@@ -1,0 +1,46 @@
+/* ===========================================================================
+   State
+   =========================================================================== */
+
+
+
+/*
+   Block
+   ===================================== */
+
+.is-hidden       { display: none; }
+.is-inline       { display: inline; }
+.is-inline-block { display: inline-block; }
+.is-block        { display: block; }
+.is-scrollable   { overflow: auto; }
+.is-flex         { display: flex; }
+
+
+
+/*
+   Position
+   ===================================== */
+
+.is-static   { position: static; }
+.is-relative { position: relative; }
+.is-absolute { position: absolute; }
+.is-fixed    { position: fixed; }
+
+
+
+/*
+   Visibility
+   ===================================== */
+
+.is-visible   { visibility: visible; }
+.is-invisible { visibility: hidden; }
+
+
+
+/*
+   Text
+   ===================================== */
+
+.text-uppercase { text-transform: uppercase; }
+.text-lowercase { text-transform: lowercase; }
+.text-hide      { font-size: 0; }

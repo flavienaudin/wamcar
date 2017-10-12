@@ -1,0 +1,25 @@
+/* ===========================================================================
+   Placeholder
+   =========================================================================== */
+
+/**
+ * Goutières internes de la balise d'un contenu principal
+ * Appliquer généralement sur .row
+ * @usageCss: @extend %padding-row;
+ * @usageHtml: class="padding-row"
+ */
+
+%row-padding,
+.row-padding {
+
+  @include breakpoint(small only) {
+    padding-right: grid-column-gutter('small');
+    padding-left: grid-column-gutter('small');
+  }
+
+  @media screen and #{breakpoint(medium)} and #{breakpoint(large down)} {
+    padding-right: grid-column-gutter('small');
+    padding-left: grid-column-gutter('small');
+  }
+
+}
