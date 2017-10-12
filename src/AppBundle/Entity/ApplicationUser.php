@@ -41,7 +41,7 @@ class ApplicationUser extends User implements \Serializable
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
