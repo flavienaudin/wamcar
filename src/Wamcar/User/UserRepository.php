@@ -21,14 +21,14 @@ interface UserRepository
      *
      * @return User
      */
-    public function add(User $user): User;
+    public function add(User $user);
 
     /**
      * @param User $user
      *
      * @return User
      */
-    public function update(User $user): User;
+    public function update(User $user);
 
     /**
      * @param User $user

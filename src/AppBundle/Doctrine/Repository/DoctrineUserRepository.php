@@ -29,24 +29,20 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function add(User $user): User
+    public function add(User $user)
     {
         $this->_em->persist($user);
         $this->_em->flush();
-
-        return $user;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function update(User $user): User
+    public function update(User $user)
     {
         $user = $this->_em->merge($user);
         $this->_em->persist($user);
         $this->_em->flush();
-
-        return $user;
     }
 
     /**
