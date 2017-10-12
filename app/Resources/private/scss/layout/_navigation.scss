@@ -4,9 +4,6 @@
 
 .l-navigation {
 
-  @include breakpoint(medium down) {
-    background: $primary-color;
-  }
 
 
   /*
@@ -14,12 +11,12 @@
      ===================================== */
 
   &-item {
-    color: white;
     transition: $global-transition;
 
     @include breakpoint(medium down) {
-      &:hover,
-      &:focus { color: white; }
+      display: block;
+      font-size: rem-calc(24);
+      padding: rem-calc(15) rem-calc(30);
     }
 
     @include breakpoint(large) {
@@ -35,11 +32,18 @@
     /* Components */
 
     > span {
-      border-left: rem-calc(1) solid currentColor;
-      padding-right: rem-calc(10);
-      padding-left: rem-calc(10);
+      border-width: rem-calc(1) 0 0;
+      border-style: solid;
+      border-color: rgba(white, .2);
+
+      @include breakpoint(medium down) {
+        display: block;
+        padding-top: rem-calc(30);
+        padding-bottom: rem-calc(30);
+      }
 
       @include breakpoint(large) {
+        border-width: 0 0 0 rem-calc(1);
         padding-right: rem-calc(25);
         padding-left: rem-calc(25);
       }

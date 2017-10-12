@@ -16,6 +16,22 @@
 
 
   /*
+     Navigation
+     ===================================== */
+
+  &-navigation {
+    background: $primary-color;
+    padding-top: rem-calc(30);
+
+    /* Components */
+
+    a {
+      color: white;
+    }
+  }
+
+
+  /*
      Header
      ===================================== */
 
