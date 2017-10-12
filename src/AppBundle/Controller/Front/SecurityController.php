@@ -37,7 +37,7 @@ class SecurityController extends BaseController
     {
         $registrationForm = $this->formFactory->create(
             Registration::class,
-            new RegistrationData($request->getClientIp(), $request->get('_name'))
+            new RegistrationData($request->get('_name'))
         );
 
         $registrationForm->handleRequest($request);
