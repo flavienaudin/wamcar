@@ -1,12 +1,10 @@
 <?php
 
 
-namespace AppBundle\Doctrine\Repository;
+namespace AppBundle\Entity;
 
 
-use AppBundle\Entity\ApplicationUser;
-
-interface RegistrationTokenable
+interface UserTokenable
 {
     /**
      * @param $registrationToken

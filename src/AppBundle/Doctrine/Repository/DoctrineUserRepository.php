@@ -2,11 +2,12 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Entity\UserTokenable;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
 
-class DoctrineUserRepository extends EntityRepository implements UserRepository, RegistrationTokenable
+class DoctrineUserRepository extends EntityRepository implements UserRepository, UserTokenable
 {
     /**
      * {@inheritdoc}
