@@ -20,40 +20,51 @@
     }
 
     @include breakpoint(large) {
-      padding-right: rem-calc(10);
-      padding-left: rem-calc(10);
+      &:nth-child(2) { margin-right: rem-calc(10); }
     }
 
     @include breakpoint(xlarge) {
-      padding-right: rem-calc(25);
-      padding-left: rem-calc(25);
+      &:nth-child(2) { margin-right: rem-calc(15); }
     }
 
-    /* Components */
+    /* Black color */
 
-    > span {
-      border-width: rem-calc(1) 0 0;
-      border-style: solid;
-      border-color: rgba(white, .2);
-
-      @include breakpoint(medium down) {
-        display: block;
-        padding-top: rem-calc(30);
-        padding-bottom: rem-calc(30);
-      }
-
+    &.black-color {
       @include breakpoint(large) {
-        border-color: currentColor;
-        border-width: 0 0 0 rem-calc(1);
-        padding-right: rem-calc(25);
-        padding-left: rem-calc(25);
+        padding-right: rem-calc(9);
+        padding-left: rem-calc(9);
       }
 
       @include breakpoint(xlarge) {
-        padding-right: rem-calc(50);
-        padding-left: rem-calc(50);
+        padding-right: rem-calc(25);
+        padding-left: rem-calc(25);
       }
-    } // End > span
+    }
+
+    /* Body font color */
+
+    &.body-font-color {
+      @include breakpoint(large) {
+        position: relative;
+        padding-right: rem-calc(20);
+        padding-left: rem-calc(20);
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: calc(50% - #{rem-calc(9)});
+          left: 0;
+          height: rem-calc(20);
+          width: rem-calc(1);
+          background: currentColor;
+        }
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(40);
+        padding-left: rem-calc(40);
+      }
+    }
 
   } // End &-item
 
