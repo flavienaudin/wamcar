@@ -12,12 +12,6 @@
 </header>
 
 <div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
-     <header class="off-canvas-header">
-          <strong>Espace membre</strong>
-          <button data-toggle="js-off-canvas-user">Fermer</button>
-     </header>
-     <div class="off-canvas-content">
-          <form>// Login</form>
-     </div>
+     {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
 </div>
-<div class="off-canvas position-right" id="js-off-canvas-navigation" data-off-canvas>// NAVIGATION</div>
+<div id="js-off-canvas-navigation" class="off-canvas position-right" data-off-canvas></div>

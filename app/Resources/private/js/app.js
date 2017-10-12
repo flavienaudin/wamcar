@@ -9,7 +9,7 @@ import $ from 'jquery';
 import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
 import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
-// import offCanvasFixed from './components/offcanvas';
+import './components/responsiveDom';
 
 
 
