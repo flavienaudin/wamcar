@@ -39,11 +39,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_name: '%site_name%'
-        site_url_no_protocol: '%site_url_no_protocol%'
-        site_url_no_subdomain: '%site_url_no_subdomain%'
-        site_url: '%site_url%'
-        inte: '%inte%'
+        site_name: 'Wamcar'
 
 # Doctrine Configuration
 doctrine:

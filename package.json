@@ -5,8 +5,12 @@
   "scripts": {
     "start": "./node_modules/.bin/webpack --config app/Resources/build/webpack.dev.js --progress --colors --watch",
     "build": "./node_modules/.bin/webpack --config app/Resources/build/webpack.prod.js",
+<<<<<<< HEAD
     "proxy": "./node_modules/.bin/browser-sync start --proxy 127.0.0.1 --files app/**/**/*.twig, web/assets/bundle/bundle.js",
     "dl-font": "./node_modules/.bin/goog-webfont-dl -w -W -d web/assets/bundle/fonts Muli"
+=======
+    "proxy": "./node_modules/.bin/browser-sync start --proxy 127.0.0.1 --files app/**/**/*.twig, web/assets/bundle/bundle.js"
+>>>>>>> 01e998d7cc6157bbfb41973a57f35c61bebecb56
   },
   "author": "Novaway",
   "license": "UNLICENSED",

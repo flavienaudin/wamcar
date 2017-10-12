@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme vehicleForm _self %}
+
+{% block _vehicle_pictures_entry_widget %}
+    <div id="{{ form.vars.id }}" style="border:1px solid #000;margin:10px;">
+        <div>{{ form_widget(form.file) }}</div>
+        <div>{{ form_widget(form.caption) }}</div>
+        <a onclick="this.parentNode.parentNode.removeChild(this.parentNode);">Supprimer</a>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+    {{ form_start(vehicleForm) }}
+
+    <div id="js-pictures-holder" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
+        {% for pictureSubForm in vehicleForm.pictures %}
+            {{ form_widget(pictureSubForm) }}
+        {% endfor %}
+    </div>
+
+    <a name="js-tmp-add-picture" onclick="addPictureFormItem()" href="#">Ajouter</a>
+
+    <input type="submit" value="Enregistrer" />
+
+    {{ form_end(vehicleForm) }}
+
+    {# TODO : Faire ça joliment avec le dev front #}
+    <script>
+        let $collectionHolder = document.getElementById('js-pictures-holder');
+        $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
+        function addPictureFormItem() {
+            let index = parseInt($collectionHolder.getAttribute('data-index'));
+            let newForm = $collectionHolder.getAttribute('data-prototype').replace(/__name__/g, index);
+            $collectionHolder.setAttribute('data-index', index + 1);
+            $collectionHolder.insertAdjacentHTML('beforeend', newForm);
+        }
+    </script>
+
+{% endblock body %}
