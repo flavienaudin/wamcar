@@ -1,4 +1,5 @@
 imports:
+    - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
 
