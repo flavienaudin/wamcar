@@ -2,6 +2,7 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Entity\ApplicationUser;
 use AppBundle\Entity\UserTokenable;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
@@ -65,7 +66,8 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function findOneByRegistrationToken($registrationToken) {
+    public function findOneByRegistrationToken($registrationToken): ApplicationUser
+    {
         return $this->findOneBy(['registrationToken' => $registrationToken]);
     }
 
