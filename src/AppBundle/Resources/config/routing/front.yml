@@ -2,7 +2,7 @@ front_default:
     path: /
     defaults:
         _controller: FrameworkBundle:Template:template
-        template: :front:homepage.html.twig
+        template: front/Home/home.html.twig
 
 front_vehicle_registration:
     path: /je-vends-mon-vehicule
