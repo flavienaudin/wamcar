@@ -1,0 +1,32 @@
+/* ===========================================================================
+   Label
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$label-color: $body-font-color;
+$label-style: normal;
+$label-size: rem-calc(16);
+$label-margin-bottom: rem-calc(7);
+
+
+
+/*
+   Label
+   ===================================== */
+
+label,
+.label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: $label-color;
+  font-style: $label-style;
+  font-size: $label-size;
+  margin-bottom: $label-margin-bottom;
+  cursor: pointer;
+}

@@ -38,7 +38,13 @@
 
      <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}">
 </head>
-<body>
+{% if app.environment == 'dev' %}
+    <body id="js-body" data-toggler=".debug">
+        <style>{% include 'front/Layout/css/debug.css' %}</style>
+        {% include 'front/Layout/includes/debug.html.twig' %}
+{% else %}
+    <body>
+{% endif %}
 
     {% include 'front/Layout/includes/header.html.twig' %}
 

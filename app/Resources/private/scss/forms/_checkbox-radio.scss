@@ -1,0 +1,179 @@
+/* ===========================================================================
+   Checkbox & Radio
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$label-margin-bottom: rem-calc(15); // $input-margin-bottom
+$label-container-margin-bottom: rem-calc(25) - $label-margin-bottom;
+
+$checkbox-width: 30px; // Stay with px for IE
+$checkbox-height: $checkbox-width;
+$checkbox-font-size: rem-calc(14);
+$checkbox-color: $primary-color;
+$checkbox-icon: "\e902";
+$checkbox-margin-right: rem-calc(10);
+$checkbox-margin-bottom: rem-calc(10);
+
+$radio-width: rem-calc(30);
+$radio-height: $radio-width;
+$radio-border-width: 4px;
+$radio-border-color: $primary-color;
+$radio-margin-right: rem-calc(10);
+$radio-checked-icon: "";
+$radio-checked-width: rem-calc(22);
+$radio-checked-height: $radio-checked-width;
+$radio-checked-background: $secondary-color;
+$radio-checked-top: $radio-border-width;
+$radio-checked-left: $radio-border-width;
+$radio-checked-margin-right: -($radio-checked-width);
+$radio-checked-margin-left: $radio-border-width;
+
+
+
+/*
+   Mixin
+   ===================================== */
+
+%checkbox-radio-style {
+  display: none;
+
+
+
+  /*
+     Container
+     ===================================== */
+
+  &-container {
+    margin-bottom: $label-container-margin-bottom;
+  }
+
+
+
+  /*
+     Label
+     ===================================== */
+
+  /**
+   * On stylise les éléments ::before et ::after de notre label
+   * ::before simulera la case 'non cochée' et l'élément ::after viendra la cocher
+   */
+  + label {
+    margin-bottom: $label-margin-bottom;
+
+    &::before,
+    &::after {
+      display: inline-block;
+    }
+
+    &::before {
+      content: '';
+      background: white;
+    }
+
+    &::after {
+      order: -1;
+      font-family: icomoon;
+      transition: .2s;
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
+
+  /**
+   * Si l'input est coché
+   * On affiche l'élément ::after avec une opacité et un scale par défaut
+   */
+  &:checked {
+
+    + label {
+      &::after {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+}
+
+
+
+/* ===========================================================================
+   Checkbox
+   =========================================================================== */
+
+.checkbox {
+  @extend %checkbox-radio-style;
+
+  + label {
+
+    &::before,
+    &::after {
+      max-width: $checkbox-width;
+      width: $checkbox-width;
+      height: $checkbox-height;
+      flex: 0 0 $checkbox-width;
+      line-height: $checkbox-height;
+    }
+
+    &::before {
+      margin-right: $checkbox-margin-right;
+      margin-bottom: 0;
+    }
+
+    &::after {
+      content: $checkbox-icon;
+      top: 0; left: 0;
+      font-size: $checkbox-font-size;
+      color: $checkbox-color;
+      text-align: center;
+      margin-right: -($checkbox-width);
+    }
+
+  }
+
+}
+
+
+
+/* ===========================================================================
+   Radio
+   =========================================================================== */
+
+.radio {
+  @extend %checkbox-radio-style;
+
+  + label {
+
+    &::before,
+    &::after { border-radius: 50%; }
+
+    &::before {
+      width: $radio-width; // IE Fix
+      max-width: $radio-width; // IE Fix
+      height: $radio-height;
+      flex: 0 0 $radio-width;
+      border: #{$radio-border-width} solid #{$radio-border-color};
+      margin-right: $radio-margin-right;
+      margin-left: -($radio-checked-margin-left);
+    }
+
+    &::after {
+      content: $radio-checked-icon;
+      top: $radio-checked-top;
+      left: $radio-checked-left;
+      width: $radio-checked-width; // IE Fix
+      max-width: $radio-checked-width; // IE Fix
+      height: $radio-checked-height;
+      flex: 0 0 $radio-checked-width;
+      background: $radio-checked-background;
+      margin-right: $radio-checked-margin-right;
+      margin-left: $radio-checked-margin-left;
+    }
+
+  }
+
+}
