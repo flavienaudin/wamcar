@@ -10,5 +10,5 @@ interface UserTokenable
      * @param $registrationToken
      * @return null|ApplicationUser
      */
-    public function findOneByRegistrationToken($registrationToken);
+    public function findOneByRegistrationToken($registrationToken): ApplicationUser;
 }
