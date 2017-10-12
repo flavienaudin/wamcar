@@ -69,20 +69,20 @@ $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #1779ba,
-  secondary: #767676,
+  primary: #E30613,
+  secondary: #2C2C2C,
   success: #3adb76,
   warning: #ffae00,
   alert: #cc4b37,
 );
-$light-gray: #e6e6e6;
-$medium-gray: #cacaca;
-$dark-gray: #8a8a8a;
+$light-gray: #E5E5E5;
+$medium-gray: #7A7A7A;
+$dark-gray: #2C2C2C;
 $black: #0a0a0a;
 $white: #fefefe;
-$border-color: $medium-gray;
-$body-background: $white;
-$body-font-color: $black;
+$border-color: #E5E5E5;
+$body-background: white;
+$body-font-color: $medium-gray;
 $body-font-family: 'Muli', sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
@@ -122,7 +122,7 @@ $breakpoints: (
   xxlarge: 1440px,
 );
 $print-breakpoint: large;
-$breakpoint-classes: (small medium large);
+$breakpoint-classes: (small medium large xlarge);
 
 // 3. The Grid
 // -----------
@@ -131,7 +131,7 @@ $grid-row-width: $global-width;
 $grid-column-count: 12;
 $grid-column-gutter: (
   small: 20px,
-  medium: 30px,
+  medium: 20px,
 );
 $grid-column-align-edge: true;
 $grid-column-alias: 'columns';
@@ -149,26 +149,26 @@ $header-lineheight: 1.4;
 $header-margin-bottom: 0.5rem;
 $header-styles: (
   small: (
-    'h1': ('font-size': 24),
-    'h2': ('font-size': 20),
-    'h3': ('font-size': 19),
-    'h4': ('font-size': 18),
-    'h5': ('font-size': 17),
-    'h6': ('font-size': 16),
+    'h1': ('font-size': 26, 'line-height': 1.15),
+    'h2': ('font-size': 18, 'line-height': 1.2),
+    'h3': ('font-size': 14, 'line-height': 1.2),
+    'h4': ('font-size': 14, 'line-height': 1.5),
+    'h5': ('font-size': 14, 'line-height': 1.5),
+    'h6': ('font-size': 14, 'line-height': 1.5),
   ),
   medium: (
-    'h1': ('font-size': 48),
-    'h2': ('font-size': 40),
-    'h3': ('font-size': 31),
-    'h4': ('font-size': 25),
-    'h5': ('font-size': 20),
-    'h6': ('font-size': 16),
+    'h1': ('font-size': 42, 'line-height': 1),
+    'h2': ('font-size': 24, 'line-height': 1.2),
+    'h3': ('font-size': 18, 'line-height': 1.3),
+    'h4': ('font-size': 18, 'line-height': 1.4),
+    'h5': ('font-size': 18, 'line-height': 1.4),
+    'h6': ('font-size': 18, 'line-height': 1.4),
   ),
 );
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 80%;
 $header-small-font-color: $medium-gray;
-$paragraph-lineheight: 1.6;
+$paragraph-lineheight: 1.5;
 $paragraph-margin-bottom: 1rem;
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
