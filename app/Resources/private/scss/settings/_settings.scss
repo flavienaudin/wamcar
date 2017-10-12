@@ -97,8 +97,8 @@ $global-text-direction: ltr;
 $global-flexbox: true;
 $global-prototype-breakpoints: false;
 $global-color-pick-contrast-tolerance: 0;
+$global-transition: .3s;
 $print-transparent-backgrounds: true;
-$input: 'input';
 
 @include add-foundation-colors;
 
@@ -502,7 +502,7 @@ $meter-fill-bad: $alert-color;
 // 25. Off-canvas
 // --------------
 
-$offcanvas-size: rem-calc(300);
+$offcanvas-size: 100vw;
 $offcanvas-size-medium: rem-calc(400);
 $offcanvas-vertical-size: rem-calc(300);
 $offcanvas-background: white;

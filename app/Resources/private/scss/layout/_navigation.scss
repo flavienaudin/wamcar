@@ -2,4 +2,54 @@
    Navigation
    =========================================================================== */
 
-.l-navigation {}
+.l-navigation {
+
+  @include breakpoint(medium down) {
+    background: $primary-color;
+  }
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    color: white;
+    transition: $global-transition;
+
+    @include breakpoint(medium down) {
+      &:hover,
+      &:focus { color: white; }
+    }
+
+    @include breakpoint(large) {
+      padding-right: rem-calc(10);
+      padding-left: rem-calc(10);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(25);
+      padding-left: rem-calc(25);
+    }
+
+    /* Components */
+
+    > span {
+      border-left: rem-calc(1) solid currentColor;
+      padding-right: rem-calc(10);
+      padding-left: rem-calc(10);
+
+      @include breakpoint(large) {
+        padding-right: rem-calc(25);
+        padding-left: rem-calc(25);
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(50);
+        padding-left: rem-calc(50);
+      }
+    } // End > span
+
+  } // End &-item
+
+}

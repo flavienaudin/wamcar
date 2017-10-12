@@ -32,24 +32,41 @@ $header-background: white;
     height: $header-height-medium;
   }
 
+  @include breakpoint(xlarge) {
+    font-size: rem-calc(20);
+  }
+
 
   /*
      Button
      ===================================== */
 
   &-button {
-    @include breakpoint(medium down) {
+
+    @include breakpoint(large down) {
       text-align: center;
       justify-content: center;
-      width: rem-calc(60);
-      height: rem-calc(60);
+      width: $header-height;
+      height: $header-height;
       border-left: rem-calc(1) solid $border-color;
 
-      &::before {
-        width: 100%;
-        font-size: rem-calc(17);
-        margin-right: 0 !important;
-      }
+      &::before { width: 100%; }
+    } // End MQ large down
+
+    @include breakpoint(medium down) {
+      &::before { font-size: rem-calc(17); }
     }
-  }
+
+    @include breakpoint(large only) {
+      width: $header-height-medium;
+      height: $header-height-medium;
+
+      &::before { font-size: rem-calc(20); }
+    } // End MQ large only
+
+    @include breakpoint(xlarge) {
+      &::before { font-size: rem-calc(17); }
+    }
+
+  } // End &-button
 }

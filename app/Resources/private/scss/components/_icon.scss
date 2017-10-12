@@ -19,13 +19,13 @@
   &:hover,
   &:focus { text-decoration: none; }
 
-  &:hover {
-    > span { text-decoration: underline; }
-  }
-
   &::before {
     font-family: 'icomoon';
-    margin-right: rem-calc(10);
+    margin-right: rem-calc(12);
+
+    @include breakpoint(large down) {
+      .l-header & { margin-right: 0; }
+    }
   }
 }
 

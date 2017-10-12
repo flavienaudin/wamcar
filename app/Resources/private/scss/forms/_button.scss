@@ -40,6 +40,11 @@
    Class
    ===================================== */
 
+button {
+  color: $body-font-color;
+  cursor: pointer;
+}
+
 .button {
   @include buttonStyle;
 

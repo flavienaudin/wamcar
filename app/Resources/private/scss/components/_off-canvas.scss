@@ -4,16 +4,15 @@
 
 .off-canvas {
   border-left: rem-calc(3) solid $primary-color;
-  // top: $header-height;
+
+  @include breakpoint(medium down) {
+    top: $header-height;
+  }
 
   @include breakpoint(medium) {
     width: $offcanvas-size-medium;
     transform: translateX($offcanvas-size-medium);
   }
-
-  // @include breakpoint(large) {
-  //   top: $header-height-medium;
-  // }
 
 
   /*
