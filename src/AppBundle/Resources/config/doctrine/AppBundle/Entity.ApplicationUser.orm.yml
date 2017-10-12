@@ -2,6 +2,10 @@ AppBundle\Entity\ApplicationUser:
 
     type: entity
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     exclusion_policy: ALL
 
@@ -10,28 +14,11 @@ AppBundle\Entity\ApplicationUser:
             type: string
         salt:
             type: string
-        lastLoginIp:
-            type: string
-            length: 45
-        registrationIp:
-            type: string
-            length: 45
-        newsletterOptin:
-            type: boolean
-        registrationToken:
-            type: string
-            length: 32
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        deletedAt:
+            type: date
             nullable: true
-            unique: true
-        passwordResetToken:
-            type: string
-            length: 32
-            nullable: true
-            unique: true
-        slug:
-          type: string
-          length: 128
-          gedmo:
-            slug:
-              fields:
-                - name

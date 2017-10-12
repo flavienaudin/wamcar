@@ -18,10 +18,6 @@ class User
     protected $phone;
     /** @var  ?City */
     protected $city;
-    /** @var  array */
-    protected $roles;
-    /** @var  \DateTimeInterface */
-    protected $createdAt;
 
     /** @var Vehicle[]|array */
     protected $vehicles;
@@ -29,32 +25,14 @@ class User
     /**
      * User constructor.
      * @param string $email
-     * @param Title $title
-     * @param string|null $name
-     * @param string|null $phone
-     * @param City|null $city
-     * @param array $roles
-     * @param \DateTimeInterface|null $createdAt
      * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
-        Title $title = null,
-        string $name = null,
-        string $phone = null,
-        City $city = null,
-        array $roles = ['ROLE_USER'],
-        \DateTimeInterface $createdAt = null,
         Vehicle $firstVehicle = null
     )
     {
         $this->email = $email;
-        $this->title = $title;
-        $this->name = $name;
-        $this->phone = $phone;
-        $this->city = $city;
-        $this->roles = $roles;
-        $this->createdAt = $createdAt ?: new \DateTimeImmutable();
         $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
     }
 
@@ -75,7 +53,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return Title|null
      */
     public function getTitle()
     {
@@ -83,7 +61,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getName()
     {
@@ -91,7 +69,7 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getPhone()
     {
@@ -99,27 +77,11 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return City|null
      */
     public function getCity()
     {
         return $this->city;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRoles(): array
-    {
-        return $this->roles;
-    }
-
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
     }
 
     /**

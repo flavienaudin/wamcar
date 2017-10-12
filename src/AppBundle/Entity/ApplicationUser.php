@@ -2,63 +2,40 @@
 
 namespace AppBundle\Entity;
 
-use Wamcar\User\City;
-use Wamcar\User\Title;
 use Wamcar\User\User;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Wamcar\Vehicle\Vehicle;
 
-class ApplicationUser extends User implements AdvancedUserInterface, \Serializable, AbleToLogin
+class ApplicationUser extends User implements \Serializable
 {
-    use Traits\PasswordResettableTrait;
-
     /** @var string */
-    protected $registrationIp;
+    protected $password;
     /** @var string */
-    protected $lastLoginIp;
-    /** @var bool */
-    protected $newsletterOptin;
+    protected $salt;
     /** @var  string */
     protected $registrationToken;
-    /** @var  string */
-    protected $slug;
+    /** @var  \DateTime */
+    protected $createdAt;
+    /** @var  \DateTime */
+    protected $deletedAt;
 
     /**
      * ApplicationUser constructor.
-     *
      * @param string $email
-     * @param Title|string $title
-     * @param string $name
-     * @param string $phone
-     * @param string|null $password
-     * @param string|null $salt
-     * @param City $city
-     * @param string $registrationIp
-     * @param bool $newsletterOptin
-     * @param string $registrationToken
-     * @param array $roles
+     * @param string $password
+     * @param string $salt
+     * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
-        Title $title = null,
-        string $name = null,
-        string $phone = null,
-        string $password = null,
-        string $salt = null,
-        City $city = null,
-        string $registrationIp,
-        bool $newsletterOptin = false,
-        string $registrationToken = null,
-        array  $roles = ['ROLE_USER']
+        string $password,
+        string $salt,
+        Vehicle $firstVehicle = null
     )
     {
-        parent::__construct($email, $title, $name, $phone, $city, $roles);
+        parent::__construct($email, $firstVehicle);
 
         $this->password = $password;
         $this->salt = $salt;
-        $this->registrationIp = $registrationIp;
-        $this->lastLoginIp = $registrationIp;
-        $this->newsletterOptin = $newsletterOptin;
-        $this->registrationToken = $registrationToken;
     }
 
     /**
@@ -161,25 +138,6 @@ class ApplicationUser extends User implements AdvancedUserInterface, \Serializab
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getNewsletterOptin()
-    {
-        return $this->newsletterOptin;
-    }
-
-
-    /**
-     * @return ApplicationUser
-     */
-    public function enableNewsletterOptin(): ApplicationUser
-    {
-        $this->newsletterOptin = true;
-
-        return $this;
-    }
-
-    /**
      * Registration confirmation equals nullifying registrationToken
      *
      * @return $this
@@ -189,13 +147,5 @@ class ApplicationUser extends User implements AdvancedUserInterface, \Serializab
         $this->registrationToken = null;
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug(): string
-    {
-        return $this->slug;
     }
 }

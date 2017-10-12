@@ -4,7 +4,7 @@ Wamcar\User\City:
     fields:
         postalCode:
             type: string
-            nullable: true # should be null for nullable embedded
-        city:
+            nullable: true
+        name:
             type: string
-            nullable: true # should be null for nullable embedded
+            nullable: true

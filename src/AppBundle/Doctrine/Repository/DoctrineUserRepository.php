@@ -13,9 +13,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
      */
     public function findAll(): array
     {
-        return $this->findBy([
-            'deletedAt' => NULL,
-        ]);
+        return $this->findBy([]);
     }
 
     /**
@@ -48,15 +46,9 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function remove(User $user, bool $hardDelete = false)
+    public function remove(User $user)
     {
-        if ($hardDelete) {
-            $this->_em->remove($user);
-        } else {
-            $user->setDeletedAt(new \DateTime());
-            $this->_em->persist($user);
-        }
-
+        $this->_em->remove($user);
         $this->_em->flush();
     }
 

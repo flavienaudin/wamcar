@@ -9,15 +9,15 @@ class City
     /** @var string  */
     private $postalCode;
     /** @var string  */
-    private $city;
+    private $name;
 
     public function __construct(
         string $postalCode = null,
-        string $city = null
+        string $name = null
     )
     {
         $this->postalCode = $postalCode;
-        $this->city = $city;
+        $this->name = $name;
     }
 
 }

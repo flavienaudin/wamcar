@@ -8,7 +8,6 @@ Wamcar\User\User:
     discriminatorMap:
         basic: Wamcar\User\User
         application: AppBundle\Entity\ApplicationUser
-        registered: AppBundle\Entity\RegisteredUser
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
@@ -37,7 +36,3 @@ Wamcar\User\User:
         phone:
             type: string
             nullable: true
-        roles:
-            type: json_array
-        createdAt:
-            type: date
