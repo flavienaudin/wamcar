@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'icomoon';
-  src: url('#{$css-folder}/fonts/icomoon/icomoon.woff#{$assets-version}') format('woff');
+  src: url('#{$fonts-folder}/icomoon/icomoon.woff#{$assets-version}') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -22,32 +22,32 @@
 
 @font-face {
   font-family: 'Muli';
-  src: url('#{$css-folder}/fonts/muli/muli-regular.woff2#{$assets-version}') format('woff2'),
-       url('#{$css-folder}/fonts/muli/muli-regular.woff#{$assets-version}') format('woff');
+  src: url('#{$fonts-folder}/muli/muli-regular.woff2#{$assets-version}') format('woff2'),
+       url('#{$fonts-folder}/muli/muli-regular.woff#{$assets-version}') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Muli';
-  src: url('#{$css-folder}/fonts/muli/muli-italic.woff2#{$assets-version}') format('woff2'),
-       url('#{$css-folder}/fonts/muli/muli-italic.woff#{$assets-version}') format('woff');
+  src: url('#{$fonts-folder}/muli/muli-italic.woff2#{$assets-version}') format('woff2'),
+       url('#{$fonts-folder}/muli/muli-italic.woff#{$assets-version}') format('woff');
   font-weight: normal;
   font-style: italic;
 }
 
 @font-face {
   font-family: 'Muli';
-  src: url('#{$css-folder}/fonts/muli/muli-bold.woff2#{$assets-version}') format('woff2'),
-       url('#{$css-folder}/fonts/muli/muli-bold.woff#{$assets-version}') format('woff');
+  src: url('#{$fonts-folder}/muli/muli-bold.woff2#{$assets-version}') format('woff2'),
+       url('#{$fonts-folder}/muli/muli-bold.woff#{$assets-version}') format('woff');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Muli';
-  src: url('#{$css-folder}/fonts/muli/muli-bold-italic.woff2#{$assets-version}') format('woff2'),
-       url('#{$css-folder}/fonts/muli/muli-bold-italic.woff#{$assets-version}') format('woff');
+  src: url('#{$fonts-folder}/muli/muli-bold-italic.woff2#{$assets-version}') format('woff2'),
+       url('#{$fonts-folder}/muli/muli-bold-italic.woff#{$assets-version}') format('woff');
   font-weight: bold;
   font-style: italic;
 }
