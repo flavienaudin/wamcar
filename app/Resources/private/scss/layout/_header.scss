@@ -3,7 +3,6 @@
    =========================================================================== */
 
 
-
 /*
    Settings
    ===================================== */
@@ -11,27 +10,21 @@
 $header-background: white;
 
 
-
 /*
    Header
    ===================================== */
 
 .l-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   left: 0;
   background: $header-background;
   z-index: 2;
-  transition: transform $offcanvas-transition-length $offcanvas-transition-timing;
 
 
-
-  /*
-     Components
-     ===================================== */
+  /* Components */
 
   button {
-    margin-bottom: 0;
   }
 }
