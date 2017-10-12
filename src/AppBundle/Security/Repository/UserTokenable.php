@@ -1,8 +1,10 @@
 <?php
 
 
-namespace AppBundle\Entity;
+namespace AppBundle\Security\Repository;
 
+
+use AppBundle\Entity\ApplicationUser;
 
 interface UserTokenable
 {

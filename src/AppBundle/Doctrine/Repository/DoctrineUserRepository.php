@@ -3,7 +3,7 @@
 namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Entity\ApplicationUser;
-use AppBundle\Entity\UserTokenable;
+use AppBundle\Security\Repository\UserTokenable;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
