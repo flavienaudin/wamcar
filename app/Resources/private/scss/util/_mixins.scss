@@ -1,0 +1,41 @@
+/* ===========================================================================
+   Mixin
+   =========================================================================== */
+
+/*
+   User select
+   @usage: @include user-select($value);
+   ===================================== */
+
+@mixin user-select($value) {
+  -webkit-user-select: $value;
+  -moz-user-select: $value;
+  -ms-user-select: $value;
+  user-select: $value;
+}
+
+
+
+/*
+   Appearance
+   @usage: @include appearance($value);
+   ===================================== */
+
+@mixin appearance($value) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+
+
+/*
+   Placeholder
+   @usage: @include placeholder($content);
+   ===================================== */
+
+@mixin placeholder {
+  &::-webkit-input-placeholder { @content }
+  &::-moz-placeholder          { @content }
+  &:-ms-input-placeholder      { @content }
+}

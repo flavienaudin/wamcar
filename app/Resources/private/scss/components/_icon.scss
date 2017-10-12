@@ -1,0 +1,52 @@
+/* ===========================================================================
+   Icon
+   =========================================================================== */
+
+
+
+/*
+   Default settings
+   ===================================== */
+
+[class^="icon-"],
+[class*=" icon-"] {
+  display: flex;
+  align-items: center;
+  font-variant: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &:hover,
+  &:focus { text-decoration: none; }
+
+  &:hover {
+    > span { text-decoration: underline; }
+  }
+
+  &::before {
+    font-family: 'icomoon';
+    margin-right: rem-calc(10);
+  }
+}
+
+
+
+/*
+   Icon list
+   ===================================== */
+
+.icon-arrow-down:before {
+  content: "\e904";
+}
+.icon-arrow-right:before {
+  content: "\e900";
+}
+.icon-arrow-left:before {
+  content: "\e901";
+}
+.icon-check:before {
+  content: "\e902";
+}
+.icon-responsive:before {
+  content: "\e903";
+}

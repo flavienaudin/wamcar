@@ -1,0 +1,64 @@
+{% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}{% endblock %} - {{ site_name }}</title>
+
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+
+    <meta property="og:site_name" content="{{ site_name }}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    <meta property="og:title" content="{{ block('title') }} - {{ site_name }}">
+    <meta property="og:description" content="{{ block('meta_description') }}">
+    <meta property="og:url" content="{{ current_url }}">
+    <meta property="og:image" content="{% block seo_img %}{{ asset('og-image.jpg') }}{% endblock %}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title') }} - {{ site_name }}">
+    <meta name="twitter:description" content="{{ block('meta_description') }}">
+    <meta name="twitter:image" content="{{ block('seo_img') }}">
+    <meta name="twitter:image:alt" content="{{ block('title') }}">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/images/favicons/manifest.json') }}">
+    <link rel="mask-icon" href="{{ asset('assets/images/favicons/safari-pinned-tab.svg') }}" color="#000000">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicons/favicon.ico') }}">
+    <meta name="msapplication-config" content="{{ asset('assets/images/favicons/browserconfig.xml') }}">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="canonical" href="{% block canonical %}{{ current_url }}{% endblock canonical %}">
+
+    {% if seo_noindex is defined %}
+        <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+
+     <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}">
+</head>
+{% if app.environment == 'inte' %}
+    <body id="js-body" data-toggler=".debug">
+        <style>{% include 'front/Layout/css/debug.css' %}</style>
+        {% include 'front/Layout/includes/debug.html.twig' %}
+{% else %}
+    <body>
+{% endif %}
+
+    {% include 'front/Layout/includes/header.html.twig' %}
+
+    <main class="l-main {% block mainClass %}{% endblock %}">
+        {% block body %}{% endblock %}
+    </main>
+
+    {% include 'front/Layout/includes/footer.html.twig' %}
+
+    {% block reveal %}{% endblock %}
+
+    {% block javascripts %}{% endblock %}
+    <script src="{{ asset('assets/bundle/bundle.js') }}"></script>
+
+</body>
+</html>

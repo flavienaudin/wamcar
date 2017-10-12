@@ -1,0 +1,74 @@
+/* ===========================================================================
+   Input
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$input-height: rem-calc(40);
+$input-line-height: $input-height;
+$input-font-size: rem-calc(16);
+$input-border: 1px solid $border-color;
+$input-border-radius: 0;
+$input-color: black;
+$input-focus-shadow: inset 0 0 2px #13171B;
+$input-focus-border: #13171B;
+$input-margin-bottom: rem-calc(25);
+$input-padding: 0 rem-calc(10);
+
+
+
+/*
+   Style
+   ===================================== */
+
+%input-style {
+  display: block;
+  color: $input-color;
+  font: $input-font-size $body-font-family;
+  border: $input-border;
+  border-radius: $input-border-radius;
+  transition: border .3s, box-shadow .3s;
+  outline: none;
+
+  &:focus {
+    border-color: $input-focus-border;
+  }
+}
+
+%input-error-style {
+  border-color: $alert-color;
+  margin-bottom: rem-calc(5);
+}
+
+
+
+/*
+   Input
+   ===================================== */
+
+#{$input},
+.checkbox + label::before,
+textarea {
+  @extend %input-style;
+  padding: $input-padding;
+
+  &.is-invalid-input {
+    @extend %input-error-style;
+  }
+}
+
+#{$input},
+textarea {
+  width: 100%;
+  margin-bottom: $input-margin-bottom;
+}
+
+#{$input} {
+  height: $input-height;
+  line-height: $input-line-height;
+  padding: $input-padding;
+}

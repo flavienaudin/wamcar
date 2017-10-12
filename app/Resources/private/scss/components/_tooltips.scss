@@ -1,0 +1,82 @@
+/* ===========================================================================
+   Tooltip
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$tooltip-max-width: rem-calc(200);
+$tooltip-bg: $primary-color;
+$tooltip-font-size: rem-calc(14);
+$tooltip-font-color: $white;
+$tooltip-text-align: center;
+$tooltip-padding: rem-calc(1) rem-calc(6);
+$tooltip-transformX: -50%;
+$tooltip-transformY: 15px;
+
+$tooltip-text-top: rem-calc(-34);
+$tooltip-arrow-top: rem-calc(-10);
+
+
+
+/*
+   Tooltip
+   ===================================== */
+
+[data-tooltip] {
+
+  @include breakpoint(xlarge) {
+
+    position: relative;
+
+    &::before,
+    &::after {
+      position: absolute;
+      left: 50%;
+      visibility: hidden;
+      opacity: 0;
+      transition: .2s;
+      transform: translate($tooltip-transformX, $tooltip-transformY);
+    }
+
+    &::before {
+      content: attr(data-tooltip);
+      top: $tooltip-text-top;
+      width: auto;
+      max-width: $tooltip-max-width;
+      background: $tooltip-bg;
+      font-size: $tooltip-font-size;
+      text-align: $tooltip-text-align;
+      white-space: nowrap;
+      color: $tooltip-font-color;
+      padding: $tooltip-padding;
+    }
+
+    &::after {
+      content: "";
+      top: $tooltip-arrow-top;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 7px 7px 0 7px;
+      border-color: $tooltip-bg transparent transparent transparent;
+    }
+
+    &:hover,
+    a:hover > & {
+
+      &::before,
+      &::after {
+        visibility: visible;
+        opacity: 1;
+        transform: translate($tooltip-transformX, 0);
+      }
+
+    }
+
+  }
+
+}
