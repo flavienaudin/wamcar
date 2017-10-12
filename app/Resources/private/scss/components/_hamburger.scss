@@ -3,11 +3,78 @@
    =========================================================================== */
 
 .hamburger {
+  color: $primary-color;
   transition: $offcanvas-transition-length;
+
+  /* Open state */
 
   &[aria-expanded="true"] {
     background: $primary-color;
     color: white;
+  } // End [aria-expanded="true"] &
+
+
+  /*
+  Line
+  ===================================== */
+
+  &-line {
+    position: relative;
+    display: block;
+    width: rem-calc(22);
+    height: rem-calc(18);
+    transition-timing-function: cubic-bezier(.55,.055,.675,.19);
+    transition-duration: .22s;
+    margin: auto;
+
+    &,
+    &::before,
+    &::after {
+      left: 0;
+      right: 0;
+      height: rem-calc(3);
+      background: currentColor;
+      transition-timing-function: ease;
+      transition-duration: .15s;
+      transition-property: transform;
+    }
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+    }
+
+    &::before {
+      top: rem-calc(-8);
+      transition: top .1s ease-in .25s,opacity .1s ease-in;
+    }
+
+    &::after {
+      bottom: rem-calc(-8);
+      transition: bottom .1s ease-in .25s,transform .22s cubic-bezier(.55,.055,.675,.19);
+    }
+
+    /* Open state */
+
+    [aria-expanded="true"] & {
+      color: white;
+      transition-delay: .12s;
+      transition-timing-function: cubic-bezier(.215,.61,.355,1);
+      transform: rotate(225deg);
+
+      &::before {
+        top: 0;
+        transition: top .1s ease-out,opacity .1s ease-out .12s;
+        opacity: 0;
+      }
+
+      &::after {
+        bottom: 0;
+        transition: bottom .1s ease-out,transform .22s cubic-bezier(.215,.61,.355,1) .12s;
+        transform: rotate(-90deg);
+      }
+    } // End [aria-expanded="true"] &
   }
 
 }
