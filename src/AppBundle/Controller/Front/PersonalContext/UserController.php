@@ -56,7 +56,7 @@ class UserController extends BaseController
      */
     public function userInformationsAction(Request $request): Response
     {
-        //TODO : Récupérer le user courant quand fait
+        //TODO : Récupérer le user courant quand dispo
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
 
         $editForm = $this->formFactory->create(
