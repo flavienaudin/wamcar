@@ -4,7 +4,7 @@ namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Entity\ApplicationUser;
 use AppBundle\Form\DTO\EditUserData;
-use AppBundle\Security\Repository\UserTokenable;
+use AppBundle\Form\DTO\UserInformationDTO;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
@@ -75,15 +75,15 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function updateInformations(EditUserData $userData): ApplicationUser
+    public function updateInformations(UserInformationDTO $userInformationDTO): ApplicationUser
     {
         /**
          * @var ApplicationUser $user
          * Retrieve user
          */
-        $user = $this->findOne($userData->id);
+        $user = $this->findOne($userInformationDTO->id);
         // update informations
-        $user->updateInformations($userData);
+        $user->updateInformations($userInformationDTO);
         // and save modification
         $this->update($user);
 

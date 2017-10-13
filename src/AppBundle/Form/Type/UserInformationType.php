@@ -1,10 +1,10 @@
 <?php
 
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 
-use AppBundle\Form\DTO\EditUserData;
+use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Wamcar\User\Title;
 
-class EditUser extends AbstractType
+class UserInformationType extends AbstractType
 {
 
     /**
@@ -52,7 +52,7 @@ class EditUser extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => EditUserData::class,
+            'data_class' => UserInformationDTO::class,
         ));
     }
 

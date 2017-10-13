@@ -6,7 +6,9 @@ namespace AppBundle\Controller\Front\PersonalContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\EditUserData;
+use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\EditUser;
+use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Security\UserEditionService;
 use AppBundle\Security\UserRegistrationService;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -54,11 +56,12 @@ class UserController extends BaseController
      */
     public function userInformationsAction(Request $request): Response
     {
+        //TODO : Récupérer le user courant quand fait
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
 
         $editForm = $this->formFactory->create(
-            EditUser::class,
-            new EditUserData($user)
+            UserInformationType::class,
+            new UserInformationDTO($user)
         );
 
         $editForm->handleRequest($request);

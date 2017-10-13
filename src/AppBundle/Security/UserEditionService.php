@@ -5,6 +5,7 @@ namespace AppBundle\Security;
 use AppBundle\Doctrine\Repository\InformationsUpdatable;
 use AppBundle\Entity\ApplicationUser;
 use AppBundle\Form\DTO\EditUserData;
+use AppBundle\Form\DTO\UserInformationDTO;
 use Wamcar\User\UserRepository;
 
 
@@ -26,17 +27,17 @@ class UserEditionService
     }
 
     /**
-     * @param EditUserData $editUserData
+     * @param UserInformationDTO $userInformationDTO
      * @return ApplicationUser
      * @throws \Exception
      */
-    public function editInformations(EditUserData $editUserData): ApplicationUser
+    public function editInformations(UserInformationDTO $userInformationDTO): ApplicationUser
     {
         if (!$this->userRepository instanceof InformationsUpdatable) {
             throw new \Exception('UserRespository must be "InformationsUpdatable" to edit informations');
         }
 
-        $user = $this->userRepository->updateInformations($editUserData);
+        $user = $this->userRepository->updateInformations($userInformationDTO);
 
         return $user;
     }

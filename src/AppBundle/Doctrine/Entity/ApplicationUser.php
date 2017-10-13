@@ -2,8 +2,8 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\DTO\Form\EditUserData;
-use AppBundle\Security\ShouldConfirmRegistration;
+use AppBundle\Form\DTO\EditUserData;
+use AppBundle\Form\DTO\UserInformationDTO;
 use Wamcar\User\City;
 use Wamcar\User\Title;
 use Wamcar\User\User;
@@ -157,6 +157,7 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
     }
 
     /**
+<<<<<<< 4c262957ee04a5e3f6d1c1b5426a8bbe657a1d25:src/AppBundle/Doctrine/Entity/ApplicationUser.php
      * @return bool
      */
     public function hasConfirmedRegistration(): bool
@@ -166,20 +167,23 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
 
     /**
      * Copy informations from EditUserData
+=======
+     * Copy informations from UserInformationDTO
+>>>>>>> rename:src/AppBundle/Entity/ApplicationUser.php
      *
-     * @param EditUserData $userData
+     * @param UserInformationDTO $userInformationDTO
      */
-    public function updateInformations(EditUserData $userData)
+    public function updateInformations(UserInformationDTO $userInformationDTO)
     {
         $city = new City(
-            $userData->postalCode,
-            $userData->city
+            $userInformationDTO->postalCode,
+            $userInformationDTO->city
         );
 
-        $this->email = $userData->email;
-        $this->title = new Title($userData->title);
-        $this->name = $userData->name;
-        $this->phone = $userData->phone;
+        $this->email = $userInformationDTO->email;
+        $this->title = new Title($userInformationDTO->title);
+        $this->name = $userInformationDTO->name;
+        $this->phone = $userInformationDTO->phone;
         $this->city = $city;
         $this->lastLoginIp = $userData->ip;
         $this->newsletterOptin = $userData->newsletterOptin;
