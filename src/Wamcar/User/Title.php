@@ -8,6 +8,6 @@ use MyCLabs\Enum\Enum;
 
 class Title extends Enum
 {
-    const MISTER        = 'mister';
-    const MISSES        = 'misses';
+    const MR = 'Mr';
+    const MS = 'Ms';
 }

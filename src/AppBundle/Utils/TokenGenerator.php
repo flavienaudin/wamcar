@@ -4,7 +4,7 @@
 namespace AppBundle\Utils;
 
 
-class TokenUtils
+class TokenGenerator
 {
     /**
      * Return a new token

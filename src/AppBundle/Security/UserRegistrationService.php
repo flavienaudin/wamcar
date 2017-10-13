@@ -4,10 +4,8 @@ namespace AppBundle\Security;
 
 use AppBundle\Entity\ApplicationUser;
 use AppBundle\Form\DTO\RegistrationData;
-use AppBundle\Utils\TokenUtils;
+use AppBundle\Utils\TokenGenerator;
 use Wamcar\User\UserRepository;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class UserRegistrationService
@@ -16,30 +14,20 @@ class UserRegistrationService
     private $passwordEncoder;
     /** @var UserRepository */
     private $userRepository;
-    /** @var TokenStorageInterface */
-    private $tokenStorage;
-    /** @var SessionInterface */
-    private $session;
 
     /**
      * UserRegistrationService constructor.
      *
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
-     * @param TokenStorageInterface $tokenStorage
-     * @param SessionInterface $session
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
-        UserRepository $userRepository,
-        TokenStorageInterface $tokenStorage,
-        SessionInterface $session
+        UserRepository $userRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
-        $this->tokenStorage = $tokenStorage;
-        $this->session = $session;
     }
 
     /**
@@ -52,9 +40,7 @@ class UserRegistrationService
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationData->password, $salt);
-
-        $registrationToken = TokenUtils::generateToken();
-
+        $registrationToken = TokenGenerator::generateToken();
 
         $applicationUser = new ApplicationUser(
             $registrationData->email,

@@ -2,10 +2,11 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 
-class ApplicationUser extends User implements \Serializable
+class ApplicationUser extends User implements \Serializable, RegisteredWithConfirmationProvider
 {
     /** @var string */
     protected $password;
@@ -150,5 +151,13 @@ class ApplicationUser extends User implements \Serializable
         $this->registrationToken = null;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasConfirmedRegistration(): bool
+    {
+        return $this->registrationToken === null;
     }
 }
