@@ -2,8 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
-use AppBundle\Form\DTO\RegistrationData;
-use AppBundle\Form\Registration;
+use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\UserRegistrationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -35,7 +34,7 @@ class SecurityController extends BaseController
      */
     public function registerAction(Request $request): Response
     {
-        $registrationForm = $this->formFactory->create(Registration::class);
+        $registrationForm = $this->formFactory->create(RegistrationType::class);
 
         $registrationForm->handleRequest($request);
 

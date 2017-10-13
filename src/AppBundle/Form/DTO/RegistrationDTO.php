@@ -4,7 +4,7 @@
 namespace AppBundle\Form\DTO;
 
 
-class RegistrationData
+class RegistrationDTO
 {
     /** @var  string */
     public $email;

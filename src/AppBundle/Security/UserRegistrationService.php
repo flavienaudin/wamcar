@@ -3,7 +3,7 @@
 namespace AppBundle\Security;
 
 use AppBundle\Entity\ApplicationUser;
-use AppBundle\Form\DTO\RegistrationData;
+use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use AppBundle\Utils\TokenGenerator;
 use Wamcar\User\UserRepository;
@@ -32,19 +32,19 @@ class UserRegistrationService
     }
 
     /**
-     * @param RegistrationData $registrationData
+     * @param RegistrationDTO $registrationDTO
      *
      * @return ApplicationUser
      * @throws \Exception
      */
-    public function registerUser(RegistrationData $registrationData): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
-        $encodedPassword = $this->passwordEncoder->encodePassword($registrationData->password, $salt);
+        $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
         $registrationToken = TokenGenerator::generateToken();
 
         $applicationUser = new ApplicationUser(
-            $registrationData->email,
+            $registrationDTO->email,
             $encodedPassword,
             $salt,
             null,
