@@ -5,9 +5,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
-use AppBundle\Form\DTO\EditUserData;
 use AppBundle\Form\DTO\UserInformationDTO;
-use AppBundle\Form\EditUser;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Security\UserEditionService;
 use AppBundle\Security\UserRegistrationService;

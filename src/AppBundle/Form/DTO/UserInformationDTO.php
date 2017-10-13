@@ -24,7 +24,7 @@ class UserInformationDTO
     public $postalCode;
 
     /**
-     * EditUserData constructor.
+     * UserInformationDTO constructor.
      * @param ApplicationUser $user
      */
     public function __construct(ApplicationUser $user)

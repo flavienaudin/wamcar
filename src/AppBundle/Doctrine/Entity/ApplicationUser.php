@@ -2,7 +2,6 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Form\DTO\EditUserData;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Wamcar\User\City;
 use Wamcar\User\Title;
