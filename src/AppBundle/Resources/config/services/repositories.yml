@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    Wamcar\Vehicle\VehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineVehicleRepository'
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]

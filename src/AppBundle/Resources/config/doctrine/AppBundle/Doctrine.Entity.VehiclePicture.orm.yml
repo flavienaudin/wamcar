@@ -1,0 +1,29 @@
+AppBundle\Doctrine\Entity\VehiclePicture:
+
+    type: entity
+
+    exclusion_policy: ALL
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        caption:
+            type: string
+            nullable: true
+        fileName:
+            type: string
+        fileSize:
+            type: integer
+        fileMimeType:
+            type: string
+        fileOriginalName:
+            type: string
+
+    manyToOne:
+        vehicle:
+            targetEntity: Wamcar\Vehicle\PersonalVehicle
+            joinColumn:
+                name: vehicle_id
+                referencedColumnName: id

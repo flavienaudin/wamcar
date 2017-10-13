@@ -2,40 +2,43 @@
 
 namespace Wamcar\Vehicle;
 
+use Ramsey\Uuid\Uuid;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
 
 abstract class BaseVehicle implements Vehicle
 {
+    /** @var string */
+    protected $id;
     /** @var ModelVersion */
-    private $modelVersion;
+    protected $modelVersion;
     /** @var Transmission */
-    private $transmission;
+    protected $transmission;
     /** @var Registration|null */
-    private $registration;
+    protected $registration;
     /** @var \DateTimeImmutable */
-    private $registrationDate;
+    protected $registrationDate;
     /** @var Picture[]|array */
-    private $pictures;
+    protected $pictures;
     /** @var SafetyTestState */
-    private $safetyTest;
+    protected $safetyTest;
     /** @var int */
-    private $bodyState;
+    protected $bodyState;
     /** @var int|null */
-    private $engineState;
+    protected $engineState;
     /** @var int|null */
-    private $tyreState;
+    protected $tyreState;
     /** @var MaintenanceState */
-    private $maintenanceState;
+    protected $maintenanceState;
     /** @var bool|null */
-    private $isTimingBeltChanged;
+    protected $isTimingBeltChanged;
     /** @var bool|null */
-    private $isImported;
+    protected $isImported;
     /** @var bool|null */
-    private $isFirstHand;
+    protected $isFirstHand;
     /** @var string|null */
-    private $additionalInformation;
+    protected $additionalInformation;
 
     /**
      * BaseVehicle constructor.
@@ -70,6 +73,7 @@ abstract class BaseVehicle implements Vehicle
         bool $isFirstHand = null,
         string $additionalInformation = null)
     {
+        $this->id = Uuid::uuid4();
         $this->modelVersion = $modelVersion;
         $this->transmission = $transmission;
         $this->registration = $registration;
@@ -86,5 +90,11 @@ abstract class BaseVehicle implements Vehicle
         $this->additionalInformation = $additionalInformation;
     }
 
-
+    /**
+     * @param Picture $picture
+     */
+    public function addPicture(Picture $picture): void
+    {
+        $this->pictures[] = $picture;
+    }
 }
