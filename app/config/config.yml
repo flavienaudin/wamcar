@@ -53,6 +53,8 @@ doctrine:
         default_table_options:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
+        types:
+            uuid:  Ramsey\Uuid\Doctrine\UuidType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -95,3 +97,19 @@ stof_doctrine_extensions:
             softdeleteable: true
             timestampable: true
             blameable: true
+
+vich_uploader:
+    db_driver: orm
+    metadata:
+        auto_detection: false
+        directories:
+            - {path: '%kernel.root_dir%/../src/AppBundle/Resources/config/uploader'}
+    mappings:
+        vehicle_image:
+            uri_prefix:         /vehicule/image/
+            upload_destination: '%env(UPLOAD_DIR)%/images/vehicles'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true

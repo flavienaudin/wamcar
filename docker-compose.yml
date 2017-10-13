@@ -56,17 +56,16 @@ services:
             - "./app/config/docker/upstream.conf:/etc/nginx/conf.d/upstream.conf:ro"
             - ".:/var/www/myapp:cached"
 
-# Todo : Add phantomjs to the Novaway registry
-#    phantomjs:
-#        image: "registry-gitlab.novaway.net/dev-team/dockerfiles/phantomjs:latest"
-#        ports:
-#            - 8643:8643
-#        volumes:
-#            - ".:/var/www/myapp:cached"
-#        networks:
-#            wamcar:
-#                aliases:
-#                    - service.phantomjs
+    phantomjs:
+        image: "registry-gitlab.novaway.net/dev-team/dockerfiles/phantomjs:latest"
+        ports:
+            - 8643:8643
+        volumes:
+            - ".:/var/www/myapp:cached"
+        networks:
+            wamcar:
+                aliases:
+                    - service.phantomjs
 
     composer:
         image: composer:1.5

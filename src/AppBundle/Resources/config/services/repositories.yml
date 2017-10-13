@@ -1,7 +1,15 @@
 services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
 
-    # DOCTRINE REPOSITORIES
-    wamcar.repository.user.doctrine:
-        class: AppBundle\Doctrine\Repository\DoctrineUserRepository
+    Wamcar\Vehicle\VehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineVehicleRepository'
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
+
+    AppBundle\Doctrine\Repository\DoctrineUserRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: [AppBundle\Entity\ApplicationUser]
+        arguments: ['AppBundle\Entity\ApplicationUser']

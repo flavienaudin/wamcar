@@ -1,0 +1,31 @@
+default:
+    autoload:
+        '': %paths.base%/tests/behavior/bootstrap
+
+    formatters:
+        pretty: true
+        junit:
+            output_path: build/test-behavior
+
+    extensions:
+        Novaway\CommonContexts\Extension: ~
+        Behat\Symfony2Extension: ~
+        Behat\MinkExtension:
+            show_auto: true
+            show_cmd: open -a "Google Chrome" %s
+            files_path: %paths.base%/tests/behavior/data/
+            base_url: 'http://myapp.local/app_test.php'
+            sessions:
+                default:
+                    goutte: ~
+                javascript:
+                    selenium2:
+                        wd_host: http://service.phantomjs:8643/wd/hub
+
+    suites:
+        front:
+            paths:
+                - "%paths.base%/tests/behavior/features/front"
+            contexts:
+                - Behat\MinkExtension\Context\MinkContext
+                - Test\Behavior\Context\NavigationContext

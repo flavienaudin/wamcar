@@ -61,9 +61,9 @@ class UserRegistrationService
      * Don't log him in immediately, as the user has not entered credentials
      *
      * @param ShouldConfirmRegistration $user
-     * @return \Wamcar\User\User
+     * @return ApplicationUser
      */
-    public function confirmUserRegistration(ShouldConfirmRegistration $user)
+    public function confirmUserRegistration(ShouldConfirmRegistration $user): ApplicationUser
     {
         // confirm and save
         $user->confirmRegistration();

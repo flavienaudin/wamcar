@@ -14,6 +14,6 @@ services:
         class: AppBundle\Security\UserRegistrationService
         arguments:
             - '@wamcar.security.password_encoder'
-            - '@wamcar.repository.user.doctrine'
+            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@security.token_storage'
             - '@session'
