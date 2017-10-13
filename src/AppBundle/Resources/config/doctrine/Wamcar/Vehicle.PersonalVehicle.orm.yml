@@ -1,0 +1,16 @@
+Wamcar\Vehicle\PersonalVehicle:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineVehicleRepository
+
+    exclusion_policy: ALL
+
+    id:
+        id:
+            type: uuid
+
+    oneToMany:
+        pictures:
+            targetEntity: AppBundle\Doctrine\Entity\VehiclePicture
+            mappedBy: vehicle
+            cascade: ["persist", "merge"]

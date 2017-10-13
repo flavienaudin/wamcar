@@ -4,22 +4,27 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\VehicleDTO;
+use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Vehicle\VehicleRepository;
 
 class RegistrationController extends BaseController
 {
     /** @var FormFactoryInterface */
     private $formFactory;
+    /** @var VehicleRepository */
+    private $vehicleRepository;
 
     /**
      * RegistrationController constructor.
      */
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(FormFactoryInterface $formFactory, VehicleRepository $vehicleRepository)
     {
         $this->formFactory = $formFactory;
+        $this->vehicleRepository = $vehicleRepository;
     }
 
     /**
@@ -34,8 +39,12 @@ class RegistrationController extends BaseController
         $vehicleForm->handleRequest($request);
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
-            dump($vehicleDTO);
+            $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
+            $this->vehicleRepository->add($personalVehicle);
 
+            dump("Picture saved");
+            dump($personalVehicle);
+            exit;
         }
 
         return $this->render(
