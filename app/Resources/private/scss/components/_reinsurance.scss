@@ -1,0 +1,66 @@
+/* ===========================================================================
+   Reinsurance
+   =========================================================================== */
+
+.reinsurance {
+  color: $primary-color;
+  margin-top: rem-calc(25);
+
+  @include breakpoint(medium) {
+    margin-top: rem-calc(45);
+  }
+
+  @include breakpoint(xlarge) {
+    margin-top: rem-calc(85);
+  }
+
+
+  /*
+    Container
+    ===================================== */
+
+  &-container {
+    background: #17303b;
+    padding: rem-calc(40) rem-calc(35);
+
+    @include breakpoint(medium) {
+      padding: rem-calc(40) rem-calc(20);
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(90) rem-calc(20);
+    }
+
+    /* Components */
+
+    h2,
+    p { color: white; }
+
+    svg {
+      @include breakpoint(small only) {
+        width: rem-calc(60);
+      }
+    }
+  } // End &-container
+
+
+  /*
+    Item
+    ===================================== */
+
+  &-item {
+
+    @include breakpoint(small only) {
+      &:not(:first-child) {
+        margin-top: rem-calc(10);
+      }
+    }
+
+    @include breakpoint(large) {
+      padding-right: rem-calc(30);
+      padding-left: rem-calc(30);
+    }
+
+  } // End &-item
+
+}

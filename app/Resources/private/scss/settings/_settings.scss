@@ -141,7 +141,7 @@ $block-grid-max: $grid-column-count;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: bold;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-color: inherit;
@@ -156,7 +156,7 @@ $header-styles: (
     'h5': ('font-size': 14, 'line-height': 1.5),
     'h6': ('font-size': 14, 'line-height': 1.5),
   ),
-  medium: (
+  large: (
     'h1': ('font-size': 42, 'line-height': 1),
     'h2': ('font-size': 24, 'line-height': 1.2),
     'h3': ('font-size': 18, 'line-height': 1.3),
