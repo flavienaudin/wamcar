@@ -9,7 +9,11 @@ import $ from 'jquery';
 import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
 import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
+import { Toggler } from 'foundation-sites/js/foundation.toggler';
 import './components/responsiveDom';
+import {
+  activeClass
+} from './settings/settings.js';
 
 
 
@@ -27,6 +31,25 @@ $(function() {
     return new OffCanvas($(offcanvas));
   });
 
+  /* Toogle */
+
+  const $toggles = $('[data-toggle]');
+
+  $toggles.each((index, toggle) => {
+    $(toggle).on('click', function() {
+      $(this).toggleClass(activeClass);
+    });
+  });
+
+  const $togglers = $('[data-toggler]');
+
+  if ($togglers) {
+    $togglers.each((index, toggler) => {
+      return new Toggler($(toggler));
+    });
+  }
+
+
 });
 
 
@@ -36,16 +59,6 @@ $(function() {
    =========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function() {
-
-
-  /*
-     Offcanvas fixed
-     ===================================== */
-
-  // MediaQuery._init();
-  // if (!MediaQuery.atLeast('large')) {
-  //   offCanvasFixed();
-  // }
 
 
   /*

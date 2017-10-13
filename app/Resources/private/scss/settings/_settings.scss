@@ -135,7 +135,7 @@ $grid-column-gutter: (
 );
 $grid-column-align-edge: true;
 $grid-column-alias: 'columns';
-$block-grid-max: 8;
+$block-grid-max: $grid-column-count;
 
 // 4. Base Typography
 // ------------------
@@ -166,7 +166,7 @@ $header-styles: (
   ),
 );
 $header-text-rendering: optimizeLegibility;
-$small-font-size: 80%;
+$small-font-size: 100%;
 $header-small-font-color: $medium-gray;
 $paragraph-lineheight: 1.5;
 $paragraph-margin-bottom: 1rem;

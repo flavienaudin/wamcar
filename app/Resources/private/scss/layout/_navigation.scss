@@ -74,9 +74,34 @@
      Footer
      ===================================== */
 
-  &-footer {
+  &-footer-container {
     background: #e30613;
     box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+  }
+
+  &-footer {
+    display: flex;
+    flex-wrap: wrap;
+
+    @include breakpoint(medium down) {
+      padding-top: rem-calc(15);
+      padding-bottom: rem-calc(15);
+    }
+
+    /* Components */
+
+    > a {
+      padding-top: rem-calc(5);
+      padding-bottom: rem-calc(5);
+
+      @include breakpoint(large) {
+        font-size: rem-calc(20);
+        padding-top: rem-calc(35);
+        padding-bottom: rem-calc(35);
+
+        &:not(:first-child) { margin-left: rem-calc(35); }
+      }
+    }
   }
 
 }

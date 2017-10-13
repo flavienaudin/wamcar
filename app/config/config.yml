@@ -40,6 +40,8 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         site_name: 'Wamcar'
+        facebook_url: 'https://www.facebook.com/wamcar.france/'
+        twitter_url: 'https://twitter.com/wamcar'
 
 # Doctrine Configuration
 doctrine:
