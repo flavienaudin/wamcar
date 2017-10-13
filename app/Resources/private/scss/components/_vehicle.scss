@@ -11,18 +11,58 @@
 
   &-filter {
     border-bottom: rem-calc(1) solid $border-color;
-    margin-bottom: rem-calc(20);
+    margin-top: rem-calc(20);
+    margin-bottom: rem-calc(15);
     padding-bottom: rem-calc(20);
 
+    @include breakpoint(medium) {
+      margin-top: rem-calc(25);
+      margin-bottom: rem-calc(25);
+      padding-bottom: rem-calc(30);
+    }
+
     @include breakpoint(xlarge) {
-      margin-bottom: rem-calc(40);
+      position: relative;
+      margin-bottom: rem-calc(35);
       padding-bottom: rem-calc(40);
+
+      // Pour masquer la bordure qui dépasse de chaque côté
+      // On place les éléments ::before et ::after à gauche et à droite
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: rem-calc(-1);
+        width: rem-calc(20);
+        background: white;
+      }
+
+      &::before { left: 0; }
+      &::after { right: 0; }
+    }
+
+    /* Components */
+
+    label {
+      font-weight: bold;
+      justify-content: center;
+      color: $primary-color;
+      margin-bottom: rem-calc(15);
+
+      @include breakpoint(medium) {
+        height: rem-calc(60);
+        border-width: rem-calc(1) 0 rem-calc(1) rem-calc(1);
+        border-style: solid;
+        border-color: $border-color;
+        padding-right: rem-calc(20);
+        padding-left: rem-calc(20);
+      }
     }
 
     label,
-    .input,
-    .button {
-      @include breakpoint(marge) {
+    .input {
+      @include breakpoint(medium) {
         margin-bottom: 0;
       }
     }
@@ -37,6 +77,12 @@
   &-list {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: rem-calc(25);
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(10);
+      margin-bottom: rem-calc(40);
+    }
   }
 
 

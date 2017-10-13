@@ -8,18 +8,32 @@
    Style
    ===================================== */
 
-@mixin buttonStyle {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: rem-calc(50);
-  background: $primary-color;
-  color: white;
-  border: rem-calc(2) solid $primary-color;
+
+@mixin buttonHeight {
+height: rem-calc(50);
 
   @include breakpoint(medium) {
     height: rem-calc(60);
   }
+}
+
+@mixin buttonPadding {
+  padding-right: rem-calc(20);
+  padding-left: rem-calc(20);
+}
+
+@mixin buttonStyle {
+  @include buttonHeight;
+  @include buttonPadding;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: $primary-color;
+  font-weight: bold;
+  border-radius: rem-calc(30);
+  color: white;
+  border: rem-calc(2) solid $primary-color;
 }
 
 
@@ -43,6 +57,11 @@
 button {
   color: $body-font-color;
   cursor: pointer;
+}
+
+a.button {
+  &:hover,
+  &:focus { color: white; }
 }
 
 .button {

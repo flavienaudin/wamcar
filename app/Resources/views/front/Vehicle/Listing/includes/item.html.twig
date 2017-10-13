@@ -1,13 +1,13 @@
 {% set balise = balise|default('h2') %}
 <article class="vehicle-item is-flex">
-    {# <a href="" class="vehicle-like like" title="J'aime">J'aime</a> #}
+    <a href="" class="like" title="J'aime"><span class="show-for-sr">J'aime</span></a>
     <a href="" class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></a>
     <figcaption class="vehicle-infos">
         <span class="vehicle-brand">{{ vehicle.brand }}</span>
         <a href=""><{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}></a>
         <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
         <span class="primary-color" style="margin-top: auto">{{ vehicle.years }}, {{ vehicle.km }}</span>
-        {# <span class="black-color is-block">{{ vehicle.city|truncate(10) }}</span> #}
+        {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
         <span class="black-color is-block">{{ vehicle.city }}</span>
         <strong class="vehicle-price">{{ vehicle.price }}</strong>
     </figcaption>

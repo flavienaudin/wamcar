@@ -1,0 +1,22 @@
+/* ===========================================================================
+   Section
+   =========================================================================== */
+
+.section {
+  padding-top: rem-calc(40);
+  padding-bottom: rem-calc(40);
+
+  @include breakpoint(xlarge) {
+    padding-top: rem-calc(90);
+    padding-bottom: rem-calc(90);
+  }
+
+
+  /*
+     Footer
+     ===================================== */
+
+  &-footer {
+    margin: auto;
+  }
+}

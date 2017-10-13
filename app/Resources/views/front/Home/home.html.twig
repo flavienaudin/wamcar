@@ -2,23 +2,27 @@
 
 {% block body %}
 
-    <section class="reinsurance-container small-12">
+    <section class="section reinsurance-container small-12">
         <div class="row">
             {% include 'front/Layout/includes/reinsurance.html.twig' %}
         </div>
     </section>
 
-    <section class="small-12">
+    <section class="section small-12">
         <div class="row">
             <header class="small-12 text-center">
                 <h2 class="h1 primary-color">Je cherche une nouvelle voiture</h2>
                 <p>Découvrez les véhicules d’occasion vendus par des professionnels vérifiés</p>
             </header>
             {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
-            <strong class="h2 column small-12">Les dernières offres publiées sur Wamcar</strong>
+            <strong class="black-color h2 column small-12">Les dernières offres publiées sur Wamcar</strong>
             {% set vehicle_list = inte.vehicle %}
             {% set balise = 'h3' %}
             {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+            <footer class="section-footer column small-12 medium-7 large-5">
+                <a href="" class="button">Découvrez tous les véhicules près de chez vous</a>
+            </footer>
+            </div>
         </div>
     </section>
 
