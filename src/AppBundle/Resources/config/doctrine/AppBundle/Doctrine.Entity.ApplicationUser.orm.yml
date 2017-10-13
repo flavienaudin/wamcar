@@ -1,4 +1,4 @@
-AppBundle\Entity\ApplicationUser:
+AppBundle\Doctrine\Entity\ApplicationUser:
 
     type: entity
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository

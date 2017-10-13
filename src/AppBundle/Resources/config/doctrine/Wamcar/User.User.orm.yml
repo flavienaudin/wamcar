@@ -7,7 +7,7 @@ Wamcar\User\User:
         type: string
     discriminatorMap:
         basic: Wamcar\User\User
-        application: AppBundle\Entity\ApplicationUser
+        application: AppBundle\Doctrine\Entity\ApplicationUser
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository

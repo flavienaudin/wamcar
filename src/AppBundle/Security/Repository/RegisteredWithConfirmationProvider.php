@@ -4,7 +4,7 @@
 namespace AppBundle\Security\Repository;
 
 
-use AppBundle\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ApplicationUser;
 
 interface RegisteredWithConfirmationProvider
 {

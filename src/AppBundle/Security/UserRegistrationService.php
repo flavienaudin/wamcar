@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-use AppBundle\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use AppBundle\Utils\TokenGenerator;

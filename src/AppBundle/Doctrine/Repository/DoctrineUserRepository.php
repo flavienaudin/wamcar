@@ -2,7 +2,7 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use AppBundle\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;

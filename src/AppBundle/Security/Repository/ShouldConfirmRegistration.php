@@ -4,8 +4,6 @@
 namespace AppBundle\Security\Repository;
 
 
-use AppBundle\Entity\ApplicationUser;
-
 interface ShouldConfirmRegistration
 {
     /**

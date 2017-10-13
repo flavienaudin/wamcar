@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use Wamcar\User\User;
