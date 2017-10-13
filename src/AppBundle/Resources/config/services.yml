@@ -10,7 +10,7 @@ services:
         factory: ['@security.encoder_factory', 'getEncoder']
         arguments: [AppBundle\Doctrine\Entity\ApplicationUser]
 
-    wamcar.security.user_registration_service:
+    AppBundle\Security\UserRegistrationService:
         class: AppBundle\Security\UserRegistrationService
         arguments:
             - '@wamcar.security.password_encoder'
