@@ -4,6 +4,7 @@ namespace AppBundle\Security;
 
 use AppBundle\Entity\ApplicationUser;
 use AppBundle\Form\DTO\RegistrationData;
+use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use AppBundle\Utils\TokenGenerator;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
@@ -59,10 +60,10 @@ class UserRegistrationService
      * Confirm user registration
      * Don't log him in immediately, as the user has not entered credentials
      *
-     * @param ApplicationUser $user
+     * @param ShouldConfirmRegistration $user
      * @return \Wamcar\User\User
      */
-    public function confirmUserRegistration(ApplicationUser $user)
+    public function confirmUserRegistration(ShouldConfirmRegistration $user)
     {
         // confirm and save
         $user->confirmRegistration();

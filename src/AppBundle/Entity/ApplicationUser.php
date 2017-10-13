@@ -2,11 +2,11 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
+use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 
-class ApplicationUser extends User implements \Serializable, RegisteredWithConfirmationProvider
+class ApplicationUser extends User implements \Serializable, ShouldConfirmRegistration
 {
     /** @var string */
     protected $password;

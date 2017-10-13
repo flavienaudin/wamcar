@@ -6,7 +6,7 @@ namespace AppBundle\Security\Repository;
 
 use AppBundle\Entity\ApplicationUser;
 
-interface RegisteredWithConfirmationProvider
+interface ShouldConfirmRegistration
 {
     /**
      * @return mixed
