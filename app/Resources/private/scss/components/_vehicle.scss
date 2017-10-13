@@ -1,0 +1,160 @@
+/* ===========================================================================
+   Vehicle
+   =========================================================================== */
+
+.vehicle {
+
+
+  /*
+    Filter
+    ===================================== */
+
+  &-filter {
+    border-bottom: rem-calc(1) solid $border-color;
+    margin-bottom: rem-calc(20);
+    padding-bottom: rem-calc(20);
+
+    @include breakpoint(xlarge) {
+      margin-bottom: rem-calc(40);
+      padding-bottom: rem-calc(40);
+    }
+
+    label,
+    .input,
+    .button {
+      @include breakpoint(marge) {
+        margin-bottom: 0;
+      }
+    }
+  } // End &-filter
+
+
+
+  /*
+     List
+     ===================================== */
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    position: relative;
+    width: 100%;
+    border: rem-calc(1) solid $border-color;
+    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+    margin: rem-calc(10);
+
+    @include breakpoint(medium down) {
+      padding: rem-calc(10);
+    }
+
+    @include breakpoint(medium) {
+      width: calc(50% - #{rem-calc(40)});
+      margin: rem-calc(20);
+    }
+  } // End &-item
+
+
+
+  /*
+     Picture
+     ===================================== */
+
+  &-picture {
+    width: rem-calc(135);
+    flex: 0 0 rem-calc(135);
+
+    @include breakpoint(medium only) {
+      width: 100%;
+    }
+
+    @include breakpoint(large) {
+      width: rem-calc(260);
+      flex: 0 0 rem-calc(260);
+    }
+  }
+
+
+  /*
+     Name
+     ===================================== */
+
+  &-name {
+    color: black;
+    text-transform: uppercase;
+  }
+
+
+
+  /*
+     Infos
+     ===================================== */
+
+  &-infos {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    padding-left: rem-calc(10);
+
+    @include breakpoint(large) {
+      padding: rem-calc(30);
+    }
+  } // End &-infos
+
+
+
+  /*
+     Brand
+     ===================================== */
+
+  &-brand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $primary-color;
+    color: white;
+    text-transform: uppercase;
+    font-size: rem-calc(13);
+    padding: rem-calc(3) rem-calc(10);
+  }
+
+
+  /*
+     Price
+     ===================================== */
+
+  &-price {
+    display: flex;
+    align-items: center;
+    height: rem-calc(30);
+    border-width: rem-calc(1) 0 0 rem-calc(1);
+    border-style: solid;
+    border-color: $border-color;
+    color: $primary-color;
+    padding-right: rem-calc(10);
+    padding-left: rem-calc(10);
+
+    @include breakpoint(large) {
+      height: rem-calc(50);
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+    }
+
+    /* Exception */
+
+    .vehicle-list & {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+}

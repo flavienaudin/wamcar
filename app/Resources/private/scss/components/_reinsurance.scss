@@ -11,7 +11,7 @@
   }
 
   @include breakpoint(xlarge) {
-    margin-top: rem-calc(85);
+    margin-top: rem-calc(55);
   }
 
 
@@ -35,6 +35,18 @@
 
     h2,
     p { color: white; }
+
+    h3 {
+      @include breakpoint(medium) {
+        margin-top: rem-calc(15);
+        margin-bottom: rem-calc(15);
+      }
+
+      @include breakpoint(xlarge) {
+        margin-top: rem-calc(20);
+        margin-bottom: rem-calc(20);
+      }
+    }
 
     svg {
       @include breakpoint(small only) {
