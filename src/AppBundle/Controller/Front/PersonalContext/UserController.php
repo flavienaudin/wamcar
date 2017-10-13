@@ -73,7 +73,7 @@ class UserController extends BaseController
         }
 
 
-        return $this->render('front/User/myPersonalInformations.html.twig', [
+        return $this->render('front/User/personal_informations.html.twig', [
             'form' => $editForm->createView()
         ]);
     }
