@@ -1,6 +1,6 @@
 front:
     resource: "routing/front.yml"
-    prefix:   /
+    prefix: /
 
 # Security processes
 security_register:
