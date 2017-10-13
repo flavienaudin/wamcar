@@ -1,0 +1,22 @@
+/* ===========================================================================
+   Copyright
+   =========================================================================== */
+
+.copyright {
+
+  @include breakpoint(small only) {
+    flex: 0 0 100%;
+    padding-top: rem-calc(20);
+    padding-bottom: rem-calc(20);
+  }
+
+  /* Components */
+
+  a {
+    opacity: .5;
+
+    @include breakpoint(medium down) {
+      display: block;
+    }
+  }
+}

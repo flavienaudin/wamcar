@@ -81,7 +81,7 @@
    Layout
    ===================================== */
 
-@import "layout/content";
+@import "layout/main";
 @import "layout/footer";
 @import "layout/header";
 @import "layout/navigation";
@@ -120,4 +120,6 @@
 @import "components/logo";
 @import "components/hamburger";
 @import "components/off-canvas";
+@import "components/social-networks";
+@import "components/copyright";
 @import "components/state"; // Only on last
