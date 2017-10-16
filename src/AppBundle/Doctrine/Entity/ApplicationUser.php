@@ -34,7 +34,7 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
         string $salt,
         Context $context,
         Vehicle $firstVehicle = null,
-        string $registrationToken = null
+        string $registrationToken
     )
     {
         parent::__construct($email, null, $firstVehicle);
