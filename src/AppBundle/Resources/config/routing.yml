@@ -5,4 +5,12 @@ front:
 # Security processes
 security_register:
     path: /inscription
-    defaults: { _controller: AppBundle:Front\Security:register }
+    defaults:
+        _controller: AppBundle:Front\Security:register
+        context: Personal
+
+security_register_pro:
+    path: /inscription/pro
+    defaults:
+        _controller: AppBundle:Front\Security:register
+        context: Pro

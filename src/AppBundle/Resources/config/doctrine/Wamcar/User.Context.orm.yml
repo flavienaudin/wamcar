@@ -1,0 +1,6 @@
+Wamcar\User\Context:
+    type: embeddable
+    columnPrefix: context_
+    fields:
+        value:
+            type: string

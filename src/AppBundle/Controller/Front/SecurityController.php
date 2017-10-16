@@ -8,6 +8,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\Context;
 
 class SecurityController extends BaseController
 {
@@ -30,17 +31,20 @@ class SecurityController extends BaseController
 
     /**
      * @param Request $request
+     * @param $context
      * @return Response
      */
-    public function registerAction(Request $request): Response
+    public function registerAction(Request $request, $context): Response
     {
+         $context = new Context($context);
+
         $registrationForm = $this->formFactory->create(RegistrationType::class);
 
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUser($registrationForm->getData());
+                $this->userRegistrationService->registerUser($registrationForm->getData(), $context);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',

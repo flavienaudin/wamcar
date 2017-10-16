@@ -5,6 +5,7 @@ namespace AppBundle\Security;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
+use Wamcar\User\Context;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
@@ -32,11 +33,11 @@ class UserRegistrationService
 
     /**
      * @param RegistrationDTO $registrationDTO
-     *
+     * @param Context $context
      * @return ApplicationUser
      * @throws \Exception
      */
-    public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO, Context $context): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
@@ -46,6 +47,7 @@ class UserRegistrationService
             $registrationDTO->email,
             $encodedPassword,
             $salt,
+            $context,
             null,
             $registrationToken
         );
