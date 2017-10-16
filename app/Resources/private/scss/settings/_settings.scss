@@ -147,7 +147,7 @@ $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-color: inherit;
 $header-lineheight: 1.4;
-$header-margin-bottom: 0.5rem;
+$header-margin-bottom: rem-calc(25);
 $header-styles: (
   small: (
     'h1': ('font-size': 26, 'line-height': 1.15),
@@ -173,7 +173,7 @@ $header-text-rendering: optimizeLegibility;
 $small-font-size: 100%;
 $header-small-font-color: $medium-gray;
 $paragraph-lineheight: 1.5;
-$paragraph-margin-bottom: 1rem;
+$paragraph-margin-bottom: rem-calc(30);
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
 $code-font-family: $font-family-monospace;
