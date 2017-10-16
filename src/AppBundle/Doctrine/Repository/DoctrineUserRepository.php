@@ -3,11 +3,12 @@
 namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
 
-class DoctrineUserRepository extends EntityRepository implements UserRepository
+class DoctrineUserRepository extends EntityRepository implements UserRepository, RegisteredWithConfirmationProvider
 {
     /**
      * {@inheritdoc}
