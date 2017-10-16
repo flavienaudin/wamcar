@@ -10,6 +10,7 @@ import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
 import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
 import { Toggler } from 'foundation-sites/js/foundation.toggler';
+import { Tabs } from 'foundation-sites/js/foundation.tabs';
 import './components/responsiveDom';
 import './components/search';
 import {
@@ -47,6 +48,16 @@ $(function() {
   if ($togglers) {
     $togglers.each((index, toggler) => {
       return new Toggler($(toggler));
+    });
+  }
+
+  /* Tabs */
+
+  const $tabs = $('[data-tabs]');
+
+  if ($tabs) {
+    $tabs.each((index, tabs) => {
+      return new Tabs($(tabs));
     });
   }
 

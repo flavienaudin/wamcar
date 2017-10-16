@@ -1,0 +1,77 @@
+/* ===========================================================================
+   Tabs
+   =========================================================================== */
+
+.tabs {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  list-style: none;
+  border-bottom: rem-calc(1) solid $border-color;
+  margin: 0;
+
+  /* Exceptions */
+
+  .search-form & {
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
+    }
+  }
+
+
+  /*
+    Title
+    ===================================== */
+
+  &-title {
+    background: white;
+
+    > a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: rem-calc(40);
+      color: #9b9b9b;
+      border: rem-calc(1) solid $border-color;
+      font-weight: bold;
+      margin-right: rem-calc(-1);
+      margin-bottom: rem-calc(-1);
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+
+      @include breakpoint(medium) {
+        height: rem-calc(60);
+        font-size: rem-calc(18);
+        padding-right: rem-calc(30);
+        padding-left: rem-calc(30);
+      }
+    }
+  }
+
+
+  /*
+     Content
+     ===================================== */
+
+  &-content {
+    background: white;
+  }
+
+
+  /*
+     Pannel
+     ===================================== */
+
+  &-panel {
+    display: none;
+
+    &.is-active {
+      display: block;
+    }
+  }
+
+}

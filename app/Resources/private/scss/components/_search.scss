@@ -19,7 +19,8 @@
     }
 
     @include breakpoint(medium) {
-      padding: rem-calc(40) rem-calc(40);
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
     }
 
     @include breakpoint(large) {
@@ -63,7 +64,7 @@
     /* Components */
 
     img {
-      @include breakpoint(medium) {
+      @include breakpoint(large) {
         width: auto;
         max-width: 200%;
       }
@@ -77,7 +78,7 @@
 
   &-form {
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       background: white;
       border-top: rem-calc(5) solid $primary-color;
       box-shadow: 0 rem-calc(10) rem-calc(30) rgba(black, .12);
@@ -94,6 +95,11 @@
   &-header {
     padding-top: rem-calc(20);
     padding-bottom: rem-calc(20);
+
+    @include breakpoint(small only) {
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+    }
 
     @include breakpoint(medium) {
       padding-top: rem-calc(40);
