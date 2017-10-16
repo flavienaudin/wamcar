@@ -28,17 +28,17 @@
 
     {# Ville #}
     <div>
-        {{ form_row(form.city, {'errorMsg' : 'user.field.city.error'}) }}
+        {{ form_row(form.city, {'errorMsg' : 'user.field.city.error'|trans}) }}
     </div>
 
     {# Phone #}
     <div>
-        {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'}) }}
+        {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
     </div>
 
     {# Button submit #}
     <div>
-        <button type="submit">{{ 'button.edit_informations'|trans([], 'user') }}</button>
+        <button type="submit">{{ 'button.edit_informations'|trans }}</button>
     </div>
 
     {{ form_end(form) }}
