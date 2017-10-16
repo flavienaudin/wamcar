@@ -11,8 +11,19 @@
     padding-bottom: rem-calc(90);
   }
 
+  /* Exceptions */
+
   &.block-white {
     border: 0;
+  }
+
+
+  /*
+     Title
+     ===================================== */
+
+  &-title {
+    margin-bottom: 0.5rem;
   }
 
 
