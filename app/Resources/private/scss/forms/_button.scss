@@ -80,4 +80,10 @@ a.button {
   &.white {
     @include buttonTheme(white, $primary-color);
   }
+
+  /* Form margin */
+
+  form & {
+    margin-top: rem-calc(10);
+  }
 }

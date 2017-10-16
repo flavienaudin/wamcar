@@ -17,7 +17,8 @@ $input-border-radius: 0;
 $input-color: black;
 $input-focus-shadow: inset 0 0 2px #13171B;
 $input-focus-border: #13171B;
-$input-margin-bottom: rem-calc(25);
+$input-margin-bottom: rem-calc(20);
+$input-margin-bottom-medium: rem-calc(30);
 $input-padding: 0 rem-calc(10);
 
 
@@ -25,7 +26,12 @@ $input-padding: 0 rem-calc(10);
    Input mixin
    ===================================== */
 
-@mixin inputHeight {
+@mixin inputMargin {
+  margin-bottom: $input-margin-bottom;
+
+  @include breakpoint(medium) {
+    margin-bottom: $input-margin-bottom-medium;
+  }
 }
 
 
@@ -76,6 +82,7 @@ textarea {
 
 .input,
 textarea {
+  @include inputMargin;
   width: 100%;
   margin-bottom: $input-margin-bottom;
 }
@@ -84,4 +91,14 @@ textarea {
   @include buttonHeight;
   @include buttonPadding;
   line-height: $input-line-height;
+
+
+
+  /*
+     Margin
+     ===================================== */
+
+  &-margin {
+    @include inputMargin;
+  }
 }

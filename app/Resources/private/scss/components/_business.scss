@@ -38,7 +38,7 @@
     }
 
     @include breakpoint(large) {
-      margin-right: calc(-100vw / 2 + 80rem / 2.04);
+      margin-right: calc(-100vw / 2 + $global-width);
     }
 
     /* Components */

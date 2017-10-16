@@ -43,7 +43,8 @@ p {
     font-size: rem-calc(14);
 
     @include breakpoint(medium) {
-      font-size: rem-calc(18);
+      font-size: rem-calc(19);
+      line-height: 1.3;
     }
   }
 }

@@ -28,7 +28,6 @@
     ===================================== */
 
   &-title {
-    background: white;
 
     > a {
       display: flex;
@@ -42,6 +41,7 @@
       margin-bottom: rem-calc(-1);
       padding-right: rem-calc(20);
       padding-left: rem-calc(20);
+      transition: $global-transition;
 
       @include breakpoint(medium) {
         height: rem-calc(60);
@@ -49,8 +49,19 @@
         padding-right: rem-calc(30);
         padding-left: rem-calc(30);
       }
+    } // End > a
+
+    /* Active state */
+
+    &.is-active {
+      > a {
+        background: white;
+        border-bottom-color: white;
+        color: $primary-color;
+      }
     }
-  }
+
+  } // End &-title
 
 
   /*
@@ -68,10 +79,17 @@
 
   &-panel {
     display: none;
+    padding-top: rem-calc(15);
+    padding-bottom: rem-calc(15);
 
-    &.is-active {
-      display: block;
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+      padding-bottom: rem-calc(30);
     }
+
+    /* Active */
+
+    &.is-active { display: block; }
   }
 
 }
