@@ -1,6 +1,14 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% set isHomePage = true %}
+
 {% block body %}
+
+    <section class="search-container small-12">
+        <div class="row">
+            {% include 'front/Home/includes/search.html.twig' %}
+        </div>
+    </section>
 
     <section class="section reinsurance-container small-12">
         <div class="row">

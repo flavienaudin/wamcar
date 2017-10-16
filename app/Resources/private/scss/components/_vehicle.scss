@@ -146,10 +146,14 @@
   &-name {
     color: black;
     text-transform: uppercase;
+    padding-top: rem-calc(7);
 
     @include breakpoint(large down) {
       margin-bottom: rem-calc(2);
-      padding-top: rem-calc(7);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-bottom: 0.5rem;
     }
   }
 

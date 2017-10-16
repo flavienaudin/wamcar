@@ -38,4 +38,12 @@ p {
       font-size: rem-calc(14);
     }
   }
+
+  &.medium {
+    font-size: rem-calc(14);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(18);
+    }
+  }
 }

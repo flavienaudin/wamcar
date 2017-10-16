@@ -37,12 +37,38 @@ $header-background: white;
     font-size: rem-calc(20);
   }
 
+  /* Transparent */
+
+  &.is-transparent {
+    box-shadow: none;
+
+    @include breakpoint(large) {
+      background: none;
+    }
+  }
+
+  &.is-fix {
+    transition: $global-transition;
+
+    @include breakpoint(large) {
+      position: fixed;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+
 
   /*
      Button
      ===================================== */
 
   &-button {
+
+    @include breakpoint(medium down) {
+      &::before { font-size: rem-calc(17); }
+    }
 
     @include breakpoint(large down) {
       text-align: center;
@@ -54,16 +80,18 @@ $header-background: white;
       &::before { width: 100%; }
     } // End MQ large down
 
-    @include breakpoint(medium down) {
-      &::before { font-size: rem-calc(17); }
-    }
-
     @include breakpoint(large only) {
       width: $header-height-medium;
       height: $header-height-medium;
 
       &::before { font-size: rem-calc(20); }
     } // End MQ large only
+
+    @include breakpoint(large) {
+      .is-transparent & {
+        border: 0;
+      }
+    } // End MQ large
 
     @include breakpoint(xlarge) {
       &::before { font-size: rem-calc(17); }

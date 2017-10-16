@@ -11,6 +11,7 @@ import { Abide } from 'foundation-sites/js/foundation.abide';
 import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
 import { Toggler } from 'foundation-sites/js/foundation.toggler';
 import './components/responsiveDom';
+import './components/search';
 import {
   activeClass
 } from './settings/settings.js';
