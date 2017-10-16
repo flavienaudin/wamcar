@@ -13,13 +13,13 @@
     position: relative;
     z-index: 1;
     background: #f7f7f7;
-    min-height: 100vh;
 
     @include breakpoint(medium down) {
       border-top: rem-calc(1) solid $border-color;
     }
 
     @include breakpoint(large) {
+      min-height: 100vh;
       padding-top: $header-height-medium + rem-calc(40);
       padding-bottom: rem-calc(50);
     }

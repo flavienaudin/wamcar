@@ -13,6 +13,7 @@ import { Toggler } from 'foundation-sites/js/foundation.toggler';
 import { Tabs } from 'foundation-sites/js/foundation.tabs';
 import './components/responsiveDom';
 import './components/search';
+import './components/select';
 import {
   activeClass
 } from './settings/settings.js';
@@ -31,6 +32,14 @@ $(function() {
 
   $offCanvas.each((index, offcanvas) => {
     return new OffCanvas($(offcanvas));
+  });
+
+  /* Abide */
+
+  const $abide = $('[data-abide]');
+
+  $abide.each((inddex, abide) => {
+    return new Abide($(abide));
   });
 
   /* Toogle */

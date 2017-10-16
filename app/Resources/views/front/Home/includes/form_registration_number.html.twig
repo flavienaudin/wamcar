@@ -1,11 +1,12 @@
-<form class="block-grid">
+<form class="block-grid" data-abide novalidate>
     <div class="column small-12">
         <label for="imma">Numéro d'immatriculation</label>
-        <input type="text" name="imma" id="imma" class="input">
+        <input type="text" name="imma" id="imma" class="input" required>
+        <small class="form-error">Veuillez indiqué un numéro d'immatriculation.</small>
     </div>
     <div class="input-margin block-grid column small-12">
-        <label for="imma" class="no-margin small-auto">Je cherche un véhicule pour le template</label>
-        <ul class="block-grid small-right no-margin no-bullet">
+        <label for="imma" class="no-margin small-8 medium-auto">Je cherche un véhicule pour le template</label>
+        <ul class="block-grid small-right">
             <li>
                 <input type="radio" name="vehicle-replace" id="yes" class="is-hidden">
                 <label for="yes" class="radio-item">Oui</label>
