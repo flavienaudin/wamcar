@@ -36,25 +36,58 @@ $mission-position-xlarge: calc(50% - #{$mission-width-xlarge/2}) bottom;
    ===================================== */
 
 .mission {
-  background-image: $mission-background;
-  background-position: $mission-position-small;
-  background-repeat: no-repeat;
-  background-size: $mission-size-small;
-  padding-bottom: $mission-padding-small;
+  position: relative;
+  z-index: -1;
 
-  @include breakpoint(medium) {
-    background-position: $mission-position-medium;
-    background-size: $mission-size-medium;
-    padding-bottom: $mission-padding-medium;
+
+  /*
+    Body
+    ===================================== */
+
+  &-body {
+    @include breakpoint(large) {
+      padding-left: rem-calc(40);
+    }
   }
 
-  @include breakpoint(large) {
-    background-position: $mission-position-large;
-    background-size: $mission-size-large;
-    padding-bottom: $mission-padding-large;
-  }
 
-  @include breakpoint(xlarge) {
-    background-position: $mission-position-xlarge;
+  /*
+     Image
+     ===================================== */
+
+  &-image {
+    position: relative;
+
+    @include breakpoint(small only) {
+      margin-top: rem-calc(-40);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-top: rem-calc(-200);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: rem-calc(150);
+      height: rem-calc(150);
+      background: rgba(white, .1);
+      border-radius: 50%;
+      filter : blur(rem-calc(40));
+      transform: translate3d(-50%, -50%, 0);
+      z-index: -1;
+
+      @include breakpoint(large) {
+        width: rem-calc(350);
+        height: rem-calc(350);
+      }
+
+      @include breakpoint(xlarge) {
+        transform: translate3d(-50%, -10%, 0);
+      }
+    }
+
   }
 }
