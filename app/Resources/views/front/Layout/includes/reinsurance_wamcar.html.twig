@@ -15,7 +15,7 @@
 {% set reinsurance_class = reinsurance_class|default('') %}
 
 <ul class="reinsurance-wamcar block-grid small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
-    {% for reinsurance in reinsurance_list %}
+    {% for index, reinsurance in reinsurance_list %}
         <li class="column block-grid align-middle large-right-collapse">
             <span class="reinsurance-wamcar-image small-shrink medium-12 large-shrink text-center"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" width="130"></span>
             <p class="no-margin small-6 medium-12 large-7">{{ reinsurance.content }}</p>

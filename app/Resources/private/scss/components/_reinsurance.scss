@@ -91,6 +91,7 @@
       position: relative;
       z-index: 1;
       margin-top: rem-calc(65);
+      margin-bottom: rem-calc(65);
 
       &::after {
         content: "";
@@ -111,6 +112,18 @@
         margin-bottom: rem-calc(20);
       }
     }
+
+    p {
+      @include breakpoint(large) {
+        padding-right: rem-calc(15);
+        padding-left: rem-calc(15);
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: 0;
+        padding-left: rem-calc(25);
+      }
+    }
   } // End &-wamcar
 
 
@@ -120,12 +133,20 @@
 
   &-wamcar-image {
     position: relative;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
     border-radius: 50%;
     margin-right: rem-calc(25);
 
     @include breakpoint(medium only) {
       margin: 0 auto rem-calc(20);
+    }
+
+    @include breakpoint(large) {
+      margin: 0;
+    }
+
+    &,
+    &::before {
+      box-shadow: 0 rem-calc(10) rem-calc(10) rgba(black, .15);
     }
 
     &::before,
@@ -145,7 +166,6 @@
       color: $primary-color;
       font-weight: bold;
       border-radius: 50%;
-      box-shadow: 0 10px 10px rgba(0, 0, 0, 0.15);
 
       @include breakpoint(medium down) {
         top: rem-calc(6);
@@ -187,7 +207,7 @@
     padding-left: rem-calc(20);
 
     @include breakpoint(small only) {
-      margin-top: rem-calc(25);
+      margin-top: rem-calc(10);
     }
 
     @include breakpoint(medium only) {
