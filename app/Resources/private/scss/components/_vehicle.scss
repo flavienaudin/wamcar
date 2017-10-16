@@ -65,6 +65,10 @@
       @include breakpoint(medium) {
         margin-bottom: rem-calc(30);
       }
+
+      @include breakpoint(large) {
+        margin-bottom: 0;
+      }
     }
 
   } // End &-filter

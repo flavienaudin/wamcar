@@ -1,0 +1,47 @@
+/* ===========================================================================
+   List
+   =========================================================================== */
+
+.list {
+
+
+  /*
+    Border
+    ===================================== */
+
+  &-border {
+
+    /* Components */
+
+    > li {
+      padding-top: rem-calc(20);
+      padding-bottom: rem-calc(20);
+
+      &:not(:first-child) {
+        border-top: rem-calc(1) solid $border-color;
+      }
+    }
+
+    p { margin-bottom: 0; }
+
+    small {
+      display: block;
+      color: $medium-gray;
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(14);
+        line-height: rem-calc(20);
+      }
+    }
+
+    /* Exceptions */
+
+    .mission & {
+      > li {
+        border-color: rgba(white, .1);
+      }
+    }
+
+  } // End &-border
+
+}

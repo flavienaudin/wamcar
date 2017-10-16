@@ -1,0 +1,60 @@
+/* ===========================================================================
+   Mission
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$mission-background: url('#{$img-folder}/background/magicien.svg');
+
+/* Small */
+$mission-size-small: calc(100% - #{rem-calc(40)}) auto;
+$mission-position-small: center bottom;
+$mission-padding-small: rem-calc(360);
+
+/* Medium */
+$mission-position-medium: rem-calc(-20) bottom;
+$mission-size-medium: calc(60% - #{rem-calc(20)}) auto;
+$mission-padding-medium: rem-calc(100);
+
+/* Large */
+$mission-width-large: rem-calc(575);
+$mission-position-large: calc(70% - #{$mission-width-large/2}) bottom;
+$mission-size-large: $mission-width-large auto;
+$mission-padding-large: rem-calc(130);
+
+/* xLarge */
+$mission-width-xlarge: rem-calc(675);
+$mission-position-xlarge: calc(50% - #{$mission-width-xlarge/2}) bottom;
+
+
+/*
+   Class
+   ===================================== */
+
+.mission {
+  background-image: $mission-background;
+  background-position: $mission-position-small;
+  background-repeat: no-repeat;
+  background-size: $mission-size-small;
+  padding-bottom: $mission-padding-small;
+
+  @include breakpoint(medium) {
+    background-position: $mission-position-medium;
+    background-size: $mission-size-medium;
+    padding-bottom: $mission-padding-medium;
+  }
+
+  @include breakpoint(large) {
+    background-position: $mission-position-large;
+    background-size: $mission-size-large;
+    padding-bottom: $mission-padding-large;
+  }
+
+  @include breakpoint(xlarge) {
+    background-position: $mission-position-xlarge;
+  }
+}
