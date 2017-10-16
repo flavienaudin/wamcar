@@ -1,0 +1,7 @@
+Wamcar\User\Title:
+    type: embeddable
+    columnPrefix: title_
+    fields:
+        value:
+            type: string
+            nullable: true

@@ -1,3 +1,8 @@
 front:
     resource: "routing/front.yml"
     prefix: /
+
+# Security processes
+security_register:
+    path: /inscription
+    defaults: { _controller: AppBundle:Front\Security:register }

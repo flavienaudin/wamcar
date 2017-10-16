@@ -1,0 +1,10 @@
+Wamcar\User\City:
+    type: embeddable
+    columnPrefix: city_
+    fields:
+        postalCode:
+            type: string
+            nullable: true
+        name:
+            type: string
+            nullable: true

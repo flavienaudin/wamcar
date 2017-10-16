@@ -2,3 +2,18 @@ imports:
     - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
+
+services:
+    # SECURITY
+    wamcar.security.password_encoder:
+        class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+        factory: ['@security.encoder_factory', 'getEncoder']
+        arguments: [AppBundle\Doctrine\Entity\ApplicationUser]
+
+    AppBundle\Security\UserRegistrationService:
+        class: AppBundle\Security\UserRegistrationService
+        arguments:
+            - '@wamcar.security.password_encoder'
+            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
+            - '@security.token_storage'
+            - '@session'

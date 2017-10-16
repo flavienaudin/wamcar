@@ -8,3 +8,8 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineVehicleRepository'
         factory: 'doctrine.orm.entity_manager:getRepository'
         arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
+
+    AppBundle\Doctrine\Repository\DoctrineUserRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['AppBundle\Doctrine\Entity\ApplicationUser']

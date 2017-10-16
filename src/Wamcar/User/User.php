@@ -6,48 +6,89 @@ use Wamcar\Vehicle\Vehicle;
 
 class User
 {
+    /** @var int */
+    protected $id;
     /** @var string */
-    private $email;
+    protected $email;
+    /** @var  ?Title */
+    protected $title;
     /** @var ?string */
-    private $civility;
+    protected $name;
     /** @var ?string */
-    private $name;
-    /** @var ?string */
-    private $phone;
-    /** @var ?string */
-    private $zipCode;
-    /** @var ?string */
-    private $city;
+    protected $phone;
+    /** @var  ?City */
+    protected $city;
+
     /** @var Vehicle[]|array */
-    private $vehicles;
+    protected $vehicles;
 
     /**
      * User constructor.
      * @param string $email
-     * @param string|null $name
-     * @param string|null $civility
-     * @param string|null $phone
-     * @param string|null $zipCode
-     * @param string|null $city
      * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
-        string $name = null,
-        string $civility = null,
-        string $phone = null,
-        string $zipCode = null,
-        string $city = null,
-        Vehicle $firstVehicle = null)
+        Vehicle $firstVehicle = null
+    )
     {
         $this->email = $email;
-        $this->civility = $civility;
-        $this->name = $name;
-        $this->phone = $phone;
-        $this->zipCode = $zipCode;
-        $this->city = $city;
         $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
     }
 
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return Title|null
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @return City|null
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return array|Vehicle[]
+     */
+    public function getVehicles()
+    {
+        return $this->vehicles;
+    }
 }

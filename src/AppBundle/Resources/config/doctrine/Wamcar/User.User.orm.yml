@@ -1,0 +1,38 @@
+Wamcar\User\User:
+
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        basic: Wamcar\User\User
+        application: AppBundle\Doctrine\Entity\ApplicationUser
+
+    exclusion_policy: ALL
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    embedded:
+        title:
+            class: Wamcar\User\Title
+        city:
+            class: Wamcar\User\City
+
+    fields:
+        email:
+            type: string
+            length: 191   # needed to index field in utf8mb4
+            unique: true
+        name:
+            type: string
+            nullable: true
+        phone:
+            type: string
+            nullable: true
