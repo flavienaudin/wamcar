@@ -4,7 +4,7 @@ parameters:
         "twingo-3":
           picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
           brand: "Renault"
-          name: "Twingo III"
+          name: "Twingo III lorem ipsum bonjour"
           model: "1.0 SCe 70 BC Intens"
           years: "2016"
           km: "13 280 km"

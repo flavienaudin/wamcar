@@ -103,6 +103,14 @@
         z-index: -1;
       }
     } // End MQ large
+
+    /* Components */
+
+    > li {
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(20);
+      }
+    }
   } // End &-wamcar
 
 
@@ -220,7 +228,9 @@
         height: rem-calc(77);
         font-size: rem-calc(28);
       }
-    }
-  }
+
+    } // End &::before
+
+  } // End &-video-button
 
 }
