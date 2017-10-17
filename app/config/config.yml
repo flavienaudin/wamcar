@@ -59,6 +59,10 @@ doctrine:
             collate: utf8mb4_unicode_ci
         types:
             uuid:  Ramsey\Uuid\Doctrine\UuidType
+            usertitle:  AppBundle\Doctrine\Type\UserTitleType
+            vehicletransmission:  AppBundle\Doctrine\Type\VehicleTransmissionType
+            vehiclemaintenance:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
+            vehiclesafetytest:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
