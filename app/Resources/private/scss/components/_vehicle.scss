@@ -13,12 +13,12 @@
     border-bottom: rem-calc(1) solid $border-color;
     margin-top: rem-calc(20);
     margin-bottom: rem-calc(15);
-    padding-bottom: rem-calc(20);
+    padding: 0 rem-calc(10) rem-calc(20);
 
     @include breakpoint(medium) {
       margin-top: rem-calc(25);
       margin-bottom: rem-calc(25);
-      padding-bottom: rem-calc(30);
+      padding: 0 0 rem-calc(30);
     }
 
     @include breakpoint(xlarge) {

@@ -231,6 +231,7 @@
       border-radius: 50%;
       font-size: rem-calc(14);
       color: $primary-color;
+      text-indent: rem-calc(4);
       margin-right: 0;
 
       @include breakpoint(small only) {

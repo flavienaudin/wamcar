@@ -5,6 +5,26 @@
 .l-footer {
   background: #cf0612;
 
+  /* Components */
+
   &,
   a { color: white; }
+
+
+  /*
+     Top
+     ===================================== */
+
+  &-top,
+  &-bottom {
+    @include breakpoint(small only) {
+      padding-right: rem-calc(10);
+      padding-left: rem-calc(10);
+    }
+  }
+
+  &-top {
+    background: #e30613;
+    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+  }
 }
