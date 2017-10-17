@@ -4,14 +4,8 @@ namespace AppBundle\Form\EntityBuilder;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use AppBundle\Form\DTO\VehicleDTO;
-use Wamcar\Vehicle\Engine;
-use Wamcar\Vehicle\Enum\Fuel;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestState;
-use Wamcar\Vehicle\Enum\Transmission;
-use Wamcar\Vehicle\Make;
-use Wamcar\Vehicle\Model;
-use Wamcar\Vehicle\ModelVersion;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\Vehicle;
 
@@ -23,10 +17,12 @@ class PersonalVehicleBuilder
      */
     public static function buildFromDTO(VehicleDTO $vehicleDTO): PersonalVehicle
     {
+        dump($vehicleDTO);
         // TODO : implement real data when form is developed
+
         $vehicle = new PersonalVehicle(
-            new ModelVersion('TDi BLuemotion Carat', new Model('Tiguan', new Make('VW')), new Engine('TDi Bluemotion', Fuel::DIESEL())),
-            Transmission::MANUAL(),
+            $vehicleDTO->getModelVersion(),
+            $vehicleDTO->getTransmission(),
             null,
             new \DateTimeImmutable(),
             [],

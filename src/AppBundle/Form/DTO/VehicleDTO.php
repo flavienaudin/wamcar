@@ -2,10 +2,18 @@
 
 namespace AppBundle\Form\DTO;
 
+use Wamcar\Vehicle\Engine;
+use Wamcar\Vehicle\Enum\Transmission;
+use Wamcar\Vehicle\ModelVersion;
+
 class VehicleDTO
 {
     const DEFAULT_PICTURE_COUNT = 4;
 
+    /** @var string */
+    public $registrationNumber;
+    /** @var VehicleIdentificationDTO */
+    public $identification;
     /** @var VehiclePictureDTO[]|array */
     public $pictures;
 
@@ -37,4 +45,19 @@ class VehicleDTO
         }
     }
 
+    /**
+     * @return ModelVersion
+     */
+    public function getModelVersion(): ?ModelVersion
+    {
+        return $this->identification->getModelVersion();
+    }
+
+    /**
+     * @return Transmission
+     */
+    public function getTransmission(): Transmission
+    {
+        return $this->identification->transmission;
+    }
 }

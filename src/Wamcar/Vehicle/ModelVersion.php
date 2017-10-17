@@ -23,4 +23,20 @@ final class ModelVersion
         $this->model = $model;
         $this->engine = $engine;
     }
+
+    /**
+     * @return Model
+     */
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
+    /**
+     * @return Engine
+     */
+    public function getEngine(): Engine
+    {
+        return $this->engine;
+    }
 }

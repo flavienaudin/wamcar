@@ -5,8 +5,8 @@ namespace Wamcar\Vehicle\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static Fuel MANUAL()
- * @method static Fuel AUTOMATIC()
+ * @method static Transmission MANUAL()
+ * @method static Transmission AUTOMATIC()
  */
 final class Transmission extends Enum
 {

@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends ':front/Layout:layout.html.twig' %}
 
 {% form_theme vehicleForm _self %}
 
@@ -14,6 +14,8 @@
 {% block body %}
 
     {{ form_start(vehicleForm) }}
+
+    {{ form_widget(vehicleForm.identification) }}
 
     <div id="js-pictures-holder" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
         {% for pictureSubForm in vehicleForm.pictures %}
