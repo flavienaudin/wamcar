@@ -14,3 +14,42 @@ Wamcar\Vehicle\PersonalVehicle:
             targetEntity: AppBundle\Doctrine\Entity\VehiclePicture
             mappedBy: vehicle
             cascade: ["persist", "merge"]
+
+    embedded:
+        registration:
+            class: Wamcar\Vehicle\Registration
+        modelVersion:
+            class: Wamcar\Vehicle\ModelVersion
+
+    fields:
+    # TODO : use specific type for enums
+#        transmission:
+#        safetyTest:
+#        maintenanceState:
+        registrationDate:
+            type: date_immutable
+        bodyState:
+            type: integer
+        engineState:
+            type: integer
+            nullable: true
+        tyreState:
+            type: integer
+            nullable: true
+        isTimingBeltChanged:
+            type: boolean
+            nullable: true
+        isImported:
+            type: boolean
+            nullable: true
+        isFirstHand:
+            type: boolean
+            nullable: true
+        additionalInformation:
+            type: text
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create

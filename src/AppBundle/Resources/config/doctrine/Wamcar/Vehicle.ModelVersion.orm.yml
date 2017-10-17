@@ -1,0 +1,14 @@
+Wamcar\Vehicle\ModelVersion:
+
+    type: embeddable
+    columnPrefix: version_
+
+    fields:
+        name:
+            type: string
+
+    embedded:
+        engine:
+            class: Wamcar\Vehicle\Engine
+        model:
+            class: Wamcar\Vehicle\Model
