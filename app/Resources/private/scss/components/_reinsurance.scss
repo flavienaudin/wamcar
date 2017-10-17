@@ -21,7 +21,7 @@
     ===================================== */
 
   &-container {
-    background: #17303b;
+    background: #17303b url('#{$img-folder}/background/bg-reinsurance.jpg') center center/cover no-repeat;
     padding-right: rem-calc(35);
     padding-left: rem-calc(35);
 
@@ -73,6 +73,17 @@
     }
 
   } // End &-item
+
+
+
+  /*
+     Wamcar container
+     ===================================== */
+
+  &-wamcar-container {
+    background: $primary-color url('#{$img-folder}/background/bg-reinsurance-wamcar.jpg') center center/cover no-repeat;
+    color: white;
+  }
 
 
 
