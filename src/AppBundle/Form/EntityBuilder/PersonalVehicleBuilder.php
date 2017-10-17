@@ -17,7 +17,6 @@ class PersonalVehicleBuilder
      */
     public static function buildFromDTO(VehicleDTO $vehicleDTO): PersonalVehicle
     {
-        dump($vehicleDTO);
         // TODO : implement real data when form is developed
 
         $vehicle = new PersonalVehicle(
