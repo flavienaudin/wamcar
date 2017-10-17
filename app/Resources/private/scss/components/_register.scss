@@ -64,7 +64,7 @@
      Step
      ===================================== */
 
-  &-step {
+  &-step-navigation {
     counter-reset: section;
     flex: 1;
 
@@ -79,7 +79,7 @@
      Step item
      ===================================== */
 
-  &-step-item {
+  &-step-navigation-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,6 +107,8 @@
     }
 
     &:not(.is-active) { color: $body-font-color; }
+
+    &.is-disabled { pointer-events: none; }
 
     &::before {
       content: counter(section);
