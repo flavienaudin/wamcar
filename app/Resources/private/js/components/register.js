@@ -43,6 +43,14 @@ if ($registerForm) {
     return new Promise((resolve) => isValid && resolve());
   };
 
-  document.querySelector('.js-carousel-prev').addEventListener('click', () => carousel.prev());
-  document.querySelector('.js-carousel-next').addEventListener('click', () => validStep().then(() => carousel.next()));
+  document.querySelector('.js-carousel-prev').addEventListener('click', () => {
+    carousel.prev();
+    initAbide();
+  });
+  document.querySelector('.js-carousel-next').addEventListener('click', () => {
+    validStep().then(() => {
+      carousel.next();
+      initAbide();
+    });
+  });
 }
