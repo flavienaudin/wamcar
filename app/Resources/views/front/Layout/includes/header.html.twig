@@ -1,6 +1,6 @@
 {% set isUserPro = isUserPro|default(false) %}
 {% set isHomePage = isHomePage|default(false) %}
-<header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ isHomePage ? 'is-transparent is-fix' : '' }}">
+<header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ isHomePage ? 'is-transparent is-fixed' : '' }} {{ is_register_page ? 'has-no-shadow' : '' }}">
     {% include "front/Layout/includes/logo.html.twig" %}
     {% block headerCenter %}
         {% if isUserPro %}

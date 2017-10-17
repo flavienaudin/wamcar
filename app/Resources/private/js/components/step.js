@@ -34,8 +34,8 @@ class Step {
    * @memberof Step
    */
   initAbide() {
-    const step = new Abide($(this._getCurrentSlideItem()));
-    this.step = step;
+    this._init && this.updateProgressBar();
+    this.step = new Abide($(this._getCurrentSlideItem()));
   }
 
   /**
@@ -46,9 +46,9 @@ class Step {
    * @memberof Step
    */
   _initCarousel() {
-    return new Siema({
+    const carousel = new Siema({
       selector: '#js-step',
-      duration: 200,
+      duration: 600,
       easing: 'ease-out',
       perPage: 1,
       startIndex: 0,
@@ -56,9 +56,46 @@ class Step {
       multipleDrag: false,
       threshold: 20,
       loop: false,
-      onInit: () => {},
-      onChange: () => {}
+      onInit: () => {
+        this._init = true;
+      },
+      onChange: function() {
+        this.setAutoHeight();
+      }
     });
+
+    Siema.prototype.setAutoHeight = function(stopTime) {
+      let that, timeout;
+      that = this;
+
+      function autoHeight() {
+        let currentItems, min, max, itemHeightList, height, maxHeight, i;
+
+        min = that.currentSlide;
+        max =  min + that.perPage;
+        itemHeightList = [];
+
+        for (i = min; i < max; i++) {
+          height = parseInt(that.innerElements[i].scrollHeight, 10);
+          itemHeightList.push(height);
+        }
+
+        maxHeight = Math.max.apply(null, itemHeightList);
+        that.sliderFrame.style.height = maxHeight + 'px';
+      }
+
+      window.addEventListener('resize', function() {
+        that.sliderFrame.style.height = '';
+        clearTimeout(timeout);
+        timeout = setTimeout(autoHeight, 500);
+      });
+
+      autoHeight();
+    };
+
+    carousel.setAutoHeight();
+
+    return carousel;
   }
 
   /**
@@ -111,8 +148,19 @@ class Step {
    */
   _getCurrentSlideItem() {
     const currentSlide = this.carousel.currentSlide + 1;
-    const $currentSlide = document.querySelector(`[data-step="${currentSlide}"`);
+    const $currentSlide = document.querySelector(`[data-step="${currentSlide}"]`);
     return $currentSlide;
+  }
+
+  /**
+   * Return the active item in step navigation
+   *
+   * @private
+   * @returns {DOM Element}
+   * @memberof Step
+   */
+  _getActiveItemNavigation() {
+    return document.querySelector('.js-step-navigation.is-active');
   }
 
   /**
@@ -122,28 +170,46 @@ class Step {
    * @memberof Step
    */
   updateNavigation(direction) {
-    const $activeElement = document.querySelector('.js-step-navigation.is-active');
+    const $activeElement = this._getActiveItemNavigation();
     const $nextElement = $activeElement.nextElementSibling;
+    const offSetLeftNextElement = $nextElement.offsetLeft;
     const $prevElement = $activeElement.previousElementSibling;
+    const offSetLeftPrevElement = $prevElement && $prevElement.offsetLeft;
 
     if (direction === 'next') {
       $activeElement.classList.remove(activeClass);
       $nextElement.classList.remove(disabledClass);
       $nextElement.classList.add(activeClass);
+      this.updateProgressBar(offSetLeftNextElement);
     } else {
       $activeElement.classList.remove(activeClass);
       $activeElement.classList.add(disabledClass);
       $prevElement.classList.add(activeClass);
+      this.updateProgressBar(offSetLeftPrevElement);
     }
   }
 
+  /**
+   * Update progress bar on step change
+   *
+   * @memberof Step
+   */
+  updateProgressBar() {
+    const $progressBar = document.getElementById('js-step-progress-bar');
+    const value = this._getActiveItemNavigation().offsetLeft;
+    $progressBar.style.width = `${value}px`;
+  }
+
 }
+
+/* Running */
 
 if ($step) {
 
   const $stepNavigation = document.getElementById('js-register-step-navigation');
   const step = new Step();
   step.initAbide();
+
 
   // Button prev step
   document.querySelector('.js-carousel-prev').addEventListener('click', () => {
@@ -164,7 +230,7 @@ if ($step) {
   });
 
   // Step navigation
-  [...$stepNavigation.querySelectorAll('a')].forEach((item) => {
+  [...document.querySelectorAll('.js-step-navigation')].forEach((item) => {
     item.addEventListener('click', () => {
       const currentSlide = step.getCurrentSlide();
       const index = getIndex(item);

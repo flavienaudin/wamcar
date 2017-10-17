@@ -48,7 +48,7 @@ $header-background: white;
     }
   }
 
-  &.is-fix {
+  &.is-fixed {
     transition: $global-transition;
 
     @include breakpoint(large) {
@@ -58,6 +58,10 @@ $header-background: white;
       left: 0;
       right: 0;
     }
+  }
+
+  &.has-no-shadow {
+    box-shadow: none;
   }
 
 

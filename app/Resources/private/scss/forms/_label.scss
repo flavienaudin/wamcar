@@ -37,11 +37,24 @@ label,
 
   /* Components */
 
+  > span,
   > a {
     color: $body-font-color;
     font-weight: normal;
+  }
+
+  > a {
     text-decoration: underline;
     margin-left: auto;
+  }
+
+  > span {
+    font-size: rem-calc(11);
+    margin-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(14);
+    }
   }
 
   /* Exceptions */
