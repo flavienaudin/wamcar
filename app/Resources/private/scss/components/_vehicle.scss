@@ -58,6 +58,11 @@
         padding-right: rem-calc(20);
         padding-left: rem-calc(20);
       }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(30);
+        padding-left: rem-calc(30);
+      }
     }
 
     label,
@@ -86,10 +91,15 @@
   &-list {
     display: flex;
     flex-wrap: wrap;
+    margin-top: rem-calc(-10);
     margin-bottom: rem-calc(25);
 
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-20);
+    }
+
     @include breakpoint(large) {
-      margin-top: rem-calc(10);
+      margin-top: rem-calc(-10);
       margin-bottom: rem-calc(40);
     }
   }

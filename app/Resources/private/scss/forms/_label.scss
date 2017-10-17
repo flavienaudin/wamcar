@@ -35,6 +35,15 @@ label,
     margin-bottom: $label-margin-bottom-medium;
   }
 
+  /* Components */
+
+  > a {
+    color: $body-font-color;
+    font-weight: normal;
+    text-decoration: underline;
+    margin-left: auto;
+  }
+
   /* Exceptions */
 
   form & {

@@ -1,24 +1,10 @@
 <header class="off-canvas-header show-for-large">
      <strong>Espace membre</strong>
-     <button class="large-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
+     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
 </header>
 <div class="off-canvas-content off-canvas-separator">
-     <form data-abide novalidate>
-        <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email" class="input" required>
-            <small class="form-error">Veuillez indiquer votre adresse email.</small>
-        </div>
-        <div>
-            <label for="password">Mot de passe <a data-open="js-password-lost">Mot de passe oublié ?</a></label>
-            <input type="password" name="password" id="password" class="input" required>
-            <small class="form-error">Veuillez indiquer votre mot de passe.</small>
-        </div>
-        <div class="input-margin">
-            <button type="submit" class="button full-width">Connexion</button>
-        </div>
-    </form>
+    {% include 'front/User/includes/form_login.html.twig' %}
+    {% include 'front/User/includes/modal_password_lost.html.twig' %}
 </div>
 <div class="off-canvas-content">
     <div>

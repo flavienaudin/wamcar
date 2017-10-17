@@ -27,10 +27,12 @@
     small {
       display: block;
       color: $medium-gray;
+      margin-top: rem-calc(5);
 
       @include breakpoint(medium) {
         font-size: rem-calc(14);
         line-height: rem-calc(20);
+        margin-top: rem-calc(10);
       }
     }
 
