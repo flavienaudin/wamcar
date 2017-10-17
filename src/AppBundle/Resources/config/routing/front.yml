@@ -4,6 +4,12 @@ front_default:
         _controller: FrameworkBundle:Template:template
         template: front/Home/home.html.twig
 
+register:
+    path: /inscription/particulier
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Register/user.html.twig
+
 front_vehicle_registration:
     path: /je-vends-mon-vehicule
     defaults:

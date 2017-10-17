@@ -10,4 +10,16 @@
 
 .l-main {
   overflow-x: hidden;
+  padding-top: rem-calc(25);
+  padding-bottom: rem-calc(35);
+
+  @include breakpoint(medium) {
+    padding-top: rem-calc(40);
+    padding-bottom: rem-calc(60);
+  }
+
+  @include breakpoint(large) {
+    padding-top: rem-calc(60);
+    padding-bottom: rem-calc(80);
+  }
 }

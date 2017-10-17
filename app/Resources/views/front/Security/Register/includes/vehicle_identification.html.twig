@@ -1,0 +1,86 @@
+<aside class="column small-12 medium-5 medium-order-2 large-5 xlarge-4 xlarge-left-collapse xlarge-offset-1">
+    <div class="register-aside">
+        <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
+        <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
+    </div>
+    <div class="register-aside no-padding">
+        {% include 'front/Layout/includes/svg/hero_1.html.twig' %}
+    </div>
+</aside>
+<section class="column small-12 medium-7">
+    <div class="register-infos input-margin block-grid">
+        <div class="small-12 large-8">
+            <label for="immat">Immatriculation <span>Facultatif</span></label>
+            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+        </div>
+        <div class="small-12 large-4 align-self-bottom">
+            <input type="text" name="immat" id="immat" class="input no-margin">
+        </div>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="brand" class="medium-no-margin small-12 medium-4">Marque</label>
+        <select name="brand" id="brand" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir marque</option>
+            <option value="peugeot">Peugeot</option>
+            <option value="peugeot">Peugeot</option>
+            <option value="peugeot">Peugeot</option>
+            <option value="peugeot">Peugeot</option>
+            <option value="peugeot">Peugeot</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer la marque du véhicule</small>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="model" class="medium-no-margin small-12 medium-4">Modèle</label>
+        <select name="model" id="model" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir modèle</option>
+            <option value="308">308</option>
+            <option value="308">308</option>
+            <option value="308">308</option>
+            <option value="308">308</option>
+            <option value="308">308</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer le modèle du véhicule</small>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="version" class="medium-no-margin small-12 medium-4">Version</label>
+        <select name="version" id="version" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir version</option>
+            <option value="1.6">1.6 HDI 92 Business 5P</option>
+            <option value="1.6">1.6 HDI 92 Business 5P</option>
+            <option value="1.6">1.6 HDI 92 Business 5P</option>
+            <option value="1.6">1.6 HDI 92 Business 5P</option>
+            <option value="1.6">1.6 HDI 92 Business 5P</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer la version du véhicule</small>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="motor" class="medium-no-margin small-12 medium-4">Motorisation</label>
+        <select name="motor" id="motor" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir motorisation</option>
+            <option value="1.6">1.6l 155 ch</option>
+            <option value="1.6">1.6l 155 ch</option>
+            <option value="1.6">1.6l 155 ch</option>
+            <option value="1.6">1.6l 155 ch</option>
+            <option value="1.6">1.6l 155 ch</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer la motorisation du véhicule</small>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="boite-vitesse" class="medium-no-margin small-12 medium-4">Boite de vitesse</label>
+        <select name="boite-vitesse" id="boite-vitesse" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir boite de vitesse</option>
+            <option value="manuel">Manuelle</option>
+            <option value="auto">Automatique</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer la boite de vitesse du véhicule</small>
+    </div>
+    <div class="block-grid input-margin">
+        <label for="energy" class="medium-no-margin small-12 medium-4">Energie</label>
+        <select name="energy" id="energy" class="no-margin small-12 medium-8" required>
+            <option value="">Choisir energie</option>
+            <option value="manuel">Dielsel</option>
+            <option value="auto">Essence</option>
+        </select>
+        <small class="form-error medium-offset-4">Veuillez indiquer l'énergie du véhicule</small>
+    </div>
+</section>

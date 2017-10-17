@@ -1,0 +1,32 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set isRegisterPage = true %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    <section class="small-12">
+        <form id="js-register-form" class="register-form row">
+            <ul id="js-register-carousel" class="full-width">
+                <li class="block-grid" data-step="1">
+                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
+                </li>
+                <li class="block-grid" data-step="2">
+                    <div>
+                        <label for="test">test</label>
+                        <input type="text" name="test" id="test" class="input" required>
+                        <small class="form-error">Test</small>
+                    </div>
+                </li>
+            </ul>
+            <nav class="column small-12">
+                <div class="register-navigation block-grid small-12">
+                    <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
+                    <button type="button" class="js-carousel-next button small-6 medium-4 large-3 small-right">Étape suivante</button>
+                </div>
+            </nav>
+        </form>
+    </section>
+
+{% endblock body %}
