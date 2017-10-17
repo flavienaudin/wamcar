@@ -42,6 +42,8 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => RegistrationDTO::class,
+            'translation_domain' => 'security',
+            'label_format' => 'user.field.%name%.label',
         ));
     }
 }

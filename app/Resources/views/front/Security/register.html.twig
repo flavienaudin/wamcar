@@ -1,5 +1,6 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% trans_default_domain 'security' %}
 {% block title %}{% endblock title %}
 {% block meta_description %}{% endblock meta_description %}
 
@@ -9,7 +10,7 @@
 
     {# Adresse e-mail #}
     <div>
-        {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans([], 'security')}) }}
+        {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans}) }}
     </div>
 
     {# Mot de passe #}
@@ -17,7 +18,7 @@
         {{ form_label(form.password.first) }}
         {{ form_widget(form.password.first, {'id': 'password-first'}) }}
         <a>{{ 'user.field.password.show'|trans}}</a>
-        <small class="form-error">{{ 'user.field.password.first.error'|trans([], 'security')}}</small>
+        <small class="form-error">{{ 'user.field.password.first.error'|trans}}</small>
     </div>
 
     {# Mot de passe confirmation #}
@@ -25,13 +26,13 @@
         {{ form_label(form.password.second) }}
         {{ form_widget(form.password.second, {'attr': {'data-equalto': 'password-first'}}) }}
         <a>{{ 'user.field.password.show'|trans}}</a>
-        <small class="form-error">{{ 'user.field.password.second.error'|trans([], 'security')}}</small>
+        <small class="form-error">{{ 'user.field.password.second.error'|trans}}</small>
     </div>
 
 
     {# Button submit #}
     <div>
-        <button type="submit">{{ 'user.submit.i_register'|trans([], 'security') }}</button>
+        <button type="submit">{{ 'user.submit.i_register'|trans }}</button>
         <br><br>
     </div>
 

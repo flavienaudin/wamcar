@@ -35,7 +35,8 @@
     "stof/doctrine-extensions-bundle": "^1.2",
     "myclabs/php-enum": "^1.5",
     "ramsey/uuid-doctrine": "^1.4",
-    "vich/uploader-bundle": "^1.6"
+    "vich/uploader-bundle": "^1.6",
+    "symfony/translation": "^3.3"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",
