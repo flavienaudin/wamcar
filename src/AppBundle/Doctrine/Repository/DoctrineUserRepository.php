@@ -2,9 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use AppBundle\Entity\ApplicationUser;
-use AppBundle\Form\DTO\EditUserData;
-use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
@@ -71,24 +70,4 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     {
         return $this->findOneBy(['registrationToken' => $registrationToken]);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updateInformations(UserInformationDTO $userInformationDTO): ApplicationUser
-    {
-        /**
-         * @var ApplicationUser $user
-         * Retrieve user
-         */
-        $user = $this->findOne($userInformationDTO->id);
-        // update informations
-        $user->updateInformations($userInformationDTO);
-        // and save modification
-        $this->update($user);
-
-        return $user;
-    }
-
-
 }
