@@ -12,16 +12,8 @@ class UserInformationDTO
     public $id;
     /** @var  string */
     public $email;
-    /** @var  string */
-    public $title;
-    /** @var  string */
-    public $name;
-    /** @var  string */
-    public $phone;
-    /** @var  string */
-    public $city;
-    /** @var  string */
-    public $postalCode;
+    /** @var  UserProfileDTO */
+    public $userProfileDTO;
 
     /**
      * UserInformationDTO constructor.
@@ -31,11 +23,7 @@ class UserInformationDTO
     {
         $this->id = $user->getId();
         $this->email = $user->getEmail();
-        $this->title = $user->getTitle();
-        $this->name = $user->getName();
-        $this->phone = $user->getPhone();
-        $this->city = $user->getCity()->getName();
-        $this->postalCode = $user->getCity()->getPostalCode();
+        $this->userProfileDTO = new UserProfileDTO($user);
     }
 
 }

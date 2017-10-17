@@ -12,6 +12,10 @@ Wamcar\User\User:
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
 
+    embedded:
+        userProfile:
+            class: Wamcar\User\UserProfile
+
     id:
         id:
             type: integer
@@ -19,20 +23,8 @@ Wamcar\User\User:
             generator:
                 strategy: AUTO
 
-    embedded:
-        title:
-            class: Wamcar\User\Title
-        city:
-            class: Wamcar\User\City
-
     fields:
         email:
             type: string
             length: 191   # needed to index field in utf8mb4
             unique: true
-        name:
-            type: string
-            nullable: true
-        phone:
-            type: string
-            nullable: true

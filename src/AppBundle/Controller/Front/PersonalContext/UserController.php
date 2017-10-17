@@ -7,7 +7,7 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\UserInformationType;
-use AppBundle\Security\UserEditionService;
+use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

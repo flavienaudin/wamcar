@@ -1,0 +1,17 @@
+Wamcar\User\UserProfile:
+    type: embeddable
+    columnPrefix: profile_
+
+    embedded:
+        title:
+            class: Wamcar\User\Title
+        city:
+            class: Wamcar\User\City
+
+    fields:
+        name:
+            type: string
+            nullable: true
+        phone:
+            type: string
+            nullable: true

@@ -8,12 +8,12 @@
 
     {# Civilité #}
     <div>
-        {{ form_row(form.title) }}
+        {{ form_row(form.userProfileDTO.title) }}
     </div>
 
     {# Nom #}
     <div>
-        {{ form_row(form.name, {'errorMsg' : 'user.field.lastName.error'|trans}) }}
+        {{ form_row(form.userProfileDTO.name, {'errorMsg' : 'user.field.lastName.error'|trans}) }}
     </div>
 
     {# Adresse e-mail #}
@@ -23,17 +23,17 @@
 
     {# Code postal #}
     <div>
-        {{ form_row(form.postalCode, {'errorMsg' :  'user.field.postalCode.error'|trans}) }}
+        {{ form_row(form.userProfileDTO.postalCode, {'errorMsg' :  'user.field.postalCode.error'|trans}) }}
     </div>
 
     {# Ville #}
     <div>
-        {{ form_row(form.city, {'errorMsg' : 'user.field.city.error'|trans}) }}
+        {{ form_row(form.userProfileDTO.city, {'errorMsg' : 'user.field.city.error'|trans}) }}
     </div>
 
     {# Phone #}
     <div>
-        {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
+        {{ form_row(form.userProfileDTO.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
     </div>
 
     {# Button submit #}

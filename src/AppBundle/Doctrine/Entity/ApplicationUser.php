@@ -2,9 +2,7 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Form\DTO\UserInformationDTO;
-use Wamcar\User\City;
-use Wamcar\User\Title;
+use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 
@@ -163,6 +161,7 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
     {
         return $this->registrationToken === null;
     }
+<<<<<<< 0cdca0a8e79dee10fe093f281be79f885e46b7fc
 
     /**
      * Copy informations from EditUserData
@@ -193,4 +192,6 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
         }
     }
 
+=======
+>>>>>>> refacto user profile
 }

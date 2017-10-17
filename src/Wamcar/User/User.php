@@ -10,14 +10,8 @@ class User
     protected $id;
     /** @var string */
     protected $email;
-    /** @var  ?Title */
-    protected $title;
-    /** @var ?string */
-    protected $name;
-    /** @var ?string */
-    protected $phone;
-    /** @var  ?City */
-    protected $city;
+    /** @var  ?UserProfile */
+    protected $userProfile;
 
     /** @var Vehicle[]|array */
     protected $vehicles;
@@ -25,14 +19,17 @@ class User
     /**
      * User constructor.
      * @param string $email
+     * @param UserProfile|null $userProfile
      * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
+        UserProfile $userProfile = null,
         Vehicle $firstVehicle = null
     )
     {
         $this->email = $email;
+        $this->userProfile = $userProfile;
         $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
     }
 
@@ -53,35 +50,27 @@ class User
     }
 
     /**
-     * @return Title|null
+     * @param string $email
      */
-    public function getTitle()
+    public function setEmail(string $email)
     {
-        return $this->title;
+        $this->email = $email;
     }
 
     /**
-     * @return string|null
+     * @return UserProfile
      */
-    public function getName()
+    public function getUserProfile(): ?UserProfile
     {
-        return $this->name;
+        return $this->userProfile;
     }
 
     /**
-     * @return string|null
+     * @param null|UserProfile $userProfile
      */
-    public function getPhone()
+    public function setUserProfile($userProfile)
     {
-        return $this->phone;
-    }
-
-    /**
-     * @return City|null
-     */
-    public function getCity()
-    {
-        return $this->city;
+        $this->userProfile = $userProfile;
     }
 
     /**
