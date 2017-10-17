@@ -1,0 +1,37 @@
+/* ===========================================================================
+   Section
+   =========================================================================== */
+
+.section {
+  padding-top: rem-calc(40);
+  padding-bottom: rem-calc(40);
+
+  @include breakpoint(xlarge) {
+    padding-top: rem-calc(90);
+    padding-bottom: rem-calc(90);
+  }
+
+  /* Exceptions */
+
+  &.block-white {
+    border: 0;
+  }
+
+
+  /*
+     Title
+     ===================================== */
+
+  &-title {
+    margin-bottom: 0.5rem;
+  }
+
+
+  /*
+     Footer
+     ===================================== */
+
+  &-footer {
+    margin: auto;
+  }
+}

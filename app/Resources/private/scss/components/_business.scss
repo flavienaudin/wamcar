@@ -1,0 +1,52 @@
+/* ===========================================================================
+   Business
+   =========================================================================== */
+
+.business {
+  background: linear-gradient(to bottom, rgba(23,48,59,1) 0%,rgba(23,48,59,1) 27%,rgba(255,255,255,1) 27%,rgba(255,255,255,1) 100%);
+
+
+  /*
+     Body
+     ===================================== */
+
+  &-body {
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(80);
+    }
+  }
+
+
+  /*
+    Image
+    ===================================== */
+
+  &-image {
+    display: block;
+
+    @include breakpoint(small only) {
+      padding-top: rem-calc(40);
+    }
+
+    @include breakpoint(large) {
+      margin-right: calc(-100vw / 2 + $global-width);
+    }
+
+    /* Components */
+
+    img {
+      width: auto;
+      max-width: rem-calc(1000);
+    }
+  }
+
+}

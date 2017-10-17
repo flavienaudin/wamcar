@@ -23,13 +23,13 @@ $select-padding: 0 rem-calc(5);
 select {
   @extend %input-style;
   @include appearance(none);
-  height: $select-height;
+  @include buttonHeight;
+  @include buttonPadding;
+  @include inputMargin;
   background-image: $select-background;
   background-size: 9px 6px;
   background-position: $select-background-position;
   background-origin: content-box;
   background-repeat: no-repeat;
-  margin-bottom: $select-margin-bottom;
-  padding: $select-padding;
   cursor: pointer;
 }

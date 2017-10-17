@@ -1,5 +1,60 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% set isHomePage = true %}
+
+{% block title %}Accueil{% endblock %}
+
 {% block body %}
-    oh hai !fefef
+
+    <section class="search-container small-12">
+        <div class="row">
+            {% include 'front/Home/includes/search.html.twig' %}
+        </div>
+    </section>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance.html.twig' %}
+        </div>
+    </section>
+
+    <section class="section small-12">
+        <div class="row">
+            <header class="small-12 text-center">
+                <h2 class="section-title h1 primary-color">Je cherche une nouvelle voiture</h2>
+                <p>Découvrez les véhicules d’occasion vendus par des professionnels vérifiés</p>
+            </header>
+            {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
+            <strong class="black-color h2 column small-12">Les dernières offres publiées sur Wamcar</strong>
+            {% set vehicle_list = inte.vehicle %}
+            {% set balise = 'h3' %}
+            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+            <footer class="section-footer column small-12 medium-7 large-5">
+                <a href="" class="button">Découvrez tous les véhicules près de chez vous</a>
+            </footer>
+            </div>
+        </div>
+    </section>
+
+    <section class="reinsurance-wamcar-container section small-12">
+        <div class="row">
+            <h2 class="section-title h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">Je veux remplacer mon véhicule. Qu’est-ce que Wamcar m’apporte ?</h2>
+            {% set reinsurance_class = 'medium-order-3' %}
+            {% include 'front/Layout/includes/reinsurance_wamcar.html.twig' %}
+            <a class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-video-wamcar"><b>Le concept <span class="show-for-medium"><br></span> en vidéo</b></a>
+        </div>
+    </section>
+
+    <section class="mission block-dark-blue small-12">
+        <div class="row">
+            {% include 'front/Home/includes/our_mission.html.twig' %}
+        </div>
+    </section>
+
+    <section class="business small-12">
+        <div class="block-white section row">
+            {% include 'front/Home/includes/business.html.twig' %}
+        </div>
+    </section>
+
 {% endblock body %}

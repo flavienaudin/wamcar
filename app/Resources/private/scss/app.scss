@@ -43,7 +43,7 @@
 // @include foundation-progress-bar;
 // @include foundation-slider;
 // @include foundation-sticky;
-// @include foundation-reveal;
+@include foundation-reveal;
 // @include foundation-switch;
 // @include foundation-table;
 // @include foundation-tabs;
@@ -56,7 +56,7 @@
 @include foundation-flex-classes;
 // @include foundation-prototype-classes;
 
-// @include motion-ui-transitions;
+@include motion-ui-transitions;
 // @include motion-ui-animations;
 
 
@@ -99,6 +99,7 @@
 @import "forms/error";
 @import "forms/label";
 @import "forms/select";
+@import "forms/disabled";
 
 
 
@@ -122,4 +123,14 @@
 @import "components/off-canvas";
 @import "components/social-networks";
 @import "components/copyright";
+@import "components/reinsurance";
+@import "components/vehicle";
+@import "components/like";
+@import "components/section";
+@import "components/mission";
+@import "components/list";
+@import "components/business";
+@import "components/search";
+@import "components/tabs";
+@import "components/modal";
 @import "components/state"; // Only on last

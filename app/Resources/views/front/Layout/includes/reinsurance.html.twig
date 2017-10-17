@@ -1,0 +1,37 @@
+{% set reinsurance_list = [
+    {
+        svg: 'shape',
+        title: 'Réaliste',
+        content: 'Des offres faites par des hommes, pas des machines.'
+    },
+    {
+        svg: 'smile',
+        title: 'Gratuit',
+        content: 'Aucun engagement, aucune commission.'
+    },
+    {
+        svg: 'security',
+        title: 'Juste',
+        content: 'Site indépendant de tout groupe ou marque.'
+    },
+    {
+        svg: 'security',
+        title: 'Sécurisé',
+        content: 'Messagerie sécurisée, pas de spams ou d\'appels intempestifs.'
+    }
+] %}
+
+<h2 class="h1 small-12 text-center">Quatre bonnes raisons de vendre sur <span class="primary-color">Wamcar</span></h2>
+<ul class="reinsurance row small-up-1 medium-up-4 no-bullet">
+    {% for reinsurance in reinsurance_list %}
+        <li class="reinsurance-item block-grid column align-middle">
+            <div class="small-4 medium-12 column medium-text-center">
+                {% include 'front/Layout/includes/svg/' ~ reinsurance.svg ~ '.html.twig' %}
+            </div>
+            <div class="small-8 medium-12 medium-text-center">
+                <h3 class="h2">{{ reinsurance.title }}</h3>
+                <p class="no-margin">{{ reinsurance.content }}</p>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

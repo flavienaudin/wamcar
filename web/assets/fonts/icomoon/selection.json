@@ -95,6 +95,33 @@
     {
       "icon": {
         "paths": [
+          "M950.857 512l-950.857 512v-1024z"
+        ],
+        "attrs": [],
+        "width": 951,
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "play@3x"
+        ],
+        "colorPermutations": {}
+      },
+      "attrs": [],
+      "properties": {
+        "order": 10,
+        "id": 5,
+        "name": "play",
+        "prevSize": 32,
+        "code": 59655
+      },
+      "setIdx": 2,
+      "setId": 0,
+      "iconIdx": 0
+    },
+    {
+      "icon": {
+        "paths": [
           "M0 180.706v-180.706h1325.176v180.706z",
           "M0 602.353v-180.706h1325.176v180.706z",
           "M0 1024v-180.706h1325.176v180.706z"
@@ -107,7 +134,9 @@
         "tags": [
           "hamburger"
         ],
-        "colorPermutations": {}
+        "colorPermutations": {
+          "122761912552552551": []
+        }
       },
       "attrs": [],
       "properties": {
@@ -119,7 +148,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 0
+      "iconIdx": 1
     },
     {
       "icon": {
@@ -148,7 +177,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 1
+      "iconIdx": 2
     },
     {
       "icon": {
@@ -177,7 +206,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 2
+      "iconIdx": 3
     },
     {
       "icon": {
@@ -206,7 +235,7 @@
       },
       "setIdx": 2,
       "setId": 0,
-      "iconIdx": 3
+      "iconIdx": 4
     }
   ],
   "height": 1024,

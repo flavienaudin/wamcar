@@ -1,0 +1,24 @@
+{% set reinsurance_list = [
+    {
+        image: 'je-vends-mon-vehicule',
+        content: 'Je mets en vente mon véhicule. Je renseigne les informations qui lui sont relatives. C’est entièrement gratuit !',
+    },
+    {
+        image: 'je-recois-des-offres',
+        content: 'Je reçois rapidement des offres de reprises de professionnels étudiées pour moi. Je peux ainsi comparer les offres.',
+    },
+    {
+        image: 'je-vends-ma-voiture',
+        content: 'Je vends ma voiture à un pro. J’ai accès à un catalogue de véhicule d’occasion vérifiée vendue par un pro sur Wamcar.',
+    }
+] %}
+{% set reinsurance_class = reinsurance_class|default('') %}
+
+<ul class="reinsurance-wamcar block-grid small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
+    {% for index, reinsurance in reinsurance_list %}
+        <li class="column block-grid align-middle large-right-collapse">
+            <span class="reinsurance-wamcar-image small-shrink medium-12 large-shrink text-center"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" width="130"></span>
+            <p class="no-margin small-6 medium-12 large-7">{{ reinsurance.content }}</p>
+        </li>
+    {% endfor %}
+</ul>

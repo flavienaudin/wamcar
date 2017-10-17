@@ -24,6 +24,10 @@ body {
   @include breakpoint(small only) {
     font-size: rem-calc(13);
   }
+
+  @include breakpoint(medium only) {
+    font-size: rem-calc(15);
+  }
 }
 
 p {
@@ -33,5 +37,21 @@ p {
     @include breakpoint(medium) {
       font-size: rem-calc(14);
     }
+  }
+
+  &.medium {
+    font-size: rem-calc(14);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(19);
+      line-height: 1.3;
+    }
+  }
+}
+
+form {
+  ul {
+    list-style: none;
+    margin: 0;
   }
 }

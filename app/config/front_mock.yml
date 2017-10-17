@@ -1,2 +1,30 @@
 parameters:
     inte:
+      vehicle:
+        "twingo-3":
+          picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
+          brand: "Renault"
+          name: "Twingo III lorem ipsum bonjour"
+          model: "1.0 SCe 70 BC Intens"
+          years: "2016"
+          km: "13 280 km"
+          city: "Villeurbanne"
+          price: "8 990 €"
+        "golf-2-tdi":
+          picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
+          brand: "Volkswagen"
+          name: "Golf"
+          model: "2.0 TDI 184 BlueMotion Technology FAP GTD"
+          years: "2014"
+          km: "34 008 km"
+          city: "Villefranche sur Saône"
+          price: "17 125 €"
+        "ds3":
+          picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
+          brand: "Citroën"
+          name: "DS3"
+          model: "120ch Sport Chic + nav"
+          years: "2015"
+          km: "16 700 km"
+          city: "Oullins"
+          price: "16 589 €"

@@ -6,8 +6,8 @@
 
   .#{$size}-vertical    { flex-direction: column; }
   .#{$size}-horizontal  { flex-direction: row; }
-  .#{$size}-auto        { flex: 1 0 auto; }
-  .#{$size}-shrink      { flex: 0 1 auto; }
+  .#{$size}-auto        { flex: 1 0 auto; max-width: none; }
+  .#{$size}-shrink      { flex: 0 1 auto; max-width: none; }
   .#{$size}-right       { margin-left: auto; }
 
   // Collapse

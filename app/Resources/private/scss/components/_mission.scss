@@ -1,0 +1,93 @@
+/* ===========================================================================
+   Mission
+   =========================================================================== */
+
+
+
+/*
+   Settings
+   ===================================== */
+
+$mission-background: url('#{$img-folder}/background/magicien.svg');
+
+/* Small */
+$mission-size-small: calc(100% - #{rem-calc(40)}) auto;
+$mission-position-small: center bottom;
+$mission-padding-small: rem-calc(360);
+
+/* Medium */
+$mission-position-medium: rem-calc(-20) bottom;
+$mission-size-medium: calc(60% - #{rem-calc(20)}) auto;
+$mission-padding-medium: rem-calc(100);
+
+/* Large */
+$mission-width-large: rem-calc(575);
+$mission-position-large: calc(70% - #{$mission-width-large/2}) bottom;
+$mission-size-large: $mission-width-large auto;
+$mission-padding-large: rem-calc(130);
+
+/* xLarge */
+$mission-width-xlarge: rem-calc(675);
+$mission-position-xlarge: calc(50% - #{$mission-width-xlarge/2}) bottom;
+
+
+/*
+   Class
+   ===================================== */
+
+.mission {
+  position: relative;
+  z-index: -1;
+
+
+  /*
+    Body
+    ===================================== */
+
+  &-body {
+    @include breakpoint(large) {
+      padding-left: rem-calc(40);
+    }
+  }
+
+
+  /*
+     Image
+     ===================================== */
+
+  &-image {
+    position: relative;
+
+    @include breakpoint(small only) {
+      margin-top: rem-calc(-40);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-top: rem-calc(-200);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: rem-calc(150);
+      height: rem-calc(150);
+      background: rgba(white, .15);
+      border-radius: 50%;
+      filter : blur(rem-calc(60));
+      transform: translate3d(-50%, -50%, 0);
+      z-index: -1;
+
+      @include breakpoint(large) {
+        width: rem-calc(400);
+        height: rem-calc(400);
+      }
+
+      @include breakpoint(xlarge) {
+        transform: translate3d(-50%, -10%, 0);
+      }
+    }
+
+  }
+}

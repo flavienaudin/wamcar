@@ -73,11 +73,12 @@ $foundation-palette: (
   secondary: #2C2C2C,
   success: #3adb76,
   warning: #ffae00,
-  alert: #cc4b37,
+  alert: #e30613
 );
 $light-gray: #E5E5E5;
 $medium-gray: #7A7A7A;
 $dark-gray: #2C2C2C;
+$dark-blue: #17303b;
 $black: #0a0a0a;
 $white: #fefefe;
 $border-color: #E5E5E5;
@@ -141,12 +142,12 @@ $block-grid-max: $grid-column-count;
 // ------------------
 
 $header-font-family: $body-font-family;
-$header-font-weight: $global-weight-normal;
+$header-font-weight: bold;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
 $header-color: inherit;
 $header-lineheight: 1.4;
-$header-margin-bottom: 0.5rem;
+$header-margin-bottom: rem-calc(25);
 $header-styles: (
   small: (
     'h1': ('font-size': 26, 'line-height': 1.15),
@@ -157,6 +158,9 @@ $header-styles: (
     'h6': ('font-size': 14, 'line-height': 1.5),
   ),
   medium: (
+    'h1': ('font-size': 35, 'line-height': 1.15)
+  ),
+  large: (
     'h1': ('font-size': 42, 'line-height': 1),
     'h2': ('font-size': 24, 'line-height': 1.2),
     'h3': ('font-size': 18, 'line-height': 1.3),
@@ -169,7 +173,7 @@ $header-text-rendering: optimizeLegibility;
 $small-font-size: 100%;
 $header-small-font-color: $medium-gray;
 $paragraph-lineheight: 1.5;
-$paragraph-margin-bottom: 1rem;
+$paragraph-margin-bottom: rem-calc(30);
 $paragraph-text-rendering: optimizeLegibility;
 $code-color: $black;
 $code-font-family: $font-family-monospace;
@@ -737,8 +741,8 @@ $responsive-embed-ratios: (
 $reveal-background: $white;
 $reveal-width: 600px;
 $reveal-max-width: $global-width;
-$reveal-padding: $global-padding;
-$reveal-border: 1px solid $medium-gray;
+$reveal-padding: 0;
+$reveal-border: 0;
 $reveal-radius: $global-radius;
 $reveal-zindex: 1005;
 $reveal-overlay-background: rgba($black, 0.45);

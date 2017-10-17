@@ -10,10 +10,17 @@ import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
 import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
 import { Toggler } from 'foundation-sites/js/foundation.toggler';
+import { Reveal } from 'foundation-sites/js/foundation.reveal';
+import { Tabs } from 'foundation-sites/js/foundation.tabs';
 import './components/responsiveDom';
+import './components/search';
+import './components/select';
 import {
   activeClass
 } from './settings/settings.js';
+
+Reveal.defaults.animationIn = 'slide-in-down';
+Reveal.defaults.animationOut = 'fade-out';
 
 
 
@@ -31,6 +38,22 @@ $(function() {
     return new OffCanvas($(offcanvas));
   });
 
+  /* Reveal */
+
+  const $reveal = $('[data-reveal]');
+
+  $reveal.each((index, reveal) => {
+    return new Reveal($(reveal));
+  });
+
+  /* Abide */
+
+  const $abide = $('[data-abide]');
+
+  $abide.each((inddex, abide) => {
+    return new Abide($(abide));
+  });
+
   /* Toogle */
 
   const $toggles = $('[data-toggle]');
@@ -46,6 +69,16 @@ $(function() {
   if ($togglers) {
     $togglers.each((index, toggler) => {
       return new Toggler($(toggler));
+    });
+  }
+
+  /* Tabs */
+
+  const $tabs = $('[data-tabs]');
+
+  if ($tabs) {
+    $tabs.each((index, tabs) => {
+      return new Tabs($(tabs));
     });
   }
 

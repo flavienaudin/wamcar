@@ -1,0 +1,127 @@
+/* ===========================================================================
+   Search
+   =========================================================================== */
+
+.search {
+
+
+  /*
+    Container
+    ===================================== */
+
+  &-container {
+    position: relative;
+    z-index: 1;
+    background: #f7f7f7;
+
+    @include breakpoint(medium down) {
+      border-top: rem-calc(1) solid $border-color;
+    }
+
+    @include breakpoint(large) {
+      min-height: 100vh;
+      padding-top: $header-height-medium + rem-calc(40);
+      padding-bottom: rem-calc(50);
+    }
+
+    /* Background */
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100%;
+      height: 100vh;
+      background: url(#{$img-folder}/logo/logo-wamcar-tiny.svg) center #{rem-calc(-40)}/130% auto no-repeat;
+      opacity: .04;
+      z-index: -1;
+
+      @include breakpoint(small only) {
+        transform: translate3d(-50%, 0, 0);
+      }
+
+      @include breakpoint(medium) {
+        right: 0;
+        left: 0;
+        background-size: rem-calc(800) auto;
+        background-position: center rem-calc(-80);
+      }
+
+      @include breakpoint(large) {
+        background-position: calc(100% + #{rem-calc(20)}) rem-calc(-80);
+      }
+
+      @include breakpoint(xlarge) {
+        background-size: $global-width auto;
+        background-position: right rem-calc(-80);
+      }
+    }
+
+    /* Components */
+
+    img {
+      @include breakpoint(large) {
+        width: auto;
+        max-width: 200%;
+      }
+    }
+  }
+
+
+  /*
+    Form
+    ===================================== */
+
+  &-form {
+
+    @include breakpoint(large) {
+      background: white;
+      border-top: rem-calc(5) solid $primary-color;
+      box-shadow: 0 rem-calc(10) rem-calc(30) rgba(black, .12);
+    }
+
+  } // End &-form
+
+
+
+  /*
+     Header
+     ===================================== */
+
+  &-header {
+    padding-top: rem-calc(30);
+    padding-bottom: rem-calc(30);
+
+    @include breakpoint(small only) {
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+    }
+
+    @include breakpoint(medium down) {
+      background: url('#{$img-folder}/background/search-header.png') calc(100% + #{rem-calc(75)}) center/#{rem-calc(200)} auto no-repeat;
+    }
+
+    @include breakpoint(medium only) {
+      background-size: rem-calc(300) auto;
+    }
+
+    @include breakpoint(medium) {
+      padding: rem-calc(40);
+    }
+
+    /* Components */
+
+    p {
+      @include breakpoint(medium) {
+        margin-top: rem-calc(20);
+      }
+
+      @include breakpoint(large) {
+        margin-right: auto;
+        margin-left: auto;
+      }
+    }
+  }
+
+}
