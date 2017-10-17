@@ -1,4 +1,6 @@
 {% extends 'front/Layout/includes/header.html.twig' %}
 
-{% block headerCenter %}// étapes{% endblock %}
+{% block headerCenter %}
+    {% include 'front/Security/Register/includes/step.html.twig' %}
+{% endblock %}
 {% block headerRight %}{% endblock %}

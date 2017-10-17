@@ -27,6 +27,22 @@ if ($registerForm) {
     },
   });
 
+  // Pagination
+  // Add a function that generates pagination to prototype
+  // Siema.prototype.addPagination = function() {
+  //   for (let i = 0; i < this.innerElements.length; i++) {
+  //     const btn = document.createElement('button');
+  //     const item = document.createElement('li');
+  //     btn.textContent = i;
+  //     btn.addEventListener('click', () => this.goTo(i));
+  //     item.appendChild(btn);
+  //     item.classList.add('register-step-item');
+  //     document.getElementById('js-register-step').appendChild(item);
+  //   }
+  // };
+
+  // carousel.addPagination();
+
   let step;
 
   const initAbide = () => {
@@ -43,10 +59,12 @@ if ($registerForm) {
     return new Promise((resolve) => isValid && resolve());
   };
 
+  // Navigation
   document.querySelector('.js-carousel-prev').addEventListener('click', () => {
     carousel.prev();
     initAbide();
   });
+
   document.querySelector('.js-carousel-next').addEventListener('click', () => {
     validStep().then(() => {
       carousel.next();

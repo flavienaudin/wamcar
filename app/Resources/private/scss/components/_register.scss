@@ -40,8 +40,9 @@
           margin-bottom: 0;
         }
       }
-    }
-  }
+    } // End p
+
+  } // End &-infos
 
 
   /*
@@ -55,6 +56,90 @@
 
     @include breakpoint(medium) {
       padding-top: rem-calc(30);
+    }
+  }
+
+
+  /*
+     Step
+     ===================================== */
+
+  &-step {
+    counter-reset: section;
+    flex: 1;
+
+    @include breakpoint(large down) {
+      justify-content: flex-end;
+    }
+  } // End &-step
+
+
+
+  /*
+     Step item
+     ===================================== */
+
+  &-step-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    height: $header-height;
+
+    @include breakpoint(small only) {
+      flex: 1;
+    }
+
+    @include breakpoint(medium down) {
+      border-left: rem-calc(1) solid $border-color;
+    }
+
+    @include breakpoint(medium only) {
+      width: $header-height;
+    }
+
+    @include breakpoint(large) {
+      margin-right: rem-calc(25);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-right: rem-calc(70);
+    }
+
+    &:not(.is-active) { color: $body-font-color; }
+
+    &::before {
+      content: counter(section);
+      counter-increment: section;
+
+      @include breakpoint(large) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: rem-calc(27);
+        height: rem-calc(27);
+        font-size: rem-calc(14);
+        border: rem-calc(2) solid $body-font-color;
+        text-align: center;
+        border-radius: 50%;
+        margin-right: rem-calc(10);
+      }
+
+      @include breakpoint(xlarge) {
+        margin-right: rem-calc(25);
+      }
+    }
+
+    /* Active state */
+
+    &.is-active {
+      &::before {
+        @include breakpoint(large) {
+          background: $primary-color;
+          border-color: $primary-color;
+          color: white;
+        }
+      }
     }
   }
 
