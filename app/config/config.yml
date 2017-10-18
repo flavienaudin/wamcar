@@ -2,6 +2,7 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: front_mock.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -41,6 +42,7 @@ twig:
         site_name: 'Wamcar'
         facebook_url: 'https://www.facebook.com/wamcar.france/'
         twitter_url: 'https://twitter.com/wamcar'
+        inte: '%inte%'
 
 # Doctrine Configuration
 doctrine:
