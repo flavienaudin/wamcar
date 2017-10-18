@@ -74,22 +74,6 @@ class User
     }
 
     /**
-     * @return Context
-     */
-    public function getContext(): Context
-    {
-        return $this->context;
-    }
-
-    /**
-     * @param Context $context
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-    }
-
-    /**
      * @return array|Vehicle[]
      */
     public function getVehicles()

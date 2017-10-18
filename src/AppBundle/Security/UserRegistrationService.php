@@ -33,11 +33,10 @@ class UserRegistrationService
 
     /**
      * @param RegistrationDTO $registrationDTO
-     * @param Context $context
      * @return ApplicationUser
      * @throws \Exception
      */
-    public function registerUser(RegistrationDTO $registrationDTO, Context $context): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
@@ -47,7 +46,6 @@ class UserRegistrationService
             $registrationDTO->email,
             $encodedPassword,
             $salt,
-            $context,
             null,
             $registrationToken
         );

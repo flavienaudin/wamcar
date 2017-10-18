@@ -31,12 +31,10 @@ class SecurityController extends BaseController
 
     /**
      * @param Request $request
-     * @param $context
      * @return Response
      */
-    public function registerAction(Request $request, $context): Response
+    public function registerAction(Request $request): Response
     {
-         $context = new Context($context);
 
         $registrationForm = $this->formFactory->create(RegistrationType::class);
 
@@ -44,7 +42,7 @@ class SecurityController extends BaseController
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUser($registrationForm->getData(), $context);
+                $this->userRegistrationService->registerUser($registrationForm->getData());
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',

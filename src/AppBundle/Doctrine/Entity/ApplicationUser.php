@@ -24,7 +24,6 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
      * @param string $email
      * @param string $password
      * @param string $salt
-     * @param Context $context
      * @param Vehicle|null $firstVehicle
      * @param string $registrationToken
      */
@@ -32,7 +31,6 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
         string $email,
         string $password,
         string $salt,
-        Context $context,
         Vehicle $firstVehicle = null,
         string $registrationToken
     )
