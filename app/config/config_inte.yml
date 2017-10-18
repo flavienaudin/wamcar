@@ -1,8 +1,2 @@
 imports:
     - { resource: config_dev.yml }
-    - { resource: front_mock.yml } # Pour que les dev puisse avoir les données d'inté
-
-twig:
-    globals:
-        site_name: 'Wamcar'
-        inte: '%inte%'
