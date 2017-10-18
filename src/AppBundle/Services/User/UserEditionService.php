@@ -24,7 +24,7 @@ class UserEditionService
         UserRepository $userRepository
     )
     {
-        $this->userRepository = $userRepository;;
+        $this->userRepository = $userRepository;
     }
 
     /**
