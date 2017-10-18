@@ -25,15 +25,15 @@
     '
 } %}
 
-<section class="block-grid small-12 large-7">
-    {% for index, pic in pictures %}
-        <div class="block-grid small-12 medium-6">
-            <label for="pics-legend-{{ index }}" class="file-preview-label column small-12">{{ pic.title }} <span class="medium-12 medium-no-margin">Facultatif</span></label>
-            {% include 'front/Security/Register/includes/file_preview.html.twig' %}
-            <div class="column small-6 medium-12">
-                <input type="text" name="pics-legend-{{ index }}" id="pics-legend-{{ index }}" placeholder="Ajouter une légende" class="input">
-            </div>
-        </div>
-    {% endfor %}
-    <p class="small column ">Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.</p>
+<section class="small-12 large-7">
+    <div id="js-pictures-list" class="block-grid small-12">
+        {% set index = 'default' %}
+        {% include 'front/Security/Register/includes/file_picture.html.twig' with { class: 'is-hidden' } %}
+        {% for index, pic in pictures %}
+            {% set image = pic.image %}
+            {% set title = pic.title %}
+            {% include 'front/Security/Register/includes/file_picture.html.twig' with { class: 'js-file-required' } %}
+        {% endfor %}
+    </div>
+    <p class="small column">Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.</p>
 </section>
