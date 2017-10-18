@@ -5,8 +5,11 @@ Wamcar\User\UserProfile:
     embedded:
         title:
             class: Wamcar\User\Title
+            columnPrefix: title_
         city:
             class: Wamcar\User\City
+            columnPrefix: city_
+            nullable: true
 
     fields:
         name:

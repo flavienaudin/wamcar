@@ -2,7 +2,7 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
+use AppBundle\Security\ShouldConfirmRegistration;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 

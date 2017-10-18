@@ -68,7 +68,7 @@ class User
     /**
      * @param null|UserProfile $userProfile
      */
-    public function setUserProfile($userProfile)
+    public function updateUserProfile($userProfile)
     {
         $this->userProfile = $userProfile;
     }

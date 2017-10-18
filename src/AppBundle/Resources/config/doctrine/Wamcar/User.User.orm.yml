@@ -15,6 +15,7 @@ Wamcar\User\User:
     embedded:
         userProfile:
             class: Wamcar\User\UserProfile
+            columnPrefix: profile_
 
     id:
         id:

@@ -11,10 +11,7 @@ class City
     /** @var string  */
     private $name;
 
-    public function __construct(
-        string $postalCode = null,
-        string $name = null
-    )
+    public function __construct(string $postalCode, string $name)
     {
         $this->postalCode = $postalCode;
         $this->name = $name;
@@ -23,7 +20,7 @@ class City
     /**
      * @return string
      */
-    public function getPostalCode(): ?string
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }
@@ -31,7 +28,7 @@ class City
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

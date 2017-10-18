@@ -4,7 +4,6 @@ namespace AppBundle\Security;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
 use AppBundle\Utils\TokenGenerator;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;

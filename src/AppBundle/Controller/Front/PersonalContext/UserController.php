@@ -59,7 +59,7 @@ class UserController extends BaseController
 
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->userEditionService->editInformations($userInformationDTO);
+            $this->userEditionService->editInformations($user, $userInformationDTO);
 
             $this->session->getFlashBag()->add(
                 'flash.success.user_edit',

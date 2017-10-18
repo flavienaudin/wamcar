@@ -4,6 +4,9 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Form\DTO\UserInformationDTO;
+use Wamcar\User\City;
+use Wamcar\User\Title;
+use Wamcar\User\UserProfile;
 use Wamcar\User\UserRepository;
 
 
@@ -11,40 +14,35 @@ class UserEditionService
 {
     /** @var UserRepository  */
     private $userRepository;
-    /** @var UserProfileService  */
-    private $userProfileService;
 
     /**
      * UserEditionService constructor.
      *
      * @param UserRepository $userRepository
-     * @param UserProfileService $userProfileService
      */
     public function __construct(
-        UserRepository $userRepository,
-        UserProfileService $userProfileService
+        UserRepository $userRepository
     )
     {
-        $this->userRepository = $userRepository;
-        $this->userProfileService = $userProfileService;
+        $this->userRepository = $userRepository;;
     }
 
     /**
+     * @param ApplicationUser $user
      * @param UserInformationDTO $userInformationDTO
      * @return ApplicationUser
-     * @throws \Exception
      */
-    public function editInformations(UserInformationDTO $userInformationDTO): ApplicationUser
+    public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
-        /** @var ApplicationUser $applicationUser */
-        $applicationUser = $this->userRepository->findOne($userInformationDTO->id);
-        $userProfile = $this->userProfileService->transformToUserProfile($userInformationDTO);
+        $title = new Title($userInformationDTO->title);
+        $city = (!empty($userInformationDTO->postalCode)? new City($userInformationDTO->postalCode, $userInformationDTO->city): null);
 
-        $applicationUser->setEmail($userInformationDTO->email);
-        $applicationUser->setUserProfile($userProfile);
+        $userProfile = new UserProfile($title, $userInformationDTO->name, $userInformationDTO->phone, $city);
+        $user->setEmail($userInformationDTO->email);
+        $user->updateUserProfile($userProfile);
 
-        $this->userRepository->update($applicationUser);
+        $this->userRepository->update($user);
 
-        return $applicationUser;
+        return $user;
     }
 }
