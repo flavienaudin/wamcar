@@ -4,14 +4,12 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\VehicleIdentificationDTO;
-use AppBundle\Form\DataTransformer\EnumToChoiceList;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
     ChoiceType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Enum\Transmission;
 
 class VehicleIdentificationType extends AbstractType

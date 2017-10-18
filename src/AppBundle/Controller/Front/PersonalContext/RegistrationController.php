@@ -37,6 +37,7 @@ class RegistrationController extends BaseController
         $vehicleForm = $this->formFactory->create(VehicleType::class, $vehicleDTO);
 
         $vehicleForm->handleRequest($request);
+        dump($vehicleForm->get('specifics'));
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
@@ -46,6 +47,7 @@ class RegistrationController extends BaseController
             dump($personalVehicle);
             exit;
         }
+
 
         return $this->render(
             ':front/personalContext/registration:vehicle_registration.html.twig',

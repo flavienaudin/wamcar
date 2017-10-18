@@ -11,7 +11,7 @@ class EnumDataTransformer implements DataTransformerInterface
     private $className;
 
     /**
-     * EnumToChoiceList constructor.
+     * EnumDataTransformer constructor.
      * @param string $className
      */
     public function __construct($className)

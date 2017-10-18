@@ -24,14 +24,16 @@ Wamcar\Vehicle\PersonalVehicle:
     fields:
         transmission:
             type: vehicletransmission
-        safetyTest:
-            type: vehicletransmission
-            nullable: true
+        safetyTestState:
+            type: vehiclesafetyteststate
+        safetyTestDate:
+            type: vehiclesafetytestdate
         maintenanceState:
-            type: vehicletransmission
-            nullable: true
+            type: vehiclemaintenancestate
         registrationDate:
-            type: date_immutable
+            type: date
+        mileage:
+            type: integer
         bodyState:
             type: integer
         engineState:

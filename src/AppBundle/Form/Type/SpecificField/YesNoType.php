@@ -1,0 +1,37 @@
+<?php
+
+namespace AppBundle\Form\Type\SpecificField;
+
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class YesNoType extends ChoiceType
+{
+    const YES = 'yes';
+    const NO = 'no';
+
+    /**
+     * @param OptionsResolver $resolver
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefault('choices', [self::NO, self::YES]);
+        $resolver->setDefault('expanded', true);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return ChoiceType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return 'yesno';
+    }
+}
