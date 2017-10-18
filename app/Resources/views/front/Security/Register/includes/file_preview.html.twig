@@ -1,0 +1,10 @@
+<div class="js-file-preview file-preview column small-6 medium-12">
+    <input type="file" name="pics-{{ index }}" id="pics-{{ index }}" class="js-file-preview-input is-hidden">
+    <label for="pics-{{ index }}" title="Ajouter une photo" class="file-preview-image-container">
+        <div class="file-preview-image no-margin">
+            <span><img src="{{ asset(pic.image) }}" width="100%" class="js-file-preview-image"></span>
+        </div>
+        <span class="show-for-sr">Ajouter une photo</span>
+    </label>
+    <button type="button" class="js-file-preview-remove file-preview-remove icon-remove is-hidden" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+</div>

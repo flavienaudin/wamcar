@@ -1,0 +1,39 @@
+{% set asideId = '2' %}
+{% set pictures = [
+    {
+        title: 'Photo principale',
+        image: 'assets/images/register/pictures_default.jpg'
+    },
+    {
+        title: 'Photo supplémentaire conseillée',
+        image: 'assets/images/register/pictures_default.jpg'
+    },
+    {
+        title: 'Photo supplémentaire conseillée',
+        image: 'assets/images/register/pictures_default.jpg'
+    },
+    {
+        title: 'Photo supplémentaire conseillée',
+        image: 'assets/images/register/pictures_default.jpg'
+    }
+] %}
+
+{% include 'front/Security/Register/includes/aside.html.twig' with {
+    content: '
+        <p>Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails.</p>
+        <p class="no-margin">Un angle de 3/4 avant sera parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visible !</p>
+    '
+} %}
+
+<section class="block-grid small-12 large-7">
+    {% for index, pic in pictures %}
+        <div class="block-grid small-12 medium-6">
+            <label for="pics-legend-{{ index }}" class="file-preview-label column small-12">{{ pic.title }} <span class="medium-12 medium-no-margin">Facultatif</span></label>
+            {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+            <div class="column small-6 medium-12">
+                <input type="text" name="pics-legend-{{ index }}" id="pics-legend-{{ index }}" placeholder="Ajouter une légende" class="input">
+            </div>
+        </div>
+    {% endfor %}
+    <p class="small column ">Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.</p>
+</section>

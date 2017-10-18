@@ -9,19 +9,15 @@
     <section class="small-12">
         <form id="js-register-form" class="register-form row" novalidate>
             <ul id="js-step" class="step">
-                <li class="block-grid" data-step="1">
-                    <header class="block-grid column hide-for-medium">
-                        <h1 class="primary-color small-8">Identification du véhicule</h1>
-                        <a class="text-underline body-font-color small-right" data-toggle="js-step-1-infos">Afficher l'info</a>
-                    </header>
+                {# <li class="block-grid" data-step="1">
+                    {% include 'front/Security/Register/includes/step_header_small.html.twig' with {
+                        title: 'Identification du véhicule',
+                        id: 'js-step-1-infos'
+                    } %}
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
-                </li>
+                </li> #}
                 <li class="block-grid" data-step="2">
-                    <div>
-                        <label for="test">test</label>
-                        <input type="text" name="test" id="test" class="input" required>
-                        <small class="form-error">Test</small>
-                    </div>
+                    {% include 'front/Security/Register/includes/pictures.html.twig' %}
                 </li>
             </ul>
             <nav class="column small-12">

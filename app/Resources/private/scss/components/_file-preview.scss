@@ -1,0 +1,88 @@
+/* ===========================================================================
+   File
+   =========================================================================== */
+
+.file-preview {
+  position: relative;
+  margin-bottom: rem-calc(10);
+
+
+  /*
+      Label
+      ===================================== */
+
+  &-label {
+    margin-bottom: rem-calc(10);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(20);
+    }
+
+    /* Components */
+
+    > span {
+      @include breakpoint(medium) {
+        margin-top: rem-calc(5);
+      }
+    }
+  }
+
+
+  /*
+     Image container
+     ===================================== */
+
+  &-image-container {
+    position: relative;
+    width: 100%;
+    background: #ededed;
+    padding-top: 75%; /* 4:3 Aspect Ratio */
+    overflow: hidden;
+  }
+
+
+
+  /*
+     Image
+     ===================================== */
+
+  &-image {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  /*
+     Remove
+     ===================================== */
+
+  &-remove {
+    position: absolute;
+    justify-content: center;
+    right: rem-calc(10);
+    bottom: rem-calc(8);
+    width: rem-calc(30);
+    height: rem-calc(30);
+    background: $secondary-color;
+    color: white;
+
+    @include breakpoint(medium) {
+      bottom: rem-calc(13);
+      right: rem-calc(20);
+      width: rem-calc(45);
+      height: rem-calc(45);
+    }
+
+    &::before {
+      width: 100%; // iOS fix
+      margin-right: 0;
+    }
+  }
+
+}

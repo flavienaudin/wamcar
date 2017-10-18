@@ -10,7 +10,7 @@
     ===================================== */
 
   &-aside-container {
-    @include breakpoint(small only) {
+    @include breakpoint(medium down) {
       display: none;
     }
   }
@@ -21,14 +21,16 @@
     ===================================== */
 
   &-aside {
-    position: sticky;
+    overflow: hidden;
     background: #f3f3f3;
     padding: rem-calc(15) rem-calc(20);
 
     @include breakpoint(small only) {
-      &:last-child {
-        margin-bottom: rem-calc(30);
-      }
+      &:last-child { margin-bottom: rem-calc(30); }
+    }
+
+    @include breakpoint(medium only) {
+      margin-bottom: rem-calc(30);
     }
 
     @include breakpoint(medium) {
@@ -38,6 +40,10 @@
     @include breakpoint(large) {
       padding: rem-calc(35) rem-calc(40);
     }
+
+    /* Components */
+
+    svg { float: right; }
   }
 
 

@@ -25,6 +25,7 @@ label,
 .label {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   color: $label-color;
   font-weight: $label-weight;

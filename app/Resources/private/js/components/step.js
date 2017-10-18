@@ -93,8 +93,6 @@ class Step {
       autoHeight();
     };
 
-    carousel.setAutoHeight();
-
     return carousel;
   }
 
@@ -106,7 +104,7 @@ class Step {
    */
   valid() {
     const isValid = this.step.validateForm();
-    return new Promise((resolve) => isValid && resolve());
+    return new Promise((resolve) => isValid && resolve(this.carousel.setAutoHeight()));
   }
 
   /**
