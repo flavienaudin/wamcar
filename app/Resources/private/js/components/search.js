@@ -10,9 +10,10 @@ const $searchForm = document.getElementById('js-search-form');
 
 if ($searchForm) {
   const transparentClass = 'is-transparent';
+  const scrollLimit = 30;
 
   document.addEventListener('scroll', () => {
-    const currentScroll = document.documentElement.scrollTop;
-    currentScroll > 30 ? $header.classList.remove(transparentClass) : $header.classList.add(transparentClass);
+    let currentScroll = document.documentElement.scrollTop;
+    currentScroll > scrollLimit ? $header.classList.remove(transparentClass) : $header.classList.add(transparentClass);
   });
 }
