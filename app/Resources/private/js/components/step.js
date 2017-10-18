@@ -36,6 +36,17 @@ class Step {
   initAbide() {
     this._init && this.updateProgressBar();
     this.step = new Abide($(this._getCurrentSlideItem()));
+    this.autoHeight();
+  }
+
+  /**
+   * Set auto height on form change event
+   *
+   * @returns
+   * @memberof Step
+   */
+  autoHeight() {
+    return this.carousel.setAutoHeight();
   }
 
   /**
@@ -65,27 +76,26 @@ class Step {
     });
 
     Siema.prototype.setAutoHeight = function(stopTime) {
-      let that, timeout;
-      that = this;
+      let timeout;
 
-      function autoHeight() {
+      const autoHeight = () => {
         let currentItems, min, max, itemHeightList, height, maxHeight, i;
 
-        min = that.currentSlide;
-        max =  min + that.perPage;
+        min = this.currentSlide;
+        max =  min + this.perPage;
         itemHeightList = [];
 
         for (i = min; i < max; i++) {
-          height = parseInt(that.innerElements[i].scrollHeight, 10);
+          height = parseInt(this.innerElements[i].scrollHeight, 10);
           itemHeightList.push(height);
         }
 
         maxHeight = Math.max.apply(null, itemHeightList);
-        that.sliderFrame.style.height = maxHeight + 'px';
-      }
+        this.sliderFrame.style.height = maxHeight + 'px';
+      };
 
       window.addEventListener('resize', function() {
-        that.sliderFrame.style.height = '';
+        this.sliderFrame.style.height = '';
         clearTimeout(timeout);
         timeout = setTimeout(autoHeight, 500);
       });
@@ -104,7 +114,8 @@ class Step {
    */
   valid() {
     const isValid = this.step.validateForm();
-    return new Promise((resolve) => isValid && resolve(this.carousel.setAutoHeight()));
+    this.carousel.setAutoHeight();
+    return new Promise((resolve) => isValid && resolve());
   }
 
   /**
@@ -207,6 +218,10 @@ if ($step) {
   const $stepNavigation = document.getElementById('js-register-step-navigation');
   const step = new Step();
   step.initAbide();
+
+  document.getElementById('js-register-form').addEventListener('change', () => {
+    step.autoHeight();
+  });
 
 
   // Button prev step
