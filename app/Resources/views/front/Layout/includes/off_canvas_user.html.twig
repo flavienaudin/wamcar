@@ -1,7 +1,15 @@
 <header class="off-canvas-header show-for-large">
      <strong>Espace membre</strong>
-     <button class="large-right icon-close no-margin" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
+     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
 </header>
+<div class="off-canvas-content off-canvas-separator">
+    {% include 'front/User/includes/form_login.html.twig' %}
+    {% include 'front/User/includes/modal_password_lost.html.twig' %}
+</div>
 <div class="off-canvas-content">
-     <form>// Login</form>
+    <div>
+        <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
+        <a href="" class="button white input-margin">Je suis un particulier</a>
+        <a href="" class="button white">Je suis un professionnel</a>
+    </div>
 </div>

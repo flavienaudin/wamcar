@@ -9,15 +9,30 @@
    ===================================== */
 
 $input-height: rem-calc(40);
+$input-background: white;
 $input-line-height: $input-height;
 $input-font-size: rem-calc(16);
-$input-border: 1px solid $border-color;
+$input-border: rem-calc(1) solid $border-color;
 $input-border-radius: 0;
 $input-color: black;
 $input-focus-shadow: inset 0 0 2px #13171B;
 $input-focus-border: #13171B;
-$input-margin-bottom: rem-calc(25);
+$input-margin-bottom: rem-calc(20);
+$input-margin-bottom-medium: rem-calc(30);
 $input-padding: 0 rem-calc(10);
+
+
+/*
+   Input mixin
+   ===================================== */
+
+@mixin inputMargin {
+  margin-bottom: $input-margin-bottom;
+
+  @include breakpoint(medium) {
+    margin-bottom: $input-margin-bottom-medium;
+  }
+}
 
 
 
@@ -26,8 +41,12 @@ $input-padding: 0 rem-calc(10);
    ===================================== */
 
 %input-style {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   display: block;
   color: $input-color;
+  background: $input-background;
   font: $input-font-size $body-font-family;
   border: $input-border;
   border-radius: $input-border-radius;
@@ -40,6 +59,7 @@ $input-padding: 0 rem-calc(10);
 }
 
 %input-error-style {
+  background-color: #fef3f4;
   border-color: $alert-color;
   margin-bottom: rem-calc(5);
 }
@@ -55,7 +75,12 @@ $input-padding: 0 rem-calc(10);
 textarea {
   @extend %input-style;
   padding: $input-padding;
+}
 
+.input,
+.checkbox + label::before,
+select,
+textarea {
   &.is-invalid-input {
     @extend %input-error-style;
   }
@@ -63,12 +88,23 @@ textarea {
 
 .input,
 textarea {
+  @include inputMargin;
   width: 100%;
   margin-bottom: $input-margin-bottom;
 }
 
 .input {
-  height: $input-height;
+  @include buttonHeight;
+  @include buttonPadding;
   line-height: $input-line-height;
-  padding: $input-padding;
+
+
+
+  /*
+     Margin
+     ===================================== */
+
+  &-margin {
+    @include inputMargin;
+  }
 }

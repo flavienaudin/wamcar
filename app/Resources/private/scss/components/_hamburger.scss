@@ -8,10 +8,10 @@
 
   /* Open state */
 
-  &[aria-expanded="true"] {
+  &[aria-expanded=true] {
     background: $primary-color;
     color: white;
-  } // End [aria-expanded="true"] &
+  } // End .is-active &
 
 
   /*
@@ -57,7 +57,7 @@
 
     /* Open state */
 
-    [aria-expanded="true"] & {
+    [aria-expanded=true] > & {
       color: white;
       transition-delay: .12s;
       transition-timing-function: cubic-bezier(.215,.61,.355,1);

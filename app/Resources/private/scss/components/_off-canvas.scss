@@ -61,9 +61,21 @@
       font-size: rem-calc(24);
     }
 
+    /* Exceptions */
+
+    .reveal & {
+      height: rem-calc(80);
+    }
+
     /* Componenbts */
 
     > * { color: white; }
+
+    .icon-close {
+      font-size: rem-calc(20);
+
+      &::before { margin-right: 0; }
+    }
   }
 
 
@@ -76,7 +88,16 @@
     padding-top: rem-calc(15);
 
     @include breakpoint(large) {
-      padding-top: rem-calc(30);
+      padding-top: rem-calc(25);
     }
+  }
+
+
+  /*
+     Separator
+     ===================================== */
+
+  &-separator {
+    border-bottom: rem-calc(1) solid $border-color;
   }
 }

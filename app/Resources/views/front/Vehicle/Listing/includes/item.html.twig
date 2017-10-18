@@ -1,0 +1,15 @@
+{% set balise = balise|default('h2') %}
+<article class="vehicle-item is-flex">
+    <a href="" class="like" title="J'aime"><span class="show-for-sr">J'aime</span></a>
+    <a href="" class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></a>
+    <figcaption class="vehicle-infos">
+        <span class="vehicle-brand">{{ vehicle.brand }}</span>
+        {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
+        <a href=""><{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}></a>
+        <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
+        <span class="vehicle-years primary-color" style="margin-top: auto">{{ vehicle.years }}, {{ vehicle.km }}</span>
+        {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
+        <span class="vehicle-city black-color is-block">{{ vehicle.city }}</span>
+        <strong class="vehicle-price">{{ vehicle.price }}</strong>
+    </figcaption>
+</article>

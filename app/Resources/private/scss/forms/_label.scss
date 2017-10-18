@@ -8,10 +8,12 @@
    Settings
    ===================================== */
 
-$label-color: $body-font-color;
+$label-color: $primary-color;
 $label-style: normal;
+$label-weight: bold;
 $label-size: rem-calc(16);
-$label-margin-bottom: rem-calc(7);
+$label-margin-bottom: rem-calc(8);
+$label-margin-bottom-medium: rem-calc(13);
 
 
 
@@ -25,8 +27,26 @@ label,
   display: flex;
   align-items: center;
   color: $label-color;
-  font-style: $label-style;
-  font-size: $label-size;
+  font-weight: $label-weight;
   margin-bottom: $label-margin-bottom;
   cursor: pointer;
+
+  @include breakpoint(medium) {
+    margin-bottom: $label-margin-bottom-medium;
+  }
+
+  /* Components */
+
+  > a {
+    color: $body-font-color;
+    font-weight: normal;
+    text-decoration: underline;
+    margin-left: auto;
+  }
+
+  /* Exceptions */
+
+  form & {
+    line-height: 1;
+  }
 }

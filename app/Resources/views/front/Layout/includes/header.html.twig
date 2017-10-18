@@ -1,4 +1,5 @@
-<header class="l-header column small-right-collapse xlarge-right-uncollapse">
+{% set isHomePage = isHomePage|default(false) %}
+<header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ isHomePage ? 'is-transparent is-fix' : '' }}">
      {% include "front/Layout/includes/logo.html.twig" %}
      {% block headerCenter %}
           {% include "front/Layout/includes/navigation/primary.html.twig" %}

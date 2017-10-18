@@ -18,6 +18,11 @@
     background: $medium-gray;
   }
 
+  &-dark-blue {
+    background: $dark-blue;
+    color: white;
+  }
+
   &-white {
     background: white;
     border: rem-calc(1) solid $light-gray;

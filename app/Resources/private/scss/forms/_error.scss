@@ -3,11 +3,18 @@
    =========================================================================== */
 
 .form-error {
+  @include inputMargin;
   display: none;
+  font-size: rem-calc(12);
   color: $alert-color;
+
+  @include breakpoint(medium) {
+    font-size: rem-calc(14);
+  }
+
+  /* Visible state */
 
   &.is-visible {
     display: block;
-    margin-bottom: rem-calc(10);
   }
 }

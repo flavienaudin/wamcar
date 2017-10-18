@@ -1,0 +1,279 @@
+/* ===========================================================================
+   Vehicle
+   =========================================================================== */
+
+.vehicle {
+
+
+  /*
+    Filter
+    ===================================== */
+
+  &-filter {
+    border-bottom: rem-calc(1) solid $border-color;
+    margin-top: rem-calc(20);
+    margin-bottom: rem-calc(15);
+    padding: 0 rem-calc(10) rem-calc(20);
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(25);
+      margin-bottom: rem-calc(25);
+      padding: 0 0 rem-calc(30);
+    }
+
+    @include breakpoint(xlarge) {
+      position: relative;
+      margin-bottom: rem-calc(35);
+      padding-bottom: rem-calc(40);
+
+      // Pour masquer la bordure qui dépasse de chaque côté
+      // On place les éléments ::before et ::after à gauche et à droite
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: rem-calc(-1);
+        width: rem-calc(20);
+        background: white;
+      }
+
+      &::before { left: 0; }
+      &::after { right: 0; }
+    }
+
+    /* Components */
+
+    label {
+      font-weight: bold;
+      justify-content: center;
+      color: $primary-color;
+      margin-bottom: rem-calc(15);
+
+      @include breakpoint(medium) {
+        height: rem-calc(60);
+        border-width: rem-calc(1) 0 rem-calc(1) rem-calc(1);
+        border-style: solid;
+        border-color: $border-color;
+        padding-right: rem-calc(20);
+        padding-left: rem-calc(20);
+      }
+
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(30);
+        padding-left: rem-calc(30);
+      }
+    }
+
+    label,
+    .input {
+      @include breakpoint(medium) {
+        margin-bottom: rem-calc(30);
+      }
+
+      @include breakpoint(large) {
+        margin-bottom: 0;
+      }
+    }
+
+    .button {
+      margin-top: 0;
+    }
+
+  } // End &-filter
+
+
+
+  /*
+     List
+     ===================================== */
+
+  &-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: rem-calc(-10);
+    margin-bottom: rem-calc(25);
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(-20);
+    }
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(-10);
+      margin-bottom: rem-calc(40);
+    }
+  }
+
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    position: relative;
+    width: 100%;
+    border: rem-calc(1) solid $border-color;
+    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+    margin: rem-calc(10);
+
+    @include breakpoint(medium down) {
+      padding: rem-calc(10);
+    }
+
+    @include breakpoint(768) {
+      width: calc(50% - #{rem-calc(40)});
+      margin: rem-calc(20);
+    }
+  } // End &-item
+
+
+
+  /*
+     Picture
+     ===================================== */
+
+  &-picture {
+    width: rem-calc(135);
+    flex: 0 0 rem-calc(135);
+
+    @include breakpoint(medium only) {
+      width: 100%;
+    }
+
+    @include breakpoint(large) {
+      width: rem-calc(200);
+      flex: 0 0 rem-calc(200);
+    }
+
+    @include breakpoint(xlarge) {
+      width: rem-calc(260);
+      flex: 0 0 rem-calc(260);
+    }
+  }
+
+
+  /*
+     Name
+     ===================================== */
+
+  &-name {
+    color: black;
+    text-transform: uppercase;
+    padding-top: rem-calc(7);
+
+    @include breakpoint(large down) {
+      margin-bottom: rem-calc(2);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+
+
+  /*
+     Infos
+     ===================================== */
+
+  &-infos {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    padding-left: rem-calc(10);
+
+    @include breakpoint(large) {
+      padding: rem-calc(15);
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(30);
+    }
+  } // End &-infos
+
+
+
+  /*
+     Model
+     ===================================== */
+
+  &-model {
+    @include breakpoint(large down) {
+      line-height: 1.2;
+    }
+  }
+
+
+  /*
+     Years
+     ===================================== */
+
+  &-model,
+  &-city,
+  &-years {
+    @include breakpoint(medium only) {
+      font-size: rem-calc(14);
+    }
+  }
+
+  &-years {
+    @include breakpoint(medium only) { margin-bottom: rem-calc(-4); }
+    @include breakpoint(large only) { margin-bottom: rem-calc(-4); }
+  }
+
+
+
+  /*
+     Brand
+     ===================================== */
+
+  &-brand {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $primary-color;
+    color: white;
+    text-transform: uppercase;
+    font-size: rem-calc(10);
+    padding: 0 rem-calc(3);
+
+    @include breakpoint(large) {
+      font-size: rem-calc(13);
+      padding: rem-calc(3) rem-calc(10);
+    }
+  }
+
+
+  /*
+     Price
+     ===================================== */
+
+  &-price {
+    display: flex;
+    align-items: center;
+    height: rem-calc(25);
+    background: white;
+    border-width: rem-calc(1) 0 0 rem-calc(1);
+    border-style: solid;
+    border-color: $border-color;
+    color: $primary-color;
+    padding-right: rem-calc(5);
+    padding-left: rem-calc(5);
+
+    @include breakpoint(large) {
+      height: rem-calc(50);
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+    }
+
+    /* Exception */
+
+    .vehicle-list & {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+  }
+
+}
