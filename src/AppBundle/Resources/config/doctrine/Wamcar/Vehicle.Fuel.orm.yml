@@ -1,0 +1,8 @@
+Wamcar\Vehicle\Fuel:
+
+    type: embeddable
+    columnPrefix: fuel_
+
+    fields:
+        name:
+            type: string

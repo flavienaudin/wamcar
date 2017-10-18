@@ -1,0 +1,8 @@
+Wamcar\Vehicle\Make:
+
+    type: embeddable
+    columnPrefix: make_
+
+    fields:
+        name:
+            type: string

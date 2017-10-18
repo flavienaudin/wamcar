@@ -1,0 +1,12 @@
+Wamcar\Vehicle\Engine:
+
+    type: embeddable
+    columnPrefix: engine_
+
+    fields:
+        name:
+            type: string
+
+    embedded:
+        fuel:
+            class: Wamcar\Vehicle\Fuel

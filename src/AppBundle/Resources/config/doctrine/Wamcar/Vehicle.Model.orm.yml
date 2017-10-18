@@ -1,0 +1,12 @@
+Wamcar\Vehicle\Model:
+
+    type: embeddable
+    columnPrefix: model_
+
+    fields:
+        name:
+            type: string
+
+    embedded:
+        make:
+            class: Wamcar\Vehicle\Make

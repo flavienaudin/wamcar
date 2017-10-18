@@ -39,6 +39,8 @@ abstract class BaseVehicle implements Vehicle
     protected $isFirstHand;
     /** @var string|null */
     protected $additionalInformation;
+    /** @var \DateTimeImmutable */
+    protected $createdAt;
 
     /**
      * BaseVehicle constructor.

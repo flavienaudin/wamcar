@@ -1,0 +1,12 @@
+Wamcar\Vehicle\Registration:
+
+    type: embeddable
+    columnPrefix: make_
+
+    fields:
+        mineType:
+            type: string
+            nullable: true
+        plateNumber:
+            type: string
+            nullable: true
