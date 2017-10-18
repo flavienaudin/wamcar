@@ -2,8 +2,6 @@
 
 namespace Wamcar\Vehicle;
 
-use Wamcar\Vehicle\Enum\Fuel;
-
 final class Engine
 {
     /** @var string */
@@ -20,5 +18,13 @@ final class Engine
     {
         $this->name = $name;
         $this->fuel = $fuel;
+    }
+
+    /**
+     * @return Fuel
+     */
+    public function getFuel(): Fuel
+    {
+        return $this->fuel;
     }
 }
