@@ -1,0 +1,82 @@
+/* ===========================================================================
+   Offcanvas
+   =========================================================================== */
+
+.off-canvas {
+
+  @include breakpoint(medium down) {
+    top: $header-height;
+  }
+
+  @include breakpoint(medium) {
+    width: $offcanvas-size-medium;
+    transform: translateX($offcanvas-size-medium);
+  }
+
+  @include breakpoint(large) {
+    border-left: rem-calc(3) solid $primary-color;
+  }
+
+
+  /*
+     Navigation
+     ===================================== */
+
+  &-navigation {
+    background: $primary-color;
+    padding-top: rem-calc(30);
+
+    /* Components */
+
+    a {
+      color: white;
+    }
+  }
+
+
+  /*
+     Header
+     ===================================== */
+
+  &-header,
+  &-content {
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-right: rem-calc(40);
+      padding-left: rem-calc(40);
+    }
+  }
+
+  &-header {
+    display: flex;
+    align-items: center;
+    height: rem-calc(80);
+    background: $primary-color;
+    font-size: rem-calc(18);
+
+    @include breakpoint(xlarge) {
+      height: rem-calc(100);
+      font-size: rem-calc(24);
+    }
+
+    /* Componenbts */
+
+    > * { color: white; }
+  }
+
+
+  /*
+     Content
+     ===================================== */
+
+  &-content {
+    border-top: rem-calc(1) solid $border-color;
+    padding-top: rem-calc(15);
+
+    @include breakpoint(large) {
+      padding-top: rem-calc(30);
+    }
+  }
+}

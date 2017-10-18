@@ -3,13 +3,13 @@
    =========================================================================== */
 
 
-
 /*
    Settings
    ===================================== */
 
+$header-height: rem-calc(60);
+$header-height-medium: rem-calc(90);
 $header-background: white;
-
 
 
 /*
@@ -17,21 +17,57 @@ $header-background: white;
    ===================================== */
 
 .l-header {
-  position: fixed;
+  position: sticky;
   top: 0;
   right: 0;
   left: 0;
+  display: flex;
+  align-items: center;
+  height: $header-height;
   background: $header-background;
-  z-index: 2;
-  transition: transform $offcanvas-transition-length $offcanvas-transition-timing;
+  box-shadow: 0 rem-calc(2) rem-calc(10) rgba(black, .1);
+  z-index: 13;
 
+  @include breakpoint(large) {
+    z-index: 2;
+    height: $header-height-medium;
+  }
+
+  @include breakpoint(xlarge) {
+    font-size: rem-calc(20);
+  }
 
 
   /*
-     Components
+     Button
      ===================================== */
 
-  button {
-    margin-bottom: 0;
-  }
+  &-button {
+
+    @include breakpoint(large down) {
+      text-align: center;
+      justify-content: center;
+      width: $header-height;
+      height: $header-height;
+      border-left: rem-calc(1) solid $border-color;
+
+      &::before { width: 100%; }
+    } // End MQ large down
+
+    @include breakpoint(medium down) {
+      &::before { font-size: rem-calc(17); }
+    }
+
+    @include breakpoint(large only) {
+      width: $header-height-medium;
+      height: $header-height-medium;
+
+      &::before { font-size: rem-calc(20); }
+    } // End MQ large only
+
+    @include breakpoint(xlarge) {
+      &::before { font-size: rem-calc(17); }
+    }
+
+  } // End &-button
 }

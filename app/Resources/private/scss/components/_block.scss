@@ -1,0 +1,37 @@
+/* ===========================================================================
+   Block
+   =========================================================================== */
+
+.block {
+
+  &-primary {
+    background: $primary-color;
+    color: white;
+  }
+
+  &-secondary {
+    background: $secondary-color;
+    color: white;
+  }
+
+  &-medium-gray {
+    background: $medium-gray;
+  }
+
+  &-white {
+    background: white;
+    border: rem-calc(1) solid $light-gray;
+  }
+
+
+  /*
+    Grid
+    ===================================== */
+
+  &-grid {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+  }
+
+}

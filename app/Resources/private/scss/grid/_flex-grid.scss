@@ -2,169 +2,44 @@
    Flex grid
    =========================================================================== */
 
-
-
-
-/*
-   Row
-   ===================================== */
-
-.row {
-  display: flex;
-  flex-flow: row wrap;
-  max-width: $global-width;
-  margin-right: auto;
-  margin-left: auto;
-
-  @include ie9 {
-    > * {
-      display: inline-block;
-      vertical-align: top;
-      margin-right: rem-calc(-4);
-    }
-  }
-}
-
-
-
-/*
-   Column
-   ===================================== */
-
-.column {
-  padding-right: $grid-column-gutter/2;
-  padding-left: $grid-column-gutter/2;
-}
-
-
-
-/*
-   Function
-   ===================================== */
-
-// $colNumber - Found in settings file
-// $totalColumns - Found in settings file
-@function grid-calc($colNumber, $totalColumns) {
-  $result: percentage(($colNumber / $totalColumns));
-  @if $result == 0% { $result: 0; }
-  @return $result;
-}
-
-
-
-/* ===========================================================================
-   Grid
-   =========================================================================== */
-
-@mixin flex-grid($size, $total-columns, $classes: false) {
+@mixin flex-grid($size, $total-columns) {
 
   .#{$size}-vertical    { flex-direction: column; }
   .#{$size}-horizontal  { flex-direction: row; }
-  .#{$size}-auto        { flex: 1 }
-  .#{$size}-shrink      { flex: 0 1 auto }
+  .#{$size}-auto        { flex: 1 0 auto; }
+  .#{$size}-shrink      { flex: 0 1 auto; }
   .#{$size}-right       { margin-left: auto; }
 
-
-
-  /*
-     Column
-     ===================================== */
-
   // Collapse
-  .#{$size}-collapse > .column,
   .column.#{$size}-collapse {
     padding-right: 0;
     padding-left: 0;
   }
 
   // Uncollapse
-  .#{$size}-uncollapse > .column,
   .column.#{$size}-uncollapse {
-    padding-right: $grid-column-gutter/2;
-    padding-left: $grid-column-gutter/2;
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
   }
 
-
-
-  /*
-     Horizontal alignment using justify-content
-     ===================================== */
-
-  @if $classes {
-    .#{$size}-align-right { justify-content: flex-end; }
-    .#{$size}-align-center { justify-content: center; }
-    .#{$size}-align-justify { justify-content: space-between; }
-    .#{$size}-align-spaced { justify-content: space-around; }
+  // Collapse
+  .column.#{$size}-left-collapse {
+    padding-left: 0;
   }
 
-
-
-  /*
-     Vertical alignment using align-items and align-self
-     ===================================== */
-
-  @if $classes {
-    .#{$size}-align-top { align-items: flex-start; }
-    .#{$size}-align-self-top { align-self: flex-start; }
-    .#{$size}-align-bottom { align-items: flex-end; }
-    .#{$size}-align-self-bottom { align-self: flex-end; }
-    .#{$size}-align-middle { align-items: center; }
-    .#{$size}-align-self-middle { align-self: center; }
-    .#{$size}-align-stretch { align-items: stretch; }
-    .#{$size}-align-self-stretch { align-self: stretch; }
+  // Uncollapse
+  .column.#{$size}-left-uncollapse {
+    padding-left: rem-calc(20);
   }
 
-
-
-  /*
-     Size classes
-     ===================================== */
-
-  @for $j from 1 through $total-columns {
-    .#{$size}-#{$j} {
-      width: grid-calc($j, $total-columns);
-    }
+  // Collapse
+  .column.#{$size}-right-collapse {
+    padding-right: 0;
   }
 
-
-
-  /*
-     Push/Pull
-     ===================================== */
-
-  @for $i from 0 through $total-columns - 1 {
-    .#{$size}-push-#{$i} {
-      left: grid-calc($i, $total-columns);
-      right: auto;
-    }
-    .#{$size}-pull-#{$i} {
-      right: grid-calc($i, $total-columns);
-      left: auto;
-    }
-  }
-
-
-
-  /*
-     Offset
-     ===================================== */
-
-  @for $i from 0 through $total-columns - 1 {
-    .#{$size}-offset-#{$i} {
-      margin-left: grid-calc($i, $total-columns) !important;
-    }
-  }
-
-
-
-  /*
-     Order
-     ===================================== */
-
-  @for $i from 0 through $total-columns - 1 {
-    .#{$size}-order-#{$i} {
-      order: $i;
-    }
+  // Uncollapse
+  .column.#{$size}-right-uncollapse {
+    padding-right: rem-calc(20);
   }
 
 }
@@ -172,25 +47,21 @@
 
 
 /* ===========================================================================
-   Breakpoint
-   =========================================================================== */
+    Breakpoint
+    =========================================================================== */
 
 @include breakpoint(small) {
-  @include flex-grid($size: small, $total-columns: $grid-column-count-small, $classes: true);
+  @include flex-grid($size: small, $total-columns: $grid-columns);
 }
 
 @include breakpoint(medium) {
-  @include flex-grid($size: medium, $total-columns: $grid-column-count-medium, $classes: true);
+  @include flex-grid($size: medium, $total-columns: $grid-columns);
 }
 
 @include breakpoint(large) {
-  @include flex-grid($size: large, $total-columns: $grid-column-count-large, $classes: true);
+  @include flex-grid($size: large, $total-columns: $grid-columns);
 }
 
 @include breakpoint(xlarge) {
-  @include flex-grid($size: xlarge, $total-columns: $grid-column-count-xlarge, $classes: true);
-}
-
-@include breakpoint(xxlarge) {
-  @include flex-grid($size: xxlarge, $total-columns: $grid-column-count-xlarge, $classes: true);
+  @include flex-grid($size: xlarge, $total-columns: $grid-columns);
 }

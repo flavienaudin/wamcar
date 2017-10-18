@@ -8,8 +8,8 @@ import '../scss/app.scss';
 import $ from 'jquery';
 import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
-import { MediaQuery } from 'foundation-sites/js/foundation.util.mediaQuery';
-import offCanvasFixed from './components/offcanvas';
+import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
+import './components/responsiveDom';
 
 
 
@@ -18,6 +18,14 @@ import offCanvasFixed from './components/offcanvas';
    =========================================================================== */
 
 $(function() {
+
+  /* Off Canvas */
+
+  const $offCanvas = $('[data-off-canvas]');
+
+  $offCanvas.each((index, offcanvas) => {
+    return new OffCanvas($(offcanvas));
+  });
 
 });
 
@@ -34,10 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
      Offcanvas fixed
      ===================================== */
 
-  MediaQuery._init();
-  if (!MediaQuery.atLeast('large')) {
-    offCanvasFixed();
-  }
+  // MediaQuery._init();
+  // if (!MediaQuery.atLeast('large')) {
+  //   offCanvasFixed();
+  // }
 
 
   /*
