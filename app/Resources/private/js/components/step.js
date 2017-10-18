@@ -76,10 +76,10 @@ class Step {
     });
 
     Siema.prototype.setAutoHeight = function(stopTime) {
-      let timeout;
+      let timeout, i;
 
       const autoHeight = () => {
-        let currentItems, min, max, itemHeightList, height, maxHeight, i;
+        let currentItems, min, max, itemHeightList, height, maxHeight;
 
         min = this.currentSlide;
         max =  min + this.perPage;
@@ -94,7 +94,7 @@ class Step {
         this.sliderFrame.style.height = maxHeight + 'px';
       };
 
-      window.addEventListener('resize', function() {
+      window.addEventListener('resize', () => {
         this.sliderFrame.style.height = '';
         clearTimeout(timeout);
         timeout = setTimeout(autoHeight, 500);

@@ -139,7 +139,7 @@ class FilePreview {
 
 }
 
-if ($filePreview) {
+if ($picturesList) {
   // Selector for count the number of default input
   const fileRequired = document.querySelectorAll('.js-file-required').length;
   // Set array for test if all default input has value
