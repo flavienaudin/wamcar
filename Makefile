@@ -15,7 +15,8 @@ help: ## Display this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 # Setup dev
-dev: web-up vendors database front ## setup a dev environnement
+dev-back: web-up vendors database ## setup a dev environnement (backend only)
+dev: dev-back front ## setup a dev environnement
 
 # Docker
 web-up: ## start docker services to run dev website
