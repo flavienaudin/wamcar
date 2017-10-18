@@ -9,11 +9,14 @@
     <section class="small-12">
         <form id="js-register-form" class="register-form row" novalidate>
             <ul id="js-step" class="step">
-                <li class="block-grid" data-step="1">
+                {# <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
                 </li>
                 <li class="block-grid" data-step="2">
                     {% include 'front/Security/Register/includes/pictures.html.twig' %}
+                </li> #}
+                <li class="block-grid" data-step="1">
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' %}
                 </li>
             </ul>
             <nav class="column small-12">

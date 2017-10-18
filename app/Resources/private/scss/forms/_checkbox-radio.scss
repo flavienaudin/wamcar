@@ -183,19 +183,31 @@ $radio-checked-margin-left: $radio-border-width;
      ===================================== */
 
   &-item {
-    height: rem-calc(35);
+    @include buttonHeight;
+    justify-content: center;
     border: rem-calc(1) solid $border-color;
+    color: $body-font-color;
     margin-bottom: 0;
     margin-right: rem-calc(-1);
     padding-right: rem-calc(12);
     padding-left: rem-calc(12);
     transition: $global-transition;
 
-    :checked + & {
-      background: $primary-color;
-      border-color: $primary-color;
-      color: white;
+    svg {
+      overflow: hidden;
+      width: 0;
+      margin-left: rem-calc(10);
+      transition: $global-transition;
     }
+
+    :checked + & {
+      color: black;
+      svg { width: rem-calc(20); }
+    }
+
+    /* Exceptions */
+
+    &.small { height: rem-calc(35); }
   }
 
 }
