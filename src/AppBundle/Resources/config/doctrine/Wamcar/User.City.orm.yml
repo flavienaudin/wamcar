@@ -4,7 +4,7 @@ Wamcar\User\City:
     fields:
         postalCode:
             type: string
-            nullable: true
+            nullable: false
         name:
             type: string
-            nullable: true
+            nullable: false
