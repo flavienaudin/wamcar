@@ -1,0 +1,68 @@
+/* ===========================================================================
+   Star
+   =========================================================================== */
+
+.star {
+
+
+  /*
+    List
+    ===================================== */
+
+  &-list {
+    position: relative;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    position: static;
+    width: rem-calc(30);
+    height: rem-calc(30);
+    margin-right: rem-calc(6);
+    margin-bottom: 0;
+    transition: $global-transition;
+    color: $secondary-color;
+
+    &::before {
+      content: "\e90c";
+      font: rem-calc(30) 'icomoon';
+    }
+
+    /* Checked state */
+
+    :checked + &:nth-of-type(1) ~ .star-label:nth-of-type(5),
+    :checked + &:nth-of-type(2) ~ .star-label:nth-of-type(4),
+    :checked + &:nth-of-type(3) ~ .star-label:nth-of-type(3),
+    :checked + &:nth-of-type(4) ~ .star-label:nth-of-type(2),
+    :checked + &:nth-of-type(5) ~ .star-label:nth-of-type(1) { opacity: 1; }
+
+    :checked + & {
+      &,
+      ~ .star-item {
+        &::before { content: "\e90b"; }
+      }
+    } // End checkedd + &
+  }
+
+
+  /*
+     label
+     ===================================== */
+
+  &-label {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    opacity: 0;
+    transition: .3s;
+    transform: translate3d(0, calc(-50% + #{rem-calc(2)}), 0);
+  }
+
+}

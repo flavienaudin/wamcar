@@ -1,4 +1,11 @@
 {% set asideId = '3' %}
+{% set rent_list = [
+    { label: 'Très mauvais état' },
+    { label: 'Mauvais état' },
+    { label: 'En état' },
+    { label: 'Bon état' },
+    { label: 'Très bon état' }
+] %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
     content: '
@@ -109,7 +116,51 @@
     </div>
     <div class="column">
         <div class="form-separator">
-            // Rent
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat de la carrosserie</label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="rent-1" id="{{ index }}" class="is-hidden" required>
+                            <label for="{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat du moteur <span class="medium-12 medium-no-margin">Facultatif</span></label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="moteur-1" id="moteur-{{ index }}" class="is-hidden" required>
+                            <label for="moteur-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat des pneus <span class="medium-12 medium-no-margin">Facultatif</span></label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="pneus-1" id="pneus-{{ index }}" class="is-hidden" required>
+                            <label for="pneus-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
+            </div>
         </div>
     </div>
     <div class="column">
