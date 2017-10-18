@@ -23,6 +23,7 @@ class FilePreview {
     this.input = input;
     this.image = image;
     this.button = button;
+    this.defaultImage = this.image.getAttribute('src');
   }
 
   /**
@@ -35,9 +36,6 @@ class FilePreview {
     const reader = new FileReader();
 
     reader.onload = (event) => {
-      // Save the default image
-      this._defaultImage = this.image.getAttribute('src');
-
       // Load data image
       const data = event.target.result;
       // And show in src attribute
@@ -55,14 +53,28 @@ class FilePreview {
    */
   clear() {
     this.input.value = '';
-    this.image.setAttribute('src', this._defaultImage);
+    this.image.setAttribute('src', this.defaultImage);
     this._hideButtonRemove();
   }
 
+  /**
+   * Show button for clear item
+   *
+   * @private
+   * @returns
+   * @memberof FilePreview
+   */
   _showButtonRemove() {
     return this.button.classList.remove(hideClass);
   }
 
+  /**
+   * Hide button when item is clear
+   *
+   * @private
+   * @returns
+   * @memberof FilePreview
+   */
   _hideButtonRemove() {
     return this.button.classList.add(hideClass);
   }
