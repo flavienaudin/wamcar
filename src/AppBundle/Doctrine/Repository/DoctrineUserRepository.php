@@ -2,8 +2,9 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
-use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
+use AppBundle\Entity\ApplicationUser;
+use AppBundle\Form\DTO\EditUserData;
+use AppBundle\Security\Repository\UserTokenable;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\User;
 use Wamcar\User\UserRepository;
@@ -84,7 +85,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
         // update informations
         $user->updateInformations($userData);
         // and save modification
-        $user = $this->update($user);
+        $this->update($user);
 
         return $user;
     }

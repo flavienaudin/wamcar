@@ -4,8 +4,8 @@
 namespace AppBundle\Doctrine\Repository;
 
 
-use AppBundle\DTO\Form\EditUserData;
 use AppBundle\Entity\ApplicationUser;
+use AppBundle\Form\DTO\EditUserData;
 
 interface InformationsUpdatable
 {

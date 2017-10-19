@@ -3,8 +3,8 @@
 namespace AppBundle\Security;
 
 use AppBundle\Doctrine\Repository\InformationsUpdatable;
-use AppBundle\DTO\Form\EditUserData;
 use AppBundle\Entity\ApplicationUser;
+use AppBundle\Form\DTO\EditUserData;
 use Wamcar\User\UserRepository;
 
 

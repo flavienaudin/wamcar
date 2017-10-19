@@ -20,4 +20,19 @@ class City
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
 }

@@ -5,15 +5,13 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
-use AppBundle\DTO\Form\EditUserData;
-use AppBundle\Entity\ApplicationUser;
+use AppBundle\Form\DTO\EditUserData;
 use AppBundle\Form\EditUser;
 use AppBundle\Security\UserEditionService;
 use AppBundle\Security\UserRegistrationService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\User;
 
 class UserController extends BaseController
 {
@@ -60,7 +58,7 @@ class UserController extends BaseController
 
         $editForm = $this->formFactory->create(
             EditUser::class,
-            new EditUserData($user, $request->getClientIp())
+            new EditUserData($user)
         );
 
         $editForm->handleRequest($request);

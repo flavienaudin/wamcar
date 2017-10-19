@@ -1,12 +1,46 @@
-{% extends 'front/Layout/layout.html.twig' %}
-
-{% set userInformationsActivePage = true %}
+{% extends 'base.html.twig' %}
 
 {% trans_default_domain 'user' %}
 {% block title %}{% endblock title %}
 
 {% block body %}
+    {{ form_start(form) }}
 
-    {% include 'front/User/includes/userPersonalInformationsForm.html.twig' %}
+    {# Civilité #}
+    <div>
+        {{ form_row(form.title) }}
+    </div>
+
+    {# Nom #}
+    <div>
+        {{ form_row(form.name, {'errorMsg' : 'user.field.lastName.error'|trans}) }}
+    </div>
+
+    {# Adresse e-mail #}
+    <div>
+        {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans}) }}
+    </div>
+
+    {# Code postal #}
+    <div>
+        {{ form_row(form.postalCode, {'errorMsg' :  'user.field.postalCode.error'|trans}) }}
+    </div>
+
+    {# Ville #}
+    <div>
+        {{ form_row(form.city, {'errorMsg' : 'user.field.city.error'}) }}
+    </div>
+
+    {# Phone #}
+    <div>
+        {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'}) }}
+    </div>
+
+    {# Button submit #}
+    <div>
+        <button type="submit">{{ 'button.edit_informations'|trans([], 'user') }}</button>
+    </div>
+
+    {{ form_end(form) }}
 
 {% endblock %}
