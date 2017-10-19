@@ -3,26 +3,22 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
-use Wamcar\User\City;
-use Wamcar\User\Title;
-use Wamcar\User\UserProfile;
-use Wamcar\User\UserRepository;
+use Wamcar\User\BaseUserRepository;
 
 
 class UserEditionService
 {
-    /** @var UserRepository  */
+    /** @var BaseUserRepository  */
     private $userRepository;
 
     /**
-     * UserEditionService constructor.
+     * BaseUserRepository constructor.
      *
-     * @param UserRepository $userRepository
+     * @param BaseUserRepository $userRepository
      */
     public function __construct(
-        UserRepository $userRepository
+        BaseUserRepository $userRepository
     )
     {
         $this->userRepository = $userRepository;
