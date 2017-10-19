@@ -11,7 +11,7 @@
 @mixin socialTheme($color) {
   background: $color;
 
-  @include breakpoint(large) {
+  @include breakpoint(xlarge) {
     &:hover { background: lighten($color, 10%); }
   }
 }
@@ -32,7 +32,7 @@
     padding: rem-calc(20) 0;
   }
 
-  @include breakpoint(large) {
+  @include breakpoint(xlarge) {
     padding-top: rem-calc(25);
     padding-bottom: rem-calc(25);
   }
@@ -40,11 +40,11 @@
   /* Components */
 
   > li {
-    @include breakpoint(medium down) {
+    @include breakpoint(large down) {
       width: 50%;
     }
 
-    @include breakpoint(large) {
+    @include breakpoint(xlarge) {
       &:not(:first-child) { margin-left: rem-calc(20); }
     }
   }
@@ -57,11 +57,7 @@
 
   &-link {
 
-    @include breakpoint(small only) {
-      margin-top: rem-calc(10);
-    }
-
-    @include breakpoint(medium only) {
+    @include breakpoint(large down) {
       margin-top: rem-calc(10);
     }
 
