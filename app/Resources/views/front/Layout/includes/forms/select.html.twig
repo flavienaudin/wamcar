@@ -1,5 +1,6 @@
 {% set id = id|default('') %}
 {% set class = class|default('') %}
+{% set dataToggleId = dataToggleId|default('') %}
 {% set required = required|default(false) %}
 {% set required_message = required_message|default('Ce champ est requis') %}
 {% set required_class = required_class|default('') %}
@@ -8,7 +9,7 @@
 {% if label %}
     <label class="{{ label_class }}">{{ label }}</label>
 {% endif %}
-<select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}>
+<select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }} {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}>
     {% for option in options %}
         <option value="{{ option.value }}">{{ option.label }}</option>
     {% endfor %}

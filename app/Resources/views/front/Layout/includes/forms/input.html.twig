@@ -10,9 +10,13 @@
 {% if label %}
     <label for="{{ name }}" class="{{ label_class }}">{{ label }}</label>
 {% endif %}
-<div class="{{ class_field }}">
-    <input type="{{ type }}" name="{{ name }}" id="{{ name }}" class="input {{ class }}">
-</div>
-{% if required %}
-    <small class="form-error {{ required_class }}">{{ required_message }}</small>
+{% if class_field %}
+    <div class="{{ class_field }}">
+{% endif %}
+    <input type="{{ type }}" name="{{ name }}" id="{{ name }}" class="input {{ class }}" {{ required ? 'required' }}>
+    {% if required %}
+        <small class="form-error {{ required_class }}">{{ required_message }}</small>
+    {% endif %}
+{% if class_field %}
+    </div>
 {% endif %}

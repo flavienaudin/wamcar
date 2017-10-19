@@ -1,19 +1,30 @@
 <form class="block-grid" data-abide novalidate>
     <div class="column small-12">
-        <label for="imma">Numéro d'immatriculation</label>
-        <input type="text" name="imma" id="imma" class="input" required>
-        <small class="form-error">Veuillez indiqué un numéro d'immatriculation.</small>
+        {% include 'front/Layout/includes/forms/input.html.twig' with {
+            label: 'Numéro d\'immatriculation',
+            name: 'immage',
+            required: true,
+            required_message: 'Veuillez indiqué un numéro d\'immatriculation'
+        } %}
     </div>
     <div class="input-margin block-grid column small-12">
-        <label for="imma" class="no-margin small-8 medium-auto">Je cherche un véhicule pour le template</label>
+        <label class="no-margin small-8 medium-auto">Je cherche un véhicule pour le remplacer</label>
         <ul class="block-grid small-right">
             <li>
-                <input type="radio" name="vehicle-replace" id="yes" class="is-hidden">
-                <label for="yes" class="radio-item small">Oui</label>
+                {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                    name: 'vehicle-replace',
+                    id: 'yes',
+                    class: 'small',
+                    label: 'Oui'
+                } %}
             </li>
             <li>
-                <input type="radio" name="vehicle-replace" id="no" class="is-hidden">
-                <label for="no" class="radio-item small">Non</label>
+                {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                    name: 'vehicle-replace',
+                    id: 'no',
+                    class: 'small',
+                    label: 'Non'
+                } %}
             </li>
         </ul>
     </div>

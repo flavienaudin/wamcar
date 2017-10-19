@@ -200,7 +200,15 @@ $radio-checked-margin-left: $radio-border-width;
 
     /* Exceptions */
 
-    &.small { height: rem-calc(35); }
+    &.small {
+      height: rem-calc(35);
+
+      :checked + & {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: white;
+      }
+    }
   }
 
 }
