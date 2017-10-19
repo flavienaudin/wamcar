@@ -1,13 +1,16 @@
-Wamcar\User\User:
+Wamcar\User\BaseUser:
 
     type: entity
     inheritanceType: SINGLE_TABLE
+    table: user
     discriminatorColumn:
         name: discriminator
         type: string
     discriminatorMap:
-        basic: Wamcar\User\User
-        application: AppBundle\Doctrine\Entity\ApplicationUser
+        basic-pro: Wamcar\User\ProUser
+        basic-personal: Wamcar\User\PersonalUser
+        pro: AppBundle\Doctrine\Entity\ProApplicationUser
+        personal: AppBundle\Doctrine\Entity\PersonalApplicationUser
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository

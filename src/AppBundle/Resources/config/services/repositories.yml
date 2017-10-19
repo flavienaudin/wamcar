@@ -12,4 +12,4 @@ services:
     AppBundle\Doctrine\Repository\DoctrineUserRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\ApplicationUser']
+        arguments: ['Wamcar\User\BaseUser']

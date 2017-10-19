@@ -41,7 +41,45 @@ class SecurityController extends BaseController
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUser($registrationForm->getData());
+                $this->userRegistrationService->registerUserPersonal($registrationForm->getData());
+            } catch (UniqueConstraintViolationException $exception) {
+                $this->session->getFlashBag()->add(
+                    'flash.danger.registration_duplicate',
+                    self::FLASH_LEVEL_DANGER
+                );
+
+                return $this->render('front/Security/register.html.twig', [
+                    'form' => $registrationForm->createView(),
+                ]);
+            }
+
+            $this->session->getFlashBag()->add(
+                'flash.success.registration_success',
+                self::FLASH_LEVEL_INFO
+            );
+
+            return $this->redirectToRoute('front_default');
+        }
+
+        return $this->render('front/Security/register.html.twig', [
+            'form' => $registrationForm->createView(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function registerProAction(Request $request): Response
+    {
+
+        $registrationForm = $this->formFactory->create(RegistrationType::class);
+
+        $registrationForm->handleRequest($request);
+
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
+            try {
+                $this->userRegistrationService->registerUserPro($registrationForm->getData());
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',

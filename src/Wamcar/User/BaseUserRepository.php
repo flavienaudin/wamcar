@@ -2,51 +2,51 @@
 
 namespace Wamcar\User;
 
-interface UserRepository
+interface BaseUserRepository
 {
     /**
      * @param int $userId
      *
-     * @return User
+     * @return BaseUser
      */
-    public function findOne(int $userId): User;
+    public function findOne(int $userId): BaseUser;
 
     /**
-     * @return User[]
+     * @return BaseUser[]
      */
     public function findAll(): array;
 
     /**
-     * @param User $user
+     * @param BaseUser $user
      *
-     * @return User
+     * @return BaseUser
      */
-    public function add(User $user);
+    public function add(BaseUser $user);
 
     /**
-     * @param User $user
+     * @param BaseUser $user
      *
-     * @return User
+     * @return BaseUser
      */
-    public function update(User $user);
+    public function update(BaseUser $user);
 
     /**
-     * @param User $user
+     * @param BaseUser $user
      *
      * @return boolean
      */
-    public function remove(User $user);
+    public function remove(BaseUser $user);
 
     /**
      * @param array $criteria
      * @param array|null $orderBy
-     * @return User
+     * @return BaseUser
      */
     public function findOneBy(array $criteria, array $orderBy = NULL);
 
     /**
      * @param string $email
-     * @return User
+     * @return BaseUser
      */
     public function findOneByEmail(string $email);
 

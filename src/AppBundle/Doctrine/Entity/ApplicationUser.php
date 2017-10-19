@@ -2,162 +2,73 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\ShouldConfirmRegistration;
-use Wamcar\User\User;
-use Wamcar\Vehicle\Vehicle;
 
-class ApplicationUser extends User implements \Serializable, ShouldConfirmRegistration
+interface ApplicationUser
 {
-    /** @var string */
-    protected $password;
-    /** @var string */
-    protected $salt;
-    /** @var  string */
-    protected $registrationToken;
-    /** @var  \DateTime */
-    protected $createdAt;
-    /** @var  \DateTime */
-    protected $deletedAt;
-
     /**
-     * ApplicationUser constructor.
-     * @param string $email
-     * @param string $password
-     * @param string $salt
-     * @param Vehicle|null $firstVehicle
-     * @param string $registrationToken
+     * {@inheritdoc}
      */
-    public function __construct(
-        string $email,
-        string $password,
-        string $salt,
-        Vehicle $firstVehicle = null,
-        string $registrationToken
-    )
-    {
-        parent::__construct($email, null, $firstVehicle);
-
-        $this->password = $password;
-        $this->salt = $salt;
-        $this->registrationToken = $registrationToken;
-    }
+    public function getPassword(): string;
 
     /**
      * {@inheritdoc}
      */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+    public function getSalt();
 
     /**
      * {@inheritdoc}
      */
-    public function getSalt()
-    {
-        return $this->salt;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUsername(): string
-    {
-        return $this->email;
-    }
+    public function getUsername(): string;
 
     /**
      * @return string
      */
-    public function getRegistrationToken()
-    {
-        return $this->registrationToken;
-    }
+    public function getRegistrationToken();
 
     /**
      * {@inheritdoc}
      */
-    public function eraseCredentials()
-    {
-    }
+    public function eraseCredentials();
 
     /**
      * {@inheritdoc}
      */
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
+    public function isAccountNonExpired();
 
     /**
      * {@inheritdoc}
      */
-    public function isAccountNonLocked()
-    {
-        return true;
-    }
+    public function isAccountNonLocked();
 
     /**
      * {@inheritdoc}
      */
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
+    public function isCredentialsNonExpired();
 
     /**
      * {@inheritdoc}
      */
-    public function isEnabled()
-    {
-        // if a registration token is set, the registration process is not finished
-        // we can't consider the user enabled
-        return $this->getRegistrationToken() === null;
-    }
+    public function isEnabled();
 
     /**
      * {@inheritdoc}
      */
-    public function serialize(): string
-    {
-        return serialize(array(
-            $this->id,
-            $this->email,
-            $this->password,
-            $this->salt,
-        ));
-    }
+    public function serialize(): string;
 
     /**
      * {@inheritdoc}
      */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->email,
-            $this->password,
-            $this->salt
-            ) = unserialize($serialized);
-    }
+    public function unserialize($serialized);
 
     /**
      * Registration confirmation equals nullifying registrationToken
      *
      * @return $this
      */
-    public function confirmRegistration()
-    {
-        $this->registrationToken = null;
-
-        return $this;
-    }
+    public function confirmRegistration();
 
     /**
      * @return bool
      */
-    public function hasConfirmedRegistration(): bool
-    {
-        return $this->registrationToken === null;
-    }
+    public function hasConfirmedRegistration(): bool;
 }

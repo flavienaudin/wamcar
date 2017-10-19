@@ -5,15 +5,21 @@ imports:
 
 services:
     # SECURITY
-    wamcar.security.password_encoder:
+    wamcar.security.password_encoder_pro:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
         factory: ['@security.encoder_factory', 'getEncoder']
-        arguments: [AppBundle\Doctrine\Entity\ApplicationUser]
+        arguments: [AppBundle\Doctrine\Entity\ProApplicationUser]
+
+    wamcar.security.password_encoder_personal:
+        class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
+        factory: ['@security.encoder_factory', 'getEncoder']
+        arguments: [AppBundle\Doctrine\Entity\PersonalApplicationUser]
 
     AppBundle\Security\UserRegistrationService:
         class: AppBundle\Security\UserRegistrationService
         arguments:
-            - '@wamcar.security.password_encoder'
+            - '@wamcar.security.password_encoder_pro'
+            - '@wamcar.security.password_encoder_personal'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@security.token_storage'
             - '@session'

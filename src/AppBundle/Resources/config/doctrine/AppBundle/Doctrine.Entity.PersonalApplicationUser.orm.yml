@@ -1,0 +1,29 @@
+AppBundle\Doctrine\Entity\PersonalApplicationUser:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+
+    exclusion_policy: ALL
+
+    fields:
+        password:
+            type: string
+        salt:
+            type: string
+        registrationToken:
+            type: string
+            length: 32
+            nullable: true
+            unique: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        deletedAt:
+            type: date
+            nullable: true
