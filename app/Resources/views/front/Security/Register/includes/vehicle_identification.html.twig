@@ -8,17 +8,20 @@
 } %}
 
 <section class="column small-12 large-7">
-    <div class="register-infos input-margin block-grid">
-        <div class="small-12 large-8">
-            <label for="immat">Immatriculation <span>Facultatif</span></label>
-            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+    {% if app.request.get('imma') %}
+        <div class="register-infos input-margin block-grid">
+            <div class="small-12 large-8">
+                <label for="immat">Immatriculation <span>Facultatif</span></label>
+                <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+            </div>
+            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                class_field: 'small-12 large-4 align-self-bottom',
+                class: 'no-margin',
+                name: 'immat',
+                value: app.request.get('imma')
+            } %}
         </div>
-        {% include 'front/Layout/includes/forms/input.html.twig' with {
-            class_field: 'small-12 large-4 align-self-bottom',
-            class: 'no-margin',
-            name: 'immat'
-        } %}
-    </div>
+    {% endif %}
     <div class="block-grid input-margin">
         {% include 'front/Layout/includes/forms/select.html.twig' with {
             label: 'Marque',

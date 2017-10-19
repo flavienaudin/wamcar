@@ -14,11 +14,11 @@
 ] %}
 {% set reinsurance_class = reinsurance_class|default('') %}
 
-<ul class="reinsurance-wamcar block-grid small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
+<ul class="reinsurance-wamcar block-grid column large-collapse small-12 small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
-        <li class="column block-grid align-middle large-right-collapse">
-            <span class="reinsurance-wamcar-image small-shrink medium-12 large-shrink text-center"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" width="130"></span>
-            <p class="no-margin small-6 medium-12 large-7">{{ reinsurance.content }}</p>
+        <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle xlarge-collapse">
+            <span class="reinsurance-wamcar-image medium-12 text-center"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" width="130"></span>
+            <p class="reinsurance-wamcar-body no-margin">{{ reinsurance.content }}</p>
         </li>
     {% endfor %}
 </ul>

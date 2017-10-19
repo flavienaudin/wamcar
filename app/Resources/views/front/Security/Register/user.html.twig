@@ -1,34 +1,27 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% set is_register_page = true %}
+{% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Inscription particulier{% endblock %}
 
 {% block body %}
 
+    <header class="banner">
+        <h1 class="no-margin text-center column large-10 xlarge-6">Particulier, inscrivez-vous pour obtenir des offres de reprise personnalisées et/ou acheter votre nouvelle voiture à un tarif préférentiel !</h1>
+    </header>
+
     <section class="small-12">
-        <form action="{{ path('register_confirm') }}" id="js-register-form" class="register-form row" novalidate>
-            <ul id="js-step" class="step">
-                <li class="block-grid" data-step="1">
-                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
-                </li>
-                <li class="block-grid" data-step="2">
-                    {% include 'front/Security/Register/includes/pictures.html.twig' %}
-                </li>
-                <li class="block-grid" data-step="3">
-                    {% include 'front/Security/Register/includes/more_infos.html.twig' %}
-                </li>
-                <li class="block-grid" data-step="4">
-                    {% include 'front/Security/Register/includes/account.html.twig' %}
-                </li>
-            </ul>
-            <nav id="js-step-navigation" class="column small-12">
-                <div class="register-navigation block-grid small-12">
-                    <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
-                    <button type="button" class="js-carousel-next button small-6 medium-4 large-3 small-right">Étape suivante</button>
-                </div>
-            </nav>
+        <form action="{{ path('register_confirm') }}" class="register-form input-margin row" data-abide novalidate>
+            {% include 'front/Security/Register/includes/account.html.twig' %}
         </form>
+    </section>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            <h2 class="h1 column text-center full-width xlarge-no-margin">Changer de véhicule, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
+            {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
+            <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. L’inscription ne vous engage en rien à vendre sur Wamcar.</p>
+        </div>
     </section>
 
 {% endblock body %}
