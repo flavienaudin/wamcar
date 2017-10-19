@@ -1,0 +1,15 @@
+user:
+  field:
+    email:
+      label: Adresse e-mail
+      error: Veuillez indiquer votre email.
+    password:
+      first:
+        label: Mot de passe
+        error: Veuillez indiquer votre mot de passe.
+      second:
+        label: Confirmez votre mot de passe
+        error: Veuillez confirmer votre mot de passe.
+      show: Afficher le mot de passe
+  submit:
+    i_register: Je m'inscris
