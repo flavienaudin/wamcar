@@ -69,21 +69,20 @@
         <label for="courroie" class="medium-no-margin small-12 medium-4">Changement de courroie de distribution</label>
         <ul class="block-grid small-12 medium-8">
             <li class="small-6">
-                <input type="radio" name="vehicle-replace" id="yes" class="is-hidden">
+                <input type="radio" name="vehicle-replace" id="yes" required>
                 <label for="yes" class="radio-item">
                     A faire
                     {% include 'front/Layout/includes/svg/check.html.twig' %}
                 </label>
             </li>
             <li class="small-6">
-                <input type="radio" name="vehicle-replace" id="no" class="radio-item is-hidden">
+                <input type="radio" name="vehicle-replace" id="no" required>
                 <label for="no" class="radio-item">
                     Effectué
                     {% include 'front/Layout/includes/svg/check.html.twig' %}
                 </label>
             </li>
         </ul>
-        <small class="form-error medium-offset-4">Veuillez indiqué un kilométrage</small>
     </div>
     <div class="block-grid input-margin column">
         <label for="courroie" class="medium-no-margin small-12 medium-4">Date du dernier contrôle technique <span class="medium-no-margin">Facultatif</span></label>
@@ -121,7 +120,7 @@
                 <div class="small-12 medium-5 large-6">
                     <div class="star-list">
                         {% for index, rent in rent_list %}
-                            <input type="radio" name="rent-1" id="{{ index }}" class="is-hidden" required>
+                            <input type="radio" name="rent-1" id="{{ index }}" required>
                             <label for="{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
                         {% endfor %}
                         {% for rent in rent_list %}
@@ -129,14 +128,13 @@
                         {% endfor %}
                     </div>
                 </div>
-                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
             </div>
             <div class="block-grid input-margin">
                 <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat du moteur <span class="medium-12 medium-no-margin">Facultatif</span></label>
                 <div class="small-12 medium-5 large-6">
                     <div class="star-list">
                         {% for index, rent in rent_list %}
-                            <input type="radio" name="moteur-1" id="moteur-{{ index }}" class="is-hidden" required>
+                            <input type="radio" name="moteur-1" id="moteur-{{ index }}">
                             <label for="moteur-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
                         {% endfor %}
                         {% for rent in rent_list %}
@@ -144,14 +142,13 @@
                         {% endfor %}
                     </div>
                 </div>
-                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
             </div>
             <div class="block-grid input-margin">
                 <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat des pneus <span class="medium-12 medium-no-margin">Facultatif</span></label>
                 <div class="small-12 medium-5 large-6">
                     <div class="star-list">
                         {% for index, rent in rent_list %}
-                            <input type="radio" name="pneus-1" id="pneus-{{ index }}" class="is-hidden" required>
+                            <input type="radio" name="pneus-1" id="pneus-{{ index }}">
                             <label for="pneus-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
                         {% endfor %}
                         {% for rent in rent_list %}
@@ -159,7 +156,6 @@
                         {% endfor %}
                     </div>
                 </div>
-                <small class="form-error medium-offset-4">Veuillez noter l'état de la carrosserie</small>
             </div>
         </div>
     </div>
@@ -178,41 +174,35 @@
                 <label for="" class="medium-no-margin small-12 medium-4">Véhicule importé</label>
                 <ul class="block-grid small-12 medium-8">
                     <li class="small-6">
-                        <input type="radio" name="import" id="import-yes" class="is-hidden">
+                        <input type="radio" name="import" id="import-yes" required>
                         <label for="import-yes" class="radio-item">
-                            Oui
-                            {% include 'front/Layout/includes/svg/check.html.twig' %}
+                            Oui {% include 'front/Layout/includes/svg/check.html.twig' %}
                         </label>
                     </li>
                     <li class="small-6">
-                        <input type="radio" name="import" id="import-no" class="radio-item is-hidden">
+                        <input type="radio" name="import" id="import-no" required>
                         <label for="import-no" class="radio-item">
-                            Non
-                            {% include 'front/Layout/includes/svg/check.html.twig' %}
+                            Non {% include 'front/Layout/includes/svg/check.html.twig' %}
                         </label>
                     </li>
                 </ul>
-                <small class="form-error medium-offset-4">Veuillez indiquer si votre véhicule est importé</small>
             </div>
             <div class="block-grid input-margin">
                 <label for="" class="medium-no-margin small-12 medium-4">Véhicule 1ère main</label>
                 <ul class="block-grid small-12 medium-8">
                     <li class="small-6">
-                        <input type="radio" name="main" id="main-yes" class="is-hidden">
+                        <input type="radio" name="main" id="main-yes" required>
                         <label for="main-yes" class="radio-item">
-                            Oui
-                            {% include 'front/Layout/includes/svg/check.html.twig' %}
+                            Oui {% include 'front/Layout/includes/svg/check.html.twig' %}
                         </label>
                     </li>
                     <li class="small-6">
-                        <input type="radio" name="main" id="main-no" class="radio-item is-hidden">
+                        <input type="radio" name="main" id="main-no" required>
                         <label for="main-no" class="radio-item">
-                            Non
-                            {% include 'front/Layout/includes/svg/check.html.twig' %}
+                            Non {% include 'front/Layout/includes/svg/check.html.twig' %}
                         </label>
                     </li>
                 </ul>
-                <small class="form-error">Veuillez indiquer si votre véhicule est une 1ère main</small>
             </div>
         </div>
     </div>

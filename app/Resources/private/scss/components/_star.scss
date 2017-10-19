@@ -49,6 +49,12 @@
         &::before { content: "\e90b"; }
       }
     } // End checkedd + &
+
+    /* Error state */
+
+    &.is-invalid-label {
+      color: $alert-color;
+    }
   }
 
 

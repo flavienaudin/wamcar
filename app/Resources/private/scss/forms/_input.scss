@@ -61,7 +61,6 @@ $input-padding: 0 rem-calc(10);
 %input-error-style {
   background-color: #fef3f4;
   border-color: $alert-color;
-  margin-bottom: rem-calc(5);
 }
 
 
@@ -78,11 +77,19 @@ textarea {
 }
 
 .input,
-.checkbox::before,
 select,
 textarea {
   &.is-invalid-input {
     @extend %input-error-style;
+    margin-bottom: rem-calc(5);
+  }
+}
+
+.checkbox::before,
+.radio-item {
+  &.is-invalid-label {
+    @extend %input-error-style;
+    margin-bottom: 0;
   }
 }
 

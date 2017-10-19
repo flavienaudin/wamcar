@@ -7,11 +7,13 @@ import { Abide } from 'foundation-sites/js/foundation.abide';
 import Siema from 'siema';
 import getIndex from './getIndex';
 import {
+  hideClass,
   activeClass,
   disabledClass
 } from '../settings/settings.js';
 
 const $step = document.getElementById('js-step');
+const $registerForm = document.getElementById('js-register-form');
 
 /**
  *
@@ -184,6 +186,13 @@ class Step {
     const offSetLeftNextElement = $nextElement.offsetLeft;
     const $prevElement = $activeElement.previousElementSibling;
     const offSetLeftPrevElement = $prevElement && $prevElement.offsetLeft;
+    const $stepNavigation = document.getElementById('js-step-navigation');
+
+    if (this.getCurrentSlide() === 4) {
+      $stepNavigation.classList.add(hideClass);
+    } else {
+      $stepNavigation.classList.remove(hideClass);
+    }
 
     if (direction === 'next') {
       $activeElement.classList.remove(activeClass);
@@ -219,10 +228,17 @@ if ($step) {
   const step = new Step();
   step.initAbide();
 
-  document.getElementById('js-register-form').addEventListener('change', () => {
-    step.autoHeight();
-  });
+  if ($registerForm) {
+    const registerFormAbide = new Abide($($registerForm));
 
+    $registerForm.addEventListener('change', () => {
+      step.autoHeight();
+    });
+
+    $registerForm.addEventListener('submit', () => {
+      setTimeout(() => step.autoHeight());
+    });
+  }
 
   // Button prev step
   document.querySelector('.js-carousel-prev').addEventListener('click', () => {
@@ -248,6 +264,7 @@ if ($step) {
       const currentSlide = step.getCurrentSlide();
       const index = getIndex(item);
 
+      // Prev direction
       if (index < currentSlide) {
         step.prev().then(() => {
           step.updateNavigation('prev');
@@ -256,4 +273,8 @@ if ($step) {
       }
     });
   });
+}
+
+if ($registerForm) {
+
 }

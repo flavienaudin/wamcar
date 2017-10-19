@@ -7,7 +7,7 @@
 {% block body %}
 
     <section class="small-12">
-        <form id="js-register-form" class="register-form row" data-abide novalidate>
+        <form id="js-register-form" class="register-form row" novalidate>
             <ul id="js-step" class="step">
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
@@ -22,7 +22,7 @@
                     {% include 'front/Security/Register/includes/account.html.twig' %}
                 </li>
             </ul>
-            <nav class="column small-12">
+            <nav id="js-step-navigation" class="column small-12">
                 <div class="register-navigation block-grid small-12">
                     <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
                     <button type="button" class="js-carousel-next button small-6 medium-4 large-3 small-right">Étape suivante</button>

@@ -1,3 +1,7 @@
 {% set required = required|default(false) %}
+{% set error_message = error_message|default('Ce champs est requis') %}
 <input type="checkbox" name="{{ name }}" id="{{ id }}" {{ required ? 'required' : '' }}>
 <label for="{{ id }}" class="checkbox">{{ label|raw }}</label>
+{% if required %}
+    <small class="form-error">{{ error_message }}</small>
+{% endif %}
