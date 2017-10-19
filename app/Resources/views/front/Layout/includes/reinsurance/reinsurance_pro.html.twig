@@ -14,7 +14,6 @@
 ] %}
 {% set reinsurance_class = reinsurance_class|default('') %}
 
-<h2 class="xlarge-no-margin h1 text-center full-width">La reprise, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
 <ul class="reinsurance-wamcar block-grid small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
         <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle small-collapse medium-uncollapse xlarge-collapse">
@@ -23,4 +22,3 @@
         </li>
     {% endfor %}
 </ul>
-<p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. Vous pouvez également utiliser Wamcar uniquement pour vendre.</p>
