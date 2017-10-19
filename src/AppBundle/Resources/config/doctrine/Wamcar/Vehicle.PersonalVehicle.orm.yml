@@ -22,10 +22,14 @@ Wamcar\Vehicle\PersonalVehicle:
             class: Wamcar\Vehicle\ModelVersion
 
     fields:
-    # TODO : use specific type for enums
-#        transmission:
-#        safetyTest:
-#        maintenanceState:
+        transmission:
+            type: vehicletransmission
+        safetyTest:
+            type: vehicletransmission
+            nullable: true
+        maintenanceState:
+            type: vehicletransmission
+            nullable: true
         registrationDate:
             type: date_immutable
         bodyState:
