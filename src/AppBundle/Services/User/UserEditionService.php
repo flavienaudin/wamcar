@@ -35,7 +35,6 @@ class UserEditionService
      */
     public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
-        dump($userInformationDTO);
         $user->setEmail($userInformationDTO->email);
         $user->updateUserProfile($userInformationDTO->getUserProfile());
 
