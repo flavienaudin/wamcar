@@ -19,7 +19,7 @@ class Version20171017125704 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE personal_vehicle ADD transmission VARCHAR(255) NOT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\', ADD safety_test VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\', ADD maintenance_state VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\'');
-        $this->addSql('ALTER TABLE user ADD title VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:Wamcar\\\\User\\\\Title)\', DROP title_value');
+        $this->addSql('ALTER TABLE user ADD title VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:Wamcar\\\\User\\\\Title)\'');
     }
 
     /**
