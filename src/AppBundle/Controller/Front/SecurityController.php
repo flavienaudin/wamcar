@@ -34,7 +34,7 @@ class SecurityController extends BaseController
      */
     public function registerAction(Request $request): Response
     {
-        $registrationForm = $this->formFactory->create(Registration::class);
+        $registrationForm = $this->formFactory->create(RegistrationType::class);
 
         $registrationForm->handleRequest($request);
 
