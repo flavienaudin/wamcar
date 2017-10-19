@@ -2,6 +2,26 @@
    Social Networks
    =========================================================================== */
 
+
+
+/*
+   Mixin
+   ===================================== */
+
+@mixin socialTheme($color) {
+  background: $color;
+
+  @include breakpoint(large) {
+    &:hover { background: lighten($color, 10%); }
+  }
+}
+
+
+
+/*
+   Class
+   ===================================== */
+
 .social-networks {
   padding-top: rem-calc(20);
   list-style: none;
@@ -62,6 +82,60 @@
         flex: 0 0 rem-calc(50);
       }
     } // End &::before
-  }
+
+  } // End &-link
+
+
+
+  /*
+     Login
+     ===================================== */
+
+  &-login-button {
+    background: $primary-color;
+    max-width: rem-calc(325);
+    border-radius: 50%;
+    height: rem-calc(50);
+    font-weight: bold;
+    transition: $global-transition;
+
+    &,
+    &:hover,
+    &:focus { color: white; }
+
+    @include breakpoint(small only) {
+      width: rem-calc(50);
+      margin-right: rem-calc(20);
+    }
+
+    @include breakpoint(medium) {
+      height: rem-calc(60);
+      border-radius: rem-calc(30);
+      margin-bottom: rem-calc(30);
+    }
+
+    &::before {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: rem-calc(60);
+      height: 100%;
+      font-weight: normal;
+      margin-right: 0;
+
+      @include breakpoint(medium) {
+        border-right: rem-calc(1) solid rgba(black, .15);
+        margin-right: rem-calc(30);
+      }
+    }
+
+    /* Thèmes */
+
+    &.icon-facebook { @include socialTheme(#2667b5); }
+    &.icon-twitter { @include socialTheme(#00aced); }
+    &.icon-google-plus { @include socialTheme(#dc4e41); }
+    &.icon-linkedin { @include socialTheme(#0078b9); }
+
+  } // End &-login-button
 
 }
