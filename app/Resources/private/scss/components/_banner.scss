@@ -1,0 +1,55 @@
+/* ===========================================================================
+   Banner
+   =========================================================================== */
+
+.banner {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: rem-calc(150);
+  background: $primary-color;
+  color: white;
+  margin-bottom: rem-calc(25);
+  z-index: 1;
+
+  @include breakpoint(medium) {
+    height: rem-calc(260);
+    margin-bottom: rem-calc(40);
+  }
+
+  @include breakpoint(large) {
+    margin-bottom: rem-calc(60);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: url('#{$img-folder}/logo/logo-wamcar-tiny.svg') center #{rem-calc(-40)}/ #{rem-calc(500)} no-repeat;
+    opacity: .09;
+    z-index: -1;
+
+    @include breakpoint(medium) {
+      background-position: center #{rem-calc(-90)};
+      background-size: #{rem-calc(900)} auto;
+    }
+
+    @include breakpoint(large) {
+      background-position: center #{rem-calc(-90)};
+      background-size: #{rem-calc(1300)} auto;
+    }
+  }
+
+  /* Components */
+
+  h1,
+  .h1 {
+    @include breakpoint(small only) {
+      font-size: rem-calc(20);
+    }
+  }
+}
