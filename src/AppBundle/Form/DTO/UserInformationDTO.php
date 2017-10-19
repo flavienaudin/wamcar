@@ -3,8 +3,9 @@
 
 namespace AppBundle\Form\DTO;
 
-
-use AppBundle\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ApplicationUser;
+use Wamcar\User\City;
+use Wamcar\User\UserProfile;
 
 class UserInformationDTO
 {
@@ -31,11 +32,19 @@ class UserInformationDTO
     {
         $this->id = $user->getId();
         $this->email = $user->getEmail();
-        $this->title = $user->getUserProfile()->getTitle();
-        $this->name = $user->getUserProfile()->getName();
-        $this->phone = $user->getUserProfile()->getPhone();
-        $this->city = $user->getUserProfile()->getCity()->getName();
-        $this->postalCode = $user->getUserProfile()->getCity()->getPostalCode();
+        $this->fillFromUserProfile($user->getUserProfile());
     }
 
+    public function fillFromUserProfile(UserProfile $profile)
+    {
+        $this->name = $profile->getName();
+        $this->phone = $profile->getPhone();
+        $this->fillFromCity($profile->getCity());
+    }
+
+    public function fillFromCity(City $city)
+    {
+        $this->city = $city->getName();
+        $this->postalCode = $city->getPostalCode();
+    }
 }
