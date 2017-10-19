@@ -1,24 +1,43 @@
 <div class="block-grid input-margin column small-12">
-    <label for="email" class="small-12 large-4">Email</label>
-    <div class="small-12 large-8">
-        <input type="email" name="email" id="email" class="input no-margin" placeholder="Entrez votre adresse email" required>
-        <small class="form-error">Veuillez indiquer votre adresse email</small>
-    </div>
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        label: 'Email',
+        label_class: 'small-12 large-4 no-margin',
+        class_field: 'small-12 large-8',
+        type: 'email',
+        name: 'register-email',
+        placeholder: 'Entrez votre adresse email',
+        class: 'no-margin',
+        required: true,
+        required_message: 'Veuillez indiquer votre adresse email.'
+    } %}
 </div>
 <p class="column small-12">Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.</p>
 <div class="block-grid input-margin column small-12">
-    <label for="register-password" class="small-12 large-4">Mot de passe</label>
-    <div class="small-12 large-8">
-        <input type="password" name="password" id="register-password" class="input no-margin" placeholder="Entrez votre mot de passe" required>
-        <small class="form-error">Veuillez indiquer votre mot de passe</small>
-    </div>
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        label: 'Mot de passe',
+        label_class: 'small-12 large-4 no-margin',
+        class_field: 'small-12 large-8',
+        type: 'password',
+        name: 'register-password',
+        placeholder: 'Entrez votre mot de passe',
+        class: 'no-margin',
+        required: true,
+        required_message: 'Veuillez indiquer votre mot de passe.'
+    } %}
 </div>
 <div class="block-grid input-margin column small-12">
-    <label for="confirm-password" class="small-12 large-4">Confirmation mot de passe</label>
-    <div class="small-12 large-8">
-        <input type="password" name="confirm-password" id="confirm-password" class="input no-margin" placeholder="Confirmez votre mot de passe" data-equalto="register-password" required>
-        <small class="form-error">Veuillez confirmer votre mot de passe</small>
-    </div>
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        label: 'Confirmation mot de passe',
+        label_class: 'small-12 large-4 no-margin',
+        class_field: 'small-12 large-8',
+        type: 'password',
+        name: 'register-password-confirm',
+        placeholder: 'Confirmez votre mot de passe',
+        class: 'no-margin',
+        equalTo: 'register-password',
+        required: true,
+        required_message: 'Veuillez confirmer votre mot de passe.'
+    } %}
 </div>
 <div class="checkbox-container column small-12">
     {% include 'front/Layout/includes/forms/checkbox.html.twig' with {

@@ -7,6 +7,8 @@
 {% set label = label|default(false) %}
 {% set label_class = label_class|default('') %}
 {% set value = value|default('') %}
+{% set placeholder = placeholder|default('') %}
+{% set equalTo = equalTo|default('') %}
 
 {% if label %}
     <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }}</label>
@@ -14,7 +16,15 @@
 {% if class_field %}
     <div class="{{ class_field }}">
 {% endif %}
-    <input type="{{ type }}" name="{{ name }}" id="{{ name }}" value="{{ value }}" class="input {{ class }}" {{ required ? 'required' }}>
+    <input
+        type="{{ type }}"
+        name="{{ name }}"
+        id="{{ name }}"
+        value="{{ value }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}

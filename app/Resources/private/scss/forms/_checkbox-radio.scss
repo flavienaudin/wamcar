@@ -112,6 +112,13 @@ $radio-checked-margin-left: $radio-border-width;
     margin-right: -($checkbox-width);
   }
 
+  /* Error state */
+
+  &.is-invalid-label {
+    margin-bottom: rem-calc(5);
+    &::before { @extend %input-error-style; }
+  }
+
 
 
   /*
@@ -196,6 +203,13 @@ $radio-checked-margin-left: $radio-border-width;
     :checked + & {
       color: black;
       svg { width: rem-calc(20); }
+    }
+
+    /* Error state */
+
+    &.is-invalid-label {
+      @extend %input-error-style;
+      margin-bottom: 0;
     }
 
     /* Exceptions */

@@ -85,14 +85,6 @@ textarea {
   }
 }
 
-.checkbox::before,
-.radio-item {
-  &.is-invalid-label {
-    @extend %input-error-style;
-    margin-bottom: 0;
-  }
-}
-
 input[type=checkbox],
 input[type=radio] {
   display: none;
