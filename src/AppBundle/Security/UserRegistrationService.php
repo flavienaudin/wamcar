@@ -13,27 +13,22 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 class UserRegistrationService
 {
     /** @var PasswordEncoderInterface */
-    private $passwordEncoderPro;
-    /** @var PasswordEncoderInterface */
-    private $passwordEncoderPersonal;
+    private $passwordEncoder;
     /** @var BaseUserRepository */
     private $userRepository;
 
     /**
      * UserRegistrationService constructor.
      *
-     * @param PasswordEncoderInterface $passwordEncoderPro
-     * @param PasswordEncoderInterface $passwordEncoderPersonal
+     * @param PasswordEncoderInterface $passwordEncoder
      * @param BaseUserRepository $userRepository
      */
     public function __construct(
-        PasswordEncoderInterface $passwordEncoderPro,
-        PasswordEncoderInterface $passwordEncoderPersonal,
+        PasswordEncoderInterface $passwordEncoder,
         BaseUserRepository $userRepository
     )
     {
-        $this->passwordEncoderPro = $passwordEncoderPro;
-        $this->passwordEncoderPersonal = $passwordEncoderPersonal;
+        $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
     }
 
@@ -45,7 +40,7 @@ class UserRegistrationService
     public function registerUserPro(RegistrationDTO $registrationDTO): ProApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
-        $encodedPassword = $this->passwordEncoderPro->encodePassword($registrationDTO->password, $salt);
+        $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
         $registrationToken = TokenGenerator::generateToken();
 
         $proApplicationUser = new ProApplicationUser(
@@ -68,7 +63,7 @@ class UserRegistrationService
     public function registerUserPersonal(RegistrationDTO $registrationDTO): PersonalApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
-        $encodedPassword = $this->passwordEncoderPersonal->encodePassword($registrationDTO->password, $salt);
+        $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
         $registrationToken = TokenGenerator::generateToken();
 
         $personnalApplicationUser = new PersonalApplicationUser(
