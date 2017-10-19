@@ -23,7 +23,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
      */
     public function findOne(int $userId): User
     {
-        return $this->findOneBy(['id' => $userId->getValue()]);
+        return $this->findOneBy(['id' => $userId]);
     }
 
     /**
@@ -70,5 +70,24 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     {
         return $this->findOneBy(['registrationToken' => $registrationToken]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateInformations(EditUserData $userData): ApplicationUser
+    {
+        /**
+         * @var ApplicationUser $user
+         * Retrieve user
+         */
+        $user = $this->findOne($userData->id);
+        // update informations
+        $user->updateInformations($userData);
+        // and save modification
+        $user = $this->update($user);
+
+        return $user;
+    }
+
 
 }

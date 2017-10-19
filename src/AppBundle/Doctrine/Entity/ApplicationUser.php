@@ -2,7 +2,10 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
+use AppBundle\DTO\Form\EditUserData;
+use AppBundle\Security\ShouldConfirmRegistration;
+use Wamcar\User\City;
+use Wamcar\User\Title;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 
@@ -160,4 +163,31 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
     {
         return $this->registrationToken === null;
     }
+
+    /**
+     * Copy informations from EditUserData
+     *
+     * @param EditUserData $userData
+     */
+    public function updateInformations(EditUserData $userData)
+    {
+        $city = new City(
+            $userData->postalCode,
+            $userData->city
+        );
+
+        $this->email = $userData->email;
+        $this->title = new Title($userData->title);
+        $this->name = $userData->name;
+        $this->phone = $userData->phone;
+        $this->city = $city;
+        $this->lastLoginIp = $userData->ip;
+        $this->newsletterOptin = $userData->newsletterOptin;
+
+        if ($userData->encodedPassword) {
+            // update password and salt if needed
+            $this->resetPassword($userData->encodedPassword, $userData->salt);
+        }
+    }
+
 }
