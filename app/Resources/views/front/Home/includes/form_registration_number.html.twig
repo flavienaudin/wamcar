@@ -1,8 +1,8 @@
-<form class="block-grid" data-abide novalidate>
+<form action="{{ path('register') }}" class="block-grid" data-abide novalidate>
     <div class="column small-12">
         {% include 'front/Layout/includes/forms/input.html.twig' with {
             label: 'Numéro d\'immatriculation',
-            name: 'immage',
+            name: 'imma',
             required: true,
             required_message: 'Veuillez indiqué un numéro d\'immatriculation'
         } %}
