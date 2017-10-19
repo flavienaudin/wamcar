@@ -53,6 +53,7 @@ height: rem-calc(50);
     @if $hover {
       background: $hover;
       border-color: $hover;
+      color: white;
     } @else {
       background: transparent;
     }

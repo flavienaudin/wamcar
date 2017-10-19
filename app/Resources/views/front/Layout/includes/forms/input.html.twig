@@ -8,7 +8,7 @@
 {% set label_class = label_class|default('') %}
 
 {% if label %}
-    <label for="{{ name }}" class="{{ label_class }}">{{ label }}</label>
+    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }}</label>
 {% endif %}
 {% if class_field %}
     <div class="{{ class_field }}">

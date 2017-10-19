@@ -1,14 +1,22 @@
 <form data-abide novalidate>
     <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
     <div>
-        <label for="email">Email</label>
-        <input type="email" name="email" id="email" class="input" required>
-        <small class="form-error">Veuillez indiquer votre adresse email.</small>
+        {% include 'front/Layout/includes/forms/input.html.twig' with {
+            type: 'email',
+            name: 'email',
+            label: 'Email',
+            required: true,
+            required_message: 'Veuillez indiquer votre adresse email.'
+        } %}
     </div>
     <div>
-        <label for="password">Mot de passe <a data-open="js-password-lost">Mot de passe oublié ?</a></label>
-        <input type="password" name="password" id="password" class="input" required>
-        <small class="form-error">Veuillez indiquer votre mot de passe.</small>
+        {% include 'front/Layout/includes/forms/input.html.twig' with {
+            type: 'password',
+            name: 'password',
+            label: 'Mot de passe <a data-open="js-password-lost">Mot de passe oublié ?</a>',
+            required: true,
+            required_message: 'Veuillez indiquer votre mot de passe.'
+        } %}
     </div>
     <div class="input-margin">
         <button type="submit" class="button full-width">Connexion</button>
