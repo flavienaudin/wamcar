@@ -2,11 +2,10 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
+use AppBundle\Security\ShouldConfirmRegistration;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\Vehicle;
 
-class ProApplicationUser extends ProUser implements \Serializable, ShouldConfirmRegistration
+class ProApplicationUser extends ProUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser
 {
     use ApplicationUserTrait;
 

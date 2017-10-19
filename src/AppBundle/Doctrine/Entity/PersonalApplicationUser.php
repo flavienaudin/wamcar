@@ -2,11 +2,11 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
+use AppBundle\Security\ShouldConfirmRegistration;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Vehicle;
 
-class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration
+class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser
 {
     use ApplicationUserTrait;
 
