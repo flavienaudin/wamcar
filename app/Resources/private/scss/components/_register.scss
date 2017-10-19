@@ -175,7 +175,7 @@
       margin-right: rem-calc(70);
     }
 
-    &:not(.is-active) { color: $body-font-color; }
+    &:not(.is-active):not(.is-valid) { color: $body-font-color; }
     &:not(.is-disabled) { &:hover { color: $primary-color; } }
 
     &.is-disabled { pointer-events: none; }
@@ -204,6 +204,7 @@
 
     /* Active state */
 
+    &.is-valid,
     &.is-active {
       &::before {
         @include breakpoint(large) {

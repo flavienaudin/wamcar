@@ -196,6 +196,7 @@ class Step {
 
     if (direction === 'next') {
       $activeElement.classList.remove(activeClass);
+      $activeElement.classList.add('is-valid');
       $nextElement.classList.remove(disabledClass);
       $nextElement.classList.add(activeClass);
       this.updateProgressBar(offSetLeftNextElement);
@@ -273,8 +274,4 @@ if ($step) {
       }
     });
   });
-}
-
-if ($registerForm) {
-
 }
