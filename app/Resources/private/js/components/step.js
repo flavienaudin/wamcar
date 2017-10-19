@@ -11,6 +11,7 @@ import {
   activeClass,
   disabledClass
 } from '../settings/settings.js';
+import scrollTo from './scrollTo';
 
 const $step = document.getElementById('js-step');
 const $registerForm = document.getElementById('js-register-form');
@@ -117,7 +118,7 @@ class Step {
   valid() {
     const isValid = this.step.validateForm();
     this.carousel.setAutoHeight();
-    return new Promise((resolve) => isValid && resolve());
+    return new Promise((resolve) => isValid && resolve(scrollTo('body')));
   }
 
   /**
