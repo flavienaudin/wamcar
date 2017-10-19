@@ -49,7 +49,9 @@
 {% endif %}
 
     {% if is_register_page %}
-        {% include 'front/Layout/includes/header_register.html.twig' %}
+        <div class="is-relative"> {# IE fix #}
+            {% include 'front/Layout/includes/header_register.html.twig' %}
+        </div>
     {% else %}
         {% include 'front/Layout/includes/header.html.twig' %}
     {% endif %}
