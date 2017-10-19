@@ -2,7 +2,7 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\Repository\ShouldConfirmRegistration;
+use AppBundle\Security\ShouldConfirmRegistration;
 use Wamcar\User\User;
 use Wamcar\Vehicle\Vehicle;
 
@@ -35,7 +35,7 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
         string $registrationToken
     )
     {
-        parent::__construct($email, $firstVehicle);
+        parent::__construct($email, null, $firstVehicle);
 
         $this->password = $password;
         $this->salt = $salt;

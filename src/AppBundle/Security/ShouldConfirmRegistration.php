@@ -1,7 +1,7 @@
 <?php
 
 
-namespace AppBundle\Security\Repository;
+namespace AppBundle\Security;
 
 
 interface ShouldConfirmRegistration
