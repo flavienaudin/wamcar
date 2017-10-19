@@ -4,6 +4,7 @@
 namespace AppBundle\Form\Type;
 
 
+use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,11 +40,12 @@ class UserInformationType extends AbstractType
             ->add('postalCode', TextType::class, [
                 'required' => false
             ])
-            ->add('city', TextType::class, [
+            ->add('cityName', TextType::class, [
                 'required' => false
-            ])
+            ]);
 
-        ;
+        $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));
+
     }
 
     /**

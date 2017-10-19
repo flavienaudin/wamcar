@@ -20,7 +20,7 @@ class UserInformationDTO
     /** @var  string */
     public $phone;
     /** @var  string */
-    public $city;
+    public $cityName;
     /** @var  string */
     public $postalCode;
 
@@ -35,6 +35,9 @@ class UserInformationDTO
         $this->fillFromUserProfile($user->getUserProfile());
     }
 
+    /**
+     * @param UserProfile $profile
+     */
     public function fillFromUserProfile(UserProfile $profile)
     {
         $this->name = $profile->getName();
@@ -42,9 +45,35 @@ class UserInformationDTO
         $this->fillFromCity($profile->getCity());
     }
 
+    /**
+     * @param City $city
+     */
     public function fillFromCity(City $city)
     {
         $this->city = $city->getName();
         $this->postalCode = $city->getPostalCode();
+    }
+
+    /**
+     * @return null|City
+     */
+    public function getCity(): ?City
+    {
+        $city = null;
+
+        if (!empty($this->postalCode) && !empty($this->cityName))
+            $city = new City($this->postalCode, $this->cityName);
+
+        return $city;
+    }
+
+    /**
+     * @return UserProfile
+     */
+    public function getUserProfile(): UserProfile
+    {
+        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity());
+
+        return $userProfile;
     }
 }

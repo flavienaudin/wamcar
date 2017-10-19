@@ -3,6 +3,7 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Wamcar\User\City;
 use Wamcar\User\Title;
@@ -34,12 +35,9 @@ class UserEditionService
      */
     public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
-        $title = new Title($userInformationDTO->title);
-        $city = (!empty($userInformationDTO->postalCode)? new City($userInformationDTO->postalCode, $userInformationDTO->city): null);
-
-        $userProfile = new UserProfile($title, $userInformationDTO->name, $userInformationDTO->phone, $city);
+        dump($userInformationDTO);
         $user->setEmail($userInformationDTO->email);
-        $user->updateUserProfile($userProfile);
+        $user->updateUserProfile($userInformationDTO->getUserProfile());
 
         $this->userRepository->update($user);
 
