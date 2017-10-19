@@ -72,13 +72,17 @@ button {
 
 a.button {
   display: flex;
-
-  &:hover,
-  &:focus { color: white; }
 }
 
 .button {
   @include buttonStyle;
+
+  @include breakpoint(xlarge) {
+    &:hover {
+      background: white;
+      color: $primary-color;
+    }
+  }
 
   /* Size */
 
