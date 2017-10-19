@@ -35,7 +35,7 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
         string $registrationToken
     )
     {
-        parent::__construct($email, $firstVehicle);
+        parent::__construct($email, null, $firstVehicle);
 
         $this->password = $password;
         $this->salt = $salt;
@@ -154,44 +154,10 @@ class ApplicationUser extends User implements \Serializable, ShouldConfirmRegist
     }
 
     /**
-<<<<<<< 4c262957ee04a5e3f6d1c1b5426a8bbe657a1d25:src/AppBundle/Doctrine/Entity/ApplicationUser.php
      * @return bool
      */
     public function hasConfirmedRegistration(): bool
     {
         return $this->registrationToken === null;
     }
-<<<<<<< 0cdca0a8e79dee10fe093f281be79f885e46b7fc
-
-    /**
-     * Copy informations from EditUserData
-=======
-     * Copy informations from UserInformationDTO
->>>>>>> rename:src/AppBundle/Entity/ApplicationUser.php
-     *
-     * @param UserInformationDTO $userInformationDTO
-     */
-    public function updateInformations(UserInformationDTO $userInformationDTO)
-    {
-        $city = new City(
-            $userInformationDTO->postalCode,
-            $userInformationDTO->city
-        );
-
-        $this->email = $userInformationDTO->email;
-        $this->title = new Title($userInformationDTO->title);
-        $this->name = $userInformationDTO->name;
-        $this->phone = $userInformationDTO->phone;
-        $this->city = $city;
-        $this->lastLoginIp = $userData->ip;
-        $this->newsletterOptin = $userData->newsletterOptin;
-
-        if ($userData->encodedPassword) {
-            // update password and salt if needed
-            $this->resetPassword($userData->encodedPassword, $userData->salt);
-        }
-    }
-
-=======
->>>>>>> refacto user profile
 }
