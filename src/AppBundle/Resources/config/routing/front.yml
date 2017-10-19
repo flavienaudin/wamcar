@@ -28,6 +28,12 @@ register_confirm:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Register/confirm.html.twig
 
+reset_password:
+    path: /reinitialiser-votre-mot-de-passe
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/ResetPassword/reset.html.twig
+
 front_vehicle_registration:
     path: /je-vends-mon-vehicule
     defaults:

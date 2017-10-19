@@ -1,0 +1,26 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-bottom{% endblock %}
+
+{% block title %}Réinitialisation de votre mot de passe{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <section class="input-margin small-12">
+            <header class="column">
+                <h1 class="secondary-color">Réinitialiser votre mot de passe</h1>
+                <p>Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.</p>
+                <br>
+            </header>
+            {% include 'front/Security/ResetPassword/includes/form_reset_password.html.twig' %}
+        </section>
+    </div>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
+        </div>
+    </section>
+
+{% endblock body %}
