@@ -42,6 +42,7 @@ class UserInformationDTO
     {
         $this->name = $profile->getName();
         $this->phone = $profile->getPhone();
+        $this->title = $profile->getTitle();
         $this->fillFromCity($profile->getCity());
     }
 
