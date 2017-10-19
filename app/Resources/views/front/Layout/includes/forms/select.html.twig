@@ -1,18 +1,18 @@
-{% set type = type|default('text') %}
-{% set class_field = class_field|default('') %}
+{% set id = id|default('') %}
 {% set class = class|default('') %}
 {% set required = required|default(false) %}
 {% set required_message = required_message|default('Ce champ est requis') %}
 {% set required_class = required_class|default('') %}
-{% set label = label|default(false) %}
 {% set label_class = label_class|default('') %}
 
 {% if label %}
-    <label for="{{ name }}" class="{{ label_class }}">{{ label }}</label>
+    <label class="{{ label_class }}">{{ label }}</label>
 {% endif %}
-<div class="{{ class_field }}">
-    <input type="{{ type }}" name="{{ name }}" id="{{ name }}" class="input {{ class }}">
-</div>
+<select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}>
+    {% for option in options %}
+        <option value="{{ option.value }}">{{ option.label }}</option>
+    {% endfor %}
+</select>
 {% if required %}
     <small class="form-error {{ required_class }}">{{ required_message }}</small>
 {% endif %}
