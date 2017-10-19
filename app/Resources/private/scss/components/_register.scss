@@ -217,4 +217,31 @@
 
   } // End &-step-navigation-item
 
+
+
+  /*
+     Confirm drawing
+     ===================================== */
+
+  &-confirm-drawing {
+    background: url('#{$img-folder}/background/car.svg') rem-calc(-120) calc(100% - #{rem-calc(35)}) no-repeat;
+    padding-bottom: rem-calc(200);
+
+    @include breakpoint(medium) {
+      background-position: rem-calc(-220) center;
+      background-size: rem-calc(540) auto;
+      padding-bottom: rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      background-position: rem-calc(-200) center;
+      background-size: rem-calc(700) auto;
+    }
+
+    @include breakpoint(xlarge) {
+      background-position: rem-calc(-100) center;
+      background-size: rem-calc(760) auto;
+    }
+  }
+
 }

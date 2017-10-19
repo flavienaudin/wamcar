@@ -22,4 +22,10 @@
     padding-top: rem-calc(60);
     padding-bottom: rem-calc(80);
   }
+
+  /* Exceptions */
+
+  &.no-padding-bottom {
+    padding-bottom: 0;
+  }
 }
