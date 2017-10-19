@@ -12,6 +12,7 @@
 .is-inline       { display: inline; }
 .is-inline-block { display: inline-block; }
 .is-block        { display: block; }
+.is-block-inherit{ display: inherit; }
 .is-scrollable   { overflow: auto; }
 .is-flex         { display: flex; }
 
@@ -24,7 +25,6 @@
 .is-static   { position: static; }
 .is-relative { position: relative; }
 .is-absolute { position: absolute; }
-.is-fixed    { position: fixed; }
 
 
 
@@ -58,6 +58,7 @@
 
 .text-uppercase { text-transform: uppercase; }
 .text-lowercase { text-transform: lowercase; }
+.text-underline { text-decoration: underline; }
 
 
 /*

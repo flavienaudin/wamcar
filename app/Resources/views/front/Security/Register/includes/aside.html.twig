@@ -1,0 +1,13 @@
+{% include 'front/Security/Register/includes/step_header_small.html.twig' with {
+    title: 'Photos',
+    id: 'js-step-' ~ asideId ~ '-infos'
+} %}
+<aside id="js-step-{{ asideId }}-infos" class="register-aside-container block-grid column small-12 large-order-2 large-5 xlarge-4 xlarge-left-collapse xlarge-offset-1" data-toggler=".is-block-inherit">
+    <div class="register-aside small-12 medium-6 large-12">
+        {# <button class="close-button hide-for-large" aria-label="Close alert" type="button" data-toggle="js-step-{{ asideId }}-infos"><span aria-hidden="true">&times;</span></button> #}
+        {{ content|raw }}
+    </div>
+    <div class="register-aside no-padding small-12 medium-6 large-12">
+        {% include 'front/Layout/includes/svg/hero_' ~ asideId ~ '.html.twig' %}
+    </div>
+</aside>

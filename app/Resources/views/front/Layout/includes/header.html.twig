@@ -1,16 +1,20 @@
+{% set isUserPro = isUserPro|default(false) %}
 {% set isHomePage = isHomePage|default(false) %}
-<header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ isHomePage ? 'is-transparent is-fix' : '' }}">
-     {% include "front/Layout/includes/logo.html.twig" %}
-     {% block headerCenter %}
-          {% include "front/Layout/includes/navigation/primary.html.twig" %}
-          {# {% include "front/Layout/includes/navigation/primary_pro.html.twig" %} #}
-     {% endblock %}
-     <div class="l-header-right block-grid column small-collapse small-right medium-3 large-2 xlarge-uncollapse">
-          {% block headerRight %}
-               <button type="button" class="l-header-button icon-user small-right" data-toggle="js-off-canvas-user"><span class="show-for-xlarge">Espace membre</span></button>
-               <button class="l-header-button hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation"><span class="hamburger-line"></span></button>
-          {% endblock %}
-     </div>
+<header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ isHomePage ? 'is-transparent is-fixed' : '' }} {{ is_register_page ? 'has-no-shadow' : '' }}">
+    {% include "front/Layout/includes/logo.html.twig" %}
+    {% block headerCenter %}
+        {% if isUserPro %}
+            {% include "front/Layout/includes/navigation/primary_pro.html.twig" %}
+        {% else %}
+            {% include "front/Layout/includes/navigation/primary.html.twig" %}
+        {% endif %}
+    {% endblock %}
+    <div class="l-header-right block-grid column small-collapse small-right medium-3 large-2 xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
+        {% block headerRight %}
+            <button type="button" class="l-header-button icon-user small-right" data-toggle="js-off-canvas-user"><span class="show-for-xlarge">Espace membre</span></button>
+            <button class="l-header-button hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation"><span class="hamburger-line"></span></button>
+        {% endblock %}
+    </div>
 </header>
 
 <div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>

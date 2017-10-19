@@ -226,6 +226,14 @@
       padding-left: 0;
     }
 
+    @include breakpoint(xlarge) {
+      &:hover {
+        &::before {
+          font-size: rem-calc(32);
+        }
+      }
+    }
+
     &,
     &:hover,
     &:focus { color: white; }
@@ -244,6 +252,7 @@
       color: $primary-color;
       text-indent: rem-calc(4);
       margin-right: 0;
+      transition: $global-transition;
 
       @include breakpoint(small only) {
         order: 2;

@@ -1,4 +1,5 @@
 {% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
+{% set is_register_page = is_register_page|default(false) %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
@@ -47,7 +48,11 @@
     <body>
 {% endif %}
 
-    {% include 'front/Layout/includes/header.html.twig' %}
+    {% if is_register_page %}
+        {% include 'front/Layout/includes/header_register.html.twig' %}
+    {% else %}
+        {% include 'front/Layout/includes/header.html.twig' %}
+    {% endif %}
 
     <main class="l-main {% block mainClass %}{% endblock %}">
         {% block body %}{% endblock %}
