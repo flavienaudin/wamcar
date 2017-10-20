@@ -141,9 +141,7 @@ class SecurityController extends BaseController
         if (!$user) {
             $this->session->getFlashBag()->add(
                 'flash.danger.token_invalid',
-                self::FLASH_LEVEL_DANGER,
-                [],
-                'common'
+                self::FLASH_LEVEL_DANGER
             );
 
             return $this->redirectToRoute('security_login');
