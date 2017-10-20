@@ -3,15 +3,14 @@ Wamcar\User\UserProfile:
     columnPrefix: profile_
 
     embedded:
-        title:
-            class: Wamcar\User\Title
-            columnPrefix: title_
         city:
             class: Wamcar\User\City
             columnPrefix: city_
             nullable: true
 
     fields:
+        title:
+             type: usertitle
         name:
             type: string
             nullable: true
