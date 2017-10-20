@@ -59,8 +59,6 @@ class Mailer
         }
     }
 
-
-
     /**
      * @param string $title
      * @param array $context
