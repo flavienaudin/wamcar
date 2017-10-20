@@ -1,7 +1,6 @@
 Wamcar\User\BaseUser:
 
     type: entity
-    table:
     inheritanceType: SINGLE_TABLE
     table: user
     discriminatorColumn:
