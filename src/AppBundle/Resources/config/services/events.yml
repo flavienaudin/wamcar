@@ -1,0 +1,18 @@
+services:
+    wamcar.event.mail.abstract_event_handler:
+        abstract: true
+        class: AppBundle\MailWorkflow\AbstractEmailEventHandler
+        arguments:
+          - '@wamcar.mail_workflow.mailer'
+          - '@router'
+          - '@templating'
+          - '@translator'
+          - '%mailer%'
+
+    wamcar.event.sell.registration_token_generated:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyUserOfRegistrationTokenGenerated
+        arguments:
+          - sell.registration_token_generated
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserCreated, method: notify }

@@ -2,6 +2,7 @@ imports:
     - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
+    - { resource: services/events.yml }
     - { resource: search.yml }
 
 services:
@@ -18,3 +19,10 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@security.token_storage'
             - '@session'
+
+    wamcar.mail_workflow.mailer:
+        class: AppBundle\MailWorkflow\Services\Mailer
+        arguments:
+            - '@mailer'
+            - '%mailer%'
+            - '@logger'
