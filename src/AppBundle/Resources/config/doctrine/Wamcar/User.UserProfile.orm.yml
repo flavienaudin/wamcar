@@ -10,7 +10,8 @@ Wamcar\User\UserProfile:
 
     fields:
         title:
-             type: usertitle
+            type: usertitle
+            nullable: true
         name:
             type: string
             nullable: true
