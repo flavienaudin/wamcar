@@ -5,8 +5,11 @@ namespace AppBundle\Security;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
+use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\User\Event\UserCreated;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
@@ -16,20 +19,24 @@ class UserRegistrationService
     private $passwordEncoder;
     /** @var UserRepository */
     private $userRepository;
+    /** @var MessageBus */
+    private $eventBus;
 
     /**
      * UserRegistrationService constructor.
-     *
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
+     * @param MessageBus $eventBus
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MessageBus $eventBus
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -61,6 +68,15 @@ class UserRegistrationService
         }
 
         $this->userRepository->add($applicationUser);
+
+        try{
+            $this->eventBus->handle(new UserCreated($applicationUser));
+        } catch (\Exception $exception) {
+            if($this->userRepository instanceof DoctrineUserRepository) {
+                $this->userRepository->remove($applicationUser, true);
+            }
+            throw $exception;
+        }
 
         return $applicationUser;
     }

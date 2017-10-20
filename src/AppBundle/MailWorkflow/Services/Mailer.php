@@ -29,17 +29,17 @@ class Mailer
      * @param $type
      * @param $subject
      * @param $body
-     * @param EmailContact $toEmail
+     * @param EmailContact $toContact
      * @param array $attachments
      */
-    public function sendMessage($type, $subject, $body, EmailContact $toEmail, array $attachments = [])
+    public function sendMessage($type, $subject, $body, EmailContact $toContact, array $attachments = [])
     {
         $fromEmail = new EmailContact($this->parameters['from_email']['mail'], $this->parameters['from_email']['name']);
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($fromEmail->getEmail(), $fromEmail->getName())
-            ->setTo($toEmail->toArray())
+            ->setTo($toContact->getEmail())
             ->setBody($body, 'text/html');
         $message->getHeaders()->addTextHeader('X-Message-ID', $type);
 
@@ -50,12 +50,12 @@ class Mailer
 
         try {
             $this->mailer->send($message);
-            $this->log(sprintf("A '%s' email was sent successfully to %s", $type, $toEmail), [
+            $this->log(sprintf("A '%s' email was sent successfully to %s", $type, $toContact), [
                 'subject' => $subject
             ]);
         } catch (\Exception $e) {
-            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $toEmail), [
-                'to'      => $toEmail->toArray(),
+            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $toContact->getEmail()), [
+                'to'      => $toContact->getEmail(),
                 'subject' => $subject
             ], LogLevel::ERROR);
         }

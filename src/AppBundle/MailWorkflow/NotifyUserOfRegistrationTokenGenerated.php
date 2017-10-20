@@ -28,9 +28,10 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
             'Mail/notifyUserOfRegistrationTokenGenerated.html.twig',
             [
                 'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken()], RouterInterface::ABSOLUTE_URL),
-                'email' => $user->getEmail()
+                'email' => $user->getEmail(),
+                'site_url' => $this->router->generate('front_default')
             ],
-            new EmailContact($this->createUserEmailContact($user))
+            $this->createUserEmailContact($user)
         );
     }
 }
