@@ -156,7 +156,7 @@ class SecurityController extends BaseController
             self::FLASH_LEVEL_INFO
         );
         // redirect to login page, to allow user to enter his credentials
-        return $this->redirectToRoute('security_login');
+        return $this->redirectToRoute('front_default');
     }
 
 }
