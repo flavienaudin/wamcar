@@ -8,7 +8,9 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    
+    mailer:
+        from_email: {mail: '%mailer_defaut_sender_address%', name: '%mailer_defaut_sender_name%'}
+
 framework:
     #esi: ~
     translator: { fallbacks: ['%locale%'] }

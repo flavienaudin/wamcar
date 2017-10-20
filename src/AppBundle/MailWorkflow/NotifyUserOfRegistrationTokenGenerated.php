@@ -5,7 +5,6 @@ namespace AppBundle\MailWorkflow;
 
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Wamcar\User\Event\UserCreated;
 use Wamcar\User\Event\UserEvent;

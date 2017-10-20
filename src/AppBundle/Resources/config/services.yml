@@ -19,4 +19,9 @@ services:
             - '@wamcar.security.password_encoder'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@event_bus'
-            - '@logger'
+
+    wamcar.mail_workflow.mailer:
+        class: AppBundle\MailWorkflow\Services\Mailer
+        arguments:
+            - '@mailer'
+            - '%mailer%'
