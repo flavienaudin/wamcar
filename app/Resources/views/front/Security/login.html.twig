@@ -1,0 +1,30 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% trans_default_domain 'security' %}
+{% block title %}{% endblock title %}
+{% block meta_description %}{% endblock meta_description %}
+
+{% block body %}
+
+<form action="{{ path('security_login') }}" method="post">
+
+    <div>
+        <label for="email">{{ 'user.field.email.label'|trans }}</label>
+        <input type="email" name="_username" id="email" value="{% if last_username is defined %}{{ last_username }}{% endif %}" required>
+        <small class="form-error">{{ 'user.field.email.error'|trans }}</small>
+    </div>
+    <div>
+        <label for="password">{{ 'user.field.password.first.label'|trans }}
+        </label>
+        <input type="password" name="_password" id="password" required>
+        <a>{{ 'user.field.password.show'|trans}}</a>
+        <small class="form-error">{{ 'user.field.password.first.error'|trans }}</small>
+    </div>
+    <div>
+        <button type="submit" id="submit-password">{{ 'user.submit.login'|trans }}</button>
+    </div>
+
+</form>
+
+
+{% endblock %}

@@ -129,4 +129,12 @@ trait ApplicationUserTrait
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return is_callable([$this, 'getRole']) ? [(string)$this->getRole()] : ['ROLE_USER'];
+    }
 }
