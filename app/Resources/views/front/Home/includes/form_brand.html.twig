@@ -1,7 +1,8 @@
 {% form_theme vehicleIdentificationForm ':front/Layout/includes/forms:fields.html.twig' %}
 
 {{ form_start(vehicleIdentificationForm, {
-    'method' : 'GET',
+    'method' : 'POST',
+    'action' : path('front_vehicle_registration'),
     'attr' : {
         'class' : 'block-grid',
         'data-abide' : 'data-abide',
@@ -12,7 +13,6 @@
 <div class="column small-12 medium-6">
     {{ form_widget(vehicleIdentificationForm.make, {
         label: 'Marque',
-        name: 'brand',
         dataToggleId: 'js-model',
         dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=models',
         required: true,
@@ -21,11 +21,10 @@
 </div>
 <div id="js-model" class="column small-12 medium-6 is-disabled">
     {{ form_widget(vehicleIdentificationForm.model, {
-        label: 'Marque',
-        name: 'brand',
-        dataToggleId: 'js-model',
+        label: 'Modèle',
         required: true,
-        required_message: 'Veuillez indiquer la marque du véhicule.'
+        required_message: 'Veuillez choisir un modèle.'
+
     }) }}
 </div>
 

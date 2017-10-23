@@ -28,12 +28,14 @@ class VehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct()
+    public function __construct($filters)
     {
         $this->pictures = array_map(function () {
             return new VehiclePictureDTO();
         }, range(1, self::DEFAULT_PICTURE_COUNT));
         $this->identification = new VehicleIdentificationDTO();
+        $this->identification->updateFromFilters($filters);
+
         $this->specifics = new VehicleSpecificsDTO();
     }
 

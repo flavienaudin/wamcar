@@ -45,11 +45,20 @@ class RegistrationController extends BaseController
      */
     public function vehicleRegistrationAction(Request $request): Response
     {
-        $vehicleDTO = new VehicleDTO();
+        $filters = [];
+        if($make = $request->get('make')) {
+            $filters['make'] = $make;
+        }
+        if($model = $request->get('model')) {
+            $filters['model'] = $model;
+        }
+
+        $vehicleDTO = new VehicleDTO($filters);
+
         $vehicleForm = $this->formFactory->create(
             VehicleType::class,
             $vehicleDTO,
-            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates()]
+            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters)]
         );
 
         $vehicleForm->handleRequest($request);
