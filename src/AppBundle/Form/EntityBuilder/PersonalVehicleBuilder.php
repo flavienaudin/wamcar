@@ -23,16 +23,19 @@ class PersonalVehicleBuilder
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),
             null,
-            new \DateTimeImmutable(),
+            $vehicleDTO->getRegistrationDate(),
+            $vehicleDTO->getMileage(),
             [],
-            SafetyTestState::OK(),
-            5,
-            4,
-            3,
-            MaintenanceState::UP_TO_DATE_WITH_INVOICES(),
-            false,
-            false,
-            false
+            $vehicleDTO->getSafetyTestDate(),
+            $vehicleDTO->getSafetyTestState(),
+            $vehicleDTO->getBodyState(),
+            $vehicleDTO->getEngineState(),
+            $vehicleDTO->getTyreState(),
+            $vehicleDTO->getMaintenanceState(),
+            $vehicleDTO->isTimingBeltChanged(),
+            $vehicleDTO->isImported(),
+            $vehicleDTO->isFirstHand(),
+            $vehicleDTO->getAdditionalInformation()
         );
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {

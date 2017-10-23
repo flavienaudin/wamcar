@@ -61,8 +61,9 @@ doctrine:
             uuid:  Ramsey\Uuid\Doctrine\UuidType
             usertitle:  AppBundle\Doctrine\Type\UserTitleType
             vehicletransmission:  AppBundle\Doctrine\Type\VehicleTransmissionType
-            vehiclemaintenance:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
-            vehiclesafetytest:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
+            vehiclemaintenancestate:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
+            vehiclesafetyteststate:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
+            vehiclesafetytestdate:  AppBundle\Doctrine\Type\VehicleSafetyTestDateType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

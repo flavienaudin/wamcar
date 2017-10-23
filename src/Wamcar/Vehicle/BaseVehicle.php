@@ -3,9 +3,9 @@
 namespace Wamcar\Vehicle;
 
 use Ramsey\Uuid\Uuid;
-use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestState;
-use Wamcar\Vehicle\Enum\Transmission;
+use Wamcar\Vehicle\Enum\{
+    MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
+};
 
 abstract class BaseVehicle implements Vehicle
 {
@@ -17,12 +17,16 @@ abstract class BaseVehicle implements Vehicle
     protected $transmission;
     /** @var Registration|null */
     protected $registration;
-    /** @var \DateTimeImmutable */
+    /** @var \DateTimeInterface */
     protected $registrationDate;
+    /** @var int */
+    protected $mileage;
     /** @var Picture[]|array */
     protected $pictures;
+    /** @var SafetyTestDate */
+    protected $safetyTestDate;
     /** @var SafetyTestState */
-    protected $safetyTest;
+    protected $safetyTestState;
     /** @var int */
     protected $bodyState;
     /** @var int|null */
@@ -39,7 +43,7 @@ abstract class BaseVehicle implements Vehicle
     protected $isFirstHand;
     /** @var string|null */
     protected $additionalInformation;
-    /** @var \DateTimeImmutable */
+    /** @var \DateTimeInterface */
     protected $createdAt;
 
     /**
@@ -47,9 +51,11 @@ abstract class BaseVehicle implements Vehicle
      * @param ModelVersion $modelVersion
      * @param Transmission $transmission
      * @param Registration|null $registration
-     * @param \DateTimeImmutable $registrationDate
+     * @param \DateTimeInterface $registrationDate
+     * @param int $mileage
      * @param array $pictures
-     * @param SafetyTestState $safetyTest
+     * @param SafetyTestDate $safetyTestDate
+     * @param SafetyTestState $safetyTestState
      * @param int $bodyState
      * @param int|null $engineState
      * @param int|null $tyreState
@@ -63,9 +69,11 @@ abstract class BaseVehicle implements Vehicle
         ModelVersion $modelVersion,
         Transmission $transmission,
         Registration $registration = null,
-        \DateTimeImmutable $registrationDate,
+        \DateTimeInterface $registrationDate,
+        int $mileage,
         array $pictures,
-        SafetyTestState $safetyTest,
+        SafetyTestDate $safetyTestDate,
+        SafetyTestState $safetyTestState,
         int $bodyState,
         int $engineState = null,
         int $tyreState = null,
@@ -80,8 +88,10 @@ abstract class BaseVehicle implements Vehicle
         $this->transmission = $transmission;
         $this->registration = $registration;
         $this->registrationDate = $registrationDate;
+        $this->mileage = $mileage;
         $this->pictures = $pictures;
-        $this->safetyTest = $safetyTest;
+        $this->safetyTestDate = $safetyTestDate;
+        $this->safetyTestState = $safetyTestState;
         $this->bodyState = $bodyState;
         $this->engineState = $engineState;
         $this->tyreState = $tyreState;

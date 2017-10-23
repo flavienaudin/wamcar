@@ -18,6 +18,7 @@ class VehicleType extends AbstractType
                 'required' => false
             ])
             ->add('identification', VehicleIdentificationType::class)
+            ->add('specifics', VehicleSpecificsType::class)
             ->add('pictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => VehiclePictureType::class,
