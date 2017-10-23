@@ -56,8 +56,7 @@ class UserRegistrationService
             $applicationUser = new ProApplicationUser(
                 $registrationDTO->email,
                 $encodedPassword,
-                $salt,
-                null
+                $salt
             );
         }
 
