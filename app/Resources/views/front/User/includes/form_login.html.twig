@@ -1,10 +1,12 @@
-<form data-abide novalidate>
+{% trans_default_domain 'security' %}
+
+<form action="{{ path('security_login') }}" method="post" data-abide novalidate>
     <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
     <div>
         {% include 'front/Layout/includes/forms/input.html.twig' with {
             type: 'email',
-            name: 'email',
-            label: 'Email',
+            name: '_username',
+            label: 'user.field.email.label'|trans,
             required: true,
             required_message: 'Veuillez indiquer votre adresse email.'
         } %}
@@ -12,8 +14,8 @@
     <div>
         {% include 'front/Layout/includes/forms/input.html.twig' with {
             type: 'password',
-            name: 'password',
-            label: 'Mot de passe <a data-open="js-password-lost">Mot de passe oublié ?</a>',
+            name: '_password',
+            label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost">'~'user.field.password.forget'|trans~'</a>',
             required: true,
             required_message: 'Veuillez indiquer votre mot de passe.'
         } %}

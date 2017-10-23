@@ -179,9 +179,10 @@ class SecurityController extends BaseController
                 $error->getMessage(),
                 self::FLASH_LEVEL_DANGER
             );
+            return $this->redirectToRoute('front_default');
         }
 
-        return $this->render('front/Security/login.html.twig', [
+        return $this->render('front/User/includes/form_login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);

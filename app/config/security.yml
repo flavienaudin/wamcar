@@ -34,5 +34,5 @@ security:
             logout:
                 path:   security_logout
                 target: front_default
-            access_denied_url: security_login
+            access_denied_url: front_default
 
