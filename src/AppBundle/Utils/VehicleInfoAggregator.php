@@ -46,9 +46,7 @@ class VehicleInfoAggregator
             $qb->addAggregation(new Aggregation('modelVersion', 'terms', 'modelVersion'));
             $qb->addAggregation(new Aggregation('engine', 'terms', 'engine'));
         }
-
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
-
 
         $formattedAggregations = [];
         foreach ($result->aggregations() as $field => $aggregation) {

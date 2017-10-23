@@ -61,3 +61,17 @@ let clearSelect = function (select) {
       });
   });
 });
+
+
+// Todo : auto add images when list full
+// let $collectionHolder = document.querySelector('#js-pictures-list');
+// let $addPictureButton = document.querySelector('#js-tmp-add-picture');
+//
+// $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
+//
+// $addPictureButton.addEventListener('click', () => {
+//   let index = parseInt($collectionHolder.getAttribute('data-index'));
+//   let newForm = $collectionHolder.getAttribute('data-prototype').replace(/__name__/g, index);
+//   $collectionHolder.setAttribute('data-index', index + 1);
+//   $collectionHolder.insertAdjacentHTML('beforeend', newForm);
+// });

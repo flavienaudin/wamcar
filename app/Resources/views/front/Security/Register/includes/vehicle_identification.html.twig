@@ -8,15 +8,14 @@
 } %}
 
 <section class="column small-12 large-7" id="js-registration-identification" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
-    {% if app.request.get('imma') %}
-        <div class="register-infos input-margin block-grid">
-            <div class="small-12 large-8">
-                <label for="immat">Immatriculation <span>Facultatif</span></label>
-                <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
-            </div>
-            {{ form_widget(vehicleForm.registrationNumber) }}
+    <div class="register-infos input-margin block-grid is-hidden">
+        <div class="small-12 large-8">
+            <label for="immat">Immatriculation <span>Facultatif</span></label>
+            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en
+                majorité pré-remplis avec les infos de votre véhicule.</p>
         </div>
-    {% endif %}
+        {{ form_widget(vehicleForm.registrationNumber) }}
+    </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.identification.make, {
             label: 'Marque',
