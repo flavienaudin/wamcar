@@ -129,12 +129,4 @@ trait ApplicationUserTrait
 
         return $this;
     }
-
-    /**
-     * @return bool
-     */
-    public function hasConfirmedRegistration(): bool
-    {
-        return $this->registrationToken === null;
-    }
 }

@@ -32,4 +32,12 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
         $this->salt = $salt;
         $this->registrationToken = $registrationToken;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasConfirmedRegistration(): bool
+    {
+        return $this->registrationToken === null;
+    }
 }

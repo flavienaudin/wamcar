@@ -5,7 +5,7 @@ namespace AppBundle\Doctrine\Entity;
 use AppBundle\Security\ShouldConfirmRegistration;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser
 {
     use ApplicationUserTrait;
 
@@ -28,5 +28,13 @@ class ProApplicationUser extends ProUser implements \Serializable, ShouldConfirm
         $this->password = $password;
         $this->salt = $salt;
         $this->registrationToken = $registrationToken;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasConfirmedRegistration(): bool
+    {
+        return true;
     }
 }

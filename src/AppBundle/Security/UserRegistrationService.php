@@ -57,7 +57,7 @@ class UserRegistrationService
                 $registrationDTO->email,
                 $encodedPassword,
                 $salt,
-                $registrationToken
+                null
             );
         }
 
