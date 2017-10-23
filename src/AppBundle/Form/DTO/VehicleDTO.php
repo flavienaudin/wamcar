@@ -2,10 +2,14 @@
 
 namespace AppBundle\Form\DTO;
 
+use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
+use Wamcar\Vehicle\Fuel;
+use Wamcar\Vehicle\Make;
+use Wamcar\Vehicle\Model;
 use Wamcar\Vehicle\ModelVersion;
 
 class VehicleDTO
@@ -34,6 +38,14 @@ class VehicleDTO
     }
 
     /**
+     * @param array $filters
+     */
+    public function updateFromFilters(array $filters = []): void
+    {
+        $this->identification->updateFromFilters($filters);
+    }
+
+    /**
      * @param VehiclePictureDTO $picture
      */
     public function addPicture(VehiclePictureDTO $picture): void
@@ -51,6 +63,26 @@ class VehicleDTO
         }
     }
 
+    public function getMake(): ?Make
+    {
+        return $this->getModel() ? $this->getModel()->getMake() : null;
+    }
+
+    public function getModel(): ?Model
+    {
+        return $this->getModelVersion() ? $this->getModelVersion()->getModel() : null;
+    }
+
+    public function getEngine(): ?Engine
+    {
+        return $this->getModelVersion() ? $this->getModelVersion()->getEngine() : null;
+    }
+
+    public function getFuel(): ?Fuel
+    {
+        return $this->getEngine() ? $this->getEngine()->getFuel() : null;
+    }
+
     /**
      * @return ModelVersion
      */
@@ -64,7 +96,7 @@ class VehicleDTO
      */
     public function getTransmission(): Transmission
     {
-        return $this->identification->transmission;
+        return $this->identification->transmission ?? Transmission::MANUAL();
     }
 
     /**

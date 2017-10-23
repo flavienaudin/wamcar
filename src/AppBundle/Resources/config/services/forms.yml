@@ -6,3 +6,4 @@ services:
 
     AppBundle\Form\Type\:
         resource: '../../../Form/Type'
+        exclude: '../../../Form/Type/{VehicleType,VehicleIdentificationType}.php'

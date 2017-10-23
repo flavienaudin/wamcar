@@ -39,6 +39,11 @@ front_vehicle_registration:
     defaults:
         _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
 
+front_vehicle_registration_form_update:
+    path: /je-vends-mon-vehicule/form_update
+    defaults:
+        _controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
+
 front_user_info:
     path: /user-info
     defaults: { _controller: AppBundle:Front\PersonalContext\User:userInformations }

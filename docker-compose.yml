@@ -21,7 +21,7 @@ services:
         ports:
             - 9200:9200
         networks:
-            default:
+            wamcar:
                 aliases:
                     - service.elasticsearch
 
