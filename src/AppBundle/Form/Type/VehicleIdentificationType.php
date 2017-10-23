@@ -20,31 +20,31 @@ class VehicleIdentificationType extends AbstractType
 
         $builder
             ->add('make', ChoiceType::class, [
-                'choices' => $availableValues['makes'] ?? [],
-                'placeholder' => count($availableValues['makes'] ?? []) === 1 ? false : '--',
+                'choices' => $availableValues['make'] ?? [],
+                'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
             ])
             ->add('model', ChoiceType::class, [
-                'choices' => $availableValues['models'] ?? [],
-                'placeholder' => count($availableValues['models'] ?? []) === 1 ? false : '--',
+                'choices' => $availableValues['model'] ?? [],
+                'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
             ]);
 
 
         if (!$options['small_version']) {
             $builder
                 ->add('modelVersion', ChoiceType::class, [
-                    'choices' => $availableValues['modelVersions'] ?? [],
-                    'placeholder' => count($availableValues['modelVersions'] ?? []) === 1 ? false : '--',
+                    'choices' => $availableValues['modelVersion'] ?? [],
+                    'placeholder' => count($availableValues['modelVersion'] ?? []) === 1 ? false : '',
                 ])
                 ->add('engine', ChoiceType::class, [
-                    'choices' => $availableValues['engines'] ?? [],
-                    'placeholder' => count($availableValues['engines'] ?? []) === 1 ? false : '--',
+                    'choices' => $availableValues['engine'] ?? [],
+                    'placeholder' => count($availableValues['engine'] ?? []) === 1 ? false : '',
                 ])
                 ->add('transmission', ChoiceType::class, [
                     'choices' => Transmission::toArray(),
                 ])
                 ->add('fuel', ChoiceType::class, [
-                    'choices' => $availableValues['fuels'] ?? [],
-                    'placeholder' => count($availableValues['fuels'] ?? []) === 1 ? false : '--',
+                    'choices' => $availableValues['fuel'] ?? [],
+                    'placeholder' => count($availableValues['fuel'] ?? []) === 1 ? false : '',
                 ]);
 
             $builder->get('transmission')->addModelTransformer(new EnumDataTransformer(Transmission::class));

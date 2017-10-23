@@ -1,5 +1,7 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% form_theme vehicleForm ':front/Layout/includes/forms:fields.html.twig' %}
+
 {% set is_register_page = true %}
 
 {% block title %}Inscription{% endblock %}
@@ -7,19 +9,27 @@
 {% block body %}
 
     <section class="small-12">
-        <form action="{{ path('register_confirm') }}" id="js-register-form" class="register-form row" novalidate>
-            <ul id="js-step" class="step">
+        {{ form_start(vehicleForm, {
+            'method' : 'POST',
+            'attr' : {
+                'class' : 'register-form row',
+                'id' : 'js-register-form',
+                'novalidate' : 'novalidate'
+            }
+        }) }}
+
+        <ul id="js-step" class="step">
                 <li class="block-grid" data-step="1">
-                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' %}
+                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : vehicleForm } %}
                 </li>
                 <li class="block-grid" data-step="2">
-                    {% include 'front/Security/Register/includes/pictures.html.twig' %}
+                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : vehicleForm } %}
                 </li>
                 <li class="block-grid" data-step="3">
-                    {% include 'front/Security/Register/includes/more_infos.html.twig' %}
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm } %}
                 </li>
                 <li class="block-grid" data-step="4">
-                    {% include 'front/Security/Register/includes/account.html.twig' %}
+                    {% include 'front/Security/Register/includes/account.html.twig' with { 'vehicleForm' : vehicleForm } %}
                 </li>
             </ul>
             <nav id="js-step-navigation" class="column small-12">
@@ -28,7 +38,8 @@
                     <button type="button" class="js-carousel-next button small-6 medium-4 large-3 small-right">Étape suivante</button>
                 </div>
             </nav>
-        </form>
+        {{ form_end(vehicleForm) }}
+
     </section>
 
 {% endblock body %}

@@ -11,7 +11,23 @@
 {% endblock %}
 
 {% block body %}
-    {{ include(':front/personalContext/registration:vehicle_registration_form.html.twig', { 'vehicleForm' : vehicleForm }) }}
+    {{ form_start(vehicleForm, { 'attr' : { 'id' : 'js-form-car-registration' } }) }}
+
+    {{ form_widget(vehicleForm.identification) }}
+
+    {{ form_widget(vehicleForm.specifics) }}
+
+    <div id="js-pictures-holder" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
+        {% for pictureSubForm in vehicleForm.pictures %}
+            {{ form_widget(pictureSubForm) }}
+        {% endfor %}
+    </div>
+
+    <a name="js-tmp-add-picture" onclick="addPictureFormItem()" href="#">Ajouter</a>
+
+    <input type="submit" value="Enregistrer" />
+
+    {{ form_end(vehicleForm) }}
 
     {# TODO : Faire ça joliment avec le dev front #}
     <script>

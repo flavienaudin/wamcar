@@ -75,7 +75,7 @@ class RegistrationController extends BaseController
 
 
         return $this->render(
-            ':front/personalContext/registration:vehicle_registration.html.twig',
+            ':front/Security/Register:user_car.html.twig',
             [
                 'vehicleForm' => $vehicleForm->createView(),
             ]

@@ -29,7 +29,7 @@ class VehicleIdentificationDTO
         $this->make = $filters['make'] ?? $this->make;
         $this->model = $filters['model'] ?? $this->model;
         $this->modelVersion = $filters['modelVersion'] ?? $this->modelVersion;
-        $this->engine = $filters['engineName'] ?? $this->engine;
+        $this->engine = $filters['engine'] ?? $this->engine;
         $this->fuel = $filters['fuel'] ?? $this->fuel;
     }
 

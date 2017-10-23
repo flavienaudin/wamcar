@@ -18,6 +18,7 @@ import './components/header';
 import './components/select';
 import './components/step';
 import './components/file';
+import './components/registration';
 import {
   activeClass
 } from './settings/settings.js';

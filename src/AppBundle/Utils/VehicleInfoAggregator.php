@@ -29,23 +29,26 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
+        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 10);
 
         foreach ($data as $field => $value) {
-            $qb->addFilter(new TermFilter($field, $value));
+            if(!empty($value)) {
+                $qb->addFilter(new TermFilter($field, $value));
+            }
         }
 
-        $qb->addAggregation(new Aggregation('makes', 'terms', 'make'));
-        $qb->addAggregation(new Aggregation('fuels', 'terms', 'fuel'));
+        $qb->addAggregation(new Aggregation('make', 'terms', 'make'));
+        $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));
         if (isset($data['make'])) {
-            $qb->addAggregation(new Aggregation('models', 'terms', 'model'));
+            $qb->addAggregation(new Aggregation('model', 'terms', 'model'));
         }
         if (isset($data['model'])) {
-            $qb->addAggregation(new Aggregation('modelVersions', 'terms', 'engineName')); // TODO : add a version column
-            $qb->addAggregation(new Aggregation('engines', 'terms', 'engineName'));
+            $qb->addAggregation(new Aggregation('modelVersion', 'terms', 'modelVersion'));
+            $qb->addAggregation(new Aggregation('engine', 'terms', 'engine'));
         }
 
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
+
 
         $formattedAggregations = [];
         foreach ($result->aggregations() as $field => $aggregation) {

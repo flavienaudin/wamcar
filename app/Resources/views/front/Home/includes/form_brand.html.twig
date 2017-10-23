@@ -14,7 +14,7 @@
     {{ form_widget(vehicleIdentificationForm.make, {
         label: 'Marque',
         dataToggleId: 'js-model',
-        dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=models',
+        dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=model',
         required: true,
         required_message: 'Veuillez indiquer la marque du véhicule.'
     }) }}

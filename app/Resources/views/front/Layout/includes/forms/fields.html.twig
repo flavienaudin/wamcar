@@ -1,6 +1,7 @@
 {%- block choice_widget_collapsed -%}
     {% set id = id|default('') %}
     {% set class = class|default('') %}
+    {% set dataType = dataType|default('') %}
     {% set dataToggleId = dataToggleId|default('') %}
     {% set dataFetchUrl = dataFetchUrl|default('') %}
     {% set required = required|default(false) %}
@@ -11,7 +12,11 @@
     {% if label %}
         <label class="{{ label_class }}">{{ label }}</label>
     {% endif %}
-    <select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }} {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }} {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}>
+    <select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}
+        {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
+        {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
+        {{ dataType ? 'data-type=' ~ dataType ~ '' }}
+    >
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
         {%- endif -%}

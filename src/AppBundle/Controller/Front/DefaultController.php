@@ -46,19 +46,6 @@ class DefaultController extends BaseController
             ]
         );
 
-        //        $vehicleForm->handleRequest($request);
-        //        dump($vehicleForm->get('specifics'));
-        //
-        //        if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
-        //            $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
-        //            $this->vehicleRepository->add($personalVehicle);
-        //
-        //            dump("Picture saved");
-        //            dump($personalVehicle);
-        //            exit;
-        //        }
-
-
         return $this->render(
             ':front/Home:home.html.twig',
             [
