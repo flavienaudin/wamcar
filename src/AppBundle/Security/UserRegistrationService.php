@@ -34,49 +34,36 @@ class UserRegistrationService
 
     /**
      * @param RegistrationDTO $registrationDTO
-     * @return ProApplicationUser
+     * @return ApplicationUser
      * @throws \Exception
      */
-    public function registerUserPro(RegistrationDTO $registrationDTO): ProApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
         $registrationToken = TokenGenerator::generateToken();
 
-        $proApplicationUser = new ProApplicationUser(
-            $registrationDTO->email,
-            $encodedPassword,
-            $salt,
-            $registrationToken
-        );
+        $applicationUser = null;
+        if ($registrationDTO->type ==='personal') {
+            $applicationUser = new PersonalApplicationUser(
+                $registrationDTO->email,
+                $encodedPassword,
+                $salt,
+                null,
+                $registrationToken
+            );
+        } elseif ($registrationDTO->type ==='pro') {
+            $applicationUser = new ProApplicationUser(
+                $registrationDTO->email,
+                $encodedPassword,
+                $salt,
+                $registrationToken
+            );
+        }
 
-        $this->userRepository->add($proApplicationUser);
+        $this->userRepository->add($applicationUser);
 
-        return $proApplicationUser;
-    }
-
-    /**
-     * @param RegistrationDTO $registrationDTO
-     * @return PersonalApplicationUser
-     * @throws \Exception
-     */
-    public function registerUserPersonal(RegistrationDTO $registrationDTO): PersonalApplicationUser
-    {
-        $salt = uniqid(mt_rand(), true);
-        $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
-        $registrationToken = TokenGenerator::generateToken();
-
-        $personnalApplicationUser = new PersonalApplicationUser(
-            $registrationDTO->email,
-            $encodedPassword,
-            $salt,
-            null,
-            $registrationToken
-        );
-
-        $this->userRepository->add($personnalApplicationUser);
-
-        return $personnalApplicationUser;
+        return $applicationUser;
     }
 
     /**

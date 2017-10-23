@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\UserRegistrationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -41,7 +42,10 @@ class SecurityController extends BaseController
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUserPersonal($registrationForm->getData());
+                /** @var RegistrationDTO $registrationDTO */
+                $registrationDTO = $registrationForm->getData();
+                $registrationDTO->type = 'personal';
+                $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',
@@ -79,7 +83,10 @@ class SecurityController extends BaseController
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUserPro($registrationForm->getData());
+                /** @var RegistrationDTO $registrationDTO */
+                $registrationDTO = $registrationForm->getData();
+                $registrationDTO->type = 'pro';
+                $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',

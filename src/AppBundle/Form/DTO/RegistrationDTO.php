@@ -10,4 +10,6 @@ class RegistrationDTO
     public $email;
     /** @var  string */
     public $password;
+    /** @var  string */
+    public $type;
 }
