@@ -1,0 +1,229 @@
+{% set asideId = '3' %}
+{% set rent_list = [
+    { label: 'Très mauvais état' },
+    { label: 'Mauvais état' },
+    { label: 'En état' },
+    { label: 'Bon état' },
+    { label: 'Très bon état' }
+] %}
+
+{% include 'front/Security/Register/includes/aside.html.twig' with {
+    content: '
+        <p>Merci de remplir ces informations complémentaires avec précision.</p>
+        <p>Vous obtiendrez ainsi de nos professionnels des offres de reprise au prix le plus juste.</p>
+    '
+} %}
+
+<section class="small-12 large-7">
+    <div class="block-grid input-margin column">
+        <label for="data" class="medium-no-margin small-12 medium-4">Date de 1ère mise en circulation</label>
+        <div class="small-12 medium-8">
+            <ul class="row small-up-3 no-bullet no-margin">
+                <li class="column">
+                    <select class="no-margin" required>
+                        <option value="">JJ</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </li>
+                <li class="column">
+                    <select class="no-margin" required>
+                        <option value="">MM</option>
+                        <option value="janvier">Janvier</option>
+                        <option value="fevrier">Février</option>
+                        <option value="mars">Mars</option>
+                    </select>
+                </li>
+                <li class="column">
+                    <select class="no-margin" required>
+                        <option value="">AAAA</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        <option value="2012">2012</option>
+                        <option value="2011">2011</option>
+                        <option value="2010">2010</option>
+                    </select>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="block-grid input-margin column">
+        <label for="km" class="medium-no-margin small-12 medium-4">Kilométrage</label>
+        <div class="small-12 medium-8">
+            <input type="text" name="km" id="km" class="input no-margin" required>
+            <small class="form-error">Veuillez indiqué un kilométrage</small>
+        </div>
+    </div>
+    <div class="block-grid input-margin column">
+        <label for="courroie" class="medium-no-margin small-12 medium-4">Changement de courroie de distribution</label>
+        <ul class="block-grid small-12 medium-8">
+            <li class="small-6">
+                <input type="radio" name="vehicle-replace" id="yes" required>
+                <label for="yes" class="radio-item">
+                    A faire {% include 'front/Layout/includes/svg/check.html.twig' %}
+                </label>
+            </li>
+            <li class="small-6">
+                <input type="radio" name="vehicle-replace" id="no" required>
+                <label for="no" class="radio-item">
+                    Effectué {% include 'front/Layout/includes/svg/check.html.twig' %}
+                </label>
+            </li>
+        </ul>
+    </div>
+    <div class="block-grid input-margin column">
+        <label for="courroie" class="medium-no-margin small-12 medium-4">Date du dernier contrôle technique <span class="medium-no-margin">Facultatif</span></label>
+        <select class="no-margin small-12 medium-8">
+            <option value="1">1 mois</option>
+            <option value="3">3 mois</option>
+            <option value="6">6 mois</option>
+            <option value="6">Plus de 6 mois</option>
+        </select>
+    </div>
+    <div class="block-grid input-margin column">
+        <label for="tech-2" class="medium-no-margin small-12 medium-4">Résultat du dernier contrôle technique <span class="medium-no-margin">Facultatif</span></label>
+        <ul class="block-grid small-12 medium-8">
+            <li class="small-6">
+                <input type="radio" name="tech" id="tech-2-yes" class="is-hidden">
+                <label for="tech-2-yes" class="radio-item">
+                    OK {% include 'front/Layout/includes/svg/check.html.twig' %}
+                </label>
+            </li>
+            <li class="small-6">
+                <input type="radio" name="tech" id="tech-2-no" class="radio-item is-hidden">
+                <label for="tech-2-no" class="radio-item">
+                    Contre visite {% include 'front/Layout/includes/svg/check.html.twig' %}
+                </label>
+            </li>
+        </ul>
+        <small class="form-error medium-offset-4">Veuillez indiqué un kilométrage</small>
+    </div>
+    <div class="column">
+        <div class="form-separator">
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat de la carrosserie</label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="rent-1" id="{{ index }}" required>
+                            <label for="{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat du moteur <span class="medium-12 medium-no-margin">Facultatif</span></label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="moteur-1" id="moteur-{{ index }}">
+                            <label for="moteur-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="rent-1" class="medium-no-margin small-12 medium-4">Etat des pneus <span class="medium-12 medium-no-margin">Facultatif</span></label>
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                        {% for index, rent in rent_list %}
+                            <input type="radio" name="pneus-1" id="pneus-{{ index }}">
+                            <label for="pneus-{{ index }}" class="star-item"><span class="show-for-sr">{{ rent.label }}</span></label>
+                        {% endfor %}
+                        {% for rent in rent_list %}
+                            <span class="star-label">{{ rent.label }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="form-separator">
+            <div class="block-grid input-margin">
+                <label for="" class="medium-no-margin small-12 medium-4">Carnet d'entretien</label>
+                <select class="no-margin small-12 medium-8" required>
+                    <option value="1">A jour avec facture</option>
+                    <option value="2">Non à jour</option>
+                    <option value="3">Lorem ipsum</option>
+                </select>
+                <small class="form-error medium-offset-4">Veuillez indiquer le carnet d'entretien</small>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="" class="medium-no-margin small-12 medium-4">Véhicule importé</label>
+                <ul class="block-grid small-12 medium-8">
+                    <li class="small-6">
+                        <input type="radio" name="import" id="import-yes" required>
+                        <label for="import-yes" class="radio-item">
+                            Oui {% include 'front/Layout/includes/svg/check.html.twig' %}
+                        </label>
+                    </li>
+                    <li class="small-6">
+                        <input type="radio" name="import" id="import-no" required>
+                        <label for="import-no" class="radio-item">
+                            Non {% include 'front/Layout/includes/svg/check.html.twig' %}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="block-grid input-margin">
+                <label for="" class="medium-no-margin small-12 medium-4">Véhicule 1ère main</label>
+                <ul class="block-grid small-12 medium-8">
+                    <li class="small-6">
+                        <input type="radio" name="main" id="main-yes" required>
+                        <label for="main-yes" class="radio-item">
+                            Oui {% include 'front/Layout/includes/svg/check.html.twig' %}
+                        </label>
+                    </li>
+                    <li class="small-6">
+                        <input type="radio" name="main" id="main-no" required>
+                        <label for="main-no" class="radio-item">
+                            Non {% include 'front/Layout/includes/svg/check.html.twig' %}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+        <div class="form-separator block-grid input-margin">
+            <label class="medium-no-margin small-12 medium-4">Ville</label>
+            <div class="small-12 medium-8">
+                <div class="row">
+                    <div class="column small-4">
+                        <input type="text" name="postalCode" id="postalCode" class="input no-margin" required>
+                        <small class="form-error">Veuillez indiquer votre code postal</small>
+                    </div>
+                    <div class="column small-8">
+                        <input type="text" name="city" id="city" class="input no-margin" required>
+                        <small class="form-error">Veuillez indiquer votre ville</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-separator block-grid input-margin">
+            <label for="message" class="align-self-top medium-no-margin small-12 medium-4">Informations complémentaires sur votre véhicule</label>
+            <div class="small-12 medium-8">
+                <textarea name="message" id="message" placeholder="Par exemple des options, des équipements, frais récents ..." required></textarea>
+                <small class="form-error">Veuillez indiqué des informations complémentaires</small>
+            </div>
+        </div>
+    </div>
+</section>

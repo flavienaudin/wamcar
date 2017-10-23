@@ -14,7 +14,10 @@ import { Reveal } from 'foundation-sites/js/foundation.reveal';
 import { Tabs } from 'foundation-sites/js/foundation.tabs';
 import './components/responsiveDom';
 import './components/search';
+import './components/header';
 import './components/select';
+import './components/step';
+import './components/file';
 import {
   activeClass
 } from './settings/settings.js';

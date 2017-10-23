@@ -1,0 +1,27 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}Inscription particulier{% endblock %}
+
+{% block body %}
+
+    <header class="banner">
+        <h1 class="no-margin text-center column large-10 xlarge-6">Particulier, inscrivez-vous pour obtenir des offres de reprise personnalisées et/ou acheter votre nouvelle voiture à un tarif préférentiel !</h1>
+    </header>
+
+    <section class="small-12">
+        <form action="{{ path('register_confirm') }}" class="register-form input-margin row" data-abide novalidate>
+            {% include 'front/Security/Register/includes/account.html.twig' %}
+        </form>
+    </section>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            <h2 class="h1 column text-center full-width xlarge-no-margin">Changer de véhicule, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
+            {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
+            <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. L’inscription ne vous engage en rien à vendre sur Wamcar.</p>
+        </div>
+    </section>
+
+{% endblock body %}

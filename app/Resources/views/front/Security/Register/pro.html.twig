@@ -1,0 +1,27 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}Inscription professionnel{% endblock %}
+
+{% block body %}
+
+    <header class="banner">
+        <h1 class="no-margin text-center column large-10 xlarge-6">Professionnel, inscrivez-vous et développez votre business avec les offres de reprise et la vente sur Wamcar</h1>
+    </header>
+
+    <section class="small-12">
+        <form action="{{ path('register_confirm') }}" class="register-form input-margin row" data-abide novalidate>
+            {% include 'front/Security/Register/includes/account.html.twig' %}
+        </form>
+    </section>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            <h2 class="xlarge-no-margin h1 text-center full-width">La reprise, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
+            {% include 'front/Layout/includes/reinsurance/reinsurance_pro.html.twig' %}
+            <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. Vous pouvez également utiliser Wamcar uniquement pour vendre.</p>
+        </div>
+    </section>
+
+{% endblock body %}

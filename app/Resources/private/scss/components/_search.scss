@@ -81,6 +81,11 @@
       box-shadow: 0 rem-calc(10) rem-calc(30) rgba(black, .12);
     }
 
+    @include breakpoint(xlarge) {
+      position: relative; // IE fix
+      z-index: 2; // IE fix
+    }
+
   } // End &-form
 
 

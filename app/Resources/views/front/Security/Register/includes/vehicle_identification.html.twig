@@ -1,0 +1,124 @@
+{% set asideId = '1' %}
+
+{% include 'front/Security/Register/includes/aside.html.twig' with {
+    content: '
+        <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
+        <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
+    '
+} %}
+
+<section class="column small-12 large-7">
+    {% if app.request.get('imma') %}
+        <div class="register-infos input-margin block-grid">
+            <div class="small-12 large-8">
+                <label for="immat">Immatriculation <span>Facultatif</span></label>
+                <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+            </div>
+            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                class_field: 'small-12 large-4 align-self-bottom',
+                class: 'no-margin',
+                name: 'immat',
+                value: app.request.get('imma')
+            } %}
+        </div>
+    {% endif %}
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Marque',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'brand',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir marque' },
+                { value: 'peugeot', label: 'Peugeot' },
+                { value: 'renault', label: 'Renault' },
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la marque du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Modèle',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'model',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir modèle' },
+                { value: '308', label: '308' },
+                { value: '306', label: '306' },
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer le modèle du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Finition',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'finition',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir finition' },
+                { value: '308', label: '1.6 HDI 92 Business 5P' },
+                { value: '306', label: '1.6 HDI 92 Business 5P' },
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la finition du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Motorisation',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'motor',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir motorisation' },
+                { value: '308', label: '1.6l 155 ch' },
+                { value: '308', label: '1.6l 155 ch' },
+                { value: '308', label: '1.6l 155 ch' },
+                { value: '308', label: '1.6l 155 ch' },
+                { value: '308', label: '1.6l 155 ch' }
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la motorisation du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Boite de vitesse',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'boite-vitesse',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir boite de vitesse' },
+                { value: '308', label: 'Manuelle' },
+                { value: '308', label: 'Automatique' }
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la boite de vitesse du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+    <div class="block-grid input-margin">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Energie',
+            label_class: 'medium-no-margin small-12 medium-4',
+            name: 'energie',
+            class: 'no-margin small-12 medium-8',
+            options: [
+                { value: '', label: 'Choisir energie' },
+                { value: '308', label: 'Diesel' },
+                { value: '308', label: 'Essence' }
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer l\'énergie du véhicule',
+            required_class: 'medium-offset-4'
+        } %}
+    </div>
+</section>

@@ -2,6 +2,8 @@
 
 {% set isHomePage = true %}
 
+{% block mainClass %}no-padding{% endblock %}
+
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
@@ -14,7 +16,7 @@
 
     <section class="section reinsurance-container small-12">
         <div class="row">
-            {% include 'front/Layout/includes/reinsurance.html.twig' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
     </section>
 
@@ -40,8 +42,9 @@
         <div class="row">
             <h2 class="section-title h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">Je veux remplacer mon véhicule. Qu’est-ce que Wamcar m’apporte ?</h2>
             {% set reinsurance_class = 'medium-order-3' %}
-            {% include 'front/Layout/includes/reinsurance_wamcar.html.twig' %}
-            <a class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-video-wamcar"><b>Le concept <span class="show-for-medium"><br></span> en vidéo</b></a>
+            {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
+            <a class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-concept-video"><b>Le concept <span class="show-for-medium"><br></span> en vidéo</b></a>
+            {% include 'front/Home/includes/modal_concept_video.html.twig' %}
         </div>
     </section>
 

@@ -1,0 +1,11 @@
+{% set class = class|default('') %}
+{% set image = image|default('assets/images/register/pictures_default.jpg') %}
+{% set title = title|default('Photo supplémentaire conseillée') %}
+
+<div id="js-file-preview-{{ index }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
+    <label for="pics-legend-{{ index }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span class="medium-12 medium-no-margin">Facultatif</span></label>
+    {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+    <div class="column small-6 medium-12">
+        <input type="text" name="pics-legend-{{ index }}" id="pics-legend-{{ index }}" class="js-file-legend input" placeholder="Ajouter une légende">
+    </div>
+</div>

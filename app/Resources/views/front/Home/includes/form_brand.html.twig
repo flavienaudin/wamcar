@@ -1,56 +1,77 @@
-<form class="block-grid" data-abide novalidate>
+<form action="{{ path('register_user_car') }}" class="block-grid" data-abide novalidate>
     <div class="column small-12 medium-6">
-        <label for="brand">Marque</label>
-        <select name="brand" id="brand" data-toggle-prop-disabled="js-model" required>
-            <option value="">Choisir marque</option>
-            <option value="bm">BM</option>
-            <option value="bm">BM</option>
-            <option value="bm">BM</option>
-            <option value="bm">BM</option>
-        </select>
-        <small class="form-error">Veuillez indiquer la marque du véhicule.</small>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Marque',
+            name: 'brand',
+            dataToggleId: 'js-model',
+            options: [
+                { value: '', label: 'Choisir marque' },
+                { value: '1', label: 'BMW' }
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la marque du véhicule.'
+        } %}
     </div>
     <div id="js-model" class="column small-12 medium-6 is-disabled">
-        <label for="model">Modèle</label>
-        <select name="model" id="model" required>
-            <option value="">Choisir modèle</option>
-            <option value="tdgdt">M3</option>
-            <option value="gdtgdt">M3</option>
-        </select>
-        <small class="form-error">Veuillez choisir un modèle.</small>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Modèle',
+            name: 'model',
+            options: [
+                { value: '', label: 'Choisir modèle' },
+                { value: '1', label: 'M3' },
+                { value: '1', label: 'M4' }
+            ],
+            required: true,
+            required_message: 'Veuillez choisir un modèle.'
+        } %}
     </div>
     <div class="input-margin block-grid column small-12">
-        <label for="imma-2" class="no-margin small-8 medium-auto">Je cherche un véhicule pour le template</label>
+        <label for="imma-2" class="no-margin small-8 medium-auto">Je cherche un véhicule pour le remplacer</label>
         <ul class="block-grid small-shrink small-right">
             <li>
-                <input type="radio" name="vehicle-replace-2" id="yes-2" class="is-hidden">
-                <label for="yes-2" class="radio-item">Oui</label>
+                {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                    name: 'vehicle-replace-2',
+                    id: 'yes-2',
+                    class: 'small',
+                    label: 'Oui'
+                } %}
             </li>
             <li>
-                <input type="radio" name="vehicle-replace-2" id="no-2" class="radio-item is-hidden">
-                <label for="no-2" class="radio-item">Non</label>
+                {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                    name: 'vehicle-replace-2',
+                    id: 'no-2',
+                    class: 'small',
+                    label: 'Non'
+                } %}
             </li>
         </ul>
     </div>
     <div class="column small-12 medium-6">
-        <label for="brand-search">Marque recherchée</label>
-        <select name="brand-search" id="brand-search" data-toggle-prop-disabled="js-model-search" required>
-            <option value="">Choisir marque</option>
-            <option value="m3">BM</option>
-            <option value="m3">BM</option>
-            <option value="m3">BM</option>
-            <option value="m3">BM</option>
-        </select>
-        <small class="form-error">Veuillez indiquer la marque du véhicule recherché.</small>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Marque recherchée',
+            name: 'brand-search',
+            dataToggleId: 'js-model-search',
+            options: [
+                { value: '', label: 'Choisir marque' },
+                { value: '1', label: 'BMW' }
+            ],
+            required: true,
+            required_message: 'Veuillez indiquer la marque du véhicule recherché.'
+        } %}
     </div>
     <div id="js-model-search" class="column small-12 medium-6 is-disabled">
-        <label for="model-search">Modèle recherché</label>
-        <select name="model-search" id="model-search" required>
-            <option value="">Choisir modèle</option>
-            <option value="m3">M3</option>
-            <option value="m3">M3</option>
-        </select>
-        <small class="form-error">Veuillez choisir un modèle recherché.</small>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: 'Modèle recherchée',
+            name: 'model-search',
+            dataToggleId: 'js-model-search',
+            options: [
+                { value: '', label: 'Choisir marque' },
+                { value: '1', label: 'M3' },
+                { value: '1', label: 'M4' }
+            ],
+            required: true,
+            required_message: 'Veuillez choisir un modèle recherché.'
+        } %}
     </div>
     <div class="column small-12">
         <button type="submit" class="button full-width">C'est partie !</button>

@@ -11,12 +11,12 @@
 $label-margin-bottom: rem-calc(15); // $input-margin-bottom
 $label-container-margin-bottom: rem-calc(25) - $label-margin-bottom;
 
-$checkbox-width: 30px; // Stay with px for IE
+$checkbox-width: 22px; // Stay with px for IE
 $checkbox-height: $checkbox-width;
-$checkbox-font-size: rem-calc(14);
-$checkbox-color: $primary-color;
-$checkbox-icon: "\e902";
-$checkbox-margin-right: rem-calc(10);
+$checkbox-font-size: rem-calc(10);
+$checkbox-color: currentColor;
+$checkbox-icon: "\e90d";
+$checkbox-margin-right: rem-calc(20);
 $checkbox-margin-bottom: rem-calc(10);
 
 $radio-width: rem-calc(30);
@@ -36,65 +36,45 @@ $radio-checked-margin-left: $radio-border-width;
 
 
 /*
-   Mixin
+   Placeholder
    ===================================== */
 
 %checkbox-radio-style {
-  display: none;
-
-
-
-  /*
-     Container
-     ===================================== */
-
-  &-container {
-    margin-bottom: $label-container-margin-bottom;
-  }
-
-
-
-  /*
-     Label
-     ===================================== */
+  color: $secondary-color;
+  font-weight: bold;
+  flex-wrap: nowrap;
+  margin-bottom: $label-margin-bottom;
 
   /**
    * On stylise les éléments ::before et ::after de notre label
    * ::before simulera la case 'non cochée' et l'élément ::after viendra la cocher
    */
-  + label {
-    margin-bottom: $label-margin-bottom;
+  &::before,
+  &::after {
+    display: inline-block;
+  }
 
-    &::before,
-    &::after {
-      display: inline-block;
-    }
+  &::before {
+    content: '';
+    background: white;
+  }
 
-    &::before {
-      content: '';
-      background: white;
-    }
-
-    &::after {
-      order: -1;
-      font-family: icomoon;
-      transition: .2s;
-      opacity: 0;
-      transform: scale(0);
-    }
+  &::after {
+    order: -1;
+    font-family: icomoon;
+    transition: .2s;
+    opacity: 0;
+    transform: scale(0);
   }
 
   /**
    * Si l'input est coché
    * On affiche l'élément ::after avec une opacité et un scale par défaut
    */
-  &:checked {
-
-    + label {
-      &::after {
-        opacity: 1;
-        transform: scale(1);
-      }
+  :checked + & {
+    &::after {
+      opacity: 1;
+      transform: scale(1);
     }
   } // End &:checked
 }
@@ -108,31 +88,51 @@ $radio-checked-margin-left: $radio-border-width;
 .checkbox {
   @extend %checkbox-radio-style;
 
-  + label {
+  &::before,
+  &::after {
+    max-width: $checkbox-width;
+    width: $checkbox-width;
+    height: $checkbox-height;
+    flex: 0 0 $checkbox-width;
+    line-height: $checkbox-height;
+  }
 
-    &::before,
-    &::after {
-      max-width: $checkbox-width;
-      width: $checkbox-width;
-      height: $checkbox-height;
-      flex: 0 0 $checkbox-width;
-      line-height: $checkbox-height;
+  &::before {
+    border-color: currentColor;
+    margin-right: $checkbox-margin-right;
+    margin-bottom: 0;
+  }
+
+  &::after {
+    content: $checkbox-icon;
+    top: 0; left: 0;
+    font-size: $checkbox-font-size;
+    color: $checkbox-color;
+    text-align: center;
+    margin-right: -($checkbox-width);
+  }
+
+  /* Error state */
+
+  &.is-invalid-label {
+    margin-bottom: rem-calc(5);
+    &::before { @extend %input-error-style; }
+  }
+
+
+
+  /*
+      Container
+      ===================================== */
+
+  &-container {
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(20);
+      padding-bottom: rem-calc(20);
     }
-
-    &::before {
-      margin-right: $checkbox-margin-right;
-      margin-bottom: 0;
-    }
-
-    &::after {
-      content: $checkbox-icon;
-      top: 0; left: 0;
-      font-size: $checkbox-font-size;
-      color: $checkbox-color;
-      text-align: center;
-      margin-right: -($checkbox-width);
-    }
-
   }
 
 }
@@ -183,18 +183,45 @@ $radio-checked-margin-left: $radio-border-width;
      ===================================== */
 
   &-item {
-    height: rem-calc(35);
+    @include buttonHeight;
+    justify-content: center;
     border: rem-calc(1) solid $border-color;
+    color: $body-font-color;
     margin-bottom: 0;
     margin-right: rem-calc(-1);
     padding-right: rem-calc(12);
     padding-left: rem-calc(12);
     transition: $global-transition;
 
+    svg {
+      overflow: hidden;
+      width: 0;
+      margin-left: rem-calc(10);
+      transition: $global-transition;
+    }
+
     :checked + & {
-      background: $primary-color;
-      border-color: $primary-color;
-      color: white;
+      color: black;
+      svg { width: rem-calc(20); }
+    }
+
+    /* Error state */
+
+    &.is-invalid-label {
+      @extend %input-error-style;
+      margin-bottom: 0;
+    }
+
+    /* Exceptions */
+
+    &.small {
+      height: rem-calc(35);
+
+      :checked + & {
+        background: $primary-color;
+        border-color: $primary-color;
+        color: white;
+      }
     }
   }
 

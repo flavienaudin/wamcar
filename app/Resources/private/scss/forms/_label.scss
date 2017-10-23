@@ -13,7 +13,7 @@ $label-style: normal;
 $label-weight: bold;
 $label-size: rem-calc(16);
 $label-margin-bottom: rem-calc(8);
-$label-margin-bottom-medium: rem-calc(13);
+$label-margin-bottom-medium: rem-calc(18);
 
 
 
@@ -25,6 +25,7 @@ label,
 .label {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   color: $label-color;
   font-weight: $label-weight;
@@ -37,11 +38,24 @@ label,
 
   /* Components */
 
+  > span,
   > a {
     color: $body-font-color;
     font-weight: normal;
+  }
+
+  > a {
     text-decoration: underline;
     margin-left: auto;
+  }
+
+  > span {
+    font-size: rem-calc(11);
+    margin-left: rem-calc(20);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(14);
+    }
   }
 
   /* Exceptions */

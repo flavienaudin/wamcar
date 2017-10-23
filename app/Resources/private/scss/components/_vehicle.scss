@@ -125,6 +125,12 @@
       width: calc(50% - #{rem-calc(40)});
       margin: rem-calc(20);
     }
+
+    @include breakpoint(xlarge) {
+      transition: $global-transition;
+
+      &:hover { box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .2); }
+    }
   } // End &-item
 
 

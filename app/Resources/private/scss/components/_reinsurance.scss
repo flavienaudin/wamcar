@@ -95,12 +95,13 @@
     counter-reset: section;
     margin-top: rem-calc(30);
 
-    @include breakpoint(medium only) {
+    @include breakpoint(medium) {
       text-align: center;
     }
 
-    @include breakpoint(large) {
+    @include breakpoint(xlarge) {
       position: relative;
+      text-align: left;
       z-index: 1;
       margin-top: rem-calc(65);
       margin-bottom: rem-calc(65);
@@ -132,8 +133,8 @@
       }
 
       @include breakpoint(xlarge) {
-        padding-right: 0;
-        padding-left: rem-calc(25);
+        padding-right: rem-calc(10);
+        padding-left: rem-calc(15);
       }
     }
   } // End &-wamcar
@@ -145,21 +146,21 @@
 
   &-wamcar-image {
     position: relative;
+    flex: 0 0 rem-calc(110);
     border-radius: 50%;
     margin-right: rem-calc(25);
 
-    @include breakpoint(medium only) {
+    @include breakpoint(medium) {
+      flex: 0 0 rem-calc(130);
       margin: 0 auto rem-calc(20);
     }
 
-    @include breakpoint(large) {
+    @include breakpoint(xlarge) {
       margin: 0;
     }
 
     &,
-    &::before {
-      box-shadow: 0 rem-calc(10) rem-calc(10) rgba(black, .15);
-    }
+    &::before { box-shadow: 0 rem-calc(10) rem-calc(10) rgba(black, .15); }
 
     &::before,
     &::after {
@@ -179,12 +180,12 @@
       font-weight: bold;
       border-radius: 50%;
 
-      @include breakpoint(medium down) {
+      @include breakpoint(large down) {
         top: rem-calc(6);
         right: rem-calc(6);
       }
 
-      @include breakpoint(large) {
+      @include breakpoint(xlarge) {
         bottom: rem-calc(-10);
         left: 50%;
         width: rem-calc(35);
@@ -195,7 +196,7 @@
     } // End &::before
 
     &::after {
-      @include breakpoint(large) {
+      @include breakpoint(xlarge) {
         content: "";
         bottom: 0;
         left: 50%;
@@ -226,6 +227,14 @@
       padding-left: 0;
     }
 
+    @include breakpoint(xlarge) {
+      &:hover {
+        &::before {
+          font-size: rem-calc(32);
+        }
+      }
+    }
+
     &,
     &:hover,
     &:focus { color: white; }
@@ -244,6 +253,7 @@
       color: $primary-color;
       text-indent: rem-calc(4);
       margin-right: 0;
+      transition: $global-transition;
 
       @include breakpoint(small only) {
         order: 2;

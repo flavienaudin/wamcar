@@ -6,10 +6,10 @@ import {
   disabledClass
 } from '../settings/settings.js';
 
-const $togglePropDisabled = document.querySelectorAll('[data-toggle-prop-disabled]');
+const $toggleId = document.querySelectorAll('[data-toggle-id]');
 
-[...$togglePropDisabled].forEach((select) => {
-  const id = select.getAttribute('data-toggle-prop-disabled');
+[...$toggleId].forEach((select) => {
+  const id = select.getAttribute('data-toggle-id');
 
   select.addEventListener('change', () => {
     const value = select.value;

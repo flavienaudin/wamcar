@@ -4,6 +4,36 @@ front_default:
         _controller: FrameworkBundle:Template:template
         template: front/Home/home.html.twig
 
+register_user_car:
+    path: /inscription
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Register/user_car.html.twig
+
+register_user:
+    path: /inscription/particulier
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Register/user.html.twig
+
+register_pro:
+    path: /inscription/professionnel
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Register/pro.html.twig
+
+register_confirm:
+    path: /inscription/confirmation
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Register/confirm.html.twig
+
+reset_password:
+    path: /reinitialiser-votre-mot-de-passe
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/ResetPassword/reset.html.twig
+
 front_vehicle_registration:
     path: /je-vends-mon-vehicule
     defaults:

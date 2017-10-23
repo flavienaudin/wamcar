@@ -1,0 +1,247 @@
+/* ===========================================================================
+   Register
+   =========================================================================== */
+
+.register {
+
+
+  /*
+    Aside container
+    ===================================== */
+
+  &-aside-container {
+    @include breakpoint(medium down) {
+      display: none;
+    }
+  }
+
+
+  /*
+    Aside
+    ===================================== */
+
+  &-aside {
+    overflow: hidden;
+    background: #f3f3f3;
+    padding: rem-calc(15) rem-calc(20);
+
+    @include breakpoint(small only) {
+      &:last-child { margin-bottom: rem-calc(30); }
+    }
+
+    @include breakpoint(medium only) {
+      margin-bottom: rem-calc(30);
+    }
+
+    @include breakpoint(medium) {
+      padding: rem-calc(25) rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(35) rem-calc(40);
+    }
+
+    /* Components */
+
+    svg { float: right; }
+  }
+
+
+  /*
+     Left
+     ===================================== */
+
+  &-left {
+    border-width: rem-calc(1) 0 0;
+    border-style: solid;
+    border-color: $border-color;
+
+    @include breakpoint(small only) {
+      margin-top: rem-calc(20);
+      padding-top: rem-calc(20);
+    }
+
+    @include breakpoint(medium) {
+      border-width: 0 rem-calc(1) 0 0;
+      padding-right: rem-calc(20);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(40);
+    }
+  }
+
+
+  /*
+     Right
+     ===================================== */
+
+  &-right {
+
+    @include breakpoint(medium) {
+      padding-left: rem-calc(20);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-left: rem-calc(40);
+    }
+
+  }
+
+
+  /*
+     Infos
+     ===================================== */
+
+  &-infos {
+    border: rem-calc(1) solid $border-color;
+    padding: rem-calc(15);
+
+    @include breakpoint(medium) {
+      padding: rem-calc(30);
+    }
+
+    /* Components */
+
+    p {
+      &:last-child {
+        @include breakpoint(large) {
+          margin-bottom: 0;
+        }
+      }
+    } // End p
+
+  } // End &-infos
+
+
+  /*
+     Navigation
+     ===================================== */
+
+  &-navigation {
+    border-top: rem-calc(1) solid $border-color;
+    margin-top: rem-calc(10);
+    padding-top: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+  }
+
+
+  /*
+     Step
+     ===================================== */
+
+  &-step-navigation {
+    counter-reset: section;
+    flex: 1;
+
+    @include breakpoint(large down) {
+      justify-content: flex-end;
+    }
+  } // End &-step
+
+
+
+  /*
+     Step item
+     ===================================== */
+
+  &-step-navigation-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    height: $header-height;
+
+    @include breakpoint(small only) {
+      flex: 1;
+    }
+
+    @include breakpoint(medium down) {
+      border-left: rem-calc(1) solid $border-color;
+    }
+
+    @include breakpoint(medium only) {
+      width: $header-height;
+    }
+
+    @include breakpoint(large) {
+      margin-right: rem-calc(25);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-right: rem-calc(70);
+    }
+
+    &:not(.is-active):not(.is-valid) { color: $body-font-color; }
+    &:not(.is-disabled) { &:hover { color: $primary-color; } }
+
+    &.is-disabled { pointer-events: none; }
+
+    &::before {
+      content: counter(section);
+      counter-increment: section;
+
+      @include breakpoint(large) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: rem-calc(27);
+        height: rem-calc(27);
+        font-size: rem-calc(14);
+        border: rem-calc(2) solid $body-font-color;
+        text-align: center;
+        border-radius: 50%;
+        margin-right: rem-calc(10);
+      }
+
+      @include breakpoint(xlarge) {
+        margin-right: rem-calc(25);
+      }
+    }
+
+    /* Active state */
+
+    &.is-valid,
+    &.is-active {
+      &::before {
+        @include breakpoint(large) {
+          background: $primary-color;
+          border-color: $primary-color;
+          color: white;
+        }
+      }
+    } // End &.is-active
+
+  } // End &-step-navigation-item
+
+
+
+  /*
+     Confirm drawing
+     ===================================== */
+
+  &-confirm-drawing {
+    background: url('#{$img-folder}/background/car.svg') rem-calc(-120) calc(100% - #{rem-calc(35)}) no-repeat;
+    padding-bottom: rem-calc(200);
+
+    @include breakpoint(medium) {
+      background-position: rem-calc(-220) center;
+      background-size: rem-calc(540) auto;
+      padding-bottom: rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      background-position: rem-calc(-200) center;
+      background-size: rem-calc(700) auto;
+    }
+
+    @include breakpoint(xlarge) {
+      background-position: rem-calc(-100) center;
+      background-size: rem-calc(760) auto;
+    }
+  }
+
+}
