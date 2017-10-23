@@ -22,8 +22,6 @@ trait EmailSender
     protected $templating;
     /** @var TranslatorInterface  */
     protected $translator;
-    /** @var  array */
-    protected $parameters;
     /** @var  string */
     protected $type;
 
@@ -33,7 +31,6 @@ trait EmailSender
      * @param UrlGeneratorInterface $router
      * @param EngineInterface $templating
      * @param TranslatorInterface $translator
-     * @param array $parameters
      * @param string $type
      */
     public function __construct(
@@ -41,7 +38,6 @@ trait EmailSender
         UrlGeneratorInterface $router,
         EngineInterface $templating,
         TranslatorInterface $translator,
-        array $parameters,
         string $type
     )
     {
@@ -49,7 +45,6 @@ trait EmailSender
         $this->router           = $router;
         $this->templating       = $templating;
         $this->translator       = $translator;
-        $this->parameters       = $parameters;
         $this->type             = $type;
     }
 

@@ -7,10 +7,6 @@ services:
           - '@router'
           - '@templating'
           - '@translator'
-<<<<<<< 1082a185b83330ef9d9ae005ee09477719f24a3a
-=======
-          - '%mailer%'
->>>>>>> first version email sending confirm account
 
     wamcar.event.sell.registration_token_generated:
         parent: wamcar.event.mail.abstract_event_handler
