@@ -1,15 +1,15 @@
 <header class="off-canvas-header show-for-large">
-     <strong>Espace membre</strong>
-     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
+    <strong>Espace membre</strong>
+    <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
 </header>
 <div class="off-canvas-content off-canvas-separator">
     {{ render(controller('AppBundle:Front/Security:login')) }}
-{% include 'front/User/includes/modal_password_lost.html.twig' %}
+    {% include 'front/User/includes/modal_password_lost.html.twig' %}
 </div>
 <div class="off-canvas-content">
-<div>
-    <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
-    <a href="{{ path('register_user') }}" class="button white input-margin">Je suis un particulier</a>
-    <a href="{{ path('register_pro') }}" class="button white">Je suis un professionnel</a>
-</div>
+    <div>
+        <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
+        <a href="{{ path('register_user') }}" class="button white input-margin">Je suis un particulier</a>
+        <a href="{{ path('register_pro') }}" class="button white">Je suis un professionnel</a>
+    </div>
 </div>
