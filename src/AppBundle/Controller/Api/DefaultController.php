@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Front;
+namespace AppBundle\Controller\Api;
 
 class DefaultController
 {

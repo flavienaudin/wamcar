@@ -26,25 +26,29 @@ class VehicleIdentificationType extends AbstractType
             ->add('model', ChoiceType::class, [
                 'choices' => $availableValues['models'] ?? [],
                 'placeholder' => count($availableValues['models'] ?? []) === 1 ? false : '--',
-            ])
-            ->add('modelVersion', ChoiceType::class, [
-                'choices' => $availableValues['modelVersions'] ?? [],
-                'placeholder' => count($availableValues['modelVersions'] ?? []) === 1 ? false : '--',
-            ])
-            ->add('engine', ChoiceType::class, [
-                'choices' => $availableValues['engines'] ?? [],
-                'placeholder' => count($availableValues['engines'] ?? []) === 1 ? false : '--',
-            ])
-            ->add('transmission', ChoiceType::class, [
-                'choices' => Transmission::toArray(),
-            ])
-            ->add('fuel', ChoiceType::class, [
-                'choices' => $availableValues['fuels'] ?? [],
-                'placeholder' => count($availableValues['fuels'] ?? []) === 1 ? false : '--',
             ]);
 
 
-        $builder->get('transmission')->addModelTransformer(new EnumDataTransformer(Transmission::class));
+        if (!$options['small_version']) {
+            $builder
+                ->add('modelVersion', ChoiceType::class, [
+                    'choices' => $availableValues['modelVersions'] ?? [],
+                    'placeholder' => count($availableValues['modelVersions'] ?? []) === 1 ? false : '--',
+                ])
+                ->add('engine', ChoiceType::class, [
+                    'choices' => $availableValues['engines'] ?? [],
+                    'placeholder' => count($availableValues['engines'] ?? []) === 1 ? false : '--',
+                ])
+                ->add('transmission', ChoiceType::class, [
+                    'choices' => Transmission::toArray(),
+                ])
+                ->add('fuel', ChoiceType::class, [
+                    'choices' => $availableValues['fuels'] ?? [],
+                    'placeholder' => count($availableValues['fuels'] ?? []) === 1 ? false : '--',
+                ]);
+
+            $builder->get('transmission')->addModelTransformer(new EnumDataTransformer(Transmission::class));
+        }
     }
 
     /**
@@ -52,8 +56,13 @@ class VehicleIdentificationType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(['data_class' => VehicleIdentificationDTO::class]);
         $resolver->setRequired('available_values');
+        $resolver->setRequired('small_version');
+
+        $resolver->setDefaults([
+            'data_class' => VehicleIdentificationDTO::class,
+            'small_version' => false
+        ]);
     }
 
 

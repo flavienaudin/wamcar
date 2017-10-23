@@ -60,7 +60,7 @@ class UserRegistrationService
             'pro' => ProApplicationUser::class,
         ];
 
-        
+
         $applicationUser = new $userClassMapping[$registrationDTO->type](
             $registrationDTO->email,
             $encodedPassword,

@@ -2,6 +2,10 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+_integration:
+    resource: "routing/_integration.yml"
+    prefix: /
+
 # Security processes
 security_login:
     path: /connexion
