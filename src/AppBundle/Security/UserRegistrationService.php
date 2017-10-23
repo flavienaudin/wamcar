@@ -5,9 +5,9 @@ namespace AppBundle\Security;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
+use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\Event\UserCreated;
 use Wamcar\User\UserRepository;
@@ -21,22 +21,27 @@ class UserRegistrationService
     private $userRepository;
     /** @var MessageBus */
     private $eventBus;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * UserRegistrationService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
      * @param MessageBus $eventBus
+     * @param LoggerInterface $logger
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
-        MessageBus $eventBus
+        MessageBus $eventBus,
+        LoggerInterface $logger
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->eventBus = $eventBus;
+        $this->logger = $logger;
     }
 
     /**
@@ -72,10 +77,7 @@ class UserRegistrationService
         try{
             $this->eventBus->handle(new UserCreated($applicationUser));
         } catch (\Exception $exception) {
-            if($this->userRepository instanceof DoctrineUserRepository) {
-                $this->userRepository->remove($applicationUser, true);
-            }
-            throw $exception;
+            $this->logger->error($exception->getMessage());
         }
 
         return $applicationUser;

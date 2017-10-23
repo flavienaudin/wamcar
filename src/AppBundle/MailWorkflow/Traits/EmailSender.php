@@ -5,6 +5,7 @@ namespace AppBundle\MailWorkflow\Traits;
 
 
 use AppBundle\MailWorkflow\Model\EmailContact;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use Wamcar\User\User;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -21,8 +22,6 @@ trait EmailSender
     protected $templating;
     /** @var TranslatorInterface  */
     protected $translator;
-    /** @var  array */
-    protected $parameters;
     /** @var  string */
     protected $type;
 
@@ -32,7 +31,6 @@ trait EmailSender
      * @param UrlGeneratorInterface $router
      * @param EngineInterface $templating
      * @param TranslatorInterface $translator
-     * @param array $parameters
      * @param string $type
      */
     public function __construct(
@@ -40,7 +38,6 @@ trait EmailSender
         UrlGeneratorInterface $router,
         EngineInterface $templating,
         TranslatorInterface $translator,
-        array $parameters,
         string $type
     )
     {
@@ -48,7 +45,6 @@ trait EmailSender
         $this->router           = $router;
         $this->templating       = $templating;
         $this->translator       = $translator;
-        $this->parameters       = $parameters;
         $this->type             = $type;
     }
 
@@ -56,16 +52,16 @@ trait EmailSender
      * @param string $subject
      * @param string $template
      * @param array $bodyParameters
-     * @param EmailContact $recipient
+     * @param EmailRecipientList $recipients
      * @param \Swift_Attachment[] $attachments
      */
-    public function send(string $subject, string $template, array $bodyParameters = [], EmailContact $recipient, array $attachments = [])
+    public function send(string $subject, string $template, array $bodyParameters = [], EmailRecipientList $recipients, array $attachments = [])
     {
         $this->mailer->sendMessage(
             $this->type,
             $subject,
             $this->renderTemplate($template, $bodyParameters),
-            $recipient,
+            $recipients,
             $attachments
         );
     }
@@ -90,6 +86,6 @@ trait EmailSender
      */
     protected function createUserEmailContact(User $user): EmailContact
     {
-        return new EmailContact($user->getEmail(), (null !== $user->getUserProfile())? $user->getUserProfile()->getName(): null);
+        return new EmailContact($user->getEmail(), $user->getName());
     }
 }

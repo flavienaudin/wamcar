@@ -2,6 +2,7 @@
 namespace AppBundle\MailWorkflow\Services;
 
 use AppBundle\MailWorkflow\Model\EmailContact;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -9,37 +10,36 @@ class Mailer
 {
     /** @var \Swift_Mailer $mailer */
     private $mailer;
-    /** @var array $parameters */
-    private $parameters;
-
     /** @var LoggerInterface $logger */
     private $logger;
+    /** @var array $defaultSender */
+    private $defaultSender;
 
     public function __construct(
         \Swift_Mailer $mailer,
-        array $parameters,
-        LoggerInterface $logger = null
+        LoggerInterface $logger = null,
+        array $defaultSender
     ) {
         $this->mailer           = $mailer;
-        $this->parameters       = $parameters;
         $this->logger           = $logger;
+        $this->defaultSender    = $defaultSender;
     }
 
     /**
      * @param $type
      * @param $subject
      * @param $body
-     * @param EmailContact $toContact
+     * @param EmailRecipientList $emailRecipientList
      * @param array $attachments
      */
-    public function sendMessage($type, $subject, $body, EmailContact $toContact, array $attachments = [])
+    public function sendMessage($type, $subject, $body, EmailRecipientList $emailRecipientList, array $attachments = [])
     {
-        $fromEmail = new EmailContact($this->parameters['from_email']['mail'], $this->parameters['from_email']['name']);
+        $fromEmail = new EmailContact($this->defaultSender['mail'], $this->defaultSender['name']);
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
             ->setFrom($fromEmail->getEmail(), $fromEmail->getName())
-            ->setTo($toContact->getEmail())
+            ->setTo($emailRecipientList->toArray())
             ->setBody($body, 'text/html');
         $message->getHeaders()->addTextHeader('X-Message-ID', $type);
 
@@ -50,12 +50,12 @@ class Mailer
 
         try {
             $this->mailer->send($message);
-            $this->log(sprintf("A '%s' email was sent successfully to %s", $type, $toContact), [
+            $this->log(sprintf("A '%s' email was sent successfully to %s", $type, $emailRecipientList), [
                 'subject' => $subject
             ]);
         } catch (\Exception $e) {
-            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $toContact->getEmail()), [
-                'to'      => $toContact->getEmail(),
+            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $emailRecipientList), [
+                'to'      => $emailRecipientList->toArray(),
                 'subject' => $subject
             ], LogLevel::ERROR);
         }

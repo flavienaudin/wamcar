@@ -7,8 +7,8 @@
 {% block body %}
     <div>
         {{ 'notifyUserOfRegistrationTokenGenerated.body'|trans({
-            '%url%': activationUrl,
-            '%site_url%': site_url
+            '%activationUrl%': activationUrl,
+            '%siteUrl%': siteUrl
         })|raw }}
     </div>
 {% endblock %}

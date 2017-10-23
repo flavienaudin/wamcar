@@ -7,7 +7,6 @@ services:
           - '@router'
           - '@templating'
           - '@translator'
-          - '%mailer%'
 
     wamcar.event.sell.registration_token_generated:
         parent: wamcar.event.mail.abstract_event_handler
