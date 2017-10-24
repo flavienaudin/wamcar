@@ -9,9 +9,11 @@ use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\UserCreated;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Wamcar\User\PersonalUser;
 
 class UserRegistrationService
 {
@@ -75,7 +77,11 @@ class UserRegistrationService
         $this->userRepository->add($applicationUser);
 
         try{
-            $this->eventBus->handle(new UserCreated($applicationUser));
+            if ($applicationUser instanceof PersonalUser) {
+                $this->eventBus->handle(new UserCreated($applicationUser));
+            } else {
+                $this->eventBus->handle(new ProUserCreated($applicationUser));
+            }
         } catch (\Exception $exception) {
             $this->logger->error($exception->getMessage());
         }

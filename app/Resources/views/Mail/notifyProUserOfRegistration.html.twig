@@ -1,0 +1,13 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+
+{% block title %}{{ 'notifyProUserOfRegistration.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyProUserOfRegistration.body'|trans({
+            '%siteUrl%': siteUrl
+        })|raw }}
+    </div>
+{% endblock %}
