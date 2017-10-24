@@ -2,7 +2,7 @@
 
 namespace Wamcar\User;
 
-interface BaseUserRepository
+interface UserRepository
 {
     /**
      * @param int $userId

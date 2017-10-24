@@ -4,21 +4,21 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Form\DTO\UserInformationDTO;
-use Wamcar\User\BaseUserRepository;
+use Wamcar\User\UserRepository;
 
 
 class UserEditionService
 {
-    /** @var BaseUserRepository  */
+    /** @var UserRepository  */
     private $userRepository;
 
     /**
-     * BaseUserRepository constructor.
+     * UserRepository constructor.
      *
-     * @param BaseUserRepository $userRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
-        BaseUserRepository $userRepository
+        UserRepository $userRepository
     )
     {
         $this->userRepository = $userRepository;

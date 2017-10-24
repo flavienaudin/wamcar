@@ -6,9 +6,9 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\User\BaseUser;
-use Wamcar\User\BaseUserRepository;
+use Wamcar\User\UserRepository;
 
-class DoctrineUserRepository extends EntityRepository implements BaseUserRepository, RegisteredWithConfirmationProvider
+class DoctrineUserRepository extends EntityRepository implements UserRepository, RegisteredWithConfirmationProvider
 {
     /**
      * {@inheritdoc}

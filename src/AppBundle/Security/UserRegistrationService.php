@@ -7,25 +7,25 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
-use Wamcar\User\BaseUserRepository;
+use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class UserRegistrationService
 {
     /** @var PasswordEncoderInterface */
     private $passwordEncoder;
-    /** @var BaseUserRepository */
+    /** @var UserRepository */
     private $userRepository;
 
     /**
      * UserRegistrationService constructor.
      *
      * @param PasswordEncoderInterface $passwordEncoder
-     * @param BaseUserRepository $userRepository
+     * @param UserRepository $userRepository
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
-        BaseUserRepository $userRepository
+        UserRepository $userRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
