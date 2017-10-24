@@ -18,24 +18,25 @@ class VehicleDTO
 
     /** @var string */
     public $registrationNumber;
-    /** @var VehicleIdentificationDTO */
-    public $identification;
+    /** @var VehicleInformationDTO */
+    public $information;
     /** @var VehicleSpecificsDTO */
     public $specifics;
     /** @var VehiclePictureDTO[]|array */
     public $pictures;
+    /** @var RegistrationDTO */
+    public $userRegistration;
 
     /**
      * VehicleDTO constructor.
      */
-    public function __construct($filters)
+    public function __construct()
     {
         $this->pictures = array_map(function () {
             return new VehiclePictureDTO();
         }, range(1, self::DEFAULT_PICTURE_COUNT));
-        $this->identification = new VehicleIdentificationDTO();
-        $this->identification->updateFromFilters($filters);
 
+        $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
     }
 
@@ -44,7 +45,7 @@ class VehicleDTO
      */
     public function updateFromFilters(array $filters = []): void
     {
-        $this->identification->updateFromFilters($filters);
+        $this->information->updateFromFilters($filters);
     }
 
     /**
@@ -90,7 +91,7 @@ class VehicleDTO
      */
     public function getModelVersion(): ?ModelVersion
     {
-        return $this->identification->getModelVersion();
+        return $this->information->getModelVersion();
     }
 
     /**
@@ -98,7 +99,7 @@ class VehicleDTO
      */
     public function getTransmission(): Transmission
     {
-        return $this->identification->transmission ?? Transmission::MANUAL();
+        return $this->information->transmission ?? Transmission::MANUAL();
     }
 
     /**
@@ -195,6 +196,37 @@ class VehicleDTO
     public function getAdditionalInformation(): ?string
     {
         return $this->specifics->additionalInformation;
+    }
+//
+//    /**
+//     * @return VehicleInformationDTO
+//     */
+//    public function getInformation(): VehicleInformationDTO
+//    {
+//        return $this->information;
+//    }
+//
+//    /**
+//     * @param VehicleInformationDTO $information
+//     */
+//    public function setInformation(VehicleInformationDTO $information): void
+//    {
+//        $this->information = $information;
+//    }
+    /**
+     * @param Transmission $transmission
+     */
+    public function setTransmission(Transmission $transmission): void
+    {
+        $this->information->transmission = $transmission;
+    }
+    public function setMake($make): void
+    {
+        $this->information->make = new Make($make);
+    }
+    public function setFuel($fuel): void
+    {
+        $this->information->fuel = new Fuel($fuel);
     }
 
 }

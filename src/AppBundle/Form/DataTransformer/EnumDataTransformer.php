@@ -9,14 +9,17 @@ class EnumDataTransformer implements DataTransformerInterface
 {
     /** @var string */
     private $className;
+    /** @var Enum */
+    private $default;
 
     /**
      * EnumDataTransformer constructor.
      * @param string $className
      */
-    public function __construct($className)
+    public function __construct($className, Enum $default = null)
     {
         $this->className = $className;
+        $this->default = $default;
     }
 
     /**
@@ -51,6 +54,10 @@ class EnumDataTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value): ?Enum
     {
+        if(empty($value)) {
+            return $this->default;
+        }
+
         return new $this->className($value);
     }
 }

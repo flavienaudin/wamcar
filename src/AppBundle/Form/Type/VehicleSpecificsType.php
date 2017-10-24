@@ -23,30 +23,47 @@ class VehicleSpecificsType extends AbstractType
     {
         $builder
             ->add('registrationDate', DateType::class, [
-                'years' => range(1980, date('Y'))
+                'years' => range(1980, date('Y')),
+                'error_bubbling' => true,
             ])
-            ->add('mileage', IntegerType::class)
-            ->add('isTimingBeltChanged', YesNoType::class)
+            ->add('mileage', IntegerType::class, [
+                'error_bubbling' => true,
+            ])
+            ->add('isTimingBeltChanged', YesNoType::class, [
+                'error_bubbling' => true,
+            ])
             ->add('safetyTestDate', ChoiceType::class, [
                 'choices' => SafetyTestDate::toArray(),
+                'error_bubbling' => true,
             ])
             ->add('safetyTestState', ChoiceType::class, [
                 'choices' => SafetyTestState::toArray(),
+                'error_bubbling' => true,
             ])
-            ->add('bodyState', StarType::class)
+            ->add('bodyState', StarType::class, [
+                'error_bubbling' => true,
+            ])
             ->add('engineState', StarType::class, [
-                'required' => false
+                'required' => false,
+                'error_bubbling' => true,
             ])
             ->add('tyreState', StarType::class, [
-                'required' => false
+                'required' => false,
+                'error_bubbling' => true,
             ])
             ->add('maintenanceState', ChoiceType::class, [
                 'choices' => MaintenanceState::toArray(),
+                'error_bubbling' => true,
             ])
-            ->add('isImported', YesNoType::class)
-            ->add('isFirstHand', YesNoType::class)
+            ->add('isImported', YesNoType::class, [
+                'error_bubbling' => true,
+            ])
+            ->add('isFirstHand', YesNoType::class, [
+                'error_bubbling' => true,
+            ])
             ->add('additionalInformation', TextareaType::class, [
-                'required' => false
+                'required' => false,
+                'error_bubbling' => true,
             ])
         ;
 

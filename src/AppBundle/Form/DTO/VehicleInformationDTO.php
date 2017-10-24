@@ -6,7 +6,7 @@ use Wamcar\Vehicle\{
     Engine, Fuel, Make, Model, ModelVersion, Enum\Transmission
 };
 
-class VehicleIdentificationDTO
+class VehicleInformationDTO
 {
     /** @var Make */
     public $make;

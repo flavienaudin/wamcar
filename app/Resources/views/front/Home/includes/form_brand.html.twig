@@ -1,6 +1,6 @@
-{% form_theme vehicleIdentificationForm ':front/Layout/includes/forms:fields.html.twig' %}
+{% form_theme vehicleInformationForm ':front/Layout/includes/forms:fields.html.twig' %}
 
-{{ form_start(vehicleIdentificationForm, {
+{{ form_start(vehicleInformationForm, {
     'method' : 'POST',
     'action' : path('front_vehicle_registration'),
     'attr' : {
@@ -11,7 +11,7 @@
 }) }}
 
 <div class="column small-12 medium-6">
-    {{ form_widget(vehicleIdentificationForm.make, {
+    {{ form_widget(vehicleInformationForm.make, {
         label: 'Marque',
         dataToggleId: 'js-model',
         dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=model',
@@ -20,7 +20,7 @@
     }) }}
 </div>
 <div id="js-model" class="column small-12 medium-6 is-disabled">
-    {{ form_widget(vehicleIdentificationForm.model, {
+    {{ form_widget(vehicleInformationForm.model, {
         label: 'Modèle',
         required: true,
         required_message: 'Veuillez choisir un modèle.'
@@ -53,4 +53,4 @@
     <button type="submit" class="button full-width">C'est parti !</button>
 </div>
 
-{{ form_end(vehicleIdentificationForm) }}
+{{ form_end(vehicleInformationForm) }}

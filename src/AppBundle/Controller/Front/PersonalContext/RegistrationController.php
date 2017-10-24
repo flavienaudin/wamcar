@@ -6,7 +6,9 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
+use AppBundle\Security\UserRegistrationService;
 use AppBundle\Utils\VehicleInfoAggregator;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,22 +23,27 @@ class RegistrationController extends BaseController
     private $vehicleRepository;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
+    /** @var UserRegistrationService  */
+    protected $userRegistrationService;
 
     /**
      * RegistrationController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param UserRegistrationService $userRegistrationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleRepository $vehicleRepository,
-        VehicleInfoAggregator $vehicleInfoAggregator
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        UserRegistrationService $userRegistrationService
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->userRegistrationService = $userRegistrationService;
     }
 
     /**
@@ -45,6 +52,9 @@ class RegistrationController extends BaseController
      */
     public function vehicleRegistrationAction(Request $request): Response
     {
+dump($request->get('vehicle'));
+        $vehicleDTO = new VehicleDTO();
+
         $filters = [];
         if($make = $request->get('make')) {
             $filters['make'] = $make;
@@ -53,7 +63,7 @@ class RegistrationController extends BaseController
             $filters['model'] = $model;
         }
 
-        $vehicleDTO = new VehicleDTO($filters);
+        $vehicleDTO->updateFromFilters($filters);
 
         $vehicleForm = $this->formFactory->create(
             VehicleType::class,
@@ -62,15 +72,21 @@ class RegistrationController extends BaseController
         );
 
         $vehicleForm->handleRequest($request);
-        dump($vehicleForm->get('specifics'));
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
             $this->vehicleRepository->add($personalVehicle);
 
-            dump("Picture saved");
-            dump($personalVehicle);
-            exit;
+            try {
+                $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
+            } catch (UniqueConstraintViolationException $exception) {
+                $this->session->getFlashBag()->add(
+                    'flash.danger.registration_duplicate',
+                    self::FLASH_LEVEL_DANGER
+                );
+            }
+
+            dump($personalVehicle);exit;
         }
 
 
@@ -84,7 +100,7 @@ class RegistrationController extends BaseController
 
     /**
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
     public function updateVehicleRegistrationFormAction(Request $request): JsonResponse
     {

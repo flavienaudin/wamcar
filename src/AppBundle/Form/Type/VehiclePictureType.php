@@ -13,8 +13,14 @@ class VehiclePictureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('file', FileType::class, ['label' => false]);
-        $builder->add('caption', TextType::class, ['label' => false]);
+        $builder->add('file', FileType::class, [
+            'label' => false,
+            'error_bubbling' => true,
+        ]);
+        $builder->add('caption', TextType::class, [
+            'label' => false,
+            'error_bubbling' => true,
+        ]);
     }
 
     /**

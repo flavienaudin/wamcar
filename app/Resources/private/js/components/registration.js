@@ -2,10 +2,10 @@
    Registration
    =========================================================================== */
 
-let $identification = document.querySelector('#js-registration-identification');
-let $identificationSelectList = document.querySelectorAll('#js-registration-identification select');
+let $information = document.querySelector('#js-registration-information');
+let $informationSelectList = document.querySelectorAll('#js-registration-information select');
 
-let dataFetchUrl = $identification.getAttribute('data-fetch-url');
+let dataFetchUrl = $information.getAttribute('data-fetch-url');
 let filterForm = new FormData();
 let filterValues = {};
 
@@ -23,7 +23,7 @@ let clearSelect = function (select) {
   select.add(defaultOption);
 };
 
-[...$identificationSelectList].forEach((select) => {
+[...$informationSelectList].forEach((select) => {
 
   let dataType = select.getAttribute('data-type');
   if (dataType === null) {

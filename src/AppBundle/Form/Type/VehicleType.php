@@ -15,10 +15,16 @@ class VehicleType extends AbstractType
     {
         $builder
             ->add('registrationNumber', TextType::class, [
-                'required' => false
+                'required' => false,
+                'error_bubbling' => true,
             ])
-            ->add('identification',  VehicleIdentificationType::class, $options)
-            ->add('specifics', VehicleSpecificsType::class)
+            ->add('information', VehicleInformationType::class, [
+                'available_values' => $options['available_values'],
+                'error_bubbling' => true,
+            ])
+            ->add('specifics', VehicleSpecificsType::class, [
+                'error_bubbling' => true,
+            ])
             ->add('pictures', CollectionType::class, [
                 'label' => false,
                 'entry_type' => VehiclePictureType::class,
@@ -27,6 +33,10 @@ class VehicleType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
+                'error_bubbling' => true,
+            ])
+            ->add('userRegistration', RegistrationType::class, [
+                'error_bubbling' => true,
             ]);
     }
 

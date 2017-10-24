@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller\Front;
 
-use AppBundle\Form\DTO\VehicleIdentificationDTO;
-use AppBundle\Form\Type\VehicleIdentificationType;
+use AppBundle\Form\DTO\VehicleInformationDTO;
+use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,11 +34,11 @@ class DefaultController extends BaseController
      */
     public function homepageAction(): Response
     {
-        $vehicleIdentificationDTO = new VehicleIdentificationDTO();
+        $vehicleInformationDTO = new VehicleInformationDTO();
 
-        $vehicleIdentificationForm = $this->formFactory->create(
-            VehicleIdentificationType::class,
-            $vehicleIdentificationDTO,
+        $vehicleInformationForm = $this->formFactory->create(
+            VehicleInformationType::class,
+            $vehicleInformationDTO,
             [
                 'available_values' => [],
                 'available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates(),
@@ -49,7 +49,7 @@ class DefaultController extends BaseController
         return $this->render(
             ':front/Home:home.html.twig',
             [
-                'vehicleIdentificationForm' => $vehicleIdentificationForm->createView(),
+                'vehicleInformationForm' => $vehicleInformationForm->createView(),
             ]
         );
     }

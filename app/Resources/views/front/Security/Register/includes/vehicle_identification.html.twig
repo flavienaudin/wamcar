@@ -7,7 +7,7 @@
     '
 } %}
 
-<section class="column small-12 large-7" id="js-registration-identification" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
+<section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
     <div class="register-infos input-margin block-grid is-hidden">
         <div class="small-12 large-8">
             <label for="immat">Immatriculation <span>Facultatif</span></label>
@@ -17,7 +17,7 @@
         {{ form_widget(vehicleForm.registrationNumber) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.make, {
+        {{ form_widget(vehicleForm.information.make, {
             label: 'Marque',
             id: 'js-registration-make',
             dataType: 'make',
@@ -29,7 +29,7 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.model, {
+        {{ form_widget(vehicleForm.information.model, {
             label: 'Modèle',
             id: 'js-registration-model',
             dataType: 'model',
@@ -41,7 +41,7 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.modelVersion, {
+        {{ form_widget(vehicleForm.information.modelVersion, {
             label: 'Finition',
             id: 'js-registration-modelVersion',
             dataType: 'modelVersion',
@@ -53,7 +53,7 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.engine, {
+        {{ form_widget(vehicleForm.information.engine, {
             label: 'Motorisation',
             id: 'js-registration-engine',
             dataType: 'engine',
@@ -65,7 +65,7 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.transmission, {
+        {{ form_widget(vehicleForm.information.transmission, {
             label: 'Boite de vitesse',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
@@ -75,7 +75,7 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.identification.fuel, {
+        {{ form_widget(vehicleForm.information.fuel, {
             label: 'Énergie',
             id: 'js-registration-fuel',
             dataType: 'fuel',

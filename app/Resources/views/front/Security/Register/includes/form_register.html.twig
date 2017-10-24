@@ -1,30 +1,83 @@
-{% form_theme form ':front/Security/Register/includes:form_register_theme.html.twig' %}
 {% trans_default_domain 'security' %}
-{{ form_start(form, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+{% if isIsolatedRegistration %}
+    {% set form = registrationForm %}
+    {% form_theme form ':front/Security/Register/includes:form_register_theme.html.twig' %}
+    {{ form_start(form, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+{% endif %}
 
 {# Adresse e-mail #}
 <div class="block-grid input-margin column small-12">
-    {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
+    {{ form_widget(registrationForm.email, {
+        'label': 'Email',
+        'label_class': 'small-12 large-4 no-margin',
+        'class_field': 'small-12 large-8',
+        'placeholder': 'Entrez votre adresse email',
+        'class': 'no-margin',
+        'required': true,
+        'required_message': 'Veuillez indiquer votre adresse email.'
+    }) }}
 </div>
 
 {# Mot de passe #}
 <p class="column small-12">{{ 'user.field.password.text'|trans }}</p>
 <div class="block-grid input-margin column small-12">
-    {{ form_row(form.password.first, {'errorMsg' : 'user.field.password.first.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
+    {#{% include 'front/Layout/includes/forms/input.html.twig' with {#}
+        {#label: 'Mot de passe',#}
+        {#label_class: 'small-12 large-4 no-margin',#}
+        {#class_field: 'small-12 large-8',#}
+        {#type: 'password',#}
+        {#name: 'register-password',#}
+        {#placeholder: 'Entrez votre mot de passe',#}
+        {#class: 'no-margin',#}
+        {#required: true,#}
+        {#required_message: 'Veuillez indiquer votre mot de passe.'#}
+    {#} %}#}
+    {{ form_widget(registrationForm.password.first, {
+        'label': 'Mot de passe',
+        'label_class': 'small-12 large-4 no-margin',
+        'class_field': 'small-12 large-8',
+        'placeholder': 'Entrez votre mot de passe',
+        'class': 'no-margin',
+        'required': true,
+        'required_message': 'Veuillez indiquer un mot de passe.'
+    }) }}
 </div>
 
 {# Mot de passe confirmation #}
 <div class="block-grid input-margin column small-12">
-    {{ form_row(form.password.second, {'errorMsg' : 'user.field.password.second.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
+    {{ form_widget(registrationForm.password.second, {
+        'label': 'Confirmation mot de passe',
+        'label_class': 'small-12 large-4 no-margin',
+        'class_field': 'small-12 large-8',
+        'placeholder': 'Confirmez votre mot de passe',
+        'class': 'no-margin',
+        'required': true,
+        'required_message': 'Veuillez confirmer un mot de passe.'
+    }) }}
+    {#{% include 'front/Layout/includes/forms/input.html.twig' with #}{#}#}
+        {#label: 'Confirmation mot de passe',#}
+        {#label_class: 'small-12 large-4 no-margin',#}
+        {#class_field: 'small-12 large-8',#}
+        {#type: 'password',#}
+        {#name: 'register-password-confirm',#}
+        {#placeholder: 'Confirmez votre mot de passe',#}
+        {#class: 'no-margin',#}
+        {#equalTo: 'register-password',#}
+        {#required: true,#}
+        {#required_message: 'Veuillez confirmer votre mot de passe.'#}
+    {#} %}#}
 </div>
 
 <div class="checkbox-container column small-12">
-    {{ form_row(form.accept, {'errorMsg' : 'user.field.accept.error'|trans}) }}
+    {{ form_row(registrationForm.accept, {'errorMsg' : 'user.field.accept.error'|trans}) }}
 </div>
 
 {# Button submit #}
-<div class="column small-12 large-7">
-    {{ form_row(form.create, {'errorMsg' : 'user.submit.i_register'|trans, 'attr': {'class': 'button full-width'}}) }}
-</div>
+{% if isIsolatedRegistration %}
+    <div class="column small-12 large-7">
+        <input type="submit" class="button full-width" value="{{'user.submit.i_register'|trans}}">
+    </div>
+    {{ form_end(registrationForm) }}
+{% endif %}
 
-{{ form_end(form) }}
