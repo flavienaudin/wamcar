@@ -2,6 +2,7 @@ imports:
     - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
+    - { resource: search.yml }
 
 services:
     # SECURITY

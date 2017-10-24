@@ -1,0 +1,66 @@
+parameters:
+    wamcar.search.config:
+        settings:
+            number_of_shards : 1
+            number_of_replicas : 1
+        mappings:
+            vehicle_info:
+                _source : { enabled : true }
+                properties:
+                    ktypNumber:
+                        type: string
+                        index: not_analyzed
+                    make:
+                        type: string
+                        index: not_analyzed
+                    model:
+                        type: string
+                        index: not_analyzed
+                    engineCode:
+                        type: string
+                        index: not_analyzed
+                    engineName:
+                        type: string
+                        index: not_analyzed
+                    startDate:
+                        type: date
+                        index: not_analyzed
+                    endDate:
+                        type: date
+                        index: not_analyzed
+                    engineSize:
+                        type: float
+                        index: not_analyzed
+                    horsePower:
+                        type: integer
+                        index: not_analyzed
+                    body:
+                        type: string
+                        index: not_analyzed
+                    wheelDrive:
+                        type: string
+                        index: not_analyzed
+                    fuel:
+                        type: string
+                        index: not_analyzed
+                    nbCylinders:
+                        type: integer
+                        index: not_analyzed
+                    nbValve:
+                        type: integer
+                        index: not_analyzed
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: true
+
+    Novaway\ElasticsearchClient\Index:
+        arguments:
+            - ['%env(ELASTIC_HOST)%:%env(ELASTIC_PORT)%'] #define it in the parameter.yml file
+            - 'wamcar_index_%kernel.environment%'
+            - '%wamcar.search.config%'
+
+    Novaway\ElasticsearchClient\ObjectIndexer: ~
+    Novaway\ElasticsearchClient\QueryExecutor: ~
