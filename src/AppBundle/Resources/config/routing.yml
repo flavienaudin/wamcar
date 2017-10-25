@@ -12,3 +12,7 @@ security_register_pro:
     path: /inscription/pro
     defaults:
         _controller: AppBundle:Front\Security:registerPro
+
+security_confirm_registration:
+    path: /confirmer-votre-inscription/{token}
+    defaults: { _controller: AppBundle:Front\Security:confirmRegistration }

@@ -2,6 +2,8 @@ imports:
     - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
+    - { resource: services/events.yml }
+    - { resource: services/mail.yml }
     - { resource: search.yml }
 
 services:
@@ -16,5 +18,5 @@ services:
         arguments:
             - '@wamcar.security.password_encoder'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
-            - '@security.token_storage'
-            - '@session'
+            - '@event_bus'
+            - '@logger'

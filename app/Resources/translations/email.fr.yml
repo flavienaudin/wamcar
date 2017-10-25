@@ -1,0 +1,9 @@
+
+notifyUserOfRegistrationTokenGenerated:
+    title:  "Bienvenue chez Wamcar"
+    body: >
+        <p>Bonjour,</p>
+        <p>Nous sommes ravis de vous compter comme nouveau membre de la communauté Wamcar !</p>
+        <p><a href="%activationUrl%">Pour activer votre compte merci de cliquer sur le lien suivant</a></p>
+        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+        <p>L'équipe Wamcar</p>

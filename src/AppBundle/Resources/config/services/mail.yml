@@ -1,0 +1,11 @@
+services:
+    wamcar.email.defaut_sender:
+        class: AppBundle\MailWorkflow\Model\EmailContact
+        arguments: ['%env(MAILER_DEFAUT_SENDER_ADDRESS)%', '%env(MAILER_DEFAUT_SENDER_NAME)%']
+
+    wamcar.mail_workflow.mailer:
+        class: AppBundle\MailWorkflow\Services\Mailer
+        arguments:
+            - '@mailer'
+            - '@logger'
+            - '@wamcar.email.defaut_sender'

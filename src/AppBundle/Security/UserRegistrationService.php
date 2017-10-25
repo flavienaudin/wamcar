@@ -7,6 +7,9 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
+use Psr\Log\LoggerInterface;
+use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\User\Event\UserCreated;
 use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
@@ -16,20 +19,29 @@ class UserRegistrationService
     private $passwordEncoder;
     /** @var UserRepository */
     private $userRepository;
+    /** @var MessageBus */
+    private $eventBus;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * UserRegistrationService constructor.
-     *
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
+     * @param MessageBus $eventBus
+     * @param LoggerInterface $logger
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        MessageBus $eventBus,
+        LoggerInterface $logger
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
+        $this->eventBus = $eventBus;
+        $this->logger = $logger;
     }
 
     /**
@@ -61,6 +73,12 @@ class UserRegistrationService
         }
 
         $this->userRepository->add($applicationUser);
+
+        try{
+            $this->eventBus->handle(new UserCreated($applicationUser));
+        } catch (\Exception $exception) {
+            $this->logger->error($exception->getMessage());
+        }
 
         return $applicationUser;
     }
