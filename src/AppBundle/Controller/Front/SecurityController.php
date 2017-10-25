@@ -50,20 +50,19 @@ class SecurityController extends BaseController
 
     /**
      * @param Request $request
+     * @param string $type
      * @return Response
      */
-    public function registerAction(Request $request): Response
+    public function registerAction(Request $request, string $type): Response
     {
-
         $registrationForm = $this->formFactory->create(RegistrationType::class);
-
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
                 /** @var RegistrationDTO $registrationDTO */
                 $registrationDTO = $registrationForm->getData();
-                $registrationDTO->type = 'personal';
+                $registrationDTO->type = $type;
                 $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
@@ -71,7 +70,7 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_DANGER
                 );
 
-                return $this->render('front/Security/Register/user.html.twig', [
+                return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
                     'form' => $registrationForm->createView(),
                 ]);
             }
@@ -84,48 +83,7 @@ class SecurityController extends BaseController
             return $this->redirectToRoute('front_default');
         }
 
-        return $this->render('front/Security/Register/user.html.twig', [
-            'form' => $registrationForm->createView(),
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function registerProAction(Request $request): Response
-    {
-
-        $registrationForm = $this->formFactory->create(RegistrationType::class);
-
-        $registrationForm->handleRequest($request);
-
-        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
-            try {
-                /** @var RegistrationDTO $registrationDTO */
-                $registrationDTO = $registrationForm->getData();
-                $registrationDTO->type = 'pro';
-                $this->userRegistrationService->registerUser($registrationDTO);
-            } catch (UniqueConstraintViolationException $exception) {
-                $this->session->getFlashBag()->add(
-                    'flash.danger.registration_duplicate',
-                    self::FLASH_LEVEL_DANGER
-                );
-
-                return $this->render('front/Security/Register/pro.html.twig', [
-                    'form' => $registrationForm->createView(),
-                ]);
-            }
-
-            $this->session->getFlashBag()->add(
-                'flash.success.registration_success',
-                self::FLASH_LEVEL_INFO
-            );
-
-            return $this->redirectToRoute('front_default');
-        }
-
-        return $this->render('front/Security/Register/pro.html.twig', [
+        return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
         ]);
     }
