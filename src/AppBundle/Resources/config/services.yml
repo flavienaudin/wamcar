@@ -20,3 +20,8 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@event_bus'
             - '@logger'
+
+    AppBundle\Services\User\UserEditionService:
+        class: AppBundle\Services\User\UserEditionService
+        arguments:
+            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'

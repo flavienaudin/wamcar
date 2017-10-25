@@ -1,7 +1,7 @@
 AppBundle\Doctrine\Entity\PersonalApplicationUser:
 
     type: entity
-    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository
     gedmo:
         soft_deleteable:
             field_name: deletedAt
