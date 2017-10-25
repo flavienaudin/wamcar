@@ -1,9 +1,9 @@
 {% trans_default_domain 'security' %}
 
+{% form_theme registrationForm 'front/Layout/includes/forms/fields.html.twig' %}
+
 {% if isIsolatedRegistration %}
-    {% set form = registrationForm %}
-    {% form_theme form ':front/Security/Register/includes:form_register_theme.html.twig' %}
-    {{ form_start(form, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 {% endif %}
 
 {# Adresse e-mail #}
@@ -22,17 +22,6 @@
 {# Mot de passe #}
 <p class="column small-12">{{ 'user.field.password.text'|trans }}</p>
 <div class="block-grid input-margin column small-12">
-    {#{% include 'front/Layout/includes/forms/input.html.twig' with {#}
-        {#label: 'Mot de passe',#}
-        {#label_class: 'small-12 large-4 no-margin',#}
-        {#class_field: 'small-12 large-8',#}
-        {#type: 'password',#}
-        {#name: 'register-password',#}
-        {#placeholder: 'Entrez votre mot de passe',#}
-        {#class: 'no-margin',#}
-        {#required: true,#}
-        {#required_message: 'Veuillez indiquer votre mot de passe.'#}
-    {#} %}#}
     {{ form_widget(registrationForm.password.first, {
         'label': 'Mot de passe',
         'label_class': 'small-12 large-4 no-margin',
@@ -55,18 +44,6 @@
         'required': true,
         'required_message': 'Veuillez confirmer un mot de passe.'
     }) }}
-    {#{% include 'front/Layout/includes/forms/input.html.twig' with #}{#}#}
-        {#label: 'Confirmation mot de passe',#}
-        {#label_class: 'small-12 large-4 no-margin',#}
-        {#class_field: 'small-12 large-8',#}
-        {#type: 'password',#}
-        {#name: 'register-password-confirm',#}
-        {#placeholder: 'Confirmez votre mot de passe',#}
-        {#class: 'no-margin',#}
-        {#equalTo: 'register-password',#}
-        {#required: true,#}
-        {#required_message: 'Veuillez confirmer votre mot de passe.'#}
-    {#} %}#}
 </div>
 
 <div class="checkbox-container column small-12">
@@ -74,10 +51,11 @@
 </div>
 
 {# Button submit #}
+<div class="column small-12 large-7">
+    <input type="submit" class="button full-width" value="{{'user.submit.i_register'|trans}}">
+</div>
+
 {% if isIsolatedRegistration %}
-    <div class="column small-12 large-7">
-        <input type="submit" class="button full-width" value="{{'user.submit.i_register'|trans}}">
-    </div>
-    {{ form_end(registrationForm) }}
+    {{ form_end(form) }}
 {% endif %}
 

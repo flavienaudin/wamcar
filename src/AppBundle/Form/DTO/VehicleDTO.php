@@ -38,6 +38,7 @@ class VehicleDTO
 
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
+        $this->userRegistration = new RegistrationDTO();
     }
 
     /**
