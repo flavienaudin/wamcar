@@ -1,53 +1,30 @@
+{% form_theme form ':front/Security/Register/includes:form_register_theme.html.twig' %}
+{% trans_default_domain 'security' %}
+{{ form_start(form, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+{# Adresse e-mail #}
 <div class="block-grid input-margin column small-12">
-    {% include 'front/Layout/includes/forms/input.html.twig' with {
-        label: 'Email',
-        label_class: 'small-12 large-4 no-margin',
-        class_field: 'small-12 large-8',
-        type: 'email',
-        name: 'register-email',
-        placeholder: 'Entrez votre adresse email',
-        class: 'no-margin',
-        required: true,
-        required_message: 'Veuillez indiquer votre adresse email.'
-    } %}
+    {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
 </div>
-<p class="column small-12">Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.</p>
+
+{# Mot de passe #}
+<p class="column small-12">{{ 'user.field.password.text'|trans }}</p>
 <div class="block-grid input-margin column small-12">
-    {% include 'front/Layout/includes/forms/input.html.twig' with {
-        label: 'Mot de passe',
-        label_class: 'small-12 large-4 no-margin',
-        class_field: 'small-12 large-8',
-        type: 'password',
-        name: 'register-password',
-        placeholder: 'Entrez votre mot de passe',
-        class: 'no-margin',
-        required: true,
-        required_message: 'Veuillez indiquer votre mot de passe.'
-    } %}
+    {{ form_row(form.password.first, {'errorMsg' : 'user.field.password.first.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
 </div>
+
+{# Mot de passe confirmation #}
 <div class="block-grid input-margin column small-12">
-    {% include 'front/Layout/includes/forms/input.html.twig' with {
-        label: 'Confirmation mot de passe',
-        label_class: 'small-12 large-4 no-margin',
-        class_field: 'small-12 large-8',
-        type: 'password',
-        name: 'register-password-confirm',
-        placeholder: 'Confirmez votre mot de passe',
-        class: 'no-margin',
-        equalTo: 'register-password',
-        required: true,
-        required_message: 'Veuillez confirmer votre mot de passe.'
-    } %}
+    {{ form_row(form.password.second, {'errorMsg' : 'user.field.password.second.error'|trans, 'label_attr': {'class': 'small-12 large-4 no-margin'}}) }}
 </div>
+
 <div class="checkbox-container column small-12">
-    {% include 'front/Layout/includes/forms/checkbox.html.twig' with {
-        name: 'cgu',
-        id: 'cgu',
-        label: '<b>J’accepte les <a href="" class="black-color text-underline" target="_blank">Conditions Générales d’Utilisation</a></b>',
-        required: true,
-        error_message: 'Veuillez accepter nos Conditions Générales d’Utilisation'
-    } %}
+    {{ form_row(form.accept, {'errorMsg' : 'user.field.accept.error'|trans}) }}
 </div>
+
+{# Button submit #}
 <div class="column small-12 large-7">
-    <button type="submit" class="button full-width">Je crée mon compte {{ site_name }}</button>
+    {{ form_row(form.create, {'errorMsg' : 'user.submit.i_register'|trans, 'attr': {'class': 'button full-width'}}) }}
 </div>
+
+{{ form_end(form) }}

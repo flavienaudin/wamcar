@@ -13,8 +13,7 @@ register_user_car:
 register_user:
     path: /inscription/particulier
     defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/user.html.twig
+        _controller: AppBundle:Front\Security:register
 
 register_pro:
     path: /inscription/professionnel
