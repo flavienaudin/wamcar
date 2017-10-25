@@ -2,26 +2,26 @@
 
 namespace Wamcar\User\Event;
 
-use Wamcar\User\User;
+use Wamcar\User\BaseUser;
 
 abstract class AbstractUserEvent
 {
-    /** @var User */
+    /** @var BaseUser */
     private $user;
 
     /**
      * AbstractUserEvent constructor.
-     * @param User $user
+     * @param BaseUser $user
      */
-    public function __construct(User $user)
+    public function __construct(BaseUser $user)
     {
         $this->user = $user;
     }
 
     /**
-     * @return User
+     * @return BaseUser
      */
-    public function getUser(): User
+    public function getUser(): BaseUser
     {
         return $this->user;
     }

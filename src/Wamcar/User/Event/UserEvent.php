@@ -4,18 +4,18 @@
 namespace Wamcar\User\Event;
 
 
-use Wamcar\User\User;
+use Wamcar\User\BaseUser;
 
 interface UserEvent
 {
     /**
      * UserEvent constructor.
-     * @param User $user
+     * @param BaseUser $user
      */
-    public function __construct(User $user);
+    public function __construct(BaseUser $user);
 
     /**
-     * @return User
+     * @return BaseUser
      */
-    public function getUser(): User;
+    public function getUser(): BaseUser;
 }

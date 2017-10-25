@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
+use AppBundle\Security\ShouldConfirmRegistration;
 use AppBundle\Security\UserRegistrationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -26,7 +27,6 @@ class SecurityController extends BaseController
 
     /** @var AuthenticationUtils  */
     private $authenticationUtils;
-
 
     /**
      * SecurityController constructor.

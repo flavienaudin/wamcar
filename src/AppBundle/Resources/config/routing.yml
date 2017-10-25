@@ -3,13 +3,13 @@ front:
     prefix: /
 
 # Security processes
-security_confirm_registration:
-    path: /confirmer-votre-inscription/{token}
-    defaults: { _controller: AppBundle:Front\Security:confirmRegistration }
-
 security_login:
     path: /connexion
     defaults: { _controller: AppBundle:Front\Security:login }
 
 security_logout:
     path: /deconnexion
+
+security_confirm_registration:
+    path: /confirmer-votre-inscription/{token}
+    defaults: { _controller: AppBundle:Front\Security:confirmRegistration }

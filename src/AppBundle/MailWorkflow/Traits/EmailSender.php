@@ -7,7 +7,7 @@ namespace AppBundle\MailWorkflow\Traits;
 use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
-use Wamcar\User\User;
+use Wamcar\User\BaseUser;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -81,10 +81,10 @@ trait EmailSender
     /**
      * Create an email contact destined to $user
      *
-     * @param User $user
+     * @param BaseUser $user
      * @return EmailContact
      */
-    protected function createUserEmailContact(User $user): EmailContact
+    protected function createUserEmailContact(BaseUser $user): EmailContact
     {
         return new EmailContact($user->getEmail(), $user->getName());
     }
