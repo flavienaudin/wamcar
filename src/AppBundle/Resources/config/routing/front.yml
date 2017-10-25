@@ -4,22 +4,11 @@ front_default:
         _controller: FrameworkBundle:Template:template
         template: front/Home/home.html.twig
 
-register_user_car:
-    path: /inscription
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/user_car.html.twig
-
-register_user:
-    path: /inscription/particulier
+register:
+    path: /inscription/{type}
     defaults:
         _controller: AppBundle:Front\Security:register
-
-register_pro:
-    path: /inscription/professionnel
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/pro.html.twig
+        type: personal
 
 register_confirm:
     path: /inscription/confirmation

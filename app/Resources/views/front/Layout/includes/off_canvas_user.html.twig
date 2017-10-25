@@ -9,7 +9,7 @@
 <div class="off-canvas-content">
     <div>
         <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
-        <a href="{{ path('register_user') }}" class="button white input-margin">Je suis un particulier</a>
-        <a href="{{ path('register_pro') }}" class="button white">Je suis un professionnel</a>
+        <a href="{{ path('register') }}" class="button white input-margin">Je suis un particulier</a>
+        <a href="{{ path('register', { 'type' : 'pro'}) }}" class="button white">Je suis un professionnel</a>
     </div>
 </div>
