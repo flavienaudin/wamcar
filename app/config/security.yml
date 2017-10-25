@@ -1,7 +1,7 @@
 security:
 
     encoders:
-            Wamcar\User\User: bcrypt
+            Wamcar\User\BaseUser: bcrypt
 
     providers:
         in_memory:

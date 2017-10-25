@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\UserRegistrationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -34,13 +35,58 @@ class SecurityController extends BaseController
      */
     public function registerAction(Request $request): Response
     {
+
         $registrationForm = $this->formFactory->create(RegistrationType::class);
 
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
-                $this->userRegistrationService->registerUser($registrationForm->getData());
+                /** @var RegistrationDTO $registrationDTO */
+                $registrationDTO = $registrationForm->getData();
+                $registrationDTO->type = 'personal';
+                $this->userRegistrationService->registerUser($registrationDTO);
+            } catch (UniqueConstraintViolationException $exception) {
+                $this->session->getFlashBag()->add(
+                    'flash.danger.registration_duplicate',
+                    self::FLASH_LEVEL_DANGER
+                );
+
+                return $this->render('front/Security/register.html.twig', [
+                    'form' => $registrationForm->createView(),
+                ]);
+            }
+
+            $this->session->getFlashBag()->add(
+                'flash.success.registration_success',
+                self::FLASH_LEVEL_INFO
+            );
+
+            return $this->redirectToRoute('front_default');
+        }
+
+        return $this->render('front/Security/register.html.twig', [
+            'form' => $registrationForm->createView(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function registerProAction(Request $request): Response
+    {
+
+        $registrationForm = $this->formFactory->create(RegistrationType::class);
+
+        $registrationForm->handleRequest($request);
+
+        if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
+            try {
+                /** @var RegistrationDTO $registrationDTO */
+                $registrationDTO = $registrationForm->getData();
+                $registrationDTO->type = 'pro';
+                $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     'flash.danger.registration_duplicate',

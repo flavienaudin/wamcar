@@ -49,7 +49,6 @@ class UserController extends BaseController
     {
         //TODO : Récupérer le user courant quand dispo
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
-
         $userInformationDTO = new UserInformationDTO($user);
 
         $editForm = $this->formFactory->create(

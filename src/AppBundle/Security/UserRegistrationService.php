@@ -3,6 +3,8 @@
 namespace AppBundle\Security;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Utils\TokenGenerator;
 use Wamcar\User\UserRepository;
@@ -32,7 +34,6 @@ class UserRegistrationService
 
     /**
      * @param RegistrationDTO $registrationDTO
-     *
      * @return ApplicationUser
      * @throws \Exception
      */
@@ -42,13 +43,22 @@ class UserRegistrationService
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
         $registrationToken = TokenGenerator::generateToken();
 
-        $applicationUser = new ApplicationUser(
-            $registrationDTO->email,
-            $encodedPassword,
-            $salt,
-            null,
-            $registrationToken
-        );
+        $applicationUser = null;
+        if ($registrationDTO->type ==='personal') {
+            $applicationUser = new PersonalApplicationUser(
+                $registrationDTO->email,
+                $encodedPassword,
+                $salt,
+                null,
+                $registrationToken
+            );
+        } elseif ($registrationDTO->type ==='pro') {
+            $applicationUser = new ProApplicationUser(
+                $registrationDTO->email,
+                $encodedPassword,
+                $salt
+            );
+        }
 
         $this->userRepository->add($applicationUser);
 

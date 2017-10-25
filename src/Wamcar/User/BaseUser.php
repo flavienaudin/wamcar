@@ -2,9 +2,7 @@
 
 namespace Wamcar\User;
 
-use Wamcar\Vehicle\Vehicle;
-
-class User
+abstract class BaseUser
 {
     /** @var int */
     protected $id;
@@ -13,24 +11,15 @@ class User
     /** @var  ?UserProfile */
     protected $userProfile;
 
-    /** @var Vehicle[]|array */
-    protected $vehicles;
-
     /**
      * User constructor.
      * @param string $email
-     * @param UserProfile|null $userProfile
-     * @param Vehicle|null $firstVehicle
      */
     public function __construct(
-        string $email,
-        UserProfile $userProfile = null,
-        Vehicle $firstVehicle = null
+        string $email
     )
     {
         $this->email = $email;
-        $this->userProfile = $userProfile;
-        $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
     }
 
     /**
@@ -71,13 +60,5 @@ class User
     public function updateUserProfile($userProfile)
     {
         $this->userProfile = $userProfile;
-    }
-
-    /**
-     * @return array|Vehicle[]
-     */
-    public function getVehicles()
-    {
-        return $this->vehicles;
     }
 }

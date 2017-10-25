@@ -5,7 +5,7 @@ namespace AppBundle\Doctrine\Repository;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use Doctrine\ORM\EntityRepository;
-use Wamcar\User\User;
+use Wamcar\User\BaseUser;
 use Wamcar\User\UserRepository;
 
 class DoctrineUserRepository extends EntityRepository implements UserRepository, RegisteredWithConfirmationProvider
@@ -21,7 +21,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function findOne(int $userId): User
+    public function findOne(int $userId): BaseUser
     {
         return $this->findOneBy(['id' => $userId]);
     }
@@ -29,7 +29,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function add(User $user)
+    public function add(BaseUser $user)
     {
         $this->_em->persist($user);
         $this->_em->flush();
@@ -38,7 +38,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function update(User $user)
+    public function update(BaseUser $user)
     {
         $user = $this->_em->merge($user);
         $this->_em->persist($user);
@@ -48,7 +48,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
     /**
      * {@inheritdoc}
      */
-    public function remove(User $user)
+    public function remove(BaseUser $user)
     {
         $this->_em->remove($user);
         $this->_em->flush();
@@ -56,7 +56,7 @@ class DoctrineUserRepository extends EntityRepository implements UserRepository,
 
     /**
      * @param string $email
-     * @return User
+     * @return BaseUser
      */
     public function findOneByEmail(string $email)
     {

@@ -9,7 +9,7 @@ services:
     wamcar.security.password_encoder:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
         factory: ['@security.encoder_factory', 'getEncoder']
-        arguments: [AppBundle\Doctrine\Entity\ApplicationUser]
+        arguments: [Wamcar\User\BaseUser]
 
     AppBundle\Security\UserRegistrationService:
         class: AppBundle\Security\UserRegistrationService
