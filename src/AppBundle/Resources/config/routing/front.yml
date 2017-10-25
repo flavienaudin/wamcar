@@ -18,8 +18,7 @@ register_user:
 register_pro:
     path: /inscription/professionnel
     defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/pro.html.twig
+        _controller: AppBundle:Front\Security:registerPro
 
 register_confirm:
     path: /inscription/confirmation
