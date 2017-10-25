@@ -3,6 +3,7 @@ imports:
     - { resource: services/controllers.yml }
     - { resource: services/repositories.yml }
     - { resource: services/events.yml }
+    - { resource: services/mail.yml }
     - { resource: search.yml }
 
 services:
@@ -19,10 +20,3 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - '@event_bus'
             - '@logger'
-
-    wamcar.mail_workflow.mailer:
-        class: AppBundle\MailWorkflow\Services\Mailer
-        arguments:
-            - '@mailer'
-            - '@logger'
-            - '%wamcar.email.defaut_sender%'

@@ -8,8 +8,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    wamcar.email.defaut_sender: {mail: '%env(MAILER_DEFAUT_SENDER_ADDRESS)%', name: '%env(MAILER_DEFAUT_SENDER_NAME)%'}
-
+    
 framework:
     #esi: ~
     translator: { fallbacks: ['%locale%'] }
