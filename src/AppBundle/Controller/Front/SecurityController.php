@@ -71,7 +71,7 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_DANGER
                 );
 
-                return $this->render('front/Security/register.html.twig', [
+                return $this->render('front/Security/Register/user.html.twig', [
                     'form' => $registrationForm->createView(),
                 ]);
             }
@@ -84,7 +84,7 @@ class SecurityController extends BaseController
             return $this->redirectToRoute('front_default');
         }
 
-        return $this->render('front/Security/register.html.twig', [
+        return $this->render('front/Security/Register/user.html.twig', [
             'form' => $registrationForm->createView(),
         ]);
     }
