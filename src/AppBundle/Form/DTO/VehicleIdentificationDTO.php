@@ -22,6 +22,18 @@ class VehicleIdentificationDTO
     public $fuel;
 
     /**
+     * @param array $filters
+     */
+    public function updateFromFilters(array $filters = []): void
+    {
+        $this->make = $filters['make'] ?? $this->make;
+        $this->model = $filters['model'] ?? $this->model;
+        $this->modelVersion = $filters['modelVersion'] ?? $this->modelVersion;
+        $this->engine = $filters['engineName'] ?? $this->engine;
+        $this->fuel = $filters['fuel'] ?? $this->fuel;
+    }
+
+    /**
      * @return ModelVersion
      */
     public function getModelVersion(): ?ModelVersion

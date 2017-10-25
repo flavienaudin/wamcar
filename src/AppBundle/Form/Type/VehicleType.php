@@ -17,7 +17,7 @@ class VehicleType extends AbstractType
             ->add('registrationNumber', TextType::class, [
                 'required' => false
             ])
-            ->add('identification', VehicleIdentificationType::class)
+            ->add('identification',  VehicleIdentificationType::class, $options)
             ->add('specifics', VehicleSpecificsType::class)
             ->add('pictures', CollectionType::class, [
                 'label' => false,
@@ -36,6 +36,7 @@ class VehicleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(['data_class' => VehicleDTO::class]);
+        $resolver->setRequired('available_values');
     }
 
 
