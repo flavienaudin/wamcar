@@ -83,7 +83,8 @@ class VehicleInformationType extends AbstractType
 
         $resolver->setDefaults([
             'data_class' => VehicleInformationDTO::class,
-            'small_version' => false
+            'small_version' => false,
+            'translation_domain' => 'registration'
         ]);
     }
 

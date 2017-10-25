@@ -12,7 +12,13 @@ class StarType extends ChoiceType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('choices', ['1', '2', '3', '4', '5']);
+        $resolver->setDefault('choices', [
+            'Très mauvais' => '1',
+            'Mauvais' => '2',
+            'Moyen' => '3',
+            'Bon' => '4',
+            'Très bon' => '5'
+        ]);
         $resolver->setDefault('placeholder', false);
         $resolver->setDefault('expanded', true);
     }

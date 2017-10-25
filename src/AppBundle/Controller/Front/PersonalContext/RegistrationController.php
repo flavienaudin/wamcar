@@ -52,17 +52,10 @@ class RegistrationController extends BaseController
      */
     public function vehicleRegistrationAction(Request $request): Response
     {
-dump($request->get('vehicle'));
+        $filters = $request->get('vehicle_information', []);
+        unset($filters['_token']);
+
         $vehicleDTO = new VehicleDTO();
-
-        $filters = [];
-        if($make = $request->get('make')) {
-            $filters['make'] = $make;
-        }
-        if($model = $request->get('model')) {
-            $filters['model'] = $model;
-        }
-
         $vehicleDTO->updateFromFilters($filters);
 
         $vehicleForm = $this->formFactory->create(
@@ -86,7 +79,7 @@ dump($request->get('vehicle'));
                 );
             }
 
-            dump($personalVehicle);exit;
+            die('OK');
         }
 
 

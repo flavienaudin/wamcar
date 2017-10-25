@@ -23,8 +23,12 @@ const $toggleId = document.querySelectorAll('[data-toggle-id]');
       targetSelect.remove(targetOptions[index]);
     }
 
-    fetch(dataFetchUrl.replace('%value%', select.value))
-      .then(response => response.json())
+    fetch(dataFetchUrl.replace('%value%', select.value), {
+      credentials: 'include',
+      headers: new Headers({
+        'X-Requested-With': 'XMLHttpRequest'
+      })
+    }).then(response => response.json())
       .then((data) => {
         for (let key in data) {
           if (data.hasOwnProperty(key)) {

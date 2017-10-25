@@ -7,8 +7,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class YesNoType extends ChoiceType
 {
-    const YES = 'yes';
-    const NO = 'no';
+    const YES = 'Oui';
+    const NO = 'Non';
 
     /**
      * @param OptionsResolver $resolver

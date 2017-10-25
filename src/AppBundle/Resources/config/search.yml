@@ -62,7 +62,7 @@ services:
     Novaway\ElasticsearchClient\Index:
         arguments:
             - ['%env(ELASTIC_HOST)%:%env(ELASTIC_PORT)%'] #define it in the parameter.yml file
-            - 'wamcar_index_%kernel.environment%'
+            - 'wamcar_index_%env(ELASTIC_ENVIRONMENT)%'
             - '%wamcar.search.config%'
 
     Novaway\ElasticsearchClient\ObjectIndexer: ~
