@@ -1,8 +1,7 @@
 front_default:
     path: /
     defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Home/home.html.twig
+        _controller: AppBundle:Front\Default:homepage
 
 register:
     path: /inscription/{type}
@@ -28,7 +27,7 @@ front_vehicle_registration:
         _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
 
 front_vehicle_registration_form_update:
-    path: /je-vends-mon-vehicule/form_update
+    path: /je-vends-mon-vehicule/form_update.json
     defaults:
         _controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
 

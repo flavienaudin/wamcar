@@ -3,15 +3,14 @@
 namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Elasticsearch\Type\VehicleInfo;
 use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
-use Novaway\ElasticsearchClient\Aggregation\Aggregation;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
-use Novaway\ElasticsearchClient\QueryExecutor;
+use AppBundle\Security\UserRegistrationService;
+use AppBundle\Utils\VehicleInfoAggregator;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Vehicle\VehicleRepository;
@@ -22,25 +21,29 @@ class RegistrationController extends BaseController
     private $formFactory;
     /** @var VehicleRepository */
     private $vehicleRepository;
-    /** @var QueryExecutor */
-    private $queryExecutor;
+    /** @var VehicleInfoAggregator */
+    private $vehicleInfoAggregator;
+    /** @var UserRegistrationService  */
+    protected $userRegistrationService;
 
     /**
      * RegistrationController constructor.
-     *
      * @param FormFactoryInterface $formFactory
      * @param VehicleRepository $vehicleRepository
-     * @param QueryExecutor $queryExecutor
+     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param UserRegistrationService $userRegistrationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleRepository $vehicleRepository,
-        QueryExecutor $queryExecutor
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        UserRegistrationService $userRegistrationService
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
-        $this->queryExecutor = $queryExecutor;
+        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->userRegistrationService = $userRegistrationService;
     }
 
     /**
@@ -49,28 +52,39 @@ class RegistrationController extends BaseController
      */
     public function vehicleRegistrationAction(Request $request): Response
     {
+        $filters = $request->get('vehicle_information', []);
+        unset($filters['_token']);
+
         $vehicleDTO = new VehicleDTO();
+        $vehicleDTO->updateFromFilters($filters);
+
         $vehicleForm = $this->formFactory->create(
             VehicleType::class,
             $vehicleDTO,
-            ['available_values' => $this->getVehicleInfoAggregates()]
+            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters)]
         );
 
         $vehicleForm->handleRequest($request);
-        dump($vehicleForm->get('specifics'));
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
             $this->vehicleRepository->add($personalVehicle);
 
-            dump("Picture saved");
-            dump($personalVehicle);
-            exit;
+            try {
+                $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
+            } catch (UniqueConstraintViolationException $exception) {
+                $this->session->getFlashBag()->add(
+                    'flash.danger.registration_duplicate',
+                    self::FLASH_LEVEL_DANGER
+                );
+            }
+
+            die('OK');
         }
 
 
         return $this->render(
-            ':front/personalContext/registration:vehicle_registration.html.twig',
+            ':front/Security/Register:user_car.html.twig',
             [
                 'vehicleForm' => $vehicleForm->createView(),
             ]
@@ -79,62 +93,15 @@ class RegistrationController extends BaseController
 
     /**
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function updateVehicleRegistrationFormAction(Request $request): Response
+    public function updateVehicleRegistrationFormAction(Request $request): JsonResponse
     {
-        $vehicleDTO = new VehicleDTO();
         $filters = $request->get('filters', []);
+        $fetch = $request->get('fetch', null);
 
-        $vehicleDTO->updateFromFilters($filters);
+        $aggregates = $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters);
 
-        $vehicleForm = $this->formFactory->create(
-            VehicleType::class,
-            $vehicleDTO,
-            ['available_values' => $this->getVehicleInfoAggregates($filters)]
-        );
-
-        return $this->render(
-            ':front/personalContext/registration:vehicle_registration_form.html.twig',
-            [
-                'vehicleForm' => $vehicleForm->createView(),
-            ]
-        );
-    }
-
-    /**
-     * @param array $data
-     * @return array
-     */
-    private function getVehicleInfoAggregates(array $data = []): array
-    {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
-
-        foreach ($data as $field => $value) {
-            $qb->addFilter(new TermFilter($field, $value));
-        }
-
-        $qb->addAggregation(new Aggregation('makes', 'terms', 'make'));
-        $qb->addAggregation(new Aggregation('fuels', 'terms', 'fuel'));
-        if(isset($data['make'])) {
-            $qb->addAggregation(new Aggregation('models', 'terms', 'model'));
-        }
-        if(isset($data['model'])) {
-            $qb->addAggregation(new Aggregation('modelVersions', 'terms', 'engineName')); // TODO : add a version column
-            $qb->addAggregation(new Aggregation('engines', 'terms', 'engineName'));
-        }
-
-        $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
-
-        $formattedAggregations = [];
-        foreach ($result->aggregations() as $field => $aggregation) {
-            $cleanAggregation = array_map(function ($aggregationDetail) {
-                return $aggregationDetail['key'];
-            }, $aggregation);
-            sort($cleanAggregation);
-            $formattedAggregations[$field] = array_combine($cleanAggregation, $cleanAggregation);
-        }
-
-        return $formattedAggregations;
+        return new JsonResponse($fetch ? $aggregates[$fetch] : $aggregates);
     }
 }

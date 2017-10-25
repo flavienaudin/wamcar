@@ -7,118 +7,83 @@
     '
 } %}
 
-<section class="column small-12 large-7">
-    {% if app.request.get('imma') %}
-        <div class="register-infos input-margin block-grid">
-            <div class="small-12 large-8">
-                <label for="immat">Immatriculation <span>Facultatif</span></label>
-                <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
-            </div>
-            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                class_field: 'small-12 large-4 align-self-bottom',
-                class: 'no-margin',
-                name: 'immat',
-                value: app.request.get('imma')
-            } %}
+<section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
+    <div class="register-infos input-margin block-grid is-hidden">
+        <div class="small-12 large-8">
+            <label for="immat">Immatriculation <span>Facultatif</span></label>
+            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en
+                majorité pré-remplis avec les infos de votre véhicule.</p>
         </div>
-    {% endif %}
-    <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
-            label: 'Marque',
-            label_class: 'medium-no-margin small-12 medium-4',
-            name: 'brand',
-            class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir marque' },
-                { value: 'peugeot', label: 'Peugeot' },
-                { value: 'renault', label: 'Renault' },
-            ],
-            required: true,
-            required_message: 'Veuillez indiquer la marque du véhicule',
-            required_class: 'medium-offset-4'
-        } %}
+        {{ form_widget(vehicleForm.registrationNumber) }}
     </div>
     <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
-            label: 'Modèle',
+        {{ form_widget(vehicleForm.information.make, {
+            label: 'Marque',
+            id: 'js-registration-make',
+            dataType: 'make',
             label_class: 'medium-no-margin small-12 medium-4',
-            name: 'model',
             class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir modèle' },
-                { value: '308', label: '308' },
-                { value: '306', label: '306' },
-            ],
+            required: true,
+            required_message: 'Veuillez indiquer la marque du véhicule.',
+            required_class: 'medium-offset-4'
+        }) }}
+    </div>
+    <div class="block-grid input-margin">
+        {{ form_widget(vehicleForm.information.model, {
+            label: 'Modèle',
+            id: 'js-registration-model',
+            dataType: 'model',
+            label_class: 'medium-no-margin small-12 medium-4',
+            class: 'no-margin small-12 medium-8',
             required: true,
             required_message: 'Veuillez indiquer le modèle du véhicule',
             required_class: 'medium-offset-4'
-        } %}
+        }) }}
     </div>
     <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
+        {{ form_widget(vehicleForm.information.modelVersion, {
             label: 'Finition',
+            id: 'js-registration-modelVersion',
+            dataType: 'modelVersion',
             label_class: 'medium-no-margin small-12 medium-4',
-            name: 'finition',
             class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir finition' },
-                { value: '308', label: '1.6 HDI 92 Business 5P' },
-                { value: '306', label: '1.6 HDI 92 Business 5P' },
-            ],
             required: true,
             required_message: 'Veuillez indiquer la finition du véhicule',
             required_class: 'medium-offset-4'
-        } %}
+        }) }}
     </div>
     <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
+        {{ form_widget(vehicleForm.information.engine, {
             label: 'Motorisation',
+            id: 'js-registration-engine',
+            dataType: 'engine',
             label_class: 'medium-no-margin small-12 medium-4',
-            name: 'motor',
             class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir motorisation' },
-                { value: '308', label: '1.6l 155 ch' },
-                { value: '308', label: '1.6l 155 ch' },
-                { value: '308', label: '1.6l 155 ch' },
-                { value: '308', label: '1.6l 155 ch' },
-                { value: '308', label: '1.6l 155 ch' }
-            ],
             required: true,
             required_message: 'Veuillez indiquer la motorisation du véhicule',
             required_class: 'medium-offset-4'
-        } %}
+        }) }}
     </div>
     <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
+        {{ form_widget(vehicleForm.information.transmission, {
             label: 'Boite de vitesse',
             label_class: 'medium-no-margin small-12 medium-4',
-            name: 'boite-vitesse',
             class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir boite de vitesse' },
-                { value: '308', label: 'Manuelle' },
-                { value: '308', label: 'Automatique' }
-            ],
             required: true,
             required_message: 'Veuillez indiquer la boite de vitesse du véhicule',
             required_class: 'medium-offset-4'
-        } %}
+        }) }}
     </div>
     <div class="block-grid input-margin">
-        {% include 'front/Layout/includes/forms/select.html.twig' with {
-            label: 'Energie',
+        {{ form_widget(vehicleForm.information.fuel, {
+            label: 'Énergie',
+            id: 'js-registration-fuel',
+            dataType: 'fuel',
             label_class: 'medium-no-margin small-12 medium-4',
-            name: 'energie',
             class: 'no-margin small-12 medium-8',
-            options: [
-                { value: '', label: 'Choisir energie' },
-                { value: '308', label: 'Diesel' },
-                { value: '308', label: 'Essence' }
-            ],
             required: true,
             required_message: 'Veuillez indiquer l\'énergie du véhicule',
             required_class: 'medium-offset-4'
-        } %}
+        }) }}
     </div>
 </section>

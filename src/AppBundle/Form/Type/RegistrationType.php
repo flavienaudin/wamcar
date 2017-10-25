@@ -23,34 +23,32 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                'error_bubbling' => true,
                 'attr' => [
                     'placeholder' => 'user.field.email.placeholder'
-                ]
+                ],
             ])
             ->add('password', RepeatedType::class, [
-            'type' => PasswordType::class,
-            'invalid_message' => 'registration_data.password.repeat',
-            'first_options' => [
-                'label_format' => 'user.field.password.first.label',
-                'attr' => [
-                    'placeholder' => 'user.field.password.first.placeholder'
-                ]
-            ],
-            'second_options' => [
-                'label_format' => 'user.field.password.second.label',
-                'attr' => [
-                    'placeholder' => 'user.field.password.second.placeholder'
-                ]
-            ],
-            'required' => true
+                'type' => PasswordType::class,
+                'invalid_message' => 'registration_data.password.repeat',
+                'first_options' => [
+                    'label_format' => 'user.field.password.first.label',
+                    'attr' => [
+                        'placeholder' => 'user.field.password.first.placeholder'
+                    ]
+                ],
+                'second_options' => [
+                    'label_format' => 'user.field.password.second.label',
+                    'attr' => [
+                        'placeholder' => 'user.field.password.second.placeholder'
+                    ]
+                ],
+                'required' => true,
+                'error_bubbling' => true,
             ])
             ->add('accept', CheckboxType::class, [
                 "mapped" => false,
-            ])
-            ->add('create', SubmitType::class, [
-                'label' => 'user.submit.i_register'
-            ])
-        ;
+            ]);
     }
 
     /**

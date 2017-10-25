@@ -26,14 +26,12 @@
 } %}
 
 <section class="small-12 large-7">
-    <div id="js-pictures-list" class="block-grid small-12">
-        {% set index = 'default' %}
-        {% include 'front/Security/Register/includes/file_picture.html.twig' with { class: 'is-hidden' } %}
-        {% for index, pic in pictures %}
-            {% set image = pic.image %}
-            {% set title = pic.title %}
-            {% include 'front/Security/Register/includes/file_picture.html.twig' with { class: 'js-file-required' } %}
+    <div id="js-pictures-list" class="block-grid small-12" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
+        {% for pictureSubForm in vehicleForm.pictures %}
+            {{ form_widget(pictureSubForm) }}
         {% endfor %}
     </div>
+    {# TODO : Auto-add #}
+    {#<a id="js-tmp-add-picture" href="#">Ajouter</a>#}
     <p class="small column">Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.</p>
 </section>

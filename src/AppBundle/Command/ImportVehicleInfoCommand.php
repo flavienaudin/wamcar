@@ -62,6 +62,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 $record['tecdoc_ktypnr'],
                 $record['tecdoc_constr'],
                 $record['tecdoc_model1'],
+                $record['finition'],
                 $record['tecdoc_codemoteur'],
                 $record['tecdoc_cyl'],
                 new \DateTimeImmutable(sprintf('%s-%s-01 00:00', $record['tecdoc_anneedeb'], $record['tecdoc_moisdseb'])),

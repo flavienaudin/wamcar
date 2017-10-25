@@ -15,9 +15,11 @@ class VehicleInfo implements Indexable
     /** @var string */
     private $model;
     /** @var string */
+    private $modelVersion;
+    /** @var string */
     private $engineCode;
     /** @var string */
-    private $engineName;
+    private $engine;
     /** @var \DateTimeInterface */
     private $startDate;
     /** @var \DateTimeInterface|null */
@@ -43,7 +45,7 @@ class VehicleInfo implements Indexable
      * @param string $make
      * @param string $model
      * @param string $engineCode
-     * @param string $engineName
+     * @param string $engine
      * @param \DateTimeInterface $startDate
      * @param \DateTimeInterface $endDate
      * @param float $engineSize
@@ -57,8 +59,9 @@ class VehicleInfo implements Indexable
     public function __construct(string $ktypNumber,
                                 string $make,
                                 string $model,
+                                string $modelVersion,
                                 string $engineCode,
-                                string $engineName,
+                                string $engine,
                                 \DateTimeInterface $startDate,
                                 ?\DateTimeInterface $endDate,
                                 float $engineSize,
@@ -73,8 +76,9 @@ class VehicleInfo implements Indexable
         $this->ktypNumber = $ktypNumber;
         $this->make = $make;
         $this->model = $model;
+        $this->modelVersion = $modelVersion;
         $this->engineCode = $engineCode;
-        $this->engineName = $engineName;
+        $this->engine = $engine;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->engineSize = $engineSize;
@@ -111,8 +115,9 @@ class VehicleInfo implements Indexable
             'ktypNumber' => $this->ktypNumber,
             'make' => $this->make,
             'model' => $this->model,
+            'modelVersion' => $this->modelVersion,
             'engineCode' => $this->engineCode,
-            'engineName' => $this->engineName,
+            'engine' => $this->engine,
             'startDate' => $this->startDate->format('Y-m-d'),
             'endDate' => $this->endDate ? $this->endDate->format('Y-m-d') : null,
             'engineSize' => $this->engineSize,
