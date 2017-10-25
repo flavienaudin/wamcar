@@ -12,13 +12,13 @@ class Mailer
     private $mailer;
     /** @var LoggerInterface $logger */
     private $logger;
-    /** @var EmailContact $defaultSender */
+    /** @var array $defaultSender */
     private $defaultSender;
 
     public function __construct(
         \Swift_Mailer $mailer,
         LoggerInterface $logger = null,
-        EmailContact $defaultSender
+        array $defaultSender
     ) {
         $this->mailer           = $mailer;
         $this->logger           = $logger;
@@ -36,7 +36,7 @@ class Mailer
     {
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom($this->defaultSender->getEmail(), $this->defaultSender->getName())
+            ->setFrom($this->defaultSender['mail'], $this->defaultSender['name'])
             ->setTo($emailRecipientList->toArray())
             ->setBody($body, 'text/html');
         $message->getHeaders()->addTextHeader('X-Message-ID', $type);
