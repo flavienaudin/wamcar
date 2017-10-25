@@ -4,9 +4,11 @@ security:
             Wamcar\User\BaseUser: bcrypt
 
     providers:
-        in_memory:
-            memory: ~
+#        in_memory:
+#            memory: ~
 
+        database:
+            id: AppBundle\Doctrine\Repository\DoctrineUserRepository
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
@@ -19,3 +21,18 @@ security:
 
         front:
             anonymous: ~
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                default_target_path: front_default
+                use_referer: true
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     front_default
+                secure:   true
+            logout:
+                path:   security_logout
+                target: front_default
+            access_denied_url: front_default
+

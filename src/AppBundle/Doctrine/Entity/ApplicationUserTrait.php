@@ -129,4 +129,12 @@ trait ApplicationUserTrait
 
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
 }

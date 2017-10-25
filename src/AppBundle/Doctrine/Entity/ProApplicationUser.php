@@ -3,9 +3,10 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\ShouldConfirmRegistration;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface
 {
     use ApplicationUserTrait;
 

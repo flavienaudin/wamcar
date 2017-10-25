@@ -3,10 +3,11 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\ShouldConfirmRegistration;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Vehicle;
 
-class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser
+class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, UserInterface
 {
     use ApplicationUserTrait;
 

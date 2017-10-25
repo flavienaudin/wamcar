@@ -1,9 +1,9 @@
 <header class="off-canvas-header show-for-large">
-     <strong>Espace membre</strong>
-     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
+    <strong>Espace membre</strong>
+    <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">Fermer</span></button>
 </header>
 <div class="off-canvas-content off-canvas-separator">
-    {% include 'front/User/includes/form_login.html.twig' %}
+    {{ render(controller('AppBundle:Front/Security:login')) }}
     {% include 'front/User/includes/modal_password_lost.html.twig' %}
 </div>
 <div class="off-canvas-content">

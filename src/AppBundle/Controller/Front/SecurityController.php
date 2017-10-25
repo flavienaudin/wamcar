@@ -5,13 +5,13 @@ namespace AppBundle\Controller\Front;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
-use AppBundle\Security\ShouldConfirmRegistration;
 use AppBundle\Security\UserRegistrationService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\UserRepository;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends BaseController
 {
@@ -24,22 +24,28 @@ class SecurityController extends BaseController
     /** @var  UserRepository */
     private $userRepository;
 
+    /** @var AuthenticationUtils  */
+    private $authenticationUtils;
+
 
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRegistrationService $userRegistration
      * @param UserRepository $userRepository,
+     * @param AuthenticationUtils $authenticationUtils
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRegistrationService $userRegistration,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        AuthenticationUtils $authenticationUtils
     )
     {
         $this->formFactory = $formFactory;
         $this->userRegistrationService = $userRegistration;
         $this->userRepository = $userRepository;
+        $this->authenticationUtils = $authenticationUtils;
     }
 
     /**
@@ -155,6 +161,30 @@ class SecurityController extends BaseController
         );
         // redirect to login page, to allow user to enter his credentials
         return $this->redirectToRoute('front_default');
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \InvalidArgumentException
+     */
+    public function loginAction(Request $request): Response
+    {
+        $error = $this->authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $this->authenticationUtils->getLastUsername();
+
+        if ($error) {
+            $this->session->getFlashBag()->add(
+                $error->getMessage(),
+                self::FLASH_LEVEL_DANGER
+            );
+            return $this->redirectToRoute('front_default');
+        }
+
+        return $this->render('front/User/includes/form_login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
     }
 
 }
