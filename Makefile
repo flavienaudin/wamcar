@@ -14,6 +14,10 @@ DOCKERNPM = USER_ID=${USER_ID} USER_GID=${USER_GID} docker-compose run --rm -v "
 help: ## Display this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+# Deploy
+staging: front
+	./bin/dep deploy staging
+
 # Setup dev
 dev-back: web-up vendors database ## setup a dev environnement (backend only)
 dev: dev-back front ## setup a dev environnement
@@ -58,7 +62,7 @@ front-start: npm-install ## start front dev watcher
 front-live: npm-install ## run live reloading proxy
 	@echo "--> Starting npm dev service"
 	npm run proxy
-front: npm-install
+front: npm-install ## build prod front
 	@echo "--> Building frontend production assets"
 	$(DOCKERNPM) run build
 
