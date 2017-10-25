@@ -6,7 +6,6 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
-use AppBundle\Utils\TokenGenerator;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\Event\ProUserCreated;
@@ -55,28 +54,21 @@ class UserRegistrationService
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
-        $registrationToken = TokenGenerator::generateToken();
 
-        $applicationUser = null;
-        if ($registrationDTO->type ==='personal') {
-            $applicationUser = new PersonalApplicationUser(
-                $registrationDTO->email,
-                $encodedPassword,
-                $salt,
-                null,
-                $registrationToken
-            );
-        } elseif ($registrationDTO->type ==='pro') {
-            $applicationUser = new ProApplicationUser(
-                $registrationDTO->email,
-                $encodedPassword,
-                $salt
-            );
-        }
+        $userClassMapping = [
+            'personal' => PersonalApplicationUser::class,
+            'pro' => ProApplicationUser::class,
+        ];
 
+        
+        $applicationUser = new $userClassMapping[$registrationDTO->type](
+            $registrationDTO->email,
+            $encodedPassword,
+            $salt
+        );
         $this->userRepository->add($applicationUser);
 
-        try{
+        try {
             if ($applicationUser instanceof PersonalUser) {
                 $this->eventBus->handle(new UserCreated($applicationUser));
             } else {

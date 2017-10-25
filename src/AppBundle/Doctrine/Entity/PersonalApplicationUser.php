@@ -3,6 +3,7 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\ShouldConfirmRegistration;
+use AppBundle\Utils\TokenGenerator;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Vehicle;
@@ -31,7 +32,7 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
 
         $this->password = $password;
         $this->salt = $salt;
-        $this->registrationToken = $registrationToken;
+        $this->registrationToken = TokenGenerator::generateToken();;
     }
 
     /**
