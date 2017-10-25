@@ -9,6 +9,7 @@ use Wamcar\User\ProUser;
 class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface
 {
     use ApplicationUserTrait;
+    use PasswordResettableTrait;
 
     /**
      * ApplicationUser constructor.

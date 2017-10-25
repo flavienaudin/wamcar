@@ -19,6 +19,11 @@ AppBundle\Doctrine\Entity\PersonalApplicationUser:
             length: 32
             nullable: true
             unique: true
+        passwordResetToken:
+            type: string
+            length: 32
+            nullable: true
+            unique: true
         createdAt:
             type: datetime
             gedmo:

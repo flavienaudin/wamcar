@@ -11,6 +11,7 @@ use Wamcar\Vehicle\Vehicle;
 class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, UserInterface
 {
     use ApplicationUserTrait;
+    use PasswordResettableTrait;
 
     /**
      * ApplicationUser constructor.
