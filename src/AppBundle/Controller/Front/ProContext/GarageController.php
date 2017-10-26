@@ -5,7 +5,6 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
-use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Garage\GarageProvider;
@@ -124,5 +123,4 @@ class GarageController extends BaseController
             'garageForm' => $garageForm->createView()
         ]);
     }
-
 }
