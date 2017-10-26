@@ -11,8 +11,13 @@ if ($information != null) {
   let filterValues = {};
 
   let filterAdd = function (dataType, value) {
-    filterForm.append('filters[TYPE]'.replace('TYPE', dataType), value);
     filterValues[dataType] = value;
+    filterForm.append('filters[TYPE]'.replace('TYPE', dataType), value);
+  };
+  let filterRemove = function (dataType) {
+    filterValues[dataType] = null;
+    filterForm.delete('filters[TYPE]'.replace('TYPE', dataType));
+    clearSelect(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)));
   };
   let clearSelect = function (select) {
     let selectOptions = select.getElementsByTagName('option');
@@ -33,7 +38,18 @@ if ($information != null) {
     filterAdd(dataType, select.value);
 
     select.addEventListener('change', () => {
-      filterAdd(select.getAttribute('data-type'), select.value);
+      let selectDataType = select.getAttribute('data-type') + '';
+
+      filterAdd(selectDataType, select.value);
+      switch (selectDataType) {
+        case 'make':
+          filterRemove('model', null);
+        case 'model': // This fallthrough is on purpose since "make" selection should also clean "model" sub fields
+          filterRemove('modelVersion', null);
+          filterRemove('engine', null);
+          filterRemove('fuel', null);
+      }
+
       fetch(dataFetchUrl, {
         method: 'POST',
         body: filterForm,
@@ -44,7 +60,6 @@ if ($information != null) {
       })
         .then(response => response.json())
         .then((data) => {
-          console.log(data);
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               let selectorToFill = document.querySelector('select[data-type="%type%"]'.replace('%type%', key));

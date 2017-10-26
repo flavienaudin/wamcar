@@ -61,7 +61,7 @@ class RegistrationController extends BaseController
         $vehicleForm = $this->formFactory->create(
             VehicleType::class,
             $vehicleDTO,
-            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters)]
+            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters)]
         );
 
         $vehicleForm->handleRequest($request);
