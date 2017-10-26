@@ -23,3 +23,9 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['AppBundle\Doctrine\Entity\PersonalApplicationUser']
+
+    AppBundle\Doctrine\Repository\DoctrineGarageRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineGarageRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\Garage\Garage']
+

@@ -1,0 +1,12 @@
+Wamcar\Garage\Address:
+    type: embeddable
+
+    embedded:
+        city:
+            class: Wamcar\Garage\City
+            columnPrefix: city_
+
+    fields:
+        address:
+            type: string
+            nullable: true

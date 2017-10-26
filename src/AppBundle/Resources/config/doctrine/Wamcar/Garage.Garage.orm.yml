@@ -1,0 +1,41 @@
+Wamcar\Garage\Garage:
+
+    type: entity
+    table: garage
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+
+    embedded:
+        address:
+            class: Wamcar\Garage\Address
+            columnPrefix: address_
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        name:
+            type: string
+            nullable: false
+        siren:
+            type: string
+            nullable: false
+        phone:
+            type: string
+            nullable: false
+        email:
+            type: string
+            length: 191   # needed to index field in utf8mb4
+            unique: true
+        openingHours:
+            type: text
+            nullable: true
+        presentation:
+            type: text
+            nullable: true
+        benefit:
+            type: text
+            nullable: true
