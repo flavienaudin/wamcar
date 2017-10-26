@@ -12,7 +12,6 @@ class GarageEditionService
 {
     /** @var GarageRepository  */
     private $garageRepository;
-
     /** @var GarageFromDTOBuilder  */
     private $garageBuilder;
 
