@@ -14,11 +14,16 @@ if ($information != null) {
     filterForm.append('filters[TYPE]'.replace('TYPE', dataType), value);
     filterValues[dataType] = value;
   };
-  let clearSelect = function (select) {
+  let clearSelect = function (select, doAddEmpty) {
     let selectOptions = select.getElementsByTagName('option');
     for (let index in selectOptions) {
       select.remove(selectOptions[index]);
     }
+
+    if(!doAddEmpty) {
+      return;
+    }
+
     let defaultOption = document.createElement("option");
     defaultOption.text = '';
     select.add(defaultOption);
@@ -44,11 +49,11 @@ if ($information != null) {
       })
         .then(response => response.json())
         .then((data) => {
-          console.log(data);
           for (let key in data) {
             if (data.hasOwnProperty(key)) {
               let selectorToFill = document.querySelector('select[data-type="%type%"]'.replace('%type%', key));
-              clearSelect(selectorToFill);
+              let hasMultipleOptions = Object.keys(data[key]).length > 1;
+              clearSelect(selectorToFill, hasMultipleOptions);
               for (let value in data[key]) {
                 if (data[key].hasOwnProperty(value)) {
                   let option = document.createElement("option");
@@ -58,6 +63,9 @@ if ($information != null) {
                 }
               }
               selectorToFill.value = filterValues[key];
+              if(!hasMultipleOptions) {
+                selectorToFill.selectedIndex = 0;
+              }
             }
           }
         })
