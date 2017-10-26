@@ -11,7 +11,6 @@ use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use Wamcar\Garage\GarageRepository;
 
 
