@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
+use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
@@ -11,7 +13,6 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\UserRepository;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends BaseController
@@ -22,8 +23,8 @@ class SecurityController extends BaseController
     /** @var UserRegistrationService  */
     protected $userRegistrationService;
 
-    /** @var  UserRepository */
-    private $userRepository;
+    /** @var  DoctrinePersonalUserRepository */
+    private $personalUserRepository;
 
     /** @var AuthenticationUtils  */
     private $authenticationUtils;
@@ -32,19 +33,19 @@ class SecurityController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRegistrationService $userRegistration
-     * @param UserRepository $userRepository,
+     * @param DoctrinePersonalUserRepository $personalUserRepository,
      * @param AuthenticationUtils $authenticationUtils
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRegistrationService $userRegistration,
-        UserRepository $userRepository,
+        DoctrinePersonalUserRepository $personalUserRepository,
         AuthenticationUtils $authenticationUtils
     )
     {
         $this->formFactory = $formFactory;
         $this->userRegistrationService = $userRegistration;
-        $this->userRepository = $userRepository;
+        $this->personalUserRepository = $personalUserRepository;
         $this->authenticationUtils = $authenticationUtils;
     }
 
@@ -96,11 +97,11 @@ class SecurityController extends BaseController
      */
     public function confirmRegistrationAction(Request $request, $token): Response
     {
-        if (!$this->userRepository instanceof RegisteredWithConfirmationProvider) {
+        if (!$this->personalUserRepository instanceof RegisteredWithConfirmationProvider) {
             throw new \Exception('UserRepository must implement "RegisteredWithConfirmationProvider" to be able to confirm registration');
         }
 
-        $user = $this->userRepository->findOneByRegistrationToken($token);
+        $user = $this->personalUserRepository->findOneByRegistrationToken($token);
 
         if (!$user) {
             $this->session->getFlashBag()->add(

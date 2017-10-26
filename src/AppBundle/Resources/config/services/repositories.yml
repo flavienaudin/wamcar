@@ -13,3 +13,13 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\User\BaseUser']
+
+    AppBundle\Doctrine\Repository\DoctrineProUserRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProUserRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['AppBundle\Doctrine\Entity\ProApplicationUser']
+
+    AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['AppBundle\Doctrine\Entity\PersonalApplicationUser']
