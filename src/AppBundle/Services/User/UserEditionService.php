@@ -3,13 +3,10 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use AppBundle\Doctrine\Entity\PersonalApplicationUser;
-use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Form\DTO\PasswordResetDTO;
+use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
-use AppBundle\Utils\SaltGenerator;
 use AppBundle\Utils\TokenGenerator;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\User\UserRepository;
@@ -50,6 +47,11 @@ class UserEditionService
     {
         $user->setEmail($userInformationDTO->email);
         $user->updateUserProfile($userInformationDTO->getUserProfile());
+
+        if ($userInformationDTO instanceof ProUserInformationDTO) {
+            $user->setPhonePro($userInformationDTO->phonePro);
+            $user->setDescription($userInformationDTO->description);
+        }
 
         $this->userRepository->update($user);
 

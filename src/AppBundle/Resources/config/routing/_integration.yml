@@ -21,3 +21,15 @@ reset_password:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Security/ResetPassword/reset.html.twig
+
+front_seller_card:
+    path: /vendeur/stephane-richin
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Seller/card.html.twig
+
+front_seller_card_edit:
+    path: /vendeur/stephane-richin/editer
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Seller/edit.html.twig

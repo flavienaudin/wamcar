@@ -36,6 +36,20 @@
         {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
     </div>
 
+    {# PhonePro #}
+    {% if form.phonePro is defined %}
+    <div>
+        {{ form_row(form.phonePro, {'errorMsg' : 'user.field.phonePro.error'|trans}) }}
+    </div>
+    {% endif %}
+
+    {# Description #}
+    {% if form.description is defined %}
+    <div>
+        {{ form_row(form.description, {'errorMsg' : 'user.field.description.error'|trans}) }}
+    </div>
+    {% endif %}
+
     {# Button submit #}
     <div>
         <button type="submit">{{ 'button.edit_informations'|trans }}</button>

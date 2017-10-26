@@ -51,7 +51,7 @@ class UserInformationDTO
      */
     public function fillFromCity(City $city)
     {
-        $this->city = $city->getName();
+        $this->cityName = $city->getName();
         $this->postalCode = $city->getPostalCode();
     }
 

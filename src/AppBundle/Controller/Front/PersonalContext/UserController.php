@@ -4,8 +4,11 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
+use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -49,10 +52,19 @@ class UserController extends BaseController
     {
         //TODO : Récupérer le user courant quand dispo
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
-        $userInformationDTO = new UserInformationDTO($user);
+
+        if ($user instanceof ProApplicationUser) {
+            $userDTO = ProUserInformationDTO::class;
+            $userForm = ProUserInformationType::class;
+        } else {
+            $userDTO = UserInformationDTO::class;
+            $userForm = UserInformationType::class;
+        }
+
+        $userInformationDTO = new $userDTO($user);
 
         $editForm = $this->formFactory->create(
-            UserInformationType::class,
+            $userForm,
             $userInformationDTO
         );
 
