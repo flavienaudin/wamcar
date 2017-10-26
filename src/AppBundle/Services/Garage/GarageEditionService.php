@@ -26,9 +26,6 @@ class GarageEditionService
     /** @var AuthorizationCheckerInterface  */
     private $authorizationChecker;
 
-    /** @var GarageFromDTOBuilder  */
-    private $garageBuilder;
-
     /**
      * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
