@@ -6,7 +6,11 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
+<<<<<<< 31afbe230544f6bb1657a87e2006aa619d7ca611
  * Add garage
+=======
+ * Auto-generated Migration: Please modify to your needs!
+>>>>>>> first version manage garage
  */
 class Version20171026135641 extends AbstractMigration
 {
@@ -22,6 +26,7 @@ class Version20171026135641 extends AbstractMigration
         $this->addSql('ALTER TABLE garage CHANGE phone phone VARCHAR(255) DEFAULT NULL, CHANGE email email VARCHAR(191) DEFAULT NULL');
         $this->addSql('ALTER TABLE garage DROP discriminator');
         $this->addSql('ALTER TABLE garage ADD discriminator VARCHAR(255) NOT NULL, ADD deleted_at DATE DEFAULT NULL');
+
     }
 
     /**

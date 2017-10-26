@@ -7,6 +7,7 @@ namespace AppBundle\Form\DTO;
 use Wamcar\Garage\Address;
 use Wamcar\Location\City;
 use Wamcar\Garage\Garage;
+use AppBundle\Doctrine\Entity\ApplicationGarage;
 
 class GarageDTO
 {
@@ -76,5 +77,4 @@ class GarageDTO
 
         return $address;
     }
-
 }

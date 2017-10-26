@@ -12,7 +12,6 @@ Wamcar\Garage\Garage:
         application: AppBundle\Doctrine\Entity\ApplicationGarage
 
     exclusion_policy: ALL
-
     embedded:
         address:
             class: Wamcar\Garage\Address
