@@ -6,7 +6,11 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
+<<<<<<< c3580b8bb50b66bbdd71321db5b038f74caa94a7
  * Add garage
+=======
+ * Auto-generated Migration: Please modify to your needs!
+>>>>>>> first version manage garage
  */
 class Version20171026135641 extends AbstractMigration
 {
