@@ -28,7 +28,6 @@ class GarageController extends BaseController
 
     /** @var GarageProvider  */
     protected $garageProvider;
-
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory

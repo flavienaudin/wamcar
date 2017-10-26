@@ -3,7 +3,6 @@
 namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
