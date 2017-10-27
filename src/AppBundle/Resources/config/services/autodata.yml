@@ -1,0 +1,11 @@
+services:
+    AutoData\ApiConnector:
+        autowire: true
+        autoconfigure: true
+        public: false
+        arguments:
+          - '%env(AUTODATA_HOST)%'
+          - '%env(AUTODATA_VERSION)%'
+          - '%env(AUTODATA_ENVIRONMENT)%'
+          - '%env(AUTODATA_USERNAME)%'
+          - '%env(AUTODATA_PASSWORD)%'
