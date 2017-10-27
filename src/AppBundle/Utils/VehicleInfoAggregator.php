@@ -27,28 +27,57 @@ class VehicleInfoAggregator
      * @param array $data
      * @return array
      */
+    public function getVehicleInfoAggregatesFromMakeAndModel(array $data = []): array
+    {
+        $aggregations = $this->getVehicleInfoAggregates([]);
+        if(isset($data['make'])) {
+            $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['make' => $data['make']]));
+        }
+        if(isset($data['model'])) {
+            $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['model' => $data['model']]));
+        }
+
+        return $aggregations;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 10);
+        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
 
         foreach ($data as $field => $value) {
-            if(!empty($value)) {
+            if (!empty($value)) {
                 $qb->addFilter(new TermFilter($field, $value));
             }
         }
 
-        $qb->addAggregation(new Aggregation('make', 'terms', 'make'));
+        $aggregationMapping = [
+            'make' => ['model'],
+            'model' => ['modelVersion', 'engine', 'fuel'],
+            'modelVersion' => ['engine', 'fuel'],
+            'engine' => ['fuel', 'modelVersion'],
+            'fuel' => ['modelVersion', 'engine'],
+        ];
+
         $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));
-        if (isset($data['make'])) {
-            $qb->addAggregation(new Aggregation('model', 'terms', 'model'));
+        if (empty($data)) {
+            $qb->addAggregation(new Aggregation('make', 'terms', 'make'));
         }
-        if (isset($data['model'])) {
-            $qb->addAggregation(new Aggregation('modelVersion', 'terms', 'modelVersion'));
-            $qb->addAggregation(new Aggregation('engine', 'terms', 'engine'));
+
+        $childAggregations = [];
+        foreach ($aggregationMapping as $key => $children) {
+            $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
         }
+        foreach ($childAggregations as $aggregationField) {
+            $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField));
+        }
+
+
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
 
-        $formattedAggregations = [];
         foreach ($result->aggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
                 return $aggregationDetail['key'];
