@@ -4,14 +4,14 @@
         <p class="black-color medium no-margin small-8 large-10"><b>Déposez votre annonce, recevez et comparer les offres de reprise des professionnels</b></p>
     </header>
     <ul id="js-search-tabs" class="tabs" data-tabs>
-        <li class="tabs-title"><a href="#immatriculation" aria-selected="true">Identifier par immatriculation</a></li>
-        <li class="tabs-title small-auto is-active"><a data-tabs-target="model" href="#model">Modèle</a></li>
+        <li class="tabs-title is-active"><a href="#immatriculation" aria-selected="true">Identifier par immatriculation</a></li>
+        <li class="tabs-title small-auto"><a data-tabs-target="model" href="#model">Modèle</a></li>
     </ul>
     <div class="tabs-content column" data-tabs-content="js-search-tabs">
-        <div id="immatriculation" class="tabs-panel">
+        <div id="immatriculation" class="tabs-panel is-active">
             {% include 'front/Home/includes/form_registration_number.html.twig' %}
         </div>
-        <div id="model" class="tabs-panel is-active">
+        <div id="model" class="tabs-panel">
             {% include 'front/Home/includes/form_brand.html.twig' %}
         </div>
     </div>

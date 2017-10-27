@@ -30,12 +30,13 @@ class VehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct()
+    public function __construct(string $registrationNumber = null)
     {
         $this->pictures = array_map(function () {
             return new VehiclePictureDTO();
         }, range(1, self::DEFAULT_PICTURE_COUNT));
 
+        $this->registrationNumber = $registrationNumber;
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
         $this->userRegistration = new RegistrationDTO();
