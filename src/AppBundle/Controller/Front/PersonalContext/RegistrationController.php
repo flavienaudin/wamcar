@@ -8,6 +8,10 @@ use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
 use AppBundle\Security\UserRegistrationService;
 use AppBundle\Utils\VehicleInfoAggregator;
+use AutoData\ApiConnector;
+use AutoData\Exception\AutodataException;
+use AutoData\Exception\AutodataWithUserMessageException;
+use AutoData\Request\GetInformationFromPlateNumber;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,8 +27,10 @@ class RegistrationController extends BaseController
     private $vehicleRepository;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
-    /** @var UserRegistrationService  */
+    /** @var UserRegistrationService */
     protected $userRegistrationService;
+    /** @var ApiConnector */
+    protected $autoDataConnector;
 
     /**
      * RegistrationController constructor.
@@ -32,18 +38,21 @@ class RegistrationController extends BaseController
      * @param VehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param UserRegistrationService $userRegistrationService
+     * @param ApiConnector $autoDataConnector
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        UserRegistrationService $userRegistrationService
+        UserRegistrationService $userRegistrationService,
+        ApiConnector $autoDataConnector
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->userRegistrationService = $userRegistrationService;
+        $this->autoDataConnector = $autoDataConnector;
     }
 
     /**
@@ -55,14 +64,41 @@ class RegistrationController extends BaseController
         $filters = $request->get('vehicle_information', []);
         unset($filters['_token']);
 
+        if ($plateNumber = $request->get('plate_number', null)) {
+            try {
+                $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
+                $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
+                $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
+            } catch (AutodataException $autodataException) {
+                $this->session->getFlashBag()->add(
+                    $autodataException instanceof AutodataWithUserMessageException ?
+                        $autodataException->getMessage() :
+                        'flash.warning.registration_recognition_failed',
+                    self::FLASH_LEVEL_DANGER
+                );
+            }
+        }
+
+        return $this->vehicleRegistrationFromInformation($request, $filters);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    private function vehicleRegistrationFromInformation(Request $request, array $filters = []): Response
+    {
         $vehicleDTO = new VehicleDTO();
         $vehicleDTO->updateFromFilters($filters);
+
+        $availableValues = array_key_exists('ktypNumber', $filters) ?
+            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters):
+            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $vehicleForm = $this->formFactory->create(
             VehicleType::class,
             $vehicleDTO,
-            ['available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters)]
-        );
+            ['available_values' => $availableValues]);
 
         $vehicleForm->handleRequest($request);
 

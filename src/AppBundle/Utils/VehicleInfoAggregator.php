@@ -60,6 +60,7 @@ class VehicleInfoAggregator
             'modelVersion' => ['engine', 'fuel'],
             'engine' => ['fuel', 'modelVersion'],
             'fuel' => ['modelVersion', 'engine'],
+            'ktypNumber' => ['make', 'model', 'modelVersion', 'engine', 'fuel'],
         ];
 
         $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));
@@ -75,9 +76,7 @@ class VehicleInfoAggregator
             $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField));
         }
 
-
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
-
         foreach ($result->aggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
                 return $aggregationDetail['key'];
