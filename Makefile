@@ -44,6 +44,7 @@ database: doctrine-migration
 doctrine-fixtures: doctrine-migration
 	@echo "--> Loading fixtures in database"
 	$(DOCKERPHP) ./bin/console doctrine:fixtures:load --no-interaction --fixtures=./database/fixtures
+	$(DOCKERPHP) ./bin/console wamcar:populate:vehicle_info
 doctrine-migration:
 	@echo "--> Migrating database if needed"
 	$(DOCKERPHP) ./bin/console doctrine:migration:migrate --no-interaction --allow-no-migration
