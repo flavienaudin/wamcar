@@ -15,7 +15,7 @@ class WebserviceCallException extends \RuntimeException implements AutodataExcep
      */
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
-        $message = sprintf('An error (%d) occured while connecting to Autodata webservice : "%s"', $message, $code);
+        $message = sprintf('An error (%d) occured while connecting to Autodata webservice : "%s"', $code, $message);
         parent::__construct($message, $code, $previous);
     }
 
