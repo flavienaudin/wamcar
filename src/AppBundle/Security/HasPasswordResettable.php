@@ -4,8 +4,6 @@
 namespace AppBundle\Security;
 
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
-
 interface HasPasswordResettable
 {
     /**
@@ -17,7 +15,7 @@ interface HasPasswordResettable
      * @param string $token
      * @return mixed
      */
-    public function generatePasswordResetToken(string $token);
+    public function setPasswordResetToken(string $token);
 
     /**
      * @param $password
@@ -25,11 +23,5 @@ interface HasPasswordResettable
      * @return mixed
      */
     public function resetPassword($password, $salt);
-
-    /**
-     * @param PasswordEditData $passwordEditData
-     * @return mixed
-     */
-    public function updatePassword(PasswordEditData $passwordEditData): ApplicationUser;
 
 }

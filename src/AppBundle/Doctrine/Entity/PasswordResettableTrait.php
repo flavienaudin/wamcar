@@ -25,7 +25,7 @@ trait PasswordResettableTrait
      *
      * @return $this
      */
-    public function generatePasswordResetToken(string $token)
+    public function setPasswordResetToken(string $token)
     {
         $this->passwordResetToken = $token;
 
@@ -42,23 +42,5 @@ trait PasswordResettableTrait
         $this->salt = $salt;
         // password has been reset, we need to reset the passwordResetToken
         $this->passwordResetToken = null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function updatePassword(PasswordEditData $passwordEditData): HasPasswordResettable
-    {
-        /**
-         * @var HasPasswordResettable $user
-         * Retrieve user
-         */
-        $user = $this->findOne($passwordEditData->id);
-        // update password and salt
-        $user->resetPassword($passwordEditData->encodedPassword, $passwordEditData->salt);
-        //and save modification
-        $this->update($user);
-
-        return $user;
     }
 }

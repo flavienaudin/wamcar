@@ -10,6 +10,8 @@ imports:
 
 services:
 
+    SimpleBus\Message\Bus\MessageBus: '@simple_bus.event_bus'
+
     # SECURITY
     wamcar.security.password_encoder:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
@@ -27,4 +29,7 @@ services:
     AppBundle\Services\User\UserEditionService:
         class: AppBundle\Services\User\UserEditionService
         arguments:
+            - '@wamcar.security.password_encoder'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'
