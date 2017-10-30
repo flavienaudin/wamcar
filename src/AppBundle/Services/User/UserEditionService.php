@@ -5,8 +5,6 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
-use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\PasswordResetDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Security\HasPasswordResettable;
@@ -24,13 +22,6 @@ class UserEditionService
 
     /** @var UserRepository  */
     private $userRepository;
-
-    /** @var DoctrinePersonalUserRepository  */
-    private $personalUserRepository;
-
-    /** @var DoctrineProUserRepository  */
-    private $proUserRepository;
-
     /** @var array  */
     private $userRepositories;
 
@@ -38,24 +29,17 @@ class UserEditionService
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
-     * @param DoctrinePersonalUserRepository $personalUserRepository
-     * @param DoctrineProUserRepository $proUserRepository
+     * @param array $userRepositories
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
-        DoctrinePersonalUserRepository $personalUserRepository,
-        DoctrineProUserRepository $proUserRepository
+        array $userRepositories
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
-        $this->personalUserRepository = $personalUserRepository;
-        $this->proUserRepository = $proUserRepository;
-        $this->userRepositories = [
-            PersonalApplicationUser::class => $personalUserRepository,
-            ProApplicationUser::class => $proUserRepository
-        ];
+        $this->userRepositories = $userRepositories;
     }
 
     /**
