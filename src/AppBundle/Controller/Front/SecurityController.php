@@ -4,10 +4,7 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
-use AppBundle\Form\DTO\PasswordLostDTO;
-use AppBundle\Form\DTO\PasswordResetDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
-use AppBundle\Form\Type\PasswordLostType;
 use AppBundle\Form\Type\PasswordResetType;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\HasPasswordResettable;
@@ -228,8 +225,7 @@ class SecurityController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
-            $this->userEditionService->editPassword($user, $data['password']);
+            $this->userEditionService->editPassword($user, $form->get('password')->getData());
 
             $this->session->getFlashBag()->add(
                 'flash.success.password_changed',

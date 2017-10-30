@@ -19,27 +19,26 @@ class UserEditionService
 {
     /** @var PasswordEncoderInterface */
     private $passwordEncoder;
-
     /** @var UserRepository  */
     private $userRepository;
     /** @var array  */
-    private $userRepositories;
+    private $userSpecificRepositories;
 
     /**
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
-     * @param array $userRepositories
+     * @param array $userSpecificRepositories
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
-        array $userRepositories
+        array $userSpecificRepositories
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
-        $this->userRepositories = $userRepositories;
+        $this->userSpecificRepositories = $userSpecificRepositories;
     }
 
     /**
@@ -84,12 +83,12 @@ class UserEditionService
         $salt = TokenGenerator::generateSalt();
         $encodedPassword = $this->passwordEncoder->encodePassword($password, $salt);
 
-        $userRepository = $this->userRepositories[get_class($user)];
-        if (!$userRepository instanceof UserWithResettablePasswordProvider) {
+        $userSpecificRepository = $this->userSpecificRepositories[get_class($user)];
+        if (!$userSpecificRepository instanceof UserWithResettablePasswordProvider) {
             throw new \InvalidArgumentException(sprintf('$user can only be updated by object implementing the "%s" interface', UserWithResettablePasswordProvider::class));
         }
 
-        $userRepository->updatePassword($user, $encodedPassword, $salt);
+        $userSpecificRepository->updatePassword($user, $encodedPassword, $salt);
     }
 
 }

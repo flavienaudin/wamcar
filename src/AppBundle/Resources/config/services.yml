@@ -31,4 +31,4 @@ services:
         arguments:
             - '@wamcar.security.password_encoder'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
-            - ['@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', '@AppBundle\Doctrine\Repository\DoctrineProUserRepository']
+            - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
