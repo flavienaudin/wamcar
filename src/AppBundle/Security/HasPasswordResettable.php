@@ -12,10 +12,9 @@ interface HasPasswordResettable
     public function getPasswordResetToken();
 
     /**
-     * @param string $token
      * @return mixed
      */
-    public function setPasswordResetToken(string $token);
+    public function generatePasswordResetToken();
 
     /**
      * @param $password

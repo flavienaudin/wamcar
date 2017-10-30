@@ -63,8 +63,7 @@ class UserEditionService
      */
     public function generatePasswordResetToken(HasPasswordResettable $user): HasPasswordResettable
     {
-        $token = TokenGenerator::generateToken();
-        $user->setPasswordResetToken($token);
+        $user->generatePasswordResetToken();
         $this->userRepository->update($user);
 
         return $user;

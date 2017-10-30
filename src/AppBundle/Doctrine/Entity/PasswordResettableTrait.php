@@ -5,6 +5,7 @@ namespace AppBundle\Doctrine\Entity;
 
 
 use AppBundle\Security\HasPasswordResettable;
+use AppBundle\Utils\TokenGenerator;
 
 trait PasswordResettableTrait
 {
@@ -25,8 +26,9 @@ trait PasswordResettableTrait
      *
      * @return $this
      */
-    public function setPasswordResetToken(string $token)
+    public function generatePasswordResetToken()
     {
+        $token = TokenGenerator::generateToken();
         $this->passwordResetToken = $token;
 
         return $this;
