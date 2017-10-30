@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -26,6 +27,12 @@ class UserController extends BaseController
     /** @var UserEditionService  */
     protected $userEditionService;
 
+    /** @var array  */
+    protected $userForms;
+
+    /** @var array  */
+    protected $userDTOs;
+
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
@@ -41,6 +48,14 @@ class UserController extends BaseController
         $this->formFactory = $formFactory;
         $this->doctrineUserRepository = $doctrineUserRepository;
         $this->userEditionService = $userEditionService;
+        $this->userForms = [
+            ProApplicationUser::class  => ProUserInformationType::class,
+            PersonalApplicationUser::class  => UserInformationType::class
+        ];
+        $this->userDTOs = [
+            ProApplicationUser::class  => ProUserInformationDTO::class,
+            PersonalApplicationUser::class  => UserInformationDTO::class
+        ];
     }
 
     /**
@@ -53,15 +68,8 @@ class UserController extends BaseController
         //TODO : Récupérer le user courant quand dispo
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
 
-        if ($user instanceof ProApplicationUser) {
-            $userDTO = ProUserInformationDTO::class;
-            $userForm = ProUserInformationType::class;
-        } else {
-            $userDTO = UserInformationDTO::class;
-            $userForm = UserInformationType::class;
-        }
-
-        $userInformationDTO = new $userDTO($user);
+        $userForm = $this->userForms[get_class($user)];
+        $userInformationDTO = new $this->userDTOs[get_class($user)]($user);
 
         $editForm = $this->formFactory->create(
             $userForm,
