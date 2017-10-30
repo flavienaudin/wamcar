@@ -1,0 +1,12 @@
+api_current:
+    resource: api_version/current.yml
+    prefix: /v1/
+
+
+#######
+# When adding new version, update prefix in "api_current" and use
+# the following template for "old" versions too keep them alive :
+#######
+api_v0:
+    resource: api_version/v0.yml
+    prefix: /v0/

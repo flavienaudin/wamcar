@@ -1,0 +1,9 @@
+#######
+# This is a template for old version API
+# Delete it once you have "real" old versions
+#######
+
+api_v0_default:
+    path: /
+    defaults:
+        _controller: AppBundle:Api\Default:documentation
