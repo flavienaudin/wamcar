@@ -11,24 +11,9 @@ use Wamcar\Garage\Garage;
 
 class GarageFromDTOBuilder implements BuilderFromDTO
 {
-    /**
-     * @var DoctrineGarageRepository $garageRepository
-     */
-    private $garageRepository;
 
     /**
-     * GarageFromDTOBuilder constructor.
-     * @param DoctrineGarageRepository $garageRepository
-     */
-    public function __construct(
-        DoctrineGarageRepository $garageRepository
-    )
-    {
-        $this->garageRepository = $garageRepository;
-    }
-
-    /**
-     * @param GarageDTO $dto
+     * @param mixed $dto
      * @return Garage
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException

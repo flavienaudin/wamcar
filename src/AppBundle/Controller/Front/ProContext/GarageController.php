@@ -105,4 +105,29 @@ class GarageController extends BaseController
         return $this->redirectToRoute('front_garage_list');
     }
 
+    public function createAction(Request $request)
+    {
+        $garageDTO = new GarageDTO();
+
+        $garageForm = $this->formFactory->create(
+            GarageType::class,
+            $garageDTO
+        );
+
+        $garageForm->handleRequest($request);
+
+        if ($garageForm->isSubmitted() && $garageForm->isValid()) {
+            $this->garageEditionService->createInformations($garageDTO);
+
+            $this->session->getFlashBag()->add(
+                'flash.success.garage_edit',
+                self::FLASH_LEVEL_INFO
+            );
+        }
+
+        return $this->render('front/proContext/garage/garage_edit.html.twig', [
+            'garageForm' => $garageForm->createView()
+        ]);
+    }
+
 }

@@ -51,6 +51,7 @@ class GarageDTO
         }
     }
 
+
     /**
      * @return null|City
      */

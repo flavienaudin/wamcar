@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Builder;
+namespace AppBundle\DTO;
 
 interface BuilderFromDTO
 {
