@@ -51,4 +51,5 @@ class GarageDTO
 
         return $address;
     }
+
 }
