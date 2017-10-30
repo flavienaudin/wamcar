@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\PasswordLostDTO;
+use AppBundle\Form\DTO\PasswordResetDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\Type\PasswordLostType;
 use AppBundle\Form\Type\PasswordResetType;
@@ -176,36 +177,32 @@ class SecurityController extends BaseController
      */
     public function passwordLostAction(Request $request): Response
     {
-        $passwordLostForm = $this->formFactory->create(PasswordLostType::class);
-        $passwordLostForm->handleRequest($request);
+        $email = $request->get('email', null);
+        if(!$email) {
+            return $this->render('front/User/includes/form_password_lost.html.twig');
+        }
 
-        if ($passwordLostForm->isSubmitted() && $passwordLostForm->isValid()) {
-            try {
-                /** @var PasswordLostDTO $passwordLostDTO */
-                $passwordLostDTO = $passwordLostForm->getData();
-
-                /** @var HasPasswordResettable $user */
-                $user = $this->userRepository->findOneByEmail($passwordLostDTO->email);
-                $user = $this->userEditionService->generatePasswordResetToken($user);
-                // a mail will be send to the user on the event handling
-                $this->eventBus->handle(new UserPasswordResetTokenGenerated($user));
-
-                $this->session->getFlashBag()->add(
-                    'flash.success.reset_password_success',
-                    self::FLASH_LEVEL_INFO
-                );
-            } catch (UniqueConstraintViolationException $exception) {
-                $this->session->getFlashBag()->add(
-                    'flash.danger.registration_duplicate',
-                    self::FLASH_LEVEL_DANGER
-                );
-            }
+        /** @var HasPasswordResettable $user */
+        $user = $this->userRepository->findOneByEmail($email);
+        if(!$user) {
+            $this->session->getFlashBag()->add(
+                'flash.error.user_no_exist',
+                self::FLASH_LEVEL_DANGER
+            );
             return $this->redirectToRoute('front_default');
         }
 
-        return $this->render('front/User/includes/form_password_lost.html.twig', [
-            'form' => $passwordLostForm->createView(),
-        ]);
+        $user = $this->userEditionService->generatePasswordResetToken($user);
+
+        // a mail will be send to the user on the event handling
+        $this->eventBus->handle(new UserPasswordResetTokenGenerated($user));
+
+        $this->session->getFlashBag()->add(
+            'flash.success.reset_password_success',
+            self::FLASH_LEVEL_INFO
+        );
+
+        return $this->redirectToRoute('front_default');
     }
 
     /**
@@ -220,15 +217,15 @@ class SecurityController extends BaseController
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            /** @var PasswordLostDTO $passwordLostDTO */
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var PasswordResetDTO $passwordResetDTO */
             $passwordResetDTO = $form->getData();
 
             /** @var HasPasswordResettable $user */
             $user = $this->userGlobalSearchService->findOneByPasswordResetToken($token);
 
             if ($user) {
-                $user = $this->userEditionService->editPassword($user, $passwordResetDTO);
+                $this->userEditionService->editPassword($user, $passwordResetDTO);
                 $this->session->getFlashBag()->add(
                     'flash.success.password_changed',
                     self::FLASH_LEVEL_INFO

@@ -74,7 +74,7 @@ class UserEditionService
     {
         $token = TokenGenerator::generateToken();
         $user->setPasswordResetToken($token);
-         $this->userRepository->update($user);
+        $this->userRepository->update($user);
 
         return $user;
     }
@@ -82,11 +82,10 @@ class UserEditionService
     /**
      * @param HasPasswordResettable $user
      * @param PasswordResetDTO $passwordResetDTO
-     * @return HasPasswordResettable
      *
      * @throws \Exception
      */
-    public function editPassword(HasPasswordResettable $user, PasswordResetDTO $passwordResetDTO): HasPasswordResettable
+    public function editPassword(HasPasswordResettable $user, PasswordResetDTO $passwordResetDTO)
     {
         if (!$passwordResetDTO->password) {
             throw new \Exception('Password should be set for password editing');
@@ -101,8 +100,6 @@ class UserEditionService
         elseif ($user instanceof ProApplicationUser && $this->proUserRepository instanceof UserWithResettablePasswordProvider) {
             $this->proUserRepository->updatePassword($user, $passwordResetDTO->encodedPassword, $passwordResetDTO->salt);
         }
-
-        return $user;
     }
 
 }
