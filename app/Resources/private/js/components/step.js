@@ -118,7 +118,7 @@ class Step {
   valid() {
     const isValid = this.step.validateForm();
     this.carousel.setAutoHeight();
-    return new Promise((resolve) => isValid && resolve(scrollTo('body')));
+    return new Promise((resolve) => isValid ? resolve(scrollTo('body')) : scrollTo('.is-invalid-input'));
   }
 
   /**
@@ -184,7 +184,7 @@ class Step {
   updateNavigation(direction) {
     const $activeElement = this._getActiveItemNavigation();
     const $nextElement = $activeElement.nextElementSibling;
-    const offSetLeftNextElement = $nextElement.offsetLeft;
+    const offSetLeftNextElement = $nextElement && $nextElement.offsetLeft;
     const $prevElement = $activeElement.previousElementSibling;
     const offSetLeftPrevElement = $prevElement && $prevElement.offsetLeft;
     const $stepNavigation = document.getElementById('js-step-navigation');

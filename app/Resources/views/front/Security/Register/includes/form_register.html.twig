@@ -10,7 +10,7 @@
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.email, {
         'label': 'Email',
-        'label_class': 'small-12 large-4 no-margin',
+        'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
         'placeholder': 'Entrez votre adresse email',
         'class': 'no-margin',
@@ -24,7 +24,7 @@
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.password.first, {
         'label': 'Mot de passe',
-        'label_class': 'small-12 large-4 no-margin',
+        'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
         'placeholder': 'Entrez votre mot de passe',
         'class': 'no-margin',
@@ -37,7 +37,7 @@
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.password.second, {
         'label': 'Confirmation mot de passe',
-        'label_class': 'small-12 large-4 no-margin',
+        'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
         'placeholder': 'Confirmez votre mot de passe',
         'class': 'no-margin',
@@ -51,8 +51,13 @@
 </div>
 
 {# Button submit #}
-<div class="column small-12 large-7">
-    <input type="submit" class="button full-width" value="{{'user.submit.i_register'|trans}}">
+<div class="block-grid column small-12 align-middle">
+    <div class="small-9 large-7">
+        <button type="submit" class="button full-width">{{'user.submit.i_register'|trans}}</button>
+    </div>
+    <div class="small-shrink small-right">
+        <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
+    </div>
 </div>
 
 {% if isIsolatedRegistration %}

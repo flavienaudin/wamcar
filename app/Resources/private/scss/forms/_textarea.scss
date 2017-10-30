@@ -21,9 +21,30 @@ $textarea-min-height-medium: rem-calc(210);
 textarea {
   min-height: $textarea-min-height;
   padding: $textarea-padding;
-  resize: none;
+  resize: vertical;
 
   @include breakpoint(medium) {
     min-height: $textarea-min-height-medium;
+  }
+
+  /* Exception */
+
+  &.input {
+    line-height: 1.4;
+  }
+
+  .js-file-index & {
+    resize: none;
+
+    @include breakpoint(small only) {
+      height: calc(100% - #{rem-calc(17)});
+      padding: rem-calc(10) rem-calc(20);
+    }
+
+    @include breakpoint(medium) {
+      min-height: 0;
+      line-height: rem-calc(46);
+      height: rem-calc(50);
+    }
   }
 }

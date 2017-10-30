@@ -27,9 +27,18 @@ select {
   @include buttonPadding;
   @include inputMargin;
   background-image: $select-background;
-  background-size: 9px 6px;
   background-position: $select-background-position;
+  background-size: 9px 6px;
   background-origin: content-box;
   background-repeat: no-repeat;
   cursor: pointer;
+
+  /* Exception */
+
+  .small & {
+    @include breakpoint(small only) {
+      background-position: calc(100% - #{rem-calc(5)}) center;
+      padding: 0 rem-calc(10);
+    }
+  }
 }

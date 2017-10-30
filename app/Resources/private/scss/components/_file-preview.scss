@@ -21,6 +21,11 @@
     /* Components */
 
     > span {
+      @include breakpoint(small only) {
+        margin-left: 0;
+        margin-top: rem-calc(5);
+      }
+
       @include breakpoint(medium) {
         margin-top: rem-calc(5);
       }
@@ -73,7 +78,7 @@
     color: white;
 
     @include breakpoint(medium) {
-      bottom: rem-calc(13);
+      bottom: rem-calc(18);
       right: rem-calc(20);
       width: rem-calc(45);
       height: rem-calc(45);
