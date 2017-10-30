@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
-use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\GarageRepository;
 
 
@@ -26,7 +25,6 @@ class GarageEditionService
     private $garageBuilder;
     /** @var AuthorizationCheckerInterface  */
     private $authorizationChecker;
-
     /**
      * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
