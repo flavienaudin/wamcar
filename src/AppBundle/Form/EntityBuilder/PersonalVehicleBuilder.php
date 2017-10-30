@@ -7,6 +7,7 @@ use AppBundle\Form\DTO\VehicleDTO;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\Registration;
 use Wamcar\Vehicle\Vehicle;
 
 class PersonalVehicleBuilder
@@ -18,11 +19,10 @@ class PersonalVehicleBuilder
     public static function buildFromDTO(VehicleDTO $vehicleDTO): PersonalVehicle
     {
         // TODO : implement real data when form is developed
-
         $vehicle = new PersonalVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),
-            null,
+            $vehicleDTO->registrationNumber ? Registration::createFromPlateNumber($vehicleDTO->registrationNumber) : null,
             $vehicleDTO->getRegistrationDate(),
             $vehicleDTO->getMileage(),
             [],
