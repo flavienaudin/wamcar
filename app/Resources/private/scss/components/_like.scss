@@ -2,18 +2,23 @@
    Like
    =========================================================================== */
 
+/* Settings */
+
+$like-width: rem-calc(50);
+
 .like {
-  width: rem-calc(50);
-  height: rem-calc(50);
+  width: $like-width;
+  height: $like-width;
+  font-size: 0;
 
   /* Exception */
 
   &::before,
+  &::after,
   .vehicle-item & {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
   }
 
   &::before {
@@ -21,8 +26,50 @@
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: rem-calc(50) rem-calc(50) 0 0;
+    border-width: $like-width $like-width 0 0;
     border-color: white transparent transparent transparent;
   }
 
+  &::after {
+    content: "\e904";
+    font: bold rem-calc(15) 'icomoon';
+    top: 0;
+    left: 0;
+    transition: $global-transition;
+    padding: rem-calc(8) 0 0 rem-calc(8);
+  }
+
+  /* Active state */
+
+  &.is-active {
+    &::after {
+      content: "\e903";
+      animation: like .6s;
+    }
+  }
+
+  /* Component */
+
+  > span {
+    max-width: rem-calc(33);
+  }
+
+}
+
+@keyframes like {
+  from {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(.6);
+  }
+
+  70% {
+    transform: scale(1.4);
+  }
+
+  to {
+    transform: scale(1);
+  }
 }

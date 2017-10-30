@@ -1,6 +1,9 @@
 {% set balise = balise|default('h2') %}
+{# Exemple inté #}
+{% set like = index == 'ds3' ? 'Supprimer des favoris' : 'Ajouter aux favoris' %}
+
 <article class="vehicle-item is-flex">
-    <a href="" class="like" title="J'aime"><span class="show-for-sr">J'aime</span></a>
+    <a href="" class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></a>
     <a href="" class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></a>
     <figcaption class="vehicle-infos">
         <span class="vehicle-brand">{{ vehicle.brand }}</span>

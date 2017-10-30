@@ -9,16 +9,16 @@
    ===================================== */
 
 $tooltip-max-width: rem-calc(200);
-$tooltip-bg: $primary-color;
+$tooltip-bg: rgba(black, .8);
 $tooltip-font-size: rem-calc(14);
 $tooltip-font-color: $white;
 $tooltip-text-align: center;
-$tooltip-padding: rem-calc(1) rem-calc(6);
+$tooltip-padding: rem-calc(4) rem-calc(8);
 $tooltip-transformX: -50%;
 $tooltip-transformY: 15px;
 
 $tooltip-text-top: rem-calc(-34);
-$tooltip-arrow-top: rem-calc(-10);
+$tooltip-arrow-top: rem-calc(-5);
 
 
 
@@ -29,8 +29,8 @@ $tooltip-arrow-top: rem-calc(-10);
 [data-tooltip] {
 
   @include breakpoint(xlarge) {
-
     position: relative;
+    display: block;
 
     &::before,
     &::after {
