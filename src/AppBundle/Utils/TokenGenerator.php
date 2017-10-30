@@ -15,4 +15,9 @@ class TokenGenerator
     {
         return md5(uniqid("", true));
     }
+
+    public static function generateSalt()
+    {
+        return uniqid(mt_rand(), true);
+    }
 }

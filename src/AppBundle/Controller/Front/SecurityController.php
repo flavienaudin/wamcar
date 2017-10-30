@@ -213,6 +213,16 @@ class SecurityController extends BaseController
      */
     public function passwordLostResetAction(Request $request, $token): Response
     {
+        /** @var HasPasswordResettable $user */
+        $user = $this->userGlobalSearchService->findOneByPasswordResetToken($token);
+        if(!$user) {
+            $this->session->getFlashBag()->add(
+                'flash.error.user_no_exist',
+                self::FLASH_LEVEL_DANGER
+            );
+            return $this->redirectToRoute('front_default');
+        }
+
         $form = $this->formFactory->create(PasswordResetType::class);
 
         $form->handleRequest($request);
@@ -221,11 +231,8 @@ class SecurityController extends BaseController
             /** @var PasswordResetDTO $passwordResetDTO */
             $passwordResetDTO = $form->getData();
 
-            /** @var HasPasswordResettable $user */
-            $user = $this->userGlobalSearchService->findOneByPasswordResetToken($token);
-
             if ($user) {
-                $this->userEditionService->editPassword($user, $passwordResetDTO);
+                $this->userEditionService->editPassword($user, $passwordResetDTO->password);
                 $this->session->getFlashBag()->add(
                     'flash.success.password_changed',
                     self::FLASH_LEVEL_INFO

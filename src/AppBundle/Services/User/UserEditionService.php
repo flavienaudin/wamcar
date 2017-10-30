@@ -31,6 +31,9 @@ class UserEditionService
     /** @var DoctrineProUserRepository  */
     private $proUserRepository;
 
+    /** @var array  */
+    private $userRepositories;
+
     /**
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
@@ -49,6 +52,10 @@ class UserEditionService
         $this->userRepository = $userRepository;
         $this->personalUserRepository = $personalUserRepository;
         $this->proUserRepository = $proUserRepository;
+        $this->userRepositories = [
+            PersonalApplicationUser::class => $personalUserRepository,
+            ProApplicationUser::class => $proUserRepository
+        ];
     }
 
     /**
@@ -81,25 +88,25 @@ class UserEditionService
 
     /**
      * @param HasPasswordResettable $user
-     * @param PasswordResetDTO $passwordResetDTO
+     * @param $password
      *
      * @throws \Exception
      */
-    public function editPassword(HasPasswordResettable $user, PasswordResetDTO $passwordResetDTO)
+    public function editPassword(HasPasswordResettable $user, $password)
     {
-        if (!$passwordResetDTO->password) {
-            throw new \Exception('Password should be set for password editing');
+        if (!$password) {
+            throw new \InvalidArgumentException('Password should be set for password editing');
         }
 
-        $passwordResetDTO->salt = SaltGenerator::generateSalt();
-        $passwordResetDTO->encodedPassword = $this->passwordEncoder->encodePassword($passwordResetDTO->password, $passwordResetDTO->salt);
+        $salt = TokenGenerator::generateSalt();
+        $encodedPassword = $this->passwordEncoder->encodePassword($password, $salt);
 
-        if ($user instanceof PersonalApplicationUser && $this->personalUserRepository instanceof UserWithResettablePasswordProvider) {
-            $this->personalUserRepository->updatePassword($user, $passwordResetDTO->encodedPassword, $passwordResetDTO->salt);
+        $userRepository = $this->userRepositories[get_class($user)];
+        if (!$userRepository instanceof UserWithResettablePasswordProvider) {
+            throw new \InvalidArgumentException(sprintf('$user can only be updated by object implementing the "%s" interface', UserWithResettablePasswordProvider::class));
         }
-        elseif ($user instanceof ProApplicationUser && $this->proUserRepository instanceof UserWithResettablePasswordProvider) {
-            $this->proUserRepository->updatePassword($user, $passwordResetDTO->encodedPassword, $passwordResetDTO->salt);
-        }
+
+        $userRepository->updatePassword($user, $encodedPassword, $salt);
     }
 
 }
