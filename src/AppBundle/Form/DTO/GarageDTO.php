@@ -37,17 +37,19 @@ class GarageDTO
      * GarageDTO constructor.
      * @param ApplicationGarage $garage
      */
-    public function __construct(ApplicationGarage $garage)
+    public function __construct(ApplicationGarage $garage = null)
     {
-        $this->id = $garage->getId();
-        $this->name = $garage->getName();
-        $this->siren = $garage->getSiren();
-        $this->phone = $garage->getPhone();
-        $this->email = $garage->getEmail();
-        $this->openingHours = $garage->getOpeningHours();
-        $this->presentation = $garage->getPresentation();
-        $this->benefit = $garage->getBenefit();
-        $this->fillFromAddress($garage->getAddress());
+        if (null !== $garage) {
+            $this->id = $garage->getId();
+            $this->name = $garage->getName();
+            $this->siren = $garage->getSiren();
+            $this->phone = $garage->getPhone();
+            $this->email = $garage->getEmail();
+            $this->openingHours = $garage->getOpeningHours();
+            $this->presentation = $garage->getPresentation();
+            $this->benefit = $garage->getBenefit();
+            $this->fillFromAddress($garage->getAddress());
+        }
     }
 
     /**
@@ -66,5 +68,28 @@ class GarageDTO
     {
         $this->postalCode = $city->getPostalCode();
         $this->cityName = $city->getName();
+    }
+
+    /**
+     * @return null|City
+     */
+    public function getCity(): ?City
+    {
+        $city = null;
+
+        if (!empty($this->postalCode) && !empty($this->cityName))
+            $city = new City($this->postalCode, $this->cityName);
+
+        return $city;
+    }
+
+    /**
+     * @return Address
+     */
+    public function getAddress(): Address
+    {
+        $address = new Address($this->address, $this->getCity());
+
+        return $address;
     }
 }
