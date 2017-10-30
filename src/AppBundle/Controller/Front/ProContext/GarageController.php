@@ -41,17 +41,12 @@ class GarageController extends BaseController
 
     public function createAction(Request $request)
     {
-        $garageDTO = new GarageDTO();
-
-        $garageForm = $this->formFactory->create(
-            GarageType::class,
-            $garageDTO
-        );
+        $garageForm = $this->formFactory->create(GarageType::class);
 
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
-            $this->garageEditionService->createInformations($garageDTO);
+            $this->garageEditionService->createInformations($garageForm->getData());
 
             $this->session->getFlashBag()->add(
                 'flash.success.garage_edit',

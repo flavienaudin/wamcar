@@ -2,6 +2,7 @@ imports:
     - { resource: services/utils.yml }
     - { resource: services/forms.yml }
     - { resource: services/controllers.yml }
+    - { resource: services/builders.yml }
     - { resource: services/repositories.yml }
     - { resource: services/events.yml }
     - { resource: services/mail.yml }
@@ -35,3 +36,9 @@ services:
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true
+
+    AppBundle\Services\Garage\GarageEditionService:
+        class: AppBundle\Services\Garage\GarageEditionService
+        arguments:
+            - '@AppBundle\Doctrine\Repository\DoctrineGarageRepository'
+            - '@AppBundle\Builder\Garage\GarageFromDTOBuilder'

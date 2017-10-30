@@ -47,7 +47,7 @@ class GarageFromDTOBuilder implements BuilderFromDTO
             $dto->openingHours,
             $dto->presentation,
             $dto->benefit,
-            $dto->getAddress()
+            $dto->fillAddress()
         );
     }
 
