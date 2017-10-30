@@ -4,11 +4,9 @@
 namespace AppBundle\Form\DTO;
 
 
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use Wamcar\Garage\Address;
 use Wamcar\Location\City;
 use Wamcar\Garage\Garage;
-use Wamcar\Garage\City;
 
 class GarageDTO
 {
