@@ -22,9 +22,7 @@ trait PasswordResettableRepositoryTrait
      */
     public function updatePassword(HasPasswordResettable $user, string $password, string $salt): HasPasswordResettable
     {
-        // update password and salt
         $user->resetPassword($password, $salt);
-        //and save modification
         $this->update($user);
 
         return $user;

@@ -51,7 +51,6 @@ class PasswordResetType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => PasswordResetDTO::class,
             'translation_domain' => 'security',
             'label_format' => 'user.field.%name%.label'
         ]);

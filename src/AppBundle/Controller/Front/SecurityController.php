@@ -228,9 +228,8 @@ class SecurityController extends BaseController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var PasswordResetDTO $passwordResetDTO */
-            $passwordResetDTO = $form->getData();
-            $this->userEditionService->editPassword($user, $passwordResetDTO->password);
+            $data = $form->getData();
+            $this->userEditionService->editPassword($user, $data['password']);
 
             $this->session->getFlashBag()->add(
                 'flash.success.password_changed',
