@@ -78,26 +78,4 @@ class GarageDTO
         return $address;
     }
 
-    /**
-     * @return null|City
-     */
-    public function getCity(): ?City
-    {
-        $city = null;
-
-        if (!empty($this->postalCode) && !empty($this->cityName))
-            $city = new City($this->postalCode, $this->cityName);
-
-        return $city;
-    }
-
-    /**
-     * @return Address
-     */
-    public function getAddress(): Address
-    {
-        $address = new Address($this->address, $this->getCity());
-
-        return $address;
-    }
 }
