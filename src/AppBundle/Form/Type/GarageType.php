@@ -6,15 +6,10 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\GarageDTO;
 use Symfony\Component\Form\AbstractType;
-use AppBundle\Form\DataTransformer\EnumDataTransformer;
-use AppBundle\Form\DTO\UserInformationDTO;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Wamcar\User\Title;
 
 class GarageType extends AbstractType
 {

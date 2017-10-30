@@ -49,7 +49,6 @@ class GarageController extends BaseController
     {
         $garageDTO = new GarageDTO($garage);
         $garageForm = $this->formFactory->create(GarageType::class, $garageDTO);
-
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
