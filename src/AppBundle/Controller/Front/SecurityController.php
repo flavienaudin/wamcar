@@ -230,21 +230,13 @@ class SecurityController extends BaseController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var PasswordResetDTO $passwordResetDTO */
             $passwordResetDTO = $form->getData();
+            $this->userEditionService->editPassword($user, $passwordResetDTO->password);
 
-            if ($user) {
-                $this->userEditionService->editPassword($user, $passwordResetDTO->password);
-                $this->session->getFlashBag()->add(
-                    'flash.success.password_changed',
-                    self::FLASH_LEVEL_INFO
-                );
-                return $this->redirectToRoute('front_default');
-            } else {
-                $this->session->getFlashBag()->add(
-                    'flash.error.password_changed',
-                    self::FLASH_LEVEL_INFO
-                );
-                return $this->redirectToRoute('front_default');
-            }
+            $this->session->getFlashBag()->add(
+                'flash.success.password_changed',
+                self::FLASH_LEVEL_INFO
+            );
+            return $this->redirectToRoute('front_default');
 
         }
 
