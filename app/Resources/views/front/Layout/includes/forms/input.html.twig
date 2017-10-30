@@ -9,6 +9,7 @@
 {% set value = value|default('') %}
 {% set placeholder = placeholder|default('') %}
 {% set equalTo = equalTo|default('') %}
+{% set pattern = pattern|default('') %}
 
 {% if label %}
     <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }}</label>
@@ -24,6 +25,7 @@
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
+        pattern="{{ pattern }}"
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
