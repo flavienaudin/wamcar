@@ -29,10 +29,6 @@ class Version20171031141611 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-<<<<<<< 2010ebf2d15670a0db749c342b95ef7aee581b8a
         $this->addSql('ALTER TABLE user DROP role');
-=======
-        $this->addSql('ALTER TABLE user DROP roles');
->>>>>>> add role on proUser
     }
 }
