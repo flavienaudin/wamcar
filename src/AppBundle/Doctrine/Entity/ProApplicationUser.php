@@ -3,13 +3,16 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\HasPasswordResettable;
+use AppBundle\Security\SecurityInterface\HasApiCredential;
+use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable, HasApiCredential
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
+    use ApiCredentialTrait;
 
     /**
      * ApplicationUser constructor.
@@ -27,6 +30,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
 
         $this->password = $password;
         $this->salt = $salt;
+        $this->generateApiCredentials();
     }
 
     /**

@@ -4,20 +4,27 @@ security:
             Wamcar\User\BaseUser: bcrypt
 
     providers:
-#        in_memory:
-#            memory: ~
-
         database:
             id: AppBundle\Doctrine\Repository\DoctrineUserRepository
+        api:
+            id: AppBundle\Doctrine\Repository\DoctrineProUserRepository
 
     role_hierarchy:
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        api:
+            pattern: ^/api/
+            provider: api
+            anonymous: false
+            stateless: true
+            guard:
+                authenticators:
+                    - AppBundle\Security\ApiTokenAuthenticator
 
         front:
             anonymous: ~
@@ -35,4 +42,3 @@ security:
                 path:   security_logout
                 target: front_default
             access_denied_url: front_default
-
