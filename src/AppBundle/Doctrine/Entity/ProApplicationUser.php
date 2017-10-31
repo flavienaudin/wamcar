@@ -17,6 +17,9 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     /** @var  string */
     protected $role;
 
+    /** @var  array */
+    protected $roles;
+
     /**
      * ApplicationUser constructor.
      * @param string $email
