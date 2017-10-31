@@ -32,6 +32,14 @@ front_edit_user_info:
 
 front_view_user_info:
     path: /view-user-info
+
+front_garage_create:
+    path: /garage/create
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:create }
+
+front_seller_card:
+    path: /vendeur/stephane-richin
+
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:viewInformation
 
