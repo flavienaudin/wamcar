@@ -59,7 +59,7 @@ class GarageController extends BaseController
         ]);
     }
 
-    public function editAction(Request $request, ApplicationGarage $applicationGaragegit )
+    public function editAction(Request $request, ApplicationGarage $applicationGarage )
     {
         $garageForm = $this->formFactory->create(GarageType::class);
 
