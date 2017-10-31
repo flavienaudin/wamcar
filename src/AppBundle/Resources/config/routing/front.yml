@@ -34,3 +34,9 @@ front_vehicle_registration_form_update:
 front_user_info:
     path: /user-info
     defaults: { _controller: AppBundle:Front\PersonalContext\User:userInformations }
+
+front_seller_card:
+    path: /vendeur/stephane-richin
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Seller/card.html.twig

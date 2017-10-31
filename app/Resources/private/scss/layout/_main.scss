@@ -25,6 +25,12 @@
 
   /* Exceptions */
 
+  &.small-no-padding-top {
+    @include breakpoint(small only) {
+      padding-top: 0;
+    }
+  }
+
   &.no-padding-top {
     padding-top: 0;
   }
