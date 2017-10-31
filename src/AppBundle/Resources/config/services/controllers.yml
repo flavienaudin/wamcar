@@ -15,3 +15,17 @@ services:
         autoconfigure: false
         parent: AppBundle\Controller\Front\BaseController
         tags: ['controller.service_arguments']
+
+    AppBundle\Controller\Api\BaseController:
+        abstract: true
+        calls:
+            - ['setRouter', ['@router']]
+
+    AppBundle\Controller\Api\:
+        resource: '../../../Controller/Api'
+        exclude: '../../../Controller/Api/BaseController.php'
+        public: false
+        autowire: true
+        autoconfigure: false
+        parent: AppBundle\Controller\Api\BaseController
+        tags: ['controller.service_arguments']

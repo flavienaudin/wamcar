@@ -2,6 +2,10 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+api:
+    resource: "routing/api.yml"
+    prefix: /api/
+
 _integration:
     resource: "routing/_integration.yml"
     prefix: /
