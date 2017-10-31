@@ -39,4 +39,38 @@
     align-content: flex-start;
   }
 
+
+  /*
+     Grid column
+     ===================================== */
+
+  &-grid-column {
+    display: flex;
+    flex-flow: row wrap;
+    align-content: flex-start;
+
+    @include breakpoint(medium) {
+      display: block;
+      columns: 2;
+      column-gap: rem-calc(40);
+    }
+
+    @include breakpoint(xlarge) {
+      column-gap: rem-calc(100);
+    }
+
+    /* Components */
+
+    > * {
+      width: 100%;
+
+      @include breakpoint(medium) {
+        display: inline-block;
+        break-inside: avoid-column;
+        -webkit-column-break-after: avoid-column;
+      }
+    } // End > *
+
+  } // End &-block-column
+
 }

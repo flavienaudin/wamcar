@@ -1,0 +1,25 @@
+/* ===========================================================================
+   Page
+   =========================================================================== */
+
+.page {
+
+
+  /*
+    Header
+    ===================================== */
+
+  &-header {
+    background: #f7f7f7;
+    margin-bottom: rem-calc(25);
+    padding-top: rem-calc(25);
+    padding-bottom: rem-calc(25);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(50);
+    }
+
+    > * { margin-bottom: 0; }
+  }
+
+}

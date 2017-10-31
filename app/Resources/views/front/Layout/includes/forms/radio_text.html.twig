@@ -1,4 +1,7 @@
 {% set class = class|default('') %}
 
 <input type="radio" name="{{ name }}" id="{{ id }}">
-<label for="{{ id }}" class="radio-item {{ class }}">{{ label }}</label>
+<label for="{{ id }}" class="radio-item {{ class }}">
+    {{ label }}
+    {% include 'front/Layout/includes/svg/check.html.twig' %}
+</label>
