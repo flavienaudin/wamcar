@@ -61,7 +61,9 @@ class FilePreview {
   clear() {
     return new Promise((resolve) => {
       this.input.value = '';
-      this.legend.value = '';
+      if (this.legend) {
+        this.legend.value = '';
+      }
       this.image.setAttribute('src', this.defaultImage);
       resolve(this._hideButtonRemove());
     });
@@ -96,20 +98,25 @@ class FilePreview {
    */
   clone(newValue) {
     const $defaultPreview = document.getElementById('js-file-preview-default');
-    const $clone = $defaultPreview.cloneNode(true);
 
-    const $elements = [
-      $clone.querySelector('.js-file-preview-label'),
-      $clone.querySelector('.js-file-legend'),
-      $clone.querySelector('.js-file-preview-input'),
-      $clone.querySelector('.js-file-preview-image-container')
-    ];
+    if ($defaultPreview) {
+      const $clone = $defaultPreview.cloneNode(true);
 
-    $elements.forEach(element => this._updateValue(element, newValue));
+      const $elements = [
+        $clone.querySelector('.js-file-preview-label'),
+        $clone.querySelector('.js-file-legend'),
+        $clone.querySelector('.js-file-preview-input'),
+        $clone.querySelector('.js-file-preview-image-container')
+      ];
 
-    $clone.removeAttribute('id');
-    $clone.classList.remove(hideClass);
-    $picturesList.appendChild($clone);
+      $elements.forEach(element => this._updateValue(element, newValue));
+
+      $clone.removeAttribute('id');
+      $clone.classList.remove(hideClass);
+      $picturesList.appendChild($clone);
+    } else {
+      return;
+    }
   }
 
   /**

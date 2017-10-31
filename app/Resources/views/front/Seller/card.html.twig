@@ -1,50 +1,26 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% set user = inte.user %}
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set pageProfil = true %}
+
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Stéphane Richin{% endblock %}
+{% block title %}Fiche vendeur de {{ user.fullName }}{% endblock %}
 
 {% set breadcrumbs = [
     {
-        'name': 'Fiche vendeur de ' ~ block('title'),
+        'name': block('title'),
         'href': app.request.requestUri
     }
 ] %}
 
-{% set inte_brand_list = [
-    {
-        name: 'Toyota Villeurbanne',
-        image: 'assets/images/placeholders/brand/logo-toyota.png'
-    },
-    {
-        name: 'Lyon Hybrid Car',
-        image: 'assets/images/placeholders/brand/logo-toyota.png'
-    }
-] %}
-{% set user = inte.user %}
-
 {% block body %}
 
-    <div class="row">
-        {% include 'front/Layout/includes/breadcrumb.html.twig' %}
-    </div>
-    <aside class="profil-header small-12">
-        <header class="row text-center medium-text-left align-middle">
-            <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-                <h1 class="profil-name">{{ user.name }}</h1>
-                <div class="profil-action">
-                    <a href="tel:+33{{ user.tel_fix }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.tel_fix }}</span></a>
-                    <a href="tel:+33{{ user.tel_mob }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.tel_mob }}</span></a>
-                    <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
-                </div>
-            </div>
-            <div class="column medium-shrink medium-order-1">
-                <span class="profil-image">
-                    <img src="{{ user.picture }}" alt="{{ user.name }}" width="100%">
-                </span>
-            </div>
-        </header>
-    </aside>
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/User/includes/profil_header.html.twig' %}
 
     <section class="row full-width">
         <div class="profil-body column block-grid small-12">
@@ -53,23 +29,14 @@
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
-                <a href="" class="text-underline">Modifier mes informations</a>
+                <a href="{{ path('front_seller_card_edit') }}" class="text-underline">Modifier mes informations</a>
             </div>
             <div class="separator-for-small small-12 medium-4 large-6 medium-offset-1">
                 <h2>Vendeur pour</h2>
-                <ul class="brand-list">
-                    {% for brand in inte_brand_list %}
-                        <li>
-                            <figure class="block-grid align-middle">
-                                <span class="brand-logo"><img src="/assets/images/background/magicien.svg" alt="{{ brand.name }}"></span>
-                                <a href="" class="text-underline">{{ brand.name }}</a>
-                            </figure>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% include 'front/User/includes/brand_list.html.twig' %}
             </div>
             <div class="separator small-12 medium-text-center">
-                <a href="" class="text-underline">Déconnexion</a>
+                <a href="{{ path('front_default') }}" class="text-underline">Déconnexion</a>
             </div>
         </div>
     </section>

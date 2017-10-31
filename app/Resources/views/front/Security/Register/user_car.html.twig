@@ -2,6 +2,7 @@
 
 {% form_theme vehicleForm ':front/Layout/includes/forms:fields.html.twig' %}
 
+{% set header_class = 'has-no-shadow' %}
 {% set is_register_page = true %}
 
 {% block title %}Inscription{% endblock %}
@@ -43,7 +44,7 @@
         <nav id="js-step-navigation" class="column small-12">
             <div class="register-navigation block-grid small-12 align-middle">
                 <div class="small-6 large-7">
-                    <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
+                    <button type="button" class="js-carousel-prev text-underline">Retour</button>
                 </div>
                 <div class="small-6 large-5 xlarge-4 xlarge-offset-1">
                     <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">Étape suivante</button>

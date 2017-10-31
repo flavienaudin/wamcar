@@ -40,3 +40,9 @@ front_seller_card:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Seller/card.html.twig
+
+front_seller_card_edit:
+    path: /vendeur/stephane-richin/editer
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Seller/edit.html.twig

@@ -1,0 +1,21 @@
+{% set inte_brand_list = [
+    {
+        name: 'Toyota Villeurbanne',
+        image: '/assets/images/placeholders/brand/logo-toyota.png'
+    },
+    {
+        name: 'Lyon Hybrid Car',
+        image: '/assets/images/placeholders/brand/logo-toyota.png'
+    }
+] %}
+
+<ul class="brand-list">
+    {% for brand in inte_brand_list %}
+        <li>
+            <figure class="block-grid align-middle">
+                <span class="brand-logo"><img src="{{ brand.image }}" alt="{{ brand.name }}"></span>
+                <a href="" class="text-underline">{{ brand.name }}</a>
+            </figure>
+        </li>
+    {% endfor %}
+</ul>
