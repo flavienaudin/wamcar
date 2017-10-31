@@ -4,6 +4,10 @@
 
 {% block title %}Editer mon profil vendeur{% endblock %}
 
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set pageProfil = true %}
+
 {% set breadcrumbs = [
     {
         'name': block('title'),

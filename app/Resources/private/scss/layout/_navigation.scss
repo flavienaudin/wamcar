@@ -49,7 +49,7 @@
         padding-right: rem-calc(20);
         padding-left: rem-calc(20);
 
-        &::before {
+        &::after {
           content: "";
           position: absolute;
           top: calc(50% - #{rem-calc(9)});
@@ -63,6 +63,44 @@
       @include breakpoint(xlarge) {
         padding-right: rem-calc(40);
         padding-left: rem-calc(40);
+      }
+    } // End &.body-font-color
+
+    /* Logged state */
+
+    &.is-logged {
+      color: black;
+
+      @include breakpoint(medium down) {
+        padding: 0;
+      }
+
+      &:hover,
+      &:focus { color: $primary-color; }
+
+      &::before {
+        font-size: rem-calc(20);
+
+        @include breakpoint(large only) {
+          font-size: rem-calc(25);
+        }
+
+        @include breakpoint(xlarge) {
+          margin-right: rem-calc(20);
+        }
+      }
+
+      &::after { content: none; }
+      &:nth-child(2) { margin-right: 0; }
+    }
+
+    /* Active state */
+
+    &.is-active {
+      color: $primary-color;
+
+      @include breakpoint(large down) {
+        box-shadow: inset 0 -5px 0 0 currentColor;
       }
     }
 
