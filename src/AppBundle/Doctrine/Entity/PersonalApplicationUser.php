@@ -42,4 +42,12 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
     {
         return $this->registrationToken === null;
     }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
 }

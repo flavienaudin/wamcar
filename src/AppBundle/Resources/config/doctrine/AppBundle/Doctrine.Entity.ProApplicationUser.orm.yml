@@ -18,6 +18,8 @@ AppBundle\Doctrine\Entity\ProApplicationUser:
             type: string
             length: 32
             nullable: true
+        roles:
+            type: json_array
         createdAt:
             type: datetime
             gedmo:
