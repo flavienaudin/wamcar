@@ -5,11 +5,8 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
-<<<<<<< 9a9dd14a6339aaa9c32de9ddc4381fccc7247cb8
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
-=======
->>>>>>> first version manage garage
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Garage\GarageProvider;
