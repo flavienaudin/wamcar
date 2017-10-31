@@ -2,13 +2,14 @@
 
 namespace AppBundle\Doctrine\Entity;
 
-use AppBundle\Security\ShouldConfirmRegistration;
+use AppBundle\Security\HasPasswordResettable;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable
 {
     use ApplicationUserTrait;
+    use PasswordResettableTrait;
 
     /**
      * ApplicationUser constructor.

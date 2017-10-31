@@ -8,6 +8,14 @@ services:
           - '@templating'
           - '@translator'
 
+    wamcar.event.password_reset_token_generated:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyUserOfPasswordResetTokenGenerated
+        arguments:
+          - sell.registration_token_generated
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserPasswordResetTokenGenerated, method: notify }
+
     wamcar.event.registration_token_generated:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfRegistrationTokenGenerated
