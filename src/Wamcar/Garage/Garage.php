@@ -98,7 +98,7 @@ class Garage
     /**
      * @return string
      */
-    public function getOpeningHours(): string
+    public function getOpeningHours(): ?string
     {
         return $this->openingHours;
     }
@@ -106,7 +106,7 @@ class Garage
     /**
      * @return string
      */
-    public function getPresentation(): string
+    public function getPresentation(): ?string
     {
         return $this->presentation;
     }
@@ -114,7 +114,7 @@ class Garage
     /**
      * @return string
      */
-    public function getBenefit(): string
+    public function getBenefit(): ?string
     {
         return $this->benefit;
     }
@@ -125,5 +125,69 @@ class Garage
     public function getAddress(): Address
     {
         return $this->address;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @param string $siren
+     */
+    public function setSiren(string $siren)
+    {
+        $this->siren = $siren;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone)
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $openingHours
+     */
+    public function setOpeningHours(?string $openingHours)
+    {
+        $this->openingHours = $openingHours;
+    }
+
+    /**
+     * @param string $presentation
+     */
+    public function setPresentation(?string $presentation)
+    {
+        $this->presentation = $presentation;
+    }
+
+    /**
+     * @param string $benefit
+     */
+    public function setBenefit(?string $benefit)
+    {
+        $this->benefit = $benefit;
+    }
+
+    /**
+     * @param Address $address
+     */
+    public function setAddress(Address $address)
+    {
+        $this->address = $address;
     }
 }

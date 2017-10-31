@@ -36,7 +36,6 @@ Wamcar\Garage\Garage:
         email:
             type: string
             length: 191   # needed to index field in utf8mb4
-            unique: true
         openingHours:
             type: text
             nullable: true

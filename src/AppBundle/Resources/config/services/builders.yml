@@ -2,3 +2,5 @@ services:
 
     AppBundle\Builder\Garage\GarageFromDTOBuilder:
         class: 'AppBundle\Builder\Garage\GarageFromDTOBuilder'
+        arguments:
+            - '@AppBundle\Doctrine\Repository\DoctrineGarageRepository'

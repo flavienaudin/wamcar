@@ -34,7 +34,7 @@ class GarageEditionService
      * @param GarageDTO $garageDTO
      * @return ApplicationGarage
      */
-    public function createInformations(GarageDTO $garageDTO): ApplicationGarage
+    public function editInformations(GarageDTO $garageDTO): ApplicationGarage
     {
         /** @var ApplicationGarage $garage */
         $garage = $this->garageBuilder->buildFromDTO($garageDTO);
@@ -42,14 +42,5 @@ class GarageEditionService
         $this->garageRepository->update($garage);
 
         return $garage;
-    }
-
-    /**
-     * @param ApplicationGarage $garage
-     * @param GarageDTO $garageDTO
-     * @return ApplicationGarage
-     */
-    public function editInformations(ApplicationGarage $garage, GarageDTO $garageDTO): ApplicationGarage
-    {
     }
 }
