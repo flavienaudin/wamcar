@@ -1,0 +1,38 @@
+/* ===========================================================================
+   Breadcrumb
+   =========================================================================== */
+
+.breadcrumb {
+  margin-bottom: 0;
+
+  /* Components */
+
+  > li {
+    &:not(:first-child) {
+      a {
+        &::before {
+          content: "";
+          width: 0;
+          height: 0;
+          border-style: solid;
+          border-width: rem-calc(2) 0 rem-calc(2) rem-calc(4);
+          border-color: transparent transparent transparent currentColor;
+          margin: rem-calc(2) rem-calc(10) 0;
+        }
+      }
+    } // &:not(:first-child)
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    height: rem-calc(40);
+    color: rgba(black, .6);
+    font-size: rem-calc(12);
+
+    @include breakpoint(large) {
+      &:hover { text-decoration: underline; }
+    }
+  }
+
+}
