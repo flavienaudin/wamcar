@@ -32,6 +32,7 @@ parameters:
                 city: "Oullins"
                 price: "16 589 €"
         user:
+          fullName: Stéphane Richin
           name: Richin
           firstName: Stéphane
           tel_fix: 04 99 98 97 96
