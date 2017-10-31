@@ -1,3 +1,0 @@
-front_garage_create:
-    path: /garage/create
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:create }
