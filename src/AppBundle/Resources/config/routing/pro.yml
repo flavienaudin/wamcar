@@ -1,3 +1,7 @@
-front_garage_create:
+pro_garage_create:
     path: /garage/create
     defaults: { _controller: AppBundle:Front\ProContext\Garage:create }
+
+pro_garage_edit:
+    path: /garage/edit/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }
