@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
+use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -54,7 +55,7 @@ class GarageController extends BaseController
             $this->garageEditionService->editInformations($garageDTO, $garage);
 
             $this->session->getFlashBag()->add(
-                'flash.success.garage_edit',
+                'flash.success.garage_create',
                 self::FLASH_LEVEL_INFO
             );
         }
