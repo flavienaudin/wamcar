@@ -58,7 +58,14 @@
 
 .text-uppercase { text-transform: uppercase; }
 .text-lowercase { text-transform: lowercase; }
-.text-underline { text-decoration: underline; }
+.text-underline {
+  font-weight: bold;
+  color: $header-color;
+  border-bottom: rem-calc(1) solid $primary-color;
+  text-decoration: none;
+  transition: $global-transition;
+  &::before { color: $primary-color; }
+}
 
 
 /*
@@ -71,3 +78,4 @@
 .black-color { color: black; }
 .white-color { color: white; }
 .medium-gray-color { color: $medium-gray; }
+.dark-gray-color { color: $dark-gray; }

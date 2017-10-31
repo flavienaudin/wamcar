@@ -3,12 +3,12 @@
 {% set like = index == 'ds3' ? 'Supprimer des favoris' : 'Ajouter aux favoris' %}
 
 <article class="vehicle-item is-flex">
-    <a href="" class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></a>
-    <a href="" class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></a>
+    <a href="{{ path('front_seller_card') }}" class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></a>
+    <a href="{{ path('front_seller_card') }}" class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></a>
     <figcaption class="vehicle-infos">
         <span class="vehicle-brand">{{ vehicle.brand }}</span>
         {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
-        <a href=""><{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}></a>
+        <a href="{{ path('front_seller_card') }}"><{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}></a>
         <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
         <span class="vehicle-years primary-color" style="margin-top: auto">{{ vehicle.years }}, {{ vehicle.km }}</span>
         {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
