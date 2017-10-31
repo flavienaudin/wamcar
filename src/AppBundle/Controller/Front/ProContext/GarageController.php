@@ -70,7 +70,6 @@ class GarageController extends BaseController
         ]);
     }
 
-
     /**
      * @param Request $request
      * @param null|Garage $garage
