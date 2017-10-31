@@ -16,8 +16,7 @@ class GarageEditionService
     private $garageBuilder;
 
     /**
-     * UserRepository constructor.
-     *
+     * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
      * @param GarageFromDTOBuilder $garageBuilder
      */
