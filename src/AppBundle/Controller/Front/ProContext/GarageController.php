@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -39,6 +40,26 @@ class GarageController extends BaseController
     }
 
     public function createAction(Request $request)
+    {
+        $garageForm = $this->formFactory->create(GarageType::class);
+
+        $garageForm->handleRequest($request);
+
+        if ($garageForm->isSubmitted() && $garageForm->isValid()) {
+            $this->garageEditionService->createInformations($garageForm->getData());
+
+            $this->session->getFlashBag()->add(
+                'flash.success.garage_edit',
+                self::FLASH_LEVEL_INFO
+            );
+        }
+
+        return $this->render('front/proContext/garage/garage_edit.html.twig', [
+            'garageForm' => $garageForm->createView()
+        ]);
+    }
+
+    public function editAction(Request $request, ApplicationGarage $applicationGaragegit )
     {
         $garageForm = $this->formFactory->create(GarageType::class);
 
