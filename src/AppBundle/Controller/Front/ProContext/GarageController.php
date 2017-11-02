@@ -11,6 +11,7 @@ use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Garage\GarageProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
@@ -93,7 +94,7 @@ class GarageController extends BaseController
      * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeAction(ApplicationGarage $applicationGarage)
+    public function removeAction(ApplicationGarage $applicationGarage): RedirectResponse
     {
         $this->doctrineGarageRepository->remove($applicationGarage);
 
