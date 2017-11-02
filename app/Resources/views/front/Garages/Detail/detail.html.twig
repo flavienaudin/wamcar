@@ -1,0 +1,30 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Garage Toyota Villeurbanne{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <div class="row">
+        // TEST
+    </div>
+
+
+{% endblock body %}
