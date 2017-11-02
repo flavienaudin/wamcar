@@ -1,0 +1,48 @@
+/* ===========================================================================
+   Brand
+   =========================================================================== */
+
+.brand {
+
+
+  /*
+    List
+    ===================================== */
+
+  &-list {
+    list-style: none;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    /* Components */
+
+    > li {
+      &:not(:first-child) {
+        margin-top: rem-calc(20);
+
+        @include breakpoint(medium) {
+          margin-top: rem-calc(30);
+        }
+      }
+    } // End > li
+  } // End &-list
+
+
+
+  /*
+     Logo
+     ===================================== */
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(50);
+    height: rem-calc(50);
+    border: rem-calc(1) solid $border-color;
+    margin-right: rem-calc(20);
+    padding: rem-calc(5);
+
+    > img { max-height: 100%; }
+  }
+}

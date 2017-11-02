@@ -1,0 +1,16 @@
+<div class="row">
+    <ol class="breadcrumb is-flex no-bullet column show-for-medium" itemscope itemtype="http://schema.org/BreadcrumbList">
+        <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a itemprop="item" href="{{ path('front_default') }}"><span itemprop="name">Accueil</span></a>
+            <meta itemprop="position" content="1" />
+        </li>
+        {% if breadcrumbs is defined %}
+            {% for breadcrumb in breadcrumbs %}
+                <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                    <a itemprop="item" href="{{ breadcrumb.href }}"><span itemprop="name">{{ breadcrumb.name }}</span></a>
+                    <meta itemprop="position" content="{{ loop.index + 1  }}" />
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ol>
+</div>

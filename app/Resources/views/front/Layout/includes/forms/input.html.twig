@@ -8,13 +8,15 @@
 {% set label_class = label_class|default('') %}
 {% set value = value|default('') %}
 {% set placeholder = placeholder|default('') %}
-{% set equalTo = equalTo|default('') %}
+{% set equal_to = equal_to|default('') %}
+{% set pattern = pattern|default('') %}
+{% set optional_class = optional_class|default('') %}
 
-{% if label %}
-    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }}</label>
-{% endif %}
 {% if class_field %}
     <div class="{{ class_field }}">
+{% endif %}
+{% if label %}
+    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span class="{{ optional_class }}">Facultatif</span>{% endif %}</label>
 {% endif %}
     <input
         type="{{ type }}"
@@ -23,7 +25,8 @@
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
+        data-equalto="{{ equal_to }}"
+        pattern="{{ pattern }}"
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>

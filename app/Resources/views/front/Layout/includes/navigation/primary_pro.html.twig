@@ -1,19 +1,44 @@
 {% extends 'front/Layout/includes/navigation/primary.html.twig' %}
 
+{% set pageSearch = pageSearch|default(false) %}
+{% set pageGarage = pageGarage|default(false) %}
+{% set pageMessage = pageMessage|default(false) %}
+{% set pageProfil = pageProfil|default(false) %}
+
+{% set navigation_class = 'is-flex small-right' %}
+{% set navigation_items = [
+    {
+        slug: '',
+        label: 'Recherche un véhicule',
+        icon: 'search',
+        current: pageSearch
+    },
+    {
+        slug: '',
+        label: 'Mon Garage',
+        icon: 'garage',
+        current: pageGarage
+    },
+    {
+        slug: '',
+        label: 'Messagerie',
+        icon: 'message',
+        current: pageMessage
+    },
+    {
+        slug: path('front_seller_card'),
+        label: 'Profil',
+        icon: 'user',
+        current: pageProfil
+    }
+] %}
+
 {% block navigation %}
-    <a href="" class="l-navigation-item black-color"><strong>Vendre <span class="hide-for-large">ma voiture</span></strong></a>
-    <a href="" class="l-navigation-item black-color"><strong>Acheter <span class="hide-for-large">une voiture</span></strong></a>
-    <a href="" class="l-navigation-item body-font-color">
-        <span class="hide-for-large-only">Mon profil</span>
-        <span class="show-for-large-only">Profil</span>
-    </a>
-    <a href="" class="l-navigation-item body-font-color">
-        <span class="hide-for-large-only">Mes vendeurs</span>
-        <span class="show-for-large-only">Vendeurs</span>
-    </a>
-    <a href="" class="l-navigation-item body-font-color">
-        <span class="hide-for-large-only">Mes favoris</span>
-        <span class="show-for-large-only">Favoris</span>
-    </a>
-    <a href="" class="l-navigation-item body-font-color">Messagerie</a>
+
+    {% for item in navigation_items %}
+        <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
+            <b class="show-for-xlarge">{{ item.label }}</b>
+        </a>
+    {% endfor %}
+
 {% endblock %}

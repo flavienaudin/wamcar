@@ -1,7 +1,10 @@
-<nav id="js-navigation" class="l-navigation small-12 large-8 show-for-large large-text-center">
+{% set is_logged = is_logged|default(false) %}
+{% set navigation_class = navigation_class|default('small-12 large-8 show-for-large large-text-center') %}
+
+<nav id="{{ not is_logged ? 'js-navigation' : '' }}" class="l-navigation {{ navigation_class }}">
     {% block navigation %}
         <a href="" class="l-navigation-item black-color"><strong>Vendre ma voiture</strong></a>
         <a href="" class="l-navigation-item black-color"><strong>Acheter une voiture</strong></a>
-        <a href="" class="l-navigation-item body-font-color"><span>Je suis un professionnel</span></a>
+        <a href="{{ path('front_seller_card') }}" class="l-navigation-item body-font-color"><span>Je suis un professionnel</span></a>
     {% endblock %}
 </nav>

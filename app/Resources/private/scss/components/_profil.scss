@@ -1,0 +1,127 @@
+/* ===========================================================================
+   Profil
+   =========================================================================== */
+
+/* Settings */
+
+$profil-image-offset: rem-calc(40);
+
+.profil {
+
+
+  /*
+    Header
+    ===================================== */
+
+  &-header {
+    background: #f7f7f7;
+    padding-top: rem-calc(25);
+
+    @include breakpoint(small only) {
+      margin-bottom: $profil-image-offset;
+    }
+
+    @include breakpoint(medium) {
+      padding-bottom: rem-calc(25);
+    }
+
+    /* Components */
+
+    a {
+      @include breakpoint(small only) {
+        justify-content: center;
+      }
+    }
+  }
+
+
+  /*
+    Name
+    ===================================== */
+
+  &-name {
+    color: $primary-color;
+    margin-bottom: rem-calc(12);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(24);
+      margin-bottom: rem-calc(10);
+    }
+  }
+
+
+  /*
+     Image
+     ===================================== */
+
+  &-image {
+    display: block;
+    width: rem-calc(100);
+    overflow: hidden;
+    border-radius: 50%;
+
+    @include breakpoint(small only) {
+      margin: rem-calc(20) auto (-($profil-image-offset));
+    }
+
+    @include breakpoint(large) {
+      width: rem-calc(100);
+    }
+  } // End &-image
+
+
+
+  /*
+     Action
+     ===================================== */
+
+  &-action {
+    display: flex;
+    flex-wrap: wrap;
+
+    /* Components */
+
+    a {
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(12);
+      }
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(14);
+        margin-right: rem-calc(25);
+
+        &::before { font-size: rem-calc(16); }
+      }
+    }
+
+    .icon-tel {
+      @include breakpoint(small only) {
+        justify-content: flex-end;
+        padding-right: rem-calc(10);
+      }
+    }
+
+    .icon-mobile {
+      @include breakpoint(small only) {
+        justify-content: flex-start;
+        padding-left: rem-calc(10);
+      }
+    }
+
+  } // End &-action
+
+
+
+  /*
+     Body
+     ===================================== */
+
+  &-body {
+    padding-top: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(40);
+    }
+  }
+
+}

@@ -1,4 +1,6 @@
-<div class="js-file-preview file-preview column small-6 medium-12">
+{% set classPreview = classPreview|default('column small-6 medium-12') %}
+
+<div class="js-file-preview file-preview {{ classPreview }}">
     <input type="file" name="pics-{{ index }}" id="pics-{{ index }}" class="js-file-preview-input is-hidden">
     <label for="pics-{{ index }}" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
         <div class="file-preview-image no-margin">

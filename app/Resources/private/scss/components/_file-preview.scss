@@ -21,6 +21,11 @@
     /* Components */
 
     > span {
+      @include breakpoint(small only) {
+        margin-left: 0;
+        margin-top: rem-calc(5);
+      }
+
       @include breakpoint(medium) {
         margin-top: rem-calc(5);
       }
@@ -36,8 +41,17 @@
     position: relative;
     width: 100%;
     background: #ededed;
-    padding-top: 75%; /* 4:3 Aspect Ratio */
     overflow: hidden;
+
+    /* Exceptions */
+
+    .step & {
+      padding-top: 75%; /* 4:3 Aspect Ratio */
+    }
+
+    .user-form & {
+      padding-top: 100%; /* 1:1 Aspect Ratio */
+    }
   }
 
 
@@ -73,7 +87,7 @@
     color: white;
 
     @include breakpoint(medium) {
-      bottom: rem-calc(13);
+      bottom: rem-calc(18);
       right: rem-calc(20);
       width: rem-calc(45);
       height: rem-calc(45);
@@ -83,6 +97,14 @@
       width: 100%; // iOS fix
       margin-right: 0;
     }
+
+    /* Exceptions */
+
+    .user-form & {
+      bottom: 0;
+      right: 0;
+    }
+
   }
 
 }

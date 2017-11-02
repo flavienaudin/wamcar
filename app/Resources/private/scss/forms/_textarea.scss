@@ -8,9 +8,9 @@
    Settings
    ===================================== */
 
-$textarea-padding: rem-calc(10);
-$textarea-min-height: rem-calc(100);
-$textarea-min-height-medium: rem-calc(210);
+$textarea-padding: rem-calc(20);
+$textarea-min-height: rem-calc(210);
+$textarea-min-height-medium: rem-calc(300);
 
 
 
@@ -20,10 +20,34 @@ $textarea-min-height-medium: rem-calc(210);
 
 textarea {
   min-height: $textarea-min-height;
-  padding: $textarea-padding;
-  resize: none;
+  resize: vertical;
 
   @include breakpoint(medium) {
     min-height: $textarea-min-height-medium;
+  }
+
+  /* Exception */
+
+  &.input {
+    line-height: 1.4;
+    padding: $textarea-padding;
+  }
+
+  .js-file-index & {
+    resize: none;
+    min-height: rem-calc(210);
+    min-height: 0;
+    padding: rem-calc(10) rem-calc(20);
+
+    @include breakpoint(small only) {
+      height: calc(100% - #{rem-calc(17)});
+    }
+
+    @include breakpoint(medium) {
+      min-height: 0;
+      line-height: rem-calc(46);
+      height: rem-calc(50);
+      padding: 0 rem-calc(20);
+    }
   }
 }

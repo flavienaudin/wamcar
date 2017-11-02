@@ -1,0 +1,134 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Editer mon profil vendeur{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set pageProfil = true %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set user = inte.user %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <div class="row">
+        <form class="block-grid small-12 user-form" data-abide novalidate>
+            <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
+                <h2>Identifiants de connexion</h2>
+                <p>
+                    Mail : {{ user.email }} <br>
+                    <a class="text-underline" data-toggle="js-update-password">Modifier mon mot de passe</a>
+                </p>
+                <div id="js-update-password" class="user-form-password is-hidden" data-toggler=".is-hidden">
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        type: 'password',
+                        label: 'Mot de passe',
+                        name: 'password',
+                        value: '******',
+                        required: true,
+                        required_message: 'Veuillez indiquer votre mot de passe.'
+                    } %}
+                    <div class="row small-12">
+                        {% include 'front/Layout/includes/forms/input.html.twig' with {
+                            class_field: 'column small-12 large-6',
+                            type: 'password',
+                            label: 'Nouveau mot de passe',
+                            name: 'password-new',
+                            optional_class: 'is-hidden',
+                            required_message: 'Veuillez confirmer votre mot de passe.'
+                        } %}
+                        {% include 'front/Layout/includes/forms/input.html.twig' with {
+                            class_field: 'column small-12 large-6',
+                            type: 'password',
+                            label: 'Confirmer le mot de passe',
+                            name: 'password-new-confirm',
+                            equal_to: 'password-new',
+                            optional_class: 'is-hidden',
+                            required_message: 'Le mot de passe doit être identique.'
+                        } %}
+                    </div>
+                </div>
+                <h2 class="separator">Identité</h2>
+                <div class="input-margin">
+                    <label for="civilite">Civilité <span>Facultatif</span></label>
+                    <ul class="block-grid">
+                        <li class="small-6">
+                            {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                                label: 'Monsieur',
+                                id: 'm',
+                                name: 'civilite'
+                            } %}
+                        </li>
+                        <li class="small-6">
+                            {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                                label: 'Madame',
+                                id: 'mme',
+                                name: 'civilite'
+                            } %}
+                        </li>
+                    </ul>
+                </div>
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    label: 'Nom',
+                    name: 'name',
+                    value: user.name
+                } %}
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    class: 'small-no-margin',
+                    label: 'Prénom',
+                    name: 'first-name',
+                    value: user.firstName
+                } %}
+            </div>
+            <div class="column small-12 medium-6 xlarge-5 xlarge-offset-1">
+                <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    label: 'Téléphone fixe',
+                    name: 'tel_fix',
+                    value: user.tel_fix
+                } %}
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    class: 'small-no-margin',
+                    label: 'Téléphone mobile',
+                    name: 'tel_mob',
+                    value: user.tel_mob
+                } %}
+                <h2 class="separator">Informations</h2>
+                {% include 'front/Layout/includes/forms/textarea.html.twig' with {
+                    class: 'no-margin',
+                    label: 'Présentation',
+                    name: 'presentation',
+                    value: 'Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.'
+                } %}
+            </div>
+            <div class="input-margin column small-12 medium-6 xlarge-5">
+                <div id="js-pictures-list" class="separator">
+                    <h2>Médias</h2>
+                    <label for="pics">Avatar <span>Facultatif</span></label>
+                    {% set index = 1 %}
+                    {% set classPreview = 'small-6 large-4' %}
+                    {% set image = '' %}
+                    {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+                </div>
+            </div>
+            <div class="column small-12">
+                <button type="submit" class="button full-width medium-5 large-3">Enregistrer mes modifications</button>
+            </div>
+        </form>
+    </div>
+
+
+{% endblock body %}

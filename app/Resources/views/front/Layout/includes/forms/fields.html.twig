@@ -174,7 +174,7 @@
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
-        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span class="medium-12 medium-no-margin">Facultatif</span></label>
+        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span class="medium-12 medium-no-margin">Facultatif (format conseillé : 310x235)</span></label>
         <div class="js-file-preview file-preview column small-6 medium-12">
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
             <label for="{{ form.vars.id }}_file" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
@@ -186,7 +186,7 @@
             <button type="button" class="js-file-preview-remove file-preview-remove icon-remove is-hidden" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
         </div>
         <div class="column small-6 medium-12">
-            {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input', 'placeholder' : 'Ajouter une légende' } } ) }}
+            {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'Ajouter une légende' } } ) }}
         </div>
     </div>
 {% endblock %}

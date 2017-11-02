@@ -65,10 +65,18 @@
   &-label {
     position: absolute;
     top: 50%;
-    right: 0;
+    right: rem-calc(35);
     opacity: 0;
     transition: .3s;
     transform: translate3d(0, calc(-50% + #{rem-calc(2)}), 0);
+
+    @include breakpoint(360) {
+      right: rem-calc(65);
+    }
+
+    @include breakpoint(medium) {
+      right: 0;
+    }
   }
 
 }

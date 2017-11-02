@@ -73,6 +73,10 @@ $input-padding: 0 rem-calc(10);
 .checkbox::before,
 textarea {
   @extend %input-style;
+}
+
+.input,
+.checkbox::before {
   padding: $input-padding;
 }
 
