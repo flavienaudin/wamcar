@@ -31,9 +31,9 @@ abstract class BaseUser
     }
 
 
-    public function getName()
+    public function getName(): ?string
     {
-        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getName() : '');
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getName() : null);
     }
 
     /**

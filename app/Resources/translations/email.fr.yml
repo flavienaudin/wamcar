@@ -16,3 +16,14 @@ notifyProUserOfRegistration:
         <p>Votre compte est activé.</p>
         <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
         <p>L'équipe Wamcar</p>
+
+notifyUserOfPasswordResetTokenGenerated:
+    title:  "Réinitialisation de votre mot de passe"
+    body: >
+        <p>Bonjour,</p>
+        <p>Nous avons reçu une demande pour réinitialiser le mot de passe de votre compte. <br>
+                   Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
+        <p><a href="%resetUrl%">Réinitialiser mon mot de passe</a></p>
+        <p>Ce lien est valable 24 Heures. Au-delà de ce délai, vous devrez renouveler votre demande de mot de passe.</p>
+        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+        <p>L'équipe Wamcar</p>

@@ -243,3 +243,14 @@
     </div>
 
 {%- endblock star_widget -%}
+
+{%- block _vehicle_registrationNumber_widget -%}
+<div class="{{ class_field }}">
+    <input
+        type="text"
+        {{ block('widget_attributes') }}
+        value="{{ value }}"
+        class="input {{ class }}"
+        readonly />
+</div>
+{%- endblock _vehicle_registrationNumber_widget -%}

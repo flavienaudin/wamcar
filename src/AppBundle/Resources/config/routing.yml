@@ -2,6 +2,10 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+api:
+    resource: "routing/api.yml"
+    prefix: /api/
+
 _integration:
     resource: "routing/_integration.yml"
     prefix: /
@@ -17,3 +21,11 @@ security_logout:
 security_confirm_registration:
     path: /confirmer-votre-inscription/{token}
     defaults: { _controller: AppBundle:Front\Security:confirmRegistration }
+
+security_password_lost:
+    path: /mot-de-passe-oublie
+    defaults: { _controller: AppBundle:Front\Security:passwordLost }
+
+security_password_reset:
+    path: /reinitialiser-votre-mot-de-passe/{token}
+    defaults: { _controller: AppBundle:Front\Security:passwordLostReset }

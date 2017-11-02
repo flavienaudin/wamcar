@@ -1,11 +1,11 @@
-<form action="{{ path('front_vehicle_registration') }}" class="block-grid" data-abide novalidate>
+<form action="{{ path('front_vehicle_registration') }}" method="GET" class="block-grid" data-abide novalidate>
     <div class="column small-12">
         {% include 'front/Layout/includes/forms/input.html.twig' with {
             label: 'Numéro d\'immatriculation',
-            name: 'imma',
+            name: 'plate_number',
             pattern: 'number',
             required: true,
-            required_message: 'Veuillez indiqué un numéro d\'immatriculation'
+            required_message: 'Veuillez indiquer un numéro d\'immatriculation'
         } %}
     </div>
     <div class="input-margin block-grid column small-12">

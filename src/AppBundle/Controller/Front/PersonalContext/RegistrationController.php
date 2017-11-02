@@ -79,20 +79,23 @@ class RegistrationController extends BaseController
             }
         }
 
-        return $this->vehicleRegistrationFromInformation($request, $filters);
+        return $this->vehicleRegistrationFromInformation($request, $filters, $plateNumber);
     }
 
     /**
      * @param Request $request
      * @return Response
      */
-    private function vehicleRegistrationFromInformation(Request $request, array $filters = []): Response
+    private function vehicleRegistrationFromInformation(
+        Request $request,
+        array $filters = [],
+        string $plateNumber = null): Response
     {
-        $vehicleDTO = new VehicleDTO();
+        $vehicleDTO = new VehicleDTO($plateNumber);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = array_key_exists('ktypNumber', $filters) ?
-            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters):
+            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
             $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $vehicleForm = $this->formFactory->create(
