@@ -48,3 +48,16 @@ parameters:
           address: 3 avenue Emile Zola, 69100 Villeurbanne
           schedule: Ouvert du lundi au samedi, de 9h à 12h et de 14h à 18h
           tel: 04 99 98 97 96
+          sellers:
+            - stephane:
+              picture: /assets/images/placeholders/user/user.png
+              name: Stéphane Richin
+            - elodie:
+              picture: /assets/images/placeholders/user/user.png
+              name: Elodie Santini
+            - marc:
+              picture: /assets/images/placeholders/user/user.png
+              name: Marc Van Houtte
+            - alexis:
+              picture: /assets/images/placeholders/user/user.png
+              name: Alexis Sanchez

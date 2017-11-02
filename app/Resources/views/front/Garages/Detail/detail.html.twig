@@ -39,13 +39,13 @@
         <section class="column small-12 small-collapse large-8 large-uncollapse xlarge-right-collapse">
             <div id="js-move-garage-picture" aria-hidden="true"></div>
             <ul id="js-garage-tabs" class="tabs" data-tabs>
-                <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
-                <li class="tabs-title small-auto"><a data-tabs-target="about" href="#about">A propos</a></li>
-                <li class="tabs-title small-auto"><a data-tabs-target="opinions" href="#opinions">Avis</a></li>
-                <li class="tabs-title small-auto"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
+                <li class="tabs-title"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
+                <li class="tabs-title"><a data-tabs-target="about" href="#about">A propos</a></li>
+                <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">Avis</a></li>
+                <li class="tabs-title is-active"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
             </ul>
             <div class="tabs-content" data-tabs-content="js-garage-tabs">
-                <div id="vehicles" class="tabs-panel column large-collapse is-active">
+                <div id="vehicles" class="tabs-panel column large-collapse">
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
                 </div>
                 <div id="about" class="tabs-panel">
@@ -54,7 +54,7 @@
                 <div id="opinions" class="tabs-panel">
                     {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
                 </div>
-                <div id="sellers" class="tabs-panel">
+                <div id="sellers" class="tabs-panel is-active">
                     {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
                 </div>
             </div>
