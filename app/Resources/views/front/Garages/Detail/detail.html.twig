@@ -46,40 +46,16 @@
             </ul>
             <div class="tabs-content" data-tabs-content="js-garage-tabs">
                 <div id="vehicles" class="tabs-panel column large-collapse is-active">
-                    <h2><span class="primary-color">{{ vehicle_list|length }}</span> véhicules en vente</h2>
-                    <div class="block-grid small-12 align-middle input-margin">
-                        <div class="small-12 medium-4">
-                            <select class="no-margin">
-                                <option value="">YTets</option>
-                                <option value="">YTets</option>
-                                <option value="">YTets</option>
-                                <option value="">YTets</option>
-                            </select>
-                        </div>
-                        <div class="show-for-medium small-12 medium-shrink medium-right">
-                            <a href="" class="button-add">Ajouter un véhicule</a>
-                        </div>
-                    </div>
-                    {% set balise = 'h3' %}
-                    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-                    <br>
-                    <div class="block-grid small-12 align-middle input-margin">
-                        <div class="small-12 medium-4">
-                            {% include 'front/Layout/includes/pagination.html.twig' %}
-                        </div>
-                        <div class="show-for-medium small-12 medium-shrink medium-right">
-                            <a href="" class="button-add">Ajouter un véhicule</a>
-                        </div>
-                    </div>
+                    {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
                 </div>
                 <div id="about" class="tabs-panel">
-                    // A propos
+                    {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
                 </div>
                 <div id="opinions" class="tabs-panel">
-                    // Avis
+                    {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
                 </div>
                 <div id="sellers" class="tabs-panel">
-                    // Vendeur
+                    {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
                 </div>
             </div>
         </section>

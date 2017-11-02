@@ -88,16 +88,25 @@
   &-panel {
     display: none;
     padding-top: rem-calc(15);
-    padding-bottom: rem-calc(15);
 
     @include breakpoint(medium) {
       padding-top: rem-calc(30);
-      padding-bottom: rem-calc(30);
     }
 
     /* Active */
 
     &.is-active { display: block; }
-  }
+
+    /* Exceptions */
+
+    .search-form & {
+      padding-bottom: rem-calc(15);
+
+      @include breakpoint(medium) {
+        padding-bottom: rem-calc(30);
+      }
+    } // End .search-form &
+
+  } // End &-panel
 
 }

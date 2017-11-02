@@ -99,6 +99,25 @@ a.button {
     @include buttonTheme(white, $primary-color, $primary-color);
   }
 
+  /* Add */
+
+  &.add {
+    background: $dark-gray;
+    color: white;
+    border-color: $dark-gray;
+
+    &::before {
+      color: $primary-color;
+    }
+
+    @include breakpoint(large) {
+      &:hover {
+        background: white;
+        color: $dark-gray;
+      }
+    }
+  }
+
   /* Form margin */
 
   form & {
