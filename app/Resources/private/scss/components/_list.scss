@@ -39,11 +39,57 @@
     /* Exceptions */
 
     .mission & {
-      > li {
-        border-color: rgba(white, .1);
-      }
+      > li { border-color: rgba(white, .1); }
     }
 
   } // End &-border
+
+
+
+  /*
+     Bullet
+     ===================================== */
+
+  &-bullet {
+    list-style: none;
+    margin-left: 0;
+
+    > li {
+      position: relative;
+      margin-bottom: rem-calc(10);
+      padding-left: rem-calc(20);
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: rem-calc(6);
+        left: 0;
+        width: rem-calc(4);
+        height: rem-calc(4);
+        background: $primary-color;
+        border-radius: 50%;
+
+        @include breakpoint(medium) {
+          top: rem-calc(10);
+        }
+      } // End ::before
+
+    } // End > li
+
+    /* Exceptions */
+
+    .garage-infos & {
+
+      @include breakpoint(large) {
+        > li {
+          border-bottom: rem-calc(1) solid $border-color;
+          margin-top: rem-calc(20);
+          padding-bottom: rem-calc(20);
+        }
+      }
+
+    } // End .garage-infos &
+
+  } // End &-bullet
 
 }

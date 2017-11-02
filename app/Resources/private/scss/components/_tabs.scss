@@ -22,6 +22,14 @@
     }
   }
 
+  .garage-container & {
+    margin-top: rem-calc(15);
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(45);
+    }
+  }
+
 
   /*
     Title

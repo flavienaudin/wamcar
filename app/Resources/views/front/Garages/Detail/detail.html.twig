@@ -2,7 +2,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Garage Toyota Villeurbanne{% endblock %}
+{% block title %}Mon garage{% endblock %}
 
 {% set is_logged = true %}
 {% set is_user_pro = true %}
@@ -15,15 +15,77 @@
     }
 ] %}
 
+{% set garage = inte.garage %}
+{% set vehicle_list = inte.vehicle %}
+
 {% block body %}
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
-    {% include 'front/Layout/includes/page_header.html.twig' with {
-        title: block('title')
-    } %}
 
     <div class="row">
-        // TEST
+
+        <div class="garage-container block-grid">
+
+        <header class="column small-collapse small-12 large-4 large-uncollapse">
+            <div class="garage-header block-grid">
+                {% include 'front/Garages/Detail/includes/picture.html.twig' %}
+                {% include 'front/Garages/Detail/includes/logo.html.twig' %}
+                <div class="garage-infos medium-9 large-12">
+                    {% include 'front/Garages/Detail/includes/infos.html.twig' %}
+                </div>
+            </div>
+        </header>
+
+        <section class="column small-12 small-collapse large-8 large-uncollapse xlarge-right-collapse">
+            <div id="js-move-garage-picture" aria-hidden="true"></div>
+            <ul id="js-garage-tabs" class="tabs" data-tabs>
+                <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
+                <li class="tabs-title small-auto"><a data-tabs-target="about" href="#about">A propos</a></li>
+                <li class="tabs-title small-auto"><a data-tabs-target="opinions" href="#opinions">Avis</a></li>
+                <li class="tabs-title small-auto"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
+            </ul>
+            <div class="tabs-content" data-tabs-content="js-garage-tabs">
+                <div id="vehicles" class="tabs-panel column large-collapse is-active">
+                    <h2><span class="primary-color">{{ vehicle_list|length }}</span> véhicules en vente</h2>
+                    <div class="block-grid small-12 align-middle input-margin">
+                        <div class="small-12 medium-4">
+                            <select class="no-margin">
+                                <option value="">YTets</option>
+                                <option value="">YTets</option>
+                                <option value="">YTets</option>
+                                <option value="">YTets</option>
+                            </select>
+                        </div>
+                        <div class="show-for-medium small-12 medium-shrink medium-right">
+                            <a href="" class="button-add">Ajouter un véhicule</a>
+                        </div>
+                    </div>
+                    {% set balise = 'h3' %}
+                    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+                    <br>
+                    <div class="block-grid small-12 align-middle input-margin">
+                        <div class="small-12 medium-4">
+                            {% include 'front/Layout/includes/pagination.html.twig' %}
+                        </div>
+                        <div class="show-for-medium small-12 medium-shrink medium-right">
+                            <a href="" class="button-add">Ajouter un véhicule</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="about" class="tabs-panel">
+                    // A propos
+                </div>
+                <div id="opinions" class="tabs-panel">
+                    // Avis
+                </div>
+                <div id="sellers" class="tabs-panel">
+                    // Vendeur
+                </div>
+            </div>
+        </section>
+
+        </div>
+
     </div>
 
 

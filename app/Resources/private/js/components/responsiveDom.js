@@ -25,3 +25,13 @@ if ($($movePicturesList).length) {
     mediaQuery: '(min-width: 768px)'
   });
 }
+
+const $moveGaragePicture = '#js-move-garage-picture';
+const $garagePicture = '#js-garage-picture';
+
+if ($($garagePicture).length) {
+  $($garagePicture).responsiveDom({
+    appendTo: $moveGaragePicture,
+    mediaQuery: '(min-width: 1024px)'
+  });
+}

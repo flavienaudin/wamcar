@@ -1,0 +1,96 @@
+/* ===========================================================================
+   Garage
+   =========================================================================== */
+
+.garage {
+
+
+  /*
+    Container
+    ===================================== */
+
+  &-container {
+
+    @include breakpoint(xlarge) {
+      padding-left: rem-calc(50);
+    }
+
+  }
+
+
+  /*
+     Header
+     ===================================== */
+
+  &-header {
+    position: relative;
+    background: white;
+
+    @include breakpoint(large) {
+      border: rem-calc(1) solid $border-color;
+    }
+  }
+
+
+  /*
+     Logo
+     ===================================== */
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-width: rem-calc(1);
+    border-style: solid;
+    border-color: $border-color;
+    padding: rem-calc(10);
+
+    @include breakpoint(medium down) {
+      width: rem-calc(70);
+      height: rem-calc(70);
+      position: absolute;
+      top: rem-calc(-55);
+      right: rem-calc(20);
+    }
+
+    @include breakpoint(medium only) {
+      width: rem-calc(100);
+      height: rem-calc(100);
+      top: rem-calc(-75);
+    }
+
+    @include breakpoint(large) {
+      height: rem-calc(180);
+      border-width: 0 0 rem-calc(1);
+    }
+
+    @include breakpoint(xlarge) {
+      height: rem-calc(230);
+    }
+
+    /* Components */
+
+    img {
+      max-height: 100%;
+    }
+  }
+
+
+  /*
+     Infos
+     ===================================== */
+
+  &-infos {
+    padding: rem-calc(20);
+
+    @include breakpoint(medium) {
+      padding: rem-calc(30);
+    }
+
+    @include breakpoint(xlarge) {
+      padding: rem-calc(40);
+    }
+  } // End &-infos
+
+}
