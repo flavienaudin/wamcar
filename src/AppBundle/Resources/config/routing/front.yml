@@ -40,3 +40,11 @@ front_garage_create:
 front_garage_edit:
     path: /garage/edit/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }
+
+front_garage_list:
+    path: /garage/list
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:index }
+
+front_garage_remove:
+    path: /garage/remove/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:remove }

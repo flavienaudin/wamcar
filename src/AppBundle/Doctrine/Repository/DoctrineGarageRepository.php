@@ -3,6 +3,7 @@
 namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
@@ -52,5 +53,15 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
         $this->_em->flush();
     }
 
-
+    /**
+     * {@inheritdoc}
+     */
+    public function getLatest(): array
+    {
+        return $this->createQueryBuilder('g')
+            ->orderBy('g.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

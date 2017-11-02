@@ -1,0 +1,32 @@
+{% extends ':front/Layout:layout.html.twig' %}
+
+
+{% block body %}
+    <a href="{{ path('front_garage_create') }}" class="button">Créer un garage</a>
+    <div class="row">
+        {% for garage in garages %}
+            <div class="vehicle-item large-5">
+                <figcaption class="vehicle-infos">
+                    <span class="vehicle-brand">{{ garage.id }}</span>
+                    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}"><span class="vehicle-name">{{ garage.name }}</span></a>
+                    <p class="vehicle-model no-margin">{{ garage.siren }}</p>
+                    <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.phone }}</span>
+                    <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.address.address }}</span>
+                    <span class="vehicle-city black-color is-block" style="margin-top: auto">{{ garage.address.city.postalCode }}, {{ garage.address.city.name }}</span>
+                    <strong>{{ garage.email }}</strong>
+                </figcaption>
+                <ul>
+                    {% if is_granted('ROLE_PRO') %}
+                        <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_PRO') and not is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Rejoindre</a></li>
+                    {% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}">Supprimer</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}
