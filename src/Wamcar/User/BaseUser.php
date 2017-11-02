@@ -4,6 +4,9 @@ namespace Wamcar\User;
 
 abstract class BaseUser
 {
+    const TYPE_PERSONAL = 'personal';
+    const TYPE_PRO  = 'pro';
+
     /** @var int */
     protected $id;
     /** @var string */

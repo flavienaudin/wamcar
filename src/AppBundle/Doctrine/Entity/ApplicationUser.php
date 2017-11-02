@@ -71,4 +71,9 @@ interface ApplicationUser
      * @return bool
      */
     public function hasConfirmedRegistration(): bool;
+
+    /**
+     * @return string
+     */
+    public function getType(): string;
 }

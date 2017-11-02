@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
@@ -27,12 +28,6 @@ class UserController extends BaseController
     /** @var UserEditionService  */
     protected $userEditionService;
 
-    /** @var array  */
-    protected $userForms;
-
-    /** @var array  */
-    protected $userDTOs;
-
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
@@ -48,14 +43,6 @@ class UserController extends BaseController
         $this->formFactory = $formFactory;
         $this->doctrineUserRepository = $doctrineUserRepository;
         $this->userEditionService = $userEditionService;
-        $this->userForms = [
-            ProApplicationUser::class  => ProUserInformationType::class,
-            PersonalApplicationUser::class  => UserInformationType::class
-        ];
-        $this->userDTOs = [
-            ProApplicationUser::class  => ProUserInformationDTO::class,
-            PersonalApplicationUser::class  => UserInformationDTO::class
-        ];
     }
 
     /**
@@ -66,10 +53,20 @@ class UserController extends BaseController
     public function userInformationsAction(Request $request): Response
     {
         //TODO : Récupérer le user courant quand dispo
+        /** @var ApplicationUser $user */
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
 
-        $userForm = $this->userForms[get_class($user)];
-        $userInformationDTO = new $this->userDTOs[get_class($user)]($user);
+        $userForms = [
+            'pro'  => ProUserInformationType::class,
+            'personal'  => UserInformationType::class
+        ];
+        $userDTOs = [
+            'pro'  => ProUserInformationDTO::class,
+            'personal'  => UserInformationDTO::class
+        ];
+
+        $userForm = $userForms[$user->getType()];
+        $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
         $editForm = $this->formFactory->create(
             $userForm,
