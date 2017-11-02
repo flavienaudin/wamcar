@@ -48,7 +48,7 @@ class UserController extends BaseController
      * @return Response
      * @throws \InvalidArgumentException
      */
-    public function userInformationsAction(Request $request): Response
+    public function editInformationsAction(Request $request): Response
     {
         //TODO : Récupérer le user courant quand dispo
         /** @var ApplicationUser $user */
@@ -64,6 +64,7 @@ class UserController extends BaseController
         ];
 
         $userForm = $userForms[$user->getType()];
+        /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
         $editForm = $this->formFactory->create(
@@ -73,6 +74,7 @@ class UserController extends BaseController
 
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            if ($userInformationDTO->newPassword)
             $this->userEditionService->editInformations($user, $userInformationDTO);
 
             $this->session->getFlashBag()->add(
@@ -82,8 +84,29 @@ class UserController extends BaseController
         }
 
 
-        return $this->render('front/User/personal_informations.html.twig', [
-            'form' => $editForm->createView()
+        return $this->render('front/Seller/edit.html.twig', [
+            'editUserForm' => $editForm->createView(),
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function viewInformationAction(Request $request): Response
+    {
+        //TODO : Récupérer le user courant quand dispo
+        /** @var ApplicationUser $user */
+        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+
+        if ($user->getType() !== 'pro') {
+            throw new \Exception('User must have the "Pro" Type');
+        }
+
+        return $this->render('front/Seller/card.html.twig', [
+            'user' => $user
         ]);
     }
 }

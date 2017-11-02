@@ -1,13 +1,12 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% set user = inte.user %}
 {% set is_logged = true %}
 {% set is_user_pro = true %}
 {% set page_profil = true %}
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Fiche vendeur de {{ user.fullName }}{% endblock %}
+{% block title %}Fiche vendeur de {{ user.name }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -26,17 +25,15 @@
         <div class="profil-body column block-grid small-12">
             <div class="small-12 medium-7 large-5">
                 <h2>Présentation du vendeur</h2>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellat consectetur rem ullam laudantium animi sed, atque ab dolorem necessitatibus porro nisi blanditiis impedit eum. Voluptatem magni quo inventore assumenda voluptatum.</p>
-                <a href="{{ path('front_seller_card_edit') }}" class="text-underline">Modifier mes informations</a>
+                <p>{{ user.description|nl2br }}</p>
+                <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
             </div>
             <div class="separator-for-small small-12 medium-4 large-6 medium-offset-1">
                 <h2>Vendeur pour</h2>
                 {% include 'front/User/includes/brand_list.html.twig' %}
             </div>
             <div class="separator small-12 medium-text-center">
-                <a href="{{ path('front_default') }}" class="text-underline">Déconnexion</a>
+                <a href="{{ path('security_logout') }}" class="text-underline">Déconnexion</a>
             </div>
         </div>
     </section>

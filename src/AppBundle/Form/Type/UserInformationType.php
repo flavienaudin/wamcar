@@ -8,7 +8,8 @@ use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,6 @@ class UserInformationType extends AbstractType
     {
 
         $builder
-            ->add('email', EmailType::class)
             ->add('name', TextType::class)
             ->add('title', ChoiceType::class, [
                 'expanded' => true,
@@ -37,11 +37,21 @@ class UserInformationType extends AbstractType
             ->add('phone', TextType::class, [
                 'required' => false
             ])
-            ->add('postalCode', TextType::class, [
-                'required' => false
+            ->add('oldPassword', PasswordType::class, [
+                'required' => false,
+                'error_bubbling' => true,
             ])
-            ->add('cityName', TextType::class, [
-                'required' => false
+            ->add('newPassword', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'invalid_message' => 'edit_user_data.password.repeat',
+                'first_options' => [
+                    'label_format' => 'user.field.password.first.label'
+                ],
+                'second_options' => [
+                    'label_format' => 'user.field.password.second.label'
+                ],
+                'required' => false,
+                'error_bubbling' => true,
             ]);
 
         $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));

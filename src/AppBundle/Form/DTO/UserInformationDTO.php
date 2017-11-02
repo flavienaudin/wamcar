@@ -23,6 +23,11 @@ class UserInformationDTO
     public $cityName;
     /** @var  string */
     public $postalCode;
+    /** @var  string */
+    public $oldPassword;
+    /** @var  string */
+    public $newPassword;
+
 
     /**
      * UserInformationDTO constructor.

@@ -25,10 +25,15 @@ front_vehicle_registration_form_update:
     defaults:
         _controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
 
-front_user_info:
+front_edit_user_info:
     path: /user-info
     defaults:
-        _controller: AppBundle:Front\PersonalContext\User:userInformations
+        _controller: AppBundle:Front\PersonalContext\User:editInformations
+
+front_view_user_info:
+    path: /view-user-info
+    defaults:
+        _controller: AppBundle:Front\PersonalContext\User:viewInformation
 
 front_seller_card_edit:
     path: /vendeur/stephane-richin/editer

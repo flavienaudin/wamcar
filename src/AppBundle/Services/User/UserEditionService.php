@@ -45,6 +45,14 @@ class UserEditionService
      */
     public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
+        if (!empty($userInformationDTO->newPassword)) {
+            $isValid = $this->passwordEncoder->isPasswordValid($user->getPassword(), $userInformationDTO->oldPassword, $user->getSalt());
+            if (!$isValid) {
+                throw new \InvalidArgumentException('Password should be the current');
+            }
+            $this->editPassword($user, $userInformationDTO->newPassword);
+        }
+
         $user->setEmail($userInformationDTO->email);
         $user->updateUserProfile($userInformationDTO->getUserProfile());
 
