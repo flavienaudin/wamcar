@@ -39,3 +39,25 @@ parameters:
           tel_mob: 06 85 84 82 81
           email: stephane@novaway.fr
           picture: /assets/images/placeholders/user/user.png
+        garage:
+          picture:
+            small: assets/images/placeholders/garages/garage-360x160.jpg
+            default: assets/images/placeholders/garages/garage-760x340.jpg
+          logo: assets/images/placeholders/garages/logo-toyota.png
+          name: Toyota Villeurbanne
+          address: 3 avenue Emile Zola, 69100 Villeurbanne
+          schedule: Ouvert du lundi au samedi, de 9h à 12h et de 14h à 18h
+          tel: 04 99 98 97 96
+          sellers:
+            - stephane:
+              picture: /assets/images/placeholders/user/user.png
+              name: Stéphane Richin
+            - elodie:
+              picture: /assets/images/placeholders/user/user.png
+              name: Elodie Santini
+            - marc:
+              picture: /assets/images/placeholders/user/user.png
+              name: Marc Van Houtte
+            - alexis:
+              picture: /assets/images/placeholders/user/user.png
+              name: Alexis Sanchez

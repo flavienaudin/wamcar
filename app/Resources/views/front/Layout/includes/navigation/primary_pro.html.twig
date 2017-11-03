@@ -1,9 +1,9 @@
 {% extends 'front/Layout/includes/navigation/primary.html.twig' %}
 
 {% set pageSearch = pageSearch|default(false) %}
-{% set pageGarage = pageGarage|default(false) %}
+{% set page_garage = page_garage|default(false) %}
 {% set pageMessage = pageMessage|default(false) %}
-{% set pageProfil = pageProfil|default(false) %}
+{% set page_profil = page_profil|default(false) %}
 
 {% set navigation_class = 'is-flex small-right' %}
 {% set navigation_items = [
@@ -14,10 +14,10 @@
         current: pageSearch
     },
     {
-        slug: '',
+        slug: path('front_garage_detail'),
         label: 'Mon Garage',
         icon: 'garage',
-        current: pageGarage
+        current: page_garage
     },
     {
         slug: '',
@@ -29,7 +29,7 @@
         slug: path('front_seller_card'),
         label: 'Profil',
         icon: 'user',
-        current: pageProfil
+        current: page_profil
     }
 ] %}
 

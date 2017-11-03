@@ -1,0 +1,73 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Mon garage{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set garage = inte.garage %}
+{% set vehicle_list = inte.vehicle %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <div class="row">
+
+        <div class="garage-container block-grid">
+
+            <header class="column small-collapse small-12 large-4 large-uncollapse">
+                <div class="garage-header block-grid">
+                    {% include 'front/Garages/Detail/includes/picture.html.twig' %}
+                    {% include 'front/Garages/Detail/includes/logo.html.twig' %}
+                    <div class="garage-infos medium-9 large-12">
+                        {% include 'front/Garages/Detail/includes/infos.html.twig' %}
+                    </div>
+                </div>
+            </header>
+
+            <section class="column small-12 small-collapse large-8 large-uncollapse xlarge-right-collapse">
+                <div class="js-banner-full-container">
+                    <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
+                    <div id="js-move-garage-picture" aria-hidden="true"></div>
+                    <ul id="js-garage-tabs" class="tabs" data-tabs>
+                        <li class="tabs-title"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
+                        <li class="tabs-title"><a data-tabs-target="about" href="#about">A propos</a></li>
+                        {# Pour l'instant, l'onglet avis reste caché jusqu'à la décision du sont contenu. #}
+                        {# <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">Avis</a></li> #}
+                        <li class="tabs-title is-active"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
+                    </ul>
+                </div>
+                <div class="tabs-content" data-tabs-content="js-garage-tabs">
+                    <div id="vehicles" class="tabs-panel column large-collapse">
+                        {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
+                    </div>
+                    <div id="about" class="tabs-panel">
+                        {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
+                    </div>
+                    {# Pour l'instant, l'onglet avis reste caché jusqu'à la décision du sont contenu. #}
+                    {# <div id="opinions" class="tabs-panel">
+                        {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
+                    </div> #}
+                    <div id="sellers" class="tabs-panel is-active">
+                        {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+    </div>
+
+
+{% endblock body %}

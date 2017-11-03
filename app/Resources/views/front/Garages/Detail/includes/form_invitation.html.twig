@@ -1,0 +1,14 @@
+<form data-abide novalidate>
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        placeholder: 'Adresse email',
+        name: 'email',
+        required: true,
+        required_message: 'Veuillez indiquer l\'adresse email du vendeur.'
+    } %}
+    <div class="input-margin">
+        <a class="text-underline">Ajouter un autre vendeur</a>
+    </div>
+    <div>
+        <button type="submit" class="button full-width large-8">Envoyer les invitations</button>
+    </div>
+</form>

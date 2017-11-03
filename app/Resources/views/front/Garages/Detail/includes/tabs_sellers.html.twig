@@ -1,0 +1,21 @@
+{% set sellers = inte.garage.sellers %}
+
+<div class="block-grid">
+    <div class="small-12 medium-6">
+        <h2 class="column large-collapse">Vendeur</h2>
+        <ul class="seller-list no-bullet no-margin">
+            {% for seller in sellers %}
+                <li class="block-grid column large-left-collapse align-middle">
+                    <span class="seller-picture"><img src="{{ asset(seller.picture) }}" alt="{{ seller.name }}"></span>
+                    <span class="seller-name">{{ seller.name }}</span>
+                    <a href="" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="column small-12 medium-6 large-collapse">
+        <h2 class="separator-for-small">Inviter un vendeur</h2>
+        <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>
+        {% include 'front/Garages/Detail/includes/form_invitation.html.twig' %}
+    </div>
+</div>
