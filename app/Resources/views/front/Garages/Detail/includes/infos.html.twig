@@ -1,0 +1,10 @@
+<h1 class="h2 primary-color">{{ garage.name }}</h1>
+<ul class="list-bullet">
+    <li>
+        <address>{{ garage.address }}</address>
+        <a href="" target="_blank" class="text-underline">Voir sur Google Maps</a>
+    </li>
+    <li>{{ garage.schedule }}</li>
+    <li>Téléphone : {{ garage.tel }}</li>
+</ul>
+<a href="{{ path('front_garage_edit') }}" class="text-underline">Modifier mes informations</a>

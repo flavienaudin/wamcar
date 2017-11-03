@@ -20,6 +20,7 @@ import './components/step';
 import './components/file';
 import './components/registration';
 import './components/like';
+import './components/banner';
 import {
   activeClass
 } from './settings/settings.js';

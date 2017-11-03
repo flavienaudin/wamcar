@@ -52,4 +52,24 @@
       font-size: rem-calc(20);
     }
   }
+
+
+  /*
+     Full
+     ===================================== */
+
+  &-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 35%;
+    background: #f7f7f7;
+    border-bottom: rem-calc(1) solid $border-color;
+    z-index: -1;
+
+    @include breakpoint(medium) {
+      top: rem-calc(40);
+    }
+  }
 }

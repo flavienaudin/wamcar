@@ -22,6 +22,15 @@
     }
   }
 
+  .garage-container & {
+    background: #f7f7f7;
+    padding-top: rem-calc(15);
+
+    @include breakpoint(large) {
+      padding-top: rem-calc(45);
+    }
+  }
+
 
   /*
     Title
@@ -61,6 +70,22 @@
       }
     }
 
+    /* Exception */
+
+    .garage-container & {
+      > a {
+        border-color: transparent;
+      }
+
+      &.is-active {
+        > a {
+          border-width: rem-calc(1) rem-calc(1) 0;
+          border-style: solid;
+          border-color: $border-color;
+        }
+      }
+    }
+
   } // End &-title
 
 
@@ -80,16 +105,25 @@
   &-panel {
     display: none;
     padding-top: rem-calc(15);
-    padding-bottom: rem-calc(15);
 
     @include breakpoint(medium) {
       padding-top: rem-calc(30);
-      padding-bottom: rem-calc(30);
     }
 
     /* Active */
 
     &.is-active { display: block; }
-  }
+
+    /* Exceptions */
+
+    .search-form & {
+      padding-bottom: rem-calc(15);
+
+      @include breakpoint(medium) {
+        padding-bottom: rem-calc(30);
+      }
+    } // End .search-form &
+
+  } // End &-panel
 
 }

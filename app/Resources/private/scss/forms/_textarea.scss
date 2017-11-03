@@ -28,6 +28,10 @@ textarea {
 
   /* Exception */
 
+  &.small {
+    min-height: rem-calc(90);
+  }
+
   &.input {
     line-height: 1.4;
     padding: $textarea-padding;

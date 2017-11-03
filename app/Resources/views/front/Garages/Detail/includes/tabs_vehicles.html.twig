@@ -1,0 +1,25 @@
+<h2><span class="primary-color">{{ vehicle_list|length }}</span> véhicules en vente</h2>
+<div class="block-grid small-12 align-middle input-margin">
+    <div class="small-12 medium-6">
+        <select class="no-margin">
+            <option value="">YTets</option>
+            <option value="">YTets</option>
+            <option value="">YTets</option>
+            <option value="">YTets</option>
+        </select>
+    </div>
+    <div class="show-for-medium small-12 medium-shrink medium-right">
+        <a href="" class="button add icon-plus">Ajouter un véhicule</a>
+    </div>
+</div>
+{% set balise = 'h3' %}
+{% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+<br>
+<div class="block-grid small-12 align-middle input-margin">
+    <div class="small-12 medium-6">
+        {% include 'front/Layout/includes/pagination.html.twig' %}
+    </div>
+    <div class="small-12 medium-shrink medium-right">
+        <a href="" class="button add icon-plus">Ajouter un véhicule</a>
+    </div>
+</div>

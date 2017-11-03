@@ -1,0 +1,91 @@
+/* ===========================================================================
+   Pagination
+   =========================================================================== */
+
+.pagination {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+
+  @include breakpoint(small only) {
+    justify-content: center;
+    margin-bottom: rem-calc(30);
+  }
+
+  /* Components */
+
+  > a {
+    @include breakpoint(large) {
+      transition: $global-transition;
+      &:hover { color: $primary-color; }
+    }
+
+    &::before {
+      font-size: rem-calc(13);
+      margin-right: 0;
+    }
+  }
+
+
+
+  /*
+    Item
+    ===================================== */
+
+
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(40);
+    height: rem-calc(40);
+    background: #f2f2f2;
+    border-radius: 50%;
+    color: $body-font-color;
+    font-weight: bold;
+    text-align: center;
+
+    &:not(:first-child) {
+      margin-left: rem-calc(10);
+
+      @include breakpoint(medium) {
+        margin-left: rem-calc(15);
+      }
+    }
+
+    @include breakpoint(medium) {
+      width: rem-calc(50);
+      height: rem-calc(50);
+    }
+
+    &.is-current {
+      background: $dark-gray;
+      color: white;
+    }
+  }
+
+
+  /*
+     Previous
+     ===================================== */
+
+  &-item.previous {
+    &::before {
+      transform: rotate(180deg) translate3d(#{rem-calc(1)}, 0, 0);
+    }
+  }
+
+
+  /*
+  Next
+  ===================================== */
+
+  &-item.next {
+    &::before {
+      transform: translate3d(#{rem-calc(2)}, 0, 0);
+    }
+  }
+
+}
