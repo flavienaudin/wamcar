@@ -15,7 +15,7 @@ class YesNoType extends ChoiceType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('choices', [self::NO, self::YES]);
+        $resolver->setDefault('choices', [self::YES, self::NO]);
         $resolver->setDefault('expanded', true);
     }
 
