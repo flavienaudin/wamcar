@@ -33,3 +33,15 @@ front_seller_card_edit:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Seller/edit.html.twig
+
+inte_garage_detail:
+    path: /garage/toyota
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Garages/Detail/detail.html.twig
+
+inte_garage_edit:
+    path: /garage/toyota/editer
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Garages/Edit/edit.html.twig
