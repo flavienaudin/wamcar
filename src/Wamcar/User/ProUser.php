@@ -4,6 +4,10 @@
 namespace Wamcar\User;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Wamcar\Garage\GarageProUser;
+
 class ProUser extends BaseUser
 {
     const TYPE = 'pro';
@@ -12,6 +16,18 @@ class ProUser extends BaseUser
     protected $description;
     /** @var  string */
     protected $phonePro;
+    /** @var  Collection */
+    protected $garageMembers;
+
+    /**
+     * ProUser constructor.
+     * @param string $email
+     */
+    public function __construct($email)
+    {
+        parent::__construct($email);
+        $this->garageMembers = new ArrayCollection();
+    }
 
     /**
      * @return string
@@ -45,4 +61,41 @@ class ProUser extends BaseUser
         $this->phonePro = $phonePro;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getGarageMembers(): Collection
+    {
+        return $this->garageMembers;
+    }
+
+    /**
+     * @param Collection $members
+     */
+    public function setGarageMembers(Collection $members)
+    {
+        $this->garageMembers = $members;
+    }
+
+    /**
+     * @param GarageProUser $member
+     * @return ProUser
+     */
+    public function addGarageMember(GarageProUser $member): ProUser
+    {
+        $this->garageMembers->add($member);
+
+        return $this;
+    }
+
+    /**
+     * @param GarageProUser $member
+     * @return ProUser
+     */
+    public function removeGarageMember(GarageProUser $member): ProUser
+    {
+        $this->garageMembers->removeElement($member);
+
+        return $this;
+    }
 }

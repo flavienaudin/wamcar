@@ -8,3 +8,9 @@ Wamcar\User\ProUser:
         phonePro:
             type: string
             nullable: true
+
+    oneToMany:
+        garageMembers:
+            targetEntity: Wamcar\Garage\GarageProUser
+            mappedBy: proUser
+            cascade: ["persist", "merge"]

@@ -2,6 +2,9 @@
 
 namespace Wamcar\Garage;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 class Garage
 {
     /** @var int */
@@ -22,6 +25,8 @@ class Garage
     protected $benefit;
     /** @var  Address */
     protected $address;
+    /** @var  Collection */
+    protected $members;
 
     /**
      * Garage constructor.
@@ -44,6 +49,7 @@ class Garage
         $this->openingHours = $openingHours;
         $this->presentation = $presentation;
         $this->address = $address;
+        $this->members = new ArrayCollection();
     }
 
     /**
@@ -181,4 +187,43 @@ class Garage
     {
         $this->address = $address;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getMembers(): Collection
+    {
+        return $this->members;
+    }
+
+    /**
+     * @param Collection $members
+     */
+    public function setMembers(Collection $members)
+    {
+        $this->members = $members;
+    }
+
+    /**
+     * @param GarageProUser $member
+     * @return Garage
+     */
+    public function addMember(GarageProUser $member): Garage
+    {
+        $this->getMembers()->add($member);
+
+        return $this;
+    }
+
+    /**
+     * @param GarageProUser $member
+     * @return Garage
+     */
+    public function removeMember(GarageProUser $member): Garage
+    {
+        $this->members->removeElement($member);
+
+        return $this;
+    }
+
 }

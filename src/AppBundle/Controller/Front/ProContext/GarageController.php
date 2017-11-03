@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
+use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Garage\Garage;
 
 class GarageController extends BaseController
 {
@@ -23,6 +25,9 @@ class GarageController extends BaseController
 
     /** @var DoctrineGarageRepository  */
     protected $doctrineGarageRepository;
+
+    /** @var DoctrineUserRepository  */
+    protected $doctrineUserRepository;
 
     /** @var GarageEditionService  */
     protected $garageEditionService;
@@ -33,18 +38,21 @@ class GarageController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param DoctrineGarageRepository $doctrineGarageRepository
+     * @param DoctrineUserRepository $doctrineUserRepository
      * @param GarageEditionService $garageEditionService
      * @param GarageProvider $garageProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         DoctrineGarageRepository $doctrineGarageRepository,
+        DoctrineUserRepository $doctrineUserRepository,
         GarageEditionService $garageEditionService,
         GarageProvider $garageProvider
     )
     {
         $this->formFactory = $formFactory;
         $this->doctrineGarageRepository = $doctrineGarageRepository;
+        $this->doctrineUserRepository = $doctrineUserRepository;
         $this->garageEditionService = $garageEditionService;
         $this->garageProvider = $garageProvider;
     }
@@ -99,7 +107,47 @@ class GarageController extends BaseController
         $this->doctrineGarageRepository->remove($applicationGarage);
 
         $this->session->getFlashBag()->add(
-            'flash.success.item_removed_by_owner',
+            'flash.success.remove_garage',
+            self::FLASH_LEVEL_INFO
+        );
+
+        return $this->redirectToRoute('front_garage_list');
+    }
+
+    /**
+     * @param Garage $garage
+     * @Security("has_role('ROLE_PRO')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function assignAction(Garage $garage): RedirectResponse
+    {
+        //TODO : Récupérer le user courant quand dispo
+        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+
+        $this->garageEditionService->addMember($garage, $user);
+
+        $this->session->getFlashBag()->add(
+            'flash.success.add_member_garage',
+            self::FLASH_LEVEL_INFO
+        );
+
+        return $this->redirectToRoute('front_garage_list');
+    }
+
+    /**
+     * @param Garage $garage
+     * @Security("has_role('ROLE_PRO')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function unassignAction(Garage $garage): RedirectResponse
+    {
+        //TODO : Récupérer le user courant quand dispo
+        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+
+        $this->garageEditionService->removeMember($garage, $user);
+
+        $this->session->getFlashBag()->add(
+            'flash.success.add_member_garage',
             self::FLASH_LEVEL_INFO
         );
 

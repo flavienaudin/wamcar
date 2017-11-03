@@ -5,10 +5,12 @@ namespace AppBundle\Doctrine\Entity;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
+use AppBundle\Services\User\HasGarageMember;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable, HasApiCredential
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable, HasGarageMember, HasApiCredential
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
@@ -56,5 +58,21 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function getRoles(): array
     {
         return [$this->role];
+    }
+
+    /**
+     * @param ApplicationGarage $garage
+     * @return null|GarageProUser
+     */
+    public function getMemberByGarage(ApplicationGarage $garage): ?GarageProUser
+    {
+        /** @var GarageProUser $member */
+        foreach ($garage->getMembers() as $member) {
+            if ($member->getProUser() === $this) {
+                return $member;
+            }
+        }
+
+        return null;
     }
 }

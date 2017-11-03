@@ -1,0 +1,41 @@
+Wamcar\Garage\GarageProUser:
+
+    type: entity
+    table: garage_pro_user
+    inheritanceType: SINGLE_TABLE
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        basic: Wamcar\Garage\GarageProUser
+        application: AppBundle\Doctrine\Entity\ApplicationGarageProUser
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [garage, proUser]
+            errorPath: proUser
+            message: 'This proUser is already in use on that garage.'
+
+    id:
+      garage:
+        associationKey: true
+      proUser:
+        associationKey: true
+
+    fields:
+
+    manyToOne:
+        garage:
+            targetEntity: Wamcar\Garage\Garage
+            inversedBy: members
+            joinColumn:
+                name: garage_id
+                referencedColumnName: id
+
+        proUser:
+            targetEntity: Wamcar\User\ProUser
+            inversedBy: garageMembers
+            joinColumn:
+                name: pro_user_id
+                referencedColumnName: id

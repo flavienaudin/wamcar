@@ -47,3 +47,9 @@ Wamcar\Garage\Garage:
         benefit:
             type: text
             nullable: true
+
+    oneToMany:
+        members:
+            targetEntity: GarageProUser
+            mappedBy: garage
+            cascade: ["persist", "merge"]

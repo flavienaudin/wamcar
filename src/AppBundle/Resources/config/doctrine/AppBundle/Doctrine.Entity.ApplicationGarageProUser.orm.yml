@@ -1,0 +1,6 @@
+AppBundle\Doctrine\Entity\ApplicationGarageProUser:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository
+
+    exclusion_policy: ALL
