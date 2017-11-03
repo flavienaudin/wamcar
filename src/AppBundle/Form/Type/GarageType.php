@@ -24,15 +24,10 @@ class GarageType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('siren', TextType::class)
-            ->add('phone', TextType::class)
-            ->add('email', EmailType::class)
             ->add('openingHours', TextareaType::class, [
                 'required' => false
             ])
             ->add('presentation', TextareaType::class, [
-                'required' => false
-            ])
-            ->add('benefit', TextareaType::class, [
                 'required' => false
             ])
             ->add('address', TextType::class)

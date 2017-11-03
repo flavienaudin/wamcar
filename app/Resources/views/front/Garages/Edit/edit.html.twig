@@ -1,3 +1,6 @@
+{% trans_default_domain 'garage' %}
+{% form_theme garageForm 'front/Layout/includes/forms/fields.html.twig' %}
+
 {% extends 'front/Layout/layout.html.twig' %}
 
 {% block mainClass %}no-padding-top{% endblock %}
@@ -15,8 +18,6 @@
     }
 ] %}
 
-{% set garage = inte.garage %}
-
 {% block body %}
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
@@ -28,55 +29,52 @@
 
         <div class="block-grid small-12 xlarge-10 xlarge-offset-1">
 
-            <form class="small-12" data-abide novalidate>
+            {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                 <div class="block-grid small-12">
                     <h2 class="column small-12">Société</h2>
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        class_field: 'column small-12 medium-6',
-                        class: 'medium-no-margin',
-                        label: 'Raison sociale',
-                        name: 'raison-sociale',
-                        required: true,
-                        required_message: 'Veuillez indiquer votre raison sociale.'
-                    } %}
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        class_field: 'column small-12 medium-6',
-                        class: 'small-no-margin',
-                        label: 'Numéro de SIREN',
-                        name: 'siren',
-                        required: true,
-                        required_message: 'Veuillez indiquer votre numéro de SIREN.'
-                    } %}
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.name, {
+                            'label': 'Raison sociale',
+                            'class': 'medium-no-margin',
+                            'required': true,
+                            'required_message': 'Veuillez indiquer votre raison sociale.'
+                        }) }}
+                    </div>
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.siren, {
+                            'label': 'Numéro de SIREN',
+                            'class': 'small-no-margin',
+                            'required': true,
+                            'required_message': 'Veuillez indiquer votre numéro de SIREN.'
+                        }) }}
+                    </div>
                 </div>
                 <div class="column small-12">
                     <div class="separator">
                         <div class="row small-12">
                             <h2 class="column small-12">Coordonnées</h2>
-                            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                class_field: 'column small-12 large-6',
-                                class: 'large-no-margin',
-                                label: 'Adresse',
-                                value: garage.address,
-                                name: 'address',
-                                required: true,
-                                required_message: 'Veuillez indiquer votre adresse.'
-                            } %}
-                            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                class_field: 'column small-5 medium-3 large-2',
-                                class: 'medium-no-margin',
-                                label: 'Code postal',
-                                value: garage.postal_code,
-                                name: 'postal_code',
-                                required: true
-                            } %}
-                            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                class_field: 'column small-7 medium-9  large-4',
-                                class: 'medium-no-margin',
-                                label: 'Ville',
-                                value: garage.city,
-                                name: 'city',
-                                required: true
-                            } %}
+                            <div class="column small-12 medium-6">
+                                {{ form_widget(garageForm.address, {
+                                    'label': 'Adresse',
+                                    'class': 'large-no-margin',
+                                    'required': true,
+                                    'required_message': 'Veuillez indiquer votre adresse.'
+                                }) }}
+                            </div>
+                            <div class="column small-5 medium-3 large-2">
+                                {{ form_widget(garageForm.postalCode, {
+                                    'label': 'Code postal',
+                                    'class': 'medium-no-margin',
+                                    'required': true
+                                }) }}
+                            </div>
+                            <div class="column small-7 medium-9  large-4">
+                                {{ form_widget(garageForm.cityName, {
+                                    'label': 'Ville',
+                                    'class': 'medium-no-margin',
+                                    'required': true
+                                }) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -84,19 +82,20 @@
                     <div class="separator">
                         <div class="row small-12">
                             <h2 class="column small-12">Information</h2>
-                            {% include 'front/Layout/includes/forms/textarea.html.twig' with {
-                                class_field: 'column small-12 large-6',
-                                value: garage.presentation|raw,
-                                label: 'Présentation',
-                                name: 'presentation'
-                            } %}
-                            {% include 'front/Layout/includes/forms/textarea.html.twig' with {
-                                class_field: 'column small-12 large-6',
-                                class: 'small',
-                                value: garage.schedule,
-                                label: 'Horaires d\'ouverture',
-                                name: 'schedule'
-                            } %}
+                            <div class="column small-12 large-6">
+                                {{ form_widget(garageForm.presentation, {
+                                    'label': 'Présentation',
+                                    'class': '',
+                                    'required': false
+                                }) }}
+                            </div>
+                            <div class="column small-12 large-6">
+                                {{ form_widget(garageForm.openingHours, {
+                                    'label': 'Horaires d\'ouverture',
+                                    'class': 'small',
+                                    'required': false
+                                }) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -124,7 +123,7 @@
                 <div class="column small-12">
                     <button type="submit" class="button full-width medium-5 large-4">Enregistrer mes modifications</button>
                 </div>
-            </form>
+            {{ form_end(garageForm) }}
 
         </div>
 

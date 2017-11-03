@@ -59,7 +59,7 @@ class GarageController extends BaseController
             );
         }
 
-        return $this->render('front/proContext/garage/garage_edit.html.twig', [
+        return $this->render('front/Garages/Edit/edit.html.twig', [
             'garageForm' => $garageForm->createView()
         ]);
     }
@@ -85,7 +85,7 @@ class GarageController extends BaseController
             );
         }
 
-        return $this->render('front/proContext/garage/garage_edit.html.twig', [
+        return $this->render('front/Garages/Edit/edit.html.twig', [
             'garageForm' => $garageForm->createView()
         ]);
     }

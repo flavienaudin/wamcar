@@ -27,31 +27,22 @@ class Garage
      * Garage constructor.
      * @param string $name
      * @param string $siren
-     * @param string $phone
-     * @param string $email
      * @param null|string $openingHours
      * @param null|string $presentation
-     * @param null|string $benefit
      * @param Address $address
      */
     public function __construct(
         string $name,
         string $siren,
-        string $phone,
-        string $email,
         ?string $openingHours,
         ?string $presentation,
-        ?string $benefit,
         Address $address
     )
     {
         $this->name = $name;
         $this->siren = $siren;
-        $this->phone = $phone;
-        $this->email = $email;
         $this->openingHours = $openingHours;
         $this->presentation = $presentation;
-        $this->benefit = $benefit;
         $this->address = $address;
     }
 
@@ -82,7 +73,7 @@ class Garage
     /**
      * @return string
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
@@ -90,7 +81,7 @@ class Garage
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
