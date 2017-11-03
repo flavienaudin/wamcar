@@ -9,7 +9,8 @@
    ===================================== */
 
 .l-main {
-  overflow-x: hidden;
+  // overflow-x: hidden;
+  position: relative;
   padding-top: rem-calc(25);
   padding-bottom: rem-calc(35);
 

@@ -10,11 +10,13 @@
     ===================================== */
 
   &-container {
+    @include breakpoint(large) {
+      padding-top: rem-calc(40);
+    }
 
     @include breakpoint(xlarge) {
       padding-left: rem-calc(50);
     }
-
   }
 
 
@@ -24,9 +26,10 @@
 
   &-header {
     position: relative;
-    background: white;
+    background: #f7f7f7;
 
     @include breakpoint(large) {
+      background: white;
       border: rem-calc(1) solid $border-color;
     }
   }
@@ -42,6 +45,7 @@
     justify-content: center;
     background: white;
     border-width: rem-calc(1);
+
     border-style: solid;
     border-color: $border-color;
     padding: rem-calc(10);
