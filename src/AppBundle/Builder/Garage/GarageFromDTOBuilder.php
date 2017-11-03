@@ -61,11 +61,8 @@ class GarageFromDTOBuilder implements BuilderFromDTO
         return new ApplicationGarage(
             $dto->name,
             $dto->siren,
-            $dto->phone,
-            $dto->email,
             $dto->openingHours,
             $dto->presentation,
-            $dto->benefit,
             $dto->fillAddress()
         );
     }
