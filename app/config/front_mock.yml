@@ -45,9 +45,14 @@ parameters:
             default: assets/images/placeholders/garages/garage-760x340.jpg
           logo: assets/images/placeholders/garages/logo-toyota.png
           name: Toyota Villeurbanne
-          address: 3 avenue Emile Zola, 69100 Villeurbanne
+          address: 3 avenue Emile Zola
+          postal_code: 69100
+          city: Villeurbanne
           schedule: Ouvert du lundi au samedi, de 9h à 12h et de 14h à 18h
           tel: 04 99 98 97 96
+          presentation: >
+            <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
+            <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
           sellers:
             - stephane:
               picture: /assets/images/placeholders/user/user.png

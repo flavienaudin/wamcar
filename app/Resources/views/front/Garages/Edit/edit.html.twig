@@ -1,0 +1,134 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Editer mon garage{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set garage = inte.garage %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <div class="row">
+
+        <div class="block-grid small-12 xlarge-10 xlarge-offset-1">
+
+            <form class="small-12" data-abide novalidate>
+                <div class="block-grid small-12">
+                    <h2 class="column small-12">Société</h2>
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        class_field: 'column small-12 medium-6',
+                        class: 'medium-no-margin',
+                        label: 'Raison sociale',
+                        name: 'raison-sociale',
+                        required: true,
+                        required_message: 'Veuillez indiquer votre raison sociale.'
+                    } %}
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        class_field: 'column small-12 medium-6',
+                        class: 'small-no-margin',
+                        label: 'Numéro de SIREN',
+                        name: 'siren',
+                        required: true,
+                        required_message: 'Veuillez indiquer votre numéro de SIREN.'
+                    } %}
+                </div>
+                <div class="column small-12">
+                    <div class="separator">
+                        <div class="row small-12">
+                            <h2 class="column small-12">Coordonnées</h2>
+                            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                class_field: 'column small-12 large-6',
+                                class: 'large-no-margin',
+                                label: 'Adresse',
+                                value: garage.address,
+                                name: 'address',
+                                required: true,
+                                required_message: 'Veuillez indiquer votre adresse.'
+                            } %}
+                            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                class_field: 'column small-5 medium-3 large-2',
+                                class: 'medium-no-margin',
+                                label: 'Code postal',
+                                value: garage.postal_code,
+                                name: 'postal_code',
+                                required: true
+                            } %}
+                            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                class_field: 'column small-7 medium-9  large-4',
+                                class: 'medium-no-margin',
+                                label: 'Ville',
+                                value: garage.city,
+                                name: 'city',
+                                required: true
+                            } %}
+                        </div>
+                    </div>
+                </div>
+                <div class="column small-12">
+                    <div class="separator">
+                        <div class="row small-12">
+                            <h2 class="column small-12">Information</h2>
+                            {% include 'front/Layout/includes/forms/textarea.html.twig' with {
+                                class_field: 'column small-12 large-6',
+                                value: garage.presentation|raw,
+                                label: 'Présentation',
+                                name: 'presentation'
+                            } %}
+                            {% include 'front/Layout/includes/forms/textarea.html.twig' with {
+                                class_field: 'column small-12 large-6',
+                                class: 'small',
+                                value: garage.schedule,
+                                label: 'Horaires d\'ouverture',
+                                name: 'schedule'
+                            } %}
+                        </div>
+                    </div>
+                </div>
+                <div id="js-pictures-list" class="column small-12 user-form input-margin">
+                    <div class="separator">
+                        <div class="row small-12">
+                            <h2 class="column small-12">Médias</h2>
+                            <div class="column small-12 medium-6">
+                                <label for="pics-1">Bannière (1400x620px)  <span>Facultatif</span></label>
+                                {% set index = 1 %}
+                                {% set classPreview = 'small-6 large-8' %}
+                                {% set image = 'assets/images/background/bg-plus.svg' %}
+                                {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+                            </div>
+                            <div class="column small-12 medium-6">
+                                <label for="pics-2">Logo (280x280px)   <span>Facultatif</span></label>
+                                {% set index = 2 %}
+                                {% set classPreview = 'small-6 large-4' %}
+                                {% set image = 'assets/images/placeholders/garages/logo-toyota.png' %}
+                                {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column small-12">
+                    <button type="submit" class="button full-width medium-5 large-4">Enregistrer mes modifications</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock body %}
