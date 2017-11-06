@@ -74,7 +74,6 @@ class UserController extends BaseController
 
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            if ($userInformationDTO->newPassword)
             $this->userEditionService->editInformations($user, $userInformationDTO);
 
             $this->session->getFlashBag()->add(
