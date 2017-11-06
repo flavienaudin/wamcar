@@ -42,12 +42,4 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
     {
         return $this->registrationToken === null;
     }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return parent::TYPE_PERSONAL;
-    }
 }

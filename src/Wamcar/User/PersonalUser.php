@@ -8,6 +8,7 @@ use Wamcar\Vehicle\Vehicle;
 
 class PersonalUser extends BaseUser
 {
+    const TYPE = 'personal';
 
     /** @var Vehicle[]|array */
     protected $vehicles;

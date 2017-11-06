@@ -6,6 +6,8 @@ namespace Wamcar\User;
 
 class ProUser extends BaseUser
 {
+    const TYPE = 'pro';
+
     /** @var string */
     protected $description;
     /** @var  string */

@@ -56,10 +56,10 @@ class UserRegistrationService
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
 
         $userClassMapping = [
-            RegistrationDTO::TYPE_PERSONAL => PersonalApplicationUser::class,
-            RegistrationDTO::TYPE_PRO => ProApplicationUser::class,
+            PersonalApplicationUser::TYPE => PersonalApplicationUser::class,
+            ProApplicationUser::TYPE => ProApplicationUser::class,
         ];
-        
+
         $applicationUser = new $userClassMapping[$registrationDTO->type](
             $registrationDTO->email,
             $encodedPassword,

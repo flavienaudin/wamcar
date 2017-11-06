@@ -36,12 +36,4 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     {
         return true;
     }
-
-    /**
-     * @return string
-     */
-    public function getType(): string
-    {
-        return parent::TYPE_PRO;
-    }
 }

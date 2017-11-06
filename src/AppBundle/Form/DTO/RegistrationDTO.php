@@ -6,8 +6,6 @@ namespace AppBundle\Form\DTO;
 
 class RegistrationDTO
 {
-    const TYPE_PERSONAL = 'personal';
-    const TYPE_PRO = 'pro';
 
     /** @var  string */
     public $email;
@@ -20,7 +18,7 @@ class RegistrationDTO
      * RegistrationDTO constructor.
      * @param string $type
      */
-    public function __construct($type = self::TYPE_PERSONAL)
+    public function __construct($type = 'personal')
     {
         $this->type = $type;
     }

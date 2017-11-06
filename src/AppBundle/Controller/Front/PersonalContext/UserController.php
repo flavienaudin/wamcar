@@ -5,6 +5,8 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
@@ -55,12 +57,12 @@ class UserController extends BaseController
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
 
         $userForms = [
-            'pro'  => ProUserInformationType::class,
-            'personal'  => UserInformationType::class
+            ProApplicationUser::TYPE  => ProUserInformationType::class,
+            PersonalApplicationUser::TYPE  => UserInformationType::class
         ];
         $userDTOs = [
-            'pro'  => ProUserInformationDTO::class,
-            'personal'  => UserInformationDTO::class
+            ProApplicationUser::TYPE  => ProUserInformationDTO::class,
+            PersonalApplicationUser::TYPE  => UserInformationDTO::class
         ];
 
         $userForm = $userForms[$user->getType()];
