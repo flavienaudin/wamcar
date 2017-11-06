@@ -58,12 +58,14 @@ class GarageFromDTOBuilder implements BuilderFromDTO
             );
         }
 
+        dump($dto);
+
         return new ApplicationGarage(
             $dto->name,
             $dto->siren,
             $dto->openingHours,
             $dto->presentation,
-            $dto->fillAddress()
+            $dto->getAddress()
         );
     }
 
@@ -92,7 +94,7 @@ class GarageFromDTOBuilder implements BuilderFromDTO
         $applicationGarage->setOpeningHours($dto->openingHours);
         $applicationGarage->setPresentation($dto->presentation);
         $applicationGarage->setBenefit($dto->benefit);
-        $applicationGarage->setAddress($dto->fillAddress());
+        $applicationGarage->setAddress($dto->getAddress());
 
         return $applicationGarage;
     }
