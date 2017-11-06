@@ -4,6 +4,8 @@ namespace Wamcar\User;
 
 abstract class BaseUser
 {
+    const TYPE = '';
+
     /** @var int */
     protected $id;
     /** @var string */
@@ -66,5 +68,13 @@ abstract class BaseUser
     public function updateUserProfile($userProfile)
     {
         $this->userProfile = $userProfile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
     }
 }

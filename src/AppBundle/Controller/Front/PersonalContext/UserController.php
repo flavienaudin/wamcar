@@ -4,8 +4,13 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
+use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -45,14 +50,27 @@ class UserController extends BaseController
      * @return Response
      * @throws \InvalidArgumentException
      */
-    public function userInformationsAction(Request $request): Response
+    public function editInformationsAction(Request $request): Response
     {
         //TODO : Récupérer le user courant quand dispo
+        /** @var ApplicationUser $user */
         $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
-        $userInformationDTO = new UserInformationDTO($user);
+
+        $userForms = [
+            ProApplicationUser::TYPE  => ProUserInformationType::class,
+            PersonalApplicationUser::TYPE  => UserInformationType::class
+        ];
+        $userDTOs = [
+            ProApplicationUser::TYPE  => ProUserInformationDTO::class,
+            PersonalApplicationUser::TYPE  => UserInformationDTO::class
+        ];
+
+        $userForm = $userForms[$user->getType()];
+        /** @var UserInformationDTO $userInformationDTO */
+        $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
         $editForm = $this->formFactory->create(
-            UserInformationType::class,
+            $userForm,
             $userInformationDTO
         );
 
@@ -67,8 +85,29 @@ class UserController extends BaseController
         }
 
 
-        return $this->render('front/User/personal_informations.html.twig', [
-            'form' => $editForm->createView()
+        return $this->render('front/Seller/edit.html.twig', [
+            'editUserForm' => $editForm->createView(),
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function viewInformationAction(Request $request): Response
+    {
+        //TODO : Récupérer le user courant quand dispo
+        /** @var ApplicationUser $user */
+        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+
+        if ($user->getType() !== 'pro') {
+            throw new \Exception('User must have the "Pro" Type');
+        }
+
+        return $this->render('front/Seller/card.html.twig', [
+            'user' => $user
         ]);
     }
 }

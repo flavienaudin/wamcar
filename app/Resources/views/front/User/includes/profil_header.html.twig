@@ -1,16 +1,16 @@
 <aside class="profil-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">{{ user.fullName }}</h1>
+            <h1 class="profil-name">{{ user.name }}</h1>
             <div class="profil-action">
-                <a href="tel:+33{{ user.tel_fix }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.tel_fix }}</span></a>
-                <a href="tel:+33{{ user.tel_mob }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.tel_mob }}</span></a>
+                <a href="tel:+33{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
+                <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
                 <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">
             <span class="profil-image">
-                <img src="{{ user.picture }}" alt="{{ user.name }}" width="100%">
+                <img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ user.name }}" width="100%">
             </span>
         </div>
     </header>

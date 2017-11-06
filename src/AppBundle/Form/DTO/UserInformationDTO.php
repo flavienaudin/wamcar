@@ -23,6 +23,11 @@ class UserInformationDTO
     public $cityName;
     /** @var  string */
     public $postalCode;
+    /** @var  string */
+    public $oldPassword;
+    /** @var  string */
+    public $newPassword;
+
 
     /**
      * UserInformationDTO constructor.
@@ -51,7 +56,7 @@ class UserInformationDTO
      */
     public function fillFromCity(City $city)
     {
-        $this->city = $city->getName();
+        $this->cityName = $city->getName();
         $this->postalCode = $city->getPostalCode();
     }
 

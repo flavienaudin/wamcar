@@ -1,2 +1,10 @@
 Wamcar\User\ProUser:
     type: entity
+
+    fields:
+        description:
+            type: text
+            nullable: true
+        phonePro:
+            type: string
+            nullable: true

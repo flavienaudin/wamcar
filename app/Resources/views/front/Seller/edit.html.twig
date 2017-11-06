@@ -1,3 +1,6 @@
+{% form_theme editUserForm 'front/Layout/includes/forms/fields.html.twig' %}
+{% trans_default_domain 'user' %}
+
 {% extends 'front/Layout/layout.html.twig' %}
 
 {% block mainClass %}no-padding-top{% endblock %}
@@ -15,8 +18,6 @@
     }
 ] %}
 
-{% set user = inte.user %}
-
 {% block body %}
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
@@ -25,7 +26,7 @@
     } %}
 
     <div class="row">
-        <form class="block-grid small-12 user-form" data-abide novalidate>
+        {{ form_start(editUserForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
             <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
                 <h2>Identifiants de connexion</h2>
                 <p>
@@ -33,86 +34,58 @@
                     <a class="text-underline" data-toggle="js-update-password">Modifier mon mot de passe</a>
                 </p>
                 <div id="js-update-password" class="user-form-password is-hidden" data-toggler=".is-hidden">
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        type: 'password',
-                        label: 'Mot de passe',
-                        name: 'password',
-                        value: '******',
-                        required: true,
-                        required_message: 'Veuillez indiquer votre mot de passe.'
-                    } %}
+                    {# Ancien mot de passe #}
+                    {{ form_widget(editUserForm.oldPassword, {
+                        'label': 'Mot de passe',
+                        'required_class': 'hide'
+                    }) }}
                     <div class="row small-12">
-                        {% include 'front/Layout/includes/forms/input.html.twig' with {
-                            class_field: 'column small-12 large-6',
-                            type: 'password',
-                            label: 'Nouveau mot de passe',
-                            name: 'password-new',
-                            optional_class: 'is-hidden',
-                            required_message: 'Veuillez confirmer votre mot de passe.'
-                        } %}
-                        {% include 'front/Layout/includes/forms/input.html.twig' with {
-                            class_field: 'column small-12 large-6',
-                            type: 'password',
-                            label: 'Confirmer le mot de passe',
-                            name: 'password-new-confirm',
-                            equal_to: 'password-new',
-                            optional_class: 'is-hidden',
-                            required_message: 'Le mot de passe doit être identique.'
-                        } %}
+                        {# Nouveau mot de passe #}
+                        <div class="column small-12 large-6">
+                            {{ form_widget(editUserForm.newPassword.first, {
+                                'label': 'Nouveau mot de passe',
+                                'required_class': 'hide'
+                            }) }}
+                        </div>
+
+                        {# Nouveau mot de passe confirmation #}
+                        <div class="column small-12 large-6">
+                            {{ form_widget(editUserForm.newPassword.second, {
+                                'label': 'Confirmer le mot de passe',
+                                'required_class': 'hide'
+                            }) }}
+                        </div>
                     </div>
                 </div>
                 <h2 class="separator">Identité</h2>
                 <div class="input-margin">
-                    <label for="civilite">Civilité <span>Facultatif</span></label>
-                    <ul class="block-grid">
-                        <li class="small-6">
-                            {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
-                                label: 'Monsieur',
-                                id: 'm',
-                                name: 'civilite'
-                            } %}
-                        </li>
-                        <li class="small-6">
-                            {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
-                                label: 'Madame',
-                                id: 'mme',
-                                name: 'civilite'
-                            } %}
-                        </li>
-                    </ul>
+                    {{ form_widget(editUserForm.title, {
+                        'label': 'Civilité',
+                        'required_class': '',
+                        'list_class': '',
+                        'required': false
+                    }) }}
                 </div>
-                {% include 'front/Layout/includes/forms/input.html.twig' with {
-                    label: 'Nom',
-                    name: 'name',
-                    value: user.name
-                } %}
-                {% include 'front/Layout/includes/forms/input.html.twig' with {
-                    class: 'small-no-margin',
-                    label: 'Prénom',
-                    name: 'first-name',
-                    value: user.firstName
-                } %}
+                {{ form_widget(editUserForm.name, {
+                    'label': 'Nom / Prénom',
+                    'required': false
+                }) }}
             </div>
             <div class="column small-12 medium-6 xlarge-5 xlarge-offset-1">
                 <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
-                {% include 'front/Layout/includes/forms/input.html.twig' with {
-                    label: 'Téléphone fixe',
-                    name: 'tel_fix',
-                    value: user.tel_fix
-                } %}
-                {% include 'front/Layout/includes/forms/input.html.twig' with {
-                    class: 'small-no-margin',
-                    label: 'Téléphone mobile',
-                    name: 'tel_mob',
-                    value: user.tel_mob
-                } %}
+                {{ form_widget(editUserForm.phonePro, {
+                    'label': 'Téléphone fixe',
+                    'required': false
+                }) }}
+                {{ form_widget(editUserForm.phone, {
+                    'label': 'Téléphone mobile',
+                    'required': false
+                }) }}
                 <h2 class="separator">Informations</h2>
-                {% include 'front/Layout/includes/forms/textarea.html.twig' with {
-                    class: 'no-margin',
-                    label: 'Présentation',
-                    name: 'presentation',
-                    value: 'Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.'
-                } %}
+                {{ form_widget(editUserForm.description, {
+                    'label': 'Présentation',
+                    'required': false
+                }) }}
             </div>
             <div class="input-margin column small-12 medium-6 xlarge-5">
                 <div id="js-pictures-list" class="separator">
@@ -127,7 +100,7 @@
             <div class="column small-12">
                 <button type="submit" class="button full-width medium-5 large-3">Enregistrer mes modifications</button>
             </div>
-        </form>
+        {{ form_end(editUserForm) }}
     </div>
 
 

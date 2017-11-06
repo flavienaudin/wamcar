@@ -4,10 +4,10 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\User\PersonalUser;
+
 class RegistrationDTO
 {
-    const TYPE_PERSONAL = 'personal';
-    const TYPE_PRO = 'pro';
 
     /** @var  string */
     public $email;
@@ -20,7 +20,7 @@ class RegistrationDTO
      * RegistrationDTO constructor.
      * @param string $type
      */
-    public function __construct($type = self::TYPE_PERSONAL)
+    public function __construct($type = PersonalUser::TYPE)
     {
         $this->type = $type;
     }

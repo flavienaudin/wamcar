@@ -6,9 +6,9 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Add password_reset_token
+ * Add field specific to proUser
  */
-class Version20171026141459 extends AbstractMigration
+class Version20171026083128 extends AbstractMigration
 {
     /**
      * @param Schema $schema
@@ -18,7 +18,7 @@ class Version20171026141459 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user ADD password_reset_token VARCHAR(32) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD description LONGTEXT DEFAULT NULL, ADD phone_pro VARCHAR(255) DEFAULT NULL');
     }
 
     /**
@@ -29,6 +29,6 @@ class Version20171026141459 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user DROP password_reset_token');
+        $this->addSql('ALTER TABLE user DROP description, DROP phone_pro');
     }
 }
