@@ -39,6 +39,6 @@ services:
 
     AppBundle\Services\Garage\GarageEditionService:
         class: AppBundle\Services\Garage\GarageEditionService
-        arguments:
-            - '@AppBundle\Doctrine\Repository\DoctrineGarageRepository'
-            - '@AppBundle\Builder\Garage\GarageFromDTOBuilder'
+        public: false
+        autowire: true
+        autoconfigure: false

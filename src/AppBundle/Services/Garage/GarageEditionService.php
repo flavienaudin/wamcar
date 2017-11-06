@@ -2,7 +2,7 @@
 
 namespace AppBundle\Services\Garage;
 
-use AppBundle\Builder\Garage\GarageFromDTOBuilder;
+use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\GarageRepository;

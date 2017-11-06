@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Builder\Garage;
+namespace AppBundle\Form\Builder\Garage;
 
 
-use AppBundle\Builder\BuilderFromDTO;
+use AppBundle\Form\Builder\BuilderFromDTO;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;

@@ -1,6 +1,7 @@
 services:
 
-    AppBundle\Builder\Garage\GarageFromDTOBuilder:
-        class: 'AppBundle\Builder\Garage\GarageFromDTOBuilder'
-        arguments:
-            - '@AppBundle\Doctrine\Repository\DoctrineGarageRepository'
+    AppBundle\Form\Builder\:
+        resource: '../../../Form/Builder'
+        public: false
+        autowire: true
+        autoconfigure: false
