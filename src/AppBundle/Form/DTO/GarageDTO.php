@@ -4,9 +4,9 @@
 namespace AppBundle\Form\DTO;
 
 
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use Wamcar\Garage\Address;
 use Wamcar\Garage\City;
+use Wamcar\Garage\Garage;
 
 class GarageDTO
 {
@@ -33,21 +33,21 @@ class GarageDTO
     /** @var string */
     public $cityName;
 
-    public function __construct(ApplicationGarage $applicationGarage = null)
+    public function __construct(Garage $garage = null)
     {
-        if (null !== $applicationGarage) {
-            $this->id = $applicationGarage->getId();
-            $this->name = $applicationGarage->getName();
-            $this->siren = $applicationGarage->getSiren();
-            $this->phone = $applicationGarage->getPhone();
-            $this->email = $applicationGarage->getEmail();
-            $this->openingHours = $applicationGarage->getOpeningHours();
-            $this->presentation = $applicationGarage->getPresentation();
-            $this->benefit = $applicationGarage->getBenefit();
-            $this->email = $applicationGarage->getEmail();
-            $this->address = $applicationGarage->getAddress()->getAddress();
-            $this->postalCode = $applicationGarage->getAddress()->getPostalCode();
-            $this->cityName = $applicationGarage->getAddress()->getCityName();
+        if (null !== $garage) {
+            $this->id = $garage->getId();
+            $this->name = $garage->getName();
+            $this->siren = $garage->getSiren();
+            $this->phone = $garage->getPhone();
+            $this->email = $garage->getEmail();
+            $this->openingHours = $garage->getOpeningHours();
+            $this->presentation = $garage->getPresentation();
+            $this->benefit = $garage->getBenefit();
+            $this->email = $garage->getEmail();
+            $this->address = $garage->getAddress()->getAddress();
+            $this->postalCode = $garage->getAddress()->getPostalCode();
+            $this->cityName = $garage->getAddress()->getCityName();
         }
     }
 

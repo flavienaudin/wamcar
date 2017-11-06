@@ -4,13 +4,13 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Wamcar\Garage\Garage;
 
 class GarageController extends BaseController
 {
@@ -42,18 +42,18 @@ class GarageController extends BaseController
 
     /**
      * @param Request $request
-     * @param null|ApplicationGarage $applicationGarage
+     * @param null|Garage $garage
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, ?ApplicationGarage $applicationGarage )
+    public function editAction(Request $request, ?Garage $garage )
     {
-        $garageDTO = new GarageDTO($applicationGarage);
+        $garageDTO = new GarageDTO($garage);
         $garageForm = $this->formFactory->create(GarageType::class, $garageDTO);
 
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
-            $this->garageEditionService->editInformations($garageDTO, $applicationGarage);
+            $this->garageEditionService->editInformations($garageDTO, $garage);
 
             $this->session->getFlashBag()->add(
                 'flash.success.garage_edit',

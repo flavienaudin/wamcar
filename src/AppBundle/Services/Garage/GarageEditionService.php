@@ -3,7 +3,6 @@
 namespace AppBundle\Services\Garage;
 
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
@@ -32,12 +31,12 @@ class GarageEditionService
 
     /**
      * @param GarageDTO $garageDTO
-     * @param null|ApplicationGarage $garage
-     * @return ApplicationGarage
+     * @param null|Garage $garage
+     * @return Garage
      */
-    public function editInformations(GarageDTO $garageDTO, ?ApplicationGarage $garage): ApplicationGarage
+    public function editInformations(GarageDTO $garageDTO, ?Garage $garage): Garage
     {
-        /** @var ApplicationGarage $garage */
+        /** @var Garage $garage */
         $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
 
         $this->garageRepository->update($garage);

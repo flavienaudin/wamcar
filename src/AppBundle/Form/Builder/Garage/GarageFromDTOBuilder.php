@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Builder\Garage;
 
 
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
@@ -28,12 +27,12 @@ class GarageFromDTOBuilder
 
     /**
      * @param GarageDTO $dto
-     * @param null|ApplicationGarage $garage
+     * @param null|Garage $garage
      * @return Garage
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
-    public function buildFromDTO($dto, ?ApplicationGarage $garage): Garage
+    public function buildFromDTO($dto, ?Garage $garage): Garage
     {
         if (null === $garage) {
             return $this->newGarageFromDto($dto);
@@ -59,7 +58,7 @@ class GarageFromDTOBuilder
             );
         }
 
-        return new ApplicationGarage(
+        return new Garage(
             $dto->name,
             $dto->siren,
             $dto->openingHours,
@@ -72,7 +71,7 @@ class GarageFromDTOBuilder
      * Edit a Garage from dto
      *
      * @param GarageDTO $dto
-     * @param ApplicationGarage $garage
+     * @param Garage $garage
      * @return Garage
      */
     protected function editGarageFromDto($dto, $garage): Garage

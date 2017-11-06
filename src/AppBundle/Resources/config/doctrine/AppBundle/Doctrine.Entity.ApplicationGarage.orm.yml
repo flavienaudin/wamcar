@@ -1,6 +1,0 @@
-AppBundle\Doctrine\Entity\ApplicationGarage:
-
-    type: entity
-    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
-
-    exclusion_policy: ALL
