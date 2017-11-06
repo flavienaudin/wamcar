@@ -48,7 +48,7 @@ class GarageDTO
             $this->email = $applicationGarage->getEmail();
             $this->address = $applicationGarage->getAddress()->getAddress();
             $this->postalCode = $applicationGarage->getAddress()->getPostalCode();
-            $this->cityName = $applicationGarage->getAddress()->getCity();
+            $this->cityName = $applicationGarage->getAddress()->getCityName();
         }
     }
 

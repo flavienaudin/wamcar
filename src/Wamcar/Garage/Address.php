@@ -39,7 +39,7 @@ class Address
     /**
      * @return string
      */
-    public function getCity(): string
+    public function getCityName(): string
     {
         return $this->city->getName();
     }
