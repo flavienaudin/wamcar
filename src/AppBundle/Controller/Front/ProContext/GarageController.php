@@ -71,7 +71,19 @@ class GarageController extends BaseController
 
     /**
      * @param Request $request
-     * @param null|Garage $garage
+     * @param ApplicationGarage $applicationGarage
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function viewAction(Request $request, ApplicationGarage $applicationGarage)
+    {
+
+        return $this->render('front/Garages/Detail/detail.html.twig', [
+            'garage' => $applicationGarage
+        ]);
+    }
+
+    /**
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, ?Garage $garage )

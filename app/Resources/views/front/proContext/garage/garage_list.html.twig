@@ -8,7 +8,7 @@
             <div class="vehicle-item large-5">
                 <figcaption class="vehicle-infos">
                     <span class="vehicle-brand">{{ garage.id }}</span>
-                    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}"><span class="vehicle-name">{{ garage.name }}</span></a>
+                    <a href="{{ path('front_garage_view', {'id': garage.id}) }}"><span class="vehicle-name">{{ garage.name }}</span></a>
                     <p class="vehicle-model no-margin">{{ garage.siren }}</p>
                     <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.phone }}</span>
                     <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.address.address }}</span>
