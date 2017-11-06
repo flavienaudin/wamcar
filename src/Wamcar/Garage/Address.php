@@ -44,4 +44,9 @@ class Address
         return $this->city->getName();
     }
 
+    public function __toString()
+    {
+        return $this->address;
+    }
+
 }
