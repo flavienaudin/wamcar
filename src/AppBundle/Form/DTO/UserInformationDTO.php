@@ -4,7 +4,7 @@
 namespace AppBundle\Form\DTO;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use Wamcar\User\City;
+use Wamcar\Location\City;
 use Wamcar\User\UserProfile;
 
 class UserInformationDTO
