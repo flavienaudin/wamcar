@@ -40,15 +40,3 @@ front_garage_create:
 front_garage_edit:
     path: /garage/edit/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }
-
-front_seller_card:
-    path: /vendeur/stephane-richin
-
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:viewInformation
-
-front_seller_card_edit:
-    path: /vendeur/stephane-richin/editer
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Seller/edit.html.twig
