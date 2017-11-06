@@ -4,6 +4,8 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\User\PersonalUser;
+
 class RegistrationDTO
 {
 
@@ -18,7 +20,7 @@ class RegistrationDTO
      * RegistrationDTO constructor.
      * @param string $type
      */
-    public function __construct($type = 'personal')
+    public function __construct($type = PersonalUser::TYPE)
     {
         $this->type = $type;
     }

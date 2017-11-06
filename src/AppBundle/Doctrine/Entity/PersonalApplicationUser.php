@@ -32,7 +32,7 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
 
         $this->password = $password;
         $this->salt = $salt;
-        $this->registrationToken = TokenGenerator::generateToken();;
+        $this->registrationToken = TokenGenerator::generateToken();
     }
 
     /**
