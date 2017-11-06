@@ -13,7 +13,7 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
      */
     public function findAll(): array
     {
-        return $this->findBy([]);
+        return parent::findAll();
     }
 
     /**

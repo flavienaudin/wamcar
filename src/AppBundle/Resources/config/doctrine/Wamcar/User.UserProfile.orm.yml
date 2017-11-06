@@ -4,7 +4,7 @@ Wamcar\User\UserProfile:
 
     embedded:
         city:
-            class: Wamcar\User\City
+            class: Wamcar\Location\City
             columnPrefix: city_
             nullable: true
 

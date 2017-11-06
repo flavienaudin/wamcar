@@ -2,6 +2,8 @@
 
 namespace Wamcar\User;
 
+use Wamcar\Location\City;
+
 class UserProfile
 {
     /** @var  ?Title */

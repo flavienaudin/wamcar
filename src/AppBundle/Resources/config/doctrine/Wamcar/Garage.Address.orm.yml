@@ -3,7 +3,7 @@ Wamcar\Garage\Address:
 
     embedded:
         city:
-            class: Wamcar\Garage\City
+            class: Wamcar\Location\City
             columnPrefix: city_
 
     fields:

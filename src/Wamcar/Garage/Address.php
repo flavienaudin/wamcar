@@ -2,6 +2,8 @@
 
 namespace Wamcar\Garage;
 
+use Wamcar\Location\City;
+
 class Address
 {
     /** @var string */

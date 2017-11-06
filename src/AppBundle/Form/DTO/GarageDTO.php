@@ -5,7 +5,7 @@ namespace AppBundle\Form\DTO;
 
 
 use Wamcar\Garage\Address;
-use Wamcar\Garage\City;
+use Wamcar\Location\City;
 use Wamcar\Garage\Garage;
 
 class GarageDTO

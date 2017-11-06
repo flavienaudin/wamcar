@@ -1,6 +1,6 @@
 <?php
 
-namespace Wamcar\Garage;
+namespace Wamcar\Location;
 
 class City
 {

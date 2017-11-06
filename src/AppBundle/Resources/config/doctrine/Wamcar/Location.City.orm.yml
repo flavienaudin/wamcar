@@ -1,4 +1,4 @@
-Wamcar\Garage\City:
+Wamcar\Location\City:
     type: embeddable
 
     fields:
