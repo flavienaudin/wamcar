@@ -29,11 +29,19 @@ class Address
     }
 
     /**
-     * @return City
+     * @return string
      */
-    public function getCity(): City
+    public function getPostalCode(): string
     {
-        return $this->city;
+        return $this->city->getPostalCode();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city->getName();
     }
 
 }

@@ -35,6 +35,7 @@ class GarageDTO
 
     public function __construct(ApplicationGarage $applicationGarage = null)
     {
+        dump($applicationGarage);
         if (null !== $applicationGarage) {
             $this->id = $applicationGarage->getId();
             $this->name = $applicationGarage->getName();
@@ -46,27 +47,33 @@ class GarageDTO
             $this->benefit = $applicationGarage->getBenefit();
             $this->email = $applicationGarage->getEmail();
             $this->address = $applicationGarage->getAddress()->getAddress();
-            $this->postalCode = $applicationGarage->getAddress()->getCity()->getPostalCode();
-            $this->cityName = $applicationGarage->getAddress()->getCity()->getName();
+            $this->postalCode = $applicationGarage->getAddress()->getPostalCode();
+            $this->cityName = $applicationGarage->getAddress()->getCity();
         }
     }
 
     /**
-     * @return City
+     * @return null|City
      */
-    public function fillCity(): City
+    public function getCity(): ?City
     {
-        $city = new City($this->postalCode, $this->cityName);
+        $city = null;
+        if (null !== $this->postalCode && null !==$this->cityName) {
+            $city = new City($this->postalCode, $this->cityName);
+        }
 
         return $city;
     }
 
     /**
-     * @return Address
+     * @return null|Address
      */
-    public function fillAddress(): Address
+    public function getAddress(): ?Address
     {
-        $address = new Address($this->address, $this->fillCity());
+        $address = null;
+        if (null !== $this->address && null !==$this->getCity()) {
+            $address = new Address($this->address, $this->getCity());
+        }
 
         return $address;
     }
