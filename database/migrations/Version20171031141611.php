@@ -19,6 +19,7 @@ class Version20171031141611 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE user ADD roles LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json_array)\'');
+        $this->addSql('ALTER TABLE user CHANGE roles roles VARCHAR(255) DEFAULT NULL');
     }
 
     /**

@@ -10,7 +10,8 @@ security:
             id: AppBundle\Doctrine\Repository\DoctrineProUserRepository
 
     role_hierarchy:
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_PRO: ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH, ROLE_PRO]
 
     firewalls:
         dev:
