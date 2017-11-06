@@ -35,10 +35,11 @@ class GarageFromDTOBuilder implements BuilderFromDTO
      */
     public function buildFromDTO($dto): Garage
     {
-        if (null === $dto->id)
-            return $this->buildNewGarageFromDto($dto);
-        else
-            return $this->buildEditGarageFromDto($dto);
+        if (null === $dto->id) {
+            return $this->newGarageFromDto($dto);
+        } else {
+            return $this->editGarageFromDto($dto);
+        }
     }
 
     /**
@@ -47,7 +48,7 @@ class GarageFromDTOBuilder implements BuilderFromDTO
      * @param $dto
      * @return Garage
      */
-    protected function buildNewGarageFromDto($dto): Garage
+    protected function newGarageFromDto($dto): Garage
     {
         if (!$dto instanceof GarageDTO) {
             throw new \InvalidArgumentException(
@@ -73,7 +74,7 @@ class GarageFromDTOBuilder implements BuilderFromDTO
      * @param $dto
      * @return Garage
      */
-    protected function buildEditGarageFromDto($dto): Garage
+    protected function editGarageFromDto($dto): Garage
     {
         if (!$dto instanceof GarageDTO) {
             throw new \InvalidArgumentException(
