@@ -137,7 +137,7 @@ class Garage
     /**
      * @param string $phone
      */
-    public function setPhone(string $phone)
+    public function setPhone(?string $phone)
     {
         $this->phone = $phone;
     }
@@ -145,7 +145,7 @@ class Garage
     /**
      * @param string $email
      */
-    public function setEmail(string $email)
+    public function setEmail(?string $email)
     {
         $this->email = $email;
     }

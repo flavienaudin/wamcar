@@ -35,7 +35,7 @@ front_view_user_info:
 
 front_garage_create:
     path: /garage/create
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:create }
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }
 
 front_garage_edit:
     path: /garage/edit/{id}

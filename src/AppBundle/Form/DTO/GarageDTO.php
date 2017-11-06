@@ -35,7 +35,6 @@ class GarageDTO
 
     public function __construct(ApplicationGarage $applicationGarage = null)
     {
-        dump($applicationGarage);
         if (null !== $applicationGarage) {
             $this->id = $applicationGarage->getId();
             $this->name = $applicationGarage->getName();

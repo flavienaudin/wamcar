@@ -3,13 +3,12 @@
 namespace AppBundle\Form\Builder\Garage;
 
 
-use AppBundle\Form\Builder\BuilderFromDTO;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
 
-class GarageFromDTOBuilder implements BuilderFromDTO
+class GarageFromDTOBuilder
 {
     /**
      * @var DoctrineGarageRepository $garageRepository
@@ -29,23 +28,24 @@ class GarageFromDTOBuilder implements BuilderFromDTO
 
     /**
      * @param GarageDTO $dto
+     * @param null|ApplicationGarage $garage
      * @return Garage
      * @throws \InvalidArgumentException
      * @throws \UnexpectedValueException
      */
-    public function buildFromDTO($dto): Garage
+    public function buildFromDTO($dto, ?ApplicationGarage $garage): Garage
     {
-        if (null === $dto->id) {
+        if (null === $garage) {
             return $this->newGarageFromDto($dto);
         } else {
-            return $this->editGarageFromDto($dto);
+            return $this->editGarageFromDto($dto, $garage);
         }
     }
 
     /**
      * Create a new Garage from dto
      *
-     * @param $dto
+     * @param GarageDTO $dto
      * @return Garage
      */
     protected function newGarageFromDto($dto): Garage
@@ -59,8 +59,6 @@ class GarageFromDTOBuilder implements BuilderFromDTO
             );
         }
 
-        dump($dto);
-
         return new ApplicationGarage(
             $dto->name,
             $dto->siren,
@@ -71,12 +69,13 @@ class GarageFromDTOBuilder implements BuilderFromDTO
     }
 
     /**
-     * Create a new Garage from dto
+     * Edit a Garage from dto
      *
-     * @param $dto
+     * @param GarageDTO $dto
+     * @param ApplicationGarage $garage
      * @return Garage
      */
-    protected function editGarageFromDto($dto): Garage
+    protected function editGarageFromDto($dto, $garage): Garage
     {
         if (!$dto instanceof GarageDTO) {
             throw new \InvalidArgumentException(
@@ -87,17 +86,16 @@ class GarageFromDTOBuilder implements BuilderFromDTO
             );
         }
 
-        $applicationGarage = $this->garageRepository->findOne($dto->id);
-        $applicationGarage->setEmail($dto->email);
-        $applicationGarage->setName($dto->name);
-        $applicationGarage->setPhone($dto->phone);
-        $applicationGarage->setSiren($dto->siren);
-        $applicationGarage->setOpeningHours($dto->openingHours);
-        $applicationGarage->setPresentation($dto->presentation);
-        $applicationGarage->setBenefit($dto->benefit);
-        $applicationGarage->setAddress($dto->getAddress());
+        $garage->setEmail($dto->email);
+        $garage->setName($dto->name);
+        $garage->setPhone($dto->phone);
+        $garage->setSiren($dto->siren);
+        $garage->setOpeningHours($dto->openingHours);
+        $garage->setPresentation($dto->presentation);
+        $garage->setBenefit($dto->benefit);
+        $garage->setAddress($dto->getAddress());
 
-        return $applicationGarage;
+        return $garage;
     }
 
 }
