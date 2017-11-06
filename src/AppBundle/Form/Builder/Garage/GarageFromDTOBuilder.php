@@ -3,28 +3,11 @@
 namespace AppBundle\Form\Builder\Garage;
 
 
-use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
 
 class GarageFromDTOBuilder
 {
-    /**
-     * @var DoctrineGarageRepository $garageRepository
-     */
-    private $garageRepository;
-
-    /**
-     * GarageFromDTOBuilder constructor.
-     * @param DoctrineGarageRepository $garageRepository
-     */
-    public function __construct(
-        DoctrineGarageRepository $garageRepository
-    )
-    {
-        $this->garageRepository = $garageRepository;
-    }
-
     /**
      * @param GarageDTO $dto
      * @param null|Garage $garage

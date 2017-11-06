@@ -39,6 +39,8 @@ services:
 
     AppBundle\Services\Garage\GarageEditionService:
         class: AppBundle\Services\Garage\GarageEditionService
-        public: false
-        autowire: true
-        autoconfigure: false
+        arguments:
+            - '@AppBundle\Doctrine\Repository\DoctrineGarageRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
+            - '@AppBundle\Form\Builder\Garage\GarageFromDTOBuilder'
+            - '@security.authorization_checker'

@@ -7,6 +7,7 @@ use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use AppBundle\Services\User\HasGarageMember;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\ProUser;
 
@@ -61,10 +62,10 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     }
 
     /**
-     * @param ApplicationGarage $garage
+     * @param Garage $garage
      * @return null|GarageProUser
      */
-    public function getMemberByGarage(ApplicationGarage $garage): ?GarageProUser
+    public function getMemberByGarage(Garage $garage): ?GarageProUser
     {
         /** @var GarageProUser $member */
         foreach ($garage->getMembers() as $member) {

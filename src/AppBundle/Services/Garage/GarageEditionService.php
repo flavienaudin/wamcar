@@ -5,7 +5,6 @@ namespace AppBundle\Services\Garage;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ApplicationGarageProUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
