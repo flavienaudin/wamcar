@@ -1,8 +1,17 @@
 Wamcar\Garage\Garage:
 
     type: entity
+    inheritanceType: SINGLE_TABLE
     table: garage
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        basic: Wamcar\Garage\Garage
+        application: AppBundle\Doctrine\Entity\ApplicationGarage
+
+    exclusion_policy: ALL
 
     embedded:
         address:

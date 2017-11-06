@@ -1,0 +1,15 @@
+AppBundle\Doctrine\Entity\ApplicationGarage:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
+
+    exclusion_policy: ALL
+
+    fields:
+        deletedAt:
+            type: date
+            nullable: true
