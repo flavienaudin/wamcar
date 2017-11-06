@@ -94,7 +94,6 @@ class GarageEditionService
         if (null === $member) {
             throw new \InvalidArgumentException('User should be member of the garage');
         }
-
         $garage->removeMember($member);
         $this->garageProUserRepository->remove($member);
         $this->garageRepository->update($garage);
