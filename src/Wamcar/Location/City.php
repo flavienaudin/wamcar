@@ -23,7 +23,7 @@ class City
     /**
      * @return string
      */
-    public function getPostalCode(): ?string
+    public function getPostalCode(): string
     {
         return $this->postalCode;
     }
@@ -31,7 +31,7 @@ class City
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
