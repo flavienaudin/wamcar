@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
