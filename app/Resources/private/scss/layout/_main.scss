@@ -26,9 +26,9 @@
   /* Container */
 
   &-container {
-    border-top: rem-calc(1) solid rgba(229, 229, 229, 0.5);
 
     @include breakpoint(medium) {
+      border-top: rem-calc(1) solid rgba(229, 229, 229, 0.5);
       padding-top: rem-calc(20);
     }
 

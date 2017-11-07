@@ -322,7 +322,7 @@
     }
 
     .h1 {
-      @include breakpoint(small only) { margin-bottom: rem-calc(13); }
+      @include breakpoint(small only) { margin-bottom: rem-calc(7); }
     }
 
     h1,
@@ -332,7 +332,7 @@
     }
 
     p {
-      margin-bottom: rem-calc(20);
+      margin-bottom: rem-calc(10);
 
       @include breakpoint(xlarge) {
         margin-bottom: rem-calc(25);
