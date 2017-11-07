@@ -1,0 +1,494 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API Wamcar",
+        "description": "API permettant de r\u00e9aliser des op\u00e9rations sur wamcar en tant que professionel",
+        "version": "v1"
+    },
+    "host": "wamcar.com",
+    "basePath": "/v1",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/vehicules": {
+            "get": {
+                "tags": [
+                    "vehicle",
+                    "list"
+                ],
+                "summary": "Re\u0301cupe\u0301rer tous les vehicules du professionel",
+                "description": "Re\u0301cupe\u0301rer tous les vehicules du professionel (la date de dernie\u0300re mise a\u0300 jour ainsi que la liste des photos de chaque ve\u0301hicule).",
+                "operationId": "vehicleListAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Les v\u00e9hicules"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "vehicle",
+                    "create"
+                ],
+                "summary": "Cre\u0301er un Vehicule a\u0300 partir des donne\u0301es soumises",
+                "description": "Cre\u0301er un Vehicule a\u0300 partir des donne\u0301es soumises.",
+                "operationId": "vehicleAddAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "V\u00e9hicule \u00e0 cr\u00e9er",
+                        "required": true,
+                        "schema": {
+                            "required": [
+                                "IdentifiantVehicule",
+                                "Date1Mec",
+                                "Marque",
+                                "Type",
+                                "Motorisation",
+                                "Modele",
+                                "Version",
+                                "Energie",
+                                "Kilometrage",
+                                "PrixVenteTTC",
+                                "Description"
+                            ],
+                            "$ref": "#/definitions/Vehicule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Les v\u00e9hicules"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "vehicle",
+                    "delete",
+                    "list"
+                ],
+                "summary": "Supprimer tous les v\u00e9hicules",
+                "description": "Supprimer tous les v\u00e9hicules du professionel",
+                "operationId": "vehicleClearAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Catalogue ve\u0301hicules supprime\u0301"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            }
+        },
+        "/vehicules/{id}": {
+            "get": {
+                "tags": [
+                    "vehicle",
+                    "detail"
+                ],
+                "summary": "Re\u0301cupe\u0301rer la date de dernie\u0300re mise a\u0300 jour ainsi que la liste des photos d'un vehicule.",
+                "description": "Re\u0301cupe\u0301rer la date de dernie\u0300re mise a\u0300 jour ainsi que la liste des photos d'un vehicule.",
+                "operationId": "vehicleGetAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    },
+                    {
+                        "$ref": "#/parameters/vehicle_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le v\u00e9hicule"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "vehicle",
+                    "edit"
+                ],
+                "summary": "Cre\u0301er un Vehicule a\u0300 partir des donne\u0301es soumises",
+                "description": "Cre\u0301er un Vehicule a\u0300 partir des donne\u0301es soumises.",
+                "operationId": "vehicleEditAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    },
+                    {
+                        "$ref": "#/parameters/vehicle_id"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Donn\u00e9es du v\u00e9hicule \u00e0 modifier",
+                        "required": true,
+                        "schema": {
+                            "required": [
+                                "Date1Mec",
+                                "Marque",
+                                "Type",
+                                "Motorisation",
+                                "Modele",
+                                "Version",
+                                "Energie",
+                                "Kilometrage",
+                                "PrixVenteTTC",
+                                "Description"
+                            ],
+                            "$ref": "#/definitions/Vehicule"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ve\u0301hicule mis a\u0300 jour"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "vehicle",
+                    "delete"
+                ],
+                "summary": "Supprimer un v\u00e9hicule.",
+                "description": "Supprimer un v\u00e9hicule.",
+                "operationId": "vehicleDeleteAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    },
+                    {
+                        "$ref": "#/parameters/vehicle_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vehicule supprime\u0301e"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            }
+        },
+        "/vehicules/{id}/images": {
+            "post": {
+                "tags": [
+                    "vehicle",
+                    "images",
+                    "add"
+                ],
+                "summary": "Ajouter des images a\u0300 une voiture",
+                "description": "Ajouter jusqu'a\u0300 8 images a\u0300 une voiture.",
+                "operationId": "vehiclePictureAddAction",
+                "parameters": [
+                    {
+                        "$ref": "#/parameters/client_id"
+                    },
+                    {
+                        "$ref": "#/parameters/secret"
+                    },
+                    {
+                        "$ref": "#/parameters/vehicle_id"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Collection d'images",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/VehiclePictureCollection"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ve\u0301hicule mis a\u0300 jour"
+                    },
+                    "401": {
+                        "description": "Utilisateur non authentifie\u0301"
+                    },
+                    "403": {
+                        "description": "Acce\u0300s refuse\u0301"
+                    },
+                    "404": {
+                        "description": "Une ressource est manquante"
+                    },
+                    "400": {
+                        "description": "Erreur"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Vehicule": {
+            "properties": {
+                "IdentifiantVehicule": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Date1Mec": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "Marque": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string",
+                    "enum": [
+                        "citadine",
+                        "berline",
+                        "break",
+                        "monospace",
+                        "suv",
+                        "cabriolet",
+                        "utilitaire",
+                        "sans_permis"
+                    ]
+                },
+                "Motorisation": {
+                    "type": "string"
+                },
+                "Modele": {
+                    "type": "string"
+                },
+                "Version": {
+                    "type": "string"
+                },
+                "Energie": {
+                    "type": "string",
+                    "enum": [
+                        "Essence",
+                        "Diesel",
+                        "Hybride",
+                        "Electrique",
+                        "GPL"
+                    ]
+                },
+                "Kilometrage": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "PrixVenteTTC": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "Neuf": {
+                    "type": "boolean"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "URLVehicule": {
+                    "type": "string"
+                },
+                "Annee": {
+                    "type": "string",
+                    "format": "date-fullyear"
+                },
+                "Famille": {
+                    "type": "string"
+                },
+                "NbPlaces": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "NbPortes": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "Couleur": {
+                    "type": "string"
+                },
+                "BoiteLibelle": {
+                    "type": "string",
+                    "enum": [
+                        "BVA",
+                        "BVAS",
+                        "BVM",
+                        "BVMS",
+                        "BVR",
+                        "BVRD",
+                        "CVT",
+                        "E",
+                        "I",
+                        "N/D"
+                    ]
+                },
+                "GarantieLibelle": {
+                    "type": "string"
+                },
+                "EquipementsSerieEtOption": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "VehiclePictureCollection": {
+            "properties": {
+                "image1": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image2": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image3": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image4": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image5": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image6": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image7": {
+                    "type": "string",
+                    "format": "binary"
+                },
+                "image8": {
+                    "type": "string",
+                    "format": "binary"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "parameters": {
+        "client_id": {
+            "name": "client_id",
+            "in": "query",
+            "description": "Votre client ID API",
+            "required": true,
+            "type": "string"
+        },
+        "secret": {
+            "name": "secret",
+            "in": "header",
+            "description": "Votre cl\u00e9 secr\u00e8te",
+            "required": true,
+            "type": "string"
+        },
+        "vehicle_id": {
+            "name": "id",
+            "in": "path",
+            "description": "Identifiant unique du ve\u0301hicule en base d'inte\u0301gration des stocks",
+            "required": true,
+            "type": "string"
+        }
+    }
+}
