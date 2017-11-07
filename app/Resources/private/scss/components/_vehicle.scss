@@ -108,6 +108,14 @@
       }
     } // End .section &
 
+    .vehicle-other & {
+      margin-top: rem-calc(20);
+
+      @include breakpoint(medium) {
+        margin-top: rem-calc(30);
+      }
+    }
+
   } // End &-list
 
 
@@ -189,6 +197,7 @@
 
   &-name {
     color: black;
+    font-weight: bold;
     text-transform: uppercase;
     padding-top: rem-calc(7);
 
