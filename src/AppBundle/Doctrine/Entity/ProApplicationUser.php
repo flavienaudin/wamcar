@@ -14,28 +14,28 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     use PasswordResettableTrait;
     use ApiCredentialTrait;
 
-    /** @var  array */
-    protected $roles;
+    /** @var  string */
+    protected $role;
 
     /**
      * ApplicationUser constructor.
      * @param string $email
      * @param string $password
      * @param string $salt
-     * @param string $roles
+     * @param string $role
      */
     public function __construct(
         string $email,
         string $password,
         string $salt,
-        string $roles = null
+        string $role = null
     )
     {
         parent::__construct($email);
 
         $this->password = $password;
         $this->salt = $salt;
-        $this->roles = $roles ? [$roles] : null;
+        $this->role = $role ? [$role] : 'ROLE_PRO';
         $this->generateApiCredentials();
     }
 
@@ -52,9 +52,6 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      */
     public function getRoles(): array
     {
-        if (null === $this->roles) {
-            return ['ROLE_PRO'];
-        }
-        return [$this->roles];
+        return [$this->role];
     }
 }

@@ -20,6 +20,7 @@ class Version20171031141611 extends AbstractMigration
 
         $this->addSql('ALTER TABLE user ADD roles LONGTEXT DEFAULT NULL COMMENT \'(DC2Type:json_array)\'');
         $this->addSql('ALTER TABLE user CHANGE roles roles VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD role VARCHAR(255) DEFAULT NULL, DROP roles');
     }
 
     /**

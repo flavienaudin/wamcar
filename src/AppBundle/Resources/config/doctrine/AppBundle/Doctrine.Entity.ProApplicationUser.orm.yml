@@ -18,7 +18,7 @@ AppBundle\Doctrine\Entity\ProApplicationUser:
             type: string
             length: 32
             nullable: true
-        roles:
+        role:
             type: string
         createdAt:
             type: datetime
