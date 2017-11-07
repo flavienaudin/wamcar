@@ -35,7 +35,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
 
         $this->password = $password;
         $this->salt = $salt;
-        $this->role = $role ? $role : 'ROLE_PRO';
+        $this->role = $role ?? 'ROLE_PRO';
         $this->generateApiCredentials();
     }
 
