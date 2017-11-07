@@ -62,15 +62,3 @@ front_garage_assign:
 front_garage_unassign:
     path: /garage/unassign/{garage_id}/{user_id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:unassign }
-
-front_seller_card:
-    path: /vendeur/stephane-richin
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Seller/card.html.twig
-
-front_seller_card_edit:
-    path: /vendeur/stephane-richin/editer
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Seller/edit.html.twig
