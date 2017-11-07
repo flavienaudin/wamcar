@@ -34,12 +34,15 @@ parameters:
                     - assets/images/placeholders/vehicle/secondary-7.jpg
                 brand: "Volkswagen"
                 name: "Golf"
+                version: "III (2) 90 D-4D Tendance 5P"
                 model: "2.0 TDI 184 BlueMotion Technology FAP GTD"
                 years: "2014"
                 km: "34 008 km"
                 city: "Villefranche sur Saône"
                 price: "17 125 €"
-                description: Vue avant 3/4 droit de la Yaris 3. Etat irréprochable.
+                description: >
+                  <p>Lorem ipsum vel taciti Morbi Quisque pharetra ut volutpat fringilla erat, aliquet augue at felis elit. Curabitur ornare erat. Mi Etiam per porttitor laoreet, ullamcorper in sed, ante. Vitae. Ullamcorper. Lobortis sed Proin rutrum, Cras semper. Auctor scelerisque nunc ipsum Sed Donec in velit vitae. In mi erat, In augue.</p>
+                  <p>Lorem ipsum finibus mollis per risus sollicitudin pulvinar ipsum Vestibulum faucibus sit elit. At volutpat imperdiet vitae dictum nisl. Fusce arcu Quisque velit egestas, dui ante. Ornare pharetra luctus vitae. At ultricies lobortis dolor. Luctus dolor. Consequat adipiscing Nam velit scelerisque lectus vitae fringilla lectus porttitor id ultrices sollicitudin iaculis. A sed id tempor turpis lectus. Ac eleifend vitae vestibulum pharetra in luctus ex, Donec felis a sed laoreet, tortor Donec ut lorem Quisque metus augue efficitur, velit felis mi.</p>
             "ds3":
                 picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
                 brand: "Citroën"

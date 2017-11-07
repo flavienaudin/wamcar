@@ -25,6 +25,13 @@
 .is-static   { position: static; }
 .is-relative { position: relative; }
 .is-absolute { position: absolute; }
+.is-sticky   {
+  position: sticky;
+  position: -webkit-sticky;
+  top: rem-calc(29);
+  @include breakpoint(medium) { top: rem-calc(15); }
+  @include breakpoint(xlarge) { top: rem-calc(45); }
+}
 
 
 

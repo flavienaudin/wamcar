@@ -1,0 +1,17 @@
+{% set state_inte = [
+    { label: "Changement de courroie de distribution", value: "Fait" },
+    { label: "Date du dernier controle technique", value: "Moins de 6 mois" },
+    { label: "Resultat du dernier controle technique", value: "OK" },
+    { label: "Statut", value: "Occasion" },
+    { label: "Etat de la carrosserie", value: "Occasion" },
+    { label: "Etat du moteur", value: "Occasion" },
+    { label: "Etat des pneus", value: "Occasion" },
+    { label: "Carnet d’entretien", value: "A jour avec factures" }
+] %}
+
+<h2 class="separator medium primary-color">Etat du véhicule</h2>
+<ul class="vehicle-infos-list list-border no-bullet no-margin">
+    {% for state in state_inte %}
+        <li class="dark-gray-color block-grid"><strong class="small-6 medium-6 xlarge-5">{{ state.label }}</strong> {{ state.value }}</li>
+    {% endfor %}
+</ul>
