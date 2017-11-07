@@ -15,6 +15,23 @@ parameters:
                 price: "8 990 €"
             "golf-2-tdi":
                 picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
+                pictures:
+                  primary:
+                    - assets/images/placeholders/vehicle/primary-1.jpg
+                    - assets/images/placeholders/vehicle/primary-2.jpg
+                    - assets/images/placeholders/vehicle/primary-3.jpg
+                    - assets/images/placeholders/vehicle/primary-4.jpg
+                    - assets/images/placeholders/vehicle/primary-5.jpg
+                    - assets/images/placeholders/vehicle/primary-6.jpg
+                    - assets/images/placeholders/vehicle/primary-7.jpg
+                  secondary:
+                    - assets/images/placeholders/vehicle/secondary-1.jpg
+                    - assets/images/placeholders/vehicle/secondary-2.jpg
+                    - assets/images/placeholders/vehicle/secondary-3.jpg
+                    - assets/images/placeholders/vehicle/secondary-4.jpg
+                    - assets/images/placeholders/vehicle/secondary-5.jpg
+                    - assets/images/placeholders/vehicle/secondary-6.jpg
+                    - assets/images/placeholders/vehicle/secondary-7.jpg
                 brand: "Volkswagen"
                 name: "Golf"
                 model: "2.0 TDI 184 BlueMotion Technology FAP GTD"
@@ -22,6 +39,7 @@ parameters:
                 km: "34 008 km"
                 city: "Villefranche sur Saône"
                 price: "17 125 €"
+                description: Vue avant 3/4 droit de la Yaris 3. Etat irréprochable.
             "ds3":
                 picture: "assets/images/placeholders/vehicle/vehicle-default.jpg"
                 brand: "Citroën"

@@ -45,3 +45,10 @@ inte_garage_edit:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Garages/Edit/edit.html.twig
+
+front_vehicle_detail_pro:
+    path: /vehicule/detail
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Vehicle/Detail/detail.html.twig
+
