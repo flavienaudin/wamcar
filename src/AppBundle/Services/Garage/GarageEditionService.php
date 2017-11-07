@@ -37,7 +37,7 @@ class GarageEditionService
         GarageFromDTOBuilder $garageBuilder,
         AuthorizationCheckerInterface $authorizationChecker
     )
-        {
+    {
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;
         $this->garageBuilder = $garageBuilder;
