@@ -11,6 +11,7 @@ security:
 
     role_hierarchy:
         ROLE_PRO: ROLE_USER
+        ROLE_ADMIN: ROLE_PRO
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH, ROLE_PRO]
 
     firewalls:
