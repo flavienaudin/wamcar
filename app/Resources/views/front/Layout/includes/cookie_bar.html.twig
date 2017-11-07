@@ -22,7 +22,7 @@
             var d=new Date;d.setTime(d.getTime()+31536e6);
             var expires="expires="+d.toUTCString();document.cookie="cookie-disclaimer=true; "+expires;
 
-            document.querySelector('.l-footer-fixed').style.transform = 'translate3d(0, ' + cookiebarHeight + 'px, 0)';
+            $cookieBar.style.transform = 'translate3d(0, ' + cookiebarHeight + 'px, 0)';
             document.body.style.marginBottom = '0px';
         });
     </script>

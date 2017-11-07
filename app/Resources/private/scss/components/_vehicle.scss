@@ -229,6 +229,8 @@
      ===================================== */
 
   &-model {
+    color: $body-font-color;
+
     @include breakpoint(large down) {
       line-height: 1.2;
     }
