@@ -22,7 +22,6 @@ class Version20171026135641 extends AbstractMigration
         $this->addSql('ALTER TABLE garage CHANGE phone phone VARCHAR(255) DEFAULT NULL, CHANGE email email VARCHAR(191) DEFAULT NULL');
         $this->addSql('ALTER TABLE garage DROP discriminator');
         $this->addSql('ALTER TABLE garage ADD discriminator VARCHAR(255) NOT NULL, ADD deleted_at DATE DEFAULT NULL');
-
     }
 
     /**
