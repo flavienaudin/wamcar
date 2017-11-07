@@ -6,7 +6,6 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -18,14 +17,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Garage\GarageRepository;
 
 class GarageController extends BaseController
 {
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var DoctrineGarageRepository  */
-    protected $doctrineGarageRepository;
+    /** @var GarageRepository  */
+    protected $garageRepository;
 
     /** @var GarageEditionService  */
     protected $garageEditionService;
@@ -35,20 +35,19 @@ class GarageController extends BaseController
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param DoctrineGarageRepository $doctrineGarageRepository
+     * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
      * @param GarageProvider $garageProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        DoctrineGarageRepository $doctrineGarageRepository,
+        GarageRepository $garageRepository,
         GarageEditionService $garageEditionService,
         GarageProvider $garageProvider
     )
     {
         $this->formFactory = $formFactory;
-        $this->doctrineGarageRepository = $doctrineGarageRepository;
-        $this->doctrineUserRepository = $doctrineUserRepository;
+        $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
         $this->garageProvider = $garageProvider;
     }
