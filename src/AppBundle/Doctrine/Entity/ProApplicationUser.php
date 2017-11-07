@@ -55,6 +55,6 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
         if (null === $this->roles) {
             return ['ROLE_PRO'];
         }
-        return $this->roles;
+        return [$this->roles];
     }
 }
