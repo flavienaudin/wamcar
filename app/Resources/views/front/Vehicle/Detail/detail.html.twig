@@ -1,0 +1,43 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}medium-no-padding-top{% endblock %}
+
+{% block title %}Toyota Yaris 3{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'Mon garage',
+        'href': ''
+    },
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set vehicle = inte.vehicle['golf-2-tdi'] %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <div class="l-main-container">
+        <div class="row">
+
+            <div class="small-12 large-7 xlarge-8">
+                {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+
+                <div class="column small-collapse xlarge-uncollapse">
+                    {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock body %}

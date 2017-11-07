@@ -3,7 +3,7 @@
 {% set like = index == 'ds3' ? 'Supprimer des favoris' : 'Ajouter aux favoris' %}
 
 <article class="vehicle-item is-flex">
-    <a href="{{ path('front_seller_card') }}" class="is-flex">
+    <a href="{{ path('front_vehicle_detail_pro') }}" class="is-flex">
         <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
         <div class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></div>
         <figcaption class="vehicle-infos">

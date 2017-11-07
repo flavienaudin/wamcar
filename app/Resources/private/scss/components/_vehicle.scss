@@ -308,4 +308,54 @@
     }
   }
 
+
+  /*
+     Header
+     ===================================== */
+
+  &-header {
+
+    /* Components */
+
+    h1 {
+      @include breakpoint(small only) { margin-bottom: rem-calc(6); }
+    }
+
+    .h1 {
+      @include breakpoint(small only) { margin-bottom: rem-calc(13); }
+    }
+
+    h1,
+    .h1 {
+      @include breakpoint(medium) { margin-bottom: rem-calc(10); }
+      @include breakpoint(xlarge) { margin-bottom: rem-calc(18); }
+    }
+
+    p {
+      margin-bottom: rem-calc(20);
+
+      @include breakpoint(xlarge) {
+        margin-bottom: rem-calc(25);
+      }
+    }
+  }
+
+
+  /*
+     Carousel legend
+     ===================================== */
+
+  &-carousel-legend {
+    margin-top: rem-calc(5);
+    margin-bottom: rem-calc(15);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(25);
+    }
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(14);
+    }
+  }
+
 }

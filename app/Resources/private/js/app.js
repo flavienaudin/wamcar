@@ -21,6 +21,7 @@ import './components/file';
 import './components/registration';
 import './components/like';
 import './components/banner';
+import './components/carousel';
 import {
   activeClass
 } from './settings/settings.js';
