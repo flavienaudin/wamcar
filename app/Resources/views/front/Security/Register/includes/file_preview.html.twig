@@ -4,7 +4,7 @@
     <input type="file" name="pics-{{ index }}" id="pics-{{ index }}" class="js-file-preview-input is-hidden">
     <label for="pics-{{ index }}" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
         <div class="file-preview-image no-margin">
-            <span><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" width="100%" class="js-file-preview-image"></span>
+            <span><img src="{{ asset(image) }}" width="100%" class="js-file-preview-image"></span>
         </div>
         <span class="show-for-sr">Ajouter une photo</span>
     </label>

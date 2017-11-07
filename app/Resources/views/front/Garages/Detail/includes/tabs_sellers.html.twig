@@ -1,13 +1,11 @@
-{% set sellers = inte.garage.sellers %}
-
 <div class="block-grid">
     <div class="small-12 medium-6">
         <h2 class="column large-collapse">Vendeur</h2>
         <ul class="seller-list no-bullet no-margin">
-            {% for seller in sellers %}
+            {% for member in garage.members %}
                 <li class="block-grid column large-left-collapse align-middle">
-                    <span class="seller-picture"><img src="{{ asset(seller.picture) }}" alt="{{ seller.name }}"></span>
-                    <span class="seller-name">{{ seller.name }}</span>
+                    <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ member.proUser.name }}"></span>
+                    <span class="seller-name">{{ member.proUser.name }}</span>
                     <a href="" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
                 </li>
             {% endfor %}

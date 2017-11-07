@@ -6,6 +6,7 @@ services:
             - ['setTemplatingEngine', ['@templating']]
             - ['setRouter', ['@router']]
             - ['setSession', ['@session']]
+            - ['setTokenStorage', ['@security.token_storage']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

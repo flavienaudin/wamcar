@@ -71,14 +71,14 @@ class GarageController extends BaseController
 
     /**
      * @param Request $request
-     * @param ApplicationGarage $applicationGarage
+     * @param Garage $garage
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction(Request $request, ApplicationGarage $applicationGarage)
+    public function viewAction(Request $request, Garage $garage)
     {
 
         return $this->render('front/Garages/Detail/detail.html.twig', [
-            'garage' => $applicationGarage
+            'garage' => $garage
         ]);
     }
 
@@ -131,8 +131,7 @@ class GarageController extends BaseController
      */
     public function assignAction(Garage $garage): RedirectResponse
     {
-        //TODO : Récupérer le user courant quand dispo
-        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+        $user = $this->getUser();
 
         $this->garageEditionService->addMember($garage, $user);
 
@@ -151,8 +150,7 @@ class GarageController extends BaseController
      */
     public function unassignAction(Garage $garage): RedirectResponse
     {
-        //TODO : Récupérer le user courant quand dispo
-        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+        $user = $this->getUser();
 
         $this->garageEditionService->removeMember($garage, $user);
 
