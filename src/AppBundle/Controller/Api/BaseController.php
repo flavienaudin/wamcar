@@ -6,6 +6,19 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @SWG\Swagger(
+ *     host="wamcar.com",
+ *     basePath="/v1",
+ *     produces={"application/json"},
+ *     consumes={"application/json"},
+ *     @SWG\Info(
+ *         version="v1",
+ *         title="API Wamcar",
+ *         description="API permettant de réaliser des opérations sur wamcar en tant que professionel",
+ *     )
+ *  )
+ */
 abstract class BaseController
 {
     /** @var RouterInterface */

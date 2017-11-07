@@ -2,3 +2,39 @@ api_default:
     path: /
     defaults:
         _controller: AppBundle:Api\Default:documentation
+
+api_vehicles_clear:
+    path: /vehicules
+    methods: DELETE
+    defaults:
+        _controller: AppBundle:Api\Vehicle:clear
+api_vehicles_list:
+    path: /vehicules
+    methods: GET
+    defaults:
+        _controller: AppBundle:Api\Vehicle:getList
+api_vehicles_add:
+    path: /vehicules
+    methods: POST
+    defaults:
+        _controller: AppBundle:Api\Vehicle:add
+api_vehicles_get:
+    path: /vehicules/{id}
+    methods: GET
+    defaults:
+        _controller: AppBundle:Api\Vehicle:get
+api_vehicles_delete:
+    path: /vehicules/{id}
+    methods: DELETE
+    defaults:
+        _controller: AppBundle:Api\Vehicle:delete
+api_vehicles_edit:
+    path: /vehicules/{id}
+    methods: PUT
+    defaults:
+        _controller: AppBundle:Api\Vehicle:edit
+api_vehicles_images_add:
+    path: /vehicules/{id}/images
+    methods: POST
+    defaults:
+        _controller: AppBundle:Api\Vehicle:addImage
