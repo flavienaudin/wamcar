@@ -7,7 +7,6 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
-use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -28,9 +27,6 @@ class GarageController extends BaseController
     /** @var DoctrineGarageRepository  */
     protected $doctrineGarageRepository;
 
-    /** @var DoctrineUserRepository  */
-    protected $doctrineUserRepository;
-
     /** @var GarageEditionService  */
     protected $garageEditionService;
 
@@ -40,14 +36,12 @@ class GarageController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param DoctrineGarageRepository $doctrineGarageRepository
-     * @param DoctrineUserRepository $doctrineUserRepository
      * @param GarageEditionService $garageEditionService
      * @param GarageProvider $garageProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         DoctrineGarageRepository $doctrineGarageRepository,
-        DoctrineUserRepository $doctrineUserRepository,
         GarageEditionService $garageEditionService,
         GarageProvider $garageProvider
     )
