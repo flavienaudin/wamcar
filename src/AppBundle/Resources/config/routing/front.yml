@@ -32,23 +32,11 @@ front_edit_user_info:
 
 front_view_user_info:
     path: /view-user-info
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:viewInformation
 
-front_seller_card_edit:
-    path: /vendeur/stephane-richin/editer
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Seller/edit.html.twig
-
-front_garage_detail:
-    path: /garage/toyota
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Garages/Detail/detail.html.twig
+front_garage_create:
+    path: /garage/create
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }
 
 front_garage_edit:
-    path: /garage/toyota/editer
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Garages/Edit/edit.html.twig
+    path: /garage/edit/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Garage:edit }

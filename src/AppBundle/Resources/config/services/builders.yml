@@ -1,0 +1,7 @@
+services:
+
+    AppBundle\Form\Builder\:
+        resource: '../../../Form/Builder'
+        public: false
+        autowire: true
+        autoconfigure: false

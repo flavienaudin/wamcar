@@ -1,0 +1,50 @@
+Wamcar\Garage\Garage:
+
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    table: garage
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        basic: Wamcar\Garage\Garage
+        application: AppBundle\Doctrine\Entity\ApplicationGarage
+
+    exclusion_policy: ALL
+
+    embedded:
+        address:
+            class: Wamcar\Garage\Address
+            columnPrefix: address_
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        name:
+            type: string
+            nullable: false
+        siren:
+            type: string
+            nullable: false
+        phone:
+            type: string
+            nullable: true
+        email:
+            type: string
+            length: 191   # needed to index field in utf8mb4
+            nullable: true
+        openingHours:
+            type: text
+            nullable: true
+        presentation:
+            type: text
+            nullable: true
+        benefit:
+            type: text
+            nullable: true

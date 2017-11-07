@@ -1,6 +1,6 @@
-Wamcar\User\City:
+Wamcar\Location\City:
     type: embeddable
-    columnPrefix: city_
+
     fields:
         postalCode:
             type: string

@@ -1,16 +1,19 @@
 <?php
 
-
-namespace Wamcar\User;
-
+namespace Wamcar\Location;
 
 class City
 {
-    /** @var string  */
+    /** @var string */
     private $postalCode;
-    /** @var string  */
+    /** @var string */
     private $name;
 
+    /**
+     * City constructor.
+     * @param string $postalCode
+     * @param string $name
+     */
     public function __construct(string $postalCode, string $name)
     {
         $this->postalCode = $postalCode;
@@ -32,4 +35,5 @@ class City
     {
         return $this->name;
     }
+
 }
