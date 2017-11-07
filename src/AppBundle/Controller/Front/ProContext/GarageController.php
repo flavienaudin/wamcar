@@ -5,12 +5,14 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineGarageRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Garage\GarageProvider;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -145,14 +147,15 @@ class GarageController extends BaseController
     }
 
     /**
+     * @ParamConverter("garage", options={"id" = "garage_id"})
+     * @ParamConverter("user", options={"id" = "user_id"})
      * @param Garage $garage
+     * @param ProApplicationUser $user
      * @Security("has_role('ROLE_PRO')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function unassignAction(Garage $garage): RedirectResponse
+    public function unassignAction(Garage $garage, ProApplicationUser $user): RedirectResponse
     {
-        $user = $this->getUser();
-
         $this->garageEditionService->removeMember($garage, $user);
 
         $this->session->getFlashBag()->add(

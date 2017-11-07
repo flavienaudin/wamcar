@@ -5,6 +5,12 @@
 {% set pageMessage = pageMessage|default(false) %}
 {% set page_profil = page_profil|default(false) %}
 
+{% if app.user.garageMembers|length == 0 %}
+    {% set pathGarage = path('front_garage_list') %}
+{% else %}
+    {% set pathGarage =  path('front_garage_view', {'id': app.user.garageMembers.0.garage.id}) %}
+{% endif %}
+
 {% set navigation_class = 'is-flex small-right' %}
 {% set navigation_items = [
     {
@@ -14,7 +20,7 @@
         current: pageSearch
     },
     {
-        slug: path('inte_garage_detail'),
+        slug: pathGarage,
         label: 'Mon Garage',
         icon: 'garage',
         current: page_garage

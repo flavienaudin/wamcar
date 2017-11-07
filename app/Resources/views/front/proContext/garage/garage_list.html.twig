@@ -1,5 +1,8 @@
 {% extends ':front/Layout:layout.html.twig' %}
 
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
 
 {% block body %}
     <a href="{{ path('front_garage_create') }}" class="button">Créer un garage</a>
@@ -23,7 +26,7 @@
                         {% if app.user.getMemberByGarage(garage) == null %}
                             <li><a href="{{ path('front_garage_assign', {'id': garage.id}) }}">Rejoindre le garage</a></li>
                         {% else %}
-                            <li><a href="{{ path('front_garage_unassign', {'id': garage.id}) }}">Quitter le garage</a></li>
+                            <li><a href="{{ path('front_garage_unassign', {'garage_id': garage.id, 'user_id': app.user.id}) }}">Quitter le garage</a></li>
                         {% endif %}
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}

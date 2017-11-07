@@ -6,7 +6,7 @@
                 <li class="block-grid column large-left-collapse align-middle">
                     <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ member.proUser.name }}"></span>
                     <span class="seller-name">{{ member.proUser.name }}</span>
-                    <a href="" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
+                    <a href="{{ path('front_garage_unassign', {'garage_id': member.garage.id, 'user_id': member.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
                 </li>
             {% endfor %}
         </ul>
