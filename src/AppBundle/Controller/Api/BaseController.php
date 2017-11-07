@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 
@@ -9,6 +10,8 @@ abstract class BaseController
 {
     /** @var RouterInterface */
     protected $router;
+    /** @var SessionInterface */
+    protected $session;
 
     /**
      * @param RouterInterface $router
@@ -16,6 +19,14 @@ abstract class BaseController
     public function setRouter(RouterInterface $router)
     {
         $this->router = $router;
+    }
+
+    /**
+     * @param SessionInterface $session
+     */
+    public function setSession(SessionInterface $session)
+    {
+        $this->session = $session;
     }
 
     /**
@@ -29,5 +40,13 @@ abstract class BaseController
     protected function generateRoute(string $routeName, array $routeParameters = []): string
     {
         return $this->router->generate($routeName, $routeParameters);
+    }
+
+    /**
+     * @return ApplicationUser
+     */
+    public function getUser(): ApplicationUser
+    {
+        return $this->session->get('AUTH_USER');
     }
 }

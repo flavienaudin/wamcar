@@ -26,3 +26,9 @@ AppBundle\Doctrine\Entity\ProApplicationUser:
         deletedAt:
             type: date
             nullable: true
+        apiClientId:
+            type: string
+            nullable: true
+        apiSecret:
+            type: string
+            nullable: true

@@ -20,6 +20,7 @@ services:
         abstract: true
         calls:
             - ['setRouter', ['@router']]
+            - ['setSession', ['@session']]
 
     AppBundle\Controller\Api\:
         resource: '../../../Controller/Api'
