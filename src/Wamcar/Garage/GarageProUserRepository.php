@@ -9,7 +9,7 @@ interface GarageProUserRepository
      *
      * @return GarageProUser
      */
-    public function findOne(int $garageId): GarageProUser;
+    public function findOne(int $garageId): ?GarageProUser;
 
     /**
      * @return GarageProUser[]
