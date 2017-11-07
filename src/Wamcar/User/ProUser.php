@@ -6,6 +6,7 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 
 class ProUser extends BaseUser
@@ -97,5 +98,17 @@ class ProUser extends BaseUser
         $this->garageMembers->removeElement($member);
 
         return $this;
+    }
+
+    /**
+     * @return null|Garage
+     */
+    public function getGarage(): ?Garage
+    {
+        if (count($this->garageMembers) > 0) {
+            return $this->garageMembers[0]->getGarage();
+        }
+
+        return null;
     }
 }
