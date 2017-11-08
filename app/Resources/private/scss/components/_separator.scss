@@ -25,6 +25,14 @@
     margin-top: 0;
   }
 
+  .vehicle-other & {
+
+    @include breakpoint(medium) {
+      margin-top: 0;
+    }
+
+  }
+
 
 
   /*

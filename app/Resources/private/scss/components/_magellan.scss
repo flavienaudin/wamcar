@@ -17,6 +17,10 @@
     padding-left: rem-calc(20);
   }
 
+  @include breakpoint(large only) {
+    justify-content: center;
+  }
+
   @include breakpoint(xlarge) {
     padding-left: rem-calc(40);
   }

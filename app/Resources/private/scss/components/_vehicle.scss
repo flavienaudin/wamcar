@@ -234,6 +234,24 @@
 
 
   /*
+     Infos list
+     ===================================== */
+
+  &-infos-list {
+    @include breakpoint(large only) {
+      columns: 2;
+      column-gap: rem-calc(40);
+
+      > li {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+
+
+
+  /*
      Model
      ===================================== */
 
@@ -382,6 +400,25 @@
 
 
   /*
+     Aside container
+     ===================================== */
+
+  &-aside-container,
+  &-aside {
+    @media screen and (min-height: rem-calc(800)) {
+      position: sticky;
+      position: -webkit-sticky;
+      top: $header-height-medium + rem-calc(30);
+      padding-top: 0;
+    }
+  }
+
+  &-aside-container {
+    z-index: 2;
+  }
+
+
+  /*
      Aside
      ===================================== */
 
@@ -393,10 +430,11 @@
     }
 
     @include breakpoint(large) {
-      position: sticky;
-      position: -webkit-sticky;
-      top: $header-height-medium + rem-calc(30);
       padding-top: 0;
+    }
+
+    @media screen and (min-height: rem-calc(800)) {
+      padding-bottom: rem-calc(30);
     }
   }
 
@@ -416,8 +454,8 @@
     @include breakpoint(medium only) {
       margin-bottom: 0;
     }
-
   }
+
 
 
   /*
@@ -432,7 +470,6 @@
       bottom: 0;
       left: 0;
       z-index: 3;
-      background: orange;
 
       .button {
         height: rem-calc(60);
