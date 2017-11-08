@@ -52,9 +52,8 @@ class UserController extends BaseController
      */
     public function editInformationsAction(Request $request): Response
     {
-        //TODO : Récupérer le user courant quand dispo
         /** @var ApplicationUser $user */
-        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+        $user = $this->getUser();
 
         $userForms = [
             ProApplicationUser::TYPE  => ProUserInformationType::class,
@@ -98,9 +97,8 @@ class UserController extends BaseController
      */
     public function viewInformationAction(Request $request): Response
     {
-        //TODO : Récupérer le user courant quand dispo
         /** @var ApplicationUser $user */
-        $user = $this->doctrineUserRepository->findOneByEmail('fabien@novaway.fr');
+        $user = $this->getUser();
 
         if ($user->getType() !== 'pro') {
             throw new \Exception('User must have the "Pro" Type');

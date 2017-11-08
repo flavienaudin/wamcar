@@ -1,20 +1,9 @@
-{% set inte_brand_list = [
-    {
-        name: 'Toyota Villeurbanne',
-        image: '/assets/images/placeholders/brand/logo-toyota.png'
-    },
-    {
-        name: 'Lyon Hybrid Car',
-        image: '/assets/images/placeholders/brand/logo-toyota.png'
-    }
-] %}
-
 <ul class="brand-list">
-    {% for brand in inte_brand_list %}
+    {% for membership in app.user.garageMemberships %}
         <li>
             <figure class="block-grid align-middle">
-                <span class="brand-logo"><img src="{{ brand.image }}" alt="{{ brand.name }}"></span>
-                <a href="{{ path('front_garage_detail') }}" class="text-underline">{{ brand.name }}</a>
+                <span class="brand-logo"><img src="{{ asset('/assets/images/placeholders/brand/logo-toyota.png') }}" alt="{{ membership.garage.name }}"></span>
+                <a href="{{ path('front_garage_view', {'id': membership.garage.id}) }}" class="text-underline">{{ membership.garage.name }}</a>
             </figure>
         </li>
     {% endfor %}

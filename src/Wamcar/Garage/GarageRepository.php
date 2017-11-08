@@ -44,4 +44,9 @@ interface GarageRepository
      */
     public function findOneBy(array $criteria, array $orderBy = NULL);
 
+    /**
+     * @return Garage[]
+     */
+    public function getLatest(): array;
+
 }

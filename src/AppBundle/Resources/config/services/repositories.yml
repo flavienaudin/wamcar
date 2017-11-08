@@ -29,3 +29,7 @@ services:
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\Garage\Garage']
 
+    AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\Garage\GarageProUser']
