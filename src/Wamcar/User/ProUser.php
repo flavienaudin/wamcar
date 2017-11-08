@@ -101,7 +101,7 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @return null|Garage
+     * @inheritdoc
      */
     public function getGarage(): ?Garage
     {

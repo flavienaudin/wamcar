@@ -22,4 +22,9 @@ interface CanBeGarageMember
      */
     public function isMembershipOfGarage(Garage $garage): bool;
 
+    /**
+     * @return null|Garage
+     */
+    public function getGarage(): ?Garage;
+
 }
