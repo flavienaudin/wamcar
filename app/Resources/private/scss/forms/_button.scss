@@ -107,13 +107,41 @@ a.button {
     border-color: $dark-gray;
 
     &::before {
+      font-size: rem-calc(16);
       color: $primary-color;
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(20);
+      }
     }
 
     @include breakpoint(large) {
       &:hover {
         background: white;
         color: $dark-gray;
+      }
+    }
+  }
+
+  /* remove */
+
+  &.remove {
+    width: rem-calc(60);
+    height: rem-calc(60);
+    background: $medium-gray;
+    border-color: $medium-gray;
+    border-radius: 50%;
+    color: white;
+
+    &::before {
+      font-weight: normal;
+      margin-right: 0;
+    }
+
+    @include breakpoint(large) {
+      &:hover {
+        background: white;
+        color: $medium-gray;
       }
     }
   }
