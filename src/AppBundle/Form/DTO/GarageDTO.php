@@ -10,6 +10,8 @@ use Wamcar\Garage\Garage;
 
 class GarageDTO
 {
+    /** @var bool */
+    public $isNew;
     /** @var int */
     public $id;
     /** @var string */
@@ -49,6 +51,7 @@ class GarageDTO
             $this->postalCode = $garage->getAddress()->getPostalCode();
             $this->cityName = $garage->getAddress()->getCityName();
         }
+        $this->isNew = $garage === null;
     }
 
     /**

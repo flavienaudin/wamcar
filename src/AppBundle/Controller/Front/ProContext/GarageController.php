@@ -94,7 +94,8 @@ class GarageController extends BaseController
         }
 
         return $this->render('front/Garages/Edit/edit.html.twig', [
-            'garageForm' => $garageForm->createView()
+            'isNew' => $garageDTO->isNew,
+            'garageForm' => $garageForm->createView(),
         ]);
     }
 

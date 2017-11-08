@@ -5,7 +5,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Editer mon garage{% endblock %}
+{% block title %}{{ isNew ? 'Créer' : 'Editer' }} mon garage{% endblock %}
 
 {% set is_logged = true %}
 {% set is_user_pro = true %}
