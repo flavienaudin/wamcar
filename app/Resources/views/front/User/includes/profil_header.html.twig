@@ -3,10 +3,14 @@
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
             <h1 class="profil-name">{{ user.name }}</h1>
             <div class="profil-action">
-                <a href="tel:+33{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
-                <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
+                {% if user.phonePro %}
+                    <a href="tel:+33{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
+                {% endif %}
+                {% if user.userProfile.phone %}
+                    <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
+                {% endif %}
                 {% if not userIsMe %}
-                    <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
+                    <a href="" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
                 {% endif %}
             </div>
         </div>
