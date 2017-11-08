@@ -23,7 +23,7 @@ class VehicleSpecificsType extends AbstractType
     {
         $builder
             ->add('registrationDate', DateType::class, [
-                'years' => range(1980, date('Y')),
+                'years' => range(date('Y'), 1900),
                 'error_bubbling' => true,
             ])
             ->add('mileage', IntegerType::class, [
