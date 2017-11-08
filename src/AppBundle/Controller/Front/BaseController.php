@@ -138,4 +138,12 @@ abstract class BaseController
         return null;
     }
 
+    /**
+     * @return bool
+     */
+    protected function isUserAuthenticated(): bool
+    {
+        return $this->tokenStorage->getToken() !== null && $this->tokenStorage->getToken()->isAuthenticated();
+    }
+
 }
