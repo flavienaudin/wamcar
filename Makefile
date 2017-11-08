@@ -34,10 +34,10 @@ phantom-up: ## start docker services to run phantomjs stack
 vendors: vendor/autoload.php ## install up to date packages with dockerized composer (if needed)
 vendor/autoload.php: composer.lock
 	@echo "--> Installing composer packages"
-	$(DOCKERRUN) composer install
+	$(DOCKERRUN) composer install --no-scripts --no-suggest --optimize-autoloader
 composer.lock: composer.json
 	@echo "--> Updating composer packages"
-	$(DOCKERRUN) composer update
+	$(DOCKERRUN) composer update --no-scripts --no-suggest --optimize-autoloader
 
 # Database management
 database: doctrine-migration

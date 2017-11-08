@@ -11,11 +11,6 @@ inventory('hosts.yml');
 set('ssh_type', 'native');
 set('ssh_multiplexing', true);
 
-// Plesk
-set('bin/php', '/opt/plesk/php/7.1/bin/php');
-set('bin/composer', '{{bin/php}} {{release_path}}/composer.phar');
-set('composer_options', '{{composer_action}} --verbose --prefer-dist --no-progress --no-interaction --dev --optimize-autoloader');
-
 // Configuration
 set('repository', 'git@gitlab.novaway.net:novaproject/wamcar');
 set('branch', 'develop');

@@ -1,0 +1,104 @@
+stages:
+  - setup
+  - build
+  - deploy
+
+cache:
+  key: "$CI_PIPELINE_ID"
+  paths:
+    - vendor
+    - bin
+    - node_modules
+
+after_script:
+  - docker-compose down
+
+variables:
+  WEB_PORT: 8008
+  MYSQL_PORT: 6603
+
+#################
+###   Setup   ###
+#################
+setup:env:
+  stage: setup
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
+    - docker-compose pull
+    - make vendors
+  tags:
+    - shell
+
+#################
+###   Build   ###
+#################
+build:assets:
+  stage: build
+  dependencies:
+    - setup:env
+  script:
+    - make front
+  tags:
+    - shell
+  artifacts:
+    paths:
+      - web/assets/bundle
+
+#################
+###  Deploy   ###
+#################
+deploy:demo:
+  stage: deploy
+  dependencies:
+    - setup:env
+    - build:assets
+  script:
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy --hosts demo"
+  tags:
+    - shell
+  environment:
+    name: Demo
+    url: https://demo-wamcar.novaway.net
+  only:
+    - develop
+
+#deploy:staging:
+#  stage: deploy
+#  dependencies:
+#    - build:assets
+#  script:
+#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
+#    - make vendors
+#    - make deploy-staging
+#  tags:
+#    - shell
+#  environment:
+#    name: Staging
+#  only:
+#    - staging
+
+deploy:demo:unlock:
+  stage: deploy
+  dependencies:
+    - setup:env
+  script:
+    - make vendors
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts demo"
+  tags:
+    - shell
+  when: manual
+#  only:
+#    - develop
+
+deploy:staging:unlock:
+  stage: deploy
+  dependencies:
+    - setup:env
+  script:
+    - make vendors
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
+  tags:
+    - shell
+  when: manual
+  only:
+    - staging
