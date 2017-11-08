@@ -87,8 +87,8 @@ class GarageController extends BaseController
             $garage = $this->garageEditionService->editInformations($garageDTO, $garage);
 
             $this->session->getFlashBag()->add(
-                $successMessage,
-                self::FLASH_LEVEL_INFO
+                self::FLASH_LEVEL_INFO,
+                $successMessage
             );
             return $this->redirectToRoute('front_garage_edit', ['id' => $garage->getId()]);
         }
