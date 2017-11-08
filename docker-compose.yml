@@ -28,9 +28,9 @@ services:
     php:
         image: "registry-gitlab.novaway.net/dev-team/dockerfiles/php-fpm:7.1"
         volumes:
-            - "$HOME/.ssh/config:/var/tmp/sshconf:ro"
-            - "$HOME/.ssh/known_hosts:/var/tmp/ssh_hosts:ro"
-            - "$HOME/.ssh/id_rsa:/var/tmp/id:ro"
+            - "$HOME/.ssh/config:/home/novaway/.ssh/config:ro"
+            - "$HOME/.ssh/known_hosts:/home/novaway/.ssh/known_hosts:ro"
+            - "$HOME/.ssh/id_rsa:/home/novaway/.ssh/id_rsa:ro"
             - ".:/var/www/myapp:cached"
         environment:
             LOCAL_USER_ID: $USER_ID
