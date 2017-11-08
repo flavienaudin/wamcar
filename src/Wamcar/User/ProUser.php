@@ -18,7 +18,7 @@ class ProUser extends BaseUser
     /** @var  string */
     protected $phonePro;
     /** @var  Collection */
-    protected $garageMembers;
+    protected $garageMemberships;
 
     /**
      * ProUser constructor.
@@ -27,7 +27,7 @@ class ProUser extends BaseUser
     public function __construct($email)
     {
         parent::__construct($email);
-        $this->garageMembers = new ArrayCollection();
+        $this->garageMemberships = new ArrayCollection();
     }
 
     /**
@@ -65,26 +65,26 @@ class ProUser extends BaseUser
     /**
      * @return Collection
      */
-    public function getGarageMembers(): Collection
+    public function getGarageMemberships(): Collection
     {
-        return $this->garageMembers;
+        return $this->garageMemberships;
     }
 
     /**
      * @param Collection $members
      */
-    public function setGarageMembers(Collection $members)
+    public function setGarageMemberships(Collection $members)
     {
-        $this->garageMembers = $members;
+        $this->garageMemberships = $members;
     }
 
     /**
      * @param GarageProUser $member
      * @return ProUser
      */
-    public function addGarageMember(GarageProUser $member): ProUser
+    public function addGarageMembership(GarageProUser $member): ProUser
     {
-        $this->garageMembers->add($member);
+        $this->garageMemberships->add($member);
 
         return $this;
     }
@@ -93,9 +93,9 @@ class ProUser extends BaseUser
      * @param GarageProUser $member
      * @return ProUser
      */
-    public function removeGarageMember(GarageProUser $member): ProUser
+    public function removeGarageMembership(GarageProUser $member): ProUser
     {
-        $this->garageMembers->removeElement($member);
+        $this->garageMemberships->removeElement($member);
 
         return $this;
     }
@@ -105,8 +105,8 @@ class ProUser extends BaseUser
      */
     public function getGarage(): ?Garage
     {
-        if (count($this->garageMembers) > 0) {
-            return $this->garageMembers[0]->getGarage();
+        if (count($this->garageMemberships) > 0) {
+            return $this->garageMemberships[0]->getGarage();
         }
 
         return null;

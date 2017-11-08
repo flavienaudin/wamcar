@@ -1,5 +1,5 @@
 <ul class="brand-list">
-    {% for member in app.user.garageMembers %}
+    {% for member in app.user.garageMemberships %}
         <li>
             <figure class="block-grid align-middle">
                 <span class="brand-logo"><img src="{{ asset('/assets/images/placeholders/brand/logo-toyota.png') }}" alt="{{ member.garage.name }}"></span>

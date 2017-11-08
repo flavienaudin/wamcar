@@ -28,7 +28,7 @@ Wamcar\Garage\GarageProUser:
 
         proUser:
             targetEntity: Wamcar\User\ProUser
-            inversedBy: garageMembers
+            inversedBy: garageMemberships
             joinColumn:
                 name: pro_user_id
                 referencedColumnName: id

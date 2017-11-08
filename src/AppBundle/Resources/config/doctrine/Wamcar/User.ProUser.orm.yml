@@ -10,7 +10,7 @@ Wamcar\User\ProUser:
             nullable: true
 
     oneToMany:
-        garageMembers:
+        garageMemberships:
             targetEntity: Wamcar\Garage\GarageProUser
             mappedBy: proUser
             cascade: ["persist", "merge"]
