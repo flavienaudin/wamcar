@@ -76,7 +76,7 @@ class GarageController extends BaseController
      * @param null|Garage $garage
      * @return RedirectResponse|Response
      */
-    public function createEditAction(Request $request, ?Garage $garage)
+    public function saveAction(Request $request, ?Garage $garage)
     {
         $garageDTO = new GarageDTO($garage);
         $garageForm = $this->formFactory->create(GarageType::class, $garageDTO);
