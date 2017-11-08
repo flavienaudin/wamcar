@@ -3,7 +3,7 @@
 {% form_theme registrationForm 'front/Layout/includes/forms/fields.html.twig' %}
 
 {% if isIsolatedRegistration %}
-    {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password  register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 {% endif %}
 
 {# Adresse e-mail #}
@@ -52,11 +52,15 @@
 
 {# Button submit #}
 <div class="block-grid column small-12 align-middle">
-    <div class="small-9 large-7">
+    <div class="input-margin small-12">
         <button type="submit" class="button full-width">{{'user.submit.i_register'|trans}}</button>
     </div>
-    <div class="small-shrink small-right">
-        <button type="button" class="js-carousel-prev"><b class="black-color">Retour</b></button>
+    <div class="small-12">
+        {% if isIsolatedRegistration %}
+            <a href="" class="text-underline">Retour</a>
+        {% else %}
+            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Retour</b></button>
+        {% endif %}
     </div>
 </div>
 
