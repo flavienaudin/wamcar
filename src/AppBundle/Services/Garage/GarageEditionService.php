@@ -5,9 +5,7 @@ namespace AppBundle\Services\Garage;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
-use AppBundle\Doctrine\Entity\ApplicationGarageProUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
@@ -22,8 +20,6 @@ class GarageEditionService
     private $garageProUserRepository;
     /** @var GarageFromDTOBuilder  */
     private $garageBuilder;
-    /** @var AuthorizationCheckerInterface  */
-    private $authorizationChecker;
     /**
      * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
@@ -41,7 +37,6 @@ class GarageEditionService
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;
         $this->garageBuilder = $garageBuilder;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -66,12 +61,8 @@ class GarageEditionService
      */
     public function addMember(Garage $garage, ProApplicationUser $proApplicationUser)
     {
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
-        /** @var ApplicationGarageProUser $garageProUser */
-        $garageProUser = new ApplicationGarageProUser($garage, $proApplicationUser);
+        /** @var GarageProUser $garageProUser */
+        $garageProUser = new GarageProUser($garage, $proApplicationUser);
         $garage->addMember($garageProUser);
         $this->garageRepository->update($garage);
 
@@ -85,10 +76,6 @@ class GarageEditionService
      */
     public function removeMember(Garage $garage, ProApplicationUser $proApplicationUser)
     {
-        if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedException();
-        }
-
         /** @var GarageProUser $member */
         $member = $proApplicationUser->getMemberByGarage($garage);
         if (null === $member) {

@@ -21,7 +21,6 @@ class Version20171103084607 extends AbstractMigration
         $this->addSql('CREATE TABLE garage_pro_user (garage_id INT NOT NULL, pro_user_id INT NOT NULL, INDEX IDX_AD3AB093C4FFF555 (garage_id), INDEX IDX_AD3AB09352C7154E (pro_user_id), PRIMARY KEY(garage_id, pro_user_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE garage_pro_user ADD CONSTRAINT FK_AD3AB093C4FFF555 FOREIGN KEY (garage_id) REFERENCES garage (id)');
         $this->addSql('ALTER TABLE garage_pro_user ADD CONSTRAINT FK_AD3AB09352C7154E FOREIGN KEY (pro_user_id) REFERENCES user (id)');
-        $this->addSql('ALTER TABLE garage_pro_user ADD discriminator VARCHAR(255) NOT NULL');
 
     }
 

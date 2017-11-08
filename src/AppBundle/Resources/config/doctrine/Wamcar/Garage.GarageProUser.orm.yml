@@ -2,14 +2,7 @@ Wamcar\Garage\GarageProUser:
 
     type: entity
     table: garage_pro_user
-    inheritanceType: SINGLE_TABLE
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository
-    discriminatorColumn:
-        name: discriminator
-        type: string
-    discriminatorMap:
-        basic: Wamcar\Garage\GarageProUser
-        application: AppBundle\Doctrine\Entity\ApplicationGarageProUser
 
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:

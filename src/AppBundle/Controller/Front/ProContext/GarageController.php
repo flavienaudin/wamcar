@@ -9,7 +9,6 @@ use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
-use AppBundle\Services\Garage\GarageProvider;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -29,27 +28,21 @@ class GarageController extends BaseController
 
     /** @var GarageEditionService  */
     protected $garageEditionService;
-
-    /** @var GarageProvider  */
-    protected $garageProvider;
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
-     * @param GarageProvider $garageProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         GarageRepository $garageRepository,
-        GarageEditionService $garageEditionService,
-        GarageProvider $garageProvider
+        GarageEditionService $garageEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
-        $this->garageProvider = $garageProvider;
     }
 
     /**
@@ -58,7 +51,7 @@ class GarageController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
-        $lastGarages = $this->garageProvider->provideLatest();
+        $lastGarages = $this->garageRepository->getLatest();
 
         return $this->render('front/proContext/garage/garage_list.html.twig', [
             'garages' => $lastGarages
@@ -80,7 +73,8 @@ class GarageController extends BaseController
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param null|Garage $garage
+     * @return RedirectResponse|Response
      */
     public function editAction(Request $request, ?Garage $garage )
     {
@@ -89,13 +83,13 @@ class GarageController extends BaseController
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
-            $this->garageEditionService->editInformations($garageDTO, $garage);
+            $garage = $this->garageEditionService->editInformations($garageDTO, $garage);
 
             $this->session->getFlashBag()->add(
-                'flash.success.garage_create',
+                'flash.success.garage_edit',
                 self::FLASH_LEVEL_INFO
             );
-            return $this->redirectToRoute('front_garage_list');
+            return $this->redirectToRoute('front_garage_edit', ['id' => $garage->getId()]);
         }
 
         return $this->render('front/Garages/Edit/edit.html.twig', [
@@ -110,7 +104,7 @@ class GarageController extends BaseController
      */
     public function removeAction(ApplicationGarage $applicationGarage): RedirectResponse
     {
-        $this->doctrineGarageRepository->remove($applicationGarage);
+        $this->garageRepository->remove($applicationGarage);
 
         $this->session->getFlashBag()->add(
             'flash.success.remove_garage',
