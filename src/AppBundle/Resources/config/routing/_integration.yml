@@ -22,13 +22,13 @@ reset_password:
         _controller: FrameworkBundle:Template:template
         template: front/Security/ResetPassword/reset.html.twig
 
-front_seller_card:
+inte_seller_card:
     path: /vendeur/stephane-richin
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Seller/card.html.twig
 
-front_seller_card_edit:
+inte_seller_card_edit:
     path: /vendeur/stephane-richin/editer
     defaults:
         _controller: FrameworkBundle:Template:template
@@ -46,19 +46,19 @@ inte_garage_edit:
         _controller: FrameworkBundle:Template:template
         template: front/Garages/Edit/edit.html.twig
 
-front_vehicle_detail_pro:
+inte_vehicle_detail_pro:
     path: /vehicule/detail
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Vehicle/Detail/detail.html.twig
 
-front_vehicle_detail_pro_add:
+inte_vehicle_detail_pro_add:
     path: /vehicule/ajouter
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Vehicle/Add/add.html.twig
 
-front_vehicle_detail_pro_edit:
+inte_vehicle_detail_pro_edit:
     path: /vehicule/editer
     defaults:
         _controller: FrameworkBundle:Template:template
