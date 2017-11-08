@@ -32,7 +32,7 @@ before('deploy:symlink', 'database:migrate');
 after('deploy', 'upload:assets');
 
 after('deploy', 'reload:php-fpm');
-after('deploy', 'elasticsearch:populate');
+//after('deploy', 'elasticsearch:populate');
 after('rollback', 'reload:php-fpm');
 
 // Servers
