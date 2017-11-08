@@ -203,7 +203,6 @@ class Step {
       this.updateProgressBar(offSetLeftNextElement);
     } else {
       $activeElement.classList.remove(activeClass);
-      $activeElement.classList.add(disabledClass);
       $prevElement.classList.add(activeClass);
       this.updateProgressBar(offSetLeftPrevElement);
     }
@@ -245,10 +244,12 @@ if ($step) {
   }
 
   // Button prev step
-  $prevButton.addEventListener('click', () => {
-    step.prev().then(() => {
-      step.updateNavigation('prev');
-      step.initAbide();
+  [...document.querySelectorAll('.js-carousel-prev')].forEach((item) => {
+      item.addEventListener('click', () => {
+      step.prev().then(() => {
+        step.updateNavigation('prev');
+        step.initAbide();
+      });
     });
   });
 
@@ -273,6 +274,16 @@ if ($step) {
       if (index < currentSlide) {
         step.prev().then(() => {
           step.updateNavigation('prev');
+          step.initAbide();
+        });
+      }
+
+      // Next direction
+      if (index > currentSlide) {
+        step.valid().then(() => {
+            return step.next();
+        }).then(() => {
+            step.updateNavigation('next');
           step.initAbide();
         });
       }
