@@ -5,13 +5,13 @@ namespace AppBundle\Doctrine\Entity;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
-use AppBundle\Services\User\HasGarageMembership;
+use AppBundle\Services\User\CanBeGarageMember;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable, HasGarageMembership, HasApiCredential
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, UserInterface, HasPasswordResettable, CanBeGarageMember, HasApiCredential
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
@@ -72,5 +72,21 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
         }
 
         return null;
+    }
+
+    /**
+     * @param Garage $garage
+     * @return bool
+     */
+    public function isMembershipOfGarage(Garage $garage): bool
+    {
+        /** @var GarageProUser $member */
+        foreach ($garage->getMembers() as $member) {
+            if ($member->getProUser() === $this) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

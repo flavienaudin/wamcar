@@ -7,7 +7,7 @@ namespace AppBundle\Services\User;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 
-interface HasGarageMembership
+interface CanBeGarageMember
 {
 
     /**
@@ -15,5 +15,11 @@ interface HasGarageMembership
      * @return null|GarageProUser
      */
     public function getMembershipByGarage(Garage $garage): ?GarageProUser;
+
+    /**
+     * @param Garage $garage
+     * @return bool
+     */
+    public function isMembershipOfGarage(Garage $garage): bool;
 
 }
