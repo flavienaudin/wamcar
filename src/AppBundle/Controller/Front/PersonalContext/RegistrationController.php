@@ -118,7 +118,7 @@ class RegistrationController extends BaseController
                 );
             }
 
-            die('OK');
+            return $this->redirectToRoute('register_confirm');
         }
 
 
