@@ -28,6 +28,8 @@ setup:env:
     - make vendors
   tags:
     - shell
+  only:
+    - develop
 
 #################
 ###   Build   ###
@@ -43,6 +45,8 @@ build:assets:
   artifacts:
     paths:
       - web/assets/bundle
+  only:
+    - develop
 
 #################
 ###  Deploy   ###
@@ -87,8 +91,8 @@ deploy:demo:unlock:
   tags:
     - shell
   when: manual
-#  only:
-#    - develop
+  only:
+    - develop
 
 deploy:staging:unlock:
   stage: deploy
