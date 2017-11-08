@@ -1,0 +1,53 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% set is_logged = true %}
+{% set is_user_pro = true %}
+{% set page_garage = true %}
+
+{% block title %}Ajouter un véhicule{% endblock %}
+
+{% block body %}
+
+    <div class="l-main-container no-padding">
+
+        <div class="is-relative separator-section">
+            <div class="row column medium-right-collapse">
+                {% include 'front/Vehicle/Edit/includes/step_navigation.html.twig' %}
+            </div>
+            {% include 'front/Security/Register/includes/step_progress_bar.html.twig' %}
+        </div>
+
+        <section class="row">
+
+            <ul id="js-step" class="step no-bullet">
+                {# <li class="block-grid" data-step="1">
+                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : vehicleForm } %}
+                </li> #}
+                {# <li class="block-grid" data-step="2">
+                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : vehicleForm } %}
+                </li> #}
+                {# <li class="block-grid" data-step="3">
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm } %}
+                </li> #}
+                <li class="block-grid" data-step="4">
+                    {% include 'front/Vehicle/Edit/includes/insurance.html.twig' %}
+                </li>
+            </ul>
+            <nav id="js-step-navigation" class="column small-12">
+                <div class="register-navigation block-grid small-12 align-middle">
+                    <div class="small-6 large-7">
+                        <a class="js-carousel-prev text-underline">Etape précédente</a>
+                    </div>
+                    <div class="small-6 large-5 xlarge-4 xlarge-offset-1">
+                        <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">Étape suivante</button>
+                    </div>
+                </div>
+            </nav>
+
+        </section>
+
+    </div>
+
+{% endblock body %}

@@ -52,6 +52,12 @@ front_vehicle_detail_pro:
         _controller: FrameworkBundle:Template:template
         template: front/Vehicle/Detail/detail.html.twig
 
+front_vehicle_detail_pro_add:
+    path: /vehicule/ajouter
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Vehicle/Add/add.html.twig
+
 front_vehicle_detail_pro_edit:
     path: /vehicule/editer
     defaults:

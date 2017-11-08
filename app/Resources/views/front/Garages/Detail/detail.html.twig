@@ -40,15 +40,15 @@
                     <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
                     <div id="js-move-garage-picture" aria-hidden="true"></div>
                     <ul id="js-garage-tabs" class="tabs" data-tabs>
-                        <li class="tabs-title"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
+                        <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">Véhicules</a></li>
                         <li class="tabs-title"><a data-tabs-target="about" href="#about">A propos</a></li>
                         {# Pour l'instant, l'onglet avis reste caché jusqu'à la décision du sont contenu. #}
                         {# <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">Avis</a></li> #}
-                        <li class="tabs-title is-active"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
+                        <li class="tabs-title"><a data-tabs-target="sellers" href="#sellers">Vendeurs</a></li>
                     </ul>
                 </div>
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
-                    <div id="vehicles" class="tabs-panel column large-collapse">
+                    <div id="vehicles" class="tabs-panel column large-collapse is-active">
                         {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
                     </div>
                     <div id="about" class="tabs-panel">
@@ -58,7 +58,7 @@
                     {# <div id="opinions" class="tabs-panel">
                         {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
                     </div> #}
-                    <div id="sellers" class="tabs-panel is-active">
+                    <div id="sellers" class="tabs-panel">
                         {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
                     </div>
                 </div>
