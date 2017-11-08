@@ -1,0 +1,91 @@
+/* ===========================================================================
+   Carousel
+   =========================================================================== */
+
+.carousel {
+  list-style: none;
+  margin-left: 0;
+
+  &:not(.block-margin) { margin-bottom: 0; }
+
+  // Pour éviter les effets chelou pendant la construction du carousel
+  // On cache tout les items, sauf le premier
+  // On s'occupera de les réafficher lorsque le carousel sera initialisé
+  li:not(.slick-slide):not([aria-hidden]) {
+    &:not(:first-child) { display: none; }
+  }
+
+
+  /*
+     Navigation
+     ===================================== */
+
+  &-navigation {
+    display: flex; // Surcharge de slick
+
+    /* Components */
+
+    .slick-list {
+      flex: 1;
+    }
+
+    .slick-slide {
+      position: relative;
+      margin-left: rem-calc(5);
+      margin-right: rem-calc(5);
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border: rem-calc(2) solid $alert-color;
+        opacity: 0;
+        transform: scale(.9);
+        transition: $global-transition;
+      }
+    }
+
+    .slick-current {
+      &::before {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  }
+
+
+  /*
+     Next/prev
+     ===================================== */
+
+  &-button {
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(30);
+    background: #e6e6e6;
+    color: $dark-gray;
+
+    @include breakpoint(medium) {
+      width: rem-calc(40);
+    }
+
+    &::before {
+      width: 100%;
+      margin-right: 0;
+    }
+
+    /* Exceptions */
+
+    &.next {
+      margin-left: rem-calc(5);
+    }
+
+    &.prev {
+      margin-right: rem-calc(5);
+    }
+  }
+
+}

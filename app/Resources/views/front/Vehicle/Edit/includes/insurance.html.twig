@@ -1,0 +1,83 @@
+{% set asideId = '1' %}
+{% set title = 'Prix et détail de l\'offre' %}
+
+{% include 'front/Security/Register/includes/aside.html.twig' with {
+    content: '
+        <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
+        <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
+    '
+} %}
+
+<section class="block-grid small-12 large-7">
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        class_field: 'column block-grid input-margin small-12',
+        class : 'no-margin small-12 medium-8',
+        label_class : 'medium-no-margin small-12 medium-4',
+        label: 'Prix',
+        name: 'price',
+        required: true,
+        required_message: 'Veuillez indiquer le prix de vente de votre véhicule.'
+    } %}
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        class_field: 'column block-grid input-margin small-12',
+        class : 'no-margin small-12 medium-8',
+        label_class : 'medium-no-margin small-12 medium-4',
+        label: 'Prix catalogue',
+        name: 'price-catalogue'
+    } %}
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        class_field: 'no-margin column block-grid input-margin small-12',
+        class : 'no-margin small-12 medium-8',
+        label_class : 'medium-no-margin small-12 medium-4',
+        label: 'Remise',
+        name: 'remise'
+    } %}
+    <div class="column small-12">
+        <div class="separator"><span class="show-for-sr">Garanties</span></div>
+        <div class="input-margin block-grid small-12">
+            <label for="garanties" class="medium-no-margin small-12 medium-4">Garanties <span>Facultatif</span></label>
+            <div class="medium-no-margin small-12 medium-8">
+                {% include 'front/Layout/includes/forms/select.html.twig' with {
+                    label: false,
+                    class: 'no-margin',
+                    options: [
+                        { value: '12-month', label: 'Garantie véhicule 12 mois' },
+                        { value: '24-month', label: 'Garantie véhicule 24 mois' },
+                        { value: '36-month', label: 'Garantie véhicule 36 mois' },
+                    ],
+                    id: 'garanties',
+                    name: 'garanties'
+                } %}
+            </div>
+        </div>
+        <div class="small-12 medium-offset-4 medium-8">
+            <div class="input-margin">
+                {% include 'front/Layout/includes/forms/checkbox.html.twig' with {
+                    label: 'Satisfait ou remboursé 15 jours',
+                    id: '15-month',
+                    name: '15-month'
+                } %}
+            </div>
+            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                placeholder: 'Autres, précisez...',
+                name: 'other'
+            } %}
+        </div>
+        {% include 'front/Layout/includes/forms/textarea.html.twig' with {
+            class_field: 'block-grid input-margin small-12',
+            class : 'no-margin small-12 medium-8',
+            label_class : 'align-self-top medium-no-margin small-12 medium-4',
+            optional_class: 'medium-12 medium-no-margin',
+            label: 'Services complémentaires',
+            placeholder: 'Renseignez ici les différents services proposés à vos clients...',
+            name: 'message'
+        } %}
+        {% include 'front/Layout/includes/forms/input.html.twig' with {
+            class_field: 'no-margin block-grid input-margin small-12',
+            class : 'no-margin small-12 medium-8',
+            label_class : 'medium-no-margin small-12 medium-4',
+            label: 'Références',
+            name: 'ref'
+        } %}
+    </div>
+</section>

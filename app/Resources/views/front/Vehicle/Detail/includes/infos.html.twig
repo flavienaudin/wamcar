@@ -1,0 +1,21 @@
+{% set infos_inte = [
+    { label: "Marque", value: vehicle.name },
+    { label: "Modèle", value: vehicle.brand },
+    { label: "Version", value: vehicle.version },
+    { label: "Année", value: vehicle.years },
+    { label: "Kilométrage", value: vehicle.km },
+    { label: "Motorisation", value: "1.6l 155ch" },
+    { label: "Boite de vitesse", value: "Manuelle" },
+    { label: "Energie", value: "Diesel" },
+    { label: "Couleur", value: "Gris" },
+    { label: "Mise en circulation", value: "20/04/2016" },
+    { label: "Véhicule importé", value: "Non" },
+    { label: "Véhicule 1ère main", value: "Non" }
+] %}
+
+<h2 class="separator medium primary-color">Informations principales</h2>
+<ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
+    {% for info in infos_inte %}
+        <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
+    {% endfor %}
+</ul>

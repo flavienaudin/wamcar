@@ -9,7 +9,6 @@
    ===================================== */
 
 .l-main {
-  // overflow-x: hidden;
   position: relative;
   padding-top: rem-calc(25);
   padding-bottom: rem-calc(35);
@@ -24,10 +23,36 @@
     padding-bottom: rem-calc(80);
   }
 
+  /* Container */
+
+  &-container {
+
+    @include breakpoint(medium) {
+      border-top: rem-calc(1) solid rgba(229, 229, 229, 0.5);
+      padding-top: rem-calc(20);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(30);
+    }
+  }
+
+  /* State */
+
+  &.has-no-scroll {
+    overflow-x: hidden;
+  }
+
   /* Exceptions */
 
   &.small-no-padding-top {
     @include breakpoint(small only) {
+      padding-top: 0;
+    }
+  }
+
+  &.medium-no-padding-top {
+    @include breakpoint(medium) {
       padding-top: 0;
     }
   }

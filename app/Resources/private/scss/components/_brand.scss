@@ -25,6 +25,17 @@
         }
       }
     } // End > li
+
+    /* Exceptions */
+
+    .vehicle-aside & {
+      background: #f7f7f7;
+      padding: rem-calc(10) rem-calc(30) rem-calc(30);
+
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(30);
+      }
+    }
   } // End &-list
 
 
@@ -44,5 +55,12 @@
     padding: rem-calc(5);
 
     > img { max-height: 100%; }
+
+    /* Exceptions */
+
+    &.is-logo {
+      border: 0;
+      padding: 0;
+    }
   }
 }

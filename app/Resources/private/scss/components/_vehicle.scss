@@ -108,6 +108,14 @@
       }
     } // End .section &
 
+    .vehicle-other & {
+      margin-top: rem-calc(20);
+
+      @include breakpoint(medium) {
+        margin-top: rem-calc(30);
+      }
+    }
+
   } // End &-list
 
 
@@ -189,6 +197,7 @@
 
   &-name {
     color: black;
+    font-weight: bold;
     text-transform: uppercase;
     padding-top: rem-calc(7);
 
@@ -225,10 +234,30 @@
 
 
   /*
+     Infos list
+     ===================================== */
+
+  &-infos-list {
+    @include breakpoint(large only) {
+      columns: 2;
+      column-gap: rem-calc(40);
+
+      > li {
+        display: inline-block;
+        width: 100%;
+      }
+    }
+  }
+
+
+
+  /*
      Model
      ===================================== */
 
   &-model {
+    color: $body-font-color;
+
     @include breakpoint(large down) {
       line-height: 1.2;
     }
@@ -303,6 +332,168 @@
       position: absolute;
       right: 0;
       bottom: 0;
+    }
+  }
+
+
+  /*
+     Header
+     ===================================== */
+
+  &-header {
+
+    /* Components */
+
+    h1 {
+      @include breakpoint(small only) { margin-bottom: rem-calc(6); }
+    }
+
+    .h1 {
+      @include breakpoint(small only) { margin-bottom: rem-calc(7); }
+    }
+
+    h1,
+    .h1 {
+      @include breakpoint(medium) { margin-bottom: rem-calc(10); }
+      @include breakpoint(xlarge) { margin-bottom: rem-calc(18); }
+    }
+
+    p {
+      margin-bottom: rem-calc(10);
+
+      @include breakpoint(xlarge) {
+        margin-bottom: rem-calc(25);
+      }
+    }
+  }
+
+
+  /*
+     Carousel legend
+     ===================================== */
+
+  &-carousel-legend {
+    margin-top: rem-calc(5);
+    margin-bottom: rem-calc(15);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(25);
+    }
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(14);
+    }
+  }
+
+
+  /*
+     Detail
+     ===================================== */
+
+  &-detail {
+    padding-top: rem-calc(30);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(45);
+    }
+  }
+
+
+  /*
+     Aside container
+     ===================================== */
+
+  &-aside-container,
+  &-aside {
+    @media screen and (min-height: rem-calc(900)) {
+      position: sticky;
+      position: -webkit-sticky;
+      top: $header-height-medium + rem-calc(30);
+      padding-top: 0;
+    }
+  }
+
+  &-aside-container {
+    z-index: 2;
+  }
+
+
+  /*
+     Aside
+     ===================================== */
+
+  &-aside {
+    padding-top: rem-calc(25);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      padding-top: 0;
+    }
+
+    @media screen and (min-height: rem-calc(900)) {
+      padding-bottom: rem-calc(30);
+    }
+  }
+
+
+  /*
+     Users interested
+     ===================================== */
+
+  &-users {
+    margin-bottom: rem-calc(30);
+
+    @include breakpoint(medium down) {
+      border: 0;
+      padding: 0;
+    }
+
+    @include breakpoint(medium only) {
+      margin-bottom: 0;
+    }
+  }
+
+
+
+  /*
+     Editing
+     ===================================== */
+
+  &-editing {
+
+    @include breakpoint(medium down) {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 3;
+
+      .button {
+        height: rem-calc(60);
+        border-radius: 0;
+        margin-bottom: 0;
+      }
+    }
+
+  }
+
+
+  /*
+     Editing static
+     ===================================== */
+
+  &-editing-static {
+    .button {
+      @include breakpoint(medium down) {
+        margin-top: rem-calc(30);
+      }
+
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(30);
+      }
     }
   }
 

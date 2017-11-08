@@ -60,6 +60,15 @@
 // @include motion-ui-animations;
 
 
+
+/*
+   Slick carousel
+   ===================================== */
+
+@import '~slick-carousel/slick/slick.scss';
+
+
+
 /*
    Global
    ===================================== */
@@ -148,4 +157,8 @@
 @import "components/garage";
 @import "components/pagination";
 @import "components/seller";
+@import "components/cookie-bar";
+@import "components/carousel";
+@import "components/magellan";
+@import "components/wysiwyg";
 @import "components/state"; // Only on last

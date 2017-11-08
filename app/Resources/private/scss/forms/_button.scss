@@ -85,6 +85,14 @@ a.button {
     }
   }
 
+  &::before {
+    font-weight: normal;
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(20);
+    }
+  }
+
   /* Size */
 
   &.small {
@@ -107,6 +115,7 @@ a.button {
     border-color: $dark-gray;
 
     &::before {
+      font-size: rem-calc(16);
       color: $primary-color;
     }
 
@@ -114,6 +123,40 @@ a.button {
       &:hover {
         background: white;
         color: $dark-gray;
+      }
+    }
+  }
+
+  &.reverse {
+    background: white;
+    color: $primary-color;
+
+    @include breakpoint(large) {
+      &:hover {
+        background: $primary-color;
+        color: white;
+      }
+    }
+  }
+
+  /* remove */
+
+  &.remove {
+    width: rem-calc(60);
+    height: rem-calc(60);
+    background: $medium-gray;
+    border-color: $medium-gray;
+    border-radius: 50%;
+    color: white;
+
+    &::before {
+      margin-right: 0;
+    }
+
+    @include breakpoint(large) {
+      &:hover {
+        background: white;
+        color: $medium-gray;
       }
     }
   }

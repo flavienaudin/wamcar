@@ -227,6 +227,8 @@ class Step {
 if ($step) {
 
   const $stepNavigation = document.getElementById('js-register-step-navigation');
+  const $prevButton = document.querySelector('.js-carousel-prev');
+  const $nextButton = document.querySelector('.js-carousel-next');
   const step = new Step();
   step.initAbide();
 
@@ -243,7 +245,7 @@ if ($step) {
   }
 
   // Button prev step
-  document.querySelector('.js-carousel-prev').addEventListener('click', () => {
+  $prevButton.addEventListener('click', () => {
     step.prev().then(() => {
       step.updateNavigation('prev');
       step.initAbide();
@@ -251,12 +253,13 @@ if ($step) {
   });
 
   // Button next step
-  document.querySelector('.js-carousel-next').addEventListener('click', () => {
+  $nextButton.addEventListener('click', () => {
     step.valid().then(() => {
       return step.next();
     }).then(() => {
       step.updateNavigation('next');
       step.initAbide();
+      document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
     });
   });
 

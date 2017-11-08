@@ -1,0 +1,61 @@
+/* ===========================================================================
+   Cookie bar
+   =========================================================================== */
+
+.cookie-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding-top: rem-calc(10);
+  padding-bottom: rem-calc(10);
+
+  @include breakpoint(medium) {
+    padding-top: rem-calc(20);
+    padding-bottom: rem-calc(20);
+  }
+
+
+
+  /*
+      Accepted
+      ===================================== */
+
+  &.is-accepted {
+    transform: translate3d(0, 100%, 0);
+  }
+
+
+
+  /*
+     Components
+     ===================================== */
+
+  p {
+    @include breakpoint(small only) {
+      font-size: rem-calc(11);
+      line-height: rem-calc(16);
+    }
+  }
+
+
+
+  /*
+     Body
+     ===================================== */
+
+  &-body {
+
+    a {
+      color: white;
+      opacity: .6;
+
+      @include breakpoint(large) {
+        transition: $global-transition;
+        &:hover { opacity: 1; }
+      }
+    }
+
+  } // End &-body
+
+}

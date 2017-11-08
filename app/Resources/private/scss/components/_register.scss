@@ -2,6 +2,29 @@
    Register
    =========================================================================== */
 
+/* Mixin */
+
+@mixin counterLargeStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: rem-calc(27);
+  height: rem-calc(27);
+  font-size: rem-calc(14);
+  border: rem-calc(2) solid $body-font-color;
+  text-align: center;
+  border-radius: 50%;
+  margin-right: rem-calc(10);
+}
+
+@mixin counterLargeActiveStyle() {
+  background: $primary-color;
+  border-color: $primary-color;
+  color: white;
+}
+
+/* Class */
+
 .register {
 
 
@@ -140,6 +163,21 @@
     @include breakpoint(large down) {
       justify-content: flex-end;
     }
+
+    /* Exceptions */
+
+    &.vehicle-step {
+
+      @include breakpoint(large down) {
+        justify-content: flex-start;
+      }
+
+      @include breakpoint(large) {
+        padding-top: rem-calc(10);
+        padding-bottom: rem-calc(15);
+      }
+    }
+
   } // End &-step
 
 
@@ -185,16 +223,7 @@
       counter-increment: section;
 
       @include breakpoint(large) {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: rem-calc(27);
-        height: rem-calc(27);
-        font-size: rem-calc(14);
-        border: rem-calc(2) solid $body-font-color;
-        text-align: center;
-        border-radius: 50%;
-        margin-right: rem-calc(10);
+        @include counterLargeStyle();
       }
 
       @include breakpoint(xlarge) {
@@ -208,12 +237,45 @@
     &.is-active {
       &::before {
         @include breakpoint(large) {
-          background: $primary-color;
-          border-color: $primary-color;
-          color: white;
+          @include counterLargeActiveStyle;
         }
       }
     } // End &.is-active
+
+    /* Exceptions */
+
+    .vehicle-step & {
+
+      @include breakpoint(small only) {
+        flex-direction: column;
+      }
+
+      @include breakpoint(medium only) {
+        width: auto;
+        margin-right: rem-calc(25);
+        border: 0;
+
+        &::before { @include counterLargeStyle(); }
+
+        &.is-valid,
+        &.is-active {
+          &::before { @include counterLargeActiveStyle; }
+        } // End &.is-active
+
+      } // End MQ
+
+      /* Components */
+
+      span {
+        @include breakpoint(small only) {
+          display: block;
+          width: 100%;
+          font-size: rem-calc(10);
+          text-align: center;
+        }
+      }
+
+    } // End &.vehicle-step
 
   } // End &-step-navigation-item
 

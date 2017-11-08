@@ -1,5 +1,6 @@
 {% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
 {% set is_register_page = is_register_page|default(false) %}
+{% set cookiebar = true %}
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
@@ -62,7 +63,11 @@
 
     {% include 'front/Layout/includes/footer.html.twig' %}
 
-    {% block reveal %}{% endblock %}
+    {% if cookiebar is defined and cookiebar == true %}
+        {% include 'front/Layout/includes/cookie_bar.html.twig' %}
+    {% endif %}
+
+    {% block modal %}{% endblock %}
 
     {% block javascripts %}{% endblock %}
     <script src="{{ asset('assets/bundle/bundle.js') }}"></script>

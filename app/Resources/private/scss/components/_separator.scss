@@ -12,6 +12,28 @@
     padding-top: rem-calc(30);
   }
 
+  /* Exceptions */
+
+  &.medium {
+    @include breakpoint(medium) {
+      margin-top: rem-calc(55);
+      padding-top: rem-calc(50);
+    }
+  }
+
+  .vehicle-detail & {
+    margin-top: 0;
+  }
+
+  .vehicle-other & {
+
+    @include breakpoint(medium) {
+      margin-top: 0;
+    }
+
+  }
+
+
 
   /*
      Small
@@ -23,5 +45,19 @@
       margin-top: rem-calc(30);
       padding-top: rem-calc(25);
     }
+  }
+
+
+  /*
+     Section
+     ===================================== */
+
+  &-section {
+    margin-bottom: rem-calc(30);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(55);
+    }
+
   }
 }

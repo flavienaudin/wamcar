@@ -1,0 +1,14 @@
+<div class="vehicle-users block-border">
+    <strong class="primary-color h3">Particuliers intéressés</strong>
+    <ul class="seller-list no-bullet list-border tiny no-margin">
+        {% for seller in sellers %}
+            <li class="block-grid no-margin align-middle">
+                <span><time>11/10/17</time> &nbsp;&nbsp;&nbsp;</span>
+                <span class="seller-name dark-gray-color">{{ seller.name }}</span>
+                <a href="" class="seller-remove icon-message primary-color small-right" title="Envoyer un message"><span class="show-for-sr">Envoyer un message</span></a>
+            </li>
+        {% endfor %}
+    </ul>
+    <br>
+    <a href="" class="text-underline">Voir tous les particuliers intéressés</a>
+</div>
