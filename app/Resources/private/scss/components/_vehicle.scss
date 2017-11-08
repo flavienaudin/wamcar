@@ -405,7 +405,7 @@
 
   &-aside-container,
   &-aside {
-    @media screen and (min-height: rem-calc(800)) {
+    @media screen and (min-height: rem-calc(900)) {
       position: sticky;
       position: -webkit-sticky;
       top: $header-height-medium + rem-calc(30);
@@ -433,7 +433,7 @@
       padding-top: 0;
     }
 
-    @media screen and (min-height: rem-calc(800)) {
+    @media screen and (min-height: rem-calc(900)) {
       padding-bottom: rem-calc(30);
     }
   }
@@ -478,6 +478,23 @@
       }
     }
 
+  }
+
+
+  /*
+     Editing static
+     ===================================== */
+
+  &-editing-static {
+    .button {
+      @include breakpoint(medium down) {
+        margin-top: rem-calc(30);
+      }
+
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(30);
+      }
+    }
   }
 
 }

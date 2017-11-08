@@ -85,6 +85,14 @@ a.button {
     }
   }
 
+  &::before {
+    font-weight: normal;
+
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(20);
+    }
+  }
+
   /* Size */
 
   &.small {
@@ -109,16 +117,24 @@ a.button {
     &::before {
       font-size: rem-calc(16);
       color: $primary-color;
-
-      @include breakpoint(medium) {
-        font-size: rem-calc(20);
-      }
     }
 
     @include breakpoint(large) {
       &:hover {
         background: white;
         color: $dark-gray;
+      }
+    }
+  }
+
+  &.reverse {
+    background: white;
+    color: $primary-color;
+
+    @include breakpoint(large) {
+      &:hover {
+        background: $primary-color;
+        color: white;
       }
     }
   }
@@ -134,7 +150,6 @@ a.button {
     color: white;
 
     &::before {
-      font-weight: normal;
       margin-right: 0;
     }
 
