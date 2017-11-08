@@ -28,7 +28,7 @@ interface GarageRepository
      *
      * @return Garage
      */
-    public function update(Garage $garage);
+    public function update(Garage $garage): Garage;
 
     /**
      * @param Garage $garage

@@ -36,11 +36,13 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     /**
      * {@inheritdoc}
      */
-    public function update(Garage $garage)
+    public function update(Garage $garage): Garage
     {
         $garage = $this->_em->merge($garage);
         $this->_em->persist($garage);
         $this->_em->flush();
+
+        return $garage;
     }
 
     /**
