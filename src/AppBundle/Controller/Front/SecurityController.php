@@ -89,8 +89,8 @@ class SecurityController extends BaseController
                 $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
-                    'flash.danger.registration_duplicate',
-                    self::FLASH_LEVEL_DANGER
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.danger.registration_duplicate'
                 );
 
                 return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
@@ -99,8 +99,8 @@ class SecurityController extends BaseController
             }
 
             $this->session->getFlashBag()->add(
-                'flash.success.registration_success',
-                self::FLASH_LEVEL_INFO
+                self::FLASH_LEVEL_INFO,
+                'flash.success.registration_success'
             );
 
             return $this->redirectToRoute('front_default');
@@ -127,8 +127,8 @@ class SecurityController extends BaseController
 
         if (!$user) {
             $this->session->getFlashBag()->add(
-                'flash.danger.token_invalid',
-                self::FLASH_LEVEL_DANGER
+                self::FLASH_LEVEL_DANGER,
+                'flash.danger.token_invalid'
             );
 
             return $this->redirectToRoute('security_login');
@@ -137,8 +137,8 @@ class SecurityController extends BaseController
         $this->userRegistrationService->confirmUserRegistration($user);
 
         $this->session->getFlashBag()->add(
-            'flash.success.registration_confirmed',
-            self::FLASH_LEVEL_INFO
+            self::FLASH_LEVEL_INFO,
+            'flash.success.registration_confirmed'
         );
         // redirect to login page, to allow user to enter his credentials
         return $this->redirectToRoute('front_default');
@@ -156,8 +156,8 @@ class SecurityController extends BaseController
 
         if ($error) {
             $this->session->getFlashBag()->add(
-                $error->getMessage(),
-                self::FLASH_LEVEL_DANGER
+                self::FLASH_LEVEL_DANGER,
+                $error->getMessage()
             );
             return $this->redirectToRoute('front_default');
         }
@@ -183,8 +183,8 @@ class SecurityController extends BaseController
         $user = $this->userRepository->findOneByEmail($email);
         if(!$user) {
             $this->session->getFlashBag()->add(
-                'flash.error.user_no_exist',
-                self::FLASH_LEVEL_DANGER
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.user_no_exist'
             );
             return $this->redirectToRoute('front_default');
         }
@@ -195,8 +195,8 @@ class SecurityController extends BaseController
         $this->eventBus->handle(new UserPasswordResetTokenGenerated($user));
 
         $this->session->getFlashBag()->add(
-            'flash.success.reset_password_success',
-            self::FLASH_LEVEL_INFO
+            self::FLASH_LEVEL_INFO,
+            'flash.success.reset_password_success'
         );
 
         return $this->redirectToRoute('front_default');
@@ -214,8 +214,8 @@ class SecurityController extends BaseController
         $user = $this->userGlobalSearchService->findOneByPasswordResetToken($token);
         if(!$user) {
             $this->session->getFlashBag()->add(
-                'flash.error.user_no_exist',
-                self::FLASH_LEVEL_DANGER
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.user_no_exist'
             );
             return $this->redirectToRoute('front_default');
         }
@@ -228,8 +228,8 @@ class SecurityController extends BaseController
             $this->userEditionService->editPassword($user, $form->get('password')->getData());
 
             $this->session->getFlashBag()->add(
-                'flash.success.password_changed',
-                self::FLASH_LEVEL_INFO
+                self::FLASH_LEVEL_INFO,
+                'flash.success.password_changed'
             );
             return $this->redirectToRoute('front_default');
 

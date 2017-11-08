@@ -57,6 +57,10 @@
         {% include 'front/Layout/includes/header.html.twig' %}
     {% endif %}
 
+    {% block flash_messages %}
+        {% include ':front/Layout/includes:flashMessage.html.twig' %}
+    {% endblock %}
+
     <main class="l-main {% block mainClass %}{% endblock %}">
         {% block body %}{% endblock %}
     </main>

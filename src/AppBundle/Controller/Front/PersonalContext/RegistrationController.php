@@ -73,8 +73,8 @@ class RegistrationController extends BaseController
                 $this->session->getFlashBag()->add(
                     $autodataException instanceof AutodataWithUserMessageException ?
                         $autodataException->getMessage() :
-                        'flash.warning.registration_recognition_failed',
-                    self::FLASH_LEVEL_DANGER
+                        self::FLASH_LEVEL_DANGER,
+                        'flash.warning.registration_recognition_failed'
                 );
             }
         }
@@ -113,8 +113,8 @@ class RegistrationController extends BaseController
                 $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
-                    'flash.danger.registration_duplicate',
-                    self::FLASH_LEVEL_DANGER
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.danger.registration_duplicate'
                 );
             }
 

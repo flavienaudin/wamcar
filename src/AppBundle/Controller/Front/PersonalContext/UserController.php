@@ -78,8 +78,8 @@ class UserController extends BaseController
             $this->userEditionService->editInformations($user, $userInformationDTO);
 
             $this->session->getFlashBag()->add(
-                'flash.success.user_edit',
-                self::FLASH_LEVEL_INFO
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user_edit'
             );
         }
 
