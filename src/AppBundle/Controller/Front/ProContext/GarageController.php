@@ -84,7 +84,7 @@ class GarageController extends BaseController
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
             $successMessage = null === $garage ? 'flash.success.garage_create' : 'flash.success.garage_edit' ;
-            $garage = $this->garageEditionService->editInformations($garageDTO, $garage);
+            $garage = $this->garageEditionService->editInformations($garageDTO, $garage, $this->getUser());
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
