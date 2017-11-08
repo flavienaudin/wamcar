@@ -274,7 +274,7 @@
     {% endif %}
     <ul class="{{ list_class }}">
         {% for child in form %}
-            <li class="small-6">
+            <li class="">
                 {{ form_widget(child) }}
                 <label for="{{ child.vars.id }}" class="radio-item">
                     {{ child.vars.value }} {% include 'front/Layout/includes/svg/check.html.twig' %}
