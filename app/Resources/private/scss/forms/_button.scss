@@ -117,6 +117,10 @@ a.button {
     &::before {
       font-size: rem-calc(16);
       color: $primary-color;
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(20);
+      }
     }
 
     @include breakpoint(large) {
