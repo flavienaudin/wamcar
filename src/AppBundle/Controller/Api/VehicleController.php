@@ -2,8 +2,17 @@
 
 namespace AppBundle\Controller\Api;
 
+
+use AppBundle\Services\User\CanBeGarageMember;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\Vehicle;
+use Wamcar\Vehicle\VehicleRepository;
+use AppBundle\Api\DTO\VehicleDTO;
+use Swagger\Annotations as SWG;
 
 /**
  * @SWG\Parameter(parameter="client_id", name="client_id", in="query", description="Votre client ID API", required=true, type="string")
@@ -12,6 +21,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VehicleController extends BaseController
 {
+    /** @var VehicleRepository */
+    private $vehicleRepository;
+
+    /**
+     * VehicleController constructor.
+     * @param VehicleRepository $vehicleRepository
+     */
+    public function __construct(VehicleRepository $vehicleRepository)
+    {
+        $this->vehicleRepository = $vehicleRepository;
+    }
+
     /**
      * @SWG\Delete(
      *     path="/vehicules",
@@ -30,7 +51,14 @@ class VehicleController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        die('deleteAction');
+        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+
+        // Todo : batch remove for garage in repository
+        foreach ($vehicles as $vehicle) {
+            $this->vehicleRepository->remove($vehicle);
+        }
+
+        return new JsonResponse(['error' => 0]);
     }
 
     /**
@@ -51,7 +79,9 @@ class VehicleController extends BaseController
      */
     public function getListAction(Request $request): Response
     {
-        die('getListAction');
+        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+
+        return new JsonResponse($vehicles);
     }
 
     /**
@@ -78,7 +108,9 @@ class VehicleController extends BaseController
      */
     public function addAction(Request $request): Response
     {
-        die('addAction');
+        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        var_dump($vehicleDTO);
+        exit;
     }
 
     /**
@@ -98,9 +130,9 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function getAction(Request $request): Response
+    public function getAction(Request $request, Vehicle $vehicle): Response
     {
-        die('getAction');
+        return new JsonResponse($vehicle);
     }
 
     /**
@@ -120,9 +152,11 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function deleteAction(Request $request): Response
+    public function deleteAction(Request $request, Vehicle $vehicle): Response
     {
-        die('getAction');
+        $this->vehicleRepository->remove($vehicle);
+
+        return new JsonResponse(['error' => 0]);
     }
 
     /**
@@ -148,7 +182,7 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function editAction(Request $request): Response
+    public function editAction(Request $request, Vehicle $vehicle): Response
     {
         die('editAction');
     }
@@ -173,8 +207,21 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function addImageAction(Request $request): Response
+    public function addImageAction(Request $request, Vehicle $vehicle): Response
     {
         die('addImageAction');
+    }
+
+    /**
+     * @return Garage
+     */
+    private function getUserGarage(): Garage
+    {
+        $user = $this->getUser();
+        if (!$user || !$user instanceof CanBeGarageMember) {
+            throw new UnauthorizedHttpException();
+        }
+
+        return $user->getGarage();
     }
 }

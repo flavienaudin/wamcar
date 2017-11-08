@@ -40,14 +40,16 @@ composer.lock: composer.json
 	$(DOCKERRUN) composer update --no-scripts --no-suggest --optimize-autoloader
 
 # Database management
-database: doctrine-migration
-doctrine-fixtures: doctrine-migration
+database: fixtures
+fixtures: migration
 	@echo "--> Loading fixtures in database"
 	$(DOCKERPHP) ./bin/console doctrine:fixtures:load --no-interaction --fixtures=./database/fixtures
-	$(DOCKERPHP) ./bin/console wamcar:populate:vehicle_info
-doctrine-migration:
+migration:
 	@echo "--> Migrating database if needed"
 	$(DOCKERPHP) ./bin/console doctrine:migration:migrate --no-interaction --allow-no-migration
+vehicle-fixtures: database/fixtures/base_vehicule_short.csv
+	@echo "--> Populate vehicle index"
+	$(DOCKERPHP) ./bin/console wamcar:populate:vehicle_info
 
 # Frontend asset management
 NPM_OUT = node_modules/npm.md5
