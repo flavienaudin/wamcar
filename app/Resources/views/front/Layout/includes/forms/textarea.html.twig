@@ -9,12 +9,13 @@
 {% set value = value|default('') %}
 {% set placeholder = placeholder|default('') %}
 {% set pattern = pattern|default('') %}
+{% set optional_class = optional_class|default('') %}
 
 {% if class_field %}
     <div class="{{ class_field }}">
 {% endif %}
 {% if label %}
-    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span>Facultatif</span>{% endif %}</label>
+    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span class="{{ optional_class }}">Facultatif</span>{% endif %}</label>
 {% endif %}
     <textarea
         type="{{ type }}"
