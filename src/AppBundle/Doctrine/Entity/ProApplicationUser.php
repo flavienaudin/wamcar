@@ -78,7 +78,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      * @param Garage $garage
      * @return bool
      */
-    public function isMembershipOfGarage(Garage $garage): bool
+    public function isMemberOfGarage(Garage $garage): bool
     {
         return null !== $this->getMembershipByGarage($garage);
     }

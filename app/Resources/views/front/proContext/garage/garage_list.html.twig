@@ -23,7 +23,7 @@
                         <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
                     {% endif %}
                     {% if is_granted('ROLE_PRO') and not is_granted('ROLE_ADMIN') %}
-                        {% if app.user.isMembershipOfGarage(garage) %}
+                        {% if app.user.isMemberOfGarage(garage) %}
                             <li><a href="{{ path('front_garage_unassign', {'garage_id': garage.id, 'user_id': app.user.id}) }}">Quitter le garage</a></li>
                         {% else %}
                             <li><a href="{{ path('front_garage_assign', {'id': garage.id}) }}">Rejoindre le garage</a></li>

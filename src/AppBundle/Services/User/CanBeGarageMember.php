@@ -20,7 +20,7 @@ interface CanBeGarageMember
      * @param Garage $garage
      * @return bool
      */
-    public function isMembershipOfGarage(Garage $garage): bool;
+    public function isMemberOfGarage(Garage $garage): bool;
 
     /**
      * @return null|Garage
