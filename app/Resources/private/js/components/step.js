@@ -245,10 +245,12 @@ if ($step) {
   }
 
   // Button prev step
-  $prevButton.addEventListener('click', () => {
-    step.prev().then(() => {
-      step.updateNavigation('prev');
-      step.initAbide();
+  [...document.querySelectorAll('.js-carousel-prev')].forEach((item) => {
+      item.addEventListener('click', () => {
+      step.prev().then(() => {
+        step.updateNavigation('prev');
+        step.initAbide();
+      });
     });
   });
 
