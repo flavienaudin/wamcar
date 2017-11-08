@@ -37,6 +37,10 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
     {
         $clientId = $credentials['clientId'];
 
+        if(!$clientId) {
+            return null;
+        }
+
         if(!$userProvider instanceof ApiUserProvider) {
             return null;
         }
@@ -63,7 +67,7 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
     {
         return new JsonResponse(
             ['message' => strtr($exception->getMessageKey(), $exception->getMessageData())],
-            Response::HTTP_FORBIDDEN
+            Response::HTTP_UNAUTHORIZED
         );
     }
 
