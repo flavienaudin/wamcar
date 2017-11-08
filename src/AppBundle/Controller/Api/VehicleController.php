@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Api;
 
+
 use AppBundle\Services\User\CanBeGarageMember;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Vehicle;
 use Wamcar\Vehicle\VehicleRepository;
+use AppBundle\Api\DTO\VehicleDTO;
+use Swagger\Annotations as SWG;
 
 /**
  * @SWG\Parameter(parameter="client_id", name="client_id", in="query", description="Votre client ID API", required=true, type="string")
@@ -105,7 +108,9 @@ class VehicleController extends BaseController
      */
     public function addAction(Request $request): Response
     {
-        die('addAction');
+        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        var_dump($vehicleDTO);
+        exit;
     }
 
     /**
@@ -213,7 +218,7 @@ class VehicleController extends BaseController
     private function getUserGarage(): Garage
     {
         $user = $this->getUser();
-        if(!$user || !$user instanceof CanBeGarageMember) {
+        if (!$user || !$user instanceof CanBeGarageMember) {
             throw new UnauthorizedHttpException();
         }
 
