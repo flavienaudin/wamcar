@@ -49,7 +49,7 @@ class GarageEditionService
         /** @var Garage $garage */
         $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
 
-        $this->garageRepository->update($garage);
+        $garage = $this->garageRepository->update($garage);
 
         return $garage;
     }
