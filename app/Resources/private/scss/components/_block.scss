@@ -30,6 +30,16 @@
 
 
   /*
+     Border
+     ===================================== */
+
+  &-border {
+    border: rem-calc(1) solid $border-color;
+    padding: rem-calc(30);
+  }
+
+
+  /*
     Grid
     ===================================== */
 

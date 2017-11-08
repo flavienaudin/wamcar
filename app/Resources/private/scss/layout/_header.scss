@@ -30,7 +30,7 @@ $header-background: white;
   z-index: 13;
 
   @include breakpoint(large) {
-    z-index: 2;
+    z-index: 3;
     height: $header-height-medium;
   }
 

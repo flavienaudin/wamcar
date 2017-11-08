@@ -28,10 +28,10 @@
 .is-sticky   {
   position: sticky;
   position: -webkit-sticky;
-  top: rem-calc(29);
+  top: $header-height;
   z-index: 2;
-  @include breakpoint(medium) { top: rem-calc(15); }
-  @include breakpoint(xlarge) { top: rem-calc(45); }
+  @include breakpoint(large) { top: $header-height-medium; }
+  // @include breakpoint(xlarge) { top: rem-calc(45); }
 }
 
 
@@ -48,8 +48,8 @@
    Margin/Padding
    ===================================== */
 
-.no-margin { margin: 0; }
-.no-padding { padding: 0; }
+.no-margin { margin: 0 !important; }
+.no-padding { padding: 0 !important; }
 
 
 /*

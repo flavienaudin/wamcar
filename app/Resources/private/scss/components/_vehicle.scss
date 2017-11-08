@@ -367,4 +367,56 @@
     }
   }
 
+
+  /*
+     Detail
+     ===================================== */
+
+  &-detail {
+    padding-top: rem-calc(30);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(45);
+    }
+  }
+
+
+  /*
+     Aside
+     ===================================== */
+
+  &-aside {
+    padding-top: rem-calc(25);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+
+    @include breakpoint(large) {
+      position: sticky;
+      position: -webkit-sticky;
+      top: $header-height-medium + rem-calc(30);
+      padding-top: 0;
+    }
+  }
+
+
+  /*
+     Users interested
+     ===================================== */
+
+  &-users {
+    margin-bottom: rem-calc(30);
+
+    @include breakpoint(medium down) {
+      border: 0;
+      padding: 0;
+    }
+
+    @include breakpoint(medium only) {
+      margin-bottom: 0;
+    }
+
+  }
+
 }

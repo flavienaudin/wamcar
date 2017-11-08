@@ -21,46 +21,85 @@
 
 {% set vehicle = inte.vehicle['golf-2-tdi'] %}
 {% set vehicle_list = inte.vehicle %}
+{% set sellers = inte.garage.sellers %}
 
 {% block body %}
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name" : "{{ vehicle.seller }}",
+    "makesOffer" : {
+            "@type" :"Offer",
+            "priceSpecification" : {
+                "@type" : "UnitPriceSpecification",
+                "priceCurrency" : "USD",
+                "price" : "{{ vehicle.price }}" },
+            "itemOffered" : {
+                "@type" : "Car",
+                "name" : "{{ vehicle.name }}",
+                "description" : "{{ vehicle.description|raw }}",
+            "image" : "{{ vehicle.picture }}",
+            "color" : "{{ vehicle.color }}",
+            "numberOfForwardGears" : "6",
+            "vehicleEngine" : {
+                "@type": "EngineSpecification",
+                "name" : "{{ vehicle.model }}"
+                },
+            "numberOfAirbags" : "2"
+            }
+        }
+    }
+    </script>
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     <div class="l-main-container">
         <div class="row">
 
-            <div class="small-12 large-7 xlarge-8">
-                {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+            <section class="small-12 large-7 xlarge-8">
 
-                <div class="column small-collapse xlarge-uncollapse">
-                    {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                <div class="small-12">
+                    {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+                    <div class="column small-collapse xlarge-uncollapse">
+                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                    </div>
                 </div>
-            </div>
 
-            {# <div class="column small-12 large-5 xlarge-4">
-                <h2 class="primary-color">Particuliers intéressés</h2>
-            </div> #}
+                <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
+                    <div class="column small-12 medium-6 large-order-2 large-12">
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                    </div>
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
+                    </div>
+                </div>
 
-            <div class="vehicle-detail block-grid small-12 large-7 xlarge-8">
-                <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
-                    {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                <div class="vehicle-detail block-grid small-12">
+                    <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
+                        {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                    </div>
+                    <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-description" data-magellan-target="js-description">
+                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
+                        {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 large-12" id="js-guarantees" data-magellan-target="js-guarantees">
+                        {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 large-12" id="js-funding" data-magellan-target="js-funding">
+                        {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
+                    </div>
                 </div>
-                <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-description" data-magellan-target="js-description">
-                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
-                    {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
-                    {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 large-12" id="js-guarantees" data-magellan-target="js-guarantees">
-                    {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 large-12" id="js-funding" data-magellan-target="js-funding">
-                    {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
-                </div>
-            </div>
+
+            </section>
+
+            <aside id="js-move-vehicle-aside" class="large-5 xlarge-4" aria-hidden="true"></aside>
 
             <div class="vehicle-other small-12">
                 <div class="column">

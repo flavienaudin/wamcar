@@ -39,11 +39,6 @@
   /* Exceptions */
 
   &.vehicle-magellan {
-    margin-top: rem-calc(30);
     margin-bottom: 0;
-
-    @include breakpoint(medium) {
-      margin-top: rem-calc(45);
-    }
   }
 }

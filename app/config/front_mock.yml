@@ -33,6 +33,8 @@ parameters:
                     - assets/images/placeholders/vehicle/secondary-6.jpg
                     - assets/images/placeholders/vehicle/secondary-7.jpg
                 brand: "Volkswagen"
+                seller: "Stéphane Richin"
+                color: "Noir"
                 name: "Golf"
                 version: "III (2) 90 D-4D Tendance 5P"
                 model: "2.0 TDI 184 BlueMotion Technology FAP GTD"
