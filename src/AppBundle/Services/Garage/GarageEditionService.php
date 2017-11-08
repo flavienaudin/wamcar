@@ -77,7 +77,7 @@ class GarageEditionService
     public function removeMember(Garage $garage, ProApplicationUser $proApplicationUser)
     {
         /** @var GarageProUser $member */
-        $member = $proApplicationUser->getMemberByGarage($garage);
+        $member = $proApplicationUser->getMembershipByGarage($garage);
         if (null === $member) {
             throw new \InvalidArgumentException('User should be member of the garage');
         }
