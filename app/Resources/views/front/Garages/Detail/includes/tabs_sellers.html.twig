@@ -7,18 +7,20 @@
             {% for membership in garage.members %}
                 <h2 class="column large-collapse">{{ membership.proUser.name }}</h2>
                 <p>{{ membership.proUser.description }}</p>
-                {# Vue particulié #}
+                {# Vue particulier #}
                 {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
                 {# Vue pro #}
-                <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
+                {% if not membership.proUser.is(app.user) %}
+                    <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
+                {% endif %}
                 {# <li class="block-grid column large-left-collapse align-middle">
-                    <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
-                    <span class="seller-name">{{ membership.proUser.name }}</span>
-                    <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
-                </li> #}
-            {% endfor %}
-        </ul>
-    </div>
+                <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
+                <span class="seller-name">{{ membership.proUser.name }}</span>
+                <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
+            </li>#}
+        {% endfor %}
+    </ul>
+</div>
     {# <div class="column small-12 medium-6 large-collapse">
         <h2 class="separator-for-small">Inviter un vendeur</h2>
         <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>

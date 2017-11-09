@@ -41,6 +41,16 @@ class GarageEditionService
     }
 
     /**
+     * @param $user
+     * @param Garage $garage
+     * @return bool
+     */
+    public function canEdit($user, Garage $garage): bool
+    {
+        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($garage);
+    }
+
+    /**
      * @param GarageDTO $garageDTO
      * @param null|Garage $garage
      * @return Garage

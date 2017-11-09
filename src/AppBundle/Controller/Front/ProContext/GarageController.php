@@ -70,8 +70,8 @@ class GarageController extends BaseController
      */
     public function viewAction(Request $request, Garage $garage)
     {
-
         return $this->render('front/Garages/Detail/detail.html.twig', [
+            'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
             'garage' => $garage
         ]);
     }

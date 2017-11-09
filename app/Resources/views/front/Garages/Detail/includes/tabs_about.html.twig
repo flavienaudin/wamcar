@@ -1,5 +1,7 @@
 <div class="column xlarge-collapse">
     <h2>Présentation</h2>
     <p>{{ garage.presentation|nl2br|raw }}</p>
-    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mes informations</a>
+    {% if isEditableByCurrentUser %}
+        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mes informations</a>
+    {% endif %}
 </div>
