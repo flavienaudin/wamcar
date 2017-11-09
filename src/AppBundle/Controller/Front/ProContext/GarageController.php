@@ -14,7 +14,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Garage\GarageRepository;
@@ -30,27 +29,21 @@ class GarageController extends BaseController
     /** @var GarageEditionService  */
     protected $garageEditionService;
 
-    /** @var AuthorizationCheckerInterface */
-    protected $authorizationChecker;
-
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
-     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         GarageRepository $garageRepository,
-        GarageEditionService $garageEditionService,
-        AuthorizationCheckerInterface $authorizationChecker
+        GarageEditionService $garageEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
