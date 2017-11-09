@@ -4,6 +4,7 @@ namespace AppBundle\Services\Garage;
 
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Services\User\CanBeGarageMember;
 use Wamcar\Garage\Garage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -44,10 +45,14 @@ class GarageEditionService
      * @param null|Garage $garage
      * @return Garage
      */
-    public function editInformations(GarageDTO $garageDTO, ?Garage $garage): Garage
+    public function editInformations(GarageDTO $garageDTO, ?Garage $garage, CanBeGarageMember $creator): Garage
     {
         /** @var Garage $garage */
         $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
+
+        if(!$creator->isMemberOfGarage($garage)) {
+            $this->addMember($garage, $creator);
+        }
 
         $garage = $this->garageRepository->update($garage);
 
