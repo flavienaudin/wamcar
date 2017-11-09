@@ -118,6 +118,8 @@
     /* Components */
 
     p {
+      margin-bottom: 0;
+
       @include breakpoint(medium) {
         margin-top: rem-calc(20);
       }
