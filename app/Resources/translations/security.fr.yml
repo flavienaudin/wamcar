@@ -8,7 +8,7 @@ user:
       text: Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.
       first:
         label: Mot de passe
-        placeholder: Entrez votre adresse email
+        placeholder: Entrez votre mot de passe
         error: Veuillez indiquer votre mot de passe.
       second:
         label: Confirmation mot de passe
