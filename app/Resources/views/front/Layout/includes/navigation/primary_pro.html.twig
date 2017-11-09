@@ -5,7 +5,7 @@
 {% set pageMessage = is_logged %}
 {% set page_profil = is_logged %}
 
-{% set pathGarage = is_user_pro ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
+{% set pathGarage = is_user_pro and app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
 
 {% set navigation_class = 'is-flex small-right' %}
 {% set navigation_items = [
