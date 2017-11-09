@@ -7,4 +7,6 @@
     <li>{{ garage.openingHours }}</li>
     <li>Téléphone : {{ garage.phone }}</li>
 </ul>
-<a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mes informations</a>
+{% if isEditableByCurrentUser %}
+    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mes informations</a>
+{% endif %}
