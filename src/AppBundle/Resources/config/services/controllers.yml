@@ -7,6 +7,7 @@ services:
             - ['setRouter', ['@router']]
             - ['setSession', ['@session']]
             - ['setTokenStorage', ['@security.token_storage']]
+            - ['setAuthorizationChecker', ['@security.authorization_checker']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

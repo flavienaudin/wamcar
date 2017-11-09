@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Templating\EngineInterface;
 
 abstract class BaseController
@@ -28,6 +29,8 @@ abstract class BaseController
     /** @var TokenStorageInterface */
     protected $tokenStorage;
 
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
 
     /**
      * @param EngineInterface $templatingEngine
@@ -59,6 +62,14 @@ abstract class BaseController
     public function setTokenStorage(TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
+    }
+
+    /**
+     * @param AuthorizationCheckerInterface $authorizationChecker
+     */
+    public function setAuthorizationChecker(AuthorizationCheckerInterface $authorizationChecker)
+    {
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -143,7 +154,7 @@ abstract class BaseController
      */
     protected function isUserAuthenticated(): bool
     {
-        return $this->tokenStorage->getToken() !== null && $this->tokenStorage->getToken()->isAuthenticated();
+        return $this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY');
     }
 
 }
