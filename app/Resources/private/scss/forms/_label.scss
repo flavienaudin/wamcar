@@ -49,6 +49,13 @@ label,
     margin-left: auto;
   }
 
+  > .is-small {
+    @include breakpoint(xlarge) {
+      font-size: rem-calc(13);
+      margin-top: rem-calc(-10);
+    }
+  }
+
   > span {
     font-size: rem-calc(11);
     margin-left: rem-calc(20);

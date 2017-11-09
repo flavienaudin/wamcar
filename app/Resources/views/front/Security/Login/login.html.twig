@@ -1,0 +1,95 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% trans_default_domain 'security' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+
+    <header class="banner">
+        <h1 class="no-margin text-center column large-10 xlarge-6">Connexion à mon espace {{ site_name }}</h1>
+    </header>
+
+    <section class="small-12">
+        <div class="register-form input-margin row">
+
+        <aside class="register-right small-12 medium-6">
+            <h2 class="black-color column small-12">Connexion via un réseau social</h2>
+            {% include 'front/Security/Register/includes/social_networks_login.html.twig' %}
+        </aside>
+
+        <section class="register-left input-margin small-12 medium-6">
+            <h2 class="black-color column small-12">Connexion via mon compte {{ site_name }}</h2>
+            <div class="small-12">
+                <form class="block-grid small-12" data-abide novalidate>
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        class_field: 'block-grid column input-margin small-12',
+                        label_class: 'large-no-margin small-12 large-4',
+                        class: 'medium-no-margin small-12 large-8',
+                        required_class: 'large-offset-4',
+                        label: 'user.field.email.label'|trans,
+                        name: 'email',
+                        required: true,
+                        required_message: 'Veuillez indiquer votre adresse email.'
+                    } %}
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        class_field: 'block-grid column input-margin small-12',
+                        label_class: 'large-no-margin small-12 large-4',
+                        class: 'medium-no-margin small-12 large-8',
+                        required_class: 'large-offset-4',
+                        label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
+                        type: 'password',
+                        name: 'password',
+                        required: true,
+                        required_message: 'Veuillez indiquer votre adresse email.'
+                    } %}
+                    <div class="column small-12">
+                        <button type="submit" class="button full-width">Connexion</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        </div>
+    </section>
+
+    {# <div class="row">
+        <section class="input-margin small-12">
+            <header class="column">
+                <h1 class="secondary-color">Connexion à mon compte</h1>
+                <p>Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.</p>
+                <br>
+            </header>
+            <form class="block-grid small-12" data-abide novalidate>
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    class_field: 'column small-12 medium-6',
+                    label: 'user.field.email.label'|trans,
+                    name: 'email',
+                    required: true,
+                    required_message: 'Veuillez indiquer votre adresse email.'
+                } %}
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    class_field: 'column small-12 medium-6',
+                    label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost">'~'user.field.password.forget'|trans~'</a>',
+                    type: 'password',
+                    name: 'password',
+                    required: true,
+                    required_message: 'Veuillez indiquer votre adresse email.'
+                } %}
+                <div class="column small-12 medium-6 large-2">
+                    <button type="submit" class="button full-width">Connexion</button>
+                </div>
+            </form>
+        </section>
+    </div> #}
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
+        </div>
+    </section>
+
+{% endblock body %}

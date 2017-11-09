@@ -63,3 +63,9 @@ inte_vehicle_detail_pro_edit:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Vehicle/Edit/edit.html.twig
+
+inte_login:
+    path: /inte/connexion
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Security/Login/login.html.twig
