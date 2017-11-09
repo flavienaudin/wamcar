@@ -1,9 +1,9 @@
 {% extends 'front/Layout/includes/navigation/primary.html.twig' %}
 
-{% set pageSearch = is_logged %}
-{% set page_garage = is_user_pro|default(false) %}
-{% set pageMessage = is_logged %}
-{% set page_profil = is_logged %}
+{% set pageSearch = pageSearch|default(false) %}
+{% set page_garage = page_garage|default(false) %}
+{% set pageMessage = pageMessage|default(false) %}
+{% set page_profil = page_profil|default(false) %}
 
 {% set pathGarage = is_user_pro and app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
 
