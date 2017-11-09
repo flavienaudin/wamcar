@@ -198,6 +198,10 @@ $radio-checked-margin-left: $radio-border-width;
       width: 0;
       margin-left: rem-calc(10);
       transition: $global-transition;
+
+      .search-container & {
+        display: none;
+      }
     }
 
     :checked + & {
