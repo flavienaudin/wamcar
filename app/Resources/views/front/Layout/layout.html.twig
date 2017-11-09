@@ -55,7 +55,7 @@
 {% endif %}
 
     {% if is_register_page %}
-        <div class="is-relative"> {# IE fix #}
+        <div class="is-relative-for-ie is-sticky"> {# IE fix #}
             {% include 'front/Layout/includes/header_register.html.twig' %}
         </div>
     {% else %}

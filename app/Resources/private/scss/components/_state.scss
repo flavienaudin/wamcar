@@ -23,6 +23,7 @@
    ===================================== */
 
 .is-static   { position: static; }
+.is-relative-for-ie { @media screen and (min-width:0\0) { position: relative; } }
 .is-relative { position: relative; }
 .is-absolute { position: absolute; }
 .is-sticky   {
@@ -30,8 +31,12 @@
   position: -webkit-sticky;
   top: $header-height;
   z-index: 2;
+
   @include breakpoint(large) { top: $header-height-medium; }
-  // @include breakpoint(xlarge) { top: rem-calc(45); }
+
+  body > & {
+    top: 0;
+  }
 }
 
 
