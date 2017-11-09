@@ -13,9 +13,9 @@ use Symfony\Component\Templating\EngineInterface;
 
 abstract class BaseController
 {
-    const FLASH_LEVEL_INFO = 'info';
+    const FLASH_LEVEL_INFO = 'success';
     const FLASH_LEVEL_WARNING = 'warning';
-    const FLASH_LEVEL_DANGER = 'danger';
+    const FLASH_LEVEL_DANGER = 'alert';
 
     /** @var EngineInterface */
     protected $templatingEngine;
