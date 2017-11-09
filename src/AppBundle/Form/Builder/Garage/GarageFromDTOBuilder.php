@@ -46,7 +46,8 @@ class GarageFromDTOBuilder
             $dto->siren,
             $dto->openingHours,
             $dto->presentation,
-            $dto->getAddress()
+            $dto->getAddress(),
+            $dto->phone
         );
     }
 

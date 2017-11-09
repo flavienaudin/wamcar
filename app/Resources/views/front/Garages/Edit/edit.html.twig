@@ -56,7 +56,7 @@
                             <div class="column small-12 medium-6">
                                 {{ form_widget(garageForm.address, {
                                     'label': 'Adresse',
-                                    'class': 'large-no-margin',
+                                    'class': '',
                                     'required': true,
                                     'required_message': 'Veuillez indiquer votre adresse.'
                                 }) }}
@@ -64,13 +64,20 @@
                             <div class="column small-5 medium-3 large-2">
                                 {{ form_widget(garageForm.postalCode, {
                                     'label': 'Code postal',
-                                    'class': 'medium-no-margin',
+                                    'class': '',
                                     'required': true
                                 }) }}
                             </div>
                             <div class="column small-7 medium-9  large-4">
                                 {{ form_widget(garageForm.cityName, {
                                     'label': 'Ville',
+                                    'class': '',
+                                    'required': true
+                                }) }}
+                            </div>
+                            <div class="column small-7 medium-9  large-4">
+                                {{ form_widget(garageForm.phone, {
+                                    'label': 'Téléphone',
                                     'class': 'medium-no-margin',
                                     'required': true
                                 }) }}
@@ -92,7 +99,7 @@
                             <div class="column small-12 large-6">
                                 {{ form_widget(garageForm.openingHours, {
                                     'label': 'Horaires d\'ouverture',
-                                    'class': 'small',
+                                    'class': '',
                                     'required': false
                                 }) }}
                             </div>
