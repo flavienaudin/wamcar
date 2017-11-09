@@ -12,6 +12,9 @@
                 {% if not userIsMe %}
                     <a href="" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
                 {% endif %}
+                {% if userIsMe %}
+                    <a href="{{ path('security_logout') }}" class="text-underline">Déconnexion</a>
+                {% endif %}
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">
