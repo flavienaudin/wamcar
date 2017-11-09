@@ -142,6 +142,17 @@ class Step {
   }
 
   /**
+   * Go to step index
+   *
+   * @param {number} index
+   * @returns
+   * @memberof Step
+   */
+  goToSlide(index) {
+    return new Promise((resolve) => resolve(this.carousel.goTo(index)));
+  }
+
+  /**
    * Return the current step number
    *
    * @returns {string}
@@ -179,9 +190,10 @@ class Step {
    * Update active step in navigation
    *
    * @param {string} direction (next or prev)
+   * @param {boolean} [fromNavigation=false]
    * @memberof Step
    */
-  updateNavigation(direction) {
+  updateNavigation(direction, fromNavigation = false) {
     const $activeElement = this._getActiveItemNavigation();
     const $nextElement = $activeElement.nextElementSibling;
     const offSetLeftNextElement = $nextElement && $nextElement.offsetLeft;
@@ -196,14 +208,14 @@ class Step {
     }
 
     if (direction === 'next') {
-      $activeElement.classList.remove(activeClass);
-      $activeElement.classList.add('is-valid');
-      $nextElement.classList.remove(disabledClass);
-      $nextElement.classList.add(activeClass);
+      if (!fromNavigation) {
+        $activeElement.classList.remove(activeClass);
+        $activeElement.classList.add('is-valid');
+        $nextElement.classList.remove(disabledClass);
+        $nextElement.classList.add(activeClass);
+      }
       this.updateProgressBar(offSetLeftNextElement);
     } else {
-      $activeElement.classList.remove(activeClass);
-      $prevElement.classList.add(activeClass);
       this.updateProgressBar(offSetLeftPrevElement);
     }
   }
@@ -268,12 +280,12 @@ if ($step) {
   [...document.querySelectorAll('.js-step-navigation')].forEach((item) => {
     item.addEventListener('click', () => {
       const currentSlide = step.getCurrentSlide();
-      const index = getIndex(item);
+      const index = getIndex(item) - 1;
 
       // Prev direction
       if (index < currentSlide) {
-        step.prev().then(() => {
-          step.updateNavigation('prev');
+        step.goToSlide(index).then(() => {
+          step.updateNavigation('prev', true);
           step.initAbide();
         });
       }
@@ -281,9 +293,9 @@ if ($step) {
       // Next direction
       if (index > currentSlide) {
         step.valid().then(() => {
-            return step.next();
+          return step.goToSlide(index);
         }).then(() => {
-            step.updateNavigation('next');
+          step.updateNavigation('next', true);
           step.initAbide();
         });
       }
