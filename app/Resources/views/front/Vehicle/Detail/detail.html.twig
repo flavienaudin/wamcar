@@ -115,6 +115,56 @@
                         <a href="" class="button">Voir tous les véhicules de ce garage</a>
                     </div>
                 </div>
+
+                <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
+                    <div class="column small-12 medium-6 large-order-2 large-12">
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                    </div>
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
+                    </div>
+                </div>
+
+            <section class="small-12 xlarge-8 large-order-2">
+                <div class="vehicle-detail block-grid small-12">
+                    <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
+                        {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                    </div>
+                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
+                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
+                        {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees" data-magellan-target="js-guarantees">
+                        {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding" data-magellan-target="js-funding">
+                        {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
+                    </div>
+                </div>
+
+            </section>
+
+            <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
+
+        </div>
+        <div class="row">
+
+            <div class="vehicle-other small-12">
+                <div class="column">
+                    <strong class="separator medium text-center primary-color h2 is-block">Autres véhicules de ce garage</strong>
+                </div>
+                <div class="section no-padding">
+                    {% set balise = 'span' %}
+                    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+                    <div class="column small-12 medium-6 large-5 is-center">
+                        <a href="" class="button">Voir tous les véhicules de ce garage</a>
+                    </div>
+                </div>
             </div>
 
         </div>

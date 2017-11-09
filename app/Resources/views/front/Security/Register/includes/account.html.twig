@@ -5,8 +5,10 @@
 
 <section class="register-left input-margin small-12 medium-6">
     <h2 class="black-color column small-12">Inscription par email</h2>
-    {% include 'front/Security/Register/includes/form_register.html.twig' with {
-        'registrationForm' : (vehicleForm is defined ? vehicleForm.userRegistration : form),
-        'isIsolatedRegistration' : (vehicleForm is defined ? false : true),
-    } %}
+    <div class="column">
+        {% include 'front/Security/Register/includes/form_register.html.twig' with {
+            'registrationForm' : (vehicleForm is defined ? vehicleForm.userRegistration : form),
+            'isIsolatedRegistration' : (vehicleForm is defined ? false : true),
+        } %}
+    </div>
 </section>

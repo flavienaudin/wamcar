@@ -1,19 +1,27 @@
+{# Les éléments commentés ne doivent pas être supprimés. Ils seront implémenté dans un second temps #}
 <div class="block-grid">
-    <div class="small-12 medium-6">
-        <h2 class="column large-collapse">Vendeur</h2>
+    {# <div class="small-12 medium-6"> #}
+    <div class="small-12">
+        {# <h2 class="column large-collapse">Vendeur</h2> #}
         <ul class="seller-list no-bullet no-margin">
             {% for membership in garage.members %}
-                <li class="block-grid column large-left-collapse align-middle">
+                <h2 class="column large-collapse">{{ membership.proUser.name }}</h2>
+                <p>{{ membership.proUser.description }}</p>
+                {# Vue particulié #}
+                {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
+                {# Vue pro #}
+                <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
+                {# <li class="block-grid column large-left-collapse align-middle">
                     <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
                     <span class="seller-name">{{ membership.proUser.name }}</span>
                     <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
-                </li>
+                </li> #}
             {% endfor %}
         </ul>
     </div>
-    <div class="column small-12 medium-6 large-collapse">
+    {# <div class="column small-12 medium-6 large-collapse">
         <h2 class="separator-for-small">Inviter un vendeur</h2>
         <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>
         {% include 'front/Garages/Detail/includes/form_invitation.html.twig' %}
-    </div>
+    </div> #}
 </div>

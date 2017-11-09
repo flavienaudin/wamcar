@@ -50,6 +50,14 @@
 
     &.tiny {
       > li {
+      @include breakpoint(large only) {
+          &:first-child { border-top: rem-calc(1) solid $border-color; }
+        }
+      }
+    }
+
+    &.tiny {
+      > li {
         padding-top: rem-calc(15);
 
         &:not(:last-child) { padding-bottom: rem-calc(15); }
