@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Vehicle;
 
-class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, UserInterface, HasPasswordResettable
+class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, HasPasswordResettable
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;

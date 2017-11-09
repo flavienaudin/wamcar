@@ -9,6 +9,7 @@ use AppBundle\Form\Type\PasswordResetType;
 use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
+use AppBundle\Security\UserAuthenticator;
 use AppBundle\Security\UserRegistrationService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserGlobalSearchService;
@@ -26,7 +27,9 @@ class SecurityController extends BaseController
     protected $formFactory;
     /** @var UserRegistrationService  */
     protected $userRegistrationService;
-    /** @var UserEditionService  */
+    /** @var UserAuthenticator */
+    protected $userAuthenticator;
+    /** @var UserEditionService */
     protected $userEditionService;
     /** @var  DoctrineUserRepository */
     private $userRepository;
@@ -53,6 +56,7 @@ class SecurityController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRegistrationService $userRegistration,
+        UserAuthenticator $userAuthenticator,
         UserEditionService $userEditionService,
         DoctrineUserRepository $userRepository,
         DoctrinePersonalUserRepository $personalUserRepository,
@@ -63,6 +67,7 @@ class SecurityController extends BaseController
     {
         $this->formFactory = $formFactory;
         $this->userRegistrationService = $userRegistration;
+        $this->userAuthenticator = $userAuthenticator;
         $this->userEditionService = $userEditionService;
         $this->userRepository = $userRepository;
         $this->personalUserRepository = $personalUserRepository;
@@ -86,7 +91,7 @@ class SecurityController extends BaseController
                 /** @var RegistrationDTO $registrationDTO */
                 $registrationDTO = $registrationForm->getData();
                 $registrationDTO->type = $type;
-                $this->userRegistrationService->registerUser($registrationDTO);
+                $registeredUser = $this->userRegistrationService->registerUser($registrationDTO);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -102,6 +107,10 @@ class SecurityController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 'flash.success.registration_success'
             );
+
+            if($registeredUser->hasConfirmedRegistration()) {
+                $this->userAuthenticator->authenticate($registeredUser);
+            }
 
             return $this->redirectToRoute('front_default');
         }

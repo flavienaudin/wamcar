@@ -2,8 +2,9 @@
 
 namespace AppBundle\Doctrine\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 
-interface ApplicationUser
+interface ApplicationUser extends UserInterface
 {
     /**
      * {@inheritdoc}
