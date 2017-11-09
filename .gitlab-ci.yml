@@ -66,20 +66,20 @@ deploy:demo:
   only:
     - develop
 
-#deploy:staging:
-#  stage: deploy
-#  dependencies:
-#    - build:assets
-#  script:
-#    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
-#    - make vendors
-#    - make deploy-staging
-#  tags:
-#    - shell
-#  environment:
-#    name: Staging
-#  only:
-#    - staging
+deploy:staging:
+  stage: deploy
+  dependencies:
+    - setup:env
+    - build:assets
+  script:
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy --hosts staging"
+  tags:
+    - shell
+  environment:
+    name: Staging
+    url: http://wamcar.staging.novaway.net
+  only:
+    - tags
 
 deploy:demo:unlock:
   stage: deploy
