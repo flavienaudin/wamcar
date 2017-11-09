@@ -7,7 +7,6 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\ProUserInformationType;
@@ -16,14 +15,19 @@ use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
+use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var DoctrineUserRepository  */
-    protected $doctrineUserRepository;
+    /** @var UserRepository  */
+    protected $userRepository;
 
     /** @var UserEditionService  */
     protected $userEditionService;
@@ -31,17 +35,17 @@ class UserController extends BaseController
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param DoctrineUserRepository $doctrineUserRepository
+     * @param UserRepository $userRepository
      * @param UserEditionService $userEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        DoctrineUserRepository $doctrineUserRepository,
+        UserRepository $userRepository,
         UserEditionService $userEditionService
     )
     {
         $this->formFactory = $formFactory;
-        $this->doctrineUserRepository = $doctrineUserRepository;
+        $this->userRepository = $userRepository;
         $this->userEditionService = $userEditionService;
     }
 
@@ -92,19 +96,28 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
+     * @param ApplicationUser|null $user
      * @return Response
      * @throws \Exception
      */
-    public function viewInformationAction(Request $request): Response
+    public function viewInformationAction(Request $request, $id = null): Response
     {
-        /** @var ApplicationUser $user */
-        $user = $this->getUser();
-
-        if ($user->getType() !== 'pro') {
-            throw new \Exception('User must have the "Pro" Type');
+        $user = $id ? $this->userRepository->find($id) : $this->getUser();
+        if(!$user || !$user instanceof BaseUser) {
+            throw new NotFoundHttpException();
         }
 
-        return $this->render('front/Seller/card.html.twig', [
+        $templates = [
+            ProUser::TYPE => 'front/Seller/card.html.twig',
+            PersonalUser::TYPE => null, // TODO with user profile
+        ];
+
+        if(!$templates[$user->getType()]) {
+            throw new NotFoundHttpException();
+        }
+
+        return $this->render($templates[$user->getType()], [
+            'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);
     }

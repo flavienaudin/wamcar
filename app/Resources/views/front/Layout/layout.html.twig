@@ -1,6 +1,11 @@
 {% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
 {% set is_register_page = is_register_page|default(false) %}
 {% set cookiebar = true %}
+
+{% set is_logged = is_granted('IS_AUTHENTICATED_FULLY') %}
+{% set is_user_pro = (is_logged and app.user.type == 'pro') %}
+{% set is_user_personal = (is_logged and app.user.type == 'personal') %}
+
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
