@@ -41,11 +41,6 @@
                 <h2>Vendeur pour</h2>
                 {% include 'front/User/includes/brand_list.html.twig' %}
             </div>
-            {% if userIsMe %}
-                <div class="separator small-12 medium-text-center">
-                    <a href="{{ path('security_logout') }}" class="text-underline">Déconnexion</a>
-                </div>
-            {% endif %}
         </div>
     </section>
 
