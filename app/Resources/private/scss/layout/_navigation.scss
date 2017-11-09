@@ -102,6 +102,23 @@
       @include breakpoint(large down) {
         box-shadow: inset 0 -5px 0 0 currentColor;
       }
+
+      @include breakpoint(xlarge) {
+        position: relative;
+        z-index: 1;
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: calc(100% + #{rem-calc(25)});
+          right: rem-calc(40);
+          left: rem-calc(40);
+          width: auto;
+          height: rem-calc(5);
+          background: currentColor;
+          z-index: -1;
+        }
+      }
     }
 
   } // End &-item
