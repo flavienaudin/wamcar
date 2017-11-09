@@ -1,7 +1,11 @@
 <div class="column xlarge-collapse">
     <h2>Présentation</h2>
-    <p>{{ garage.presentation|nl2br|raw }}</p>
+    {% if garage.presentation %}
+        <p>{{ garage.presentation|nl2br|raw }}</p>
+    {% else %}
+        <p>Distinguez-vous de vos concurents ! Présentez votre garage en quelques mots, votre activité, vos avantages concurentiels, etc.</p>
+    {% endif %}
     {% if isEditableByCurrentUser %}
-        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mes informations</a>
+        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mon garage</a>
     {% endif %}
 </div>
