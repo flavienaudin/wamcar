@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Front\ProContext;
 
-
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
@@ -14,6 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Garage\GarageRepository;
@@ -28,21 +29,28 @@ class GarageController extends BaseController
 
     /** @var GarageEditionService  */
     protected $garageEditionService;
+
+    /** @var AuthorizationCheckerInterface */
+    protected $authorizationChecker;
+
     /**
-     * SecurityController constructor.
+     * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
+     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         GarageRepository $garageRepository,
-        GarageEditionService $garageEditionService
+        GarageEditionService $garageEditionService,
+        AuthorizationCheckerInterface $authorizationChecker
     )
     {
         $this->formFactory = $formFactory;
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
     /**
@@ -51,6 +59,10 @@ class GarageController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
+        if(!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedHttpException('Only admin can access garage listing');
+        }
+
         $lastGarages = $this->garageRepository->getLatest();
 
         return $this->render('front/proContext/garage/garage_list.html.twig', [
