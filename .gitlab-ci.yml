@@ -30,6 +30,7 @@ setup:env:
     - shell
   only:
     - develop
+    - tags
 
 #################
 ###   Build   ###
@@ -47,6 +48,7 @@ build:assets:
       - web/assets/bundle
   only:
     - develop
+    - tags
 
 #################
 ###  Deploy   ###
@@ -105,4 +107,4 @@ deploy:staging:unlock:
     - shell
   when: manual
   only:
-    - staging
+    - tags
