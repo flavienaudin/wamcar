@@ -5,7 +5,9 @@
             <div class="profil-action">
                 <a href="tel:+33{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
                 <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
-                <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
+                {% if not userIsMe %}
+                    <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
+                {% endif %}
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">

@@ -30,8 +30,13 @@ front_edit_user_info:
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:editInformations
 
+front_view_current_user_info:
+    path: /mon-profil
+    defaults:
+        _controller: AppBundle:Front\PersonalContext\User:viewInformation
+
 front_view_user_info:
-    path: /view-user-info
+    path: /profil/{id}
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:viewInformation
 

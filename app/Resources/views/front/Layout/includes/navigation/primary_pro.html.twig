@@ -1,11 +1,11 @@
 {% extends 'front/Layout/includes/navigation/primary.html.twig' %}
 
-{% set pageSearch = pageSearch|default(false) %}
-{% set page_garage = page_garage|default(false) %}
-{% set pageMessage = pageMessage|default(false) %}
-{% set page_profil = page_profil|default(false) %}
+{% set pageSearch = is_logged %}
+{% set page_garage = is_user_pro|default(false) %}
+{% set pageMessage = is_logged %}
+{% set page_profil = is_logged %}
 
-{% set pathGarage = app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
+{% set pathGarage = is_user_pro ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
 
 {% set navigation_class = 'is-flex small-right' %}
 {% set navigation_items = [
@@ -28,7 +28,7 @@
         current: pageMessage
     },
     {
-        slug: path('front_view_user_info'),
+        slug: path('front_view_current_user_info'),
         label: 'Profil',
         icon: 'user',
         current: page_profil

@@ -77,4 +77,13 @@ abstract class BaseUser
     {
         return static::TYPE;
     }
+
+    /**
+     * @param mixed|null $user
+     * @return bool
+     */
+    public function is($user): bool
+    {
+        return $user instanceof self && $user->getId() === $this->getId();
+    }
 }

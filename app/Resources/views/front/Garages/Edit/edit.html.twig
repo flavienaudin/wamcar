@@ -7,10 +7,6 @@
 
 {% block title %}{{ isNew ? 'Créer' : 'Editer' }} mon garage{% endblock %}
 
-{% set is_logged = true %}
-{% set is_user_pro = true %}
-{% set page_garage = true %}
-
 {% set breadcrumbs = [
     {
         'name': block('title'),
