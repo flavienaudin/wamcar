@@ -168,12 +168,27 @@ class SecurityController extends BaseController
                 self::FLASH_LEVEL_DANGER,
                 $error->getMessage()
             );
-            return $this->redirectToRoute('front_default');
+            return $this->redirectToRoute('security_login_page');
         }
 
         return $this->render('front/User/includes/form_login.html.twig', [
             'last_username' => $lastUsername,
             'error'         => $error,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \InvalidArgumentException
+     */
+    public function loginPageAction(Request $request): Response
+    {
+        if($this->isUserAuthenticated()) {
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
+        return $this->render('front/Security/Login/login.html.twig', [
         ]);
     }
 
@@ -195,7 +210,7 @@ class SecurityController extends BaseController
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.user_no_exist'
             );
-            return $this->redirectToRoute('front_default');
+            return $this->redirectToRoute('security_login_page');
         }
 
         $user = $this->userEditionService->generatePasswordResetToken($user);
@@ -208,7 +223,7 @@ class SecurityController extends BaseController
             'flash.success.reset_password_success'
         );
 
-        return $this->redirectToRoute('front_default');
+        return $this->redirectToRoute('security_login_page');
     }
 
     /**
