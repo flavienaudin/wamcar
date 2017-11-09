@@ -28,7 +28,11 @@
         <div class="profil-body column block-grid small-12">
             <div class="small-12 medium-7 large-5">
                 <h2>Présentation du vendeur</h2>
-                <p>{{ user.description|nl2br }}</p>
+                {% if user.description %}
+                    <p>{{ user.description|nl2br }}</p>
+                {% elseif userIsMe %}
+                    <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                {% endif %}
                 {% if userIsMe %}
                     <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
                 {% endif %}

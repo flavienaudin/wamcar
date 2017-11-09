@@ -5,12 +5,19 @@
         {# <h2 class="column large-collapse">Vendeur</h2> #}
         <ul class="seller-list no-bullet no-margin">
             {% for membership in garage.members %}
-                <h2 class="column large-collapse">{{ membership.proUser.name }}</h2>
-                <p>{{ membership.proUser.description }}</p>
+                {% set userIsMe = membership.proUser.is(app.user) %}
+                <h2 class="column large-collapse">{{ membership.proUser.name|default(userIsMe ? 'Bonjour' : null) }}</h2>
+                {% if membership.proUser.description %}
+                    <p>{{ membership.proUser.description|nl2br }}</p>
+                {% elseif userIsMe %}
+                    <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                {% endif %}
                 {# Vue particulier #}
                 {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
                 {# Vue pro #}
-                {% if not membership.proUser.is(app.user) %}
+                {% if userIsMe %}
+                    <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
+                {% else %}
                     <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
                 {% endif %}
                 {# <li class="block-grid column large-left-collapse align-middle">
