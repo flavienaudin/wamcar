@@ -6,6 +6,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\GarageDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,12 @@ class GarageType extends AbstractType
 
         $builder
             ->add('name', TextType::class)
-            ->add('siren', TextType::class)
+            ->add('siren', IntegerType::class, [
+                'attr' => [
+                    'min' => '10000000000000',
+                    'max' => '99999999999999'
+                ]
+            ])
             ->add('openingHours', TextareaType::class, [
                 'required' => false
             ])
@@ -32,6 +38,7 @@ class GarageType extends AbstractType
             ->add('address', TextType::class)
             ->add('postalCode', TextType::class)
             ->add('cityName', TextType::class)
+            ->add('phone', TextType::class)
         ;
     }
 

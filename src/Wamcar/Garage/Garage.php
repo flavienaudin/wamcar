@@ -35,13 +35,15 @@ class Garage
      * @param null|string $openingHours
      * @param null|string $presentation
      * @param Address $address
+     * @param string $phone
      */
     public function __construct(
         string $name,
         string $siren,
         ?string $openingHours,
         ?string $presentation,
-        Address $address
+        Address $address,
+        string $phone
     )
     {
         $this->name = $name;
@@ -49,6 +51,7 @@ class Garage
         $this->openingHours = $openingHours;
         $this->presentation = $presentation;
         $this->address = $address;
+        $this->phone = $phone;
         $this->members = new ArrayCollection();
     }
 
