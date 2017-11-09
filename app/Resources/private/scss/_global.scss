@@ -28,6 +28,13 @@ body {
   @include breakpoint(medium only) {
     font-size: rem-calc(15);
   }
+
+  @include breakpoint(medium) {
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    min-height: 100vh;
+  }
 }
 
 p {
