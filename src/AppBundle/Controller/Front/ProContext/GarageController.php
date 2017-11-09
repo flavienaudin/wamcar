@@ -114,8 +114,8 @@ class GarageController extends BaseController
         $this->garageRepository->remove($applicationGarage);
 
         $this->session->getFlashBag()->add(
-            'flash.success.remove_garage',
-            self::FLASH_LEVEL_INFO
+            self::FLASH_LEVEL_INFO,
+            'flash.success.remove_garage'
         );
 
         return $this->redirectToRoute('front_garage_list');
@@ -133,8 +133,8 @@ class GarageController extends BaseController
         $this->garageEditionService->addMember($garage, $user);
 
         $this->session->getFlashBag()->add(
-            'flash.success.add_member_garage',
-            self::FLASH_LEVEL_INFO
+            self::FLASH_LEVEL_INFO,
+            'flash.success.add_member_garage'
         );
 
         return $this->redirectToRoute('front_garage_list');
@@ -153,8 +153,8 @@ class GarageController extends BaseController
         $this->garageEditionService->removeMember($garage, $user);
 
         $this->session->getFlashBag()->add(
-            'flash.success.add_member_garage',
-            self::FLASH_LEVEL_INFO
+            self::FLASH_LEVEL_INFO,
+            'flash.success.add_member_garage'
         );
 
         return $this->redirectToRoute('front_garage_list');
