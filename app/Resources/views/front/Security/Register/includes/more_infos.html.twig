@@ -17,8 +17,14 @@
 <section class="small-12 large-7">
 
     <div class="block-grid input-margin column small">
-        <label for="{{ vehicleForm.specifics.registrationDate.vars.id }}" class="medium-no-margin small-12 medium-4">Date de 1ère mise en circulation</label>
-        {{ form_widget(vehicleForm.specifics.registrationDate) }}
+        {{ form_widget(vehicleForm.specifics.registrationDate, {
+            'class' : 'medium-no-margin small-12 medium-4 js-datepicker',
+            'required' : true,
+            'required_message' : 'Veuillez indiqué la date de 1ère mise en circulation',
+            'required_class' : 'form-error small-12 medium-offset-4',
+            'label' : 'Date de 1ère mise en circulation',
+            'label_class' : 'medium-no-margin small-12 medium-4',
+        }) }}
     </div>
     <div class="block-grid input-margin column">
         {{ form_widget(vehicleForm.specifics.mileage, {
