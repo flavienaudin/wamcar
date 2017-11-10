@@ -3,7 +3,7 @@
     {% if garage.presentation %}
         <p>{{ garage.presentation|nl2br|raw }}</p>
     {% elseif isEditableByCurrentUser %}
-        <p>Distinguez-vous de vos concurents ! Présentez votre garage en quelques mots, votre activité, vos avantages concurentiels, etc.</p>
+        <p>Présenter en quelques mots votre société, vos offres, vos avantages concurrentiels qui vous distingueront de vos concurrents !</p>
         <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mon garage</a>
     {% endif %}
 </div>
