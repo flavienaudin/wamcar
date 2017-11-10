@@ -6,15 +6,15 @@
     <a href="{{ path('inte_vehicle_detail_pro') }}" class="is-flex">
         <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
         <div class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></div>
-        <figcaption class="vehicle-infos">
+        <div class="vehicle-infos">
             <span class="vehicle-brand">{{ vehicle.brand }}</span>
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
             <{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}>
             <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
-            <span class="vehicle-years primary-color" style="margin-top: auto">{{ vehicle.years }}, {{ vehicle.km }}</span>
+            <span class="vehicle-years primary-color">{{ vehicle.years }}, {{ vehicle.km }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <span class="vehicle-city black-color is-block">{{ vehicle.city }}</span>
             <strong class="vehicle-price">{{ vehicle.price }}</strong>
-        </figcaption>
+        </div>
     </a>
 </article>
