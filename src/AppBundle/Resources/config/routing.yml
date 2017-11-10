@@ -12,8 +12,12 @@ _integration:
 
 # Security processes
 security_login:
-    path: /connexion
+    path: /connect
     defaults: { _controller: AppBundle:Front\Security:login }
+
+security_login_page:
+    path: /connexion
+    defaults: { _controller: AppBundle:Front\Security:loginPage }
 
 security_logout:
     path: /deconnexion
