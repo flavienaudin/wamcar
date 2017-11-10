@@ -19,7 +19,6 @@ class Version20171018121156 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE personal_vehicle ADD safety_test_state VARCHAR(255) NOT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\SafetyTestState)\', ADD safety_test_date VARCHAR(255) NOT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\SafetyTestDate)\', ADD mileage INT NOT NULL, DROP safety_test, CHANGE transmission transmission VARCHAR(255) NOT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\', CHANGE maintenance_state maintenance_state VARCHAR(255) NOT NULL COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\MaintenanceState)\'');
-        $this->addSql('ALTER TABLE user CHANGE title title VARCHAR(255) DEFAULT NULL COMMENT \'(DC2Type:Wamcar\\\\User\\\\Title)\'');
     }
 
     /**
@@ -31,6 +30,5 @@ class Version20171018121156 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE personal_vehicle ADD safety_test VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\', DROP safety_test_state, DROP safety_test_date, DROP mileage, CHANGE transmission transmission VARCHAR(255) NOT NULL COLLATE utf8mb4_unicode_ci COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\', CHANGE maintenance_state maintenance_state VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci COMMENT \'(DC2Type:Wamcar\\\\Vehicle\\\\Enum\\\\Transmission)\'');
-        $this->addSql('ALTER TABLE user CHANGE title title VARCHAR(255) DEFAULT NULL COLLATE utf8mb4_unicode_ci COMMENT \'(DC2Type:Wamcar\\\\User\\\\Title)\'');
     }
 }
