@@ -10,7 +10,7 @@
     {% set label_class = label_class|default('') %}
 
     {% if label %}
-        <label class="{{ label_class }}">{{ label }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
@@ -61,7 +61,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -97,7 +97,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -132,7 +132,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -167,7 +167,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -201,7 +201,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -270,7 +270,7 @@
     {% set list_class = list_class|default('block-grid') %}
 
     {% if label %}
-        <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     <ul class="{{ list_class }}">
         {% for child in form %}
@@ -295,7 +295,7 @@
     {% set label_class = label_class|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
 
     <div class="small-12 medium-5 large-6">
