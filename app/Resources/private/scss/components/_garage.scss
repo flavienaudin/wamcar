@@ -13,10 +13,6 @@
     @include breakpoint(large) {
       padding-top: rem-calc(40);
     }
-
-    @include breakpoint(xlarge) {
-      padding-left: rem-calc(50);
-    }
   }
 
 
@@ -32,6 +28,11 @@
       background: white;
       border: rem-calc(1) solid $border-color;
     }
+
+    @media screen and (min-height: rem-calc(800)) {
+      position: sticky;
+      top: $header-height-medium + rem-calc(40);
+    }
   }
 
 
@@ -45,7 +46,6 @@
     justify-content: center;
     background: white;
     border-width: rem-calc(1);
-
     border-style: solid;
     border-color: $border-color;
     padding: rem-calc(10);
