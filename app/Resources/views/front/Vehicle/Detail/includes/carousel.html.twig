@@ -2,12 +2,13 @@
     {% for picture in vehicle.pictures.primary %}
         <li>
             <img src="{{ asset(picture) }}">
+            {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous) #}
             <p class="vehicle-carousel-legend text-center">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
         </li>
     {% endfor %}
 </ul>
-<navl id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
+<nav id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
     {% for picture in vehicle.pictures.secondary %}
-        <img src="{{ asset(picture) }}">
+        <img src="{{ asset(picture) }}" alt="Lorem ipsum, dolor sit amet consectetur adipisicing.">
     {% endfor %}
 </nav>

@@ -5,29 +5,30 @@
         {# <h2 class="column large-collapse">Vendeur</h2> #}
         <ul class="seller-list no-bullet no-margin">
             {% for membership in garage.members %}
-                {% set userIsMe = membership.proUser.is(app.user) %}
-                <h2 class="column large-collapse">{{ membership.proUser.name|default(userIsMe ? 'Bonjour' : null) }}</h2>
-                {% if membership.proUser.description %}
-                    <p>{{ membership.proUser.description|nl2br }}</p>
-                {% elseif userIsMe %}
-                    <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
-                {% endif %}
-                {# Vue particulier #}
-                {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
-                {# Vue pro #}
-                {% if userIsMe %}
-                    <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
-                {% else %}
-                    <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
-                {% endif %}
-                {# <li class="block-grid column large-left-collapse align-middle">
-                <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
-                <span class="seller-name">{{ membership.proUser.name }}</span>
-                <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>
-            </li>#}
-        {% endfor %}
-    </ul>
-</div>
+                <li>
+                    {% set userIsMe = membership.proUser.is(app.user) %}
+                    <h2 class="column large-collapse">{{ membership.proUser.name|default(userIsMe ? 'Bonjour' : null) }}</h2>
+                    {% if membership.proUser.description %}
+                        <p>{{ membership.proUser.description|nl2br }}</p>
+                    {% elseif userIsMe %}
+                        <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                    {% endif %}
+                    {# Vue particulier #}
+                    {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
+                    {# Vue pro #}
+                    {% if userIsMe %}
+                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
+                    {% else %}
+                        <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
+                    {% endif %}
+                    {# <li class="block-grid column large-left-collapse align-middle">
+                    <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
+                    <span class="seller-name">{{ membership.proUser.name }}</span>
+                    <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>#}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
     {# <div class="column small-12 medium-6 large-collapse">
         <h2 class="separator-for-small">Inviter un vendeur</h2>
         <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>
