@@ -23,6 +23,7 @@ import './components/registration';
 import './components/like';
 import './components/banner';
 import './components/carousel';
+import './components/datepicker';
 import {
   activeClass
 } from './settings/settings.js';
