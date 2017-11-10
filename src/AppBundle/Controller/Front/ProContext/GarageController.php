@@ -95,7 +95,7 @@ class GarageController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 $successMessage
             );
-            return $this->redirectToRoute('front_garage_edit', ['id' => $garage->getId()]);
+            return $this->redirectToRoute('front_garage_view', ['id' => $garage->getId()]);
         }
 
         return $this->render('front/Garages/Edit/edit.html.twig', [
@@ -105,13 +105,13 @@ class GarageController extends BaseController
     }
 
     /**
-     * @param ApplicationGarage $applicationGarage
+     * @param Garage $garage
      * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeAction(ApplicationGarage $applicationGarage): RedirectResponse
+    public function removeAction(Garage $garage): RedirectResponse
     {
-        $this->garageRepository->remove($applicationGarage);
+        $this->garageRepository->remove($garage);
 
         $this->session->getFlashBag()->add(
             self::FLASH_LEVEL_INFO,
