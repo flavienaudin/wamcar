@@ -3,7 +3,7 @@
 
 <nav id="{{ not is_logged ? 'js-navigation' : '' }}" class="l-navigation {{ navigation_class }}">
     {% block navigation %}
-        <a href="" class="l-navigation-item black-color"><strong>Vendre ma voiture</strong></a>
+        <a href="{{ path('front_vehicle_registration') }}" class="l-navigation-item black-color"><strong>Vendre ma voiture</strong></a>
         <a href="" class="l-navigation-item black-color"><strong>Acheter une voiture</strong></a>
         <a href="#" class="l-navigation-item body-font-color"><span>Je suis un professionnel</span></a>
     {% endblock %}
