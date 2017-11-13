@@ -62,8 +62,6 @@ class GarageVoter extends Voter
 
     private function canEdit(Garage $garage, ProApplicationUser $user)
     {
-        dump($user->getRoles());
-
         return $user->isMemberOfGarage($garage);
     }
 }
