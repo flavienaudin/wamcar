@@ -31,8 +31,8 @@ security:
         front:
             anonymous: ~
             form_login:
-                login_path: security_login
-                check_path: security_login
+                login_path: security_login_page
+                check_path: security_login_page
                 default_target_path: front_default
                 use_referer: true
             remember_me:
@@ -43,4 +43,9 @@ security:
             logout:
                 path:   security_logout
                 target: front_default
-            access_denied_url: front_default
+            access_denied_url: security_login_page
+
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/garage/list, roles: ROLE_ADMIN }
+        - { path: ^/mon-profil, roles: ROLE_USER }

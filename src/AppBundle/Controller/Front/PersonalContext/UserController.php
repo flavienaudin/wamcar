@@ -12,6 +12,7 @@ use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -111,7 +112,7 @@ class UserController extends BaseController
 
         $templates = [
             ProUser::TYPE => 'front/Seller/card.html.twig',
-            PersonalUser::TYPE => null, // TODO with user profile
+            PersonalUser::TYPE => 'front/User/card.html.twig', // TODO with user profile
         ];
 
         if(!$templates[$user->getType()]) {
