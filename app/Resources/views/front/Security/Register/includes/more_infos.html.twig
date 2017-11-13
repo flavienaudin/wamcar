@@ -127,11 +127,13 @@
             <div class="small-12 medium-8">
                 <div class="row">
                     <div class="column small-4">
-                        <input type="text" name="postalCode" id="postalCode" class="input no-margin" pattern="number" required>
+                        <input type="text" name="postalCode" data-fetch-url="{{ path('front_fetch_city') }}" data-city-field="city" id="postalCode" class="input no-margin js-postalCode" pattern="number" required>
                         <small class="form-error">Veuillez indiquer votre code postal</small>
                     </div>
                     <div class="column small-8">
-                        <input type="text" name="city" id="city" class="input no-margin" required>
+                        <select type="text" name="city" id="city" class="no-margin" required >
+                            <option value="0" selected="selected">Veuillez d'abord renseigner le code postal</option>
+                        </select>
                         <small class="form-error">Veuillez indiquer votre ville</small>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
 use AppBundle\Security\UserRegistrationService;
+use AppBundle\Services\Location\CityService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
@@ -31,6 +32,8 @@ class RegistrationController extends BaseController
     protected $userRegistrationService;
     /** @var ApiConnector */
     protected $autoDataConnector;
+    /** @var CityService */
+    protected $cityService;
 
     /**
      * RegistrationController constructor.
@@ -39,13 +42,15 @@ class RegistrationController extends BaseController
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param UserRegistrationService $userRegistrationService
      * @param ApiConnector $autoDataConnector
+     * @param CityService $cityService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
         UserRegistrationService $userRegistrationService,
-        ApiConnector $autoDataConnector
+        ApiConnector $autoDataConnector,
+        CityService $cityService
     )
     {
         $this->formFactory = $formFactory;
@@ -53,11 +58,13 @@ class RegistrationController extends BaseController
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->userRegistrationService = $userRegistrationService;
         $this->autoDataConnector = $autoDataConnector;
+        $this->cityService = $cityService;
     }
 
     /**
      * @param Request $request
      * @return Response
+     * @throws \Exception
      */
     public function vehicleRegistrationAction(Request $request): Response
     {
@@ -84,7 +91,10 @@ class RegistrationController extends BaseController
 
     /**
      * @param Request $request
+     * @param array $filters
+     * @param string|null $plateNumber
      * @return Response
+     * @throws \Exception
      */
     private function vehicleRegistrationFromInformation(
         Request $request,
@@ -142,5 +152,17 @@ class RegistrationController extends BaseController
         $aggregates = $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters);
 
         return new JsonResponse($fetch ? $aggregates[$fetch] : $aggregates);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getCityByZipcodeAction(Request $request): JsonResponse
+    {
+        $zipcode = $request->get('zipcode', null);
+        $city = $this->cityService->findByZipcode($zipcode);
+
+        return new JsonResponse($city->toArray());
     }
 }

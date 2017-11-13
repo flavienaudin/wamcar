@@ -13,6 +13,9 @@ services:
 
     SimpleBus\Message\Bus\MessageBus: '@simple_bus.event_bus'
 
+    PragmaRX\ZipCode\ZipCode:
+        class: 'PragmaRX\ZipCode\ZipCode'
+
     # SECURITY
     wamcar.security.password_encoder:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
@@ -39,6 +42,12 @@ services:
 
     AppBundle\Services\Garage\GarageEditionService:
         class: AppBundle\Services\Garage\GarageEditionService
+        public: false
+        autowire: true
+        autoconfigure: false
+
+    AppBundle\Services\Location\CityService:
+        class: AppBundle\Services\Location\CityService
         public: false
         autowire: true
         autoconfigure: false

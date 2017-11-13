@@ -42,6 +42,7 @@ class UserEditionService
      * @param ApplicationUser $user
      * @param UserInformationDTO $userInformationDTO
      * @return ApplicationUser
+     * @throws \Exception
      */
     public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
