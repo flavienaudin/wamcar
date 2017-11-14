@@ -1,14 +1,17 @@
 {% set reinsurance_list = [
     {
         image: 'pro-changement',
+        alt: 'Un prospect crée sa demande de changement de voiture sur wamcar',
         content: 'Un prospect crée sa demande de changement de voiture sur wamcar en précisant son véhicule à reprendre, son souhait et son budget.',
     },
     {
         image: 'pro-lead',
+        alt: 'Vous choisissez vos leads',
         content: 'Vous choisissez vos leads en leur envoyant une ou plusieurs offres de vente de l’un de vos véhicules VN ou VO, accompagnée d’une proposition de reprise.',
     },
     {
         image: 'pro-particulier',
+        alt: 'Le particulier vous répond et prend rendez-vous directement.',
         content: 'Le particulier vous répond et prend rendez-vous directement.',
     }
 ] %}
@@ -17,7 +20,7 @@
 <ul class="reinsurance-wamcar block-grid small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
         <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle small-collapse medium-uncollapse xlarge-collapse">
-            <span class="reinsurance-wamcar-image medium-12 text-center black-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" width="130"></span>
+            <span class="reinsurance-wamcar-image medium-12 text-center black-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" alt="{{ reinsurance.alt }}" width="130"></span>
             <p class="reinsurance-wamcar-body no-margin">{{ reinsurance.content }}</p>
         </li>
     {% endfor %}

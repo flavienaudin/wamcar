@@ -1,7 +1,7 @@
 <ul class="brand-list">
     {% for membership in user.garageMemberships %}
         <li>
-            <figure class="block-grid align-middle">
+            <figure class="block-grid align-middle" role="group">
                 <span class="brand-logo"><img src="{{ asset('/assets/images/placeholders/brand/logo-toyota.png') }}" alt="{{ membership.garage.name }}"></span>
                 <a href="{{ path('front_garage_view', {'id': membership.garage.id}) }}" class="text-underline">{{ membership.garage.name }}</a>
             </figure>

@@ -16,7 +16,7 @@
     <div class="{{ class_field }}">
 {% endif %}
 {% if label %}
-    <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {% if not required %}<span class="{{ optional_class }}">Facultatif</span>{% endif %}</label>
+    <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ optional_class }}">Facultatif</span>{% endif %}</label>
 {% endif %}
     <input
         type="{{ type }}"

@@ -277,6 +277,8 @@
   }
 
   &-years {
+    margin-top: auto;
+
     @include breakpoint(medium only) { margin-bottom: rem-calc(-4); }
     @include breakpoint(large only) { margin-bottom: rem-calc(-4); }
   }
