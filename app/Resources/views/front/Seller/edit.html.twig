@@ -9,16 +9,8 @@
 
 {% set page_profil = true %}
 
-{% set breadcrumbs = [
-    {
-        'name': block('title'),
-        'href': app.request.requestUri
-    }
-] %}
-
 {% block body %}
 
-    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title')
     } %}
