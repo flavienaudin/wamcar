@@ -2,6 +2,7 @@
 
 namespace AppBundle\Security\Voter;
 
+use AppBundle\Services\Garage\GarageEditionService;
 use Wamcar\Garage\Garage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -13,11 +14,23 @@ class GarageVoter extends Voter
     // these strings are just invented: you can use anything
     const EDIT = 'edit';
 
+    /** @var AccessDecisionManagerInterface */
     private $decisionManager;
+    /** @var GarageEditionService */
+    private $garageEditionService;
 
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    /**
+     * GarageVoter constructor.
+     * @param AccessDecisionManagerInterface $decisionManager
+     * @param GarageEditionService $garageEditionService
+     */
+    public function __construct(
+        AccessDecisionManagerInterface $decisionManager,
+        GarageEditionService $garageEditionService
+    )
     {
         $this->decisionManager = $decisionManager;
+        $this->garageEditionService = $garageEditionService;
     }
 
     protected function supports($attribute, $subject)
@@ -54,14 +67,9 @@ class GarageVoter extends Voter
 
         switch ($attribute) {
             case self::EDIT:
-                return $this->canEdit($garage, $user);
+                return $this->garageEditionService->canEdit($user, $garage);
         }
 
         throw new \LogicException('This code should not be reached!');
-    }
-
-    private function canEdit(Garage $garage, ProApplicationUser $user)
-    {
-        return $user->isMemberOfGarage($garage);
     }
 }
