@@ -94,7 +94,7 @@
     {% endif %}
 {%- endblock email_widget -%}
 
-{%- block integer_widget -%}
+{%- block telephone_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
     {% set required = required|default(false) %}
@@ -128,7 +128,7 @@
     {% if class_field %}
         </div>
     {% endif %}
-{%- endblock number_widget -%}
+{%- endblock telephone_widget -%}
 
 {%- block password_widget -%}
     {% set class_field = class_field|default('') %}
