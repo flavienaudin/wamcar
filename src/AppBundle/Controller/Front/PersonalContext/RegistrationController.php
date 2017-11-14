@@ -7,7 +7,7 @@ use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\VehicleType;
 use AppBundle\Security\UserRegistrationService;
-use AppBundle\Services\Location\CityService;
+use AppBundle\Services\Location\ZipCodeService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
@@ -32,8 +32,8 @@ class RegistrationController extends BaseController
     protected $userRegistrationService;
     /** @var ApiConnector */
     protected $autoDataConnector;
-    /** @var CityService */
-    protected $cityService;
+    /** @var ZipCodeService */
+    protected $zipCodeService;
 
     /**
      * RegistrationController constructor.
@@ -42,7 +42,7 @@ class RegistrationController extends BaseController
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param UserRegistrationService $userRegistrationService
      * @param ApiConnector $autoDataConnector
-     * @param CityService $cityService
+     * @param ZipCodeService $zipCodeService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -50,7 +50,7 @@ class RegistrationController extends BaseController
         VehicleInfoAggregator $vehicleInfoAggregator,
         UserRegistrationService $userRegistrationService,
         ApiConnector $autoDataConnector,
-        CityService $cityService
+        ZipCodeService $zipCodeService
     )
     {
         $this->formFactory = $formFactory;
@@ -58,7 +58,7 @@ class RegistrationController extends BaseController
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->userRegistrationService = $userRegistrationService;
         $this->autoDataConnector = $autoDataConnector;
-        $this->cityService = $cityService;
+        $this->zipCodeService = $zipCodeService;
     }
 
     /**
@@ -161,7 +161,7 @@ class RegistrationController extends BaseController
     public function getCityByZipcodeAction(Request $request): JsonResponse
     {
         $zipcode = $request->get('zipcode', null);
-        $city = $this->cityService->findByZipcode($zipcode);
+        $city = $this->zipCodeService->findByZipcode($zipcode);
 
         return new JsonResponse($city->toArray());
     }

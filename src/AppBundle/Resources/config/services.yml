@@ -46,8 +46,8 @@ services:
         autowire: true
         autoconfigure: false
 
-    AppBundle\Services\Location\CityService:
-        class: AppBundle\Services\Location\CityService
+    AppBundle\Services\Location\ZipCodeService:
+        class: AppBundle\Services\Location\ZipCodeService
         public: false
         autowire: true
         autoconfigure: false

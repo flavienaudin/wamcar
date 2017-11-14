@@ -5,7 +5,7 @@ namespace AppBundle\Services\Location;
 use PragmaRX\ZipCode\ZipCode;
 
 
-class CityService
+class ZipCodeService
 {
     /** @var ZipCode */
     private $zipcode;

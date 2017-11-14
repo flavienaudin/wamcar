@@ -15,42 +15,45 @@ let clearSelect = function (select) {
 
   input.addEventListener('keyup', () => {
     let zipcodeValue = input.value;
-    if (zipcodeValue.length === 5) {
-      let dataFetchUrl = input.getAttribute('data-fetch-url');
-      let cityInput = document.querySelector('#' + input.getAttribute('data-city-field'));
+    let dataFetchUrl = input.getAttribute('data-fetch-url');
+    let cityInput = document.querySelector('#' + input.getAttribute('data-city-field'));
 
-      let filterForm = new FormData();
-      filterForm.append('zipcode', zipcodeValue);
+    if (zipcodeValue.length !== 5) {
+      clearSelect(cityInput);
+      return;
+    }
 
-      fetch(dataFetchUrl, {
-        method: 'POST',
-        body: filterForm,
-        credentials: 'include',
-        headers: new Headers({
-          'X-Requested-With': 'XMLHttpRequest'
-        })
+    let filterForm = new FormData();
+    filterForm.append('zipcode', zipcodeValue);
+
+    fetch(dataFetchUrl, {
+      method: 'POST',
+      body: filterForm,
+      credentials: 'include',
+      headers: new Headers({
+        'X-Requested-With': 'XMLHttpRequest'
       })
-        .then(response => response.json())
-        .then((data) => {
-          clearSelect(cityInput);
+    })
+      .then(response => response.json())
+      .then((data) => {
+        clearSelect(cityInput);
 
-          if (data['success'] === true) {
-            data['result_raw']['places'].forEach(function (element, idx) {
-              let option = document.createElement("option");
-              option.text = element['place name'];
-              option.value = element['place name'];
-              if (idx === 0) {
-                option.selected = true;
-              }
-              cityInput.add(option);
-            });
-          }
+        if (data['success'] === true) {
+          data['result_raw']['places'].forEach(function (element, idx) {
+            let option = document.createElement("option");
+            option.text = element['place name'];
+            option.value = element['place name'];
+            if (idx === 0) {
+              option.selected = true;
+            }
+            cityInput.add(option);
+          });
+        }
 
-        })
-        .catch(err => {
-          clearSelect(cityInput);
-          throw err;
-        });
-      }
+      })
+      .catch(err => {
+        clearSelect(cityInput);
+        throw err;
+      });
   });
 });
