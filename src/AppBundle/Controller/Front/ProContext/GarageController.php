@@ -78,11 +78,16 @@ class GarageController extends BaseController
 
     /**
      * @param Request $request
+     * @Security("has_role('ROLE_PRO')")
      * @param null|Garage $garage
      * @return RedirectResponse|Response
      */
     public function saveAction(Request $request, ?Garage $garage)
     {
+        if (null !== $garage && !$this->authorizationChecker->isGranted('edit', $garage)) {
+            throw new AccessDeniedHttpException('Only member can access edit this garage');
+        }
+
         $garageDTO = new GarageDTO($garage);
         $garageForm = $this->formFactory->create(GarageType::class, $garageDTO);
         $garageForm->handleRequest($request);

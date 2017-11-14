@@ -160,21 +160,8 @@ class SecurityController extends BaseController
      */
     public function loginAction(Request $request): Response
     {
-        $error = $this->authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $this->authenticationUtils->getLastUsername();
 
-        if ($error) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                $error->getMessage()
-            );
-            return $this->redirectToRoute('security_login_page');
-        }
-
-        return $this->render('front/User/includes/form_login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ]);
+        return $this->render('front/User/includes/form_login.html.twig');
     }
 
     /**
@@ -186,6 +173,17 @@ class SecurityController extends BaseController
     {
         if($this->isUserAuthenticated()) {
             return $this->redirectToRoute('front_view_current_user_info');
+        }
+
+        $error = $this->authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $this->authenticationUtils->getLastUsername();
+
+        if ($error) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                $error->getMessage()
+            );
+            return $this->redirectToRoute('security_login_page');
         }
 
         return $this->render('front/Security/Login/login.html.twig', [

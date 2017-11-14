@@ -1,0 +1,37 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% trans_default_domain 'user' %}
+{% block title %}{% endblock title %}
+
+{% block body %}
+    {# Civilité #}
+    <div>
+        {{ user.userProfile.title }}
+    </div>
+
+    {# Nom #}
+    <div>
+        {{ user.userProfile.name }}
+    </div>
+
+    {# Adresse e-mail #}
+    <div>
+        {{ user.email }}
+    </div>
+
+    {# Code postal #}
+    <div>
+        {{ user.userProfile.city.postalCode }}
+    </div>
+
+    {# Ville #}
+    <div>
+        {{ user.userProfile.city.name }}
+    </div>
+
+    {# Phone #}
+    <div>
+        {{ user.userProfile.phone }}
+    </div>
+
+{% endblock %}

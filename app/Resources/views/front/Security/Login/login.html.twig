@@ -24,7 +24,7 @@
         <section class="register-left input-margin small-12 medium-6">
             <h2 class="black-color column small-12">Connexion via mon compte {{ site_name }}</h2>
             <div class="small-12">
-                <form action="{{ path('security_login') }}" method="post" data-abide novalidate>
+                <form action="{{ path('security_login_page') }}" method="post" data-abide novalidate>
                     {% include 'front/Layout/includes/forms/input.html.twig' with {
                         class_field: 'block-grid column input-margin small-12',
                         label_class: 'large-no-margin small-12 large-4',

@@ -1,6 +1,6 @@
 {% trans_default_domain 'security' %}
 
-<form action="{{ path('security_login') }}" method="post" data-abide novalidate>
+<form action="{{ path('security_login_page') }}" method="post" data-abide novalidate>
     <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
     <div>
         {% include 'front/Layout/includes/forms/input.html.twig' with {
