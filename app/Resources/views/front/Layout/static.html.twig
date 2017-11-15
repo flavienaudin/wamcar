@@ -1,0 +1,23 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block body %}
+
+    <header class="banner">
+        <strong class="h1 no-margin text-center column large-10 xlarge-6">{{ block('title') }}</strong>
+    </header>
+
+    <section class="row">
+        <div class="column">
+            {% block staticBody %}{% endblock %}
+        </div>
+    </section>
+
+    <section class="section reinsurance-container small-12">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
+        </div>
+    </section>
+
+{% endblock %}
