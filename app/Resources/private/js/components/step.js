@@ -14,7 +14,7 @@ import {
 import scrollTo from './scrollTo';
 
 const $step = document.getElementById('js-step');
-const $registerForm = document.getElementById('js-register-form');
+export const $registerForm = document.getElementById('js-register-form');
 
 /**
  *
@@ -253,6 +253,8 @@ if ($step) {
     $registerForm.addEventListener('submit', () => {
       setTimeout(() => step.autoHeight());
     });
+
+    $registerForm.addEventListener('pictureAdd', () => step.autoHeight());
   }
 
   // Button prev step

@@ -2,6 +2,8 @@
    Registration
    =========================================================================== */
 
+import { $registerForm } from './step';
+
 let $information = document.querySelector('#js-registration-information');
 let $informationSelectList = document.querySelectorAll('#js-registration-information select');
 
@@ -92,16 +94,47 @@ if ($information != null) {
   });
 }
 
+let $collectionHolder = document.querySelector('#js-pictures-list');
+let $inputCollectionHolder = document.querySelectorAll('#js-pictures-list input[type="file"]');
+$collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
 
-// Todo : auto add images when list full
-// let $collectionHolder = document.querySelector('#js-pictures-list');
-// let $addPictureButton = document.querySelector('#js-tmp-add-picture');
-//
-// $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
-//
-// $addPictureButton.addEventListener('click', () => {
-//   let index = parseInt($collectionHolder.getAttribute('data-index'));
-//   let newForm = $collectionHolder.getAttribute('data-prototype').replace(/__name__/g, index);
-//   $collectionHolder.setAttribute('data-index', index + 1);
-//   $collectionHolder.insertAdjacentHTML('beforeend', newForm);
-// });
+function refreshVar() {
+  $collectionHolder = document.querySelector('#js-pictures-list');
+  $inputCollectionHolder = document.querySelectorAll('#js-pictures-list input[type="file"]');
+  $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
+}
+
+function addChangeEvent() {
+  [...$inputCollectionHolder].forEach((input) => {
+    input.addEventListener('change', () => {
+      addScriptChange();
+    });
+  });
+}
+
+function addPictureForm() {
+  let index = parseInt($collectionHolder.getAttribute('data-index'));
+  let newForm = $collectionHolder.getAttribute('data-prototype').replace(/__name__/g, index);
+  $collectionHolder.setAttribute('data-index', index + 1);
+  $collectionHolder.insertAdjacentHTML('beforeend', newForm);
+
+  const event = new Event('pictureAdd');
+  $registerForm.dispatchEvent(event);
+  refreshVar();
+  addChangeEvent();
+}
+
+function addScriptChange() {
+  let nbEmpty = 0;
+  [...$inputCollectionHolder].forEach((inputChange) => {
+    if (inputChange.value === '') {
+      nbEmpty ++;
+    }
+  });
+
+  if (nbEmpty === 0) {
+    addPictureForm();
+  }
+}
+
+addChangeEvent();
