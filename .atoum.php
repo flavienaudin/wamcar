@@ -7,7 +7,7 @@ if (!is_dir(__DIR__.'/build/')) {
 $script->addTestsFromDirectory(__DIR__.'/tests/unit');
 $script->noCodeCoverageForNamespaces('Composer');
 
-$xunitWriter = new atoum\writers\file(__DIR__.'/build/test-unit/atoum.xunit.xml');
+$xunitWriter = new atoum\writers\file(__DIR__.'/build/atoum.xunit.xml');
 $xunitReport = new atoum\reports\asynchronous\xunit();
 $xunitReport->addWriter($xunitWriter);
 
