@@ -30,7 +30,6 @@ Feature: Control security of the website
         And I register as personal user
         Then I should see a confirmation message
 
-    #TODO: différencié entre type d'utilisateur quand espace particulier créer
     @security @register
     Scenario: Create an pro user account
         Given I am not logged in
