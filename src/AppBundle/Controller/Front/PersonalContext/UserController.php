@@ -112,7 +112,7 @@ class UserController extends BaseController
 
         $templates = [
             ProUser::TYPE => 'front/Seller/card.html.twig',
-            PersonalUser::TYPE => 'front/User/card.html.twig', // TODO with user profile
+            PersonalUser::TYPE => 'front/User/card.html.twig',
         ];
 
         if(!$templates[$user->getType()]) {

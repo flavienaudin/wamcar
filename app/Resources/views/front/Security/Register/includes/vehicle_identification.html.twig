@@ -47,18 +47,6 @@
         }) }}
     </div>
     <div class="block-grid input-margin">
-        {{ form_widget(vehicleForm.information.modelVersion, {
-            label: 'Finition',
-            id: 'js-registration-modelVersion',
-            dataType: 'modelVersion',
-            label_class: 'medium-no-margin small-12 medium-4',
-            class: 'no-margin small-12 medium-8',
-            required: true,
-            required_message: 'Veuillez indiquer la finition du véhicule',
-            required_class: 'medium-offset-4'
-        }) }}
-    </div>
-    <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.engine, {
             label: 'Motorisation',
             id: 'js-registration-engine',
@@ -67,6 +55,18 @@
             class: 'no-margin small-12 medium-8',
             required: true,
             required_message: 'Veuillez indiquer la motorisation du véhicule',
+            required_class: 'medium-offset-4'
+        }) }}
+    </div>
+    <div class="block-grid input-margin">
+        {{ form_widget(vehicleForm.information.modelVersion, {
+            label: 'Finition',
+            id: 'js-registration-modelVersion',
+            dataType: 'modelVersion',
+            label_class: 'medium-no-margin small-12 medium-4',
+            class: 'no-margin small-12 medium-8',
+            required: true,
+            required_message: 'Veuillez indiquer la finition du véhicule',
             required_class: 'medium-offset-4'
         }) }}
     </div>
