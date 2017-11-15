@@ -5,7 +5,7 @@ default:
     formatters:
         pretty: true
         junit:
-            output_path: build/test-behavior
+            output_path: build/behat
 
     extensions:
         Novaway\CommonContexts\Extension: ~
@@ -14,11 +14,9 @@ default:
             show_auto: true
             show_cmd: open -a "Google Chrome" %s
             files_path: %paths.base%/tests/behavior/data/
-            base_url: 'http://myapp.local/app_test.php'
+            base_url: 'http://myapp.local/app_dev.php'
             sessions:
                 default:
-                    goutte: ~
-                javascript:
                     selenium2:
                         wd_host: http://service.phantomjs:8643/wd/hub
 
@@ -29,3 +27,4 @@ default:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - Test\Behavior\Context\NavigationContext
+                - Test\Behavior\Context\SecurityContext
