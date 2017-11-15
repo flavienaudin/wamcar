@@ -8,6 +8,7 @@ use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,7 +35,7 @@ class UserInformationType extends AbstractType
                     return 'enum.title.' . strtolower($value);
                 },
             ])
-            ->add('phone', TextType::class, [
+            ->add('phone', TelephoneType::class, [
                 'required' => false
             ])
             ->add('oldPassword', PasswordType::class, [

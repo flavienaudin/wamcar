@@ -105,6 +105,7 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
+    {% set pattern = pattern|default('number') %}
 
     {% if label %}
         <label for="{{ name }}" class="{{ label_class }}">{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>

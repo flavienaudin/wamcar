@@ -21,7 +21,7 @@ class ProUserInformationType extends UserInformationType
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('phonePro', TextType::class, [
+            ->add('phonePro', TelephoneType::class, [
                 'required' => false
             ])
             ->add('description', TextareaType::class, [
