@@ -16,7 +16,7 @@ let clearSelect = function (select) {
   input.addEventListener('keyup', () => {
     let zipcodeValue = input.value;
     let dataFetchUrl = input.getAttribute('data-fetch-url');
-    let cityInput = document.querySelector('#' + input.getAttribute('data-city-field'));
+    let cityInput = document.getElementById(input.getAttribute('data-city-field'));
 
     if (zipcodeValue.length !== 5) {
       clearSelect(cityInput);
