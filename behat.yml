@@ -26,5 +26,6 @@ default:
                 - "%paths.base%/tests/behavior/features/front"
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
+                - Test\Behavior\Context\SecurityContext
                 - Test\Behavior\Context\NavigationContext
                 - Test\Behavior\Context\RegisterContext
