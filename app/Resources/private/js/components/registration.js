@@ -4,7 +4,7 @@
 
 import {$registerForm} from './step';
 
-let $information = document.querySelector('#js-registration-information');
+let $information = document.getElementById('js-registration-information');
 let $informationSelectList = document.querySelectorAll('#js-registration-information select');
 
 if ($information != null) {
@@ -94,7 +94,7 @@ if ($information != null) {
   });
 }
 
-let $collectionHolder = document.querySelector('#js-pictures-list');
+let $collectionHolder = document.getElementById('js-pictures-list');
 let $inputCollectionHolder = document.querySelectorAll('#js-pictures-list input[type="file"]');
 
 if ($collectionHolder && $inputCollectionHolder) {
@@ -102,7 +102,7 @@ if ($collectionHolder && $inputCollectionHolder) {
   $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
 
   function refreshVar() {
-    $collectionHolder = document.querySelector('#js-pictures-list');
+    $collectionHolder = document.getElementById('js-pictures-list');
     $inputCollectionHolder = document.querySelectorAll('#js-pictures-list input[type="file"]');
     $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
   }
