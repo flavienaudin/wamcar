@@ -208,14 +208,18 @@ class Step {
     }
 
     if (direction === 'next') {
-      if (!fromNavigation) {
-        $activeElement.classList.remove(activeClass);
-        $activeElement.classList.add('is-valid');
-        $nextElement.classList.remove(disabledClass);
-        $nextElement.classList.add(activeClass);
-      }
+      $activeElement.classList.remove(activeClass);
+      $activeElement.classList.add('is-valid');
+      $nextElement.classList.remove(disabledClass);
+      $nextElement.classList.add(activeClass);
+
       this.updateProgressBar(offSetLeftNextElement);
     } else {
+      $activeElement.classList.remove(activeClass);
+      $activeElement.classList.remove('is-valid');
+      $prevElement.classList.remove(disabledClass);
+      $prevElement.classList.add(activeClass);
+
       this.updateProgressBar(offSetLeftPrevElement);
     }
   }
