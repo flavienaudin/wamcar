@@ -42,7 +42,6 @@
                         {{ form_widget(garageForm.siren, {
                             'label': 'Numéro de SIREN',
                             'class': 'small-no-margin',
-                            'pattern': 'number',
                             'required': true,
                             'required_message': 'Veuillez indiquer votre numéro de SIREN.'
                         }) }}
@@ -63,7 +62,6 @@
                             <div class="column small-5 medium-3 large-2">
                                 {{ form_widget(garageForm.postalCode, {
                                     'label': 'Code postal',
-                                    'pattern': 'number',
                                     'required': true
                                 }) }}
                             </div>
@@ -78,7 +76,6 @@
                                 {{ form_widget(garageForm.phone, {
                                     'label': 'Téléphone',
                                     'type': 'tel',
-                                    'pattern': 'number',
                                     'class': 'medium-no-margin',
                                     'required': true
                                 }) }}
