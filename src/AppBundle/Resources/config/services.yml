@@ -15,6 +15,8 @@ services:
 
     PragmaRX\ZipCode\ZipCode:
         class: 'PragmaRX\ZipCode\ZipCode'
+        calls:
+          - ['setCountry', ['FR']]
 
     # SECURITY
     wamcar.security.password_encoder:
@@ -42,12 +44,6 @@ services:
 
     AppBundle\Services\Garage\GarageEditionService:
         class: AppBundle\Services\Garage\GarageEditionService
-        public: false
-        autowire: true
-        autoconfigure: false
-
-    AppBundle\Services\Location\ZipCodeService:
-        class: AppBundle\Services\Location\ZipCodeService
         public: false
         autowire: true
         autoconfigure: false
