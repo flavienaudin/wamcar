@@ -27,16 +27,4 @@
 
     {{ form_end(vehicleForm) }}
 
-    {# TODO : Faire ça joliment avec le dev front #}
-    <script>
-        let $collectionHolder = document.getElementById('js-pictures-holder');
-        $collectionHolder.setAttribute('data-index', $collectionHolder.querySelectorAll('input[type="file"]').length);
-        function addPictureFormItem() {
-            let index = parseInt($collectionHolder.getAttribute('data-index'));
-            let newForm = $collectionHolder.getAttribute('data-prototype').replace(/__name__/g, index);
-            $collectionHolder.setAttribute('data-index', index + 1);
-            $collectionHolder.insertAdjacentHTML('beforeend', newForm);
-        }
-    </script>
-
 {% endblock body %}
