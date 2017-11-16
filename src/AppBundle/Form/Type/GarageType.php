@@ -23,10 +23,10 @@ class GarageType extends AbstractType
 
         $builder
             ->add('name', TextType::class)
-            ->add('siren', IntegerType::class, [
+            ->add('siren', TextType::class, [
                 'attr' => [
-                    'min' => '10000000000000',
-                    'max' => '99999999999999'
+                    'pattern' => '[0-9]{9}',
+                    'maxlength' => 9
                 ]
             ])
             ->add('openingHours', TextareaType::class, [
