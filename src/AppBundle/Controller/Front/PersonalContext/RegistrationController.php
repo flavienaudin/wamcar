@@ -86,9 +86,9 @@ class RegistrationController extends BaseController
                 $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
             } catch (AutodataException $autodataException) {
                 $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
                     $autodataException instanceof AutodataWithUserMessageException ?
                         $autodataException->getMessage() :
-                        self::FLASH_LEVEL_DANGER,
                         'flash.warning.registration_recognition_failed'
                 );
             }
