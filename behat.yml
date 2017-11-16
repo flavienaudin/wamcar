@@ -27,4 +27,4 @@ default:
             contexts:
                 - Behat\MinkExtension\Context\MinkContext
                 - Test\Behavior\Context\NavigationContext
-                - Test\Behavior\Context\SecurityContext
+                - Test\Behavior\Context\RegisterContext
