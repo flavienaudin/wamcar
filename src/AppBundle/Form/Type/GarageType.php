@@ -25,7 +25,7 @@ class GarageType extends AbstractType
             ->add('name', TextType::class)
             ->add('siren', TextType::class, [
                 'attr' => [
-                    'pattern' => '[0-9]{9}',
+                    'pattern' => '^[0-9]{9}$',
                     'maxlength' => 9
                 ]
             ])
@@ -36,9 +36,13 @@ class GarageType extends AbstractType
                 'required' => false
             ])
             ->add('address', TextType::class)
-            ->add('postalCode', TextType::class)
+            ->add('postalCode', TextType::class, [
+                'attr' => ['pattern' => '^[0-9][0-9|A|B][0-9]{3}$']
+            ])
             ->add('cityName', TextType::class)
-            ->add('phone', TextType::class)
+            ->add('phone', TextType::class, [
+                'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+            ])
         ;
     }
 

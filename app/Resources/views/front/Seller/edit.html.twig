@@ -65,11 +65,13 @@
                 <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
                 {{ form_widget(editUserForm.phonePro, {
                     'label': 'Téléphone fixe',
-                    'required': false
+                    'required': false,
+                    'type' : 'tel'
                 }) }}
                 {{ form_widget(editUserForm.phone, {
                     'label': 'Téléphone mobile',
-                    'required': false
+                    'required': false,
+                    'type' : 'tel'
                 }) }}
                 <h2 class="separator">Informations</h2>
                 {{ form_widget(editUserForm.description, {

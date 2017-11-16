@@ -3,6 +3,8 @@
 
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% set page_garage = true %}
+
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}{{ isNew ? 'Créer' : 'Editer' }} mon garage{% endblock %}
@@ -23,7 +25,7 @@
 
     <div class="row">
 
-        <div class="block-grid small-12 xlarge-10 xlarge-offset-1">
+        <div class="block-grid small-12">
 
             {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                 <div class="block-grid small-12">
@@ -60,7 +62,6 @@
                             <div class="column small-5 medium-3 large-2">
                                 {{ form_widget(garageForm.postalCode, {
                                     'label': 'Code postal',
-                                    'class': '',
                                     'required': true
                                 }) }}
                             </div>
@@ -74,6 +75,7 @@
                             <div class="column small-7 medium-9  large-4">
                                 {{ form_widget(garageForm.phone, {
                                     'label': 'Téléphone',
+                                    'type': 'tel',
                                     'class': 'medium-no-margin',
                                     'required': true
                                 }) }}

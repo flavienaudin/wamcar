@@ -94,7 +94,6 @@
     {% endif %}
 {%- endblock email_widget -%}
 
-
 {%- block password_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
@@ -141,6 +140,8 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
+    {% set pattern = pattern|default('') %}
+    {% set type = type|default('text') %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
@@ -149,13 +150,14 @@
         <div class="{{ class_field }}">
     {% endif %}
     <input
-        type="text"
+        type="{{ type }}"
         {{ block('widget_attributes') }}
         id="{{ name }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
+        pattern="{{ pattern }}"
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
