@@ -67,3 +67,7 @@ front_garage_assign:
 front_garage_unassign:
     path: /garage/unassign/{garage_id}/{user_id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:unassign }
+
+front_fetch_city:
+    path: /fetch/city.json
+    defaults: { _controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode }
