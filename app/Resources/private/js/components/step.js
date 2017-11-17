@@ -210,18 +210,26 @@ class Step {
     if (direction === 'next') {
       $activeElement.classList.remove(activeClass);
       $activeElement.classList.add('is-valid');
-      $nextElement.classList.remove(disabledClass);
-      $nextElement.classList.add(activeClass);
 
-      this.updateProgressBar(offSetLeftNextElement);
+      this.updateHeaderNavigation($nextElement, offSetLeftNextElement);
     } else {
       $activeElement.classList.remove(activeClass);
       $activeElement.classList.remove('is-valid');
-      $prevElement.classList.remove(disabledClass);
-      $prevElement.classList.add(activeClass);
 
-      this.updateProgressBar(offSetLeftPrevElement);
+      this.updateHeaderNavigation($prevElement, offSetLeftPrevElement);
     }
+  }
+
+  /**
+   *
+   * @param newElementActive
+   * @param offset
+   */
+  updateHeaderNavigation(newElementActive, offset) {
+    newElementActive.classList.remove(disabledClass);
+    newElementActive.classList.add(activeClass);
+
+    this.updateProgressBar(offset);
   }
 
   /**
