@@ -75,3 +75,9 @@ inte_cgu:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Static/cgu.html.twig
+
+inte_search:
+    path: /inte/recherche
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Search/search.html.twig
