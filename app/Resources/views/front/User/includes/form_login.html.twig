@@ -1,6 +1,6 @@
 {% trans_default_domain 'security' %}
 
-<form action="{{ path('security_login_page') }}" method="post" data-abide novalidate>
+<form action="{{ path('security_login_page') }}" id="form-side-login" method="post" data-abide novalidate>
     <strong class="h3 input-margin black-color is-block">J'ai un compte {{ site_name }}</strong>
     <div>
         {% include 'front/Layout/includes/forms/input.html.twig' with {
@@ -8,7 +8,8 @@
             name: '_username',
             label: 'user.field.email.label'|trans,
             required: true,
-            required_message: 'Veuillez indiquer votre adresse email.'
+            required_message: 'Veuillez indiquer votre adresse email.',
+            id: 'email_side'
         } %}
     </div>
     <div>
@@ -17,10 +18,11 @@
             name: '_password',
             label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost">'~'user.field.password.forget'|trans~'</a>',
             required: true,
-            required_message: 'Veuillez indiquer votre mot de passe.'
+            required_message: 'Veuillez indiquer votre mot de passe.',
+            id: 'password_side'
         } %}
     </div>
     <div class="input-margin">
-        <button type="submit" class="button full-width">Connexion</button>
+        <button type="submit" id="form-side-login-submit" class="button full-width">Connexion</button>
     </div>
 </form>

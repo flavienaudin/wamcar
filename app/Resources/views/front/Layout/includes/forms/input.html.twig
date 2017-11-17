@@ -11,6 +11,7 @@
 {% set equal_to = equal_to|default('') %}
 {% set pattern = pattern|default('') %}
 {% set optional_class = optional_class|default('') %}
+{% set id = id|default(name) %}
 
 {% if class_field %}
     <div class="{{ class_field }}">
@@ -21,7 +22,7 @@
     <input
         type="{{ type }}"
         name="{{ name }}"
-        id="{{ name }}"
+        id="{{ id }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"

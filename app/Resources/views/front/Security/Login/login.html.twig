@@ -24,7 +24,7 @@
         <section class="register-left input-margin small-12 medium-6">
             <h2 class="black-color column small-12">Connexion via mon compte {{ site_name }}</h2>
             <div class="small-12">
-                <form action="{{ path('security_login_page') }}" method="post" data-abide novalidate>
+                <form action="{{ path('security_login_page') }}" id="form-login" method="post" data-abide novalidate>
                     {% include 'front/Layout/includes/forms/input.html.twig' with {
                         class_field: 'block-grid column input-margin small-12',
                         label_class: 'large-no-margin small-12 large-4',
@@ -33,6 +33,7 @@
                         label: 'user.field.email.label'|trans,
                         type: 'email',
                         name: '_username',
+                        id: 'email_login',
                         required: true,
                         required_message: 'Veuillez indiquer votre adresse email.'
                     } %}
@@ -44,11 +45,12 @@
                         label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
                         type: 'password',
                         name: '_password',
+                        id: 'password_login',
                         required: true,
                         required_message: 'Veuillez indiquer votre adresse email.'
                     } %}
                     <div class="column small-12">
-                        <button type="submit" class="button full-width">Connexion</button>
+                        <button type="submit" id="form-login-submit" class="button full-width">Connexion</button>
                     </div>
                 </form>
             </div>
