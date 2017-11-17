@@ -1,4 +1,7 @@
 {% set balise = balise|default('h1') %}
-<header class="page-header">
-    <{{ balise }} class="row column full-width primary-color">{{ title }}</{{ balise }}>
+{% set page_header_class = page_header_class|default(false) %}
+{% set title_class = title_class|default(false) %}
+
+<header class="page-header {{ page_header_class }}">
+    <{{ balise }} class="row column full-width primary-color {{ title_class }}">{{ title }}</{{ balise }}>
 </header>

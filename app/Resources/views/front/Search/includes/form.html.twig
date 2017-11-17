@@ -1,0 +1,145 @@
+<form class="row" data-abide novalidate>
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        class_field: 'column small-12 medium-6 large-4',
+        label: 'Véhicule recherché',
+        placeholder: 'Ex. Citröen C3',
+        name: 'vehicle-name',
+        required: true,
+        required_message: 'Veuillez indiquer le véhicule recherché.'
+    } %}
+    {% include 'front/Layout/includes/forms/input.html.twig' with {
+        class_field: 'column small-12 medium-6 large-5',
+        label: 'Votre location',
+        placeholder: 'Ville, code postal...',
+        name: 'location',
+        required: true,
+        required_message: 'Veuillez indiquer votre localisation.'
+    } %}
+
+    <div class="show-for-large column large-3">
+        <label for="search-label" class="show-for-large is-invisible">Rechercher</label>
+        <button type="submit" class="button full-width">Recherche</button>
+    </div>
+
+    <div id="js-search-expand" class="is-hiddenn block-grid small-12" data-toggler=".is-hidden">
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            label: 'Marque',
+            options: [
+                { value: '1', label: 'BMW' },
+                { value: '2', label: 'Peugeot' }
+            ],
+            id: 'brand',
+            name: 'brand'
+        } %}
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            label: 'Modèle',
+            options: [
+                { value: '1', label: 'Modèle 1' },
+                { value: '2', label: 'Modèle 2' },
+                { value: '3', label: 'Modèle 3' },
+                { value: '4', label: 'Modèle 4' }
+            ],
+            id: 'model',
+            name: 'model'
+        } %}
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            label: 'Kilométrage max',
+            options: [
+                { value: '1', label: '50 000 Km' },
+                { value: '2', label: '100 000 Km' },
+                { value: '3', label: '150 000 Km' },
+                { value: '4', label: '200 000 Km' },
+            ],
+            id: 'km_max',
+            name: 'km_max'
+        } %}
+        <div class="block-grid small-12">
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Année min',
+                options: [
+                    { value: '1', label: '2017' },
+                    { value: '2', label: '2016' },
+                    { value: '3', label: '2015' },
+                    { value: '4', label: '2014' },
+                    { value: '5', label: '2013' },
+                    { value: '6', label: '2012' },
+                    { value: '7', label: '2011' },
+                    { value: '8', label: '2010' }
+                ],
+                id: 'years_min',
+                name: 'years_min'
+            } %}
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Année max',
+                options: [
+                    { value: '1', label: '2017' },
+                    { value: '2', label: '2016' },
+                    { value: '3', label: '2015' },
+                    { value: '4', label: '2014' },
+                    { value: '5', label: '2013' },
+                    { value: '6', label: '2012' },
+                    { value: '7', label: '2011' },
+                    { value: '8', label: '2010' }
+                ],
+                id: 'years_max',
+                name: 'years_max'
+            } %}
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Budget min',
+                options: [
+                    { value: '1', label: '10 000 €' },
+                    { value: '2', label: '20 000 €' },
+                    { value: '3', label: '30 000 €' }
+                ],
+                id: 'budget_min',
+                name: 'budget_min'
+            } %}
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Budget max',
+                options: [
+                    { value: '1', label: '10 000 €' },
+                    { value: '2', label: '20 000 €' },
+                    { value: '3', label: '30 000 €' }
+                ],
+                id: 'budget_max',
+                name: 'budget_max'
+            } %}
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Boite de vitesse',
+                options: [
+                    { value: '1', label: 'Manuel' },
+                    { value: '2', label: 'Automatique' }
+                ],
+                id: 'boite_vitesse',
+                name: 'boite_vitesse'
+            } %}
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class_field: 'column small-12 medium-6 large-3',
+                label: 'Energie',
+                options: [
+                    { value: '1', label: 'Gazole' },
+                    { value: '2', label: 'Essence' },
+                    { value: '3', label: 'Electrique' }
+                ],
+                id: 'energy',
+                name: 'energy'
+            } %}
+        </div>
+    </div>
+
+    <div class="input-margin block-grid column small-12 medium-6 large-12 large-order-2">
+        <button type="button" class="text-underline" data-toggle="js-search-expand">Plus de critère</button>
+        <a href="" class="text-underline small-right medium-no-margin">Enregistrer recherche</a>
+    </div>
+    <div class="hide-for-large column small-12">
+        <button type="submit" class="button full-width">Recherche</button>
+    </div>
+</form>

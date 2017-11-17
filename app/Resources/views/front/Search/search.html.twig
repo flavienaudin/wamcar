@@ -1,6 +1,6 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding{% endblock %}
+{% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}Rechercher une voiture{% endblock %}
 
@@ -13,9 +13,14 @@
 
 {% block body %}
 
+    {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title')
     } %}
+
+    <div class="block-gray">
+        {% include 'front/Search/includes/form.html.twig' %}
+    </div>
 
 {% endblock %}
