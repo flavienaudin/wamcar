@@ -38,6 +38,8 @@
     }
 
     &:not(.is-active) { opacity: 0.6; }
+
+    &:focus { opacity: 1; }
   }
 
   /* Exceptions */
