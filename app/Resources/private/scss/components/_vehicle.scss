@@ -484,6 +484,12 @@
       }
     }
 
+    .icon-heart {
+      @include breakpoint(large) {
+        &::before { margin-right: 0; }
+      }
+    }
+
   }
 
 
