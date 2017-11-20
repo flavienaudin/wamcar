@@ -15,7 +15,6 @@ class ProVehicleBuilder
      */
     public static function buildFromDTO(ProVehicleDTO $vehicleDTO): ProVehicle
     {
-        // TODO : implement real data when form is developed
         $vehicle = new ProVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),

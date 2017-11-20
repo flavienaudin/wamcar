@@ -26,8 +26,7 @@ class ProVehicleType extends VehicleType
     {
         $resolver->setDefaults([
             'data_class' => ProVehicleDTO::class,
-            'translation_domain' => 'registration',
-            'allow_extra_fields' => true
+            'translation_domain' => 'registration'
         ]);
         $resolver->setRequired('available_values');
     }
