@@ -24,8 +24,6 @@ class VehicleDTO
     public $specifics;
     /** @var VehiclePictureDTO[]|array */
     public $pictures;
-    /** @var RegistrationDTO */
-    public $userRegistration;
 
     /**
      * VehicleDTO constructor.
@@ -39,7 +37,6 @@ class VehicleDTO
         $this->registrationNumber = $registrationNumber;
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
-        $this->userRegistration = new RegistrationDTO();
     }
 
     /**

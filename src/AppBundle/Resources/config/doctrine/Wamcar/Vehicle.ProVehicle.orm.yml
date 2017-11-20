@@ -76,7 +76,7 @@ Wamcar\Vehicle\ProVehicle:
         additionalServices:
             type: text
             nullable: true
-        references:
+        reference:
             type: string
             nullable: true
         createdAt:

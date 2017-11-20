@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Form\EntityBuilder\ProVehicleBuilder;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\Vehicle\VehicleRepository;
 
 class VehicleController extends BaseController
 {
@@ -27,19 +29,24 @@ class VehicleController extends BaseController
     protected $formFactory;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
+    /** @var VehicleRepository */
+    private $vehicleRepository;
 
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleRepository $vehicleRepository
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleRepository $vehicleRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleRepository = $vehicleRepository;
     }
 
     /**
@@ -52,6 +59,10 @@ class VehicleController extends BaseController
         array $filters = [],
         string $plateNumber = null): Response
     {
+        if (null === $this->getUser()->getGarage()) {
+            throw new AccessDeniedHttpException('You need to have an garage');
+        }
+
         $vehicleDTO = new ProVehicleDTO();
 
         $vehicleDTO->updateFromFilters($filters);
@@ -67,7 +78,8 @@ class VehicleController extends BaseController
         $proVehicleForm->handleRequest($request);
 
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {
-            //$garage = $this->garageEditionService->editInformations($garageDTO, $garage, $this->getUser());
+            $proVehicle = ProVehicleBuilder::buildFromDTO($vehicleDTO);
+            $this->vehicleRepository->add($proVehicle);
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,

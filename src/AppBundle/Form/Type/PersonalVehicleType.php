@@ -2,21 +2,22 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Form\DTO\ProVehicleDTO;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\DTO\PersonalVehicleDTO;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProVehicleType extends VehicleType
+class PersonalVehicleType extends VehicleType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
         $builder
-            ->add('offer', VehicleOfferType::class, [
+            ->add('userRegistration', RegistrationType::class, [
                 'error_bubbling' => true,
             ])
-            ;
+        ;
     }
 
     /**
@@ -25,7 +26,7 @@ class ProVehicleType extends VehicleType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => ProVehicleDTO::class,
+            'data_class' => PersonalVehicleDTO::class,
             'translation_domain' => 'registration',
             'allow_extra_fields' => true
         ]);

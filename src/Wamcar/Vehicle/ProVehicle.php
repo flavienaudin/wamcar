@@ -25,7 +25,7 @@ class ProVehicle extends BaseVehicle
     /** @var string */
     private $additionalServices;
     /** @var string */
-    private $references;
+    private $reference;
 
     public function __construct(
         ModelVersion $modelVersion,
@@ -51,7 +51,7 @@ class ProVehicle extends BaseVehicle
         bool $refunded = false,
         string $otherGuarantee = null,
         string $additionalServices = null,
-        string $references = null
+        string $reference = null
     )
     {
         parent::__construct($modelVersion, $transmission, $registration, $registrationDate, $mileage, $pictures, $safetyTestDate, $safetyTestState, $bodyState, $engineState, $tyreState, $maintenanceState, $isTimingBeltChanged, $isImported, $isFirstHand, $additionalInformation);
@@ -62,7 +62,7 @@ class ProVehicle extends BaseVehicle
         $this->refunded = $refunded;
         $this->otherGuarantee = $otherGuarantee;
         $this->additionalServices = $additionalServices;
-        $this->references = $references;
+        $this->reference = $reference;
     }
 
 }

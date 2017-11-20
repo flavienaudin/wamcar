@@ -10,7 +10,7 @@
     {% set label_class = label_class|default('') %}
 
     {% if label %}
-        <label {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
@@ -72,7 +72,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -107,7 +107,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -180,7 +180,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -237,10 +237,10 @@
 {%- endblock integer_widget -%}
 
 {%- block _vehicle_userRegistration_accept_row  -%}
-    {{ block('_registration_accept_row') }}
+    {{ block('_personal_vehicle_userRegistration_accept_row') }}
 {%- endblock _vehicle_userRegistration_accept_row  -%}
 
-{%- block _registration_accept_row  -%}
+{%- block _personal_vehicle_userRegistration_accept_row  -%}
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
         <b>{{ 'user.field.accept.label'|trans({}, 'security') }} <a href="{{ path('front_default') }}" class="black-color text-underline" target="_blank">{{ 'user.field.accept.text-link'|trans({}, 'security') }}</a></b>
@@ -249,7 +249,28 @@
     {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
+{%- block _pro_vehicle_offer_refunded_row  -%}
+    {{ block('_one_checkbox_row') }}
+{%- endblock _pro_vehicle_offer_refunded_row  -%}
+
+{%- block _one_checkbox_row  -%}
+    {{- form_widget(form) -}}
+    <label for="{{ id }}" class="checkbox">
+        {{ label|raw }}
+    </label>
+    {{- form_errors(form) -}}
+    {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
+{%- endblock -%}
+
 {% block _pro_vehicle_pictures_entry_widget %}
+    {% set class = class|default('') %}
+    {% set image = image|default('assets/images/register/pictures_default.jpg') %}
+    {% set title = title|default('Photo supplémentaire conseillée') %}
+
+    {{ block('_vehicle_pictures_entry_widget') }}
+{% endblock %}
+
+{% block _personal_vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
     {% set image = image|default('assets/images/register/pictures_default.jpg') %}
     {% set title = title|default('Photo supplémentaire conseillée') %}

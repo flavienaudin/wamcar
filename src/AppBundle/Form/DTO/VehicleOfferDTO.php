@@ -21,5 +21,5 @@ class VehicleOfferDTO
     /** @var string */
     public $additionalServices;
     /** @var string */
-    public $references;
+    public $reference;
 }
