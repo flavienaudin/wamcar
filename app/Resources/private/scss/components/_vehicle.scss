@@ -797,6 +797,33 @@
         &:not(:last-child) { padding-bottom: rem-calc(5); }
       }
     }
+  } // End &-yser-greetings
+
+
+
+  /*
+     Pics count
+     ===================================== */
+
+  &-pics-count {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(black, .5);
+    color: white;
+    font-size: rem-calc(9);
+    z-index: 2;
+    padding: rem-calc(2) rem-calc(8);
+
+    @include breakpoint(large) {
+      font-size: rem-calc(11);
+      padding: rem-calc(5) rem-calc(10);
+    }
+
+    &::before {
+      font-size: rem-calc(8);
+      margin-right: rem-calc(5);
+    }
   }
 
 }
