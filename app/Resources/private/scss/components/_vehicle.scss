@@ -116,6 +116,16 @@
       }
     }
 
+    .search-result & {
+      @include breakpoint(small only) {
+        margin-top: rem-calc(10);
+      }
+
+      @include breakpoint(medium only) {
+        margin-top: rem-calc(20);
+      }
+    }
+
   } // End &-list
 
 
@@ -750,6 +760,35 @@
     @include breakpoint(medium) {
       font-size: rem-calc(12);
       padding: rem-calc(1) rem-calc(6);
+    }
+  }
+
+
+  /*
+     User greetings
+     ===================================== */
+
+  &-user-greetings {
+    margin: 0;
+
+    @include breakpoint(medium down) {
+      @include listBullet;
+
+      > li {
+        padding-left: rem-calc(10);
+        &:not(:last-child) { margin-bottom: 0; }
+      }
+    }
+
+    @include breakpoint(large) {
+      @include listBorder;
+      margin-top: rem-calc(10);
+
+      > li {
+        padding-top: rem-calc(5);
+
+        &:not(:last-child) { padding-bottom: rem-calc(5); }
+      }
     }
   }
 
