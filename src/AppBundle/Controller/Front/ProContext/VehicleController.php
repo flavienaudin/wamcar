@@ -13,6 +13,8 @@ use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Utils\VehicleInfoAggregator;
+use AutoData\ApiConnector;
+use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -32,39 +34,51 @@ class VehicleController extends BaseController
     private $vehicleInfoAggregator;
     /** @var VehicleRepository */
     private $vehicleRepository;
+    /** @var ApiConnector */
+    protected $autoDataConnector;
 
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param VehicleRepository $vehicleRepository
+     * @param ApiConnector $autoDataConnector
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        VehicleRepository $vehicleRepository
+        VehicleRepository $vehicleRepository,
+        ApiConnector $autoDataConnector
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->vehicleRepository = $vehicleRepository;
+        $this->autoDataConnector = $autoDataConnector;
     }
 
     /**
      * @param Request $request
-     * @Security("has_role('ROLE_PRO')")
-     * @return RedirectResponse|Response
+     * @param string $plateNumber
+     * @return Response
+     * @throws \AutoData\Exception\AutodataException
      */
     public function createAction(
         Request $request,
-        array $filters = [],
         string $plateNumber = null): Response
     {
         if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
             throw new AccessDeniedHttpException('You need to have an garage');
         }
 
-        $vehicleDTO = new ProVehicleDTO();
+        $vehicleDTO = new ProVehicleDTO($plateNumber);
+        $filters = [];
+
+        if (null !== $plateNumber) {
+            $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
+            $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
+            $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
+        }
 
         $vehicleDTO->updateFromFilters($filters);
 
