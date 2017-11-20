@@ -1,0 +1,45 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Rechercher une voiture{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+
+    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title'),
+        title_class: 'medium-auto',
+        link: '<a href="" class="text-underline medium-shrink">Je suis un particulier</a>'
+    } %}
+
+    <div class="block-gray has-border-bottom">
+        {% include 'front/Search/includes/form.html.twig' %}
+        <div class="search-tabs row">
+            {% include 'front/Search/includes/result_tabs.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tabs-content column small-12" data-tabs-content="js-search-tabs">
+            <div id="js-search-all" class="tabs-panel is-active">
+                {% include 'front/Search/includes/result_all.html.twig' %}
+            </div>
+            <div id="js-search-reprises" class="tabs-panel">
+                // Reprise
+            </div>
+            <div id="js-search-greetings" class="tabs-panel">
+                // Souhaits
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

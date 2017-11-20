@@ -1,8 +1,8 @@
 <ul id="js-carousel-vehicle" class="js-carousel carousel">
     {% for picture in vehicle.pictures.primary %}
         <li>
-            <img src="{{ asset(picture) }}">
-            {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous) #}
+            <img src="{{ asset(picture) }}" alt="Lorem ipsum, dolor sit amet consectetur adipisicing.">
+            {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
             <p class="vehicle-carousel-legend text-center">Lorem ipsum, dolor sit amet consectetur adipisicing.</p>
         </li>
     {% endfor %}

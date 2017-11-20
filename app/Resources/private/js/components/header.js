@@ -1,14 +1,12 @@
 /* ===========================================================================
-   Search
+   Header
    =========================================================================== */
 
-import {
-  $header
-} from '../settings/settings.js';
+import { $header } from '../settings/settings.js';
 
-const $searchForm = document.getElementById('js-search-form');
+const $vehicleForm = document.getElementById('js-vehicle-form');
 
-if ($searchForm) {
+if ($vehicleForm) {
   const transparentClass = 'is-transparent';
   const scrollLimit = 30;
 

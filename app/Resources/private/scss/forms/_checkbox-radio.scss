@@ -199,7 +199,7 @@ $radio-checked-margin-left: $radio-border-width;
       margin-left: rem-calc(10);
       transition: $global-transition;
 
-      .search-container & {
+      .vehicle-form-container & {
         display: none;
       }
     }

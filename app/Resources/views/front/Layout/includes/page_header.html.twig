@@ -1,4 +1,13 @@
 {% set balise = balise|default('h1') %}
-<header class="page-header">
-    <{{ balise }} class="row column full-width primary-color">{{ title }}</{{ balise }}>
+{% set page_header_class = page_header_class|default(false) %}
+{% set title_class = title_class|default(false) %}
+{% set link = link|default(false) %}
+
+<header class="page-header {{ page_header_class }}">
+    <div class="row full-width">
+        <div class="block-grid column small-12 align-middle">
+            <{{ balise }} class="primary-color {{ title_class }}">{{ title }}</{{ balise }}>
+            {{ link ? link|raw : '' }}
+        </div>
+    </div>
 </header>

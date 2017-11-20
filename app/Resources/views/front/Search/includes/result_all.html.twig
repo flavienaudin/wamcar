@@ -1,0 +1,15 @@
+<header class="block-grid small-12 align-middle">
+    <strong class="h2 no-margin show-for-medium">5802 résultats</strong>
+    {% include 'front/Layout/includes/forms/select.html.twig' with {
+        class_field: 'small-12 medium-5 medium-right large-4',
+        class: 'no-margin',
+        label: false,
+        options: [
+            { value: '1', label: 'Trier par : Budget croissant' },
+            { value: '2', label: 'Trier par : Budget décroissant' }
+        ],
+        id: 'search_all_filter',
+        name: 'search_all_filter',
+        form: 'js-search-form',
+    } %}
+</header>

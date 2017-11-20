@@ -271,7 +271,7 @@ if ($step) {
 
   // Button prev step
   [...document.querySelectorAll('.js-carousel-prev')].forEach((item) => {
-      item.addEventListener('click', () => {
+    item.addEventListener('click', () => {
       step.prev().then(() => {
         step.updateNavigation('prev');
         step.initAbide();

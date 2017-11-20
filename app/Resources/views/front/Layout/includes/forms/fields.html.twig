@@ -8,7 +8,12 @@
     {% set required_message = required_message|default('Ce champ est requis') %}
     {% set required_class = required_class|default('') %}
     {% set label_class = label_class|default('') %}
+    {% set class_field = class_field|default('') %}
+    {% set form = form|default('') %}
 
+    {% if class_field %}
+        <div class="{{ class_field }}">
+    {% endif %}
     {% if label %}
         <label {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
     {% endif %}
@@ -16,6 +21,7 @@
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
         {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
         {{ dataType ? 'data-type=' ~ dataType ~ '' }}
+        {{ form ? 'form=' ~ form ~ ''}}
     >
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
@@ -32,6 +38,9 @@
     </select>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
+    {% endif %}
+    {% if class_field %}
+        </div>
     {% endif %}
 {%- endblock choice_widget_collapsed -%}
 
