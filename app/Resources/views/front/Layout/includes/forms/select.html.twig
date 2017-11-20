@@ -6,6 +6,7 @@
 {% set required_class = required_class|default('') %}
 {% set label_class = label_class|default('') %}
 {% set class_field = class_field|default('') %}
+{% set form = form|default('') %}
 
 {% if class_field %}
 <div class="{{ class_field }}">
@@ -15,7 +16,16 @@
     <label class="{{ label_class }}">{{ label }}</label>
 {% endif %}
 
-<select name="{{ name }}" id="{{ id }}" class="{{ class }}" {{ required ? 'required' }} {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}>
+<select
+    name="{{ name }}"
+    id="{{ id }}"
+    class="{{ class }}"
+    {{ required ? 'required' }}
+    {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
+    {% if form %}
+        form="{{ form }}"
+    {% endif %}
+>
     {% for option in options %}
         <option value="{{ option.value }}">{{ option.label }}</option>
     {% endfor %}

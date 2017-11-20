@@ -128,7 +128,25 @@
         margin-right: auto;
         margin-left: auto;
       }
+    } // End p
+  } // End &-header
+
+
+
+  /*
+     Actions button
+     ===================================== */
+
+  &-actions-button {
+
+    /* Components */
+
+    a {
+      @include breakpoint(medium) {
+        margin-right: rem-calc(40);
+      }
     }
+
   }
 
 }

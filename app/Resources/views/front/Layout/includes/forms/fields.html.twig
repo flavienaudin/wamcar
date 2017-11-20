@@ -9,6 +9,7 @@
     {% set required_class = required_class|default('') %}
     {% set label_class = label_class|default('') %}
     {% set class_field = class_field|default('') %}
+    {% set form = form|default('') %}
 
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -20,6 +21,7 @@
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
         {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
         {{ dataType ? 'data-type=' ~ dataType ~ '' }}
+        {{ form ? 'form=' ~ form ~ ''}}
     >
         {%- if placeholder is not none -%}
             <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
