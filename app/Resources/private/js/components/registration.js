@@ -31,7 +31,7 @@ if ($information != null) {
       return;
     }
 
-    let defaultOption = document.createElement("option");
+    let defaultOption = document.createElement('option');
     defaultOption.text = '';
     select.add(defaultOption);
   };
@@ -49,12 +49,12 @@ if ($information != null) {
 
       filterAdd(selectDataType, select.value);
       switch (selectDataType) {
-        case 'make':
-          filterRemove('model', null);
-        case 'model': // This fallthrough is on purpose since "make" selection should also clean "model" sub fields
-          filterRemove('modelVersion', null);
-          filterRemove('engine', null);
-          filterRemove('fuel', null);
+      case 'make':
+        filterRemove('model', null);
+      case 'model': // This fallthrough is on purpose since "make" selection should also clean "model" sub fields
+        filterRemove('modelVersion', null);
+        filterRemove('engine', null);
+        filterRemove('fuel', null);
       }
 
       fetch(dataFetchUrl, {
@@ -74,7 +74,7 @@ if ($information != null) {
               clearSelect(selectorToFill, hasMultipleOptions);
               for (let value in data[key]) {
                 if (data[key].hasOwnProperty(value)) {
-                  let option = document.createElement("option");
+                  let option = document.createElement('option');
                   option.text = data[key][value];
                   option.value = value;
                   selectorToFill.add(option);

@@ -40,7 +40,7 @@ let clearSelect = function (select) {
 
         if (data['success'] === true) {
           data['result_raw']['places'].forEach(function (element, idx) {
-            let option = document.createElement("option");
+            let option = document.createElement('option');
             option.text = element['place name'];
             option.value = element['place name'];
             if (idx === 0) {

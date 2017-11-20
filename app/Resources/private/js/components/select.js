@@ -32,7 +32,7 @@ const $toggleId = document.querySelectorAll('[data-toggle-id]');
       .then((data) => {
         for (let key in data) {
           if (data.hasOwnProperty(key)) {
-            let option = document.createElement("option");
+            let option = document.createElement('option');
             option.text = data[key];
             option.value = key;
             targetSelect.add(option);
