@@ -5,6 +5,19 @@
 .search {
 
 
+  /*
+    Form
+    ===================================== */
+
+  &-form {
+    padding-top: rem-calc(5);
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(15);
+    }
+  }
+
+
 
   /*
      Actions button

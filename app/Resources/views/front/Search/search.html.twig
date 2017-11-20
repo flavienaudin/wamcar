@@ -16,7 +16,9 @@
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
-        title: block('title')
+        title: block('title'),
+        title_class: 'medium-auto',
+        link: '<a href="" class="text-underline medium-shrink">Je suis un particulier</a>'
     } %}
 
     <div class="block-gray has-border-bottom">
