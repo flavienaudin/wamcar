@@ -680,8 +680,6 @@
 
   &-user-infos {
     position: relative;
-    display: flex;
-    align-items: center;
     width: 100%;
     font-size: rem-calc(11);
     border-width: rem-calc(1) 0 0 0;
@@ -704,6 +702,15 @@
       margin-left: auto;
       padding-right: rem-calc(50);
       padding-left: rem-calc(50);
+    }
+
+    @include breakpoint(large only) {
+      display: flex;
+      align-items: center;
+    }
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(38);
     }
 
   } // End &-user-info
