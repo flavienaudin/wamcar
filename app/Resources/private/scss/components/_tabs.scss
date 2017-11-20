@@ -12,7 +12,7 @@
 
   /* Exceptions */
 
-  .search-form & {
+  .vehicle-form & {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
 
@@ -139,13 +139,13 @@
 
     /* Exceptions */
 
-    .search-form & {
+    .vehicle-form & {
       padding-bottom: rem-calc(15);
 
       @include breakpoint(medium) {
         padding-bottom: rem-calc(30);
       }
-    } // End .search-form &
+    } // End .vehicle-form &
 
   } // End &-panel
 
