@@ -475,8 +475,18 @@
 
       .button {
         height: rem-calc(60);
+        line-height: 1.1;
         border-radius: 0;
         margin-bottom: 0;
+
+        &::before { font-size: rem-calc(20); }
+        &.white { border: 0; }
+      }
+    }
+
+    .icon-heart {
+      @include breakpoint(large) {
+        &::before { margin-right: 0; }
       }
     }
 

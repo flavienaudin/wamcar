@@ -1,0 +1,27 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-modal-remove-vehicle' %}
+
+{% block title %}Suppression de l'annonce {{ vehicle.name }}{% endblock %}
+
+{% block content %}
+    <p class="dark-gray-color">Quel est la raison de la suppression de votre véhicule ?</p>
+    <form class="small-12" data-abide novalidate>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            label: false,
+            options: [
+                { value: '', label: 'Veuillez sélectionner une raison' },
+                { value: '1', label: 'Raison 1' },
+                { value: '2', label: 'Raison 2' },
+                { value: '3', label: 'Raison 3' }
+            ],
+            id: 'raison',
+            name: 'raison',
+            required: true,
+            required_message: 'Veuillez indiquer la raison de la suppression de votre véhicule.'
+        } %}
+        <div class="large-5">
+            <button type="submit" class="button full-width">Supprimer</button>
+        </div>
+    </form>
+{% endblock %}

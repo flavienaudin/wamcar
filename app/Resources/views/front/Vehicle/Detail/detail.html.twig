@@ -65,14 +65,22 @@
                 </div>
 
                 <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                    <div class="column small-12 medium-6 large-order-2 large-12">
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                    </div>
+                    {% if is_user_pro %}
+                        <div class="column small-12 medium-6 large-order-2 large-12">
+                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                        </div>
+                    {% endif %}
                     <div class="column small-12 medium-6 large-12">
                         {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
                     </div>
                     <div class="small-12 large-order-3">
-                        {% include 'front/Vehicle/Detail/includes/editing.html.twig' %}
+                        {% if not is_logged %}
+                            {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
+                        {% elseif is_user_personal %}
+                            {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                        {% elseif is_user_pro %}
+                            {% include 'front/Vehicle/Detail/includes/user_pro_editing.html.twig' %}
+                        {% endif %}
                     </div>
                 </div>
             </section>
@@ -105,5 +113,10 @@
 
         </div>
 
-
 {% endblock body %}
+
+{% block modal %}
+
+    {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+
+{% endblock %}
