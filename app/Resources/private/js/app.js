@@ -28,6 +28,7 @@ import './components/city';
 import './components/search';
 import './components/vehicle';
 import scrollTo from './components/scrollTo';
+import './components/vehicle';
 import {
   activeClass
 } from './settings/settings.js';
