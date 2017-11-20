@@ -25,6 +25,7 @@ import './components/banner';
 import './components/carousel';
 import './components/datepicker';
 import './components/city';
+import './components/search';
 import {
   activeClass
 } from './settings/settings.js';
