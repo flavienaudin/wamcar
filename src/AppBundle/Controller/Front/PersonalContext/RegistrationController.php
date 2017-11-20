@@ -119,7 +119,7 @@ class RegistrationController extends BaseController
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
-            $this->vehicleRepository->add($personalVehicle);
+            $this->vehicleRepository->update($personalVehicle);
 
             try {
                 $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);

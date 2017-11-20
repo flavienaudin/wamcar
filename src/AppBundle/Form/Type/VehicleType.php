@@ -45,7 +45,8 @@ class VehicleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => VehicleDTO::class,
-            'translation_domain' => 'registration'
+            'translation_domain' => 'registration',
+            'allow_extra_fields' => true
         ]);
         $resolver->setRequired('available_values');
     }
