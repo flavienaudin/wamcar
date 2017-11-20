@@ -50,17 +50,29 @@
 
     &.tiny {
       > li {
-      @include breakpoint(large only) {
-          &:first-child { border-top: rem-calc(1) solid $border-color; }
-        }
-      }
-    }
-
-    &.tiny {
-      > li {
         padding-top: rem-calc(15);
 
         &:not(:last-child) { padding-bottom: rem-calc(15); }
+
+        // @include breakpoint(large only) {
+        //   &:first-child { border-top: rem-calc(1) solid $border-color; }
+        // }
+      }
+    }
+
+    .vehicle-user-infos & {
+      margin: 0;
+
+      @include breakpoint(large) {
+        margin-top: rem-calc(10);
+      }
+
+      > li {
+        padding-top: rem-calc(5);
+
+        &:not(:last-child) {
+          padding-bottom: rem-calc(5);
+        }
       }
     }
 

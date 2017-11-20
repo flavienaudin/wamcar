@@ -3,18 +3,26 @@
 {% set like = index == 'ds3' ? 'Supprimer des favoris' : 'Ajouter aux favoris' %}
 
 <article class="vehicle-item is-flex">
-    <a href="{{ path('inte_vehicle_detail_pro') }}" class="is-flex">
+    <a href="{{ path('inte_vehicle_detail_pro') }}" class="is-flex full-width">
         <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
-        <div class="vehicle-picture"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></div>
-        <div class="vehicle-infos">
-            <span class="vehicle-brand">{{ vehicle.brand }}</span>
+        <div class="vehicle-picture small-6 medium-auto"><img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}"></div>
+        <div class="vehicle-infos small-6 medium-shrink">
+            {% if not search_result %}
+                <span class="vehicle-brand">{{ vehicle.brand }}</span>
+            {% endif %}
+            {% if search_result %}
+                <time class="vehicle-time">20/11/2017</time>
+            {% endif %}
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
-            <{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}>
+            <{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
             <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
             <span class="vehicle-years primary-color">{{ vehicle.years }}, {{ vehicle.km }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <span class="vehicle-city black-color is-block">{{ vehicle.city }}</span>
-            <strong class="vehicle-price">{{ vehicle.price }}</strong>
+            {% if not search_result %}
+                <strong class="vehicle-price">{{ vehicle.price }}</strong>
+            {% endif %}
         </div>
+        {% block user_infos %}{% endblock %}
     </a>
 </article>
