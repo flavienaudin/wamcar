@@ -26,6 +26,7 @@ import './components/carousel';
 import './components/datepicker';
 import './components/city';
 import './components/search';
+import scrollTo from './components/scrollTo';
 import {
   activeClass
 } from './settings/settings.js';
@@ -126,6 +127,21 @@ document.addEventListener('DOMContentLoaded', function() {
   const $buttonShowGrid = document.getElementById('button-show-grid');
 
   $buttonShowGrid && $buttonShowGrid.addEventListener('click', () => { grid.show(); });
+
+
+  /*
+     ScrollTo
+     ===================================== */
+
+  const $scrollTo = document.querySelectorAll('[data-scroll-to]');
+
+  [...$scrollTo].forEach((item) => {
+    item.addEventListener('click', () => {
+      const $target = item.getAttribute('data-scroll-to');
+
+      setTimeout(() => scrollTo($target), 100);
+    });
+  });
 
 }, false);
 

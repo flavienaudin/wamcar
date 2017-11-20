@@ -29,4 +29,14 @@ if ($searchTabs) {
     return getVehicle(url).then((data) => console.log(JSON.parse(data)));
   });
 
+  const $searchLabel = document.getElementById('js-search-label');
+  const fixedClass = 'is-fixed';
+  const scrollLimit = 120;
+
+  if ($searchLabel) {
+    document.addEventListener('scroll', () => {
+      let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+      currentScroll > scrollLimit ? $searchLabel.classList.add(fixedClass) : $searchLabel.classList.remove(fixedClass);
+    });
+  }
 }
