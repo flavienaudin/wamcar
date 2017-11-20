@@ -249,6 +249,14 @@
     {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
+{% block _pro_vehicle_pictures_entry_widget %}
+    {% set class = class|default('') %}
+    {% set image = image|default('assets/images/register/pictures_default.jpg') %}
+    {% set title = title|default('Photo supplémentaire conseillée') %}
+
+    {{ block('_vehicle_pictures_entry_widget') }}
+{% endblock %}
+
 {% block _vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
     {% set image = image|default('assets/images/register/pictures_default.jpg') %}
