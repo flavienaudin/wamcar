@@ -75,11 +75,11 @@
                     </div>
                     <div class="small-12 large-order-3">
                         {% if not is_logged %}
-                            {% include 'front/Vehicle/Detail/includes/editing_user_not_logged.html.twig' %}
+                            {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
                         {% elseif is_user_personal %}
-                            {% include 'front/Vehicle/Detail/includes/editing_user_personal.html.twig' %}
+                            {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
                         {% elseif is_user_pro %}
-                            {% include 'front/Vehicle/Detail/includes/editing_user_pro.html.twig' %}
+                            {% include 'front/Vehicle/Detail/includes/user_pro_editing.html.twig' %}
                         {% endif %}
                     </div>
                 </div>
