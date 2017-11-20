@@ -31,6 +31,19 @@
     }
   }
 
+  .has-border-bottom & {
+    border-bottom: 0;
+    margin-top: rem-calc(30);
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(40);
+    }
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(20);
+    }
+  }
+
 
   /*
     Title
@@ -44,9 +57,8 @@
       justify-content: center;
       height: rem-calc(40);
       color: #9b9b9b;
-      border: rem-calc(1) solid $border-color;
+      border: rem-calc(1) solid transparent;
       font-weight: bold;
-      margin-right: rem-calc(-1);
       margin-bottom: rem-calc(-1);
       padding-right: rem-calc(20);
       padding-left: rem-calc(20);
@@ -58,31 +70,42 @@
         padding-right: rem-calc(25);
         padding-left: rem-calc(25);
       }
+
+      /* Exceptions */
+
+      .search-tabs & {
+        @include breakpoint(320 down) {
+          flex-direction: column;
+          line-height: 1;
+        }
+
+        @include breakpoint(small only) {
+          padding-right: rem-calc(15);
+          padding-left: rem-calc(15);
+        }
+      }
+
     } // End > a
+
+    small {
+      font-weight: normal;
+      font-size: rem-calc(10);
+      margin-left: rem-calc(5);
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(13);
+        transform: translate3d(0, #{rem-calc(2)}, 0); // Alignement vertical avec le label
+      }
+    }
 
     /* Active state */
 
     &.is-active {
       > a {
         background: white;
+        border-color: $border-color;
         border-bottom-color: white;
         color: $primary-color;
-      }
-    }
-
-    /* Exception */
-
-    .garage-container & {
-      > a {
-        border-color: transparent;
-      }
-
-      &.is-active {
-        > a {
-          border-width: rem-calc(1) rem-calc(1) 0;
-          border-style: solid;
-          border-color: $border-color;
-        }
       }
     }
 

@@ -19,8 +19,25 @@
         title: block('title')
     } %}
 
-    <div class="block-gray">
+    <div class="block-gray has-border-bottom">
         {% include 'front/Search/includes/form.html.twig' %}
+        <div class="search-tabs row">
+            {% include 'front/Search/includes/result_tabs.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tabs-content column small-12" data-tabs-content="js-garage-tabs">
+            <div id="js-search-all" class="tabs-panel is-active">
+                {% include 'front/Search/includes/result_all.html.twig' %}
+            </div>
+            <div id="js-search-reprises" class="tabs-panel">
+                // Reprise
+            </div>
+            <div id="js-search-greetings" class="tabs-panel">
+                // Souhaits
+            </div>
+        </div>
     </div>
 
 {% endblock %}

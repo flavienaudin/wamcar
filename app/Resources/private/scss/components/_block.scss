@@ -16,6 +16,10 @@
 
   &-gray {
     background: #f7f7f7;
+
+    &.has-border-bottom {
+      border-bottom: rem-calc(1) solid $border-color;
+    }
   }
 
   &-light-gray {
