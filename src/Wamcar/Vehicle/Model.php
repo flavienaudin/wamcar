@@ -23,7 +23,7 @@ final class Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
