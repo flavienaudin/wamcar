@@ -1,0 +1,86 @@
+Wamcar\Vehicle\ProVehicle:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineVehicleRepository
+
+    exclusion_policy: ALL
+
+    id:
+        id:
+            type: uuid
+
+    oneToMany:
+        pictures:
+            targetEntity: AppBundle\Doctrine\Entity\VehiclePicture
+            mappedBy: vehicle
+            cascade: ["persist", "merge"]
+
+    embedded:
+        registration:
+            class: Wamcar\Vehicle\Registration
+        modelVersion:
+            class: Wamcar\Vehicle\ModelVersion
+
+    fields:
+        transmission:
+            type: vehicletransmission
+        safetyTestState:
+            type: vehiclesafetyteststate
+        safetyTestDate:
+            type: vehiclesafetytestdate
+        maintenanceState:
+            type: vehiclemaintenancestate
+        registrationDate:
+            type: date
+        mileage:
+            type: integer
+        bodyState:
+            type: integer
+        engineState:
+            type: integer
+            nullable: true
+        tyreState:
+            type: integer
+            nullable: true
+        isTimingBeltChanged:
+            type: boolean
+            nullable: true
+        isImported:
+            type: boolean
+            nullable: true
+        isFirstHand:
+            type: boolean
+            nullable: true
+        additionalInformation:
+            type: text
+            nullable: true
+        price:
+            type: float
+            nullable: false
+        catalogPrice:
+            type: float
+            nullable: true
+        discount:
+            type: float
+            nullable: true
+        guarantee:
+            type: string
+            nullable: true
+        refunded:
+            type: boolean
+            options:
+                default: false
+        otherGuarantee:
+            type: string
+            nullable: true
+        additionalServices:
+            type: text
+            nullable: true
+        reference:
+            type: string
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create

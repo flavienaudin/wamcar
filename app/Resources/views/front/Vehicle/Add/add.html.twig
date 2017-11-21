@@ -1,5 +1,7 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% form_theme proVehicleForm ':front/Layout/includes/forms:fields.html.twig' %}
+
 {% set page_garage = true %}
 
 {% block mainClass %}no-padding-top{% endblock %}
@@ -17,20 +19,36 @@
             {% include 'front/Security/Register/includes/step_progress_bar.html.twig' %}
         </div>
 
-        <section class="row">
+        <div>
+            <ul>
+                {% for error in proVehicleForm.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-            <ul id="js-step" class="step no-bullet">
-                {# <li class="block-grid" data-step="1">
-                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : vehicleForm } %}
-                </li> #}
-                {# <li class="block-grid" data-step="2">
-                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : vehicleForm } %}
-                </li> #}
-                {# <li class="block-grid" data-step="3">
-                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm } %}
-                </li> #}
+        <section class="small-12">
+            {{ form_start(proVehicleForm, {
+                'method' : 'POST',
+                'attr' : {
+                    'class' : 'js-password register-form row',
+                    'id' : 'js-register-form',
+                    'novalidate' : 'novalidate'
+                }
+            }) }}
+
+            <ul id="js-step" class="step">
+                <li class="block-grid" data-step="1">
+                    {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                </li>
+                <li class="block-grid" data-step="2">
+                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                </li>
+                <li class="block-grid" data-step="3">
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                </li>
                 <li class="block-grid" data-step="4">
-                    {% include 'front/Vehicle/Edit/includes/insurance.html.twig' %}
+                    {% include 'front/Security/Register/includes/vehicle_offer.html.twig' with { 'vehicleForm' : proVehicleForm } %}
                 </li>
             </ul>
             <nav id="js-step-navigation" class="column small-12">
@@ -43,6 +61,7 @@
                     </div>
                 </div>
             </nav>
+            {{ form_end(proVehicleForm) }}
 
         </section>
 
