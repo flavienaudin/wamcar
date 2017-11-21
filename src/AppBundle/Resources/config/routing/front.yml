@@ -73,5 +73,5 @@ front_fetch_city:
     defaults: { _controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode }
 
 front_vehicle_pro_add:
-    path: /vehicule/pro/add
+    path: /vehicule/vendeur/ajouter
     defaults: { _controller: AppBundle:Front\ProContext\Vehicle:create }

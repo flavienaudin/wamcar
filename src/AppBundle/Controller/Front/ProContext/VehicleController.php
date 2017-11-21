@@ -11,6 +11,7 @@ use AppBundle\Form\EntityBuilder\ProVehicleBuilder;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -59,7 +60,7 @@ class VehicleController extends BaseController
         array $filters = [],
         string $plateNumber = null): Response
     {
-        if (null === $this->getUser()->getGarage()) {
+        if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
             throw new AccessDeniedHttpException('You need to have an garage');
         }
 
