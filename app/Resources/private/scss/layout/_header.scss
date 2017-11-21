@@ -87,6 +87,10 @@ $header-background: white;
       &::before { width: 100%; }
     } // End MQ large down
 
+    @include breakpoint(320 down) {
+      width: rem-calc(50);
+    }
+
     @include breakpoint(large only) {
       width: $header-height-medium;
       height: $header-height-medium;
