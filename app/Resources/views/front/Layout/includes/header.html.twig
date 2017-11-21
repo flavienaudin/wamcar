@@ -9,12 +9,14 @@
     {% block header_center %}
         {% if is_user_pro %}
             {% include "front/Layout/includes/navigation/primary_pro.html.twig" %}
+        {% elseif is_user_personal %}
+            {% include "front/Layout/includes/navigation/primary_personal.html.twig" %}
         {% else %}
             {% include "front/Layout/includes/navigation/primary.html.twig" %}
         {% endif %}
     {% endblock %}
 
-    <div class="l-header-right block-grid column small-collapse small-right medium-3 large-2 xlarge-uncollapse {{ is_register_page or is_user_pro ? 'is-hidden' : '' }}">
+    <div class="l-header-right block-grid column small-collapse small-right medium-3 large-2 xlarge-uncollapse {{ is_register_page or is_logged ? 'is-hidden' : '' }}">
         {% block header_right %}
             <button type="button" class="l-header-button icon-user small-right" id="open-side-login" data-toggle="js-off-canvas-user">
                 <span class="show-for-xlarge">Espace membre</span>
