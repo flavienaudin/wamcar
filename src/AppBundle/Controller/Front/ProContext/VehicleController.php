@@ -74,7 +74,7 @@ class VehicleController extends BaseController
         $vehicleDTO = new ProVehicleDTO($plateNumber);
         $filters = [];
 
-        if (null !== $plateNumber) {
+        if ($plateNumber) {
             $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
             $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
             $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
