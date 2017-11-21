@@ -5,29 +5,32 @@
 <article class="vehicle-item is-flex">
     <a href="{{ path('inte_vehicle_detail_pro') }}" class="is-flex full-width">
         <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
-        <div class="vehicle-picture small-6 medium-auto is-relative">
-            <img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}">
-            {% if search_result %}
-                <span class="vehicle-pics-count icon-pics">8</span>
-            {% endif %}
+        <div class="vehicle-picture medium-auto">
+            <div class="is-relative">
+                <img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}">
+                {% if search_result %}
+                    <span class="vehicle-pics-count icon-pics">8</span>
+                {% endif %}
+            </div>
         </div>
-        <div class="vehicle-infos small-6 medium-shrink">
-            {% if not search_result %}
-                <span class="vehicle-brand">{{ vehicle.brand }}</span>
-            {% endif %}
-            {% if search_result %}
-                <time class="vehicle-time">20/11/2017</time>
-            {% endif %}
+        <div class="vehicle-infos small-shrink">
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
             <{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
-            <p class="vehicle-model no-margin">{{ vehicle.model }}</p>
-            <span class="vehicle-years primary-color">{{ vehicle.years }}, {{ vehicle.km }}</span>
+            <p class="vehicle-model">{{ vehicle.model }}</p>
+            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.km }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
-            <span class="vehicle-city black-color is-block">{{ vehicle.city }}</span>
-            {% if not search_result %}
-                <strong class="vehicle-price">{{ vehicle.price }}</strong>
-            {% endif %}
+            <div class="vehicle-bottom block-grid full-width align-middle">
+                <span class="vehicle-city black-color small-12">{{ vehicle.city }} (69)</span>
+                <time class="vehicle-time black-color small-auto">14 nov, 14h45</time>
+                {% if not search_result %}
+                    <strong class="vehicle-price small-shrink">{{ vehicle.price }}</strong>
+                {% endif %}
+            </div>
         </div>
-        {% block user_infos %}{% endblock %}
     </a>
+    {% if search_result %}
+        <a href="{{ path('inte_vehicle_detail_pro') }}" class="full-width">
+            {% block user_infos %}{% endblock %}
+        </a>
+    {% endif %}
 </article>

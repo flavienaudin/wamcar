@@ -143,6 +143,7 @@
     margin-bottom: rem-calc(10);
 
     @include breakpoint(medium down) {
+      flex-direction: column;
       padding: rem-calc(10);
     }
 
@@ -174,11 +175,11 @@
     }
 
     .search-result-vehicle & {
-      > .is-flex {
-        @include breakpoint(medium down) {
-          flex-wrap: wrap;
-        }
-      }
+      // > .is-flex {
+        // @include breakpoint(medium down) {
+        // flex-wrap: wrap;
+        // }
+      // }
     }
 
   } // End &-item
@@ -192,6 +193,11 @@
   &-picture {
     width: rem-calc(135);
     flex: 0 0 rem-calc(135);
+
+    @include breakpoint(320 down) {
+      width: rem-calc(100);
+      flex: 0 0 rem-calc(100);
+    }
 
     @include breakpoint(medium only) {
       width: 100%;
@@ -216,14 +222,13 @@
   &-name {
     color: black;
     font-weight: bold;
-    padding-top: rem-calc(7);
-
-    @include breakpoint(medium) {
-      text-transform: uppercase;
-    }
 
     @include breakpoint(large down) {
       margin-bottom: rem-calc(2);
+    }
+
+    @include breakpoint(320 down) {
+      margin-bottom: rem-calc(-3);
     }
 
     @include breakpoint(xlarge) {
@@ -244,11 +249,11 @@
     padding-left: rem-calc(10);
 
     @include breakpoint(large) {
-      padding: rem-calc(15);
+      padding: rem-calc(11) rem-calc(15);
     }
 
     @include breakpoint(xlarge) {
-      padding: rem-calc(30);
+      padding: rem-calc(15) rem-calc(20);
     }
   } // End &-infos
 
@@ -277,10 +282,21 @@
      ===================================== */
 
   &-model {
+    overflow: hidden;
     color: $body-font-color;
+    max-height: rem-calc(24);
+    line-height: rem-calc(24);
 
-    @include breakpoint(large down) {
-      line-height: 1.2;
+    @include breakpoint(640 down) {
+      margin-bottom: rem-calc(-5);
+    }
+
+    @include breakpoint(medium only) {
+      margin-bottom: rem-calc(-3);
+    }
+
+    @include breakpoint(large) {
+      margin-bottom: 0;
     }
   }
 
@@ -298,10 +314,30 @@
   }
 
   &-years {
-    margin-top: auto;
+    font-size: rem-calc(10);
 
     @include breakpoint(medium only) { margin-bottom: rem-calc(-4); }
     @include breakpoint(large only) { margin-bottom: rem-calc(-4); }
+    @include breakpoint(large) {
+      font-size: rem-calc(14);
+    }
+  }
+
+
+  /*
+     City
+     ===================================== */
+
+  &-city {
+    margin-top: auto;
+
+    @include breakpoint(large down) {
+      margin-bottom: rem-calc(-2);
+    }
+
+    @include breakpoint(640 down) {
+      margin-bottom: rem-calc(-5);
+    }
   }
 
 
@@ -336,26 +372,17 @@
     align-items: center;
     height: rem-calc(25);
     background: white;
-    border-width: rem-calc(1) 0 0 rem-calc(1);
-    border-style: solid;
-    border-color: $border-color;
     color: $primary-color;
-    padding-right: rem-calc(5);
-    padding-left: rem-calc(5);
+  }
 
-    @include breakpoint(large) {
-      height: rem-calc(50);
-      padding-right: rem-calc(20);
-      padding-left: rem-calc(20);
-    }
 
-    /* Exception */
+  /*
+     Bottom
+     ===================================== */
 
-    .vehicle-list & {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-    }
+  &-bottom {
+    align-content: flex-end;
+    margin-top: auto;
   }
 
 
@@ -690,13 +717,13 @@
 
   &-user-infos {
     position: relative;
-    width: 100%;
     font-size: rem-calc(11);
     border-width: rem-calc(1) 0 0 0;
     border-style: solid;
     border-color: $border-color;
 
     @include breakpoint(medium down) {
+      width: 100%;
       margin-top: rem-calc(15);
       padding-top: rem-calc(10);
     }
@@ -706,6 +733,8 @@
     }
 
     @include breakpoint(large) {
+      display: flex;
+      height: 100%;
       width: rem-calc(400);
       flex: 0 0 rem-calc(400);
       border-width: 0 0 0 rem-calc(1);
@@ -731,7 +760,6 @@
      User picture
      ===================================== */
 
-  &-time,
   &-user-pic {
     position: absolute;
   }
@@ -759,8 +787,6 @@
      ===================================== */
 
   &-time {
-    top: 0;
-    right: 0;
   }
 
 
@@ -769,14 +795,14 @@
      ===================================== */
 
   &-time {
-    font-size: rem-calc(9);
+    // font-size: rem-calc(9);
     color: #666666;
-    background: #f7f7f7;
-    padding: rem-calc(1) rem-calc(3) 0;
+    // background: #f7f7f7;
+    // padding: rem-calc(1) rem-calc(3) 0;
 
     @include breakpoint(medium) {
-      font-size: rem-calc(12);
-      padding: rem-calc(1) rem-calc(6);
+      // font-size: rem-calc(12);
+      // padding: rem-calc(1) rem-calc(6);
     }
   }
 
