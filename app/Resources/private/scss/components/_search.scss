@@ -33,6 +33,106 @@
       }
     }
 
+  } // &-actions-button
+
+
+
+  /*
+     Link
+     ===================================== */
+
+  &-link {
+    margin-bottom: 0;
+
+    @include breakpoint(small only) {
+      font-size: rem-calc(11);
+      margin-top: rem-calc(15);
+    }
   }
 
+
+  /*
+     Label container
+     ===================================== */
+
+  $search-label-height: rem-calc(50);
+
+  &-label-container {
+    height: $search-label-height;
+
+    @include breakpoint(small only) {
+      margin-top: -($search-label-height/2);
+    }
+
+    @include breakpoint(medium only) {
+      margin-top: rem-calc(-20);
+    }
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(10);
+    }
+
+    /* Brother components */
+
+    + .search-form-container {
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(20);
+      }
+
+      @include breakpoint(medium only) {
+        margin-bottom: rem-calc(30);
+      }
+    }
+
+    ~ .search-tabs .tabs {
+      @include breakpoint(medium down) {
+        margin-top: rem-calc(10);
+      }
+    }
+  }
+
+
+  /*
+     Label
+     ===================================== */
+
+  &-label {
+
+    /* Fixed state */
+
+    &.is-fixed {
+      position: fixed;
+      top: $header-height;
+      right: 0;
+      left: 0;
+      background: rgba(black, .8);
+      margin-top: 0;
+      z-index: 2;
+      animation: labelAnimation .3s;
+
+      @include breakpoint(medium down) {
+        &,
+        .text-underline { color: white; }
+      }
+
+      @include breakpoint(xlarge) {
+        top: $header-height-medium;
+        background: #f7f7f7;
+      }
+    } // End &.is-fixed
+
+    /* Components */
+
+    p {
+      line-height: $search-label-height;
+      margin-bottom: 0;
+    }
+
+  } // End &-label
+
+}
+
+@keyframes labelAnimation {
+  from { transform: translate3d(0, -100%, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
