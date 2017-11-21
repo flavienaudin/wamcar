@@ -1,6 +1,7 @@
 {% set search_result = search_result|default(false) %}
 
 <div class="vehicle-list small-12">
+    {{ dump(garage.proVehicles) }}
     {% for index, vehicle in vehicle_list %}
         {% if not search_result %}
             {% include 'front/Vehicle/Listing/includes/item.html.twig' %}

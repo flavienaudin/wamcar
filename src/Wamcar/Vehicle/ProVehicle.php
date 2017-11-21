@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
@@ -26,6 +27,8 @@ class ProVehicle extends BaseVehicle
     private $additionalServices;
     /** @var string */
     private $reference;
+    /** @var Garage */
+    private $garage;
 
     public function __construct(
         ModelVersion $modelVersion,
@@ -65,4 +68,19 @@ class ProVehicle extends BaseVehicle
         $this->reference = $reference;
     }
 
+    /**
+     * @return Garage
+     */
+    public function getGarage(): Garage
+    {
+        return $this->garage;
+    }
+
+    /**
+     * @param Garage $garage
+     */
+    public function setGarage(Garage $garage): void
+    {
+        $this->garage = $garage;
+    }
 }

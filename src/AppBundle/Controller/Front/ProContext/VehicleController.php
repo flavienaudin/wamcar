@@ -24,6 +24,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\VehicleRepository;
 
 class VehicleController extends BaseController
@@ -60,6 +61,7 @@ class VehicleController extends BaseController
     /**
      * @param Request $request
      * @param string $plateNumber
+     * @Security("has_role('ROLE_USER')")
      * @return Response
      * @throws \AutoData\Exception\AutodataException
      */
@@ -70,6 +72,8 @@ class VehicleController extends BaseController
         if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
             throw new AccessDeniedHttpException('You need to have an garage');
         }
+        /** @var Garage $garage */
+        $garage = $this->getUser()->getGarage();
 
         $vehicleDTO = new ProVehicleDTO($plateNumber);
         $filters = [];
@@ -93,7 +97,9 @@ class VehicleController extends BaseController
         $proVehicleForm->handleRequest($request);
 
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {
+            /** @var ProVehicle $proVehicle */
             $proVehicle = ProVehicleBuilder::buildFromDTO($vehicleDTO);
+            $proVehicle->setGarage($garage);
             $this->vehicleRepository->add($proVehicle);
 
             $this->session->getFlashBag()->add(
