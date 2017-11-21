@@ -49,3 +49,14 @@
     <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur noire ou gris anthracite.</p>
     <a href="" class="text-underline">Gérer mon projet</a>
 {% endblock %}
+
+{% block vehicle %}
+    <div class="separator small-12 section">
+        <h2>Ses véhicules en vente</h2>
+        <div class="row">
+            {% set vehicle_list = inte.vehicle %}
+            {% set balise = 'h3' %}
+            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
