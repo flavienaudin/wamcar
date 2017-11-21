@@ -17,4 +17,12 @@ final class Make
     {
         $this->name = $name;
     }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

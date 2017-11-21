@@ -28,6 +28,9 @@ Wamcar\Vehicle\ProVehicle:
             class: Wamcar\Vehicle\Registration
         modelVersion:
             class: Wamcar\Vehicle\ModelVersion
+        city:
+            class: Wamcar\Location\City
+            columnPrefix: city_
 
     fields:
         transmission:

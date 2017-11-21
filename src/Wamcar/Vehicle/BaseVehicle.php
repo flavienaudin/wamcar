@@ -3,6 +3,7 @@
 namespace Wamcar\Vehicle;
 
 use Ramsey\Uuid\Uuid;
+use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\{
     MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
 };
@@ -43,6 +44,8 @@ abstract class BaseVehicle implements Vehicle
     protected $isFirstHand;
     /** @var string|null */
     protected $additionalInformation;
+    /** @var City */
+    protected $city;
     /** @var \DateTimeInterface */
     protected $createdAt;
 
@@ -81,7 +84,8 @@ abstract class BaseVehicle implements Vehicle
         bool $isTimingBeltChanged = null,
         bool $isImported = null,
         bool $isFirstHand = null,
-        string $additionalInformation = null)
+        string $additionalInformation = null,
+        City $city = null)
     {
         $this->id = Uuid::uuid4();
         $this->modelVersion = $modelVersion;
@@ -100,6 +104,7 @@ abstract class BaseVehicle implements Vehicle
         $this->isImported = $isImported;
         $this->isFirstHand = $isFirstHand;
         $this->additionalInformation = $additionalInformation;
+        $this->city = $city;
     }
 
     /**

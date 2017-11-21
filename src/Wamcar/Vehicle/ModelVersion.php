@@ -25,6 +25,14 @@ final class ModelVersion
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * @return Model
      */
     public function getModel(): Model

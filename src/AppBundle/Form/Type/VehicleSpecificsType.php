@@ -70,6 +70,12 @@ class VehicleSpecificsType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
+            ->add('postalCode', TextType::class, [
+                'attr' => [
+                    'pattern' => '^[0-9][0-9|A|B][0-9]{3}$'
+                ]
+            ])
+            ->add('cityName', TextType::class)
         ;
 
         $builder->get('safetyTestDate')->addModelTransformer(new EnumDataTransformer(SafetyTestDate::class));

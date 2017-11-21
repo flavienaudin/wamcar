@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\DTO;
 
+use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
@@ -32,6 +33,10 @@ class VehicleSpecificsDTO
     public $isFirstHand;
     /** @var string|null */
     public $additionalInformation;
+    /** @var string */
+    public $postalCode;
+    /** @var string */
+    public $cityName;
 
     /**
      * VehicleSpecificsDTO constructor.
@@ -45,5 +50,18 @@ class VehicleSpecificsDTO
         $this->isTimingBeltChanged = false;
         $this->isImported = false;
         $this->isFirstHand = false;
+    }
+
+    /**
+     * @return null|City
+     */
+    public function getCity(): ?City
+    {
+        $city = null;
+        if (null !== $this->postalCode && null !==$this->cityName) {
+            $city = new City($this->postalCode, $this->cityName);
+        }
+
+        return $city;
     }
 }

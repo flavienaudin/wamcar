@@ -270,4 +270,19 @@ class Garage
 
         return $this;
     }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return bool
+     */
+    public function hasProVehicle(ProVehicle $proVehicle): bool
+    {
+        foreach ($this->getProVehicles() as $existProVehicle) {
+            if ($existProVehicle === $proVehicle) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

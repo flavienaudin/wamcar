@@ -1,7 +1,7 @@
 {% set search_result = search_result|default(false) %}
 
 <div class="vehicle-list small-12">
-    {% for index, vehicle in vehicle_list %}
+    {% for index, vehicle in garage.proVehicles %}
         {% if not search_result %}
             {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
         {% else %}

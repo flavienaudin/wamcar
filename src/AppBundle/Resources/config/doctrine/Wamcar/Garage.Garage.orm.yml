@@ -54,8 +54,7 @@ Wamcar\Garage\Garage:
             targetEntity: GarageProUser
             mappedBy: garage
             cascade: ["persist", "merge", "remove"]
-
-    oneToMany:
         proVehicles:
             targetEntity: Wamcar\Vehicle\ProVehicle
             mappedBy: garage
+            cascade: ["persist", "merge"]
