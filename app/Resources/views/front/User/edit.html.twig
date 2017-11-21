@@ -1,60 +1,88 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
 {% trans_default_domain 'user' %}
-{% block title %}{% endblock title %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Editer mon profil{% endblock %}
+
+{% set page_profil = true %}
 
 {% block body %}
-    {{ form_start(form) }}
+
+    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <div class="block-gray has-border-bottom">
+        <div class="row">
+            {% include 'front/User/includes/tabs_edit_profil.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="tabs-content column" data-tabs-content="js-search-tabs">
+            <div id="js-profil" class="tabs-panel is-active">
+                // Reprise du formulaire edition pro
+            </div>
+            <div id="js-project" class="tabs-panel">
+                {% include 'front/User/includes/form_project.html.twig' %}
+            </div>
+        </div>
+    </div>
+
+    {# {{ form_start(form) }} #}
 
     {# Civilité #}
-    <div>
+    {# <div>
         {{ form_row(form.title) }}
-    </div>
+    </div> #}
 
     {# Nom #}
-    <div>
+    {# <div>
         {{ form_row(form.name, {'errorMsg' : 'user.field.lastName.error'|trans}) }}
-    </div>
+    </div> #}
 
     {# Adresse e-mail #}
-    <div>
+    {# <div>
         {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans}) }}
-    </div>
+    </div> #}
 
     {# Code postal #}
-    <div>
+    {# <div>
         {{ form_row(form.postalCode, {'errorMsg' :  'user.field.postalCode.error'|trans}) }}
-    </div>
+    </div> #}
 
     {# Ville #}
-    <div>
+    {# <div>
         {{ form_row(form.cityName, {'errorMsg' : 'user.field.city.error'|trans}) }}
-    </div>
+    </div> #}
 
     {# Phone #}
-    <div>
+    {# <div>
         {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
-    </div>
+    </div> #}
 
     {# PhonePro #}
-    {% if form.phonePro is defined %}
+    {# {% if form.phonePro is defined %}
     <div>
         {{ form_row(form.phonePro, {'errorMsg' : 'user.field.phonePro.error'|trans}) }}
     </div>
-    {% endif %}
+    {% endif %} #}
 
     {# Description #}
-    {% if form.description is defined %}
+    {# {% if form.description is defined %}
     <div>
         {{ form_row(form.description, {'errorMsg' : 'user.field.description.error'|trans}) }}
     </div>
-    {% endif %}
+    {% endif %} #}
 
     {# Button submit #}
-    <div>
+    {# <div>
         <button type="submit">{{ 'button.edit_informations'|trans }}</button>
-    </div>
+    </div> #}
 
-    {{ form_end(form) }}
+    {# {{ form_end(form) }} #}
 
 {% endblock %}

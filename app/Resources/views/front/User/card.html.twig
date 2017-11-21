@@ -5,7 +5,7 @@
 {% block presentation %}
     <h2>Présentation</h2>
     <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
-    <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
+    <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Modifier mes informations</a>
 
     {# Civilité #}
     {# <div>
@@ -47,7 +47,7 @@
         <li>Mercedes-Benz Classe A / 2013+ / -60000 km</li>
     </ul>
     <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur noire ou gris anthracite.</p>
-    <a href="" class="text-underline">Gérer mon projet</a>
+    <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Gérer mon projet</a>
 {% endblock %}
 
 {% block vehicle %}

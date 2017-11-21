@@ -81,3 +81,9 @@ inte_search:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Search/search.html.twig
+
+inte_user_personal_profil_edit:
+    path: /inte/profil/editer
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/User/edit.html.twig
