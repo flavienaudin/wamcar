@@ -27,26 +27,30 @@
     <section class="row full-width">
         <div class="profil-body column block-grid small-12">
             <div class="small-12 medium-7 large-5">
-                <h2>Présentation du vendeur</h2>
-                {% if user.description %}
-                    <p>{{ user.description|nl2br }}</p>
-                {% elseif userIsMe %}
-                    <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
-                {% endif %}
-                {% if userIsMe %}
-                    <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
-                {% endif %}
+                {% block presentation %}
+                    <h2>Présentation du vendeur</h2>
+                    {% if user.description %}
+                        <p>{{ user.description|nl2br }}</p>
+                    {% elseif userIsMe %}
+                        <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                    {% endif %}
+                    {% if userIsMe %}
+                        <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
+                    {% endif %}
+                {% endblock %}
             </div>
             <div class="separator-for-small small-12 medium-4 large-6 medium-offset-1">
-                <h2>Vendeur pour</h2>
-                {% if user.garageMemberships|length > 0 %}
-                    {% include 'front/User/includes/brand_list.html.twig' %}
-                {% else %}
-                    <p>Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.</p>
-                    <div class="large-5">
-                        <a href="{{ path('front_garage_create') }}" class="button">Ajouter un garage</a>
-                    </div>
-                {% endif %}
+                {% block seller %}
+                    <h2>Vendeur pour</h2>
+                    {% if user.garageMemberships|length > 0 %}
+                        {% include 'front/User/includes/brand_list.html.twig' %}
+                    {% else %}
+                        <p>Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.</p>
+                        <div class="large-5">
+                            <a href="{{ path('front_garage_create') }}" class="button">Ajouter un garage</a>
+                        </div>
+                    {% endif %}
+                {% endblock %}
             </div>
         </div>
     </section>

@@ -1,37 +1,21 @@
-{% extends 'front/Layout/layout.html.twig' %}
+{% extends 'front/Seller/card.html.twig' %}
 
-{% trans_default_domain 'user' %}
-{% block title %}{% endblock title %}
+{% block title %}Mon profil{% endblock %}
 
-{% block body %}
-    {# Civilité #}
-    <div>
-        {{ user.userProfile.title }}
-    </div>
+{% block presentation %}
+    <h2>Présentation</h2>
+    <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
+    <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
+{% endblock %}
 
-    {# Nom #}
-    <div>
-        {{ user.userProfile.name }}
-    </div>
-
-    {# Adresse e-mail #}
-    <div>
-        {{ user.email }}
-    </div>
-
-    {# Code postal #}
-    <div>
-        {{ user.userProfile.city.postalCode }}
-    </div>
-
-    {# Ville #}
-    <div>
-        {{ user.userProfile.city.name }}
-    </div>
-
-    {# Phone #}
-    <div>
-        {{ user.userProfile.phone }}
-    </div>
-
+{% block seller %}
+    <h2>Son projet</h2>
+    <p><strong class="primary-color">Budget de 18 000 €</strong></p>
+    <ul class="list-bullet">
+        <li>Audi A3 / 2012+ / -60000 km</li>
+        <li>BMW Serie 1 / 2013+ / -60000 km</li>
+        <li>Mercedes-Benz Classe A / 2013+ / -60000 km</li>
+    </ul>
+    <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur noire ou gris anthracite.</p>
+    <a href="" class="text-underline">Gérer mon projet</a>
 {% endblock %}
