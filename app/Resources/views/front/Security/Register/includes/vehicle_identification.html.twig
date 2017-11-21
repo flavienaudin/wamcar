@@ -7,7 +7,7 @@
     '
 } %}
 
-<section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
+<section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" data-fetch-plate="{{ path('front_vehicle_pro_add', {'plateNumber': '_plate_number_'}) }}">
     <div class="register-infos input-margin block-grid">
         <div class="small-12 large-8">
             <label for="immat">Immatriculation <span>Facultatif</span></label>
@@ -21,6 +21,7 @@
             'label' : null,
             'label_class' : 'medium-no-margin small-12 medium-4',
         }) }}
+        <a class="button" href="javascript:" id="js-update-plate">Compléter</a>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
