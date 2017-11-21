@@ -1,0 +1,21 @@
+{% extends 'front/Vehicle/Listing/includes/item.html.twig' %}
+
+{% set user = inte.user %}
+
+{% block user_infos %}
+    <div class="vehicle-user-infos">
+        <div class="vehicle-user-pic"><img src="{{ user.picture }}" alt="{{ user.name }}"></div>
+        {# Exemple inté, cas ou l'utilisateur n'a pas renseigné de souhaits #}
+        {% if index == 'golf-2-tdi' %}
+            <p class="dark-gray-color no-margin small-10 large-12"><strong>Ce vendeur n’a pas encore indiqué de souhaits</strong>. Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.</p>
+        {% else %}
+            <div class="small-12 dark-gray-color">
+                <p class="no-margin"><strong class="primary-color">Budget de 64 000 € pour</strong></p>
+                <ul class="vehicle-user-greetings no-bullet">
+                    <li><b>Audi A3</b> 2010+ / -50 000km</li>
+                    <li><b>Volkswagen Transpo...</b> 2010+ / -50 000km</li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

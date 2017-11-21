@@ -2,6 +2,47 @@
    List
    =========================================================================== */
 
+/* Mixin */
+
+@mixin listBorder {
+  > li {
+    padding-top: rem-calc(20);
+
+    &:not(:last-child) { padding-bottom: rem-calc(20); }
+    &:not(:first-child) { border-top: rem-calc(1) solid $border-color; }
+  }
+}
+
+@mixin listBullet {
+  list-style: none;
+  margin-left: 0;
+
+  > li {
+    position: relative;
+    padding-left: rem-calc(20);
+
+    &:not(:last-child) {
+      margin-bottom: rem-calc(10);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: rem-calc(6);
+      left: 0;
+      width: rem-calc(4);
+      height: rem-calc(4);
+      background: $primary-color;
+      border-radius: 50%;
+
+      @include breakpoint(medium) {
+        top: rem-calc(10);
+      }
+    } // End ::before
+
+  } // End > li
+}
+
 .list {
 
 
@@ -10,15 +51,9 @@
     ===================================== */
 
   &-border {
+    @include listBorder;
 
     /* Components */
-
-    > li {
-      padding-top: rem-calc(20);
-
-      &:not(:last-child) { padding-bottom: rem-calc(20); }
-      &:not(:first-child) { border-top: rem-calc(1) solid $border-color; }
-    }
 
     p { margin-bottom: 0; }
 
@@ -50,17 +85,13 @@
 
     &.tiny {
       > li {
-      @include breakpoint(large only) {
-          &:first-child { border-top: rem-calc(1) solid $border-color; }
-        }
-      }
-    }
-
-    &.tiny {
-      > li {
         padding-top: rem-calc(15);
 
         &:not(:last-child) { padding-bottom: rem-calc(15); }
+
+        // @include breakpoint(large only) {
+        //   &:first-child { border-top: rem-calc(1) solid $border-color; }
+        // }
       }
     }
 
@@ -73,33 +104,7 @@
      ===================================== */
 
   &-bullet {
-    list-style: none;
-    margin-left: 0;
-
-    > li {
-      position: relative;
-      padding-left: rem-calc(20);
-
-      &:not(:last-child) {
-        margin-bottom: rem-calc(10);
-      }
-
-      &::before {
-        content: "";
-        position: absolute;
-        top: rem-calc(6);
-        left: 0;
-        width: rem-calc(4);
-        height: rem-calc(4);
-        background: $primary-color;
-        border-radius: 50%;
-
-        @include breakpoint(medium) {
-          top: rem-calc(10);
-        }
-      } // End ::before
-
-    } // End > li
+    @include listBullet;
 
     /* Exceptions */
 

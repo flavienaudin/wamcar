@@ -116,6 +116,16 @@
       }
     }
 
+    .search-result & {
+      @include breakpoint(small only) {
+        margin-top: rem-calc(10);
+      }
+
+      @include breakpoint(medium only) {
+        margin-top: rem-calc(20);
+      }
+    }
+
   } // End &-list
 
 
@@ -163,6 +173,14 @@
       width: 100%;
     }
 
+    .search-result-vehicle & {
+      > .is-flex {
+        @include breakpoint(medium down) {
+          flex-wrap: wrap;
+        }
+      }
+    }
+
   } // End &-item
 
 
@@ -198,8 +216,11 @@
   &-name {
     color: black;
     font-weight: bold;
-    text-transform: uppercase;
     padding-top: rem-calc(7);
+
+    @include breakpoint(medium) {
+      text-transform: uppercase;
+    }
 
     @include breakpoint(large down) {
       margin-bottom: rem-calc(2);
@@ -660,5 +681,159 @@
       }
     } // End p
   } // End &-header
+
+
+
+  /*
+     User infos
+     ===================================== */
+
+  &-user-infos {
+    position: relative;
+    width: 100%;
+    font-size: rem-calc(11);
+    border-width: rem-calc(1) 0 0 0;
+    border-style: solid;
+    border-color: $border-color;
+
+    @include breakpoint(medium down) {
+      margin-top: rem-calc(15);
+      padding-top: rem-calc(10);
+    }
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(14);
+    }
+
+    @include breakpoint(large) {
+      width: rem-calc(400);
+      flex: 0 0 rem-calc(400);
+      border-width: 0 0 0 rem-calc(1);
+      margin-left: auto;
+      padding-right: rem-calc(50);
+      padding-left: rem-calc(50);
+    }
+
+    @include breakpoint(large only) {
+      display: flex;
+      align-items: center;
+    }
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(38);
+    }
+
+  } // End &-user-info
+
+
+
+  /*
+     User picture
+     ===================================== */
+
+  &-time,
+  &-user-pic {
+    position: absolute;
+  }
+
+  &-user-pic {
+    top: 0;
+    right: 0;
+    width: rem-calc(52);
+    height: rem-calc(52);
+    border: rem-calc(1) solid $border-color;
+    border-radius: 50%;
+    transform: translate3d(0, -50%, 0);
+
+    @include breakpoint(large) {
+      top: rem-calc(23);
+      right: auto;
+      left: 0;
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+
+  /*
+     Time
+     ===================================== */
+
+  &-time {
+    top: 0;
+    right: 0;
+  }
+
+
+  /*
+     Time
+     ===================================== */
+
+  &-time {
+    font-size: rem-calc(9);
+    color: #666666;
+    background: #f7f7f7;
+    padding: rem-calc(1) rem-calc(3) 0;
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(12);
+      padding: rem-calc(1) rem-calc(6);
+    }
+  }
+
+
+  /*
+     User greetings
+     ===================================== */
+
+  &-user-greetings {
+    margin: 0;
+
+    @include breakpoint(medium down) {
+      @include listBullet;
+
+      > li {
+        padding-left: rem-calc(10);
+        &:not(:last-child) { margin-bottom: 0; }
+      }
+    }
+
+    @include breakpoint(large) {
+      @include listBorder;
+      margin-top: rem-calc(10);
+
+      > li {
+        padding-top: rem-calc(5);
+
+        &:not(:last-child) { padding-bottom: rem-calc(5); }
+      }
+    }
+  } // End &-yser-greetings
+
+
+
+  /*
+     Pics count
+     ===================================== */
+
+  &-pics-count {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(black, .5);
+    color: white;
+    font-size: rem-calc(9);
+    z-index: 2;
+    padding: rem-calc(2) rem-calc(8);
+
+    @include breakpoint(large) {
+      font-size: rem-calc(11);
+      padding: rem-calc(5) rem-calc(10);
+    }
+
+    &::before {
+      font-size: rem-calc(8);
+      margin-right: rem-calc(5);
+    }
+  }
 
 }

@@ -19,6 +19,8 @@
     },
 ] %}
 
+{% set vehicle_list = inte.vehicle %}
+
 {% block body %}
 
     {% set page_header_class = 'no-margin' %}
@@ -40,15 +42,15 @@
     </div>
 
     <div class="row">
-        <div class="tabs-content column small-12" data-tabs-content="js-search-tabs">
+        <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
             <div id="js-search-all" class="tabs-panel is-active">
                 {% include 'front/Search/includes/result_all.html.twig' %}
             </div>
             <div id="js-search-reprises" class="tabs-panel">
-                // Reprise
+                {% include 'front/Search/includes/result_reprises.html.twig' %}
             </div>
             <div id="js-search-greetings" class="tabs-panel">
-                // Souhaits
+                {% include 'front/Search/includes/result_greetings.html.twig' %}
             </div>
         </div>
     </div>
