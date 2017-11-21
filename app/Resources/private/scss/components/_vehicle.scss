@@ -173,15 +173,6 @@
     .garage-container & {
       width: 100%;
     }
-
-    .search-result-vehicle & {
-      // > .is-flex {
-        // @include breakpoint(medium down) {
-        // flex-wrap: wrap;
-        // }
-      // }
-    }
-
   } // End &-item
 
 
@@ -795,15 +786,7 @@
      ===================================== */
 
   &-time {
-    // font-size: rem-calc(9);
     color: #666666;
-    // background: #f7f7f7;
-    // padding: rem-calc(1) rem-calc(3) 0;
-
-    @include breakpoint(medium) {
-      // font-size: rem-calc(12);
-      // padding: rem-calc(1) rem-calc(6);
-    }
   }
 
 
