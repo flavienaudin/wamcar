@@ -11,20 +11,11 @@ class RegisterContext extends BaseContext
     use Traits\ContextTrait;
 
     /**
-     * @Given I register with wrong plate
+     * @Given /^I register with plate '([^']+)'$/
      */
-    public function I register with wrong plate()
+    public function I register with plate($value)
     {
-        $this->fillPlateForm('resfgfgdfts');
-        $this->findByCssSelector('form[name="form-plate-number"] button[type="submit"]')->click();
-    }
-
-    /**
-     * @Given I register with good plate
-     */
-    public function I register with good plate()
-    {
-        $this->fillPlateForm('BL-597-TJ');
+        $this->fillPlateForm($value);
         $this->findByCssSelector('form[name="form-plate-number"] button[type="submit"]')->click();
     }
 
