@@ -3,14 +3,14 @@ Feature: Control form vehicle + personal user
     @register @register-with-wrong-immat
     Scenario: Register with wrong immat
         Given I am not logged in
-        And I register with wrong plate
+        And I register with plate 'jjjjjjjj'
         And the url should match "/je-vends-mon-vehicule"
         Then I should see an error message
 
     @register @register-with-good-immat
     Scenario: Register with good immat
         Given I am not logged in
-        And I register with good plate
+        And I register with plate 'BL-597-TJ'
         And the url should match "/je-vends-mon-vehicule"
         Then field 'make' is equals to 'VW'
         And field 'model' is equals to 'TIGUAN'
