@@ -1,4 +1,4 @@
-<h2><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicules en vente</h2>
+<h2><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
 {% if garage.proVehicles|length > 0 %}
     <div class="block-grid small-12 align-middle input-margin">
         <div class="small-12 medium-6">
