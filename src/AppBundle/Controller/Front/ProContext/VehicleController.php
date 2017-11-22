@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Vehicle\ProVehicle;
+use Wamcar\Vehicle\Vehicle;
 
 class VehicleController extends BaseController
 {
@@ -51,12 +53,14 @@ class VehicleController extends BaseController
     /**
      * @param Request $request
      * @param string $plateNumber
+     * @param ProVehicle $vehicle
      * @Security("has_role('ROLE_USER')")
      * @return Response
      * @throws \AutoData\Exception\AutodataException
      */
     public function createAction(
         Request $request,
+        ProVehicle $vehicle = null,
         string $plateNumber = null): Response
     {
         if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
@@ -65,8 +69,8 @@ class VehicleController extends BaseController
         /** @var Garage $garage */
         $garage = $this->getUser()->getGarage();
 
-        $vehicleDTO = new ProVehicleDTO($plateNumber);
-        $filters = [];
+        $vehicleDTO = new ProVehicleDTO($vehicle, $plateNumber);
+        $filters = $vehicleDTO->retrieveFilter();
 
         if ($plateNumber) {
             $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
@@ -87,11 +91,11 @@ class VehicleController extends BaseController
         $proVehicleForm->handleRequest($request);
 
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {
-            $this->proVehicleEditionService->editInformations($vehicleDTO, $garage);
+            $this->proVehicleEditionService->saveInformations($vehicleDTO, $vehicle, $garage);
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.vehicle_create'
+                $vehicle ? 'flash.success.vehicle_update' : 'flash.success.vehicle_create'
             );
             return $this->redirectToRoute('front_garage_view', ['id' => $garage->getId()]);
         }

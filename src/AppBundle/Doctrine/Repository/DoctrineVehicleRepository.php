@@ -10,7 +10,7 @@ use Wamcar\Vehicle\VehicleRepository;
 class DoctrineVehicleRepository extends EntityRepository implements VehicleRepository
 {
     /**
-     * @param Vehicle $vehicle
+     * {@inheritdoc}
      */
     public function add(Vehicle $vehicle): void
     {
@@ -19,7 +19,7 @@ class DoctrineVehicleRepository extends EntityRepository implements VehicleRepos
     }
 
     /**
-     * @param Vehicle $vehicle
+     * {@inheritdoc}
      */
     public function update(Vehicle $vehicle): void
     {
@@ -29,7 +29,7 @@ class DoctrineVehicleRepository extends EntityRepository implements VehicleRepos
     }
 
     /**
-     * @param Vehicle $vehicle
+     * {@inheritdoc}
      */
     public function remove(Vehicle $vehicle): void
     {
@@ -37,7 +37,7 @@ class DoctrineVehicleRepository extends EntityRepository implements VehicleRepos
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function findAllForGarage(Garage $garage): array
     {

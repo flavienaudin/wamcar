@@ -54,4 +54,44 @@ class ProVehicleBuilder implements VehicleBuilder
 
         return $vehicle;
     }
+    /**
+     * @param ProVehicleDTO $vehicleDTO
+     * @param ProVehicle $vehicle
+     * @return ProVehicle
+     */
+    public static function buildUpdateFromDTO(ProVehicleDTO $vehicleDTO, ProVehicle $vehicle): ProVehicle
+    {
+        $vehicle->setModelVersion($vehicleDTO->getModelVersion());
+        $vehicle->setTransmission($vehicleDTO->getTransmission());
+        $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
+        $vehicle->setMileage($vehicleDTO->getMileage());
+        $vehicle->setSafetyTestDate($vehicleDTO->getSafetyTestDate());
+        $vehicle->setSafetyTestState($vehicleDTO->getSafetyTestState());
+        $vehicle->setBodyState($vehicleDTO->getBodyState());
+        $vehicle->setEngineState($vehicleDTO->getEngineState());
+        $vehicle->setTyreState($vehicleDTO->getTyreState());
+        $vehicle->setMaintenanceState($vehicleDTO->getMaintenanceState());
+        $vehicle->setIsTimingBeltChanged($vehicleDTO->isTimingBeltChanged());
+        $vehicle->setIsImported($vehicleDTO->isImported());
+        $vehicle->setIsFirstHand($vehicleDTO->isFirstHand());
+        $vehicle->setAdditionalInformation($vehicleDTO->getAdditionalInformation());
+        $vehicle->setCity($vehicleDTO->getCity());
+        $vehicle->setPrice($vehicleDTO->getPrice());
+        $vehicle->setCatalogPrice($vehicleDTO->getCatalogPrice());
+        $vehicle->setDiscount($vehicleDTO->getDiscount());
+        $vehicle->setGuarantee($vehicleDTO->getGuarantee());
+        $vehicle->setRefunded($vehicleDTO->isRefunded());
+        $vehicle->setOtherGuarantee($vehicleDTO->getOtherGuarantee());
+        $vehicle->setAdditionalServices($vehicleDTO->getAdditionalServices());
+        $vehicle->setReference($vehicleDTO->getReference());
+
+        foreach ($vehicleDTO->pictures as $pictureDTO) {
+            if ($pictureDTO && $pictureDTO->file) {
+                $picture = new VehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $vehicle->addPicture($picture);
+            }
+        }
+
+        return $vehicle;
+    }
 }

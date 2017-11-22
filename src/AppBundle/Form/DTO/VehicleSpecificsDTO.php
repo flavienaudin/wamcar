@@ -6,6 +6,7 @@ use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\ProVehicle;
 
 class VehicleSpecificsDTO
 {
@@ -45,15 +46,32 @@ class VehicleSpecificsDTO
     /**
      * VehicleSpecificsDTO constructor.
      */
-    public function __construct()
+    public function __construct(ProVehicle $vehicle = null)
     {
-        $this->registrationDate = new \DateTimeImmutable('last year');
-        $this->safetyTestDate = SafetyTestDate::UNKNOWN();
-        $this->safetyTestState = SafetyTestState::UNKNOWN();
-        $this->maintenanceState = MaintenanceState::UNKNOWN();
-        $this->isTimingBeltChanged = false;
-        $this->isImported = false;
-        $this->isFirstHand = false;
+        if ($vehicle) {
+            $this->registrationDate = $vehicle->getRegistrationDate();
+            $this->mileage = $vehicle->getMileage();
+            $this->safetyTestDate = $vehicle->getSafetyTestDate();
+            $this->safetyTestState = $vehicle->getSafetyTestState();
+            $this->maintenanceState = $vehicle->getMaintenanceState();
+            $this->isTimingBeltChanged = $vehicle->getisTimingBeltChanged();
+            $this->isImported = $vehicle->getisImported();
+            $this->isFirstHand = $vehicle->getisFirstHand();
+            $this->bodyState = $vehicle->getBodyState();
+            $this->engineState = $vehicle->getEngineState();
+            $this->tyreState = $vehicle->getTyreState();
+            $this->additionalInformation = $vehicle->getAdditionalInformation();
+            $this->postalCode = $vehicle->getPostalCode();
+            $this->cityName = $vehicle->getCityName();
+        } else {
+            $this->registrationDate = new \DateTimeImmutable('last year');
+            $this->safetyTestDate = SafetyTestDate::UNKNOWN();
+            $this->safetyTestState = SafetyTestState::UNKNOWN();
+            $this->maintenanceState = MaintenanceState::UNKNOWN();
+            $this->isTimingBeltChanged = false;
+            $this->isImported = false;
+            $this->isFirstHand = false;
+        }
     }
 
     /**

@@ -81,6 +81,14 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
+    public function getPostalCode(): string
+    {
+        return $this->city->getPostalCode();
+    }
+
+    /**
+     * @return string
+     */
     public function getCityName(): string
     {
         return $this->city->getName();
@@ -116,6 +124,14 @@ class ProVehicle extends BaseVehicle
     public function getEngineName(): string
     {
         return $this->modelVersion->getEngine()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFuelName(): string
+    {
+        return $this->modelVersion->getEngine()->getFuel()->getName();
     }
 
     /**
@@ -265,7 +281,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return float
      */
-    public function getCatalogPrice(): float
+    public function getCatalogPrice(): ?float
     {
         return $this->catalogPrice;
     }
@@ -273,7 +289,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return float
      */
-    public function getDiscount(): float
+    public function getDiscount(): ?float
     {
         return $this->discount;
     }
@@ -281,7 +297,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getGuarantee(): string
+    public function getGuarantee(): ?string
     {
         return $this->guarantee;
     }
@@ -297,7 +313,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getOtherGuarantee(): string
+    public function getOtherGuarantee(): ?string
     {
         return $this->otherGuarantee;
     }
@@ -305,7 +321,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getAdditionalServices(): string
+    public function getAdditionalServices(): ?string
     {
         return $this->additionalServices;
     }
@@ -313,7 +329,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
@@ -333,4 +349,69 @@ class ProVehicle extends BaseVehicle
     {
         $this->garage = $garage;
     }
+
+    /**
+     * @param float $price
+     */
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @param float $catalogPrice
+     */
+    public function setCatalogPrice(?float $catalogPrice): void
+    {
+        $this->catalogPrice = $catalogPrice;
+    }
+
+    /**
+     * @param float $discount
+     */
+    public function setDiscount(?float $discount): void
+    {
+        $this->discount = $discount;
+    }
+
+    /**
+     * @param string $guarantee
+     */
+    public function setGuarantee(?string $guarantee): void
+    {
+        $this->guarantee = $guarantee;
+    }
+
+    /**
+     * @param bool $refunded
+     */
+    public function setRefunded(bool $refunded): void
+    {
+        $this->refunded = $refunded;
+    }
+
+    /**
+     * @param string $otherGuarantee
+     */
+    public function setOtherGuarantee(?string $otherGuarantee): void
+    {
+        $this->otherGuarantee = $otherGuarantee;
+    }
+
+    /**
+     * @param string $additionalServices
+     */
+    public function setAdditionalServices(?string $additionalServices): void
+    {
+        $this->additionalServices = $additionalServices;
+    }
+
+    /**
+     * @param string $reference
+     */
+    public function setReference(?string $reference): void
+    {
+        $this->reference = $reference;
+    }
+
 }

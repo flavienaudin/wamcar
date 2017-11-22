@@ -3,6 +3,7 @@
 namespace AppBundle\Form\DTO;
 
 use AppBundle\Services\Vehicle\CanBeProVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
 {
@@ -10,12 +11,14 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     public $offer;
 
     /**
-     * VehicleDTO constructor.
+     * ProVehicleDTO constructor.
+     * @param ProVehicle|null $vehicle
+     * @param string|null $registrationNumber
      */
-    public function __construct(string $registrationNumber = null)
+    public function __construct(ProVehicle $vehicle = null, string $registrationNumber = null)
     {
-        parent::__construct($registrationNumber);
-        $this->offer = new VehicleOfferDTO();
+        parent::__construct($vehicle, $registrationNumber);
+        $this->offer = new VehicleOfferDTO($vehicle);
     }
 
     /**

@@ -67,6 +67,7 @@ abstract class BaseVehicle implements Vehicle
      * @param bool|null $isImported
      * @param bool|null $isFirstHand
      * @param string|null $additionalInformation
+     * @param City $city
      */
     public function __construct(
         ModelVersion $modelVersion,
@@ -121,5 +122,141 @@ abstract class BaseVehicle implements Vehicle
     public function addPicture(Picture $picture): void
     {
         $this->pictures[] = $picture;
+    }
+
+    /**
+     * @param ModelVersion $modelVersion
+     */
+    public function setModelVersion(ModelVersion $modelVersion): void
+    {
+        $this->modelVersion = $modelVersion;
+    }
+
+    /**
+     * @param Transmission $transmission
+     */
+    public function setTransmission(Transmission $transmission): void
+    {
+        $this->transmission = $transmission;
+    }
+
+    /**
+     * @param null|Registration $registration
+     */
+    public function setRegistration(?Registration $registration): void
+    {
+        $this->registration = $registration;
+    }
+
+    /**
+     * @param \DateTimeInterface $registrationDate
+     */
+    public function setRegistrationDate(\DateTimeInterface $registrationDate): void
+    {
+        $this->registrationDate = $registrationDate;
+    }
+
+    /**
+     * @param int $mileage
+     */
+    public function setMileage(int $mileage): void
+    {
+        $this->mileage = $mileage;
+    }
+
+    /**
+     * @param array|Picture[] $pictures
+     */
+    public function setPictures($pictures): void
+    {
+        $this->pictures = $pictures;
+    }
+
+    /**
+     * @param SafetyTestDate $safetyTestDate
+     */
+    public function setSafetyTestDate(SafetyTestDate $safetyTestDate): void
+    {
+        $this->safetyTestDate = $safetyTestDate;
+    }
+
+    /**
+     * @param SafetyTestState $safetyTestState
+     */
+    public function setSafetyTestState(SafetyTestState $safetyTestState): void
+    {
+        $this->safetyTestState = $safetyTestState;
+    }
+
+    /**
+     * @param int $bodyState
+     */
+    public function setBodyState(int $bodyState): void
+    {
+        $this->bodyState = $bodyState;
+    }
+
+    /**
+     * @param int|null $engineState
+     */
+    public function setEngineState(?int $engineState): void
+    {
+        $this->engineState = $engineState;
+    }
+
+    /**
+     * @param int|null $tyreState
+     */
+    public function setTyreState(?int $tyreState): void
+    {
+        $this->tyreState = $tyreState;
+    }
+
+    /**
+     * @param MaintenanceState $maintenanceState
+     */
+    public function setMaintenanceState(MaintenanceState $maintenanceState): void
+    {
+        $this->maintenanceState = $maintenanceState;
+    }
+
+    /**
+     * @param bool|null $isTimingBeltChanged
+     */
+    public function setIsTimingBeltChanged(?bool $isTimingBeltChanged): void
+    {
+        $this->isTimingBeltChanged = $isTimingBeltChanged;
+    }
+
+    /**
+     * @param bool|null $isImported
+     */
+    public function setIsImported(?bool $isImported): void
+    {
+        $this->isImported = $isImported;
+    }
+
+    /**
+     * @param bool|null $isFirstHand
+     */
+    public function setIsFirstHand(?bool $isFirstHand): void
+    {
+        $this->isFirstHand = $isFirstHand;
+    }
+
+    /**
+     * @param null|string $additionalInformation
+     */
+    public function setAdditionalInformation(?string $additionalInformation): void
+    {
+        $this->additionalInformation = $additionalInformation;
+    }
+
+    /**
+     * @param City $city
+     */
+    public function setCity(City $city): void
+    {
+        $this->city = $city;
     }
 }

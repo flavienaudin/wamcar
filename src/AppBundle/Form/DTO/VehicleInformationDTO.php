@@ -3,7 +3,7 @@
 namespace AppBundle\Form\DTO;
 
 use Wamcar\Vehicle\{
-    Engine, Fuel, Make, Model, ModelVersion, Enum\Transmission
+    Engine, Fuel, Make, Model, ModelVersion, Enum\Transmission, ProVehicle
 };
 
 class VehicleInformationDTO
@@ -21,6 +21,18 @@ class VehicleInformationDTO
     /** @var Fuel */
     public $fuel;
 
+    public function __construct(ProVehicle $vehicle = null)
+    {
+        if ($vehicle) {
+            $this->make = $vehicle->getMake();
+            $this->model = $vehicle->getModelName();
+            $this->modelVersion = $vehicle->getModelVersionName();
+            $this->engine = $vehicle->getEngineName();
+            $this->transmission = $vehicle->getTransmission();
+            $this->fuel = $vehicle->getFuelName();
+        }
+    }
+
     /**
      * @param array $filters
      */
@@ -31,6 +43,20 @@ class VehicleInformationDTO
         $this->modelVersion = $filters['modelVersion'] ?? $this->modelVersion;
         $this->engine = $filters['engine'] ?? $this->engine;
         $this->fuel = $filters['fuel'] ?? $this->fuel;
+    }
+
+    /**
+     * @return array
+     */
+    public function retrieveFilter(): array
+    {
+        return [
+            'make' => $this->make,
+            'model' => $this->model,
+            'modelVersion' => $this->modelVersion,
+            'engine' => $this->engine,
+            'fuel' => $this->fuel,
+        ];
     }
 
     /**
