@@ -1,4 +1,4 @@
-Wamcar\Vehicle\PersonalVehicle:
+Wamcar\Vehicle\ProVehicle:
 
     type: entity
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineVehicleRepository
@@ -14,6 +14,14 @@ Wamcar\Vehicle\PersonalVehicle:
             targetEntity: AppBundle\Doctrine\Entity\VehiclePicture
             mappedBy: vehicle
             cascade: ["persist", "merge"]
+
+    manyToOne:
+        garage:
+            targetEntity: Wamcar\Garage\Garage
+            inversedBy: proVehicles
+            joinColumn:
+                name: garage_id
+                referencedColumnName: id
 
     embedded:
         registration:
@@ -56,6 +64,31 @@ Wamcar\Vehicle\PersonalVehicle:
             nullable: true
         additionalInformation:
             type: text
+            nullable: true
+        price:
+            type: float
+            nullable: false
+        catalogPrice:
+            type: float
+            nullable: true
+        discount:
+            type: float
+            nullable: true
+        guarantee:
+            type: string
+            nullable: true
+        refunded:
+            type: boolean
+            options:
+                default: false
+        otherGuarantee:
+            type: string
+            nullable: true
+        additionalServices:
+            type: text
+            nullable: true
+        reference:
+            type: string
             nullable: true
         createdAt:
             type: datetime

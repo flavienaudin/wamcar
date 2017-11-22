@@ -35,9 +35,7 @@ class VehicleType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
-            ->add('userRegistration', RegistrationType::class, [
-                'error_bubbling' => true,
-            ]);
+        ;
     }
 
     /**

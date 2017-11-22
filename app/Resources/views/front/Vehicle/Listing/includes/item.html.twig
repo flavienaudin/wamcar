@@ -7,20 +7,20 @@
         <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
-                <img src="{{ asset(vehicle.picture) }}" alt="{{ vehicle.name }}">
+                <img src="{{ asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
                 {% if search_result %}
                     <span class="vehicle-pics-count icon-pics">8</span>
                 {% endif %}
             </div>
         </div>
-        <div class="vehicle-infos small-shrink">
+        <div class="vehicle-infos small-shrink medium-auto">
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
             <{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
             <p class="vehicle-model">{{ vehicle.model }}</p>
-            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.km }}</span>
+            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
-                <span class="vehicle-city black-color small-12">{{ vehicle.city }} (69)</span>
+                <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
                 <time class="vehicle-time black-color small-auto">14 nov, 14h45</time>
                 {% if not search_result %}
                     <strong class="vehicle-price small-shrink">{{ vehicle.price }}</strong>

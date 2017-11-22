@@ -27,6 +27,10 @@
 
         <div class="block-grid small-12">
 
+            {% if not isNew %}
+                <p class="column"><a href="{{ path('front_garage_view', {'id': app.user.garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
+            {% endif %}
+
             {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                 <div class="block-grid small-12">
                     <h2 class="column small-12">Société</h2>

@@ -4,6 +4,7 @@ namespace Wamcar\Garage;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Vehicle\ProVehicle;
 
 class Garage
 {
@@ -27,6 +28,8 @@ class Garage
     protected $address;
     /** @var  Collection */
     protected $members;
+    /** @var Collection */
+    protected $proVehicles;
 
     /**
      * Garage constructor.
@@ -53,6 +56,7 @@ class Garage
         $this->address = $address;
         $this->phone = $phone;
         $this->members = new ArrayCollection();
+        $this->proVehicles = new ArrayCollection();
     }
 
     /**
@@ -227,5 +231,51 @@ class Garage
         $this->members->removeElement($member);
 
         return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProVehicles(): Collection
+    {
+        return $this->proVehicles;
+    }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return Garage
+     */
+    public function addProVehicle(ProVehicle $proVehicle): Garage
+    {
+        $this->getProVehicles()->add($proVehicle);
+
+        return $this;
+    }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return Garage
+     */
+    public function removeProVehicle(ProVehicle $proVehicle): Garage
+    {
+        $this->proVehicles->removeElement($proVehicle);
+
+        return $this;
+    }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return bool
+     */
+    public function isProVehicle(ProVehicle $proVehicle): bool
+    {
+        /** @var ProVehicle $existProVehicle */
+        foreach ($this->getProVehicles() as $existProVehicle) {
+            if ($existProVehicle->getId() === $proVehicle->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

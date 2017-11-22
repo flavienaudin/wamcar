@@ -71,3 +71,7 @@ front_garage_unassign:
 front_fetch_city:
     path: /fetch/city.json
     defaults: { _controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode }
+
+front_vehicle_pro_add:
+    path: /vehicule/vendeur/ajouter/{plateNumber}
+    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:create, plateNumber: null }

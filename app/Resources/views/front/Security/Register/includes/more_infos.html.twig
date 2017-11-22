@@ -45,6 +45,7 @@
             'required_class' : 'form-error',
             'label' : 'Changement de courroie de distribution',
             'label_class' : 'medium-no-margin small-12 medium-4',
+            'list_class': 'small-up-2 small-12 medium-8'
         }) }}
     </div>
     <div class="block-grid input-margin column">
@@ -52,7 +53,8 @@
             label: 'Date du dernier contrôle technique',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
-            required: false
+            required: false,
+            required_class: 'large-no-margin'
         }) }}
     </div>
     <div class="block-grid input-margin column">
@@ -60,7 +62,8 @@
             label: 'Résultat du dernier contrôle technique',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
-            required: false
+            required: false,
+            required_class: 'large-no-margin'
         }) }}
     </div>
     <div class="column">
@@ -113,6 +116,7 @@
                     'required_class' : 'form-error',
                     'label' : 'Véhicule importé',
                     'label_class' : 'medium-no-margin small-12 medium-4',
+                    'list_class': 'small-up-2 small-12 medium-8'
                 }) }}
             </div>
             <div class="block-grid input-margin">
@@ -123,6 +127,7 @@
                     'required_class' : 'form-error',
                     'label' : 'Première main',
                     'label_class' : 'medium-no-margin small-12 medium-4',
+                    'list_class': 'small-up-2 small-12 medium-8'
                 }) }}
             </div>
         </div>
@@ -133,13 +138,26 @@
             <div class="small-12 medium-8">
                 <div class="row">
                     <div class="column small-4">
-                        <input type="text" name="postalCode" data-fetch-url="{{ path('front_fetch_city') }}" data-city-field="city" id="postalCode" class="input no-margin js-postalCode" pattern="number" required>
-                        <small class="form-error">Veuillez indiquer votre code postal</small>
+                        {{ form_widget(vehicleForm.specifics.postalCode, {
+                            'class' : 'input no-margin js-postalCode',
+                            'required' : true,
+                            'required_message' : 'Veuillez indiquer votre code postal',
+                            'required_class' : 'form-error',
+                            'attr' : {
+                                'data-fetch-url': path('front_fetch_city'),
+                                'data-city-field': 'pro_vehicle_specifics_cityName'
+                            }
+                        }) }}
                     </div>
                     <div class="column small-8">
-                        <select type="text" name="city" id="city" class="no-margin" required >
-                            <option value="0" selected="selected">Veuillez d'abord renseigner le code postal</option>
-                        </select>
+                        {{ form_widget(vehicleForm.specifics.cityName, {
+                            'class' : 'no-margin',
+                            'required' : true,
+                            'required_message' : 'Veuillez d\'abord renseigner le code postal',
+                            'required_class' : 'form-error',
+                            'label' : '',
+                            'label_class' : '',
+                        }) }}
                         <small class="form-error">Veuillez indiquer votre ville</small>
                     </div>
                 </div>
