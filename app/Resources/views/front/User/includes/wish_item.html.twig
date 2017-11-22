@@ -1,0 +1,56 @@
+<li class="wish-item block-gray">
+    <label for="wish-1" class="wish-label black-color small-12">Souhait 1 <a href="" class="small-right">Supprimer ce souhait</a></label>
+    <div class="row small-12">
+        <div class="column small-12 medium-6 large-3">
+            {% include 'front/Layout/includes/forms/select.html.twig' with {
+                class: 'large-no-margin',
+                label: 'Marque',
+                options: [
+                    { value: '1', label: 'Marque 1' },
+                    { value: '2', label: 'Marque 2' }
+                ],
+                id: 'brand',
+                name: 'brand',
+                required: true,
+                required_message: 'Veuillez indiquer la marque recherchée.'
+            } %}
+        </div>
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            class: 'large-no-margin',
+            label: 'Modèle',
+            options: [
+                { value: '1', label: 'Modèle 1' },
+                { value: '2', label: 'Modèle 2' }
+            ],
+            id: 'model',
+            name: 'model',
+            required: true,
+            required_message: 'Veuillez indiquer le modèle recherché.'
+        } %}
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            class: 'large-no-margin',
+            label: 'Année max',
+            options: [
+                { value: '1', label: '2017' },
+                { value: '2', label: '2018' }
+            ],
+            id: 'annee-max',
+            name: 'annee-max',
+            required: false
+        } %}
+        {% include 'front/Layout/includes/forms/select.html.twig' with {
+            class_field: 'column small-12 medium-6 large-3',
+            class: 'large-no-margin',
+            label: 'Km max',
+            options: [
+                { value: '1', label: '20 000' },
+                { value: '2', label: '30 000' }
+            ],
+            id: 'km-max',
+            name: 'km-max',
+            required: false
+        } %}
+    </div>
+</li>

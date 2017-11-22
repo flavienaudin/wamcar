@@ -7,13 +7,14 @@
 {% set label_class = label_class|default('') %}
 {% set class_field = class_field|default('') %}
 {% set form = form|default('') %}
+{% set optional_class = optional_class|default('') %}
 
 {% if class_field %}
 <div class="{{ class_field }}">
 {% endif %}
 
 {% if label %}
-    <label class="{{ label_class }}">{{ label }}</label>
+    <label class="{{ label_class }}">{{ label }} {% if not required %}<span class="{{ optional_class }}">Facultatif</span>{% endif %}</label>
 {% endif %}
 
 <select

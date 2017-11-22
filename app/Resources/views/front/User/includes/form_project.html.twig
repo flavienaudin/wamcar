@@ -1,0 +1,42 @@
+<form class="column" data-abide novalidate>
+    <h2>Budget et recherche</h2>
+    <div class="row small-12">
+        <div class="column medium-6">
+            <label for="type">Votre recherche <span>Facultatif</span></label>
+            <ul class="block-grid small-12 input-margin">
+                <li class="small-6">
+                    {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                        name: 'vehicle-replace-2',
+                        id: 'yes-2',
+                        label: 'Véhicule unique'
+                    } %}
+                </li>
+                <li class="small-6">
+                    {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
+                        name: 'vehicle-replace-2',
+                        id: 'no-2',
+                        label: 'Une flotte'
+                    } %}
+                </li>
+            </ul>
+        </div>
+        {% include 'front/Layout/includes/forms/input.html.twig' with {
+            class_field: 'column small-12 medium-6',
+            label: 'Budget global',
+            name: 'budget-global'
+        } %}
+    </div>
+    {% include 'front/Layout/includes/forms/textarea.html.twig' with {
+        class_field: 'small-12',
+        class: 'no-margin',
+        label: 'Description de votre recherche',
+        name: 'description'
+    } %}
+    <h2 class="separator medium">Véhicule(s) recherché(s)</h2>
+    <p>Vous n’avez pas encore indiqué le ou les véhicules que vous recherchez actuellement. En ajoutant des véhicules, vous avez l’assurance d’obtenir des offres de reprises étudiées spécialement pour vous par les professionnels inscrits sur Wamcar.</p>
+    {% include 'front/User/includes/wish_list.html.twig' %}
+    <button type="button" class="text-underline input-margin">Ajouter un souhait</button>
+    <div class="small-12 medium-6 large-3">
+        <button type="submit" class="button full-width">Enregistrer mes souhaits</button>
+    </div>
+</form>

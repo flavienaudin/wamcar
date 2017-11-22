@@ -1,0 +1,42 @@
+/* ===========================================================================
+   Wish
+   =========================================================================== */
+
+.wish {
+
+
+  /*
+    List
+    ===================================== */
+
+  &-list {
+
+  }
+
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+    margin-bottom: rem-calc(20);
+    padding: rem-calc(20);
+  }
+
+
+  /*
+     Label
+     ===================================== */
+
+  &-label {
+    border-bottom: rem-calc(1) solid $border-color;
+    margin-bottom: rem-calc(15);
+    padding-bottom: rem-calc(15);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(20);
+      padding-bottom: rem-calc(20);
+    }
+  }
+
+}
