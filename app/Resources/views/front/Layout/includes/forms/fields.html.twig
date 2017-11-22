@@ -331,14 +331,14 @@
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
-    {% set list_class = list_class|default('block-grid') %}
+    {% set list_class = list_class|default('small-up-2') %}
 
     {% if label %}
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
-    <ul class="{{ list_class }}">
+    <ul class="block-grid {{ list_class }}">
         {% for child in form %}
-            <li class="">
+            <li class="column small-collapse">
                 {{ form_widget(child) }}
                 <label for="{{ child.vars.id }}" class="radio-item">
                     {{ child.vars.value }} {% include 'front/Layout/includes/svg/check.html.twig' %}
