@@ -32,6 +32,7 @@ class ProVehicleBuilder
             $vehicleDTO->isImported(),
             $vehicleDTO->isFirstHand(),
             $vehicleDTO->getAdditionalInformation(),
+            $vehicleDTO->getCity(),
             $vehicleDTO->getPrice(),
             $vehicleDTO->getCatalogPrice(),
             $vehicleDTO->getDiscount(),

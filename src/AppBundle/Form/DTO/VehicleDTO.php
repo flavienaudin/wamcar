@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\DTO;
 
+use Wamcar\Location\City;
 use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
@@ -226,6 +227,14 @@ class VehicleDTO
     public function setFuel($fuel): void
     {
         $this->information->fuel = new Fuel($fuel);
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->specifics->getCity();
     }
 
 }

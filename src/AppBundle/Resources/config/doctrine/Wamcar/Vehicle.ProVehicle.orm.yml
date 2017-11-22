@@ -15,11 +15,22 @@ Wamcar\Vehicle\ProVehicle:
             mappedBy: vehicle
             cascade: ["persist", "merge"]
 
+    manyToOne:
+        garage:
+            targetEntity: Wamcar\Garage\Garage
+            inversedBy: proVehicles
+            joinColumn:
+                name: garage_id
+                referencedColumnName: id
+
     embedded:
         registration:
             class: Wamcar\Vehicle\Registration
         modelVersion:
             class: Wamcar\Vehicle\ModelVersion
+        city:
+            class: Wamcar\Location\City
+            columnPrefix: city_
 
     fields:
         transmission:

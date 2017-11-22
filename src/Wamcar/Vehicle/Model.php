@@ -14,11 +14,36 @@ final class Model
     /**
      * Model constructor.
      * @param $name
-     * @param Make $brand
+     * @param Make $make
      */
     public function __construct(string $name, Make $make)
     {
         $this->name = $name;
         $this->make = $make;
     }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return Make
+     */
+    public function getMake(): Make
+    {
+        return $this->make;
+    }
+
+    /**
+     * @return array|ModelVersion[]
+     */
+    public function getVersions()
+    {
+        return $this->versions;
+    }
+
 }

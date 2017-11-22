@@ -1,11 +1,13 @@
 {% set search_result = search_result|default(false) %}
 
 <div class="vehicle-list small-12">
-    {% for index, vehicle in vehicle_list %}
-        {% if not search_result %}
-            {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
-        {% else %}
-            {% include 'front/Vehicle/Listing/includes/item_search.html.twig' %}
-        {% endif %}
-    {% endfor %}
+    {% if garage is defined %}
+        {% for index, vehicle in garage.proVehicles %}
+            {% if not search_result %}
+                {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
+            {% else %}
+                {% include 'front/Vehicle/Listing/includes/item_search.html.twig' %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
 </div>

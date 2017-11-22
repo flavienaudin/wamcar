@@ -310,6 +310,19 @@
     </div>
 {% endblock %}
 
+{%- block city_widget -%}
+    {% set class = class|default('') %}
+    {% set required = required|default(false) %}
+
+    <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }}" {% if required %}required{% endif %} >
+        {% if value is not defined %}
+        <option value="0" selected="selected">Veuillez d'abord renseigner le code postal</option>
+        {% else %}
+            <option value="{{ value }}" selected="selected">{{ value }}</option>
+        {% endif %}
+    </select>
+{%- endblock city_widget -%}
+
 {%- block yesno_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
@@ -378,3 +391,7 @@
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _pro_user_information_title_widget -%}
+
+{%- block _pro_vehicle_specifics_cityName_widget -%}
+    {{ block('city_widget') }}
+{%- endblock _pro_vehicle_specifics_cityName_widget -%}
