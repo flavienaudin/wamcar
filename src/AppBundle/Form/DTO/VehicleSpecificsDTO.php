@@ -57,11 +57,6 @@ class VehicleSpecificsDTO
      */
     public function getCity(): ?City
     {
-        $city = null;
-        if (null !== $this->postalCode && null !==$this->cityName) {
-            $city = new City($this->postalCode, $this->cityName);
-        }
-
-        return $city;
+        return ($this->postalCode && $this->cityName) ? new City($this->postalCode, $this->cityName) : null;
     }
 }

@@ -242,14 +242,6 @@ class Garage
     }
 
     /**
-     * @param Collection $proVehicles
-     */
-    public function setProVehicles(Collection $proVehicles)
-    {
-        $this->proVehicles = $proVehicles;
-    }
-
-    /**
      * @param ProVehicle $proVehicle
      * @return Garage
      */
@@ -275,10 +267,11 @@ class Garage
      * @param ProVehicle $proVehicle
      * @return bool
      */
-    public function hasProVehicle(ProVehicle $proVehicle): bool
+    public function isProVehicle(ProVehicle $proVehicle): bool
     {
+        /** @var ProVehicle $existProVehicle */
         foreach ($this->getProVehicles() as $existProVehicle) {
-            if ($existProVehicle === $proVehicle) {
+            if ($existProVehicle->getId() === $proVehicle->getId()) {
                 return true;
             }
         }

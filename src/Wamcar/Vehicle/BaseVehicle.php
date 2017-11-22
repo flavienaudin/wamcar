@@ -108,6 +108,14 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
      * @param Picture $picture
      */
     public function addPicture(Picture $picture): void
