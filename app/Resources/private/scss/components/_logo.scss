@@ -8,4 +8,17 @@
   @include breakpoint(medium) {
     width: rem-calc(190);
   }
+
+
+  /*
+     Container
+     ===================================== */
+
+  &-container {
+    &.is-logged {
+      @include breakpoint(small only) {
+        padding-left: rem-calc(3);
+      }
+    }
+  }
 }
