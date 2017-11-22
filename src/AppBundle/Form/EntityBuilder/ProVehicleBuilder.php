@@ -4,16 +4,18 @@ namespace AppBundle\Form\EntityBuilder;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Services\Vehicle\CanBeProVehicle;
+use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\Registration;
 
-class ProVehicleBuilder
+class ProVehicleBuilder implements VehicleBuilder
 {
     /**
-     * @param ProVehicleDTO $vehicleDTO
+     * @param CanBeProVehicle $vehicleDTO
      * @return ProVehicle
      */
-    public static function buildFromDTO(ProVehicleDTO $vehicleDTO): ProVehicle
+    public static function buildFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
     {
         $vehicle = new ProVehicle(
             $vehicleDTO->getModelVersion(),

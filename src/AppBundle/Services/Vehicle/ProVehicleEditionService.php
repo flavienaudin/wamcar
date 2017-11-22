@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services\Vehicle;
 
+use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder;
 use Wamcar\Garage\Garage;
@@ -16,6 +17,8 @@ class ProVehicleEditionService
     private $vehicleRepository;
     /** @var GarageRepository  */
     private $garageRepository;
+    /** @var array  */
+    private $vehicleBuilder;
 
     /**
      * GarageEditionService constructor.
@@ -29,17 +32,21 @@ class ProVehicleEditionService
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
+        $this->vehicleBuilder = [
+            VehicleDTO::class => \AppBundle\Api\EntityBuilder\ProVehicleBuilder::class,
+            ProVehicleDTO::class => ProVehicleBuilder::class
+        ];
     }
 
     /**
-     * @param ProVehicleDTO $proVehicleDTO
+     * @param CanBeProVehicle $proVehicleDTO
      * @param Garage $garage
-     * @return ProVehicleDTO
+     * @return ProVehicle
      */
-    public function editInformations(ProVehicleDTO $proVehicleDTO, Garage $garage): ProVehicleDTO
+    public function editInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
-        $proVehicle = ProVehicleBuilder::buildFromDTO($proVehicleDTO);
+        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::buildFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
 
         if (!$garage->isProVehicle($proVehicle)) {
@@ -48,6 +55,6 @@ class ProVehicleEditionService
         }
 
         $this->vehicleRepository->add($proVehicle);
-        return $proVehicleDTO;
+        return $proVehicle;
     }
 }
