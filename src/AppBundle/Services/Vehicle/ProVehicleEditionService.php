@@ -88,14 +88,14 @@ class ProVehicleEditionService
     /**
      * @param FormVehicleDTO $proVehicleDTO
      * @param ProVehicle $vehicle
-     * @return FormVehicleDTO
+     * @return ProVehicle
      */
-    public function updateInformations(FormVehicleDTO $proVehicleDTO, ProVehicle $vehicle): FormVehicleDTO
+    public function updateInformations(FormVehicleDTO $proVehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
-        $proVehicle = FormVehicleBuilder::buildUpdateFromDTO($proVehicleDTO, $vehicle);
+        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::buildUpdateFromDTO($proVehicleDTO, $vehicle);
 
         $this->vehicleRepository->update($proVehicle);
-        return $proVehicleDTO;
+        return $vehicle;
     }
 }

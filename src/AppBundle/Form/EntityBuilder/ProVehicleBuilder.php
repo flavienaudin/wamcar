@@ -54,12 +54,13 @@ class ProVehicleBuilder implements VehicleBuilder
 
         return $vehicle;
     }
+
     /**
-     * @param ProVehicleDTO $vehicleDTO
+     * @param CanBeProVehicle $vehicleDTO
      * @param ProVehicle $vehicle
      * @return ProVehicle
      */
-    public static function buildUpdateFromDTO(ProVehicleDTO $vehicleDTO, ProVehicle $vehicle): ProVehicle
+    public static function buildUpdateFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setTransmission($vehicleDTO->getTransmission());
