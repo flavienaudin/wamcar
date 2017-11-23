@@ -6,22 +6,42 @@
 
 {% block title %}{{ vehicle.name }}{% endblock %}
 
-{% set breadcrumbs = [
-    {
-        'name': 'Mon garage',
-        'href': ''
-    },
-    {
-        'name': block('title'),
-        'href': app.request.requestUri
-    }
-] %}
 
 {#{% set vehicle = inte.vehicle['golf-2-tdi'] %}#}
 {% set vehicle_list = inte.vehicle %}
 {% set sellers = inte.garage.sellers %}
 
 {% block body %}
+    {% if not is_logged %}
+        {% set breadcrumbs = [
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+    {% elseif is_logged and not isEditableByCurrentUser %}
+        {% set breadcrumbs = [
+            {
+                'name': vehicle.garage.name,
+                'href': path('front_garage_view', {'id': vehicle.garage.id})
+            },
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+    {% elseif is_user_pro and isEditableByCurrentUser %}
+        {% set breadcrumbs = [
+            {
+                'name': 'Mon garage',
+                'href': path('front_garage_view', {'id': vehicle.garage.id})
+            },
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+    {% endif %}
 
     <script type="application/ld+json">
     {

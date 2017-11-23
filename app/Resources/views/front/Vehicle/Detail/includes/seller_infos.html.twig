@@ -21,6 +21,7 @@
             </div>
         </figure>
     </li>
+    {% if vehicle.garage.seller.name %}
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
             <span class="brand-logo is-logo"><img src="{{ asset('assets/images/placeholders/user/user.png') }}" alt="{{ vehicle.garage.seller.name }}"></span>
@@ -32,4 +33,5 @@
             </div>
         </figure>
     </li>
+    {% endif %}
 </ul>

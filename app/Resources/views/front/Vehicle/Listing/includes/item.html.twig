@@ -1,10 +1,8 @@
 {% set balise = balise|default('h2') %}
-{# Exemple inté #}
-{% set like = index == 'ds3' ? 'Supprimer des favoris' : 'Ajouter aux favoris' %}
 
 <article class="vehicle-item is-flex">
     <a href="{{ path('front_vehicle_pro_detail', {'id': vehicle.id}) }}" class="is-flex full-width">
-        <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
+        <div class="js-like like"><span data-tooltip=""></span></div>
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
                 <img src="{{ asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
@@ -21,7 +19,7 @@
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
-                <time class="vehicle-time black-color small-auto">14 nov, 14h45</time>
+                <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate('none', 'none', null, null, "d MMM, H'h'm") }}</time>
                 {% if not search_result %}
                     <strong class="vehicle-price small-shrink">{{ vehicle.price }}</strong>
                 {% endif %}
