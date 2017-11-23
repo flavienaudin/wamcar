@@ -2,7 +2,7 @@
 
 <article class="vehicle-item is-flex">
     <a href="{{ path('front_vehicle_pro_detail', {'id': vehicle.id}) }}" class="is-flex full-width">
-        <div class="js-like like"><span data-tooltip=""></span></div>
+        <div class="js-like like {{ index == 'ds3' ? 'is-active' : '' }}"><span data-tooltip="{{ like }}">{{ like }}</span></div>
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
                 <img src="{{ asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
