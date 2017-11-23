@@ -4,7 +4,7 @@ namespace AppBundle\Form\DTO;
 
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 
-class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
+final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
 {
     /** @var VehicleOfferDTO */
     public $offer;

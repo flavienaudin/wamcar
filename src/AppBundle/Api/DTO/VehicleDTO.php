@@ -9,7 +9,7 @@ use AppBundle\Services\Vehicle\CanBeProVehicle;
  *   type="object"
  * )
  */
-class VehicleDTO implements CanBeProVehicle
+final class VehicleDTO implements CanBeProVehicle
 {
     /** @SWG\Property(type="integer", format="int64") */
     public $IdentifiantVehicule;
