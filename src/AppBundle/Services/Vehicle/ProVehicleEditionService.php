@@ -50,10 +50,25 @@ class ProVehicleEditionService
 
     /**
      * @param CanBeProVehicle $proVehicleDTO
+     * @param ProVehicle|null $vehicle
+     * @param Garage $garage
+     */
+    public function saveInformations(CanBeProVehicle $proVehicleDTO, ProVehicle $vehicle = null, Garage $garage)
+    {
+        if ($vehicle) {
+            $this->updateInformations($proVehicleDTO, $vehicle);
+        } else {
+            $this->createInformations($proVehicleDTO, $garage);
+        }
+    }
+
+
+    /**
+     * @param CanBeProVehicle $proVehicleDTO
      * @param Garage $garage
      * @return ProVehicle
      */
-    public function editInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
+    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::buildFromDTO($proVehicleDTO);
