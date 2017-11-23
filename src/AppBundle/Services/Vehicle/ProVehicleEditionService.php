@@ -2,8 +2,8 @@
 
 namespace AppBundle\Services\Vehicle;
 
-use AppBundle\Api\DTO\VehicleDTO;
-use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
+use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\ProVehicle;
@@ -34,8 +34,8 @@ class ProVehicleEditionService
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
         $this->vehicleBuilder = [
-            VehicleDTO::class => ApiVehicleBuilder::class,
-            ProVehicleDTO::class => FormVehicleBuilder::class
+            ApiVehicleDTO::class => ApiVehicleBuilder::class,
+            FormVehicleDTO::class => FormVehicleBuilder::class
         ];
     }
 
