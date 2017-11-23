@@ -2,12 +2,14 @@
 
 namespace AppBundle\Services\Vehicle;
 
-use AppBundle\Form\DTO\ProVehicleDTO;
-use AppBundle\Form\EntityBuilder\ProVehicleBuilder;
+use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
+use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\VehicleRepository;
+use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
+use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 
 
 class ProVehicleEditionService
@@ -16,6 +18,8 @@ class ProVehicleEditionService
     private $vehicleRepository;
     /** @var GarageRepository  */
     private $garageRepository;
+    /** @var array  */
+    private $vehicleBuilder;
 
     /**
      * GarageEditionService constructor.
@@ -29,17 +33,21 @@ class ProVehicleEditionService
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
+        $this->vehicleBuilder = [
+            ApiVehicleDTO::class => ApiVehicleBuilder::class,
+            FormVehicleDTO::class => FormVehicleBuilder::class
+        ];
     }
 
     /**
-     * @param ProVehicleDTO $proVehicleDTO
+     * @param CanBeProVehicle $proVehicleDTO
      * @param Garage $garage
-     * @return ProVehicleDTO
+     * @return ProVehicle
      */
-    public function editInformations(ProVehicleDTO $proVehicleDTO, Garage $garage): ProVehicleDTO
+    public function editInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
-        $proVehicle = ProVehicleBuilder::buildFromDTO($proVehicleDTO);
+        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::buildFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
 
         if (!$garage->isProVehicle($proVehicle)) {
@@ -48,6 +56,6 @@ class ProVehicleEditionService
         }
 
         $this->vehicleRepository->add($proVehicle);
-        return $proVehicleDTO;
+        return $proVehicle;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Api\DTO;
+use AppBundle\Services\Vehicle\CanBeProVehicle;
 
 /**
  * @SWG\Definition(
@@ -8,7 +9,7 @@ namespace AppBundle\Api\DTO;
  *   type="object"
  * )
  */
-class VehicleDTO
+final class VehicleDTO implements CanBeProVehicle
 {
     /** @SWG\Property(type="integer", format="int64") */
     public $IdentifiantVehicule;

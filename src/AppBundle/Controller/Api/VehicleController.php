@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Api;
 
 
 use AppBundle\Services\User\CanBeGarageMember;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,14 +24,18 @@ class VehicleController extends BaseController
 {
     /** @var VehicleRepository */
     private $vehicleRepository;
+    /** @var ProVehicleEditionService */
+    private $proVehicleEditionService;
 
     /**
      * VehicleController constructor.
      * @param VehicleRepository $vehicleRepository
+     * @param ProVehicleEditionService $proVehicleEditionService
      */
-    public function __construct(VehicleRepository $vehicleRepository)
+    public function __construct(VehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
     {
         $this->vehicleRepository = $vehicleRepository;
+        $this->proVehicleEditionService = $proVehicleEditionService;
     }
 
     /**
@@ -109,6 +114,7 @@ class VehicleController extends BaseController
     public function addAction(Request $request): Response
     {
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        $this->proVehicleEditionService->editInformations($vehicleDTO, $this->getUserGarage());
         var_dump($vehicleDTO);
         exit;
     }
