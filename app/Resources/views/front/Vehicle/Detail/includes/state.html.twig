@@ -1,12 +1,12 @@
 {% set state_inte = [
-    { label: "Changement de courroie de distribution", value: "Fait" },
-    { label: "Date du dernier controle technique", value: "Moins de 6 mois" },
-    { label: "Resultat du dernier controle technique", value: "OK" },
-    { label: "Statut", value: "Occasion" },
-    { label: "Etat de la carrosserie", value: "Occasion" },
-    { label: "Etat du moteur", value: "Occasion" },
-    { label: "Etat des pneus", value: "Occasion" },
-    { label: "Carnet d’entretien", value: "A jour avec factures" }
+    { label: "Changement de courroie de distribution", value: vehicle.getisTimingBeltChanged ? 'Oui' : 'Non' },
+    { label: "Date du dernier controle technique", value: vehicle.safetyTestDate },
+    { label: "Resultat du dernier controle technique", value: vehicle.safetyTestState },
+    { label: "Statut", value: vehicle.isFirstHand ? 'Neuf' : 'Occasion' },
+    { label: "Etat de la carrosserie", value: vehicle.bodyState|default('Non renseigné') },
+    { label: "Etat du moteur", value: vehicle.engineState|default('Non renseigné') },
+    { label: "Etat des pneus", value: vehicle.tyreState|default('Non renseigné') },
+    { label: "Carnet d’entretien", value: vehicle.maintenanceState }
 ] %}
 
 <h2 class="separator medium primary-color">Etat du véhicule</h2>

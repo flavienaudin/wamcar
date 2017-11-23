@@ -79,3 +79,7 @@ front_vehicle_pro_add:
 front_vehicle_pro_edit:
     path: /vehicule/vendeur/{id}/modifier/{plateNumber}
     defaults: { _controller: AppBundle:Front\ProContext\Vehicle:save, plateNumber: null }
+
+front_vehicle_pro_detail:
+    path: /vehicule/detail/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:detail }

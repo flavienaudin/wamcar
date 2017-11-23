@@ -114,4 +114,18 @@ class VehicleController extends BaseController
             'proVehicleForm' => $proVehicleForm->createView(),
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @return Response
+     */
+    public function detailAction(Request $request, ProVehicle $vehicle): Response
+    {
+
+        return $this->render('front/Vehicle/Detail/detail.html.twig', [
+            'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
+            'vehicle' => $vehicle,
+        ]);
+    }
 }

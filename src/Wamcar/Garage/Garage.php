@@ -4,6 +4,7 @@ namespace Wamcar\Garage;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
 class Garage
@@ -277,5 +278,15 @@ class Garage
         }
 
         return false;
+    }
+
+
+    public function getSeller(): ?ProUser
+    {
+        if (count($this->members) > 0) {
+            return $this->members[0]->getProUser();
+        }
+
+        return null;
     }
 }

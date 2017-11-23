@@ -4,7 +4,7 @@
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}Toyota Yaris 3{% endblock %}
+{% block title %}{{ vehicle.name }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -17,7 +17,7 @@
     }
 ] %}
 
-{% set vehicle = inte.vehicle['golf-2-tdi'] %}
+{#{% set vehicle = inte.vehicle['golf-2-tdi'] %}#}
 {% set vehicle_list = inte.vehicle %}
 {% set sellers = inte.garage.sellers %}
 
@@ -27,25 +27,22 @@
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.seller }}",
+    "name" : "{{ vehicle.garage.seller.name }}",
     "makesOffer" : {
             "@type" :"Offer",
             "priceSpecification" : {
                 "@type" : "UnitPriceSpecification",
-                "priceCurrency" : "USD",
+                "priceCurrency" : "EUR",
                 "price" : "{{ vehicle.price }}" },
             "itemOffered" : {
                 "@type" : "Car",
                 "name" : "{{ vehicle.name }}",
-                "description" : "{{ vehicle.description|raw }}",
-            "image" : "{{ vehicle.picture }}",
-            "color" : "{{ vehicle.color }}",
-            "numberOfForwardGears" : "6",
+                "description" : "{{ vehicle.additionalInformation|raw  }}",
+            "image" : "",
             "vehicleEngine" : {
                 "@type": "EngineSpecification",
-                "name" : "{{ vehicle.model }}"
-                },
-            "numberOfAirbags" : "2"
+                "name" : "{{ vehicle.modelName }}"
+                }
             }
         }
     }
@@ -78,7 +75,7 @@
                             {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
                         {% elseif is_user_personal %}
                             {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                        {% elseif is_user_pro %}
+                        {% elseif is_user_pro and isEditableByCurrentUser %}
                             {% include 'front/Vehicle/Detail/includes/user_pro_editing.html.twig' %}
                         {% endif %}
                     </div>
@@ -112,6 +109,7 @@
             <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
 
         </div>
+    </div>
 
 {% endblock body %}
 

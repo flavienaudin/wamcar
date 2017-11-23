@@ -1,16 +1,15 @@
 {% set infos_inte = [
     { label: "Marque", value: vehicle.name },
-    { label: "Modèle", value: vehicle.brand },
-    { label: "Version", value: vehicle.version },
+    { label: "Modèle", value: vehicle.make },
+    { label: "Version", value: vehicle.name },
     { label: "Année", value: vehicle.years },
-    { label: "Kilométrage", value: vehicle.km },
-    { label: "Motorisation", value: "1.6l 155ch" },
-    { label: "Boite de vitesse", value: "Manuelle" },
-    { label: "Energie", value: "Diesel" },
-    { label: "Couleur", value: "Gris" },
-    { label: "Mise en circulation", value: "20/04/2016" },
-    { label: "Véhicule importé", value: "Non" },
-    { label: "Véhicule 1ère main", value: "Non" }
+    { label: "Kilométrage", value: vehicle.mileAge },
+    { label: "Motorisation", value: vehicle.engineName },
+    { label: "Boite de vitesse", value: vehicle.transmission },
+    { label: "Energie", value: vehicle.fuelName },
+    { label: "Mise en circulation", value: vehicle.registrationDate|date("d/m/Y") },
+    { label: "Véhicule importé", value: vehicle.isImported ? 'Oui' : 'Non' },
+    { label: "Véhicule 1ère main", value: vehicle.isFirstHand ? 'Oui' : 'Non' }
 ] %}
 
 <h2 class="separator medium primary-color">Informations principales</h2>
