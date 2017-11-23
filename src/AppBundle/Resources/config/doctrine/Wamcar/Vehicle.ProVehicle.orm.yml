@@ -77,11 +77,13 @@ Wamcar\Vehicle\ProVehicle:
         guarantee:
             type: string
             nullable: true
-        refunded:
-            type: boolean
-            options:
-                default: false
         otherGuarantee:
+            type: string
+            nullable: true
+        funding:
+            type: string
+            nullable: true
+        otherFunding:
             type: string
             nullable: true
         additionalServices:

@@ -3,8 +3,5 @@
     {% if vehicle.guarantee %}
         <li>{{ vehicle.guarantee }}</li>
     {% endif %}
-    {% if vehicle.isRefunded %}
-        <li>Satisfait ou remboursé 15 jours</li>
-    {% endif %}
     {{ vehicle.otherGuarantee|raw }}
 </ul>

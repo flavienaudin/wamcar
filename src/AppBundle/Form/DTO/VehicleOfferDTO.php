@@ -15,10 +15,12 @@ class VehicleOfferDTO
     public $discount;
     /** @var string */
     public $guarantee;
-    /** @var bool */
-    public $refunded;
     /** @var string */
     public $otherGuarantee;
+    /** @var string */
+    public $funding;
+    /** @var string */
+    public $otherFunding;
     /** @var string */
     public $additionalServices;
     /** @var string */

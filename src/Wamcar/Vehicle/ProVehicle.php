@@ -21,10 +21,12 @@ class ProVehicle extends BaseVehicle
     private $discount;
     /** @var string */
     private $guarantee;
-    /** @var bool */
-    private $refunded;
     /** @var string */
     private $otherGuarantee;
+    /** @var string */
+    private $funding;
+    /** @var string */
+    private $otherFunding;
     /** @var string */
     private $additionalServices;
     /** @var string */
@@ -54,8 +56,9 @@ class ProVehicle extends BaseVehicle
         float $catalogPrice = null,
         float $discount = null,
         string $guarantee = null,
-        bool $refunded = false,
         string $otherGuarantee = null,
+        string $funding = null,
+        string $otherFunding = null,
         string $additionalServices = null,
         string $reference = null
     )
@@ -65,8 +68,9 @@ class ProVehicle extends BaseVehicle
         $this->catalogPrice = $catalogPrice;
         $this->discount = $discount;
         $this->guarantee = $guarantee;
-        $this->refunded = $refunded;
         $this->otherGuarantee = $otherGuarantee;
+        $this->funding = $funding;
+        $this->otherFunding = $otherFunding;
         $this->additionalServices = $additionalServices;
         $this->reference = $reference;
     }
@@ -304,19 +308,27 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return bool
-     */
-    public function isRefunded(): bool
-    {
-        return $this->refunded;
-    }
-
-    /**
      * @return string
      */
     public function getOtherGuarantee(): ?string
     {
         return $this->otherGuarantee;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFunding(): ?string
+    {
+        return $this->funding;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOtherFunding(): ?string
+    {
+        return $this->otherFunding;
     }
 
     /**

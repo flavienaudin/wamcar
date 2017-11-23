@@ -1,4 +1,7 @@
 <h2 class="separator medium primary-color">Financement</h2>
 <ul class="list-bullet dark-gray-color no-margin">
-    {#TODO: When funding field added#}
+    {% if vehicle.funding %}
+        <li>{{ vehicle.funding }}</li>
+    {% endif %}
+    {{ vehicle.otherFunding|raw }}
 </ul>

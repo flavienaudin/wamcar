@@ -98,21 +98,27 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     {
         return $this->offer->guarantee;
     }
-
-    /**
-     * @return bool
-     */
-    public function isRefunded(): bool
-    {
-        return $this->offer->refunded;
-    }
-
     /**
      * @return string
      */
     public function getOtherGuarantee(): ?string
     {
         return $this->offer->otherGuarantee;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFunding(): ?string
+    {
+        return $this->offer->funding;
+    }
+    /**
+     * @return string
+     */
+    public function getOtherFunding(): ?string
+    {
+        return $this->offer->otherFunding;
     }
 
     /**
