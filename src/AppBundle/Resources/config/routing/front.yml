@@ -74,8 +74,8 @@ front_fetch_city:
 
 front_vehicle_pro_add:
     path: /vehicule/vendeur/ajouter/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:create, plateNumber: null, vehicle: null  }
+    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:save, plateNumber: null, vehicle: null  }
 
 front_vehicle_pro_edit:
     path: /vehicule/vendeur/{id}/modifier/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:create, plateNumber: null }
+    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:save, plateNumber: null }

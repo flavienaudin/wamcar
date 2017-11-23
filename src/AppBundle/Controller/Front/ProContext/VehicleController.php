@@ -58,7 +58,7 @@ class VehicleController extends BaseController
      * @return Response
      * @throws \AutoData\Exception\AutodataException
      */
-    public function createAction(
+    public function saveAction(
         Request $request,
         ProVehicle $vehicle = null,
         string $plateNumber = null): Response
