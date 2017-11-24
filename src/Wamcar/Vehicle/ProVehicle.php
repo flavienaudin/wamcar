@@ -97,9 +97,25 @@ class ProVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getModel(): string
+    public function getModelName(): string
     {
         return $this->modelVersion->getModel()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelVersionName(): string
+    {
+        return $this->modelVersion->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getEngineName(): string
+    {
+        return $this->modelVersion->getEngine()->getName();
     }
 
     /**

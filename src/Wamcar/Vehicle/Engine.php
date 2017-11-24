@@ -21,6 +21,14 @@ final class Engine
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * @return Fuel
      */
     public function getFuel(): Fuel
