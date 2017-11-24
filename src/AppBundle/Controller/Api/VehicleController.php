@@ -8,6 +8,8 @@ use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Vehicle;
@@ -113,10 +115,18 @@ class VehicleController extends BaseController
      */
     public function addAction(Request $request): Response
     {
-        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
-        var_dump($vehicleDTO);
-        exit;
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        try{
+            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+            $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+
+            return new Response("Vehicle created", Response::HTTP_OK);
+        } catch(\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 
     /**
@@ -138,9 +148,18 @@ class VehicleController extends BaseController
      */
     public function getAction(Request $request, Vehicle $vehicle): Response
     {
-        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-        return new JsonResponse($vehicle);
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        try{
+            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+            $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+
+            return new Response("Vehicle updated", Response::HTTP_OK);
+        } catch(\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 
     /**
