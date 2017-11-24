@@ -37,3 +37,9 @@ services:
         autowire: true
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleCreated, method: notify }
+
+    wamcar.event.elasticsearch.pro_vehicle_updated.index:
+        class: AppBundle\Elasticsearch\IndexUpdatedProVehicle
+        autowire: true
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleUpdated, method: notify }
