@@ -15,7 +15,7 @@ class ProVehicleBuilder implements VehicleBuilder
      * @param CanBeProVehicle $vehicleDTO
      * @return ProVehicle
      */
-    public static function buildFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
+    public static function newVehicleFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
     {
         $vehicle = new ProVehicle(
             $vehicleDTO->getModelVersion(),
@@ -60,7 +60,7 @@ class ProVehicleBuilder implements VehicleBuilder
      * @param ProVehicle $vehicle
      * @return ProVehicle
      */
-    public static function buildUpdateFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
+    public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setTransmission($vehicleDTO->getTransmission());
