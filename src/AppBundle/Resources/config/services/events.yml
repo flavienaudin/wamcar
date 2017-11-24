@@ -31,3 +31,12 @@ services:
           - sell.registration_token_generated
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
+
+    wamcar.event.elasticsearch.pro_vehicle_created.index:
+        class: AppBundle\Elasticsearch\IndexCreatedProVehicle
+        arguments:
+            - Novaway\ElasticsearchClient\ObjectIndexer
+            - AppBundle\Elasticsearch\Type\IndexableProVehicleBuilder
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ItemCreated, method: notify }
+

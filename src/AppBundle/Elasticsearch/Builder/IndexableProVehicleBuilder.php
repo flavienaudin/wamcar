@@ -19,7 +19,7 @@ class IndexableProVehicleBuilder
      * @param ProVehicle $vehicle
      * @return IndexableProVehicle
      */
-    public function buildFromItem(ProVehicle $vehicle): IndexableProVehicle
+    public function buildFromVehicle(ProVehicle $vehicle): IndexableProVehicle
     {
         return new IndexableProVehicle(
             $vehicle->getId(),
