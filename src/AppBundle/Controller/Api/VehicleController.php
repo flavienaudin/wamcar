@@ -114,7 +114,7 @@ class VehicleController extends BaseController
     public function addAction(Request $request): Response
     {
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->saveInformations($vehicleDTO, null, $this->getUserGarage());
+        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
         var_dump($vehicleDTO);
         exit;
     }
@@ -139,7 +139,7 @@ class VehicleController extends BaseController
     public function getAction(Request $request, Vehicle $vehicle): Response
     {
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->saveInformations($vehicleDTO, $vehicle);
+        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
         return new JsonResponse($vehicle);
     }
 

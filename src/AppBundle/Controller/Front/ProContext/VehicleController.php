@@ -97,7 +97,11 @@ class VehicleController extends BaseController
         $proVehicleForm->handleRequest($request);
 
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {
-            $this->proVehicleEditionService->saveInformations($vehicleDTO, $vehicle, $garage);
+            if ($vehicle) {
+                $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+            } else {
+                $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
+            }
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
