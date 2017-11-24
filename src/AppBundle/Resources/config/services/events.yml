@@ -34,9 +34,6 @@ services:
 
     wamcar.event.elasticsearch.pro_vehicle_created.index:
         class: AppBundle\Elasticsearch\IndexCreatedProVehicle
-        arguments:
-            - Novaway\ElasticsearchClient\ObjectIndexer
-            - AppBundle\Elasticsearch\Type\IndexableProVehicleBuilder
+        autowire: true
         tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ItemCreated, method: notify }
-
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleCreated, method: notify }

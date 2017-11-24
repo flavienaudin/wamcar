@@ -1,7 +1,8 @@
 <?php
 
-namespace AppBundle\Elasticsearch\Type;
+namespace AppBundle\Elasticsearch\Builder;
 
+use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use Symfony\Component\Routing\Router;
 use Wamcar\Vehicle\ProVehicle;
 
