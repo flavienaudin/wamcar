@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
@@ -69,7 +70,12 @@ class VehicleController extends BaseController
         /** @var Garage $garage */
         $garage = $this->getUser()->getGarage();
 
-        $vehicleDTO = new ProVehicleDTO($vehicle, $plateNumber);
+        if ($vehicle) {
+            $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
+        } else {
+            $vehicleDTO = new VehicleDTO($plateNumber);
+        }
+
         $filters = $vehicleDTO->retrieveFilter();
 
         if ($plateNumber) {

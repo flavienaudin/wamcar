@@ -24,17 +24,38 @@ class VehicleOfferDTO
     /** @var string */
     public $reference;
 
-    public function __construct(ProVehicle $vehicle = null)
+    /**
+     * @param $price
+     * @param $catalogPrice
+     * @param $discount
+     * @param $guarantee
+     * @param $refunded
+     * @param $otherGuarantee
+     * @param $additionalServices
+     * @param $reference
+     * @return VehicleOfferDTO
+     */
+    public static function buildFromOffer(
+        $price,
+        $catalogPrice,
+        $discount,
+        $guarantee,
+        $refunded,
+        $otherGuarantee,
+        $additionalServices,
+        $reference
+    )
     {
-        if ($vehicle) {
-            $this->price = $vehicle->getPrice();
-            $this->catalogPrice = $vehicle->getCatalogPrice();
-            $this->discount = $vehicle->getDiscount();
-            $this->guarantee = $vehicle->getGuarantee();
-            $this->refunded = $vehicle->isRefunded();
-            $this->otherGuarantee = $vehicle->getOtherGuarantee();
-            $this->additionalServices = $vehicle->getAdditionalServices();
-            $this->reference = $vehicle->getReference();
-        }
+        $dto = new self();
+        $dto->price = $price;
+        $dto->catalogPrice = $catalogPrice;
+        $dto->discount = $discount;
+        $dto->guarantee = $guarantee;
+        $dto->refunded = $refunded;
+        $dto->otherGuarantee = $otherGuarantee;
+        $dto->additionalServices = $additionalServices;
+        $dto->reference = $reference;
+
+        return $dto;
     }
 }

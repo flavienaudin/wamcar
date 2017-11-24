@@ -21,18 +21,6 @@ class VehicleInformationDTO
     /** @var Fuel */
     public $fuel;
 
-    public function __construct(ProVehicle $vehicle = null)
-    {
-        if ($vehicle) {
-            $this->make = $vehicle->getMake();
-            $this->model = $vehicle->getModelName();
-            $this->modelVersion = $vehicle->getModelVersionName();
-            $this->engine = $vehicle->getEngineName();
-            $this->transmission = $vehicle->getTransmission();
-            $this->fuel = $vehicle->getFuelName();
-        }
-    }
-
     /**
      * @param array $filters
      */
@@ -72,5 +60,25 @@ class VehicleInformationDTO
         ) : null;
     }
 
+    /**
+     * @param $make
+     * @param $model
+     * @param $modelVersion
+     * @param $engine
+     * @param $transmission
+     * @param $fuel
+     * @return VehicleInformationDTO
+     */
+    public static function buildFromInformation($make, $model, $modelVersion, $engine, $transmission, $fuel)
+    {
+        $dto = new self();
+        $dto->make = $make;
+        $dto->model = $model;
+        $dto->modelVersion = $modelVersion;
+        $dto->engine = $engine;
+        $dto->transmission = $transmission;
+        $dto->fuel = $fuel;
 
+        return $dto;
+    }
 }
