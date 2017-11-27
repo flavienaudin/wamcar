@@ -22,6 +22,7 @@ class IndexableProVehicleBuilder
      */
     public function buildFromVehicle(ProVehicle $vehicle): IndexableProVehicle
     {
+        //TODO: correct the link of the detail url
         return new IndexableProVehicle(
             $vehicle->getId(),
             $this->router->generate('front_vehicle_pro_add'),
