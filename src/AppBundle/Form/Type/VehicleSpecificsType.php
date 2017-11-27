@@ -9,7 +9,7 @@ use AppBundle\Form\Type\SpecificField\StarType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, DateType, IntegerType, TextareaType, TextType
+    ChoiceType, DateType, HiddenType, IntegerType, TextareaType, TextType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -76,6 +76,8 @@ class VehicleSpecificsType extends AbstractType
                 ]
             ])
             ->add('cityName', TextType::class)
+            ->add('latitude', HiddenType::class)
+            ->add('longitude', HiddenType::class)
         ;
 
         $builder->get('safetyTestDate')->addModelTransformer(new EnumDataTransformer(SafetyTestDate::class));

@@ -151,14 +151,20 @@
                     </div>
                     <div class="column small-8">
                         {{ form_widget(vehicleForm.specifics.cityName, {
-                            'class' : 'no-margin',
+                            'class' : 'no-margin js-complete-coordinate',
                             'required' : true,
                             'required_message' : 'Veuillez d\'abord renseigner le code postal',
                             'required_class' : 'form-error',
                             'label' : '',
                             'label_class' : '',
+                            'attr':  {
+                                'data-latitude-field': 'pro_vehicle_specifics_latitude',
+                                'data-longitude-field': 'pro_vehicle_specifics_longitude'
+                            }
                         }) }}
                         <small class="form-error">Veuillez indiquer votre ville</small>
+                        {{ form_widget(vehicleForm.specifics.latitude) }}
+                        {{ form_widget(vehicleForm.specifics.longitude) }}
                     </div>
                 </div>
             </div>
