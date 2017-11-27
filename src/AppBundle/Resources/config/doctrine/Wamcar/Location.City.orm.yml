@@ -8,3 +8,9 @@ Wamcar\Location\City:
         name:
             type: string
             nullable: true
+        latitude:
+            type: float
+            nullable: true
+        longitude:
+            type: float
+            nullable: true

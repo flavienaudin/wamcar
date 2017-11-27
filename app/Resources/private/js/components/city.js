@@ -3,6 +3,7 @@
    =========================================================================== */
 
 let $zipcodeInputs = document.querySelectorAll('.js-postalCode');
+let $cityInputs = document.querySelectorAll('.js-complete-coordinate');
 
 let clearSelect = function (select) {
   let selectOptions = select.getElementsByTagName('option');
@@ -43,11 +44,15 @@ let clearSelect = function (select) {
             let option = document.createElement('option');
             option.text = element['place name'];
             option.value = element['place name'];
+            option.setAttribute('data-latitude', element['latitude']);
+            option.setAttribute('data-longitude', element['longitude']);
             if (idx === 0) {
               option.selected = true;
             }
             cityInput.add(option);
           });
+          let event = new Event('change');
+          cityInput.dispatchEvent(event);
         }
 
       })
@@ -55,5 +60,15 @@ let clearSelect = function (select) {
         clearSelect(cityInput);
         throw err;
       });
+  });
+});
+
+[...$cityInputs].forEach((input) => {
+  input.addEventListener('change', () => {
+    let latitudeInput = document.getElementById(input.getAttribute('data-latitude-field'));
+    let longitudeInput = document.getElementById(input.getAttribute('data-longitude-field'));
+    let optionSelected =  input.options[input.selectedIndex];
+    latitudeInput.value = optionSelected.getAttribute('data-latitude');
+    longitudeInput.value = optionSelected.getAttribute('data-longitude');
   });
 });

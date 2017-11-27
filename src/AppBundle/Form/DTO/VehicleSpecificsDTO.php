@@ -37,6 +37,10 @@ class VehicleSpecificsDTO
     public $postalCode;
     /** @var string */
     public $cityName;
+    /** @var string */
+    public $latitude;
+    /** @var string */
+    public $longitude;
 
     /**
      * VehicleSpecificsDTO constructor.
@@ -57,6 +61,6 @@ class VehicleSpecificsDTO
      */
     public function getCity(): ?City
     {
-        return ($this->postalCode && $this->cityName) ? new City($this->postalCode, $this->cityName) : null;
+        return ($this->postalCode && $this->cityName) ? new City($this->postalCode, $this->cityName, $this->latitude, $this->longitude) : null;
     }
 }
