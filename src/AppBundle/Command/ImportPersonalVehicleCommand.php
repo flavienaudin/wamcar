@@ -2,12 +2,12 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\IndexableProVehicle;
+use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportProVehicleCommand extends BaseCommand
+class ImportPersonalVehicleCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -16,8 +16,8 @@ class ImportProVehicleCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('wamcar:populate:pro_vehicle')
-            ->setDescription('Populate the pro vehicle search with data from the pro vehicle entity')
+            ->setName('wamcar:populate:personal_vehicle')
+            ->setDescription('Populate the personal vehicle search with data from the personal vehicle entity')
             ;
     }
 
@@ -35,25 +35,25 @@ class ImportProVehicleCommand extends BaseCommand
 
         $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
-        $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\VehicleRepository');
-        $indexableProVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder');
+        $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\VehicleRepository');
+        $indexablePersonalVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder');
 
-        $searchProVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);
-        $progress = new ProgressBar($output, $searchProVehicles->totalHits());
-        foreach ($searchProVehicles->hits() as $searchProVehicle) {
+        $searchPersonalVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexablePersonalVehicle::TYPE]);
+        $progress = new ProgressBar($output, $searchPersonalVehicles->totalHits());
+        foreach ($searchPersonalVehicles->hits() as $searchPersonalVehicle) {
             $progress->advance();
-            $index->delete(['id' => $searchProVehicle['id'], 'index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);
+            $index->delete(['id' => $searchPersonalVehicle['id'], 'index' => 'wamcar_index_dev', 'type' => IndexablePersonalVehicle::TYPE]);
         }
         $progress->finish();
 
         $this->log('info', 'Reload !');
 
-        $vehicles = $proVehicleRepository->findAll();
+        $vehicles = $personalVehicleRepository->findAll();
         $progress = new ProgressBar($output, count($vehicles));
 
         foreach ($vehicles as $vehicle) {
             $progress->advance();
-            $objectIndexer->index($indexableProVehicleBuilder->buildFromVehicle($vehicle), IndexableProVehicle::TYPE);
+            $objectIndexer->index($indexablePersonalVehicleBuilder->buildFromVehicle($vehicle), IndexablePersonalVehicle::TYPE);
 
         }
 
