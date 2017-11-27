@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch;
 
 use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
+use AppBundle\Elasticsearch\Traits\ProVehicleIndexerTrait;
 use Novaway\ElasticsearchClient\ObjectIndexer;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\VehicleEvent;
@@ -10,7 +11,7 @@ use Wamcar\Vehicle\Event\VehicleEventHandler;
 
 class IndexCreatedProVehicle implements VehicleEventHandler
 {
-    use Traits\ProVehicleIndexerTrait;
+    use ProVehicleIndexerTrait;
 
     /**
      * IndexCreatedProVehicle constructor.

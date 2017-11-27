@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch;
 
 use AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder;
+use AppBundle\Elasticsearch\Traits\PersonalVehicleIndexerTrait;
 use Novaway\ElasticsearchClient\ObjectIndexer;
 use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
 use Wamcar\Vehicle\Event\VehicleEvent;
@@ -10,10 +11,10 @@ use Wamcar\Vehicle\Event\VehicleEventHandler;
 
 class IndexUpdatedPersonalVehicle implements VehicleEventHandler
 {
-    use Traits\PersonalVehicleIndexerTrait;
+    use PersonalVehicleIndexerTrait;
 
     /**
-     * IndexCreatedVehicle constructor.
+     * IndexUpdatedPersonalVehicle constructor.
      * @param ObjectIndexer $objectIndexer
      * @param IndexablePersonalVehicleBuilder $indexablePersonalVehicleBuilder
      */
