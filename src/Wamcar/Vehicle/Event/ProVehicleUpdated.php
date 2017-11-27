@@ -4,7 +4,7 @@
 namespace Wamcar\Vehicle\Event;
 
 
-class ProVehicleCreated extends VehicleCreated
+class ProVehicleUpdated extends VehicleUpdated
 {
 
 }

@@ -7,6 +7,7 @@ use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\VehicleCreated;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\VehicleRepository;
@@ -64,7 +65,7 @@ class ProVehicleEditionService
         }
 
         $this->vehicleRepository->add($proVehicle);
-        $this->eventBus->handle(new VehicleCreated($proVehicle));
+        $this->eventBus->handle(new ProVehicleCreated($proVehicle));
 
         return $proVehicle;
     }

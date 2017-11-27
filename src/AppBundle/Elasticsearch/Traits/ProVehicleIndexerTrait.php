@@ -14,13 +14,13 @@ trait ProVehicleIndexerTrait
     /** @var IndexableProVehicleBuilder */
     private $indexableProVehicleBuilder;
 
-    protected function indexProVehicle(ProVehicle $vehicle)
+    protected function indexProVehicle(ProVehicle $proVehicle)
     {
-        $indexableItem = $this->indexableProVehicleBuilder->buildFromVehicle($vehicle);
-        if ($indexableItem->shouldBeIndexed()) {
-            $this->objectIndexer->index($indexableItem, IndexableProVehicle::TYPE);
+        $indexableProVehicle = $this->indexableProVehicleBuilder->buildFromVehicle($proVehicle);
+        if ($indexableProVehicle->shouldBeIndexed()) {
+            $this->objectIndexer->index($indexableProVehicle, IndexableProVehicle::TYPE);
         } else {
-            $this->objectIndexer->remove($indexableItem, IndexableProVehicle::TYPE);
+            $this->objectIndexer->remove($indexableProVehicle, IndexableProVehicle::TYPE);
         }
     }
 }

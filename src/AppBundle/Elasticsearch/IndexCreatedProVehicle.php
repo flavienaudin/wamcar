@@ -4,7 +4,7 @@ namespace AppBundle\Elasticsearch;
 
 use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
 use Novaway\ElasticsearchClient\ObjectIndexer;
-use Wamcar\Vehicle\Event\VehicleCreated;
+use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
 
@@ -28,12 +28,12 @@ class IndexCreatedProVehicle implements VehicleEventHandler
      */
     public function notify(VehicleEvent $event)
     {
-        if(!$event instanceof VehicleCreated) {
+        if(!$event instanceof ProVehicleCreated) {
             throw new \InvalidArgumentException("IndexCreatedVehicle can only be notified of 'VehicleCreated' events");
         }
-        $vehicle = $event->getVehicle();
+        $proVehicle = $event->getVehicle();
 
-        $this->indexProVehicle($vehicle);
+        $this->indexProVehicle($proVehicle);
     }
 
 }
