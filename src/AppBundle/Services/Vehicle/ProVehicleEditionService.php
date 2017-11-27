@@ -4,8 +4,11 @@ namespace AppBundle\Services\Vehicle;
 
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
+use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\Vehicle\Event\ProVehicleCreated;
+use Wamcar\Vehicle\Event\VehicleCreated;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\VehicleRepository;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
@@ -20,19 +23,25 @@ class ProVehicleEditionService
     private $garageRepository;
     /** @var array  */
     private $vehicleBuilder;
+    /** @var MessageBus */
+    private $eventBus;
+
 
     /**
      * GarageEditionService constructor.
      * @param VehicleRepository $vehicleRepository
      * @param GarageRepository $garageRepository
+     * @param MessageBus $eventBus
      */
     public function __construct(
         VehicleRepository $vehicleRepository,
-        GarageRepository $garageRepository
+        GarageRepository $garageRepository,
+        MessageBus $eventBus
     )
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
+        $this->eventBus = $eventBus;
         $this->vehicleBuilder = [
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
             FormVehicleDTO::class => FormVehicleBuilder::class
@@ -56,6 +65,8 @@ class ProVehicleEditionService
         }
 
         $this->vehicleRepository->add($proVehicle);
+        $this->eventBus->handle(new ProVehicleCreated($proVehicle));
+
         return $proVehicle;
     }
 }
