@@ -16,7 +16,7 @@ class IndexUpdatedProVehicle implements VehicleEventHandler
     use Traits\ProVehicleIndexerTrait;
 
     /**
-     * IndexCreatedVehicle constructor.
+     * IndexUpdatedProVehicle constructor.
      * @param ObjectIndexer $objectIndexer
      * @param IndexableProVehicleBuilder $indexableProVehicleBuilder
      */

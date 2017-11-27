@@ -13,7 +13,7 @@ class IndexCreatedProVehicle implements VehicleEventHandler
     use Traits\ProVehicleIndexerTrait;
 
     /**
-     * IndexCreatedVehicle constructor.
+     * IndexCreatedProVehicle constructor.
      * @param ObjectIndexer $objectIndexer
      * @param IndexableProVehicleBuilder $indexableProVehicleBuilder
      */
@@ -29,7 +29,7 @@ class IndexCreatedProVehicle implements VehicleEventHandler
     public function notify(VehicleEvent $event)
     {
         if(!$event instanceof ProVehicleCreated) {
-            throw new \InvalidArgumentException("IndexCreatedVehicle can only be notified of 'VehicleCreated' events");
+            throw new \InvalidArgumentException("IndexCreatedProVehicle can only be notified of 'ProVehicleCreated' events");
         }
         $proVehicle = $event->getVehicle();
 
