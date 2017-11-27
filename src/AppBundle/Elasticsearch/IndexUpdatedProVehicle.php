@@ -2,14 +2,11 @@
 
 namespace AppBundle\Elasticsearch;
 
-use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
 use Novaway\ElasticsearchClient\ObjectIndexer;
-use Wamcar\Vehicle\Event\VehicleCreated;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
 use Wamcar\Vehicle\Event\VehicleUpdated;
-use Wamcar\Vehicle\ProVehicle;
 
 class IndexUpdatedProVehicle implements VehicleEventHandler
 {
