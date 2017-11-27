@@ -7,7 +7,7 @@ services:
     Wamcar\Vehicle\VehicleRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineVehicleRepository'
         factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
+        arguments: [ 'Wamcar\Vehicle\ProVehicle' ]
 
     # Interfaces default service
     Wamcar\User\UserRepository: '@AppBundle\Doctrine\Repository\DoctrineUserRepository'

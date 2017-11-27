@@ -31,4 +31,9 @@ interface VehicleRepository
      * @return Vehicle
      */
     public function find($id);
+
+    /**
+     * @return array
+     */
+    public function findAll(): array;
 }
