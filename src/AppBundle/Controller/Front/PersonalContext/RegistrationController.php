@@ -16,10 +16,12 @@ use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use PragmaRX\ZipCode\ZipCode;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Vehicle\Event\PersonalVehicleCreated;
 use Wamcar\Vehicle\VehicleRepository;
 
 class RegistrationController extends BaseController
@@ -36,6 +38,8 @@ class RegistrationController extends BaseController
     protected $autoDataConnector;
     /** @var ZipCode */
     protected $zipCodeService;
+    /** @var MessageBus */
+    protected $eventBus;
 
     /**
      * RegistrationController constructor.
@@ -45,6 +49,7 @@ class RegistrationController extends BaseController
      * @param UserRegistrationService $userRegistrationService
      * @param ApiConnector $autoDataConnector
      * @param ZipCode $zipCodeService
+     * @param MessageBus $eventBus
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -52,7 +57,8 @@ class RegistrationController extends BaseController
         VehicleInfoAggregator $vehicleInfoAggregator,
         UserRegistrationService $userRegistrationService,
         ApiConnector $autoDataConnector,
-        ZipCode $zipCodeService
+        ZipCode $zipCodeService,
+        MessageBus $eventBus
     )
     {
         $this->formFactory = $formFactory;
@@ -61,6 +67,7 @@ class RegistrationController extends BaseController
         $this->userRegistrationService = $userRegistrationService;
         $this->autoDataConnector = $autoDataConnector;
         $this->zipCodeService = $zipCodeService;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -120,6 +127,7 @@ class RegistrationController extends BaseController
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
             $this->vehicleRepository->add($personalVehicle);
+            $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
 
             try {
                 $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);

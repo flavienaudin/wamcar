@@ -1,0 +1,39 @@
+<?php
+
+namespace AppBundle\Elasticsearch;
+
+use AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder;
+use Novaway\ElasticsearchClient\ObjectIndexer;
+use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
+use Wamcar\Vehicle\Event\VehicleEvent;
+use Wamcar\Vehicle\Event\VehicleEventHandler;
+
+class IndexUpdatedPersonalVehicle implements VehicleEventHandler
+{
+    use Traits\PersonalVehicleIndexerTrait;
+
+    /**
+     * IndexCreatedVehicle constructor.
+     * @param ObjectIndexer $objectIndexer
+     * @param IndexablePersonalVehicleBuilder $indexablePersonalVehicleBuilder
+     */
+    public function __construct(ObjectIndexer $objectIndexer, IndexablePersonalVehicleBuilder $indexablePersonalVehicleBuilder)
+    {
+        $this->objectIndexer = $objectIndexer;
+        $this->indexablePersonalVehicleBuilder = $indexablePersonalVehicleBuilder;
+    }
+
+    /**
+     * @param VehicleEvent $event
+     */
+    public function notify(VehicleEvent $event)
+    {
+        if(!$event instanceof PersonalVehicleUpdated) {
+            throw new \InvalidArgumentException("IndexUpdatedPersonalVehicle can only be notified of 'PersonalVehicleUpdated' events");
+        }
+        $personalVehicle = $event->getVehicle();
+
+        $this->indexPersonalVehicle($personalVehicle);
+    }
+
+}
