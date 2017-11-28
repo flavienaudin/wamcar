@@ -51,11 +51,17 @@ class ImportVehicleInfoCommand extends BaseCommand
         $csv->setDelimiter(';');
         $csv->setHeaderOffset(0);
 
-        $progress = new ProgressBar($output, $csv->count());
-
         // ToDo : reload only VEHICLE_INFO type
-        $index->reload();
+        //$index->reload();
+        $searchVehicleInfos = $index->search(['index' => 'wamcar_index_dev', 'type' => VehicleInfo::TYPE]);
+        $progress = new ProgressBar($output, $searchVehicleInfos->totalHits());
+        foreach ($searchVehicleInfos->hits() as $searchVehicleInfo) {
+            $progress->advance();
+            $index->delete(['id' => $searchVehicleInfo['ktypNumber'], 'index' => 'wamcar_index_dev', 'type' => VehicleInfo::TYPE]);
+        }
+        $progress->finish();
 
+        $progress = new ProgressBar($output, $csv->count());
         foreach ($csv->getRecords($csv->getHeader()) as $record) {
             $progress->advance();
             $vehicleInfo = new VehicleInfo(
