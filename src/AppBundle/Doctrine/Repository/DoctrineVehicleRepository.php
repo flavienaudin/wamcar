@@ -43,12 +43,4 @@ class DoctrineVehicleRepository extends EntityRepository implements VehicleRepos
     {
         throw new \LogicException("Not implemented");
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findAll(): array
-    {
-        return parent::findAll();
-    }
 }
