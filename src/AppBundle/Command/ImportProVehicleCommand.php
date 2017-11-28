@@ -3,16 +3,9 @@
 namespace AppBundle\Command;
 
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
-use AppBundle\Elasticsearch\Type\VehicleInfo;
-use League\Csv\Reader as CsvReader;
-use Novaway\ElasticsearchClient\Aggregation\Aggregation;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wamcar\Vehicle\Fuel;
 
 class ImportProVehicleCommand extends BaseCommand
 {
@@ -42,7 +35,7 @@ class ImportProVehicleCommand extends BaseCommand
 
         $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
-        $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\VehicleRepository');
+        $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
         $indexableProVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder');
 
         $searchProVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);

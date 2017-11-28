@@ -22,13 +22,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
+use Wamcar\Vehicle\PersonalVehicleRepository;
 use Wamcar\Vehicle\VehicleRepository;
 
 class RegistrationController extends BaseController
 {
     /** @var FormFactoryInterface */
     private $formFactory;
-    /** @var VehicleRepository */
+    /** @var PersonalVehicleRepository */
     private $vehicleRepository;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
@@ -44,7 +45,7 @@ class RegistrationController extends BaseController
     /**
      * RegistrationController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleRepository $vehicleRepository
+     * @param PersonalVehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param UserRegistrationService $userRegistrationService
      * @param ApiConnector $autoDataConnector
@@ -53,7 +54,7 @@ class RegistrationController extends BaseController
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleRepository $vehicleRepository,
+        PersonalVehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
         UserRegistrationService $userRegistrationService,
         ApiConnector $autoDataConnector,

@@ -12,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\Vehicle;
 use Wamcar\Vehicle\VehicleRepository;
 use AppBundle\Api\DTO\VehicleDTO;
@@ -24,17 +25,17 @@ use Swagger\Annotations as SWG;
  */
 class VehicleController extends BaseController
 {
-    /** @var VehicleRepository */
+    /** @var ProVehicleRepository */
     private $vehicleRepository;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
 
     /**
      * VehicleController constructor.
-     * @param VehicleRepository $vehicleRepository
+     * @param ProVehicleRepository $vehicleRepository
      * @param ProVehicleEditionService $proVehicleEditionService
      */
-    public function __construct(VehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
+    public function __construct(ProVehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->proVehicleEditionService = $proVehicleEditionService;
