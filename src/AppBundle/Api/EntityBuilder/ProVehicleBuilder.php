@@ -63,7 +63,7 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setTransmission(self::getTransmission($vehicleDTO));
         $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
         $vehicle->setMileage($vehicleDTO->Kilometrage);
-        $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . "\n" . $vehicleDTO->Description);
+        $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
         $vehicle->setPrice($vehicleDTO->PrixVenteTTC);
         $vehicle->setOtherGuarantee($vehicleDTO->GarantieLibelle);
 
