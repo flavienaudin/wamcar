@@ -11,6 +11,7 @@ use Wamcar\Vehicle\Registration;
 
 class ProVehicleBuilder implements VehicleBuilder
 {
+
     /**
      * @param CanBeProVehicle $vehicleDTO
      * @return ProVehicle
