@@ -18,7 +18,7 @@ class ProVehicleBuilder implements VehicleBuilder
      * @param CanBeProVehicle $vehicleDTO
      * @return ProVehicle
      */
-    public static function buildFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
+    public static function newVehicleFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
     {
 
         $vehicle = new ProVehicle(
@@ -48,6 +48,24 @@ class ProVehicleBuilder implements VehicleBuilder
             null,
             null
         );
+
+        return $vehicle;
+    }
+
+    /**
+     * @param CanBeProVehicle $vehicleDTO
+     * @param ProVehicle $vehicle
+     * @return ProVehicle
+     */
+    public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
+    {
+        $vehicle->setModelVersion(self::getModelVersion($vehicleDTO));
+        $vehicle->setTransmission(self::getTransmission($vehicleDTO));
+        $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
+        $vehicle->setMileage($vehicleDTO->Kilometrage);
+        $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
+        $vehicle->setPrice($vehicleDTO->PrixVenteTTC);
+        $vehicle->setOtherGuarantee($vehicleDTO->GarantieLibelle);
 
         return $vehicle;
     }

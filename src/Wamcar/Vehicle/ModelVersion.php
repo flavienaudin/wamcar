@@ -24,6 +24,11 @@ final class ModelVersion
         $this->engine = $engine;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return string
      */

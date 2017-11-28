@@ -5,6 +5,7 @@ namespace AppBundle\Services\Vehicle;
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
@@ -53,20 +54,39 @@ class ProVehicleEditionService
      * @param Garage $garage
      * @return ProVehicle
      */
-    public function editInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
+    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
+    {
+        try {
+            /** @var ProVehicle $proVehicle */
+            $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
+            $proVehicle->setGarage($garage);
+
+            if (!$garage->isProVehicle($proVehicle)) {
+                $garage->addProVehicle($proVehicle);
+                $this->garageRepository->update($garage);
+            }
+
+            $this->vehicleRepository->add($proVehicle);
+            $this->eventBus->handle(new ProVehicleCreated($proVehicle));
+
+            return $proVehicle;
+        }
+        catch(\Exception $e) {
+            throw new HttpException('500', 'Something went wrong!');
+        }
+    }
+
+    /**
+     * @param FormVehicleDTO $proVehicleDTO
+     * @param ProVehicle $vehicle
+     * @return ProVehicle
+     */
+    public function updateInformations(FormVehicleDTO $proVehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
-        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::buildFromDTO($proVehicleDTO);
-        $proVehicle->setGarage($garage);
+        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
-        if (!$garage->isProVehicle($proVehicle)) {
-            $garage->addProVehicle($proVehicle);
-            $this->garageRepository->update($garage);
-        }
-
-        $this->vehicleRepository->add($proVehicle);
-        $this->eventBus->handle(new ProVehicleCreated($proVehicle));
-
-        return $proVehicle;
+        $this->vehicleRepository->update($proVehicle);
+        return $vehicle;
     }
 }

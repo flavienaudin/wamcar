@@ -8,6 +8,8 @@ use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Vehicle;
@@ -113,10 +115,14 @@ class VehicleController extends BaseController
      */
     public function addAction(Request $request): Response
     {
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->editInformations($vehicleDTO, $this->getUserGarage());
-        var_dump($vehicleDTO);
-        exit;
+        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+
+        return new Response("Vehicle created", Response::HTTP_OK);
     }
 
     /**
@@ -190,7 +196,14 @@ class VehicleController extends BaseController
      */
     public function editAction(Request $request, Vehicle $vehicle): Response
     {
-        die('editAction');
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+
+        return new Response("Vehicle updated", Response::HTTP_OK);
     }
 
     /**

@@ -12,11 +12,15 @@ use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
 use Wamcar\Vehicle\Model;
 use Wamcar\Vehicle\ModelVersion;
+use Wamcar\Vehicle\ProVehicle;
+use Wamcar\Vehicle\Vehicle;
 
 class VehicleDTO
 {
     const DEFAULT_PICTURE_COUNT = 4;
 
+    /** @var string */
+    public $id;
     /** @var string */
     public $registrationNumber;
     /** @var VehicleInformationDTO */
@@ -46,6 +50,14 @@ class VehicleDTO
     public function updateFromFilters(array $filters = []): void
     {
         $this->information->updateFromFilters($filters);
+    }
+
+    /**
+     * @return array
+     */
+    public function retrieveFilter(): array
+    {
+        return $this->information->retrieveFilter();
     }
 
     /**

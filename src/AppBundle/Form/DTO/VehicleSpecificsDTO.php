@@ -6,6 +6,7 @@ use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\ProVehicle;
 
 class VehicleSpecificsDTO
 {
@@ -62,5 +63,58 @@ class VehicleSpecificsDTO
     public function getCity(): ?City
     {
         return ($this->postalCode && $this->cityName) ? new City($this->postalCode, $this->cityName, $this->latitude, $this->longitude) : null;
+    }
+
+    /**
+     * @param $registrationDate
+     * @param $mileAge
+     * @param $isTimingBeltChanged
+     * @param $safetyTestDate
+     * @param $safetyTestState
+     * @param $bodyState
+     * @param $engineState
+     * @param $tyreState
+     * @param $maintenanceState
+     * @param $isImported
+     * @param $isFirstHand
+     * @param $additionalInformation
+     * @param $postalCode
+     * @param $cityName
+     * @return VehicleSpecificsDTO
+     */
+    public static function buildFromSpecifics(
+        $registrationDate,
+        $mileAge,
+        $isTimingBeltChanged,
+        $safetyTestDate,
+        $safetyTestState,
+        $bodyState,
+        $engineState,
+        $tyreState,
+        $maintenanceState,
+        $isImported,
+        $isFirstHand,
+        $additionalInformation,
+        $postalCode,
+        $cityName
+    )
+    {
+        $dto = new self();
+        $dto->registrationDate = $registrationDate;
+        $dto->mileage = $mileAge;
+        $dto->isTimingBeltChanged = $isTimingBeltChanged;
+        $dto->safetyTestDate = $safetyTestDate;
+        $dto->safetyTestState = $safetyTestState;
+        $dto->bodyState = $bodyState;
+        $dto->engineState = $engineState;
+        $dto->tyreState = $tyreState;
+        $dto->maintenanceState = $maintenanceState;
+        $dto->isImported = $isImported;
+        $dto->isFirstHand = $isFirstHand;
+        $dto->additionalInformation = $additionalInformation;
+        $dto->postalCode = $postalCode;
+        $dto->cityName = $cityName;
+
+        return $dto;
     }
 }
