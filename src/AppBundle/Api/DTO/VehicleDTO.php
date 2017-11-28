@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api\DTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * @SWG\Definition(
@@ -60,31 +61,36 @@ final class VehicleDTO implements CanBeProVehicle
      */
     public static function createFromJson(string $jsonData): self
     {
-        $vehicleDto = new self();
-        $data = json_decode($jsonData, true);
+        try {
+            $vehicleDto = new self();
+            $data = json_decode($jsonData, true);
 
-        $vehicleDto->IdentifiantVehicule = $data['IdentifiantVehicule'];
-        $vehicleDto->Date1Mec = $data['Date1Mec'];
-        $vehicleDto->Marque = $data['Marque'];
-        $vehicleDto->Type = $data['Type'];
-        $vehicleDto->Motorisation = $data['Motorisation'];
-        $vehicleDto->Modele = $data['Modele'];
-        $vehicleDto->Version = $data['Version'];
-        $vehicleDto->Energie = $data['Energie'];
-        $vehicleDto->Kilometrage = $data['Kilometrage'];
-        $vehicleDto->PrixVenteTTC = $data['PrixVenteTTC'];
-        $vehicleDto->Neuf = $data['Neuf'] ?? null;
-        $vehicleDto->Description = $data['Description'];
-        $vehicleDto->URLVehicule = $data['URLVehicule'] ?? null;
-        $vehicleDto->Annee = $data['Annee'] ?? null;
-        $vehicleDto->Famille = $data['Famille'] ?? null;
-        $vehicleDto->NbPlaces = $data['NbPlaces'] ?? null;
-        $vehicleDto->NbPortes = $data['NbPortes'] ?? null;
-        $vehicleDto->Couleur = $data['Couleur'] ?? null;
-        $vehicleDto->BoiteLibelle = $data['BoiteLibelle'] ?? null;
-        $vehicleDto->GarantieLibelle = $data['GarantieLibelle'] ?? null;
-        $vehicleDto->EquipementsSerieEtOption = $data['EquipementsSerieEtOption'] ?? null;
+            $vehicleDto->IdentifiantVehicule = $data['IdentifiantVehicule'];
+            $vehicleDto->Date1Mec = $data['Date1Mec'];
+            $vehicleDto->Marque = $data['Marque'];
+            $vehicleDto->Type = $data['Type'];
+            $vehicleDto->Motorisation = $data['Motorisation'];
+            $vehicleDto->Modele = $data['Modele'];
+            $vehicleDto->Version = $data['Version'];
+            $vehicleDto->Energie = $data['Energie'];
+            $vehicleDto->Kilometrage = $data['Kilometrage'];
+            $vehicleDto->PrixVenteTTC = $data['PrixVenteTTC'];
+            $vehicleDto->Neuf = $data['Neuf'] ?? null;
+            $vehicleDto->Description = $data['Description'];
+            $vehicleDto->URLVehicule = $data['URLVehicule'] ?? null;
+            $vehicleDto->Annee = $data['Annee'] ?? null;
+            $vehicleDto->Famille = $data['Famille'] ?? null;
+            $vehicleDto->NbPlaces = $data['NbPlaces'] ?? null;
+            $vehicleDto->NbPortes = $data['NbPortes'] ?? null;
+            $vehicleDto->Couleur = $data['Couleur'] ?? null;
+            $vehicleDto->BoiteLibelle = $data['BoiteLibelle'] ?? null;
+            $vehicleDto->GarantieLibelle = $data['GarantieLibelle'] ?? null;
+            $vehicleDto->EquipementsSerieEtOption = $data['EquipementsSerieEtOption'] ?? null;
 
-        return $vehicleDto;
+            return $vehicleDto;
+        }
+        catch(\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
     }
 }

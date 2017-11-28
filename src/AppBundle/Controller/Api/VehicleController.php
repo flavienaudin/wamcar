@@ -119,14 +119,10 @@ class VehicleController extends BaseController
             throw new AccessDeniedHttpException();
         }
 
-        try{
-            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-            $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
 
-            return new Response("Vehicle created", Response::HTTP_OK);
-        } catch(\Exception $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
+        return new Response("Vehicle created", Response::HTTP_OK);
     }
 
     /**
@@ -148,18 +144,7 @@ class VehicleController extends BaseController
      */
     public function getAction(Request $request, Vehicle $vehicle): Response
     {
-        if (!$this->getUserGarage()) {
-            throw new AccessDeniedHttpException();
-        }
-
-        try{
-            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-            $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-
-            return new Response("Vehicle updated", Response::HTTP_OK);
-        } catch(\Exception $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
+        return new JsonResponse($vehicle);
     }
 
     /**
@@ -211,7 +196,14 @@ class VehicleController extends BaseController
      */
     public function editAction(Request $request, Vehicle $vehicle): Response
     {
-        die('editAction');
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+
+        return new Response("Vehicle updated", Response::HTTP_OK);
     }
 
     /**
