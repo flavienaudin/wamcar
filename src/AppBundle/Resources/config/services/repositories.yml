@@ -4,10 +4,15 @@ services:
         autoconfigure: false
         public: false
 
-    Wamcar\Vehicle\VehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineVehicleRepository'
+    Wamcar\Vehicle\ProVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProVehicleRepository'
         factory: 'doctrine.orm.entity_manager:getRepository'
         arguments: [ 'Wamcar\Vehicle\ProVehicle' ]
+
+    Wamcar\Vehicle\PersonalVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository'
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
 
     # Interfaces default service
     Wamcar\User\UserRepository: '@AppBundle\Doctrine\Repository\DoctrineUserRepository'

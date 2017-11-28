@@ -5,9 +5,8 @@ namespace AppBundle\Doctrine\Repository;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Vehicle;
-use Wamcar\Vehicle\VehicleRepository;
 
-class DoctrineVehicleRepository extends EntityRepository implements VehicleRepository
+class DoctrineVehicleRepository extends EntityRepository
 {
     /**
      * {@inheritdoc}

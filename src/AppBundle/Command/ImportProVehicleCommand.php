@@ -35,7 +35,7 @@ class ImportProVehicleCommand extends BaseCommand
 
         $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
-        $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\VehicleRepository');
+        $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
         $indexableProVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder');
 
         $searchProVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);

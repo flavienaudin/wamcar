@@ -11,6 +11,7 @@ use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\VehicleCreated;
 use Wamcar\Vehicle\ProVehicle;
+use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\VehicleRepository;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
@@ -18,7 +19,7 @@ use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 
 class ProVehicleEditionService
 {
-    /** @var VehicleRepository  */
+    /** @var ProVehicleRepository  */
     private $vehicleRepository;
     /** @var GarageRepository  */
     private $garageRepository;
@@ -30,12 +31,12 @@ class ProVehicleEditionService
 
     /**
      * GarageEditionService constructor.
-     * @param VehicleRepository $vehicleRepository
+     * @param ProVehicleRepository $vehicleRepository
      * @param GarageRepository $garageRepository
      * @param MessageBus $eventBus
      */
     public function __construct(
-        VehicleRepository $vehicleRepository,
+        ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
         MessageBus $eventBus
     )

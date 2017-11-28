@@ -35,7 +35,7 @@ class ImportPersonalVehicleCommand extends BaseCommand
 
         $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
-        $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\VehicleRepository');
+        $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\PersonalVehicleRepository');
         $indexablePersonalVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder');
 
         $searchPersonalVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexablePersonalVehicle::TYPE]);

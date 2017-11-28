@@ -1,7 +1,7 @@
 Wamcar\Vehicle\ProVehicle:
 
     type: entity
-    repositoryClass: AppBundle\Doctrine\Repository\DoctrineVehicleRepository
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProVehicleRepository
 
     exclusion_policy: ALL
 
