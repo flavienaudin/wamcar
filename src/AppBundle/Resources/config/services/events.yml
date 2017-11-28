@@ -43,3 +43,15 @@ services:
         autowire: true
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
+
+    wamcar.event.elasticsearch.personal_vehicle_created.index:
+        class: AppBundle\Elasticsearch\IndexCreatedPersonalVehicle
+        autowire: true
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
+
+    wamcar.event.elasticsearch.personal_vehicle_updated.index:
+        class: AppBundle\Elasticsearch\IndexUpdatedPersonalVehicle
+        autowire: true
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }

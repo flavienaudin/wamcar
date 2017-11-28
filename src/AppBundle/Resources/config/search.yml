@@ -70,6 +70,24 @@ parameters:
                     engine:
                         type: string
                         index: not_analyzed
+            personal_vehicle:
+                _source : { enabled : true }
+                properties:
+                    id:
+                        type: string
+                        index: not_analyzed
+                    make:
+                        type: string
+                        index: not_analyzed
+                    model:
+                        type: string
+                        index: not_analyzed
+                    modelVersion:
+                        type: string
+                        index: not_analyzed
+                    engine:
+                        type: string
+                        index: not_analyzed
 
 services:
     _defaults:
