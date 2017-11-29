@@ -45,7 +45,7 @@
                     {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : proVehicleForm } %}
                 </li>
                 <li class="block-grid" data-step="3">
-                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm': proVehicleForm, 'dataCityField': 'pro_vehicle_specifics_cityName', 'dataLatitudeField': 'pro_vehicle_specifics_latitude', 'dataLongitudeField': 'pro_vehicle_specifics_longitude' } %}
                 </li>
                 <li class="block-grid" data-step="4">
                     {% include 'front/Security/Register/includes/vehicle_offer.html.twig' with { 'vehicleForm' : proVehicleForm } %}

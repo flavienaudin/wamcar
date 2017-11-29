@@ -46,9 +46,24 @@ class Address
         return $this->city->getName();
     }
 
+    /**
+     * @return string
+     */
+    public function getLatitude(): ?string
+    {
+        return $this->city->getLatitude();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitude(): ?string
+    {
+        return $this->city->getLongitude();
+    }
+
     public function __toString()
     {
         return $this->address;
     }
-
 }

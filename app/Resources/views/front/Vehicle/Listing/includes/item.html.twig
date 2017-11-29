@@ -17,9 +17,7 @@
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
                 <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate('none', 'none', null, null, "d MMM, H'h'm") }}</time>
-                {% if not search_result %}
                     <strong class="vehicle-price small-shrink">{{ vehicle.price }}</strong>
-                {% endif %}
             </div>
         </div>
     </a>

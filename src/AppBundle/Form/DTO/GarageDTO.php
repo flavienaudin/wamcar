@@ -34,6 +34,10 @@ class GarageDTO
     public $postalCode;
     /** @var string */
     public $cityName;
+    /** @var string */
+    public $latitude;
+    /** @var string */
+    public $longitude;
 
     public function __construct(Garage $garage = null)
     {
@@ -50,6 +54,8 @@ class GarageDTO
             $this->address = $garage->getAddress()->getAddress();
             $this->postalCode = $garage->getAddress()->getPostalCode();
             $this->cityName = $garage->getAddress()->getCityName();
+            $this->latitude = $garage->getAddress()->getLatitude();
+            $this->longitude = $garage->getAddress()->getLongitude();
         }
         $this->isNew = $garage === null;
     }

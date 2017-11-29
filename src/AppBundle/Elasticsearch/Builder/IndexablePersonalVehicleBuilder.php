@@ -22,6 +22,7 @@ class IndexablePersonalVehicleBuilder
      */
     public function buildFromVehicle(PersonalVehicle $vehicle): IndexablePersonalVehicle
     {
+        dump($vehicle);
         //TODO: correct the link of the detail url
         return new IndexablePersonalVehicle(
             $vehicle->getId(),

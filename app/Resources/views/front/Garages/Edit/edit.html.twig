@@ -66,16 +66,27 @@
                             <div class="column small-5 medium-3 large-2">
                                 {{ form_widget(garageForm.postalCode, {
                                     'label': 'Code postal',
-                                    'required': true
+                                    'class': 'js-postalCode',
+                                    'required': true,
+                                    'attr' : {
+                                        'data-fetch-url': path('front_fetch_city'),
+                                        'data-city-field': 'garage_cityName'
+                                    }
                                 }) }}
                             </div>
                             <div class="column small-7 medium-9  large-4">
                                 {{ form_widget(garageForm.cityName, {
                                     'label': 'Ville',
-                                    'class': '',
-                                    'required': true
+                                    'class': 'js-complete-coordinate',
+                                    'required': true,
+                                    'attr':  {
+                                        'data-latitude-field': 'garage_latitude',
+                                        'data-longitude-field': 'garage_longitude'
+                                    }
                                 }) }}
                             </div>
+                            {{ form_widget(garageForm.latitude) }}
+                            {{ form_widget(garageForm.longitude) }}
                             <div class="column small-7 medium-9  large-4">
                                 {{ form_widget(garageForm.phone, {
                                     'label': 'Téléphone',

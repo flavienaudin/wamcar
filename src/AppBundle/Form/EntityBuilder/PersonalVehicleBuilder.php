@@ -35,7 +35,8 @@ class PersonalVehicleBuilder
             $vehicleDTO->isTimingBeltChanged(),
             $vehicleDTO->isImported(),
             $vehicleDTO->isFirstHand(),
-            $vehicleDTO->getAdditionalInformation()
+            $vehicleDTO->getAdditionalInformation(),
+            $vehicleDTO->getCity()
         );
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
