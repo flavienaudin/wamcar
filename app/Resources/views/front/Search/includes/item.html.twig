@@ -26,7 +26,8 @@
     <a href="{{ path('front_view_current_user_info') }}" class="full-width">
         <div class="vehicle-user-infos">
             <div class="vehicle-user-pic"><img src="{{ vehicle.userPicture }}" alt="{{ vehicle.userName }}"></div>
-            {# Exemple inté, cas ou l'utilisateur n'a pas renseigné de souhaits #}
+            {#TODO: implement when souhait exist
+             Exemple inté, cas ou l'utilisateur n'a pas renseigné de souhaits #}
             {#{% if index == 'golf-2-tdi' %}#}
             <p class="dark-gray-color no-margin small-10 large-12"><strong>Ce vendeur n’a pas encore indiqué de souhaits</strong>. Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.</p>
             {#{% else %}
