@@ -3,6 +3,38 @@ parameters:
         settings:
             number_of_shards : 1
             number_of_replicas : 1
+            analysis:
+                analyzer:
+                    default:
+                        type:         custom
+                        tokenizer:    nGram
+                        filter:       [stopwords, asciifolding, uppercase, elision, worddelimiter, snowball]
+                        char_filter:  [custom_char_filter]
+                    default_search:
+                        type:         custom
+                        tokenizer:    standard
+                        filter:       [asciifolding, uppercase, elision, worddelimiter, snowball]
+                tokenizer:
+                    nGram:
+                        type:       nGram
+                        min_gram:   3
+                        max_gram:   15
+                filter:
+                    stopwords:
+                        type:       stop
+                        stopwords:  [_french_]
+                        ignore_case: true
+                    snowball:
+                        type:       snowball
+                        language:   French
+                    worddelimiter:
+                        type:       word_delimiter
+                    elision:
+                         type:      elision
+                         articles:  [l, m, t, qu, n, s, j, d]
+                char_filter:
+                    custom_char_filter:
+                        type: html_strip
         mappings:
             vehicle_info:
                 _source : { enabled : true }
@@ -54,40 +86,8 @@ parameters:
                         index: not_analyzed
             pro_vehicle:
                 _source : { enabled : true }
-                properties:
-                    id:
-                        type: string
-                        index: not_analyzed
-                    make:
-                        type: string
-                        index: not_analyzed
-                    model:
-                        type: string
-                        index: not_analyzed
-                    modelVersion:
-                        type: string
-                        index: not_analyzed
-                    engine:
-                        type: string
-                        index: not_analyzed
             personal_vehicle:
                 _source : { enabled : true }
-                properties:
-                    id:
-                        type: string
-                        index: not_analyzed
-                    make:
-                        type: string
-                        index: not_analyzed
-                    model:
-                        type: string
-                        index: not_analyzed
-                    modelVersion:
-                        type: string
-                        index: not_analyzed
-                    engine:
-                        type: string
-                        index: not_analyzed
 
 services:
     _defaults:
@@ -103,3 +103,4 @@ services:
 
     Novaway\ElasticsearchClient\ObjectIndexer: ~
     Novaway\ElasticsearchClient\QueryExecutor: ~
+    Novaway\ElasticsearchClient\Query\ResultTransformer: ~

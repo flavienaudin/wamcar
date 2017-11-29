@@ -1,5 +1,5 @@
 <header class="block-grid small-12 align-middle">
-    <strong class="h2 no-margin show-for-medium">5802 résultats</strong>
+    <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
     {% include 'front/Layout/includes/forms/select.html.twig' with {
         class_field: 'small-12 medium-5 medium-right large-4',
         class: 'no-margin',
@@ -16,5 +16,8 @@
 <div class="garage-container search-result-vehicle">
     {% set balise = 'h2' %}
     {% set search_result = true %}
-    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+    {% include ':front/Search/includes:list.html.twig' %}
+    <br />
+    <br />
 </div>
+{% include 'front/Layout/includes/pagination.html.twig' %}
