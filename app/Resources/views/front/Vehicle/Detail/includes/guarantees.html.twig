@@ -1,5 +1,10 @@
 <h2 class="separator medium primary-color">Garanties</h2>
 <ul class="list-bullet dark-gray-color no-margin">
-    <li>Garantie du véhicule 24 mois</li>
-    <li>Satisfait ou remboursé 15 jours</li>
+    {% if vehicle.guarantee %}
+        <li>{{ vehicle.guarantee }}</li>
+    {% endif %}
+    {% if vehicle.isRefunded %}
+        <li>Satisfait ou remboursé 15 jours</li>
+    {% endif %}
+    {{ vehicle.otherGuarantee|raw }}
 </ul>

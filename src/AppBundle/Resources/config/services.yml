@@ -12,6 +12,11 @@ imports:
 
 services:
 
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
     SimpleBus\Message\Bus\MessageBus: '@simple_bus.event_bus'
 
     PragmaRX\ZipCode\ZipCode:

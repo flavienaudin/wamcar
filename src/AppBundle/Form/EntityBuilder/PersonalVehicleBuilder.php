@@ -12,13 +12,13 @@ use Wamcar\Vehicle\Vehicle;
 
 class PersonalVehicleBuilder
 {
+
     /**
      * @param VehicleDTO $vehicleDTO
-     * @return Vehicle
+     * @return PersonalVehicle
      */
     public static function buildFromDTO(VehicleDTO $vehicleDTO): PersonalVehicle
     {
-        // TODO : implement real data when form is developed
         $vehicle = new PersonalVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),

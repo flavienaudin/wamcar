@@ -6,10 +6,10 @@ use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use AppBundle\Services\User\CanBeGarageMember;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
-use Wamcar\Vehicle\Event\VehicleCreated;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\VehicleRepository;
@@ -89,5 +89,15 @@ class ProVehicleEditionService
 
         $this->vehicleRepository->update($proVehicle);
         return $vehicle;
+    }
+
+    /**
+     * @param $user
+     * @param ProVehicle $vehicle
+     * @return bool
+     */
+    public function canEdit($user, ProVehicle $vehicle): bool
+    {
+        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($vehicle->getGarage());
     }
 }

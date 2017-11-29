@@ -73,7 +73,7 @@ class VehicleController extends BaseController
         if ($vehicle) {
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
         } else {
-            $vehicleDTO = new VehicleDTO($plateNumber);
+            $vehicleDTO = new ProVehicleDTO($plateNumber);
         }
 
         $filters = $vehicleDTO->retrieveFilter();
@@ -112,6 +112,20 @@ class VehicleController extends BaseController
 
         return $this->render('front/Vehicle/Add/add.html.twig', [
             'proVehicleForm' => $proVehicleForm->createView(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @return Response
+     */
+    public function detailAction(Request $request, ProVehicle $vehicle): Response
+    {
+
+        return $this->render('front/Vehicle/Detail/detail.html.twig', [
+            'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
+            'vehicle' => $vehicle,
         ]);
     }
 }

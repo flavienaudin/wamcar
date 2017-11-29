@@ -1,7 +1,7 @@
-{% set is_logged = is_logged|default(false) %}
+{% set isLogged = isLogged|default(false) %}
 {% set navigation_class = navigation_class|default('small-12 large-8 show-for-large large-text-center') %}
 
-<nav id="{{ not is_logged ? 'js-navigation' : '' }}" class="l-navigation {{ navigation_class }}">
+<nav id="{{ not isLogged ? 'js-navigation' : '' }}" class="l-navigation {{ navigation_class }}">
     {% block navigation %}
         <a href="{{ path('front_vehicle_registration') }}" class="l-navigation-item black-color"><strong>Vendre ma voiture</strong></a>
         <a href="{{ path('inte_search') }}" class="l-navigation-item black-color"><strong>Acheter une voiture</strong></a>
