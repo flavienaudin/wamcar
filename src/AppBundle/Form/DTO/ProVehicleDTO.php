@@ -58,8 +58,9 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $vehicle->getCatalogPrice(),
             $vehicle->getDiscount(),
             $vehicle->getGuarantee(),
-            $vehicle->isRefunded(),
             $vehicle->getOtherGuarantee(),
+            $vehicle->getFunding(),
+            $vehicle->getOtherFunding(),
             $vehicle->getAdditionalServices(),
             $vehicle->getReference()
         );

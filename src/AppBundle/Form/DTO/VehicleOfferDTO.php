@@ -31,7 +31,6 @@ class VehicleOfferDTO
      * @param $catalogPrice
      * @param $discount
      * @param $guarantee
-     * @param $refunded
      * @param $otherGuarantee
      * @param $additionalServices
      * @param $reference
@@ -42,8 +41,9 @@ class VehicleOfferDTO
         $catalogPrice,
         $discount,
         $guarantee,
-        $refunded,
         $otherGuarantee,
+        $funding,
+        $otherFunding,
         $additionalServices,
         $reference
     )
@@ -53,8 +53,9 @@ class VehicleOfferDTO
         $dto->catalogPrice = $catalogPrice;
         $dto->discount = $discount;
         $dto->guarantee = $guarantee;
-        $dto->refunded = $refunded;
         $dto->otherGuarantee = $otherGuarantee;
+        $dto->funding = $funding;
+        $dto->otherFunding = $otherFunding;
         $dto->additionalServices = $additionalServices;
         $dto->reference = $reference;
 
