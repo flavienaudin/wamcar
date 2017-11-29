@@ -71,7 +71,7 @@ class PersonalVehicle extends BaseVehicle
     /**
      * @return string
      */
-    public function getCityName(): ?string
+    public function getCityName(): string
     {
         return $this->city->getName();
     }
