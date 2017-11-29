@@ -53,18 +53,16 @@ class SearchController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
-        // default page should be one, but default offset should be 0, hence the -1
-        $queryBuilder = QueryBuilder::createNew();
-        $boolQuery = new BoolQuery();
-
 
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'method' => 'GET',
         ]);
 
-
         $searchForm->handleRequest($request);
+
+        $queryBuilder = QueryBuilder::createNew();
+        $boolQuery = new BoolQuery();
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             if (!empty($searchVehicleDTO->text)) {
