@@ -5,8 +5,8 @@
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}
-    {# TODO: Checker pourquoi is_user_pro ne fonctionne pas en dehors des block body #}
-    {# {% if is_user_pro %}
+    {# TODO: Checker pourquoi isUserPro ne fonctionne pas en dehors des block body #}
+    {# {% if isUserPro %}
         Rechercher un lead
     {% else %}
         Rechercher une voiture
@@ -33,7 +33,7 @@
 
 {% block body %}
 
-    {% set switchLinkLabel = is_user_pro ? 'Je suis un particulier' : 'Je suis un professionnel' %}
+    {% set switchLinkLabel = isUserPro ? 'Je suis un particulier' : 'Je suis un professionnel' %}
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {

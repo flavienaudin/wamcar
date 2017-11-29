@@ -12,14 +12,14 @@
 {% set sellers = inte.garage.sellers %}
 
 {% block body %}
-    {% if not is_logged %}
+    {% if not isLogged %}
         {% set breadcrumbs = [
             {
                 'name': block('title'),
                 'href': app.request.requestUri
             }
         ] %}
-    {% elseif is_logged and not isEditableByCurrentUser %}
+    {% elseif isLogged and not isEditableByCurrentUser %}
         {% set breadcrumbs = [
             {
                 'name': vehicle.garage.name,
@@ -30,7 +30,7 @@
                 'href': app.request.requestUri
             }
         ] %}
-    {% elseif is_user_pro and isEditableByCurrentUser %}
+    {% elseif isUserPro and isEditableByCurrentUser %}
         {% set breadcrumbs = [
             {
                 'name': 'Mon garage',
@@ -47,7 +47,7 @@
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.garage.seller.name }}",
+    "name" : "{{ vehicle.seller.name }}",
     "makesOffer" : {
             "@type" :"Offer",
             "priceSpecification" : {
@@ -82,7 +82,7 @@
                 </div>
 
                 <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                    {% if is_user_pro %}
+                    {% if isUserPro %}
                         <div class="column small-12 medium-6 large-order-2 large-12">
                             {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
                         </div>
@@ -91,11 +91,11 @@
                         {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
                     </div>
                     <div class="small-12 large-order-3">
-                        {% if not is_logged %}
+                        {% if not isLogged %}
                             {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
-                        {% elseif is_user_personal %}
+                        {% elseif isUserPersonal %}
                             {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                        {% elseif is_user_pro and isEditableByCurrentUser %}
+                        {% elseif isUserPro and isEditableByCurrentUser %}
                             {% include 'front/Vehicle/Detail/includes/user_pro_editing.html.twig' %}
                         {% endif %}
                     </div>

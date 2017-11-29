@@ -4,6 +4,7 @@ namespace Wamcar\Vehicle;
 
 use Wamcar\Garage\Garage;
 use Wamcar\Location\City;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
@@ -414,4 +415,11 @@ class ProVehicle extends BaseVehicle
         $this->reference = $reference;
     }
 
+    /**
+     * @return Garage
+     */
+    public function getSeller(): ProUser
+    {
+        return $this->getGarage()->getSeller();
+    }
 }
