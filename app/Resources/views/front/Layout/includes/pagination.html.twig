@@ -1,4 +1,4 @@
-{% if lastPage > 1 %}
+{% if lastPage is defined and lastPage > 1 %}
 <nav class="pagination" role="navigation" aria-label="Pagination">
     {% set previous = page == 1 ? 1 : page - 1 %}
     {% set next = page == lastPage ? page : page + 1 %}
