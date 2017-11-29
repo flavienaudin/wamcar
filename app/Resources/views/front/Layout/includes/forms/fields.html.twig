@@ -315,8 +315,16 @@
 {% endblock %}
 
 {%- block city_widget -%}
+    {% set label = label|default(false) %}
+    {% set label_class = label_class|default('') %}
+    {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
     {% set required = required|default(false) %}
+    {% set required_class = required_class|default('') %}
+
+    {% if label %}
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+    {% endif %}
 
     <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }}" {% if required %}required{% endif %} >
         {% if value is not defined %}
