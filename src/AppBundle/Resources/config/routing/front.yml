@@ -87,3 +87,7 @@ front_vehicle_pro_detail:
 front_search_pro:
     path: /vendeur/rechercher
     defaults: { _controller: AppBundle:Front\ProContext\Search:index  }
+
+front_search_pro_page:
+    path: /vendeur/rechercher/{page}
+    defaults: { _controller: AppBundle:Front\ProContext\Search:index, page: 1 }
