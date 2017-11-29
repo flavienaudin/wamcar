@@ -29,7 +29,14 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getMake(),
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
-            $vehicle->getEngineName()
+            $vehicle->getEngineName(),
+            $vehicle->getYears(),
+            $vehicle->getMileage(),
+            $vehicle->getCityName(),
+            $vehicle->getCreatedAt(),
+            '/assets/images/placeholders/vehicle/vehicle-default.jpg',
+            'Particulier particulier',
+            '/assets/images/placeholders/user/user.png'
         );
     }
 

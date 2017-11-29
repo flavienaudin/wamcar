@@ -35,4 +35,44 @@ class PersonalVehicle extends BaseVehicle
     {
         return $this->modelVersion->getEngine()->getName();
     }
+
+    /**
+     * @return string
+     */
+    public function getYears(): string
+    {
+        return $this->getRegistrationDate()->format('Y');
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getRegistrationDate(): \DateTimeInterface
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMileage(): int
+    {
+        return $this->mileage;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityName(): string
+    {
+        return $this->city->getName();
+    }
 }

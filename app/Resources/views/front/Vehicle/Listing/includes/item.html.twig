@@ -6,9 +6,6 @@
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
                 <img src="{{ asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
-                {% if search_result %}
-                    <span class="vehicle-pics-count icon-pics">8</span>
-                {% endif %}
             </div>
         </div>
         <div class="vehicle-infos small-shrink medium-auto">
@@ -26,9 +23,4 @@
             </div>
         </div>
     </a>
-    {% if search_result %}
-        <a href="{{ path('front_vehicle_pro_detail', {'id': vehicle.id}) }}" class="full-width">
-            {% block user_infos %}{% endblock %}
-        </a>
-    {% endif %}
 </article>

@@ -1,19 +1,53 @@
+{% form_theme searchForm ':front/Layout/includes/forms:fields.html.twig' %}
+
 <div id="js-search-form-container" class="search-form-container {{ query_vehicle_name ? 'is-hidden' }}" data-toggler=".is-hidden">
-    <form id="js-search-form" class="search-form row" data-abide novalidate>
-        {% include 'front/Layout/includes/forms/input.html.twig' with {
-            class_field: 'column small-12 medium-6 large-4',
-            label: 'Véhicule recherché',
-            placeholder: 'Ex. Citröen C3',
-            value: query_vehicle_name ? query_vehicle_name : '',
-            name: 'vehicle-name'
-        } %}
-        {% include 'front/Layout/includes/forms/input.html.twig' with {
-            class_field: 'column small-12 medium-6 large-5',
-            label: 'Votre location',
-            placeholder: 'Ville, code postal...',
-            value: query_vehicle_location ? query_vehicle_location : '',
-            name: 'vehicle-location'
-        } %}
+    {{ form_start(searchForm, {
+        'attr' : {
+            'class' : 'search-form row',
+            'id' : 'js-search-form',
+            'novalidate' : 'novalidate'
+        }
+    }) }}
+        <div class="column small-12 medium-6 large-4">
+            {{ form_widget(searchForm.text, {
+                'class' : '',
+                'required' : false,
+                'label' : 'Véhicule recherché',
+                'label_class' : '',
+                'placeholder': 'Ex. Citröen C3'
+            }) }}
+        </div>
+
+        <div class="column small-12 medium-6 large-4">
+            <label for="search_vehicle_postalCode">Votre location <span class="">Facultatif</span></label>
+            <div class="row">
+            {{ form_widget(searchForm.postalCode, {
+                'class' : 'input no-margin js-postalCode medium-4',
+                'required' : false,
+                'label' : '',
+                'label_class' : '',
+                'placeholder': 'Code postal',
+                'attr' : {
+                    'data-fetch-url': path('front_fetch_city'),
+                    'data-city-field': 'search_vehicle_cityName'
+                }
+            }) }}
+            {{ form_widget(searchForm.cityName, {
+                'class' : 'no-margin js-complete-coordinate medium-8',
+                'required' : true,
+                'required_message' : 'Veuillez d\'abord renseigner le code postal',
+                'required_class' : 'form-error',
+                'label' : '',
+                'label_class' : '',
+                'attr':  {
+                    'data-latitude-field': 'search_vehicle_latitude',
+                    'data-longitude-field': 'search_vehicle_longitude'
+                }
+            }) }}
+            {{ form_widget(searchForm.latitude) }}
+            {{ form_widget(searchForm.longitude) }}
+            </div>
+        </div>
 
         <div class="show-for-large column large-3">
             <label for="search-label" class="show-for-large is-invisible">Rechercher</label>
@@ -141,5 +175,5 @@
         <div class="hide-for-large column small-12">
             <button type="submit" class="button full-width">Recherche</button>
         </div>
-    </form>
+    {{ form_end(searchForm) }}
 </div>

@@ -83,3 +83,7 @@ front_vehicle_pro_edit:
 front_vehicle_pro_detail:
     path: /vehicule/detail/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Vehicle:detail }
+
+front_search_pro:
+    path: /vendeur/rechercher
+    defaults: { _controller: AppBundle:Front\ProContext\Search:index  }
