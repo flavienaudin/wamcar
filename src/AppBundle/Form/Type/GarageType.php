@@ -6,6 +6,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\GarageDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -36,13 +37,17 @@ class GarageType extends AbstractType
                 'required' => false
             ])
             ->add('address', TextType::class)
-            ->add('postalCode', TextType::class, [
-                'attr' => ['pattern' => '^[0-9][0-9|A|B][0-9]{3}$']
-            ])
-            ->add('cityName', TextType::class)
             ->add('phone', TextType::class, [
                 'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
             ])
+            ->add('postalCode', TextType::class, [
+                'attr' => [
+                    'pattern' => '^[0-9][0-9|A|B][0-9]{3}$'
+                ]
+            ])
+            ->add('cityName', TextType::class)
+            ->add('latitude', HiddenType::class)
+            ->add('longitude', HiddenType::class)
         ;
     }
 

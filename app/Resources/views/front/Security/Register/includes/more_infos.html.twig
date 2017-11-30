@@ -145,7 +145,7 @@
                             'required_class' : 'form-error',
                             'attr' : {
                                 'data-fetch-url': path('front_fetch_city'),
-                                'data-city-field': 'pro_vehicle_specifics_cityName'
+                                'data-city-field': dataCityField
                             }
                         }) }}
                     </div>
@@ -158,8 +158,8 @@
                             'label' : '',
                             'label_class' : '',
                             'attr':  {
-                                'data-latitude-field': 'pro_vehicle_specifics_latitude',
-                                'data-longitude-field': 'pro_vehicle_specifics_longitude'
+                                'data-latitude-field': dataLatitudeField,
+                                'data-longitude-field': dataLongitudeField
                             }
                         }) }}
                         <small class="form-error">Veuillez indiquer votre ville</small>
