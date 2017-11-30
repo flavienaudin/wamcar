@@ -42,12 +42,22 @@
             }) }}
         </div>
         <div class="small-12 medium-offset-4 medium-8">
-            <div class="checkbox-container small-12">
-                {{ form_row(vehicleForm.offer.refunded, {
-                    label: 'Satisfait ou remboursé 15 jours'
-                }) }}
-            </div>
             {{ form_widget(vehicleForm.offer.otherGuarantee, {
+                class_field: '',
+                class : '',
+                placeholder: 'Autres, précisez...'
+            }) }}
+        </div>
+        <div class="input-margin block-grid small-12">
+            {{ form_widget(vehicleForm.offer.funding, {
+                class : 'medium-no-margin small-12 medium-8',
+                label: 'Financement',
+                label_class : 'medium-no-margin small-12 medium-4',
+                required_class : ''
+            }) }}
+        </div>
+        <div class="small-12 medium-offset-4 medium-8">
+            {{ form_widget(vehicleForm.offer.otherFunding, {
                 class_field: '',
                 class : '',
                 placeholder: 'Autres, précisez...'

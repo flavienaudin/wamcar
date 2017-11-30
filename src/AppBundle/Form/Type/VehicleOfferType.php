@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\{
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\Vehicle\Enum\Funding;
 use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
@@ -40,12 +41,16 @@ class VehicleOfferType extends AbstractType
                 'error_bubbling' => true,
                 'required' => false
             ])
-            ->add('refunded', CheckboxType::class, [
-                'label'  => 'Satisfait ou remboursé 15 jours',
+            ->add('otherGuarantee', TextType::class, [
+                'required' => false,
+                'error_bubbling' => true,
+            ])
+            ->add('funding', ChoiceType::class, [
+                'choices' => Funding::toArray(),
                 'error_bubbling' => true,
                 'required' => false
             ])
-            ->add('otherGuarantee', TextType::class, [
+            ->add('otherFunding', TextType::class, [
                 'required' => false,
                 'error_bubbling' => true,
             ])
