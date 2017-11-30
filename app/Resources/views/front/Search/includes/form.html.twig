@@ -18,11 +18,11 @@
             }) }}
         </div>
 
-        <div class="column small-12 medium-6 large-4">
+        <div class="column small-12 medium-6 large-5">
             <label for="search_vehicle_postalCode">Votre location <span class="">Facultatif</span></label>
-            <div class="row">
+            <div class="block-grid small-12">
             {{ form_widget(searchForm.postalCode, {
-                'class' : 'input no-margin js-postalCode medium-4',
+                'class' : 'js-postalCode input small-4 large-no-margin',
                 'required' : false,
                 'label' : '',
                 'label_class' : '',
@@ -33,7 +33,7 @@
                 }
             }) }}
             {{ form_widget(searchForm.cityName, {
-                'class' : 'no-margin js-complete-coordinate medium-8',
+                'class' : 'js-complete-coordinate small-8 large-no-margin',
                 'required' : true,
                 'required_message' : 'Veuillez d\'abord renseigner le code postal',
                 'required_class' : 'form-error',
