@@ -6,6 +6,7 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
+use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
@@ -76,13 +77,19 @@ class SearchController extends BaseController
                 $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $queryBuilder->addQuery($boolQuery);
             }
+            if (!empty($searchVehicleDTO->cityName)) {
+                $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+            }
         }
+        dump($queryBuilder);
 
         $queryBody = $queryBuilder->getQueryBody();
+        dump($queryBody);
         $searchResult = $this->queryExecutor->execute(
             $queryBody,
             IndexablePersonalVehicle::TYPE
         );
+        dump($searchResult);
 
         $lastPage = ceil($searchResult->totalHits() / $this->limit);
 
