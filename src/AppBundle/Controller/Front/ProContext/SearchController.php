@@ -71,6 +71,8 @@ class SearchController extends BaseController
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             if (!empty($searchVehicleDTO->text)) {
+                //Necessary for search only by key_make
+                $queryBuilder->match('key_make', $searchVehicleDTO->text);
                 $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));

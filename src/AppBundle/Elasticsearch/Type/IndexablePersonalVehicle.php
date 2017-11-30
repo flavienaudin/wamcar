@@ -107,7 +107,7 @@ class IndexablePersonalVehicle implements Indexable
      */
     public function toArray(): array
     {
-        // key_ because classic are not indexed in elastic search (because of local cache)
+        // key_ because conflict with not indexed in vehicle_info type
         return [
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
