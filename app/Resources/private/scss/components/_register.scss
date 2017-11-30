@@ -160,7 +160,7 @@
     counter-reset: section;
     flex: 1;
 
-    @include breakpoint(large down) {
+    @include breakpoint(1480 down) {
       justify-content: flex-end;
     }
 
@@ -209,7 +209,11 @@
       margin-right: rem-calc(25);
     }
 
-    @include breakpoint(xlarge) {
+    @media screen and (min-width: rem-calc(1000)) and (max-width: rem-calc(1480)) {
+      font-size: rem-calc(16);
+    }
+
+    @include breakpoint(1480) {
       margin-right: rem-calc(70);
     }
 
