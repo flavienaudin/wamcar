@@ -38,6 +38,28 @@
 
 
   /*
+     Actions open
+     ===================================== */
+
+  &-actions-open {
+    &.is-active {
+      &::before {
+        content: "-";
+        width: rem-calc(14);
+        height: rem-calc(14);
+        line-height: rem-calc(9);
+        background: $primary-color;
+        border-radius: 50%;
+        color: white;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+  }
+
+
+
+  /*
      Link
      ===================================== */
 

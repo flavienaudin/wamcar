@@ -13,11 +13,16 @@
         form: 'js-search-form',
     } %}
 </header>
-<div class="garage-container search-result-vehicle">
-    {% set balise = 'h2' %}
-    {% set search_result = true %}
-    {% include ':front/Search/includes:list.html.twig' %}
-    <br />
-    <br />
-</div>
-{% include 'front/Layout/includes/pagination.html.twig' %}
+{% if result.totalHits > 0 %}
+    <div class="garage-container search-result-vehicle">
+        {% set balise = 'h2' %}
+        {% set search_result = true %}
+        {% include ':front/Search/includes:list.html.twig' %}
+        <br />
+        <br />
+    </div>
+    {% include 'front/Layout/includes/pagination.html.twig' %}
+{% else %}
+    <br>
+    <p>Aucun résultat n'a été trouvé, rééssayez votre recherche.</p>
+{% endif %}
