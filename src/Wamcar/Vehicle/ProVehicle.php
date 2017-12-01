@@ -80,7 +80,7 @@ class ProVehicle extends BaseVehicle
      */
     public function getName(): string
     {
-        return $this->modelVersion->getName();
+        return $this->getMake() . ' ' . $this->modelVersion->getName();
     }
 
     /**
