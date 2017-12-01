@@ -11,7 +11,7 @@ Wamcar\Vehicle\PersonalVehicle:
 
     oneToMany:
         pictures:
-            targetEntity: AppBundle\Doctrine\Entity\VehiclePicture
+            targetEntity: AppBundle\Doctrine\Entity\PersonalVehiclePicture
             mappedBy: vehicle
             cascade: ["persist", "merge"]
 

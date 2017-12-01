@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Vehicle\Picture;
 use Wamcar\Vehicle\Vehicle;
 
-class VehiclePicture extends Picture implements FileHolder
+abstract class VehiclePicture extends Picture implements FileHolder
 {
     use FileHolderTrait;
 

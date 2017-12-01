@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\EntityBuilder;
 
-use AppBundle\Doctrine\Entity\VehiclePicture;
+use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
@@ -49,7 +49,7 @@ class ProVehicleBuilder implements VehicleBuilder
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new VehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new ProVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
                 $vehicle->addPicture($picture);
             }
         }
@@ -90,7 +90,7 @@ class ProVehicleBuilder implements VehicleBuilder
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new VehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new ProVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
                 $vehicle->addPicture($picture);
             }
         }
