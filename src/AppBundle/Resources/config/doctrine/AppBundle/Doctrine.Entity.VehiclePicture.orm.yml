@@ -24,6 +24,7 @@ AppBundle\Doctrine\Entity\VehiclePicture:
     manyToOne:
         vehicle:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
+            inversedBy: pictures
             joinColumn:
                 name: vehicle_id
                 referencedColumnName: id
