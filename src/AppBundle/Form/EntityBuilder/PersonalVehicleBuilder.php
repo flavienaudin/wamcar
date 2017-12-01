@@ -2,7 +2,7 @@
 
 namespace AppBundle\Form\EntityBuilder;
 
-use AppBundle\Doctrine\Entity\VehiclePicture;
+use AppBundle\Doctrine\Entity\PersonalVehiclePicture;
 use AppBundle\Form\DTO\VehicleDTO;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestState;
@@ -41,7 +41,7 @@ class PersonalVehicleBuilder
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new VehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new PersonalVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
                 $vehicle->addPicture($picture);
             }
         }

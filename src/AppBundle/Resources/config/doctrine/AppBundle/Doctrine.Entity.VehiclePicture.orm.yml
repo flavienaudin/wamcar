@@ -1,6 +1,15 @@
 AppBundle\Doctrine\Entity\VehiclePicture:
 
     type: entity
+    inheritanceType: SINGLE_TABLE
+    table: vehicle_picture
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        abstract: AppBundle\Doctrine\Entity\VehiclePicture
+        pro: AppBundle\Doctrine\Entity\ProVehiclePicture
+        perso: AppBundle\Doctrine\Entity\PersonalVehiclePicture
 
     exclusion_policy: ALL
 
@@ -20,11 +29,3 @@ AppBundle\Doctrine\Entity\VehiclePicture:
             type: string
         fileOriginalName:
             type: string
-
-    manyToOne:
-        vehicle:
-            targetEntity: Wamcar\Vehicle\PersonalVehicle
-            inversedBy: pictures
-            joinColumn:
-                name: vehicle_id
-                referencedColumnName: id

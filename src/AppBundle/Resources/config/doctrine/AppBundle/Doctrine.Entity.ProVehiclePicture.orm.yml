@@ -1,0 +1,13 @@
+AppBundle\Doctrine\Entity\ProVehiclePicture:
+
+    type: entity
+
+    exclusion_policy: ALL
+
+    manyToOne:
+        vehicle:
+            targetEntity: Wamcar\Vehicle\ProVehicle
+            inversedBy: pictures
+            joinColumn:
+                name: vehicle_id
+                referencedColumnName: id

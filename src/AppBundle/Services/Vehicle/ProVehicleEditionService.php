@@ -57,24 +57,19 @@ class ProVehicleEditionService
      */
     public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
     {
-        try {
-            /** @var ProVehicle $proVehicle */
-            $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
-            $proVehicle->setGarage($garage);
+        /** @var ProVehicle $proVehicle */
+        $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
+        $proVehicle->setGarage($garage);
 
-            if (!$garage->isProVehicle($proVehicle)) {
-                $garage->addProVehicle($proVehicle);
-                $this->garageRepository->update($garage);
-            }
-
-            $this->vehicleRepository->add($proVehicle);
-            $this->eventBus->handle(new ProVehicleCreated($proVehicle));
-
-            return $proVehicle;
+        if (!$garage->isProVehicle($proVehicle)) {
+            $garage->addProVehicle($proVehicle);
+            $this->garageRepository->update($garage);
         }
-        catch(\Exception $e) {
-            throw new HttpException('500', 'Something went wrong!');
-        }
+
+        $this->vehicleRepository->add($proVehicle);
+        $this->eventBus->handle(new ProVehicleCreated($proVehicle));
+
+        return $proVehicle;
     }
 
     /**
