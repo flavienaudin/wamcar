@@ -3,6 +3,8 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Utils\BudgetChoice;
+use AppBundle\Utils\MileageChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -56,12 +58,7 @@ class SearchVehicleType extends AbstractType
                 'error_bubbling' => true,
             ])
             ->add('mileageMax', ChoiceType::class, [
-                'choices' => [
-                    '50 000 Km' => '50000',
-                    '100 000 Km' => '100000',
-                    '150 000 Km' => '150000',
-                    '200 000 Km' => '200000'
-                ],
+                'choices' => MileageChoice::getMileageMax(),
                 'error_bubbling' => true,
             ])
             ->add('yearsMin', ChoiceType::class, [
@@ -73,19 +70,11 @@ class SearchVehicleType extends AbstractType
                 'error_bubbling' => true,
             ])
             ->add('budgetMin', ChoiceType::class, [
-                'choices' => [
-                    '10 000 €' => '10000',
-                    '20 000 €' => '20000',
-                    '30 000 €' => '30000'
-                ],
+                'choices' => BudgetChoice::getList(),
                 'error_bubbling' => true,
             ])
             ->add('budgetMax', ChoiceType::class, [
-                'choices' => [
-                    '10 000 €' => '10000',
-                    '20 000 €' => '20000',
-                    '30 000 €' => '30000'
-                ],
+                'choices' => BudgetChoice::getList(),
                 'error_bubbling' => true,
             ])
         ;
