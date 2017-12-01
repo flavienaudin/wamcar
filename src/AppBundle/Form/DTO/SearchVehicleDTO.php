@@ -17,5 +17,23 @@ class SearchVehicleDTO
     public $latitude;
     /** @var string */
     public $longitude;
+    /** @var string */
+    public $make;
+    /** @var string */
+    public $model;
+    /** @var string */
+    public $mileageMax;
+    /** @var string */
+    public $yearsMin;
+    /** @var string */
+    public $yearsMax;
+    /** @var string */
+    public $budgetMin;
+    /** @var string */
+    public $budgetMax;
+    /** @var string */
+    public $transmission;
+    /** @var string */
+    public $fuel;
 
 }

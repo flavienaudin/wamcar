@@ -91,6 +91,13 @@ parameters:
                 properties:
                     location:
                         type: geo_point
+                    mileage:
+                        type: integer
+                    years:
+                        type: integer
+                    transmission:
+                        type: string
+                        index: not_analyzed
 
 services:
     _defaults:

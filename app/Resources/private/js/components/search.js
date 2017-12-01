@@ -6,6 +6,10 @@ import { Tabs } from 'foundation-sites/js/foundation.tabs';
 
 const $searchTabs = document.getElementById('js-search-tabs');
 
+const $information = document.getElementById('js-search-form-container');
+const $makeSelect = document.getElementById('search_vehicle_make');
+const $modelSelect = document.getElementById('search_vehicle_model');
+
 /**
  * Get vehicle
  *
@@ -21,6 +25,50 @@ const getVehicle = async (url) => {
 };
 
 if ($searchTabs) {
+
+  let clearSelect = function (select) {
+    let selectOptions = select.getElementsByTagName('OPTION');
+    while(selectOptions.length > 0) {
+      select.remove(selectOptions[0]);
+    }
+
+    let defaultOption = document.createElement('option');
+    defaultOption.text = 'Modèle du véhicule';
+    defaultOption.value = '';
+    select.add(defaultOption);
+  };
+
+  let dataFetchUrl = $information.getAttribute('data-fetch-url');
+  $makeSelect.addEventListener('change', () => {
+
+    clearSelect($modelSelect);
+
+    let filterForm = new FormData();
+    filterForm.append('filters[make]', $makeSelect.value);
+
+    fetch(dataFetchUrl, {
+      method: 'POST',
+      body: filterForm,
+      credentials: 'include',
+      headers: new Headers({
+        'X-Requested-With': 'XMLHttpRequest'
+      })
+    })
+      .then(response => response.json())
+      .then((data) => {
+        for (let value in data['model']) {
+          if (data['model'].hasOwnProperty(value)) {
+            let option = document.createElement('option');
+            option.text = data['model'][value];
+            option.value = value;
+            $modelSelect.add(option);
+          }
+        }
+      })
+      .catch(err => {
+        throw err;
+      });
+  });
 
   const searchTabs = new Tabs($($searchTabs));
 
