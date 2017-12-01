@@ -13,12 +13,8 @@ class YearsChoice
      */
     public static function getLastYears($nbYears = 7)
     {
-        $arrayYear = [];
         $currentYear = date('Y');
-        for ($i = $nbYears; $i >=0; $i--) {
-            $arrayYear[$currentYear - $i] = $currentYear - $i;
-        }
-        arsort($arrayYear);
+        $arrayYear = array_combine(range($currentYear, $currentYear - $nbYears), range($currentYear, $currentYear - $nbYears));
 
         return $arrayYear;
     }
