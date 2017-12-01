@@ -33,6 +33,8 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getYears(),
             $vehicle->getMileage(),
             $vehicle->getCityName(),
+            $vehicle->getCity()->getLatitude(),
+            $vehicle->getCity()->getLongitude(),
             $vehicle->getCreatedAt(),
             '/assets/images/placeholders/vehicle/vehicle-default.jpg',
             'Particulier particulier',

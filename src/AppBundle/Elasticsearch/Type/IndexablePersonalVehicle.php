@@ -26,6 +26,10 @@ class IndexablePersonalVehicle implements Indexable
     private $milage;
     /** @var string */
     private $cityName;
+    /** @var string */
+    private $latitude;
+    /** @var string */
+    private $longitude;
     /** @var \DateTime */
     private $createdAt;
     /** @var string */
@@ -57,6 +61,8 @@ class IndexablePersonalVehicle implements Indexable
                                 string $years,
                                 string $mileage,
                                 string $cityName,
+                                string $latitude,
+                                string $longitude,
                                 \DateTime $createdAt,
                                 string $picture,
                                 string $userName,
@@ -72,6 +78,8 @@ class IndexablePersonalVehicle implements Indexable
         $this->years = $years;
         $this->milage = $mileage;
         $this->cityName = $cityName;
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
         $this->createdAt = $createdAt;
         $this->picture = $picture;
         $this->userName = $userName;
@@ -99,7 +107,7 @@ class IndexablePersonalVehicle implements Indexable
      */
     public function toArray(): array
     {
-        // key_ because classic are not indexed in elastic search (because of local cache)
+        // key_ because conflict with not indexed in vehicle_info type
         return [
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
@@ -114,6 +122,10 @@ class IndexablePersonalVehicle implements Indexable
             'years' => $this->years,
             'mileage' => $this->milage,
             'cityName' => $this->cityName,
+            'location' => [
+                'lat' => $this->latitude,
+                'lon' => $this->longitude
+            ],
             'createdAt' => $this->createdAt,
             'picture' => $this->picture,
             'userName' => $this->userName,

@@ -88,6 +88,9 @@ parameters:
                 _source : { enabled : true }
             personal_vehicle:
                 _source : { enabled : true }
+                properties:
+                    location:
+                        type: geo_point
 
 services:
     _defaults:

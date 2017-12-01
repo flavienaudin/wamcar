@@ -2,6 +2,8 @@
 
 namespace Wamcar\Vehicle;
 
+use Wamcar\Location\City;
+
 class PersonalVehicle extends BaseVehicle
 {
     /**
@@ -74,5 +76,13 @@ class PersonalVehicle extends BaseVehicle
     public function getCityName(): string
     {
         return $this->city->getName();
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
     }
 }

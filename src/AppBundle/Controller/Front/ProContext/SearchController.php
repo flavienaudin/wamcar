@@ -6,6 +6,7 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
+use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
@@ -37,7 +38,7 @@ class SearchController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         QueryExecutor $queryExecutor,
-        int $limit = 10
+        int $limit = 2
     )
     {
         $this->formFactory = $formFactory;
@@ -46,31 +47,40 @@ class SearchController extends BaseController
 
     }
 
-
     /**
      * @param Request $request
+     * @param int $page
      * @return Response
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(Request $request, int $page = 1): Response
     {
-
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'method' => 'GET',
+            'action' => $this->generateRoute('front_search_pro')
         ]);
 
         $searchForm->handleRequest($request);
 
-        $queryBuilder = QueryBuilder::createNew();
+        $queryBuilder = QueryBuilder::createNew(
+            self::OFFSET + ($page - 1) * $this->limit,
+            $this->limit,
+            self::MIN_SCORE
+        );
         $boolQuery = new BoolQuery();
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             if (!empty($searchVehicleDTO->text)) {
+                //Necessary for search only by key_make
+                $queryBuilder->match('key_make', $searchVehicleDTO->text);
                 $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $queryBuilder->addQuery($boolQuery);
+            }
+            if (!empty($searchVehicleDTO->cityName)) {
+                $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
             }
         }
 
@@ -80,18 +90,15 @@ class SearchController extends BaseController
             IndexablePersonalVehicle::TYPE
         );
 
-        $response = $request->isXmlHttpRequest() ?
-            new JsonResponse([
-                'result' => $searchResult->hits()
-            ])
-            :
-            $this->render('front/Search/search.html.twig', [
+        $lastPage = ceil($searchResult->totalHits() / $this->limit);
+
+        return $this->render('front/Search/search.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'filterData' => $searchVehicleDTO,
-                'result' => $searchResult
+                'result' => $searchResult,
+                'page' => $page,
+                'lastPage' => $lastPage
             ])
         ;
-
-        return $response;
     }
 }

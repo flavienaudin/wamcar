@@ -108,16 +108,16 @@
         },
         {
             "name": "composer/ca-bundle",
-            "version": "1.0.9",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "36344aeffdc37711335563e6108cda86566432a6"
+                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/36344aeffdc37711335563e6108cda86566432a6",
-                "reference": "36344aeffdc37711335563e6108cda86566432a6",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
+                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
                 "shasum": ""
             },
             "require": {
@@ -126,12 +126,9 @@
                 "php": "^5.3.2 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.5",
+                "phpunit/phpunit": "^4.8.35",
                 "psr/log": "^1.0",
-                "symfony/process": "^2.5 || ^3.0"
-            },
-            "suggest": {
-                "symfony/process": "This is necessary to reliably check whether openssl_x509_parse is vulnerable on older php versions, but can be ignored on PHP 5.5.6+"
+                "symfony/process": "^2.5 || ^3.0 || ^4.0"
             },
             "type": "library",
             "extra": {
@@ -163,7 +160,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-11-13 15:51:25"
+            "time": "2017-11-29 09:37:33"
         },
         {
             "name": "doctrine/annotations",
@@ -2093,12 +2090,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novaway/elasticsearch-client.git",
-                "reference": "6f9e66b3fc5f64576ffbaa5a96f0c6b2dd42803a"
+                "reference": "b1977195a6cac2f357ce9e4be476a390a2e6966d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novaway/elasticsearch-client/zipball/6f9e66b3fc5f64576ffbaa5a96f0c6b2dd42803a",
-                "reference": "6f9e66b3fc5f64576ffbaa5a96f0c6b2dd42803a",
+                "url": "https://api.github.com/repos/novaway/elasticsearch-client/zipball/b1977195a6cac2f357ce9e4be476a390a2e6966d",
+                "reference": "b1977195a6cac2f357ce9e4be476a390a2e6966d",
                 "shasum": ""
             },
             "require": {
@@ -2132,7 +2129,7 @@
             "keywords": [
                 "elasticsearch"
             ],
-            "time": "2017-11-20 09:15:13"
+            "time": "2017-11-30 12:50:43"
         },
         {
             "name": "ocramius/package-versions",
@@ -5041,16 +5038,16 @@
         },
         {
             "name": "deployer/recipes",
-            "version": "6.0.1",
+            "version": "6.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/deployphp/recipes.git",
-                "reference": "5f462100d2c9a109e119ea390091c1e66d961f74"
+                "reference": "39d4fb3f94272652ac1595f3e83ac5ec4379f6c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/deployphp/recipes/zipball/5f462100d2c9a109e119ea390091c1e66d961f74",
-                "reference": "5f462100d2c9a109e119ea390091c1e66d961f74",
+                "url": "https://api.github.com/repos/deployphp/recipes/zipball/39d4fb3f94272652ac1595f3e83ac5ec4379f6c1",
+                "reference": "39d4fb3f94272652ac1595f3e83ac5ec4379f6c1",
                 "shasum": ""
             },
             "replace": {
@@ -5088,7 +5085,7 @@
                 "slack",
                 "yarn"
             ],
-            "time": "2017-08-24 13:39:08"
+            "time": "2017-11-29 11:03:02"
         },
         {
             "name": "doctrine/data-fixtures",
