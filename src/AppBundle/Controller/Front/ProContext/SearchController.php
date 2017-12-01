@@ -87,7 +87,6 @@ class SearchController extends BaseController
         $boolQuery = new BoolQuery();
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            dump($searchVehicleDTO);
 
             //TODO: refacto after demo
             if (!empty($searchVehicleDTO->text)) {
