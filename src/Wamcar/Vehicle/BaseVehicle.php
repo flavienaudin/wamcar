@@ -173,6 +173,26 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return array|Picture[]
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @return null|Picture
+     */
+    public function getMainPicture(): ?Picture
+    {
+        if(count($this->pictures) === 0) {
+            return null;
+        }
+
+        return $this->pictures[0];
+    }
+
+    /**
      * @param SafetyTestDate $safetyTestDate
      */
     public function setSafetyTestDate(SafetyTestDate $safetyTestDate): void
