@@ -83,15 +83,12 @@ class SearchController extends BaseController
                 $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
             }
         }
-        dump($queryBuilder);
 
         $queryBody = $queryBuilder->getQueryBody();
-        dump($queryBody);
         $searchResult = $this->queryExecutor->execute(
             $queryBody,
             IndexablePersonalVehicle::TYPE
         );
-        dump($searchResult);
 
         $lastPage = ceil($searchResult->totalHits() / $this->limit);
 
