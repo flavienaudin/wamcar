@@ -19,4 +19,12 @@ abstract class Picture
         $this->vehicle = $vehicle;
         $this->caption = $caption;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCaption()
+    {
+        return $this->caption;
+    }
 }

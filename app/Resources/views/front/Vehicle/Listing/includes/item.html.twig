@@ -5,7 +5,7 @@
         <div class="js-like like"><span data-tooltip=""></span></div>
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
-                <img src="{{ asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
+                <img src="{{ vehicle.mainPicture ? vich_uploader_asset(vehicle.mainPicture, 'file') : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
             </div>
         </div>
         <div class="vehicle-infos small-shrink medium-auto">

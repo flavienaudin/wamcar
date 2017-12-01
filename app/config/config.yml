@@ -117,7 +117,7 @@ vich_uploader:
             - {path: '%kernel.root_dir%/../src/AppBundle/Resources/config/uploader'}
     mappings:
         vehicle_image:
-            uri_prefix:         /vehicule/image/
+            uri_prefix:         /uploads/images/vehicles
             upload_destination: '%env(UPLOAD_DIR)%/images/vehicles'
             namer:              vich_uploader.namer_hash
             directory_namer:
