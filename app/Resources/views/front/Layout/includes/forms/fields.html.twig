@@ -328,7 +328,7 @@
 
     <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }}" {% if required %}required{% endif %} >
         {% if value is not defined or value == '' %}
-            <option value="" selected="selected">Veuillez d'abord renseigner le code postal</option>
+            <option value="" selected="selected">Veuillez d'abord rens. le code postal</option>
         {% else %}
             <option value="{{ value }}" selected="selected">{{ value }}</option>
         {% endif %}

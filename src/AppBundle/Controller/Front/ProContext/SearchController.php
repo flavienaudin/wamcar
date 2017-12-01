@@ -45,7 +45,7 @@ class SearchController extends BaseController
         FormFactoryInterface $formFactory,
         QueryExecutor $queryExecutor,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        int $limit = 2
+        int $limit = 9
     )
     {
         $this->formFactory = $formFactory;

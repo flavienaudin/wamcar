@@ -12,13 +12,13 @@
         </div>
         <div class="vehicle-infos small-shrink medium-auto">
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
-            <{{ balise }} class="vehicle-name h3">{{ vehicle.modelVersion }}</{{ balise }}>
+            <{{ balise }} class="vehicle-name h3">{{ vehicle.make }} {{ vehicle.modelVersion }}</{{ balise }}>
             <p class="vehicle-model">{{ vehicle.model }}</p>
             <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
-                <time class="vehicle-time black-color small-auto">14 nov, 14h45</time>
+                <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate('none', 'none', null, null, "d MMM, H'h'm") }}</time>
             </div>
         </div>
     </a>
