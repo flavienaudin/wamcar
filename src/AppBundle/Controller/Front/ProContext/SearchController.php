@@ -66,9 +66,7 @@ class SearchController extends BaseController
             'make' => $request->query->get('search_vehicle')['make'],
             'model' => $request->query->get('search_vehicle')['model']
         ];
-        $availableValues = array_key_exists('ktypNumber', $filters) ?
-            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
-            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [

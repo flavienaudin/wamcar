@@ -6,9 +6,9 @@ import { Tabs } from 'foundation-sites/js/foundation.tabs';
 
 const $searchTabs = document.getElementById('js-search-tabs');
 
-let $information = document.getElementById('js-search-form-container');
-let $makeSelect = document.getElementById('search_vehicle_make');
-let $modelSelect = document.getElementById('search_vehicle_model');
+const $information = document.getElementById('js-search-form-container');
+const $makeSelect = document.getElementById('search_vehicle_make');
+const $modelSelect = document.getElementById('search_vehicle_model');
 
 /**
  * Get vehicle
