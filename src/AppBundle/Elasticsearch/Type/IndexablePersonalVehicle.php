@@ -21,6 +21,10 @@ class IndexablePersonalVehicle implements Indexable
     /** @var string */
     private $engine;
     /** @var string */
+    private $transmission;
+    /** @var string */
+    private $fuel;
+    /** @var string */
     private $years;
     /** @var string */
     private $milage;
@@ -58,6 +62,8 @@ class IndexablePersonalVehicle implements Indexable
                                 string $model,
                                 string $modelVersion,
                                 string $engine,
+                                string $transmission,
+                                string $fuel,
                                 string $years,
                                 string $mileage,
                                 string $cityName,
@@ -75,6 +81,8 @@ class IndexablePersonalVehicle implements Indexable
         $this->model = $model;
         $this->modelVersion = $modelVersion;
         $this->engine = $engine;
+        $this->transmission = $transmission;
+        $this->fuel = $fuel;
         $this->years = $years;
         $this->milage = $mileage;
         $this->cityName = $cityName;
@@ -115,10 +123,13 @@ class IndexablePersonalVehicle implements Indexable
             'key_model' => $this->model,
             'key_modelVersion' => $this->modelVersion,
             'key_engine' => $this->engine,
+            'key_fuel' => $this->fuel,
             'make' => $this->make,
             'model' => $this->model,
             'modelVersion' => $this->modelVersion,
             'engine' => $this->engine,
+            'transmission' => $this->transmission,
+            'fuel' => $this->fuel,
             'years' => $this->years,
             'mileage' => $this->milage,
             'cityName' => $this->cityName,

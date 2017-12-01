@@ -16,9 +16,9 @@ class YearsChoice
         $arrayYear = [];
         $currentYear = date('Y');
         for ($i = $nbYears; $i >=0; $i--) {
-            $arrayYear[$currentYear - $i] = $i;
+            $arrayYear[$currentYear - $i] = $currentYear - $i;
         }
-        asort($arrayYear);
+        arsort($arrayYear);
 
         return $arrayYear;
     }

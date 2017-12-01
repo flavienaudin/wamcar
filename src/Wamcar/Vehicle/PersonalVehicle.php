@@ -41,6 +41,22 @@ class PersonalVehicle extends BaseVehicle
     /**
      * @return string
      */
+    public function getTransmission(): string
+    {
+        return $this->transmission;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFuelName(): string
+    {
+        return $this->modelVersion->getEngine()->getFuel()->getName();
+    }
+
+    /**
+     * @return string
+     */
     public function getYears(): string
     {
         return $this->getRegistrationDate()->format('Y');

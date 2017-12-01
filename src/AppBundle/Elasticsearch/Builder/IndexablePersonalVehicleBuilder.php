@@ -30,6 +30,8 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
             $vehicle->getEngineName(),
+            $vehicle->getTransmission(),
+            $vehicle->getFuelName(),
             $vehicle->getYears(),
             $vehicle->getMileage(),
             $vehicle->getCityName(),

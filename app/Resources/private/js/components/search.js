@@ -34,6 +34,7 @@ if ($searchTabs) {
 
     let defaultOption = document.createElement('option');
     defaultOption.text = 'Modèle du véhicule';
+    defaultOption.value = '';
     select.add(defaultOption);
   };
 
