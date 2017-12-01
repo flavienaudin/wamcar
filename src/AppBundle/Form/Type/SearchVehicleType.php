@@ -16,6 +16,8 @@ class SearchVehicleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $availableValues = $options['available_values'] ?? [];
+
         $builder
             ->add('text', TextType::class, [
                 'required' => false
@@ -98,5 +100,6 @@ class SearchVehicleType extends AbstractType
             'data_class' => SearchVehicleDTO::class,
             'translation_domain' => 'search'
         ]);
+        $resolver->setRequired('available_values');
     }
 }

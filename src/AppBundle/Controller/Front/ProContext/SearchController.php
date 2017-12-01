@@ -6,7 +6,9 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
+use AppBundle\Utils\VehicleInfoAggregator;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
+use Novaway\ElasticsearchClient\Filter\TermFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
@@ -26,23 +28,28 @@ class SearchController extends BaseController
     protected $formFactory;
     /** @var QueryExecutor */
     private $queryExecutor;
+    /** @var VehicleInfoAggregator */
+    private $vehicleInfoAggregator;
     /** @var int  */
     private $limit;
 
-
-
     /**
-     * GarageController constructor.
+     * SearchController constructor.
      * @param FormFactoryInterface $formFactory
+     * @param QueryExecutor $queryExecutor
+     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param int $limit
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         QueryExecutor $queryExecutor,
+        VehicleInfoAggregator $vehicleInfoAggregator,
         int $limit = 2
     )
     {
         $this->formFactory = $formFactory;
         $this->queryExecutor = $queryExecutor;
+        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->limit = $limit;
 
     }
@@ -54,10 +61,19 @@ class SearchController extends BaseController
      */
     public function indexAction(Request $request, int $page = 1): Response
     {
+        $filters = [
+            'make' => $request->query->get('search_vehicle')['make'],
+            'model' => $request->query->get('search_vehicle')['model']
+        ];
+        $availableValues = array_key_exists('ktypNumber', $filters) ?
+            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
+            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'method' => 'GET',
-            'action' => $this->generateRoute('front_search_pro')
+            'action' => $this->generateRoute('front_search_pro'),
+            'available_values' => $availableValues
         ]);
 
         $searchForm->handleRequest($request);
@@ -70,6 +86,8 @@ class SearchController extends BaseController
         $boolQuery = new BoolQuery();
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            dump($searchVehicleDTO);
+
             if (!empty($searchVehicleDTO->text)) {
                 //Necessary for search only by key_make
                 $queryBuilder->match('key_make', $searchVehicleDTO->text);
@@ -81,6 +99,10 @@ class SearchController extends BaseController
             }
             if (!empty($searchVehicleDTO->cityName)) {
                 $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+            }
+            $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
+            if (!empty($searchVehicleDTO->model)) {
+                $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
             }
         }
 
