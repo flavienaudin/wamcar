@@ -26,49 +26,52 @@ const getVehicle = async (url) => {
 
 if ($searchTabs) {
 
-  let clearSelect = function (select) {
-    let selectOptions = select.getElementsByTagName('OPTION');
-    while(selectOptions.length > 0) {
-      select.remove(selectOptions[0]);
-    }
+  if ($makeSelect) {
 
-    let defaultOption = document.createElement('option');
-    defaultOption.text = 'Modèle du véhicule';
-    defaultOption.value = '';
-    select.add(defaultOption);
-  };
+    let clearSelect = function (select) {
+      let selectOptions = select.getElementsByTagName('OPTION');
+      while(selectOptions.length > 0) {
+        select.remove(selectOptions[0]);
+      }
 
-  let dataFetchUrl = $information.getAttribute('data-fetch-url');
-  $makeSelect.addEventListener('change', () => {
+      let defaultOption = document.createElement('option');
+      defaultOption.text = 'Modèle du véhicule';
+      defaultOption.value = '';
+      select.add(defaultOption);
+    };
 
-    clearSelect($modelSelect);
+    let dataFetchUrl = $information.getAttribute('data-fetch-url');
+    $makeSelect.addEventListener('change', () => {
 
-    let filterForm = new FormData();
-    filterForm.append('filters[make]', $makeSelect.value);
+      clearSelect($modelSelect);
 
-    fetch(dataFetchUrl, {
-      method: 'POST',
-      body: filterForm,
-      credentials: 'include',
-      headers: new Headers({
-        'X-Requested-With': 'XMLHttpRequest'
+      let filterForm = new FormData();
+      filterForm.append('filters[make]', $makeSelect.value);
+
+      fetch(dataFetchUrl, {
+        method: 'POST',
+        body: filterForm,
+        credentials: 'include',
+        headers: new Headers({
+          'X-Requested-With': 'XMLHttpRequest'
+        })
       })
-    })
-      .then(response => response.json())
-      .then((data) => {
-        for (let value in data['model']) {
-          if (data['model'].hasOwnProperty(value)) {
-            let option = document.createElement('option');
-            option.text = data['model'][value];
-            option.value = value;
-            $modelSelect.add(option);
+        .then(response => response.json())
+        .then((data) => {
+          for (let value in data['model']) {
+            if (data['model'].hasOwnProperty(value)) {
+              let option = document.createElement('option');
+              option.text = data['model'][value];
+              option.value = value;
+              $modelSelect.add(option);
+            }
           }
-        }
-      })
-      .catch(err => {
-        throw err;
-      });
-  });
+        })
+        .catch(err => {
+          throw err;
+        });
+    });
+  }
 
   const searchTabs = new Tabs($($searchTabs));
 
