@@ -23,7 +23,7 @@ class ProVehicleBuilder implements VehicleBuilder
 
         $vehicle = new ProVehicle(
             self::getModelVersion($vehicleDTO),
-            self::getTransmission($vehicleDTO),
+            self::getTransmissionMatch($vehicleDTO->BoiteLibelle),
             $vehicleDTO->IdentifiantVehicule,
             new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
             $vehicleDTO->Kilometrage,
@@ -60,7 +60,7 @@ class ProVehicleBuilder implements VehicleBuilder
     public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion(self::getModelVersion($vehicleDTO));
-        $vehicle->setTransmission(self::getTransmission($vehicleDTO));
+        $vehicle->setTransmission(self::getTransmissionMatch($vehicleDTO->BoiteLibelle));
         $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
         $vehicle->setMileage($vehicleDTO->Kilometrage);
         $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
@@ -117,11 +117,24 @@ class ProVehicleBuilder implements VehicleBuilder
     }
 
     /**
-     * @param $vehicleDTO
+     * @param string $libelle
      * @return Transmission
      */
-    protected static function getTransmission($vehicleDTO): Transmission
+    protected static function getTransmissionMatch(string $libelle): Transmission
     {
-        return new Transmission($vehicleDTO->BoiteLibelle);
+        $transmissionMatch = [
+            'BVA' => Transmission::AUTOMATIC(),
+            'BVAS' => Transmission::AUTOMATIC(),
+            'BVM' => Transmission::MANUAL(),
+            'BVMS' => Transmission::MANUAL(),
+            'BVR' => Transmission::AUTOMATIC(),
+            'BVRD' => Transmission::AUTOMATIC(),
+            'CVT' => Transmission::AUTOMATIC(),
+            'E' => Transmission::AUTOMATIC(),
+            'I' => Transmission::AUTOMATIC(),
+            'N/D' => Transmission::MANUAL()
+        ];
+
+        return $transmissionMatch[$libelle];
     }
 }
