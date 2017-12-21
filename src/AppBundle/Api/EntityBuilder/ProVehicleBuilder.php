@@ -5,6 +5,9 @@ namespace AppBundle\Api\EntityBuilder;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\Engine;
+use Wamcar\Vehicle\Enum\MaintenanceState;
+use Wamcar\Vehicle\Enum\SafetyTestDate;
+use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -23,17 +26,17 @@ class ProVehicleBuilder implements VehicleBuilder
 
         $vehicle = new ProVehicle(
             self::getModelVersion($vehicleDTO),
-            self::getTransmission($vehicleDTO),
-            $vehicleDTO->IdentifiantVehicule,
+            self::getTransmissionMatch($vehicleDTO->BoiteLibelle),
+            null,
             new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
             $vehicleDTO->Kilometrage,
             [],
+            SafetyTestDate::UNKNOWN(),
+            SafetyTestState::UNKNOWN(),
+            3,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
+            MaintenanceState::UNKNOWN(),
             null,
             null,
             null,
@@ -46,7 +49,8 @@ class ProVehicleBuilder implements VehicleBuilder
             null,
             $vehicleDTO->GarantieLibelle,
             null,
-            null
+            null,
+            $vehicleDTO->IdentifiantVehicule
         );
 
         return $vehicle;
@@ -60,7 +64,7 @@ class ProVehicleBuilder implements VehicleBuilder
     public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion(self::getModelVersion($vehicleDTO));
-        $vehicle->setTransmission(self::getTransmission($vehicleDTO));
+        $vehicle->setTransmission(self::getTransmissionMatch($vehicleDTO->BoiteLibelle));
         $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
         $vehicle->setMileage($vehicleDTO->Kilometrage);
         $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
@@ -117,11 +121,28 @@ class ProVehicleBuilder implements VehicleBuilder
     }
 
     /**
-     * @param $vehicleDTO
+     * @param null|string $label
      * @return Transmission
      */
-    protected static function getTransmission($vehicleDTO): Transmission
+    protected static function getTransmissionMatch(?string $label): Transmission
     {
-        return new Transmission($vehicleDTO->BoiteLibelle);
+        if(!$label) {
+            return Transmission::MANUAL();
+        }
+
+        $transmissionMatch = [
+            'BVA' => Transmission::AUTOMATIC(),
+            'BVAS' => Transmission::AUTOMATIC(),
+            'BVM' => Transmission::MANUAL(),
+            'BVMS' => Transmission::MANUAL(),
+            'BVR' => Transmission::AUTOMATIC(),
+            'BVRD' => Transmission::AUTOMATIC(),
+            'CVT' => Transmission::AUTOMATIC(),
+            'E' => Transmission::AUTOMATIC(),
+            'I' => Transmission::AUTOMATIC(),
+            'N/D' => Transmission::MANUAL()
+        ];
+
+        return $transmissionMatch[$label];
     }
 }
