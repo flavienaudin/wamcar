@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicleRepository;
@@ -139,12 +140,17 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=200, description="Le véhicule"),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
+     *     @SWG\Response(response=404, description="Vehicule introuvable"),
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function getAction(Request $request, Vehicle $vehicle): Response
+    public function getAction(Request $request, string $id): Response
     {
+        $vehicle = $this->vehicleRepository->findByReference($id);
+        if (!$vehicle) {
+            throw new NotFoundHttpException();
+        }
+
         return new JsonResponse($vehicle);
     }
 
@@ -161,12 +167,18 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=200, description="Vehicule supprimée"),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
+     *     @SWG\Response(response=404, description="Vehicule introuvable"),
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function deleteAction(Request $request, Vehicle $vehicle): Response
+    public function deleteAction(Request $request, string $id): Response
     {
+        $vehicle = $this->vehicleRepository->findByReference($id);
+        if (!$vehicle) {
+            throw new NotFoundHttpException();
+        }
+
+
         $this->vehicleRepository->remove($vehicle);
 
         return new JsonResponse(['error' => 0]);
@@ -175,9 +187,9 @@ class VehicleController extends BaseController
     /**
      * @SWG\Put(
      *     path="/vehicules/{id}",
-     *     summary="Créer un Vehicule à partir des données soumises",
+     *     summary="Modifier un Vehicule à partir des données soumises",
      *     tags={"vehicle", "edit"},
-     *     description="Créer un Vehicule à partir des données soumises.",
+     *     description="Modifier un Vehicule à partir des données soumises.",
      *     operationId="vehicleEditAction",
      *     @SWG\Parameter(ref="#/parameters/client_id"),
      *     @SWG\Parameter(ref="#/parameters/secret"),
@@ -191,14 +203,19 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=200, description="Véhicule mis à jour"),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
-     *     @SWG\Response(response=404, description="Une ressource est manquante"),
+     *     @SWG\Response(response=404, description="Vehicule introuvable"),
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function editAction(Request $request, Vehicle $vehicle): Response
+    public function editAction(Request $request, string $id): Response
     {
         if (!$this->getUserGarage()) {
             throw new AccessDeniedHttpException();
+        }
+
+        $vehicle = $this->vehicleRepository->findByReference($id);
+        if (!$vehicle) {
+            throw new NotFoundHttpException();
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
@@ -238,8 +255,16 @@ class VehicleController extends BaseController
     private function getUserGarage(): Garage
     {
         $user = $this->getUser();
-        if (!$user || !$user instanceof CanBeGarageMember) {
-            throw new UnauthorizedHttpException();
+        if (!$user) {
+            throw new UnauthorizedHttpException('Newauth realm="use login token".');
+        }
+
+        if (!$user instanceof CanBeGarageMember) {
+            throw new UnauthorizedHttpException('Newauth realm="not proper user".');
+        }
+
+        if (!$user->getGarage()) {
+            throw new UnauthorizedHttpException('Newauth realm="create garage first".');
         }
 
         return $user->getGarage();
