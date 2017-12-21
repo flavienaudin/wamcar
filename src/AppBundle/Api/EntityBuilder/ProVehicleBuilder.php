@@ -24,7 +24,7 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle = new ProVehicle(
             self::getModelVersion($vehicleDTO),
             self::getTransmissionMatch($vehicleDTO->BoiteLibelle),
-            $vehicleDTO->IdentifiantVehicule,
+            null,
             new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
             $vehicleDTO->Kilometrage,
             [],
