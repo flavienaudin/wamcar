@@ -88,7 +88,7 @@ class ProVehicle extends BaseVehicle
      */
     private function getCity(): City
     {
-        return $this->city ?? $this->getGarage()->getCity();
+        return ($this->city && $this->city->getPostalCode()) ? $this->city : $this->getGarage()->getCity();
     }
 
     /**
