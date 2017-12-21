@@ -77,7 +77,7 @@ class ProVehicleEditionService
      * @param ProVehicle $vehicle
      * @return ProVehicle
      */
-    public function updateInformations(FormVehicleDTO $proVehicleDTO, ProVehicle $vehicle): ProVehicle
+    public function updateInformations(CanBeProVehicle $proVehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
