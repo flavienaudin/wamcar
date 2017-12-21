@@ -51,7 +51,7 @@ class ProVehicle extends BaseVehicle
         bool $isImported = null,
         bool $isFirstHand = null,
         string $additionalInformation = null,
-        City $city,
+        City $city = null,
         float $price,
         float $catalogPrice = null,
         float $discount = null,
@@ -84,11 +84,19 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * @return City
+     */
+    private function getCity(): City
+    {
+        return $this->city ?? $this->getGarage()->getCity();
+    }
+
+    /**
      * @return string
      */
     public function getPostalCode(): string
     {
-        return $this->city->getPostalCode();
+        return $this->getCity()->getPostalCode();
     }
 
     /**
@@ -96,7 +104,7 @@ class ProVehicle extends BaseVehicle
      */
     public function getCityName(): string
     {
-        return $this->city->getName();
+        return $this->getCity()->getName();
     }
 
     /**

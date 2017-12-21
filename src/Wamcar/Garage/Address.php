@@ -47,6 +47,14 @@ class Address
     }
 
     /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
      * @return string
      */
     public function getLatitude(): ?string

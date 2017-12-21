@@ -4,6 +4,7 @@ namespace Wamcar\Garage;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -130,6 +131,14 @@ class Garage
     public function getAddress(): Address
     {
         return $this->address;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->address->getCity();
     }
 
     /**

@@ -5,6 +5,9 @@ namespace AppBundle\Api\EntityBuilder;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\Engine;
+use Wamcar\Vehicle\Enum\MaintenanceState;
+use Wamcar\Vehicle\Enum\SafetyTestDate;
+use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -28,12 +31,12 @@ class ProVehicleBuilder implements VehicleBuilder
             new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
             $vehicleDTO->Kilometrage,
             [],
+            SafetyTestDate::UNKNOWN(),
+            SafetyTestState::UNKNOWN(),
+            3,
             null,
             null,
-            null,
-            null,
-            null,
-            null,
+            MaintenanceState::UNKNOWN(),
             null,
             null,
             null,
@@ -46,7 +49,8 @@ class ProVehicleBuilder implements VehicleBuilder
             null,
             $vehicleDTO->GarantieLibelle,
             null,
-            null
+            null,
+            $vehicleDTO->IdentifiantVehicule
         );
 
         return $vehicle;
