@@ -117,11 +117,15 @@ class ProVehicleBuilder implements VehicleBuilder
     }
 
     /**
-     * @param string $libelle
+     * @param null|string $label
      * @return Transmission
      */
-    protected static function getTransmissionMatch(string $libelle): Transmission
+    protected static function getTransmissionMatch(?string $label): Transmission
     {
+        if(!$label) {
+            return Transmission::MANUAL();
+        }
+
         $transmissionMatch = [
             'BVA' => Transmission::AUTOMATIC(),
             'BVAS' => Transmission::AUTOMATIC(),
@@ -135,6 +139,6 @@ class ProVehicleBuilder implements VehicleBuilder
             'N/D' => Transmission::MANUAL()
         ];
 
-        return $transmissionMatch[$libelle];
+        return $transmissionMatch[$label];
     }
 }
