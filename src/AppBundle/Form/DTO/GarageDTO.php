@@ -4,7 +4,11 @@
 namespace AppBundle\Form\DTO;
 
 
+use AppBundle\Doctrine\Entity\GarageBanner;
+use AppBundle\Doctrine\Entity\GarageLogo;
+use AppBundle\Doctrine\Entity\GaragePicture;
 use Wamcar\Garage\Address;
+use Wamcar\Garage\Picture;
 use Wamcar\Location\City;
 use Wamcar\Garage\Garage;
 
@@ -38,6 +42,10 @@ class GarageDTO
     public $latitude;
     /** @var string */
     public $longitude;
+    /** @var GaragePictureDTO */
+    public $banner;
+    /** @var GaragePictureDTO */
+    public $logo;
 
     public function __construct(Garage $garage = null)
     {
@@ -56,6 +64,12 @@ class GarageDTO
             $this->cityName = $garage->getAddress()->getCityName();
             $this->latitude = $garage->getAddress()->getLatitude();
             $this->longitude = $garage->getAddress()->getLongitude();
+            if ($garage->getBanner()) {
+                $this->banner = $garage->getBanner()->getFile();
+            }
+            if ($garage->getLogo()) {
+                $this->logo = $garage->getLogo()->getFile();
+            }
         }
         $this->isNew = $garage === null;
     }

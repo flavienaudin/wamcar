@@ -6,6 +6,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\GarageDTO;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -48,6 +49,12 @@ class GarageType extends AbstractType
             ->add('cityName', TextType::class)
             ->add('latitude', HiddenType::class)
             ->add('longitude', HiddenType::class)
+            ->add('banner', FileType::class, [
+                'error_bubbling' => true
+            ])
+            ->add('logo', FileType::class, [
+                'error_bubbling' => true
+            ])
         ;
     }
 

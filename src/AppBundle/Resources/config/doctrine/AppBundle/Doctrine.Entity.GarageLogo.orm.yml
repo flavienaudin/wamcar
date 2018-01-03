@@ -1,0 +1,13 @@
+AppBundle\Doctrine\Entity\GarageLogo:
+
+    type: entity
+
+    exclusion_policy: ALL
+
+    oneToOne:
+        garage:
+            targetEntity: Wamcar\Garage\Garage
+            inversedBy: logo
+            joinColumn:
+                name: garage_id
+                referencedColumnName: id

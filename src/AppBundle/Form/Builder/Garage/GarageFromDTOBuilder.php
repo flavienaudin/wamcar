@@ -3,6 +3,9 @@
 namespace AppBundle\Form\Builder\Garage;
 
 
+use AppBundle\Doctrine\Entity\GarageBanner;
+use AppBundle\Doctrine\Entity\GarageLogo;
+use AppBundle\Doctrine\Entity\GaragePicture;
 use AppBundle\Form\DTO\GarageDTO;
 use Wamcar\Garage\Garage;
 
@@ -47,7 +50,9 @@ class GarageFromDTOBuilder
             $dto->openingHours,
             $dto->presentation,
             $dto->getAddress(),
-            $dto->phone
+            $dto->phone,
+            $dto->getBanner(),
+            $dto->getLogo()
         );
     }
 
@@ -77,6 +82,14 @@ class GarageFromDTOBuilder
         $garage->setPresentation($dto->presentation);
         $garage->setBenefit($dto->benefit);
         $garage->setAddress($dto->getAddress());
+        if ($dto->banner) {
+            $banner = new GarageBanner($garage, $dto->banner);
+            $garage->setBanner($banner);
+        }
+        if ($dto->logo) {
+            $logo = new GarageLogo($garage, $dto->logo);
+            $garage->setLogo($logo);
+        }
 
         return $garage;
     }
