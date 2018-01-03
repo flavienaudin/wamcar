@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\{
@@ -10,6 +11,8 @@ use Wamcar\Vehicle\Enum\{
 
 abstract class BaseVehicle implements Vehicle
 {
+    use SoftDeleteable;
+
     /** @var string */
     protected $id;
     /** @var ModelVersion */
@@ -48,6 +51,9 @@ abstract class BaseVehicle implements Vehicle
     protected $city;
     /** @var \DateTimeInterface */
     protected $createdAt;
+
+    /** @var string */
+    protected $deletedAt;
 
     /**
      * BaseVehicle constructor.
@@ -185,7 +191,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getMainPicture(): ?Picture
     {
-        if(count($this->pictures) === 0) {
+        if (count($this->pictures) === 0) {
             return null;
         }
 
