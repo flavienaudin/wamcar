@@ -4,6 +4,15 @@ namespace Wamcar\User;
 
 abstract class Picture
 {
-    /** @var User */
-    private $user;
+    /** @var BaseUser */
+    protected $user;
+
+    /**
+     * Picture constructor.
+     * @param BaseUser $user
+     */
+    public function __construct(BaseUser $user)
+    {
+        $this->user = $user;
+    }
 }
