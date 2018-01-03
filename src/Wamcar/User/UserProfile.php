@@ -17,10 +17,10 @@ class UserProfile
 
     /**
      * UserProfile constructor.
-     * @param Title $title
-     * @param string $name
-     * @param string $phone
-     * @param City $city
+     * @param Title|null $title
+     * @param string|null $name
+     * @param string|null $phone
+     * @param City|null $city
      */
     public function __construct(
         Title $title = null,

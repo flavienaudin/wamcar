@@ -12,16 +12,21 @@ abstract class BaseUser
     protected $email;
     /** @var  ?UserProfile */
     protected $userProfile;
+    /** @var ?Picture */
+    protected $avatar;
 
     /**
      * User constructor.
      * @param string $email
+     * @param Picture|null $avatar
      */
     public function __construct(
-        string $email
+        string $email,
+        Picture $avatar = null
     )
     {
         $this->email = $email;
+        $this->avatar = $avatar;
     }
 
     /**
@@ -85,5 +90,13 @@ abstract class BaseUser
     public function is($user): bool
     {
         return $user instanceof self && $user->getId() === $this->getId();
+    }
+
+    /**
+     * @return null|Picture
+     */
+    public function getAvatar(): ?Picture
+    {
+        return $this->avatar;
     }
 }
