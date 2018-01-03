@@ -124,18 +124,22 @@
                         <div class="row small-12">
                             <h2 class="column small-12">Médias</h2>
                             <div class="column small-12 medium-6">
-                                <label for="pics-1">Bannière (1400x620px)  <span>Facultatif</span></label>
-                                {% set index = 1 %}
-                                {% set classPreview = 'small-6 large-8' %}
-                                {% set image = 'assets/images/background/bg-plus.svg' %}
-                                {% include 'front/Security/Register/includes/file_preview.html.twig' %}
-                            </div>
+                                {{ form_widget(garageForm.banner, {
+                                    'label': 'Bannière (1400x620px)',
+                                    'required': false,
+                                    'required_class': '',
+                                    'classPreview': 'small-6 large-8',
+                                    'imgPreview':  (app.user.garage.banner) ? vich_uploader_asset(app.user.garage.banner, 'file') : asset('/assets/images/background/bg-plus.svg')
+                                }) }}
+                                </div>
                             <div class="column small-12 medium-6">
-                                <label for="pics-2">Logo (280x280px)   <span>Facultatif</span></label>
-                                {% set index = 2 %}
-                                {% set classPreview = 'small-6 large-4' %}
-                                {% set image = 'assets/images/background/bg-plus.svg' %}
-                                {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+                                {{ form_widget(garageForm.logo, {
+                                    'label': 'Logo (280x280px)',
+                                    'required': false,
+                                    'required_class': '',
+                                    'classPreview': 'small-6 large-4',
+                                    'imgPreview':  (app.user.garage.logo) ? vich_uploader_asset(app.user.garage.logo, 'file') : asset('/assets/images/background/bg-plus.svg')
+                                }) }}
                             </div>
                         </div>
                     </div>

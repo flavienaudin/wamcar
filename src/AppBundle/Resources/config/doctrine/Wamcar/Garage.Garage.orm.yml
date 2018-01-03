@@ -58,3 +58,13 @@ Wamcar\Garage\Garage:
             targetEntity: Wamcar\Vehicle\ProVehicle
             mappedBy: garage
             cascade: ["persist", "merge", "remove"]
+
+    oneToOne:
+        banner:
+            targetEntity: AppBundle\Doctrine\Entity\GarageBanner
+            mappedBy: garage
+            cascade: ["persist"]
+        logo:
+            targetEntity: AppBundle\Doctrine\Entity\GarageLogo
+            mappedBy: garage
+            cascade: ["persist"]

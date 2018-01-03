@@ -1,0 +1,28 @@
+AppBundle\Doctrine\Entity\GaragePicture:
+
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    table: garage_picture
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        abstract: AppBundle\Doctrine\Entity\GaragePicture
+        banner: AppBundle\Doctrine\Entity\GarageBanner
+        logo: AppBundle\Doctrine\Entity\GarageLogo
+
+    exclusion_policy: ALL
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        fileName:
+            type: string
+        fileSize:
+            type: integer
+        fileMimeType:
+            type: string
+        fileOriginalName:
+            type: string
