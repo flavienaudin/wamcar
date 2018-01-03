@@ -28,7 +28,8 @@ class IndexableProVehicleBuilder
             $vehicle->getMake(),
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
-            $vehicle->getEngineName()
+            $vehicle->getEngineName(),
+            $vehicle->getDeletedAt()
         );
     }
 
