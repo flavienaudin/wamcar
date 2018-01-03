@@ -20,6 +20,8 @@ class IndexableProVehicle implements Indexable
     private $modelVersion;
     /** @var string */
     private $engine;
+    /** @var \DateTime */
+    private $deletedAt;
 
     /**
      * VehicleInfo constructor.
@@ -29,13 +31,15 @@ class IndexableProVehicle implements Indexable
      * @param string $model
      * @param string $modelVersion
      * @param string $engine
+     * @param \DateTime|null $deletedAt
      */
     public function __construct(string $id,
                                 string $detailUrl,
                                 string $make,
                                 string $model,
                                 string $modelVersion,
-                                string $engine
+                                string $engine,
+                                \DateTime $deletedAt = null
     )
     {
         $this->id = $id;
@@ -44,6 +48,7 @@ class IndexableProVehicle implements Indexable
         $this->model = $model;
         $this->modelVersion = $modelVersion;
         $this->engine = $engine;
+        $this->deletedAt = $deletedAt;
     }
 
     /**
@@ -59,7 +64,7 @@ class IndexableProVehicle implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return true;
+        return empty($this->deletedAt);
     }
 
     /**
@@ -74,6 +79,7 @@ class IndexableProVehicle implements Indexable
             'model' => $this->model,
             'modelVersion' => $this->modelVersion,
             'engine' => $this->engine,
+            'deletedAt' => $this->deletedAt,
         ];
     }
 

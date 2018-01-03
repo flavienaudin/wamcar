@@ -9,6 +9,7 @@ use AppBundle\Services\User\CanBeGarageMember;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
+use Wamcar\Vehicle\Event\ProVehicleUpdated;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
@@ -92,6 +93,7 @@ class ProVehicleEditionService
     {
         $proVehicle->setDeletedAt(new \DateTime());
         $this->vehicleRepository->remove($proVehicle);
+        $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
         return $proVehicle;
     }
 
