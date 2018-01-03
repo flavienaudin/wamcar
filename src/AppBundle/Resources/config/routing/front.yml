@@ -84,6 +84,10 @@ front_vehicle_pro_detail:
     path: /vehicule/detail/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Vehicle:detail }
 
+front_vehicle_pro_delete:
+    path: /vehicule/delete/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:delete }
+
 front_search_pro:
     path: /vendeur/rechercher
     defaults: { _controller: AppBundle:Front\ProContext\Search:index  }

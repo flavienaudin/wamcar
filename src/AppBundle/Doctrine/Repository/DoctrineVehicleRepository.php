@@ -32,7 +32,8 @@ class DoctrineVehicleRepository extends EntityRepository
      */
     public function remove(Vehicle $vehicle): void
     {
-        throw new \LogicException("Not implemented");
+        $this->_em->persist($vehicle);
+        $this->_em->flush();
     }
 
     /**
