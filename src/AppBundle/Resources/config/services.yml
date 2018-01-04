@@ -8,6 +8,7 @@ imports:
     - { resource: services/mail.yml }
     - { resource: services/autodata.yml }
     - { resource: services/voters.yml }
+    - { resource: services/extensions.yml }
     - { resource: search.yml }
 
 services:

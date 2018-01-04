@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    AppBundle\Twig\PictureExtension:
+        class: 'AppBundle\Twig\PictureExtension'
+        tags:
+            - { name: twig.extension }
+        arguments:
+          - '@vich_uploader.templating.helper.uploader_helper'
+          - '%placeholder%'
