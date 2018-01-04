@@ -129,7 +129,7 @@
                                     'required': false,
                                     'required_class': '',
                                     'classPreview': 'small-6 large-8',
-                                    'imgPreview':  (app.user.garage.banner) ? vich_uploader_asset(app.user.garage.banner, 'file') : asset('/assets/images/background/bg-plus.svg')
+                                    'imgPreview':  app.user.garage|banner
                                 }) }}
                                 </div>
                             <div class="column small-12 medium-6">
@@ -138,7 +138,7 @@
                                     'required': false,
                                     'required_class': '',
                                     'classPreview': 'small-6 large-4',
-                                    'imgPreview':  (app.user.garage.logo) ? vich_uploader_asset(app.user.garage.logo, 'file') : asset('/assets/images/background/bg-plus.svg')
+                                    'imgPreview':  app.user.garage|logo
                                 }) }}
                             </div>
                         </div>
