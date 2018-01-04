@@ -4,10 +4,8 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
-use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\PersonalVehicleType;
-use AppBundle\Form\Type\VehicleType;
 use AppBundle\Security\UserRegistrationService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
@@ -21,9 +19,9 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
 use Wamcar\Vehicle\PersonalVehicleRepository;
-use Wamcar\Vehicle\VehicleRepository;
 
 class RegistrationController extends BaseController
 {
@@ -131,7 +129,11 @@ class RegistrationController extends BaseController
             $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
 
             try {
-                $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
+                $applicationUser = $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
+                if($applicationUser instanceof PersonalUser){
+                    $personalVehicle->setPersonalUser($applicationUser);
+                    $this->vehicleRepository->update($personalVehicle);
+                }
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
