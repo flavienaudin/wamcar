@@ -64,7 +64,7 @@ class IndexableProVehicle implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return empty($this->deletedAt);
+        return $this->deletedAt === null;
     }
 
     /**
