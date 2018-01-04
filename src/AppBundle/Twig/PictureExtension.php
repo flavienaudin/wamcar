@@ -12,16 +12,16 @@ class PictureExtension extends AbstractExtension
     /** @var UploaderHelper */
     protected $uploaderHelper;
     /** @var array */
-    protected $placeholder;
+    protected $placeholders;
 
     /**
      * PictureExtension constructor.
      * @param UploaderHelper $uploaderHelper
      */
-    public function __construct(UploaderHelper $uploaderHelper, array $placeholder)
+    public function __construct(UploaderHelper $uploaderHelper, array $placeholders)
     {
         $this->uploaderHelper = $uploaderHelper;
-        $this->placeholder = $placeholder;
+        $this->placeholders = $placeholders;
     }
 
     public function getFilters()
@@ -33,7 +33,7 @@ class PictureExtension extends AbstractExtension
 
     public function avatarFilter(BaseUser $user)
     {
-        $picturePath = $user->getAvatar() ? $this->uploaderHelper->asset($user->getAvatar(), 'file'): $this->placeholder['avatar'];
+        $picturePath = $user->getAvatar() ? $this->uploaderHelper->asset($user->getAvatar(), 'file'): $this->placeholders['avatar'];
 
         return $picturePath;
     }
