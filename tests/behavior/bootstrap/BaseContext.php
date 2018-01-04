@@ -119,4 +119,106 @@ abstract class BaseContext extends RawMinkContext implements ContextInterface
         }
     }
 
+    /**
+     * Take screenshot
+     * Works only with Selenium2Driver.
+     *
+     * @AfterStep
+     */
+    public function takeScreenshotAfterStep(AfterStepScope $event)
+    {
+        $driver = $this->getSession()->getDriver();
+        $scenario = $this->getScenario($event);
+
+        if ($driver instanceof Selenium2Driver && $scenario) {
+            $directory = 'build/behat/'.date('Ymd').date('Hm');
+            self::createDir($directory);
+
+            $directory .= '/'.self::slugify($event->getSuite()->getName());
+            self::createDir($directory);
+
+            $directory .= '/'.self::slugify($event->getFeature()->getTitle());
+            self::createDir($directory);
+
+            $directory .= '/'.self::slugify($scenario->getTitle());
+            self::createDir($directory);
+
+            $filename = sprintf('%s_%s_%s%s_%s.%s',
+                $this->getMinkParameter('browser_name'),
+                date('c'),
+                ($event->getTestResult()->isPassed() ? '' : '{failed}_'),
+                self::slugify($event->getStep()->getText()),
+                uniqid('', true),
+                'png'
+            );
+
+            file_put_contents($directory.'/'.$filename, $driver->getScreenshot());
+        }
+    }
+
+
+    /**
+     * @param $dirname
+     */
+    private static function createDir($dirname)
+    {
+        if (!is_dir($dirname)) {
+            mkdir($dirname, 0777, true);
+        }
+    }
+
+    /**
+     * @param $text
+     * @return mixed|string
+     */
+    private static function slugify($text)
+    {
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, '-');
+
+        // remove duplicate -
+        $text = preg_replace('~-+~', '-', $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
+    }
+
+    /**
+     * @param StepScope $scope
+     * @return \Behat\Gherkin\Node\ScenarioInterface|null
+     */
+    private static function getScenario(StepScope $scope)
+    {
+        $scenario = null;
+
+        $feature = $scope->getFeature();
+        $step = $scope->getStep();
+        $line = $step->getLine();
+
+        foreach ($feature->getScenarios() as $tmp) {
+            if ($tmp->getLine() > $line) {
+                break;
+            }
+
+            $scenario = $tmp;
+        }
+
+        return $scenario;
+    }
+
 }
