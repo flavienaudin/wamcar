@@ -10,4 +10,4 @@ services:
             - { name: twig.extension }
         arguments:
           - '@vich_uploader.templating.helper.uploader_helper'
-          - '%placeholder%'
+          - '%placeholders%'
