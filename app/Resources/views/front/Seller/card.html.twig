@@ -4,6 +4,9 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
+{% set isUserProPageProfil = (user.type == 'pro') %}
+{% set isUserPersonalPageProfil = (user.type == 'personal') %}
+
 {% block title %}
     {% if userIsMe %}
         Ma fiche vendeur
