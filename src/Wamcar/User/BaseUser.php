@@ -2,6 +2,8 @@
 
 namespace Wamcar\User;
 
+use Symfony\Component\HttpFoundation\File\File;
+
 abstract class BaseUser
 {
     const TYPE = '';
@@ -99,6 +101,15 @@ abstract class BaseUser
     {
         return $this->avatar;
     }
+
+    /**
+     * @return null|File
+     */
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatar ? $this->avatar->getFile(): null;
+    }
+
 
     /**
      * @param BaseUser|null $user null if user not connected
