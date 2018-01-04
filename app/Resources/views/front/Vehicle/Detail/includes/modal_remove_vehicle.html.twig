@@ -25,15 +25,6 @@
             required_message: 'Veuillez indiquer la raison de la suppression de votre véhicule.'
         } %}
         #}
-        {# Vehicle Id #}
-        <div>
-            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                type: 'hidden',
-                name: 'id',
-                value: vehicle.id,
-                required: true
-            } %}
-        </div>
         <div class="small-12 medium-8 large-7">
             <button type="submit" class="button full-width">Supprimer</button>
         </div>

@@ -91,7 +91,6 @@ class ProVehicleEditionService
      */
     public function deleteVehicle(ProVehicle $proVehicle): ProVehicle
     {
-        $proVehicle->setDeletedAt(new \DateTime());
         $this->vehicleRepository->remove($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
         return $proVehicle;

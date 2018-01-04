@@ -7,6 +7,7 @@ use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
 use Novaway\ElasticsearchClient\ObjectIndexer;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
+use Wamcar\Vehicle\Event\VehicleRemoved;
 use Wamcar\Vehicle\Event\VehicleUpdated;
 
 class IndexUpdatedProVehicle implements VehicleEventHandler
@@ -29,8 +30,8 @@ class IndexUpdatedProVehicle implements VehicleEventHandler
      */
     public function notify(VehicleEvent $event)
     {
-        if(!$event instanceof VehicleUpdated) {
-            throw new \InvalidArgumentException("IndexUpdatedVehicle can only be notified of 'VehicleUpdated' events");
+        if(!$event instanceof VehicleUpdated and !$event instanceof VehicleRemoved) {
+            throw new \InvalidArgumentException("IndexUpdatedVehicle can only be notified of 'VehicleUpdated'&'VehicleRemoved' events");
         }
         $proVehicle = $event->getVehicle();
 

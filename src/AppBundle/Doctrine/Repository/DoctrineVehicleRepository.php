@@ -32,7 +32,7 @@ class DoctrineVehicleRepository extends EntityRepository
      */
     public function remove(Vehicle $vehicle): void
     {
-        $this->_em->persist($vehicle);
+        $this->_em->remove($vehicle);
         $this->_em->flush();
     }
 
