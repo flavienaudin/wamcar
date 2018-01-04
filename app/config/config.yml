@@ -10,6 +10,8 @@ parameters:
     locale: fr
     placeholders:
         avatar: '/assets/images/placeholders/user/user.png'
+        banner: '/assets/images/placeholders/garages/garage-760x340.jpg'
+        logo: '/assets/images/placeholders/garages/logo-toyota.png'
 
 framework:
     #esi: ~
