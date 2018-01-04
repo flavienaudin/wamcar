@@ -4,33 +4,78 @@
 namespace Wamcar\User;
 
 
-use Wamcar\Vehicle\Vehicle;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Wamcar\Vehicle\PersonalVehicle;
 
 class PersonalUser extends BaseUser
 {
     const TYPE = 'personal';
 
-    /** @var Vehicle[]|array */
-    protected $vehicles;
+    /** @var ArrayCollection */
+    protected $personalVehicles;
 
     /**
      * PersonalUser constructor.
      * @param string $email
-     * @param null $firstVehicle
+     * @param PersonalVehicle $firstVehicle
      */
-    public function __construct($email, $firstVehicle = null)
+    public function __construct(string $email, PersonalVehicle $firstVehicle = null)
     {
         parent::__construct($email);
 
-        $this->vehicles = $firstVehicle ? [$firstVehicle] : [];
+        $this->personalVehicles = new ArrayCollection();
+        if($firstVehicle){
+            $this->personalVehicles->add($firstVehicle);
+        }
+    }
 
+
+    /**
+     * @return Collection
+     */
+    public function getPersonalVehicles(): Collection
+    {
+        return $this->personalVehicles;
     }
 
     /**
-     * @return array|Vehicle[]
+     * @param PersonalVehicle $personalVehicle
+     * @return PersonalUser
      */
-    public function getVehicles()
+    public function addPersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
     {
-        return $this->vehicles;
+        $this->getPersonalVehicles()->add($personalVehicle);
+
+        return $this;
     }
+
+    /**
+     * @param PersonalVehicle $personalVehicle
+     * @return PersonalUser
+     */
+    public function removePersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
+    {
+        $this->getPersonalVehicles()->removeElement($personalVehicle);
+
+        return $this;
+    }
+
+    /**
+     * @param PersonalVehicle $personalVehicle
+     * @return bool
+     */
+    public function hasPersonalVehicle(PersonalVehicle $personalVehicle): bool
+    {
+        /** @var PersonalVehicle $existPersonalVehicle */
+        foreach ($this->getPersonalVehicles() as $existPersonalVehicle) {
+            if ($existPersonalVehicle->getId() === $personalVehicle->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }

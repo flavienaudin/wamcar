@@ -3,9 +3,41 @@
 namespace Wamcar\Vehicle;
 
 use Wamcar\Location\City;
+use Wamcar\User\PersonalUser;
 
 class PersonalVehicle extends BaseVehicle
 {
+
+    /** @var PersonalUser */
+    private $personalUser;
+
+    /**
+     * @return PersonalUser
+     */
+    public function getPersonalUser(): PersonalUser
+    {
+        return $this->personalUser;
+    }
+
+    /**
+     * @param PersonalUser $personalUser
+     * @return PersonalVehicle
+     */
+    public function setPersonalUser(PersonalUser $personalUser): PersonalVehicle
+    {
+        $this->personalUser = $personalUser;
+        return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->getMake() . ' ' . $this->getModelName();
+    }
+
     /**
      * @return string
      */
