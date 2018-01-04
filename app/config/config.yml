@@ -8,6 +8,8 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    placeholder:
+        avatar: '/assets/images/placeholders/user/user.png'
 
 framework:
     #esi: ~
