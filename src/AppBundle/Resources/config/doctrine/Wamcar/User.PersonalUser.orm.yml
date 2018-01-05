@@ -4,5 +4,5 @@ Wamcar\User\PersonalUser:
     oneToMany:
         vehicles:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
-            mappedBy: personalUser
+            mappedBy: owner
             cascade: ["persist", "merge", "remove"]

@@ -16,7 +16,7 @@ Wamcar\Vehicle\PersonalVehicle:
             cascade: ["persist", "merge"]
 
     manyToOne:
-        personalUser:
+        owner:
             targetEntity: WamCar\User\PersonalUser
             inversedBy: vehicles
             joinColumn:
