@@ -4,12 +4,10 @@ namespace Wamcar\User;
 
 class Project
 {
-    /** @var  int */
-    protected $id;
     /** @var  PersonalUser */
     protected $personalUser;
-    /** @var  bool */
-    protected $isFleet;
+    /** @var  null|ProjectType */
+    protected $type;
     /** @var null|int */
     protected $budget;
     /** @var  null|string */
@@ -20,40 +18,32 @@ class Project
     /**
      * Project constructor.
      * @param PersonalUser $personalUser
-     * @param bool $isFleet
+     * @param ProjectType|null $type
      * @param int|null $budget
      * @param string|null $description
      * @param array $projectVehicles
      */
     public function __construct(
         PersonalUser $personalUser,
-        bool $isFleet = false,
+        ProjectType $type = null,
         int $budget = null,
         string $description = null,
         array $projectVehicles = []
     )
     {
         $this->personalUser = $personalUser;
-        $this->isFleet = $isFleet;
+        $this->type = $type;
         $this->budget = $budget;
         $this->description = $description;
         $this->projectVehicles = $projectVehicles;
     }
 
     /**
-     * @return int
+     * @return null|ProjectType
      */
-    public function getId(): int
+    public function getType(): ?ProjectType
     {
-        return $this->id;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFleet(): bool
-    {
-        return $this->isFleet;
+        return $this->type;
     }
 
     /**
