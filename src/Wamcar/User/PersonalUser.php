@@ -12,7 +12,9 @@ class PersonalUser extends BaseUser
 {
     const TYPE = 'personal';
 
-    /** @var ArrayCollection */
+    /** @var Project|null */
+    protected $project;
+    /** @var Vehicle[]|array */
     protected $vehicles;
 
     /**
@@ -79,5 +81,13 @@ class PersonalUser extends BaseUser
     public function canSeeMyVehicles(BaseUser $user = null): bool
     {
         return $this->is($user) || ($user != null && $user->getType() === ProUser::TYPE);
+    }
+
+    /**
+     * @return null|Project
+     */
+    public function getProject(): ?Project
+    {
+        return $this->project;
     }
 }

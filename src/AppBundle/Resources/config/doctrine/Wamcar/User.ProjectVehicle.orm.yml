@@ -1,0 +1,29 @@
+Wamcar\User\ProjectVehicle:
+
+    type: entity
+    table: project_vehicle
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository
+
+    id:
+        project:
+            associationKey: true
+
+    fields:
+        make:
+            type: string
+        model:
+            type: string
+        yearMax:
+            type: integer
+            nullable: true
+        mileageMax:
+            type: integer
+            nullable: true
+
+    manyToOne:
+        project:
+            targetEntity: Wamcar\User\Project
+            inversedBy: projectVehicles
+            joinColumn:
+                name: project_id
+                referencedColumnName: personal_user_id

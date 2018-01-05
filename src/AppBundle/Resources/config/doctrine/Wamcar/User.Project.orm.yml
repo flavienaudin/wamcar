@@ -1,0 +1,33 @@
+Wamcar\User\Project:
+
+    type: entity
+    table: project
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProjectRepository
+
+    id:
+        personalUser:
+            associationKey: true
+
+    fields:
+        type:
+            type: projecttype
+            nullable: true
+        budget:
+            type: integer
+            nullable: true
+        description:
+            type: text
+            nullable: true
+
+    oneToOne:
+        personalUser:
+            targetEntity: Wamcar\User\PersonalUser
+            inversedBy: project
+            joinColumn:
+                name: personal_user_id
+                referencedColumnName: id
+
+    oneToMany:
+        projectVehicles:
+            targetEntity: Wamcar\User\ProjectVehicle
+            mappedBy: project

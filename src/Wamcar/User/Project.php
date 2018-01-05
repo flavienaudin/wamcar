@@ -2,30 +2,40 @@
 
 namespace Wamcar\User;
 
-class ProjectParameter
+class Project
 {
+    /** @var  PersonalUser */
+    protected $personalUser;
     /** @var  null|ProjectType */
     protected $type;
     /** @var null|int */
     protected $budget;
     /** @var  null|string */
     protected $description;
+    /** @var ProjectVehicle[]|array */
+    protected $projectVehicles;
 
     /**
-     * ProjectParameter constructor.
+     * Project constructor.
+     * @param PersonalUser $personalUser
      * @param ProjectType|null $type
      * @param int|null $budget
      * @param string|null $description
+     * @param array $projectVehicles
      */
     public function __construct(
+        PersonalUser $personalUser,
         ProjectType $type = null,
         int $budget = null,
-        string $description = null
+        string $description = null,
+        array $projectVehicles = []
     )
     {
+        $this->personalUser = $personalUser;
         $this->type = $type;
         $this->budget = $budget;
         $this->description = $description;
+        $this->projectVehicles = $projectVehicles;
     }
 
     /**
@@ -50,5 +60,21 @@ class ProjectParameter
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    /**
+     * @return PersonalUser
+     */
+    public function getPersonalUser(): PersonalUser
+    {
+        return $this->personalUser;
+    }
+
+    /**
+     * @return array|ProjectVehicle[]
+     */
+    public function getProjectVehicles(): array
+    {
+        return $this->projectVehicles;
     }
 }
