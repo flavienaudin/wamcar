@@ -26,4 +26,4 @@ Wamcar\User\ProjectVehicle:
             inversedBy: projectVehicles
             joinColumn:
                 name: project_id
-                referencedColumnName: personal_user_id
+                referencedColumnName: id
