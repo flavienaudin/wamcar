@@ -12,6 +12,7 @@ use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,10 +27,10 @@ class UserController extends BaseController
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var UserRepository */
+    /** @var UserRepository  */
     protected $userRepository;
 
-    /** @var UserEditionService */
+    /** @var UserEditionService  */
     protected $userEditionService;
 
     /**
@@ -60,16 +61,12 @@ class UserController extends BaseController
         $user = $this->getUser();
 
         $userForms = [
-            ProApplicationUser::TYPE => ProUserInformationType::class,
-            PersonalApplicationUser::TYPE => UserInformationType::class
+            ProApplicationUser::TYPE  => ProUserInformationType::class,
+            PersonalApplicationUser::TYPE  => UserInformationType::class
         ];
         $userDTOs = [
-            ProApplicationUser::TYPE => ProUserInformationDTO::class,
-            PersonalApplicationUser::TYPE => UserInformationDTO::class
-        ];
-        $userProfileTemplate = [
-            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
-            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
+            ProApplicationUser::TYPE  => ProUserInformationDTO::class,
+            PersonalApplicationUser::TYPE  => UserInformationDTO::class
         ];
 
         $userForm = $userForms[$user->getType()];
@@ -94,7 +91,7 @@ class UserController extends BaseController
         }
 
 
-        return $this->render($userProfileTemplate[$user->getType()], [
+        return $this->render('front/Seller/edit.html.twig', [
             'editUserForm' => $editForm->createView(),
             'user' => $user
         ]);
@@ -109,7 +106,7 @@ class UserController extends BaseController
     public function viewInformationAction(Request $request, $id = null): Response
     {
         $user = $id ? $this->userRepository->find($id) : $this->getUser();
-        if (!$user || !$user instanceof BaseUser) {
+        if(!$user || !$user instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
 
@@ -118,7 +115,7 @@ class UserController extends BaseController
             PersonalUser::TYPE => 'front/User/card.html.twig',
         ];
 
-        if (!$templates[$user->getType()]) {
+        if(!$templates[$user->getType()]) {
             throw new NotFoundHttpException();
         }
 
