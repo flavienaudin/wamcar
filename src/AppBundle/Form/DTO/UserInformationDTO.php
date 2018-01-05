@@ -18,6 +18,8 @@ class UserInformationDTO
     /** @var  string */
     public $name;
     /** @var  string */
+    public $description;
+    /** @var  string */
     public $phone;
     /** @var  string */
     public $cityName;
@@ -29,7 +31,6 @@ class UserInformationDTO
     public $newPassword;
     /** @var UserPictureDTO */
     public $avatar;
-
 
     /**
      * UserInformationDTO constructor.
@@ -51,6 +52,7 @@ class UserInformationDTO
         $this->name = $profile->getName();
         $this->phone = $profile->getPhone();
         $this->title = $profile->getTitle();
+        $this->description = $profile->getDescription();
         $this->fillFromCity($profile->getCity());
     }
 
