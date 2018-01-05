@@ -18,7 +18,7 @@ Wamcar\Vehicle\PersonalVehicle:
     manyToOne:
         personalUser:
             targetEntity: WamCar\User\PersonalUser
-            inversedBy: personalVehicles
+            inversedBy: vehicles
             joinColumn:
                 name: user_id
                 referencedColumnName: id

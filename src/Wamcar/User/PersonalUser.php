@@ -13,7 +13,7 @@ class PersonalUser extends BaseUser
     const TYPE = 'personal';
 
     /** @var ArrayCollection */
-    protected $personalVehicles;
+    protected $vehicles;
 
     /**
      * PersonalUser constructor.
@@ -24,19 +24,18 @@ class PersonalUser extends BaseUser
     {
         parent::__construct($email);
 
-        $this->personalVehicles = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
         if($firstVehicle){
-            $this->personalVehicles->add($firstVehicle);
+            $this->vehicles->add($firstVehicle);
         }
     }
-
 
     /**
      * @return Collection
      */
-    public function getPersonalVehicles(): Collection
+    public function getVehicles(): Collection
     {
-        return $this->personalVehicles;
+        return $this->vehicles;
     }
 
     /**
@@ -45,7 +44,7 @@ class PersonalUser extends BaseUser
      */
     public function addPersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
     {
-        $this->getPersonalVehicles()->add($personalVehicle);
+        $this->getVehicles()->add($personalVehicle);
 
         return $this;
     }
@@ -56,7 +55,7 @@ class PersonalUser extends BaseUser
      */
     public function removePersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
     {
-        $this->getPersonalVehicles()->removeElement($personalVehicle);
+        $this->getVehicles()->removeElement($personalVehicle);
 
         return $this;
     }
@@ -68,7 +67,7 @@ class PersonalUser extends BaseUser
     public function hasPersonalVehicle(PersonalVehicle $personalVehicle): bool
     {
         /** @var PersonalVehicle $existPersonalVehicle */
-        foreach ($this->getPersonalVehicles() as $existPersonalVehicle) {
+        foreach ($this->getVehicles() as $existPersonalVehicle) {
             if ($existPersonalVehicle->getId() === $personalVehicle->getId()) {
                 return true;
             }
