@@ -3,17 +3,17 @@
 namespace AppBundle\Services\Vehicle;
 
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
+use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
-use SimpleBus\Message\Bus\MessageBus;
+use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use AppBundle\Services\User\CanBeGarageMember;
+use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
-use Wamcar\Vehicle\Event\ProVehicleUpdated;
+use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
-use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
-use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 
 
 class ProVehicleEditionService
@@ -92,7 +92,7 @@ class ProVehicleEditionService
     public function deleteVehicle(ProVehicle $proVehicle): ProVehicle
     {
         $this->vehicleRepository->remove($proVehicle);
-        $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
+        $this->eventBus->handle(new ProVehicleRemoved($proVehicle));
         return $proVehicle;
     }
 
