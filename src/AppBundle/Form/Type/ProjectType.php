@@ -35,8 +35,8 @@ class ProjectType extends AbstractType
                 'required' => false
             ])
             ->add('projectVehicles', CollectionType::class, [
-                'label' => false,
                 'entry_type' => ProjectVehicleType::class,
+                'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
