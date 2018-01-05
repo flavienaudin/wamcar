@@ -13,9 +13,4 @@ class ProjectDTO
     public $description;
     /** @var ProjectVehicleDTO[]|array */
     public $projectVehicles;
-
-    public function __construct()
-    {
-        $this->projectVehicles = [new ProjectVehicleDTO()];
-    }
 }
