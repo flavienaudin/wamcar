@@ -131,7 +131,7 @@ class RegistrationController extends BaseController
             try {
                 $applicationUser = $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
                 if($applicationUser instanceof PersonalUser){
-                    $personalVehicle->setPersonalUser($applicationUser);
+                    $personalVehicle->setOwner($applicationUser);
                     $this->vehicleRepository->update($personalVehicle);
                 }
             } catch (UniqueConstraintViolationException $exception) {

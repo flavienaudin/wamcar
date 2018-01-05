@@ -9,26 +9,25 @@ class PersonalVehicle extends BaseVehicle
 {
 
     /** @var PersonalUser */
-    private $personalUser;
+    private $owner;
 
     /**
      * @return PersonalUser
      */
-    public function getPersonalUser(): PersonalUser
+    public function getOwner(): PersonalUser
     {
-        return $this->personalUser;
+        return $this->owner;
     }
 
     /**
-     * @param PersonalUser $personalUser
+     * @param PersonalUser $owner
      * @return PersonalVehicle
      */
-    public function setPersonalUser(PersonalUser $personalUser): PersonalVehicle
+    public function setOwner(PersonalUser $owner): PersonalVehicle
     {
-        $this->personalUser = $personalUser;
+        $this->owner = $owner;
         return $this;
     }
-
 
     /**
      * @return string
