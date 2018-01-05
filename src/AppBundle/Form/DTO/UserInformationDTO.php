@@ -27,6 +27,8 @@ class UserInformationDTO
     public $oldPassword;
     /** @var  string */
     public $newPassword;
+    /** @var UserPictureDTO */
+    public $avatar;
 
 
     /**
@@ -37,6 +39,7 @@ class UserInformationDTO
     {
         $this->id = $user->getId();
         $this->email = $user->getEmail();
+        $this->avatar = $user->getAvatarFile();
         $this->fillFromUserProfile($user->getUserProfile());
     }
 
@@ -78,7 +81,7 @@ class UserInformationDTO
      */
     public function getUserProfile(): UserProfile
     {
-        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity());
+        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity(), $this->avatar);
 
         return $userProfile;
     }

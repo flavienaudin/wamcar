@@ -82,11 +82,13 @@
             <div class="input-margin column small-12 medium-6 xlarge-5">
                 <div id="js-pictures-list" class="separator">
                     <h2>Médias</h2>
-                    <label for="pics">Avatar <span>Facultatif</span></label>
-                    {% set index = 1 %}
-                    {% set classPreview = 'small-6 large-4' %}
-                    {% set image = '' %}
-                    {% include 'front/Security/Register/includes/file_preview.html.twig' %}
+                    {{ form_widget(editUserForm.avatar, {
+                        'label': 'Avatar',
+                        'required': false,
+                        'required_class': '',
+                        'classPreview': 'small-6 large-4',
+                        'imgPreview':  user|avatar
+                    }) }}
                 </div>
             </div>
             <div class="column small-12">

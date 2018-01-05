@@ -4,8 +4,10 @@
 namespace Wamcar\User;
 
 
+use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 
@@ -76,6 +78,14 @@ class ProUser extends BaseUser
     public function setGarageMemberships(Collection $members)
     {
         $this->garageMemberships = $members;
+    }
+
+    /**
+     * @param UserPicture $avatar
+     */
+    public function setAvatar(UserPicture $avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     /**

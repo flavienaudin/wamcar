@@ -53,7 +53,7 @@ class UserController extends BaseController
     /**
      * @param Request $request
      * @return Response
-     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     public function editInformationsAction(Request $request): Response
     {

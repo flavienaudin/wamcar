@@ -1,0 +1,23 @@
+AppBundle\Doctrine\Entity\UserPicture:
+
+    type: entity
+    table: user_picture
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        fileName:
+            type: string
+        fileSize:
+            type: integer
+        fileMimeType:
+            type: string
+        fileOriginalName:
+            type: string
+
+    oneToOne:
+        user:
+            targetEntity: Wamcar\User\BaseUser
+            mappedBy: avatar

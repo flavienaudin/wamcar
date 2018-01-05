@@ -32,3 +32,12 @@ Wamcar\User\BaseUser:
             type: string
             length: 191   # needed to index field in utf8mb4
             unique: true
+
+    oneToOne:
+        avatar:
+            targetEntity: AppBundle\Doctrine\Entity\UserPicture
+            inversedBy: user
+            joinColumn:
+                name: avatar_id
+                referencedColumnName: id
+            cascade: ["persist", "merge", "remove"]

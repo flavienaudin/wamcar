@@ -3,6 +3,8 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ProUserPicture;
+use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Security\HasPasswordResettable;
@@ -56,6 +58,11 @@ class UserEditionService
 
         $user->setEmail($userInformationDTO->email);
         $user->updateUserProfile($userInformationDTO->getUserProfile());
+
+        if ($userInformationDTO->avatar) {
+            $picture = new UserPicture($user, $userInformationDTO->avatar);
+            $user->setAvatar($picture);
+        }
 
         if ($userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);

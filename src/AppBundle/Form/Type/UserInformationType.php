@@ -8,7 +8,7 @@ use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -54,7 +54,10 @@ class UserInformationType extends AbstractType
                 ],
                 'required' => false,
                 'error_bubbling' => true,
-            ]);
+            ])
+            ->add('avatar', FileType::class, [
+                'error_bubbling' => true
+        ]);
 
         $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));
 

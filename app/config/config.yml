@@ -8,6 +8,8 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    placeholders:
+        avatar: '/assets/images/placeholders/user/user.png'
 
 framework:
     #esi: ~
@@ -119,6 +121,14 @@ vich_uploader:
         vehicle_image:
             uri_prefix:         /uploads/images/vehicles
             upload_destination: '%env(UPLOAD_DIR)%/images/vehicles'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+        user_image:
+            uri_prefix:         /uploads/images/users
+            upload_destination: '%env(UPLOAD_DIR)%/images/users'
             namer:              vich_uploader.namer_hash
             directory_namer:
                 service: vich_uploader.directory_namer_subdir
