@@ -44,6 +44,7 @@ class PersonalUser extends BaseUser
     public function addPersonalVehicle(PersonalVehicle $personalVehicle)
     {
         $this->getVehicles()->add($personalVehicle);
+        $personalVehicle->setOwner($this);
     }
 
     /**
@@ -52,6 +53,7 @@ class PersonalUser extends BaseUser
     public function removePersonalVehicle(PersonalVehicle $personalVehicle)
     {
         $this->getVehicles()->removeElement($personalVehicle);
+        $personalVehicle->setOwner(null);
     }
 
     /**
