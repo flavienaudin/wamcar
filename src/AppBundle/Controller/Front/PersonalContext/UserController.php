@@ -121,7 +121,6 @@ class UserController extends BaseController
 
         $filters = [];
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
-
         $projectDTO = new ProjectDTO();
 
         $projectForm = $this->formFactory->create(
