@@ -7,11 +7,14 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,21 +35,27 @@ class UserController extends BaseController
     /** @var UserEditionService */
     protected $userEditionService;
 
+    /** @var VehicleInfoAggregator */
+    private $vehicleInfoAggregator;
+
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
      * @param UserEditionService $userEditionService
+     * @param VehicleInfoAggregator $vehicleInfoAggregator
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRepository $userRepository,
-        UserEditionService $userEditionService
+        UserEditionService $userEditionService,
+        VehicleInfoAggregator $vehicleInfoAggregator
     )
     {
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
         $this->userEditionService = $userEditionService;
+        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
     }
 
     /**
@@ -99,6 +108,48 @@ class UserController extends BaseController
             'user' => $user
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function projectAction(Request $request): Response
+    {
+        /** @var ApplicationUser $user */
+        $user = $this->getUser();
+
+        $filters = [];
+        $availableValues = array_key_exists('ktypNumber', $filters) ?
+            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
+            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+
+        $projectDTO = new ProjectDTO();
+
+        $projectForm = $this->formFactory->create(
+            ProjectType::class,
+            $projectDTO,
+            ['available_values' => $availableValues]);
+
+        $projectForm->handleRequest($request);
+        if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+            $this->userEditionService->projectInformations($user, $projectDTO);
+
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user_edit'
+            );
+
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
+
+        return $this->render('front/User/edit.html.twig', [
+            'projectForm' => $projectForm->createView(),
+            'user' => $user
+        ]);
+    }
+
 
     /**
      * @param Request $request

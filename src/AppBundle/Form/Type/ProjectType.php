@@ -6,6 +6,8 @@ use AppBundle\Form\DTO\ProjectDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -17,17 +19,19 @@ class ProjectType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'choices' => \Wamcar\User\ProjectType::toArray(),
                 'error_bubbling' => true,
+                'required' => false
             ])
-            ->add('information', VehicleInformationType::class, [
-                'available_values' => $options['available_values'],
+            ->add('budget', IntegerType::class, [
                 'error_bubbling' => true,
+                'required' => false
             ])
-            ->add('specifics', VehicleSpecificsType::class, [
+            ->add('description', TextareaType::class, [
                 'error_bubbling' => true,
+                'required' => false
             ])
-            ->add('pictures', CollectionType::class, [
+            ->add('projectVehicles', CollectionType::class, [
                 'label' => false,
-                'entry_type' => VehiclePictureType::class,
+                'entry_type' => ProjectVehicleType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -49,6 +53,4 @@ class ProjectType extends AbstractType
         ]);
         $resolver->setRequired('available_values');
     }
-
-
 }
