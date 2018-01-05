@@ -43,6 +43,7 @@ services:
         autowire: true
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
 
     wamcar.event.elasticsearch.personal_vehicle_created.index:
         class: AppBundle\Elasticsearch\IndexCreatedPersonalVehicle

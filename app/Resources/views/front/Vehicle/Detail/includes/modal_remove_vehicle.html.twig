@@ -5,8 +5,12 @@
 {% block title %}Suppression de l'annonce {{ vehicle.name }}{% endblock %}
 
 {% block content %}
+    <p class="dark-gray-color">Êtes-vous sûr de vouloir supprimer ce véhicule&nbsp;?</p>
+    {# Sprint 4 : pas de raison : juste demande de confirmation
     <p class="dark-gray-color">Quel est la raison de la suppression de votre véhicule ?</p>
-    <form class="small-12" data-abide novalidate>
+    #}
+    <form action="{{ path('front_vehicle_pro_delete', {'id':vehicle.id}) }}" class="small-12" data-abide novalidate>
+        {# Sprint 4 : pas de raison : juste demande de confirmation
         {% include 'front/Layout/includes/forms/select.html.twig' with {
             label: false,
             options: [
@@ -20,7 +24,8 @@
             required: true,
             required_message: 'Veuillez indiquer la raison de la suppression de votre véhicule.'
         } %}
-        <div class="large-5">
+        #}
+        <div class="small-12 medium-8 large-7">
             <button type="submit" class="button full-width">Supprimer</button>
         </div>
     </form>

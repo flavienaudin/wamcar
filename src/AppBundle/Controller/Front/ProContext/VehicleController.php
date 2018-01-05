@@ -4,7 +4,6 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\ProVehicleDTO;
-use AppBundle\Form\DTO\VehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
@@ -18,7 +17,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Vehicle\ProVehicle;
-use Wamcar\Vehicle\Vehicle;
 
 class VehicleController extends BaseController
 {
@@ -126,6 +124,34 @@ class VehicleController extends BaseController
         return $this->render('front/Vehicle/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
+        ]);
+    }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return Response
+     */
+    public function deleteAction(ProVehicle $proVehicle ) : Response
+    {
+        if(!$this->proVehicleEditionService->canEdit($this->getUser(), $proVehicle)){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.remove_vehicle'
+            );
+            return $this->redirectToRoute('front_vehicle_pro_detail', [
+                'id' => $proVehicle->getId()
+            ]);
+        }
+
+        $this->proVehicleEditionService->deleteVehicle($proVehicle);
+
+        $this->session->getFlashBag()->add(
+            self::FLASH_LEVEL_INFO,
+            'flash.success.remove_vehicle'
+        );
+
+        return $this->redirectToRoute('front_garage_view', [
+            'id' => $proVehicle->getGarage()->getId()
         ]);
     }
 }
