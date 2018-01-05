@@ -40,24 +40,18 @@ class PersonalUser extends BaseUser
 
     /**
      * @param PersonalVehicle $personalVehicle
-     * @return PersonalUser
      */
-    public function addPersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
+    public function addPersonalVehicle(PersonalVehicle $personalVehicle)
     {
         $this->getVehicles()->add($personalVehicle);
-
-        return $this;
     }
 
     /**
      * @param PersonalVehicle $personalVehicle
-     * @return PersonalUser
      */
-    public function removePersonalVehicle(PersonalVehicle $personalVehicle): PersonalUser
+    public function removePersonalVehicle(PersonalVehicle $personalVehicle)
     {
         $this->getVehicles()->removeElement($personalVehicle);
-
-        return $this;
     }
 
     /**
@@ -75,6 +69,5 @@ class PersonalUser extends BaseUser
 
         return false;
     }
-
 
 }

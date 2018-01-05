@@ -57,14 +57,12 @@
 {% endblock %}
 
 {% block vehicle %}
-    {% if userIsMe or isUserPro %}
+    {% if iCanSeeUserVehicles %}
         <div class="separator small-12 section">
             <h2>{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
             <div class="row">
-                {% set vehicle_list = inte.vehicle %}
                 {% set balise = 'h3' %}
-
-                {% set vehicleToList = user.personalVehicles %}
+                {% set vehicleToList = user.vehicles %}
                 {% set isProVehicles = false %}
                 {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
             </div>

@@ -86,4 +86,15 @@ abstract class BaseUser
     {
         return $user instanceof self && $user->getId() === $this->getId();
     }
+
+    /**
+     * @param BaseUser|null $user null if user not connected
+     * @return bool
+     */
+    public function canSeeMyVehicles(BaseUser $user = null): bool
+    {
+        return $this->getType() == ProUser::TYPE ||
+            $this->is($user) ||
+            ($user != null && $user->getType() == ProUser::TYPE);
+    }
 }

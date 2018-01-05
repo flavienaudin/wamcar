@@ -1,6 +1,6 @@
 <div class="vehicle-list small-12">
     {% if vehicleToList is defined %}
-        {% for index, vehicle in vehicleToList %}
+        {% for vehicle in vehicleToList %}
             {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
         {% else %}
             <div class="column small-12">

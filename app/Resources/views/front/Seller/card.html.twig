@@ -7,6 +7,8 @@
 {% set isUserProPageProfil = (user.type == 'pro') %}
 {% set isUserPersonalPageProfil = (user.type == 'personal') %}
 
+{% set iCanSeeUserVehicles = user.canSeeMyVehicles(app.user) %}
+
 {% block title %}
     {% if userIsMe %}
         Ma fiche vendeur
