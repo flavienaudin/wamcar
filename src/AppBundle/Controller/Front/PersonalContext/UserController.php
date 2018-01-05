@@ -120,9 +120,7 @@ class UserController extends BaseController
         $user = $this->getUser();
 
         $filters = [];
-        $availableValues = array_key_exists('ktypNumber', $filters) ?
-            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
-            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $projectDTO = new ProjectDTO();
 

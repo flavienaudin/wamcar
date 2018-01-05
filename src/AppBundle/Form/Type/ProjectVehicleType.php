@@ -36,6 +36,7 @@ class ProjectVehicleType extends AbstractType
             ])
             ->add('yearMax', ChoiceType::class, [
                 'choices' => YearsChoice::getLastYears(),
+                'required' => false,
                 'error_bubbling' => true,
             ])
             ->add('mileageMax', ChoiceType::class, [
@@ -56,5 +57,6 @@ class ProjectVehicleType extends AbstractType
             'translation_domain' => 'user',
             'label_format' => 'user.field.%name%.label'
         ]);
+        $resolver->setRequired('available_values');
     }
 }

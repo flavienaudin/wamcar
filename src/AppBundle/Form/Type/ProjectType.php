@@ -15,11 +15,17 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $availableValues = $options['available_values'] ?? [];
+
         $builder
             ->add('type', ChoiceType::class, [
+                'expanded' => true,
+                'multiple' => false,
+                'required' => false,
                 'choices' => \Wamcar\User\ProjectType::toArray(),
-                'error_bubbling' => true,
-                'required' => false
+                'choice_label' => function ($value) {
+                    return 'enum.title.' . strtolower($value);
+                },
             ])
             ->add('budget', IntegerType::class, [
                 'error_bubbling' => true,
@@ -32,12 +38,15 @@ class ProjectType extends AbstractType
             ->add('projectVehicles', CollectionType::class, [
                 'label' => false,
                 'entry_type' => ProjectVehicleType::class,
-                'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
                 'error_bubbling' => true,
+                'entry_options' => [
+                    'available_values' => $availableValues,
+                    'label' => false
+                ]
             ])
         ;
     }

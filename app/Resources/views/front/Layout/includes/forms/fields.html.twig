@@ -223,7 +223,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -366,6 +366,45 @@
     </div>
 {% endblock %}
 
+{% block _project_projectVehicles_entry_widget %}
+    {% set index = index|default('__name__') %}
+    <li class="wish-item block-gray">
+        <label for="wish-1" class="wish-label black-color small-12">Souhait {{ index }}<a href="javascript:;" class="delete-project small-right">Supprimer ce souhait</a></label>
+        <div class="row small-12">
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(form.make, {
+                    'label': 'Marque',
+                    'class': 'make-select',
+                    required: true,
+                    required_message: 'Veuillez indiquer la marque recherchée.'
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(form.model, {
+                    'label': 'Modèle',
+                    'class': 'model-select',
+                    required: true,
+                    required_message: 'Veuillez indiquer le modèle recherché.'
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(form.yearMax, {
+                    'label': 'Année max',
+                    'class': '',
+                    required: false
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(form.mileageMax, {
+                    'label': 'Km max',
+                    'class': '',
+                    required: false
+                }) }}
+            </div>
+        </div>
+    </li>
+{% endblock %}
+
 {%- block city_widget -%}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
@@ -455,6 +494,10 @@
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _pro_user_information_title_widget -%}
+
+{%- block _project_type_widget -%}
+    {{ block('yesno_widget') }}
+{%- endblock _project_type_widget -%}
 
 {%- block _pro_vehicle_specifics_cityName_widget -%}
     {{ block('city_widget') }}

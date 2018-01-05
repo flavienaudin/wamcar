@@ -26,6 +26,7 @@ import './components/carousel';
 import './components/datepicker';
 import './components/city';
 import './components/vehicle';
+import './components/project';
 import scrollTo from './components/scrollTo';
 import {
   activeClass
