@@ -137,8 +137,6 @@ class UserController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 'flash.success.user_edit'
             );
-
-            return $this->redirectToRoute('front_view_current_user_info');
         }
 
 

@@ -2,14 +2,12 @@
    User Project
    =========================================================================== */
 
-
-if ($collectionHolder && $addInput) {
-if ($collectionHolder && $addInput) {
-
 let $collectionHolder = document.getElementById('js-project-list');
 let $addInput = document.getElementById('add-project-list');
-let $makeSelect = $collectionHolder.querySelectorAll('.wish-item .make-select');
-let $modelSelect = $collectionHolder.querySelectorAll('.wish-item .model-select');
+
+if ($collectionHolder && $addInput) {
+  let $makeSelect = $collectionHolder.querySelectorAll('.wish-item .make-select');
+  let $modelSelect = $collectionHolder.querySelectorAll('.wish-item .model-select');
 
   let clearSelect = function (select) {
     select.find('OPTION').remove();

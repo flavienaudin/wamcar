@@ -441,12 +441,14 @@
     {% endif %}
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
-            <li class="column small-collapse">
-                {{ form_widget(child) }}
-                <label for="{{ child.vars.id }}" class="radio-item">
-                    {{ child.vars.value }} {% include 'front/Layout/includes/svg/check.html.twig' %}
-                </label>
-            </li>
+            {% if child.vars.value %}
+                <li class="column small-collapse">
+                    {{ form_widget(child) }}
+                    <label for="{{ child.vars.id }}" class="radio-item">
+                        {{ child.vars.value }} {% include 'front/Layout/includes/svg/check.html.twig' %}
+                    </label>
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 
