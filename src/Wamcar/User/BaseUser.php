@@ -115,5 +115,4 @@ abstract class BaseUser
      * @return bool
      */
     public abstract function canSeeMyVehicles(BaseUser $user = null): bool;
-
 }
