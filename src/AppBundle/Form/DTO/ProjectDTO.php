@@ -3,12 +3,10 @@
 namespace AppBundle\Form\DTO;
 
 
-use Wamcar\User\ProjectType;
-
 class ProjectDTO
 {
-    /** @var ProjectType */
-    public $type;
+    /** @var bool */
+    public $isFleet;
     /** @var int */
     public $budget;
     /** @var string */

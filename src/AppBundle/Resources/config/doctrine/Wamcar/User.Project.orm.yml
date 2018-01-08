@@ -14,9 +14,8 @@ Wamcar\User\Project:
                 strategy: AUTO
 
     fields:
-        type:
-            type: projecttype
-            nullable: true
+        isFleet:
+            type: boolean
         budget:
             type: integer
             nullable: true
