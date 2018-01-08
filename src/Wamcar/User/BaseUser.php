@@ -107,6 +107,12 @@ abstract class BaseUser
      */
     public function getAvatarFile(): ?File
     {
-        return $this->avatar ? $this->avatar->getFile(): null;
+        return $this->avatar ? $this->avatar->getFile() : null;
     }
+
+    /**
+     * @param BaseUser|null $user null if user not connected
+     * @return bool
+     */
+    public abstract function canSeeMyVehicles(BaseUser $user = null): bool;
 }

@@ -15,6 +15,14 @@ Wamcar\Vehicle\PersonalVehicle:
             mappedBy: vehicle
             cascade: ["persist", "merge"]
 
+    manyToOne:
+        owner:
+            targetEntity: WamCar\User\PersonalUser
+            inversedBy: vehicles
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+
     embedded:
         registration:
             class: Wamcar\Vehicle\Registration

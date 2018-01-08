@@ -1,8 +1,15 @@
 {% set balise = balise|default('h2') %}
 
+{# TODO set front_vehicle_personal_detail when URL availabl e#}
+{% set detailUrl = isProVehicles?path('front_vehicle_pro_detail', {'id': vehicle.id}):'' %}
+
 <article class="vehicle-item is-flex">
-    <a href="{{ path('front_vehicle_pro_detail', {'id': vehicle.id}) }}" class="is-flex full-width">
-        <div class="js-like like"><span data-tooltip=""></span></div>
+
+    <a href="{{ detailUrl }}" class="is-flex full-width">
+
+        {% if isProVehicles %}
+            <div class="js-like like"><span data-tooltip=""></span></div>
+        {% endif %}
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
                 <img src="{{ vehicle.mainPicture ? vich_uploader_asset(vehicle.mainPicture, 'file') : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
@@ -17,7 +24,7 @@
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
                 <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate('none', 'none', null, null, "d MMM, H'h'm") }}</time>
-                    <strong class="vehicle-price small-shrink">{{ vehicle.price }}</strong>
+                {% if isProVehicles %}<strong class="vehicle-price small-shrink">{{ vehicle.price }}€</strong>{% endif %}
             </div>
         </div>
     </a>

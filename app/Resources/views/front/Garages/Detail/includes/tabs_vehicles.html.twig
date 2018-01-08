@@ -14,6 +14,11 @@
         {% endif %}
     </div>
     {% set balise = 'h3' %}
+
+
+
+    {% set vehicleToList = garage.proVehicles %}
+    {% set isProVehicles = true %}
     {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
     <br>
     <div class="block-grid small-12 align-middle input-margin">

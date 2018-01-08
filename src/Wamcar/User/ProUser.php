@@ -121,4 +121,13 @@ class ProUser extends BaseUser
 
         return null;
     }
+
+    /**
+     * @param BaseUser|null $user null if user not connected
+     * @return bool
+     */
+    public function canSeeMyVehicles(BaseUser $user = null): bool
+    {
+        return true;
+    }
 }

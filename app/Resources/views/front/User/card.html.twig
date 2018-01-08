@@ -4,7 +4,10 @@
 
 {% block presentation %}
     <h2>Présentation</h2>
-    <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat, Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
+    <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio
+        Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat,
+        Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu
+        quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
     <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Modifier mes informations</a>
 
     {# Civilité #}
@@ -46,17 +49,27 @@
         <li>BMW Serie 1 / 2013+ / -60000 km</li>
         <li>Mercedes-Benz Classe A / 2013+ / -60000 km</li>
     </ul>
-    <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur noire ou gris anthracite.</p>
+    <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur
+        noire ou gris anthracite.</p>
     <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Gérer mon projet</a>
 {% endblock %}
 
 {% block vehicle %}
-    <div class="separator small-12 section">
-        <h2>Ses véhicules en vente</h2>
-        <div class="row">
-            {% set vehicle_list = inte.vehicle %}
-            {% set balise = 'h3' %}
-            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+    {% if iCanSeeUserVehicles %}
+        <div class="separator small-12 section">
+            <h2>{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
+            <div class="row">
+                {% set balise = 'h3' %}
+                {% set vehicleToList = user.vehicles %}
+                {% set isProVehicles = false %}
+                {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+            </div>
+
+            {% if userIsMe %}
+                <div class="small-12 medium-6 large-4">
+                    <a href="#{#{ path('front_vehicle_personal_add') }#}" class="button add icon-plus">Ajouter un véhicule</a>
+                </div>
+            {% endif %}
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

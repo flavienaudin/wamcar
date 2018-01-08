@@ -1,7 +1,11 @@
 <div class="vehicle-list small-12">
-    {% if garage is defined %}
-        {% for index, vehicle in garage.proVehicles %}
-                {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
+    {% if vehicleToList is defined %}
+        {% for vehicle in vehicleToList %}
+            {% include 'front/Vehicle/Listing/includes/item.html.twig' %}
+        {% else %}
+            <div class="column small-12">
+                <p>Aucun véhicule n'a été renseigné pour le moment</p>
+            </div>
         {% endfor %}
     {% endif %}
 </div>
