@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -10,10 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends BaseController
 {
+    /** Number of pro vehicles to display in the homepage */
+    const NB_PRO_VEHICLE_IN_HOMEPAGE = 6;
+
     /** @var FormFactoryInterface */
     private $formFactory;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
+    /** @var DoctrineProVehicleRepository $proVehicleRepository */
+    private $proVehicleRepository;
 
     /**
      * DefaultController constructor.
@@ -22,11 +28,13 @@ class DefaultController extends BaseController
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        DoctrineProVehicleRepository $proVehicleRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->proVehicleRepository = $proVehicleRepository;
     }
 
     /**
@@ -34,7 +42,7 @@ class DefaultController extends BaseController
      */
     public function homepageAction(): Response
     {
-        if($this->isUserAuthenticated()) {
+        if ($this->isUserAuthenticated()) {
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
@@ -44,16 +52,21 @@ class DefaultController extends BaseController
             VehicleInformationType::class,
             $vehicleInformationDTO,
             [
-                'available_values' => [],
                 'available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates(),
                 'small_version' => true
             ]
+        );
+
+        $last_vehicles = $this->proVehicleRepository->findBy(array(
+            'deletedAt' => null,
+        ), array('createdAt' => 'DESC'), self::NB_PRO_VEHICLE_IN_HOMEPAGE
         );
 
         return $this->render(
             ':front/Home:home.html.twig',
             [
                 'vehicleInformationForm' => $vehicleInformationForm->createView(),
+                'last_vehicles' => $last_vehicles
             ]
         );
     }
