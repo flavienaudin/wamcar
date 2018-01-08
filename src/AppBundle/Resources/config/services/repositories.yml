@@ -44,3 +44,13 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\Garage\GarageProUser']
+
+    AppBundle\Doctrine\Repository\DoctrineProjectRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProjectRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\Project']
+
+    AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\ProjectVehicle']

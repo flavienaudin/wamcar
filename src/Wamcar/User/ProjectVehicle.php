@@ -4,6 +4,8 @@ namespace Wamcar\User;
 
 class ProjectVehicle
 {
+    /** @var  null|int */
+    protected $id;
     /** @var  Project */
     protected $project;
     /** @var  string */
@@ -18,6 +20,7 @@ class ProjectVehicle
     /**
      * ProjectVehicle constructor.
      * @param Project $project
+     * @param int|null $id
      * @param string $make
      * @param string $model
      * @param int|null $yearMax
@@ -25,6 +28,7 @@ class ProjectVehicle
      */
     public function __construct(
         Project $project,
+        int $id = null,
         string $make,
         string $model,
         int $yearMax = null,
@@ -32,10 +36,19 @@ class ProjectVehicle
     )
     {
         $this->project = $project;
+        $this->id = $id;
         $this->make = $make;
         $this->model = $model;
         $this->yearMax = $yearMax;
         $this->mileageMax = $mileageMax;
+    }
+
+    /**
+     * @return null|int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     /**
@@ -76,5 +89,13 @@ class ProjectVehicle
     public function getMileageMax(): ?int
     {
         return $this->mileageMax;
+    }
+
+    /**
+     * @param null|Project $project
+     */
+    public function setProject(?Project $project): void
+    {
+        $this->project = $project;
     }
 }

@@ -404,14 +404,6 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @param bool $refunded
-     */
-    public function setRefunded(bool $refunded): void
-    {
-        $this->refunded = $refunded;
-    }
-
-    /**
      * @param string $otherGuarantee
      */
     public function setOtherGuarantee(?string $otherGuarantee): void
@@ -436,7 +428,7 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return Garage
+     * @return ProUser
      */
     public function getSeller(): ProUser
     {

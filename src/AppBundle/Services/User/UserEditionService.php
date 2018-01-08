@@ -4,6 +4,7 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
@@ -11,7 +12,9 @@ use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Wamcar\User\ProjectVehicleRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\User\ProjectRepository;
 
 
 class UserEditionService
@@ -22,22 +25,37 @@ class UserEditionService
     private $userRepository;
     /** @var array  */
     private $userSpecificRepositories;
+    /** @var ProjectFromDTOBuilder  */
+    private $projectBuilder;
+    /** @var ProjectRepository  */
+    private $projectRepository;
+    /** @var ProjectVehicleRepository  */
+    private $projectVehicleRepository;
 
     /**
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
      * @param array $userSpecificRepositories
+     * @param ProjectFromDTOBuilder $projectBuilder
+     * @param ProjectRepository $projectRepository
+     * @param ProjectVehicleRepository $projectVehicleRepository
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
-        array $userSpecificRepositories
+        array $userSpecificRepositories,
+        ProjectFromDTOBuilder $projectBuilder,
+        ProjectRepository $projectRepository,
+        ProjectVehicleRepository $projectVehicleRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->userSpecificRepositories = $userSpecificRepositories;
+        $this->projectBuilder = $projectBuilder;
+        $this->projectRepository = $projectRepository;
+        $this->projectVehicleRepository = $projectVehicleRepository;
     }
 
     /**
@@ -81,7 +99,9 @@ class UserEditionService
      */
     public function projectInformations(ApplicationUser $user, ProjectDTO $projectDTO): ApplicationUser
     {
+        $project = $this->projectBuilder::buildFromDTO($projectDTO, $user);
 
+        $this->projectRepository->update($project);
         return $user;
     }
 

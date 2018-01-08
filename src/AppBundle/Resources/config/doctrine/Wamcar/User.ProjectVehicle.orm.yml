@@ -5,8 +5,10 @@ Wamcar\User\ProjectVehicle:
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository
 
     id:
-        project:
-            associationKey: true
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
 
     fields:
         make:
