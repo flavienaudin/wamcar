@@ -4,17 +4,15 @@
 namespace AppBundle\Form\Type;
 
 
-use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Wamcar\User\Title;
 
 class UserInformationType extends AbstractType
 {
@@ -27,13 +25,8 @@ class UserInformationType extends AbstractType
 
         $builder
             ->add('name', TextType::class)
-            ->add('title', ChoiceType::class, [
-                'expanded' => true,
-                'multiple' => false,
-                'choices' => Title::toArray(),
-                'choice_label' => function ($value) {
-                    return 'enum.title.' . strtolower($value);
-                },
+            ->add('description', TextareaType::class, [
+                'required' => false
             ])
             ->add('phone', TextType::class, [
                 'required' => false,
@@ -58,9 +51,6 @@ class UserInformationType extends AbstractType
             ->add('avatar', FileType::class, [
                 'error_bubbling' => true
         ]);
-
-        $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));
-
     }
 
     /**

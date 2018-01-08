@@ -10,6 +10,8 @@ class UserProfile
     protected $title;
     /** @var ?string */
     protected $name;
+    /** @var string */
+    protected $description;
     /** @var ?string */
     protected $phone;
     /** @var  ?City */
@@ -19,18 +21,21 @@ class UserProfile
      * UserProfile constructor.
      * @param Title|null $title
      * @param string|null $name
+     * @param string|null $description
      * @param string|null $phone
      * @param City|null $city
      */
     public function __construct(
         Title $title = null,
         string $name = null,
+        string $description = null,
         string $phone = null,
         City $city = null
     )
     {
         $this->title = $title;
         $this->name = $name;
+        $this->description = $description;
         $this->phone = $phone;
         $this->city = $city;
     }
@@ -49,6 +54,14 @@ class UserProfile
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
     }
 
     /**

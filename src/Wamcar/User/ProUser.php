@@ -4,10 +4,8 @@
 namespace Wamcar\User;
 
 
-use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 
@@ -15,8 +13,6 @@ class ProUser extends BaseUser
 {
     const TYPE = 'pro';
 
-    /** @var string */
-    protected $description;
     /** @var  string */
     protected $phonePro;
     /** @var  Collection */
@@ -35,25 +31,9 @@ class ProUser extends BaseUser
     /**
      * @return string
      */
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    /**
-     * @return string
-     */
     public function getPhonePro(): ?string
     {
         return $this->phonePro;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(?string $description)
-    {
-        $this->description = $description;
     }
 
     /**
@@ -78,14 +58,6 @@ class ProUser extends BaseUser
     public function setGarageMemberships(Collection $members)
     {
         $this->garageMemberships = $members;
-    }
-
-    /**
-     * @param UserPicture $avatar
-     */
-    public function setAvatar(UserPicture $avatar)
-    {
-        $this->avatar = $avatar;
     }
 
     /**

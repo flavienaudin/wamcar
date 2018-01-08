@@ -18,6 +18,8 @@ class UserInformationDTO
     /** @var  string */
     public $name;
     /** @var  string */
+    public $description;
+    /** @var  string */
     public $phone;
     /** @var  string */
     public $cityName;
@@ -51,6 +53,7 @@ class UserInformationDTO
         $this->name = $profile->getName();
         $this->phone = $profile->getPhone();
         $this->title = $profile->getTitle();
+        $this->description = $profile->getDescription();
         $this->fillFromCity($profile->getCity());
     }
 
@@ -81,7 +84,7 @@ class UserInformationDTO
      */
     public function getUserProfile(): UserProfile
     {
-        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity());
+        $userProfile = new UserProfile($this->title, $this->name, $this->description, $this->phone, $this->getCity());
 
         return $userProfile;
     }

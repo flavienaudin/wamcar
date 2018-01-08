@@ -3,7 +3,6 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use AppBundle\Doctrine\Entity\ProUserPicture;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
@@ -66,7 +65,6 @@ class UserEditionService
 
         if ($userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);
-            $user->setDescription($userInformationDTO->description);
         }
 
         $this->userRepository->update($user);
