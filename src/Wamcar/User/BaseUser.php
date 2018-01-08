@@ -2,6 +2,7 @@
 
 namespace Wamcar\User;
 
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use Symfony\Component\HttpFoundation\File\File;
 

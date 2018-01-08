@@ -113,6 +113,15 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
+        if(!$user->canSeeMyProfile($this->getUser())){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_WARNING,
+                'flash.warning.user.unauthorized_to_access_profile'
+            );
+            return $this->redirectToRoute('front_default');
+        }
+
+
         $templates = [
             ProUser::TYPE => 'front/Seller/card.html.twig',
             PersonalUser::TYPE => 'front/User/card.html.twig',

@@ -33,6 +33,15 @@ class PersonalUser extends BaseUser
     }
 
     /**
+     * Tell if the $user is authorized to see $this's profile
+     * @param BaseUser $user
+     * @return bool
+     */
+    public function canSeeMyProfile(BaseUser $user): bool{
+        return $this->is($user) || $user->getType() === ProUser::TYPE;
+    }
+
+    /**
      * @return Collection
      */
     public function getVehicles(): Collection
