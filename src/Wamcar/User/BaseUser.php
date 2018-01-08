@@ -91,10 +91,6 @@ abstract class BaseUser
      * @param BaseUser|null $user null if user not connected
      * @return bool
      */
-    public function canSeeMyVehicles(BaseUser $user = null): bool
-    {
-        return $this->getType() == ProUser::TYPE ||
-            $this->is($user) ||
-            ($user != null && $user->getType() == ProUser::TYPE);
-    }
+    public abstract function canSeeMyVehicles(BaseUser $user = null): bool;
+
 }

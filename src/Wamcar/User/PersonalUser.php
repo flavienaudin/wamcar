@@ -72,4 +72,12 @@ class PersonalUser extends BaseUser
         return false;
     }
 
+    /**
+     * @param BaseUser|null $user null if user not connected
+     * @return bool
+     */
+    public function canSeeMyVehicles(BaseUser $user = null): bool
+    {
+        return $this->is($user) || ($user != null && $user->getType() === ProUser::TYPE);
+    }
 }
