@@ -10,6 +10,8 @@ parameters:
     locale: fr
     placeholders:
         avatar: '/assets/images/placeholders/user/user.png'
+        banner: '/assets/images/placeholders/garages/garage-760x340.jpg'
+        logo: '/assets/images/placeholders/garages/logo-toyota.png'
 
 framework:
     #esi: ~
@@ -129,6 +131,22 @@ vich_uploader:
         user_image:
             uri_prefix:         /uploads/images/users
             upload_destination: '%env(UPLOAD_DIR)%/images/users'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+        garage_banner:
+            uri_prefix:         /uploads/images/garages/banner
+            upload_destination: '%env(UPLOAD_DIR)%/images/garages/banner'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+        garage_logo:
+            uri_prefix:         /uploads/images/garages/logo
+            upload_destination: '%env(UPLOAD_DIR)%/images/garages/logo'
             namer:              vich_uploader.namer_hash
             directory_namer:
                 service: vich_uploader.directory_namer_subdir

@@ -2,6 +2,7 @@
 
 namespace Wamcar\Garage;
 
+use AppBundle\Doctrine\Entity\GaragePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Location\City;
@@ -32,6 +33,10 @@ class Garage
     protected $members;
     /** @var Collection */
     protected $proVehicles;
+    /** @var ?Picture */
+    protected $banner;
+    /** @var ?Picture */
+    protected $logo;
 
     /**
      * Garage constructor.
@@ -41,6 +46,8 @@ class Garage
      * @param null|string $presentation
      * @param Address $address
      * @param string $phone
+     * @param Picture|null $banner
+     * @param Picture|null $logo
      */
     public function __construct(
         string $name,
@@ -48,7 +55,9 @@ class Garage
         ?string $openingHours,
         ?string $presentation,
         Address $address,
-        string $phone
+        string $phone,
+        Picture $banner = null,
+        Picture $logo = null
     )
     {
         $this->name = $name;
@@ -59,6 +68,8 @@ class Garage
         $this->phone = $phone;
         $this->members = new ArrayCollection();
         $this->proVehicles = new ArrayCollection();
+        $this->banner = $banner;
+        $this->logo = $logo;
     }
 
     /**
@@ -298,4 +309,37 @@ class Garage
 
         return null;
     }
+
+    /**
+     * @return null|Picture
+     */
+    public function getBanner(): ?Picture
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @return null|Picture
+     */
+    public function getLogo(): ?Picture
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param null|GaragePicture $banner
+     */
+    public function setBanner(?GaragePicture $banner)
+    {
+        $this->banner = $banner;
+    }
+
+    /**
+     * @param null|GaragePicture $logo
+     */
+    public function setLogo(?GaragePicture $logo)
+    {
+        $this->logo = $logo;
+    }
+
 }

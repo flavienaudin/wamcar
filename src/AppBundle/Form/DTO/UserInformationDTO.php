@@ -81,7 +81,7 @@ class UserInformationDTO
      */
     public function getUserProfile(): UserProfile
     {
-        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity(), $this->avatar);
+        $userProfile = new UserProfile($this->title, $this->name, $this->phone, $this->getCity());
 
         return $userProfile;
     }
