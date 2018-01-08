@@ -81,7 +81,7 @@ class UserEditionService
      */
     public function projectInformations(ApplicationUser $user, ProjectDTO $projectDTO): ApplicationUser
     {
-
+        //@TODO making all the registration of th project
         return $user;
     }
 
