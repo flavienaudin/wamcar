@@ -2,12 +2,12 @@
 
 namespace AppBundle\Controller\Front;
 
-use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Vehicle\ProVehicleRepository;
 
 class DefaultController extends BaseController
 {
@@ -18,7 +18,7 @@ class DefaultController extends BaseController
     private $formFactory;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
-    /** @var DoctrineProVehicleRepository $proVehicleRepository */
+    /** @var ProVehicleRepository $proVehicleRepository */
     private $proVehicleRepository;
 
     /**
@@ -29,7 +29,7 @@ class DefaultController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        DoctrineProVehicleRepository $proVehicleRepository
+        ProVehicleRepository $proVehicleRepository
     )
     {
         $this->formFactory = $formFactory;
@@ -57,10 +57,7 @@ class DefaultController extends BaseController
             ]
         );
 
-        $last_vehicles = $this->proVehicleRepository->findBy(array(
-            'deletedAt' => null,
-        ), array('createdAt' => 'DESC'), self::NB_PRO_VEHICLE_IN_HOMEPAGE
-        );
+        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
 
         return $this->render(
             ':front/Home:home.html.twig',

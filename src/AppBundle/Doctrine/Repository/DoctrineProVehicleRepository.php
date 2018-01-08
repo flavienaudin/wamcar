@@ -14,4 +14,15 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
     {
         return $this->findOneBy(['reference' => $reference]);
     }
+
+    /**
+     * Return the $limit last vehicles
+     * @param $limit
+     * @return array
+     */
+    public function getLast($limit)
+    {
+        return $this->findBy(array('deletedAt' => null), array('createdAt' => 'DESC'), $limit);
+    }
+
 }
