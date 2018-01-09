@@ -21,9 +21,9 @@ class ProjectFromDTOBuilder
         if (!$dto instanceof ProjectDTO) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "ProjectFromDTOBuilder::buildFromDTO expects $dto argument to be an instance of '%s', '%s' given"),
+                    "ProjectFromDTOBuilder::buildFromDTO expects dto argument to be an instance of '%s', '%s' given",
                 ProjectDTO::class,
-                get_class($dto)
+                get_class($dto))
             );
         }
 

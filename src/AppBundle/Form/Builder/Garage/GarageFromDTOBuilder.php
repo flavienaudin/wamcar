@@ -38,9 +38,9 @@ class GarageFromDTOBuilder
         if (!$dto instanceof GarageDTO) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    "GarageFromDTOBuilder::buildFromDTO expects $dto argument to be an instance of '%s', '%s' given"),
+                    "GarageFromDTOBuilder::buildFromDTO expects dto argument to be an instance of '%s', '%s' given",
                 GarageDTO::class,
-                get_class($dto)
+                get_class($dto))
             );
         }
 
@@ -51,8 +51,8 @@ class GarageFromDTOBuilder
             $dto->presentation,
             $dto->getAddress(),
             $dto->phone,
-            $dto->getBanner(),
-            $dto->getLogo()
+            $dto->banner,
+            $dto->logo
         );
     }
 
