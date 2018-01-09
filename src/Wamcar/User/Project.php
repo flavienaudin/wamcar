@@ -4,6 +4,8 @@ namespace Wamcar\User;
 
 class Project
 {
+    /** @var  int */
+    protected $id;
     /** @var  PersonalUser */
     protected $personalUser;
     /** @var  bool */
@@ -36,6 +38,14 @@ class Project
         $this->budget = $budget;
         $this->description = $description;
         $this->projectVehicles = $projectVehicles;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
