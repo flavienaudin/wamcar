@@ -3,9 +3,9 @@
 namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Form\DTO\PersonalVehicleDTO;
+use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
-use AppBundle\Form\Type\PersonalVehicleType;
+use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserRegistrationService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
@@ -109,7 +109,7 @@ class RegistrationController extends BaseController
         array $filters = [],
         string $plateNumber = null): Response
     {
-        $vehicleDTO = new PersonalVehicleDTO($plateNumber);
+        $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = array_key_exists('ktypNumber', $filters) ?
@@ -117,7 +117,7 @@ class RegistrationController extends BaseController
             $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $vehicleForm = $this->formFactory->create(
-            PersonalVehicleType::class,
+            UserRegistrationPersonalVehicleType::class,
             $vehicleDTO,
             ['available_values' => $availableValues]);
 

@@ -3,8 +3,11 @@
 namespace AppBundle\Form\DTO;
 
 
-class PersonalVehicleDTO extends VehicleDTO
+
+final class UserRegistrationPersonalVehicleDTO extends PersonalVehicleDTO
 {
+    /** @var RegistrationDTO */
+    public $userRegistration;
 
     /**
      * VehicleDTO constructor.
@@ -12,5 +15,6 @@ class PersonalVehicleDTO extends VehicleDTO
     public function __construct(string $registrationNumber = null)
     {
         parent::__construct($registrationNumber);
+        $this->userRegistration = new RegistrationDTO();
     }
 }
