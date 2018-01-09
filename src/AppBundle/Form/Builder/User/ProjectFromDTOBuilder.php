@@ -30,7 +30,7 @@ class ProjectFromDTOBuilder
         $project = $user->getProject() ?: new Project($user);
         $project->setBudget($dto->budget);
         $project->setDescription($dto->description);
-        $project->setType($dto->type ? new ProjectType($dto->type): null);
+        $project->setIsFleet($dto->isFleet);
 
         $projectVehicles =[];
         foreach ($dto->projectVehicles as $projectVehicleDTO) {

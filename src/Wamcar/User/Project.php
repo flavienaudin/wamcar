@@ -79,11 +79,11 @@ class Project
     }
 
     /**
-     * @param null|ProjectType $type
+     * @param bool $isFleet
      */
-    public function setType(?ProjectType $type): void
+    public function setIsFleet(bool $isFleet): void
     {
-        $this->type = $type;
+        $this->isFleet = $isFleet;
     }
 
     /**

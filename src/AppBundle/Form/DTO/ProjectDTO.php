@@ -22,7 +22,7 @@ class ProjectDTO
     public static function buildFromProject(Project $project): self
     {
         $dto = new self();
-        $dto->type = $project->getType();
+        $dto->isFleet = $project->isFleet();
         $dto->description = $project->getDescription();
         $dto->budget = $project->getBudget();
 

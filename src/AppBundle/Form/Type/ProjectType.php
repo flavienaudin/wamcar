@@ -25,7 +25,8 @@ class ProjectType extends AbstractType
                     'Véhicule unique',
                     'Une flotte'
                 ],
-                'error_bubbling' => true
+                'error_bubbling' => true,
+                'data' => 'Véhicule unique'
             ])
             ->add('budget', IntegerType::class, [
                 'error_bubbling' => true,
