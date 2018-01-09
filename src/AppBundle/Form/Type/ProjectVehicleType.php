@@ -28,7 +28,7 @@ class ProjectVehicleType extends AbstractType
         $availableMakes = $options['available_makes'] ?? [];
         $availableModels = $options['available_models'] ?? [];
 
-        //Give the ID in the collection
+        //Give the index in the collection
         $indexCollection = $builder->getName();
 
         $builder

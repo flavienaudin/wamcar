@@ -12,7 +12,6 @@ use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Wamcar\User\ProjectVehicleRepository;
 use Wamcar\User\UserRepository;
 use Wamcar\User\ProjectRepository;
 
@@ -29,9 +28,6 @@ class UserEditionService
     private $projectBuilder;
     /** @var ProjectRepository  */
     private $projectRepository;
-    /** @var ProjectVehicleRepository  */
-    private $projectVehicleRepository;
-
     /**
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
@@ -39,15 +35,13 @@ class UserEditionService
      * @param array $userSpecificRepositories
      * @param ProjectFromDTOBuilder $projectBuilder
      * @param ProjectRepository $projectRepository
-     * @param ProjectVehicleRepository $projectVehicleRepository
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
         array $userSpecificRepositories,
         ProjectFromDTOBuilder $projectBuilder,
-        ProjectRepository $projectRepository,
-        ProjectVehicleRepository $projectVehicleRepository
+        ProjectRepository $projectRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -55,7 +49,6 @@ class UserEditionService
         $this->userSpecificRepositories = $userSpecificRepositories;
         $this->projectBuilder = $projectBuilder;
         $this->projectRepository = $projectRepository;
-        $this->projectVehicleRepository = $projectVehicleRepository;
     }
 
     /**
