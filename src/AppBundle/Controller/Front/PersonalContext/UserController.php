@@ -139,7 +139,8 @@ class UserController extends BaseController
             $projectDTO,
             [
                 'available_makes' => $availableMakes,
-                'available_models' => $availableModels
+                'available_models' => $availableModels,
+                'action' => $this->generateRoute('front_edit_project_user'),
             ]);
 
         $projectForm->handleRequest($request);
@@ -151,11 +152,11 @@ class UserController extends BaseController
                 'flash.success.user_edit'
             );
 
-            return $this->redirectToRoute('front_edit_project_user');
+            return $this->redirectToRoute('front_view_user_info', ['id' => $user->getId()]);
         }
 
 
-        return $this->render('front/User/edit.html.twig', [
+        return $this->render('front/User/includes/form_project.html.twig', [
             'projectForm' => $projectForm->createView(),
             'user' => $user
         ]);
