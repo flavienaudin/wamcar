@@ -18,14 +18,14 @@ class ProjectType extends AbstractType
         $availableValues = $options['available_values'] ?? [];
 
         $builder
-            ->add('type', ChoiceType::class, [
+            ->add('isFleet', ChoiceType::class, [
                 'expanded' => true,
-                'multiple' => false,
-                'required' => false,
-                'choices' => \Wamcar\User\ProjectType::toArray(),
-                'choice_label' => function ($value) {
-                    return 'enum.title.' . strtolower($value);
-                },
+                'choices' => [
+                    'Véhicule unique',
+                    'Une flotte'
+                ],
+                'error_bubbling' => true,
+                'required' => false
             ])
             ->add('budget', IntegerType::class, [
                 'error_bubbling' => true,
