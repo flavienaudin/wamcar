@@ -108,13 +108,25 @@ class Project
      */
     public function setProjectVehicles($projectVehicles)
     {
-        $this->cleanProjectVehicle($projectVehicles);
+        $keepIdProjectVehicles = [];
+
+        /** @var ProjectVehicle $projectVehicle */
+        foreach ($projectVehicles as $key => $projectVehicle) {
+            if($projectVehicle->getId()) {
+                $keepIdProjectVehicles[$projectVehicle->getId()] = 1;
+                unset($projectVehicles[$key]);
+            }
+        }
+
+        foreach ($this->getProjectVehicles() as $projectVehicle) {
+            if (!isset($keepIdProjectVehicles[$projectVehicle->getId()])) {
+                $this->removeProjectVehicle($projectVehicle);
+            }
+        }
 
         /** @var ProjectVehicle $projectVehicle */
         foreach ($projectVehicles as $projectVehicle) {
-            if (!$this->existProjectVehicle($projectVehicle)) {
-                $this->addProjectVehicle($projectVehicle);
-            }
+            $this->addProjectVehicle($projectVehicle);
         }
 
         return $this->projectVehicles;
@@ -146,39 +158,5 @@ class Project
         }
 
         return $this->projectVehicles;
-    }
-
-    /**
-     * @param ProjectVehicle $projectVehicle
-     * @return bool
-     */
-    public function existProjectVehicle(ProjectVehicle $projectVehicle): bool
-    {
-        foreach ($this->projectVehicles as $existProjectVehicle) {
-            if ($projectVehicle->getId() && ($existProjectVehicle->getId() === $projectVehicle->getId())) {
-                return true;
-                break;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Collection|ProjectVehicle[]$projectVehicles
-     */
-    public function cleanProjectVehicle($projectVehicles)
-    {
-        foreach ($this->projectVehicles as $existProjectVehicle) {
-            $find = false;
-            foreach ($projectVehicles as $projectVehicle) {
-                if ($projectVehicle->getId() === $existProjectVehicle->getId()) {
-                    $find = true;
-                    break;
-                }
-            }
-            if (!$find)
-                $this->removeProjectVehicle($existProjectVehicle);
-        }
     }
 }
