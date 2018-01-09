@@ -4,7 +4,6 @@ namespace AppBundle\Form\DTO;
 
 
 use Wamcar\User\Project;
-use Wamcar\User\ProjectType;
 
 class ProjectDTO
 {
