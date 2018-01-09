@@ -119,15 +119,28 @@ class UserController extends BaseController
         /** @var ApplicationUser $user */
         $user = $this->getUser();
 
-        $filters = [];
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        if ($user->getProject()) {
+            $projectDTO = ProjectDTO::buildFromProject($user->getProject());
+        } else {
+            $projectDTO = new ProjectDTO();
+        }
 
-        $projectDTO = new ProjectDTO();
+        $availableMakes = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel([]);
+
+        $availableModels = [];
+        if ($projectDTO->projectVehicles) {
+            foreach ($projectDTO->projectVehicles as $projectVehicleDTO) {
+                $availableModels[] = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($projectVehicleDTO->retrieveFilter());
+            }
+        }
 
         $projectForm = $this->formFactory->create(
             ProjectType::class,
             $projectDTO,
-            ['available_values' => $availableValues]);
+            [
+                'available_makes' => $availableMakes,
+                'available_models' => $availableModels
+            ]);
 
         $projectForm->handleRequest($request);
         if ($projectForm->isSubmitted() && $projectForm->isValid()) {
@@ -137,6 +150,8 @@ class UserController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 'flash.success.user_edit'
             );
+
+            return $this->redirectToRoute('front_edit_project_user');
         }
 
 

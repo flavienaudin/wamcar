@@ -9,7 +9,11 @@ use AppBundle\Utils\MileageChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectVehicleType extends AbstractType
@@ -21,17 +25,25 @@ class ProjectVehicleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $availableValues = $options['available_values'] ?? [];
+        $availableMakes = $options['available_makes'] ?? [];
+        $availableModels = $options['available_models'] ?? [];
+
+        //Give the index in the collection
+        $indexCollection = $builder->getName();
+
+        $makes = $availableMakes['make'] ?? [];
+        $models = $availableModels[$indexCollection]['model'] ?? [];
 
         $builder
+            ->add('id', HiddenType::class)
             ->add('make', ChoiceType::class, [
-                'choices' => $availableValues['make'] ?? [],
-                'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
+                'choices' => $makes,
+                'placeholder' => count($makes) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
             ->add('model', ChoiceType::class, [
-                'choices' => $availableValues['model'] ?? [],
-                'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
+                'choices' => $models,
+                'placeholder' => count($models) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
             ->add('yearMax', ChoiceType::class, [
@@ -45,6 +57,20 @@ class ProjectVehicleType extends AbstractType
                 'error_bubbling' => true,
             ]);
 
+        // Replace choice by text to prevent validation, as fields are dynamically filled
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+
+            foreach (['make', 'model'] as $field) {
+                if ($form->has($field)) {
+                    $form->remove($field);
+                    $form->add($field, TextType
+                    ::class);
+                }
+            }
+
+
+        });
     }
 
     /**
@@ -57,6 +83,7 @@ class ProjectVehicleType extends AbstractType
             'translation_domain' => 'user',
             'label_format' => 'user.field.%name%.label'
         ]);
-        $resolver->setRequired('available_values');
+        $resolver->setRequired('available_makes');
+        $resolver->setRequired('available_models');
     }
 }

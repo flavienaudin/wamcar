@@ -18,15 +18,26 @@
 
 {% block other_informations %}
     <h2>Son projet</h2>
-    <p><strong class="primary-color">Budget de 18 000 €</strong></p>
-    <ul class="list-bullet">
-        <li>Audi A3 / 2012+ / -60000 km</li>
-        <li>BMW Serie 1 / 2013+ / -60000 km</li>
-        <li>Mercedes-Benz Classe A / 2013+ / -60000 km</li>
-    </ul>
-    <p>Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur
-        noire ou gris anthracite.</p>
-    <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Gérer mon projet</a>
+    {% if user.project.budget %}
+        {% if user.project.budget %}
+            <p><strong class="primary-color">Budget de {{ user.project.budget|number_format(0, ',', ' ') }} €</strong></p>
+        {% endif %}
+        {% if user.project.isFleet == true %}
+            <p>Il s'agit d'une flotte.</p>
+        {% endif %}
+        <ul class="list-bullet">
+            {% for projectVehicle in user.project.projectVehicles %}
+                <li>{{ projectVehicle.make }} {{ projectVehicle.model }}
+                    {{ (projectVehicle.yearMax) ? '/ '~projectVehicle.yearMax~"+ " : '' }}
+                    {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|number_format(0, ',', ' ')~" km" : '' }}
+                </li>
+            {% endfor %}
+        </ul>
+        <p>{{ user.project.description|nl2br }}</p>
+    {% else %}
+        Aucun projet renseigné
+    {% endif %}
+    <a href="{{ path('front_edit_project_user') }}" class="text-underline">Gérer mon projet</a>
 {% endblock %}
 
 {% block vehicle %}

@@ -378,6 +378,7 @@
                     required: true,
                     required_message: 'Veuillez indiquer la marque recherchée.'
                 }) }}
+                {{ form_widget(form.id) }}
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.model, {
@@ -482,6 +483,30 @@
 
 {%- endblock star_widget -%}
 
+{%- block fleet_widget -%}
+    {% set class_field = class_field|default('') %}
+    {% set class = class|default('') %}
+    {% set required = required|default(false) %}
+    {% set required_message = required_message|default('Ce champ est requis') %}
+    {% set required_class = required_class|default('') %}
+    {% set label = label|default(false) %}
+    {% set label_class = label_class|default('') %}
+    {% set list_class = list_class|default('small-up-2') %}
+    {% if label %}
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+    {% endif %}
+    <ul class="block-grid {{ list_class }}">
+        {% for child in form %}
+            <li class="column small-collapse">
+                {{ form_widget(child) }}
+                <label for="{{ child.vars.id }}" class="radio-item">
+                    {{ child.vars.label }} {% include 'front/Layout/includes/svg/check.html.twig' %}
+                </label>
+            </li>
+        {% endfor %}
+    </ul>
+{%- endblock fleet_widget -%}
+
 {%- block _vehicle_registrationNumber_widget -%}
 <div class="{{ class_field }}">
     <input
@@ -498,7 +523,7 @@
 {%- endblock _pro_user_information_title_widget -%}
 
 {%- block _project_isFleet_widget -%}
-    {{ block('yesno_widget') }}
+    {{ block('fleet_widget') }}
 {%- endblock _project_isFleet_widget -%}
 
 {%- block _pro_vehicle_specifics_cityName_widget -%}

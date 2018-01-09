@@ -3,6 +3,8 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\User\Project;
+
 class ProjectDTO
 {
     /** @var bool */
@@ -13,9 +15,21 @@ class ProjectDTO
     public $description;
     /** @var ProjectVehicleDTO[]|array */
     public $projectVehicles;
-
-    public function __construct()
+    /**
+     * @param Project $project
+     * @return self
+     */
+    public static function buildFromProject(Project $project): self
     {
-        $this->projectVehicles = [new ProjectVehicleDTO()];
+        $dto = new self();
+        $dto->isFleet = $project->isFleet();
+        $dto->description = $project->getDescription();
+        $dto->budget = $project->getBudget();
+
+        foreach ($project->getProjectVehicles() as $projectVehicle) {
+            $dto->projectVehicles[] = ProjectVehicleDTO::buildFromProjectVehicle($projectVehicle);
+        }
+
+        return $dto;
     }
 }

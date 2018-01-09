@@ -15,14 +15,15 @@ class ProjectType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $availableValues = $options['available_values'] ?? [];
+        $availableMakes = $options['available_makes'] ?? [];
+        $availableModels = $options['available_models'] ?? [];
 
         $builder
             ->add('isFleet', ChoiceType::class, [
                 'expanded' => true,
                 'choices' => [
-                    'Véhicule unique',
-                    'Une flotte'
+                    'Véhicule unique' => false,
+                    'Une flotte' => true
                 ],
                 'error_bubbling' => true
             ])
@@ -35,7 +36,6 @@ class ProjectType extends AbstractType
                 'required' => false
             ])
             ->add('projectVehicles', CollectionType::class, [
-                'label' => false,
                 'entry_type' => ProjectVehicleType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
@@ -43,7 +43,8 @@ class ProjectType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
                 'entry_options' => [
-                    'available_values' => $availableValues,
+                    'available_makes' => $availableMakes,
+                    'available_models' => $availableModels,
                     'label' => false
                 ]
             ])
@@ -59,6 +60,7 @@ class ProjectType extends AbstractType
             'data_class' => ProjectDTO::class,
             'translation_domain' => 'user'
         ]);
-        $resolver->setRequired('available_values');
+        $resolver->setRequired('available_makes');
+        $resolver->setRequired('available_models');
     }
 }

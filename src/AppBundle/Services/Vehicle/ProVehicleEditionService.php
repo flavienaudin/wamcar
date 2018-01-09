@@ -72,7 +72,7 @@ class ProVehicleEditionService
     }
 
     /**
-     * @param FormVehicleDTO $proVehicleDTO
+     * @param CanBeProVehicle $proVehicleDTO
      * @param ProVehicle $vehicle
      * @return ProVehicle
      */

@@ -45,6 +45,8 @@ services:
             - '@wamcar.security.password_encoder'
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
+            - '@AppBundle\Form\Builder\User\ProjectFromDTOBuilder'
+            - '@AppBundle\Doctrine\Repository\DoctrineProjectRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true

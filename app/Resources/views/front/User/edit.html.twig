@@ -1,6 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% form_theme editUserForm 'front/Layout/includes/forms/fields.html.twig' %}
 {% trans_default_domain 'user' %}
 
 {% block mainClass %}no-padding-top{% endblock %}
@@ -25,7 +24,8 @@
     <div class="row">
         <div class="tabs-content small-12" data-tabs-content="js-search-tabs">
             <div id="js-profil" class="tabs-panel  is-active">
-                {% include 'front/User/includes/form_edit_profil.html.twig' %}
+                {#TODO: display two forms in controller action
+                {% include 'front/User/includes/form_edit_profil.html.twig' %}#}
             </div>
             <div id="js-project" class="tabs-panel">
                 {% include 'front/User/includes/form_project.html.twig' %}
