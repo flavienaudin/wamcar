@@ -2,6 +2,8 @@
 
 namespace Wamcar\User;
 
+use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\UserPicture;
 use Symfony\Component\HttpFoundation\File\File;
 
 abstract class BaseUser
@@ -39,10 +41,20 @@ abstract class BaseUser
         return $this->id;
     }
 
-
+    /**
+     * @return string
+     */
     public function getName(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getName() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getDescription() : null);
     }
 
     /**
@@ -108,6 +120,15 @@ abstract class BaseUser
     public function getAvatarFile(): ?File
     {
         return $this->avatar ? $this->avatar->getFile() : null;
+    }
+
+
+    /**
+     * @param UserPicture $avatar
+     */
+    public function setAvatar(UserPicture $avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     /**

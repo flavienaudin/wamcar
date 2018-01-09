@@ -315,6 +315,10 @@
 {% endblock %}
 
 {% block _pro_user_information_avatar_widget %}
+    {{ block('_user_information_avatar_widget') }}
+{% endblock %}
+
+{% block _user_information_avatar_widget %}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
     {% set required = required|default(false) %}

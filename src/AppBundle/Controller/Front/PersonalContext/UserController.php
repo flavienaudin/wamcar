@@ -12,7 +12,6 @@ use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,10 +26,10 @@ class UserController extends BaseController
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var UserRepository  */
+    /** @var UserRepository */
     protected $userRepository;
 
-    /** @var UserEditionService  */
+    /** @var UserEditionService */
     protected $userEditionService;
 
     /**
@@ -61,13 +60,18 @@ class UserController extends BaseController
         $user = $this->getUser();
 
         $userForms = [
-            ProApplicationUser::TYPE  => ProUserInformationType::class,
-            PersonalApplicationUser::TYPE  => UserInformationType::class
+            ProApplicationUser::TYPE => ProUserInformationType::class,
+            PersonalApplicationUser::TYPE => UserInformationType::class
         ];
         $userDTOs = [
-            ProApplicationUser::TYPE  => ProUserInformationDTO::class,
-            PersonalApplicationUser::TYPE  => UserInformationDTO::class
+            ProApplicationUser::TYPE => ProUserInformationDTO::class,
+            PersonalApplicationUser::TYPE => UserInformationDTO::class
         ];
+        $userProfileTemplate = [
+            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
+            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
+        ];
+
 
         $userForm = $userForms[$user->getType()];
         /** @var UserInformationDTO $userInformationDTO */
@@ -90,8 +94,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
-
-        return $this->render('front/Seller/edit.html.twig', [
+        return $this->render($userProfileTemplate[$user->getType()], [
             'editUserForm' => $editForm->createView(),
             'user' => $user
         ]);
@@ -106,16 +109,25 @@ class UserController extends BaseController
     public function viewInformationAction(Request $request, $id = null): Response
     {
         $user = $id ? $this->userRepository->find($id) : $this->getUser();
-        if(!$user || !$user instanceof BaseUser) {
+        if (!$user || !$user instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
+
+        if(!$user->canSeeMyProfile($this->getUser())){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_WARNING,
+                'flash.warning.user.unauthorized_to_access_profile'
+            );
+            return $this->redirectToRoute('front_default');
+        }
+
 
         $templates = [
             ProUser::TYPE => 'front/Seller/card.html.twig',
             PersonalUser::TYPE => 'front/User/card.html.twig',
         ];
 
-        if(!$templates[$user->getType()]) {
+        if (!$templates[$user->getType()]) {
             throw new NotFoundHttpException();
         }
 

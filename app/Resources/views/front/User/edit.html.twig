@@ -1,5 +1,6 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
+{% form_theme editUserForm 'front/Layout/includes/forms/fields.html.twig' %}
 {% trans_default_domain 'user' %}
 
 {% block mainClass %}no-padding-top{% endblock %}
@@ -23,66 +24,12 @@
 
     <div class="row">
         <div class="tabs-content small-12" data-tabs-content="js-search-tabs">
-            <div id="js-profil" class="tabs-panel">
-                // Reprise du formulaire edition pro
+            <div id="js-profil" class="tabs-panel  is-active">
+                {% include 'front/User/includes/form_edit_profil.html.twig' %}
             </div>
-            <div id="js-project" class="tabs-panel is-active">
+            <div id="js-project" class="tabs-panel">
                 {% include 'front/User/includes/form_project.html.twig' %}
             </div>
         </div>
     </div>
-
-    {# {{ form_start(form) }} #}
-
-    {# Civilité #}
-    {# <div>
-        {{ form_row(form.title) }}
-    </div> #}
-
-    {# Nom #}
-    {# <div>
-        {{ form_row(form.name, {'errorMsg' : 'user.field.lastName.error'|trans}) }}
-    </div> #}
-
-    {# Adresse e-mail #}
-    {# <div>
-        {{ form_row(form.email, {'errorMsg' : 'user.field.email.error'|trans}) }}
-    </div> #}
-
-    {# Code postal #}
-    {# <div>
-        {{ form_row(form.postalCode, {'errorMsg' :  'user.field.postalCode.error'|trans}) }}
-    </div> #}
-
-    {# Ville #}
-    {# <div>
-        {{ form_row(form.cityName, {'errorMsg' : 'user.field.city.error'|trans}) }}
-    </div> #}
-
-    {# Phone #}
-    {# <div>
-        {{ form_row(form.phone, {'errorMsg' : 'user.field.phone.error'|trans}) }}
-    </div> #}
-
-    {# PhonePro #}
-    {# {% if form.phonePro is defined %}
-    <div>
-        {{ form_row(form.phonePro, {'errorMsg' : 'user.field.phonePro.error'|trans}) }}
-    </div>
-    {% endif %} #}
-
-    {# Description #}
-    {# {% if form.description is defined %}
-    <div>
-        {{ form_row(form.description, {'errorMsg' : 'user.field.description.error'|trans}) }}
-    </div>
-    {% endif %} #}
-
-    {# Button submit #}
-    {# <div>
-        <button type="submit">{{ 'button.edit_informations'|trans }}</button>
-    </div> #}
-
-    {# {{ form_end(form) }} #}
-
 {% endblock %}

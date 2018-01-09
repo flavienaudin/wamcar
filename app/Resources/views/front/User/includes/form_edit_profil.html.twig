@@ -1,0 +1,83 @@
+{{ form_start(editUserForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+<div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
+    <h2>Identifiants de connexion</h2>
+    <p>
+        Mail : {{ user.email }} <br>
+        <a class="text-underline" data-toggle="js-update-password">Modifier mon mot de passe</a>
+    </p>
+    <div id="js-update-password" class="user-form-password is-hidden" data-toggler=".is-hidden">
+        {# Ancien mot de passe #}
+        {{ form_widget(editUserForm.oldPassword, {
+            'label': 'Mot de passe',
+            'required_class': 'hide'
+        }) }}
+        <div class="row small-12">
+            {# Nouveau mot de passe #}
+            <div class="column small-12 large-6">
+                {{ form_widget(editUserForm.newPassword.first, {
+                    'label': 'Nouveau mot de passe',
+                    'required_class': 'hide'
+                }) }}
+            </div>
+
+            {# Nouveau mot de passe confirmation #}
+            <div class="column small-12 large-6">
+                {{ form_widget(editUserForm.newPassword.second, {
+                    'label': 'Confirmer le mot de passe',
+                    'required_class': 'hide'
+                }) }}
+            </div>
+        </div>
+    </div>
+    <h2 class="separator">Identité</h2>
+    {% if editUserForm.title is defined %}
+        <div class="input-margin">
+            {{ form_widget(editUserForm.title, {
+                'label': 'Civilité',
+                'required_class': '',
+                'list_class': '',
+                'required': false
+            }) }}
+        </div>
+    {% endif %}
+    {{ form_widget(editUserForm.name, {
+        'label': 'Nom / Prénom',
+        'required': false
+    }) }}
+</div>
+<div class="column small-12 medium-6 xlarge-5 xlarge-offset-1">
+    <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
+    {% if editUserForm.phonePro is defined %}
+        {{ form_widget(editUserForm.phonePro, {
+            'label': 'Téléphone fixe',
+            'required': false,
+            'type' : 'tel'
+        }) }}
+    {% endif %}
+    {{ form_widget(editUserForm.phone, {
+        'label': 'Téléphone mobile',
+        'required': false,
+        'type' : 'tel'
+    }) }}
+    <h2 class="separator">Informations</h2>
+    {{ form_widget(editUserForm.description, {
+        'label': 'Présentation',
+        'required': false
+    }) }}
+</div>
+<div class="input-margin column small-12 medium-6 xlarge-5">
+    <div id="js-pictures-list" class="separator">
+        <h2>Médias</h2>
+        {{ form_widget(editUserForm.avatar, {
+            'label': 'Avatar',
+            'required': false,
+            'required_class': '',
+            'classPreview': 'small-6 large-4',
+            'imgPreview':  user|avatar
+        }) }}
+    </div>
+</div>
+<div class="column small-12">
+    <button type="submit" class="button full-width medium-5 large-3">Enregistrer mes modifications</button>
+</div>
+{{ form_end(editUserForm) }}

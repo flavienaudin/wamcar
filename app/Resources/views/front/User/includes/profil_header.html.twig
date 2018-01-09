@@ -11,13 +11,10 @@
                         <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
                     {% endif %}
                 {% endif %}
-                {% if isUserPersonalPageProfil %}
-                    <a href="" class="{{ not userIsMe ? 'small-4 small-offset-1 medium-offset-0' : 'small-12' }} medium-shrink icon-location"><span class="text-underline">Lyon 2ème</span></a>
-                {% endif %}
+
                 {% if not userIsMe %}
-                    <a href="" class="icon-message {{ isUserProPageProfil ? 'small-12' : 'small-6' }} medium-shrink"><span class="text-underline">Envoyer un message</span></a>
-                {% endif %}
-                {% if userIsMe %}
+                    <a href="" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
+                {% else %}
                     <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">Déconnexion</a>
                 {% endif %}
             </div>

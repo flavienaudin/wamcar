@@ -4,41 +4,16 @@
 
 {% block presentation %}
     <h2>Présentation</h2>
-    <p>Lorem ipsum ut ultrices molestie. Nec congue interdum, augue, laoreet, ad sit Curabitur neque massa maximus odio
-        Quisque sagittis Morbi at Etiam faucibus vitae. Vel non nisi. Magna neque nibh. Cras Vestibulum vel volutpat,
-        Curabitur Donec efficitur, pharetra efficitur, dapibus Suspendisse condimentum id Donec sed nibh id auctor eu
-        quis, inceptos Quisque Class nisl. Sit ac, luctus vel felis risus.</p>
-    <a href="{{ path('inte_user_personal_profil_edit') }}" class="text-underline">Modifier mes informations</a>
-
-    {# Civilité #}
-    {# <div>
-        {{ user.userProfile.title }}
-    </div> #}
-
-    {# Nom #}
-    {# <div>
-        {{ user.userProfile.name }}
-    </div> #}
-
-    {# Adresse e-mail #}
-    {# <div>
-        {{ user.email }}
-    </div> #}
-
-    {# Code postal #}
-    {# <div>
-        {{ user.userProfile.city.postalCode }}
-    </div> #}
-
-    {# Ville #}
-    {# <div>
-        {{ user.userProfile.city.name }}
-    </div> #}
-
-    {# Phone #}
-    {# <div>
-        {{ user.userProfile.phone }}
-    </div> #}
+    {% if user.description %}
+        <p>{{ user.description|nl2br }}</p>
+    {% elseif userIsMe %}
+        <p>Présentez-vous en quelques mots.</p>
+    {% else %}
+        <p>Aucune description n'a été encore renseignée.</p>
+    {% endif %}
+    {% if userIsMe %}
+        <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
+    {% endif %}
 {% endblock %}
 
 {% block other_informations %}

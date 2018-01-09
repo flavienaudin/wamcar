@@ -15,6 +15,9 @@ Wamcar\User\UserProfile:
         name:
             type: string
             nullable: true
+        description:
+            type: text
+            nullable: true
         phone:
             type: string
             nullable: true
