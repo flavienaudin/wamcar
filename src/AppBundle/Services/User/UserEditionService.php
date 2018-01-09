@@ -4,6 +4,7 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Security\HasPasswordResettable;
@@ -69,6 +70,18 @@ class UserEditionService
 
         $this->userRepository->update($user);
 
+        return $user;
+    }
+
+    /**
+     * @param ApplicationUser $user
+     * @param ProjectDTO $projectDTO
+     * @return ApplicationUser
+     * @throws \Exception
+     */
+    public function projectInformations(ApplicationUser $user, ProjectDTO $projectDTO): ApplicationUser
+    {
+        //@TODO making all the registration of th project
         return $user;
     }
 

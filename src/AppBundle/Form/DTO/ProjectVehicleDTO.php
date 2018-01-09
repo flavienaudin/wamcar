@@ -10,7 +10,7 @@ class ProjectVehicleDTO
     /** @var string */
     public $model;
     /** @var  int */
-    protected $yearMax;
+    public $yearMax;
     /** @var  int */
-    protected $mileageMax;
+    public $mileageMax;
 }

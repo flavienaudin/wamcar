@@ -1,44 +1,48 @@
-<form class="column" data-abide novalidate>
+{% form_theme projectForm 'front/Layout/includes/forms/fields.html.twig' %}
+
+{{ form_start(projectForm) }}
     <h2>Budget et recherche</h2>
     <div class="row small-12">
         <div class="column medium-6">
-            <label for="type">Votre recherche <span>Facultatif</span></label>
-            <ul class="block-grid small-12 input-margin">
-                <li class="small-6">
-                    {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
-                        name: 'vehicle-replace-2',
-                        id: 'yes-2',
-                        label: 'Véhicule unique'
-                    } %}
-                </li>
-                <li class="small-6">
-                    {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
-                        name: 'vehicle-replace-2',
-                        id: 'no-2',
-                        label: 'Une flotte'
-                    } %}
-                </li>
-            </ul>
+            {{ form_widget(projectForm.isFleet, {
+                'label': 'Votre recherche',
+                'required_class': '',
+                'list_class': '',
+                'required': false
+            }) }}
         </div>
-        {% include 'front/Layout/includes/forms/input.html.twig' with {
-            class_field: 'column small-12 medium-6',
-            label: 'Budget global',
-            placeholder: 'Ex : 200 000 €',
-            name: 'budget-global'
-        } %}
+        <div class="column small-12 medium-6">
+            {{ form_widget(projectForm.budget, {
+                'label': 'Budget global',
+                'required_class': '',
+                'list_class': '',
+                'required': false,
+                'placeholder': 'Ex : 200 000 €'
+            }) }}
+        </div>
     </div>
-    {% include 'front/Layout/includes/forms/textarea.html.twig' with {
-        class_field: 'small-12',
-        class: 'no-margin',
-        label: 'Description de votre recherche',
-        placeholder: 'Decrivez votre recherche',
-        name: 'description'
-    } %}
+    <div class="small-12">
+        {{ form_widget(projectForm.description, {
+            'label': 'Description de votre recherche',
+            'required_class': '',
+            'list_class': '',
+            'class': 'no-margin',
+            'required': false,
+            'placeholder': 'Decrivez votre recherche'
+        }) }}
+    </div>
+
     <h2 class="separator medium">Véhicule(s) recherché(s)</h2>
     <p>Vous n’avez pas encore indiqué le ou les véhicules que vous recherchez actuellement. En ajoutant des véhicules, vous avez l’assurance d’obtenir des offres de reprises étudiées spécialement pour vous par les professionnels inscrits sur Wamcar.</p>
-    {% include 'front/User/includes/wish_list.html.twig' %}
-    <button type="button" class="text-underline input-margin">Ajouter un souhait</button>
+
+    <ul class="wish-list input-margin" id="js-project-list" data-prototype="{{ form_widget(projectForm.projectVehicles.vars.prototype)|e('html_attr') }}" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
+        {% for projectVehicle in projectForm.projectVehicles %}
+            {{ form_widget(projectVehicle, { 'index': loop.index}) }}
+        {% endfor %}
+    </ul>
+    <button type="button" id="add-project-list" class="text-underline input-margin">Ajouter un souhait</button>
+
     <div class="small-12 medium-6 large-3">
         <button type="submit" class="button full-width">Enregistrer mes souhaits</button>
     </div>
-</form>
+{{ form_end(projectForm) }}
