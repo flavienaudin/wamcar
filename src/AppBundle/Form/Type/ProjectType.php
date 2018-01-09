@@ -22,11 +22,10 @@ class ProjectType extends AbstractType
             ->add('isFleet', ChoiceType::class, [
                 'expanded' => true,
                 'choices' => [
-                    'Véhicule unique',
-                    'Une flotte'
+                    'Véhicule unique' => false,
+                    'Une flotte' => true
                 ],
-                'error_bubbling' => true,
-                'data' => 'Véhicule unique'
+                'error_bubbling' => true
             ])
             ->add('budget', IntegerType::class, [
                 'error_bubbling' => true,
