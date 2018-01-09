@@ -1,0 +1,37 @@
+Wamcar\User\Project:
+
+    type: entity
+    table: project
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProjectRepository
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: personalUser
+
+    id:
+        id:
+            type: integer
+            generator:
+                strategy: AUTO
+
+    fields:
+        isFleet:
+            type: boolean
+        budget:
+            type: integer
+            nullable: true
+        description:
+            type: text
+            nullable: true
+
+    oneToOne:
+        personalUser:
+            targetEntity: Wamcar\User\PersonalUser
+            inversedBy: project
+            joinColumn:
+                name: personal_user_id
+                referencedColumnName: id
+
+    oneToMany:
+        projectVehicles:
+            targetEntity: Wamcar\User\ProjectVehicle
+            mappedBy: project
