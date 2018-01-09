@@ -22,7 +22,7 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
      */
     public function getLast($limit)
     {
-        return $this->findBy(array('deletedAt' => null), array('createdAt' => 'DESC'), $limit);
+        return $this->findBy(['deletedAt' => null], ['createdAt' => 'DESC'], $limit);
     }
 
 }
