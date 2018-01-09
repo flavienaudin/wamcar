@@ -6,8 +6,8 @@ class Project
 {
     /** @var  PersonalUser */
     protected $personalUser;
-    /** @var  null|ProjectType */
-    protected $type;
+    /** @var  bool */
+    protected $isFleet;
     /** @var null|int */
     protected $budget;
     /** @var  null|string */
@@ -18,32 +18,32 @@ class Project
     /**
      * Project constructor.
      * @param PersonalUser $personalUser
-     * @param ProjectType|null $type
+     * @param bool $isFleet
      * @param int|null $budget
      * @param string|null $description
      * @param array $projectVehicles
      */
     public function __construct(
         PersonalUser $personalUser,
-        ProjectType $type = null,
+        bool $isFleet = false,
         int $budget = null,
         string $description = null,
         array $projectVehicles = []
     )
     {
         $this->personalUser = $personalUser;
-        $this->type = $type;
+        $this->isFleet = $isFleet;
         $this->budget = $budget;
         $this->description = $description;
         $this->projectVehicles = $projectVehicles;
     }
 
     /**
-     * @return null|ProjectType
+     * @return bool
      */
-    public function getType(): ?ProjectType
+    public function isFleet(): bool
     {
-        return $this->type;
+        return $this->isFleet;
     }
 
     /**
