@@ -157,6 +157,7 @@ class Project
         foreach ($this->projectVehicles as $existProjectVehicle) {
             if ($projectVehicle->getId() && ($existProjectVehicle->getId() === $projectVehicle->getId())) {
                 return true;
+                break;
             }
         }
 
@@ -173,6 +174,7 @@ class Project
             foreach ($projectVehicles as $projectVehicle) {
                 if ($projectVehicle->getId() === $existProjectVehicle->getId()) {
                     $find = true;
+                    break;
                 }
             }
             if (!$find)

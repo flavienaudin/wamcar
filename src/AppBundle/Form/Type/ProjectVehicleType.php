@@ -31,16 +31,19 @@ class ProjectVehicleType extends AbstractType
         //Give the index in the collection
         $indexCollection = $builder->getName();
 
+        $makes = $availableMakes['make'] ?? [];
+        $models = $availableModels[$indexCollection]['model'] ?? [];
+
         $builder
             ->add('id', HiddenType::class)
             ->add('make', ChoiceType::class, [
-                'choices' => $availableMakes['make'] ?? [],
-                'placeholder' => count($availableMakes['make'] ?? []) === 1 ? false : '',
+                'choices' => $makes,
+                'placeholder' => count($makes) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
             ->add('model', ChoiceType::class, [
-                'choices' => $availableModels[$indexCollection]['model'] ?? [],
-                'placeholder' => count($availableModels[$indexCollection]['model'] ?? []) === 1 ? false : '',
+                'choices' => $models,
+                'placeholder' => count($models) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
             ->add('yearMax', ChoiceType::class, [
