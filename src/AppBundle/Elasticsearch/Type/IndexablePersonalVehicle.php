@@ -39,6 +39,8 @@ class IndexablePersonalVehicle implements Indexable
     private $createdAt;
     /** @var string */
     private $picture;
+    /** @var int */
+    private $nbPicture;
     /** @var string */
     private $userUrl;
     /** @var string */
@@ -54,16 +56,27 @@ class IndexablePersonalVehicle implements Indexable
 
 
     /**
-     * VehicleInfo constructor.
+     * IndexablePersonalVehicle constructor.
      * @param string $id
      * @param string $detailUrl
      * @param string $make
      * @param string $model
      * @param string $modelVersion
      * @param string $engine
+     * @param string $transmission
+     * @param string $fuel
+     * @param string $years
+     * @param string $mileage
+     * @param string $cityName
+     * @param string $latitude
+     * @param string $longitude
+     * @param \DateTime $createdAt
      * @param string $picture
+     * @param int $nbPicture
+     * @param string $userUrl
      * @param string $userName
      * @param string $userPicture
+     * @param Project $userProject
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -80,6 +93,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $longitude,
                                 \DateTime $createdAt,
                                 string $picture,
+                                int $nbPicture,
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
@@ -101,6 +115,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->longitude = $longitude;
         $this->createdAt = $createdAt;
         $this->picture = $picture;
+        $this->nbPicture = $nbPicture;
         $this->userUrl = $userUrl;
         $this->userName = $userName;
         $this->userPicture = $userPicture;
@@ -126,7 +141,6 @@ class IndexablePersonalVehicle implements Indexable
     public function fillUserProject(Project $project)
     {
         $this->projectBudget = $project->getBudget();
-        $this->projectDescription = $project->getDescription();
 
         $projectVehicles = [];
         foreach ($project->getProjectVehicles() as $projectVehicle) {
@@ -170,11 +184,11 @@ class IndexablePersonalVehicle implements Indexable
             ],
             'createdAt' => $this->createdAt,
             'picture' => $this->picture,
+            'nbPicture' => $this->nbPicture,
             'userUrl' => $this->userUrl,
             'userName' => $this->userName,
             'userPicture' => $this->userPicture,
             'projectBudget' => $this->projectBudget,
-            'projectDescription' => $this->projectDescription,
             'projectVehicles' => $this->projectVehicles
         ];
     }

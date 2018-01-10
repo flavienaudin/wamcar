@@ -7,7 +7,7 @@
             <div class="is-relative">
                 <img src="{{ asset( vehicle.picture ) }}" alt="{{ vehicle.modelVersion }}">
                 {#TODO: correct when pictureVehicle implemented#}
-                    <span class="vehicle-pics-count icon-pics">8</span>
+                    <span class="vehicle-pics-count icon-pics">{{ vehicle.nbPicture }}</span>
             </div>
         </div>
         <div class="vehicle-infos small-shrink medium-auto">
@@ -25,7 +25,7 @@
     <a href="{{ path('front_view_current_user_info') }}" class="full-width">
         <div class="vehicle-user-infos">
             <div class="vehicle-user-pic"><img src="{{ vehicle.userPicture }}" alt="{{ vehicle.userName }}"></div>
-            {% if vehicle.projectVehicles or vehicle.projectBudget or vehicle.projectDescription %}
+            {% if vehicle.projectVehicles or vehicle.projectBudget %}
             <div class="small-12 dark-gray-color">
                 {% if vehicle.projectBudget %}
                     <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|number_format(0, ',', ' ') }} € pour</strong></p>
