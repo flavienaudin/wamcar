@@ -88,9 +88,17 @@ class VehicleController extends BaseController
      */
     public function getListAction(Request $request): Response
     {
-        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
 
-        return new JsonResponse($vehicles);
+        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+        $vehiclesDTO = [];
+        foreach ($vehicles as $vehicle) {
+            $vehiclesDTO[] = VehicleDTO::createFromProVehicle($vehicle);
+        }
+
+        return new JsonResponse($vehiclesDTO, Response::HTTP_OK);
     }
 
     /**
@@ -150,8 +158,9 @@ class VehicleController extends BaseController
         if (!$vehicle) {
             throw new NotFoundHttpException();
         }
+        $vehicleDTO = VehicleDTO::createFromProVehicle($vehicle);
 
-        return new JsonResponse($vehicle);
+        return new JsonResponse($vehicleDTO);
     }
 
     /**

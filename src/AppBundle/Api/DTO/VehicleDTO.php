@@ -3,6 +3,7 @@
 namespace AppBundle\Api\DTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Wamcar\Vehicle\ProVehicle;
 
 /**
  * @SWG\Definition(
@@ -86,6 +87,44 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->BoiteLibelle = $data['BoiteLibelle'] ?? null;
             $vehicleDto->GarantieLibelle = $data['GarantieLibelle'] ?? null;
             $vehicleDto->EquipementsSerieEtOption = $data['EquipementsSerieEtOption'] ?? null;
+
+            return $vehicleDto;
+        }
+        catch(\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+    }
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @return VehicleDTO
+     */
+    public static function createFromProVehicle(ProVehicle $proVehicle): self
+    {
+        try {
+            $vehicleDto = new self();
+
+            $vehicleDto->IdentifiantVehicule = $proVehicle->getReference();
+            $vehicleDto->Date1Mec = '';
+            $vehicleDto->Marque = $proVehicle->getMake();
+            $vehicleDto->Type = '';
+            $vehicleDto->Motorisation = $proVehicle->getEngineName();
+            $vehicleDto->Modele = $proVehicle->getModelName();
+            $vehicleDto->Version = $proVehicle->getModelVersionName();
+            $vehicleDto->Energie = $proVehicle->getFuelName();
+            $vehicleDto->Kilometrage = $proVehicle->getMileage();
+            $vehicleDto->PrixVenteTTC = $proVehicle->getPrice();
+            $vehicleDto->Neuf = '';
+            $vehicleDto->Description = $proVehicle->getAdditionalInformation();
+            $vehicleDto->URLVehicule = '';
+            $vehicleDto->Annee = $proVehicle->getYears();
+            $vehicleDto->Famille = '';
+            $vehicleDto->NbPlaces = '';
+            $vehicleDto->NbPortes = '';
+            $vehicleDto->Couleur = '';
+            $vehicleDto->BoiteLibelle = $proVehicle->getTransmission()->getValue();
+            $vehicleDto->GarantieLibelle = $proVehicle->getOtherGuarantee();
+            $vehicleDto->EquipementsSerieEtOption = '';
 
             return $vehicleDto;
         }
