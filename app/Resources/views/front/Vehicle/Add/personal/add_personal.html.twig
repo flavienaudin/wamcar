@@ -1,8 +1,8 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% form_theme proVehicleForm ':front/Layout/includes/forms:fields.html.twig' %}
+{% form_theme personalVehicleForm  ':front/Layout/includes/forms:fields.html.twig' %}
 
-{% set page_garage = true %}
+{% set page_profil = true %}
 
 {% block mainClass %}no-padding-top{% endblock %}
 
@@ -14,24 +14,24 @@
 
         <div class="is-relative separator-section">
             <div class="row column medium-right-collapse">
-                {% include 'front/Vehicle/Edit/includes/step_navigation.html.twig' %}
+                {% include ':front/Vehicle/Add/personal/includes:step_navigation.html.twig' %}
             </div>
             {% include 'front/Security/Register/includes/step_progress_bar.html.twig' %}
         </div>
 
         <div>
             <ul>
-                {% for error in proVehicleForm.vars.errors %}
+                {% for error in personalVehicleForm.vars.errors %}
                     <li>{{ error.message }}</li>
                 {% endfor %}
             </ul>
         </div>
 
         <section class="small-12">
-            {{ form_start(proVehicleForm, {
+            {{ form_start(personalVehicleForm, {
                 'method' : 'POST',
                 'attr' : {
-                    'class' : 'js-password register-form row',
+                    'class' : 'register-form row',
                     'id' : 'js-register-form',
                     'novalidate' : 'novalidate'
                 }
@@ -40,18 +40,15 @@
             <ul id="js-step" class="step">
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
-                        'vehicleForm' : proVehicleForm,
-                        'fetch_plate_url' : path('front_vehicle_pro_add', {'plateNumber': '_plate_number_'})
+                        'vehicleForm' : personalVehicleForm,
+                        'fetch_plate_url' : path('front_vehicle_personal_add', {'plateNumber': '_plate_number_'})
                     } %}
                 </li>
                 <li class="block-grid" data-step="2">
-                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                    {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : personalVehicleForm } %}
                 </li>
                 <li class="block-grid" data-step="3">
-                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm': proVehicleForm, 'dataCityField': 'pro_vehicle_specifics_cityName', 'dataLatitudeField': 'pro_vehicle_specifics_latitude', 'dataLongitudeField': 'pro_vehicle_specifics_longitude' } %}
-                </li>
-                <li class="block-grid" data-step="4">
-                    {% include 'front/Security/Register/includes/vehicle_offer.html.twig' with { 'vehicleForm' : proVehicleForm } %}
+                    {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : personalVehicleForm, 'dataCityField' : 'personal_vehicle_specifics_cityName', 'dataLatitudeField': 'personal_vehicle_specifics_latitude', 'dataLongitudeField': 'personal_vehicle_specifics_longitude', 'isLastStep' : true } %}
                 </li>
             </ul>
             <nav id="js-step-navigation" class="column small-12">
@@ -64,7 +61,7 @@
                     </div>
                 </div>
             </nav>
-            {{ form_end(proVehicleForm) }}
+            {{ form_end(personalVehicleForm) }}
 
         </section>
 

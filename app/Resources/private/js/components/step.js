@@ -29,6 +29,7 @@ class Step {
    */
   constructor() {
     this.carousel = this._initCarousel();
+    this.nbSteps = document.querySelectorAll('.js-step-navigation').length;
   }
 
   /**
@@ -201,7 +202,7 @@ class Step {
     const offSetLeftPrevElement = $prevElement && $prevElement.offsetLeft;
     const $stepNavigation = document.getElementById('js-step-navigation');
 
-    if (this.getCurrentSlide() === 4) {
+    if (this.getCurrentSlide() === this.nbSteps) {
       $stepNavigation.classList.add(hideClass);
     } else {
       $stepNavigation.classList.remove(hideClass);

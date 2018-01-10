@@ -4,9 +4,8 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
-use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
-use AppBundle\Security\UserRegistrationService;
+use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
@@ -19,8 +18,6 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\PersonalUser;
-use Wamcar\Vehicle\Event\PersonalVehicleCreated;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 
 class RegistrationController extends BaseController
@@ -31,8 +28,8 @@ class RegistrationController extends BaseController
     private $vehicleRepository;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
-    /** @var UserRegistrationService */
-    protected $userRegistrationService;
+    /** @var PersonalVehicleEditionService */
+    protected $personalVehicleEditionService;
     /** @var ApiConnector */
     protected $autoDataConnector;
     /** @var ZipCode */
@@ -45,7 +42,7 @@ class RegistrationController extends BaseController
      * @param FormFactoryInterface $formFactory
      * @param PersonalVehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param UserRegistrationService $userRegistrationService
+     * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param ZipCode $zipCodeService
      * @param MessageBus $eventBus
@@ -54,7 +51,7 @@ class RegistrationController extends BaseController
         FormFactoryInterface $formFactory,
         PersonalVehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        UserRegistrationService $userRegistrationService,
+        PersonalVehicleEditionService $personalVehicleEditionService,
         ApiConnector $autoDataConnector,
         ZipCode $zipCodeService,
         MessageBus $eventBus
@@ -63,7 +60,7 @@ class RegistrationController extends BaseController
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->userRegistrationService = $userRegistrationService;
+        $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->zipCodeService = $zipCodeService;
         $this->eventBus = $eventBus;
@@ -71,15 +68,16 @@ class RegistrationController extends BaseController
 
     /**
      * @param Request $request
+     * @param string $plateNumber
      * @return Response
      * @throws \Exception
      */
-    public function vehicleRegistrationAction(Request $request): Response
+    public function vehicleRegistrationAction(Request $request, string $plateNumber = null): Response
     {
         $filters = $request->get('vehicle_information', []);
         unset($filters['_token']);
 
-        if ($plateNumber = $request->get('plate_number', null)) {
+        if ($plateNumber || $plateNumber = $request->get('plate_number', null)) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
@@ -124,26 +122,17 @@ class RegistrationController extends BaseController
         $vehicleForm->handleRequest($request);
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
-            $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
-            $this->vehicleRepository->add($personalVehicle);
-
             try {
-                $applicationUser = $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
-                if($applicationUser instanceof PersonalUser){
-                    $personalVehicle->setOwner($applicationUser);
-                    $this->vehicleRepository->update($personalVehicle);
-                }
-                $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
+                $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.danger.registration_duplicate'
                 );
+                // TODO redirect to inscription form
             }
-
             return $this->redirectToRoute('register_confirm');
         }
-
 
         return $this->render(
             ':front/Security/Register:user_car.html.twig',

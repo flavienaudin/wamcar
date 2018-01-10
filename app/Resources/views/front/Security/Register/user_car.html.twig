@@ -29,7 +29,10 @@
 
         <ul id="js-step" class="step">
             <li class="block-grid" data-step="1">
-                {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : vehicleForm } %}
+                {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
+                    'vehicleForm' : vehicleForm,
+                    'fetch_plate_url' : path('front_vehicle_registration', {'plateNumber': '_plate_number_'})
+                } %}
             </li>
             <li class="block-grid" data-step="2">
                 {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : vehicleForm } %}

@@ -3,12 +3,10 @@
 namespace AppBundle\Form\EntityBuilder;
 
 use AppBundle\Doctrine\Entity\PersonalVehiclePicture;
+use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\DTO\VehicleDTO;
-use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\Registration;
-use Wamcar\Vehicle\Vehicle;
 
 class PersonalVehicleBuilder
 {
@@ -17,7 +15,7 @@ class PersonalVehicleBuilder
      * @param VehicleDTO $vehicleDTO
      * @return PersonalVehicle
      */
-    public static function buildFromDTO(VehicleDTO $vehicleDTO): PersonalVehicle
+    public static function buildFromDTO(PersonalVehicleDTO $vehicleDTO): PersonalVehicle
     {
         $vehicle = new PersonalVehicle(
             $vehicleDTO->getModelVersion(),

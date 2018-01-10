@@ -15,15 +15,16 @@ register_confirm:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Register/user_confirmation.html.twig
 
-front_vehicle_registration:
-    path: /je-vends-mon-vehicule
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
-
 front_vehicle_registration_form_update:
     path: /je-vends-mon-vehicule/form_update.json
     defaults:
         _controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
+
+front_vehicle_registration:
+    path: /je-vends-mon-vehicule/{plateNumber}
+    defaults:
+        _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
+        plateNumber: null
 
 front_edit_user_info:
     path: /user-info
@@ -92,6 +93,10 @@ front_vehicle_pro_detail:
 front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Vehicle:delete }
+
+front_vehicle_personal_add:
+    path: /vehicule/particulier/ajouter/{plateNumber}
+    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:save, plateNumber: null, vehicle: null  }
 
 front_search_pro:
     path: /vendeur/rechercher
