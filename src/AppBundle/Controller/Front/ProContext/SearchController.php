@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Elasticsearch\Query\SearchQuery;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -69,7 +70,7 @@ class SearchController extends BaseController
 
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'method' => 'GET',
+            'method' => 'POST',
             'action' => $this->generateRoute('front_search_pro'),
             'available_values' => $availableValues
         ]);
@@ -81,53 +82,32 @@ class SearchController extends BaseController
             $this->limit,
             self::MIN_SCORE
         );
-        $boolQuery = new BoolQuery();
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-
-            //TODO: refacto after demo
-            if (!empty($searchVehicleDTO->text)) {
-                //Necessary for search only by key_make
-                $queryBuilder->match('key_make', $searchVehicleDTO->text);
-                $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $queryBuilder->addQuery($boolQuery);
-            }
-            if (!empty($searchVehicleDTO->cityName)) {
-                $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
-            }
-            if (!empty($searchVehicleDTO->make)) {
-                $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
-            }
-            if (!empty($searchVehicleDTO->model)) {
-                $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
-            }
-            if (!empty($searchVehicleDTO->mileageMax)) {
-                $queryBuilder->addFilter(new RangeFilter('mileage', $searchVehicleDTO->mileageMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->yearsMin)) {
-                $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->yearsMax)) {
-                $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->transmission)) {
-                $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
-            }
-            if (!empty($searchVehicleDTO->fuel)) {
-                $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
-            }
+            $queryBuilder['ALL'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'ALL');
+            $queryBuilder['RECOVERY'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'Recovery');
+            $queryBuilder['PROJECT'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'Project');
         }
 
-        $queryBody = $queryBuilder->getQueryBody();
-        $searchResult = $this->queryExecutor->execute(
-            $queryBody,
+        $queryBody['ALL'] = $queryBuilder['ALL']->getQueryBody();
+        $queryBody['RECOVERY'] = $queryBuilder['RECOVERY']->getQueryBody();
+        $queryBody['PROJECT'] = $queryBuilder['PROJECT']->getQueryBody();
+        $searchResult['ALL'] = $this->queryExecutor->execute(
+            $queryBody['ALL'],
+            IndexablePersonalVehicle::TYPE
+        );
+        $searchResult['RECOVERY'] = $this->queryExecutor->execute(
+            $queryBody['RECOVERY'],
+            IndexablePersonalVehicle::TYPE
+        );
+        $searchResult['PROJECT'] = $this->queryExecutor->execute(
+            $queryBody['PROJECT'],
             IndexablePersonalVehicle::TYPE
         );
 
-        $lastPage = ceil($searchResult->totalHits() / $this->limit);
+        $lastPage['ALL'] = ceil($searchResult['ALL']->totalHits() / $this->limit);
+        $lastPage['RECOVERY'] = ceil($searchResult['RECOVERY']->totalHits() / $this->limit);
+        $lastPage['PROJECT'] = ceil($searchResult['PROJECT']->totalHits() / $this->limit);
 
         return $this->render('front/Search/search.html.twig', [
                 'searchForm' => $searchForm->createView(),
@@ -137,5 +117,56 @@ class SearchController extends BaseController
                 'lastPage' => $lastPage
             ])
         ;
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param SearchVehicleDTO $searchVehicleDTO
+     * @param $tab
+     * @return QueryBuilder
+     */
+    private function completeQuery(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, $tab)
+    {
+        if (!empty($searchVehicleDTO->text)) {
+            $boolQuery = new BoolQuery();
+            //Necessary for search only by key_make
+            $queryBuilder->match('key_make', $searchVehicleDTO->text);
+            if ($tab === 'RECOVERY' || $tab === 'ALL') {
+                $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            } elseif ($tab === 'PROJECT' || $tab === 'ALL') {
+                $boolQuery->addClause(new MatchQuery('projectVehicles.make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            }
+            $queryBuilder->addQuery($boolQuery);
+        }
+        if (!empty($searchVehicleDTO->cityName)) {
+            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+        }
+        if (!empty($searchVehicleDTO->make)) {
+            $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
+        }
+        if (!empty($searchVehicleDTO->model)) {
+            $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
+        }
+        if (!empty($searchVehicleDTO->mileageMax)) {
+            $queryBuilder->addFilter(new RangeFilter('mileage', $searchVehicleDTO->mileageMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->yearsMin)) {
+            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->yearsMax)) {
+            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->transmission)) {
+            $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
+        }
+        if (!empty($searchVehicleDTO->fuel)) {
+            $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
+        }
+
+        return $queryBuilder;
     }
 }
