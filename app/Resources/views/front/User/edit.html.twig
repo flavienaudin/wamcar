@@ -27,7 +27,7 @@
                 {% include 'front/User/includes/form_edit_profil.html.twig' %}
             </div>
             <div id="js-project" class="tabs-panel">
-                {{ render(controller('AppBundle:Front/PersonalContext/User:project')) }}
+                {% include ':front/User/includes:form_project.html.twig' %}
             </div>
         </div>
     </div>
