@@ -43,8 +43,10 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getCity()->getLongitude(),
             $vehicle->getCreatedAt(),
             $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'),
+            $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),
             $vehicle->getOwner()->getName(),
-            $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file')
+            $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'),
+            $vehicle->getOwner()->getProject()
         );
     }
 

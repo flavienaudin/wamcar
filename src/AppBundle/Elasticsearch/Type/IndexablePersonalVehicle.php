@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch\Type;
 
 use Novaway\ElasticsearchClient\Indexable;
+use Wamcar\User\Project;
 
 class IndexablePersonalVehicle implements Indexable
 {
@@ -39,9 +40,17 @@ class IndexablePersonalVehicle implements Indexable
     /** @var string */
     private $picture;
     /** @var string */
+    private $userUrl;
+    /** @var string */
     private $userName;
     /** @var string */
     private $userPicture;
+    /** @var string */
+    private $projectBudget;
+    /** @var string */
+    private $projectDescription;
+    /** @var array */
+    private $projectVehicles;
 
 
     /**
@@ -71,8 +80,10 @@ class IndexablePersonalVehicle implements Indexable
                                 string $longitude,
                                 \DateTime $createdAt,
                                 string $picture,
+                                string $userUrl,
                                 string $userName,
-                                string $userPicture
+                                string $userPicture,
+                                Project $userProject
     )
     {
         $this->id = $id;
@@ -90,8 +101,10 @@ class IndexablePersonalVehicle implements Indexable
         $this->longitude = $longitude;
         $this->createdAt = $createdAt;
         $this->picture = $picture;
+        $this->userUrl = $userUrl;
         $this->userName = $userName;
         $this->userPicture = $userPicture;
+        $this->fillUserProject($userProject);
     }
 
     /**
@@ -108,6 +121,24 @@ class IndexablePersonalVehicle implements Indexable
     public function shouldBeIndexed(): bool
     {
         return true;
+    }
+
+    public function fillUserProject(Project $project)
+    {
+        $this->projectBudget = $project->getBudget();
+        $this->projectDescription = $project->getDescription();
+
+        $projectVehicles = [];
+        foreach ($project->getProjectVehicles() as $projectVehicle) {
+            $projectVehicles[] = [
+                'make' => $projectVehicle->getMake(),
+                'model' => $projectVehicle->getModel(),
+                'yearMax' => $projectVehicle->getYearMax(),
+                'mileageMax' => $projectVehicle->getMileageMax()
+            ];
+        }
+
+        $this->projectVehicles = $projectVehicles;
     }
 
     /**
@@ -139,8 +170,12 @@ class IndexablePersonalVehicle implements Indexable
             ],
             'createdAt' => $this->createdAt,
             'picture' => $this->picture,
+            'userUrl' => $this->userUrl,
             'userName' => $this->userName,
-            'userPicture' => $this->userPicture
+            'userPicture' => $this->userPicture,
+            'projectBudget' => $this->projectBudget,
+            'projectDescription' => $this->projectDescription,
+            'projectVehicles' => $this->projectVehicles
         ];
     }
 
