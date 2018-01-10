@@ -20,6 +20,8 @@ services:
 
     SimpleBus\Message\Bus\MessageBus: '@simple_bus.event_bus'
 
+    VichUploader\Templating\Helper\UploaderHelper: '@vich_uploader.templating.helper.uploader_helper'
+
     PragmaRX\ZipCode\ZipCode:
         class: 'PragmaRX\ZipCode\ZipCode'
         calls:

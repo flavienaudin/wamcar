@@ -4,16 +4,20 @@ namespace AppBundle\Elasticsearch\Builder;
 
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use Symfony\Component\Routing\Router;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Vehicle\PersonalVehicle;
 
 class IndexablePersonalVehicleBuilder
 {
     /** @var Router */
     private $router;
+    /** @var UploaderHelper */
+    private $uploaderHelper;
 
-    public function __construct(Router $router)
+    public function __construct(Router $router, UploaderHelper $uploaderHelper)
     {
         $this->router = $router;
+        $this->uploaderHelper = $uploaderHelper;
     }
 
     /**
@@ -38,9 +42,9 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getCity()->getLatitude(),
             $vehicle->getCity()->getLongitude(),
             $vehicle->getCreatedAt(),
-            '/assets/images/placeholders/vehicle/vehicle-default.jpg',
-            'Particulier particulier',
-            '/assets/images/placeholders/user/user.png'
+            $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'),
+            $vehicle->getOwner()->getName(),
+            $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file')
         );
     }
 
