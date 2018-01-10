@@ -40,6 +40,6 @@ class DoctrineVehicleRepository extends EntityRepository
      */
     public function findAllForGarage(Garage $garage): array
     {
-        throw new \LogicException("Not implemented");
+        return $this->findBy(['garage' => $garage]);
     }
 }
