@@ -15,11 +15,13 @@ use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 use Wamcar\User\UserRepository;
@@ -38,24 +40,30 @@ class UserController extends BaseController
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
 
+    /** @var MessageBus */
+    protected $eventBus;
+
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
      * @param UserEditionService $userEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param MessageBus $eventBus
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRepository $userRepository,
         UserEditionService $userEditionService,
-        VehicleInfoAggregator $vehicleInfoAggregator
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        MessageBus $eventBus
     )
     {
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
         $this->userEditionService = $userEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -93,6 +101,7 @@ class UserController extends BaseController
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
+            $this->eventBus->handle(new PersonalUserUpdated($user));
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
@@ -104,6 +113,7 @@ class UserController extends BaseController
 
         if ($projectForm->isSubmitted() && $projectForm->isValid()) {
             $this->userEditionService->projectInformations($user, $projectDTO);
+            $this->eventBus->handle(new PersonalUserUpdated($user));
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
@@ -147,7 +157,6 @@ class UserController extends BaseController
      */
     private function createProjectForm(ProjectDTO $projectDTO)
     {
-
         $availableMakes = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel([]);
 
         $availableModels = [];

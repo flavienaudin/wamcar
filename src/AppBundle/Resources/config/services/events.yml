@@ -32,6 +32,12 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
+    wamcar.event.elasticsearch.personal_user_updated.index:
+        class: AppBundle\Elasticsearch\IndexUpdatedPersonalUser
+        autowire: true
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalUserUpdated, method: notify }
+
     wamcar.event.elasticsearch.pro_vehicle_created.index:
         class: AppBundle\Elasticsearch\IndexCreatedProVehicle
         autowire: true
