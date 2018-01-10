@@ -158,8 +158,9 @@ class VehicleController extends BaseController
         if (!$vehicle) {
             throw new NotFoundHttpException();
         }
+        $vehicleDTO = VehicleDTO::createFromProVehicle($vehicle);
 
-        return new JsonResponse($vehicle);
+        return new JsonResponse($vehicleDTO);
     }
 
     /**
