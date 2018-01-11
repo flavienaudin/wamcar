@@ -126,7 +126,6 @@ class RegistrationController extends BaseController
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             $personalVehicle = PersonalVehicleBuilder::buildFromDTO($vehicleDTO);
             $this->vehicleRepository->add($personalVehicle);
-            $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
 
             try {
                 $applicationUser = $this->userRegistrationService->registerUser($vehicleDTO->userRegistration);
@@ -134,6 +133,7 @@ class RegistrationController extends BaseController
                     $personalVehicle->setOwner($applicationUser);
                     $this->vehicleRepository->update($personalVehicle);
                 }
+                $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,

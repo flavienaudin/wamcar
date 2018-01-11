@@ -42,11 +42,11 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getCity()->getLatitude(),
             $vehicle->getCity()->getLongitude(),
             $vehicle->getCreatedAt(),
-            $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'),
+            $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'): '',
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),
-            $vehicle->getOwner()->getName(),
-            $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'),
+            $vehicle->getOwner()->getName()?:'',
+            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'): '',
             $vehicle->getOwner()->getProject()
         );
     }

@@ -18,7 +18,7 @@
 
 {% block other_informations %}
     <h2>Son projet</h2>
-    {% if user.project.budget %}
+    {% if user.project and user.project.budget %}
         {% if user.project.budget %}
             <p><strong class="primary-color">Budget de {{ user.project.budget|number_format(0, ',', ' ') }} €</strong></p>
         {% endif %}
