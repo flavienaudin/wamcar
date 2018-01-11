@@ -23,8 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends BaseController
 {
-    const MIN_SCORE = 0.05;
-    const OFFSET = 0;
     const QUERY_ALL = 'ALL';
     const QUERY_RECOVERY = 'RECOVERY';
     const QUERY_PROJECT = 'PROJECT';
