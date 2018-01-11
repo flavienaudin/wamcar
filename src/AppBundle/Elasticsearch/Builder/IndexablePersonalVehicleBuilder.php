@@ -45,9 +45,10 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),
-            $vehicle->getOwnerName(),
-            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file') : '',
-            $vehicle->getOwner()->getProject()
+            $vehicle->getOwner()->getName()?:'',
+            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'): '',
+            $vehicle->getOwner()->getProject(),
+            $vehicle->getDeletedAt()
         );
     }
 
