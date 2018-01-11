@@ -49,8 +49,6 @@ class IndexablePersonalVehicle implements Indexable
     private $userPicture;
     /** @var string */
     private $projectBudget;
-    /** @var string */
-    private $projectDescription;
     /** @var array */
     private $projectVehicles;
 
@@ -76,7 +74,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $userUrl
      * @param string $userName
      * @param string $userPicture
-     * @param Project $userProject
+     * @param null|Project $userProject
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -97,7 +95,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
-                                Project $userProject
+                                ?Project $userProject
     )
     {
         $this->id = $id;
@@ -138,18 +136,22 @@ class IndexablePersonalVehicle implements Indexable
         return true;
     }
 
-    public function fillUserProject(Project $project)
+    public function fillUserProject(?Project $project)
     {
-        $this->projectBudget = $project->getBudget();
+        $this->projectBudget = $project && $project->getBudget() ? $project->getBudget() : '';
 
         $projectVehicles = [];
-        foreach ($project->getProjectVehicles() as $projectVehicle) {
-            $projectVehicles[] = [
-                'make' => $projectVehicle->getMake(),
-                'model' => $projectVehicle->getModel(),
-                'yearMax' => $projectVehicle->getYearMax(),
-                'mileageMax' => $projectVehicle->getMileageMax()
-            ];
+        if ($project && $project->getProjectVehicles()) {
+            foreach ($project->getProjectVehicles() as $projectVehicle) {
+                $projectVehicles[] = [
+                    'make' => $projectVehicle->getMake(),
+                    'model' => $projectVehicle->getModel(),
+                    'yearMax' => $projectVehicle->getYearMax(),
+                    'mileageMax' => $projectVehicle->getMileageMax(),
+                    'key_make' => $projectVehicle->getMake(),
+                    'key_model' => $projectVehicle->getModel()
+                ];
+            }
         }
 
         $this->projectVehicles = $projectVehicles;
