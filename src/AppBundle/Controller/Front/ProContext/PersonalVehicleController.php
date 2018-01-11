@@ -112,7 +112,7 @@ class PersonalVehicleController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 $vehicle ? 'flash.success.vehicle_update' : 'flash.success.vehicle_create'
             );
-            return $this->redirectToRoute('front_view_user_info', ['id' => $this->getUser()->getId()]);
+            return $this->redirectToRoute('front_view_current_user_info');
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [
