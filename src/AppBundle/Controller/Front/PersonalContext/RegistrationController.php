@@ -77,7 +77,8 @@ class RegistrationController extends BaseController
         $filters = $request->get('vehicle_information', []);
         unset($filters['_token']);
 
-        if ($plateNumber || $plateNumber = $request->get('plate_number', null)) {
+        $plateNumber = $plateNumber ?? $request->get('plate_number', null);
+        if ($plateNumber) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
