@@ -68,30 +68,29 @@ class UserController extends BaseController
         /** @var ApplicationUser $user */
         $user = $this->getUser();
 
-        $userForms = [
-            ProApplicationUser::TYPE => ProUserInformationType::class,
-            PersonalApplicationUser::TYPE => UserInformationType::class
+        $userProfileTemplate = [
+            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
+            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
         ];
         $userDTOs = [
             ProApplicationUser::TYPE => ProUserInformationDTO::class,
             PersonalApplicationUser::TYPE => UserInformationDTO::class
         ];
-        $userProfileTemplate = [
-            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
-            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
-        ];
-
-
-        $userForm = $userForms[$user->getType()];
         /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
-        $editForm = $this->formFactory->create(
-            $userForm,
-            $userInformationDTO
-        );
+        if ($user->getProject()) {
+            $projectDTO = ProjectDTO::buildFromProject($user->getProject());
+        } else {
+            $projectDTO = new ProjectDTO();
+        }
+
+        $editForm = $this->createEditForm($user, $userInformationDTO);
+        $projectForm = $this->createProjectForm($projectDTO);
 
         $editForm->handleRequest($request);
+        $projectForm->handleRequest($request);
+
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
 
@@ -103,27 +102,51 @@ class UserController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
+        if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+            $this->userEditionService->projectInformations($user, $projectDTO);
+
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user_edit'
+            );
+
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
         return $this->render($userProfileTemplate[$user->getType()], [
             'editUserForm' => $editForm->createView(),
+            'projectForm' => $projectForm->createView(),
             'user' => $user
         ]);
     }
 
     /**
-     * @param Request $request
-     * @return Response
-     * @throws \Exception
+     * @param BaseUser $user
+     * @param $userInformationDTO
+     * @return \Symfony\Component\Form\FormInterface
      */
-    public function projectAction(Request $request): Response
+    private function createEditForm(BaseUser $user, $userInformationDTO)
     {
-        /** @var ApplicationUser $user */
-        $user = $this->getUser();
+        $userForms = [
+            ProApplicationUser::TYPE => ProUserInformationType::class,
+            PersonalApplicationUser::TYPE => UserInformationType::class
+        ];
 
-        if ($user->getProject()) {
-            $projectDTO = ProjectDTO::buildFromProject($user->getProject());
-        } else {
-            $projectDTO = new ProjectDTO();
-        }
+
+        $userForm = $userForms[$user->getType()];
+
+        return $this->formFactory->create(
+            $userForm,
+            $userInformationDTO
+        );
+    }
+
+    /**
+     * @param $projectDTO
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function createProjectForm(ProjectDTO $projectDTO)
+    {
 
         $availableMakes = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel([]);
 
@@ -134,33 +157,14 @@ class UserController extends BaseController
             }
         }
 
-        $projectForm = $this->formFactory->create(
+        return $this->formFactory->create(
             ProjectType::class,
             $projectDTO,
             [
                 'available_makes' => $availableMakes,
                 'available_models' => $availableModels
             ]);
-
-        $projectForm->handleRequest($request);
-        if ($projectForm->isSubmitted() && $projectForm->isValid()) {
-            $this->userEditionService->projectInformations($user, $projectDTO);
-
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user_edit'
-            );
-
-            return $this->redirectToRoute('front_edit_project_user');
-        }
-
-
-        return $this->render('front/User/edit.html.twig', [
-            'projectForm' => $projectForm->createView(),
-            'user' => $user
-        ]);
     }
-
 
     /**
      * @param Request $request
