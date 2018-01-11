@@ -113,7 +113,7 @@ class Project
         /** @var ProjectVehicle $projectVehicle */
         foreach ($projectVehicles as $key => $projectVehicle) {
             if($projectVehicle->getId()) {
-                $keepIdProjectVehicles[$projectVehicle->getId()] = 1;
+                $keepIdProjectVehicles[$projectVehicle->getId()] = $projectVehicle;
                 unset($projectVehicles[$key]);
             }
         }
@@ -121,6 +121,8 @@ class Project
         foreach ($this->getProjectVehicles() as $projectVehicle) {
             if (!isset($keepIdProjectVehicles[$projectVehicle->getId()])) {
                 $this->removeProjectVehicle($projectVehicle);
+            } else {
+                $this->updateProjectVehicle($projectVehicle, $keepIdProjectVehicles[$projectVehicle->getId()]);
             }
         }
 
@@ -131,7 +133,6 @@ class Project
 
         return $this->projectVehicles;
     }
-
 
     /**
      * @param ProjectVehicle $projectVehicle
@@ -146,7 +147,6 @@ class Project
         return $this->projectVehicles;
     }
 
-
     /**
      * @param ProjectVehicle $projectVehicle
      * @return Collection|ProjectVehicle[]
@@ -158,5 +158,20 @@ class Project
         }
 
         return $this->projectVehicles;
+    }
+
+    /**
+     * @param ProjectVehicle $projectVehicle
+     * @param ProjectVehicle $updateProjectVehicle
+     * @return ProjectVehicle
+     */
+    public function updateProjectVehicle(ProjectVehicle $projectVehicle, ProjectVehicle $updateProjectVehicle)
+    {
+        $projectVehicle->setMake($updateProjectVehicle->getMake());
+        $projectVehicle->setModel($updateProjectVehicle->getModel());
+        $projectVehicle->setYearMax($updateProjectVehicle->getYearMax());
+        $projectVehicle->setMileageMax($updateProjectVehicle->getMileageMax());
+
+        return $projectVehicle;
     }
 }
