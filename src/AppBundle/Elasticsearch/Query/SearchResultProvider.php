@@ -21,6 +21,9 @@ class SearchResultProvider
     /** @var QueryBuilderFilterer */
     private $queryBuilderFilterer;
 
+    /** @var array */
+    private $queryTypes;
+
     /**
      * SearchResultProvider constructor.
      * @param QueryExecutor $queryExecutor
@@ -30,6 +33,7 @@ class SearchResultProvider
     {
         $this->queryExecutor = $queryExecutor;
         $this->queryBuilderFilterer = $queryBuilderFilterer;
+        $this->queryTypes = [SearchController::QUERY_ALL, SearchController::QUERY_RECOVERY, SearchController::QUERY_PROJECT];
     }
 
     public function getSearchResult($searchForm, $pages)
@@ -37,15 +41,16 @@ class SearchResultProvider
         $searchVehicleDTO = $searchForm->getData();
 
         $queryBuilderBase = $this->initializeQueryBuilder($pages);
+        $queryBuilder = [];
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $queryBuilder[SearchController::QUERY_ALL] = $this->queryBuilderFilterer->getQueryBuilder($queryBuilderBase[SearchController::QUERY_ALL], $searchVehicleDTO, SearchController::QUERY_ALL);
-            $queryBuilder[SearchController::QUERY_RECOVERY] = $this->queryBuilderFilterer->getQueryBuilder($queryBuilderBase[SearchController::QUERY_RECOVERY], $searchVehicleDTO, SearchController::QUERY_RECOVERY);
-            $queryBuilder[SearchController::QUERY_PROJECT] = $this->queryBuilderFilterer->getQueryBuilder($queryBuilderBase[SearchController::QUERY_PROJECT], $searchVehicleDTO, SearchController::QUERY_PROJECT);
+            foreach ($this->queryTypes as $queryType) {
+                $queryBuilder[$queryType] = $this->queryBuilderFilterer->getQueryBuilder($queryBuilderBase[$queryType], $searchVehicleDTO, $queryType);
+            }
         } else {
-            $queryBuilder[SearchController::QUERY_ALL] = $queryBuilderBase[SearchController::QUERY_ALL];
-            $queryBuilder[SearchController::QUERY_RECOVERY] = $queryBuilderBase[SearchController::QUERY_RECOVERY];
-            $queryBuilder[SearchController::QUERY_PROJECT] = $queryBuilderBase[SearchController::QUERY_PROJECT];
+            foreach ($this->queryTypes as $queryType) {
+                $queryBuilder[$queryType] = $queryBuilderBase[$queryType];
+            }
         }
 
         $queryBody = $this->getQueryBody($queryBuilder);
@@ -59,21 +64,15 @@ class SearchResultProvider
      */
     private function initializeQueryBuilder($pages)
     {
-        $queryBuilderBase[SearchController::QUERY_ALL] = QueryBuilder::createNew(
-            self::OFFSET + ($pages[SearchController::QUERY_ALL] - 1) * self::LIMIT,
-            self::LIMIT,
-            self::MIN_SCORE
-        );
-        $queryBuilderBase[SearchController::QUERY_RECOVERY] = QueryBuilder::createNew(
-            self::OFFSET + ($pages[SearchController::QUERY_RECOVERY] - 1) * self::LIMIT,
-            self::LIMIT,
-            self::MIN_SCORE
-        );
-        $queryBuilderBase[SearchController::QUERY_PROJECT] = QueryBuilder::createNew(
-            self::OFFSET + ($pages[SearchController::QUERY_PROJECT] - 1) * self::LIMIT,
-            self::LIMIT,
-            self::MIN_SCORE
-        );
+        $queryBuilderBase = [];
+
+        foreach ($this->queryTypes as $queryType) {
+            $queryBuilderBase[$queryType] = QueryBuilder::createNew(
+                self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
+                self::LIMIT,
+                self::MIN_SCORE
+            );
+        }
 
         return $queryBuilderBase;
     }
@@ -84,9 +83,11 @@ class SearchResultProvider
      */
     private function getQueryBody($queryBuilder)
     {
-        $queryBody[SearchController::QUERY_ALL] = $queryBuilder[SearchController::QUERY_ALL]->getQueryBody();
-        $queryBody[SearchController::QUERY_RECOVERY] = $queryBuilder[SearchController::QUERY_RECOVERY]->getQueryBody();
-        $queryBody[SearchController::QUERY_PROJECT] = $queryBuilder[SearchController::QUERY_PROJECT]->getQueryBody();
+        $queryBody = [];
+
+        foreach ($this->queryTypes as $queryType) {
+            $queryBody[$queryType] = $queryBuilder[$queryType]->getQueryBody();
+        }
 
         return $queryBody;
     }
@@ -97,18 +98,14 @@ class SearchResultProvider
      */
     private function getQueryResult($queryBody)
     {
-        $searchResult[SearchController::QUERY_ALL] = $this->queryExecutor->execute(
-            $queryBody[SearchController::QUERY_ALL],
-            IndexablePersonalVehicle::TYPE
-        );
-        $searchResult[SearchController::QUERY_RECOVERY] = $this->queryExecutor->execute(
-            $queryBody[SearchController::QUERY_RECOVERY],
-            IndexablePersonalVehicle::TYPE
-        );
-        $searchResult[SearchController::QUERY_PROJECT] = $this->queryExecutor->execute(
-            $queryBody[SearchController::QUERY_PROJECT],
-            IndexablePersonalVehicle::TYPE
-        );
+        $searchResult = [];
+
+        foreach ($this->queryTypes as $queryType) {
+            $searchResult[$queryType] = $this->queryExecutor->execute(
+                $queryBody[$queryType],
+                IndexablePersonalVehicle::TYPE
+            );
+        }
 
         return $searchResult;
     }
