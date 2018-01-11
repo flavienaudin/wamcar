@@ -92,25 +92,25 @@ front_search_pro:
     path: /vendeur/rechercher
     defaults:
         _controller: AppBundle:Front\ProContext\Search:index
-        type: 'ALL'
+        type: !php/const:AppBundle\Controller\Front\ProContext\SearchController::QUERY_ALL
 
 front_search_pro_page:
     path: /vendeur/rechercher/{page}
     defaults:
         _controller: AppBundle:Front\ProContext\Search:index
         page: 1
-        type: 'ALL'
+        type: !php/const:AppBundle\Controller\Front\ProContext\SearchController::QUERY_ALL
 
 front_search_pro_page_recovery:
     path: /vendeur/rechercher/reprise/{page}
     defaults:
         _controller: AppBundle:Front\ProContext\Search:index
         page: 1
-        type: 'RECOVERY'
+        type: !php/const:AppBundle\Controller\Front\ProContext\SearchController::QUERY_RECOVERY
 
 front_search_pro_page_project:
     path: /vendeur/rechercher/souhait/{page}
     defaults:
         _controller: AppBundle:Front\ProContext\Search:index
         page: 1
-        type: 'PROJECT'
+        type: !php/const:AppBundle\Controller\Front\ProContext\SearchController::QUERY_PROJECT
