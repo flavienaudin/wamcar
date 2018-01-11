@@ -41,16 +41,16 @@ class PictureExtension extends AbstractExtension
         return $picturePath;
     }
 
-    public function bannerFilter(Garage $garage)
+    public function bannerFilter(?Garage $garage)
     {
-        $picturePath = $garage->getBanner() ? $this->uploaderHelper->asset($garage->getBanner(), 'file'): $this->placeholders['banner'];
+        $picturePath = $garage && $garage->getBanner() ? $this->uploaderHelper->asset($garage->getBanner(), 'file'): $this->placeholders['banner'];
 
         return $picturePath;
     }
 
-    public function logoFilter(Garage $garage)
+    public function logoFilter(?Garage $garage)
     {
-        $picturePath = $garage->getLogo() ? $this->uploaderHelper->asset($garage->getLogo(), 'file'): $this->placeholders['logo'];
+        $picturePath = $garage && $garage->getLogo() ? $this->uploaderHelper->asset($garage->getLogo(), 'file'): $this->placeholders['logo'];
 
         return $picturePath;
     }
