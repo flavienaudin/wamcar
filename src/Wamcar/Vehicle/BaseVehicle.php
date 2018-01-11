@@ -19,7 +19,10 @@ abstract class BaseVehicle implements Vehicle
     protected $modelVersion;
     /** @var Transmission */
     protected $transmission;
-    /** @var Registration|null */
+    /**
+     * TODO non utilisé : à supprimer ?
+     * @var Registration|null
+     */
     protected $registration;
     /** @var \DateTimeInterface */
     protected $registrationDate;
@@ -291,6 +294,75 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return City
+     */
+    private function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode(): string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getPostalCode() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityName(): string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getName() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLatitude() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLongitude() : null);
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @return array|Picture[]
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @return null|Picture
+     */
+    public function getMainPicture(): ?Picture
+    {
+        if (count($this->pictures) === 0) {
+            return null;
+        }
+
+        return $this->pictures[0];
+    }
+
+    /**
      * @param Picture $picture
      */
     public function addPicture(Picture $picture): void
@@ -344,34 +416,6 @@ abstract class BaseVehicle implements Vehicle
     public function setPictures($pictures): void
     {
         $this->pictures = $pictures;
-    }
-
-    /**
-     * @return array|Picture[]
-     */
-    public function getPictures()
-    {
-        return $this->pictures;
-    }
-
-    /**
-     * @return null|Picture
-     */
-    public function getMainPicture(): ?Picture
-    {
-        if (count($this->pictures) === 0) {
-            return null;
-        }
-
-        return $this->pictures[0];
-    }
-
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
     }
 
     /**

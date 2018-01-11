@@ -69,8 +69,14 @@ class PersonalVehicleController extends BaseController
         }
 
         if ($vehicle) {
-            // TODO check implementation PersonalVehicleDTO::buildFromProVehicle
-            $vehicleDTO = PersonalVehicleDTO::buildFromProVehicle($vehicle);
+            if(!$vehicle->canEditMe($this->getUser())){
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.error.unauthorized_to_edit_vehicle'
+                );
+                return $this->redirectToRoute("front_default");
+            }
+            $vehicleDTO = PersonalVehicleDTO::buildFromPersonalVehicle($vehicle);
         } else {
             $vehicleDTO = new PersonalVehicleDTO($plateNumber);
         }

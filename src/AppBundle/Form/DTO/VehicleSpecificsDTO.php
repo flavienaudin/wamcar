@@ -80,6 +80,8 @@ class VehicleSpecificsDTO
      * @param $additionalInformation
      * @param $postalCode
      * @param $cityName
+     * @param $latitude
+     * @param $longitude
      * @return VehicleSpecificsDTO
      */
     public static function buildFromSpecifics(
@@ -96,7 +98,9 @@ class VehicleSpecificsDTO
         $isFirstHand,
         $additionalInformation,
         $postalCode,
-        $cityName
+        $cityName,
+        $latitude,
+        $longitude
     )
     {
         $dto = new self();
@@ -114,6 +118,8 @@ class VehicleSpecificsDTO
         $dto->additionalInformation = $additionalInformation;
         $dto->postalCode = $postalCode;
         $dto->cityName = $cityName;
+        $dto->latitude = $latitude;
+        $dto->longitude = $longitude;
 
         return $dto;
     }

@@ -85,21 +85,6 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return string
-     */
-    public function getPostalCode(): string
-    {
-        return $this->getCity()->getPostalCode();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCityName(): string
-    {
-        return $this->getCity()->getName();
-    }
-    /**
      * @return float
      */
     public function getPrice(): float

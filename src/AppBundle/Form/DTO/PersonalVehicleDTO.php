@@ -21,7 +21,7 @@ class PersonalVehicleDTO extends VehicleDTO
      * @param PersonalVehicle $vehicle
      * @return ProVehicleDTO
      */
-    public static function buildFromProVehicle(PersonalVehicle $vehicle): self
+    public static function buildFromPersonalVehicle(PersonalVehicle $vehicle): self
     {
         $dto = new self();
         $dto->information = VehicleInformationDTO::buildFromInformation(
@@ -47,7 +47,9 @@ class PersonalVehicleDTO extends VehicleDTO
             $vehicle->getisFirstHand(),
             $vehicle->getAdditionalInformation(),
             $vehicle->getPostalCode(),
-            $vehicle->getCityName()
+            $vehicle->getCityName(),
+            $vehicle->getLatitude(),
+            $vehicle->getLongitude()
         );
 
         foreach ($vehicle->getPictures() as $picture) {

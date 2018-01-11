@@ -50,7 +50,9 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $vehicle->getisFirstHand(),
             $vehicle->getAdditionalInformation(),
             $vehicle->getPostalCode(),
-            $vehicle->getCityName()
+            $vehicle->getCityName(),
+            $vehicle->getLatitude(),
+            $vehicle->getLongitude()
         );
 
         $dto->offer = VehicleOfferDTO::buildFromOffer(

@@ -76,4 +76,17 @@ class PersonalVehicleEditionService
         return $personalVehicle;
     }
 
+    /**
+     * @param PersonalVehicleDTO $personalVehicleDTO
+     * @param PersonalVehicle $vehicle
+     * @return PersonalVehicle
+     */
+    public function updateInformations(PersonalVehicleDTO $personalVehicleDTO, PersonalVehicle $vehicle): PersonalVehicle
+    {
+        /** @var PersonalVehicle $personalVehicle */
+        $personalVehicle = PersonalVehicleBuilder::editVehicleFromDTO($personalVehicleDTO, $vehicle);
+
+        $this->vehicleRepository->update($personalVehicle);
+        return $vehicle;
+    }
 }

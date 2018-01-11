@@ -30,36 +30,12 @@ class PersonalVehicle extends BaseVehicle
     }
 
     /**
-     * @return City
+     * @param PersonalUser|null $user
+     * @return bool
      */
-    private function getCity(): City
+    public function canEditMe(PersonalUser $user = null)
     {
-        return $this->city;
+        return $this->getOwner() != null && $this->getOwner()->is($user);
     }
 
-    /**
-     * @return string
-     */
-    public function getPostalCode(): string
-    {
-        return $this->getCity()->getPostalCode();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCityName(): string
-    {
-        return $this->getCity()->getName();
-    }
-
-    public function getLatitude(): string
-    {
-        return $this->getCity()->getLatitude();
-    }
-
-    public function getLongitude(): string
-    {
-        return $this->getCity()->getLongitude();
-    }
 }
