@@ -47,4 +47,53 @@
     transition: $global-transition;
   }
 
+
+  /*
+     Project details
+     ===================================== */
+  &-project-details {
+    margin-top: rem-calc(20);
+  }
+
+
+  /*
+     Project details
+     ===================================== */
+  &-project-button {
+    margin-top: rem-calc(20);
+  }
+
+
+  /*
+     Seller profile
+     ===================================== */
+  &-profile {
+    background: #f7f7f7;
+    padding: rem-calc(10) rem-calc(30) rem-calc(30);
+    margin-top: rem-calc(30);
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(30);
+    }
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(30);
+    }
+
+    figure {
+      margin-top: rem-calc(20);
+    }
+  }
+
+  &-pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(60);
+    height: rem-calc(60);
+    margin-right: rem-calc(20);
+
+    > img { max-height: 100%; }
+  }
+
 }
