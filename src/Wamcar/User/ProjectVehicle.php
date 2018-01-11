@@ -98,4 +98,36 @@ class ProjectVehicle
     {
         $this->project = $project;
     }
+
+    /**
+     * @param string $make
+     */
+    public function setMake(string $make): void
+    {
+        $this->make = $make;
+    }
+
+    /**
+     * @param string $model
+     */
+    public function setModel(string $model): void
+    {
+        $this->model = $model;
+    }
+
+    /**
+     * @param int|null $yearMax
+     */
+    public function setYearMax(?int $yearMax): void
+    {
+        $this->yearMax = $yearMax;
+    }
+
+    /**
+     * @param int|null $mileageMax
+     */
+    public function setMileageMax(?int $mileageMax): void
+    {
+        $this->mileageMax = $mileageMax;
+    }
 }
