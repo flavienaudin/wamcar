@@ -2090,12 +2090,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/novaway/elasticsearch-client.git",
-                "reference": "b1977195a6cac2f357ce9e4be476a390a2e6966d"
+                "reference": "5ed27a7c4c38b06fb7bb6291285f814e71f3b032"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/novaway/elasticsearch-client/zipball/b1977195a6cac2f357ce9e4be476a390a2e6966d",
-                "reference": "b1977195a6cac2f357ce9e4be476a390a2e6966d",
+                "url": "https://api.github.com/repos/novaway/elasticsearch-client/zipball/5ed27a7c4c38b06fb7bb6291285f814e71f3b032",
+                "reference": "5ed27a7c4c38b06fb7bb6291285f814e71f3b032",
                 "shasum": ""
             },
             "require": {
@@ -2129,7 +2129,7 @@
             "keywords": [
                 "elasticsearch"
             ],
-            "time": "2017-11-30 12:50:43"
+            "time": "2017-12-22 13:55:01"
         },
         {
             "name": "ocramius/package-versions",
