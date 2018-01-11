@@ -40,11 +40,6 @@ front_view_user_info:
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:viewInformation
 
-front_edit_project_user:
-    path: /project
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:project
-
 front_garage_view:
     path: /garage/view/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:view }
@@ -95,8 +90,27 @@ front_vehicle_pro_delete:
 
 front_search_pro:
     path: /vendeur/rechercher
-    defaults: { _controller: AppBundle:Front\ProContext\Search:index  }
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:index
+        type: 'ALL'
 
 front_search_pro_page:
     path: /vendeur/rechercher/{page}
-    defaults: { _controller: AppBundle:Front\ProContext\Search:index, page: 1 }
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:index
+        page: 1
+        type: 'ALL'
+
+front_search_pro_page_recovery:
+    path: /vendeur/rechercher/reprise/{page}
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:index
+        page: 1
+        type: 'RECOVERY'
+
+front_search_pro_page_project:
+    path: /vendeur/rechercher/souhait/{page}
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:index
+        page: 1
+        type: 'PROJECT'

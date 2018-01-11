@@ -21,4 +21,8 @@
     <br />
 </div>
 
-{% include 'front/Layout/includes/pagination.html.twig' %}
+{% include 'front/Layout/includes/pagination.html.twig' with {
+    'route': 'front_search_pro_page_recovery',
+    'page': pages[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')],
+    'lastPage': lastPage[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')]
+} %}
