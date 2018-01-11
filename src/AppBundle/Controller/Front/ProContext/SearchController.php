@@ -40,10 +40,10 @@ class SearchController extends BaseController
      * SearchController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param SearchResultProvider $searchResultProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        QueryExecutor $queryExecutor,
         VehicleInfoAggregator $vehicleInfoAggregator,
         SearchResultProvider $searchResultProvider
     )

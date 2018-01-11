@@ -24,6 +24,7 @@ class SearchResultProvider
     /**
      * SearchResultProvider constructor.
      * @param QueryExecutor $queryExecutor
+     * @param QueryBuilderFilterer $queryBuilderFilterer
      */
     public function __construct(QueryExecutor $queryExecutor, QueryBuilderFilterer $queryBuilderFilterer)
     {
