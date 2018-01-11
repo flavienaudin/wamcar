@@ -16,6 +16,7 @@ use AppBundle\Security\UserRegistrationService;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
+use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 
@@ -87,6 +88,7 @@ class PersonalVehicleEditionService
         $personalVehicle = PersonalVehicleBuilder::editVehicleFromDTO($personalVehicleDTO, $vehicle);
 
         $this->vehicleRepository->update($personalVehicle);
+        $this->eventBus->handle(new PersonalVehicleUpdated($personalVehicle));
         return $vehicle;
     }
 }
