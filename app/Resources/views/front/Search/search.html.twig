@@ -55,7 +55,7 @@
     <div class="row">
         <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
             <div id="js-search-all" class="tabs-panel is-active">
-                {% include 'front/Search/includes/result_all.html.twig' %}
+                {% include 'front/Search/includes/result_all.html.twig' with { 'result': result[constant('AppBundle\\UserController::')]} %}
             </div>
             <div id="js-search-reprises" class="tabs-panel">
                 {% include 'front/Search/includes/result_reprises.html.twig' %}

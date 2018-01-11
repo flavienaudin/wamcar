@@ -24,6 +24,9 @@ class SearchController extends BaseController
 {
     const MIN_SCORE = 0.05;
     const OFFSET = 0;
+    const QUERY_ALL = 'ALL';
+    const QUERY_RECOVERY = 'RECOVERY';
+    const QUERY_PROJECT = 'PROJECT';
 
     /** @var FormFactoryInterface */
     protected $formFactory;
@@ -84,30 +87,30 @@ class SearchController extends BaseController
         );
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $queryBuilder['ALL'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'ALL');
-            $queryBuilder['RECOVERY'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'Recovery');
-            $queryBuilder['PROJECT'] = $this->completeQuery($queryBuilder, $searchVehicleDTO, 'Project');
+            $queryBuilder[self::QUERY_ALL] = $this->completeQuery($queryBuilder, $searchVehicleDTO, self::QUERY_ALL);
+            $queryBuilder[self::QUERY_RECOVERY] = $this->completeQuery($queryBuilder, $searchVehicleDTO, self::QUERY_RECOVERY);
+            $queryBuilder[self::QUERY_PROJECT] = $this->completeQuery($queryBuilder, $searchVehicleDTO, self::QUERY_PROJECT);
         }
 
-        $queryBody['ALL'] = $queryBuilder['ALL']->getQueryBody();
-        $queryBody['RECOVERY'] = $queryBuilder['RECOVERY']->getQueryBody();
-        $queryBody['PROJECT'] = $queryBuilder['PROJECT']->getQueryBody();
-        $searchResult['ALL'] = $this->queryExecutor->execute(
-            $queryBody['ALL'],
+        $queryBody[self::QUERY_ALL] = $queryBuilder[self::QUERY_ALL]->getQueryBody();
+        $queryBody[self::QUERY_RECOVERY] = $queryBuilder[self::QUERY_RECOVERY]->getQueryBody();
+        $queryBody[self::QUERY_PROJECT] = $queryBuilder[self::QUERY_PROJECT]->getQueryBody();
+        $searchResult[self::QUERY_ALL] = $this->queryExecutor->execute(
+            $queryBody[self::QUERY_ALL],
             IndexablePersonalVehicle::TYPE
         );
-        $searchResult['RECOVERY'] = $this->queryExecutor->execute(
-            $queryBody['RECOVERY'],
+        $searchResult[self::QUERY_RECOVERY] = $this->queryExecutor->execute(
+            $queryBody[self::QUERY_RECOVERY],
             IndexablePersonalVehicle::TYPE
         );
-        $searchResult['PROJECT'] = $this->queryExecutor->execute(
-            $queryBody['PROJECT'],
+        $searchResult[self::QUERY_PROJECT] = $this->queryExecutor->execute(
+            $queryBody[self::QUERY_PROJECT],
             IndexablePersonalVehicle::TYPE
         );
 
-        $lastPage['ALL'] = ceil($searchResult['ALL']->totalHits() / $this->limit);
-        $lastPage['RECOVERY'] = ceil($searchResult['RECOVERY']->totalHits() / $this->limit);
-        $lastPage['PROJECT'] = ceil($searchResult['PROJECT']->totalHits() / $this->limit);
+        $lastPage[self::QUERY_ALL] = ceil($searchResult[self::QUERY_ALL]->totalHits() / $this->limit);
+        $lastPage[self::QUERY_RECOVERY] = ceil($searchResult[self::QUERY_RECOVERY]->totalHits() / $this->limit);
+        $lastPage[self::QUERY_PROJECT] = ceil($searchResult[self::QUERY_PROJECT]->totalHits() / $this->limit);
 
         return $this->render('front/Search/search.html.twig', [
                 'searchForm' => $searchForm->createView(),
@@ -131,12 +134,12 @@ class SearchController extends BaseController
             $boolQuery = new BoolQuery();
             //Necessary for search only by key_make
             $queryBuilder->match('key_make', $searchVehicleDTO->text);
-            if ($tab === 'RECOVERY' || $tab === 'ALL') {
+            if ($tab === self::QUERY_RECOVERY || $tab === self::QUERY_ALL) {
                 $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            } elseif ($tab === 'PROJECT' || $tab === 'ALL') {
+            } elseif ($tab === self::QUERY_PROJECT || $tab === self::QUERY_ALL) {
                 $boolQuery->addClause(new MatchQuery('projectVehicles.make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('projectVehicles.model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
