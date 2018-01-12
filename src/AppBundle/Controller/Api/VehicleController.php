@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Api;
 
 
-use AppBundle\Api\ResponseBuilder\JsonBuilder;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,6 +12,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\Vehicle;
 use AppBundle\Api\DTO\VehicleDTO;
@@ -66,7 +66,7 @@ class VehicleController extends BaseController
             $this->vehicleRepository->remove($vehicle);
         }
 
-        return new JsonResponse(['error' => 0]);
+        return new JsonResponse();
     }
 
     /**
@@ -92,12 +92,12 @@ class VehicleController extends BaseController
         }
 
         $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
-        $response = [];
+        $data = [];
         foreach ($vehicles as $vehicle) {
-            $response[] = JsonBuilder::jsonFromVehicle($vehicle);
+            $data[] = $this->formatVehicleResponse($vehicle);
         }
 
-        return new JsonResponse($response, Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -130,9 +130,9 @@ class VehicleController extends BaseController
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
-        $response = JsonBuilder::jsonFromVehicle($vehicle);
+        $data = $this->formatVehicleResponse($vehicle);
 
-        return new Response($response, Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -227,9 +227,10 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+        $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+        $data = $this->formatVehicleResponse($vehicle);
 
-        return new Response("Vehicle updated", Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -276,5 +277,17 @@ class VehicleController extends BaseController
         }
 
         return $user->getGarage();
+    }
+
+    /**
+     * @param ProVehicle $vehicle
+     * @return array
+     */
+    private function formatVehicleResponse(ProVehicle $vehicle)
+    {
+        return [
+            'id' => $vehicle->getReference(),
+            'updatedDate' => $vehicle->getUpdatedAt()->format('Y-m-d\TH:i:sP')
+        ];
     }
 }
