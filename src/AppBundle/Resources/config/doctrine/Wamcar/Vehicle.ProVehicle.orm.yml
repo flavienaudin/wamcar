@@ -101,6 +101,11 @@ Wamcar\Vehicle\ProVehicle:
             gedmo:
                 timestampable:
                     on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
         deletedAt:
             type: date
             nullable: true

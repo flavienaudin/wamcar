@@ -130,9 +130,9 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+        $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
 
-        return new Response("Vehicle created", Response::HTTP_OK);
+        return new Response(['id'=> $vehicle->getReference(), 'updatedDate' => $vehicle->getUpdatedAt()], Response::HTTP_OK);
     }
 
     /**
