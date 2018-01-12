@@ -102,6 +102,6 @@ class ProVehicleEditionService
      */
     public function canEdit($user, ProVehicle $vehicle): bool
     {
-        return $vehicle != null && $vehicle->canEditMe($user);
+        return $vehicle !== null && $vehicle->canEditMe($user);
     }
 }

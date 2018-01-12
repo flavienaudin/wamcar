@@ -30,7 +30,7 @@ class IndexUpdatedProVehicle implements VehicleEventHandler
      */
     public function notify(VehicleEvent $event)
     {
-        if (!$event instanceof VehicleUpdated and !$event instanceof ProVehicleRemoved) {
+        if (!$event instanceof VehicleUpdated && !$event instanceof ProVehicleRemoved) {
             throw new \InvalidArgumentException("IndexUpdatedVehicle can only be notified of 'VehicleUpdated'&'ProVehicleRemoved' events");
         }
         $proVehicle = $event->getVehicle();
