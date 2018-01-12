@@ -19,11 +19,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param $searchVehicleDTO
-     * @param $queryType
+     * @param SearchVehicleDTO $searchVehicleDTO
+     * @param array $queryType
      * @return QueryBuilder
      */
-    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, $queryType): QueryBuilder
+    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, array $queryType): QueryBuilder
     {
         $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
 
@@ -56,11 +56,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param $queryType
+     * @param array $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleText(QueryBuilder $queryBuilder, $queryType, $value)
+    private function handleText(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             $boolQuery = new BoolQuery();
@@ -81,11 +81,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param $queryType
+     * @param array $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleMake(QueryBuilder $queryBuilder, $queryType, $value)
+    private function handleMake(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {
@@ -107,11 +107,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param $queryType
+     * @param array $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleModel(QueryBuilder $queryBuilder, $queryType, $value)
+    private function handleModel(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {
@@ -133,11 +133,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param $queryType
+     * @param array $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleMileage(QueryBuilder $queryBuilder, $queryType, $value)
+    private function handleMileage(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {

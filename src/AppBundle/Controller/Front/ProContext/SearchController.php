@@ -63,19 +63,8 @@ class SearchController extends BaseController
         $pages = [self::QUERY_ALL => 1, self::QUERY_PROJECT => 1, self::QUERY_RECOVERY => 1];
         $pages[$type] = $page;
 
-        $filters = [
-            'make' => $request->query->get('search_vehicle')['make'],
-            'model' => $request->query->get('search_vehicle')['model']
-        ];
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
-        $searchVehicleDTO = new SearchVehicleDTO();
-        $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'method' => 'GET',
-            'action' => $this->generateRoute('front_search_pro'),
-            'available_values' => $availableValues
-        ]);
-
+        $searchForm = $this->getSearchForm($request);
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchProResult($searchForm, $pages);
@@ -86,7 +75,7 @@ class SearchController extends BaseController
 
         return $this->render('front/Search/search.html.twig', [
                 'searchForm' => $searchForm->createView(),
-                'filterData' => $searchVehicleDTO,
+                'filterData' => $searchForm->getData(),
                 'result' => $searchResult,
                 'pages' => $pages,
                 'lastPage' => $lastPage,
@@ -102,19 +91,7 @@ class SearchController extends BaseController
      */
     public function personalAction(Request $request, int $page = 1): Response
     {
-        $filters = [
-            'make' => $request->query->get('search_vehicle')['make'],
-            'model' => $request->query->get('search_vehicle')['model']
-        ];
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
-
-        $searchVehicleDTO = new SearchVehicleDTO();
-        $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'method' => 'GET',
-            'action' => $this->generateRoute('front_search_personal'),
-            'available_values' => $availableValues
-        ]);
-
+        $searchForm = $this->getSearchForm($request);
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchPersonalResult($searchForm, $page);
@@ -123,11 +100,31 @@ class SearchController extends BaseController
 
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
-            'filterData' => $searchVehicleDTO,
+            'filterData' => $searchForm->getData(),
             'result' => $searchResult,
             'page' => $page,
             'lastPage' => $lastPage
         ])
             ;
+    }
+
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function getSearchForm(Request $request)
+    {
+        $filters = [
+            'make' => $request->query->get('search_vehicle')['make'],
+            'model' => $request->query->get('search_vehicle')['model']
+        ];
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+
+        $searchVehicleDTO = new SearchVehicleDTO();
+        return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+            'method' => 'GET',
+            'action' => $this->generateRoute('front_search_personal'),
+            'available_values' => $availableValues
+        ]);
     }
 }
