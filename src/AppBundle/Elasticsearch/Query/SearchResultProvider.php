@@ -6,6 +6,7 @@ namespace AppBundle\Elasticsearch\Query;
 
 use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
+use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Query\Result;
@@ -103,7 +104,7 @@ class SearchResultProvider
 
         return $this->queryExecutor->execute(
             $queryBuilder->getQueryBody(),
-            IndexablePersonalVehicle::TYPE
+            IndexableProVehicle::TYPE
         );
     }
 }
