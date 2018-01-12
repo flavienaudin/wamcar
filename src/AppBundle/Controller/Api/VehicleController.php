@@ -94,7 +94,7 @@ class VehicleController extends BaseController
         $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
         $data = [];
         foreach ($vehicles as $vehicle) {
-            $data[] = $this->formatVehicleResponse($vehicle);
+            $data[] = $this->formatVehicleData($vehicle);
         }
 
         return new JsonResponse($data, Response::HTTP_OK);
@@ -130,7 +130,7 @@ class VehicleController extends BaseController
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
-        $data = $this->formatVehicleResponse($vehicle);
+        $data = $this->formatVehicleData($vehicle);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -228,7 +228,7 @@ class VehicleController extends BaseController
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-        $data = $this->formatVehicleResponse($vehicle);
+        $data = $this->formatVehicleData($vehicle);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -283,7 +283,7 @@ class VehicleController extends BaseController
      * @param ProVehicle $vehicle
      * @return array
      */
-    private function formatVehicleResponse(ProVehicle $vehicle)
+    private function formatVehicleData(ProVehicle $vehicle)
     {
         return [
             'id' => $vehicle->getReference(),
