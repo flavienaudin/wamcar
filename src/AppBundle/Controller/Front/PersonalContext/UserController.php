@@ -87,17 +87,16 @@ class UserController extends BaseController
         /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
-        if ($user->getProject()) {
+        if ($user instanceof PersonalUser && $user->getProject()) {
             $projectDTO = ProjectDTO::buildFromProject($user->getProject());
+            $projectForm = $this->createProjectForm($projectDTO);
+            $projectForm->handleRequest($request);
         } else {
-            $projectDTO = new ProjectDTO();
+            $projectForm = null;
         }
 
         $editForm = $this->createEditForm($user, $userInformationDTO);
-        $projectForm = $this->createProjectForm($projectDTO);
-
         $editForm->handleRequest($request);
-        $projectForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
@@ -111,7 +110,7 @@ class UserController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+        if ($projectForm && $projectForm->isSubmitted() && $projectForm->isValid()) {
             $this->userEditionService->projectInformations($user, $projectDTO);
             $this->eventBus->handle(new PersonalUserUpdated($user));
 
@@ -125,7 +124,7 @@ class UserController extends BaseController
 
         return $this->render($userProfileTemplate[$user->getType()], [
             'editUserForm' => $editForm->createView(),
-            'projectForm' => $projectForm->createView(),
+            'projectForm' => $projectForm ? $projectForm->createView() : null,
             'user' => $user
         ]);
     }
