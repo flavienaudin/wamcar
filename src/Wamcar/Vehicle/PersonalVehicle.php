@@ -2,7 +2,6 @@
 
 namespace Wamcar\Vehicle;
 
-use Wamcar\Location\City;
 use Wamcar\User\PersonalUser;
 
 class PersonalVehicle extends BaseVehicle
@@ -47,4 +46,11 @@ class PersonalVehicle extends BaseVehicle
         return $this->getOwner() != null && $this->getOwner()->is($user);
     }
 
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 }

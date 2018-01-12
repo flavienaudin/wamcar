@@ -86,6 +86,14 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    /**
      * @return float
      */
     public function getPrice(): float

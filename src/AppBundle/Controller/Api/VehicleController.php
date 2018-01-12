@@ -9,13 +9,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\Vehicle;
-use Wamcar\Vehicle\VehicleRepository;
 use AppBundle\Api\DTO\VehicleDTO;
 use Swagger\Annotations as SWG;
 
@@ -67,7 +66,7 @@ class VehicleController extends BaseController
             $this->vehicleRepository->remove($vehicle);
         }
 
-        return new JsonResponse(['error' => 0]);
+        return new JsonResponse();
     }
 
     /**
@@ -93,12 +92,13 @@ class VehicleController extends BaseController
         }
 
         $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
-        $vehiclesDTO = [];
+        $data = [];
+        /** @var ProVehicle $vehicle */
         foreach ($vehicles as $vehicle) {
-            $vehiclesDTO[] = VehicleDTO::createFromProVehicle($vehicle);
+            $data[$vehicle->getReference()] = $this->formatVehicleData($vehicle);
         }
 
-        return new JsonResponse($vehiclesDTO, Response::HTTP_OK);
+        return new JsonResponse(array_values($data), Response::HTTP_OK);
     }
 
     /**
@@ -130,9 +130,10 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+        $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+        $data = $this->formatVehicleData($vehicle);
 
-        return new Response("Vehicle created", Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -187,10 +188,9 @@ class VehicleController extends BaseController
             throw new NotFoundHttpException();
         }
 
-
         $this->vehicleRepository->remove($vehicle);
 
-        return new JsonResponse(['error' => 0]);
+        return new JsonResponse();
     }
 
     /**
@@ -228,9 +228,10 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+        $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+        $data = $this->formatVehicleData($vehicle);
 
-        return new Response("Vehicle updated", Response::HTTP_OK);
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -277,5 +278,17 @@ class VehicleController extends BaseController
         }
 
         return $user->getGarage();
+    }
+
+    /**
+     * @param ProVehicle $vehicle
+     * @return array
+     */
+    private function formatVehicleData(ProVehicle $vehicle)
+    {
+        return [
+            'id' => $vehicle->getReference(),
+            'updatedDate' => $vehicle->getUpdatedAt()->format('Y-m-d\TH:i:sP')
+        ];
     }
 }

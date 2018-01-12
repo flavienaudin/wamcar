@@ -54,6 +54,8 @@ abstract class BaseVehicle implements Vehicle
     protected $city;
     /** @var \DateTimeInterface */
     protected $createdAt;
+    /** @var \DateTimeInterface */
+    protected $updatedAt;
 
     /** @var string */
     protected $deletedAt;
