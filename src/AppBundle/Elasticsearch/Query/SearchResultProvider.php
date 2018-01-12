@@ -8,6 +8,7 @@ use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\QueryBuilder;
+use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 
 class SearchResultProvider
@@ -37,14 +38,19 @@ class SearchResultProvider
         $this->queryTypes = [SearchController::QUERY_ALL, SearchController::QUERY_RECOVERY, SearchController::QUERY_PROJECT];
     }
 
-    public function getSearchResult($searchForm, $pages)
+    /**
+     * @param $searchForm
+     * @param $pages
+     * @return array
+     */
+    public function getSearchProResult($searchForm, $pages)
     {
         $searchVehicleDTO = $searchForm->getData();
         $formValidate = $searchForm->isSubmitted() && $searchForm->isValid();
 
         $searchResult = [];
         foreach ($this->queryTypes as $queryType) {
-            $searchResult[$queryType] = $this->getQueryResult($queryType, $searchVehicleDTO, $pages, $formValidate);
+            $searchResult[$queryType] = $this->getQueryProResult($queryType, $searchVehicleDTO, $pages, $formValidate);
         }
 
         return $searchResult;
@@ -57,7 +63,7 @@ class SearchResultProvider
      * @param bool $submittedAndValid
      * @return \Novaway\ElasticsearchClient\Query\Result
      */
-    private function getQueryResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages, bool $submittedAndValid)
+    private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages, bool $submittedAndValid)
     {
 
         $queryBuilder = QueryBuilder::createNew(
@@ -67,7 +73,32 @@ class SearchResultProvider
         );
 
         if ($submittedAndValid) {
-            $queryBuilder = $this->queryBuilderFilterer->getQueryBuilder($queryBuilder, $searchVehicleDTO, $queryType);
+            $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
+        }
+
+        return $this->queryExecutor->execute(
+            $queryBuilder->getQueryBody(),
+            IndexablePersonalVehicle::TYPE
+        );
+    }
+
+    /**
+     * @param $searchForm
+     * @param $page
+     * @return Result
+     */
+    public function getSearchPersonalResult($searchForm, $page)
+    {
+        $searchVehicleDTO = $searchForm->getData();
+
+        $queryBuilder = QueryBuilder::createNew(
+            self::OFFSET + ($page - 1) * self::LIMIT,
+            self::LIMIT,
+            self::MIN_SCORE
+        );
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            $queryBuilder = $this->queryBuilderFilterer->getQueryPersonalBuilder($queryBuilder, $searchVehicleDTO);
         }
 
         return $this->queryExecutor->execute(

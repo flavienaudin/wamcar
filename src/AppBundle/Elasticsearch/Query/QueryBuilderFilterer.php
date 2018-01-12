@@ -23,7 +23,7 @@ class QueryBuilderFilterer
      * @param $queryType
      * @return QueryBuilder
      */
-    public function getQueryBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, $queryType): QueryBuilder
+    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, $queryType): QueryBuilder
     {
         $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
 
@@ -152,6 +152,50 @@ class QueryBuilderFilterer
                 $boolQueryMileage->addClause(new RangeFilter('projectVehicles.mileageMax', $value, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
                 $queryBuilder->addQuery($boolQueryMileage);
             }
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param $searchVehicleDTO
+     * @return QueryBuilder
+     */
+    public function getQueryPersonalBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO): QueryBuilder
+    {
+        if (!empty($searchVehicleDTO->text)) {
+            $boolQuery = new BoolQuery();
+            $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+            $queryBuilder->addQuery($boolQuery);
+        }
+
+        if (!empty($searchVehicleDTO->cityName)) {
+            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+        }
+        if ($searchVehicleDTO->make) {
+            $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
+        }
+        if ($searchVehicleDTO->model) {
+            $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
+        }
+        if ($searchVehicleDTO->mileageMax) {
+            $queryBuilder->addFilter(new RangeFilter('mileage', $searchVehicleDTO->mileageMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->yearsMin)) {
+            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->yearsMax)) {
+            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->transmission)) {
+            $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
+        }
+        if (!empty($searchVehicleDTO->fuel)) {
+            $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
         }
 
         return $queryBuilder;

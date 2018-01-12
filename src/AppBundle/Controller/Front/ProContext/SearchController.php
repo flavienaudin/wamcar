@@ -58,7 +58,7 @@ class SearchController extends BaseController
      * @param string $type
      * @return Response
      */
-    public function indexAction(Request $request, int $page = 1, string $type): Response
+    public function proAction(Request $request, int $page = 1, string $type): Response
     {
         $pages = [self::QUERY_ALL => 1, self::QUERY_PROJECT => 1, self::QUERY_RECOVERY => 1];
         $pages[$type] = $page;
@@ -78,7 +78,7 @@ class SearchController extends BaseController
 
         $searchForm->handleRequest($request);
 
-        $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
+        $searchResult = $this->searchResultProvider->getSearchProResult($searchForm, $pages);
 
         $lastPage[self::QUERY_ALL] = $searchResult[self::QUERY_ALL]->numberOfPages();
         $lastPage[self::QUERY_RECOVERY] = $searchResult[self::QUERY_RECOVERY]->numberOfPages();
@@ -93,5 +93,41 @@ class SearchController extends BaseController
                 'tab' => $type
             ])
         ;
+    }
+
+    /**
+     * @param Request $request
+     * @param int $page
+     * @return Response
+     */
+    public function personalAction(Request $request, int $page = 1): Response
+    {
+        $filters = [
+            'make' => $request->query->get('search_vehicle')['make'],
+            'model' => $request->query->get('search_vehicle')['model']
+        ];
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+
+        $searchVehicleDTO = new SearchVehicleDTO();
+        $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+            'method' => 'GET',
+            'action' => $this->generateRoute('front_search_personal'),
+            'available_values' => $availableValues
+        ]);
+
+        $searchForm->handleRequest($request);
+
+        $searchResult = $this->searchResultProvider->getSearchPersonalResult($searchForm, $page);
+
+        $lastPage = $searchResult->numberOfPages();
+
+        return $this->render('front/Search/search.html.twig', [
+            'searchForm' => $searchForm->createView(),
+            'filterData' => $searchVehicleDTO,
+            'result' => $searchResult,
+            'page' => $page,
+            'lastPage' => $lastPage
+        ])
+            ;
     }
 }
