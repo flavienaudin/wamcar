@@ -124,7 +124,7 @@ class UserController extends BaseController
 
         return $this->render($userProfileTemplate[$user->getType()], [
             'editUserForm' => $editForm->createView(),
-            'projectForm' => !$projectForm?:$projectForm->createView(),
+            'projectForm' => $projectForm ? $projectForm->createView() : null,
             'user' => $user
         ]);
     }
