@@ -64,7 +64,7 @@ class SearchController extends BaseController
         $pages[$type] = $page;
 
 
-        $searchForm = $this->getSearchForm($request);
+        $searchForm = $this->getSearchForm($request, 'front_search_personal');
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchProResult($searchForm, $pages);
@@ -91,7 +91,7 @@ class SearchController extends BaseController
      */
     public function personalAction(Request $request, int $page = 1): Response
     {
-        $searchForm = $this->getSearchForm($request);
+        $searchForm = $this->getSearchForm($request, 'front_search_personal');
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchPersonalResult($searchForm, $page);
@@ -112,7 +112,7 @@ class SearchController extends BaseController
      * @param Request $request
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function getSearchForm(Request $request)
+    private function getSearchForm(Request $request, string $actionPath)
     {
         $filters = [
             'make' => $request->query->get('search_vehicle')['make'],
@@ -123,7 +123,7 @@ class SearchController extends BaseController
         $searchVehicleDTO = new SearchVehicleDTO();
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'method' => 'GET',
-            'action' => $this->generateRoute('front_search_personal'),
+            'action' => $this->generateRoute($actionPath),
             'available_values' => $availableValues
         ]);
     }
