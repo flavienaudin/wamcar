@@ -16,6 +16,7 @@ use AppBundle\Security\UserRegistrationService;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
+use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
 use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -63,11 +64,11 @@ class PersonalVehicleEditionService
         /** @var PersonalVehicle $personalVehicle */
         $personalVehicle = PersonalVehicleBuilder::buildFromDTO($personalVehicleDTO);
 
-        if($futurOwner == null && $personalVehicleDTO instanceof UserRegistrationPersonalVehicleDTO){
+        if ($futurOwner == null && $personalVehicleDTO instanceof UserRegistrationPersonalVehicleDTO) {
             $futurOwner = $this->userRegistrationService->registerUser($personalVehicleDTO->userRegistration);
         }
 
-        if($futurOwner instanceof PersonalUser){
+        if ($futurOwner instanceof PersonalUser) {
             $personalVehicle->setOwner($futurOwner);
         }
 
@@ -90,5 +91,26 @@ class PersonalVehicleEditionService
         $this->vehicleRepository->update($personalVehicle);
         $this->eventBus->handle(new PersonalVehicleUpdated($personalVehicle));
         return $vehicle;
+    }
+
+    /**
+     * @param PersonalVehicle $personalVehicle
+     * @return PersonalVehicle
+     */
+    public function deleteVehicle(PersonalVehicle $personalVehicle): PersonalVehicle
+    {
+        $this->vehicleRepository->remove($personalVehicle);
+        $this->eventBus->handle(new PersonalVehicleRemoved($personalVehicle));
+        return $personalVehicle;
+    }
+
+    /**
+     * @param $user
+     * @param PersonalVehicle $vehicle
+     * @return bool
+     */
+    public function canEdit($user = null, PersonalVehicle $vehicle): bool
+    {
+        return $vehicle != null && $vehicle->canEditMe($user);
     }
 }

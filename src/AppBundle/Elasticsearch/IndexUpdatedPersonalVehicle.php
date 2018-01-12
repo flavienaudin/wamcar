@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch;
 use AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder;
 use AppBundle\Elasticsearch\Traits\PersonalVehicleIndexerTrait;
 use Novaway\ElasticsearchClient\ObjectIndexer;
+use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
 use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
@@ -29,8 +30,8 @@ class IndexUpdatedPersonalVehicle implements VehicleEventHandler
      */
     public function notify(VehicleEvent $event)
     {
-        if(!$event instanceof PersonalVehicleUpdated) {
-            throw new \InvalidArgumentException("IndexUpdatedPersonalVehicle can only be notified of 'PersonalVehicleUpdated' events");
+        if (!$event instanceof PersonalVehicleUpdated && !$event instanceof PersonalVehicleRemoved) {
+            throw new \InvalidArgumentException("IndexUpdatedPersonalVehicle can only be notified of 'PersonalVehicleUpdated'&'PersonalVehicleRemoved' events");
         }
         $personalVehicle = $event->getVehicle();
 

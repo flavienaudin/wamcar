@@ -37,6 +37,8 @@ class IndexablePersonalVehicle implements Indexable
     private $longitude;
     /** @var \DateTime */
     private $createdAt;
+    /** @var \DateTime */
+    private $deletedAt;
     /** @var string */
     private $picture;
     /** @var int */
@@ -69,6 +71,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $latitude
      * @param string $longitude
      * @param \DateTime $createdAt
+     * @param \DateTime|null $deletedAt
      * @param string $picture
      * @param int $nbPicture
      * @param string $userUrl
@@ -90,6 +93,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $latitude,
                                 string $longitude,
                                 \DateTime $createdAt,
+                                \DateTime $deletedAt = null,
                                 string $picture,
                                 int $nbPicture,
                                 string $userUrl,
@@ -112,6 +116,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->latitude = $latitude;
         $this->longitude = $longitude;
         $this->createdAt = $createdAt;
+        $this->deletedAt = $deletedAt;
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
         $this->userUrl = $userUrl;
@@ -133,7 +138,7 @@ class IndexablePersonalVehicle implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return true;
+        return $this->deletedAt === null;
     }
 
     public function fillUserProject(?Project $project)
@@ -185,6 +190,7 @@ class IndexablePersonalVehicle implements Indexable
                 'lon' => $this->longitude
             ],
             'createdAt' => $this->createdAt,
+            'deletedAt' => $this->deletedAt,
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
             'userUrl' => $this->userUrl,
