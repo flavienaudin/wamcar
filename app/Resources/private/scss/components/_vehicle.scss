@@ -139,8 +139,8 @@
     width: 100%;
     border: rem-calc(1) solid $border-color;
     box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
-    margin-top: rem-calc(10);
-    margin-bottom: rem-calc(10);
+    margin-top: rem-calc(5);
+    margin-bottom: rem-calc(5);
 
     @include breakpoint(medium down) {
       flex-direction: column;
@@ -149,8 +149,8 @@
 
     @include breakpoint(768) {
       width: calc(50% - #{rem-calc(40)});
-      margin-top: rem-calc(20);
-      margin-bottom: rem-calc(20);
+      margin-top: rem-calc(10);
+      margin-bottom: rem-calc(10);
     }
 
     @include breakpoint(xlarge) {
