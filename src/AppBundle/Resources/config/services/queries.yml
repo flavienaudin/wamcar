@@ -1,7 +1,7 @@
 services:
 
     AppBundle\Elasticsearch\Query\:
-        resource: '../../../Elasticsearch/Query'
+        resource: '%kernel.project_dir%/src/AppBundle/Elasticsearch/Query'
         public: false
         autowire: true
         autoconfigure: false

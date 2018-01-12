@@ -40,10 +40,11 @@ class SearchResultProvider
     public function getSearchResult($searchForm, $pages)
     {
         $searchVehicleDTO = $searchForm->getData();
+        $formValidate = $searchForm->isSubmitted() && $searchForm->isValid();
 
         $searchResult = [];
         foreach ($this->queryTypes as $queryType) {
-            $searchResult[$queryType] = $this->getQueryResult($queryType, $searchVehicleDTO, $pages, $searchForm->isSubmitted() && $searchForm->isValid());
+            $searchResult[$queryType] = $this->getQueryResult($queryType, $searchVehicleDTO, $pages, $formValidate);
         }
 
         return $searchResult;
