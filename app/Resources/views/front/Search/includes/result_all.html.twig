@@ -21,7 +21,12 @@
         <br />
         <br />
     </div>
-    {% include 'front/Layout/includes/pagination.html.twig' %}
+    {% include 'front/Layout/includes/pagination.html.twig' with {
+        'route': 'front_search_pro_page',
+        'page': pages[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')],
+        'lastPage': lastPage[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')]
+    }
+    %}
 {% else %}
     <br>
     <p>Aucun résultat n'a été trouvé, rééssayez votre recherche.</p>

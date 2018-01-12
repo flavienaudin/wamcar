@@ -3,16 +3,16 @@
     {% set previous = page == 1 ? 1 : page - 1 %}
     {% set next = page == lastPage ? page : page + 1 %}
 
-    <a href="{{ path('front_search_pro_page', {'page': previous}) }}?{{ app.request.queryString }}" class="pagination-item previous {% if previous == page %}is-disabled{% endif %} icon-arrow-left" aria-label="Page précédente"><span class="show-for-sr">Page précédente</span></a>
+    <a href="{{ path(route, {'page': previous}) }}?{{ app.request.queryString }}" class="pagination-item previous {% if previous == page %}is-disabled{% endif %} icon-arrow-left" aria-label="Page précédente"><span class="show-for-sr">Page précédente</span></a>
 
     {% if previous < lastPage %}
         {% for i in previous..lastPage %}
-            <a href="{{ path('front_search_pro_page', {'page': i}) }}?{{ app.request.queryString }}" class="pagination-item {% if i == page %}is-current{% endif %} " aria-label="Page {{ i }}">{{ i }}</a>
+            <a href="{{ path(route, {'page': i}) }}?{{ app.request.queryString }}" class="pagination-item {% if i == page %}is-current{% endif %} " aria-label="Page {{ i }}">{{ i }}</a>
         {% endfor %}
     {% else %}
-        <a href="{{ path('front_search_pro_page', {'page': 1}) }}?{{ app.request.queryString }}" class="pagination-item is-current" aria-label="Page 1">1</a>
+        <a href="{{ path(route, {'page': 1}) }}?{{ app.request.queryString }}" class="pagination-item is-current" aria-label="Page 1">1</a>
     {% endif %}
 
-    <a href="{{ path('front_search_pro_page', {'page': next}) }}?{{ app.request.queryString }}" class="pagination-item next {% if next == page %}is-disabled{% endif %} icon-arrow-right" aria-label="Page suivante"><span class="show-for-sr">Page suivante</span></a>
+    <a href="{{ path(route, {'page': next}) }}?{{ app.request.queryString }}" class="pagination-item next {% if next == page %}is-disabled{% endif %} icon-arrow-right" aria-label="Page suivante"><span class="show-for-sr">Page suivante</span></a>
 </nav>
 {% endif %}

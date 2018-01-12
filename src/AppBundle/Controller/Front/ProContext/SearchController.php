@@ -3,6 +3,8 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Elasticsearch\Query\SearchQuery;
+use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -21,46 +23,46 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends BaseController
 {
-    const MIN_SCORE = 0.05;
-    const OFFSET = 0;
+    const QUERY_ALL = 'ALL';
+    const QUERY_RECOVERY = 'RECOVERY';
+    const QUERY_PROJECT = 'PROJECT';
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var QueryExecutor */
-    private $queryExecutor;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
-    /** @var int  */
-    private $limit;
+    /** @var SearchResultProvider */
+    private $searchResultProvider;
 
     /**
      * SearchController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param QueryExecutor $queryExecutor
      * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param int $limit
+     * @param SearchResultProvider $searchResultProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        QueryExecutor $queryExecutor,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        int $limit = 9
+        SearchResultProvider $searchResultProvider
     )
     {
         $this->formFactory = $formFactory;
-        $this->queryExecutor = $queryExecutor;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->limit = $limit;
+        $this->searchResultProvider = $searchResultProvider;
 
     }
 
     /**
      * @param Request $request
      * @param int $page
+     * @param string $type
      * @return Response
      */
-    public function indexAction(Request $request, int $page = 1): Response
+    public function indexAction(Request $request, int $page = 1, string $type): Response
     {
+        $pages = [self::QUERY_ALL => 1, self::QUERY_PROJECT => 1, self::QUERY_RECOVERY => 1];
+        $pages[$type] = $page;
+
         $filters = [
             'make' => $request->query->get('search_vehicle')['make'],
             'model' => $request->query->get('search_vehicle')['model']
@@ -76,65 +78,19 @@ class SearchController extends BaseController
 
         $searchForm->handleRequest($request);
 
-        $queryBuilder = QueryBuilder::createNew(
-            self::OFFSET + ($page - 1) * $this->limit,
-            $this->limit,
-            self::MIN_SCORE
-        );
-        $boolQuery = new BoolQuery();
+        $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
 
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-
-            //TODO: refacto after demo
-            if (!empty($searchVehicleDTO->text)) {
-                //Necessary for search only by key_make
-                $queryBuilder->match('key_make', $searchVehicleDTO->text);
-                $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $queryBuilder->addQuery($boolQuery);
-            }
-            if (!empty($searchVehicleDTO->cityName)) {
-                $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
-            }
-            if (!empty($searchVehicleDTO->make)) {
-                $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
-            }
-            if (!empty($searchVehicleDTO->model)) {
-                $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
-            }
-            if (!empty($searchVehicleDTO->mileageMax)) {
-                $queryBuilder->addFilter(new RangeFilter('mileage', $searchVehicleDTO->mileageMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->yearsMin)) {
-                $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->yearsMax)) {
-                $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-            }
-            if (!empty($searchVehicleDTO->transmission)) {
-                $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
-            }
-            if (!empty($searchVehicleDTO->fuel)) {
-                $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
-            }
-        }
-
-        $queryBody = $queryBuilder->getQueryBody();
-        $searchResult = $this->queryExecutor->execute(
-            $queryBody,
-            IndexablePersonalVehicle::TYPE
-        );
-
-        $lastPage = ceil($searchResult->totalHits() / $this->limit);
+        $lastPage[self::QUERY_ALL] = $searchResult[self::QUERY_ALL]->numberOfPages();
+        $lastPage[self::QUERY_RECOVERY] = $searchResult[self::QUERY_RECOVERY]->numberOfPages();
+        $lastPage[self::QUERY_PROJECT] = $searchResult[self::QUERY_PROJECT]->numberOfPages();
 
         return $this->render('front/Search/search.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'filterData' => $searchVehicleDTO,
                 'result' => $searchResult,
-                'page' => $page,
-                'lastPage' => $lastPage
+                'pages' => $pages,
+                'lastPage' => $lastPage,
+                'tab' => $type
             ])
         ;
     }
