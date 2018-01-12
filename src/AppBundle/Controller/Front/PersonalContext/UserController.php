@@ -87,7 +87,7 @@ class UserController extends BaseController
         /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
-        if ($user->getProject()) {
+        if ($user instanceof PersonalUser && $user->getProject()) {
             $projectDTO = ProjectDTO::buildFromProject($user->getProject());
         } else {
             $projectDTO = new ProjectDTO();
