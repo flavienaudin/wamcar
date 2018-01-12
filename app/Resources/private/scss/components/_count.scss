@@ -4,18 +4,20 @@
 
 /* Settings */
 
-.js-count-pics {
-  display: none;
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  z-index: 1;
-  padding: rem-calc(3) rem-calc(8);
-  background-color: rgba(0,0,0,0.5);
-  color: $white;
-  font-size: rem-calc(11);
+.vehicle-count {
 
-  .icon-pics {
+  &-pics {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    padding: rem-calc(3) rem-calc(8);
+    background-color: rgba(0,0,0,0.5);
+    color: $white;
+    font-size: rem-calc(11);
+  }
+
+  &-icon-pics {
     display: inline-block;
     font-size: rem-calc(9);
 
