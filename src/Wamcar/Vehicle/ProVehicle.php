@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use AppBundle\Services\User\CanBeGarageMember;
 use Wamcar\Garage\Garage;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
@@ -236,4 +237,13 @@ class ProVehicle extends BaseVehicle
         return $this->getGarage()->getSeller();
     }
 
+
+    /**
+     * @param ProUser|null $user
+     * @return bool
+     */
+    public function canEditMe(ProUser $user = null): bool
+    {
+        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($this->getGarage());
+    }
 }

@@ -42,6 +42,7 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getLatitude(),
             $vehicle->getLongitude(),
             $vehicle->getCreatedAt(),
+            $vehicle->getDeletedAt(),
             $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),

@@ -2,6 +2,10 @@ Wamcar\Vehicle\PersonalVehicle:
 
     type: entity
     repositoryClass: AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     exclusion_policy: ALL
 
@@ -70,3 +74,6 @@ Wamcar\Vehicle\PersonalVehicle:
             gedmo:
                 timestampable:
                     on: create
+        deletedAt:
+            type: date
+            nullable: true

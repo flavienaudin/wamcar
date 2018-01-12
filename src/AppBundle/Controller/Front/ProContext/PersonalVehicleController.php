@@ -69,7 +69,7 @@ class PersonalVehicleController extends BaseController
         }
 
         if ($vehicle) {
-            if(!$vehicle->canEditMe($this->getUser())){
+            if(!$this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle)){
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
@@ -122,12 +122,11 @@ class PersonalVehicleController extends BaseController
 
     /**
      * @param Request $request
-     * @param ProVehicle $vehicle
+     * @param PersonalVehicle $vehicle
      * @return Response
      */
-    public function detailAction(Request $request, ProVehicle $vehicle): Response
+    public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
-
         return $this->render('front/Vehicle/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
@@ -135,30 +134,29 @@ class PersonalVehicleController extends BaseController
     }
 
     /**
-     * @param ProVehicle $proVehicle
+     * @param PersonalVehicle $personalVehicle
      * @return Response
      */
-    public function deleteAction(ProVehicle $proVehicle): Response
+    public function deleteAction(PersonalVehicle $personalVehicle): Response
     {
-        if (!$this->personalVehicleEditionService->canEdit($this->getUser(), $proVehicle)) {
+        if (!$this->personalVehicleEditionService->canEdit($this->getUser(), $personalVehicle)) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.remove_vehicle'
             );
-            return $this->redirectToRoute('front_vehicle_pro_detail', [
-                'id' => $proVehicle->getId()
+            return $this->redirectToRoute('front_view_current_user_info', [
+                'id' => $personalVehicle->getId()
             ]);
         }
 
-        $this->personalVehicleEditionService->deleteVehicle($proVehicle);
+        $this->personalVehicleEditionService->deleteVehicle($personalVehicle);
 
         $this->session->getFlashBag()->add(
             self::FLASH_LEVEL_INFO,
             'flash.success.remove_vehicle'
         );
 
-        return $this->redirectToRoute('front_garage_view', [
-            'id' => $proVehicle->getGarage()->getId()
-        ]);
+        // TODO redirectTo personal_user_detail
+        return $this->redirectToRoute('front_view_current_user_info');
     }
 }

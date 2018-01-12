@@ -6,7 +6,6 @@ use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
-use AppBundle\Services\User\CanBeGarageMember;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
@@ -18,11 +17,11 @@ use Wamcar\Vehicle\ProVehicleRepository;
 
 class ProVehicleEditionService
 {
-    /** @var ProVehicleRepository  */
+    /** @var ProVehicleRepository */
     private $vehicleRepository;
-    /** @var GarageRepository  */
+    /** @var GarageRepository */
     private $garageRepository;
-    /** @var array  */
+    /** @var array */
     private $vehicleBuilder;
     /** @var MessageBus */
     private $eventBus;
@@ -103,6 +102,6 @@ class ProVehicleEditionService
      */
     public function canEdit($user, ProVehicle $vehicle): bool
     {
-        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($vehicle->getGarage());
+        return $vehicle != null && $vehicle->canEditMe($user);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace AppBundle\Elasticsearch;
 
-use AppBundle\Elasticsearch\Traits\ProVehicleIndexerTrait;
 use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
+use AppBundle\Elasticsearch\Traits\ProVehicleIndexerTrait;
 use Novaway\ElasticsearchClient\ObjectIndexer;
+use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
-use Wamcar\Vehicle\Event\VehicleRemoved;
 use Wamcar\Vehicle\Event\VehicleUpdated;
 
 class IndexUpdatedProVehicle implements VehicleEventHandler
@@ -30,8 +30,8 @@ class IndexUpdatedProVehicle implements VehicleEventHandler
      */
     public function notify(VehicleEvent $event)
     {
-        if(!$event instanceof VehicleUpdated and !$event instanceof VehicleRemoved) {
-            throw new \InvalidArgumentException("IndexUpdatedVehicle can only be notified of 'VehicleUpdated'&'VehicleRemoved' events");
+        if (!$event instanceof VehicleUpdated and !$event instanceof ProVehicleRemoved) {
+            throw new \InvalidArgumentException("IndexUpdatedVehicle can only be notified of 'VehicleUpdated'&'ProVehicleRemoved' events");
         }
         $proVehicle = $event->getVehicle();
 
