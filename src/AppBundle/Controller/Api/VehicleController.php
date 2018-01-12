@@ -3,19 +3,18 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Api\ResponseBuilder\JsonBuilder;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\Vehicle;
-use Wamcar\Vehicle\VehicleRepository;
 use AppBundle\Api\DTO\VehicleDTO;
 use Swagger\Annotations as SWG;
 
@@ -93,12 +92,12 @@ class VehicleController extends BaseController
         }
 
         $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
-        $vehiclesDTO = [];
+        $response = [];
         foreach ($vehicles as $vehicle) {
-            $vehiclesDTO[] = VehicleDTO::createFromProVehicle($vehicle);
+            $response[] = JsonBuilder::jsonFromVehicle($vehicle);
         }
 
-        return new JsonResponse($vehiclesDTO, Response::HTTP_OK);
+        return new JsonResponse($response, Response::HTTP_OK);
     }
 
     /**
@@ -131,8 +130,9 @@ class VehicleController extends BaseController
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
+        $response = JsonBuilder::jsonFromVehicle($vehicle);
 
-        return new Response(['id'=> $vehicle->getReference(), 'updatedDate' => $vehicle->getUpdatedAt()], Response::HTTP_OK);
+        return new Response($response, Response::HTTP_OK);
     }
 
     /**
@@ -187,10 +187,9 @@ class VehicleController extends BaseController
             throw new NotFoundHttpException();
         }
 
-
         $this->vehicleRepository->remove($vehicle);
 
-        return new JsonResponse(['error' => 0]);
+        return new JsonResponse();
     }
 
     /**
