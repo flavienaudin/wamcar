@@ -1,7 +1,6 @@
 {% set balise = balise|default('h2') %}
 
-{# TODO set front_vehicle_personal_detail when URL availabl e#}
-{% set detailUrl = isProVehicles?path('front_vehicle_pro_detail', {'id': vehicle.id}):'' %}
+{% set detailUrl = isProVehicles?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
 
 <article class="vehicle-item is-flex">
 

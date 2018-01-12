@@ -113,4 +113,14 @@ class PersonalVehicleEditionService
     {
         return $vehicle != null && $vehicle->canEditMe($user);
     }
+
+    /**
+     * @param $user
+     * @param PersonalVehicle $vehicle
+     * @return bool
+     */
+    public function canSeeVehicle($user = null, PersonalVehicle $vehicle): bool
+    {
+        return $vehicle->getOwner() != null && $vehicle->canEditMe($user);
+    }
 }

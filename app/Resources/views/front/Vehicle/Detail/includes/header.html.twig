@@ -1,6 +1,9 @@
 <header class="vehicle-header block-grid column small-12 align-middle">
     <h1 class="small-12 medium-auto">{{ vehicle.name }}</h1>
+    {% if isProVehicle %}
+        {# TODO qst : il n'y a jamais le symbole € d'afficher, normal ? un truc à faire avec le format d'affichage d'un prix #}
     <strong class="h1 medium-shrink medium-right primary-color">{{ vehicle.price }}</strong>
+    {% endif %}
     <p class="small-12">
         {{ vehicle.modelVersionName }} &nbsp;
         <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage }}</span> &nbsp;

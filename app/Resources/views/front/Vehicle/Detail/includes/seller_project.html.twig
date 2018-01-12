@@ -1,4 +1,6 @@
 <h2 class="separator medium primary-color">Projet du vendeur</h2>
+
+{% if vehicle.ownerProject %}
 <h3 class="medium primary-color">Budget de 18 000€</h3>
 <ul class="list-bullet dark-gray-color no-margin">
     <li><strong>Audi A3</strong> / 2012+ / -60000 km</li>
@@ -19,5 +21,12 @@
 </div>
 
 <div class="medium-6">
-    <a href="#" class="button seller-project-button">Répondre à son projet</a>
+    {% if isUserPro %}
+        <a href="#" class="button seller-project-button">Répondre à son projet</a>
+    {# TODO afficher un lien pour le créateur du projet "Modifier mon projet" ? #}
+    {% endif %}
 </div>
+{% else %}
+    <p>Le vendeur n'a pas renseigné de projet de rachat.</p>
+    {# TODO afficher un lien pour le créateur du projet "Créer mon projet" ? #}
+{% endif %}

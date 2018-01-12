@@ -1,0 +1,124 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{# TODO définir menu à rendre actif #}
+{% set page_garage = true %}
+
+{# Integration data #}
+{#{% set isEditableByCurrentUser = true %}
+{% set vehicle = inte.vehicle['golf-2-tdi'] %}
+{% set isProVehicle = false %}#}
+
+{% set sellers = inte.garage.sellers %}
+
+{% block mainClass %}medium-no-padding-top{% endblock %}
+
+{% block title %}{{ vehicle.name }}{% endblock %}
+
+{% block body %}
+    {% if not isEditableByCurrentUser %}
+        {% set breadcrumbs = [
+            {
+                'name': vehicle.ownerName,
+                'href': path('front_view_user_info', {'id': vehicle.owner.id})
+            },
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+    {% elseif isUserPersonal and isEditableByCurrentUser %}
+        {% set breadcrumbs = [
+            {
+                'name': 'Mon profil',
+                'href': path('front_view_current_user_info')
+            },
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+    {% endif %}
+
+<script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name" : "{{ isProVehicle?vehicle.seller.name:vehicle.ownerName }}",
+    {# TODO Informations à fournir ? #}
+    }
+
+</script>
+
+{% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+<div class="l-main-container">
+    <div class="row">
+
+        <section class="small-12 large-7 xlarge-8">
+            <div class="small-12">
+                {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+                <div class="column small-collapse large-uncollapse">
+                    {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                </div>
+            </div>
+
+            <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
+                {% if isUserPro %}
+                    <div class="column small-12 medium-6 large-order-2 large-12">
+                        {# TODO : d'où sont tirés les données ? à définir dans sprint suivant ? #}
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                    </div>
+                {% endif %}
+                <div class="column small-12 medium-6 large-12">
+                    {% if isProVehicle %}
+                        {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
+                    {% else %}
+                        TODO : inclure la cartouche d'un particulier
+                    {% endif %}
+                </div>
+                <div class="small-12 large-order-3">
+                    {% if isUserPro %}
+                    {# TODO revoir les liens à afficher si Pro connecté #}
+                    {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                    {% elseif isEditableByCurrentUser %}
+                    {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <section class="small-12 xlarge-8 large-order-2">
+            <div class="vehicle-detail block-grid small-12">
+                <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
+                    {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                </div>
+                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12"
+                     id="js-description" data-magellan-target="js-description">
+                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                </div>
+                <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
+                    {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
+                </div>
+                <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                    {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                </div>
+                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project"
+                     data-magellan-target="js-project">
+                    {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
+                </div>
+            </div>
+
+        </section>
+
+        <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
+
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block modal %}
+
+    {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+
+{% endblock %}
