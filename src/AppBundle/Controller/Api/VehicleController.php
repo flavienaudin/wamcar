@@ -93,11 +93,12 @@ class VehicleController extends BaseController
 
         $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
         $data = [];
+        /** @var ProVehicle $vehicle */
         foreach ($vehicles as $vehicle) {
-            $data[] = $this->formatVehicleData($vehicle);
+            $data[$vehicle->getReference()] = $this->formatVehicleData($vehicle);
         }
 
-        return new JsonResponse($data, Response::HTTP_OK);
+        return new JsonResponse(array_values($data), Response::HTTP_OK);
     }
 
     /**
