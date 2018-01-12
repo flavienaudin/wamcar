@@ -104,26 +104,37 @@ front_vehicle_personal_delete:
 front_search_pro:
     path: /vendeur/rechercher
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:index
+        _controller: AppBundle:Front\ProContext\Search:pro
         type: 'ALL'
 
 front_search_pro_page:
     path: /vendeur/rechercher/{page}
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:index
+        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
         type: 'ALL'
 
 front_search_pro_page_recovery:
     path: /vendeur/rechercher/reprise/{page}
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:index
+        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
         type: 'RECOVERY'
 
 front_search_pro_page_project:
     path: /vendeur/rechercher/souhait/{page}
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:index
+        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
         type: 'PROJECT'
+
+front_search_personal:
+    path: /utilisateur/rechercher
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:personal
+
+front_search_personal_page:
+    path: /utilisateur/rechercher/{page}
+    defaults:
+        _controller: AppBundle:Front\ProContext\Search:personal
+        page: 1

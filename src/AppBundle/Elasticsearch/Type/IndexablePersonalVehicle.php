@@ -28,7 +28,7 @@ class IndexablePersonalVehicle implements Indexable
     /** @var string */
     private $years;
     /** @var string */
-    private $milage;
+    private $mileage;
     /** @var string */
     private $cityName;
     /** @var string */
@@ -53,6 +53,8 @@ class IndexablePersonalVehicle implements Indexable
     private $projectBudget;
     /** @var array */
     private $projectVehicles;
+    /** @var \DateTime */
+    private $deletedAt;
 
 
     /**
@@ -78,6 +80,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $userName
      * @param string $userPicture
      * @param null|Project $userProject
+     * @param \DateTime $deletedAt
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -99,7 +102,8 @@ class IndexablePersonalVehicle implements Indexable
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
-                                ?Project $userProject
+                                ?Project $userProject,
+                                ?\DateTime $deletedAt
     )
     {
         $this->id = $id;
@@ -111,7 +115,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->transmission = $transmission;
         $this->fuel = $fuel;
         $this->years = $years;
-        $this->milage = $mileage;
+        $this->mileage = $mileage;
         $this->cityName = $cityName;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
@@ -123,6 +127,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->userName = $userName;
         $this->userPicture = $userPicture;
         $this->fillUserProject($userProject);
+        $this->deletedAt = $deletedAt;
     }
 
     /**
@@ -183,7 +188,7 @@ class IndexablePersonalVehicle implements Indexable
             'transmission' => $this->transmission,
             'fuel' => $this->fuel,
             'years' => $this->years,
-            'mileage' => $this->milage,
+            'mileage' => $this->mileage,
             'cityName' => $this->cityName,
             'location' => [
                 'lat' => $this->latitude,
