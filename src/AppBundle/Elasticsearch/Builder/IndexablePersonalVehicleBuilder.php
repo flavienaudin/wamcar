@@ -29,7 +29,7 @@ class IndexablePersonalVehicleBuilder
         //TODO: correct the link of the detail url
         return new IndexablePersonalVehicle(
             $vehicle->getId(),
-            $this->router->generate('front_vehicle_pro_add'),
+            $this->router->generate('front_default'),
             $vehicle->getMake(),
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
@@ -39,14 +39,14 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getYears(),
             $vehicle->getMileage(),
             $vehicle->getCityName(),
-            $vehicle->getCity()->getLatitude(),
-            $vehicle->getCity()->getLongitude(),
+            $vehicle->getLatitude(),
+            $vehicle->getLongitude(),
             $vehicle->getCreatedAt(),
-            $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'): '',
+            $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),
-            $vehicle->getOwner()->getName()?:'',
-            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'): '',
+            $vehicle->getOwnerName(),
+            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file') : '',
             $vehicle->getOwner()->getProject()
         );
     }

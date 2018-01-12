@@ -253,6 +253,10 @@
     {{ block('_personal_vehicle_userRegistration_accept_row') }}
 {%- endblock _registration_accept_row  -%}
 
+{% block _user_registration_personal_vehicle_userRegistration_accept_row %}
+    {{ block('_personal_vehicle_userRegistration_accept_row') }}
+{% endblock _user_registration_personal_vehicle_userRegistration_accept_row %}
+
 {%- block _personal_vehicle_userRegistration_accept_row  -%}
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
@@ -281,6 +285,10 @@
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
+{% endblock %}
+
+{% block _user_registration_personal_vehicle_pictures_entry_widget %}
+    {{ block('_personal_vehicle_pictures_entry_widget') }}
 {% endblock %}
 
 {% block _personal_vehicle_pictures_entry_widget %}
@@ -533,6 +541,10 @@
 {%- block _personal_vehicle_specifics_cityName_widget -%}
     {{ block('city_widget') }}
 {%- endblock _personal_vehicle_specifics_cityName_widget -%}
+
+{%- block _user_registration_personal_vehicle_specifics_cityName_widget -%}
+    {{ block('city_widget') }}
+{%- endblock _user_registration_personal_vehicle_specifics_cityName_widget -%}
 
 {%- block _garage_cityName_widget -%}
     {{ block('city_widget') }}

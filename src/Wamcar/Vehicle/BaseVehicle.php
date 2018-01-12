@@ -19,7 +19,10 @@ abstract class BaseVehicle implements Vehicle
     protected $modelVersion;
     /** @var Transmission */
     protected $transmission;
-    /** @var Registration|null */
+    /**
+     * TODO non utilisé : à supprimer ?
+     * @var Registration|null
+     */
     protected $registration;
     /** @var \DateTimeInterface */
     protected $registrationDate;
@@ -123,6 +126,243 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->getMake() . ' ' . $this->getModelName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getMake(): string
+    {
+        return $this->modelVersion->getModel()->getMake()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelName(): string
+    {
+        return $this->modelVersion->getModel()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelVersionName(): string
+    {
+        return $this->modelVersion->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFuelName(): string
+    {
+        return $this->modelVersion->getEngine()->getFuel()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getEngineName(): string
+    {
+        return $this->modelVersion->getEngine()->getName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getTransmission(): Transmission
+    {
+        return $this->transmission;
+    }
+
+    /**
+     * @return null|Registration
+     */
+    public function getRegistration(): ?Registration
+    {
+        return $this->registration;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getRegistrationDate(): \DateTimeInterface
+    {
+        return $this->registrationDate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getYears(): string
+    {
+        return $this->getRegistrationDate()->format('Y');
+    }
+
+    /**
+     * @return int
+     */
+    public function getMileage(): int
+    {
+        return $this->mileage;
+    }
+
+    /**
+     * @return SafetyTestDate
+     */
+    public function getSafetyTestDate(): SafetyTestDate
+    {
+        return $this->safetyTestDate;
+    }
+
+    /**
+     * @return SafetyTestState
+     */
+    public function getSafetyTestState(): SafetyTestState
+    {
+        return $this->safetyTestState;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBodyState(): int
+    {
+        return $this->bodyState;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getEngineState(): ?int
+    {
+        return $this->engineState;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTyreState(): ?int
+    {
+        return $this->tyreState;
+    }
+
+    /**
+     * @return MaintenanceState
+     */
+    public function getMaintenanceState(): MaintenanceState
+    {
+        return $this->maintenanceState;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getisTimingBeltChanged(): ?bool
+    {
+        return $this->isTimingBeltChanged;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getisImported(): ?bool
+    {
+        return $this->isImported;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getisFirstHand(): ?bool
+    {
+        return $this->isFirstHand;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getAdditionalInformation(): ?string
+    {
+        return $this->additionalInformation;
+    }
+
+    /**
+     * @return City
+     */
+    private function getCity(): City
+    {
+        return $this->city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPostalCode(): string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getPostalCode() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityName(): string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getName() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLatitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLatitude() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getLongitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLongitude() : null);
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+
+    /**
+     * @return array|Picture[]
+     */
+    public function getPictures()
+    {
+        return $this->pictures;
+    }
+
+    /**
+     * @return null|Picture
+     */
+    public function getMainPicture(): ?Picture
+    {
+        if (count($this->pictures) === 0) {
+            return null;
+        }
+
+        return $this->pictures[0];
+    }
+
+    /**
      * @param Picture $picture
      */
     public function addPicture(Picture $picture): void
@@ -176,26 +416,6 @@ abstract class BaseVehicle implements Vehicle
     public function setPictures($pictures): void
     {
         $this->pictures = $pictures;
-    }
-
-    /**
-     * @return array|Picture[]
-     */
-    public function getPictures()
-    {
-        return $this->pictures;
-    }
-
-    /**
-     * @return null|Picture
-     */
-    public function getMainPicture(): ?Picture
-    {
-        if (count($this->pictures) === 0) {
-            return null;
-        }
-
-        return $this->pictures[0];
     }
 
     /**

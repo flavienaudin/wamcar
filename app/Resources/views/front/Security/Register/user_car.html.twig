@@ -29,13 +29,16 @@
 
         <ul id="js-step" class="step">
             <li class="block-grid" data-step="1">
-                {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with { 'vehicleForm' : vehicleForm } %}
+                {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
+                    'vehicleForm' : vehicleForm,
+                    'fetch_plate_url' : path('front_vehicle_registration', {'plateNumber': '_plate_number_'})
+                } %}
             </li>
             <li class="block-grid" data-step="2">
                 {% include 'front/Security/Register/includes/pictures.html.twig' with { 'vehicleForm' : vehicleForm } %}
             </li>
             <li class="block-grid" data-step="3">
-                {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm, 'dataCityField' : 'personal_vehicle_specifics_cityName', 'dataLatitudeField': 'personal_vehicle_specifics_latitude', 'dataLongitudeField': 'personal_vehicle_specifics_longitude' } %}
+                {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm, 'dataCityField' : 'user_registration_personal_vehicle_specifics_cityName', 'dataLatitudeField': 'user_registration_personal_vehicle_specifics_latitude', 'dataLongitudeField': 'user_registration_personal_vehicle_specifics_longitude' } %}
             </li>
             <li class="block-grid" data-step="4">
                 {% include 'front/Security/Register/includes/account.html.twig' with { 'vehicleForm' : vehicleForm } %}

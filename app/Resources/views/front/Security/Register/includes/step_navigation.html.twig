@@ -1,6 +1,6 @@
-<nav id="js-register-step-navigation" class="register-step-navigation block-grid small-auto">
-    <a class="js-step-navigation register-step-navigation-item is-active"><span class="show-for-large">Identification du véhicule</span></a>
-    <a class="js-step-navigation register-step-navigation-item is-disabled"><span class="show-for-large">Photos</span></a>
-    <a class="js-step-navigation register-step-navigation-item is-disabled"><span class="show-for-large">Infos complémentaires</span></a>
+{% extends ":front/Vehicle/Add/personal/includes:step_navigation.html.twig" %}
+
+{% block additional_step %}
     <a class="js-step-navigation register-step-navigation-item is-disabled"><span class="show-for-large">Création du compte</span></a>
-</nav>
+{% endblock %}
+
