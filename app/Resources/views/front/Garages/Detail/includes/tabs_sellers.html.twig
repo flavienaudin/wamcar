@@ -14,12 +14,12 @@
                         <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
                     {% endif %}
                     {# Vue particulier #}
-                    {# <p class="is-inline-block"><a href="" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
+                    {# <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
                     {# Vue pro #}
                     {% if userIsMe %}
                         <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
                     {% else %}
-                        <p class="is-inline-block"><a href="" class="text-underline">Envoyer un message</a></p>
+                        <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="text-underline">Envoyer un message</a></p>
                     {% endif %}
                     {# <li class="block-grid column large-left-collapse align-middle">
                     <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.name }}"></span>
