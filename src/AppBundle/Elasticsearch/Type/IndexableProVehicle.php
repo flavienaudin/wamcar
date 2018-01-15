@@ -34,6 +34,8 @@ class IndexableProVehicle implements Indexable
     private $latitude;
     /** @var string */
     private $longitude;
+    /** @var int */
+    private $price;
     /** @var \DateTime */
     private $createdAt;
     /** @var string */
@@ -64,6 +66,7 @@ class IndexableProVehicle implements Indexable
      * @param string $cityName
      * @param string $latitude
      * @param string $longitude
+     * @param int $price
      * @param \DateTime $createdAt
      * @param string $picture
      * @param int $nbPicture
@@ -83,8 +86,9 @@ class IndexableProVehicle implements Indexable
                                 string $years,
                                 string $mileage,
                                 string $cityName,
-                                string $latitude,
-                                string $longitude,
+                                ?string $latitude,
+                                ?string $longitude,
+                                int $price,
                                 \DateTime $createdAt,
                                 string $picture,
                                 int $nbPicture,
@@ -107,6 +111,7 @@ class IndexableProVehicle implements Indexable
         $this->cityName = $cityName;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
+        $this->price = $price;
         $this->createdAt = $createdAt;
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
@@ -159,6 +164,7 @@ class IndexableProVehicle implements Indexable
                 'lat' => $this->latitude,
                 'lon' => $this->longitude
             ],
+            'price' => $this->price,
             'createdAt' => $this->createdAt,
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,

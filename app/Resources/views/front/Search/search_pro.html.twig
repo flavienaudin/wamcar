@@ -5,47 +5,30 @@
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}
-    {# TODO: Checker pourquoi isUserPro ne fonctionne pas en dehors des block body #}
-    {# {% if isUserPro %}
-        Rechercher un lead
-    {% else %}
-        Rechercher une voiture
-    {% endif %} #}
     Rechercher un lead
 {% endblock %}
-
-{# Exemple inté #}
-{% set query_vehicle_name = app.request.get("vehicle-name") %}
-{% set query_vehicle_location = app.request.get("vehicle-location") %}
 
 {% set breadcrumbs = [
     {
         'name': block('title'),
         'href': app.request.requestUri
-    },
-    {
-        'name': query_vehicle_name,
-        'href': app.request.requestUri
-    },
+    }
 ] %}
 
 {% set vehicle_list = inte.vehicle %}
 
 {% block body %}
 
-    {% set switchLinkLabel = isUserPro ? 'Je suis un particulier' : 'Je suis un professionnel' %}
+    {% set switchLinkLabel = 'Je suis un particulier' %}
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title'),
         title_class: 'medium-auto',
-        link: not query_vehicle_name ? '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
+        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
     } %}
 
     <div class="block-gray has-border-bottom">
-        {% if query_vehicle_name %}
-            {% include 'front/Search/includes/result_label.html.twig' %}
-        {% endif %}
         {% include 'front/Search/includes/form.html.twig' %}
         <div class="search-tabs row">
             {% include 'front/Search/includes/result_tabs.html.twig' %}

@@ -73,7 +73,7 @@ class SearchController extends BaseController
         $lastPage[self::QUERY_RECOVERY] = $searchResult[self::QUERY_RECOVERY]->numberOfPages();
         $lastPage[self::QUERY_PROJECT] = $searchResult[self::QUERY_PROJECT]->numberOfPages();
 
-        return $this->render('front/Search/search.html.twig', [
+        return $this->render('front/Search/search_pro.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'filterData' => $searchForm->getData(),
                 'result' => $searchResult,
@@ -98,7 +98,7 @@ class SearchController extends BaseController
 
         $lastPage = $searchResult->numberOfPages();
 
-        return $this->render('front/Search/search.html.twig', [
+        return $this->render('front/Search/search_personal.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterData' => $searchForm->getData(),
             'result' => $searchResult,

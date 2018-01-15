@@ -1,0 +1,52 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_search = true %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}
+    Rechercher une voiture
+{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set vehicle_list = inte.vehicle %}
+
+{% block body %}
+
+    {% set switchLinkLabel = 'Je suis un professionnel' %}
+    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title'),
+        title_class: 'medium-auto',
+        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
+    } %}
+
+    <div class="block-gray has-border-bottom">
+        {% include 'front/Search/includes/form.html.twig' %}
+        <div class="search-tabs row">
+            <ul id="js-search-tabs" class="tabs column">
+                <li
+                    data-href="https://jsonplaceholder.typicode.com/posts"
+                    class="tabs-title is-active"
+                >
+                    <a href="#js-search-all" aria-selected="true">Toutes <small>({{ result.totalHits }})</small></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
+            <div id="js-search-all" class="tabs-panel is-active">
+                 {% include 'front/Search/includes/result_all_personal.html.twig' %}
+             </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -11,7 +11,7 @@ use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 
 class SearchResultProvider
 {
@@ -41,11 +41,11 @@ class SearchResultProvider
     }
 
     /**
-     * @param Form $searchForm
+     * @param FormInterface $searchForm
      * @param array $pages
      * @return array
      */
-    public function getSearchProResult(Form $searchForm, array $pages): array
+    public function getSearchProResult(FormInterface $searchForm, array $pages): array
     {
         $searchVehicleDTO = $searchForm->getData();
         $formValidate = $searchForm->isSubmitted() && $searchForm->isValid();
@@ -89,7 +89,7 @@ class SearchResultProvider
      * @param $page
      * @return Result
      */
-    public function getSearchPersonalResult(Form $searchForm, int $page): Result
+    public function getSearchPersonalResult(FormInterface $searchForm, int $page): Result
     {
         $searchVehicleDTO = $searchForm->getData();
 
