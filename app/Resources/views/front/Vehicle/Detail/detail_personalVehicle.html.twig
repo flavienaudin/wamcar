@@ -70,11 +70,7 @@
                     </div>
                 {% endif %}
                 <div class="column small-12 medium-6 large-12">
-                    {% if isProVehicle %}
-                        {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
-                    {% else %}
-                        TODO : inclure la cartouche d'un particulier
-                    {% endif %}
+                    {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
                 </div>
                 <div class="small-12 large-order-3">
                     {% if isUserPro %}
