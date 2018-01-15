@@ -22,7 +22,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalUserUpdated;
+use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\Project;
 use Wamcar\User\ProUser;
 use Wamcar\User\UserRepository;
 
@@ -87,7 +89,10 @@ class UserController extends BaseController
         /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
-        if ($user instanceof PersonalUser && $user->getProject()) {
+        if ($user instanceof PersonalUser) {
+            if ($user->getProject() === null) {
+                $user->setProject(new Project($user));
+            }
             $projectDTO = ProjectDTO::buildFromProject($user->getProject());
             $projectForm = $this->createProjectForm($projectDTO);
             $projectForm->handleRequest($request);
@@ -97,10 +102,13 @@ class UserController extends BaseController
 
         $editForm = $this->createEditForm($user, $userInformationDTO);
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
-            $this->eventBus->handle(new PersonalUserUpdated($user));
+            if ($this->getUser() === PersonalUser::TYPE) {
+                $this->eventBus->handle(new PersonalUserUpdated($user));
+            } else {
+                $this->eventBus->handle(new ProUserUpdated($user));
+            }
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
@@ -187,7 +195,7 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        if(!$user->canSeeMyProfile($this->getUser())){
+        if (!$user->canSeeMyProfile($this->getUser())) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
                 'flash.warning.user.unauthorized_to_access_profile'

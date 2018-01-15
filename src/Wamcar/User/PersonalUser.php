@@ -7,6 +7,7 @@ namespace Wamcar\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\Vehicle;
 
 class PersonalUser extends BaseUser
 {
@@ -99,4 +100,15 @@ class PersonalUser extends BaseUser
     {
         return $this->project;
     }
+
+    /**
+     * @param null|Project $project
+     * @return PersonalUser
+     */
+    public function setProject(?Project $project): PersonalUser
+    {
+        $this->project = $project;
+        return $this;
+    }
+
 }

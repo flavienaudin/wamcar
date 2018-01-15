@@ -53,8 +53,6 @@ class IndexablePersonalVehicle implements Indexable
     private $projectBudget;
     /** @var array */
     private $projectVehicles;
-    /** @var \DateTime */
-    private $deletedAt;
 
 
     /**
@@ -80,7 +78,6 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $userName
      * @param string $userPicture
      * @param null|Project $userProject
-     * @param \DateTime $deletedAt
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -102,8 +99,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
-                                ?Project $userProject,
-                                ?\DateTime $deletedAt
+                                ?Project $userProject
     )
     {
         $this->id = $id;

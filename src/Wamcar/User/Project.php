@@ -2,6 +2,7 @@
 
 namespace Wamcar\User;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 class Project
@@ -11,7 +12,7 @@ class Project
     /** @var  PersonalUser */
     protected $personalUser;
     /** @var  bool */
-    protected $isFleet;
+    protected $isFleet = false;
     /** @var null|int */
     protected $budget;
     /** @var  null|string */
@@ -28,6 +29,7 @@ class Project
     )
     {
         $this->personalUser = $personalUser;
+        $this->projectVehicles = new ArrayCollection();
     }
 
     /**
@@ -112,7 +114,7 @@ class Project
 
         /** @var ProjectVehicle $projectVehicle */
         foreach ($projectVehicles as $key => $projectVehicle) {
-            if($projectVehicle->getId()) {
+            if ($projectVehicle->getId()) {
                 $keepIdProjectVehicles[$projectVehicle->getId()] = $projectVehicle;
                 unset($projectVehicles[$key]);
             }

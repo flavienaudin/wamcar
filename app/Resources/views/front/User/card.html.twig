@@ -35,7 +35,7 @@
         </ul>
         <p>{{ user.project.description|nl2br }}</p>
     {% else %}
-        Aucun projet renseigné
+        <p>Aucun projet renseigné</p>
     {% endif %}
     <a href="{{ path('front_edit_user_info') }}" class="text-underline">Gérer mon projet</a>
 {% endblock %}
