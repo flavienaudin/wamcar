@@ -152,3 +152,27 @@ vich_uploader:
                 service: vich_uploader.directory_namer_subdir
                 options: {chars_per_dir: 3, dirs: 2}
             inject_on_load:     true
+
+liip_imagine:
+    loaders:
+        uploaded_files:
+            filesystem:
+                data_root: '%env(IMAGINE_FILESYSTEM_ROOT)%'
+    data_loader: uploaded_files
+
+
+    # your filter sets are defined here
+    filter_sets:
+        cache: ~
+        vehicle_picture:
+            quality: 75
+            filters:
+                thumbnail: { size: [800, 500] }
+        vehicle_mini_thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [120, 90], mode: outbound }
+        vehicle_thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [260, 163], mode: outbound }

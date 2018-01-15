@@ -12,9 +12,9 @@
         {% endif %}
         <div class="vehicle-picture medium-auto">
             <div class="is-relative">
-                <img src="{{ vehicle.mainPicture ? vich_uploader_asset(vehicle.mainPicture, 'file') : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
+                <img src="{{ vehicle.mainPicture ? vich_uploader_asset(vehicle.mainPicture, 'file') | imagine_filter('vehicle_thumbnail')  : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.name }}">
                 <div class="vehicle-count-pics">
-                    <span class="icon-pics">8</span>
+                    <span class="icon-pics">{{ vehicle.pictures|length }}</span>
                 </div>
             </div>
         </div>

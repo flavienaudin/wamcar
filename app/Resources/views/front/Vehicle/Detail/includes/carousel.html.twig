@@ -1,7 +1,7 @@
 <ul id="js-carousel-vehicle" class="js-carousel carousel">
     {% for picture in vehicle.pictures %}
         <li>
-            <img src="{{ vich_uploader_asset(picture, 'file') }}" alt="{{ picture.caption }}">
+            <img src="{{ vich_uploader_asset(picture, 'file') | imagine_filter('vehicle_picture') }}" alt="{{ picture.caption }}">
             {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
             <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
         </li>
@@ -9,6 +9,6 @@
 </ul>
 <nav id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
 {% for picture in vehicle.pictures %}
-    <img src="{{ vich_uploader_asset(picture, 'file') }}" alt="{{ picture.caption }}">
+    <img src="{{ vich_uploader_asset(picture, 'file') | imagine_filter('vehicle_mini_thumbnail') }}" alt="{{ picture.caption }}">
 {% endfor %}
 </nav>

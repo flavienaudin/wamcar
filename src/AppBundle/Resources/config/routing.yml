@@ -10,6 +10,9 @@ _integration:
     resource: "routing/_integration.yml"
     prefix: /
 
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"
+
 # Security processes
 security_login:
     path: /connect
