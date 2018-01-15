@@ -17,7 +17,7 @@
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
-                <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate('none', 'none', null, null, "d MMM, H'h'm") }}</time>
+                <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, H'h'm") }}</time>
             </div>
         </div>
     </a>
