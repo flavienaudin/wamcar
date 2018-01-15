@@ -20,10 +20,10 @@ class QueryBuilderFilterer
     /**
      * @param QueryBuilder $queryBuilder
      * @param SearchVehicleDTO $searchVehicleDTO
-     * @param array $queryType
+     * @param string $queryType
      * @return QueryBuilder
      */
-    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, array $queryType): QueryBuilder
+    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, string $queryType): QueryBuilder
     {
         $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
 
@@ -190,6 +190,12 @@ class QueryBuilderFilterer
         }
         if (!empty($searchVehicleDTO->yearsMax)) {
             $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->budgetMin)) {
+            $queryBuilder->addFilter(new RangeFilter('price', $searchVehicleDTO->budgetMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->budgetMax)) {
+            $queryBuilder->addFilter(new RangeFilter('price', $searchVehicleDTO->budgetMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
         }
         if (!empty($searchVehicleDTO->transmission)) {
             $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
