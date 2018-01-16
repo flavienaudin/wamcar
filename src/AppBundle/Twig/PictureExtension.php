@@ -64,8 +64,10 @@ class PictureExtension extends AbstractExtension
         return $picturePath;
     }
 
-    public function vehiclePictureFilter(?VehiclePicture $vehiclePicture, string $filter)
+    public function vehiclePictureFilter(?VehiclePicture $vehiclePicture)
     {
-        return $this->pathVehiclePicture->getPath($vehiclePicture, $filter);
+        $picturePath = $vehiclePicture ? $this->uploaderHelper->asset($vehiclePicture, 'file'): $this->placeholders['vehicle'];
+
+        return $picturePath;
     }
 }
