@@ -1,7 +1,7 @@
 {% set balise_budget = balise_budget|default('h3') %}
 
 <{{ balise_budget }}>
-    <strong class="primary-color">{{ project.budget ? "Budget de " ~ project.budget|number_format(0, ',', ' ') ~ "€":"Budget non défini" }}</strong>
+    <strong class="primary-color">{{ project.budget ? "Budget de " ~ project.budget|localizednumber ~ "€":"Budget non défini" }}</strong>
 </{{ balise_budget }}>
 
 {% if project.isFleet == true %}
@@ -11,7 +11,7 @@
     {% for projectVehicle in project.projectVehicles %}
         <li><strong class="black-color">{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
             {{ (projectVehicle.yearMax) ? '/ '~projectVehicle.yearMax~"+ " : '' }}
-            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|number_format(0, ',', ' ')~" km" : '' }}
+            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
         </li>
     {% endfor %}
 </ul>

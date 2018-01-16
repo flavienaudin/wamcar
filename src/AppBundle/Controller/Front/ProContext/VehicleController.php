@@ -97,19 +97,19 @@ class VehicleController extends BaseController
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {
             if ($vehicle) {
                 $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+                $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
+                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
+                $flashMessage = 'flash.success.vehicle_create';
             }
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                $vehicle ? 'flash.success.vehicle_update' : 'flash.success.vehicle_create'
-            );
-            return $this->redirectToRoute('front_garage_view', ['id' => $garage->getId()]);
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $flashMessage);
+            return $this->redirectToRoute('front_vehicle_pro_detail', ['id' => $vehicle->getId()]);
         }
 
         return $this->render('front/Vehicle/Add/add.html.twig', [
             'proVehicleForm' => $proVehicleForm->createView(),
+            'vehicle' => $vehicle
         ]);
     }
 

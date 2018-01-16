@@ -103,16 +103,18 @@ class PersonalVehicleController extends BaseController
 
         if ($personalVehicleForm->isSubmitted() && $personalVehicleForm->isValid()) {
             if ($vehicle) {
-                $this->personalVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+                $this->personalehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+                $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
+                $vehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
+                $flashMessage = 'flash.success.vehicle_create';
             }
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                $vehicle ? 'flash.success.vehicle_update' : 'flash.success.vehicle_create'
+                $flashMessage
             );
-            return $this->redirectToRoute('front_view_current_user_info');
+            return $this->redirectToRoute('front_vehicle_personal_detail', ['id' => $vehicle->getId()]);
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [

@@ -9,7 +9,7 @@
             {% if vehicle.projectVehicles or vehicle.projectBudget %}
             <div class="small-12 dark-gray-color">
                 {% if vehicle.projectBudget %}
-                    <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|number_format(0, ',', ' ') }} € pour</strong></p>
+                    <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|localizednumber }}€ pour</strong></p>
                 {% else %}
                     <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
                 {% endif %}
@@ -17,7 +17,7 @@
                     {% for projectVehicle in vehicle.projectVehicles %}
                         <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
                             {{ (projectVehicle.yearMax) ? projectVehicle.yearMax~"+ " : '' }}
-                            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|number_format(0, ',', ' ')~" km" : '' }}
+                            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
                         </li>
                     {% endfor %}
                 </ul>
