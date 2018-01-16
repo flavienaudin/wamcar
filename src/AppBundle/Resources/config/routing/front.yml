@@ -97,6 +97,10 @@ front_vehicle_personal_edit:
     path: /vehicule/particulier/{id}/modifier/{plateNumber}
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:save, plateNumber: null }
 
+front_vehicle_personal_detail:
+    path: /vehicule/particulier/detail/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:detail }
+
 front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }

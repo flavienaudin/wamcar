@@ -50,7 +50,15 @@ inte_vehicle_detail_pro:
     path: /vehicule/detail
     defaults:
         _controller: FrameworkBundle:Template:template
-        template: front/Vehicle/Detail/detail.html.twig
+        template: front/Vehicle/Detail/detail_proVehicle.html.twig
+
+
+inte_vehicle_detail_personal:
+    path: /vehicule/personal/detail
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Vehicle/Detail/detail_personalVehicle.html.twig
+
 
 inte_vehicle_detail_pro_add:
     path: /vehicule/ajouter

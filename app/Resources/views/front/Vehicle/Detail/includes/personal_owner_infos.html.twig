@@ -1,0 +1,16 @@
+<ul class="brand-list list-border block-border">
+    <li class="no-margin">
+        <figure class="block-grid align-middle" role="group">
+            {# TODO : vérifier l'intégration de la cartouche d'un particulier ci-dessous #}
+            <span class="seller-pic"><img src="{{ vehicle.owner|avatar }}" alt="{{ vehicle.owner.name }}"></span>
+            <div>
+                <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.owner.name }}</b></a> <br>
+                {% if vehicle.owner.userProfile.phone %}
+                <span class="icon-tel primary-color">
+                    <a href="tel:{{ vehicle.owner.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.owner.userProfile.phone }}</a>
+                </span>
+                {% endif %}
+            </div>
+        </figure>
+    </li>
+</ul>

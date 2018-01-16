@@ -9,7 +9,7 @@
     {# Sprint 4 : pas de raison : juste demande de confirmation
     <p class="dark-gray-color">Quel est la raison de la suppression de votre véhicule ?</p>
     #}
-    <form action="{{ path('front_vehicle_pro_delete', {'id':vehicle.id}) }}" class="small-12" data-abide novalidate>
+    <form action="{{ isProVehicle ? path('front_vehicle_pro_delete', {'id':vehicle.id}): path('front_vehicle_personal_delete', {'id':vehicle.id}) }}" class="small-12" data-abide novalidate>
         {# Sprint 4 : pas de raison : juste demande de confirmation
         {% include 'front/Layout/includes/forms/select.html.twig' with {
             label: false,

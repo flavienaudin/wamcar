@@ -1,0 +1,22 @@
+<a href="{{ vehicle.detailUrl }}" class="is-flex full-width">
+    <div class="js-like like"><span data-tooltip=""></span></div>
+    <div class="vehicle-picture medium-auto">
+        <div class="is-relative">
+            <img src="{{ vehicle.picture ? vehicle.picture : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.modelVersion }}">
+        </div>
+    </div>
+    <div class="vehicle-infos small-shrink medium-auto">
+        {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
+        <{{ balise }} class="vehicle-name h3">{{ vehicle.make }} {{ vehicle.modelVersion }}</{{ balise }}>
+    <p class="vehicle-model">{{ vehicle.model }}</p>
+    <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage }}</span>
+    {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
+    <div class="vehicle-bottom block-grid full-width align-middle">
+        <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
+        <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, H'h'm") }}</time>
+        {% if vehicle.price is defined %}
+            <strong class="vehicle-price small-shrink">{{ vehicle.price }}€</strong>
+        {% endif %}
+    </div>
+    </div>
+</a>

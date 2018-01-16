@@ -1,6 +1,12 @@
 imports:
     - { resource: config.yml }
 
+parameters:
+    # Define request context for url generation, inside console commands only
+    router.request_context.host: wamcar.local
+    router.request_context.scheme: http
+    router.request_context.base_url: /app_dev.php
+
 framework:
     router:
         resource: '%kernel.project_dir%/app/config/routing_dev.yml'

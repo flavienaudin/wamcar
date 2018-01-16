@@ -13,9 +13,9 @@ use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
-use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Vehicle\ProVehicle;
 
 class VehicleController extends BaseController
@@ -120,10 +120,10 @@ class VehicleController extends BaseController
      */
     public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
-
-        return $this->render('front/Vehicle/Detail/detail.html.twig', [
+        return $this->render('front/Vehicle/Detail/detail_proVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
+            'isProVehicle' => true
         ]);
     }
 
@@ -131,9 +131,9 @@ class VehicleController extends BaseController
      * @param ProVehicle $proVehicle
      * @return Response
      */
-    public function deleteAction(ProVehicle $proVehicle ) : Response
+    public function deleteAction(ProVehicle $proVehicle): Response
     {
-        if(!$this->proVehicleEditionService->canEdit($this->getUser(), $proVehicle)){
+        if (!$this->proVehicleEditionService->canEdit($this->getUser(), $proVehicle)) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.remove_vehicle'

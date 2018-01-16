@@ -2,7 +2,10 @@
 
 namespace Wamcar\Vehicle;
 
+use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\Project;
+use Wamcar\User\ProUser;
 
 class PersonalVehicle extends BaseVehicle
 {
@@ -28,6 +31,14 @@ class PersonalVehicle extends BaseVehicle
     }
 
     /**
+     * @return null|Project
+     */
+    public function getOwnerProject(): ?Project
+    {
+        return $this->getOwner() != null ? $this->getOwner()->getProject() : null;
+    }
+
+    /**
      * @param PersonalUser $owner
      * @return PersonalVehicle
      */
@@ -38,10 +49,10 @@ class PersonalVehicle extends BaseVehicle
     }
 
     /**
-     * @param PersonalUser|null $user
+     * @param BaseUser|null $user
      * @return bool
      */
-    public function canEditMe(PersonalUser $user = null)
+    public function canEditMe(BaseUser $user = null)
     {
         return $this->getOwner() != null && $this->getOwner()->is($user);
     }
@@ -53,4 +64,14 @@ class PersonalVehicle extends BaseVehicle
     {
         return $this->updatedAt;
     }
+
+    /**
+     * @param BaseUser|null $user
+     * @return bool
+     */
+    public function canSeeMe(BaseUser $user = null)
+    {
+        return $this->getOwner() != null && ($this->getOwner()->is($user) || $user instanceof ProUser);
+    }
+
 }

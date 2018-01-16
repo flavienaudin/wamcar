@@ -69,7 +69,7 @@ class PersonalVehicleController extends BaseController
         }
 
         if ($vehicle) {
-            if(!$this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle)){
+            if (!$this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle)) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
@@ -127,9 +127,17 @@ class PersonalVehicleController extends BaseController
      */
     public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
-        return $this->render('front/Vehicle/Detail/detail.html.twig', [
+        if(!$vehicle->canSeeMe($this->getUser())){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.unauthorized_to_see_vehicle'
+            );
+            return $this->redirectToRoute("front_default");
+        }
+        return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
+            'isProVehicle' => false
         ]);
     }
 
