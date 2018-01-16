@@ -53,7 +53,7 @@ class VehicleDTO
     public static function initFormPictureVehicle(array $pictures = []): array
     {
         if (count($pictures) < self::DEFAULT_PICTURE_COUNT) {
-            for($i = count($pictures); $i < 4; $i++) {
+            for($i = count($pictures); $i < self::DEFAULT_PICTURE_COUNT; $i++) {
                 $pictures[] = new VehiclePictureDTO();
             }
         } else {

@@ -411,7 +411,7 @@ abstract class BaseVehicle implements Vehicle
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $pictureId) {
                     $this->pictures->removeElement($picture);
-                    break;
+                    return;
                 }
             }
         }
@@ -460,7 +460,7 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @param Collection $pictures
      */
-    public function setPictures($pictures): void
+    public function setPictures(Collection $pictures): void
     {
         $this->pictures = $pictures;
     }
