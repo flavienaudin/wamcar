@@ -71,8 +71,12 @@ class UserEditionService
         $user->updateUserProfile($userInformationDTO->getUserProfile());
 
         if ($userInformationDTO->avatar) {
-            $picture = new UserPicture($user, $userInformationDTO->avatar);
-            $user->setAvatar($picture);
+            if ($userInformationDTO->avatar->isRemoved) {
+                $user->setAvatar(null);
+            } else {
+                $picture = new UserPicture($user, $userInformationDTO->avatar->file);
+                $user->setAvatar($picture);
+            }
         }
 
         if ($userInformationDTO instanceof ProUserInformationDTO) {

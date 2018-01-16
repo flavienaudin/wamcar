@@ -48,7 +48,7 @@ class UserInformationType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
-            ->add('avatar', FileType::class, [
+            ->add('avatar', UserPictureType::class, [
                 'error_bubbling' => true
         ]);
     }

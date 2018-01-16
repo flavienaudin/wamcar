@@ -126,7 +126,7 @@ abstract class BaseUser
     /**
      * @param UserPicture $avatar
      */
-    public function setAvatar(UserPicture $avatar)
+    public function setAvatar(?UserPicture $avatar)
     {
         $this->avatar = $avatar;
     }

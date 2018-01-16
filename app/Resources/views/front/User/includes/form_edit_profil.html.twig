@@ -68,7 +68,7 @@
     }) }}
 </div>
 <div class="input-margin column small-12 medium-6 xlarge-5">
-    <div id="js-pictures-list" class="separator">
+    <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/placeholders/user/unisex-avatar.jpg') }}" class="separator">
         <h2>Médias</h2>
         {{ form_widget(editUserForm.avatar, {
             'label': 'Avatar',
