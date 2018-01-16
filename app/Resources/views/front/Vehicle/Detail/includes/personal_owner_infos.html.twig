@@ -1,9 +1,8 @@
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            {# TODO : intégrer la cartouche d'un particulier ci-dessous #}
-            TODO : intégrer la cartouche d'un particulier ci-dessous
-            <span class="brand-logo is-logo"><img src="{{ vehicle.owner|avatar }}" alt="{{ vehicle.owner.name }}"></span>
+            {# TODO : vérifier l'intégration de la cartouche d'un particulier ci-dessous #}
+            <span class="seller-pic"><img src="{{ vehicle.owner|avatar }}" alt="{{ vehicle.owner.name }}"></span>
             <div>
                 <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.owner.name }}</b></a> <br>
                 {% if vehicle.owner.userProfile.phone %}
