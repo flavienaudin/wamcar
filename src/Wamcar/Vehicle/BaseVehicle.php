@@ -2,6 +2,8 @@
 
 namespace Wamcar\Vehicle;
 
+use AppBundle\Doctrine\Entity\VehiclePicture;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
@@ -28,7 +30,7 @@ abstract class BaseVehicle implements Vehicle
     protected $registrationDate;
     /** @var int */
     protected $mileage;
-    /** @var Picture[]|array */
+    /** @var Collection */
     protected $pictures;
     /** @var SafetyTestDate */
     protected $safetyTestDate;
@@ -56,9 +58,6 @@ abstract class BaseVehicle implements Vehicle
     protected $createdAt;
     /** @var \DateTimeInterface */
     protected $updatedAt;
-
-    /** @var string */
-    protected $deletedAt;
 
     /**
      * BaseVehicle constructor.
@@ -365,11 +364,58 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param Picture $picture
+     * @param VehiclePicture $addPicture
      */
-    public function addPicture(Picture $picture): void
+    public function addPicture(VehiclePicture $addPicture): void
     {
-        $this->pictures[] = $picture;
+        if ($addPicture->getId()) {
+            /** @var VehiclePicture $picture */
+            foreach ($this->pictures as $picture) {
+                if ($picture->getId() === $addPicture->getId()) {
+                    $picture->setFile($addPicture->getFile());
+                    $picture->setFileMimeType($addPicture->getFileMimeType());
+                    $picture->setFileName($addPicture->getFileName());
+                    $picture->setFileOriginalName($addPicture->getFileOriginalName());
+                    $picture->setFileSize($addPicture->getFileSize());
+                    $picture->setCaption($addPicture->getCaption());
+                    return;
+                }
+            }
+            $this->pictures[] = $addPicture;
+        }
+    }
+
+    /**
+     * @param string $vehiclePictureId
+     * @param null|string $caption
+     */
+    public function editPictureCaption(string $vehiclePictureId, ?string $caption)
+    {
+        if ($vehiclePictureId) {
+            /** @var VehiclePicture $picture */
+            foreach ($this->pictures as $picture) {
+                if ($picture->getId() === $vehiclePictureId) {
+                    $picture->setCaption($caption);
+                    return;
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $pictureId
+     */
+    public function removePicture(?string $pictureId): void
+    {
+        if ($pictureId){
+            /** @var VehiclePicture $picture */
+            foreach ($this->pictures as $picture) {
+                if ($picture->getId() === $pictureId) {
+                    $this->pictures->removeElement($picture);
+                    return;
+                }
+            }
+        }
     }
 
     /**
@@ -413,9 +459,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param array|Picture[] $pictures
+     * @param Collection $pictures
      */
-    public function setPictures($pictures): void
+    public function setPictures(Collection $pictures): void
     {
         $this->pictures = $pictures;
     }

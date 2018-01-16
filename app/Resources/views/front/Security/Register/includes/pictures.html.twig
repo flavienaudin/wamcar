@@ -1,22 +1,4 @@
 {% set asideId = '2' %}
-{% set pictures = [
-    {
-        title: 'Photo principale',
-        image: 'assets/images/register/pictures_default.jpg'
-    },
-    {
-        title: 'Photo supplémentaire conseillée',
-        image: 'assets/images/register/pictures_default.jpg'
-    },
-    {
-        title: 'Photo supplémentaire conseillée',
-        image: 'assets/images/register/pictures_default.jpg'
-    },
-    {
-        title: 'Photo supplémentaire conseillée',
-        image: 'assets/images/register/pictures_default.jpg'
-    }
-] %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
     content: '
@@ -26,7 +8,7 @@
 } %}
 
 <section class="small-12 large-7">
-    <div id="js-pictures-list" class="block-grid small-12" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
+    <div id="js-pictures-list" class="block-grid small-12" data-preview-src="{{ asset('assets/images/register/pictures_default.jpg') }}" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
         {% for pictureSubForm in vehicleForm.pictures %}
             {{ form_widget(pictureSubForm) }}
         {% endfor %}

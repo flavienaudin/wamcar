@@ -20,6 +20,8 @@ services:
 
     SimpleBus\Message\Bus\MessageBus: '@simple_bus.event_bus'
 
+    Liip\ImagineBundle\Imagine\Cache\CacheManager: '@liip_imagine.cache.manager'
+
     VichUploader\Templating\Helper\UploaderHelper: '@vich_uploader.templating.helper.uploader_helper'
 
     PragmaRX\ZipCode\ZipCode:
@@ -58,3 +60,17 @@ services:
         public: false
         autowire: true
         autoconfigure: false
+
+    AppBundle\Services\Picture\:
+        resource: '%kernel.project_dir%/src/AppBundle/Services/Picture'
+        public: false
+        autowire: true
+        autoconfigure: false
+
+
+    AppBundle\Services\Picture\PathVehiclePicture:
+        class: 'AppBundle\Services\Picture\PathVehiclePicture'
+        arguments:
+          - '@vich_uploader.templating.helper.uploader_helper'
+          - '%placeholders%'
+          - '@liip_imagine.cache.manager'

@@ -16,5 +16,6 @@ final class UserRegistrationPersonalVehicleDTO extends PersonalVehicleDTO
     {
         parent::__construct($registrationNumber);
         $this->userRegistration = new RegistrationDTO();
+        $this->pictures = self::initFormPictureVehicle();
     }
 }

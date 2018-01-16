@@ -19,7 +19,7 @@ class PersonalVehicleDTO extends VehicleDTO
 
     /**
      * @param PersonalVehicle $vehicle
-     * @return ProVehicleDTO
+     * @return PersonalVehicleDTO
      */
     public static function buildFromPersonalVehicle(PersonalVehicle $vehicle): self
     {

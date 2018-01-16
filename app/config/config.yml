@@ -9,9 +9,10 @@ imports:
 parameters:
     locale: fr
     placeholders:
-        avatar: '/assets/images/placeholders/user/user.png'
+        avatar: '/assets/images/placeholders/user/unisex-avatar.png'
         banner: '/assets/images/placeholders/garages/garage-760x340.jpg'
         logo: '/assets/images/placeholders/garages/logo-toyota.png'
+        vehicle: '/assets/images/register/pictures_default.jpg'
 
 framework:
     #esi: ~
@@ -175,4 +176,4 @@ liip_imagine:
         vehicle_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [260, 163], mode: outbound }
+                thumbnail: { size: [310, 235], mode: outbound }
