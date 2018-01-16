@@ -38,7 +38,7 @@ class PersonalVehicleBuilder
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new PersonalVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
                 $vehicle->addPicture($picture);
             }
         }

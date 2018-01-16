@@ -109,7 +109,7 @@ if ($collectionHolder && $inputCollectionHolder) {
 
   function addChangeEvent() {
     [...$inputCollectionHolder].forEach((input) => {
-      input.addEventListener('change', () => {
+      input.addEventListener('click', () => {
         addScriptChange();
       });
     });

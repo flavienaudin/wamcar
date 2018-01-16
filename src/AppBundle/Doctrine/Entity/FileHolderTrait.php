@@ -20,7 +20,7 @@ trait FileHolderTrait
     /**
      * @return File
      */
-    public function getFile(): File
+    public function getFile(): ?File
     {
         return $this->file;
     }
@@ -36,7 +36,7 @@ trait FileHolderTrait
     /**
      * @return string
      */
-    public function getFileName(): string
+    public function getFileName(): ?string
     {
         return $this->fileName;
     }
@@ -44,7 +44,7 @@ trait FileHolderTrait
     /**
      * @param string $fileName
      */
-    public function setFileName(string $fileName)
+    public function setFileName(?string $fileName)
     {
         $this->fileName = $fileName;
     }
@@ -52,7 +52,7 @@ trait FileHolderTrait
     /**
      * @return int
      */
-    public function getFileSize(): int
+    public function getFileSize(): ?int
     {
         return $this->fileSize;
     }
@@ -60,7 +60,7 @@ trait FileHolderTrait
     /**
      * @param int $fileSize
      */
-    public function setFileSize(int $fileSize)
+    public function setFileSize(?int $fileSize)
     {
         $this->fileSize = $fileSize;
     }
@@ -68,7 +68,7 @@ trait FileHolderTrait
     /**
      * @return string
      */
-    public function getFileMimeType(): string
+    public function getFileMimeType(): ?string
     {
         return $this->fileMimeType;
     }
@@ -76,7 +76,7 @@ trait FileHolderTrait
     /**
      * @param string $fileMimeType
      */
-    public function setFileMimeType(string $fileMimeType)
+    public function setFileMimeType(?string $fileMimeType)
     {
         $this->fileMimeType = $fileMimeType;
     }
@@ -84,7 +84,7 @@ trait FileHolderTrait
     /**
      * @return string
      */
-    public function getFileOriginalName(): string
+    public function getFileOriginalName(): ?string
     {
         return $this->fileOriginalName;
     }
@@ -92,7 +92,7 @@ trait FileHolderTrait
     /**
      * @param string $fileOriginalName
      */
-    public function setFileOriginalName(string $fileOriginalName)
+    public function setFileOriginalName(?string $fileOriginalName)
     {
         $this->fileOriginalName = $fileOriginalName;
     }

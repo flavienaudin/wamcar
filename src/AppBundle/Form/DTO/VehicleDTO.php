@@ -12,8 +12,6 @@ use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
 use Wamcar\Vehicle\Model;
 use Wamcar\Vehicle\ModelVersion;
-use Wamcar\Vehicle\ProVehicle;
-use Wamcar\Vehicle\Vehicle;
 
 class VehicleDTO
 {
@@ -35,10 +33,6 @@ class VehicleDTO
      */
     public function __construct(string $registrationNumber = null)
     {
-        $this->pictures = array_map(function () {
-            return new VehiclePictureDTO();
-        }, range(1, self::DEFAULT_PICTURE_COUNT));
-
         $this->registrationNumber = $registrationNumber;
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
@@ -50,6 +44,23 @@ class VehicleDTO
     public function updateFromFilters(array $filters = []): void
     {
         $this->information->updateFromFilters($filters);
+    }
+
+    /**
+     * @param array $pictures
+     * @return array
+     */
+    public static function initFormPictureVehicle(array $pictures = []): array
+    {
+        if (count($pictures) < self::DEFAULT_PICTURE_COUNT) {
+            for($i = count($pictures); $i < 4; $i++) {
+                $pictures[] = new VehiclePictureDTO();
+            }
+        } else {
+            $pictures[] = new VehiclePictureDTO();
+        }
+
+        return $pictures;
     }
 
     /**

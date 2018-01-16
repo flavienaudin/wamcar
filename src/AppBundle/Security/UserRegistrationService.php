@@ -48,7 +48,6 @@ class UserRegistrationService
     /**
      * @param RegistrationDTO $registrationDTO
      * @return ApplicationUser
-     * @throws \Exception
      */
     public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
     {

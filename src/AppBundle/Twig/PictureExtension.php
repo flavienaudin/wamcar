@@ -3,6 +3,7 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Doctrine\Entity\VehiclePicture;
 use Twig\Extension\AbstractExtension;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Garage\Garage;
@@ -30,7 +31,8 @@ class PictureExtension extends AbstractExtension
         return array(
             new \Twig_SimpleFilter('avatar', array($this, 'avatarFilter')),
             new \Twig_SimpleFilter('banner', array($this, 'bannerFilter')),
-            new \Twig_SimpleFilter('logo', array($this, 'logoFilter'))
+            new \Twig_SimpleFilter('logo', array($this, 'logoFilter')),
+            new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter'))
         );
     }
 
@@ -51,6 +53,13 @@ class PictureExtension extends AbstractExtension
     public function logoFilter(?Garage $garage)
     {
         $picturePath = $garage && $garage->getLogo() ? $this->uploaderHelper->asset($garage->getLogo(), 'file'): $this->placeholders['logo'];
+
+        return $picturePath;
+    }
+
+    public function vehiclePictureFilter(?VehiclePicture $vehiclePicture)
+    {
+        $picturePath = $vehiclePicture ? $this->uploaderHelper->asset($vehiclePicture, 'file'): $this->placeholders['vehicle'];
 
         return $picturePath;
     }

@@ -71,6 +71,8 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }
 
+        $dto->pictures = self::initFormPictureVehicle($dto->pictures);
+
         return $dto;
     }
 

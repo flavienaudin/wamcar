@@ -4,6 +4,7 @@ namespace AppBundle\Form\EntityBuilder;
 
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Form\DTO\VehiclePictureDTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\ProVehicle;
@@ -87,10 +88,17 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setAdditionalServices($vehicleDTO->getAdditionalServices());
         $vehicle->setReference($vehicleDTO->getReference());
 
+        /** @var VehiclePictureDTO $pictureDTO */
         foreach ($vehicleDTO->pictures as $pictureDTO) {
-            if ($pictureDTO && $pictureDTO->file) {
-                $picture = new ProVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
-                $vehicle->addPicture($picture);
+            if ($pictureDTO && !$pictureDTO->isRemoved ) {
+                if ($pictureDTO->id && !$pictureDTO->file) {
+                    $vehicle->editPictureCaption($pictureDTO->id, $pictureDTO->caption);
+                } elseif ($pictureDTO->file) {
+                    $picture = new ProVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                    $vehicle->addPicture($picture);
+                }
+            } else if ($pictureDTO && $pictureDTO->isRemoved) {
+                $vehicle->removePicture($pictureDTO->id);
             }
         }
 

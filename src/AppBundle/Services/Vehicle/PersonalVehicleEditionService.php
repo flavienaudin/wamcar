@@ -56,8 +56,9 @@ class PersonalVehicleEditionService
 
     /**
      * @param PersonalVehicleDTO $personalVehicleDTO
-     * @param PersonalUser $futurOwner
+     * @param PersonalUser|null $futurOwner
      * @return PersonalVehicle
+     * @throws \Exception
      */
     public function createInformations(PersonalVehicleDTO $personalVehicleDTO, PersonalUser $futurOwner = null): PersonalVehicle
     {

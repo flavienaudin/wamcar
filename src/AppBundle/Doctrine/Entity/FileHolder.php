@@ -14,20 +14,20 @@ interface FileHolder
     /**
      * @return File
      */
-    public function getFile(): File;
+    public function getFile(): ?File;
 
     /**
      * @return string
      */
-    public function getFileOriginalName(): string;
+    public function getFileOriginalName(): ?string;
 
     /**
      * @return int
      */
-    public function getFileSize(): int;
+    public function getFileSize(): ?int;
 
     /**
      * @return string
      */
-    public function getFileMimeType(): string;
+    public function getFileMimeType(): ?string;
 }
