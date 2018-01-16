@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch\Builder;
 
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Vehicle\PersonalVehicle;
@@ -26,10 +27,9 @@ class IndexablePersonalVehicleBuilder
      */
     public function buildFromVehicle(PersonalVehicle $vehicle): IndexablePersonalVehicle
     {
-        //TODO: correct the link of the detail url
         return new IndexablePersonalVehicle(
             $vehicle->getId(),
-            $this->router->generate('front_default'),
+            $this->router->generate('front_vehicle_personal_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getMake(),
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
@@ -45,11 +45,10 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getDeletedAt(),
             $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
             count($vehicle->getPictures()),
-            $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()]),
-            $vehicle->getOwner()->getName()?:'',
-            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file'): '',
-            $vehicle->getOwner()->getProject(),
-            $vehicle->getDeletedAt()
+            $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            $vehicle->getOwner()->getName() ?? '',
+            $vehicle->getOwner()->getAvatar() ? $this->uploaderHelper->asset($vehicle->getOwner()->getAvatar(), 'file') : '',
+            $vehicle->getOwner()->getProject()
         );
     }
 

@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch\Builder;
 
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Vehicle\ProVehicle;
@@ -28,7 +29,7 @@ class IndexableProVehicleBuilder
     {
         return new IndexableProVehicle(
             $vehicle->getId(),
-            $this->router->generate('front_vehicle_pro_detail', ['id' => $vehicle->getId()]),
+            $this->router->generate('front_vehicle_pro_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getMake(),
             $vehicle->getModelName(),
             $vehicle->getModelVersionName(),
@@ -42,9 +43,9 @@ class IndexableProVehicleBuilder
             $vehicle->getCity()->getLongitude(),
             $vehicle->getPrice(),
             $vehicle->getCreatedAt(),
-            count($vehicle->getPictures()) > 0 ?$this->uploaderHelper->asset($vehicle->getMainPicture(), 'file'): '',
+            count($vehicle->getPictures()) > 0 ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
             count($vehicle->getPictures()),
-            $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()]),
+            $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSeller()->getName(),
             $this->uploaderHelper->asset($vehicle->getSeller()->getAvatar(), 'file'),
             $vehicle->getDeletedAt()

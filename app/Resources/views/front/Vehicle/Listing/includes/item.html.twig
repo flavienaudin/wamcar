@@ -24,7 +24,7 @@
             <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage }}</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
-                <span class="vehicle-city black-color small-12">{{ vehicle.cityName }}</span>
+                <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
                 <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate(format = "d MMM, H'h'm") }}</time>
                 {% if isProVehicles %}<strong class="vehicle-price small-shrink">{{ vehicle.price }}€</strong>{% endif %}
             </div>

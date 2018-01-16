@@ -1,5 +1,5 @@
 <div class="vehicle-list small-12">
-    {% for index, vehicle in result.hits %}
+    {% for vehicle in result.hits %}
         {% include ':front/Search/includes:item.html.twig' %}
     {% endfor %}
 </div>
