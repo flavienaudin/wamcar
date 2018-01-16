@@ -176,4 +176,4 @@ liip_imagine:
         vehicle_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [260, 163], mode: outbound }
+                thumbnail: { size: [310, 235], mode: outbound }

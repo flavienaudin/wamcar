@@ -4,6 +4,7 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
+use AppBundle\Services\Picture\PathVehiclePicture;
 use Twig\Extension\AbstractExtension;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Garage\Garage;
@@ -15,15 +16,21 @@ class PictureExtension extends AbstractExtension
     protected $uploaderHelper;
     /** @var array */
     protected $placeholders;
+    /** @var PathVehiclePicture */
+    protected $pathVehiclePicture;
+
 
     /**
      * PictureExtension constructor.
      * @param UploaderHelper $uploaderHelper
+     * @param array $placeholders
+     * @param PathVehiclePicture $pathVehiclePicture
      */
-    public function __construct(UploaderHelper $uploaderHelper, array $placeholders)
+    public function __construct(UploaderHelper $uploaderHelper, array $placeholders, PathVehiclePicture $pathVehiclePicture)
     {
         $this->uploaderHelper = $uploaderHelper;
         $this->placeholders = $placeholders;
+        $this->pathVehiclePicture = $pathVehiclePicture;
     }
 
     public function getFilters()
@@ -57,10 +64,8 @@ class PictureExtension extends AbstractExtension
         return $picturePath;
     }
 
-    public function vehiclePictureFilter(?VehiclePicture $vehiclePicture)
+    public function vehiclePictureFilter(?VehiclePicture $vehiclePicture, string $filter)
     {
-        $picturePath = $vehiclePicture ? $this->uploaderHelper->asset($vehiclePicture, 'file'): $this->placeholders['vehicle'];
-
-        return $picturePath;
+        return $this->pathVehiclePicture->getPath($vehiclePicture, $filter);
     }
 }

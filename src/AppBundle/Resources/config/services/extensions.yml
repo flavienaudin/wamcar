@@ -11,3 +11,4 @@ services:
         arguments:
           - '@vich_uploader.templating.helper.uploader_helper'
           - '%placeholders%'
+          - '@AppBundle\Services\Picture\PathVehiclePicture'

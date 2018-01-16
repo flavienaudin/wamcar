@@ -301,7 +301,7 @@
 
 {% block _vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
-    {% set image = value ? value.realPicture|vehiclePicture : 'assets/images/register/pictures_default.jpg' %}
+    {% set image = value ? value.realPicture|vehiclePicture('vehicle_thumbnail') : 'assets/images/register/pictures_default.jpg' %}
     {% set isEdit = value and value.realPicture ? true : false %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
