@@ -396,6 +396,7 @@ abstract class BaseVehicle implements Vehicle
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $vehiclePictureId) {
                     $picture->setCaption($caption);
+                    return;
                 }
             }
         }
