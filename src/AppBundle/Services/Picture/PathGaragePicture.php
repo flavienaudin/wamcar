@@ -9,22 +9,8 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Garage\Garage;
 
-class PathGaragePicture
+class PathGaragePicture extends BasePathPicture
 {
-    /** @var UploaderHelper */
-    protected $uploaderHelper;
-    /** @var array */
-    protected $placeholders;
-    /** @var CacheManager */
-    protected $imagineCacheManager;
-
-    public function __construct(UploaderHelper $uploaderHelper, array $placeholders, CacheManager $imagineCacheManager)
-    {
-        $this->uploaderHelper = $uploaderHelper;
-        $this->placeholders = $placeholders;
-        $this->imagineCacheManager = $imagineCacheManager;
-    }
-
     /**
      * @param null|Garage $garage
      * @param string $filter
