@@ -83,4 +83,12 @@ class PersonalVehicle extends BaseVehicle
         return $this->city;
     }
 
+    /**
+     * @return PersonalUser
+     */
+    public function getSeller(): PersonalUser
+    {
+        return $this->getOwner();
+    }
+
 }

@@ -11,3 +11,5 @@ services:
         public: false
         autowire: true
         autoconfigure: false
+        arguments:
+            $picturePlaceholders: '%placeholders%'
