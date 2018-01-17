@@ -17,9 +17,7 @@ class PathVehiclePicture extends BasePathPicture
      */
     public function getPath(?VehiclePicture $vehiclePicture, string $filter): string
     {
-        $picturePath = $vehiclePicture ? $this->uploaderHelper->asset($vehiclePicture, 'file'): $this->placeholders['vehicle'];
-
-        return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
+        return $this->getPicturePath($vehiclePicture, $filter, 'file', 'vehicle');
     }
 
 }

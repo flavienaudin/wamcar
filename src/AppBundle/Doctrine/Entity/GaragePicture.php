@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\Picture;
 
-abstract class GaragePicture extends Picture implements FileHolder
+abstract class GaragePicture extends Picture implements ApplicationPicture
 {
     use FileHolderTrait;
 

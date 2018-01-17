@@ -3,10 +3,11 @@
 
 namespace AppBundle\Services\Picture;
 
+use AppBundle\Doctrine\Entity\ApplicationPicture;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
-class BasePathPicture
+abstract class BasePathPicture
 {
     /** @var UploaderHelper */
     protected $uploaderHelper;
@@ -22,4 +23,18 @@ class BasePathPicture
         $this->imagineCacheManager = $imagineCacheManager;
     }
 
+    /**
+     * @param ApplicationPicture $picture
+     * @param string $filter
+     * @param string $fileField
+     * @param string $placeholderKey
+     * @return string
+     */
+    protected function getPicturePath(?ApplicationPicture $picture, string $filter, string $fileField, string $placeholderKey): string
+    {
+        $picturePath = $picture ? $this->uploaderHelper->asset($picture, $fileField): $this->placeholders[$placeholderKey];
+
+        return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
+
+    }
 }
