@@ -36,6 +36,7 @@ class VehicleDTO
         $this->registrationNumber = $registrationNumber;
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO();
+        $this->pictures = self::initFormPictureVehicle([]);
     }
 
     /**

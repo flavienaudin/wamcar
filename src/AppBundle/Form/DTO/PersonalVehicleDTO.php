@@ -14,7 +14,6 @@ class PersonalVehicleDTO extends VehicleDTO
     public function __construct(string $registrationNumber = null)
     {
         parent::__construct($registrationNumber);
-        $this->pictures = self::initFormPictureVehicle([]);
     }
 
 
