@@ -1,14 +1,26 @@
 <ul id="js-carousel-vehicle" class="js-carousel carousel">
     {% for picture in vehicle.pictures %}
         <li>
-            <img src="{{ vich_uploader_asset(picture, 'file') | imagine_filter('vehicle_picture') }}" alt="{{ picture.caption }}">
+            <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ picture.caption }}">
             {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
             <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
+        </li>
+    {% else %}
+        <li>
+            <img src="{{ 'vehicle_picture'|defaultVehiclePicture }}" alt="">
+            {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
+            <p class="vehicle-carousel-legend text-center"></p>
         </li>
     {% endfor %}
 </ul>
 <nav id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
 {% for picture in vehicle.pictures %}
-    <img src="{{ vich_uploader_asset(picture, 'file') | imagine_filter('vehicle_mini_thumbnail') }}" alt="{{ picture.caption }}">
+    <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ picture.caption }}">
+{% else %}
+    <li>
+        <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="">
+        {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
+        <p class="vehicle-carousel-legend text-center"></p>
+    </li>
 {% endfor %}
 </nav>

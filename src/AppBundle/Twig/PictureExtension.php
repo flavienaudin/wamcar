@@ -49,7 +49,8 @@ class PictureExtension extends AbstractExtension
             new \Twig_SimpleFilter('avatar', array($this, 'avatarFilter')),
             new \Twig_SimpleFilter('banner', array($this, 'bannerFilter')),
             new \Twig_SimpleFilter('logo', array($this, 'logoFilter')),
-            new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter'))
+            new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
+            new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter'))
         );
     }
 
@@ -73,5 +74,10 @@ class PictureExtension extends AbstractExtension
     public function vehiclePictureFilter(?VehiclePicture $vehiclePicture, string $filter)
     {
         return $this->pathVehiclePicture->getPath($vehiclePicture, $filter);
+    }
+
+    public function defaultVehiclePictureFilter(string $filter)
+    {
+        return $this->pathVehiclePicture->getPath(null, $filter);
     }
 }
