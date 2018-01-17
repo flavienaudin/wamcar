@@ -39,10 +39,12 @@ class VehicleSpecificsType extends AbstractType
             ])
             ->add('safetyTestDate', ChoiceType::class, [
                 'choices' => SafetyTestDate::toArray(),
+                'choice_translation_domain' => 'enumeration',
                 'error_bubbling' => true,
             ])
             ->add('safetyTestState', ChoiceType::class, [
                 'choices' => SafetyTestState::toArray(),
+                'choice_translation_domain' => 'enumeration',
                 'error_bubbling' => true,
             ])
             ->add('bodyState', StarType::class, [
@@ -58,6 +60,7 @@ class VehicleSpecificsType extends AbstractType
             ])
             ->add('maintenanceState', ChoiceType::class, [
                 'choices' => MaintenanceState::toArray(),
+                'choice_translation_domain' => 'enumeration',
                 'error_bubbling' => true,
             ])
             ->add('isImported', YesNoType::class, [
