@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
+use Wamcar\User\{
+    BaseUser, Picture as UserPicture
+};
 use Wamcar\Vehicle\Enum\{
     MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
 };
@@ -550,4 +553,24 @@ abstract class BaseVehicle implements Vehicle
     {
         $this->city = $city;
     }
+
+    /**
+     * @return BaseUser
+     */
+    abstract public function getSeller();
+
+    /**
+     * @return null|UserPicture
+     */
+    public function getSellerAvatar(): ?UserPicture
+    {
+        $seller = $this->getSeller();
+        if(!$seller instanceof BaseUser) {
+            throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
+        }
+
+        return $seller->getAvatar();
+    }
+
+
 }

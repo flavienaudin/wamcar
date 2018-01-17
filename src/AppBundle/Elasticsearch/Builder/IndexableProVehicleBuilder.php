@@ -14,11 +14,23 @@ class IndexableProVehicleBuilder
     private $router;
     /** @var UploaderHelper */
     private $uploaderHelper;
+    /** @var string */
+    private $avatarPlaceholder;
+    /** @var string */
+    private $vehiclePicturePlaceholder;
 
-    public function __construct(Router $router, UploaderHelper $uploaderHelper)
+    /**
+     * IndexableProVehicleBuilder constructor.
+     * @param Router $router
+     * @param UploaderHelper $uploaderHelper
+     * @param $picturePlaceholders
+     */
+    public function __construct(Router $router, UploaderHelper $uploaderHelper, array $picturePlaceholders)
     {
         $this->router = $router;
         $this->uploaderHelper = $uploaderHelper;
+        $this->avatarPlaceholder = $picturePlaceholders['avatar'];
+        $this->vehiclePicturePlaceholder = $picturePlaceholders['vehicle'];
     }
 
     /**
@@ -43,11 +55,11 @@ class IndexableProVehicleBuilder
             $vehicle->getLongitude(),
             $vehicle->getPrice(),
             $vehicle->getCreatedAt(),
-            count($vehicle->getPictures()) > 0 ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : '',
+            count($vehicle->getPictures()) > 0 ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : $this->vehiclePicturePlaceholder,
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSeller()->getName(),
-            $this->uploaderHelper->asset($vehicle->getSeller()->getAvatar(), 'file'),
+            $vehicle->getSellerAvatar() ? $this->uploaderHelper->asset($vehicle->getSellerAvatar(), 'file') : $this->avatarPlaceholder,
             $vehicle->getDeletedAt()
         );
     }
