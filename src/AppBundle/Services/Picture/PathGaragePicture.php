@@ -18,7 +18,7 @@ class PathGaragePicture extends BasePathPicture
      */
     public function getBannerPath(?Garage $garage, string $filter): string
     {
-        return $this->getPicturePath($garage->getBanner(), $filter, 'file', 'banner');
+        return $this->getPicturePath($garage ? $garage->getBanner() : null, $filter, 'file', 'banner');
     }
 
     /**
@@ -28,7 +28,8 @@ class PathGaragePicture extends BasePathPicture
      */
     public function getLogoPath(?Garage $garage, string $filter): string
     {
-        return $this->getPicturePath($garage->getLogo(), $filter, 'file', 'logo');
+
+        return $this->getPicturePath($garage ? $garage->getLogo() : null, $filter, 'file', 'logo');
     }
 
 }
