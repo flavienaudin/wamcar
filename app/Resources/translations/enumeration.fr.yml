@@ -1,0 +1,12 @@
+UNKNOWN: 'Inconnu'
+
+UP_TO_DATE_WITH_INVOICES: 'A jour avec factures'
+UP_TO_DATE: 'A jour'
+MISSING: 'Manquant'
+
+LESS_THAN_SIX_MONTH: 'Moins de six mois'
+MORE_THAN_SIX_MONTH: 'Plus de six mois'
+NOT_APPLICABLE: 'Non applicable'
+
+OK: 'Valide'
+NOT_OK: 'Non valide'
