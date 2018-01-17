@@ -51,8 +51,8 @@ class GarageFromDTOBuilder
             $dto->presentation,
             $dto->getAddress(),
             $dto->phone,
-            $dto->banner,
-            $dto->logo
+            $dto->banner->file,
+            $dto->logo->file
         );
     }
 
