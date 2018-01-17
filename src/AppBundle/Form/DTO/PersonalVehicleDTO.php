@@ -52,6 +52,7 @@ class PersonalVehicleDTO extends VehicleDTO
             $vehicle->getLongitude()
         );
 
+        $dto->pictures = [];
         foreach ($vehicle->getPictures() as $picture) {
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }

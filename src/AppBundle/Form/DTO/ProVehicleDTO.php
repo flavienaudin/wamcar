@@ -67,6 +67,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $vehicle->getReference()
         );
 
+        $dto->pictures = [];
         foreach ($vehicle->getPictures() as $picture) {
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }
