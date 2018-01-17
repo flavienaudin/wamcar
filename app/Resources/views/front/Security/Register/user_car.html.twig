@@ -8,15 +8,6 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-
-    <div>
-        <ul>
-        {% for error in vehicleForm.vars.errors %}
-            <li>{{ error.message }}</li>
-        {% endfor %}
-        </ul>
-    </div>
-
     <section class="small-12">
         {{ form_start(vehicleForm, {
             'method' : 'POST',

@@ -14,9 +14,9 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
      * ProVehicleDTO constructor.
      * @param string|null $registrationNumber
      */
-    public function __construct(string $registrationNumber = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null)
     {
-        parent::__construct($registrationNumber);
+        parent::__construct($registrationNumber, $date1erCir);
         $this->offer = new VehicleOfferDTO();
     }
 

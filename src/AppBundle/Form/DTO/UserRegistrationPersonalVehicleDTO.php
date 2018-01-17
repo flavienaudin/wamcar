@@ -12,9 +12,9 @@ final class UserRegistrationPersonalVehicleDTO extends PersonalVehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct(string $registrationNumber = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null)
     {
-        parent::__construct($registrationNumber);
+        parent::__construct($registrationNumber, $date1erCir);
         $this->userRegistration = new RegistrationDTO();
         $this->pictures = self::initFormPictureVehicle();
     }

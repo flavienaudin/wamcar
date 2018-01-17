@@ -6,7 +6,16 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
+{% block title %}
+    {% if vehicle %}
+        Modifier mon véhicule {{ vehicle.name }}
+    {% else %}
+        Ajouter un véhicule
+    {% endif %}
+{% endblock %}
+
 {% block body %}
+
     <div class="l-main-container no-padding">
 
         <div class="is-relative separator-section">
@@ -37,8 +46,8 @@
             <ul id="js-step" class="step">
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
-                        'vehicleForm' : personalVehicleForm,
-                        'fetch_plate_url' : path('front_vehicle_personal_add', {'plateNumber': '_plate_number_'})
+                    'vehicleForm' : personalVehicleForm,
+                    'fetch_plate_url' : (vehicle ? path('front_vehicle_personal_edit', {'id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_personal_add', {'plateNumber':'_plate_number_'}))
                     } %}
                 </li>
                 <li class="block-grid" data-step="2">

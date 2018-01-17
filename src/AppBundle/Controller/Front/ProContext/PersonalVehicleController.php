@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\ProVehicle;
 
 class PersonalVehicleController extends BaseController
 {
@@ -87,6 +86,10 @@ class PersonalVehicleController extends BaseController
             $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
             $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
             $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
+            $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
+            if($date1erCir){
+                $vehicleDTO->setRegistrationDate($date1erCir);
+            }
         }
 
         $vehicleDTO->updateFromFilters($filters);
@@ -103,7 +106,7 @@ class PersonalVehicleController extends BaseController
 
         if ($personalVehicleForm->isSubmitted() && $personalVehicleForm->isValid()) {
             if ($vehicle) {
-                $this->personalehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+                $this->personalVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
                 $vehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
@@ -119,6 +122,7 @@ class PersonalVehicleController extends BaseController
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [
             'personalVehicleForm' => $personalVehicleForm->createView(),
+            'vehicle' => $vehicle
         ]);
     }
 
