@@ -58,7 +58,7 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getMainPicture() ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : $this->vehiclePicturePlaceholder,
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-            $vehicle->getOwner()->getName() ?? '',
+            $vehicle->getSellerName() ?? '',
             $vehicle->getSellerAvatar() ? $this->uploaderHelper->asset($vehicle->getSellerAvatar(), 'file') : $this->avatarPlaceholder,
             $vehicle->getOwner()->getProject()
         );

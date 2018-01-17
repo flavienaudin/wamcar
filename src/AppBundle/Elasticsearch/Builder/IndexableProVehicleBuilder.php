@@ -58,7 +58,7 @@ class IndexableProVehicleBuilder
             count($vehicle->getPictures()) > 0 ? $this->uploaderHelper->asset($vehicle->getMainPicture(), 'file') : $this->vehiclePicturePlaceholder,
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-            $vehicle->getSeller()->getName(),
+            $vehicle->getSellerName() ?? '',
             $vehicle->getSellerAvatar() ? $this->uploaderHelper->asset($vehicle->getSellerAvatar(), 'file') : $this->avatarPlaceholder,
             $vehicle->getDeletedAt()
         );
