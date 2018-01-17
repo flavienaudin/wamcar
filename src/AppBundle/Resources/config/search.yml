@@ -17,7 +17,7 @@ parameters:
                 tokenizer:
                     nGram:
                         type:       nGram
-                        min_gram:   3
+                        min_gram:   2
                         max_gram:   15
                 filter:
                     stopwords:
