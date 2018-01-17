@@ -14,6 +14,7 @@ class PersonalVehicleDTO extends VehicleDTO
     public function __construct(string $registrationNumber = null)
     {
         parent::__construct($registrationNumber);
+        $this->pictures = self::initFormPictureVehicle([]);
     }
 
 
@@ -52,6 +53,7 @@ class PersonalVehicleDTO extends VehicleDTO
             $vehicle->getLongitude()
         );
 
+        $dto->pictures = [];
         foreach ($vehicle->getPictures() as $picture) {
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }

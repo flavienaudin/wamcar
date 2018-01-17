@@ -18,6 +18,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     {
         parent::__construct($registrationNumber);
         $this->offer = new VehicleOfferDTO();
+        $this->pictures = self::initFormPictureVehicle([]);
     }
 
     /**
@@ -67,6 +68,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $vehicle->getReference()
         );
 
+        $dto->pictures = [];
         foreach ($vehicle->getPictures() as $picture) {
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }
