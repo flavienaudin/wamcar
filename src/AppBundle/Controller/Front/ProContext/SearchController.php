@@ -64,7 +64,7 @@ class SearchController extends BaseController
         $pages[$type] = $page;
 
 
-        $searchForm = $this->getSearchForm($request, 'front_search_personal');
+        $searchForm = $this->getSearchForm($request, 'front_search_pro');
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchProResult($searchForm, $pages);

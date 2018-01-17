@@ -56,11 +56,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array $queryType
+     * @param string $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleText(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
+    private function handleText(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             $boolQuery = new BoolQuery();
@@ -81,11 +81,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array $queryType
+     * @param string $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleMake(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
+    private function handleMake(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {
@@ -107,11 +107,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array $queryType
+     * @param string $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleModel(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
+    private function handleModel(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {
@@ -133,11 +133,11 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
-     * @param array $queryType
+     * @param string $queryType
      * @param $value
      * @return QueryBuilder
      */
-    private function handleMileage(QueryBuilder $queryBuilder, array $queryType, $value): QueryBuilder
+    private function handleMileage(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
             if ($queryType === SearchController::QUERY_RECOVERY) {
