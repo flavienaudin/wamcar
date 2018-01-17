@@ -73,7 +73,7 @@ class UserEditionService
         if ($userInformationDTO->avatar) {
             if ($userInformationDTO->avatar->isRemoved) {
                 $user->setAvatar(null);
-            } else {
+            } elseif ($userInformationDTO->avatar->file) {
                 $picture = new UserPicture($user, $userInformationDTO->avatar->file);
                 $user->setAvatar($picture);
             }
