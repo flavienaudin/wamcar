@@ -4,6 +4,7 @@ namespace AppBundle\Services\Vehicle;
 
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
+use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use SimpleBus\Message\Bus\MessageBus;
@@ -81,6 +82,22 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
         $this->vehicleRepository->update($proVehicle);
+        return $vehicle;
+    }
+
+    /**
+     * @param array|ProVehiclePicture[] $pictures
+     * @param ProVehicle $vehicle
+     * @return ProVehicle
+     */
+    public function addPictures(array $pictures, ProVehicle $vehicle): ProVehicle
+    {
+        foreach ($pictures as $picture) {
+            $vehicle->addPicture($picture);
+        }
+
+        $this->vehicleRepository->update($vehicle);
+
         return $vehicle;
     }
 

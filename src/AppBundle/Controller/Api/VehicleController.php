@@ -3,8 +3,10 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +27,8 @@ use Swagger\Annotations as SWG;
  */
 class VehicleController extends BaseController
 {
+    private const MAX_IMAGE_UPLOAD = 8;
+
     /** @var ProVehicleRepository */
     private $vehicleRepository;
     /** @var ProVehicleEditionService */
@@ -254,9 +258,32 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function addImageAction(Request $request, Vehicle $vehicle): Response
+    public function addImageAction(Request $request, string $id): Response
     {
-        die('addImageAction');
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $vehicle = $this->vehicleRepository->findByReference($id);
+        if (!$vehicle) {
+            throw new NotFoundHttpException();
+        }
+
+        if(count($request->files) > self::MAX_IMAGE_UPLOAD) {
+            throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
+        }
+
+        $pictures = [];
+        /** @var UploadedFile $file */
+        foreach($request->files as $file)
+        {
+            $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
+        }
+
+        $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
+        $data = $this->formatVehicleData($vehicle);
+
+        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
