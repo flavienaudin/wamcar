@@ -53,6 +53,11 @@ let clearSelect = function (select) {
           });
           let event = new Event('change');
           cityInput.dispatchEvent(event);
+        } else {
+          let option = document.createElement('option');
+          option.text = 'Aucune ville n\'a été trouvée';
+          option.value = '';
+          cityInput.add(option);
         }
 
       })
