@@ -8,4 +8,11 @@ class UserPictureDTO
 {
     /** @var File */
     public $file;
+    /** @var bool */
+    public $isRemoved;
+
+    public function __construct(?File $file)
+    {
+        $this->file = $file;
+    }
 }

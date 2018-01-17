@@ -9,7 +9,7 @@ imports:
 parameters:
     locale: fr
     placeholders:
-        avatar: '/assets/images/placeholders/user/unisex-avatar.png'
+        avatar: '/assets/images/placeholders/user/unisex-avatar.jpg'
         banner: '/assets/images/placeholders/garages/garage-760x340.jpg'
         logo: '/assets/images/placeholders/garages/logo-toyota.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
@@ -177,3 +177,11 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [310, 235], mode: outbound }
+        user_mini_thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [52, 52], mode: outbound }
+        user_thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [100, 100], mode: outbound }

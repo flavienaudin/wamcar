@@ -41,7 +41,7 @@ class UserInformationDTO
     {
         $this->id = $user->getId();
         $this->email = $user->getEmail();
-        $this->avatar = $user->getAvatarFile();
+        $this->avatar = new UserPictureDTO($user->getAvatarFile());
         $this->fillFromUserProfile($user->getUserProfile());
     }
 
