@@ -44,16 +44,25 @@ class GarageFromDTOBuilder
             );
         }
 
-        return new Garage(
+        $garage =  new Garage(
             $dto->name,
             $dto->siren,
             $dto->openingHours,
             $dto->presentation,
             $dto->getAddress(),
-            $dto->phone,
-            $dto->banner->file,
-            $dto->logo->file
+            $dto->phone
         );
+
+        if ($dto->banner->file){
+            $banner = new GarageBanner($garage, $dto->banner->file);
+            $garage->setBanner($banner);
+        }
+        if ($dto->logo->file){
+            $logo = new GarageLogo($garage, $dto->logo->file);
+            $garage->setLogo($logo);
+        }
+
+        return $garage;
     }
 
     /**
