@@ -1,6 +1,6 @@
 <div class="vehicle-editing block-grid small-12">
     <span class="column small-collapse small-6 medium-6 large-uncollapse large-auto">
-        <a href="" class="button add icon-message">Envoyer un message</a>
+        <a href="mailto:{{ isProVehicle?vehicle.seller.email:vehicle.owner.email }}" class="button add icon-message">Envoyer un message</a>
     </span>
     <div class="column small-collapse small-6 medium-6 large-uncollapse large-left-collapse large-shrink">
         <a href="" class="button white icon-heart" title="Ajouter en favoris"><span class="hide-for-large">Ajouter en favoris</span></a>
