@@ -21,11 +21,11 @@ add('shared_files', [
     '.env',
 ]);
 add('shared_dirs', [
-    'web/uploads/images/vehicles',
+    'web/uploads',
     'web/media',
 ]);
 add('writable_dirs', [
-    'web/uploads/images/vehicles',
+    'web/uploads',
     'web/media',
 ]);
 
