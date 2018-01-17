@@ -49,7 +49,10 @@ migration:
 	$(DOCKERPHP) ./bin/console doctrine:migration:migrate --no-interaction --allow-no-migration
 vehicle-fixtures: database/fixtures/base_vehicule_short.csv
 	@echo "--> Populate vehicle index"
+	$(DOCKERPHP) ./bin/console wamcar:populate:clear_index
 	$(DOCKERPHP) ./bin/console wamcar:populate:vehicle_info
+	$(DOCKERPHP) ./bin/console wamcar:populate:personal_vehicle
+	$(DOCKERPHP) ./bin/console wamcar:populate:pro_vehicle
 
 # Frontend asset management
 NPM_OUT = node_modules/npm.md5

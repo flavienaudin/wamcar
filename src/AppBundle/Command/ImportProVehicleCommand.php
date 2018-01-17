@@ -33,20 +33,9 @@ class ImportProVehicleCommand extends BaseCommand
     {
         $this->output = $output;
 
-        $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
         $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
         $indexableProVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder');
-
-        $searchProVehicles = $index->search(['index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);
-        $progress = new ProgressBar($output, $searchProVehicles->totalHits());
-        foreach ($searchProVehicles->hits() as $searchProVehicle) {
-            $progress->advance();
-            $index->delete(['id' => $searchProVehicle['id'], 'index' => 'wamcar_index_dev', 'type' => IndexableProVehicle::TYPE]);
-        }
-        $progress->finish();
-
-        $this->log('info', 'Reload !');
 
         $vehicles = $proVehicleRepository->findAll();
         $progress = new ProgressBar($output, count($vehicles));
@@ -54,7 +43,6 @@ class ImportProVehicleCommand extends BaseCommand
         foreach ($vehicles as $vehicle) {
             $progress->advance();
             $objectIndexer->index($indexableProVehicleBuilder->buildFromVehicle($vehicle), IndexableProVehicle::TYPE);
-
         }
 
         $progress->finish();

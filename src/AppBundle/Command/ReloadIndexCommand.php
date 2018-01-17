@@ -34,12 +34,7 @@ class ReloadIndexCommand extends BaseCommand
         $this->output = $output;
 
         $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
-
         $index->reload();
-
-        $this->log('info', 'Reload !');
-
-        $this->logCRLF();
         $this->log('success', 'Done !');
     }
 
