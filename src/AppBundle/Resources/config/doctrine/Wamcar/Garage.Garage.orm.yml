@@ -63,8 +63,8 @@ Wamcar\Garage\Garage:
         banner:
             targetEntity: AppBundle\Doctrine\Entity\GarageBanner
             mappedBy: garage
-            cascade: ["persist"]
+            cascade: ["persist", "merge", "remove"]
         logo:
             targetEntity: AppBundle\Doctrine\Entity\GarageLogo
             mappedBy: garage
-            cascade: ["persist"]
+            cascade: ["persist", "merge", "remove"]

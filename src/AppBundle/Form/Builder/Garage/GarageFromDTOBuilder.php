@@ -83,12 +83,20 @@ class GarageFromDTOBuilder
         $garage->setBenefit($dto->benefit);
         $garage->setAddress($dto->getAddress());
         if ($dto->banner) {
-            $banner = new GarageBanner($garage, $dto->banner);
-            $garage->setBanner($banner);
+            if ($dto->banner->isRemoved) {
+                $garage->removeBanner();
+            } else {
+                $banner = new GarageBanner($garage, $dto->banner->file);
+                $garage->setBanner($banner);
+            }
         }
         if ($dto->logo) {
-            $logo = new GarageLogo($garage, $dto->logo);
-            $garage->setLogo($logo);
+            if ($dto->logo->isRemoved) {
+                $garage->removeLogo();
+            } else {
+                $logo = new GarageLogo($garage, $dto->logo->file);
+                $garage->setLogo($logo);
+            }
         }
 
         return $garage;

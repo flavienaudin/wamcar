@@ -65,10 +65,10 @@ class GarageDTO
             $this->latitude = $garage->getAddress()->getLatitude();
             $this->longitude = $garage->getAddress()->getLongitude();
             if ($garage->getBanner()) {
-                $this->banner = $garage->getBanner()->getFile();
+                $this->banner = new GaragePictureDTO($garage->getBannerFile());
             }
             if ($garage->getLogo()) {
-                $this->logo = $garage->getLogo()->getFile();
+                $this->logo = new GaragePictureDTO($garage->getLogoFile());
             }
         }
         $this->isNew = $garage === null;

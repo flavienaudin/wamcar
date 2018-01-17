@@ -67,10 +67,17 @@ services:
         autowire: true
         autoconfigure: false
 
-
     AppBundle\Services\Picture\PathVehiclePicture:
         class: 'AppBundle\Services\Picture\PathVehiclePicture'
         arguments:
           - '@vich_uploader.templating.helper.uploader_helper'
           - '%placeholders%'
           - '@liip_imagine.cache.manager'
+
+    AppBundle\Services\Picture\PathGaragePicture:
+        class: 'AppBundle\Services\Picture\PathGaragePicture'
+        arguments:
+          - '@vich_uploader.templating.helper.uploader_helper'
+          - '%placeholders%'
+          - '@liip_imagine.cache.manager'
+

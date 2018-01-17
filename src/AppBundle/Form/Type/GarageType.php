@@ -49,10 +49,10 @@ class GarageType extends AbstractType
             ->add('cityName', TextType::class)
             ->add('latitude', HiddenType::class)
             ->add('longitude', HiddenType::class)
-            ->add('banner', FileType::class, [
+            ->add('banner', GaragePictureType::class, [
                 'error_bubbling' => true
             ])
-            ->add('logo', FileType::class, [
+            ->add('logo', GaragePictureType::class, [
                 'error_bubbling' => true
             ])
         ;

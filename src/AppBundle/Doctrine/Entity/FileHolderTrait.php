@@ -26,9 +26,9 @@ trait FileHolderTrait
     }
 
     /**
-     * @param File $file
+     * @param null|File $file
      */
-    public function setFile(File $file): void
+    public function setFile(?File $file): void
     {
         $this->file = $file;
     }

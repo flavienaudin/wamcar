@@ -2,9 +2,12 @@
 
 namespace Wamcar\Garage;
 
+use AppBundle\Doctrine\Entity\GarageBanner;
+use AppBundle\Doctrine\Entity\GarageLogo;
 use AppBundle\Doctrine\Entity\GaragePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
@@ -319,11 +322,27 @@ class Garage
     }
 
     /**
+     * @return null|File
+     */
+    public function getBannerFile(): ?File
+    {
+        return $this->banner ? $this->banner->getFile() : null;
+    }
+
+    /**
      * @return null|Picture
      */
     public function getLogo(): ?Picture
     {
         return $this->logo;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getLogoFile(): ?File
+    {
+        return $this->banner ? $this->banner->getFile() : null;
     }
 
     /**
@@ -334,12 +353,28 @@ class Garage
         $this->banner = $banner;
     }
 
+    public function removeBanner()
+    {
+        if ($this->getBanner()) {
+            $this->getBanner()->setGarage(null);
+            $this->setBanner(null);
+        }
+    }
+
     /**
      * @param null|GaragePicture $logo
      */
     public function setLogo(?GaragePicture $logo)
     {
         $this->logo = $logo;
+    }
+
+    public function removeLogo()
+    {
+        if ($this->getLogo()) {
+            $this->getLogo()->setGarage(null);
+            $this->setLogo(null);
+        }
     }
 
 }
