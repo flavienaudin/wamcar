@@ -125,14 +125,14 @@ class RegistrationController extends BaseController
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             try {
                 $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
+                return $this->redirectToRoute('register_confirm');
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.danger.registration_duplicate'
                 );
-                // TODO redirect to inscription form
+                // TODO aller directement à l'étape d'inscription (garder le véhicule à créer)
             }
-            return $this->redirectToRoute('register_confirm');
         }
 
         return $this->render(
