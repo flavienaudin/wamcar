@@ -337,6 +337,7 @@
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
+    {% set isEdit = value and value.file ? true : false %}
 
     {% if label %}
         <label for="{{ form.vars.id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
@@ -350,7 +351,7 @@
             </div>
             <span class="show-for-sr">Ajouter une photo</span>
         </label>
-        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
     </div>
 {% endblock %}
 
@@ -362,6 +363,7 @@
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
+    {% set isEdit = value and value.file ? true : false %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
@@ -375,7 +377,7 @@
             </div>
             <span class="show-for-sr">Ajouter une photo</span>
         </label>
-        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
     </div>
 {% endblock %}
 
