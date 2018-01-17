@@ -62,19 +62,19 @@ class SearchVehicleType extends AbstractType
                 'error_bubbling' => true,
             ])
             ->add('yearsMin', ChoiceType::class, [
-                'choices' => YearsChoice::getLastYears(),
+                'choices' => YearsChoice::getLastYears(58),
                 'error_bubbling' => true,
             ])
             ->add('yearsMax', ChoiceType::class, [
-                'choices' => YearsChoice::getLastYears(),
+                'choices' => YearsChoice::getLastYears(58),
                 'error_bubbling' => true,
             ])
             ->add('budgetMin', ChoiceType::class, [
-                'choices' => BudgetChoice::getList(),
+                'choices' => BudgetChoice::getListMin(),
                 'error_bubbling' => true,
             ])
             ->add('budgetMax', ChoiceType::class, [
-                'choices' => BudgetChoice::getList(),
+                'choices' => BudgetChoice::getListMax(),
                 'error_bubbling' => true,
             ])
         ;
