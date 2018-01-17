@@ -2,7 +2,7 @@
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            <span class="brand-logo {{ info.tel is defined ? 'is-logo' : '' }}"><img src="{{ asset('assets/images/placeholders/garages/garage-360x160.jpg') }}" alt="{{ vehicle.garage.name }}"></span>
+            <span class="brand-logo {{ info.tel is defined ? 'is-logo' : '' }}"><img src="{{ vehicle.garage|logo('garage_mini_logo') }}" alt="{{ vehicle.garage.name }}"></span>
             <div>
                 <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="primary-color h3"><b>{{ vehicle.garage.name }}</b></a> <br>
                 <span>{{ vehicle.garage.address.cityName }}</span>

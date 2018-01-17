@@ -10,8 +10,8 @@ parameters:
     locale: fr
     placeholders:
         avatar: '/assets/images/placeholders/user/unisex-avatar.jpg'
-        banner: '/assets/images/placeholders/garages/garage-760x340.jpg'
-        logo: '/assets/images/placeholders/garages/logo-toyota.png'
+        banner: '/assets/images/placeholders/garages/bg-plus-banner.jpg'
+        logo: '/assets/images/placeholders/garages/bg-plus.jpg'
         vehicle: '/assets/images/register/pictures_default.jpg'
 
 framework:
@@ -160,8 +160,6 @@ liip_imagine:
             filesystem:
                 data_root: '%env(IMAGINE_FILESYSTEM_ROOT)%'
     data_loader: uploaded_files
-
-
     # your filter sets are defined here
     filter_sets:
         cache: ~
@@ -185,3 +183,19 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [100, 100], mode: outbound }
+        garage_banner:
+            quality: 75
+            filters:
+                thumbnail: { size: [760, 340], mode: outbound }
+        garage_mini_banner:
+            quality: 75
+            filters:
+                thumbnail: { size: [360, 160], mode: outbound }
+        garage_logo:
+            quality: 75
+            filters:
+                thumbnail: { size: [120, 120], mode: outbound }
+        garage_mini_logo:
+            quality: 75
+            filters:
+                thumbnail: { size: [50, 50], mode: outbound }

@@ -325,11 +325,7 @@
     </div>
 {% endblock %}
 
-{% block _pro_user_information_avatar_widget %}
-    {{ block('_user_information_avatar_widget') }}
-{% endblock %}
-
-{% block _user_information_avatar_widget %}
+{% block picture_widget %}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
     {% set required = required|default(false) %}
@@ -337,9 +333,10 @@
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
+    {% set isEdit = value and value.file ? true : false %}
 
     {% if label %}
-        <label for="{{ form.vars.id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     <div class="js-file-preview file-preview js-file-index {{ classPreview }}">
         {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
@@ -350,31 +347,7 @@
             </div>
             <span class="show-for-sr">Ajouter une photo</span>
         </label>
-        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
-    </div>
-{% endblock %}
-
-{% block picture_widget %}
-    {% set class_field = class_field|default('') %}
-    {% set class = class|default('') %}
-    {% set required = required|default(false) %}
-    {% set required_message = required_message|default('Ce champ est requis') %}
-    {% set required_class = required_class|default('') %}
-    {% set label = label|default(false) %}
-    {% set label_class = label_class|default('') %}
-
-    {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
-    {% endif %}
-    <div class="js-file-preview file-preview {{ classPreview }}">
-        {{ form_widget(form, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
-        <label for="{{ id }}" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
-            <div class="file-preview-image no-margin">
-                <span><img src="{{ imgPreview }}" width="100%" class="js-file-preview-image"></span>
-            </div>
-            <span class="show-for-sr">Ajouter une photo</span>
-        </label>
-        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove is-hidden" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+        <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
     </div>
 {% endblock %}
 
@@ -557,6 +530,14 @@
 {%- block _search_vehicle_cityName_widget -%}
     {{ block('city_widget') }}
 {%- endblock _search_vehicle_cityName_widget -%}
+
+{% block _pro_user_information_avatar_widget %}
+    {{ block('picture_widget') }}
+{% endblock %}
+
+{% block _user_information_avatar_widget %}
+    {{ block('picture_widget') }}
+{% endblock %}
 
 {%- block _garage_banner_widget -%}
     {{ block('picture_widget') }}

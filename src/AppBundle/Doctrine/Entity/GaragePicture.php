@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\Picture;
 
-abstract class GaragePicture extends Picture implements FileHolder
+abstract class GaragePicture extends Picture implements ApplicationPicture
 {
     use FileHolderTrait;
 
@@ -16,9 +16,9 @@ abstract class GaragePicture extends Picture implements FileHolder
 
     /**
      * VehiclePicture constructor.
-     * @param File $file
+     * @param null|File $file
      */
-    public function __construct(Garage $garage, File $file)
+    public function __construct(Garage $garage, ?File $file)
     {
         $this->id = Uuid::uuid4();
         $this->setFile($file);

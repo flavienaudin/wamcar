@@ -4,6 +4,7 @@
 namespace AppBundle\Twig;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
+use AppBundle\Services\Picture\PathGaragePicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Twig\Extension\AbstractExtension;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -18,6 +19,8 @@ class PictureExtension extends AbstractExtension
     protected $placeholders;
     /** @var PathVehiclePicture */
     protected $pathVehiclePicture;
+    /** @var PathGaragePicture */
+    protected $pathGaragePicture;
 
 
     /**
@@ -25,12 +28,19 @@ class PictureExtension extends AbstractExtension
      * @param UploaderHelper $uploaderHelper
      * @param array $placeholders
      * @param PathVehiclePicture $pathVehiclePicture
+     * @param PathGaragePicture $pathGaragePicture
      */
-    public function __construct(UploaderHelper $uploaderHelper, array $placeholders, PathVehiclePicture $pathVehiclePicture)
+    public function __construct(
+        UploaderHelper $uploaderHelper,
+        array $placeholders,
+        PathVehiclePicture $pathVehiclePicture,
+        PathGaragePicture $pathGaragePicture
+    )
     {
         $this->uploaderHelper = $uploaderHelper;
         $this->placeholders = $placeholders;
         $this->pathVehiclePicture = $pathVehiclePicture;
+        $this->pathGaragePicture = $pathGaragePicture;
     }
 
     public function getFilters()
@@ -50,18 +60,14 @@ class PictureExtension extends AbstractExtension
         return $picturePath;
     }
 
-    public function bannerFilter(?Garage $garage)
+    public function bannerFilter(?Garage $garage, string $filter)
     {
-        $picturePath = $garage && $garage->getBanner() ? $this->uploaderHelper->asset($garage->getBanner(), 'file'): $this->placeholders['banner'];
-
-        return $picturePath;
+        return $this->pathGaragePicture->getBannerPath($garage, $filter);
     }
 
-    public function logoFilter(?Garage $garage)
+    public function logoFilter(?Garage $garage, string $filter)
     {
-        $picturePath = $garage && $garage->getLogo() ? $this->uploaderHelper->asset($garage->getLogo(), 'file'): $this->placeholders['logo'];
-
-        return $picturePath;
+        return $this->pathGaragePicture->getLogoPath($garage, $filter);
     }
 
     public function vehiclePictureFilter(?VehiclePicture $vehiclePicture, string $filter)
