@@ -44,22 +44,11 @@ class ImportVehicleInfoCommand extends BaseCommand
     {
         $this->output = $output;
 
-        $index = $this->getContainer()->get('Novaway\ElasticsearchClient\Index');
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
 
         $csv = CsvReader::createFromPath($input->getArgument('file'), 'r');
         $csv->setDelimiter(';');
         $csv->setHeaderOffset(0);
-
-        // ToDo : reload only VEHICLE_INFO type
-        //$index->reload();
-        $searchVehicleInfos = $index->search(['index' => 'wamcar_index_dev', 'type' => VehicleInfo::TYPE]);
-        $progress = new ProgressBar($output, $searchVehicleInfos->totalHits());
-        foreach ($searchVehicleInfos->hits() as $searchVehicleInfo) {
-            $progress->advance();
-            $index->delete(['id' => $searchVehicleInfo['ktypNumber'], 'index' => 'wamcar_index_dev', 'type' => VehicleInfo::TYPE]);
-        }
-        $progress->finish();
 
         $progress = new ProgressBar($output, $csv->count());
         foreach ($csv->getRecords($csv->getHeader()) as $record) {
