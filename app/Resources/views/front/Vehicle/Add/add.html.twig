@@ -6,7 +6,13 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Ajouter un véhicule{% endblock %}
+{% block title %}
+    {% if vehicle %}
+        Modifier votre véhicule {{ vehicle.name }}
+    {% else %}
+        Ajouter un véhicule
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 

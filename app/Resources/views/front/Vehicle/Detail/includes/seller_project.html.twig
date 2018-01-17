@@ -1,6 +1,10 @@
 <h2 class="separator medium primary-color">Projet du vendeur</h2>
 
 {% if vehicle.ownerProject %}
+    {% set project = vehicle.ownerProject %}
+    {{ include(':front/User/includes:personal_user_project.html.twig') }}
+
+{#
 <h3 class="medium primary-color">Budget de 18 000€</h3>
 <ul class="list-bullet dark-gray-color no-margin">
     <li><strong>Audi A3</strong> / 2012+ / -60000 km</li>
@@ -9,6 +13,7 @@
 </ul>
 
 <div class="seller-project-details dark-gray-color">Je recherche une citadine allemande en version 5 portes. Diesel ou essence. Mes préférences vont pour une couleur noire ou gris anthracite.</div>
+#}
 
 {# TOOD Question intégration : Rappel de la fiche du vendeur ici ? uniquement sur mobile ? #}
 <div class="seller-profile block-border">

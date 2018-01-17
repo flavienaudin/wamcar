@@ -1,6 +1,12 @@
 {% extends 'front/Seller/card.html.twig' %}
 
-{% block title %}Mon profil{% endblock %}
+{% block title %}
+    {% if userIsMe %}
+        Ma fiche profil
+    {% else %}
+        Fiche profil{{ user.name ? ' de %s'|format(user.name) }}
+    {% endif %}
+{% endblock %}
 
 {% block presentation %}
     <h2>Présentation</h2>
@@ -17,27 +23,20 @@
 {% endblock %}
 
 {% block other_informations %}
-    <h2>Son projet</h2>
-    {% if user.project and user.project.budget %}
-        {% if user.project.budget %}
-            <p><strong class="primary-color">Budget de {{ user.project.budget|number_format(0, ',', ' ') }} €</strong></p>
-        {% endif %}
-        {% if user.project.isFleet == true %}
-            <p>Il s'agit d'une flotte.</p>
-        {% endif %}
-        <ul class="list-bullet">
-            {% for projectVehicle in user.project.projectVehicles %}
-                <li>{{ projectVehicle.make }} {{ projectVehicle.model }}
-                    {{ (projectVehicle.yearMax) ? '/ '~projectVehicle.yearMax~"+ " : '' }}
-                    {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|number_format(0, ',', ' ')~" km" : '' }}
-                </li>
-            {% endfor %}
-        </ul>
-        <p>{{ user.project.description|nl2br }}</p>
+    <h2>{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
+    {% if user.project and (user.project.budget or user.project.projectVehicles) %}
+        {% set project = user.project %}
+        {{ include('front/User/includes/personal_user_project.html.twig') }}
     {% else %}
-        <p>Aucun projet renseigné</p>
+        {% if userIsMe %}
+            <p>Je n'ai pas renseigné de projet de rachat.</p>
+        {% else %}
+            <p>Le vendeur n'a pas renseigné de projet de rachat.</p>
+        {% endif %}
     {% endif %}
-    <a href="{{ path('front_edit_user_info') }}" class="text-underline">Gérer mon projet</a>
+    {% if userIsMe %}
+        <a href="{{ path('front_edit_user_info') }}" class="text-underline">Gérer mon projet</a>
+    {% endif %}
 {% endblock %}
 
 {% block vehicle %}
