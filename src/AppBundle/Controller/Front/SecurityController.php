@@ -25,7 +25,7 @@ class SecurityController extends BaseController
 {
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var UserRegistrationService  */
+    /** @var UserRegistrationService */
     protected $userRegistrationService;
     /** @var UserAuthenticator */
     protected $userAuthenticator;
@@ -37,7 +37,7 @@ class SecurityController extends BaseController
     private $personalUserRepository;
     /** @var UserGlobalSearchService */
     private $userGlobalSearchService;
-    /** @var AuthenticationUtils  */
+    /** @var AuthenticationUtils */
     private $authenticationUtils;
     /** @var MessageBus */
     private $eventBus;
@@ -108,11 +108,11 @@ class SecurityController extends BaseController
                 'flash.success.registration_success'
             );
 
-            if($registeredUser->hasConfirmedRegistration()) {
+            if ($registeredUser->hasConfirmedRegistration()) {
                 $this->userAuthenticator->authenticate($registeredUser);
+                return $this->redirectToRoute('front_default');
             }
-
-            return $this->redirectToRoute('front_default');
+            return $this->redirectToRoute('register_confirm');
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
@@ -171,7 +171,7 @@ class SecurityController extends BaseController
      */
     public function loginPageAction(Request $request): Response
     {
-        if($this->isUserAuthenticated()) {
+        if ($this->isUserAuthenticated()) {
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
@@ -197,13 +197,13 @@ class SecurityController extends BaseController
     public function passwordLostAction(Request $request): Response
     {
         $email = $request->get('email', null);
-        if(!$email) {
+        if (!$email) {
             return $this->render('front/User/includes/form_password_lost.html.twig');
         }
 
         /** @var HasPasswordResettable $user */
         $user = $this->userRepository->findOneByEmail($email);
-        if(!$user) {
+        if (!$user) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.user_no_exist'
@@ -234,7 +234,7 @@ class SecurityController extends BaseController
     {
         /** @var HasPasswordResettable $user */
         $user = $this->userGlobalSearchService->findOneByPasswordResetToken($token);
-        if(!$user) {
+        if (!$user) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.user_no_exist'

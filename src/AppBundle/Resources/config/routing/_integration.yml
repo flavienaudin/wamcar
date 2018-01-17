@@ -10,12 +10,6 @@ register_pro:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Register/pro.html.twig
 
-register_confirm:
-    path: /inscription/confirmation
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/confirm.html.twig
-
 reset_password:
     path: /reinitialiser-votre-mot-de-passe
     defaults:
