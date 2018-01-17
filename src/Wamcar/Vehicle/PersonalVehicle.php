@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
@@ -72,6 +73,14 @@ class PersonalVehicle extends BaseVehicle
     public function canSeeMe(BaseUser $user = null)
     {
         return $this->getOwner() != null && ($this->getOwner()->is($user) || $user instanceof ProUser);
+    }
+
+    /**
+     * @return City
+     */
+    protected function getCity(): ?City
+    {
+        return $this->city;
     }
 
 }

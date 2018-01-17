@@ -297,10 +297,7 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return City
      */
-    private function getCity(): City
-    {
-        return $this->city;
-    }
+    abstract protected function getCity(): ?City;
 
     /**
      * @return string
