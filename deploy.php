@@ -22,9 +22,11 @@ add('shared_files', [
 ]);
 add('shared_dirs', [
     'web/uploads/images/vehicles',
+    'web/media',
 ]);
 add('writable_dirs', [
     'web/uploads/images/vehicles',
+    'web/media',
 ]);
 
 before('deploy:vendors', 'deploy:install_composer');
