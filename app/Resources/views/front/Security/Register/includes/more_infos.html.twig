@@ -182,7 +182,10 @@
         {# Button submit #}
         <div class="block-grid column small-12 align-middle">
             <div class="input-margin small-12">
-                <button type="submit" class="button full-width">Ajouter le véhicule</button>
+                <button type="submit" class="button full-width">{{ vehicle ? "Editer le véhicule" : "Ajouter le véhicule" }}</button>
+            </div>
+            <div class="small-12">
+                <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape précédente</b></button>
             </div>
         </div>
     {% endif %}
