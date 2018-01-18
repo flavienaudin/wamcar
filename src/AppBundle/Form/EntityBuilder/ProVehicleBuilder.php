@@ -50,7 +50,7 @@ class ProVehicleBuilder implements VehicleBuilder
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new ProVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new ProVehiclePicture(null, $vehicle, $pictureDTO->file, $pictureDTO->caption);
                 $vehicle->addPicture($picture);
             }
         }
