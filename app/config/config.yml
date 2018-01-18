@@ -8,11 +8,17 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    # Define request context for url generation, inside console commands only
+    router.request_context.host: '%env(REQUEST_CONTEXT_HOST)%'
+    router.request_context.scheme: '%env(REQUEST_CONTEXT_SCHEME)%'
+    router.request_context.base_url: '%env(REQUEST_CONTEXT_BASE_URL)%'
+
     placeholders:
         avatar: '/assets/images/placeholders/user/unisex-avatar.jpg'
         banner: '/assets/images/placeholders/garages/bg-plus-banner.jpg'
         logo: '/assets/images/placeholders/garages/bg-plus.jpg'
         vehicle: '/assets/images/register/pictures_default.jpg'
+
 
 framework:
     #esi: ~
