@@ -51,7 +51,7 @@
 
 {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
-<div class="l-main-container">
+<div class="l-main-container vehicle-perso">
     <div class="row">
 
         <section class="small-12 large-7 xlarge-8">
@@ -63,15 +63,15 @@
             </div>
 
             <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                {% if isUserPro %}
-                    <div class="column small-12 medium-6 large-order-2 large-12">
-                        {# TODO : d'où sont tirés les données ? à définir dans sprint suivant ? #}
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                    </div>
-                {% endif %}
                 <div class="column small-12 medium-6 large-12">
                     {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
                 </div>
+                {# TODO Montrer seulement en mode vue créateur particulier #}
+                {% if not isUserPro %}
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                    </div>
+                {% endif %}
                 <div class="small-12 large-order-3">
                     {% if isUserPro %}
                     {# TODO revoir les liens à afficher si Pro connecté #}
@@ -88,15 +88,15 @@
                 <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                     {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
                 </div>
-                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12"
-                     id="js-description" data-magellan-target="js-description">
-                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                </div>
                 <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
                     {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
                 </div>
                 <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
                     {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                </div>
+                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12"
+                     id="js-description" data-magellan-target="js-description">
+                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
                 </div>
                 <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project"
                      data-magellan-target="js-project">

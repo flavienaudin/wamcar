@@ -4,7 +4,6 @@
 
 .vehicle {
 
-
   /*
     Filter
     ===================================== */
@@ -484,16 +483,34 @@
      Users interested
      ===================================== */
 
-  &-users {
-    margin-bottom: rem-calc(30);
+   &-perso {
+     .vehicle-users {
+       margin-top: rem-calc(30);
 
+       @include breakpoint(medium) {
+         margin-top: 0;
+       }
+
+       @include breakpoint(large) {
+         margin-bottom: rem-calc(30);
+       }
+     }
+   }
+
+   &-pro {
+     .vehicle-users {
+       margin-bottom: rem-calc(30);
+
+       @include breakpoint(medium only) {
+         margin-bottom: 0;
+       }
+     }
+   }
+
+  &-users {
     @include breakpoint(medium down) {
       border: 0;
       padding: 0;
-    }
-
-    @include breakpoint(medium only) {
-      margin-bottom: 0;
     }
   }
 

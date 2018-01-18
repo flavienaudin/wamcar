@@ -12,6 +12,16 @@
 <h2 class="separator medium primary-color">Etat du véhicule</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for state in state_inte %}
-        <li class="dark-gray-color block-grid"><strong class="small-6 medium-6 xlarge-5">{{ state.label }}</strong> {{ state.value }}</li>
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ state.label }}</strong>
+            {% if state.value matches '/^\\d+$/' %}
+                {% for i in 5..1 %}
+                    {% set starClass = (state.value > i ? "star-empty" : "star-full")  %}
+                     <i class="star-item {{ starClass }}"></i>
+                {% endfor %}
+            {% else %}
+                {{ state.value }}
+            {% endif %}
+        </li>
     {% endfor %}
 </ul>
