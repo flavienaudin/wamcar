@@ -1,5 +1,10 @@
 <div class="vehicle-users block-border">
-    <strong class="primary-color h3">Particuliers intéressés</strong>
+    {% if isProVehicle %}
+        <strong class="primary-color h3">Particuliers intéressés</strong>
+    {% else %}
+        <strong class="primary-color h3">Professionnels intéressés</strong>
+    {% endif %}
+
     <ul class="seller-list no-bullet list-border tiny no-margin">
         {% for seller in sellers %}
             <li class="block-grid no-margin align-middle">
