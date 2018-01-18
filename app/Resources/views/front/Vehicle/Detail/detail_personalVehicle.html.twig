@@ -5,8 +5,8 @@
 
 {# Integration data #}
 {#{% set isEditableByCurrentUser = true %}
-{% set vehicle = inte.vehicle['golf-2-tdi'] %}
-{% set isProVehicle = false %}#}
+{% set vehicle = inte.vehicle['golf-2-tdi'] %}#}
+{% set isProVehicles = false %}
 
 {% set sellers = inte.garage.sellers %}
 
@@ -102,19 +102,18 @@
                      data-magellan-target="js-project">
                     {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
                 </div>
+                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
+                     data-magellan-target="js-associate">
+                    {% include ':front/Vehicle/Detail/includes:personal_vehicle.html.twig' %}
+                </div>
             </div>
-
         </section>
-
         <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
-
     </div>
 </div>
 
 {% endblock body %}
 
 {% block modal %}
-
     {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
-
 {% endblock %}
