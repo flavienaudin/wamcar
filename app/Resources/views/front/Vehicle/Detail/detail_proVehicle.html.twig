@@ -6,7 +6,7 @@
 
 {#{% set isEditableByCurrentUser = true %}
 {% set vehicle = inte.vehicle['golf-2-tdi'] %}
-{% set isProVehicle = true %}#}
+{% set isProVehicles = true %}#}
 
 {% set sellers = inte.garage.sellers %}
 
@@ -131,19 +131,19 @@
                      data-magellan-target="js-funding">
                     {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
                 </div>
+                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
+                     data-magellan-target="js-associate">
+                    {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.garage.proVehicles, 'title': 'Autres véhicules de ce garage'} %}
+                    <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">Voir tous les véhicules de ce garage</a>
+                </div>
             </div>
-
         </section>
-
         <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
-
     </div>
 </div>
 
 {% endblock body %}
 
 {% block modal %}
-
     {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
-
 {% endblock %}
