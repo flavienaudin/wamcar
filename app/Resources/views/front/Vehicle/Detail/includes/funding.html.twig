@@ -1,7 +1,11 @@
 <h2 class="separator medium primary-color">Financement</h2>
 <ul class="list-bullet dark-gray-color no-margin">
-    {% if vehicle.funding %}
-        <li>{{ vehicle.funding }}</li>
+    {% if vehicle.funding or vehicle.otherFunding %}
+        {% if vehicle.funding %}
+            <li>{{ vehicle.funding }}</li>
+        {% endif %}
+        {{ vehicle.otherFunding|raw }}
+    {% else %}
+        Ce champ n'a pas été renseigné par le professionnel
     {% endif %}
-    {{ vehicle.otherFunding|raw }}
 </ul>
