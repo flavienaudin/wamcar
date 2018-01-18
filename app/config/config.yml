@@ -160,7 +160,7 @@ liip_imagine:
             filesystem:
                 data_root:
                      - '%env(IMAGINE_FILESYSTEM_ROOT)%'
-                     - '%env(IMAGINE_FILESYSTEM_ROOT_SHARED)%'
+                     - '%env(IMAGINE_FILESYSTEM_DEPLOYER_SHARED_ROOT)%'
     data_loader: uploaded_files
     # your filter sets are defined here
     filter_sets:
