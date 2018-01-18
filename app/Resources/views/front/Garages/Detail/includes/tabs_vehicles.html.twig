@@ -32,8 +32,12 @@
         {% endif %}
     </div>
 {% else %}
-    <p>Vous n'avez aucun véhicule en vente.</p>
-    <div class="small-12 medium-6 large-4">
-        <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
-    </div>
+    {% if isEditableByCurrentUser %}
+        <p>Vous n'avez aucun véhicule en vente.</p>
+        <div class="small-12 medium-6 large-4">
+            <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+        </div>
+    {% else %}
+        <p>Aucun véhicule n'est en vente.</p>
+    {% endif %}
 {% endif %}

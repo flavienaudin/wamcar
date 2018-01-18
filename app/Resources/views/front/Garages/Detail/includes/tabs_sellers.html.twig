@@ -16,9 +16,11 @@
                     {# Vue particulier #}
                     {# <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
                     {# Vue pro #}
-                    {% if userIsMe %}
+                    {% if not isLogged %}
+                        <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">Envoyer un message</a></p>
+                    {% elseif userIsMe %}
                         <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
-                    {% else %}
+                    {% elseif isUserPersonal %}
                         <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="text-underline">Envoyer un message</a></p>
                     {% endif %}
                     {# <li class="block-grid column large-left-collapse align-middle">
