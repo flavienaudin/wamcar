@@ -1,7 +1,11 @@
 <h2 class="separator medium primary-color">Garanties</h2>
 <ul class="list-bullet dark-gray-color no-margin">
-    {% if vehicle.guarantee %}
-        <li>{{ vehicle.guarantee }}</li>
+    {% if vehicle.guarantee or vehicle.otherGuarantee %}
+        {% if vehicle.guarantee %}
+            <li>{{ vehicle.guarantee }}</li>
+        {% endif %}
+        {{ vehicle.otherGuarantee|raw }}
+    {% else %}
+        Ce champ n'a pas été renseigné par le professionnel
     {% endif %}
-    {{ vehicle.otherGuarantee|raw }}
 </ul>
