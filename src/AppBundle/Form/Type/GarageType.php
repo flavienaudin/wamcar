@@ -30,6 +30,7 @@ class GarageType extends AbstractType
                     'maxlength' => 9
                 ],
                 'constraints' => new UniqueGarageSiren()
+
             ])
             ->add('openingHours', TextareaType::class, [
                 'required' => false

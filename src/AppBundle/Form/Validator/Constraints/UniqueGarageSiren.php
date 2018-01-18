@@ -11,5 +11,5 @@ use Symfony\Component\Validator\Constraint;
  */
 class UniqueGarageSiren extends Constraint
 {
-    public $message = 'constraint.already_registered_garage_siren';
+    public $message = 'constraint.garage.already_registered_siren';
 }
