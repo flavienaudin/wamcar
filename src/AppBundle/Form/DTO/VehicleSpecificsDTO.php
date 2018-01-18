@@ -6,7 +6,6 @@ use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
-use Wamcar\Vehicle\ProVehicle;
 
 class VehicleSpecificsDTO
 {
@@ -46,9 +45,9 @@ class VehicleSpecificsDTO
     /**
      * VehicleSpecificsDTO constructor.
      */
-    public function __construct()
+    public function __construct(?string $date1erCir = 'last year')
     {
-        $this->registrationDate = new \DateTimeImmutable('last year');
+        $this->registrationDate = new \DateTimeImmutable($date1erCir);
         $this->safetyTestDate = SafetyTestDate::UNKNOWN();
         $this->safetyTestState = SafetyTestState::UNKNOWN();
         $this->maintenanceState = MaintenanceState::UNKNOWN();

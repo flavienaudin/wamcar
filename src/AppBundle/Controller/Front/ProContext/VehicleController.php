@@ -80,6 +80,10 @@ class VehicleController extends BaseController
             $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
             $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
             $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
+            $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
+            if($date1erCir){
+                $vehicleDTO->setRegistrationDate($date1erCir);
+            }
         }
 
         $vehicleDTO->updateFromFilters($filters);

@@ -31,11 +31,11 @@ class VehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct(string $registrationNumber = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null)
     {
         $this->registrationNumber = $registrationNumber;
         $this->information = new VehicleInformationDTO();
-        $this->specifics = new VehicleSpecificsDTO();
+        $this->specifics = new VehicleSpecificsDTO($date1erCir);
         $this->pictures = self::initFormPictureVehicle([]);
     }
 
@@ -54,7 +54,7 @@ class VehicleDTO
     public static function initFormPictureVehicle(array $pictures = []): array
     {
         if (count($pictures) < self::DEFAULT_PICTURE_COUNT) {
-            for($i = count($pictures); $i < self::DEFAULT_PICTURE_COUNT; $i++) {
+            for ($i = count($pictures); $i < self::DEFAULT_PICTURE_COUNT; $i++) {
                 $pictures[] = new VehiclePictureDTO();
             }
         } else {
@@ -244,13 +244,28 @@ class VehicleDTO
     {
         $this->information->transmission = $transmission;
     }
+
     public function setMake($make): void
     {
         $this->information->make = new Make($make);
     }
+
     public function setFuel($fuel): void
     {
         $this->information->fuel = new Fuel($fuel);
+    }
+
+    /**
+     * @param \DateTimeImmutable|string $registrationDate
+     */
+    public function setRegistrationDate($registrationDate = null): self
+    {
+        if (!$registrationDate instanceof \DateTimeInterface) {
+            $registrationDate = new \DateTimeImmutable($registrationDate);
+        }
+        $this->specifics->registrationDate = $registrationDate;
+
+        return $this;
     }
 
     /**
@@ -260,5 +275,6 @@ class VehicleDTO
     {
         return $this->specifics->getCity();
     }
+
 
 }

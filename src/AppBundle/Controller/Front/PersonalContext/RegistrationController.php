@@ -83,6 +83,7 @@ class RegistrationController extends BaseController
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
                 $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
+                $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
             } catch (AutodataException $autodataException) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -93,22 +94,24 @@ class RegistrationController extends BaseController
             }
         }
 
-        return $this->vehicleRegistrationFromInformation($request, $filters, $plateNumber);
+        return $this->vehicleRegistrationFromInformation($request, $filters, $plateNumber, $date1erCir);
     }
 
     /**
      * @param Request $request
      * @param array $filters
      * @param string|null $plateNumber
+     * @param string|null $date1erCir
      * @return Response
      * @throws \Exception
      */
     private function vehicleRegistrationFromInformation(
         Request $request,
         array $filters = [],
-        string $plateNumber = null): Response
+        string $plateNumber = null,
+        string $date1erCir = null): Response
     {
-        $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber);
+        $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber, $date1erCir);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = array_key_exists('ktypNumber', $filters) ?

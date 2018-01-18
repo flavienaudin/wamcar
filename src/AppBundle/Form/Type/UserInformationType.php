@@ -30,7 +30,7 @@ class UserInformationType extends AbstractType
             ])
             ->add('phone', TextType::class, [
                 'required' => false,
-                'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+                'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{2}(-| )?\d{2})(-| )?(\d{2}(-| )?\d{2})(( x| ext)\d{1,5}){0,1}$']
             ])
             ->add('oldPassword', PasswordType::class, [
                 'required' => false,

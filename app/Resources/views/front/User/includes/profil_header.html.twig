@@ -5,10 +5,10 @@
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
-                        <a href="tel:+33{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
+                        <a href="tel:{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
                     {% endif %}
                     {% if user.userProfile.phone %}
-                        <a href="tel:+33{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
+                        <a href="tel:{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
                     {% endif %}
                 {% endif %}
 

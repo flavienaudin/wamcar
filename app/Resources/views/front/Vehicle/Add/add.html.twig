@@ -8,7 +8,7 @@
 
 {% block title %}
     {% if vehicle %}
-        Modifier votre véhicule {{ vehicle.name }}
+        Modifier mon véhicule {{ vehicle.name }}
     {% else %}
         Ajouter un véhicule
     {% endif %}
@@ -47,7 +47,7 @@
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
                         'vehicleForm' : proVehicleForm,
-                        'fetch_plate_url' : path('front_vehicle_pro_add', {'plateNumber': '_plate_number_'})
+                        'fetch_plate_url' : (vehicle ? path('front_vehicle_pro_edit', {'id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_pro_add', {'plateNumber':'_plate_number_'}))
                     } %}
                 </li>
                 <li class="block-grid" data-step="2">
