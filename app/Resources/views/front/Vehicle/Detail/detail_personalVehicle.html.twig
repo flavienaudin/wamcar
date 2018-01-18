@@ -104,7 +104,7 @@
                 </div>
                 <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
                      data-magellan-target="js-associate">
-                    {% include ':front/Vehicle/Detail/includes:personal_vehicle.html.twig' %}
+                    {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.owner.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
                 </div>
             </div>
         </section>

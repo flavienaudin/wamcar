@@ -1,8 +1,0 @@
-<h2 class="separator medium primary-color">Autres véhicules de ce particulier</h2>
-<div class="l-main no-padding-top garage-container dark-gray-color no-margin ">
-    {% for personalVehicle in vehicle.owner.vehicles %}
-        {% if personalVehicle != vehicle %}
-            {% include 'front/Vehicle/Listing/includes/item.html.twig' with {'vehicle': personalVehicle} %}
-        {% endif %}
-    {% endfor %}
-</div>

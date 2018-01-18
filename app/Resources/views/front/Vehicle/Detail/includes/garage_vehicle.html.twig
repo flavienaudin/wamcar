@@ -1,8 +1,0 @@
-<h2 class="separator medium primary-color">Autres véhicules de ce garage</h2>
-<div class="l-main no-padding-top garage-container dark-gray-color no-margin ">
-    {% for garageVehicle in vehicle.garage.proVehicles %}
-        {% if garageVehicle != vehicle %}
-            {% include 'front/Vehicle/Listing/includes/item.html.twig' with {'vehicle': garageVehicle} %}
-        {% endif %}
-    {% endfor %}
-</div>
