@@ -785,6 +785,10 @@
     border-radius: 50%;
     transform: translate3d(0, -50%, 0);
 
+    img {
+      border-radius: 50%;
+    }
+
     @include breakpoint(large) {
       top: rem-calc(23);
       right: auto;
