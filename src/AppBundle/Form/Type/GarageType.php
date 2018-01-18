@@ -5,10 +5,9 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\Validator\Constraints\UniqueGarageSiren;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,7 +28,8 @@ class GarageType extends AbstractType
                 'attr' => [
                     'pattern' => '^[0-9]{9}$',
                     'maxlength' => 9
-                ]
+                ],
+                'constraints' => new UniqueGarageSiren()
             ])
             ->add('openingHours', TextareaType::class, [
                 'required' => false
@@ -54,8 +54,7 @@ class GarageType extends AbstractType
             ])
             ->add('logo', GaragePictureType::class, [
                 'error_bubbling' => true
-            ])
-        ;
+            ]);
     }
 
     /**

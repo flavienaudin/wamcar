@@ -31,7 +31,9 @@ Wamcar\Garage\Garage:
             nullable: false
         siren:
             type: string
+            length: 32
             nullable: false
+            unique: true
         phone:
             type: string
             nullable: true
