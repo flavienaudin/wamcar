@@ -10,5 +10,7 @@
         {% endfor %}
     </ul>
     <br>
-    <a href="" class="text-underline">Voir tous les particuliers intéressés</a>
+    {% if isProVehicle %}
+        <a href="" class="text-underline">Voir tous les particuliers intéressés</a>
+    {% endif %}
 </div>
