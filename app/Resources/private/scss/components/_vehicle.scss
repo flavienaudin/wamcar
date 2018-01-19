@@ -159,7 +159,8 @@
 
     /* Exceptions */
 
-    .section & {
+    .section &,
+    .garage-container.search-result-personal & {
       margin-right: rem-calc(10);
       margin-left: rem-calc(10);
 
@@ -169,9 +170,10 @@
       }
     }
 
-    .garage-container & {
+    .garage-container:not(.search-result-personal) & {
       width: 100%;
     }
+
   } // End &-item
 
 
