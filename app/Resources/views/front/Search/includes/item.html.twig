@@ -3,7 +3,7 @@
 <article class="vehicle-item is-flex">
     {{ include('front/Search/includes/vehicle_item.html.twig') }}
 
-    <a href="{{ vehicle.userUrl }}" class="full-width">
+    <a href="{{ vehicle.userUrl }}">
         <div class="vehicle-user-infos">
             <div class="vehicle-user-pic"><img src="{{ isLogged ? vehicle.userPicture : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.userName : 'Particulier inscrit' }}"></div>
             {% if vehicle.projectVehicles or vehicle.projectBudget %}

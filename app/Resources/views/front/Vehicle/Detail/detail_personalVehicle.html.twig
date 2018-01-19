@@ -73,11 +73,13 @@
                     </div>
                 {% endif %}
                 <div class="small-12 large-order-3">
-                    {% if isUserPro %}
-                    {# TODO revoir les liens à afficher si Pro connecté #}
-                    {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                    {% if not isLogged %}
+                        {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
+                    {% elseif isUserPro %}
+                        {# TODO revoir les liens à afficher si Pro connecté #}
+                        {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
                     {% elseif isEditableByCurrentUser %}
-                    {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                        {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
                     {% endif %}
                 </div>
             </div>
