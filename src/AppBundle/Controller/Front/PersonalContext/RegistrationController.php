@@ -78,6 +78,7 @@ class RegistrationController extends BaseController
         unset($filters['_token']);
 
         $plateNumber = $plateNumber ?? $request->get('plate_number', null);
+        $date1erCir = null;
         if ($plateNumber) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
