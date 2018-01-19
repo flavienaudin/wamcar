@@ -2,13 +2,20 @@
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
             {# TODO : vérifier l'intégration de la cartouche d'un particulier ci-dessous #}
-            <span class="seller-pic"><img src="{{ vehicle.owner|avatar }}" alt="{{ vehicle.owner.name }}"></span>
+            <span class="seller-pic"><img src="{{ isLogged ? vehicle.owner.avatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.owner.name : 'Particulier inscrit' }}"></span>
             <div>
-                <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.owner.name }}</b></a> <br>
-                {% if vehicle.owner.userProfile.phone %}
-                <span class="icon-tel primary-color">
-                    <a href="tel:{{ vehicle.owner.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.owner.userProfile.phone }}</a>
-                </span>
+                {% if isLogged %}
+                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.owner.name }}</b></a> <br>
+                    {% if vehicle.owner.userProfile.phone %}
+                    <span class="icon-tel primary-color">
+                        <a href="tel:{{ vehicle.owner.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.owner.userProfile.phone }}</a>
+                    </span>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>Particulier inscrit</b></a> <br>
+                    <span class="primary-color">
+                        <a href="{{ path('security_login_page') }}" class="text-underline" rel="noopener noreferrer">Plus d'information</a>
+                    </span>
                 {% endif %}
             </div>
         </figure>

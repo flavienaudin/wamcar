@@ -25,7 +25,7 @@
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title'),
         title_class: 'medium-auto',
-        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
+        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="'~ path('front_search_pro') ~'" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
     } %}
 
     <div class="block-gray has-border-bottom">

@@ -5,4 +5,7 @@
             {% include 'front/Vehicle/Listing/includes/item.html.twig' with {'vehicle': listVehicle} %}
         {% endif %}
     {% endfor %}
+    {% if listVehicles|length < 2 %}
+        <p>Aucun autre véhicule</p>
+    {% endif %}
 </div>
