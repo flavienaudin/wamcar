@@ -7,7 +7,9 @@
     <div class="row full-width">
         <div class="block-grid column small-12 align-middle">
             <{{ balise }} class="primary-color {{ title_class }} no-margin text-center medium-text-left small-12">{{ title }}</{{ balise }}>
-            {{ link ? link|raw : '' }}
+            {% if not isLogged %}
+                {{ link ? link|raw : '' }}
+            {% endif %}
         </div>
     </div>
 </header>
