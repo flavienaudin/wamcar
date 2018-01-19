@@ -70,10 +70,11 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
+     * @param string $tab
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request): Response
+    public function editInformationsAction(Request $request, $tab = 'profil'): Response
     {
         /** @var ApplicationUser $user */
         $user = $this->getUser();
@@ -133,7 +134,8 @@ class UserController extends BaseController
         return $this->render($userProfileTemplate[$user->getType()], [
             'editUserForm' => $editForm->createView(),
             'projectForm' => $projectForm ? $projectForm->createView() : null,
-            'user' => $user
+            'user' => $user,
+            'tab' => $tab
         ]);
     }
 
