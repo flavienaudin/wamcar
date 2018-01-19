@@ -133,13 +133,6 @@ class PersonalVehicleController extends BaseController
      */
     public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
-        if(!$vehicle->canSeeMe($this->getUser())){
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                'flash.error.unauthorized_to_see_vehicle'
-            );
-            return $this->redirectToRoute("front_default");
-        }
         return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
