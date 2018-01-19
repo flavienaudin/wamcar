@@ -32,12 +32,12 @@ front_edit_user_info:
         _controller: AppBundle:Front\PersonalContext\User:editInformations
 
 front_edit_user_info_tab:
-    path: /user-info/{_tab}
+    path: /user-info/{tab}
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:editInformations
-        _tab: profil
+        tab: profil
     requirements:
-        _tab:  profil|project
+        tab:  profil|project
 
 front_view_current_user_info:
     path: /mon-profil
