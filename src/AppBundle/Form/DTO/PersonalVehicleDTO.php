@@ -57,6 +57,8 @@ class PersonalVehicleDTO extends VehicleDTO
             $dto->pictures[] = VehiclePictureDTO::buildFromPicture($picture);
         }
 
+        $dto->pictures = self::initFormPictureVehicle($dto->pictures);
+
         return $dto;
     }
 }
