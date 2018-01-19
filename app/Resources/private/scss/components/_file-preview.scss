@@ -107,4 +107,20 @@
 
   }
 
+
+  /*
+     Remove
+     ===================================== */
+
+  &-avatar {
+    width: rem-calc(120);
+    height: rem-calc(120);
+    border-radius: 50%;
+    border: 1px solid darken(#ededed,20%);
+
+    img {
+      border-radius: 50%;
+    }
+  }
+
 }
