@@ -17,7 +17,8 @@ Wamcar\Vehicle\PersonalVehicle:
         pictures:
             targetEntity: AppBundle\Doctrine\Entity\PersonalVehiclePicture
             mappedBy: vehicle
-            cascade: ["persist", "merge"]
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
 
     manyToOne:
         owner:
