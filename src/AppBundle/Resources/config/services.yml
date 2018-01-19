@@ -10,6 +10,7 @@ imports:
     - { resource: services/voters.yml }
     - { resource: services/extensions.yml }
     - { resource: services/pictures.yml }
+    - { resource: services/validators.yml }
     - { resource: search.yml }
 
 services:

@@ -1,0 +1,3 @@
+constraint:
+  garage:
+    already_registered_siren: Le SIREN %siren% est déjà enregistré pour un autre garage.
