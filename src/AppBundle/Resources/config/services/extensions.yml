@@ -13,3 +13,4 @@ services:
           - '%placeholders%'
           - '@AppBundle\Services\Picture\PathVehiclePicture'
           - '@AppBundle\Services\Picture\PathGaragePicture'
+          - '@AppBundle\Services\Picture\PathUserPicture'

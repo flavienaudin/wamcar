@@ -70,9 +70,15 @@ class PersonalVehicleBuilder
         $vehicle->setCity($vehicleDTO->getCity());
 
         foreach ($vehicleDTO->pictures as $pictureDTO) {
-            if ($pictureDTO && $pictureDTO->file) {
-                $picture = new PersonalVehiclePicture($vehicle, $pictureDTO->file, $pictureDTO->caption);
-                $vehicle->addPicture($picture);
+            if ($pictureDTO && !$pictureDTO->isRemoved) {
+                if ($pictureDTO->id && !$pictureDTO->file) {
+                    $vehicle->editPictureCaption($pictureDTO->id, $pictureDTO->caption);
+                } elseif ($pictureDTO->file) {
+                    $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                    $vehicle->addPicture($picture);
+                }
+            } elseif ($pictureDTO && $pictureDTO->isRemoved) {
+                $vehicle->removePicture($pictureDTO->id);
             }
         }
 

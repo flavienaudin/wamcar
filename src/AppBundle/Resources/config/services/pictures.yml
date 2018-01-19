@@ -1,0 +1,26 @@
+services:
+    AppBundle\Services\Picture\:
+        resource: '%kernel.project_dir%/src/AppBundle/Services/Picture'
+        public: false
+        autowire: true
+        autoconfigure: false
+
+    AppBundle\Services\Picture\BasePathPicture:
+        abstract:  true
+        arguments:
+          - '@vich_uploader.templating.helper.uploader_helper'
+          - '%placeholders%'
+          - '@liip_imagine.cache.manager'
+
+    AppBundle\Services\Picture\PathVehiclePicture:
+        class: 'AppBundle\Services\Picture\PathVehiclePicture'
+        parent: AppBundle\Services\Picture\BasePathPicture
+
+    AppBundle\Services\Picture\PathGaragePicture:
+        class: 'AppBundle\Services\Picture\PathGaragePicture'
+        parent: AppBundle\Services\Picture\BasePathPicture
+
+    AppBundle\Services\Picture\PathUserPicture:
+        class: 'AppBundle\Services\Picture\PathUserPicture'
+        parent: AppBundle\Services\Picture\BasePathPicture
+

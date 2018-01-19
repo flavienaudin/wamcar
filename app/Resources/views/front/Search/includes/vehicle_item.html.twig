@@ -2,7 +2,7 @@
     <div class="js-like like"><span data-tooltip=""></span></div>
     <div class="vehicle-picture medium-auto">
         <div class="is-relative">
-            <img src="{{ vehicle.picture ? vehicle.picture : asset('assets/images/placeholders/vehicle/vehicle-default.jpg') }}" alt="{{ vehicle.modelVersion }}">
+            <img src="{{ vehicle.picture ? vehicle.picture : 'vehicle_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.modelVersion }}">
         </div>
     </div>
     <div class="vehicle-infos small-shrink">

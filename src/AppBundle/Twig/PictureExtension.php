@@ -3,8 +3,10 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use AppBundle\Services\Picture\PathGaragePicture;
+use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Twig\Extension\AbstractExtension;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
@@ -21,6 +23,8 @@ class PictureExtension extends AbstractExtension
     protected $pathVehiclePicture;
     /** @var PathGaragePicture */
     protected $pathGaragePicture;
+    /** @var PathUserPicture */
+    protected $pathUserPicture;
 
 
     /**
@@ -29,18 +33,21 @@ class PictureExtension extends AbstractExtension
      * @param array $placeholders
      * @param PathVehiclePicture $pathVehiclePicture
      * @param PathGaragePicture $pathGaragePicture
+     * @param PathUserPicture $pathUserPicture
      */
     public function __construct(
         UploaderHelper $uploaderHelper,
         array $placeholders,
         PathVehiclePicture $pathVehiclePicture,
-        PathGaragePicture $pathGaragePicture
+        PathGaragePicture $pathGaragePicture,
+        PathUserPicture $pathUserPicture
     )
     {
         $this->uploaderHelper = $uploaderHelper;
         $this->placeholders = $placeholders;
         $this->pathVehiclePicture = $pathVehiclePicture;
         $this->pathGaragePicture = $pathGaragePicture;
+        $this->pathUserPicture = $pathUserPicture;
     }
 
     public function getFilters()
@@ -50,15 +57,19 @@ class PictureExtension extends AbstractExtension
             new \Twig_SimpleFilter('banner', array($this, 'bannerFilter')),
             new \Twig_SimpleFilter('logo', array($this, 'logoFilter')),
             new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
-            new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter'))
+            new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
+            new \Twig_SimpleFilter('defaultAvatar', array($this, 'defaultAvatarFilter'))
         );
     }
 
-    public function avatarFilter(BaseUser $user)
+    public function avatarFilter(?UserPicture $userPicture, string $filter)
     {
-        $picturePath = $user->getAvatar() ? $this->uploaderHelper->asset($user->getAvatar(), 'file'): $this->placeholders['avatar'];
+        return $this->pathUserPicture->getPath($userPicture, $filter);
+    }
 
-        return $picturePath;
+    public function defaultAvatarFilter(string $filter)
+    {
+        return $this->pathUserPicture->getPath(null, $filter);
     }
 
     public function bannerFilter(?Garage $garage, string $filter)
