@@ -7,7 +7,7 @@ use Wamcar\Vehicle\ProVehicle;
 
 /**
  * @SWG\Definition(
- *   definition="Vehicule",
+ *   definition="Vehicle",
  *   type="object"
  * )
  */

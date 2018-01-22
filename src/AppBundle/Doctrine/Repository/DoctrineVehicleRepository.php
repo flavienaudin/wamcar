@@ -43,4 +43,16 @@ class DoctrineVehicleRepository extends EntityRepository
     {
         return $this->findBy(['garage' => $garage]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deleteAllForGarage(Garage $garage): void
+    {
+        $vehicleList = $this->findBy(['garage' => $garage]);
+        foreach ($vehicleList as $vehicle) {
+            $this->_em->remove($vehicle);
+        }
+        $this->_em->flush();
+    }
 }

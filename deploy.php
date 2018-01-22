@@ -32,9 +32,9 @@ add('writable_dirs', [
 before('deploy:vendors', 'deploy:install_composer');
 before('deploy:symlink', 'database:migrate');
 after('deploy', 'upload:assets');
+after('upload:assets', 'api:documentation');
 
 after('deploy', 'reload:php-fpm');
-//after('deploy', 'elasticsearch:populate');
 after('rollback', 'reload:php-fpm');
 
 // Servers
@@ -46,6 +46,20 @@ set('default_stage', 'demo');
 task('deploy:install_composer', function () {
     run("cd {{release_path}} && curl -sS https://getcomposer.org/installer | {{bin/php}}");
 })->desc('downloading composer');
+
+/**
+ * Generate and upload API documentation
+ */
+task('api:documentation', [
+    'api:documentation:generate',
+    'api:documentation:upload',
+])->desc('Setup API documentation');
+task('api:documentation:generate', function () {
+    run('make api-documentation');
+})->desc('generating API documentation')->local();
+task('api:documentation:upload', function () {
+    upload('web/openapi.json', '{{release_path}}/web/openapi.json');
+})->desc('generating API documentation');
 
 /**
  * Upload assets built on script init

@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
@@ -63,14 +65,9 @@ class VehicleController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+        $this->vehicleRepository->deleteAllForGarage($this->getUserGarage());
 
-        // Todo : batch remove for garage in repository
-        foreach ($vehicles as $vehicle) {
-            $this->vehicleRepository->remove($vehicle);
-        }
-
-        return new JsonResponse();
+        return new Response();
     }
 
     /**
@@ -82,7 +79,9 @@ class VehicleController extends BaseController
      *     operationId="vehicleListAction",
      *     @SWG\Parameter(ref="#/parameters/client_id"),
      *     @SWG\Parameter(ref="#/parameters/secret"),
-     *     @SWG\Response(response=200, description="Les véhicules"),
+     *     @SWG\Response(response=200, description="Les véhicules",
+     *       @SWG\Schema(type="array", @SWG\Items(ref="#/definitions/VehicleShort")),
+     *     ),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Une ressource est manquante"),
@@ -99,7 +98,7 @@ class VehicleController extends BaseController
         $data = [];
         /** @var ProVehicle $vehicle */
         foreach ($vehicles as $vehicle) {
-            $data[$vehicle->getReference()] = $this->formatVehicleData($vehicle);
+            $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
         }
 
         return new JsonResponse(array_values($data), Response::HTTP_OK);
@@ -116,14 +115,17 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(ref="#/parameters/secret"),
      *     @SWG\Parameter(in="body", name="body", description="Véhicule à créer", required=true,
      *       @SWG\Schema(
-     *          ref="#/definitions/Vehicule",
+     *          ref="#/definitions/Vehicle",
      *          required={"IdentifiantVehicule", "Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description"}
      *       )
      *     ),
-     *     @SWG\Response(response=200, description="Les véhicules"),
+     *     @SWG\Response(response=200, description="Véhicule créé",
+     *       @SWG\Schema(ref="#/definitions/VehicleShort")
+     *     ),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Une ressource est manquante"),
+     *     @SWG\Response(response=409, description="Le véhicule existe déjà"),
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
@@ -134,8 +136,14 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+
+        $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
+        if ($vehicle) {
+            throw new ConflictHttpException();
+        }
+
         $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
-        $data = $this->formatVehicleData($vehicle);
+        $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -150,7 +158,9 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(ref="#/parameters/client_id"),
      *     @SWG\Parameter(ref="#/parameters/secret"),
      *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
-     *     @SWG\Response(response=200, description="Le véhicule"),
+     *     @SWG\Response(response=200, description="Le véhicule",
+     *       @SWG\Schema(ref="#/definitions/Vehicle")
+     *     ),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Vehicule introuvable"),
@@ -194,7 +204,7 @@ class VehicleController extends BaseController
 
         $this->vehicleRepository->remove($vehicle);
 
-        return new JsonResponse();
+        return new Response();
     }
 
     /**
@@ -209,11 +219,13 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
      *     @SWG\Parameter(in="body", name="body", description="Données du véhicule à modifier", required=true,
      *       @SWG\Schema(
-     *          ref="#/definitions/Vehicule",
+     *          ref="#/definitions/Vehicle",
      *          required={"Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description"}
      *       )
      *     ),
-     *     @SWG\Response(response=200, description="Véhicule mis à jour"),
+     *     @SWG\Response(response=200, description="Véhicule mis à jour",
+     *       @SWG\Schema(ref="#/definitions/VehicleShort")
+     *     ),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Vehicule introuvable"),
@@ -233,7 +245,7 @@ class VehicleController extends BaseController
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-        $data = $this->formatVehicleData($vehicle);
+        $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -251,7 +263,9 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(in="body", name="body", description="Collection d'images", required=true,
      *       @SWG\Schema(ref="#/definitions/VehiclePictureCollection")
      *     ),
-     *     @SWG\Response(response=200, description="Véhicule mis à jour"),
+     *     @SWG\Response(response=200, description="Véhicule mis à jour",
+     *       @SWG\Schema(ref="#/definitions/VehicleShort")
+     *     ),
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Une ressource est manquante"),
@@ -269,19 +283,18 @@ class VehicleController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        if(count($request->files) > self::MAX_IMAGE_UPLOAD) {
+        if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
             throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
         }
 
         $pictures = [];
         /** @var UploadedFile $file */
-        foreach($request->files as $file)
-        {
+        foreach ($request->files as $file) {
             $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
         }
 
         $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
-        $data = $this->formatVehicleData($vehicle);
+        $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
         return new JsonResponse($data, Response::HTTP_OK);
     }
@@ -305,17 +318,5 @@ class VehicleController extends BaseController
         }
 
         return $user->getGarage();
-    }
-
-    /**
-     * @param ProVehicle $vehicle
-     * @return array
-     */
-    private function formatVehicleData(ProVehicle $vehicle)
-    {
-        return [
-            'id' => $vehicle->getReference(),
-            'updatedDate' => $vehicle->getUpdatedAt()->format('Y-m-d\TH:i:sP')
-        ];
     }
 }
