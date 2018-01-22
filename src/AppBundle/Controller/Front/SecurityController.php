@@ -105,7 +105,7 @@ class SecurityController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.registration_success'
+                'flash.success.registration_success_' . $type
             );
 
             if ($registeredUser->hasConfirmedRegistration()) {
