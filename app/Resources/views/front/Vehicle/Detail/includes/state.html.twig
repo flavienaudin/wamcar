@@ -8,6 +8,13 @@
     { label: "Etat des pneus", value: vehicle.tyreState|default('Non renseigné') },
     { label: "Carnet d’entretien", value: vehicle.maintenanceState }
 ] %}
+{% set label_star = {
+    5 : 'Très mauvais',
+    4 : 'Mauvais',
+    3 : 'Moyen',
+    2 : 'Bon',
+    1 : 'Très bon'
+} %}
 
 <h2 class="separator medium primary-color">Etat du véhicule</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
@@ -15,10 +22,15 @@
         <li class="dark-gray-color block-grid">
             <strong class="small-6 medium-6 xlarge-5">{{ state.label }}</strong>
             {% if state.value matches '/^\\d+$/' %}
-                {% for i in 5..1 %}
-                    {% set starClass = (state.value > i ? "star-empty" : "star-full")  %}
-                     <i class="star-item {{ starClass }}"></i>
-                {% endfor %}
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                    {% for i in 1..5 %}
+                        {% set starClass = (state.value > i ? "star-empty" : "star-full")  %}
+                         <i class="star-item {{ starClass }}"></i>
+                    {% endfor %}
+                    <span class="star-label" style="opacity: 1">{{ label_star[state.value] }}</span>
+                    </div>
+                </div>
             {% else %}
                 {{ state.value }}
             {% endif %}
