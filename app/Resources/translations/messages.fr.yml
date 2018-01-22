@@ -4,7 +4,8 @@ flash:
     remove_garage: La suppression de votre garage est enregistrée.
     garage_create: Les modifications de votre garage ont été enregistrées.
     garage_edit: Les modifications de votre garage ont été enregistrées.
-    registration_success: Votre inscription a bien été enregistré. Afin de finaliser votre compte, merci de cliquer sur le lien contenu dans l'email qui vient de vous être envoyé.
+    registration_success_personal: Votre inscription a bien été enregistré. Afin de finaliser votre compte, merci de cliquer sur le lien contenu dans l'email qui vient de vous être envoyé.
+    registration_success_pro: Votre inscription a bien été enregistré.
     registration_confirmed: Votre êtes bien inscrit sur Wamcar.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien enregistré.
