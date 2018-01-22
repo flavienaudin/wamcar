@@ -110,3 +110,15 @@ $header-background: white;
 
   } // End &-button
 }
+
+:target:before {
+  content:"";
+  display:block;
+  height:$header-height; /* fixed header height*/
+  margin:-$header-height 0 0; /* negative fixed header height */
+
+  @include breakpoint(large) {
+    height:$header-height-medium; /* fixed header height*/
+    margin:-$header-height-medium 0 0; /* negative fixed header height */
+  } // End MQ large only
+}

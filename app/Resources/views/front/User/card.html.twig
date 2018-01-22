@@ -42,7 +42,7 @@
 {% block vehicle %}
     {% if iCanSeeUserVehicles %}
         <div class="separator small-12 section">
-            <h2>{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
+            <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
             <div class="row">
                 {% set balise = 'h3' %}
                 {% set vehicleToList = user.vehicles %}
