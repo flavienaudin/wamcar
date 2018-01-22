@@ -2,23 +2,19 @@
 
 namespace AppBundle\Form\Type\SpecificField;
 
+use AppBundle\Utils\StarsChoice;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class StarType extends ChoiceType
 {
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('choices', [
-            'Très mauvais' => '1',
-            'Mauvais' => '2',
-            'Moyen' => '3',
-            'Bon' => '4',
-            'Très bon' => '5'
-        ]);
+        $resolver->setDefault('choices', StarsChoice::getStarsArray());
         $resolver->setDefault('placeholder', false);
         $resolver->setDefault('expanded', true);
     }

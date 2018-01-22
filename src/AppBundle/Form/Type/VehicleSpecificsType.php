@@ -7,6 +7,7 @@ use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\VehicleSpecificsDTO;
 use AppBundle\Form\Type\SpecificField\StarType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
+use AppBundle\Utils\StarsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
     ChoiceType, DateType, HiddenType, IntegerType, TextareaType, TextType

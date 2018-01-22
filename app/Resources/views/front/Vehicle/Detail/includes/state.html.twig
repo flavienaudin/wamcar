@@ -15,10 +15,15 @@
         <li class="dark-gray-color block-grid">
             <strong class="small-6 medium-6 xlarge-5">{{ state.label }}</strong>
             {% if state.value matches '/^\\d+$/' %}
-                {% for i in 5..1 %}
-                    {% set starClass = (state.value > i ? "star-empty" : "star-full")  %}
-                     <i class="star-item {{ starClass }}"></i>
-                {% endfor %}
+                <div class="small-12 medium-5 large-6">
+                    <div class="star-list">
+                    {% for i in 5..1 %}
+                        {% set starClass = (state.value < i ? "star-empty" : "star-full")  %}
+                         <i class="star-item {{ starClass }}"></i>
+                    {% endfor %}
+                    <span class="star-label" style="opacity: 1">{{ state.value|starValueLabel }}</span>
+                    </div>
+                </div>
             {% else %}
                 {{ state.value }}
             {% endif %}
