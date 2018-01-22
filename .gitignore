@@ -1,6 +1,7 @@
 /.env
 /.web-server-pid
 /app/config/parameters.yml
+/app/Resources/public/api/swagger.json
 /build/
 /phpunit.xml
 /var/*
@@ -23,3 +24,4 @@
 !/bin/symfony_requirements
 /web/uploads/
 /web/media/
+/web/openapi.json
