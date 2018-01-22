@@ -2,8 +2,6 @@
 
 namespace Wamcar\Garage;
 
-use AppBundle\Doctrine\Entity\GarageBanner;
-use AppBundle\Doctrine\Entity\GarageLogo;
 use AppBundle\Doctrine\Entity\GaragePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
@@ -13,9 +12,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\Garage\Garage;
-use Symfony\Component\HttpFoundation\Response;
 use Wamcar\Garage\GarageRepository;
 
 class GarageController extends BaseController
@@ -23,10 +22,10 @@ class GarageController extends BaseController
     /** @var FormFactoryInterface */
     protected $formFactory;
 
-    /** @var GarageRepository  */
+    /** @var GarageRepository */
     protected $garageRepository;
 
-    /** @var GarageEditionService  */
+    /** @var GarageEditionService */
     protected $garageEditionService;
 
     /**
@@ -52,7 +51,7 @@ class GarageController extends BaseController
      */
     public function indexAction(Request $request): Response
     {
-        if(!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             throw new AccessDeniedHttpException('Only admin can access garage listing');
         }
 
@@ -93,7 +92,7 @@ class GarageController extends BaseController
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
-            $successMessage = null === $garage ? 'flash.success.garage_create' : 'flash.success.garage_edit' ;
+            $successMessage = (null === $garage ? 'flash.success.garage_create' : 'flash.success.garage_edit');
             $garage = $this->garageEditionService->editInformations($garageDTO, $garage, $this->getUser());
 
             $this->session->getFlashBag()->add(

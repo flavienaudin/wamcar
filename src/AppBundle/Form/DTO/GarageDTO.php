@@ -4,13 +4,9 @@
 namespace AppBundle\Form\DTO;
 
 
-use AppBundle\Doctrine\Entity\GarageBanner;
-use AppBundle\Doctrine\Entity\GarageLogo;
-use AppBundle\Doctrine\Entity\GaragePicture;
 use Wamcar\Garage\Address;
-use Wamcar\Garage\Picture;
-use Wamcar\Location\City;
 use Wamcar\Garage\Garage;
+use Wamcar\Location\City;
 
 class GarageDTO
 {
@@ -88,10 +84,27 @@ class GarageDTO
     public function getAddress(): ?Address
     {
         $address = null;
-        if (null !== $this->address && null !==$this->getCity()) {
+        if (null !== $this->address && null !== $this->getCity()) {
             $address = new Address($this->address, $this->getCity());
         }
 
         return $address;
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSiren(): ?string
+    {
+        return $this->siren;
+    }
+
 }
