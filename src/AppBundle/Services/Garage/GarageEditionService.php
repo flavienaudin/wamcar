@@ -77,9 +77,12 @@ class GarageEditionService
     public function addMember(Garage $garage, ProApplicationUser $proApplicationUser)
     {
         /** @var GarageProUser $garageProUser */
-        $garageProUser = new GarageProUser($garage, $proApplicationUser);
-        $garage->addMember($garageProUser);
-        $this->garageRepository->update($garage);
+        if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles()))
+        {
+            $garageProUser = new GarageProUser($garage, $proApplicationUser);
+            $garage->addMember($garageProUser);
+            $this->garageRepository->update($garage);
+        }
 
         return $garage;
     }
