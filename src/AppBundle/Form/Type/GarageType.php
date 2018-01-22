@@ -28,9 +28,7 @@ class GarageType extends AbstractType
                 'attr' => [
                     'pattern' => '^[0-9]{9}$',
                     'maxlength' => 9
-                ],
-                'constraints' => new UniqueGarageSiren()
-
+                ]
             ])
             ->add('openingHours', TextareaType::class, [
                 'required' => false
@@ -66,7 +64,8 @@ class GarageType extends AbstractType
         $resolver->setDefaults([
             'data_class' => GarageDTO::class,
             'translation_domain' => 'garage',
-            'label_format' => 'garage.field.%name%.label'
+            'label_format' => 'garage.field.%name%.label',
+            'constraints' => new UniqueGarageSiren()
         ]);
     }
 }

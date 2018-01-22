@@ -3,9 +3,12 @@
 namespace AppBundle\Form\Validator\Constraints;
 
 
+use AppBundle\Form\DTO\GarageDTO;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Component\Validator\Exception\UnexpectedTypeException;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
 class UniqueGarageSirenValidator extends ConstraintValidator
@@ -24,11 +27,20 @@ class UniqueGarageSirenValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint)
     {
-        $garage = $this->garageRepository->findOneBy(['siren' => $value]);
+        if (!$constraint instanceof UniqueGarageSiren) {
+            throw new UnexpectedTypeException($constraint, UniqueGarageSiren::class);
+        }
 
-        if ($garage != null) {
-            $this->context->buildViolation($this->translation->trans($constraint->message, ['%siren%' => $value], "validations" ))
-                ->setParameter('%siren%',  $value)
+        if (!$value instanceof Garage && !$value instanceof GarageDTO) {
+            throw new UnexpectedTypeException($value, Garage::class . '||' . GarageDTO::class);
+        }
+
+        $garage = $this->garageRepository->findOneBy(['siren' => $value->getSiren()]);
+
+        if ($garage != null && ($garage->getId() !== $value->getId())) {
+            $this->context->buildViolation($this->translation->trans($constraint->message, ['%siren%' => $value->getSiren()], "validations"))
+                ->setParameter('%siren%', $value->getSiren())
+                ->atPath('siren')
                 ->addViolation();
         }
     }
