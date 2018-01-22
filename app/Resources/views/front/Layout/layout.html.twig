@@ -5,6 +5,7 @@
 {% set isLogged = is_granted('IS_AUTHENTICATED_FULLY') %}
 {% set isUserPro = (isLogged and app.user.type == 'pro') %}
 {% set isUserPersonal = (isLogged and app.user.type == 'personal') %}
+{% set isUserAdmin = is_granted('ROLE_ADMIN') %}
 
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">

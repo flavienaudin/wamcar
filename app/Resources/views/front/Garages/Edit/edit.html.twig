@@ -27,7 +27,7 @@
 
         <div class="block-grid small-12">
 
-            {% if not isNew %}
+            {% if not isNew and not isUserAdmin  %}
                 <p class="column"><a href="{{ path('front_garage_view', {'id': app.user.garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
             {% endif %}
 
