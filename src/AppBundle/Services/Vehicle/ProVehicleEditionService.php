@@ -60,7 +60,7 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
 
-        if (!$garage->isProVehicle($proVehicle)) {
+        if (!$garage->hasVehicle($proVehicle)) {
             $garage->addProVehicle($proVehicle);
             $this->garageRepository->update($garage);
         }
