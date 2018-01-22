@@ -64,12 +64,7 @@ class VehicleController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
-
-        // Todo : batch remove for garage in repository
-        foreach ($vehicles as $vehicle) {
-            $this->vehicleRepository->remove($vehicle);
-        }
+        $this->vehicleRepository->deleteAllForGarage($this->getUserGarage());
 
         return new JsonResponse();
     }

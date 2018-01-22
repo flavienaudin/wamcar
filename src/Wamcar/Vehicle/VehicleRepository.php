@@ -22,9 +22,15 @@ interface VehicleRepository
     public function remove(Vehicle $vehicle): void;
 
     /**
+     * @param Garage $garage
      * @return array
      */
     public function findAllForGarage(Garage $garage): array;
+
+    /**
+     * @param Garage $garage
+     */
+    public function deleteAllForGarage(Garage $garage): void;
 
     /**
      * @param string $id
