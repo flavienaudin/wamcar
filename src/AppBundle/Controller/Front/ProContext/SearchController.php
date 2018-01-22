@@ -3,20 +3,10 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Elasticsearch\Query\SearchQuery;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
-use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Utils\VehicleInfoAggregator;
-use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
-use Novaway\ElasticsearchClient\Filter\RangeFilter;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\BoolQuery;
-use Novaway\ElasticsearchClient\Query\CombiningFactor;
-use Novaway\ElasticsearchClient\Query\MatchQuery;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
-use Novaway\ElasticsearchClient\QueryExecutor;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
