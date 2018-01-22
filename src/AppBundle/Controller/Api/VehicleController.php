@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
@@ -124,6 +125,7 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
      *     @SWG\Response(response=403, description="Accès refusé"),
      *     @SWG\Response(response=404, description="Une ressource est manquante"),
+     *     @SWG\Response(response=409, description="Le véhicule existe déjà"),
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
@@ -134,6 +136,12 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+
+        $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
+        if ($vehicle) {
+            throw new ConflictHttpException();
+        }
+
         $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
         $data = $this->formatVehicleData($vehicle);
 
