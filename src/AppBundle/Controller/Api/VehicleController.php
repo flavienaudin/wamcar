@@ -283,6 +283,34 @@ class VehicleController extends BaseController
     }
 
     /**
+     * @SWG\Delete(
+     *     path="/vehicules/{id}/images",
+     *     summary="Retirer les images d'une voiture",
+     *     tags={"vehicle", "images", "delete"},
+     *     description="Premet de retirer l'intégralité des images d'une voiture.",
+     *     operationId="vehiclePicturesRemoveAction",
+     *     @SWG\Parameter(ref="#/parameters/client_id"),
+     *     @SWG\Parameter(ref="#/parameters/secret"),
+     *     @SWG\Parameter(ref="#/parameters/vehicle_id"),
+     *     @SWG\Response(response=200, description="Véhicule mis à jour",
+     *       @SWG\Schema(ref="#/definitions/VehicleShort")
+     *     ),
+     *     @SWG\Response(response=401, description="Utilisateur non authentifié"),
+     *     @SWG\Response(response=403, description="Accès refusé"),
+     *     @SWG\Response(response=400, description="Erreur"),
+     * )
+     */
+    public function removeImagesAction(Request $request, string $id): Response
+    {
+        $vehicle = $this->getVehicleFromId($id);
+        $vehicle = $this->proVehicleEditionService->removePictures($vehicle);
+
+        $data = VehicleShortDTO::createFromProVehicle($vehicle);
+
+        return new JsonResponse($data, Response::HTTP_OK);
+    }
+
+    /**
      * @return Garage
      */
     private function getUserGarage(): Garage

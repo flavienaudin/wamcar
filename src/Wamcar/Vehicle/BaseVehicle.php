@@ -386,6 +386,14 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * Removes all pictures from entity
+     */
+    public function clearPictures(): void
+    {
+        $this->pictures->clear();
+    }
+
+    /**
      * @param string $vehiclePictureId
      * @param null|string $caption
      */
