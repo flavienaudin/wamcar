@@ -91,4 +91,5 @@ test-behavior: web-up phantom-up database
 api-documentation: app/Resources/public/api/swagger.json
 	cp ./app/Resources/public/api/swagger.json ./web/openapi.json
 app/Resources/public/api/swagger.json:
+	sleep 1
 	$(DOCKERPHP) ./bin/swagger --output ./app/Resources/public/api/swagger.json ./src/AppBundle
