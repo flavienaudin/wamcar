@@ -6,6 +6,24 @@ stages:
 after_script:
   - docker-compose down
 
+.job_template: &cache_writer
+  cache:
+    key: "wamcar-$CI_ENVIRONMENT_SLUG"
+    paths:
+      - vendor
+      - bin
+      - node_modules
+    policy: pull-push
+
+.job_template: &cache_reader
+  cache:
+    key: "wamcar-$CI_ENVIRONMENT_SLUG"
+    paths:
+      - vendor
+      - bin
+      - node_modules
+    policy: pull
+
 variables:
   WEB_PORT: 8008
   MYSQL_PORT: 6603
@@ -14,18 +32,12 @@ variables:
 ###   Setup   ###
 #################
 setup:env:
+  <<: *cache_writer
   stage: setup
   script:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
     - docker-compose pull
     - make vendors
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull-push
   tags:
     - shell
   only:
@@ -36,16 +48,10 @@ setup:env:
 ###   Build   ###
 #################
 build:assets:
+  <<: *cache_writer
   stage: build
   dependencies:
     - setup:env
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull-push
   script:
     - make front
   tags:
@@ -58,16 +64,10 @@ build:assets:
     - tags
 
 build:docs:
+  <<: *cache_reader
   stage: build
   dependencies:
     - setup:env
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull
   script:
     - make api-documentation
   tags:
@@ -83,17 +83,11 @@ build:docs:
 ###  Deploy   ###
 #################
 deploy:demo:
+  <<: *cache_reader
   stage: deploy
   dependencies:
     - setup:env
     - build:assets
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull
   script:
     - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy --hosts demo"
   tags:
@@ -105,17 +99,11 @@ deploy:demo:
     - develop
 
 deploy:staging:
+  <<: *cache_reader
   stage: deploy
   dependencies:
     - setup:env
     - build:assets
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull
   script:
     - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy --hosts staging --tag=$CI_COMMIT_TAG"
   tags:
@@ -127,20 +115,32 @@ deploy:staging:
     - tags
 
 deploy:demo:unlock:
+  <<: *cache_reader
   stage: deploy
   dependencies:
     - setup:env
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull
   script:
     - make vendors
     - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts demo"
   tags:
+    - shell
+  when: manual
+  only:
+    - develop
+
+deploy:staging:unlock:
+  <<: *cache_reader
+  stage: deploy
+  dependencies:
+    - setup:env
+  script:
+    - make vendors
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
+  tags:
+    - shell
+  when: manual
+  only:
+    - tags
     - shell
   when: manual
   only:
