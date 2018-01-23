@@ -10,6 +10,7 @@ after_script:
   cache:
     key: "wamcar-$CI_ENVIRONMENT_SLUG"
     paths:
+      - docker-compose.yml
       - vendor
       - bin
       - node_modules
@@ -19,6 +20,7 @@ after_script:
   cache:
     key: "wamcar-$CI_ENVIRONMENT_SLUG"
     paths:
+      - docker-compose.yml
       - vendor
       - bin
       - node_modules
@@ -35,7 +37,8 @@ setup:env:
   <<: *cache_writer
   stage: setup
   script:
-    - sleep 1
+    - mv docker-compose.yml docker-compose.yml.origin
+    - sed "s/:cached/:consistent/g" docker-compose.yml.origin > docker-compose.yml
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
     - docker-compose pull
     - make vendors
@@ -56,31 +59,17 @@ build:assets:
   script:
     - sleep 1
     - make front
-  tags:
-    - shell
-  artifacts:
-    paths:
-      - web/assets/bundle
-  only:
-    - develop
-    - tags
-
-build:docs:
-  <<: *cache_reader
-  stage: build
-  dependencies:
-    - setup:env
-  script:
-    - sleep 1
     - make api-documentation
   tags:
     - shell
   artifacts:
     paths:
+      - web/assets/bundle
       - web/openapi.json
   only:
     - develop
     - tags
+
 
 #################
 ###  Deploy   ###
