@@ -59,30 +59,17 @@ build:assets:
   script:
     - sleep 1
     - make front
-  tags:
-    - shell
-  artifacts:
-    paths:
-      - web/assets/bundle
-#  only:
-#    - develop
-#    - tags
-
-build:docs:
-  <<: *cache_reader
-  stage: build
-  dependencies:
-    - setup:env
-  script:
     - make api-documentation
   tags:
     - shell
   artifacts:
     paths:
+      - web/assets/bundle
       - web/openapi.json
 #  only:
 #    - develop
 #    - tags
+
 
 #################
 ###  Deploy   ###
