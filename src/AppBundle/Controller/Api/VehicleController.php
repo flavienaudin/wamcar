@@ -169,7 +169,8 @@ class VehicleController extends BaseController
      */
     public function getAction(Request $request, string $id): Response
     {
-        $vehicle = $this->vehicleRepository->findByReference($id);
+        $vehicle = $this->getVehicleFromId($id);
+
         if (!$vehicle) {
             throw new NotFoundHttpException();
         }
@@ -197,11 +198,7 @@ class VehicleController extends BaseController
      */
     public function deleteAction(Request $request, string $id): Response
     {
-        $vehicle = $this->vehicleRepository->findByReference($id);
-        if (!$vehicle) {
-            throw new NotFoundHttpException();
-        }
-
+        $vehicle = $this->getVehicleFromId($id);
         $this->vehicleRepository->remove($vehicle);
 
         return new Response();
@@ -234,14 +231,7 @@ class VehicleController extends BaseController
      */
     public function editAction(Request $request, string $id): Response
     {
-        if (!$this->getUserGarage()) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $vehicle = $this->vehicleRepository->findByReference($id);
-        if (!$vehicle) {
-            throw new NotFoundHttpException();
-        }
+        $vehicle = $this->getVehicleFromId($id);
 
         $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
         $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
@@ -274,14 +264,7 @@ class VehicleController extends BaseController
      */
     public function addImageAction(Request $request, string $id): Response
     {
-        if (!$this->getUserGarage()) {
-            throw new AccessDeniedHttpException();
-        }
-
-        $vehicle = $this->vehicleRepository->findByReference($id);
-        if (!$vehicle) {
-            throw new NotFoundHttpException();
-        }
+        $vehicle = $this->getVehicleFromId($id);
 
         if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
             throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
@@ -318,5 +301,27 @@ class VehicleController extends BaseController
         }
 
         return $user->getGarage();
+    }
+
+    /**
+     * @param string $id
+     * @return ProVehicle
+     */
+    private function getVehicleFromId(string $id): ProVehicle
+    {
+        if (!$this->getUserGarage()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $vehicle = $this->vehicleRepository->findByReference($id);
+        if (!$vehicle) {
+            throw new NotFoundHttpException();
+        }
+
+        if (!$this->getUserGarage()->hasVehicle($vehicle)) {
+            throw new AccessDeniedHttpException();
+        }
+
+        return $vehicle;
     }
 }

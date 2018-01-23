@@ -289,7 +289,7 @@ class Garage
      * @param ProVehicle $proVehicle
      * @return bool
      */
-    public function isProVehicle(ProVehicle $proVehicle): bool
+    public function hasVehicle(ProVehicle $proVehicle): bool
     {
         /** @var ProVehicle $existProVehicle */
         foreach ($this->getProVehicles() as $existProVehicle) {
