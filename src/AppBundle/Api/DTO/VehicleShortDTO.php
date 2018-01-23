@@ -29,7 +29,7 @@ final class VehicleShortDTO
             $vehicleDto = new self();
 
             $vehicleDto->id = $proVehicle->getReference();
-            $vehicleDto->updatedDate = $proVehicle->getUpdatedAt();
+            $vehicleDto->updatedDate = $proVehicle->getUpdatedAt()->format('Y-m-d\TH:i:sP');
 
             return $vehicleDto;
         }

@@ -38,3 +38,8 @@ api_vehicles_images_add:
     methods: POST
     defaults:
         _controller: AppBundle:Api\Vehicle:addImage
+api_vehicles_images_remove:
+    path: /vehicules/{id}/images
+    methods: DELETE
+    defaults:
+        _controller: AppBundle:Api\Vehicle:removeImages

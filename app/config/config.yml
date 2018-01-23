@@ -135,6 +135,8 @@ vich_uploader:
                 service: vich_uploader.directory_namer_subdir
                 options: {chars_per_dir: 3, dirs: 2}
             inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
         user_image:
             uri_prefix:         /uploads/images/users
             upload_destination: '%env(UPLOAD_DIR)%/images/users'
@@ -143,6 +145,8 @@ vich_uploader:
                 service: vich_uploader.directory_namer_subdir
                 options: {chars_per_dir: 3, dirs: 2}
             inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
         garage_banner:
             uri_prefix:         /uploads/images/garages/banner
             upload_destination: '%env(UPLOAD_DIR)%/images/garages/banner'
@@ -151,6 +155,8 @@ vich_uploader:
                 service: vich_uploader.directory_namer_subdir
                 options: {chars_per_dir: 3, dirs: 2}
             inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
         garage_logo:
             uri_prefix:         /uploads/images/garages/logo
             upload_destination: '%env(UPLOAD_DIR)%/images/garages/logo'
@@ -159,6 +165,8 @@ vich_uploader:
                 service: vich_uploader.directory_namer_subdir
                 options: {chars_per_dir: 3, dirs: 2}
             inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
 
 liip_imagine:
     loaders:

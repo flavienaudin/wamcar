@@ -29,7 +29,7 @@ class ProVehicleEditionService
 
 
     /**
-     * GarageEditionService constructor.
+     * ProVehicleEditionService constructor.
      * @param ProVehicleRepository $vehicleRepository
      * @param GarageRepository $garageRepository
      * @param MessageBus $eventBus
@@ -96,6 +96,18 @@ class ProVehicleEditionService
             $vehicle->addPicture($picture);
         }
 
+        $this->vehicleRepository->update($vehicle);
+
+        return $vehicle;
+    }
+
+    /**
+     * @param ProVehicle $vehicle
+     * @return ProVehicle
+     */
+    public function removePictures(ProVehicle $vehicle): ProVehicle
+    {
+        $vehicle->clearPictures();
         $this->vehicleRepository->update($vehicle);
 
         return $vehicle;
