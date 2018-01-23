@@ -44,9 +44,9 @@ setup:env:
     - make vendors
   tags:
     - shell
-#  only:
-#    - develop
-#    - tags
+  only:
+    - develop
+    - tags
 
 #################
 ###   Build   ###
@@ -66,9 +66,9 @@ build:assets:
     paths:
       - web/assets/bundle
       - web/openapi.json
-#  only:
-#    - develop
-#    - tags
+  only:
+    - develop
+    - tags
 
 
 #################
@@ -155,30 +155,6 @@ deploy:staging:unlock:
     policy: pull
   script:
     - sleep 1
-    - make vendors
-    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
-  tags:
-    - shell
-  when: manual
-  only:
-    - tags
-    - shell
-  when: manual
-  only:
-    - develop
-
-deploy:staging:unlock:
-  stage: deploy
-  dependencies:
-    - setup:env
-  cache:
-    key: "wamcar-$CI_ENVIRONMENT_SLUG"
-    paths:
-      - vendor
-      - bin
-      - node_modules
-    policy: pull
-  script:
     - make vendors
     - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
   tags:
