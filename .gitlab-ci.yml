@@ -41,6 +41,7 @@ build:assets:
     - setup:env
   script:
     - make front
+    - make api-documentation
   tags:
     - shell
   artifacts:

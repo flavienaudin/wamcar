@@ -48,16 +48,9 @@ task('deploy:install_composer', function () {
 })->desc('downloading composer');
 
 /**
- * Generate and upload API documentation
+ * Upload API documentation
  */
-task('api:documentation', [
-    'api:documentation:generate',
-    'api:documentation:upload',
-])->desc('Setup API documentation');
-task('api:documentation:generate', function () {
-    run('make api-documentation');
-})->desc('generating API documentation')->local();
-task('api:documentation:upload', function () {
+task('api:documentation', function () {
     upload('web/openapi.json', '{{release_path}}/web/openapi.json');
 })->desc('generating API documentation');
 
