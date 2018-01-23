@@ -32,7 +32,7 @@ add('writable_dirs', [
 before('deploy:vendors', 'deploy:install_composer');
 before('deploy:symlink', 'database:migrate');
 after('deploy', 'upload:assets');
-after('upload:assets', 'api:documentation');
+after('deploy', 'api:documentation');
 
 after('deploy', 'reload:php-fpm');
 after('rollback', 'reload:php-fpm');
