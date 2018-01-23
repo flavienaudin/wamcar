@@ -71,7 +71,6 @@ build:docs:
   dependencies:
     - setup:env
   script:
-    - sleep 1
     - make api-documentation
   tags:
     - shell
@@ -166,6 +165,30 @@ deploy:staging:unlock:
     policy: pull
   script:
     - sleep 1
+    - make vendors
+    - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
+  tags:
+    - shell
+  when: manual
+  only:
+    - tags
+    - shell
+  when: manual
+  only:
+    - develop
+
+deploy:staging:unlock:
+  stage: deploy
+  dependencies:
+    - setup:env
+  cache:
+    key: "wamcar-$CI_ENVIRONMENT_SLUG"
+    paths:
+      - vendor
+      - bin
+      - node_modules
+    policy: pull
+  script:
     - make vendors
     - docker-compose run --rm php bash -c "git config user.name novaway && bin/dep deploy:unlock --hosts staging"
   tags:
