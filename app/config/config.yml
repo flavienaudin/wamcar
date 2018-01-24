@@ -110,8 +110,8 @@ swiftmailer:
     host: '%env(MAILER_HOST)%'
     username: '%env(MAILER_USER)%'
     password: '%env(MAILER_PASSWORD)%'
-    port:      "%env(MAILER_PORT)%"
-    encryption: tls
+    port:      '%env(MAILER_PORT)%'
+    encryption: '%env(MAILER_ENCRYPTION)%'
     spool: { type: memory }
 
 stof_doctrine_extensions:
