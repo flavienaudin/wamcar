@@ -33,6 +33,7 @@ before('deploy:vendors', 'deploy:install_composer');
 before('deploy:symlink', 'database:migrate');
 after('deploy', 'upload:assets');
 after('deploy', 'api:documentation');
+after('deploy', 'cleanup');
 
 after('deploy', 'reload:php-fpm');
 after('rollback', 'reload:php-fpm');
