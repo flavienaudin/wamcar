@@ -1,0 +1,15 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+
+{% block title %}{{ 'notifyOwnerOfVehicleRemoved.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyOwnerOfVehicleRemoved.body'|trans({
+            '%name%': name,
+            '%annee%' : annee,
+            '%siteUrl%': siteUrl
+        })|raw }}
+    </div>
+{% endblock %}

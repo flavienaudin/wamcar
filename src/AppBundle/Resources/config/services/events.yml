@@ -12,7 +12,7 @@ services:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfPasswordResetTokenGenerated
         arguments:
-          - sell.registration_token_generated
+          - password_reset_token_generated
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserPasswordResetTokenGenerated, method: notify }
 
@@ -20,7 +20,7 @@ services:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfRegistrationTokenGenerated
         arguments:
-          - sell.registration_token_generated
+          - registration_token_generated
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserCreated, method: notify }
 
@@ -28,9 +28,17 @@ services:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyProUserOfRegistration
         arguments:
-          - sell.registration_token_generated
+          - registration_pro
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
+
+    wamcar.event.vehicle_removed:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyOwnerOfVehicleRemoved
+        arguments:
+           - vehicle_removed
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
 
     wamcar.event.elasticsearch.personal_user_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedPersonalUser
