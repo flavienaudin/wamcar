@@ -4,7 +4,7 @@
     {% if userIsMe %}
         Ma fiche profil
     {% else %}
-        Fiche profil{{ user.name ? ' de %s'|format(user.name) }}
+        Fiche profil de {{ user.fullName }}
     {% endif %}
 {% endblock %}
 

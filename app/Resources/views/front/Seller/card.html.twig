@@ -13,7 +13,7 @@
     {% if userIsMe %}
         Ma fiche vendeur
     {% else %}
-        Fiche vendeur{{ user.name ? ' de %s'|format(user.name) }}
+        Fiche vendeur de {{ user.fullName }}
     {% endif %}
 {% endblock %}
 

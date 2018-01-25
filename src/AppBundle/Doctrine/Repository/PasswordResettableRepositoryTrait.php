@@ -2,10 +2,7 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Security\HasPasswordResettable;
-use Wamcar\User\BaseUser;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 trait PasswordResettableRepositoryTrait
 {

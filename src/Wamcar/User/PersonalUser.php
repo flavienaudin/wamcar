@@ -21,11 +21,13 @@ class PersonalUser extends BaseUser
     /**
      * PersonalUser constructor.
      * @param string $email
+     * @param string $firstName
+     * @param string|null $name
      * @param PersonalVehicle $firstVehicle
      */
-    public function __construct(string $email, PersonalVehicle $firstVehicle = null)
+    public function __construct(string $email, $firstName, $name = null, PersonalVehicle $firstVehicle = null)
     {
-        parent::__construct($email);
+        parent::__construct($email, $firstName, $name);
 
         $this->vehicles = new ArrayCollection();
         if($firstVehicle){

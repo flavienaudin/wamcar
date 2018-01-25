@@ -21,10 +21,12 @@ class ProUser extends BaseUser
     /**
      * ProUser constructor.
      * @param string $email
+     * @param string $firstName
+     * @param string|null $name
      */
-    public function __construct($email)
+    public function __construct($email, $firstName, $name = null)
     {
-        parent::__construct($email);
+        parent::__construct($email, $firstName, $name);
         $this->garageMemberships = new ArrayCollection();
     }
 

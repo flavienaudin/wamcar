@@ -577,7 +577,7 @@ abstract class BaseVehicle implements Vehicle
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
 
-        return $seller->getName();
+        return $seller->getFullName();
     }
 
     /**

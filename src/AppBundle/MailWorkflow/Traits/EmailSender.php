@@ -86,6 +86,6 @@ trait EmailSender
      */
     protected function createUserEmailContact(BaseUser $user): EmailContact
     {
-        return new EmailContact($user->getEmail(), $user->getName());
+        return new EmailContact($user->getEmail(), $user->getFullName());
     }
 }

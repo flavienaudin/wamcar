@@ -2,10 +2,10 @@
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
             {# TODO : vérifier l'intégration de la cartouche d'un particulier ci-dessous #}
-            <span class="seller-pic"><img src="{{ isLogged ? vehicle.owner.avatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.owner.name : 'Particulier inscrit' }}"></span>
+            <span class="seller-pic"><img src="{{ isLogged ? vehicle.owner.avatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.sellerName : 'Particulier inscrit' }}"></span>
             <div>
                 {% if isLogged %}
-                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.owner.name }}</b></a> <br>
+                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.sellerName }}</b></a> <br>
                     {% if vehicle.owner.userProfile.phone %}
                     <span class="icon-tel primary-color">
                         <a href="tel:{{ vehicle.owner.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.owner.userProfile.phone }}</a>

@@ -1,7 +1,7 @@
 <aside class="profil-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">{{ user.name }}</h1>
+            <h1 class="profil-name">{{ user.fullName }}</h1>
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
@@ -21,7 +21,7 @@
         </div>
         <div class="column medium-shrink medium-order-1">
             <span class="profil-image">
-                <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.name }}" width="100%">
+                <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
             </span>
         </div>
     </header>
