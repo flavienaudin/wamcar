@@ -36,3 +36,12 @@ notifyOwnerOfVehicleRemoved:
         <p>Donnez votre avis sur Wamcar en remlissant notre formulaire de satisfaction.</p>
         <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
         <p>L'équipe Wamcar</p>
+
+notifyUserOfAddingPicturesToVehicle:
+    title: "Ajouter des photos à votre annonce"
+    body: >
+      <p>Bonjour %username%,</p>
+      <p>Afin d'obtenir un maximum d'offres réalistes et adaptées, nous vous invîtons à compléter votre annonce en ajoutant plusieurs photos.</p>
+      <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
+      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+      <p>L'équipe Wamcar</p>

@@ -5,6 +5,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
+use Wamcar\User\PersonalUser;
 
 
 class UserGlobalSearchService
@@ -48,6 +49,15 @@ class UserGlobalSearchService
             return null;
         }
 
+    }
+
+    /**
+     * Retrieve the PersonalUser registrered since 24H with a vehicle with 0 or 1 picture
+     * @return PersonalUser[]
+     */
+    public function findPersonalToRemind()
+    {
+        return $this->personalUserRepository->retrieveUserToRemindToAddPicture();
     }
 
 }
