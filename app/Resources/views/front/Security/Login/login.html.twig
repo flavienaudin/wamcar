@@ -50,9 +50,14 @@
                         required_message: 'Veuillez indiquer votre adresse email.'
                     } %}
                     <div class="column small-12">
-                        <button type="submit" id="form-login-submit" class="button full-width">Connexion</button>
+                       <button type="submit" id="form-login-submit" class="button full-width">Connexion</button>
                     </div>
                 </form>
+            </div>
+            <h2 class="black-color column small-12 separator">Je me crée un compte {{ site_name }}</h2>
+            <div class="small-12">
+                <a href="{{ path('register') }}" class="button white input-margin">Je suis un particulier</a>
+                <a href="{{ path('register', { 'type' : 'pro'}) }}" class="button white">Je suis un professionnel</a>
             </div>
         </section>
 

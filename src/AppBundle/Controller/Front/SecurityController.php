@@ -110,7 +110,15 @@ class SecurityController extends BaseController
 
             if ($registeredUser->hasConfirmedRegistration()) {
                 $this->userAuthenticator->authenticate($registeredUser);
-                return $this->redirectToRoute('front_default');
+
+                // Check if target_path in session due to a previous AccessDeniedException
+                $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
+                if ($redirectTo = $this->session->get($key)) {
+                    $this->session->remove($key);
+                    return $this->redirect($redirectTo);
+                } else {
+                    return $this->redirectToRoute('front_default');
+                }
             }
             return $this->redirectToRoute('register_confirm');
         }
@@ -140,16 +148,33 @@ class SecurityController extends BaseController
                 'flash.danger.token_invalid'
             );
 
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('security_login_page');
         }
 
         $this->userRegistrationService->confirmUserRegistration($user);
 
+        if ($user->hasConfirmedRegistration()) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.registration_confirmed'
+            );
+
+            $this->userAuthenticator->authenticate($user);
+
+            // Check if target_path in session due to a previous AccessDeniedException
+            $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
+            if ($redirectTo = $this->session->get($key)) {
+                $this->session->remove($key);
+                return $this->redirect($redirectTo);
+            } else {
+                return $this->redirectToRoute('front_default');
+            }
+        }
+
         $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_INFO,
-            'flash.success.registration_confirmed'
+            self::FLASH_LEVEL_DANGER,
+            'flash.error.registration_unconfirmed'
         );
-        // redirect to login page, to allow user to enter his credentials
         return $this->redirectToRoute('front_default');
     }
 
