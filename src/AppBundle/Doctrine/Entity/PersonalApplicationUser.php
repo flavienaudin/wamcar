@@ -4,12 +4,13 @@ namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\ShouldConfirmRegistration;
+use AppBundle\Services\User\CanBeInConversation;
 use AppBundle\Utils\TokenGenerator;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Vehicle;
 
-class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, HasPasswordResettable
+class PersonalApplicationUser extends PersonalUser implements \Serializable, ShouldConfirmRegistration, ApplicationUser, HasPasswordResettable, CanBeInConversation
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;

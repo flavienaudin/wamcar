@@ -6,6 +6,7 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Conversation\Conversation;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\Vehicle;
 
@@ -17,6 +18,8 @@ class PersonalUser extends BaseUser
     protected $project;
     /** @var Vehicle[]|array */
     protected $vehicles;
+    /** @var  Conversation[]|array */
+    protected $userConversations;
 
     /**
      * PersonalUser constructor.
@@ -31,6 +34,7 @@ class PersonalUser extends BaseUser
         if($firstVehicle){
             $this->vehicles->add($firstVehicle);
         }
+        $this->userConversations = new ArrayCollection();
     }
 
     /**
@@ -48,6 +52,14 @@ class PersonalUser extends BaseUser
     public function getVehicles(): Collection
     {
         return $this->vehicles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getUserConversations(): array
+    {
+        return $this->userConversations;
     }
 
     /**

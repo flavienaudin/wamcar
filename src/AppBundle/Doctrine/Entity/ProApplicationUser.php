@@ -6,12 +6,13 @@ use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use AppBundle\Services\User\CanBeGarageMember;
+use AppBundle\Services\User\CanBeInConversation;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential, CanBeInConversation
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
