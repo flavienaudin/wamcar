@@ -4,15 +4,19 @@
 namespace AppBundle\Services\User;
 
 
-use Wamcar\Garage\Garage;
-use Wamcar\Garage\GarageProUser;
+use Doctrine\Common\Collections\ArrayCollection;
 
 interface CanBeInConversation
 {
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
-    public function getUserConversations(): array;
+    public function getMessages(): ArrayCollection;
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getConversations(): ArrayCollection;
 
 }

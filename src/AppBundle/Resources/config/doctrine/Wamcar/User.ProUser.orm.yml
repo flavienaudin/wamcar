@@ -16,6 +16,6 @@ Wamcar\User\ProUser:
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
         messages:
-            targetEntity: Wamcar\Conversation\ConversationMessage
+            targetEntity: Wamcar\Conversation\Message
             mappedBy: user
             cascade: ["persist", "merge", "remove"]

@@ -6,9 +6,9 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Add conversation feature
  */
-class Version20180202142814 extends AbstractMigration
+class Version20180205093138 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
@@ -16,10 +16,10 @@ class Version20180202142814 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('CREATE TABLE conversation (id CHAR(36) NOT NULL, discriminator VARCHAR(255) NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE conversation_message (id INT AUTO_INCREMENT NOT NULL, conversation_id CHAR(36) DEFAULT NULL, conversation_user_id INT DEFAULT NULL, message VARCHAR(255) NOT NULL, published_at DATETIME NOT NULL, INDEX IDX_2DEB3E759AC0396 (conversation_id), INDEX IDX_2DEB3E753C38DD9F (conversation_user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE conversation_message (id INT AUTO_INCREMENT NOT NULL, conversation_id CHAR(36) DEFAULT NULL, user_id INT DEFAULT NULL, message VARCHAR(255) NOT NULL, published_at DATETIME NOT NULL, INDEX IDX_2DEB3E759AC0396 (conversation_id), INDEX IDX_2DEB3E75A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE conversation_user (id INT AUTO_INCREMENT NOT NULL, conversation_id CHAR(36) DEFAULT NULL, user_id INT DEFAULT NULL, messages_id INT DEFAULT NULL, last_open_at DATETIME NOT NULL, INDEX IDX_5AECB5559AC0396 (conversation_id), INDEX IDX_5AECB555A76ED395 (user_id), INDEX IDX_5AECB555A5905F5A (messages_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE conversation_message ADD CONSTRAINT FK_2DEB3E759AC0396 FOREIGN KEY (conversation_id) REFERENCES conversation (id)');
-        $this->addSql('ALTER TABLE conversation_message ADD CONSTRAINT FK_2DEB3E753C38DD9F FOREIGN KEY (conversation_user_id) REFERENCES conversation_user (id)');
+        $this->addSql('ALTER TABLE conversation_message ADD CONSTRAINT FK_2DEB3E75A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE conversation_user ADD CONSTRAINT FK_5AECB5559AC0396 FOREIGN KEY (conversation_id) REFERENCES conversation (id)');
         $this->addSql('ALTER TABLE conversation_user ADD CONSTRAINT FK_5AECB555A76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
         $this->addSql('ALTER TABLE conversation_user ADD CONSTRAINT FK_5AECB555A5905F5A FOREIGN KEY (messages_id) REFERENCES conversation_message (id)');
@@ -33,7 +33,6 @@ class Version20180202142814 extends AbstractMigration
         $this->addSql('ALTER TABLE conversation_message DROP FOREIGN KEY FK_2DEB3E759AC0396');
         $this->addSql('ALTER TABLE conversation_user DROP FOREIGN KEY FK_5AECB5559AC0396');
         $this->addSql('ALTER TABLE conversation_user DROP FOREIGN KEY FK_5AECB555A5905F5A');
-        $this->addSql('ALTER TABLE conversation_message DROP FOREIGN KEY FK_2DEB3E753C38DD9F');
         $this->addSql('DROP TABLE conversation');
         $this->addSql('DROP TABLE conversation_message');
         $this->addSql('DROP TABLE conversation_user');

@@ -6,8 +6,12 @@ Wamcar\User\PersonalUser:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
             mappedBy: owner
             cascade: ["persist", "merge", "remove"]
-        userConversations:
+        conversations:
             targetEntity: Wamcar\Conversation\ConversationUser
+            mappedBy: user
+            cascade: ["persist", "merge", "remove"]
+        messages:
+            targetEntity: Wamcar\Conversation\Message
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
     oneToOne:
