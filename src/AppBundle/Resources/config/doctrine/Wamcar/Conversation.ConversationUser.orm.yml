@@ -13,7 +13,7 @@ Wamcar\Conversation\ConversationUser:
                 strategy: AUTO
 
     fields:
-        lastOpenAt:
+        lastOpenedAt:
             type: datetime
 
     manyToOne:

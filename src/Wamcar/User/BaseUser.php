@@ -21,9 +21,9 @@ abstract class BaseUser
     protected $userProfile;
     /** @var ?Picture */
     protected $avatar;
-    /** @var  Message[]|Collection */
+    /** @var  Collection <Message> */
     protected $messages;
-    /** @var  ConversationUser[]|Collection */
+    /** @var  Collection <ConversationUser> */
     protected $conversationUsers;
 
     /**
@@ -132,7 +132,7 @@ abstract class BaseUser
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection <Message>
      */
     public function getMessages(): Collection
     {
@@ -140,7 +140,7 @@ abstract class BaseUser
     }
 
     /**
-     * @return Collection|ConversationUser[]
+     * @return Collection <ConversationUser>
      */
     public function getConversationUsers(): Collection
     {

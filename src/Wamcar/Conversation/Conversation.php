@@ -12,9 +12,9 @@ class Conversation
 {
     /** @var string */
     protected $id;
-    /** @var ConversationUser[]|Collection */
+    /** @var Collection <ConversationUser> */
     protected $conversationUsers;
-    /** @var Message[]|Collection */
+    /** @var Collection <Message> */
     protected $messages;
 
     public function __construct()
@@ -33,17 +33,17 @@ class Conversation
     }
 
     /**
-     * @return Collection|ConversationUser[]
+     * @return Collection <ConversationUser>
      */
-    public function getConversationUsers(): array
+    public function getConversationUsers(): Collection
     {
         return $this->conversationUsers;
     }
 
     /**
-     * @return Collection|Message[]
+     * @return Collection <Message>
      */
-    public function getMessages(): array
+    public function getMessages(): Collection
     {
         return $this->messages;
     }
