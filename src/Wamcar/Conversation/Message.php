@@ -16,7 +16,7 @@ class Message
     /** @var BaseUser */
     protected $user;
     /** @var string */
-    protected $message;
+    protected $content;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -24,13 +24,13 @@ class Message
      * Message constructor.
      * @param Conversation $conversation
      * @param CanBeInConversation $user
-     * @param string $message
+     * @param string $content
      */
-    public function __construct(Conversation $conversation, CanBeInConversation $user, string $message)
+    public function __construct(Conversation $conversation, CanBeInConversation $user, string $content)
     {
         $this->conversation = $conversation;
         $this->user = $user;
-        $this->message = $message;
+        $this->content = $content;
         $this->publishedAt = new \DateTime();
     }
 
@@ -61,9 +61,9 @@ class Message
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getContent(): string
     {
-        return $this->message;
+        return $this->content;
     }
 
     /**

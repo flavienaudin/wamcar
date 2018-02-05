@@ -4,19 +4,20 @@
 namespace AppBundle\Services\User;
 
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Wamcar\Conversation\ConversationUser;
 
 interface CanBeInConversation
 {
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getMessages(): ArrayCollection;
+    public function getMessages(): Collection;
 
     /**
-     * @return ArrayCollection
+     * @return ConversationUser[]|Collection
      */
-    public function getConversations(): ArrayCollection;
+    public function getConversationUsers(): Collection;
 
 }

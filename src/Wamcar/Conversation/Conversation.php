@@ -5,15 +5,16 @@ namespace Wamcar\Conversation;
 
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Ramsey\Uuid\Uuid;
 
 class Conversation
 {
     /** @var string */
     protected $id;
-    /** @var ConversationUser[]|array */
+    /** @var ConversationUser[]|Collection */
     protected $conversationUsers;
-    /** @var Message[]|array */
+    /** @var Message[]|Collection */
     protected $messages;
 
     public function __construct()
@@ -32,7 +33,7 @@ class Conversation
     }
 
     /**
-     * @return array|ConversationUser[]
+     * @return Collection|ConversationUser[]
      */
     public function getConversationUsers(): array
     {
@@ -40,7 +41,7 @@ class Conversation
     }
 
     /**
-     * @return array|Message[]
+     * @return Collection|Message[]
      */
     public function getMessages(): array
     {

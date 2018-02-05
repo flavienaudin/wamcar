@@ -4,7 +4,10 @@ namespace Wamcar\User;
 
 use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Wamcar\Conversation\ConversationUser;
+use Wamcar\Conversation\Message;
 
 abstract class BaseUser
 {
@@ -18,9 +21,9 @@ abstract class BaseUser
     protected $userProfile;
     /** @var ?Picture */
     protected $avatar;
-    /** @var  ArrayCollection */
+    /** @var  Message[]|Collection */
     protected $messages;
-    /** @var  ArrayCollection */
+    /** @var  ConversationUser[]|Collection */
     protected $conversations;
 
     /**
@@ -129,17 +132,17 @@ abstract class BaseUser
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|Message[]
      */
-    public function getMessages(): ArrayCollection
+    public function getMessages(): Collection
     {
         return $this->messages;
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection|ConversationUser[]
      */
-    public function getConversations(): ArrayCollection
+    public function getConversations(): Collection
     {
         return $this->conversations;
     }

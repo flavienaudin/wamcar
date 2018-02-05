@@ -13,7 +13,7 @@ Wamcar\Conversation\Message:
                 strategy: AUTO
 
     fields:
-        message:
+        content:
             type: string
         publishedAt:
             type: datetime
