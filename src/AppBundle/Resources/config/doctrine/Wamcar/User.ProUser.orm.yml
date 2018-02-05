@@ -11,11 +11,3 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Garage\GarageProUser
             mappedBy: proUser
             cascade: ["persist", "merge"]
-        conversations:
-            targetEntity: Wamcar\Conversation\ConversationUser
-            mappedBy: user
-            cascade: ["persist", "merge", "remove"]
-        messages:
-            targetEntity: Wamcar\Conversation\Message
-            mappedBy: user
-            cascade: ["persist", "merge", "remove"]

@@ -25,7 +25,7 @@ Wamcar\Conversation\ConversationUser:
                 referencedColumnName: id
         user:
             targetEntity: Wamcar\User\BaseUser
-            inversedBy: userConversations
+            inversedBy: conversations
             joinColumn:
                 name: user_id
                 referencedColumnName: id
