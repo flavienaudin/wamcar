@@ -6,7 +6,6 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationEditionService;
-use AppBundle\Services\User\CanBeInConversation;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

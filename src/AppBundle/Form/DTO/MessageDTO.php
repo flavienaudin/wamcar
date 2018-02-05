@@ -15,18 +15,18 @@ class MessageDTO
     /** @var  BaseUser */
     public $user;
     /** @var  BaseUser */
-    public $conversationUser;
+    public $interlocutor;
     /** @var  string */
     public $content;
 
     public function __construct(
         ?Conversation $conversation,
         CanBeInConversation $user,
-        CanBeInConversation $conversationUser
+        CanBeInConversation $interlocutor
     )
     {
         $this->id = $conversation ? $conversation->getId() : null;
         $this->user = $user;
-        $this->conversationUser = $conversationUser;
+        $this->interlocutor = $interlocutor;
     }
 }

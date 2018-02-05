@@ -44,7 +44,7 @@ class ConversationFromDTOBuilder
         $conversation = new Conversation();
         $conversationUserFirst =  new ConversationUser($conversation, $dto->user);
         $conversation->addConversationUser($conversationUserFirst);
-        $conversationUserSecond =  new ConversationUser($conversation, $dto->conversationUser);
+        $conversationUserSecond =  new ConversationUser($conversation, $dto->interlocutor);
         $conversation->addConversationUser($conversationUserSecond);
 
         return $conversation;
