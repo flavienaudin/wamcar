@@ -5,7 +5,6 @@ namespace Wamcar\Conversation;
 
 
 use AppBundle\Services\User\CanBeInConversation;
-use Doctrine\Common\Collections\ArrayCollection;
 use Wamcar\User\BaseUser;
 
 class ConversationUser
@@ -18,8 +17,6 @@ class ConversationUser
     protected $user;
     /** @var \DateTime */
     protected $lastOpenAt;
-    /** @var Message[]|array */
-    protected $messages;
 
     /**
      * ConversationUser constructor.
@@ -31,7 +28,6 @@ class ConversationUser
         $this->conversation = $conversation;
         $this->user = $user;
         $this->lastOpenAt = new \DateTime();
-        $this->messages = new ArrayCollection();
     }
 
     /**
@@ -64,13 +60,5 @@ class ConversationUser
     public function getLastOpenAt(): \DateTime
     {
         return $this->lastOpenAt;
-    }
-
-    /**
-     * @return array|Message[]
-     */
-    public function getMessages(): array
-    {
-        return $this->messages;
     }
 }

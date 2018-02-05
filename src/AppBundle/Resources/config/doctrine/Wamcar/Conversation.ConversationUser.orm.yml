@@ -29,7 +29,3 @@ Wamcar\Conversation\ConversationUser:
             joinColumn:
                 name: user_id
                 referencedColumnName: id
-        messages:
-            targetEntity: Message
-            mappedBy: conversationUser
-            cascade: ["persist", "merge", "remove"]
