@@ -26,13 +26,11 @@ class GarageEditionService
      * @param GarageRepository $garageRepository
      * @param GarageProUserRepository $garageProUserRepository
      * @param GarageFromDTOBuilder $garageBuilder
-     * @param AuthorizationCheckerInterface $authorizationChecker
      */
     public function __construct(
         GarageRepository $garageRepository,
         GarageProUserRepository $garageProUserRepository,
-        GarageFromDTOBuilder $garageBuilder,
-        AuthorizationCheckerInterface $authorizationChecker
+        GarageFromDTOBuilder $garageBuilder
     )
     {
         $this->garageRepository = $garageRepository;
@@ -53,6 +51,7 @@ class GarageEditionService
     /**
      * @param GarageDTO $garageDTO
      * @param null|Garage $garage
+     * @param CanBeGarageMember $creator
      * @return Garage
      */
     public function editInformations(GarageDTO $garageDTO, ?Garage $garage, CanBeGarageMember $creator): Garage
@@ -74,7 +73,7 @@ class GarageEditionService
      * @param ProApplicationUser $proApplicationUser
      * @return Garage
      */
-    public function addMember(Garage $garage, ProApplicationUser $proApplicationUser)
+    public function addMember(Garage $garage, ProApplicationUser $proApplicationUser): Garage
     {
         /** @var GarageProUser $garageProUser */
         if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles()))

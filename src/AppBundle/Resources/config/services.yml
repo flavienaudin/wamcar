@@ -62,3 +62,9 @@ services:
         public: false
         autowire: true
         autoconfigure: false
+
+    AppBundle\Services\Conversation\ConversationEditionService:
+        class: AppBundle\Services\Conversation\ConversationEditionService
+        public: false
+        autowire: true
+        autoconfigure: false

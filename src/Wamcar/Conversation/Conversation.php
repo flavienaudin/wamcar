@@ -41,10 +41,36 @@ class Conversation
     }
 
     /**
+     * @param ConversationUser $conversationUser
+     * @return Collection <ConversationUser>
+     */
+    public function addConversationUser(ConversationUser $conversationUser): Collection
+    {
+        if (!$this->conversationUsers->contains($conversationUser)) {
+            $this->conversationUsers->add($conversationUser);
+        }
+
+        return $this->conversationUsers;
+    }
+
+    /**
      * @return Collection <Message>
      */
     public function getMessages(): Collection
     {
+        return $this->messages;
+    }
+
+    /**
+     * @param Message $message
+     * @return Collection <Message>
+     */
+    public function addMessage(Message $message): Collection
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+        }
+
         return $this->messages;
     }
 }
