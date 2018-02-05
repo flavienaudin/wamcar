@@ -11,9 +11,5 @@ class ApplicationConversation extends Conversation
 {
     use Timestampable;
 
-    /** @var \DateTime */
-    protected $createdAt;
-    /** @var \DateTime*/
-    protected $updatedAt;
 
 }
