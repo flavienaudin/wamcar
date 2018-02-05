@@ -5,19 +5,17 @@ namespace AppBundle\Services\User;
 
 
 use Doctrine\Common\Collections\Collection;
-use Wamcar\Conversation\ConversationUser;
-use Wamcar\Conversation\Message;
 
 interface CanBeInConversation
 {
 
     /**
-     * @return Message[]|Collection
+     * @return Collection <Message>
      */
     public function getMessages(): Collection;
 
     /**
-     * @return ConversationUser[]|Collection
+     * @return Collection <ConversationUser>
      */
     public function getConversationUsers(): Collection;
 
