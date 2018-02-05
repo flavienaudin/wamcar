@@ -17,8 +17,6 @@ class ProUser extends BaseUser
     protected $phonePro;
     /** @var  Collection */
     protected $garageMemberships;
-    /** @var  array */
-    protected $userConversations;
 
     /**
      * ProUser constructor.
@@ -28,7 +26,6 @@ class ProUser extends BaseUser
     {
         parent::__construct($email);
         $this->garageMemberships = new ArrayCollection();
-        $this->userConversations = new ArrayCollection();
     }
 
     /**
@@ -95,14 +92,6 @@ class ProUser extends BaseUser
         }
 
         return null;
-    }
-
-    /**
-     * @return array
-     */
-    public function getUserConversations(): array
-    {
-        return $this->userConversations;
     }
 
     /**

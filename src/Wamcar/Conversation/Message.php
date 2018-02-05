@@ -4,14 +4,17 @@
 namespace Wamcar\Conversation;
 
 
+use AppBundle\Services\User\CanBeInConversation;
+use Wamcar\User\BaseUser;
+
 class Message
 {
     /** @var int */
     protected $id;
     /** @var Conversation */
     protected $conversation;
-    /** @var ConversationUser */
-    protected $conversationUser;
+    /** @var BaseUser */
+    protected $user;
     /** @var string */
     protected $message;
     /** @var \DateTime */
@@ -20,13 +23,13 @@ class Message
     /**
      * Message constructor.
      * @param Conversation $conversation
-     * @param $conversationUser
+     * @param CanBeInConversation $user
      * @param string $message
      */
-    public function __construct(Conversation $conversation,  $conversationUser, string $message)
+    public function __construct(Conversation $conversation, CanBeInConversation $user, string $message)
     {
         $this->conversation = $conversation;
-        $this->conversationUser = $conversationUser;
+        $this->user = $user;
         $this->message = $message;
         $this->publishedAt = new \DateTime();
     }
@@ -48,11 +51,11 @@ class Message
     }
 
     /**
-     * @return ConversationUser
+     * @return CanBeInConversation
      */
-    public function getConversationUser(): ConversationUser
+    public function getUser(): CanBeInConversation
     {
-        return $this->conversationUser;
+        return $this->user;
     }
 
     /**
