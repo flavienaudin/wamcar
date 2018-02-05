@@ -43,7 +43,7 @@ Wamcar\User\BaseUser:
             cascade: ["persist", "merge", "remove"]
 
     oneToMany:
-        conversations:
+        conversationUsers:
             targetEntity: Wamcar\Conversation\ConversationUser
             mappedBy: user
             cascade: ["persist", "merge", "remove"]

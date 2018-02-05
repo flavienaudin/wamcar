@@ -24,7 +24,7 @@ abstract class BaseUser
     /** @var  Message[]|Collection */
     protected $messages;
     /** @var  ConversationUser[]|Collection */
-    protected $conversations;
+    protected $conversationUsers;
 
     /**
      * User constructor.
@@ -39,7 +39,7 @@ abstract class BaseUser
         $this->email = $email;
         $this->avatar = $avatar;
         $this->messages = new ArrayCollection();
-        $this->conversations = new ArrayCollection();
+        $this->conversationUsers = new ArrayCollection();
     }
 
     /**
@@ -144,7 +144,7 @@ abstract class BaseUser
      */
     public function getConversationUsers(): Collection
     {
-        return $this->conversations;
+        return $this->conversationUsers;
     }
 
     /**
