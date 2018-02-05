@@ -6,6 +6,7 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationEditionService;
+use AppBundle\Services\User\CanBeInConversation;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,20 +31,20 @@ class ConversationController extends BaseController
 
     /**
      * @param Request $request
-     * @param BaseUser $conversationUser
+     * @param BaseUser $interlocutor
      * @return Response
      */
-    public function createAction(Request $request, BaseUser $conversationUser): Response
+    public function createAction(Request $request, BaseUser $interlocutor): Response
     {
         if (!$this->authorizationChecker->isGranted('ROLE_USER')) {
             throw new AccessDeniedHttpException('Only connected user can create conversation');
         }
 
-        if ($this->conversationEditionService->canCommunicate($this->getUser(), $conversationUser)) {
+        if ($this->conversationEditionService->canCommunicate($this->getUser(), $interlocutor)) {
             throw new AccessDeniedHttpException('Not authorized to communicate');
         }
 
-        $messageDTO = new MessageDTO(null, $this->getUser(), $conversationUser);
+        $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
 
         $messageForm->handleRequest($request);
@@ -55,13 +56,13 @@ class ConversationController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 'flash.success.conversation_create'
             );
-            return $this->redirectToRoute('front_conversation_create', ['id' => $conversationUser->getId()]);
+            return $this->redirectToRoute('front_conversation_create', ['id' => $interlocutor->getId()]);
         }
 
         return $this->render('front/Conversation/new.html.twig', [
             'messageForm' => $messageForm->createView(),
             'user' => $this->getUser(),
-            'conversationUser' => $conversationUser
+            'interlocutor' => $interlocutor
         ]);
     }
 
