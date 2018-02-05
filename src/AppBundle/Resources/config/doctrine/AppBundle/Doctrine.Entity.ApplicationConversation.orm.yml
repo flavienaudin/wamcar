@@ -1,0 +1,18 @@
+AppBundle\Doctrine\Entity\ApplicationConversation:
+
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineConversationRepository
+
+    exclusion_policy: ALL
+
+    fields:
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update

@@ -2,9 +2,12 @@
 
 namespace Wamcar\User;
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Wamcar\Conversation\ConversationUser;
+use Wamcar\Conversation\Message;
 
 abstract class BaseUser
 {
@@ -18,6 +21,10 @@ abstract class BaseUser
     protected $userProfile;
     /** @var ?Picture */
     protected $avatar;
+    /** @var  Collection <Message> */
+    protected $messages;
+    /** @var  Collection <ConversationUser> */
+    protected $conversationUsers;
 
     /**
      * User constructor.
@@ -31,6 +38,8 @@ abstract class BaseUser
     {
         $this->email = $email;
         $this->avatar = $avatar;
+        $this->messages = new ArrayCollection();
+        $this->conversationUsers = new ArrayCollection();
     }
 
     /**
@@ -122,6 +131,21 @@ abstract class BaseUser
         return $this->avatar ? $this->avatar->getFile() : null;
     }
 
+    /**
+     * @return Collection <Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    /**
+     * @return Collection <ConversationUser>
+     */
+    public function getConversationUsers(): Collection
+    {
+        return $this->conversationUsers;
+    }
 
     /**
      * @param UserPicture $avatar
@@ -135,5 +159,5 @@ abstract class BaseUser
      * @param BaseUser|null $user null if user not connected
      * @return bool
      */
-    public abstract function canSeeMyVehicles(BaseUser $user = null): bool;
+    abstract public function canSeeMyVehicles(BaseUser $user = null): bool;
 }

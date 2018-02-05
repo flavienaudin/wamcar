@@ -1,0 +1,33 @@
+Wamcar\Conversation\Message:
+
+    type: entity
+    table: conversation_message
+
+    repositoryClass: AppBundle\Doctrine\Repository\MessageRepository
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        content:
+            type: string
+        publishedAt:
+            type: datetime
+
+    manyToOne:
+        conversation:
+            targetEntity: Conversation
+            inversedBy: messages
+            joinColumn:
+                name: conversation_id
+                referencedColumnName: id
+        user:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: messages
+            joinColumn:
+                name: user_id
+                referencedColumnName: id

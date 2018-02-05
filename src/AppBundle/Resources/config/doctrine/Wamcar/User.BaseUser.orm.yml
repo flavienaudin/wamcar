@@ -41,3 +41,13 @@ Wamcar\User\BaseUser:
                 name: avatar_id
                 referencedColumnName: id
             cascade: ["persist", "merge", "remove"]
+
+    oneToMany:
+        conversationUsers:
+            targetEntity: Wamcar\Conversation\ConversationUser
+            mappedBy: user
+            cascade: ["persist", "merge", "remove"]
+        messages:
+            targetEntity: Wamcar\Conversation\Message
+            mappedBy: user
+            cascade: ["persist", "merge", "remove"]

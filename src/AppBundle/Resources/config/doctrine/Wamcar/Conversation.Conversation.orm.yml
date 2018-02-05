@@ -1,0 +1,28 @@
+Wamcar\Conversation\Conversation:
+
+    type: entity
+    table: conversation
+    inheritanceType: SINGLE_TABLE
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        basic: Wamcar\Conversation\Conversation
+        application: AppBundle\Doctrine\Entity\ApplicationConversation
+    repositoryClass: AppBundle\Doctrine\Repository\ConversationRepository
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+
+    oneToMany:
+        conversationUsers:
+            targetEntity: ConversationUser
+            mappedBy: conversation
+            cascade: ["persist", "merge", "remove"]
+        messages:
+            targetEntity: Message
+            mappedBy: conversation
+            cascade: ["persist", "merge", "remove"]
