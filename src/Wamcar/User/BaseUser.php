@@ -142,7 +142,7 @@ abstract class BaseUser
     /**
      * @return Collection|ConversationUser[]
      */
-    public function getConversations(): Collection
+    public function getConversationUsers(): Collection
     {
         return $this->conversations;
     }
