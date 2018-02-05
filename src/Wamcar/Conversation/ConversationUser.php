@@ -16,7 +16,7 @@ class ConversationUser
     /** @var BaseUser */
     protected $user;
     /** @var \DateTime */
-    protected $lastOpenAt;
+    protected $lastOpenedAt;
 
     /**
      * ConversationUser constructor.
@@ -27,7 +27,7 @@ class ConversationUser
     {
         $this->conversation = $conversation;
         $this->user = $user;
-        $this->lastOpenAt = new \DateTime();
+        $this->lastOpenedAt = new \DateTime();
     }
 
     /**
@@ -57,8 +57,8 @@ class ConversationUser
     /**
      * @return \DateTime
      */
-    public function getLastOpenAt(): \DateTime
+    public function getLastOpenedAt(): \DateTime
     {
-        return $this->lastOpenAt;
+        return $this->lastOpenedAt;
     }
 }
