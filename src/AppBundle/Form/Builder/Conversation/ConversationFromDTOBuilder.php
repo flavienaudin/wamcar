@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Builder\Conversation;
 
 
+use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Form\DTO\MessageDTO;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
@@ -41,7 +42,7 @@ class ConversationFromDTOBuilder
      */
     private static function initializeConversation(MessageDTO $dto): Conversation
     {
-        $conversation = new Conversation();
+        $conversation = new ApplicationConversation();
         $conversationUserFirst =  new ConversationUser($conversation, $dto->user);
         $conversation->addConversationUser($conversationUserFirst);
         $conversationUserSecond =  new ConversationUser($conversation, $dto->interlocutor);
