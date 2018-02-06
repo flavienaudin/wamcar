@@ -68,3 +68,9 @@ services:
         public: false
         autowire: true
         autoconfigure: false
+
+    AppBundle\Services\Conversation\ConversationAuthorizationChecker:
+        class: AppBundle\Services\Conversation\ConversationAuthorizationChecker
+        public: false
+        autowire: true
+        autoconfigure: false

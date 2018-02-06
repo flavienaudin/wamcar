@@ -5,11 +5,11 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
+use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\User\BaseUser;
 
 class ConversationController extends BaseController
@@ -18,14 +18,18 @@ class ConversationController extends BaseController
     protected $formFactory;
     /** @var ConversationEditionService */
     protected $conversationEditionService;
+    /** @var ConversationAuthorizationChecker */
+    protected $conversationAuthorizationChecker;
 
     public function __construct(
         FormFactoryInterface $formFactory,
-        ConversationEditionService $conversationEditionService
+        ConversationEditionService $conversationEditionService,
+        ConversationAuthorizationChecker $conversationAuthorizationChecker
     )
     {
         $this->formFactory = $formFactory;
         $this->conversationEditionService = $conversationEditionService;
+        $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
     }
 
     /**
@@ -35,13 +39,7 @@ class ConversationController extends BaseController
      */
     public function createAction(Request $request, BaseUser $interlocutor): Response
     {
-        if (!$this->authorizationChecker->isGranted('ROLE_USER')) {
-            throw new AccessDeniedHttpException('Only connected user can create conversation');
-        }
-
-        if ($this->conversationEditionService->canCommunicate($this->getUser(), $interlocutor)) {
-            throw new AccessDeniedHttpException('Not authorized to communicate');
-        }
+        $this->conversationAuthorizationChecker->canCommunicate($this->getUser(), $interlocutor);
 
         $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
@@ -64,5 +62,4 @@ class ConversationController extends BaseController
             'interlocutor' => $interlocutor
         ]);
     }
-
 }
