@@ -1,0 +1,29 @@
+/* ===========================================================================
+   Header
+   =========================================================================== */
+
+.header {
+  border-bottom: 1px solid $border-color;
+}
+
+.header-link-wrapper {
+  padding: 25px;
+  padding-bottom: 25px !important;
+  line-height: 46px;
+
+  .header-link {
+    text-align: right;
+
+    @media only screen and (max-width: #{$global-breakpoint}) {
+      text-align: center;
+    }
+  }
+
+  a {
+    line-height: 46px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid $primary-color;
+    color: #2c2c2c;
+    font-weight: 700;
+  }
+}
