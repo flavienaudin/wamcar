@@ -42,7 +42,7 @@ class MessageDTO
 
         /** @var ConversationUser $conversationUser */
         foreach ($conversation->getConversationUsers() as $conversationUser) {
-            if ($conversationUser->getUser() !== $user) {
+            if ($conversationUser->getUser()->getId() !== $user->getId()) {
                 $interlocutor = $conversationUser->getUser();
             }
         }
