@@ -41,6 +41,11 @@ class ConversationController extends BaseController
     {
         $this->conversationAuthorizationChecker->canCommunicate($this->getUser(), $interlocutor);
 
+        if ($conversation = $this->conversationEditionService->getConversation($this->getUser(), $interlocutor)) {
+            /** TODO: Call other function */
+            dump('conversation exist');
+        }
+
         $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
 
