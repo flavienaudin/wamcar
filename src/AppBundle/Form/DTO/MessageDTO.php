@@ -6,6 +6,7 @@ namespace AppBundle\Form\DTO;
 
 use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\Conversation\Conversation;
+use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
 
 class MessageDTO
@@ -28,5 +29,24 @@ class MessageDTO
         $this->id = $conversation ? $conversation->getId() : null;
         $this->user = $user;
         $this->interlocutor = $interlocutor;
+    }
+
+    /**
+     * @param Conversation $conversation
+     * @param BaseUser $user
+     * @return MessageDTO
+     */
+    public static function buildFromConversation(Conversation $conversation, BaseUser $user): MessageDTO
+    {
+        $interlocutor = null;
+
+        /** @var ConversationUser $conversationUser */
+        foreach ($conversation->getConversationUsers() as $conversationUser) {
+            if ($conversationUser->getUser() !== $user) {
+                $interlocutor = $conversationUser->getUser();
+            }
+        }
+
+        return new self($conversation, $user, $interlocutor);
     }
 }
