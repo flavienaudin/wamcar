@@ -21,11 +21,12 @@ class ConversationEditionService
 
     /**
      * @param MessageDTO $messageDTO
+     * @param null|Conversation $conversation
      * @return Conversation
      */
-    public function createConversation(MessageDTO $messageDTO): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?Conversation $conversation = null): Conversation
     {
-        $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, null);
+        $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
 
         return $this->conversationRepository->update($conversation);
     }
