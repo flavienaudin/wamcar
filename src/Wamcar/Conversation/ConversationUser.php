@@ -61,4 +61,12 @@ class ConversationUser
     {
         return $this->lastOpenedAt;
     }
+
+    /**
+     * @param \DateTime $lastOpenedAt
+     */
+    public function setLastOpenedAt(\DateTime $lastOpenedAt): void
+    {
+        $this->lastOpenedAt = $lastOpenedAt;
+    }
 }

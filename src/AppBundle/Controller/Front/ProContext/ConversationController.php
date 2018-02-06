@@ -59,6 +59,7 @@ class ConversationController extends BaseController
     public function editAction(Request $request, Conversation $conversation): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
+        $this->conversationEditionService->updatePublishedAt($conversation, $this->getUser());
 
         return $this->processForm($request, $messageDTO, $conversation);
     }
@@ -72,7 +73,6 @@ class ConversationController extends BaseController
     protected function processForm(Request $request, MessageDTO $messageDTO, ?Conversation $conversation = null)
     {
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
-
         $messageForm->handleRequest($request);
 
         if ($messageForm->isSubmitted() && $messageForm->isValid()) {
