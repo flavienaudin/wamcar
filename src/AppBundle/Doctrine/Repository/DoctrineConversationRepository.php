@@ -26,11 +26,9 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
     public function findByUserAndInterlocutor(BaseUser $user, BaseUser $interlocutor): ?Conversation
     {
         $query =  $this->createQueryBuilder('c')
-            ->join('c.conversationUsers', 'cu')
-            ->join('c.conversationUsers', 'cu2')
-            ->where('cu.user = :user')
-            ->andWhere('cu2.user = :interlocutor')
-            ->andWhere('cu.conversation = cu2.conversation')
+            ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
+            ->join('c.conversationUsers', 'cu2', 'WITH', 'cu2.user = :interlocutor')
+            ->where('cu.conversation = cu2.conversation')
             ->setParameter('user', $user)
             ->setParameter('interlocutor', $interlocutor)
             ->getQuery();
