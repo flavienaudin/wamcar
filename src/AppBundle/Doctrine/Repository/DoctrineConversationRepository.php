@@ -5,6 +5,7 @@ namespace AppBundle\Doctrine\Repository;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationRepository;
+use Wamcar\User\BaseUser;
 
 class DoctrineConversationRepository extends EntityRepository implements ConversationRepository
 {
@@ -17,5 +18,21 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
         $this->_em->flush();
 
         return $conversation;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByUserAndInterlocutor(BaseUser $user, BaseUser $interlocutor): ?Conversation
+    {
+        $query =  $this->createQueryBuilder('c')
+            ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
+            ->join('c.conversationUsers', 'cu2', 'WITH', 'cu2.user = :interlocutor')
+            ->where('cu.conversation = cu2.conversation')
+            ->setParameter('user', $user)
+            ->setParameter('interlocutor', $interlocutor)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
     }
 }
