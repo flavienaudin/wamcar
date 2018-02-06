@@ -9,7 +9,7 @@ Wamcar\Conversation\Conversation:
     discriminatorMap:
         basic: Wamcar\Conversation\Conversation
         application: AppBundle\Doctrine\Entity\ApplicationConversation
-    repositoryClass: AppBundle\Doctrine\Repository\ConversationRepository
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineConversationRepository
 
     id:
         id:

@@ -150,3 +150,7 @@ front_search_personal_page:
     defaults:
         _controller: AppBundle:Front\ProContext\Search:personal
         page: 1
+
+front_conversation_create:
+    path: /conversation/new/{id}
+    defaults: { _controller: AppBundle:Front\ProContext\Conversation:create }

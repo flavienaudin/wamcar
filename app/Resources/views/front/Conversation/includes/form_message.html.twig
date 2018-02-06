@@ -1,0 +1,14 @@
+{% form_theme messageForm 'front/Layout/includes/forms/fields.html.twig' %}
+
+{{ form_start(messageForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+<div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
+    <h2>Message</h2>
+    {{ form_widget(messageForm.content, {
+        'label': 'Message',
+        'required': false
+    }) }}
+</div>
+<div class="column small-12">
+    <button type="submit" class="button full-width medium-5 large-3">Envoyer le message</button>
+</div>
+{{ form_end(messageForm) }}
