@@ -1,0 +1,123 @@
+{% set isPro = true %}
+{% set messageEmpty = false %}
+{% set severalVehicles = true %}
+{% set vehicleAdded = true %}
+
+{% if isPro %}
+    {% set firstMessage = {
+            senderName: 'Antoine Martin',
+            senderInfo: 'Toyota Villeurbanne',
+            senderPic: 'https://s3.amazonaws.com/uifaces/faces/twitter/abecherian/128.jpg',
+            messageContent: 'Bonjour Juliette. Je suis vendeur pour le garage Toyota de Villeurbanne. Je suis interessé pour reprendre votre Aygo. J’ai en stock une Yaris bleu de 2014. Je vous propose de reprendre votre véhicule ainsi qu’un ajout de 2300 € en contre-partie. Etes-vous interéssée ?'
+        }
+    %}
+{% else %}
+    {% set firstMessage = {
+            senderName: 'Juliette Dupont',
+            senderInfo: 'Lyon 2ème',
+            senderPic: 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg',
+            messageContent: 'Bonjour mr Martin. Je suis très intéressé par la Toyota Verso Dynamic disponible dans votre garage de Villeurbanne. J’ai une Toyota Aygo Hybrid 5 portes que je souhaite faire reprendre. Si mon véhicule vous intéresse, pouvez-vous me transmettre une
+            offre de reprise ? Merci.'
+        }
+    %}
+{% endif %}
+
+<!-- Header -->
+<div class="messages-header block-grid hide-for-medium">
+    <button type="button" class="messages-back-btn icon-full-arrow"></button>
+    <div class="">
+        <h1 class="primary-color no-margin">Antoine Martin</h1>
+        <div class="messages-small-text">
+            Toyota Villeurbanne
+        </div>
+    </div>
+</div>
+<!-- Véhicule lié -->
+{% include 'front/Messages/includes/vehicle_related.html.twig' with { vehicleSelected: '1' } %}
+<!-- Messages item -->
+{% if messageEmpty %}
+    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour Antoine Martin' } %}
+{% else %}
+    <div class="messages-item block-grid no-bullet no-margin">
+        <img class="messages-user-img messages-item-user-img" src="{{ firstMessage.senderPic }}" alt="{{ firstMessage.senderName }}">
+        <div class="messages-main">
+            <div class="is-flex">
+                <strong class="messages-sender-name messages-item-sender-name">
+                    {{ firstMessage.senderName }}
+                </strong>
+                <div class="messages-time messages-small-text">
+                    25/11 à 10h32
+                </div>
+            </div>
+            <div class="messages-small-text">
+                {{ firstMessage.senderInfo }}
+            </div>
+        </div>
+        <div class="messages-item-content">
+            {{ firstMessage.messageContent }}
+        </div>
+        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false } %}
+    </div>
+    <!-- Message conversation answer -->
+    <div class="messages-item messages-item-conversation block-grid no-bullet no-margin">
+        <img class="messages-user-img messages-item-user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg" alt="Juliette Dupont">
+        <div class="messages-main">
+            <div class="is-flex">
+                <strong class="messages-sender-name messages-item-sender-name">
+                    Juliette Dupont
+                </strong>
+                <div class="messages-time messages-small-text">
+                    25/11 à 13h15
+                </div>
+            </div>
+            <div class="messages-small-text">
+                Lyon 2ème
+            </div>
+        </div>
+        <div class="messages-item-content">
+            Je vous remercie pourvotre proposition mais je ne suis malheureusement pas intéressée pas une Yaris ancienne version. Je souhaiterais un modèle de 2016 ou 2017 de préférence.
+        </div>
+    </div>
+    <!-- Message conversation answer -->
+    <div class="messages-item messages-item-conversation block-grid no-bullet no-margin">
+        <img class="messages-user-img messages-item-user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/abecherian/128.jpg" alt="Antoine Martin">
+        <div class="messages-main">
+            <div class="is-flex">
+                <strong class="messages-sender-name messages-item-sender-name">
+                    Antoine Martin
+                </strong>
+                <div class="messages-time messages-small-text">
+                    25/11 à 13h45
+                </div>
+            </div>
+            <div class="messages-small-text">
+                Toyota Villeurbanne
+            </div>
+        </div>
+        <div class="messages-item-content">
+            J’aurai peut-être un modèle qui pourrait vous interesser d’ici deux jours. Je reviens vers vous à ce moment là.
+        </div>
+    </div>
+    {% include 'front/Messages/includes/vehicle_related.html.twig' with { vehicleSelected: '2' } %}
+    <!-- Message conversation answer -->
+    <div class="messages-item messages-item-conversation block-grid no-bullet no-margin">
+        <img class="messages-user-img messages-item-user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/abecherian/128.jpg" alt="Antoine Martin">
+        <div class="messages-main">
+            <div class="is-flex">
+                <strong class="messages-sender-name messages-item-sender-name">
+                    Antoine Martin
+                </strong>
+                <div class="messages-time messages-small-text">
+                    25/11 à 14h25
+                </div>
+            </div>
+            <div class="messages-small-text">
+                Toyota Villeurbanne
+            </div>
+        </div>
+        <div class="messages-item-content">
+            Bonjour Juliette. Je viens de voir que vous vendez à nouveau un véhicule et j’ai cette fois une offre de reprise qui pourrait vous intéresser. J’ai une Toyota Verso actuellement au garage, de couleur noire et n’ayant que 4 700 km. Elle a été mise en circulation en début d’année et correspond donc à vos souhaits.
+        </div>
+    </div>
+    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Réponse' } %}
+{% endif %}

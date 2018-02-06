@@ -1,0 +1,469 @@
+/* ===========================================================================
+   Messages
+   =========================================================================== */
+
+$grey-alt: #f7f7f7;
+$grey-alt2: #f2f2f2;
+$xs-padding: rem-calc(20) rem-calc(15);
+$medium-padding: rem-calc(20) rem-calc(25);
+$large-padding: rem-calc(30) rem-calc(40);
+
+.messages {
+
+  /*
+     Header
+     ===================================== */
+
+  &-header {
+    padding: rem-calc(25) rem-calc(15);
+    background: $grey-alt;
+
+    a {
+      margin-left: auto;
+      margin-bottom: rem-calc(8);
+      position: relative;
+      top: rem-calc(5);
+    }
+  }
+
+  &-header-title {
+    margin: rem-calc(10) 0 rem-calc(20);
+  }
+
+  h1 {
+    font-size: rem-calc(26);
+    line-height: rem-calc(30);
+  }
+
+  &-unread-info {
+    margin-left: auto;
+  }
+
+  &-back-btn {
+    font-size: rem-calc(12);
+    margin-right: rem-calc(15);
+  }
+
+  /*
+     Common classes
+     ===================================== */
+
+  &-align-items {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-main {
+    min-width: 0;
+    margin-left: rem-calc(20);
+  }
+
+  &-user-img {
+    border-radius: 50%;
+  }
+
+  &-time {
+    margin-left: auto;
+  }
+
+  &-sender-name {
+    font-size: rem-calc(14);
+    font-weight: $global-weight-bold;
+    color: $secondary-color;
+  }
+
+  &-small-text {
+    font-size: rem-calc(11);
+    line-height: rem-calc(16);
+  }
+
+  &-create-vehicle-btn {
+    display: inline-block;
+    margin-top: rem-calc(10);
+    font-size: rem-calc(14);
+  }
+
+  /*
+     List
+     ===================================== */
+
+  &-list-wrapper {
+    @include breakpoint(medium) {
+      border-top: rem-calc(1) solid $border-color;
+      border-bottom: rem-calc(1) solid $border-color;
+    }
+
+    @include breakpoint(large) {
+      margin-bottom: rem-calc(60);
+      box-shadow: 0 rem-calc(1) rem-calc(7) rgba(black, .1);
+    }
+
+    .vehicle-item {
+      width: 100%;
+    }
+  }
+
+  &-list {
+    @include breakpoint(medium) {
+      height: 100%;
+      border-left: rem-calc(1) solid $border-color;
+      border-right: rem-calc(1) solid $border-color;
+    }
+  }
+
+  &-list-header {
+    @include breakpoint(medium) {
+      background: white;
+    }
+  }
+
+  &-list-item {
+    padding: $xs-padding;
+
+    @include breakpoint(medium) {
+      cursor: pointer;
+      transition: $global-transition;
+    }
+
+    &:not(:last-child) {
+      border-bottom: rem-calc(1) solid $light-gray;
+    }
+
+    &.is-unread {
+      @include breakpoint(medium) {
+        background: $grey-alt;
+
+        &:hover {
+          background: darken($grey-alt, 2%);
+        }
+      }
+
+      .messages-sender-name {
+        color: $primary-color;
+      }
+
+      .messages-content {
+        color: $secondary-color;
+        font-weight: $global-weight-bold;
+      }
+    }
+  }
+
+  &-list-item-main {
+    min-width: 0;
+  }
+
+  &-list-user-img {
+    height: rem-calc(60);
+    width: rem-calc(60);
+  }
+
+  &-list-item-content {
+    margin-top: rem-calc(8);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  /*
+     Item
+     ===================================== */
+
+  &-item {
+   padding: $xs-padding;
+
+   @include breakpoint(medium) {
+     padding: $medium-padding;
+   }
+
+   @include breakpoint(large) {
+     padding: $large-padding;
+   }
+
+   .messages-main {
+     flex-grow: 1;
+   }
+  }
+
+  &-item-wrapper-desktop {
+    border-right: rem-calc(1) solid $border-color;
+  }
+
+  &-item-user-img {
+    height: rem-calc(40);
+    width: rem-calc(40);
+  }
+
+  &-item-sender-name {
+    color: $primary-color;
+  }
+
+  &-item-content {
+    margin-top: rem-calc(15);
+  }
+
+  &-item-answer {
+    padding: rem-calc(20) rem-calc(15) rem-calc(40);
+    border-top: rem-calc(1) solid $border-color;
+    background: $grey-alt2;
+
+    @include breakpoint(medium) {
+      padding: rem-calc(20) rem-calc(25) rem-calc(40);
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(30) rem-calc(40) rem-calc(40);
+    }
+
+    label {
+      font-size: rem-calc(14);
+      margin-bottom: rem-calc(10);
+      color: $secondary-color;
+    }
+
+    textarea {
+      padding: rem-calc(20);
+      font-size: rem-calc(13);
+      min-height: rem-calc(90);
+    }
+
+    .vehicle-item {
+      background: white;
+    }
+  }
+
+  &-send-btn {
+    margin-top: rem-calc(35);
+  }
+
+  &-item-vehicle-taken {
+    margin-top: rem-calc(20);
+  }
+
+  &-item-vehicle-taken-label {
+    font-size: rem-calc(14);
+    margin-bottom: rem-calc(5);
+    color: $dark-gray;
+  }
+
+  &-item-vehicle-taken-message {
+    background: white;
+    border: rem-calc(1) solid $border-color;
+    align-items: center;
+    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+
+    .several-img {
+      padding: 0 rem-calc(5);
+      position: relative;
+      top: rem-calc(5);
+    }
+
+    .several-content {
+      padding: $xs-padding;
+      border-left: rem-calc(1) solid $border-color;
+
+      strong {
+        display: block;
+        color: $black;
+        margin-bottom: rem-calc(5);
+      }
+    }
+  }
+
+  &-item-vehicle-proposed {
+    position: relative;
+    padding: rem-calc(10) rem-calc(15);
+    background: $dark-blue;
+
+    @include breakpoint(medium) {
+      padding: rem-calc(10) rem-calc(25);
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(10) rem-calc(40);
+    }
+
+    &:after {
+    	top: 100%;
+    	left: rem-calc(25);
+    	border: solid transparent;
+    	content: " ";
+    	height: 0;
+    	width: 0;
+    	position: absolute;
+    	pointer-events: none;
+    	border-color: rgba(23, 48, 59, 0);
+    	border-top-color: #17303b;
+    	border-width: rem-calc(10);
+
+      @include breakpoint(medium) {
+        left: rem-calc(35);
+      }
+
+      @include breakpoint(large) {
+        left: rem-calc(50);
+      }
+    }
+
+    img {
+      object-fit: contain;
+    }
+  }
+
+  &-item-vehicle-proposed-infos {
+    margin-left: rem-calc(15);
+    position: relative;
+    top: rem-calc(-4);
+  }
+
+  &-item-vehicle-proposed-model {
+    color: white;
+    margin: 0 0 rem-calc(3);
+  }
+
+  &-item-vehicle-proposed-subline {
+    margin-top: rem-calc(10);
+    padding-top: rem-calc(10);
+    width: 100%;
+    color: white;
+    border-top: rem-calc(1) solid rgba(229, 229, 229, 0.15);
+
+    a {
+      color: white;
+    }
+  }
+
+  &-item-conversation {
+    border-top: rem-calc(1) solid $border-color;
+  }
+
+  &-vehicle-item-delete {
+    position: absolute;
+    height: rem-calc(46);
+    width: rem-calc(46);
+    top: 50%;
+    margin-top: rem-calc(-23);
+    right: rem-calc(-16);
+    background: $dark-blue;
+    color: white;
+    font-size: rem-calc(18);
+    transition: $global-transition;
+
+    &:before {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background: darken($dark-blue,5%);
+    }
+  }
+
+  /*
+     View more
+     ===================================== */
+
+  &-view-more-btn {
+    margin: rem-calc(30) auto;
+    border: rem-calc(1) solid darken($border-color, 5%);
+
+    @include breakpoint(medium) {
+      margin: rem-calc(35) auto 0;
+    }
+  }
+
+  /*
+     Vehicle list
+     ===================================== */
+
+  &-vehicle-list {
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(40);
+    }
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(25);
+      margin-bottom: rem-calc(50);
+    }
+
+    @include breakpoint(small only) {
+      margin-bottom: 0;
+    }
+
+    .vehicle-item-wrapper {
+
+      @include breakpoint(small only) {
+        border: 0;
+        box-shadow: none;
+        border-bottom: 1px solid $border-color;
+
+        &:last-child {
+          border-bottom: 0;
+        }
+      }
+
+      @include breakpoint(medium down) {
+        flex-direction: initial;
+      }
+    }
+
+    .vehicle-item {
+      width: 100%;
+
+
+      @include breakpoint(small only) {
+        border: 0;
+        box-shadow: none;
+      }
+
+      @include breakpoint(medium down) {
+        flex-direction: initial;
+      }
+    }
+
+    .vehicle-picture {
+      @include breakpoint(medium only) {
+        width: rem-calc(135);
+      }
+    }
+
+    .vehicle-infos {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    .vehicle-infos-arrow {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: rem-calc(-11);
+      font-size: rem-calc(15);
+      color: $medium-gray;
+
+      @include breakpoint(medium) {
+        right: rem-calc(15);
+      }
+
+      &:before {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &-vehicle-list-empty {
+    padding: rem-calc(50);
+
+    svg {
+      margin: 0 0 rem-calc(30);
+    }
+
+    strong {
+      margin: 0 0 rem-calc(15);
+      color: $black;
+    }
+
+    button {
+      margin-top: rem-calc(5);
+    }
+  }
+}

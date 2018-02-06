@@ -1,0 +1,38 @@
+{% if vehicleSelected == 1 %}
+<div class="messages-item-vehicle-proposed block-grid">
+    <img src="{{ asset('assets/images/placeholders/vehicle/small1.jpg') }}" alt="Toyota Aygo">
+    <div class="messages-item-vehicle-proposed-infos">
+        <strong class="messages-small-text primary-color">
+            Voiture de Juliette Dupont
+        </strong>
+        <div class="messages-item-vehicle-proposed-model">
+            <strong>Toyota Aygo</strong>
+            <span>Hybrid 5P</span>
+        </div>
+        <div class="messages-small-text">
+            2015, 22 180 km, Villeurbanne
+        </div>
+    </div>
+    {% if severalVehicles %}
+        <div class="messages-small-text messages-item-vehicle-proposed-subline">
+            Juliette dispose d'une flotte. <a href="#" class="text-underline">Voir ses véhicules</a>
+        </div>
+    {% endif %}
+</div>
+{% else %}
+<div class="messages-item-vehicle-proposed block-grid">
+    <img src="{{ asset('assets/images/placeholders/vehicle/small2.jpg') }}" alt="Toyota Yaris">
+    <div class="messages-item-vehicle-proposed-infos">
+        <strong class="messages-small-text primary-color">
+            Voiture d'Antoine Martin
+        </strong>
+        <div class="messages-item-vehicle-proposed-model">
+            <strong>Toyota Yaris</strong>
+            <span>1.5 VVT-i 110 ch</span>
+        </div>
+        <div class="messages-small-text">
+            2017, 9 745 km, Villeurbanne
+        </div>
+    </div>
+</div>
+{% endif %}

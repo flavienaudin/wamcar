@@ -38,7 +38,9 @@
 /*
    Icon list
    ===================================== */
-
+.icon-full-arrow:before {
+  content: "\e91c";
+}
 .icon-close:before {
   content: "\e906";
 }

@@ -1,0 +1,52 @@
+{% if isPro %}
+    {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
+{% else %}
+    {% if messageEmpty %}
+        {% set label = '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' %}
+    {% else %}
+        {% set label = '<strong class="secondary-color">Véhicule à reprendre</strong>' %}
+    {% endif %}
+{% endif %}
+
+<!-- Véhicule à reprendre -->
+<div class="messages-item-vehicle-taken">
+    <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
+    {% if severalVehicles %}
+        <div class="messages-item-vehicle-taken-message is-flex">
+            <div class="several-img">
+                {% include 'front/Layout/includes/svg/2cars.html.twig' %}
+            </div>
+            <div class="several-content">
+                <strong>
+                    Vous disposez d’une flotte composée de 3 véhicules
+                </strong>
+                <a href="#" class="text-underline">Voir vos véhicules</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="vehicle-list small-12">
+            <article class="vehicle-item is-flex">
+                <a href="/app_dev.php/vehicule/particulier/detail/42d5c6df-968b-4326-a4d9-241c0c3fa107" class="is-flex full-width">
+                    <div class="vehicle-picture medium-auto is-relative">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Fiat_Panda_front_20071002.jpg/1200px-Fiat_Panda_front_20071002.jpg" alt="FIAT PANDA">
+                        <div class="vehicle-count-pics">
+                          <span class="icon-pics">1</span>
+                        </div>
+                    </div>
+                    <div class="vehicle-infos small-shrink">
+                        <h3 class="vehicle-name h3">FIAT PANDA</h3>
+                        <p class="vehicle-model">PANDA</p>
+                        <span class="vehicle-years body-font-color">2018, 250&nbsp;680km</span>
+                        <div class="vehicle-bottom block-grid full-width align-middle">
+                            <span class="vehicle-city primary-color small-12">Villeurbanne</span>
+                            <time class="vehicle-time black-color small-auto">1 févr., 15h59</time>
+                        </div>
+                    </div>
+                </a>
+                {% if removeButton %}
+                    <button type="button" class="messages-vehicle-item-delete icon-remove is-block"></button>
+                {% endif %}
+            </article>
+        </div>
+    {% endif %}
+</div>
