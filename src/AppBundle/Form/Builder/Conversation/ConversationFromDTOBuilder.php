@@ -27,7 +27,7 @@ class ConversationFromDTOBuilder
         }
 
         if (!$conversation) {
-            $conversation = self::initiliazeConversation($dto);
+            $conversation = self::initializeConversation($dto);
         }
 
         $conversation->addMessage(new Message($conversation, $dto->user, $dto->content));
@@ -39,7 +39,7 @@ class ConversationFromDTOBuilder
      * @param MessageDTO $dto
      * @return Conversation
      */
-    private static function initiliazeConversation(MessageDTO $dto): Conversation
+    private static function initializeConversation(MessageDTO $dto): Conversation
     {
         $conversation = new Conversation();
         $conversationUserFirst =  new ConversationUser($conversation, $dto->user);

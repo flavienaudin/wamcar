@@ -38,7 +38,7 @@ class ConversationAuthorizationChecker
             throw new AccessDeniedHttpException('Only connected user can create conversation');
         }
 
-        if (!$interlocutor instanceof CanBeInConversation && !$user instanceof CanBeInConversation) {
+        if (!$interlocutor instanceof CanBeInConversation || !$user instanceof CanBeInConversation) {
             throw new AccessDeniedHttpException('Not authorized to communicate');
         }
     }
