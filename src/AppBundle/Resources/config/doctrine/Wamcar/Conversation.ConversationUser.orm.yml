@@ -3,7 +3,7 @@ Wamcar\Conversation\ConversationUser:
     type: entity
     table: conversation_user
 
-    repositoryClass: AppBundle\Doctrine\Repository\ConversationUserRepository
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineConversationUserRepository
 
     id:
         id:

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Services\Conversation;
 
+use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
+use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
 use Wamcar\Conversation\Conversation;
@@ -13,18 +15,24 @@ class ConversationEditionService
 {
     /** @var DoctrineConversationRepository */
     protected $conversationRepository;
+    /** @var DoctrineConversationUserRepository */
+    protected $conversationUserRepository;
 
-    public function __construct(DoctrineConversationRepository $conversationRepository)
+    public function __construct(
+        DoctrineConversationRepository $conversationRepository,
+        DoctrineConversationUserRepository $conversationUserRepository
+    )
     {
         $this->conversationRepository = $conversationRepository;
+        $this->conversationUserRepository = $conversationUserRepository;
     }
 
     /**
      * @param MessageDTO $messageDTO
-     * @param null|Conversation $conversation
+     * @param null|ApplicationConversation $conversation
      * @return Conversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?Conversation $conversation = null): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
 
@@ -32,12 +40,16 @@ class ConversationEditionService
     }
 
     /**
+     * @param ApplicationConversation $conversation
      * @param BaseUser $user
-     * @param BaseUser $interlocutor
-     * @return null|Conversation
      */
-    public function getConversation(BaseUser $user, BaseUser $interlocutor): ?Conversation
+    public function updatePublishedAt(ApplicationConversation $conversation, BaseUser $user): void
     {
-        return $this->conversationRepository->findByUserAndInterlocutor($user, $interlocutor);
+        $conversationUser = $this->conversationUserRepository->findByConversationAndUser($conversation, $user);
+
+        if ($conversationUser) {
+            $conversationUser->setLastOpenedAt(new \DateTime());
+            $this->conversationUserRepository->update($conversationUser);
+        }
     }
 }

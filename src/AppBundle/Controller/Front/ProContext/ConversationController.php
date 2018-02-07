@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
@@ -10,7 +11,6 @@ use AppBundle\Services\Conversation\ConversationEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 class ConversationController extends BaseController
@@ -53,12 +53,13 @@ class ConversationController extends BaseController
 
     /**
      * @param Request $request
-     * @param Conversation $conversation
+     * @param ApplicationConversation $conversation
      * @return Response
      */
-    public function editAction(Request $request, Conversation $conversation): Response
+    public function editAction(Request $request, ApplicationConversation $conversation): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
+        $this->conversationEditionService->updatePublishedAt($conversation, $this->getUser());
 
         return $this->processForm($request, $messageDTO, $conversation);
     }
@@ -66,13 +67,12 @@ class ConversationController extends BaseController
     /**
      * @param Request $request
      * @param MessageDTO $messageDTO
-     * @param null|Conversation $conversation
+     * @param null|ApplicationConversation $conversation
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    protected function processForm(Request $request, MessageDTO $messageDTO, ?Conversation $conversation = null)
+    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null)
     {
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
-
         $messageForm->handleRequest($request);
 
         if ($messageForm->isSubmitted() && $messageForm->isValid()) {

@@ -5,7 +5,6 @@ namespace AppBundle\Form\Builder\Conversation;
 
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Form\DTO\MessageDTO;
-use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
 
@@ -13,10 +12,10 @@ class ConversationFromDTOBuilder
 {
     /**
      * @param MessageDTO $dto
-     * @param null|Conversation $conversation
-     * @return Conversation
+     * @param null|ApplicationConversation $conversation
+     * @return ApplicationConversation
      */
-    public static function buildFromDTO(MessageDTO $dto, ?Conversation $conversation): Conversation
+    public static function buildFromDTO(MessageDTO $dto, ?ApplicationConversation $conversation): ApplicationConversation
     {
         if (!$dto instanceof MessageDTO) {
             throw new \InvalidArgumentException(
@@ -38,9 +37,9 @@ class ConversationFromDTOBuilder
 
     /**
      * @param MessageDTO $dto
-     * @return Conversation
+     * @return ApplicationConversation
      */
-    private static function initializeConversation(MessageDTO $dto): Conversation
+    private static function initializeConversation(MessageDTO $dto): ApplicationConversation
     {
         $conversation = new ApplicationConversation();
         $conversationUserFirst =  new ConversationUser($conversation, $dto->user);
