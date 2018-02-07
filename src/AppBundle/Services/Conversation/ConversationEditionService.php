@@ -29,21 +29,25 @@ class ConversationEditionService
 
     /**
      * @param MessageDTO $messageDTO
-     * @param null|ApplicationConversation $conversation
+     * @param null|Conversation $conversation
      * @return Conversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?Conversation $conversation = null): Conversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
+
+        // Update date conversation
+        $conversation->setUpdatedAt(new \DateTime());
+        $this->updateLastOpenedAt($conversation, $messageDTO->user);
 
         return $this->conversationRepository->update($conversation);
     }
 
     /**
-     * @param ApplicationConversation $conversation
+     * @param Conversation $conversation
      * @param BaseUser $user
      */
-    public function updatePublishedAt(ApplicationConversation $conversation, BaseUser $user): void
+    public function updateLastOpenedAt(Conversation $conversation, BaseUser $user): void
     {
         $conversationUser = $this->conversationUserRepository->findByConversationAndUser($conversation, $user);
 
@@ -51,5 +55,15 @@ class ConversationEditionService
             $conversationUser->setLastOpenedAt(new \DateTime());
             $this->conversationUserRepository->update($conversationUser);
         }
+    }
+
+    /**
+     * @param BaseUser $user
+     * @param BaseUser $interlocutor
+     * @return null|ApplicationConversation
+     */
+    public function getConversation(BaseUser $user, BaseUser $interlocutor): ?Conversation
+    {
+        return $this->conversationRepository->findByUserAndInterlocutor($user, $interlocutor);
     }
 }
