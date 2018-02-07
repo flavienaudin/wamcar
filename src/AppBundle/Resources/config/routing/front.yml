@@ -160,5 +160,5 @@ front_conversation_edit:
     defaults: { _controller: AppBundle:Front\ProContext\Conversation:edit }
 
 front_conversation_list:
-    path: /conversation
+    path: /conversations
     defaults: { _controller: AppBundle:Front\ProContext\Conversation:index }
