@@ -4,30 +4,16 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
-use AppBundle\Doctrine\Entity\PersonalApplicationUser;
-use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
-use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
-use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
-use AppBundle\Doctrine\Repository\DoctrineVehicleRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
-use Wamcar\User\PersonalUser;
-use Wamcar\User\ProUser;
-use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\PersonalVehicleRepository;
-use Wamcar\Vehicle\ProVehicle;
-use Wamcar\Vehicle\ProVehicleRepository;
 use Wamcar\Vehicle\Vehicle;
 
 class ConversationController extends BaseController

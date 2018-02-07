@@ -6,7 +6,6 @@ namespace Wamcar\Conversation;
 
 use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\Vehicle;
 
 class Message
 {

@@ -8,7 +8,6 @@ use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\Vehicle;
 
 class MessageDTO
 {
