@@ -3,6 +3,8 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationConversation;
+use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
@@ -10,7 +12,6 @@ use AppBundle\Services\Conversation\ConversationEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 class ConversationController extends BaseController
@@ -21,17 +22,36 @@ class ConversationController extends BaseController
     protected $conversationEditionService;
     /** @var ConversationAuthorizationChecker */
     protected $conversationAuthorizationChecker;
+    /** @var DoctrineConversationRepository */
+    protected $conversationRepository;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
-        ConversationAuthorizationChecker $conversationAuthorizationChecker
+        ConversationAuthorizationChecker $conversationAuthorizationChecker,
+        DoctrineConversationRepository $conversationRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->conversationEditionService = $conversationEditionService;
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
+        $this->conversationRepository = $conversationRepository;
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function indexAction(Request $request): Response
+    {
+        $conversations = $this->conversationRepository->findByUser($this->getUser());
+
+
+        return $this->render('front/Conversation/list.html.twig', [
+            'conversations' => $conversations
+        ]);
+    }
+
 
     /**
      * @param Request $request
@@ -53,10 +73,10 @@ class ConversationController extends BaseController
 
     /**
      * @param Request $request
-     * @param Conversation $conversation
+     * @param ApplicationConversation $conversation
      * @return Response
      */
-    public function editAction(Request $request, Conversation $conversation): Response
+    public function editAction(Request $request, ApplicationConversation $conversation): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
         $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
@@ -67,10 +87,10 @@ class ConversationController extends BaseController
     /**
      * @param Request $request
      * @param MessageDTO $messageDTO
-     * @param null|Conversation $conversation
+     * @param null|ApplicationConversation $conversation
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    protected function processForm(Request $request, MessageDTO $messageDTO, ?Conversation $conversation = null)
+    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null)
     {
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
         $messageForm->handleRequest($request);

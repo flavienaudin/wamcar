@@ -16,7 +16,7 @@ class ConversationFromDTOBuilder
      * @param null|Conversation $conversation
      * @return ApplicationConversation
      */
-    public static function buildFromDTO(MessageDTO $dto, ?Conversation $conversation): Conversation
+    public static function buildFromDTO(MessageDTO $dto, ?ApplicationConversation $conversation): ApplicationConversation
     {
         if (!$dto instanceof MessageDTO) {
             throw new \InvalidArgumentException(

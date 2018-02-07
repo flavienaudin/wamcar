@@ -2,6 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationRepository;
@@ -34,5 +36,19 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
             ->getQuery();
 
         return $query->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByUser(BaseUser $user): array
+    {
+        $query =  $this->createQueryBuilder('c')
+            ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('c.updatedAt', 'DESC')
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

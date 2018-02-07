@@ -58,7 +58,7 @@ services:
     AppBundle\Doctrine\Repository\DoctrineConversationRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineConversationRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Conversation\Conversation']
+        arguments: ['AppBundle\Doctrine\Entity\ApplicationConversation']
 
     AppBundle\Doctrine\Repository\DoctrineConversationUserRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineConversationUserRepository'

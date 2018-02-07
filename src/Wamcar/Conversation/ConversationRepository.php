@@ -20,4 +20,9 @@ interface ConversationRepository
      */
     public function findByUserAndInterlocutor(BaseUser $user, BaseUser $interlocutor): ?Conversation;
 
+    /**
+     * @param BaseUser $user
+     * @return array
+     */
+    public function findByUser(BaseUser $user): array;
 }

@@ -7,7 +7,6 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
-use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 
@@ -29,10 +28,10 @@ class ConversationEditionService
 
     /**
      * @param MessageDTO $messageDTO
-     * @param null|Conversation $conversation
-     * @return Conversation
+     * @param null|ApplicationConversation $conversation
+     * @return ApplicationConversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?Conversation $conversation = null): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
 
@@ -44,10 +43,10 @@ class ConversationEditionService
     }
 
     /**
-     * @param Conversation $conversation
+     * @param ApplicationConversation $conversation
      * @param BaseUser $user
      */
-    public function updateLastOpenedAt(Conversation $conversation, BaseUser $user): void
+    public function updateLastOpenedAt(ApplicationConversation $conversation, BaseUser $user): void
     {
         $conversationUser = $this->conversationUserRepository->findByConversationAndUser($conversation, $user);
 
@@ -60,9 +59,9 @@ class ConversationEditionService
     /**
      * @param BaseUser $user
      * @param BaseUser $interlocutor
-     * @return null|Conversation
+     * @return null|ApplicationConversation
      */
-    public function getConversation(BaseUser $user, BaseUser $interlocutor): ?Conversation
+    public function getConversation(BaseUser $user, BaseUser $interlocutor): ?ApplicationConversation
     {
         return $this->conversationRepository->findByUserAndInterlocutor($user, $interlocutor);
     }
