@@ -5,7 +5,6 @@ namespace AppBundle\Form\Builder\Conversation;
 
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Form\DTO\MessageDTO;
-use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
 
@@ -13,7 +12,7 @@ class ConversationFromDTOBuilder
 {
     /**
      * @param MessageDTO $dto
-     * @param null|Conversation $conversation
+     * @param null|ApplicationConversation $conversation
      * @return ApplicationConversation
      */
     public static function buildFromDTO(MessageDTO $dto, ?ApplicationConversation $conversation): ApplicationConversation
