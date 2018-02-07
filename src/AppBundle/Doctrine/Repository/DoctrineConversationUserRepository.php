@@ -26,13 +26,13 @@ class DoctrineConversationUserRepository extends EntityRepository implements Con
      */
     public function findByConversationAndUser(Conversation $conversation, BaseUser $user): ?ConversationUser
     {
-        /** @var ConversationUser $conversationUser */
-        foreach ($conversation->getConversationUsers() as $conversationUser) {
-            if ($conversationUser->getUser()->getId() === $user->getId()) {
-                return $conversationUser;
-            }
-        }
+        $query =  $this->createQueryBuilder('cu')
+            ->where('cu.conversation = :conversation')
+            ->andWhere('cu.user = :user')
+            ->setParameter('conversation', $conversation)
+            ->setParameter('user', $user)
+            ->getQuery();
 
-        return null;
+        return $query->getOneOrNullResult();
     }
 }
