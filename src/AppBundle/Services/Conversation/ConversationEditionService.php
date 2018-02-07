@@ -7,7 +7,6 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
-use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 
@@ -30,11 +29,15 @@ class ConversationEditionService
     /**
      * @param MessageDTO $messageDTO
      * @param null|ApplicationConversation $conversation
-     * @return Conversation
+     * @return ApplicationConversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
+
+        // Update date conversation
+        $conversation->setUpdatedAt(new \DateTime());
+        $this->updateLastOpenedAt($conversation, $messageDTO->user);
 
         return $this->conversationRepository->update($conversation);
     }
@@ -43,7 +46,7 @@ class ConversationEditionService
      * @param ApplicationConversation $conversation
      * @param BaseUser $user
      */
-    public function updatePublishedAt(ApplicationConversation $conversation, BaseUser $user): void
+    public function updateLastOpenedAt(ApplicationConversation $conversation, BaseUser $user): void
     {
         $conversationUser = $this->conversationUserRepository->findByConversationAndUser($conversation, $user);
 
@@ -51,5 +54,15 @@ class ConversationEditionService
             $conversationUser->setLastOpenedAt(new \DateTime());
             $this->conversationUserRepository->update($conversationUser);
         }
+    }
+
+    /**
+     * @param BaseUser $user
+     * @param BaseUser $interlocutor
+     * @return null|ApplicationConversation
+     */
+    public function getConversation(BaseUser $user, BaseUser $interlocutor): ?ApplicationConversation
+    {
+        return $this->conversationRepository->findByUserAndInterlocutor($user, $interlocutor);
     }
 }

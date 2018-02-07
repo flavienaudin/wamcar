@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
+use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
@@ -21,17 +22,36 @@ class ConversationController extends BaseController
     protected $conversationEditionService;
     /** @var ConversationAuthorizationChecker */
     protected $conversationAuthorizationChecker;
+    /** @var DoctrineConversationRepository */
+    protected $conversationRepository;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
-        ConversationAuthorizationChecker $conversationAuthorizationChecker
+        ConversationAuthorizationChecker $conversationAuthorizationChecker,
+        DoctrineConversationRepository $conversationRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->conversationEditionService = $conversationEditionService;
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
+        $this->conversationRepository = $conversationRepository;
     }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function indexAction(Request $request): Response
+    {
+        $conversations = $this->conversationRepository->findByUser($this->getUser());
+
+
+        return $this->render('front/Conversation/list.html.twig', [
+            'conversations' => $conversations
+        ]);
+    }
+
 
     /**
      * @param Request $request
@@ -59,7 +79,7 @@ class ConversationController extends BaseController
     public function editAction(Request $request, ApplicationConversation $conversation): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
-        $this->conversationEditionService->updatePublishedAt($conversation, $this->getUser());
+        $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
 
         return $this->processForm($request, $messageDTO, $conversation);
     }

@@ -1,0 +1,34 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_garage = true %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <section class="row full-width">
+        <div class="profil-body column block-grid small-12">
+            <div class="small-12 medium-7 large-5">
+                {{ app.user.name }}
+            </div>
+            <ul>
+                {% for conversation in conversations %}
+                    <li>{{ conversation.id }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+
+{% endblock body %}
