@@ -119,6 +119,12 @@
           z-index: -1;
         }
       }
+
+      @media screen and (min-width: rem-calc(1200)) and (max-width: rem-calc(1348)) {
+        &::after {
+          top: calc(100% + #{rem-calc(16)});
+        }
+      }
     }
 
   } // End &-item

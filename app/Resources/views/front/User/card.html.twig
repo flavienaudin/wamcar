@@ -25,6 +25,7 @@
 {% block other_informations %}
     <h2>{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
     {% if user.project and (user.project.budget or user.project.projectVehicles) %}
+    Test
         {% set project = user.project %}
         {{ include('front/User/includes/personal_user_project.html.twig') }}
     {% else %}

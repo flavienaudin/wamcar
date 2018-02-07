@@ -36,7 +36,11 @@ $header-background: white;
     flex: 0 0 $header-height-medium;
   }
 
-  @include breakpoint(xlarge) {
+  @media screen and (min-width: rem-calc(1200)) and (max-width: rem-calc(1489)) {
+    font-size: rem-calc(16);
+  }
+
+  @media screen and (min-width: rem-calc(1490)) {
     font-size: rem-calc(20);
   }
 

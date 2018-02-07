@@ -449,6 +449,8 @@
 
   &-aside-container,
   &-aside {
+    z-index: 2;
+    
     @media screen and (min-height: rem-calc(900)) {
       position: sticky;
       position: -webkit-sticky;
@@ -532,6 +534,8 @@
       bottom: 0;
       left: 0;
       z-index: 3;
+      top: initial;
+      padding-bottom: 0;
 
       .button {
         height: rem-calc(60);
@@ -593,6 +597,19 @@
 
   } // End &-editing
 
+
+  &-edit-profile {
+
+    @include breakpoint(medium down) {
+      bottom: rem-calc(58);
+      border-bottom: rem-calc(1) solid $medium-gray;
+    }
+
+    @media screen and (max-height: rem-calc(900)) {
+      padding-top: rem-calc(30);
+    }
+
+  }
 
 
   /*
