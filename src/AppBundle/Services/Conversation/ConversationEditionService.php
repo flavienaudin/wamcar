@@ -60,7 +60,7 @@ class ConversationEditionService
     /**
      * @param BaseUser $user
      * @param BaseUser $interlocutor
-     * @return null|ApplicationConversation
+     * @return null|Conversation
      */
     public function getConversation(BaseUser $user, BaseUser $interlocutor): ?Conversation
     {
