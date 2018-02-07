@@ -1,6 +1,6 @@
 <div class="vehicle-editing block-grid small-12">
     <span class="column small-collapse small-6 medium-6 large-uncollapse large-auto">
-        <a href="{{ path('front_conversation_create_vehicle', {'user_id': vehicle.seller.id, 'vehicle_id': vehicle.id}) }}" class="button add icon-message">Envoyer un message</a>
+        <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicle_id': vehicle.id}) }}" class="button add icon-message">Envoyer un message</a>
     </span>
     <div class="column small-collapse small-6 medium-6 large-uncollapse large-left-collapse large-shrink">
         <a href="" class="button white icon-heart" title="Ajouter en favoris"><span class="hide-for-large">Ajouter en favoris</span></a>

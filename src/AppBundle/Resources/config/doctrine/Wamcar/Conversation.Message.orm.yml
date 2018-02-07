@@ -15,6 +15,9 @@ Wamcar\Conversation\Message:
     fields:
         content:
             type: string
+        vehicleHeaderId:
+            type: string
+            nullable: true
         publishedAt:
             type: datetime
 

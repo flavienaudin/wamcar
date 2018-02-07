@@ -8,6 +8,7 @@ use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\Vehicle;
 
 class MessageDTO
 {
@@ -19,6 +20,8 @@ class MessageDTO
     public $interlocutor;
     /** @var  string */
     public $content;
+    /** @var  string */
+    public $vehicleHeaderId;
 
     public function __construct(
         ?Conversation $conversation,
@@ -36,7 +39,10 @@ class MessageDTO
      * @param BaseUser $user
      * @return MessageDTO
      */
-    public static function buildFromConversation(Conversation $conversation, BaseUser $user): MessageDTO
+    public static function buildFromConversation(
+        Conversation $conversation,
+        BaseUser $user
+    ): MessageDTO
     {
         $interlocutor = null;
 

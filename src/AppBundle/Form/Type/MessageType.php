@@ -24,6 +24,7 @@ class MessageType extends AbstractType
     {
 
         $builder
+            ->add('vehicleHeaderId', TextType::class)
             ->add('content', TextareaType::class)
             ;
     }

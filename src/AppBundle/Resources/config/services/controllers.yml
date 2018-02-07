@@ -9,9 +9,20 @@ services:
             - ['setTokenStorage', ['@security.token_storage']]
             - ['setAuthorizationChecker', ['@security.authorization_checker']]
 
+    AppBundle\Controller\Front\ProContext\ConversationController:
+        class: AppBundle\Controller\Front\ProContext\ConversationController
+        arguments:
+            - '@form.factory'
+            - '@AppBundle\Services\Conversation\ConversationEditionService'
+            - '@AppBundle\Services\Conversation\ConversationAuthorizationChecker'
+            - '@AppBundle\Doctrine\Repository\DoctrineConversationRepository'
+            - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@Wamcar\Vehicle\PersonalVehicleRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@Wamcar\Vehicle\ProVehicleRepository'}
+        parent: AppBundle\Controller\Front\BaseController
+        tags: ['controller.service_arguments']
+
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'
-        exclude: '../../../Controller/Front/BaseController.php'
+        exclude: '../../../Controller/Front/{BaseController.php,ProContext/ConversationController.php}'
         public: false
         autowire: true
         autoconfigure: false

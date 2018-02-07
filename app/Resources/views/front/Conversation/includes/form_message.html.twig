@@ -3,6 +3,7 @@
 {{ form_start(messageForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
     <h2>Message</h2>
+    {{ form_widget(messageForm.vehicleHeaderId) }}
     {{ form_widget(messageForm.content, {
         'label': 'Message',
         'required': false
