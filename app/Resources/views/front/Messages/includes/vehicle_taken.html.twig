@@ -1,11 +1,7 @@
 {% if isPro %}
     {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
 {% else %}
-    {% if messageEmpty %}
-        {% set label = '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' %}
-    {% else %}
-        {% set label = '<strong class="secondary-color">Véhicule à reprendre</strong>' %}
-    {% endif %}
+    {% set label = messageEmpty == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>' %}
 {% endif %}
 
 <!-- Véhicule à reprendre -->

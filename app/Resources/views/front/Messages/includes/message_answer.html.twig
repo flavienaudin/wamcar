@@ -1,19 +1,10 @@
-{% if isPro %}
-    {% set label = 'Sélectionner un véhicule proposé' %}
-{% else %}
-    {% set label = 'Créer un véhicule' %}
-{% endif %}
+{% set label = isPro == true ? 'Sélectionner un véhicule proposé' : 'Créer un véhicule' %}
 
 <!-- Message answer -->
 <div class="messages-item-answer">
     <label id="message-answer">{{ labelName }}</label>
     <textarea id="message-answer" class="no-margin" name="message-answer" placeholder="Entrez votre message..."></textarea>
-    {% if messageEmpty %}
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false } %}
-    {% endif %}
-    {% if vehicleAdded %}
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: true } %}
-    {% endif %}
+    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: messageEmpty ? false : true } %}
     {% if not messageEmpty %}
         <a class="messages-create-vehicle-btn text-underline" href="#">{{ label }}</a>
     {% endif %}

@@ -2,12 +2,6 @@
    Messages
    =========================================================================== */
 
-$grey-alt: #f7f7f7;
-$grey-alt2: #f2f2f2;
-$xs-padding: rem-calc(20) rem-calc(15);
-$medium-padding: rem-calc(20) rem-calc(25);
-$large-padding: rem-calc(30) rem-calc(40);
-
 .messages {
 
   /*
@@ -55,7 +49,7 @@ $large-padding: rem-calc(30) rem-calc(40);
 
   &-main {
     min-width: 0;
-    margin-left: rem-calc(20);
+    padding-left: rem-calc(20);
   }
 
   &-user-img {
@@ -118,7 +112,7 @@ $large-padding: rem-calc(30) rem-calc(40);
   }
 
   &-list-item {
-    padding: $xs-padding;
+    padding: $message-xs-padding;
 
     @include breakpoint(medium) {
       cursor: pointer;
@@ -154,8 +148,8 @@ $large-padding: rem-calc(30) rem-calc(40);
   }
 
   &-list-user-img {
-    height: rem-calc(60);
-    width: rem-calc(60);
+    max-height: rem-calc(70);
+    max-width: rem-calc(70);
   }
 
   &-list-item-content {
@@ -170,14 +164,14 @@ $large-padding: rem-calc(30) rem-calc(40);
      ===================================== */
 
   &-item {
-   padding: $xs-padding;
+   padding: $message-xs-padding;
 
    @include breakpoint(medium) {
-     padding: $medium-padding;
+     padding: $message-medium-padding;
    }
 
    @include breakpoint(large) {
-     padding: $large-padding;
+     padding: $message-large-padding;
    }
 
    .messages-main {
@@ -259,7 +253,7 @@ $large-padding: rem-calc(30) rem-calc(40);
     }
 
     .several-content {
-      padding: $xs-padding;
+      padding: $message-xs-padding;
       border-left: rem-calc(1) solid $border-color;
 
       strong {
@@ -307,6 +301,8 @@ $large-padding: rem-calc(30) rem-calc(40);
 
     img {
       object-fit: contain;
+      height: rem-calc(50);
+      margin-top: rem-calc(10);
     }
   }
 
@@ -371,99 +367,4 @@ $large-padding: rem-calc(30) rem-calc(40);
     }
   }
 
-  /*
-     Vehicle list
-     ===================================== */
-
-  &-vehicle-list {
-
-    @include breakpoint(large) {
-      margin-top: rem-calc(40);
-    }
-
-    @include breakpoint(medium) {
-      margin-top: rem-calc(25);
-      margin-bottom: rem-calc(50);
-    }
-
-    @include breakpoint(small only) {
-      margin-bottom: 0;
-    }
-
-    .vehicle-item-wrapper {
-
-      @include breakpoint(small only) {
-        border: 0;
-        box-shadow: none;
-        border-bottom: 1px solid $border-color;
-
-        &:last-child {
-          border-bottom: 0;
-        }
-      }
-
-      @include breakpoint(medium down) {
-        flex-direction: initial;
-      }
-    }
-
-    .vehicle-item {
-      width: 100%;
-
-
-      @include breakpoint(small only) {
-        border: 0;
-        box-shadow: none;
-      }
-
-      @include breakpoint(medium down) {
-        flex-direction: initial;
-      }
-    }
-
-    .vehicle-picture {
-      @include breakpoint(medium only) {
-        width: rem-calc(135);
-      }
-    }
-
-    .vehicle-infos {
-      position: relative;
-      flex-grow: 1;
-    }
-
-    .vehicle-infos-arrow {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      margin-top: rem-calc(-11);
-      font-size: rem-calc(15);
-      color: $medium-gray;
-
-      @include breakpoint(medium) {
-        right: rem-calc(15);
-      }
-
-      &:before {
-        margin-right: 0;
-      }
-    }
-  }
-
-  &-vehicle-list-empty {
-    padding: rem-calc(50);
-
-    svg {
-      margin: 0 0 rem-calc(30);
-    }
-
-    strong {
-      margin: 0 0 rem-calc(15);
-      color: $black;
-    }
-
-    button {
-      margin-top: rem-calc(5);
-    }
-  }
 }
