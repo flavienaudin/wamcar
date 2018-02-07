@@ -40,10 +40,10 @@ class ConversationEditionService
     }
 
     /**
-     * @param Conversation $conversation
+     * @param ApplicationConversation $conversation
      * @param BaseUser $user
      */
-    public function updatePublishedAt(Conversation $conversation, BaseUser $user): void
+    public function updatePublishedAt(ApplicationConversation $conversation, BaseUser $user): void
     {
         $conversationUser = $this->conversationUserRepository->findByConversationAndUser($conversation, $user);
 
