@@ -61,41 +61,44 @@ class ConversationController extends BaseController
     /**
      * @param Request $request
      * @param BaseUser $interlocutor
+     * @param null|string $vehicleId
      * @return Response
      */
-    public function createAction(Request $request, BaseUser $interlocutor): Response
+    public function createAction(Request $request, BaseUser $interlocutor, ?string $vehicleId = null): Response
     {
         $this->conversationAuthorizationChecker->canCommunicate($this->getUser(), $interlocutor);
         $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
 
-        return $this->processForm($request, $messageDTO);
+        return $this->processForm($request, $messageDTO, null, $vehicleId);
     }
 
     /**
      * @param Request $request
      * @param ApplicationConversation $conversation
+     * @param null|string $vehicleId
      * @return Response
      */
-    public function editAction(Request $request, ApplicationConversation $conversation): Response
+    public function editAction(Request $request, ApplicationConversation $conversation, ?string $vehicleId = null): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
         $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
 
-        return $this->processForm($request, $messageDTO, $conversation);
+        return $this->processForm($request, $messageDTO, $conversation, $vehicleId);
     }
 
     /**
      * @param Request $request
      * @param MessageDTO $messageDTO
-     * @param null|ApplicationConversation $conversation
+     * @param ApplicationConversation|null $conversation
+     * @param null|string $vehicleId
      * @return RedirectResponse|Response
      */
-    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null)
+    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        $messageDTO->vehicleHeaderId = $this->getVehicleParam($request, $messageDTO->interlocutor);
+        $messageDTO->vehicleHeaderId = $this->getVehicleParam($vehicleId, $messageDTO->interlocutor);
 
         if (!$conversation) {
-            $this->existConversation($messageDTO);
+            return $this->existConversation($messageDTO);
         }
 
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
@@ -119,16 +122,16 @@ class ConversationController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @param null|string $vehicleId
      * @param BaseUser $user
      * @return null|string
      */
-    protected function getVehicleParam(Request $request, BaseUser $user): ?string
+    protected function getVehicleParam(?string $vehicleId = null, BaseUser $user): ?string
     {
-        if ($request->query->has('vehicle_id')) {
+        if ($vehicleId) {
             /** @var Vehicle $vehicle */
             $repo = $this->vehicleRepositories[get_class($user)];
-            $vehicle = $repo->find($request->query->get('vehicle_id'));
+            $vehicle = $repo->find($vehicleId);
 
             if ($vehicle instanceof Vehicle && $vehicle->canEditMe($user)) {
                 return $vehicle->getId();
@@ -146,7 +149,7 @@ class ConversationController extends BaseController
     {
         if ($conversation = $this->conversationEditionService->getConversation($this->getUser(), $messageDTO->interlocutor)) {
             if ($messageDTO->vehicleHeaderId) {
-                return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicle_id' => $messageDTO->vehicleHeaderId]);
+                return $this->redirectToRoute('front_conversation_edit_vehicle', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
             }
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
         }
