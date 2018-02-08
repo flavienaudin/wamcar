@@ -53,7 +53,7 @@ class PersonalVehicle extends BaseVehicle
      * @param BaseUser|null $user
      * @return bool
      */
-    public function canEditMe(BaseUser $user = null)
+    public function canEditMe(BaseUser $user = null): bool
     {
         return $this->getOwner() != null && $this->getOwner()->is($user);
     }

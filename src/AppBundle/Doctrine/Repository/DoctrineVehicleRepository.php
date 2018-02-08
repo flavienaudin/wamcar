@@ -4,6 +4,7 @@ namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
+use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\Vehicle;
 
 class DoctrineVehicleRepository extends EntityRepository
@@ -54,5 +55,21 @@ class DoctrineVehicleRepository extends EntityRepository
             $this->_em->remove($vehicle);
         }
         $this->_em->flush();
+    }
+
+    /**
+     * @param string $vehicleId
+     * @param BaseUser $user
+     * @return null|Vehicle
+     */
+    public function getVehicleByIdAndUser(string $vehicleId, BaseUser $user): ?Vehicle
+    {
+        $vehicle = $this->find($vehicleId);
+
+        if ($vehicle instanceof Vehicle && $vehicle->canEditMe($user)) {
+            return $vehicle;
+        }
+
+        return null;
     }
 }

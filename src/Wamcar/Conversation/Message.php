@@ -17,6 +17,8 @@ class Message
     protected $user;
     /** @var string */
     protected $content;
+    /** @var string */
+    protected $vehicleHeaderId;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -25,12 +27,14 @@ class Message
      * @param Conversation $conversation
      * @param CanBeInConversation $user
      * @param string $content
+     * @param null|string $vehicleHeaderId
      */
-    public function __construct(Conversation $conversation, CanBeInConversation $user, string $content)
+    public function __construct(Conversation $conversation, CanBeInConversation $user, string $content, ?string $vehicleHeaderId = null)
     {
         $this->conversation = $conversation;
         $this->user = $user;
         $this->content = $content;
+        $this->vehicleHeaderId = $vehicleHeaderId;
         $this->publishedAt = new \DateTime();
     }
 

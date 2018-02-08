@@ -9,7 +9,9 @@ use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
+use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
@@ -24,18 +26,22 @@ class ConversationController extends BaseController
     protected $conversationAuthorizationChecker;
     /** @var DoctrineConversationRepository */
     protected $conversationRepository;
+    /** @var VehicleRepositoryResolver */
+    protected $vehicleRepositoryResolver;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
-        DoctrineConversationRepository $conversationRepository
+        DoctrineConversationRepository $conversationRepository,
+        VehicleRepositoryResolver $vehicleRepositoryResolver
     )
     {
         $this->formFactory = $formFactory;
         $this->conversationEditionService = $conversationEditionService;
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
         $this->conversationRepository = $conversationRepository;
+        $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
     }
 
     /**
@@ -52,46 +58,55 @@ class ConversationController extends BaseController
         ]);
     }
 
-
     /**
      * @param Request $request
      * @param BaseUser $interlocutor
+     * @param null|string $vehicleId
      * @return Response
      */
-    public function createAction(Request $request, BaseUser $interlocutor): Response
+    public function createAction(Request $request, BaseUser $interlocutor, ?string $vehicleId = null): Response
     {
         $this->conversationAuthorizationChecker->canCommunicate($this->getUser(), $interlocutor);
-
-        if ($conversation = $this->conversationEditionService->getConversation($this->getUser(), $interlocutor)) {
-            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
-        }
-
         $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
 
-        return $this->processForm($request, $messageDTO);
+        return $this->processForm($request, $messageDTO, null, $vehicleId);
     }
 
     /**
      * @param Request $request
      * @param ApplicationConversation $conversation
+     * @param null|string $vehicleId
      * @return Response
      */
-    public function editAction(Request $request, ApplicationConversation $conversation): Response
+    public function editAction(Request $request, ApplicationConversation $conversation, ?string $vehicleId = null): Response
     {
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
         $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
 
-        return $this->processForm($request, $messageDTO, $conversation);
+        return $this->processForm($request, $messageDTO, $conversation, $vehicleId);
     }
 
     /**
      * @param Request $request
      * @param MessageDTO $messageDTO
-     * @param null|ApplicationConversation $conversation
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @param ApplicationConversation|null $conversation
+     * @param null|string $vehicleId
+     * @return RedirectResponse|Response
      */
-    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null)
+    protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
+        if ($vehicleId) {
+            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
+            $messageDTO->vehicleHeaderId = ($vehicleHeader ? $vehicleHeader->getId() : null);
+        }
+
+        if (!$conversation) {
+            $redirectRoute = $this->redirectIfExistConversation($messageDTO);
+            if ($redirectRoute) {
+                return $redirectRoute;
+            }
+        }
+
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
         $messageForm->handleRequest($request);
 
@@ -110,5 +125,18 @@ class ConversationController extends BaseController
             'user' => $this->getUser(),
             'interlocutor' => $messageDTO->interlocutor
         ]);
+    }
+
+    /**
+     * @param MessageDTO $messageDTO
+     * @return null|RedirectResponse
+     */
+    protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
+    {
+        if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
+            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
+        }
+
+        return null;
     }
 }
