@@ -9,12 +9,12 @@ use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
+use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\Vehicle;
 
 class ConversationController extends BaseController
 {
@@ -26,22 +26,22 @@ class ConversationController extends BaseController
     protected $conversationAuthorizationChecker;
     /** @var DoctrineConversationRepository */
     protected $conversationRepository;
-    /** @var array */
-    protected $vehicleRepositories;
+    /** @var VehicleRepositoryResolver */
+    protected $vehicleRepositoryResolver;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         DoctrineConversationRepository $conversationRepository,
-        array $vehicleRepositories
+        VehicleRepositoryResolver $vehicleRepositoryResolver
     )
     {
         $this->formFactory = $formFactory;
         $this->conversationEditionService = $conversationEditionService;
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
         $this->conversationRepository = $conversationRepository;
-        $this->vehicleRepositories = $vehicleRepositories;
+        $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
     }
 
     /**
@@ -95,7 +95,10 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        $messageDTO->vehicleHeaderId = $this->getVehicleParam($vehicleId, $messageDTO->interlocutor);
+        if ($vehicleId) {
+            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleByIdAndUser($vehicleId, $messageDTO->interlocutor);
+            $messageDTO->vehicleHeaderId = ($vehicleHeader ? $vehicleHeader->getId() : null);
+        }
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -122,26 +125,6 @@ class ConversationController extends BaseController
             'user' => $this->getUser(),
             'interlocutor' => $messageDTO->interlocutor
         ]);
-    }
-
-    /**
-     * @param null|string $vehicleId
-     * @param BaseUser $user
-     * @return null|string
-     */
-    protected function getVehicleParam(?string $vehicleId = null, BaseUser $user): ?string
-    {
-        if ($vehicleId) {
-            /** @var Vehicle $vehicle */
-            $repo = $this->vehicleRepositories[get_class($user)];
-            $vehicle = $repo->find($vehicleId);
-
-            if ($vehicle instanceof Vehicle && $vehicle->canEditMe($user)) {
-                return $vehicle->getId();
-            }
-        }
-
-        return null;
     }
 
     /**
