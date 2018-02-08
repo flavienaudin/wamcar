@@ -15,7 +15,7 @@
         <!-- Véhicule lié -->
 
         {% if message.vehicleHeaderId %}
-            {% set vehicleHeader = getVehicle(message) %}
+            {% set vehicleHeader = getVehicle(message.vehicleHeaderId) %}
             {% if vehicleHeader %}
                 {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
             {% endif %}

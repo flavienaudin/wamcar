@@ -85,18 +85,18 @@ class ConversationExtension extends AbstractExtension
     }
 
     /**
-     * @param Message $message
+     * @param string $vehicleId
      * @param null|BaseUser $user
      * @return null|BaseVehicle
      */
-    public function getVehicleFunction(Message $message, ?BaseUser $user = null): ?BaseVehicle
+    public function getVehicleFunction(string $vehicleId, ?BaseUser $user = null): ?BaseVehicle
     {
         if ($user) {
             $repo = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($user);
-            return $repo->find($message->getVehicleHeaderId());
+            return $repo->find($vehicleId);
         }
 
-        $vehicle = $this->proVehicleRepository->find($message->getVehicleHeaderId());
-        return $vehicle ? $vehicle : $this->personalVehicleRepository->find($message->getVehicleHeaderId());
+        $vehicle = $this->proVehicleRepository->find($vehicleId);
+        return $vehicle ? $vehicle : $this->personalVehicleRepository->find($vehicleId);
     }
 }
