@@ -98,7 +98,10 @@ class ConversationController extends BaseController
         $messageDTO->vehicleHeaderId = $this->getVehicleParam($vehicleId, $messageDTO->interlocutor);
 
         if (!$conversation) {
-            return $this->existConversation($messageDTO);
+            $redirectRoute = $this->redirectIfExistConversation($messageDTO);
+            if ($redirectRoute) {
+                return $redirectRoute;
+            }
         }
 
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
@@ -143,15 +146,14 @@ class ConversationController extends BaseController
 
     /**
      * @param MessageDTO $messageDTO
-     * @return RedirectResponse
+     * @return null|RedirectResponse
      */
-    protected function existConversation(MessageDTO $messageDTO): RedirectResponse
+    protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
-        if ($conversation = $this->conversationEditionService->getConversation($this->getUser(), $messageDTO->interlocutor)) {
-            if ($messageDTO->vehicleHeaderId) {
-                return $this->redirectToRoute('front_conversation_edit_vehicle', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
-            }
-            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
+        if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
+            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
         }
+
+        return null;
     }
 }

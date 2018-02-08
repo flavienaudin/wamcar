@@ -151,25 +151,17 @@ front_search_personal_page:
         _controller: AppBundle:Front\ProContext\Search:personal
         page: 1
 
-front_conversation_create_vehicle:
+front_conversation_create:
     path: /conversation/new/{id}/{vehicleId}
     defaults:
         _controller: AppBundle:Front\ProContext\Conversation:create
+        vehicleId: null
 
-front_conversation_create:
-    path: /conversation/new/{id}
-    defaults:
-        _controller: AppBundle:Front\ProContext\Conversation:create
-
-front_conversation_edit_vehicle:
+front_conversation_edit:
     path: /conversation/{id}/{vehicleId}
     defaults:
         _controller: AppBundle:Front\ProContext\Conversation:edit
-
-front_conversation_edit:
-    path: /conversation/{id}
-    defaults:
-        _controller: AppBundle:Front\ProContext\Conversation:edit
+        vehicleId: null
 
 front_conversation_list:
     path: /conversations
