@@ -22,22 +22,23 @@
                     {% set conversationInterlocutor = getInterlocutorConversation(conversation, app.user) %}
                     {% set conversationCurrentUser = getCurrentUserConversation(conversation, app.user) %}
                     {% set conversationLastMessage = getLastMessageConversation(conversation) %}
-                    <li class="messages-list-item {% if conversationCurrentUser.lastOpenedAt < conversation.updatedAt %}is-unread{% endif %} block-grid">
+                    {% set interlocutor = conversationInterlocutor.user %}
+                    <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} block-grid">
                         <span class="small-3 large-2">
-                            <img class="messages-user-img messages-list-user-img" src="{{ conversationInterlocutor.user.avatar|avatar('user_thumbnail') }}" alt="{{ conversationInterlocutor.user.name }}">
+                            <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.name }}">
                         </span>
                         <div class="small-9 large-10 messages-main messages-list-item-main">
                             <div class="is-flex">
                                 <strong class="messages-sender-name">
-                                    {{ conversationInterlocutor.user.name }}
+                                    {{ interlocutor.name }}
                                 </strong>
                                 <div class="messages-time">
-                                    {{ conversationInterlocutor.conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
+                                    {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
                                 </div>
                             </div>
                             <div class="messages-small-text">
-                                {% if conversationInterlocutor.user.type == 'pro' and conversationInterlocutor.user.garage %}
-                                    {{ conversationInterlocutor.user.garage.name }}
+                                {% if interlocutor.type == 'pro' and interlocutor.garage %}
+                                    {{ interlocutor.garage.name }}
                                 {% endif %}
                             </div>
                             <div class="messages-content messages-list-item-content">
