@@ -53,7 +53,7 @@ class ConversationController extends BaseController
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
 
-        return $this->render('front/Conversation/list.html.twig', [
+        return $this->render('front/Messages/messages_list.html.twig', [
             'conversations' => $conversations
         ]);
     }

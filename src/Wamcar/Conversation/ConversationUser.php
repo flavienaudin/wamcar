@@ -4,14 +4,16 @@
 namespace Wamcar\Conversation;
 
 
+use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Services\User\CanBeInConversation;
+use mageekguy\atoum\tests\units\asserters\boolean;
 use Wamcar\User\BaseUser;
 
 class ConversationUser
 {
     /** @var int */
     protected $id;
-    /** @var Conversation */
+    /** @var ApplicationConversation */
     protected $conversation;
     /** @var BaseUser */
     protected $user;
@@ -39,9 +41,9 @@ class ConversationUser
     }
 
     /**
-     * @return Conversation
+     * @return ApplicationConversation
      */
-    public function getConversation(): Conversation
+    public function getConversation(): ApplicationConversation
     {
         return $this->conversation;
     }
@@ -68,5 +70,13 @@ class ConversationUser
     public function setLastOpenedAt(\DateTime $lastOpenedAt): void
     {
         $this->lastOpenedAt = $lastOpenedAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasUnreadMessages(): bool
+    {
+        return $this->getLastOpenedAt() < $this->getConversation()->getUpdatedAt();
     }
 }

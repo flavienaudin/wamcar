@@ -19,4 +19,11 @@ interface ConversationUserRepository
      * @return null|ConversationUser
      */
     public function findByConversationAndUser(Conversation $conversation, BaseUser $user): ?ConversationUser;
+
+    /**
+     * @param Conversation $conversation
+     * @param BaseUser $user
+     * @return null|ConversationUser
+     */
+    public function findInterlocutorConversation(Conversation $conversation, BaseUser $user): ?ConversationUser;
 }

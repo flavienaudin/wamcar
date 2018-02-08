@@ -35,4 +35,19 @@ class DoctrineConversationUserRepository extends EntityRepository implements Con
 
         return $query->getOneOrNullResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findInterlocutorConversation(Conversation $conversation, BaseUser $user): ?ConversationUser
+    {
+        $query =  $this->createQueryBuilder('cu')
+            ->where('cu.conversation = :conversation')
+            ->andWhere('cu.user != :user')
+            ->setParameter('conversation', $conversation)
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

@@ -18,72 +18,37 @@
         <div class="small-12 medium-5 large-4">
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
-                <!-- One message -->
-                <li class="messages-list-item is-unread block-grid">
-                    <span class="small-3 large-2">
-                        <img class="messages-user-img messages-list-user-img" src="{{ asset('assets/images/placeholders/user/user.png') }}" alt="Antoine Martin">
-                    </span>
-                    <div class="small-9 large-10 messages-main messages-list-item-main">
-                        <div class="is-flex">
-                            <strong class="messages-sender-name">
-                                Antoine Martin
-                            </strong>
-                            <div class="messages-time">
-                                15h32
+                {% for conversation in conversations %}
+                    {% set conversationInterlocutor = getInterlocutorConversation(conversation, app.user) %}
+                    {% set conversationCurrentUser = getCurrentUserConversation(conversation, app.user) %}
+                    {% set conversationLastMessage = getLastMessageConversation(conversation) %}
+                    {% set interlocutor = conversationInterlocutor.user %}
+                    <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} block-grid">
+                        <span class="small-3 large-2">
+                            <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.name }}">
+                        </span>
+                        <div class="small-9 large-10 messages-main messages-list-item-main">
+                            <div class="is-flex">
+                                <strong class="messages-sender-name">
+                                    {{ interlocutor.name }}
+                                </strong>
+                                <div class="messages-time">
+                                    {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
+                                </div>
+                            </div>
+                            <div class="messages-small-text">
+                                {% if interlocutor.type == 'pro' and interlocutor.garage %}
+                                    {{ interlocutor.garage.name }}
+                                {% endif %}
+                            </div>
+                            <div class="messages-content messages-list-item-content">
+                                {% if conversationLastMessage is defined %}
+                                    {{ conversationLastMessage.content }}
+                                {% endif %}
                             </div>
                         </div>
-                        <div class="messages-small-text">
-                            Toyota Villeurbanne
-                        </div>
-                        <div class="messages-content messages-list-item-content">
-                            Bonjour, j'ai actuellement ce modèle de toyota celica 1998 rouge tdi
-                        </div>
-                    </div>
-                </li>
-                <!-- One message -->
-                <li class="messages-list-item is-unread block-grid">
-                    <span class="small-3 large-2">
-                        <img class="messages-user-img messages-list-user-img" src="{{ asset('assets/images/placeholders/user/user.png') }}" alt="Antoine Martin">
-                    </span>
-                    <div class="small-9 large-10 messages-main messages-list-item-main">
-                        <div class="is-flex">
-                            <strong class="messages-sender-name">
-                                Magalie de la Fontaine
-                            </strong>
-                            <div class="messages-time">
-                                14h25
-                            </div>
-                        </div>
-                        <div class="messages-small-text">
-                            Auto Occasion Rhône-Alpes
-                        </div>
-                        <div class="messages-content messages-list-item-content">
-                            Pouvez-vous m'envoyer une photo de votre véhicule ?
-                        </div>
-                    </div>
-                </li>
-                <!-- One message -->
-                <li class="messages-list-item block-grid">
-                    <span class="small-3 large-2">
-                        <img class="messages-user-img messages-list-user-img" src="{{ asset('assets/images/placeholders/user/user.png') }}" alt="Antoine Martin">
-                    </span>
-                    <div class="small-9 large-10 messages-main messages-list-item-main">
-                        <div class="is-flex">
-                            <strong class="messages-sender-name">
-                                Jean-Jacques Moretti
-                            </strong>
-                            <div class="messages-time">
-                                27/11
-                            </div>
-                        </div>
-                        <div class="messages-small-text">
-                            Toyota Lyon 2ème
-                        </div>
-                        <div class="messages-content messages-list-item-content">
-                            Vous : La courroie de distribution a été changée en 2017
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                {% endfor %}
                 <div class="block-grid">
                     <button type="button" class="small-8 medium-10 large-8 button reverse messages-view-more-btn">
                         Voir plus de messages

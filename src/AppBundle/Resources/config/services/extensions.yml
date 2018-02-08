@@ -19,3 +19,10 @@ services:
         class: 'AppBundle\Twig\StarsExtension'
         tags:
             - { name: twig.extension }
+
+    AppBundle\Twig\ConversationExtension:
+        class: 'AppBundle\Twig\ConversationExtension'
+        tags:
+            - { name: twig.extension }
+        autowire: true
+

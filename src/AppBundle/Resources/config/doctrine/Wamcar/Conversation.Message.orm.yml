@@ -3,7 +3,7 @@ Wamcar\Conversation\Message:
     type: entity
     table: conversation_message
 
-    repositoryClass: AppBundle\Doctrine\Repository\MessageRepository
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineMessageRepository
 
     id:
         id:
