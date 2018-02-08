@@ -96,7 +96,7 @@ class ConversationController extends BaseController
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
         if ($vehicleId) {
-            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleByIdAndUser($vehicleId, $messageDTO->interlocutor);
+            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
             $messageDTO->vehicleHeaderId = ($vehicleHeader ? $vehicleHeader->getId() : null);
         }
 

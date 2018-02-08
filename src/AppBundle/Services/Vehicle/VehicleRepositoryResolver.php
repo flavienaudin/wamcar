@@ -4,8 +4,8 @@
 namespace AppBundle\Services\Vehicle;
 
 
+use AppBundle\Doctrine\Repository\DoctrineVehicleRepository;
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\Vehicle;
 
 class VehicleRepositoryResolver
 {
@@ -20,19 +20,11 @@ class VehicleRepositoryResolver
     }
 
     /**
-     * @param string $vehicleId
      * @param BaseUser $user
-     * @return null|Vehicle
+     * @return DoctrineVehicleRepository
      */
-    public function getVehicleByIdAndUser(string $vehicleId, BaseUser $user): ?Vehicle
+    public function getVehicleRepositoryByUser(BaseUser $user): DoctrineVehicleRepository
     {
-        $repo = $this->vehicleRepositories[get_class($user)];
-        $vehicle = $repo->find($vehicleId);
-
-        if ($vehicle instanceof Vehicle && $vehicle->canEditMe($user)) {
-            return $vehicle;
-        }
-
-        return null;
+        return $this->vehicleRepositories[get_class($user)];
     }
 }
