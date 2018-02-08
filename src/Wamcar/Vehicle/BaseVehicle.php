@@ -178,7 +178,7 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return string
+     * @return Transmission
      */
     public function getTransmission(): Transmission
     {

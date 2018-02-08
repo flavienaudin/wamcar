@@ -5,11 +5,17 @@ namespace AppBundle\Twig;
 
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
+use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrineVehicleRepository;
+use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use Twig\Extension\AbstractExtension;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\Vehicle;
 
 class ConversationExtension extends AbstractExtension
 {
@@ -17,11 +23,26 @@ class ConversationExtension extends AbstractExtension
     protected $conversationUserRepository;
     /** @var DoctrineMessageRepository */
     protected $messageRepository;
+    /** @var DoctrineProVehicleRepository */
+    protected $proVehicleRepository;
+    /** @var DoctrinePersonalVehicleRepository */
+    protected $personalVehicleRepository;
+    /** @var VehicleRepositoryResolver */
+    protected $vehicleRepositoryResolver;
 
-    public function __construct(DoctrineConversationUserRepository $conversationUserRepository, DoctrineMessageRepository $messageRepository)
+    public function __construct(
+        DoctrineConversationUserRepository $conversationUserRepository,
+        DoctrineMessageRepository $messageRepository,
+        DoctrineProVehicleRepository $proVehicleRepository,
+        DoctrinePersonalVehicleRepository $personalVehicleRepository,
+        VehicleRepositoryResolver $vehicleRepositoryResolver
+    )
     {
         $this->conversationUserRepository = $conversationUserRepository;
         $this->messageRepository = $messageRepository;
+        $this->proVehicleRepository = $proVehicleRepository;
+        $this->personalVehicleRepository = $personalVehicleRepository;
+        $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
     }
 
     public function getFunctions()
@@ -29,7 +50,8 @@ class ConversationExtension extends AbstractExtension
         return array(
             new \Twig_SimpleFunction('getInterlocutorConversation', array($this, 'getInterlocutorConversationFunction')),
             new \Twig_SimpleFunction('getCurrentUserConversation', array($this, 'getCurrentUserConversationFunction')),
-            new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction'))
+            new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
+            new \Twig_SimpleFunction('getVehicle', array($this, 'getVehicleFunction'))
         );
     }
 
@@ -60,5 +82,21 @@ class ConversationExtension extends AbstractExtension
     public function getLastMessageConversationFunction(Conversation $conversation): ?Message
     {
         return $this->messageRepository->getLastConversationMessage($conversation);
+    }
+
+    /**
+     * @param Message $message
+     * @param null|BaseUser $user
+     * @return null|BaseVehicle
+     */
+    public function getVehicleFunction(Message $message, ?BaseUser $user = null): ?BaseVehicle
+    {
+        if ($user) {
+            $repo = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($user);
+            return $repo->find($message->getVehicleHeaderId());
+        }
+
+        $vehicle = $this->proVehicleRepository->find($message->getVehicleHeaderId());
+        return $vehicle ? $vehicle : $this->personalVehicleRepository->find($message->getVehicleHeaderId());
     }
 }

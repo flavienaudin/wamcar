@@ -1,26 +1,4 @@
 {% set isPro = true %}
-{% set messageEmpty = false %}
-{% set severalVehicles = false %}
-{% set vehicleAdded = true %}
-
-{% if isPro %}
-    {% set firstMessage = {
-            senderName: 'Antoine Martin',
-            senderInfo: 'Toyota Villeurbanne',
-            senderPic: 'https://s3.amazonaws.com/uifaces/faces/twitter/abecherian/128.jpg',
-            messageContent: 'Bonjour Juliette. Je suis vendeur pour le garage Toyota de Villeurbanne. Je suis interessé pour reprendre votre Aygo. J’ai en stock une Yaris bleu de 2014. Je vous propose de reprendre votre véhicule ainsi qu’un ajout de 2300 € en contre-partie. Etes-vous interéssée ?'
-        }
-    %}
-{% else %}
-    {% set firstMessage = {
-            senderName: 'Juliette Dupont',
-            senderInfo: 'Lyon 2ème',
-            senderPic: 'https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg',
-            messageContent: 'Bonjour mr Martin. Je suis très intéressé par la Toyota Verso Dynamic disponible dans votre garage de Villeurbanne. J’ai une Toyota Aygo Hybrid 5 portes que je souhaite faire reprendre. Si mon véhicule vous intéresse, pouvez-vous me transmettre une
-            offre de reprise ? Merci.'
-        }
-    %}
-{% endif %}
 
 <!-- Header -->
 <div class="messages-header block-grid hide-for-medium">
@@ -32,33 +10,43 @@
         </div>
     </div>
 </div>
-<!-- Véhicule lié -->
-{% include 'front/Messages/includes/vehicle_related.html.twig' with { vehicleSelected: '1' } %}
 <!-- Messages item -->
-{% if messageEmpty %}
-    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour Antoine Martin' } %}
-{% else %}
-    <div class="messages-item block-grid no-bullet no-margin">
-        <img class="messages-user-img messages-item-user-img" src="{{ firstMessage.senderPic }}" alt="{{ firstMessage.senderName }}">
-        <div class="messages-main">
-            <div class="is-flex">
-                <strong class="messages-sender-name messages-item-sender-name">
-                    {{ firstMessage.senderName }}
-                </strong>
-                <div class="messages-time messages-small-text">
-                    25/11 à 10h32
+    {% for message in messages %}
+        <!-- Véhicule lié -->
+
+        {% if message.vehicleHeaderId %}
+            {% set vehicleHeader = getVehicle(message) %}
+            {% if vehicleHeader %}
+                {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
+            {% endif %}
+        {% endif %}
+
+        <div class="messages-item block-grid no-bullet no-margin">
+            <img class="messages-user-img messages-item-user-img" src="{{ message.user.avatar|avatar('user_thumbnail') }}" alt="{{ message.user.name }}">
+            <div class="messages-main">
+                <div class="is-flex">
+                    <strong class="messages-sender-name messages-item-sender-name">
+                        {{ message.user.name }}
+                    </strong>
+                    <div class="messages-time messages-small-text">
+                        {{ message.publishedAt|localizeddate(format = "dd/MM 'à' HH'h'mm") }}
+                    </div>
+                </div>
+                <div class="messages-small-text">
+                    {% if message.user.type == 'pro' and message.user.garage %}
+                        {{ message.user.garage.name }}
+                    {% endif %}
                 </div>
             </div>
-            <div class="messages-small-text">
-                {{ firstMessage.senderInfo }}
+            <div class="messages-item-content">
+                {{ message.content }}
             </div>
+            {#{% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false } %}#}
         </div>
-        <div class="messages-item-content">
-            {{ firstMessage.messageContent }}
-        </div>
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false } %}
-    </div>
-    <!-- Message conversation answer -->
+    {% endfor %}
+
+    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.name } %}
+    {#<!-- Message conversation answer -->
     <div class="messages-item messages-item-conversation block-grid no-bullet no-margin">
         <img class="messages-user-img messages-item-user-img" src="https://s3.amazonaws.com/uifaces/faces/twitter/adellecharles/128.jpg" alt="Juliette Dupont">
         <div class="messages-main">
@@ -119,5 +107,4 @@
             Bonjour Juliette. Je viens de voir que vous vendez à nouveau un véhicule et j’ai cette fois une offre de reprise qui pourrait vous intéresser. J’ai une Toyota Verso actuellement au garage, de couleur noire et n’ayant que 4 700 km. Elle a été mise en circulation en début d’année et correspond donc à vos souhaits.
         </div>
     </div>
-    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Réponse' } %}
-{% endif %}
+    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Réponse' } %}#}

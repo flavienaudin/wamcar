@@ -12,4 +12,10 @@ interface MessageRepository
      */
     public function getLastConversationMessage(Conversation $conversation): ?Message;
 
+    /**
+     * @param Conversation $conversation
+     * @return array
+     */
+    public function findByConversationAndOrdered(Conversation $conversation): array;
+
 }

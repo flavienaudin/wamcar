@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
+use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
@@ -28,13 +29,16 @@ class ConversationController extends BaseController
     protected $conversationRepository;
     /** @var VehicleRepositoryResolver */
     protected $vehicleRepositoryResolver;
+    /** @var DoctrineMessageRepository */
+    protected $messageRepository;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         DoctrineConversationRepository $conversationRepository,
-        VehicleRepositoryResolver $vehicleRepositoryResolver
+        VehicleRepositoryResolver $vehicleRepositoryResolver,
+        DoctrineMessageRepository $messageRepository
     )
     {
         $this->formFactory = $formFactory;
@@ -42,6 +46,7 @@ class ConversationController extends BaseController
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
         $this->conversationRepository = $conversationRepository;
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
@@ -52,10 +57,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-
-        return $this->render('front/Messages/messages_list.html.twig', [
-            'conversations' => $conversations
-        ]);
+        return $this->editAction($request, $conversations[0] ? $conversations[0] : null);
     }
 
     /**
@@ -91,7 +93,7 @@ class ConversationController extends BaseController
      * @param MessageDTO $messageDTO
      * @param ApplicationConversation|null $conversation
      * @param null|string $vehicleId
-     * @return RedirectResponse|Response
+     * @return null|RedirectResponse|Response
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
@@ -120,10 +122,16 @@ class ConversationController extends BaseController
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
         }
 
-        return $this->render('front/Conversation/detail.html.twig', [
+        $conversations = $this->conversationRepository->findByUser($this->getUser());
+        $messages = $conversation ? $this->messageRepository->findByConversationAndOrdered($conversation) : null;
+
+        return $this->render('front/Messages/messages_list.html.twig', [
             'messageForm' => $messageForm->createView(),
             'user' => $this->getUser(),
-            'interlocutor' => $messageDTO->interlocutor
+            'interlocutor' => $messageDTO->interlocutor,
+            'conversations' => $conversations,
+            'currentConversation' => $conversation,
+            'messages' => $messages
         ]);
     }
 

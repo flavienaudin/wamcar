@@ -24,7 +24,7 @@ class MessageType extends AbstractType
     {
 
         $builder
-            ->add('vehicleHeaderId', TextType::class, [
+            ->add('vehicleHeaderId', HiddenType::class, [
                 'required' => false
             ])
             ->add('content', TextareaType::class, [

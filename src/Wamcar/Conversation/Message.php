@@ -17,7 +17,7 @@ class Message
     protected $user;
     /** @var string */
     protected $content;
-    /** @var string */
+    /** @var null|string */
     protected $vehicleHeaderId;
     /** @var \DateTime */
     protected $publishedAt;
@@ -76,5 +76,13 @@ class Message
     public function getPublishedAt(): \DateTime
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVehicleHeaderId(): ?string
+    {
+        return $this->vehicleHeaderId;
     }
 }
