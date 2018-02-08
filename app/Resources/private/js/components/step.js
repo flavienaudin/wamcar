@@ -41,6 +41,7 @@ class Step {
     this._init && this.updateProgressBar();
     this.step = new Abide($(this._getCurrentSlideItem()));
     this.autoHeight();
+    this.step.validateForm();
   }
 
   /**
@@ -300,20 +301,21 @@ if ($step) {
       // Prev direction
       if (index < currentSlide) {
         step.goToSlide(index).then(() => {
-          step.updateNavigation('prev', true);
           step.initAbide();
         });
       }
 
       // Next direction
-      if (index > currentSlide) {
+      if (index >= currentSlide) {
         step.valid().then(() => {
           return step.goToSlide(index);
         }).then(() => {
-          step.updateNavigation('next', true);
           step.initAbide();
         });
       }
+
+      $('.js-step-navigation').removeClass('is-active is-valid');
+      $('.js-step-navigation[data-step=' + getIndex(item) + ']').addClass('is-active');
     });
   });
 }

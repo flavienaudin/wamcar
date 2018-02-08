@@ -109,17 +109,30 @@
 
 
   /*
-     Remove
+     Avatar
      ===================================== */
 
   &-avatar {
-    width: rem-calc(120);
-    height: rem-calc(120);
+    width: rem-calc(100);
+    height: rem-calc(100);
     border-radius: 50%;
     border: 1px solid darken(#ededed,20%);
 
     img {
       border-radius: 50%;
+    }
+
+    .file-preview-image-container {
+      border-radius: 50%;
+
+      span {
+        height: 100%;
+      }
+
+      img {
+        height: 100px;
+        width: 100px;
+      }
     }
   }
 

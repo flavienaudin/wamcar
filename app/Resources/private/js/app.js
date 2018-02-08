@@ -110,6 +110,22 @@ $(function() {
   }
 
 
+  /* Form invalid */
+
+  var $form = $('#js-register-form');
+
+  $form.on('forminvalid.zf.abide', function(e) {
+
+    var invalidFields = $(this).find('[data-invalid]');
+
+    if (invalidFields) {
+      var scrollTo = $('#'+invalidFields[0].id).offset().top - 280;
+
+      $('html, body').animate({
+        scrollTop: scrollTo
+      }, 400);
+    }
+  });
 });
 
 
