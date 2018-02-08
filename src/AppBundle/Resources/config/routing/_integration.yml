@@ -89,3 +89,21 @@ inte_user_personal_profil_edit:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/User/edit.html.twig
+
+inte_messages_list:
+    path: /inte/messages-list
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Messages/messages_list.html.twig
+
+inte_messages_item:
+    path: /inte/messages-item
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Messages/messages_item.html.twig
+
+inte_messages_vehicle_list:
+    path: /inte/messages-vehicle-list
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Messages/messages_vehicle_list.html.twig

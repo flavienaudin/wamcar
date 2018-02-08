@@ -874,4 +874,101 @@
     }
   }
 
+
+  /*
+     Messages Vehicle list
+     ===================================== */
+
+  &-messages-list {
+
+    @include breakpoint(large) {
+      margin-top: rem-calc(40);
+    }
+
+    @include breakpoint(medium) {
+      margin-top: rem-calc(25);
+      margin-bottom: rem-calc(50);
+    }
+
+    @include breakpoint(small only) {
+      margin-bottom: 0;
+    }
+
+    .vehicle-item {
+      width: 100%;
+
+
+      @include breakpoint(small only) {
+        border: 0;
+        box-shadow: none;
+      }
+
+      @include breakpoint(medium down) {
+        flex-direction: initial;
+      }
+    }
+
+    .vehicle-picture {
+      @include breakpoint(medium only) {
+        width: rem-calc(135);
+      }
+    }
+
+    .vehicle-infos {
+      position: relative;
+      flex-grow: 1;
+    }
+
+    .vehicle-infos-arrow {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      margin-top: rem-calc(-11);
+      font-size: rem-calc(15);
+      color: $medium-gray;
+
+      @include breakpoint(medium) {
+        right: rem-calc(15);
+      }
+
+      &:before {
+        margin-right: 0;
+      }
+    }
+  }
+
+  &-messages-item-wrapper {
+
+    @include breakpoint(small only) {
+      border: 0;
+      box-shadow: none;
+      border-bottom: 1px solid $border-color;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+    }
+
+    @include breakpoint(medium down) {
+      flex-direction: initial;
+    }
+  }
+
+  &-messages-list-empty {
+    padding: rem-calc(50);
+
+    svg {
+      margin: 0 0 rem-calc(30);
+    }
+
+    strong {
+      margin: 0 0 rem-calc(15);
+      color: $black;
+    }
+
+    button {
+      margin-top: rem-calc(5);
+    }
+  }
+
 }

@@ -78,6 +78,8 @@ $foundation-palette: (
 $light-gray: #E5E5E5;
 $medium-gray: #7A7A7A;
 $dark-gray: #2C2C2C;
+$grey-alt: #f7f7f7;
+$grey-alt2: #f2f2f2;
 $dark-blue: #17303b;
 $black: #0a0a0a;
 $white: #fefefe;
@@ -100,6 +102,7 @@ $global-prototype-breakpoints: false;
 $global-color-pick-contrast-tolerance: 0;
 $global-transition: .3s;
 $print-transparent-backgrounds: true;
+
 
 @include add-foundation-colors;
 
@@ -862,7 +865,15 @@ $topbar-title-spacing: 0.5rem 1rem 0.5rem 0;
 $topbar-input-width: 200px;
 $topbar-unstack-breakpoint: medium;
 
-// 56. Xy Grid
+// 56. Message
+// -----------
+
+$message-xs-padding: rem-calc(20) rem-calc(15);
+$message-medium-padding: rem-calc(20) rem-calc(25);
+$message-large-padding: rem-calc(30) rem-calc(40);
+
+
+// 57. Xy Grid
 // -----------
 
 $xy-grid: true;

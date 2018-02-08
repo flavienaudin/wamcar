@@ -1,0 +1,14 @@
+{% set label = isPro == true ? 'Sélectionner un véhicule proposé' : 'Créer un véhicule' %}
+
+<!-- Message answer -->
+<div class="messages-item-answer">
+    <label id="message-answer">{{ labelName }}</label>
+    <textarea id="message-answer" class="no-margin" name="message-answer" placeholder="Entrez votre message..."></textarea>
+    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: messageEmpty ? false : true } %}
+    {% if not messageEmpty %}
+        <a class="messages-create-vehicle-btn text-underline" href="#">{{ label }}</a>
+    {% endif %}
+    <div class="block-grid">
+        <button class="small-12 medium-10 large-6 messages-send-btn button" type="button">Envoyer le message</button>
+    </div>
+</div>
