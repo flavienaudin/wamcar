@@ -30,9 +30,9 @@ class ConversationEditionService
     /**
      * @param MessageDTO $messageDTO
      * @param null|ApplicationConversation $conversation
-     * @return Conversation
+     * @return ApplicationConversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
 
