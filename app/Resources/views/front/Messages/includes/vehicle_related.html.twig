@@ -1,4 +1,4 @@
-{% if vehicleSelected == 1 %}
+{#{% if vehicleSelected == 1 %}
 <div class="messages-item-vehicle-proposed block-grid">
     <img src="{{ asset('assets/images/placeholders/vehicle/small1.jpg') }}" alt="Toyota Aygo">
     <div class="messages-item-vehicle-proposed-infos">
@@ -19,20 +19,19 @@
         </div>
     {% endif %}
 </div>
-{% else %}
+{% else %}#}
 <div class="messages-item-vehicle-proposed block-grid">
-    <img src="{{ asset('assets/images/placeholders/vehicle/small2.jpg') }}" alt="Toyota Yaris">
+    <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name }}">
     <div class="messages-item-vehicle-proposed-infos">
         <strong class="messages-small-text primary-color">
-            Voiture d'Antoine Martin
+            Voiture de {{ interlocutor.name }}
         </strong>
         <div class="messages-item-vehicle-proposed-model">
-            <strong>Toyota Yaris</strong>
-            <span>1.5 VVT-i 110 ch</span>
+            <strong>{{ vehicle.name }}</strong>
+            <span>{{ vehicle.engineName}}</span>
         </div>
         <div class="messages-small-text">
-            2017, 9 745 km, Villeurbanne
+            {{ vehicle.years }},  {{ vehicle.mileage|localizednumber }} km, {{ vehicle.cityName }}
         </div>
     </div>
 </div>
-{% endif %}

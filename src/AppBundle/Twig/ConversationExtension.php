@@ -18,7 +18,10 @@ class ConversationExtension extends AbstractExtension
     /** @var DoctrineMessageRepository */
     protected $messageRepository;
 
-    public function __construct(DoctrineConversationUserRepository $conversationUserRepository, DoctrineMessageRepository $messageRepository)
+    public function __construct(
+        DoctrineConversationUserRepository $conversationUserRepository,
+        DoctrineMessageRepository $messageRepository
+    )
     {
         $this->conversationUserRepository = $conversationUserRepository;
         $this->messageRepository = $messageRepository;

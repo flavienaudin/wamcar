@@ -4,8 +4,8 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% set isUserProPageProfil = (user.type == 'pro') %}
-{% set isUserPersonalPageProfil = (user.type == 'personal') %}
+{% set isUserProPageProfil = (user.isPro) %}
+{% set isUserPersonalPageProfil = (user.isPersonal) %}
 
 {% set iCanSeeUserVehicles = user.canSeeMyVehicles(app.user) %}
 

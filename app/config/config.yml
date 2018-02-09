@@ -54,6 +54,8 @@ twig:
         facebook_url: 'https://www.facebook.com/wamcar.france/'
         twitter_url: 'https://twitter.com/wamcar'
         inte: '%inte%'
+    form_themes:
+        - 'front/Layout/includes/forms/fields.html.twig'
 
 # Doctrine Configuration
 doctrine:

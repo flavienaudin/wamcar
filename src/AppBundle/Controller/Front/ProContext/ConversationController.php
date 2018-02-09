@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
+use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
@@ -15,6 +16,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class ConversationController extends BaseController
 {
@@ -28,13 +32,16 @@ class ConversationController extends BaseController
     protected $conversationRepository;
     /** @var VehicleRepositoryResolver */
     protected $vehicleRepositoryResolver;
+    /** @var DoctrineMessageRepository */
+    protected $messageRepository;
 
     public function __construct(
         FormFactoryInterface $formFactory,
         ConversationEditionService $conversationEditionService,
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         DoctrineConversationRepository $conversationRepository,
-        VehicleRepositoryResolver $vehicleRepositoryResolver
+        VehicleRepositoryResolver $vehicleRepositoryResolver,
+        DoctrineMessageRepository $messageRepository
     )
     {
         $this->formFactory = $formFactory;
@@ -42,6 +49,7 @@ class ConversationController extends BaseController
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
         $this->conversationRepository = $conversationRepository;
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
+        $this->messageRepository = $messageRepository;
     }
 
     /**
@@ -52,10 +60,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-
-        return $this->render('front/Messages/messages_list.html.twig', [
-            'conversations' => $conversations
-        ]);
+        return $this->editAction($request, reset($conversations) ?: null);
     }
 
     /**
@@ -91,13 +96,14 @@ class ConversationController extends BaseController
      * @param MessageDTO $messageDTO
      * @param ApplicationConversation|null $conversation
      * @param null|string $vehicleId
-     * @return RedirectResponse|Response
+     * @return null|RedirectResponse|Response
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
         if ($vehicleId) {
+            /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->vehicleHeaderId = ($vehicleHeader ? $vehicleHeader->getId() : null);
+            $messageDTO->vehicleHeader =$vehicleHeader;
         }
 
         if (!$conversation) {
@@ -120,10 +126,16 @@ class ConversationController extends BaseController
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
         }
 
-        return $this->render('front/Conversation/detail.html.twig', [
+        $conversations = $this->conversationRepository->findByUser($this->getUser());
+        $messages = $conversation ? $this->messageRepository->findByConversationAndOrdered($conversation) : null;
+
+        return $this->render('front/Messages/messages_list.html.twig', [
             'messageForm' => $messageForm->createView(),
             'user' => $this->getUser(),
-            'interlocutor' => $messageDTO->interlocutor
+            'interlocutor' => $messageDTO->interlocutor,
+            'conversations' => $conversations,
+            'currentConversation' => $conversation,
+            'messages' => $messages
         ]);
     }
 
@@ -134,7 +146,8 @@ class ConversationController extends BaseController
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
         if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
-            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
+            $vehicleId = $messageDTO->vehicleHeader? $messageDTO->vehicleHeader->getId() : null;
+            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $vehicleId]);
         }
 
         return null;

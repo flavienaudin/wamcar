@@ -6,7 +6,7 @@
 
 {% block body %}
     <!-- Header -->
-    <div class="messages-header messages-list-header">
+    <div class="messages-header messages-list-header  {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
         <div class="row">
             <div class="small-12 messages-header-title messages-align-items block-grid">
                 <h1 class="primary-color no-margin">Messagerie</h1>
@@ -15,15 +15,11 @@
         </div>
     </div>
     <div class="row messages-list-wrapper">
-        <div class="small-12 medium-5 large-4">
+        <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
-                {% for conversation in conversations %}
-                    {% set conversationInterlocutor = getInterlocutorConversation(conversation, app.user) %}
-                    {% set conversationCurrentUser = getCurrentUserConversation(conversation, app.user) %}
-                    {% set conversationLastMessage = getLastMessageConversation(conversation) %}
-                    {% set interlocutor = conversationInterlocutor.user %}
-                    <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} block-grid">
+                {% if currentConversation == null %}
+                    <li class="messages-list-item is-unread is-current block-grid">
                         <span class="small-3 large-2">
                             <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.name }}">
                         </span>
@@ -33,31 +29,63 @@
                                     {{ interlocutor.name }}
                                 </strong>
                                 <div class="messages-time">
-                                    {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
+                                    nouveau
                                 </div>
                             </div>
                             <div class="messages-small-text">
-                                {% if interlocutor.type == 'pro' and interlocutor.garage %}
+                                {% if interlocutor.isPro and interlocutor.garage %}
                                     {{ interlocutor.garage.name }}
                                 {% endif %}
                             </div>
                             <div class="messages-content messages-list-item-content">
-                                {% if conversationLastMessage is defined %}
-                                    {{ conversationLastMessage.content }}
-                                {% endif %}
                             </div>
                         </div>
                     </li>
+                {% endif %}
+
+                {% for conversation in conversations %}
+                    {% set conversationInterlocutor = getInterlocutorConversation(conversation, app.user) %}
+                    {% set conversationCurrentUser = getCurrentUserConversation(conversation, app.user) %}
+                    {% set conversationLastMessage = getLastMessageConversation(conversation) %}
+                    {% set interlocutorList = conversationInterlocutor.user %}
+
+                    <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} {% if conversation == currentConversation %}is-current{% endif %}">
+                        <a href="{{ path('front_conversation_edit', {'id': conversation.id}) }}" class="block-grid">
+                        <span class="small-3 large-2">
+                                <img class="messages-user-img messages-list-user-img" src="{{ interlocutorList.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutorList.name }}">
+                            </span>
+                            <div class="small-9 large-10 messages-main messages-list-item-main">
+                                <div class="is-flex">
+                                    <strong class="messages-sender-name">
+                                        {{ interlocutorList.name }}
+                                    </strong>
+                                    <div class="messages-time">
+                                        {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
+                                    </div>
+                                </div>
+                                <div class="messages-small-text">
+                                    {% if interlocutorList.type == 'pro' and interlocutorList.garage != null %}
+                                        {{ interlocutorList.garage.name }}
+                                    {% endif %}
+                                </div>
+                                <div class="messages-content messages-list-item-content">
+                                    {% if conversationLastMessage is defined %}
+                                        {{ conversationLastMessage.content }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </li>
                 {% endfor %}
-                <div class="block-grid">
+                {#<div class="block-grid">
                     <button type="button" class="small-8 medium-10 large-8 button reverse messages-view-more-btn">
                         Voir plus de messages
                     </button>
-                </div>
+                </div>#}
             </ul>
         </div>
-        <div class="messages-item-wrapper-desktop hide-for-small-only medium-7 large-8">
-            {% include 'front/Messages/includes/message_item_content.html.twig' %}
+        <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %} medium-7 large-8">
+                {% include 'front/Messages/includes/message_item_content.html.twig' %}
         </div>
     </div>
 {% endblock %}

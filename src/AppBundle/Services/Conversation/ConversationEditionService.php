@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
+use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 

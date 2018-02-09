@@ -156,6 +156,22 @@ abstract class BaseUser
     }
 
     /**
+     * @return bool
+     */
+    public function isPro(): bool
+    {
+        return $this->getType() === ProUser::TYPE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersonal(): bool
+    {
+        return $this->getType() === PersonalUser::TYPE;
+    }
+
+    /**
      * @param BaseUser|null $user null if user not connected
      * @return bool
      */

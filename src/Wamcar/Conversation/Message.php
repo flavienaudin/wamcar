@@ -6,6 +6,9 @@ namespace Wamcar\Conversation;
 
 use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class Message
 {
@@ -17,8 +20,10 @@ class Message
     protected $user;
     /** @var string */
     protected $content;
-    /** @var string */
-    protected $vehicleHeaderId;
+    /** @var null|ProVehicle */
+    protected $proVehicleHeader;
+    /** @var null|PersonalVehicle */
+    protected $personalVehicleHeader;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -27,15 +32,22 @@ class Message
      * @param Conversation $conversation
      * @param CanBeInConversation $user
      * @param string $content
-     * @param null|string $vehicleHeaderId
+     * @param null|BaseVehicle $vehicle
      */
-    public function __construct(Conversation $conversation, CanBeInConversation $user, string $content, ?string $vehicleHeaderId = null)
+    public function __construct(
+        Conversation $conversation,
+        CanBeInConversation $user,
+        string $content,
+        ?BaseVehicle $vehicle = null
+    )
     {
         $this->conversation = $conversation;
         $this->user = $user;
         $this->content = $content;
-        $this->vehicleHeaderId = $vehicleHeaderId;
         $this->publishedAt = new \DateTime();
+        if ($vehicle) {
+            $this->assignVehicleHeader($vehicle);
+        }
     }
 
     /**
@@ -76,5 +88,41 @@ class Message
     public function getPublishedAt(): \DateTime
     {
         return $this->publishedAt;
+    }
+
+    /**
+     * @return null|BaseVehicle
+     */
+    public function getVehicleHeader(): ?BaseVehicle
+    {
+        return $this->getPersonalVehicleHeader() ?: $this->getProVehicleHeader();
+    }
+
+    /**
+     * @param BaseVehicle $vehicle
+     */
+    public function assignVehicleHeader(BaseVehicle $vehicle): void
+    {
+        if ($vehicle instanceof ProVehicle) {
+            $this->proVehicleHeader = $vehicle;
+        } elseif ($vehicle instanceof PersonalVehicle) {
+            $this->personalVehicleHeader = $vehicle;
+        }
+    }
+
+    /**
+     * @return null|ProVehicle
+     */
+    protected function getProVehicleHeader(): ?ProVehicle
+    {
+        return $this->proVehicleHeader;
+    }
+
+    /**
+     * @return null|PersonalVehicle
+     */
+    protected function getPersonalVehicleHeader(): ?PersonalVehicle
+    {
+        return $this->personalVehicleHeader;
     }
 }

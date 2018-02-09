@@ -16,12 +16,22 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
      */
     public function getLastConversationMessage(Conversation $conversation): ?Message
     {
+        $messages = $this->findByConversationAndOrdered($conversation);
+
+        return end($messages) ?: null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByConversationAndOrdered(Conversation $conversation): array
+    {
         $query =  $this->createQueryBuilder('m')
             ->where('m.conversation = :conversation')
             ->setParameter('conversation', $conversation)
-            ->orderBy('m.publishedAt', 'DESC')
+            ->orderBy('m.publishedAt', 'ASC')
             ->getQuery();
 
-        return count($query->getResult()) > 0 ? $query->getResult()[0] : null;
+        return $query->getResult();
     }
 }
