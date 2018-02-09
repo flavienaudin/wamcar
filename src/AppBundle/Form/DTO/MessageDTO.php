@@ -60,6 +60,9 @@ class MessageDTO
         return new self($conversation, $user, $interlocutor);
     }
 
+    /**
+     * @param BaseVehicle $vehicle
+     */
     public function assignVehicleHeader(BaseVehicle $vehicle): void
     {
         if ($vehicle instanceof ProVehicle) {
@@ -74,10 +77,6 @@ class MessageDTO
      */
     public function getVehicleHeader(): ?BaseVehicle
     {
-        if ($this->personalVehicleHeader) {
-            return $this->personalVehicleHeader;
-        }
-
-        return $this->proVehicleHeader;
+        return $this->personalVehicleHeader ?: $this->proVehicleHeader;
     }
 }

@@ -60,7 +60,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-        return $this->editAction($request, array_first($conversations) ?? null);
+        return $this->editAction($request, reset($conversations) ?? null);
     }
 
     /**

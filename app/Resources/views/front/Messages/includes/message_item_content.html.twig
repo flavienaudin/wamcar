@@ -2,11 +2,13 @@
 
 <!-- Header -->
 <div class="messages-header block-grid hide-for-medium">
-    <button type="button" class="messages-back-btn icon-full-arrow"></button>
+    <a href="{{ path('front_conversation_list') }}" class="messages-back-btn icon-full-arrow"></a>
     <div class="">
-        <h1 class="primary-color no-margin">Antoine Martin</h1>
+        <h1 class="primary-color no-margin">{{ interlocutor.name }}</h1>
         <div class="messages-small-text">
-            Toyota Villeurbanne
+            {% if interlocutor.isPro and interlocutor.garage %}
+                {{ interlocutor.garage.name }}
+            {% endif %}
         </div>
     </div>
 </div>
