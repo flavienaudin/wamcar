@@ -95,6 +95,14 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->getGarage()->getProVehicles();
+    }
+
+    /**
      * @param BaseUser|null $user null if user not connected
      * @return bool
      */
