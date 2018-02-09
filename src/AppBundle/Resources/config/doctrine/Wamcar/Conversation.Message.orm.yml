@@ -15,9 +15,6 @@ Wamcar\Conversation\Message:
     fields:
         content:
             type: string
-        vehicleHeaderId:
-            type: string
-            nullable: true
         publishedAt:
             type: datetime
 
@@ -33,4 +30,14 @@ Wamcar\Conversation\Message:
             inversedBy: messages
             joinColumn:
                 name: user_id
+                referencedColumnName: id
+        proVehicleHeader:
+            targetEntity: Wamcar\Vehicle\ProVehicle
+            joinColumn:
+                name: pro_vehicle_id
+                referencedColumnName: id
+        personalVehicleHeader:
+            targetEntity: Wamcar\Vehicle\PersonalVehicle
+            joinColumn:
+                name: personal_vehicle_id
                 referencedColumnName: id

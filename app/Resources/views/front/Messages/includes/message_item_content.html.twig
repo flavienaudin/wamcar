@@ -2,23 +2,21 @@
 
 <!-- Header -->
 <div class="messages-header block-grid hide-for-medium">
-    <button type="button" class="messages-back-btn icon-full-arrow"></button>
+    <a href="{{ path('front_conversation_list') }}" class="messages-back-btn icon-full-arrow"></a>
     <div class="">
-        <h1 class="primary-color no-margin">Antoine Martin</h1>
+        <h1 class="primary-color no-margin">{{ interlocutor.name }}</h1>
         <div class="messages-small-text">
-            Toyota Villeurbanne
+            {% if interlocutor.isPro and interlocutor.garage %}
+                {{ interlocutor.garage.name }}
+            {% endif %}
         </div>
     </div>
 </div>
 <!-- Messages item -->
     {% for message in messages %}
         <!-- Véhicule lié -->
-
-        {% if message.vehicleHeaderId %}
-            {% set vehicleHeader = getVehicle(message.vehicleHeaderId) %}
-            {% if vehicleHeader %}
-                {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
-            {% endif %}
+        {% if message.vehicleHeader %}
+            {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': message.vehicleHeader} %}
         {% endif %}
 
         <div class="messages-item block-grid no-bullet no-margin">

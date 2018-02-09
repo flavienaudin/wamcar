@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class ConversationController extends BaseController
 {
@@ -57,7 +60,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-        return $this->editAction($request, $conversations[0] ? $conversations[0] : null);
+        return $this->editAction($request, reset($conversations) ?: null);
     }
 
     /**
@@ -98,8 +101,9 @@ class ConversationController extends BaseController
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
         if ($vehicleId) {
+            /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->vehicleHeaderId = ($vehicleHeader ? $vehicleHeader->getId() : null);
+            $messageDTO->vehicleHeader =$vehicleHeader;
         }
 
         if (!$conversation) {
@@ -142,7 +146,8 @@ class ConversationController extends BaseController
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
         if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
-            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $messageDTO->vehicleHeaderId]);
+            $vehicleId = $messageDTO->vehicleHeader? $messageDTO->vehicleHeader->getId() : null;
+            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $vehicleId]);
         }
 
         return null;

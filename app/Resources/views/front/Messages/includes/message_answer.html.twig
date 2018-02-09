@@ -5,7 +5,6 @@
     {{ form_start(messageForm, { 'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 
     <label id="message-answer">{{ labelName }}</label>
-    {{ form_widget(messageForm.vehicleHeaderId) }}
     {{ form_widget(messageForm.content, {
         'label': 'Message',
         'placeholder': 'Entrez votre message...',

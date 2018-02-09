@@ -8,6 +8,9 @@ use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class MessageDTO
 {
@@ -19,8 +22,8 @@ class MessageDTO
     public $interlocutor;
     /** @var  string */
     public $content;
-    /** @var  string */
-    public $vehicleHeaderId;
+    /** @var null|BaseVehicle */
+    public $vehicleHeader;
 
     public function __construct(
         ?Conversation $conversation,

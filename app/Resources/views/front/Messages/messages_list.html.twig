@@ -6,7 +6,7 @@
 
 {% block body %}
     <!-- Header -->
-    <div class="messages-header messages-list-header">
+    <div class="messages-header messages-list-header  {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
         <div class="row">
             <div class="small-12 messages-header-title messages-align-items block-grid">
                 <h1 class="primary-color no-margin">Messagerie</h1>
@@ -15,7 +15,7 @@
         </div>
     </div>
     <div class="row messages-list-wrapper">
-        <div class="small-12 medium-5 large-4">
+        <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
                 {% if currentConversation == null %}
@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                             <div class="messages-small-text">
-                                {% if interlocutor.type == 'pro' and interlocutor.garage %}
+                                {% if interlocutor.isPro and interlocutor.garage %}
                                     {{ interlocutor.garage.name }}
                                 {% endif %}
                             </div>
@@ -84,8 +84,8 @@
                 </div>#}
             </ul>
         </div>
-        <div class="messages-item-wrapper-desktop hide-for-small-only medium-7 large-8">
-            {% include 'front/Messages/includes/message_item_content.html.twig' %}
+        <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %} medium-7 large-8">
+                {% include 'front/Messages/includes/message_item_content.html.twig' %}
         </div>
     </div>
 {% endblock %}
