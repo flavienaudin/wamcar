@@ -8,6 +8,9 @@ use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class MessageDTO
 {
@@ -19,8 +22,10 @@ class MessageDTO
     public $interlocutor;
     /** @var  string */
     public $content;
-    /** @var  string */
-    public $vehicleHeaderId;
+    /** @var null|ProVehicle */
+    public $proVehicleHeader;
+    /** @var null|PersonalVehicle */
+    public $personalVehicleHeader;
 
     public function __construct(
         ?Conversation $conversation,
@@ -53,5 +58,26 @@ class MessageDTO
         }
 
         return new self($conversation, $user, $interlocutor);
+    }
+
+    public function assignVehicleHeader(BaseVehicle $vehicle): void
+    {
+        if ($vehicle instanceof ProVehicle) {
+            $this->proVehicleHeader = $vehicle;
+        } elseif ($vehicle instanceof PersonalVehicle) {
+            $this->personalVehicleHeader = $vehicle;
+        }
+    }
+
+    /**
+     * @return null|BaseVehicle
+     */
+    public function getVehicleHeader(): ?BaseVehicle
+    {
+        if ($this->personalVehicleHeader) {
+            return $this->personalVehicleHeader;
+        }
+
+        return $this->proVehicleHeader;
     }
 }

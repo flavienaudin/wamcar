@@ -13,12 +13,8 @@
 <!-- Messages item -->
     {% for message in messages %}
         <!-- Véhicule lié -->
-
-        {% if message.vehicleHeaderId %}
-            {% set vehicleHeader = getVehicle(message.vehicleHeaderId) %}
-            {% if vehicleHeader %}
-                {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
-            {% endif %}
+        {% if message.vehicleHeader %}
+            {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': message.vehicleHeader} %}
         {% endif %}
 
         <div class="messages-item block-grid no-bullet no-margin">

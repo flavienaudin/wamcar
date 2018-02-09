@@ -6,6 +6,9 @@ namespace Wamcar\Conversation;
 
 use AppBundle\Services\User\CanBeInConversation;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class Message
 {
@@ -17,8 +20,10 @@ class Message
     protected $user;
     /** @var string */
     protected $content;
-    /** @var null|string */
-    protected $vehicleHeaderId;
+    /** @var null|ProVehicle */
+    protected $proVehicleHeader;
+    /** @var null|PersonalVehicle */
+    protected $personalVehicleHeader;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -27,14 +32,22 @@ class Message
      * @param Conversation $conversation
      * @param CanBeInConversation $user
      * @param string $content
-     * @param null|string $vehicleHeaderId
+     * @param null|ProVehicle $proVehicleHeader
+     * @param null|PersonalVehicle $personalVehicleHeader
      */
-    public function __construct(Conversation $conversation, CanBeInConversation $user, string $content, ?string $vehicleHeaderId = null)
+    public function __construct(
+        Conversation $conversation,
+        CanBeInConversation $user,
+        string $content,
+        ?ProVehicle $proVehicleHeader = null,
+        ?PersonalVehicle $personalVehicleHeader = null
+    )
     {
         $this->conversation = $conversation;
         $this->user = $user;
         $this->content = $content;
-        $this->vehicleHeaderId = $vehicleHeaderId;
+        $this->proVehicleHeader = $proVehicleHeader;
+        $this->personalVehicleHeader = $personalVehicleHeader;
         $this->publishedAt = new \DateTime();
     }
 
@@ -79,10 +92,30 @@ class Message
     }
 
     /**
-     * @return null|string
+     * @return null|ProVehicle
      */
-    public function getVehicleHeaderId(): ?string
+    public function getProVehicleHeader(): ?ProVehicle
     {
-        return $this->vehicleHeaderId;
+        return $this->proVehicleHeader;
+    }
+
+    /**
+     * @return null|PersonalVehicle
+     */
+    public function getPersonalVehicleHeader(): ?PersonalVehicle
+    {
+        return $this->personalVehicleHeader;
+    }
+
+    /**
+     * @return null|BaseVehicle
+     */
+    public function getVehicleHeader(): ?BaseVehicle
+    {
+        if ($this->getPersonalVehicleHeader()) {
+            return $this->getPersonalVehicleHeader();
+        }
+
+        return $this->getProVehicleHeader();
     }
 }
