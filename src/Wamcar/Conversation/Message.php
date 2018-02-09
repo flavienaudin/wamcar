@@ -91,22 +91,6 @@ class Message
     }
 
     /**
-     * @return null|ProVehicle
-     */
-    protected function getProVehicleHeader(): ?ProVehicle
-    {
-        return $this->proVehicleHeader;
-    }
-
-    /**
-     * @return null|PersonalVehicle
-     */
-    protected function getPersonalVehicleHeader(): ?PersonalVehicle
-    {
-        return $this->personalVehicleHeader;
-    }
-
-    /**
      * @return null|BaseVehicle
      */
     public function getVehicleHeader(): ?BaseVehicle
@@ -124,5 +108,21 @@ class Message
         } elseif ($vehicle instanceof PersonalVehicle) {
             $this->personalVehicleHeader = $vehicle;
         }
+    }
+
+    /**
+     * @return null|ProVehicle
+     */
+    protected function getProVehicleHeader(): ?ProVehicle
+    {
+        return $this->proVehicleHeader;
+    }
+
+    /**
+     * @return null|PersonalVehicle
+     */
+    protected function getPersonalVehicleHeader(): ?PersonalVehicle
+    {
+        return $this->personalVehicleHeader;
     }
 }
