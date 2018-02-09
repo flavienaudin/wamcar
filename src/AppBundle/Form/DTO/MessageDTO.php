@@ -22,10 +22,8 @@ class MessageDTO
     public $interlocutor;
     /** @var  string */
     public $content;
-    /** @var null|ProVehicle */
-    public $proVehicleHeader;
-    /** @var null|PersonalVehicle */
-    public $personalVehicleHeader;
+    /** @var null|BaseVehicle */
+    public $vehicleHeader;
 
     public function __construct(
         ?Conversation $conversation,
@@ -58,25 +56,5 @@ class MessageDTO
         }
 
         return new self($conversation, $user, $interlocutor);
-    }
-
-    /**
-     * @param BaseVehicle $vehicle
-     */
-    public function assignVehicleHeader(BaseVehicle $vehicle): void
-    {
-        if ($vehicle instanceof ProVehicle) {
-            $this->proVehicleHeader = $vehicle;
-        } elseif ($vehicle instanceof PersonalVehicle) {
-            $this->personalVehicleHeader = $vehicle;
-        }
-    }
-
-    /**
-     * @return null|BaseVehicle
-     */
-    public function getVehicleHeader(): ?BaseVehicle
-    {
-        return $this->personalVehicleHeader ?: $this->proVehicleHeader;
     }
 }

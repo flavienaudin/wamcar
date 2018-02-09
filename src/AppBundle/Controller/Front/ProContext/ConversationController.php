@@ -103,7 +103,7 @@ class ConversationController extends BaseController
         if ($vehicleId) {
             /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->assignVehicleHeader($vehicleHeader);
+            $messageDTO->vehicleHeader =$vehicleHeader;
         }
 
         if (!$conversation) {
@@ -146,7 +146,7 @@ class ConversationController extends BaseController
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
         if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
-            $vehicleId = $messageDTO->getVehicleHeader()? $messageDTO->getVehicleHeader()->getId() : null;
+            $vehicleId = $messageDTO->vehicleHeader? $messageDTO->vehicleHeader->getId() : null;
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $vehicleId]);
         }
 

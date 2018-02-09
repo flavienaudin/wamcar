@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
+use Wamcar\Conversation\Conversation;
 use Wamcar\User\BaseUser;
 
 
@@ -29,9 +30,9 @@ class ConversationEditionService
     /**
      * @param MessageDTO $messageDTO
      * @param null|ApplicationConversation $conversation
-     * @return ApplicationConversation
+     * @return Conversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
 
