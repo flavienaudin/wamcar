@@ -9,7 +9,7 @@
         'class': 'no-margin'
     }) }}
     {#{% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: messageEmpty ? false : true } %}#}
-    {% if user.vehicles|length == 0 %}
+    {% if user.vehicles|length > 0 %}
         <a class="messages-create-vehicle-btn text-underline" href="#">Sélectionner un véhicule proposé</a>
     {% else %}
         {% set createPath = user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') %}
