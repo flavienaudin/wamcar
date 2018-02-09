@@ -16,9 +16,13 @@
     </div>
     <div class="row messages-list-wrapper">
         <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
+
+            {% if interlocutor == null and conversations|length == 0 %}
+                Aucune conversation n'a été crée
+            {% else %}
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
-                {% if currentConversation == null %}
+                {% if currentConversation == null and interlocutor != null %}
                     <li class="messages-list-item is-unread is-current block-grid">
                         <span class="small-3 large-2">
                             <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.name }}">
@@ -42,7 +46,6 @@
                         </div>
                     </li>
                 {% endif %}
-
                 {% for conversation in conversations %}
                     {% set conversationInterlocutor = getInterlocutorConversation(conversation, app.user) %}
                     {% set conversationCurrentUser = getCurrentUserConversation(conversation, app.user) %}
@@ -83,9 +86,12 @@
                     </button>
                 </div>#}
             </ul>
+            {% endif %}
         </div>
-        <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %} medium-7 large-8">
+        {% if interlocutor != null %}
+            <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %} medium-7 large-8">
                 {% include 'front/Messages/includes/message_item_content.html.twig' %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
