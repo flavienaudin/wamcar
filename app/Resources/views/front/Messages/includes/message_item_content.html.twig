@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="messages-small-text">
-                    {% if message.user.type == 'pro' and message.user.garage %}
+                    {% if message.user.isPro and message.user.garage %}
                         {{ message.user.garage.name }}
                     {% endif %}
                 </div>

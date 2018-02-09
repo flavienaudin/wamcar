@@ -3,8 +3,8 @@
 {% set cookiebar = true %}
 
 {% set isLogged = is_granted('IS_AUTHENTICATED_FULLY') %}
-{% set isUserPro = (isLogged and app.user.type == 'pro') %}
-{% set isUserPersonal = (isLogged and app.user.type == 'personal') %}
+{% set isUserPro = (isLogged and app.user.isPro) %}
+{% set isUserPersonal = (isLogged and app.user.isPersonal) %}
 {% set isUserAdmin = is_granted('ROLE_ADMIN') %}
 
 <!DOCTYPE html>

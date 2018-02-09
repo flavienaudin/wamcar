@@ -18,7 +18,7 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
     {
         $messages = $this->findByConversationAndOrdered($conversation);
 
-        return count($messages) > 0 ? $messages[count($messages) - 1] : null;
+        return end($messages) ?? null;
     }
 
     /**
