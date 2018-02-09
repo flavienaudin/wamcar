@@ -60,7 +60,17 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-        return $this->editAction($request, reset($conversations) ?: null);
+        if (count($conversations)> 0 ) {
+            return $this->editAction($request, reset($conversations) ?: null);
+        }
+
+        return $this->render('front/Messages/messages_list.html.twig', [
+            'user' => $this->getUser(),
+            'interlocutor' => null,
+            'conversations' => null,
+            'currentConversation' => null,
+            'messages' => null
+        ]);
     }
 
     /**
