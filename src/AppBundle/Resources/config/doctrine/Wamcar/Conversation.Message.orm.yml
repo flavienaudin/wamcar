@@ -34,9 +34,19 @@ Wamcar\Conversation\Message:
         proVehicleHeader:
             targetEntity: Wamcar\Vehicle\ProVehicle
             joinColumn:
-                name: pro_vehicle_id
+                name: pro_vehicle_header_id
                 referencedColumnName: id
         personalVehicleHeader:
+            targetEntity: Wamcar\Vehicle\PersonalVehicle
+            joinColumn:
+                name: personal_vehicle_header_id
+                referencedColumnName: id
+        proVehicle:
+            targetEntity: Wamcar\Vehicle\ProVehicle
+            joinColumn:
+                name: pro_vehicle_id
+                referencedColumnName: id
+        personalVehicle:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
             joinColumn:
                 name: personal_vehicle_id

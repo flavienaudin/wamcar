@@ -26,6 +26,8 @@ class MessageDTO
     public $content;
     /** @var null|BaseVehicle */
     public $vehicleHeader;
+    /** @var null|BaseVehicle */
+    public $vehicle;
 
     public function __construct(
         ?Conversation $conversation,

@@ -24,6 +24,10 @@ class Message
     protected $proVehicleHeader;
     /** @var null|PersonalVehicle */
     protected $personalVehicleHeader;
+    /** @var null|ProVehicle */
+    protected $proVehicle;
+    /** @var null|PersonalVehicle */
+    protected $personalVehicle;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -32,12 +36,14 @@ class Message
      * @param Conversation $conversation
      * @param CanBeInConversation $user
      * @param string $content
+     * @param null|BaseVehicle $vehicleHeader
      * @param null|BaseVehicle $vehicle
      */
     public function __construct(
         Conversation $conversation,
         CanBeInConversation $user,
         string $content,
+        ?BaseVehicle $vehicleHeader = null,
         ?BaseVehicle $vehicle = null
     )
     {
@@ -45,8 +51,11 @@ class Message
         $this->user = $user;
         $this->content = $content;
         $this->publishedAt = new \DateTime();
+        if ($vehicleHeader) {
+            $this->assignVehicleHeader($vehicleHeader);
+        }
         if ($vehicle) {
-            $this->assignVehicleHeader($vehicle);
+            $this->assignVehicle($vehicle);
         }
     }
 
@@ -124,5 +133,41 @@ class Message
     protected function getPersonalVehicleHeader(): ?PersonalVehicle
     {
         return $this->personalVehicleHeader;
+    }
+
+    /**
+     * @return null|BaseVehicle
+     */
+    public function getVehicle(): ?BaseVehicle
+    {
+        return $this->getPersonalVehicle() ?: $this->getProVehicle();
+    }
+
+    /**
+     * @param BaseVehicle $vehicle
+     */
+    public function assignVehicle(BaseVehicle $vehicle): void
+    {
+        if ($vehicle instanceof ProVehicle) {
+            $this->proVehicle = $vehicle;
+        } elseif ($vehicle instanceof PersonalVehicle) {
+            $this->personalVehicle = $vehicle;
+        }
+    }
+
+    /**
+     * @return null|ProVehicle
+     */
+    public function getProVehicle(): ?ProVehicle
+    {
+        return $this->proVehicle;
+    }
+
+    /**
+     * @return null|PersonalVehicle
+     */
+    public function getPersonalVehicle(): ?PersonalVehicle
+    {
+        return $this->personalVehicle;
     }
 }

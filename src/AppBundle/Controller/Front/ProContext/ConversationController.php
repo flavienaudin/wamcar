@@ -120,6 +120,14 @@ class ConversationController extends BaseController
             $messageDTO->vehicleHeader =$vehicleHeader;
         }
 
+        if ($request->query->has('v')) {
+            /** @var BaseVehicle $vehicle */
+            $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
+            if ($vehicle->canEditMe($this->getUser())) {
+                $messageDTO->vehicle = $vehicle;
+            }
+        }
+
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
             if ($redirectRoute) {
@@ -196,8 +204,11 @@ class ConversationController extends BaseController
      */
     public function vehicleListAction(Request $request): Response
     {
+
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'vehicles' => $this->getUser()->getVehicles()
+            'vehicles' => $this->getUser()->getVehicles(),
+            'linkRoute' => $this->sessionMessageManager->getRoute(),
+            'linkRouteParams' => $this->sessionMessageManager->getRouteParams()
         ]);
     }
 }

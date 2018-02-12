@@ -15,7 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -35,6 +38,30 @@ class MessageType extends AbstractType
             ->add('selectVehicle', SubmitType::class)
             ->add('send', SubmitType::class)
             ;
+
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var MessageDTO $messageDTO */
+            $messageDTO = $event->getData();
+            $form = $event->getForm();
+
+            if ($messageDTO->vehicle instanceof ProVehicle) {
+                $form->add('vehicle', EntityType::class, [
+                    'class' => ProVehicle::class,
+                    'label' => false,
+                    'required' => false,
+                    'choice_label' => 'name'
+                ]);
+            }
+            elseif ($messageDTO->vehicle instanceof PersonalVehicle) {
+                $form->add('vehicle', EntityType::class, [
+                    'class' => PersonalVehicle::class,
+                    'label' => false,
+                    'required' => false,
+                    'choice_label' => 'name'
+                ]);
+            }
+        });
     }
 
     /**

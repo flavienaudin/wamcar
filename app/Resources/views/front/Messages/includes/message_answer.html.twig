@@ -17,6 +17,9 @@
         {% set createPath = user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') %}
         <a class="messages-create-vehicle-btn text-underline" href="{{ createPath }}">Créer un véhicule</a>
     {% endif %}#}
+    {% if messageForm.vehicle is defined %}
+        {{ form_widget(messageForm.vehicle) }}
+    {% endif %}
     {{ form_widget(messageForm.selectVehicle, {
         'label': 'Sélectionner un véhicule proposé',
         'class': 'messages-create-vehicle-btn text-underline'
