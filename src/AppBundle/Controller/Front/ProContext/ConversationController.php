@@ -131,7 +131,7 @@ class ConversationController extends BaseController
         $messageForm->handleRequest($request);
 
         if ($messageForm->isSubmitted()) {
-            $action = $this->redirectionFormSubmit($request, $messageForm);
+            $action = $this->redirectionFromSubmitButton($request, $messageForm);
             if ($action) {
                 return $action;
             }
@@ -173,7 +173,12 @@ class ConversationController extends BaseController
         return null;
     }
 
-    protected function redirectionFormSubmit(Request $request, FormInterface $messageForm)
+    /**
+     * @param Request $request
+     * @param FormInterface $messageForm
+     * @return null|RedirectResponse
+     */
+    protected function redirectionFromSubmitButton(Request $request, FormInterface $messageForm): ?RedirectResponse
     {
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
