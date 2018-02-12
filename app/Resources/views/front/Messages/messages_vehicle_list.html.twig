@@ -2,9 +2,7 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Messagerie{% endblock %}
-
-{% set emptyList = false %}
+{% block title %}Ajouter un véhicule{% endblock %}
 
 {% block body %}
     <!-- Header -->
@@ -22,43 +20,41 @@
     <div class="row">
         <div class="small-12">
             <!-- Vehicle list -->
-            {% if emptyList %}
-                <div class="vehicle-messages-list-empty text-center">
-                    {% include 'front/Layout/includes/svg/red_car.html.twig' %}
-                    <strong class="is-block">Vous n’avez pas encore de véhicule dans votre garage.</strong>
-                    <p>Afin de pouvoir proposer un véhicule à un particulier, vous devez d’abord ajouter un véhicule à la vente.</p>
-                    <div class="block-grid">
-                        <button class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button" type="button">Créer un véhicule</button>
+            <ul class="block-grid vehicle-messages-list no-bullet">
+                {% for vehicle in vehicles %}
+                <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
+                    <a href="" class="vehicle-item is-flex">
+                        <div class="vehicle-picture medium-auto">
+                            <div class="is-relative">
+                                <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
+                                <div class="vehicle-count-pics">
+                                    <span class="icon-pics">{{ vehicle.pictures|length }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="vehicle-infos">
+                            <h3 class="vehicle-name h3">{{ vehicle.name }}</h3>
+                            <p class="vehicle-model">{{ vehicle.modelName }}</p>
+                            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span>
+                            <div class="vehicle-bottom block-grid full-width align-middle">
+                                <span class="small-6 vehicle-city black-color no-margin">{{ vehicle.cityName }}</span>
+                                {% if app.user.isPro %}<strong class="small-6 primary-color">{{ vehicle.price|localizednumber }} €</strong>{% endif %}
+                            </div>
+                            <div class="vehicle-infos-arrow icon-arrow-right-2"></div>
+                        </div>
+                    </a>
+                </li>
+                {% else %}
+                    <div class="vehicle-messages-list-empty text-center">
+                        {% include 'front/Layout/includes/svg/red_car.html.twig' %}
+                        <strong class="is-block">Vous n’avez pas encore de véhicule dans votre garage.</strong>
+                        <p>Afin de pouvoir proposer un véhicule à un particulier, vous devez d’abord ajouter un véhicule à la vente.</p>
+                        <div class="block-grid">
+                            <button class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button" type="button">Créer un véhicule</button>
+                        </div>
                     </div>
-                </div>
-            {% else %}
-                <ul class="block-grid vehicle-messages-list no-bullet">
-                    {% for item in range(1, 5) %}
-                    <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
-                        <a href="/app_dev.php/vehicule/particulier/detail/42d5c6df-968b-4326-a4d9-241c0c3fa107" class="vehicle-item is-flex">
-                            <div class="vehicle-picture medium-auto">
-                                <div class="is-relative">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Fiat_Panda_front_20071002.jpg/1200px-Fiat_Panda_front_20071002.jpg" alt="FIAT PANDA">
-                                    <div class="vehicle-count-pics">
-                                        <span class="icon-pics">1</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="vehicle-infos">
-                                <h3 class="vehicle-name h3">FIAT PANDA</h3>
-                                <p class="vehicle-model">PANDA</p>
-                                <span class="vehicle-years body-font-color">2018, 250&nbsp;680km</span>
-                                <div class="vehicle-bottom block-grid full-width align-middle">
-                                    <span class="small-6 vehicle-city black-color no-margin">Villeurbanne</span>
-                                    <strong class="small-6 primary-color">5800 €</strong>
-                                </div>
-                                <div class="vehicle-infos-arrow icon-arrow-right-2"></div>
-                            </div>
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

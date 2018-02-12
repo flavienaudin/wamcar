@@ -11,14 +11,14 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
+use AppBundle\Session\SessionMessageManager;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\ProVehicle;
 
 class ConversationController extends BaseController
 {
@@ -34,6 +34,8 @@ class ConversationController extends BaseController
     protected $vehicleRepositoryResolver;
     /** @var DoctrineMessageRepository */
     protected $messageRepository;
+    /** @var SessionMessageManager */
+    protected $sessionMessageManager;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -41,7 +43,8 @@ class ConversationController extends BaseController
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         DoctrineConversationRepository $conversationRepository,
         VehicleRepositoryResolver $vehicleRepositoryResolver,
-        DoctrineMessageRepository $messageRepository
+        DoctrineMessageRepository $messageRepository,
+        SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
@@ -50,6 +53,7 @@ class ConversationController extends BaseController
         $this->conversationRepository = $conversationRepository;
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
         $this->messageRepository = $messageRepository;
+        $this->sessionMessageManager = $sessionMessageManager;
     }
 
     /**
@@ -126,14 +130,20 @@ class ConversationController extends BaseController
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
         $messageForm->handleRequest($request);
 
-        if ($messageForm->isSubmitted() && $messageForm->isValid()) {
-            $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+        if ($messageForm->isSubmitted()) {
+            $action = $this->redirectionFromSubmitButton($request, $messageForm);
+            if ($action) {
+                return $action;
+            }
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.conversation_update'
-            );
-            return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
+            if ($messageForm->isValid()) {
+                $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.conversation_update'
+                );
+                return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
+            }
         }
 
         $conversations = $this->conversationRepository->findByUser($this->getUser());
@@ -161,5 +171,33 @@ class ConversationController extends BaseController
         }
 
         return null;
+    }
+
+    /**
+     * @param Request $request
+     * @param FormInterface $messageForm
+     * @return null|RedirectResponse
+     */
+    protected function redirectionFromSubmitButton(Request $request, FormInterface $messageForm): ?RedirectResponse
+    {
+        switch ($messageForm->getClickedButton()->getName()) {
+            case 'selectVehicle':
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
+                return $this->redirectToRoute('front_conversation_vehicle_list');
+                break;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function vehicleListAction(Request $request): Response
+    {
+        return $this->render('front/Messages/messages_vehicle_list.html.twig', [
+            'vehicles' => $this->getUser()->getVehicles()
+        ]);
     }
 }

@@ -1,22 +1,31 @@
 <!-- Message answer -->
 <div class="messages-item-answer">
-    {{ form_start(messageForm, { 'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
 
     <label id="message-answer">{{ labelName }}</label>
     {{ form_widget(messageForm.content, {
         'label': 'Message',
         'placeholder': 'Entrez votre message...',
-        'class': 'no-margin'
+        'class': 'no-margin',
+        'required': true
     }) }}
     {#{% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: messageEmpty ? false : true } %}#}
-    {% if user.vehicles|length > 0 %}
-        <a class="messages-create-vehicle-btn text-underline" href="#">Sélectionner un véhicule proposé</a>
+    {#{% if user.vehicles|length > 0 %}
+        {% set addVehiclePath = currentConversation != null ? path('front_conversation_edit_vehicle_list', {'id': currentConversation.id, 'vehicleId': null}) : path('front_conversation_create_vehicle_list', {'id': interlocutor.id, 'vehicleId': null}) %}
+        <a class="messages-create-vehicle-btn text-underline" href="{{ addVehiclePath }}">Sélectionner un véhicule proposé</a>
     {% else %}
         {% set createPath = user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') %}
         <a class="messages-create-vehicle-btn text-underline" href="{{ createPath }}">Créer un véhicule</a>
-    {% endif %}
+    {% endif %}#}
+    {{ form_widget(messageForm.selectVehicle, {
+        'label': 'Sélectionner un véhicule proposé',
+        'class': 'messages-create-vehicle-btn text-underline'
+    }) }}
     <div class="block-grid">
-        <button class="small-12 medium-10 large-6 messages-send-btn button" type="submit">Envoyer le message</button>
+        {{ form_widget(messageForm.send, {
+            'label': 'Envoyer le message',
+            'class': 'small-12 medium-10 large-6 messages-send-btn button'
+        }) }}
     </div>
     {{ form_end(messageForm) }}
 </div>

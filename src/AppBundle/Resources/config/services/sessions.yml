@@ -1,0 +1,7 @@
+services:
+
+    AppBundle\Session\SessionMessageManager\:
+        class: AppBundle\Session\SessionMessageManager
+        public: false
+        autowire: true
+        autoconfigure: false

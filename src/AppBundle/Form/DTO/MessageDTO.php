@@ -9,8 +9,7 @@ use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\ProVehicle;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class MessageDTO
 {
@@ -20,7 +19,10 @@ class MessageDTO
     public $user;
     /** @var  BaseUser */
     public $interlocutor;
-    /** @var  string */
+    /**
+     * @var  string
+     * @Assert\NotBlank()
+     */
     public $content;
     /** @var null|BaseVehicle */
     public $vehicleHeader;
