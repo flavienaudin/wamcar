@@ -27,3 +27,12 @@ notifyUserOfPasswordResetTokenGenerated:
         <p>Ce lien est valable 24 Heures. Au-delà de ce délai, vous devrez renouveler votre demande de mot de passe.</p>
         <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
         <p>L'équipe Wamcar</p>
+
+notifyOwnerOfVehicleRemoved:
+    title: "Suppression d'une annonce"
+    body: >
+        <p>Bonjour,</p>
+        <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
+        <p>Donnez votre avis sur Wamcar en remlissant notre formulaire de satisfaction.</p>
+        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+        <p>L'équipe Wamcar</p>
