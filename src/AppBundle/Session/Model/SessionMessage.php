@@ -6,7 +6,7 @@ namespace AppBundle\Session\Model;
 
 use AppBundle\Form\DTO\MessageDTO;
 
-class Message
+class SessionMessage
 {
     /** @var string */
     public $route;

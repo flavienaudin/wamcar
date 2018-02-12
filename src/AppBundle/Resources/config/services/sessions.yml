@@ -1,7 +1,7 @@
 services:
 
-    AppBundle\Session\ConversationSession\:
-        class: AppBundle\Session\ConversationSession
+    AppBundle\Session\SessionMessageManager\:
+        class: AppBundle\Session\SessionMessageManager
         public: false
         autowire: true
         autoconfigure: false

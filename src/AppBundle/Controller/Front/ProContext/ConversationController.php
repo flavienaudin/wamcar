@@ -11,7 +11,7 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
-use AppBundle\Session\ConversationSession;
+use AppBundle\Session\SessionMessageManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,8 +34,8 @@ class ConversationController extends BaseController
     protected $vehicleRepositoryResolver;
     /** @var DoctrineMessageRepository */
     protected $messageRepository;
-    /** @var ConversationSession */
-    protected $conversationSession;
+    /** @var SessionMessageManager */
+    protected $sessionMessageManager;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -44,7 +44,7 @@ class ConversationController extends BaseController
         DoctrineConversationRepository $conversationRepository,
         VehicleRepositoryResolver $vehicleRepositoryResolver,
         DoctrineMessageRepository $messageRepository,
-        ConversationSession $conversationSession
+        SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
@@ -53,7 +53,7 @@ class ConversationController extends BaseController
         $this->conversationRepository = $conversationRepository;
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
         $this->messageRepository = $messageRepository;
-        $this->conversationSession = $conversationSession;
+        $this->sessionMessageManager = $sessionMessageManager;
     }
 
     /**
@@ -182,7 +182,7 @@ class ConversationController extends BaseController
     {
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
-                $this->conversationSession->saveMessageDTOInSession($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
                 return $this->redirectToRoute('front_conversation_vehicle_list');
                 break;
         }
