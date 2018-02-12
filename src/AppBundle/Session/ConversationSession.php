@@ -6,7 +6,6 @@ namespace AppBundle\Session;
 
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Session\Model\Message;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ConversationSession
@@ -19,9 +18,9 @@ class ConversationSession
         $this->session = $session;
     }
 
-    public function saveMessageDTOInSession(Request $request, MessageDTO $messageDTO)
+    public function saveMessageDTOInSession(string $route, array $routeParams, MessageDTO $messageDTO): void
     {
-        $sessionMessage = new Message($request->get('_route'), $request->get('_route_params'), $messageDTO);
+        $sessionMessage = new Message($route, $routeParams, $messageDTO);
         $this->session->set('draft', $sessionMessage);
     }
 }

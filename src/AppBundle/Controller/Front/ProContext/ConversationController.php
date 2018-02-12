@@ -177,7 +177,7 @@ class ConversationController extends BaseController
     {
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
-                $this->conversationSession->saveMessageDTOInSession($request, $messageForm->getData());
+                $this->conversationSession->saveMessageDTOInSession($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
                 return $this->redirectToRoute('front_conversation_vehicle_list');
                 break;
         }
