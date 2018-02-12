@@ -30,7 +30,7 @@ class DoctrinePersonalUserRepository extends EntityRepository implements UserRep
         $qb = $this->createQueryBuilder('u');
         $qb
             ->addSelect('pv')
-            ->leftJoin('u.vehicles', 'pv', 'WITH', 'pv.deletedAt is NULL')
+            ->join('u.vehicles', 'pv')
             ->leftJoin('pv.pictures', 'vp')
             ->where($qb->expr()->andX(
                 $qb->expr()->gte('u.createdAt', ':select_interval_start'),
