@@ -1,7 +1,7 @@
 services:
 
-    AppBundle\Session\ConversationSession:
-        resource: '%kernel.project_dir%/src/AppBundle/Session/ConversationSession'
+    AppBundle\Session\ConversationSession\:
+        class: AppBundle\Session\ConversationSession
         public: false
         autowire: true
         autoconfigure: false
