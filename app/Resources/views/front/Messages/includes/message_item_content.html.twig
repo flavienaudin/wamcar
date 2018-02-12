@@ -39,7 +39,9 @@
             <div class="messages-item-content">
                 {{ message.content }}
             </div>
-            {#{% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false } %}#}
+            {% if message.vehicle %}
+                {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false } %}
+            {% endif %}
         </div>
     {% endfor %}
 
