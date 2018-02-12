@@ -1,0 +1,37 @@
+/* ===========================================================================
+   Content
+   =========================================================================== */
+
+.content {
+
+  th {
+    padding-right: 10px;
+    padding-left: 10px;
+
+    @media only screen and (max-width: #{$global-breakpoint}) {
+      padding-right: 5px !important;
+      padding-left: 5px !important;
+    }
+  }
+
+  .button {
+    margin-top: 35px;
+    margin-bottom: 35px;
+  }
+
+  .go-to a {
+    font-weight: bold;
+  }
+
+  table.button table td {
+    border-radius: 100px;
+
+    a {
+      padding: 20px 30px;
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+
+}

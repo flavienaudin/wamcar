@@ -1,0 +1,21 @@
+// These are the styles to make some of the templates look extra nice.
+// Feel free to remove these styles for production!
+
+// Body Styles
+body,
+html,
+.body {
+  background: #fff !important;
+}
+
+.body {
+  margin-top: 70px!important;
+
+  @media only screen and (max-width: #{$global-breakpoint}) {
+    margin-top: 10px !important;
+  }
+}
+
+table.container {
+  border: 1px solid #e6e6e6;
+}

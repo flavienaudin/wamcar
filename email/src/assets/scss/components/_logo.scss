@@ -1,0 +1,18 @@
+/* ===========================================================================
+   Logo
+   =========================================================================== */
+
+.logo {
+  padding: 25px;
+  padding-bottom: 25px !important;
+  padding-left: 40px !important;
+
+  @media only screen and (max-width: #{$global-breakpoint}) {
+    padding-bottom: 0!important;
+    
+    img {
+      display: block;
+      margin: auto;
+    }
+  }
+}
