@@ -11,6 +11,7 @@ imports:
     - { resource: services/extensions.yml }
     - { resource: services/pictures.yml }
     - { resource: services/validators.yml }
+    - { resource: services/sessions.yml }
     - { resource: search.yml }
 
 services:

@@ -208,6 +208,8 @@
     {% if class_field %}
         </div>
     {% endif %}
+    {{- form_errors(form) -}}
+    {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock textarea_widget -%}
 
 {%- block integer_widget -%}
@@ -502,6 +504,21 @@
         readonly />
 </div>
 {%- endblock _vehicle_registrationNumber_widget -%}
+
+{%- block button_widget -%}
+    {% set class = class|default('') %}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+                '%name%': name,
+                '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
+{%- endblock button_widget -%}
 
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}

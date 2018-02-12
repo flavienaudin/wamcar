@@ -151,6 +151,11 @@ front_search_personal_page:
         _controller: AppBundle:Front\ProContext\Search:personal
         page: 1
 
+front_conversation_vehicle_list:
+    path: /conversation/ajouter-vehicule/
+    defaults:
+        _controller: AppBundle:Front\ProContext\Conversation:vehicleList
+
 front_conversation_create:
     path: /conversation/new/{id}/{vehicleId}
     defaults:
