@@ -9,12 +9,12 @@
             </div>
         </figure>
     </li>
-    {% if vehicle.seller.name %}
+    {% if vehicle.sellerName %}
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            <span class="brand-logo is-logo"><img src="{{ vehicle.garage.seller.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.seller.name }}"></span>
+            <span class="brand-logo is-logo"><img src="{{ vehicle.garage.seller.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.sellerName }}"></span>
             <div>
-                <a href="{{ path('front_view_user_info', {'id': vehicle.garage.seller.id}) }}" class="primary-color h3"><b>{{ vehicle.seller.name }}</b></a> <br>
+                <a href="{{ path('front_view_user_info', {'id': vehicle.garage.seller.id}) }}" class="primary-color h3"><b>{{ vehicle.sellerName }}</b></a> <br>
                 <span class="icon-tel primary-color">
                     <a href="tel:{{ vehicle.seller.phonePro }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.phonePro }}</a>
                 </span>

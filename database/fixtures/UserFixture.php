@@ -16,13 +16,16 @@ class UserFixture extends Fixture
         $userPersonalCedric = new PersonalApplicationUser(
             'cedric.spalvieri@gmail.com',
             $this->container->get('wamcar.security.password_encoder')->encodePassword('azerty', 'The_password_is_azerty'),
-            'The_password_is_azerty'
+            'The_password_is_azerty',
+            'Cédric',
+            'Spalvieri'
         );
 
         $userProCedric = new ProApplicationUser(
             'cedric@novaway.fr',
             $this->container->get('wamcar.security.password_encoder')->encodePassword('azerty', 'The_password_is_azerty'),
-            'The_password_is_azerty'
+            'The_password_is_azerty',
+            'Cédric'
         );
         $userProCedric->generateApiCredentials();
 

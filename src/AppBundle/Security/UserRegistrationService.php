@@ -8,11 +8,11 @@ use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\UserCreated;
-use Wamcar\User\UserRepository;
-use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\UserRepository;
 
 class UserRegistrationService
 {
@@ -62,7 +62,9 @@ class UserRegistrationService
         $applicationUser = new $userClassMapping[$registrationDTO->type](
             $registrationDTO->email,
             $encodedPassword,
-            $salt
+            $salt,
+            $registrationDTO->firstName,
+            $registrationDTO->lastName
         );
         $this->userRepository->add($applicationUser);
 

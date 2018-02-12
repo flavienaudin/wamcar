@@ -27,15 +27,19 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      * @param string $password
      * @param string $salt
      * @param string $role
+     * @param string $firstName
+     * @param string|null $name
      */
     public function __construct(
         string $email,
         string $password,
         string $salt,
+        string $firstName,
+        string $name = null,
         string $role = null
     )
     {
-        parent::__construct($email);
+        parent::__construct($email, $firstName, $name);
 
         $this->password = $password;
         $this->salt = $salt;

@@ -12,7 +12,10 @@ Wamcar\User\UserProfile:
         title:
             type: usertitle
             nullable: true
-        name:
+        firstName:
+            type: string
+            nullable: false
+        lastName:
             type: string
             nullable: true
         description:

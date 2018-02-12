@@ -29,14 +29,19 @@ abstract class BaseUser
     /**
      * User constructor.
      * @param string $email
+     * @param string $firstName
+     * @param ?string|null $name
      * @param Picture|null $avatar
      */
     public function __construct(
         string $email,
+        string $firstName,
+        string $name = null,
         Picture $avatar = null
     )
     {
         $this->email = $email;
+        $this->userProfile = new UserProfile(null, $firstName, $name);
         $this->avatar = $avatar;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
@@ -53,9 +58,25 @@ abstract class BaseUser
     /**
      * @return string
      */
-    public function getName(): ?string
+    public function getFullName(): ?string
     {
-        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getName() : null);
+        return $this->getFirstName().($this->getLastName()?' '.$this->getLastName():'');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->getUserProfile()->getFirstName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): ?string
+    {
+        return $this->getUserProfile()->getLastName();
     }
 
     /**

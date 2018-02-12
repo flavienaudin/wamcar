@@ -9,8 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegistrationType extends AbstractType
 {
@@ -27,6 +29,11 @@ class RegistrationType extends AbstractType
                     'placeholder' => 'user.field.email.placeholder'
                 ],
             ])
+            ->add('firstName', TextType::class, [
+                'required' => true,
+                'constraints' => new NotBlank()
+            ])
+            ->add('lastName', TextType::class)
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'registration_data.password.repeat',

@@ -15,6 +15,10 @@ class RegistrationDTO
     public $password;
     /** @var  string */
     public $type;
+    /** @var  string */
+    public $firstName;
+    /** @var  ?string */
+    public $lastName;
 
     /**
      * RegistrationDTO constructor.

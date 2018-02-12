@@ -79,13 +79,13 @@ parameters:
           sellers:
             - stephane:
               picture: /assets/images/placeholders/user/user.png
-              name: Stéphane Richin
+              fullName: Stéphane Richin
             - elodie:
               picture: /assets/images/placeholders/user/user.png
-              name: Elodie Santini
+              fullName: Elodie Santini
             - marc:
               picture: /assets/images/placeholders/user/user.png
-              name: Marc Van Houtte
+              fullName: Marc Van Houtte
             - alexis:
               picture: /assets/images/placeholders/user/user.png
-              name: Alexis Sanchez
+              fullName: Alexis Sanchez

@@ -19,6 +19,33 @@
     }) }}
 </div>
 
+
+{# Prénom #}
+<div class="block-grid input-margin column small-12">
+    {{ form_widget(registrationForm.firstName, {
+        'label': 'Prénom',
+        'label_class': 'small-12 large-4 large-no-margin',
+        'class_field': 'small-12 large-8',
+        'placeholder': 'Entrez votre prénom',
+        'class': 'no-margin',
+        'required': true,
+        'required_message': 'Veuillez indiquer votre prénom.'
+    }) }}
+</div>
+
+
+{# Nom #}
+<div class="block-grid input-margin column small-12">
+    {{ form_widget(registrationForm.lastName, {
+        'label': 'Nom',
+        'label_class': 'small-12 large-4 large-no-margin',
+        'class_field': 'small-12 large-8',
+        'placeholder': 'Entrez votre nom',
+        'class': 'no-margin',
+        'required': false,
+    }) }}
+</div>
+
 {# Mot de passe #}
 <p class="column small-12">{{ 'user.field.password.text'|trans }}</p>
 <div class="block-grid input-margin column small-12">

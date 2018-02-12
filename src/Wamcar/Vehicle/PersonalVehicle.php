@@ -27,8 +27,8 @@ class PersonalVehicle extends BaseVehicle
      */
     public function getOwnerName(): string
     {
-        return ($this->getOwner() != null && $this->getOwner()->getName() != null) ?
-            $this->getOwner()->getName() : 'unkonwn personal';
+        return ($this->getOwner() != null && $this->getOwner()->getFullName() != null) ?
+            $this->getOwner()->getFullName() : 'unkonwn personal';
     }
 
     /**

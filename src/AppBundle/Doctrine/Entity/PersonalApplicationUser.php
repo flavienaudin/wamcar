@@ -20,16 +20,21 @@ class PersonalApplicationUser extends PersonalUser implements \Serializable, Sho
      * @param string $email
      * @param string $password
      * @param string $salt
+     * @param string $firstName
+     * @param string|null $name
      * @param Vehicle|null $firstVehicle
      */
     public function __construct(
         string $email,
         string $password,
         string $salt,
+        string $firstName,
+        string $name = null,
         Vehicle $firstVehicle = null
     )
     {
-        parent::__construct($email, $firstVehicle);
+        parent::__construct($email, $firstName, $name, $firstVehicle);
+
 
         $this->password = $password;
         $this->salt = $salt;

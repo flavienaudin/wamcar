@@ -42,8 +42,12 @@
             }) }}
         </div>
     {% endif %}
-    {{ form_widget(editUserForm.name, {
-        'label': 'Nom / Prénom',
+    {{ form_widget(editUserForm.firstName, {
+        'label': 'Prénom',
+        'required': true
+    }) }}
+    {{ form_widget(editUserForm.lastName, {
+        'label': 'Nom',
         'required': false
     }) }}
 </div>
