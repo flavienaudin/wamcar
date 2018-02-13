@@ -11,6 +11,7 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
+use AppBundle\Session\Model\SessionMessage;
 use AppBundle\Session\SessionMessageManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -115,6 +116,7 @@ class ConversationController extends BaseController
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
         $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
+        $messageDTO = $this->loadAndCleanSession($messageDTO);
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -184,12 +186,25 @@ class ConversationController extends BaseController
 
     /**
      * @param MessageDTO $messageDTO
+     * @return MessageDTO
+     */
+    protected function loadAndCleanSession(MessageDTO $messageDTO): MessageDTO
+    {
+        $sessionMessageDTO = $this->sessionMessageManager->getMessageDTO();
+        $messageDTO->content = $sessionMessageDTO ? $sessionMessageDTO->content : $messageDTO->content;
+        $this->sessionMessageManager->remove();
+
+        return $messageDTO;
+    }
+
+    /**
+     * @param MessageDTO $messageDTO
      * @return null|RedirectResponse
      */
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
         if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
-            $vehicleId = $messageDTO->vehicleHeader? $messageDTO->vehicleHeader->getId() : null;
+            $vehicleId = $messageDTO->vehicleHeader ? $messageDTO->vehicleHeader->getId() : null;
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $vehicleId]);
         }
 
@@ -228,11 +243,18 @@ class ConversationController extends BaseController
      */
     public function vehicleListAction(Request $request): Response
     {
+        /** @var SessionMessage $sessionMessage */
+        $sessionMessage = $this->sessionMessageManager->get();
+
+        //Redirection to conversation list if no session
+        if (!$sessionMessage) {
+            return $this->redirectToRoute('front_conversation_list');
+        }
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
             'vehicles' => $this->getUser()->getVehicles(),
-            'linkRoute' => $this->sessionMessageManager->getRoute(),
-            'linkRouteParams' => $this->sessionMessageManager->getRouteParams()
+            'linkRoute' => $sessionMessage->route,
+            'linkRouteParams' => $sessionMessage->routeParams
         ]);
     }
 }

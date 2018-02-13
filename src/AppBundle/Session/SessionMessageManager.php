@@ -65,4 +65,12 @@ class SessionMessageManager
         $sessionMessage = $this->get();
         return $sessionMessage ? $sessionMessage->messageDTO : null;
     }
+
+    /**
+     * Remove Draft message in session
+     */
+    public function remove(): void
+    {
+        $this->session->remove(self::DRAFT_KEY);
+    }
 }
