@@ -2,39 +2,62 @@
 
 namespace Wamcar\Vehicle;
 
+use AppBundle\Form\DTO\VehicleRegistrationDTO;
+
+/**
+ * Car registration document
+ *
+ * Class Registration
+ * @package Wamcar\Vehicle
+ */
 final class Registration
 {
-    /** @var string */
+    /** @var string|null */
     private $mineType;
-    /** @var string */
+    /** @var string|null */
     private $plateNumber;
+    /** @var string|null */
+    private $vin;
 
     /**
      * Registration constructor.
      */
-    private function __construct(string $mineType = null, string $plateNumber = null)
+    public function __construct(string $mineType = null, string $plateNumber = null, string $vin = null)
     {
         $this->mineType = $mineType;
         $this->plateNumber = $plateNumber;
+        $this->vin = $vin;
+    }
+
+    public static function createFromVehicleRegistrationDTO(VehicleRegistrationDTO $vehicleRegistrationDTO = null)
+    {
+        if ($vehicleRegistrationDTO) {
+            return new self($vehicleRegistrationDTO->getMineType(), $vehicleRegistrationDTO->getPlateNumber(), $vehicleRegistrationDTO->getVin());
+        }
+        return null;
     }
 
     /**
-     * @param string $mineType
-     * @return Registration
+     * @return string|null
      */
-    public static function createFromMineType(string $mineType): Registration
+    public function getMineType(): ?string
     {
-        return new self($mineType);
+        return $this->mineType;
     }
 
     /**
-     * @param string $plateNumber
-     * @return Registration
+     * @return string|null
      */
-    public static function createFromPlateNumber(string $plateNumber): Registration
+    public function getPlateNumber(): ?string
     {
-        return new self(null, $plateNumber);
+        return $this->plateNumber;
     }
 
-
+    /**
+     * @return string|null
+     */
+    public function getVin(): ?string
+    {
+        return $this->vin;
+    }
 }

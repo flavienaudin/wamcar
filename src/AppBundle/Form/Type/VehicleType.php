@@ -14,7 +14,7 @@ class VehicleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('registrationNumber', TextType::class, [
+            ->add('vehicleRegistration', VehicleRegistrationType::class, [
                 'required' => false,
                 'error_bubbling' => true,
             ])

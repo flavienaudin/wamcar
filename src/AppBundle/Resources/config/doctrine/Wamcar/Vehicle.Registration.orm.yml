@@ -10,3 +10,6 @@ Wamcar\Vehicle\Registration:
         plateNumber:
             type: string
             nullable: true
+        vin:
+            type: string
+            nullable: true

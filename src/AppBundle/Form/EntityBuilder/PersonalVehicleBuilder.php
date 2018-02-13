@@ -19,7 +19,7 @@ class PersonalVehicleBuilder
         $vehicle = new PersonalVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),
-            $vehicleDTO->registrationNumber ? Registration::createFromPlateNumber($vehicleDTO->registrationNumber) : null,
+            Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()),
             $vehicleDTO->getRegistrationDate(),
             $vehicleDTO->getMileage(),
             [],

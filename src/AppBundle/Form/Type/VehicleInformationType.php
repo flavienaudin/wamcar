@@ -35,11 +35,6 @@ class VehicleInformationType extends AbstractType
 
         if (!$options['small_version']) {
             $builder
-                ->add('modelVersion', ChoiceType::class, [
-                    'choices' => $availableValues['modelVersion'] ?? [],
-                    'placeholder' => count($availableValues['modelVersion'] ?? []) === 1 ? false : '',
-                    'error_bubbling' => true,
-                ])
                 ->add('engine', ChoiceType::class, [
                     'choices' => $availableValues['engine'] ?? [],
                     'placeholder' => count($availableValues['engine'] ?? []) === 1 ? false : '',
@@ -61,7 +56,7 @@ class VehicleInformationType extends AbstractType
             $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
                 $form = $event->getForm();
 
-                foreach (['make', 'model', 'modelVersion', 'engine', 'fuel'] as $field) {
+                foreach (['make', 'model', 'engine', 'fuel'] as $field) {
                     if ($form->has($field)) {
                         $form->remove($field);
                         $form->add($field, TextType::class);

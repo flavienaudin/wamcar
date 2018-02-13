@@ -16,7 +16,7 @@ class IndexableProVehicle implements Indexable
     private $make;
     /** @var string */
     private $model;
-    /** @var string */
+    /** @var string|null */
     private $modelVersion;
     /** @var string */
     private $engine;
@@ -79,7 +79,7 @@ class IndexableProVehicle implements Indexable
                                 string $detailUrl,
                                 string $make,
                                 string $model,
-                                string $modelVersion,
+                                string $modelVersion = null,
                                 string $engine,
                                 string $transmission,
                                 string $fuel,

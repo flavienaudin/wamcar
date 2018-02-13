@@ -51,17 +51,12 @@ if ($information != null) {
       switch (selectDataType) {
       case 'make':
         filterRemove('model', null);
-        filterRemove('modelVersion', null);
         filterRemove('engine', null);
         filterRemove('fuel', null);
       case 'model': // This fallthrough is on purpose since "make" selection should also clean "model" sub fields
-        filterRemove('modelVersion', null);
         filterRemove('engine', null);
         filterRemove('fuel', null);
       case 'engine': // This fallthrough is on purpose since "model" selection should also clean "engine" sub fields
-        filterRemove('modelVersion', null);
-        filterRemove('fuel', null);
-      case 'modelVersion': // This fallthrough is on purpose since "engine" selection should also clean "modelVersion" sub fields
         filterRemove('fuel', null);
       }
 

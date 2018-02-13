@@ -79,12 +79,14 @@ class RegistrationController extends BaseController
 
         $plateNumber = $plateNumber ?? $request->get('plate_number', null);
         $date1erCir = null;
+        $vin = null;
         if ($plateNumber) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
                 $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
+                $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
             } catch (AutodataException $autodataException) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -95,7 +97,7 @@ class RegistrationController extends BaseController
             }
         }
 
-        return $this->vehicleRegistrationFromInformation($request, $filters, $plateNumber, $date1erCir);
+        return $this->vehicleRegistrationFromInformation($request, $filters, $plateNumber, $date1erCir, $vin);
     }
 
     /**
@@ -103,6 +105,7 @@ class RegistrationController extends BaseController
      * @param array $filters
      * @param string|null $plateNumber
      * @param string|null $date1erCir
+     * @param string|null $vin
      * @return Response
      * @throws \Exception
      */
@@ -110,9 +113,10 @@ class RegistrationController extends BaseController
         Request $request,
         array $filters = [],
         string $plateNumber = null,
-        string $date1erCir = null): Response
+        string $date1erCir = null,
+        string $vin = null): Response
     {
-        $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber, $date1erCir);
+        $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber, $date1erCir, $vin);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = array_key_exists('ktypNumber', $filters) ?

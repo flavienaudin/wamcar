@@ -14,9 +14,9 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
      * ProVehicleDTO constructor.
      * @param string|null $registrationNumber
      */
-    public function __construct(string $registrationNumber = null, string $date1erCir = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null, string $vin = null)
     {
-        parent::__construct($registrationNumber, $date1erCir);
+        parent::__construct($registrationNumber, $date1erCir, $vin);
         $this->offer = new VehicleOfferDTO();
     }
 
@@ -27,6 +27,13 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     public static function buildFromProVehicle(ProVehicle $vehicle): self
     {
         $dto = new self();
+
+        $dto->vehicleRegistration = VehicleRegistrationDTO::buildFromVehicleRegistrationData(
+            $vehicle->getRegistrationMineType(),
+            $vehicle->getRegistrationPlateNumber(),
+            $vehicle->getRegistrationVin()
+        );
+
         $dto->information = VehicleInformationDTO::buildFromInformation(
             $vehicle->getMake(),
             $vehicle->getModelName(),
@@ -108,6 +115,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     {
         return $this->offer->guarantee;
     }
+
     /**
      * @return string
      */
@@ -123,6 +131,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     {
         return $this->offer->funding;
     }
+
     /**
      * @return string
      */

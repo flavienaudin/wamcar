@@ -6,6 +6,7 @@ Wamcar\Vehicle\ModelVersion:
     fields:
         name:
             type: string
+            nullable: true
 
     embedded:
         engine:
