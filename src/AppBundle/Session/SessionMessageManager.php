@@ -20,10 +20,21 @@ class SessionMessageManager
         $this->session = $session;
     }
 
+    /**
+     * @param string $route
+     * @param array $routeParams
+     * @param MessageDTO $messageDTO
+     */
     public function set(string $route, array $routeParams, MessageDTO $messageDTO): void
     {
         $sessionMessage = new SessionMessage($route, $routeParams, $messageDTO);
         $this->session->set(self::DRAFT_KEY, $sessionMessage);
+    }
+
+
+    public function get(): ?SessionMessage
+    {
+        return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY) : null;
     }
 
     /**
@@ -31,7 +42,7 @@ class SessionMessageManager
      */
     public function getRoute(): ?string
     {
-        return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY)->route : null;
+        return $this->get() ? $this->get()->route : null;
     }
 
     /**
@@ -39,7 +50,7 @@ class SessionMessageManager
      */
     public function getRouteParams(): ?array
     {
-        return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY)->routeParams : null;
+        return $this->get() ? $this->get()->routeParams : null;
     }
 
     /**
@@ -47,6 +58,6 @@ class SessionMessageManager
      */
     public function getMessageDTO(): ?MessageDTO
     {
-        return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY)->messageDTO : null;
+        return $this->get() ? $this->get()->messageDTO : null;
     }
 }
