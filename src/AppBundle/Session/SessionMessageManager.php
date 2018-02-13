@@ -69,7 +69,7 @@ class SessionMessageManager
     /**
      * Remove Draft message in session
      */
-    public function remove(): void
+    public function clear(): void
     {
         $this->session->remove(self::DRAFT_KEY);
     }

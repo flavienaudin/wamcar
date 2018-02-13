@@ -192,7 +192,7 @@ class ConversationController extends BaseController
     {
         $sessionMessageDTO = $this->sessionMessageManager->getMessageDTO();
         $messageDTO->content = $sessionMessageDTO ? $sessionMessageDTO->content : $messageDTO->content;
-        $this->sessionMessageManager->remove();
+        $this->sessionMessageManager->clear();
 
         return $messageDTO;
     }
