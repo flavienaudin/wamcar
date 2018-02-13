@@ -21,7 +21,7 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle = new ProVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),
-            Registration::createFromVehicleRegistrationDTO($vehicleDTO->getRegistration()),
+            Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()),
             $vehicleDTO->getRegistrationDate(),
             $vehicleDTO->getMileage(),
             [],
@@ -65,7 +65,7 @@ class ProVehicleBuilder implements VehicleBuilder
     public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
-        $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getRegistration()));
+        $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()));
         $vehicle->setTransmission($vehicleDTO->getTransmission());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
         $vehicle->setMileage($vehicleDTO->getMileage());

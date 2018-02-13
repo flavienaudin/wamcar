@@ -31,6 +31,9 @@ class VehicleDTO
 
     /**
      * VehicleDTO constructor.
+     * @param string|null $registrationNumber
+     * @param string|null $date1erCir
+     * @param null $vin
      */
     public function __construct(string $registrationNumber = null, string $date1erCir = null, $vin = null)
     {

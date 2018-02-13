@@ -151,9 +151,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getModelVersionName(): string
+    public function getModelVersionName(): ?string
     {
         return $this->modelVersion->getName();
     }

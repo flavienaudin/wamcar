@@ -4,7 +4,7 @@ namespace Wamcar\Vehicle;
 
 final class ModelVersion
 {
-    /** @var string */
+    /** @var string|null */
     private $name;
     /** @var Model */
     private $model;
@@ -13,11 +13,11 @@ final class ModelVersion
 
     /**
      * ModelVersion constructor.
-     * @param string $name
+     * @param string|null $name
      * @param Model $model
      * @param Engine $engine
      */
-    public function __construct(string $name, Model $model, Engine $engine)
+    public function __construct(string $name = null, Model $model, Engine $engine)
     {
         $this->name = $name;
         $this->model = $model;
@@ -30,11 +30,27 @@ final class ModelVersion
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
-        return $this->name;
+        $computedName = '';
+
+        if ($this->model) {
+            if ($this->model->getMake()) {
+                $computedName = $this->model->getMake()->getName();
+            }
+            $computedName .= ' ' . $this->model->getName() . ' ';
+        }
+
+        if ($this->engine) {
+            $computedName .= $this->engine->getName();
+            if ($this->engine->getFuel()) {
+                $computedName .= ' (' . $this->engine->getFuel()->getName() . ')';
+            }
+        }
+
+        return $computedName;
     }
 
     /**

@@ -56,11 +56,10 @@ class VehicleInfoAggregator
 
         $aggregationMapping = [
             'make' => ['model'],
-            'model' => ['modelVersion', 'engine', 'fuel'],
-            'modelVersion' => ['engine', 'fuel'],
-            'engine' => ['fuel', 'modelVersion'],
-            'fuel' => ['modelVersion', 'engine'],
-            'ktypNumber' => ['make', 'model', 'modelVersion', 'engine', 'fuel'],
+            'model' => ['engine', 'fuel'],
+            'engine' => ['fuel'],
+            'fuel' => ['engine'],
+            'ktypNumber' => ['make', 'model', 'engine', 'fuel'],
         ];
 
         $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));

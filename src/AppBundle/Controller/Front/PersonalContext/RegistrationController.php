@@ -105,6 +105,7 @@ class RegistrationController extends BaseController
      * @param array $filters
      * @param string|null $plateNumber
      * @param string|null $date1erCir
+     * @param string|null $vin
      * @return Response
      * @throws \Exception
      */
