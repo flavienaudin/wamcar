@@ -6,19 +6,24 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalVehicleType;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
+use AppBundle\Session\SessionMessageManager;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Wamcar\User\PersonalUser;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 
 class PersonalVehicleController extends BaseController
 {
+    use VehicleTrait;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var VehicleInfoAggregator */
@@ -27,6 +32,8 @@ class PersonalVehicleController extends BaseController
     private $personalVehicleEditionService;
     /** @var ApiConnector */
     protected $autoDataConnector;
+    /** @var SessionMessageManager */
+    protected $sessionMessageManager;
 
 
     /**
@@ -35,18 +42,21 @@ class PersonalVehicleController extends BaseController
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ApiConnector $autoDataConnector
+     * @param SessionMessageManager $sessionMessageManager
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoAggregator $vehicleInfoAggregator,
         PersonalVehicleEditionService $personalVehicleEditionService,
-        ApiConnector $autoDataConnector
+        ApiConnector $autoDataConnector,
+        SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
+        $this->sessionMessageManager = $sessionMessageManager;
     }
 
     /**
@@ -56,6 +66,7 @@ class PersonalVehicleController extends BaseController
      * @Security("has_role('ROLE_USER')")
      * @return Response
      * @throws \AutoData\Exception\AutodataException
+     * @throws \Exception
      */
     public function saveAction(
         Request $request,
@@ -117,7 +128,8 @@ class PersonalVehicleController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 $flashMessage
             );
-            return $this->redirectToRoute('front_vehicle_personal_detail', ['id' => $vehicle->getId()]);
+
+            return $this->redirSave($vehicle, 'front_vehicle_personal_detail');
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [

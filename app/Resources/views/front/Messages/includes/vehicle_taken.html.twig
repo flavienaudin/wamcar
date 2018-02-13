@@ -2,7 +2,8 @@
     {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
     {% set path = path('front_vehicle_pro_detail', {'id': vehicle.id}) %}
 {% else %}
-    {% set label = messageEmpty == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>' %}
+    {#{% set label = messageEmpty == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>' %}#}
+    {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
     {% set path = path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
 {% endif %}
 

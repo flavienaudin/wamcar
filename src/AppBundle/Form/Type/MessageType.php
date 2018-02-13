@@ -13,23 +13,30 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\User\BaseUser;
 
 class MessageType extends AbstractType
 {
-
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var BaseUser $user */
+        $user = $options['user'];
 
         $builder
             ->add('content', TextareaType::class, [
                 'required' => false
             ])
-            ->add('selectVehicle', SubmitType::class)
             ->add('send', SubmitType::class)
             ;
+
+        if (count($user->getVehicles()) > 0) {
+            $builder->add('selectVehicle', SubmitType::class);
+        } else {
+            $builder->add('createVehicle', SubmitType::class);
+        }
 
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
@@ -56,7 +63,8 @@ class MessageType extends AbstractType
         $resolver->setDefaults([
             'data_class' => MessageDTO::class,
             'translation_domain' => 'message',
-            'label_format' => 'message.field.%name%.label'
+            'label_format' => 'message.field.%name%.label',
+            'user' => null
         ]);
     }
 }

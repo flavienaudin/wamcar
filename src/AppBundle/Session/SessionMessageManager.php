@@ -31,7 +31,9 @@ class SessionMessageManager
         $this->session->set(self::DRAFT_KEY, $sessionMessage);
     }
 
-
+    /**
+     * @return SessionMessage|null
+     */
     public function get(): ?SessionMessage
     {
         return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY) : null;
@@ -62,5 +64,13 @@ class SessionMessageManager
     {
         $sessionMessage = $this->get();
         return $sessionMessage ? $sessionMessage->messageDTO : null;
+    }
+
+    /**
+     * Remove Draft message in session
+     */
+    public function clear(): void
+    {
+        $this->session->remove(self::DRAFT_KEY);
     }
 }

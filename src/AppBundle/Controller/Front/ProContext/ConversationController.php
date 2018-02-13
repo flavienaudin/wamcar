@@ -11,6 +11,7 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
+use AppBundle\Session\Model\SessionMessage;
 use AppBundle\Session\SessionMessageManager;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -115,6 +116,7 @@ class ConversationController extends BaseController
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
         $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
+        $messageDTO = $this->loadAndCleanSession($messageDTO);
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -123,7 +125,7 @@ class ConversationController extends BaseController
             }
         }
 
-        $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
+        $messageForm = $this->formFactory->create(MessageType::class, $messageDTO, ['user' => $this->getUser()]);
         $messageForm->handleRequest($request);
 
         if ($messageForm->isSubmitted()) {
@@ -174,10 +176,23 @@ class ConversationController extends BaseController
         if ($request->query->has('v')) {
             /** @var BaseVehicle $vehicle */
             $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
-            if ($vehicle->canEditMe($this->getUser())) {
+            if ($vehicle && $vehicle->canEditMe($this->getUser())) {
                 $messageDTO->vehicle = $vehicle;
             }
         }
+
+        return $messageDTO;
+    }
+
+    /**
+     * @param MessageDTO $messageDTO
+     * @return MessageDTO
+     */
+    protected function loadAndCleanSession(MessageDTO $messageDTO): MessageDTO
+    {
+        $sessionMessageDTO = $this->sessionMessageManager->getMessageDTO();
+        $messageDTO->content = $sessionMessageDTO ? $sessionMessageDTO->content : $messageDTO->content;
+        $this->sessionMessageManager->clear();
 
         return $messageDTO;
     }
@@ -189,7 +204,7 @@ class ConversationController extends BaseController
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {
         if ($conversation = $this->conversationRepository->findByUserAndInterlocutor($this->getUser(), $messageDTO->interlocutor)) {
-            $vehicleId = $messageDTO->vehicleHeader? $messageDTO->vehicleHeader->getId() : null;
+            $vehicleId = $messageDTO->vehicleHeader ? $messageDTO->vehicleHeader->getId() : null;
             return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId(), 'vehicleId' => $vehicleId]);
         }
 
@@ -205,12 +220,17 @@ class ConversationController extends BaseController
     {
         /** @var MessageDTO $messageDTO */
         $messageDTO = $messageForm->getData();
-        $messageDTO->vehicle = null;
 
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
+                $messageDTO->vehicle = null;
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute('front_conversation_vehicle_list');
+                break;
+            case 'createVehicle':
+                $messageDTO->vehicle = null;
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
+                return $this->redirectToRoute($this->getUser()->isPro() ? 'front_vehicle_pro_add' : 'front_vehicle_personal_add');
                 break;
         }
 
@@ -223,11 +243,18 @@ class ConversationController extends BaseController
      */
     public function vehicleListAction(Request $request): Response
     {
+        /** @var SessionMessage $sessionMessage */
+        $sessionMessage = $this->sessionMessageManager->get();
+
+        //Redirection to conversation list if no session
+        if (!$sessionMessage) {
+            return $this->redirectToRoute('front_conversation_list');
+        }
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
             'vehicles' => $this->getUser()->getVehicles(),
-            'linkRoute' => $this->sessionMessageManager->getRoute(),
-            'linkRouteParams' => $this->sessionMessageManager->getRouteParams()
+            'linkRoute' => $sessionMessage->route,
+            'linkRouteParams' => $sessionMessage->routeParams
         ]);
     }
 }
