@@ -593,5 +593,19 @@ abstract class BaseVehicle implements Vehicle
         return $seller->getAvatar();
     }
 
+    /**
+     * @return bool
+     */
+    public function isPro(): bool
+    {
+        return $this instanceof ProVehicle;
+    }
 
+    /**
+     * @return bool
+     */
+    public function isPersonal(): bool
+    {
+        return $this instanceof PersonalVehicle;
+    }
 }

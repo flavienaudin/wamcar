@@ -507,8 +507,9 @@
 
 {%- block _message_vehicle_widget -%}
     {% if value is defined %}
-        {% set vehicle = value %}
-        {{ form_widget(form) }}
+        {% set vehicle = form.vars.data %}
+        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: vehicle, removeButton: true } %}
+        {{ form_widget(form, {'class': 'is-hidden'}) }}
     {% endif %}
 {%- endblock _message_vehicle_widget -%}
 
