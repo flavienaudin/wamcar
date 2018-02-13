@@ -123,7 +123,7 @@ class ConversationController extends BaseController
             }
         }
 
-        $messageForm = $this->formFactory->create(MessageType::class, $messageDTO);
+        $messageForm = $this->formFactory->create(MessageType::class, $messageDTO, ['user' => $this->getUser()]);
         $messageForm->handleRequest($request);
 
         if ($messageForm->isSubmitted()) {
@@ -205,12 +205,17 @@ class ConversationController extends BaseController
     {
         /** @var MessageDTO $messageDTO */
         $messageDTO = $messageForm->getData();
-        $messageDTO->vehicle = null;
 
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
+                $messageDTO->vehicle = null;
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute('front_conversation_vehicle_list');
+                break;
+            case 'createVehicle':
+                $messageDTO->vehicle = null;
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
+                return $this->redirectToRoute($this->getUser()->isPro() ? 'front_vehicle_pro_add' : 'front_vehicle_personal_add');
                 break;
         }
 

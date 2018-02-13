@@ -31,7 +31,9 @@ class SessionMessageManager
         $this->session->set(self::DRAFT_KEY, $sessionMessage);
     }
 
-
+    /**
+     * @return SessionMessage|null
+     */
     public function get(): ?SessionMessage
     {
         return $this->session->has(self::DRAFT_KEY) ? $this->session->get(self::DRAFT_KEY) : null;

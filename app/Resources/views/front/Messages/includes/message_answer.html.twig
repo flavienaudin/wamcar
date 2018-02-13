@@ -20,10 +20,18 @@
     {% if messageForm.vehicle is defined %}
         {{ form_widget(messageForm.vehicle) }}
     {% endif %}
-    {{ form_widget(messageForm.selectVehicle, {
-        'label': 'Sélectionner un véhicule proposé',
-        'class': 'messages-create-vehicle-btn text-underline'
-    }) }}
+    {% if messageForm.selectVehicle is defined %}
+        {{ form_widget(messageForm.selectVehicle, {
+            'label': 'Sélectionner un véhicule proposé',
+            'class': 'messages-create-vehicle-btn text-underline'
+        }) }}
+    {% endif %}
+    {% if messageForm.createVehicle is defined %}
+        {{ form_widget(messageForm.createVehicle, {
+            'label': 'Créer un véhicule',
+            'class': 'messages-create-vehicle-btn text-underline'
+        }) }}
+    {% endif %}
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
             'label': 'Envoyer le message',
