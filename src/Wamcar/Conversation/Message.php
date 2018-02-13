@@ -20,10 +20,12 @@ class Message
     protected $user;
     /** @var string */
     protected $content;
+    //Vehicle Header = vehicle message referer
     /** @var null|ProVehicle */
     protected $proVehicleHeader;
     /** @var null|PersonalVehicle */
     protected $personalVehicleHeader;
+    //Vehicle = vehicle added in message manually
     /** @var null|ProVehicle */
     protected $proVehicle;
     /** @var null|PersonalVehicle */

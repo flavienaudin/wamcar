@@ -18,9 +18,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\ProVehicle;
 
 class MessageType extends AbstractType
 {
@@ -45,17 +42,9 @@ class MessageType extends AbstractType
             $messageDTO = $event->getData();
             $form = $event->getForm();
 
-            if ($messageDTO->vehicle instanceof ProVehicle) {
+            if ($messageDTO->vehicle) {
                 $form->add('vehicle', EntityType::class, [
-                    'class' => ProVehicle::class,
-                    'label' => false,
-                    'required' => false,
-                    'choice_label' => 'name'
-                ]);
-            }
-            elseif ($messageDTO->vehicle instanceof PersonalVehicle) {
-                $form->add('vehicle', EntityType::class, [
-                    'class' => PersonalVehicle::class,
+                    'class' => get_class($messageDTO->vehicle),
                     'label' => false,
                     'required' => false,
                     'choice_label' => 'name'

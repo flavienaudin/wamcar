@@ -114,19 +114,7 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        if ($vehicleId) {
-            /** @var BaseVehicle $vehicleHeader */
-            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->vehicleHeader =$vehicleHeader;
-        }
-
-        if ($request->query->has('v')) {
-            /** @var BaseVehicle $vehicle */
-            $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
-            if ($vehicle->canEditMe($this->getUser())) {
-                $messageDTO->vehicle = $vehicle;
-            }
-        }
+        $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -165,6 +153,33 @@ class ConversationController extends BaseController
             'currentConversation' => $conversation,
             'messages' => $messages
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param MessageDTO $messageDTO
+     * @param string $vehicleId
+     * @return MessageDTO
+     */
+    protected function assignVehicleParams(Request $request, MessageDTO $messageDTO, ?string $vehicleId = null): MessageDTO
+    {
+        // If vehicle referer
+        if ($vehicleId) {
+            /** @var BaseVehicle $vehicleHeader */
+            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
+            $messageDTO->vehicleHeader =$vehicleHeader;
+        }
+
+        //If Vehicle added
+        if ($request->query->has('v')) {
+            /** @var BaseVehicle $vehicle */
+            $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
+            if ($vehicle->canEditMe($this->getUser())) {
+                $messageDTO->vehicle = $vehicle;
+            }
+        }
+
+        return $messageDTO;
     }
 
     /**
