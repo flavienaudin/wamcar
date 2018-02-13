@@ -203,9 +203,13 @@ class ConversationController extends BaseController
      */
     protected function redirectionFromSubmitButton(Request $request, FormInterface $messageForm): ?RedirectResponse
     {
+        /** @var MessageDTO $messageDTO */
+        $messageDTO = $messageForm->getData();
+        $messageDTO->vehicle = null;
+
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
-                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute('front_conversation_vehicle_list');
                 break;
         }
