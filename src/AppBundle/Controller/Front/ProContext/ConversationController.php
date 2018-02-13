@@ -174,7 +174,7 @@ class ConversationController extends BaseController
         if ($request->query->has('v')) {
             /** @var BaseVehicle $vehicle */
             $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
-            if ($vehicle->canEditMe($this->getUser())) {
+            if ($vehicle && $vehicle->canEditMe($this->getUser())) {
                 $messageDTO->vehicle = $vehicle;
             }
         }

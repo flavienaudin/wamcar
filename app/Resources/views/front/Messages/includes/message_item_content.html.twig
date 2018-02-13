@@ -4,7 +4,7 @@
 <div class="messages-header block-grid hide-for-medium">
     <a href="{{ path('front_conversation_list') }}" class="messages-back-btn icon-full-arrow"></a>
     <div class="">
-        <h1 class="primary-color no-margin">{{ interlocutor.name }}</h1>
+        <h1 class="primary-color no-margin">{{ interlocutor.fullName }}</h1>
         <div class="messages-small-text">
             {% if interlocutor.isPro and interlocutor.garage %}
                 {{ interlocutor.garage.name }}
@@ -20,11 +20,11 @@
         {% endif %}
 
         <div class="messages-item block-grid no-bullet no-margin">
-            <img class="messages-user-img messages-item-user-img" src="{{ message.user.avatar|avatar('user_thumbnail') }}" alt="{{ message.user.name }}">
+            <img class="messages-user-img messages-item-user-img" src="{{ message.user.avatar|avatar('user_thumbnail') }}" alt="{{ message.user.fullName }}">
             <div class="messages-main">
                 <div class="is-flex">
                     <strong class="messages-sender-name messages-item-sender-name">
-                        {{ message.user.name }}
+                        {{ message.user.fullName }}
                     </strong>
                     <div class="messages-time messages-small-text">
                         {{ message.publishedAt|localizeddate(format = "dd/MM 'à' HH'h'mm") }}
@@ -45,4 +45,4 @@
         </div>
     {% endfor %}
 
-    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.name } %}
+    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.fullName } %}

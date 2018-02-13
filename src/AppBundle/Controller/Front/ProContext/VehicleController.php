@@ -23,6 +23,8 @@ use Wamcar\Vehicle\ProVehicle;
 
 class VehicleController extends BaseController
 {
+    use VehicleTrait;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var VehicleInfoAggregator */
@@ -116,27 +118,13 @@ class VehicleController extends BaseController
             }
 
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $flashMessage);
-            return $this->redirSave($vehicle);
+            return $this->redirSave($vehicle, 'front_vehicle_pro_detail');
         }
 
         return $this->render('front/Vehicle/Add/add.html.twig', [
             'proVehicleForm' => $proVehicleForm->createView(),
             'vehicle' => $vehicle
         ]);
-    }
-
-    /**
-     * @param BaseVehicle $vehicle
-     * @return RedirectResponse
-     */
-    protected function redirSave(BaseVehicle $vehicle): RedirectResponse
-    {
-        $sessionMessage = $this->sessionMessageManager->get();
-        if ($sessionMessage) {
-            return $this->redirectToRoute($sessionMessage->route, array_merge($sessionMessage->routeParams, ['v' => $vehicle->getId()]));
-        }
-
-        return $this->redirectToRoute('front_vehicle_pro_detail', ['id' => $vehicle->getId()]);
     }
 
     /**

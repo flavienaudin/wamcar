@@ -55,12 +55,12 @@
                     <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} {% if conversation == currentConversation %}is-current{% endif %}">
                         <a href="{{ path('front_conversation_edit', {'id': conversation.id}) }}" class="block-grid">
                         <span class="small-3 large-2">
-                                <img class="messages-user-img messages-list-user-img" src="{{ interlocutorList.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutorList.name }}">
+                                <img class="messages-user-img messages-list-user-img" src="{{ interlocutorList.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutorList.fullName }}">
                             </span>
                             <div class="small-9 large-10 messages-main messages-list-item-main">
                                 <div class="is-flex">
                                     <strong class="messages-sender-name">
-                                        {{ interlocutorList.name }}
+                                        {{ interlocutorList.fullName }}
                                     </strong>
                                     <div class="messages-time">
                                         {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}

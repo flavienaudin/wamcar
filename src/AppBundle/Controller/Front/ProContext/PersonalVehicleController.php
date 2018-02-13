@@ -22,6 +22,8 @@ use Wamcar\Vehicle\PersonalVehicle;
 
 class PersonalVehicleController extends BaseController
 {
+    use VehicleTrait;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var VehicleInfoAggregator */
@@ -127,27 +129,13 @@ class PersonalVehicleController extends BaseController
                 $flashMessage
             );
 
-            return $this->redirSave($vehicle);
+            return $this->redirSave($vehicle, 'front_vehicle_personal_detail');
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [
             'personalVehicleForm' => $personalVehicleForm->createView(),
             'vehicle' => $vehicle
         ]);
-    }
-
-    /**
-     * @param BaseVehicle $vehicle
-     * @return RedirectResponse
-     */
-    protected function redirSave(BaseVehicle $vehicle): RedirectResponse
-    {
-        $sessionMessage = $this->sessionMessageManager->get();
-        if ($sessionMessage) {
-            return $this->redirectToRoute($sessionMessage->route, array_merge($sessionMessage->routeParams, ['v' => $vehicle->getId()]));
-        }
-
-        return $this->redirectToRoute('front_vehicle_personal_detail', ['id' => $vehicle->getId()]);
     }
 
     /**
