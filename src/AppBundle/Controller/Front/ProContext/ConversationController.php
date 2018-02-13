@@ -114,11 +114,7 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        if ($vehicleId) {
-            /** @var BaseVehicle $vehicleHeader */
-            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->vehicleHeader =$vehicleHeader;
-        }
+        $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -160,6 +156,33 @@ class ConversationController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param MessageDTO $messageDTO
+     * @param string $vehicleId
+     * @return MessageDTO
+     */
+    protected function assignVehicleParams(Request $request, MessageDTO $messageDTO, ?string $vehicleId = null): MessageDTO
+    {
+        // If vehicle referer
+        if ($vehicleId) {
+            /** @var BaseVehicle $vehicleHeader */
+            $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
+            $messageDTO->vehicleHeader =$vehicleHeader;
+        }
+
+        //If Vehicle added
+        if ($request->query->has('v')) {
+            /** @var BaseVehicle $vehicle */
+            $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
+            if ($vehicle->canEditMe($this->getUser())) {
+                $messageDTO->vehicle = $vehicle;
+            }
+        }
+
+        return $messageDTO;
+    }
+
+    /**
      * @param MessageDTO $messageDTO
      * @return null|RedirectResponse
      */
@@ -180,9 +203,13 @@ class ConversationController extends BaseController
      */
     protected function redirectionFromSubmitButton(Request $request, FormInterface $messageForm): ?RedirectResponse
     {
+        /** @var MessageDTO $messageDTO */
+        $messageDTO = $messageForm->getData();
+        $messageDTO->vehicle = null;
+
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
-                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageForm->getData());
+                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute('front_conversation_vehicle_list');
                 break;
         }
@@ -196,8 +223,11 @@ class ConversationController extends BaseController
      */
     public function vehicleListAction(Request $request): Response
     {
+
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'vehicles' => $this->getUser()->getVehicles()
+            'vehicles' => $this->getUser()->getVehicles(),
+            'linkRoute' => $this->sessionMessageManager->getRoute(),
+            'linkRouteParams' => $this->sessionMessageManager->getRouteParams()
         ]);
     }
 }

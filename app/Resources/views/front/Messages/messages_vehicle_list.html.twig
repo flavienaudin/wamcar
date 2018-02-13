@@ -9,7 +9,7 @@
     <div class="messages-header">
         <div class="row">
             <div class="small-12 messages-header-title messages-align-items block-grid">
-                <button type="button" class="messages-back-btn icon-close"></button>
+                <a href="{{ path(linkRoute, linkRouteParams) }}" class="messages-back-btn icon-close"></a>
                 <h1 class="primary-color no-margin">Véhicules</h1>
                 <a class="text-underline">
                     Créer un véhicule
@@ -23,7 +23,7 @@
             <ul class="block-grid vehicle-messages-list no-bullet">
                 {% for vehicle in vehicles %}
                 <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
-                    <a href="" class="vehicle-item is-flex">
+                    <a href="{{ path(linkRoute, linkRouteParams|merge({'v': vehicle.id})) }}" class="vehicle-item is-flex">
                         <div class="vehicle-picture medium-auto">
                             <div class="is-relative">
                                 <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">

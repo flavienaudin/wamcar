@@ -25,6 +25,7 @@ import './components/banner';
 import './components/carousel';
 import './components/datepicker';
 import './components/city';
+import './components/conversation';
 import './components/vehicle';
 import './components/project';
 import scrollTo from './components/scrollTo';
