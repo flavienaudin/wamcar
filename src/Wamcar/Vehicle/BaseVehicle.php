@@ -24,10 +24,7 @@ abstract class BaseVehicle implements Vehicle
     protected $modelVersion;
     /** @var Transmission */
     protected $transmission;
-    /**
-     * TODO non utilisé : à supprimer ?
-     * @var Registration|null
-     */
+    /** @var Registration|null */
     protected $registration;
     /** @var \DateTimeInterface */
     protected $registrationDate;
@@ -186,11 +183,36 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return null|Registration
+     * @return null|string
      */
-    public function getRegistration(): ?Registration
+    public function getRegistrationMineType(): ?string
     {
-        return $this->registration;
+        if($this->registration){
+            return $this->registration->getMineType();
+        }
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRegistrationPlateNumber(): ?string
+    {
+        if($this->registration){
+            return $this->registration->getPlateNumber();
+        }
+        return null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getRegistrationVin(): ?string
+    {
+        if($this->registration){
+            return $this->registration->getVin();
+        }
+        return null;
     }
 
     /**

@@ -13,13 +13,13 @@
             <label for="immat">Immatriculation <span>Facultatif</span></label>
             <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
         </div>
-        {{ form_widget(vehicleForm.registrationNumber, {
+        {{ form_widget(vehicleForm.registration.plateNumber, {
             'class' : 'medium-no-margin',
             'class_field': 'small-12 large-4 align-self-bottom',
             'required' : false,
             'label' : null
         }) }}
-        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.registrationNumber.vars.id }}">Compléter</a>
+        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.registration.plateNumber.vars.id }}">Compléter</a>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
@@ -75,7 +75,7 @@
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer la boite de vitesse du véhicule',
+            required_message: 'Veuillez indiquer la boitea de vitesse du véhicule',
             required_class: 'medium-offset-4'
         }) }}
     </div>
@@ -90,5 +90,15 @@
             required_message: 'Veuillez indiquer l\'énergie du véhicule',
             required_class: 'medium-offset-4'
         }) }}
+    </div>
+    <div class="block-grid input-margin">
+        {{ form_widget(vehicleForm.registration.vin, {
+            label: 'V.I.N.',
+            label_class: 'medium-no-margin small-12 medium-4',
+            class: 'no-margin small-12 medium-8',
+            required: false,
+
+        }) }}
+        {{  form_errors(vehicleForm.registration.vin) }}
     </div>
 </section>

@@ -11,9 +11,9 @@ class PersonalVehicleDTO extends VehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct(string $registrationNumber = null, string $date1erCir = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null, string $vin = null)
     {
-        parent::__construct($registrationNumber, $date1erCir);
+        parent::__construct($registrationNumber, $date1erCir, $vin);
     }
 
 
@@ -24,6 +24,13 @@ class PersonalVehicleDTO extends VehicleDTO
     public static function buildFromPersonalVehicle(PersonalVehicle $vehicle): self
     {
         $dto = new self();
+
+        $dto->vehicleRegistration = VehicleRegistrationDTO::buildFromVehicleRegistrationData(
+                $vehicle->getRegistrationMineType(),
+                $vehicle->getRegistrationPlateNumber(),
+                $vehicle->getRegistrationVin()
+        );
+
         $dto->information = VehicleInformationDTO::buildFromInformation(
             $vehicle->getMake(),
             $vehicle->getModelName(),

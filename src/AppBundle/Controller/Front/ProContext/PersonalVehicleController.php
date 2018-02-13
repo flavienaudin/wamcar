@@ -90,6 +90,10 @@ class PersonalVehicleController extends BaseController
             if($date1erCir){
                 $vehicleDTO->setRegistrationDate($date1erCir);
             }
+            $vin= $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
+            if($vin){
+                $vehicleDTO->setRegistrationVin($vin);
+            }
         }
 
         $vehicleDTO->updateFromFilters($filters);

@@ -12,6 +12,7 @@ use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
 use Wamcar\Vehicle\Model;
 use Wamcar\Vehicle\ModelVersion;
+use Wamcar\Vehicle\Registration;
 
 class VehicleDTO
 {
@@ -19,8 +20,8 @@ class VehicleDTO
 
     /** @var string */
     public $id;
-    /** @var string */
-    public $registrationNumber;
+    /** @var VehicleRegistrationDTO */
+    public $vehicleRegistration;
     /** @var VehicleInformationDTO */
     public $information;
     /** @var VehicleSpecificsDTO */
@@ -31,9 +32,9 @@ class VehicleDTO
     /**
      * VehicleDTO constructor.
      */
-    public function __construct(string $registrationNumber = null, string $date1erCir = null)
+    public function __construct(string $registrationNumber = null, string $date1erCir = null, $vin = null)
     {
-        $this->registrationNumber = $registrationNumber;
+        $this->vehicleRegistration = new VehicleRegistrationDTO(null, $registrationNumber, $vin);
         $this->information = new VehicleInformationDTO();
         $this->specifics = new VehicleSpecificsDTO($date1erCir);
         $this->pictures = self::initFormPictureVehicle([]);
@@ -88,6 +89,14 @@ class VehicleDTO
         if (($key = array_search($picture, $this->pictures, true)) !== FALSE) {
             unset($this->pictures[$key]);
         }
+    }
+
+    /**
+     * @return VehicleRegistrationDTO
+     */
+    public function getVehicleRegistration(): VehicleRegistrationDTO
+    {
+        return $this->vehicleRegistration;
     }
 
     public function getMake(): ?Make
@@ -221,22 +230,7 @@ class VehicleDTO
     {
         return $this->specifics->additionalInformation;
     }
-//
-//    /**
-//     * @return VehicleInformationDTO
-//     */
-//    public function getInformation(): VehicleInformationDTO
-//    {
-//        return $this->information;
-//    }
-//
-//    /**
-//     * @param VehicleInformationDTO $information
-//     */
-//    public function setInformation(VehicleInformationDTO $information): void
-//    {
-//        $this->information = $information;
-//    }
+
     /**
      * @param Transmission $transmission
      */
@@ -265,6 +259,16 @@ class VehicleDTO
         }
         $this->specifics->registrationDate = $registrationDate;
 
+        return $this;
+    }
+
+    public function setRegistrationVin($vin = null): self
+    {
+        if ($this->vehicleRegistration) {
+            $this->vehicleRegistration->setVin($vin);
+        } else {
+            $this->vehicleRegistration = new Registration(null, null, $vin);
+        }
         return $this;
     }
 

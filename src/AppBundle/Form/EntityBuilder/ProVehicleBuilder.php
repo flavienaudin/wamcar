@@ -3,7 +3,6 @@
 namespace AppBundle\Form\EntityBuilder;
 
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
-use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\DTO\VehiclePictureDTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
@@ -22,7 +21,7 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle = new ProVehicle(
             $vehicleDTO->getModelVersion(),
             $vehicleDTO->getTransmission(),
-            $vehicleDTO->registrationNumber ? Registration::createFromPlateNumber($vehicleDTO->registrationNumber) : null,
+            Registration::createFromVehicleRegistrationDTO($vehicleDTO->getRegistration()),
             $vehicleDTO->getRegistrationDate(),
             $vehicleDTO->getMileage(),
             [],
@@ -66,6 +65,7 @@ class ProVehicleBuilder implements VehicleBuilder
     public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
+        $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getRegistration()));
         $vehicle->setTransmission($vehicleDTO->getTransmission());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
         $vehicle->setMileage($vehicleDTO->getMileage());
@@ -90,7 +90,7 @@ class ProVehicleBuilder implements VehicleBuilder
 
         /** @var VehiclePictureDTO $pictureDTO */
         foreach ($vehicleDTO->pictures as $pictureDTO) {
-            if ($pictureDTO && !$pictureDTO->isRemoved ) {
+            if ($pictureDTO && !$pictureDTO->isRemoved) {
                 if ($pictureDTO->id && !$pictureDTO->file) {
                     $vehicle->editPictureCaption($pictureDTO->id, $pictureDTO->caption);
                 } elseif ($pictureDTO->file) {
