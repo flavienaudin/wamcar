@@ -160,7 +160,7 @@ class Message
     /**
      * @return null|ProVehicle
      */
-    public function getProVehicle(): ?ProVehicle
+    protected function getProVehicle(): ?ProVehicle
     {
         return $this->proVehicle;
     }
@@ -168,7 +168,7 @@ class Message
     /**
      * @return null|PersonalVehicle
      */
-    public function getPersonalVehicle(): ?PersonalVehicle
+    protected function getPersonalVehicle(): ?PersonalVehicle
     {
         return $this->personalVehicle;
     }
