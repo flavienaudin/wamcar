@@ -9,16 +9,10 @@
         'class': 'no-margin',
         'required': true
     }) }}
-    {#{% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: messageEmpty ? false : true } %}#}
-    {#{% if user.vehicles|length > 0 %}
-        {% set addVehiclePath = currentConversation != null ? path('front_conversation_edit_vehicle_list', {'id': currentConversation.id, 'vehicleId': null}) : path('front_conversation_create_vehicle_list', {'id': interlocutor.id, 'vehicleId': null}) %}
-        <a class="messages-create-vehicle-btn text-underline" href="{{ addVehiclePath }}">Sélectionner un véhicule proposé</a>
-    {% else %}
-        {% set createPath = user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') %}
-        <a class="messages-create-vehicle-btn text-underline" href="{{ createPath }}">Créer un véhicule</a>
-    {% endif %}#}
     {% if messageForm.vehicle is defined %}
-        {{ form_widget(messageForm.vehicle) }}
+        {{ form_widget(messageForm.vehicle, {
+            'isNew': currentConversation == null ? true : false
+        }) }}
     {% endif %}
     {% if messageForm.selectVehicle is defined %}
         {{ form_widget(messageForm.selectVehicle, {

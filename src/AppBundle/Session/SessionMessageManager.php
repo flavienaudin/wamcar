@@ -4,9 +4,12 @@
 namespace AppBundle\Session;
 
 
+use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Session\Model\SessionMessage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Wamcar\Vehicle\BaseVehicle;
 
 class SessionMessageManager
 {
@@ -14,10 +17,20 @@ class SessionMessageManager
 
     /** @var SessionInterface */
     protected $session;
+    /** @var DoctrineProVehicleRepository */
+    protected $proVehicleRepository;
+    /** @var DoctrinePersonalVehicleRepository */
+    protected $personalVehicleRepository;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(
+        SessionInterface $session,
+        DoctrineProVehicleRepository $proVehicleRepository,
+        DoctrinePersonalVehicleRepository $personalVehicleRepository
+    )
     {
         $this->session = $session;
+        $this->proVehicleRepository = $proVehicleRepository;
+        $this->personalVehicleRepository = $personalVehicleRepository;
     }
 
     /**
@@ -27,7 +40,7 @@ class SessionMessageManager
      */
     public function set(string $route, array $routeParams, MessageDTO $messageDTO): void
     {
-        $sessionMessage = new SessionMessage($route, $routeParams, $messageDTO);
+        $sessionMessage = SessionMessage::buildFromMessageDTO($route, $routeParams, $messageDTO);
         $this->session->set(self::DRAFT_KEY, $sessionMessage);
     }
 
@@ -63,7 +76,49 @@ class SessionMessageManager
     public function getMessageDTO(): ?MessageDTO
     {
         $sessionMessage = $this->get();
-        return $sessionMessage ? $sessionMessage->messageDTO : null;
+
+        if ($sessionMessage) {
+            $messageDTO = new MessageDTO(null, $sessionMessage->user, $sessionMessage->interlocutor);
+            $messageDTO->content = $sessionMessage->content;
+            $messageDTO->vehicleHeader = $this->getVehicleHeaderSession($sessionMessage);
+            $messageDTO->vehicle = $this->getVehicleSession($sessionMessage);
+
+            return $messageDTO;
+        }
+
+        return null;
+    }
+
+    /**
+     * @param SessionMessage $sessionMessage
+     * @return null|BaseVehicle
+     */
+    public function getVehicleHeaderSession(SessionMessage $sessionMessage): ?BaseVehicle
+    {
+        if ($sessionMessage->proVehicleHeaderId) {
+            return $this->proVehicleRepository->find($sessionMessage->proVehicleHeaderId);
+        }
+        if ($sessionMessage->personalVehicleHeaderId) {
+            return $this->personalVehicleRepository->find($sessionMessage->personalVehicleHeaderId);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param SessionMessage $sessionMessage
+     * @return null|BaseVehicle
+     */
+    public function getVehicleSession(SessionMessage $sessionMessage): ?BaseVehicle
+    {
+        if ($sessionMessage->proVehicleId) {
+            return $this->proVehicleRepository->find($sessionMessage->proVehicleId);
+        }
+        if ($sessionMessage->personalVehicleId) {
+            return $this->personalVehicleRepository->find($sessionMessage->personalVehicleId);
+        }
+
+        return null;
     }
 
     /**

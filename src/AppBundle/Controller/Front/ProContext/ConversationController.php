@@ -115,8 +115,8 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
         $messageDTO = $this->loadAndCleanSession($messageDTO);
+        $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
 
         if (!$conversation) {
             $redirectRoute = $this->redirectIfExistConversation($messageDTO);
@@ -192,6 +192,8 @@ class ConversationController extends BaseController
     {
         $sessionMessageDTO = $this->sessionMessageManager->getMessageDTO();
         $messageDTO->content = $sessionMessageDTO ? $sessionMessageDTO->content : $messageDTO->content;
+        $messageDTO->vehicle = $sessionMessageDTO ? $sessionMessageDTO->vehicle : $messageDTO->vehicle;
+        $messageDTO->vehicleHeader = $sessionMessageDTO ? $sessionMessageDTO->vehicleHeader : $messageDTO->vehicleHeader;
         $this->sessionMessageManager->clear();
 
         return $messageDTO;
@@ -223,12 +225,10 @@ class ConversationController extends BaseController
 
         switch ($messageForm->getClickedButton()->getName()) {
             case 'selectVehicle':
-                $messageDTO->vehicle = null;
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute('front_conversation_vehicle_list');
                 break;
             case 'createVehicle':
-                $messageDTO->vehicle = null;
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 return $this->redirectToRoute($this->getUser()->isPro() ? 'front_vehicle_pro_add' : 'front_vehicle_personal_add');
                 break;

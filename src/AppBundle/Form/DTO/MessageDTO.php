@@ -5,6 +5,7 @@ namespace AppBundle\Form\DTO;
 
 
 use AppBundle\Services\User\CanBeInConversation;
+use AppBundle\Session\Model\SessionMessage;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
