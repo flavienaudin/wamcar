@@ -42,7 +42,8 @@ class SessionMessageManager
      */
     public function getRoute(): ?string
     {
-        return $this->get() ? $this->get()->route : null;
+        $sessionMessage = $this->get();
+        return $sessionMessage ? $sessionMessage->route : null;
     }
 
     /**
@@ -50,7 +51,8 @@ class SessionMessageManager
      */
     public function getRouteParams(): ?array
     {
-        return $this->get() ? $this->get()->routeParams : null;
+        $sessionMessage = $this->get();
+        return $sessionMessage ? $sessionMessage->routeParams : null;
     }
 
     /**
@@ -58,6 +60,7 @@ class SessionMessageManager
      */
     public function getMessageDTO(): ?MessageDTO
     {
-        return $this->get() ? $this->get()->messageDTO : null;
+        $sessionMessage = $this->get();
+        return $sessionMessage ? $sessionMessage->messageDTO : null;
     }
 }
