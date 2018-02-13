@@ -14,10 +14,6 @@ _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
 
 # Security processes
-security_login:
-    path: /connect
-    defaults: { _controller: AppBundle:Front\Security:login }
-
 security_login_page:
     path: /connexion
     defaults: { _controller: AppBundle:Front\Security:loginPage }

@@ -35,6 +35,7 @@ security:
                 check_path: security_login_page
                 default_target_path: front_default
                 use_referer: true
+                use_forward: true
             remember_me:
                 secret:   '%secret%'
                 lifetime: 604800 # 1 week in seconds
