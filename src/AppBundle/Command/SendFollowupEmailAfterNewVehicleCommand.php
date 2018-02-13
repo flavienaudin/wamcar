@@ -2,25 +2,25 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Services\User\UserGlobalSearchService;
+use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wamcar\User\Event\AddingPicturesToVehicleNotification;
+use Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification;
 
-class SendFollowupEmailAfterInscriptionCommand extends BaseCommand
+class SendFollowupEmailAfterNewVehicleCommand extends BaseCommand
 {
-    /** @var UserGlobalSearchService */
-    private $userGlobalSearchService;
+    /** @var PersonalVehicleEditionService */
+    private $personalVehicleEditionService;
 
     /** @var MessageBus */
     private $eventBus;
 
-    public function __construct(UserGlobalSearchService $userGlobalSearchService, MessageBus $eventBus)
+    public function __construct(PersonalVehicleEditionService $personalVehicleEditionService, MessageBus $eventBus)
     {
         parent::__construct();
-        $this->userGlobalSearchService = $userGlobalSearchService;
+        $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->eventBus = $eventBus;
     }
 
@@ -31,8 +31,8 @@ class SendFollowupEmailAfterInscriptionCommand extends BaseCommand
     protected function configure()
     {
         $this
-            ->setName('wamcar:email:after_personal_inscription')
-            ->setDescription('Send a reminder e-mail to personal who set zero or one picture to their vehicle, 24h after their inscription.');
+            ->setName('wamcar:email:after_new_vehicle')
+            ->setDescription('Send a reminder e-mail to personal who set zero or one picture to their vehicle, 24h after the vehicle registration.');
     }
 
     /**
@@ -47,7 +47,7 @@ class SendFollowupEmailAfterInscriptionCommand extends BaseCommand
     {
         $this->output = $output;
 
-        $personals = $this->userGlobalSearchService->findPersonalToRemind();
+        $personals = $this->personalVehicleEditionService->findPersonalToRemind();
 
         $progress = new ProgressBar($output, count($personals));
         foreach ($personals as $personal) {

@@ -50,14 +50,4 @@ class UserGlobalSearchService
         }
 
     }
-
-    /**
-     * Retrieve the PersonalUser registrered since 24H with a vehicle with 0 or 1 picture
-     * @return PersonalUser[]
-     */
-    public function findPersonalToRemind()
-    {
-        return $this->personalUserRepository->retrieveUserToRemindToAddPicture();
-    }
-
 }

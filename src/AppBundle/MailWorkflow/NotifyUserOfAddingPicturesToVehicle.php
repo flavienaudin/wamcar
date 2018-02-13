@@ -6,31 +6,32 @@ namespace AppBundle\MailWorkflow;
 
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Wamcar\User\BaseUser;
-use Wamcar\User\Event\AddingPicturesToVehicleNotification;
-use Wamcar\User\Event\UserEvent;
-use Wamcar\User\Event\UserEventHandler;
+use Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification;
+use Wamcar\Vehicle\Event\VehicleEvent;
+use Wamcar\Vehicle\Event\VehicleEventHandler;
+use Wamcar\Vehicle\PersonalVehicle;
 
-class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler implements UserEventHandler
+class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler implements VehicleEventHandler
 {
     /**
-     * @param UserEvent $event
+     * @param VehicleEvent $event
      */
-    public function notify(UserEvent $event)
+    public function notify(VehicleEvent $event)
     {
         $this->checkEventClass($event, AddingPicturesToVehicleNotification::class);
 
-        /** @var BaseUser $user */
-        $user = $event->getUser();
+        /** @var PersonalVehicle $vehicle */
+        $vehicle = $event->getVehicle();
+        $this->checkEventClass($vehicle, PersonalVehicle::class);
 
         $this->send(
             $this->translator->trans('notifyUserOfAddingPicturesToVehicle.title', [], 'email'),
             'Mail/notifyUserOfAddingPicturesToVehicle.html.twig',
             [
-                'username' => $user->getName(),
-                'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                'username' => $vehicle->getOwnerName(),
+                'siteUrl' => $this->router->generate('front_vehicle_personal_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
-            new EmailRecipientList([$this->createUserEmailContact($user)])
+            new EmailRecipientList([$this->createUserEmailContact($vehicle->getOwner())])
         );
     }
 }

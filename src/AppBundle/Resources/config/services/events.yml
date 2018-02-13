@@ -80,4 +80,4 @@ services:
         arguments:
           - sell.adding_pictures_to_vehicle_notification
         tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\AddingPicturesToVehicleNotification, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification, method: notify }
