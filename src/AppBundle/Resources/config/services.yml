@@ -79,4 +79,6 @@ services:
     AppBundle\Services\Vehicle\VehicleRepositoryResolver:
         class: AppBundle\Services\Vehicle\VehicleRepositoryResolver
         arguments:
+            - '@Wamcar\Vehicle\PersonalVehicleRepository'
+            - '@Wamcar\Vehicle\ProVehicleRepository'
             - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@Wamcar\Vehicle\PersonalVehicleRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@Wamcar\Vehicle\ProVehicleRepository'}

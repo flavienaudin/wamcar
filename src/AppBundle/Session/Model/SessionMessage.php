@@ -23,13 +23,13 @@ class SessionMessage
     /** @var  string */
     public $content;
     /** @var null|string */
-    public $proVehicleHeaderId;
+    protected $proVehicleHeaderId;
     /** @var null|string */
-    public $personalVehicleHeaderId;
+    protected $personalVehicleHeaderId;
     /** @var null|string */
-    public $proVehicleId;
+    protected $proVehicleId;
     /** @var null|string */
-    public $personalVehicleId;
+    protected $personalVehicleId;
 
     /**
      * @param string $route
@@ -46,18 +46,83 @@ class SessionMessage
         $sessionMessage->interlocutor = $messageDTO->interlocutor;
         $sessionMessage->content = $messageDTO->content;
 
-        if ($messageDTO->vehicleHeader instanceof ProVehicle) {
-            $sessionMessage->proVehicleHeaderId = $messageDTO->vehicleHeader->getId();
-        } elseif ($messageDTO->vehicleHeader instanceof PersonalVehicle) {
-            $sessionMessage->personalVehicleHeaderId = $messageDTO->vehicleHeader->getId();
-        }
-
-        if ($messageDTO->vehicle instanceof ProVehicle) {
-            $sessionMessage->proVehicleId = $messageDTO->vehicle->getId();
-        } elseif ($messageDTO->vehicle instanceof PersonalVehicle) {
-            $sessionMessage->personalVehicleId = $messageDTO->vehicle->getId();
-        }
+        $sessionMessage->assignVehicleHeader($sessionMessage, $messageDTO->vehicleHeader);
+        $sessionMessage->assignVehicle($sessionMessage, $messageDTO->vehicle);
 
         return $sessionMessage;
+    }
+
+    /**
+     * @param SessionMessage $sessionMessage
+     * @param null|BaseVehicle $vehicle
+     */
+    protected function assignVehicleHeader(SessionMessage $sessionMessage, ?BaseVehicle $vehicle = null): void
+    {
+        if ($vehicle instanceof ProVehicle) {
+            $sessionMessage->proVehicleHeaderId = $vehicle->getId();
+        } elseif ($vehicle instanceof PersonalVehicle) {
+            $sessionMessage->personalVehicleHeaderId = $vehicle->getId();
+        }
+    }
+
+    /**
+     * @param SessionMessage $sessionMessage
+     * @param null|BaseVehicle $vehicle
+     */
+    protected function assignVehicle(SessionMessage $sessionMessage, ?BaseVehicle $vehicle = null): void
+    {
+        if ($vehicle instanceof ProVehicle) {
+            $sessionMessage->proVehicleId = $vehicle->getId();
+        } elseif ($vehicle instanceof PersonalVehicle) {
+            $sessionMessage->personalVehicleId = $vehicle->getId();
+        }
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVehicleId(): ?string
+    {
+        return $this->proVehicleId ?: $this->personalVehicleId;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getVehicleHeaderId(): ?string
+    {
+        return $this->proVehicleHeaderId ?: $this->personalVehicleHeaderId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProVehicle(): bool
+    {
+        return $this->proVehicleId ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersonalVehicle(): bool
+    {
+        return $this->personalVehicleId ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProVehicleHeader(): bool
+    {
+        return $this->proVehicleHeaderId ?? false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPersonalVehicleHeader(): bool
+    {
+        return $this->personalVehicleHeaderId ?? false;
     }
 }
