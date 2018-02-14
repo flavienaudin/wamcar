@@ -21,7 +21,7 @@
                         Votre interlocuteur dispose d’une flotte composée de {{ severalVehicles }} véhicules
                     {% endif %}
                 </strong>
-                <a href="{{ path('front_view_user_info', {'id': user.id}) }}" class="text-underline">{{ app.user == user ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
+                <a href="{{ path('front_view_user_info', {'id': user.id}) }}" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
             </div>
         </div>
     {% else %}
