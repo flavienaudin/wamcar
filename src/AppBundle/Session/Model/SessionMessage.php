@@ -6,6 +6,7 @@ namespace AppBundle\Session\Model;
 
 use AppBundle\Form\DTO\MessageDTO;
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
