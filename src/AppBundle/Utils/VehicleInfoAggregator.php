@@ -36,7 +36,6 @@ class VehicleInfoAggregator
         if(isset($data['model'])) {
             $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['model' => $data['model']]));
         }
-
         return $aggregations;
     }
 
@@ -46,7 +45,7 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
+        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 1000);
 
         foreach ($data as $field => $value) {
             if (!empty($value)) {
@@ -64,7 +63,7 @@ class VehicleInfoAggregator
 
         $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));
         if (empty($data)) {
-            $qb->addAggregation(new Aggregation('make', 'terms', 'make'));
+            $qb->addAggregation(new Aggregation('make', 'terms', 'make', ['size' => 1000]));
         }
 
         $childAggregations = [];
@@ -74,7 +73,6 @@ class VehicleInfoAggregator
         foreach ($childAggregations as $aggregationField) {
             $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField));
         }
-
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
         foreach ($result->aggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
@@ -83,7 +81,6 @@ class VehicleInfoAggregator
             sort($cleanAggregation);
             $formattedAggregations[$field] = array_combine($cleanAggregation, $cleanAggregation);
         }
-
         return $formattedAggregations;
     }
 }
