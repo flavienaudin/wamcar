@@ -1,4 +1,5 @@
 <?php
+
 namespace AppBundle\MailWorkflow\Services;
 
 use AppBundle\MailWorkflow\Model\EmailContact;
@@ -19,10 +20,11 @@ class Mailer
         \Swift_Mailer $mailer,
         LoggerInterface $logger = null,
         EmailContact $defaultSender
-    ) {
-        $this->mailer           = $mailer;
-        $this->logger           = $logger;
-        $this->defaultSender    = $defaultSender;
+    )
+    {
+        $this->mailer = $mailer;
+        $this->logger = $logger;
+        $this->defaultSender = $defaultSender;
     }
 
     /**
@@ -34,11 +36,10 @@ class Mailer
      */
     public function sendMessage($type, $subject, $body, EmailRecipientList $emailRecipientList, array $attachments = [])
     {
-        $message = \Swift_Message::newInstance()
-            ->setSubject($subject)
+        $message = new \Swift_Message($subject, $body, 'text/html');
+        $message
             ->setFrom($this->defaultSender->getEmail(), $this->defaultSender->getName())
-            ->setTo($emailRecipientList->toArray())
-            ->setBody($body, 'text/html');
+            ->setTo($emailRecipientList->toArray());
         $message->getHeaders()->addTextHeader('X-Message-ID', $type);
 
         foreach ($attachments as $attachment) {
@@ -53,7 +54,7 @@ class Mailer
             ]);
         } catch (\Exception $e) {
             $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $emailRecipientList), [
-                'to'      => $emailRecipientList->toArray(),
+                'to' => $emailRecipientList->toArray(),
                 'subject' => $subject
             ], LogLevel::ERROR);
         }
