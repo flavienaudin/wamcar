@@ -89,6 +89,16 @@ class ConversationController extends BaseController
         $this->conversationAuthorizationChecker->canCommunicate($this->getUser(), $interlocutor);
         $messageDTO = new MessageDTO(null, $this->getUser(), $interlocutor);
 
+        //Assign vehicle on message automatically
+        if ($this->getUser()->isPersonal()) {
+            $userVehicles = $this->getUser()->getVehicles();
+            if (count($userVehicles) == 1) {
+                $messageDTO->vehicle = $userVehicles->first();
+            } elseif (count($userVehicles) > 1) {
+                $messageDTO->isFleet = true;
+            }
+        }
+
         return $this->processForm($request, $messageDTO, null, $vehicleId);
     }
 

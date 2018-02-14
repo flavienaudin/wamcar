@@ -15,6 +15,8 @@ Wamcar\Conversation\Message:
     fields:
         content:
             type: string
+        isFleet:
+            type: boolean
         publishedAt:
             type: datetime
 

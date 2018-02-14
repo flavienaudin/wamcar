@@ -514,6 +514,13 @@
     {% endif %}
 {%- endblock _message_vehicle_widget -%}
 
+{%- block _message_isFleet_widget -%}
+    {% set vehicle = form.vars.data %}
+
+    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false, severalVehicles: app.user.vehicles|length, user: app.user } %}
+    {{ form_widget(form, {'class': 'is-hidden'}) }}
+{%- endblock _message_isFleet_widget -%}
+
 {%- block button_widget -%}
     {% set class = class|default('') %}
     {%- if label is empty -%}
