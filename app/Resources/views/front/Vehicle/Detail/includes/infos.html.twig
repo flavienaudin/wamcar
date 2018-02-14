@@ -1,7 +1,6 @@
-{% set infos_inte = [
+{% set infos_vehicle = [
     { label: "Marque", value: vehicle.make },
     { label: "Modèle", value: vehicle.modelName },
-    { label: "Version", value: vehicle.modelVersionName },
     { label: "Année", value: vehicle.years },
     { label: "Kilométrage", value: vehicle.mileAge },
     { label: "Motorisation", value: vehicle.engineName },
@@ -12,9 +11,16 @@
     { label: "Véhicule 1ère main", value: vehicle.isFirstHand ? 'Oui' : 'Non' }
 ] %}
 
+{% if isUserPro or isEditableByCurrentUser %}
+    {% set infos_vehicle = infos_vehicle|merge([
+        { label: "Vin", value: vehicle.registrationVin|default('Non renseigné') },
+        { label: "Immatriculation", value: vehicle.registrationPlateNumber|default('Non renseigné') },
+    ]) %}
+{% endif %}
+
 <h2 class="separator medium primary-color">Informations principales</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
-    {% for info in infos_inte %}
+    {% for info in infos_vehicle %}
         <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
     {% endfor %}
 </ul>

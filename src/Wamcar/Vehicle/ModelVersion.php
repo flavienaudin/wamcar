@@ -31,6 +31,7 @@ final class ModelVersion
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getName(): ?string
     {

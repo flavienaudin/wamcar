@@ -12,7 +12,7 @@ class VehicleInformationDTO
     public $make;
     /** @var Model */
     public $model;
-    /** @var ModelVersion */
+    /** @var ModelVersion|null */
     public $modelVersion;
     /** @var Engine */
     public $engine;
