@@ -7,6 +7,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\DTO\MessageDTO;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -50,6 +51,13 @@ class MessageType extends AbstractType
                     'label' => false,
                     'required' => false,
                     'choice_label' => 'name'
+                ]);
+            }
+
+            if ($messageDTO->isFleet) {
+                $form->add('isFleet', CheckboxType::class, [
+                    'label' => false,
+                    'required' => false
                 ]);
             }
         });

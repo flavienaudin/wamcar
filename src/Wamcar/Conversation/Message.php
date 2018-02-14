@@ -42,19 +42,21 @@ class Message
      * @param string $content
      * @param null|BaseVehicle $vehicleHeader
      * @param null|BaseVehicle $vehicle
+     * @param bool|null $isFleet
      */
     public function __construct(
         Conversation $conversation,
         CanBeInConversation $user,
         string $content,
         ?BaseVehicle $vehicleHeader = null,
-        ?BaseVehicle $vehicle = null
+        ?BaseVehicle $vehicle = null,
+        ?bool $isFleet = false
     )
     {
         $this->conversation = $conversation;
         $this->user = $user;
         $this->content = $content;
-        $this->isFleet = false;
+        $this->isFleet = $isFleet;
         $this->publishedAt = new \DateTime();
         if ($vehicleHeader) {
             $this->assignVehicleHeader($vehicleHeader);
@@ -94,6 +96,14 @@ class Message
     public function getContent(): string
     {
         return $this->content;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFleet(): bool
+    {
+        return $this->isFleet;
     }
 
     /**

@@ -26,6 +26,11 @@
             'class': 'messages-create-vehicle-btn text-underline'
         }) }}
     {% endif %}
+    {% if messageForm.isFleet is defined %}
+        {{ form_widget(messageForm.isFleet, {
+            'isNew': currentConversation == null
+        }) }}
+    {% endif %}
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
             'label': 'Envoyer le message',

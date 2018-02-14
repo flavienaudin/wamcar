@@ -41,6 +41,8 @@
             </div>
             {% if message.vehicle %}
                 {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false } %}
+            {% elseif message.isFleet %}
+                {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false, severalVehicles: message.user.vehicles|length, user: message.user } %}
             {% endif %}
         </div>
     {% endfor %}

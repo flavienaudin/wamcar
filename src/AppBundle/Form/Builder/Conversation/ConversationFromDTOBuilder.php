@@ -30,7 +30,7 @@ class ConversationFromDTOBuilder
             $conversation = self::initializeConversation($dto);
         }
 
-        $conversation->addMessage(new Message($conversation, $dto->user, $dto->content, $dto->vehicleHeader, $dto->vehicle));
+        $conversation->addMessage(new Message($conversation, $dto->user, $dto->content, $dto->vehicleHeader, $dto->vehicle, $dto->isFleet));
 
         return $conversation;
     }
