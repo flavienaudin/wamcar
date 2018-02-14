@@ -15,7 +15,7 @@
             </div>
             <div class="several-content">
                 <strong>
-                    {% if app.user == user %}
+                    {% if app.user.id == user.id %}
                         Vous disposez d’une flotte composée de {{ severalVehicles }} véhicules
                     {% else  %}
                         Votre interlocuteur dispose d’une flotte composée de {{ severalVehicles }} véhicules
