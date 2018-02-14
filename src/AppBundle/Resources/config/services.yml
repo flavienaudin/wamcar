@@ -78,5 +78,4 @@ services:
 
     AppBundle\Services\Vehicle\VehicleRepositoryResolver:
         class: AppBundle\Services\Vehicle\VehicleRepositoryResolver
-        arguments:
-            - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@Wamcar\Vehicle\PersonalVehicleRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@Wamcar\Vehicle\ProVehicleRepository'}
+        autowire: true

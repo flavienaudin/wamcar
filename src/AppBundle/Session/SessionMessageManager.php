@@ -4,9 +4,13 @@
 namespace AppBundle\Session;
 
 
+use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use AppBundle\Session\Model\SessionMessage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Wamcar\Vehicle\BaseVehicle;
 
 class SessionMessageManager
 {
@@ -14,10 +18,21 @@ class SessionMessageManager
 
     /** @var SessionInterface */
     protected $session;
+    /** @var VehicleRepositoryResolver */
+    protected $vehicleRepositoryResolver;
 
-    public function __construct(SessionInterface $session)
+    /**
+     * SessionMessageManager constructor.
+     * @param SessionInterface $session
+     * @param VehicleRepositoryResolver $vehicleRepositoryResolver
+     */
+    public function __construct(
+        SessionInterface $session,
+        VehicleRepositoryResolver $vehicleRepositoryResolver
+    )
     {
         $this->session = $session;
+        $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
     }
 
     /**
@@ -27,7 +42,7 @@ class SessionMessageManager
      */
     public function set(string $route, array $routeParams, MessageDTO $messageDTO): void
     {
-        $sessionMessage = new SessionMessage($route, $routeParams, $messageDTO);
+        $sessionMessage = SessionMessage::buildFromMessageDTO($route, $routeParams, $messageDTO);
         $this->session->set(self::DRAFT_KEY, $sessionMessage);
     }
 
@@ -63,7 +78,21 @@ class SessionMessageManager
     public function getMessageDTO(): ?MessageDTO
     {
         $sessionMessage = $this->get();
-        return $sessionMessage ? $sessionMessage->messageDTO : null;
+
+        if ($sessionMessage) {
+            $messageDTO = new MessageDTO(null, $sessionMessage->user, $sessionMessage->interlocutor);
+            $messageDTO->content = $sessionMessage->content;
+            if ($sessionMessage->getVehicleHeaderId()) {
+                $messageDTO->vehicleHeader = $this->vehicleRepositoryResolver->getRepositoryByHeaderSessionMessage($sessionMessage)->find($sessionMessage->getVehicleHeaderId());
+            }
+            if ($sessionMessage->getVehicleId()) {
+                $messageDTO->vehicle = $this->vehicleRepositoryResolver->getRepositoryBySessionMessage($sessionMessage)->find($sessionMessage->getVehicleId());
+            }
+
+            return $messageDTO;
+        }
+
+        return null;
     }
 
     /**
