@@ -83,10 +83,10 @@ class SessionMessageManager
             $messageDTO = new MessageDTO(null, $sessionMessage->user, $sessionMessage->interlocutor);
             $messageDTO->content = $sessionMessage->content;
             if ($sessionMessage->getVehicleHeaderId()) {
-                $messageDTO->vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByVehicleHeaderSessionMessage($sessionMessage)->find($sessionMessage->getVehicleHeaderId());
+                $messageDTO->vehicleHeader = $this->vehicleRepositoryResolver->getRepositoryByHeaderSessionMessage($sessionMessage)->find($sessionMessage->getVehicleHeaderId());
             }
             if ($sessionMessage->getVehicleId()) {
-                $messageDTO->vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByVehicleSessionMessage($sessionMessage)->find($sessionMessage->getVehicleId());
+                $messageDTO->vehicle = $this->vehicleRepositoryResolver->getRepositoryBySessionMessage($sessionMessage)->find($sessionMessage->getVehicleId());
             }
 
             return $messageDTO;

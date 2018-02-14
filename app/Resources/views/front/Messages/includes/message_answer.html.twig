@@ -11,7 +11,7 @@
     }) }}
     {% if messageForm.vehicle is defined %}
         {{ form_widget(messageForm.vehicle, {
-            'isNew': currentConversation == null ? true : false
+            'isNew': currentConversation == null
         }) }}
     {% endif %}
     {% if messageForm.selectVehicle is defined %}
