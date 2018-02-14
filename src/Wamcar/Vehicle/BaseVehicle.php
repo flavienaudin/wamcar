@@ -152,6 +152,7 @@ abstract class BaseVehicle implements Vehicle
 
     /**
      * @return string|null
+     * @deprecated
      */
     public function getModelVersionName(): ?string
     {
