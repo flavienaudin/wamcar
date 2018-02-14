@@ -6,7 +6,6 @@ namespace AppBundle\Session\Model;
 
 use AppBundle\Form\DTO\MessageDTO;
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -30,6 +29,8 @@ class SessionMessage
     protected $proVehicleId;
     /** @var null|string */
     protected $personalVehicleId;
+    /** @var bool */
+    public $isFleet;
 
     /**
      * @param string $route
@@ -45,6 +46,7 @@ class SessionMessage
         $sessionMessage->user = $messageDTO->user;
         $sessionMessage->interlocutor = $messageDTO->interlocutor;
         $sessionMessage->content = $messageDTO->content;
+        $sessionMessage->isFleet = $messageDTO->isFleet;
 
         $sessionMessage->assignVehicleHeader($sessionMessage, $messageDTO->vehicleHeader);
         $sessionMessage->assignVehicle($sessionMessage, $messageDTO->vehicle);

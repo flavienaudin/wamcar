@@ -29,6 +29,8 @@ class MessageDTO
     public $vehicleHeader;
     /** @var null|BaseVehicle */
     public $vehicle;
+    /** @var bool */
+    public $isFleet;
 
     public function __construct(
         ?Conversation $conversation,
@@ -39,6 +41,7 @@ class MessageDTO
         $this->id = $conversation ? $conversation->getId() : null;
         $this->user = $user;
         $this->interlocutor = $interlocutor;
+        $this->isFleet = false;
     }
 
     /**

@@ -88,6 +88,7 @@ class SessionMessageManager
             if ($sessionMessage->getVehicleId()) {
                 $messageDTO->vehicle = $this->vehicleRepositoryResolver->getRepositoryBySessionMessage($sessionMessage)->find($sessionMessage->getVehicleId());
             }
+            $messageDTO->isFleet = $sessionMessage->isFleet;
 
             return $messageDTO;
         }

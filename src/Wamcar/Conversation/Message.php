@@ -30,6 +30,8 @@ class Message
     protected $proVehicle;
     /** @var null|PersonalVehicle */
     protected $personalVehicle;
+    /** @var bool */
+    protected $isFleet;
     /** @var \DateTime */
     protected $publishedAt;
 
@@ -52,6 +54,7 @@ class Message
         $this->conversation = $conversation;
         $this->user = $user;
         $this->content = $content;
+        $this->isFleet = false;
         $this->publishedAt = new \DateTime();
         if ($vehicleHeader) {
             $this->assignVehicleHeader($vehicleHeader);
