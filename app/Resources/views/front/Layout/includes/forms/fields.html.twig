@@ -509,7 +509,7 @@
     {% if value is defined %}
         {% set vehicle = form.vars.data %}
 
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: vehicle, removeButton: isNew ? false : true, isNew: isNew } %}
+        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: vehicle, removeButton: isNew ? false : true, isNew: isNew, user: app.user } %}
         {{ form_widget(form, {'class': 'is-hidden'}) }}
     {% endif %}
 {%- endblock _message_vehicle_widget -%}
