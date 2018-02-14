@@ -124,4 +124,13 @@ class PersonalVehicleEditionService
     {
         return $vehicle->getOwner() != null && $vehicle->canEditMe($user);
     }
+
+    /**
+     * Retrieve the PersonalUser registrered since 24H with a vehicle with 0 or 1 picture
+     * @return PersonalVehicle[]
+     */
+    public function findPersonalToRemind()
+    {
+        return $this->vehicleRepository->retrieveVehiclesWithLessThan2PicturesSince24h();
+    }
 }

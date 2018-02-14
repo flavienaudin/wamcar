@@ -5,6 +5,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
+use Wamcar\User\PersonalUser;
 
 
 class UserGlobalSearchService
@@ -49,5 +50,4 @@ class UserGlobalSearchService
         }
 
     }
-
 }

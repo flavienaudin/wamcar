@@ -1,0 +1,14 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+
+{% block title %}{{ 'notifyUserOfAddingPicturesToVehicle.title'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyUserOfAddingPicturesToVehicle.body'|trans({
+            '%username%': username,
+            '%siteUrl%': siteUrl
+        })|raw }}
+    </div>
+{% endblock %}
