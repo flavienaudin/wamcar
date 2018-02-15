@@ -32,7 +32,8 @@
         slug: path('front_conversation_list'),
         label: 'Messagerie',
         icon: 'message',
-        current: page_message
+        current: page_message,
+        showCountMessage: true
     },
     {
         slug: path('front_view_current_user_info'),
@@ -46,7 +47,7 @@
 
     {% for item in navigation_items %}
         <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
-            {% if item.label == 'Messagerie' %}
+            {% if item.showCountMessage is defined and item.showCountMessage %}
                 {{ getCountUnreadMessages(app.user) }}
             {% endif %}
             <b class="show-for-xlarge">{{ item.label }}</b>
