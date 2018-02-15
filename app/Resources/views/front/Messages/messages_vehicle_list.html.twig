@@ -11,7 +11,7 @@
             <div class="small-12 messages-header-title messages-align-items block-grid">
                 <a href="{{ path(linkRoute, linkRouteParams) }}" class="messages-back-btn icon-close"></a>
                 <h1 class="primary-color no-margin">Véhicules</h1>
-                <a class="text-underline">
+                <a href="{{ app.user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') }}" class="text-underline">
                     Créer un véhicule
                 </a>
             </div>
