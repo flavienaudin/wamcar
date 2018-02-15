@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new SimpleBus\SymfonyBridge\SimpleBusEventBusBundle(),
             new SimpleBus\SymfonyBridge\SimpleBusCommandBusBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
+            new RobertoTru\ToInlineStyleEmailBundle\RobertoTruToInlineStyleEmailBundle(),
             new AppBundle\AppBundle(),
         ];
 

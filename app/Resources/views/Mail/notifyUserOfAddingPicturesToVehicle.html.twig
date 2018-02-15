@@ -1,14 +1,15 @@
 {% extends ':Mail/Layout:email.html.twig' %}
 
 {% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button %}
 
-{% block title %}{{ 'notifyUserOfAddingPicturesToVehicle.title'|trans }}{% endblock %}
+{% block title %}{{ 'notifyUserOfAddingPicturesToVehicle.object'|trans }}{% endblock %}
 
 {% block body %}
     <div>
         {{ 'notifyUserOfAddingPicturesToVehicle.body'|trans({
-            '%username%': username,
-            '%siteUrl%': siteUrl
+            '%username%': username
         })|raw }}
+        {{ action_button(url_vehicle_page, 'notifyUserOfAddingPicturesToVehicle.action_label'|trans) }}
     </div>
 {% endblock %}

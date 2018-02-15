@@ -1,13 +1,16 @@
 {% extends ':Mail/Layout:email.html.twig' %}
 
 {% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button %}
 
-{% block title %}{{ 'notifyProUserOfRegistration.title'|trans }}{% endblock %}
+{% block title %}{{ 'notifyProUserOfRegistration.object'|trans }}{% endblock %}
 
 {% block body %}
     <div>
         {{ 'notifyProUserOfRegistration.body'|trans({
-            '%siteUrl%': siteUrl
+            '%user_mail%': user_mail,
+            '%url_help_page%' : url_help_page
         })|raw }}
+        {{ action_button(url('front_view_current_user_info'), 'notifyProUserOfRegistration.action_label'|trans) }}
     </div>
 {% endblock %}
