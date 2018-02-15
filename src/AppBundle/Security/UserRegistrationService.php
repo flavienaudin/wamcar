@@ -47,9 +47,10 @@ class UserRegistrationService
 
     /**
      * @param RegistrationDTO $registrationDTO
+     * @param bool|null $vehicleReplace
      * @return ApplicationUser
      */
-    public function registerUser(RegistrationDTO $registrationDTO): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO, ?bool $vehicleReplace = false): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
@@ -70,7 +71,7 @@ class UserRegistrationService
 
         try {
             if ($applicationUser instanceof PersonalUser) {
-                $this->eventBus->handle(new UserCreated($applicationUser));
+                $this->eventBus->handle(new UserCreated($applicationUser, $vehicleReplace));
             } else {
                 $this->eventBus->handle(new ProUserCreated($applicationUser));
             }
