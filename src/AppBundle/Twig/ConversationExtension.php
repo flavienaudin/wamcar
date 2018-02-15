@@ -32,7 +32,8 @@ class ConversationExtension extends AbstractExtension
         return array(
             new \Twig_SimpleFunction('getInterlocutorConversation', array($this, 'getInterlocutorConversationFunction')),
             new \Twig_SimpleFunction('getCurrentUserConversation', array($this, 'getCurrentUserConversationFunction')),
-            new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction'))
+            new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
+            new \Twig_SimpleFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction'))
         );
     }
 
@@ -63,5 +64,14 @@ class ConversationExtension extends AbstractExtension
     public function getLastMessageConversationFunction(Conversation $conversation): ?Message
     {
         return $this->messageRepository->getLastConversationMessage($conversation);
+    }
+
+    /**
+     * @param BaseUser $user
+     * @return int
+     */
+    public function getCountUnreadMessagesFunction(BaseUser $user): int
+    {
+        return $this->messageRepository->getCountUnreadMessagesByUser($user);
     }
 }

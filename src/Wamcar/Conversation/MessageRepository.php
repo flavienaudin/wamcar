@@ -4,6 +4,8 @@ namespace Wamcar\Conversation;
 
 
 
+use Wamcar\User\BaseUser;
+
 interface MessageRepository
 {
     /**
@@ -17,5 +19,13 @@ interface MessageRepository
      * @return array
      */
     public function findByConversationAndOrdered(Conversation $conversation): array;
+
+    /**
+     * @param BaseUser $user
+     * @return int
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getCountUnreadMessagesByUser(BaseUser $user): int;
 
 }
