@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\DTO\VehicleDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,6 +36,7 @@ class VehicleType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
+            ->add('vehicleReplace', HiddenType::class)
         ;
     }
 

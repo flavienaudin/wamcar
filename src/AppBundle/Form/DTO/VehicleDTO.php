@@ -28,6 +28,8 @@ class VehicleDTO
     public $specifics;
     /** @var VehiclePictureDTO[]|array */
     public $pictures;
+    /** @var bool */
+    public $vehicleReplace;
 
     /**
      * VehicleDTO constructor.

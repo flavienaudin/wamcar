@@ -117,6 +117,7 @@ class RegistrationController extends BaseController
         string $vin = null): Response
     {
         $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber, $date1erCir, $vin);
+        $vehicleDTO->vehicleReplace = (bool) $request->get('vehicle-replace', $vehicleDTO->vehicleReplace);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = array_key_exists('ktypNumber', $filters) ?

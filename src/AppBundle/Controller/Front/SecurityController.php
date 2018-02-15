@@ -167,7 +167,8 @@ class SecurityController extends BaseController
                 $this->session->remove($key);
                 return $this->redirect($redirectTo);
             } else {
-                return $this->redirectToRoute('front_default');
+                $vehicleReplace = $request->get('r');
+                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => 'project']) : $this->redirectToRoute('front_default');
             }
         }
 

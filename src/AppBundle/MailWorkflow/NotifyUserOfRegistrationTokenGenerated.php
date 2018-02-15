@@ -23,12 +23,16 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
 
         /** @var ApplicationUser $user */
         $user = $event->getUser();
+        $vehicleReplace = false;
+        if ($event instanceof UserCreated) {
+            $vehicleReplace = $event->isVehicleReplace();
+        }
 
         $this->send(
             $this->translator->trans('notifyUserOfRegistrationTokenGenerated.title', [], 'email'),
             'Mail/notifyUserOfRegistrationTokenGenerated.html.twig',
             [
-                'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken()], RouterInterface::ABSOLUTE_URL),
+                'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken(), 'r' => $vehicleReplace], RouterInterface::ABSOLUTE_URL),
                 'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
