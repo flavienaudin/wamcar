@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Message;
 use Wamcar\Conversation\MessageRepository;
+use Wamcar\User\BaseUser;
 
 class DoctrineMessageRepository extends EntityRepository implements MessageRepository
 {
@@ -29,6 +30,22 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
         $query =  $this->createQueryBuilder('m')
             ->where('m.conversation = :conversation')
             ->setParameter('conversation', $conversation)
+            ->orderBy('m.publishedAt', 'ASC')
+            ->getQuery();
+
+        return $query->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findUnreadMessagesByUser(BaseUser $user): array
+    {
+        $query =  $this->createQueryBuilder('m')
+            ->join('m.conversation', 'c')
+            ->join('c.conversationUsers', 'cu', 'WITH', 'm.publishedAt > cu.lastOpenedAt AND m.user != :user')
+            ->where('cu.user = :user')
+            ->setParameter('user', $user)
             ->orderBy('m.publishedAt', 'ASC')
             ->getQuery();
 
