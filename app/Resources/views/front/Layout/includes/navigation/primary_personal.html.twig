@@ -47,7 +47,7 @@
 
     {% for item in navigation_items %}
         <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
-            {% if item.showCountMessage is defined and item.showCountMessage %}
+            {% if item.showCountMessage ?? false %}
                 {{ getCountUnreadMessages(app.user) }}
             {% endif %}
             <b class="show-for-xlarge">{{ item.label }}</b>
