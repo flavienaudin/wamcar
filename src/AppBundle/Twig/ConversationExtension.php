@@ -72,7 +72,6 @@ class ConversationExtension extends AbstractExtension
      */
     public function getUnreadMessagesFunction(BaseUser $user): array
     {
-        dump($this->messageRepository->findUnreadMessagesByUser($user));
         return $this->messageRepository->findUnreadMessagesByUser($user);
     }
 }
