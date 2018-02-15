@@ -22,6 +22,8 @@ use Wamcar\Vehicle\PersonalVehicleRepository;
 
 class RegistrationController extends BaseController
 {
+    const VEHICLE_REPLACE_PARAM = 'r';
+
     /** @var FormFactoryInterface */
     private $formFactory;
     /** @var PersonalVehicleRepository */

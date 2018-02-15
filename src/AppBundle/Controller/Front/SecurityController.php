@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Controller\Front\PersonalContext\RegistrationController;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
@@ -167,7 +168,7 @@ class SecurityController extends BaseController
                 $this->session->remove($key);
                 return $this->redirect($redirectTo);
             } else {
-                $vehicleReplace = $request->get('r');
+                $vehicleReplace = $request->get(RegistrationController::VEHICLE_REPLACE_PARAM);
                 return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => 'project']) : $this->redirectToRoute('front_default');
             }
         }
