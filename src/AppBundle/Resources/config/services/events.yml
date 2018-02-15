@@ -73,7 +73,6 @@ services:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
-
     wamcar.event.adding_pictures_to_vehicle_notification:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfAddingPicturesToVehicle
@@ -81,3 +80,11 @@ services:
           - sell.adding_pictures_to_vehicle_notification
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification, method: notify }
+
+    wamcar.event.message_created:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyUserOfMessageCreated
+        arguments:
+          - message_created
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }

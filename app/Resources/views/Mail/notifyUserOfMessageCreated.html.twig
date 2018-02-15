@@ -1,0 +1,28 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+
+{% block title %}{{ 'notifyUserOfMessageCreated.title'|trans({'%interlocutorName%': interlocutorName}) }}{% endblock %}
+
+{% block body %}
+    <div>
+        {% if vehicle != null %}
+            {{ 'notifyUserOfMessageCreatedWithVehicle.body'|trans({
+                '%username%': username,
+                '%message%': message.content,
+                '%interlocutorName%': interlocutorName,
+                '%vehicleImage%': pathImg,
+                '%vehicleMarque%': vehicle.make,
+                '%vehicleModel%': vehicle.modelName,
+                '%vehicleMileage%': vehicle.mileage,
+                '%siteUrl%': siteUrl
+            })|raw }}
+        {% else %}
+            {{ 'notifyUserOfMessageCreated.body'|trans({
+                '%username%': username,
+                '%interlocutorName%': interlocutorName,
+                '%siteUrl%': siteUrl
+            })|raw }}
+         {% endif %}
+    </div>
+{% endblock %}

@@ -7,7 +7,11 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Services\Picture\PathVehiclePicture;
+use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Conversation\Conversation;
+use Wamcar\Conversation\Event\MessageCreated;
+use Wamcar\Conversation\Message;
 use Wamcar\User\BaseUser;
 
 
@@ -17,14 +21,22 @@ class ConversationEditionService
     protected $conversationRepository;
     /** @var DoctrineConversationUserRepository */
     protected $conversationUserRepository;
+    /** @var MessageBus */
+    private $eventBus;
+    /** @var PathVehiclePicture */
+    private $pathVehiclePicture;
 
     public function __construct(
         DoctrineConversationRepository $conversationRepository,
-        DoctrineConversationUserRepository $conversationUserRepository
+        DoctrineConversationUserRepository $conversationUserRepository,
+        MessageBus $eventBus,
+        PathVehiclePicture $pathVehiclePicture
     )
     {
         $this->conversationRepository = $conversationRepository;
         $this->conversationUserRepository = $conversationUserRepository;
+        $this->eventBus = $eventBus;
+        $this->pathVehiclePicture = $pathVehiclePicture;
     }
 
     /**
@@ -35,10 +47,19 @@ class ConversationEditionService
     public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
+        $message = new Message($conversation, $messageDTO->user, $messageDTO->content, $messageDTO->vehicleHeader, $messageDTO->vehicle, $messageDTO->isFleet);
+        $conversation->addMessage($message);
 
         // Update date conversation
         $conversation->setUpdatedAt(new \DateTime());
         $this->updateLastOpenedAt($conversation, $messageDTO->user);
+
+        $pathImg = null;
+        if ($message->getVehicle()) {
+            $pathImg = $this->pathVehiclePicture->getPath($message->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
+        }
+
+        $this->eventBus->handle(new MessageCreated($message, $messageDTO->interlocutor, $pathImg));
 
         return $this->conversationRepository->update($conversation);
     }

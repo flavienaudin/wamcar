@@ -45,3 +45,22 @@ notifyUserOfAddingPicturesToVehicle:
       <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
       <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
       <p>L'équipe Wamcar</p>
+
+notifyUserOfMessageCreated:
+    title: "Nouveau message de %interlocutorName%"
+    body: >
+      <p>Bonjour %username%,</p>
+      <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
+      <p>%message%</p>
+      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+      <p>L'équipe Wamcar</p>
+
+notifyUserOfMessageCreatedWithVehicle:
+    title: "Nouveau message de %interlocutorName%"
+    body: >
+      <p>Bonjour %username%,</p>
+      <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
+      <p>%message%</p>
+      <p>[encart véhicule linké] : %vehicleImage% - %vehicleMarque% - %vehicleModel% - %vehicleMileage% "</p>
+      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
+      <p>L'équipe Wamcar</p>

@@ -112,7 +112,7 @@ swiftmailer:
     password: '%env(MAILER_PASSWORD)%'
     port:      '%env(MAILER_PORT)%'
     encryption: tls
-    spool: { type: memory }
+    #spool: { type: memory }
 
 stof_doctrine_extensions:
     default_locale: fr_FR
