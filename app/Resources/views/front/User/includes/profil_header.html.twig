@@ -13,7 +13,7 @@
                 {% endif %}
 
                 {% if not userIsMe %}
-                    <a href="mailto:{{ user.email }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
+                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}" class="icon-message small-12 medium-shrink"><span class="text-underline">Envoyer un message</span></a>
                 {% else %}
                     <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">Déconnexion</a>
                 {% endif %}

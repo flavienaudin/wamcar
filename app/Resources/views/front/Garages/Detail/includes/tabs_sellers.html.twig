@@ -21,7 +21,7 @@
                     {% elseif userIsMe %}
                         <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
                     {% elseif isUserPersonal %}
-                        <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="text-underline">Envoyer un message</a></p>
+                        <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}" class="text-underline">Envoyer un message</a></p>
                     {% endif %}
                     {# <li class="block-grid column large-left-collapse align-middle">
                     <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.fullName }}"></span>
