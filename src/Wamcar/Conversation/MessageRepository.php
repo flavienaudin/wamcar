@@ -28,4 +28,11 @@ interface MessageRepository
      */
     public function getCountUnreadMessagesByUser(BaseUser $user): int;
 
+    /**
+     * @param Conversation $conversation
+     * @param BaseUser $user
+     * @return null|Message
+     */
+    public function getLastVehicleHeader(Conversation $conversation, BaseUser $user): ?Message;
+
 }

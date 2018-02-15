@@ -110,6 +110,7 @@ class ConversationController extends BaseController
      */
     public function editAction(Request $request, ApplicationConversation $conversation, ?string $vehicleId = null): Response
     {
+
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
         $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
 
@@ -125,6 +126,9 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
+        $lastVehicleHeaderMessage = $conversation ? $this->messageRepository->getLastVehicleHeader($conversation, $this->getUser()) : null;
+        $vehicleId = $lastVehicleHeaderMessage && $lastVehicleHeaderMessage->getVehicleHeader()->getId() === $vehicleId ? null : $vehicleId;
+
         $messageDTO = $this->loadAndCleanSession($messageDTO);
         $messageDTO = $this->assignVehicleParams($request, $messageDTO, $vehicleId);
 
