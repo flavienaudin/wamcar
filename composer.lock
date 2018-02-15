@@ -5702,7 +5702,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~7.1.1"
+        "php": ">=7.1.1"
     },
     "platform-dev": []
 }
