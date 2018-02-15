@@ -23,10 +23,7 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
 
         /** @var ApplicationUser $user */
         $user = $event->getUser();
-        $vehicleReplace = false;
-        if ($event instanceof UserCreated) {
-            $vehicleReplace = $event->isVehicleReplace();
-        }
+        $vehicleReplace = $event->isVehicleReplace();
 
         $this->send(
             $this->translator->trans('notifyUserOfRegistrationTokenGenerated.title', [], 'email'),
