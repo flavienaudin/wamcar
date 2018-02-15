@@ -4,18 +4,15 @@
 namespace AppBundle\MailWorkflow;
 
 
-use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Wamcar\Conversation\Event\MessageCreated;
+use Wamcar\Conversation\Event\MessageEvent;
+use Wamcar\Conversation\Event\MessageEventHandler;
 use Wamcar\Conversation\Message;
-use Wamcar\Message\Event\MessageEvent;
-use Wamcar\Message\Event\MessageEventHandler;
 
 class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements MessageEventHandler
 {
-    /** @var DoctrineConversationUserRepository */
-    protected $conversationUserRepository;
 
     /**
      * @param MessageEvent $event
@@ -26,15 +23,21 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
 
         /** @var Message $message */
         $message = $event->getMessage();
-        $interlocutorConversation = $this->conversationUserRepository->findInterlocutorConversation($message->getConversation(), $message->getUser());
+        $interlocutor = $event->getInterlocutor();
+        $pathImg = $event->getPathImg();
 
         $this->send(
-            $this->translator->trans('notifyUserOfMessageCreated.title', [], 'email'),
+            $this->translator->trans('notifyUserOfMessageCreated.title', ['%interlocutorName%' =>  $interlocutor->getFullName()], 'email'),
             'Mail/notifyUserOfMessageCreated.html.twig',
             [
+                'username' => $message->getUser()->getFullName(),
+                'interlocutorName' => $interlocutor->getFullName(),
+                'message' => $message,
+                'vehicle' => $message->getVehicle(),
+                'pathImg' => $pathImg,
                 'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
-            new EmailRecipientList($interlocutorConversation->getUser())
+            new EmailRecipientList([$this->createUserEmailContact($interlocutor)])
         );
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Wamcar\Message\Event;
+namespace Wamcar\Conversation\Event;
 
 
 interface MessageEventHandler
