@@ -21,8 +21,10 @@
 </div>
 {% else %}#}
 <div class="messages-item-vehicle-proposed block-grid">
-    <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name }}">
-    <div class="messages-item-vehicle-proposed-infos">
+    <a href="#">
+        <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name }}">
+    </a>
+    <a href="#" class="messages-item-vehicle-proposed-infos">
         <strong class="messages-small-text primary-color">
             Voiture de {{ vehicle.seller.fullName }}
         </strong>
@@ -33,5 +35,5 @@
         <div class="messages-small-text">
             {{ vehicle.years }},  {{ vehicle.mileage|localizednumber }} km, {{ vehicle.cityName }}
         </div>
-    </div>
+    </a>
 </div>

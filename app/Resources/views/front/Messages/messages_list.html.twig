@@ -8,18 +8,18 @@
     <!-- Header -->
     <div class="messages-header messages-list-header  {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
         <div class="row">
-            <div class="small-12 messages-header-title messages-align-items block-grid">
+            <div class="small-12 messages-header-title block-grid">
                 <h1 class="primary-color no-margin">Messagerie</h1>
-                <div class="messages-unread-info">{{ getCountUnreadMessages(app.user) }} message(s) non lus</div>
+                <div class="messages-header-right-link messages-unread-info">{{ getCountUnreadMessages(app.user) }} message(s) non lus</div>
             </div>
         </div>
     </div>
-    <div class="row messages-list-wrapper">
+    <div class="row messages-list-wrapper {{ interlocutor == null and conversations|length == 0 ? 'empty-list-wrapper'}}">
+        {% if interlocutor == null and conversations|length == 0 %}
+            {% include 'front/Messages/includes/messages_list_empty.html.twig' %}
+        {% endif %}
         <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
-
-            {% if interlocutor == null and conversations|length == 0 %}
-                Aucune conversation n'a été crée
-            {% else %}
+            {% if interlocutor != null and conversations|length != 0 %}
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
                 {% if currentConversation == null and interlocutor != null %}
@@ -59,11 +59,11 @@
                             </span>
                             <div class="small-9 large-10 messages-main messages-list-item-main">
                                 <div class="is-flex">
-                                    <strong class="messages-sender-name">
+                                    <div class="messages-sender-name">
                                         {{ interlocutorList.fullName }}
-                                    </strong>
+                                    </div>
                                     <div class="messages-time">
-                                        {{ conversation.updatedAt|localizeddate(format = "d MMM, HH'h'mm") }}
+                                        {{ conversation.updatedAt|localizeddate(format = "dd/MM 'à' HH'h'mm") }}
                                     </div>
                                 </div>
                                 <div class="messages-small-text">

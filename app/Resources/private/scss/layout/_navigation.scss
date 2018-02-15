@@ -11,6 +11,7 @@
      ===================================== */
 
   &-item {
+    position: relative;
     transition: $global-transition;
 
     @include breakpoint(medium down) {

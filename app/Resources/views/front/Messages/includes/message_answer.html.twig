@@ -1,10 +1,9 @@
 <!-- Message answer -->
 <div class="messages-item-answer">
     {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
-
-    <label id="message-answer">{{ labelName }}</label>
+    
     {{ form_widget(messageForm.content, {
-        'label': 'Message',
+        'label': labelName,
         'placeholder': 'Entrez votre message...',
         'class': 'no-margin',
         'required': true

@@ -450,7 +450,7 @@
   &-aside-container,
   &-aside {
     z-index: 2;
-    
+
     @media screen and (min-height: rem-calc(900)) {
       position: sticky;
       position: -webkit-sticky;
@@ -896,6 +896,12 @@
      Messages Vehicle list
      ===================================== */
 
+  &-messages-create {
+    @include breakpoint(medium) {
+      margin-top: rem-calc(8)!important;
+    }
+  }
+
   &-messages-list {
 
     @include breakpoint(large) {
@@ -950,6 +956,10 @@
 
       &:before {
         margin-right: 0;
+
+        @include breakpoint(large) {
+          content: '\e913';
+        }
       }
     }
   }

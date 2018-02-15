@@ -12,11 +12,26 @@
     padding: rem-calc(25) rem-calc(15);
     background: $grey-alt;
 
-    a {
-      margin-left: auto;
+    &:not(.messages-header-item-mobile) {
+      @include breakpoint(small only) {
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    a:not(.messages-back-btn) {
       margin-bottom: rem-calc(8);
       position: relative;
       top: rem-calc(5);
+    }
+  }
+
+  &-header-right-link {
+    margin-left: rem-calc(20);
+    margin-top: rem-calc(12);
+
+    @include breakpoint(small only) {
+      margin-top: rem-calc(6);
     }
   }
 
@@ -27,10 +42,6 @@
   h1 {
     font-size: rem-calc(26);
     line-height: rem-calc(30);
-  }
-
-  &-unread-info {
-    margin-left: auto;
   }
 
   &-back-btn {
@@ -58,17 +69,28 @@
 
   &-time {
     margin-left: auto;
+    text-align: right;
+    font-size: rem-calc(13);
+  }
+
+  &-time,
+  &-small-text,
+  &-list-item-main {
+    color: $medium-gray;
   }
 
   &-sender-name {
     font-size: rem-calc(14);
-    font-weight: $global-weight-bold;
     color: $secondary-color;
   }
 
   &-small-text {
     font-size: rem-calc(11);
     line-height: rem-calc(16);
+
+    a {
+      color: $medium-gray;
+    }
   }
 
   &-create-vehicle-btn {
@@ -82,14 +104,17 @@
      ===================================== */
 
   &-list-wrapper {
-    @include breakpoint(medium) {
-      border-top: rem-calc(1) solid $border-color;
-      border-bottom: rem-calc(1) solid $border-color;
-    }
 
-    @include breakpoint(large) {
-      margin-bottom: rem-calc(60);
-      box-shadow: 0 rem-calc(1) rem-calc(7) rgba(black, .1);
+    &:not(.empty-list-wrapper) {
+      @include breakpoint(medium) {
+        border-top: rem-calc(1) solid $border-color;
+        border-bottom: rem-calc(1) solid $border-color;
+      }
+
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(60);
+        box-shadow: 0 rem-calc(1) rem-calc(7) rgba(black, .1);
+      }
     }
 
     .vehicle-item {
@@ -99,9 +124,11 @@
 
   &-list {
     @include breakpoint(medium) {
+      overflow-y: auto;
       height: 100%;
       border-left: rem-calc(1) solid $border-color;
       border-right: rem-calc(1) solid $border-color;
+      max-height: rem-calc(879);
     }
   }
 
@@ -113,6 +140,10 @@
 
   &-list-item {
     padding: $message-xs-padding;
+
+    &:hover {
+      background: $grey-alt;
+    }
 
     @include breakpoint(medium) {
       cursor: pointer;
@@ -131,8 +162,22 @@
           background: darken($grey-alt, 2%);
         }
       }
+    }
 
+    &.is-current {
+      @include breakpoint(medium) {
+        background: darken($grey-alt,3%);
+
+        &:hover {
+          background: darken($grey-alt, 6%);
+        }
+      }
+    }
+
+    &.is-unread,
+    &.is-current {
       .messages-sender-name {
+        font-weight: $global-weight-bold;
         color: $primary-color;
       }
 
@@ -150,6 +195,7 @@
   &-list-user-img {
     max-height: rem-calc(70);
     max-width: rem-calc(70);
+    width: 100%;
   }
 
   &-list-item-content {
@@ -159,12 +205,37 @@
     text-overflow: ellipsis;
   }
 
+  &-list-empty {
+    padding: rem-calc(50);
+    width: 100%;
+    background: yellow;
+
+    .messages-list-empty-icon {
+      margin: 0 0 rem-calc(15);
+      font-size: rem-calc(120);
+      color: $primary-color;
+    }
+
+    strong {
+      margin: 0 0 rem-calc(15);
+      color: $black;
+    }
+
+    button {
+      margin-top: rem-calc(5);
+    }
+  }
+
   /*
      Item
      ===================================== */
 
   &-item {
    padding: $message-xs-padding;
+
+   &:not(:last-child) {
+     border-bottom: rem-calc(1) solid $border-color;
+   }
 
    @include breakpoint(medium) {
      padding: $message-medium-padding;
@@ -198,7 +269,6 @@
 
   &-item-answer {
     padding: rem-calc(20) rem-calc(15) rem-calc(40);
-    border-top: rem-calc(1) solid $border-color;
     background: $grey-alt2;
 
     @include breakpoint(medium) {
@@ -227,11 +297,11 @@
   }
 
   &-send-btn {
-    margin-top: rem-calc(35);
+    margin-top: rem-calc(35)!important;
   }
 
   &-item-vehicle-taken {
-    margin-top: rem-calc(20);
+    margin-top: rem-calc(30);
   }
 
   &-item-vehicle-taken-label {
@@ -364,6 +434,39 @@
 
     @include breakpoint(medium) {
       margin: rem-calc(35) auto 0;
+    }
+  }
+
+
+  /*
+     Notification
+     ===================================== */
+
+  &-notification {
+    position: absolute;
+    left: rem-calc(37);
+    margin-top: rem-calc(-15);
+    width: rem-calc(16);
+    height: rem-calc(16);
+    font-size: rem-calc(9);
+    line-height: rem-calc(16);
+    background: $primary-color;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+
+    @media screen and (max-width: rem-calc(355)) {
+      left: rem-calc(30);
+      margin-top: rem-calc(-15);
+    }
+
+    @include breakpoint(large) {
+      left: rem-calc(60);
+      margin-top: rem-calc(-17);
+      width: rem-calc(20);
+      height: rem-calc(20);
+      font-size: rem-calc(11);
+      line-height: rem-calc(20);
     }
   }
 
