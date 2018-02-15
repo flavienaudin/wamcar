@@ -39,9 +39,10 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
     /**
      * {@inheritdoc}
      */
-    public function findUnreadMessagesByUser(BaseUser $user): array
+    public function getCountUnreadMessagesByUser(BaseUser $user): int
     {
         $query =  $this->createQueryBuilder('m')
+            ->select('COUNT(m.id)')
             ->join('m.conversation', 'c')
             ->join('c.conversationUsers', 'cu', 'WITH', 'm.publishedAt > cu.lastOpenedAt AND m.user != :user')
             ->where('cu.user = :user')
@@ -49,6 +50,6 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
             ->orderBy('m.publishedAt', 'ASC')
             ->getQuery();
 
-        return $query->getResult();
+        return $query->getSingleScalarResult();
     }
 }

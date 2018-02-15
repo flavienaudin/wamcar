@@ -22,8 +22,10 @@ interface MessageRepository
 
     /**
      * @param BaseUser $user
-     * @return array
+     * @return int
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function findUnreadMessagesByUser(BaseUser $user): array;
+    public function getCountUnreadMessagesByUser(BaseUser $user): int;
 
 }
