@@ -4,6 +4,13 @@
 
 {% block title %}Messagerie{% endblock %}
 
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
 {% block body %}
     <!-- Header -->
     <div class="messages-header messages-list-header  {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
