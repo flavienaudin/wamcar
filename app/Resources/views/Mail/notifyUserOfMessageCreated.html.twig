@@ -16,7 +16,7 @@
                 '%vehicleImage%': pathImg,
                 '%vehicleMarque%': vehicle.make,
                 '%vehicleModel%': vehicle.modelName,
-                '%vehicleMileage%': vehicle.mileage,
+                '%vehicleMileage%': vehicle.mileage|localizednumber~"km",
             })|raw }}
          {% endif %}
         {{ action_button('http://portail.wamcar.com/signaler-une-annonce', 'notifyUserOfMessageCreated.action_label'|trans) }}
