@@ -5,6 +5,7 @@ before_script:
   - mv docker-compose.yml docker-compose.yml.origin
   - sed "s/:cached/:consistent/g" docker-compose.yml.origin > docker-compose.yml
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry-gitlab.novaway.net
+  - docker-compose pull
   - make vendors
   - make front
   - make api-documentation
