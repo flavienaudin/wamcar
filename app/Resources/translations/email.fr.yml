@@ -1,66 +1,64 @@
+email:
+  hello_username: Bonjour %username%,
+  signature: >
+      Merci,<br>
+      L'équipe Wamcar
 
 notifyUserOfRegistrationTokenGenerated:
-    title:  "Bienvenue chez Wamcar"
+    object: "Confirmez votre adresse e-mail - Wamcar"
     body: >
-        <p>Bonjour,</p>
-        <p>Nous sommes ravis de vous compter comme nouveau membre de la communauté Wamcar !</p>
-        <p><a href="%activationUrl%">Pour activer votre compte merci de cliquer sur le lien suivant</a></p>
-        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-        <p>L'équipe Wamcar</p>
+        <p>Bienvenue sur Wamcar !</p>
+        <p>Pour commencer l'expérience Wamcar, il ne vous reste plus qu'à <a href="%activationUrl%">confirmer votre adresse e-mail</a>.</p>
 
 notifyProUserOfRegistration:
-    title:  "Bienvenue chez Wamcar"
+    object:  "Votre compte Wamcar"
     body: >
-        <p>Bonjour,</p>
-        <p>Nous sommes ravis de vous compter comme nouveau membre de la communauté Wamcar !</p>
-        <p>Votre compte est activé.</p>
-        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-        <p>L'équipe Wamcar</p>
+        <p>Votre inscription a bien été enregistrée et toute l’équipe Wamcar vous en remercie.</p>
+        <p>Voici l'identifiant vous permettant d’accéder à votre espace personnel :
+        <ul><li>Votre identifiant : %user_mail%</li></ul>
+        </p>
+        <p>
+        Vous bénéficiez désormais d’un espace personnel vous permet notamment de :
+        <ul>
+        <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
+        <li>Chercher parmis des demandes de particuliers : reprise et/ou achat</li>
+        <li>Envoyer des offres à des particuliers</li>
+        </ul>
+        </p>
+        <p>Pour toute question, n'hésitez pas à consulter nos pages d'<a href="%url_help_page%">aide en ligne</a>, ou à contacter notre service client.</p>
+    action_label: Consulter votre profil
 
 notifyUserOfPasswordResetTokenGenerated:
-    title:  "Réinitialisation de votre mot de passe"
+    object:  "Réinitialisation de votre mot de passe - Wamcar"
     body: >
-        <p>Bonjour,</p>
         <p>Nous avons reçu une demande pour réinitialiser le mot de passe de votre compte. <br>
-                   Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
+        Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
         <p><a href="%resetUrl%">Réinitialiser mon mot de passe</a></p>
         <p>Ce lien est valable 24 Heures. Au-delà de ce délai, vous devrez renouveler votre demande de mot de passe.</p>
-        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-        <p>L'équipe Wamcar</p>
 
 notifyOwnerOfVehicleRemoved:
-    title: "Suppression d'une annonce"
+    object: "Votre annonce a bien été supprimée - Wamcar"
     body: >
-        <p>Bonjour,</p>
         <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
-        <p>Donnez votre avis sur Wamcar en remlissant notre formulaire de satisfaction.</p>
-        <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-        <p>L'équipe Wamcar</p>
+        <p>Donnez votre avis sur Wamcar en remplissant notre formulaire de satisfaction.</p>
+    action_label: Donner votre avis
 
 notifyUserOfAddingPicturesToVehicle:
-    title: "Ajouter des photos à votre annonce"
+    object: "Améliorez votre annonce en la complétant - Wamcar"
     body: >
-      <p>Bonjour %username%,</p>
-      <p>Afin d'obtenir un maximum d'offres réalistes et adaptées, nous vous invîtons à compléter votre annonce en ajoutant plusieurs photos.</p>
-      <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
-      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-      <p>L'équipe Wamcar</p>
+        <p>Afin d'obtenir un maximum d'offres réalistes et adaptées, nous vous invîtons à compléter votre annonce en ajoutant plusieurs photos.</p>
+        <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
+    action_label: Compléter la fiche véhicule
 
 notifyUserOfMessageCreated:
-    title: "Nouveau message de %interlocutorName%"
+    object: "Nouveau message de %interlocutorName%"
     body: >
-      <p>Bonjour %username%,</p>
       <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
       <p>%message%</p>
-      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-      <p>L'équipe Wamcar</p>
 
 notifyUserOfMessageCreatedWithVehicle:
-    title: "Nouveau message de %interlocutorName%"
+    object: "Nouveau message de %interlocutorName%"
     body: >
-      <p>Bonjour %username%,</p>
       <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
       <p>%message%</p>
       <p>[encart véhicule linké] : %vehicleImage% - %vehicleMarque% - %vehicleModel% - %vehicleMileage% "</p>
-      <p>Merci pour votre confiance et à très bientôt sur <a href="%siteUrl%">%siteUrl%</a> !</p>
-      <p>L'équipe Wamcar</p>

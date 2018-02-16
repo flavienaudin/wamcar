@@ -1,6 +1,21 @@
 {% trans_default_domain 'email' %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+{% macro action_button(action_url, action_label) %}
+    <table class="button">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td><a href="{{ action_url }}">{{ action_label }}</a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endmacro %}
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
@@ -10,10 +25,144 @@
     <!-- <style> -->
 </head>
 <body>
+{% inlinecss '@AppBundle/Resources/css/email/email-inline.css' %}
+    <span class="preheader"></span>
+    <table class="body">
+        <tr>
+            <td class="center" align="center" valign="top">
+                <center data-parsed="">
+                    <table align="center" class="container float-center">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="row header">
+                                    <tbody>
+                                    <tr>
+                                        <th class="logo small-12 large-6 columns first">
+                                            <table>
+                                                <tr>
+                                                    <th>
+                                                        <img src="{{ absolute_url(asset('assets/images/logo/logo-wamcar.svg')) }}"
+                                                             alt="Logo Wamcar">
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                        <th class="header-link-wrapper small-12 large-6 columns last">
+                                            <table>
+                                                <tr>
+                                                    <th>
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td>
+                                                                    <table width="100%">
+                                                                        <tr>
+                                                                            <td class="header-link">
+                                                                                <a href="{{ url('front_default') }}">Accéder
+                                                                                    à Wamcar.com</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
 
-<h1>{{ block('title') }}</h1>
+                                <table class="row content">
+                                    <tbody>
+                                    <tr>
+                                        <th class="small-12 large-12 columns first last">
+                                            <table>
+                                                <tr>
+                                                    <th>
+                                                        <table class="spacer">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td height="30px"
+                                                                    style="font-size:30px;line-height:30px;">&#xA0;
+                                                                </td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        {% block welcome %}
+                                                            <p>{{ "email.hello_username"|trans({'%username%' : username|default('')}) }}</p>{% endblock %}
 
-{% block body %}{% endblock %}
+                                                        {% block body %}{% endblock %}
 
+                                                        {% block wamcar_signature %}
+                                                            <p>{{ "email.signature"|trans|raw }}</p>{% endblock %}
+                                                    </th>
+                                                    <th class="expander"></th>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <table align="center" class="container footer-container float-center">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <table class="spacer">
+                                    <tbody>
+                                    <tr>
+                                        <td height="40px" style="font-size:40px;line-height:40px;">&#xA0;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="row collapse">
+                                    <tbody>
+                                    <tr>
+                                        <th class="small-12 large-12 columns first last">
+                                            <table>
+                                                <tr>
+                                                    <th>
+                                                        <p>Ce mail vous est envoyé par Wamcar. Conformément à la loi
+                                                            informatique et libertés du 6 janvier 1978, vous disposez
+                                                            d'un droit d'accès, de rectification et de suppression des
+                                                            données vous concernant.</p>
+                                                        <p>© 2018 Wamcar. Tous droits réservés.</p>
+                                                    </th>
+                                                    <th class="expander"></th>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <table class="spacer">
+                                    <tbody>
+                                    <tr>
+                                        <td height="40px" style="font-size:40px;line-height:40px;">&#xA0;</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </center>
+            </td>
+        </tr>
+    </table>
+    <!-- prevent Gmail on iOS font size manipulation -->
+    <div style="display:none; white-space:nowrap; font:15px courier; line-height:0;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+    </div>
+{% endinlinecss %}
 </body>
 </html>

@@ -2,13 +2,12 @@
 
 {% trans_default_domain 'email' %}
 
-{% block title %}{{ 'notifyUserOfRegistrationTokenGenerated.title'|trans }}{% endblock %}
+{% block title %}{{ 'notifyUserOfRegistrationTokenGenerated.object'|trans }}{% endblock %}
 
 {% block body %}
     <div>
         {{ 'notifyUserOfRegistrationTokenGenerated.body'|trans({
-            '%activationUrl%': activationUrl,
-            '%siteUrl%': siteUrl
+            '%activationUrl%': activationUrl
         })|raw }}
     </div>
 {% endblock %}

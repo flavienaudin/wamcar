@@ -26,11 +26,11 @@ class NotifyUserOfPasswordResetTokenGenerated extends AbstractEmailEventHandler 
         $user = $event->getUser();
 
         $this->send(
-            $this->translator->trans('notifyUserOfPasswordResetTokenGenerated.title', [], 'email'),
+            $this->translator->trans('notifyUserOfPasswordResetTokenGenerated.object', [], 'email'),
             'Mail/notifyUserOfPasswordResetTokenGenerated.html.twig',
             [
+                'username' => $user->getFirstName(),
                 'resetUrl' => $this->router->generate('security_password_reset', ['token' => $user->getPasswordResetToken()], RouterInterface::ABSOLUTE_URL),
-                'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
         );

@@ -1,15 +1,16 @@
 {% extends ':Mail/Layout:email.html.twig' %}
 
 {% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button %}
 
-{% block title %}{{ 'notifyOwnerOfVehicleRemoved.title'|trans }}{% endblock %}
+{% block title %}{{ 'notifyOwnerOfVehicleRemoved.object'|trans }}{% endblock %}
 
 {% block body %}
     <div>
         {{ 'notifyOwnerOfVehicleRemoved.body'|trans({
             '%name%': name,
-            '%annee%' : annee,
-            '%siteUrl%': siteUrl
+            '%annee%' : annee
         })|raw }}
+        {{ action_button('http://www.wamcar.fr', 'notifyOwnerOfVehicleRemoved.action_label'|trans) }}
     </div>
 {% endblock %}

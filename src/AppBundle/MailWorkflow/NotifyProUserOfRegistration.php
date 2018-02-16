@@ -24,10 +24,12 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
         $user = $event->getUser();
 
         $this->send(
-            $this->translator->trans('notifyProUserOfRegistration.title', [], 'email'),
+            $this->translator->trans('notifyProUserOfRegistration.object', [], 'email'),
             'Mail/notifyProUserOfRegistration.html.twig',
             [
-                'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                'username' => $user->getFirstName(),
+                'user_mail' => $user->getEmail(),
+                'url_help_page' => $this->router->generate("front_default", null, UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
         );

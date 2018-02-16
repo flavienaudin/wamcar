@@ -44,7 +44,8 @@
     "zircote/swagger-php": "^2.0",
     "pragmarx/zipcode": "^1.5",
     "twig/extensions": "^1.5",
-    "liip/imagine-bundle": "^1.9"
+    "liip/imagine-bundle": "^1.9",
+    "robertotru/to-inline-style-email-bundle": "^1.5"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",

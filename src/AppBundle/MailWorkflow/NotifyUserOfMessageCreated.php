@@ -34,8 +34,7 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                 'interlocutorName' => $interlocutor->getFullName(),
                 'message' => $message,
                 'vehicle' => $message->getVehicle(),
-                'pathImg' => $pathImg,
-                'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                'pathImg' => $pathImg
             ],
             new EmailRecipientList([$this->createUserEmailContact($interlocutor)])
         );

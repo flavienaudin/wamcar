@@ -4,9 +4,8 @@
 namespace AppBundle\MailWorkflow;
 
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
 use Wamcar\Vehicle\Event\VehicleRemoved;
@@ -20,16 +19,16 @@ class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements V
     {
         $this->checkEventClass($event, VehicleRemoved::class);
 
-        /** @var ApplicationUser $user */
+        /** @var BaseVehicle $user */
         $vehicle = $event->getVehicle();
 
         $this->send(
-            $this->translator->trans('notifyOwnerOfVehicleRemoved.title', [], 'email'),
+            $this->translator->trans('notifyOwnerOfVehicleRemoved.object', [], 'email'),
             'Mail/notifyOwnerOfVehicleRemoved.html.twig',
             [
+                'username' => $vehicle->getSellerName(),
                 'name' => $vehicle->getName(),
-                'annee' => $vehicle->getYears(),
-                'siteUrl' => $this->router->generate('front_default', [], UrlGeneratorInterface::ABSOLUTE_URL)
+                'annee' => $vehicle->getYears()
             ],
             new EmailRecipientList([$this->createUserEmailContact($vehicle->getSeller())])
         );
