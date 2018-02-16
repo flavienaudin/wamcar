@@ -31,9 +31,8 @@ services:
             - "$HOME/.ssh/config:/var/tmp/sshconf:ro"
             - "$HOME/.ssh/known_hosts:/var/tmp/ssh_hosts:ro"
             - "$HOME/.ssh/id_rsa:/var/tmp/id:ro"
+            - "$HOME/.composer:/composer"
             - ".:/var/www/myapp:cached"
-        environment:
-            LOCAL_USER_ID: $USER_ID
         working_dir: /var/www/myapp
         depends_on:
             - mysql
@@ -46,6 +45,7 @@ services:
                     - service.php
         environment:
             - XDEBUG_CONFIG
+            - LOCAL_USER_ID=${USER_ID}
 
     nginx:
         image: nginx:1.11-alpine

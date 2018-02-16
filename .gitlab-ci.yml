@@ -22,6 +22,7 @@ cache:
 variables:
   WEB_PORT: 8008
   MYSQL_PORT: 6603
+  USER_ID: $CI_RUNNER_ID
 
 #################
 ###  Deploy   ###
