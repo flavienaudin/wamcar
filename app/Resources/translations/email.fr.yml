@@ -51,14 +51,11 @@ notifyUserOfAddingPicturesToVehicle:
     action_label: Compléter la fiche véhicule
 
 notifyUserOfMessageCreated:
-    object: "Nouveau message de %interlocutorName%"
+    object: "Nouveau message de %messageAuthorName%"
     body: >
-      <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
-      <p>%message%</p>
+        <p>Vous avez reçu un nouveau message de %messageAuthorName%</p>
+        <p>%message%</p>
+    vehicle_encart: >
+          <p>[encart véhicule linké] : %vehicleImage% - %vehicleMarque% - %vehicleModel% - %vehicleMileage% "</p>
+    action_label: Signaler
 
-notifyUserOfMessageCreatedWithVehicle:
-    object: "Nouveau message de %interlocutorName%"
-    body: >
-      <p>Vous avez reçu un nouveau message de %interlocutorName%</p>
-      <p>%message%</p>
-      <p>[encart véhicule linké] : %vehicleImage% - %vehicleMarque% - %vehicleModel% - %vehicleMileage% "</p>

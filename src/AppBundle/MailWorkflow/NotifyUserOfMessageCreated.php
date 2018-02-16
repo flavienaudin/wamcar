@@ -5,7 +5,6 @@ namespace AppBundle\MailWorkflow;
 
 
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Event\MessageEvent;
 use Wamcar\Conversation\Event\MessageEventHandler;
@@ -27,11 +26,11 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
         $pathImg = $event->getPathImg();
 
         $this->send(
-            $this->translator->trans('notifyUserOfMessageCreated.object', ['%interlocutorName%' =>  $message->getUser()->getFullName()], 'email'),
+            $this->translator->trans('notifyUserOfMessageCreated.object', ['%messageAuthorName%' => $message->getUser()->getFullName()], 'email'),
             'Mail/notifyUserOfMessageCreated.html.twig',
             [
                 'username' => $interlocutor->getFullName(),
-                'interlocutorName' => $message->getUser()->getFullName(),
+                'messageAuthorName' => $message->getUser()->getFullName(),
                 'message' => $message->getContent(),
                 'vehicle' => $message->getVehicle(),
                 'pathImg' => $pathImg
