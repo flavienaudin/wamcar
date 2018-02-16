@@ -45,7 +45,7 @@ services:
                     - service.php
         environment:
             - XDEBUG_CONFIG
-            - LOCAL_USER_ID=${USER_ID}
+            - LOCAL_USER_ID=$USER_ID
 
     nginx:
         image: nginx:1.11-alpine
