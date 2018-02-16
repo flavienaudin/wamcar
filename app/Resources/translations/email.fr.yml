@@ -55,18 +55,5 @@ notifyUserOfMessageCreated:
     body: >
         <p>Vous avez reçu un nouveau message de %messageAuthorName%</p>
         <p>%message%</p>
-    vehicle_encart: >
-        <table style="margin-bottom: 20px;">
-          <tr>
-            <td width="200" style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5;">
-              <img src="%vehicleImage%" alt="%vehicleMarque% %vehicleModel%">
-            </td>
-            <td style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-right: 1px solid #E5E5E5; padding: 15px 20px;">
-              <div style="font-weight: bold; margin-bottom: 5px;">%vehicleMarque%</div>
-              <div style="color: #7A7A7A;">%vehicleModel%</div>
-              <div style="color: #7A7A7A;">%vehicleMileage%</div>
-            </td>
-          </tr>
-        </table>
     action_label: Signaler
 
