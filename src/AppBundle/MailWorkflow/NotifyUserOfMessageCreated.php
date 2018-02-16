@@ -9,6 +9,7 @@ use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Event\MessageEvent;
 use Wamcar\Conversation\Event\MessageEventHandler;
 use Wamcar\Conversation\Message;
+use Wamcar\Vehicle\ProVehicle;
 
 class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements MessageEventHandler
 {
@@ -33,7 +34,8 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                 'messageAuthorName' => $message->getUser()->getFullName(),
                 'message' => $message->getContent(),
                 'vehicle' => $message->getVehicle(),
-                'pathImg' => $pathImg
+                'vehiclePrice' => ($message->getVehicle() instanceof ProVehicle?$message->getVehicle()->getPrice():null),
+                'thumbnailUrl' => $pathImg
             ],
             new EmailRecipientList([$this->createUserEmailContact($interlocutor)])
         );

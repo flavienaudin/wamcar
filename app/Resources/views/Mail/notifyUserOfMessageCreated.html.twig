@@ -1,7 +1,7 @@
 {% extends ':Mail/Layout:email.html.twig' %}
 
 {% trans_default_domain 'email' %}
-{% from ':Mail/Layout:email.html.twig' import action_button %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
 
 {% block title %}{{ 'notifyUserOfMessageCreated.object'|trans({'%messageAuthorName%': messageAuthorName}) }}{% endblock %}
 
@@ -12,12 +12,7 @@
             '%message%': message|nl2br,
         })|raw }}
         {% if vehicle != null %}
-            {{ 'notifyUserOfMessageCreated.vehicle_encart'|trans({
-                '%vehicleImage%': pathImg,
-                '%vehicleMarque%': vehicle.make,
-                '%vehicleModel%': vehicle.modelName,
-                '%vehicleMileage%': vehicle.mileage|localizednumber~"km",
-            })|raw }}
+            {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
          {% endif %}
         {{ action_button('http://portail.wamcar.com/signaler-une-annonce', 'notifyUserOfMessageCreated.action_label'|trans) }}
     </div>
