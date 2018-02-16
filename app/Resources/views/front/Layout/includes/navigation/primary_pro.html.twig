@@ -40,8 +40,8 @@
 
     {% for item in navigation_items %}
         <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
-            {% if item.showCountMessage is defined and item.showCountMessage %}
-                {{ getCountUnreadMessages(app.user) }}
+            {% if (item.showCountMessage ?? false) and (getCountUnreadMessages(app.user) > 0) %}
+                <span class="messages-notification">{{ getCountUnreadMessages(app.user) }}</span>
             {% endif %}
             <b class="show-for-xlarge">{{ item.label }}</b>
         </a>
