@@ -21,19 +21,17 @@ html {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  min-height: 100vh;
+
   @include breakpoint(small only) {
     font-size: rem-calc(13);
   }
 
   @include breakpoint(medium only) {
     font-size: rem-calc(15);
-  }
-
-  @include breakpoint(medium) {
-    display: flex;
-    flex-direction: column;
-    align-content: flex-start;
-    min-height: 100vh;
   }
 }
 
