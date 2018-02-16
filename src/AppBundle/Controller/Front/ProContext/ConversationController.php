@@ -126,7 +126,7 @@ class ConversationController extends BaseController
      */
     protected function processForm(Request $request, MessageDTO $messageDTO, ?ApplicationConversation $conversation = null, ?string $vehicleId = null)
     {
-        $lastVehicleHeaderMessage = $conversation ? $this->messageRepository->getLastVehicleHeader($conversation, $this->getUser()) : null;
+        $lastVehicleHeaderMessage = $conversation ? $this->messageRepository->getLastVehicleHeader($conversation) : null;
         $vehicleId = $lastVehicleHeaderMessage && $lastVehicleHeaderMessage->getVehicleHeader()->getId() === $vehicleId ? null : $vehicleId;
 
         $messageDTO = $this->loadAndCleanSession($messageDTO);
