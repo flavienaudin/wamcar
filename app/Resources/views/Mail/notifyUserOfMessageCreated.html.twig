@@ -9,7 +9,8 @@
         {% if vehicle != null %}
             {{ 'notifyUserOfMessageCreatedWithVehicle.body'|trans({
                 '%interlocutorName%': interlocutorName,
-                '%message%': message.content,
+                '%username%': username,
+                '%message%': message|nl2br,
                 '%vehicleImage%': pathImg,
                 '%vehicleMarque%': vehicle.make,
                 '%vehicleModel%': vehicle.modelName,
@@ -18,7 +19,8 @@
         {% else %}
             {{ 'notifyUserOfMessageCreated.body'|trans({
                 '%interlocutorName%': interlocutorName,
-                '%message%': message.content,
+                '%message%': message.content|nl2br,
+                '%siteUrl%': siteUrl
             })|raw }}
          {% endif %}
     </div>
