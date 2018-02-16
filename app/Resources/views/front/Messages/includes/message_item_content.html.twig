@@ -20,7 +20,7 @@
         {% endif %}
 
         <div class="messages-item block-grid no-bullet no-margin">
-            <a href="#">
+            <a href="{{ path('front_view_user_info', {'id': message.user.id}) }}" target="_blank">
                 <img class="messages-user-img messages-item-user-img" src="{{ message.user.avatar|avatar('user_thumbnail') }}" alt="{{ message.user.fullName }}">
             </a>
             <div class="messages-main">

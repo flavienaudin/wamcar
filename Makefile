@@ -3,7 +3,7 @@ USER_GID=`id -g`
 
 LOCAL_NPM_CACHE=`npm config get cache`
 
-DOCKERRUN = USER_ID=${USER_ID} docker-compose run --rm --user="${USER_ID}"
+DOCKERRUN = USER_ID=${USER_ID} docker-compose run --rm"
 DOCKERPHP = ${DOCKERRUN} php php
 DOCKERNPM = USER_ID=${USER_ID} USER_GID=${USER_GID} docker-compose run --rm -v "$(LOCAL_NPM_CACHE):/.npm" -v "$(PWD):/usr/src/app:cached" npm npm
 
