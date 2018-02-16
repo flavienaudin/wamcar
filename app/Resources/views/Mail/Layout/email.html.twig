@@ -15,6 +15,23 @@
 {% endmacro %}
 
 
+{% macro encart_vehicle(thumbnail_url, vehicleMake, vehicleModelName, vehicleMileage, vehiclePrice) %}
+    <table style="margin-bottom: 20px;">
+        <tr>
+            <td width="200" style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5;">
+                <img src="{{ thumbnail_url }}" alt="{{ vehicleMake }} {{ vehicleModelName }}">
+            </td>
+            <td style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-right: 1px solid #E5E5E5; padding: 15px 20px;">
+                <div style="font-weight: bold; margin-bottom: 5px;">{{ vehicleMake }} {{ vehicleModelName }}</div>
+                <div style="color: #7A7A7A;">{{ vehicleMileage|localizednumber~"km" }}</div>
+                {% if vehiclePrice is not null %}
+                    <div style="color: #7A7A7A;">{{ vehiclePrice|localizednumber~"€" }}</div>
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+{% endmacro %}
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
