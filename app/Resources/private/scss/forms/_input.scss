@@ -116,3 +116,13 @@ textarea {
     @include inputMargin;
   }
 }
+
+input[value="Non"] {
+  ~ .radio-item {
+    svg {
+      path {
+        fill: darken($alert-color,10%);
+      }
+    }
+  }
+}

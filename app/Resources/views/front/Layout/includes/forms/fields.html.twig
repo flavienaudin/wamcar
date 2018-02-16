@@ -433,7 +433,7 @@
                 <li class="column small-collapse">
                     {{ form_widget(child) }}
                     <label for="{{ child.vars.id }}" class="radio-item">
-                        {{ child.vars.value }} {% include 'front/Layout/includes/svg/check.html.twig' %}
+                        {{ child.vars.value }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
                     </label>
                 </li>
             {% endif %}
@@ -487,7 +487,7 @@
             <li class="column small-collapse">
                 {{ form_widget(child) }}
                 <label for="{{ child.vars.id }}" class="radio-item">
-                    {{ child.vars.label }} {% include 'front/Layout/includes/svg/check.html.twig' %}
+                    {{ child.vars.label }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
                 </label>
             </li>
         {% endfor %}
