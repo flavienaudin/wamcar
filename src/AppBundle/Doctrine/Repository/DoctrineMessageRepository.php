@@ -64,11 +64,10 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
             ->andWhere('m.personalVehicleHeader IS NOT NULL OR m.proVehicleHeader IS NOT NULL')
             ->setParameter('user', $user)
             ->setParameter('conversation', $conversation)
-            ->orderBy('m.publishedAt', 'ASC')
+            ->orderBy('m.publishedAt', 'DESC')
+            ->setMaxResults(1)
             ->getQuery();
 
-        $messages = $query->getResult();
-
-        return end($messages) ?: null;
+        return $query->getOneOrNullResult();
     }
 }

@@ -32,6 +32,7 @@ interface MessageRepository
      * @param Conversation $conversation
      * @param BaseUser $user
      * @return null|Message
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function getLastVehicleHeader(Conversation $conversation, BaseUser $user): ?Message;
 
