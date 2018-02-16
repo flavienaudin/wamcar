@@ -18,7 +18,7 @@ trait VehicleTrait
     {
         $sessionMessage = $this->sessionMessageManager->get();
         if ($sessionMessage) {
-            return $this->redirectToRoute($sessionMessage->route, array_merge($sessionMessage->routeParams, ['v' => $vehicle->getId()]));
+            return $this->redirectToRoute($sessionMessage->route, array_merge($sessionMessage->routeParams, ['v' => $vehicle->getId(), '_fragment' => 'message-answer-block']));
         }
         return $this->redirectToRoute($routeNoSession, ['id' => $vehicle->getId()]);
     }

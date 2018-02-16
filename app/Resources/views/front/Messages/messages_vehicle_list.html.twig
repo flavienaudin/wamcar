@@ -9,7 +9,7 @@
     <div class="messages-header vehicle-messages-header">
         <div class="row">
             <div class="small-12 messages-header-title block-grid">
-                <a href="{{ path(linkRoute, linkRouteParams) }}" class="messages-back-btn icon-close"></a>
+                <a href="{{ path(linkRoute, linkRouteParams) }}#message-answer-block" class="messages-back-btn icon-close"></a>
                 <h1 class="primary-color no-margin">Véhicules</h1>
                 <a href="{{ app.user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') }}" class="text-underline vehicle-messages-create messages-header-right-link">
                     Créer un véhicule
@@ -23,7 +23,7 @@
             <ul class="block-grid vehicle-messages-list no-bullet">
                 {% for vehicle in vehicles %}
                 <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
-                    <a href="{{ path(linkRoute, linkRouteParams|merge({'v': vehicle.id})) }}" class="vehicle-item is-flex">
+                    <a href="{{ path(linkRoute, linkRouteParams|merge({'v': vehicle.id})) }}#message-answer-block" class="vehicle-item is-flex">
                         <div class="vehicle-picture medium-auto">
                             <div class="is-relative">
                                 <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">

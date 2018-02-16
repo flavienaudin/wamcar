@@ -1,7 +1,7 @@
 <!-- Message answer -->
-<div class="messages-item-answer">
+<div class="messages-item-answer" id="message-answer-block">
     {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
-    
+
     {{ form_widget(messageForm.content, {
         'label': labelName,
         'placeholder': 'Entrez votre message...',
