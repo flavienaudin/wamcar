@@ -32,8 +32,7 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
             [
 
                 'username' => $user->getFirstName(),
-                'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken()], RouterInterface::ABSOLUTE_URL),
-                //'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken(), RegistrationController::VEHICLE_REPLACE_PARAM => $vehicleReplace], RouterInterface::ABSOLUTE_URL),
+                'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken(), RegistrationController::VEHICLE_REPLACE_PARAM => $vehicleReplace], RouterInterface::ABSOLUTE_URL),
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
         );
