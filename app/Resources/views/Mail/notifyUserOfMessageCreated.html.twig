@@ -19,6 +19,7 @@
         {% else %}
             {{ 'notifyUserOfMessageCreated.body'|trans({
                 '%interlocutorName%': interlocutorName,
+                '%username%': username,
                 '%message%': message|nl2br
             })|raw }}
          {% endif %}

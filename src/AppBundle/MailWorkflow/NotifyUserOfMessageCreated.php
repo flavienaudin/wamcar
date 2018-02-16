@@ -27,11 +27,11 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
         $pathImg = $event->getPathImg();
 
         $this->send(
-            $this->translator->trans('notifyUserOfMessageCreated.object', ['%interlocutorName%' =>  $interlocutor->getFullName()], 'email'),
+            $this->translator->trans('notifyUserOfMessageCreated.object', ['%interlocutorName%' =>  $message->getUser()->getFullName()], 'email'),
             'Mail/notifyUserOfMessageCreated.html.twig',
             [
-                'username' => $message->getUser()->getFullName(),
-                'interlocutorName' => $interlocutor->getFullName(),
+                'username' => $interlocutor->getFullName(),
+                'interlocutorName' => $message->getUser()->getFullName(),
                 'message' => $message->getContent(),
                 'vehicle' => $message->getVehicle(),
                 'pathImg' => $pathImg
