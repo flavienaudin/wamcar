@@ -52,4 +52,22 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
 
         return $query->getSingleScalarResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getLastVehicleHeader(Conversation $conversation, BaseUser $user): ?Message
+    {
+        $query =  $this->createQueryBuilder('m')
+            ->where('m.user = :user')
+            ->andWhere('m.conversation = :conversation')
+            ->andWhere('m.personalVehicleHeader IS NOT NULL OR m.proVehicleHeader IS NOT NULL')
+            ->setParameter('user', $user)
+            ->setParameter('conversation', $conversation)
+            ->orderBy('m.publishedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }

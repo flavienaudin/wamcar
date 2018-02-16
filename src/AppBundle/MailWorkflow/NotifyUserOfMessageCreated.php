@@ -32,7 +32,7 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
             [
                 'username' => $message->getUser()->getFullName(),
                 'interlocutorName' => $interlocutor->getFullName(),
-                'message' => $message,
+                'message' => $message->getContent(),
                 'vehicle' => $message->getVehicle(),
                 'pathImg' => $pathImg
             ],
