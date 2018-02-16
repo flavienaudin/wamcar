@@ -215,6 +215,11 @@
 
     @include breakpoint(1480) {
       margin-right: rem-calc(70);
+
+      &:nth-last-child(3):first-child,
+      &:nth-last-child(3):first-child ~ * {
+        margin-right: rem-calc(120);
+      }
     }
 
     &:not(.is-active):not(.is-valid) { color: $body-font-color; }
