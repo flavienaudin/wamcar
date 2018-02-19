@@ -112,6 +112,7 @@ swiftmailer:
     password: '%env(MAILER_PASSWORD)%'
     port:      '%env(MAILER_PORT)%'
     encryption: tls
+    delivery_addresses: '%email_catcher_address%'
     #spool: { type: memory }
 
 stof_doctrine_extensions:
