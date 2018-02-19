@@ -114,6 +114,7 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
+    {% set equalTo_message = equalTo_message|default('') %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
@@ -128,10 +129,13 @@
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
-        data-equalto="{{ equalTo }}"
+        {% if equalTo != '' %}data-equalto="{{ equalTo }}"{% endif %}
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
+    {% endif %}
+    {% if equalTo != '' %}
+        <small class="form-error">{{ equalTo_message }}</small>
     {% endif %}
     {% if class_field %}
         </div>
