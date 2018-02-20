@@ -37,8 +37,7 @@ class VehicleType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
-            ->add('vehicleReplace', HiddenType::class
-            )
+            ->add('vehicleReplace', HiddenType::class)
         ;
     }
 
