@@ -160,7 +160,7 @@ class IndexableProVehicle implements Indexable
             'years' => $this->years,
             'mileage' => $this->mileage,
             'cityName' => $this->cityName,
-            'proLocation' => [
+            'location' => [
                 'lat' => $this->latitude,
                 'lon' => $this->longitude
             ],

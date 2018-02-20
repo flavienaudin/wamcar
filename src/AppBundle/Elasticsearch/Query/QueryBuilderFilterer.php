@@ -16,6 +16,7 @@ use Novaway\ElasticsearchClient\Query\QueryBuilder;
 
 class QueryBuilderFilterer
 {
+    const LIMIT_DISTANCE = '300';
 
     /**
      * @param QueryBuilder $queryBuilder
@@ -174,7 +175,7 @@ class QueryBuilderFilterer
         }
 
         if (!empty($searchVehicleDTO->cityName)) {
-            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LIMIT_DISTANCE));
         }
         if ($searchVehicleDTO->make) {
             $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
