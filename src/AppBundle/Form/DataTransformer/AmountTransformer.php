@@ -28,18 +28,6 @@ class AmountTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
-        $dotPos = strrpos($value, '.');
-        $commaPos = strrpos($value, ',');
-        $sep = (($dotPos > $commaPos) && $dotPos) ? $dotPos :
-            ((($commaPos > $dotPos) && $commaPos) ? $commaPos : false);
-
-        if (!$sep) {
-            return floatval(preg_replace("/[^0-9]/", "", $value));
-        }
-
-        return floatval(
-            preg_replace("/[^0-9]/", "", substr($value, 0, $sep)) . '.' .
-            preg_replace("/[^0-9]/", "", substr($value, $sep+1, strlen($value)))
-        );
+        return (float) preg_replace("/[^0-9,.]/", "", $value);
     }
 }

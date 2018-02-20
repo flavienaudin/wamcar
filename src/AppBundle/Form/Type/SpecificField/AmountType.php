@@ -26,7 +26,7 @@ class AmountType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'invalid_message' => 'The selected issue does not exist',
+            'invalid_message' => 'The value is incorrect',
         ));
     }
 
