@@ -22,10 +22,7 @@ if ($information != null) {
     clearSelect(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)));
   };
   let clearSelect = function (select, doAddEmpty) {
-    let selectOptions = select.getElementsByTagName('option');
-    for (let index in selectOptions) {
-      select.remove(selectOptions[index]);
-    }
+    $(select).find('option').remove();
 
     if (!doAddEmpty) {
       return;
