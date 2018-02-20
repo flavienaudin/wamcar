@@ -28,6 +28,7 @@ class AmountTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        $value = str_replace(',', '.', $value);
         return (float) preg_replace("/[^0-9,.]/", "", $value);
     }
 }
