@@ -132,6 +132,8 @@ class GarageController extends BaseController
      */
     public function assignAction(Garage $garage): RedirectResponse
     {
+        throw new AccessDeniedHttpException('Action not used');
+
         $user = $this->getUser();
 
         $this->garageEditionService->addMember($garage, $user);
@@ -154,6 +156,8 @@ class GarageController extends BaseController
      */
     public function unassignAction(Garage $garage, ProApplicationUser $user): RedirectResponse
     {
+        throw new AccessDeniedHttpException('Action not used');
+
         $this->garageEditionService->removeMember($garage, $user);
 
         $this->session->getFlashBag()->add(
