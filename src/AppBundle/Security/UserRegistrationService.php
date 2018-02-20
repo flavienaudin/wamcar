@@ -50,7 +50,7 @@ class UserRegistrationService
      * @param bool|null $vehicleReplace
      * @return ApplicationUser
      */
-    public function registerUser(RegistrationDTO $registrationDTO, ?bool $vehicleReplace = false): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO, bool $vehicleReplace = false): ApplicationUser
     {
         $salt = uniqid(mt_rand(), true);
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
