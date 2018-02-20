@@ -36,7 +36,6 @@ class RegistrationType extends AbstractType
             ->add('lastName', TextType::class)
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'registration_data.password.repeat',
                 'first_options' => [
                     'label_format' => 'user.field.password.first.label',
                     'attr' => [

@@ -4,6 +4,7 @@
 
 {% if isIsolatedRegistration %}
     {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_errors(registrationForm) }}
 {% endif %}
 
 {# Adresse e-mail #}
@@ -32,7 +33,6 @@
         'required_message': 'Veuillez indiquer votre prénom.'
     }) }}
 </div>
-
 
 {# Nom #}
 <div class="block-grid input-margin column small-12">
@@ -68,8 +68,9 @@
         'class_field': 'small-12 large-8',
         'placeholder': 'Confirmez votre mot de passe',
         'class': 'no-margin',
-        'required': true,
-        'required_message': 'Veuillez confirmer un mot de passe.'
+        'required': false,
+        'equalTo' : registrationForm.password.first.vars.id,
+        'equalTo_message': 'user.field.password.error.repeated'|trans
     }) }}
 </div>
 

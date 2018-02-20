@@ -16,6 +16,8 @@ user:
         error: Veuillez confirmer votre mot de passe
       show: Afficher le mot de passe
       forget: Mot de passe oublié ?
+      error:
+        repeated: Les mots de passe doivent être identiques
     accept:
       label: J’accepte les
       text-link: Conditions Générales d’Utilisation
