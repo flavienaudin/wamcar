@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\VehicleSpecificsDTO;
+use AppBundle\Form\Type\SpecificField\AmountType;
 use AppBundle\Form\Type\SpecificField\StarType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
 use AppBundle\Utils\StarsChoice;
@@ -32,7 +33,7 @@ class VehicleSpecificsType extends AbstractType
                     'data-date-format' => 'yyyy-mm-dd'
                 ]
             ])
-            ->add('mileage', IntegerType::class, [
+            ->add('mileage', AmountType::class, [
                 'error_bubbling' => true,
             ])
             ->add('isTimingBeltChanged', YesNoType::class, [

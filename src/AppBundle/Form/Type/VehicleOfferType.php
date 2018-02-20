@@ -6,6 +6,7 @@ use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\VehicleOfferDTO;
 use AppBundle\Form\DTO\VehicleSpecificsDTO;
+use AppBundle\Form\Type\SpecificField\AmountType;
 use AppBundle\Form\Type\SpecificField\StarType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
 use Symfony\Component\Form\AbstractType;
@@ -25,10 +26,10 @@ class VehicleOfferType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('price', TextType::class, [
+            ->add('price', AmountType::class, [
                 'error_bubbling' => true,
             ])
-            ->add('catalogPrice', TextType::class, [
+            ->add('catalogPrice', AmountType::class, [
                 'error_bubbling' => true,
                 'required' => false
             ])

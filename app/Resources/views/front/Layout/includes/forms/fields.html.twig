@@ -536,6 +536,44 @@
     <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</button>
 {%- endblock button_widget -%}
 
+{%- block amount_widget -%}
+    {% set class_field = class_field|default('') %}
+    {% set class = class|default('') %}
+    {% set required = required|default(false) %}
+    {% set required_message = required_message|default('Ce champ est requis') %}
+    {% set required_class = required_class|default('') %}
+    {% set label = label|default(false) %}
+    {% set label_class = label_class|default('') %}
+    {% set value = value|default('') %}
+    {% set placeholder = placeholder|default('') %}
+    {% set equalTo = equalTo|default('') %}
+    {% set pattern = pattern|default('') %}
+    {% set type = type|default('text') %}
+
+    {% if label %}
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+    {% endif %}
+    {% if class_field %}
+        <div class="{{ class_field }}">
+    {% endif %}
+    <input
+        type="{{ type }}"
+        {{ block('widget_attributes') }}
+        id="{{ name }}"
+        value="{{ value ? value|localizednumber : '' }}"
+        class="input {{ class }}"
+        placeholder="{{ placeholder }}"
+        data-equalto="{{ equalTo }}"
+        pattern="{{ pattern }}"
+        {{ required ? 'required' }}>
+    {% if required %}
+        <small class="form-error {{ required_class }}">{{ required_message }}</small>
+    {% endif %}
+    {% if class_field %}
+        </div>
+    {% endif %}
+{%- endblock amount_widget -%}
+
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _pro_user_information_title_widget -%}

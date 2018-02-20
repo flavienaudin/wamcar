@@ -26,7 +26,7 @@
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
                 <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate(format = "d MMM, HH'h'mm") }}</time>
-                {% if isProVehicles %}<strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }}€</strong>{% endif %}
+                {% if isProVehicles %}<strong class="vehicle-price small-shrink">{{ vehicle.price|localizedcurrency('EUR') }}</strong>{% endif %}
             </div>
         </div>
     </a>
