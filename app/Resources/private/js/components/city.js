@@ -12,12 +12,50 @@ let clearSelect = function (select) {
   }
 };
 
+let loadingSelect = function (select) {
+  clearSelect(select);
+  let option = document.createElement('option');
+  option.text = 'Recherche en cours ...';
+  option.value = '';
+  option.setAttribute('data-latitude', '');
+  option.setAttribute('data-longitude', '');
+  option.selected = true;
+  select.add(option);
+  lockFormSubmit(select);
+};
+
+let lockFormSubmit = function (select) {
+  let $form = $(select).closest('form');
+  $form.attr('onsubmit', 'return false;');
+  $form.find(':submit').addClass('is-disabled');
+};
+
+let unlockFormSubmit = function (select) {
+  let $form = $(select).closest('form');
+  $form.attr('onsubmit', '');
+  $form.find(':submit').removeClass('is-disabled');
+};
+
+let addRequiredCityInput = function (select) {
+  select.setAttribute('required', 'required');
+};
+
+let removeRequiredCityInput = function (select) {
+  select.removeAttribute('required');
+};
+
 [...$zipcodeInputs].forEach((input) => {
 
   input.addEventListener('keyup', () => {
     let zipcodeValue = input.value;
     let dataFetchUrl = input.getAttribute('data-fetch-url');
     let cityInput = document.getElementById(input.getAttribute('data-city-field'));
+
+    if (zipcodeValue.length > 0) {
+      addRequiredCityInput(cityInput);
+    } else if (zipcodeValue.length == 0) {
+      removeRequiredCityInput(cityInput);
+    }
 
     if (zipcodeValue.length !== 5) {
       clearSelect(cityInput);
@@ -26,6 +64,8 @@ let clearSelect = function (select) {
 
     let filterForm = new FormData();
     filterForm.append('zipcode', zipcodeValue);
+
+    loadingSelect(cityInput);
 
     fetch(dataFetchUrl, {
       method: 'POST',
@@ -53,12 +93,14 @@ let clearSelect = function (select) {
           });
           let event = new Event('change');
           cityInput.dispatchEvent(event);
-        } else {
+        } else {
           let option = document.createElement('option');
           option.text = 'Aucune ville n\'a été trouvée';
           option.value = '';
           cityInput.add(option);
         }
+
+        unlockFormSubmit(cityInput);
 
       })
       .catch(err => {

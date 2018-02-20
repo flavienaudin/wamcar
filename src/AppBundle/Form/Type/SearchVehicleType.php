@@ -87,7 +87,8 @@ class SearchVehicleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchVehicleDTO::class,
-            'translation_domain' => 'search'
+            'translation_domain' => 'search',
+            'csrf_protection'   => false
         ]);
         $resolver->setRequired('available_values');
     }
