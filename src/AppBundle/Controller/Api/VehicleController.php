@@ -18,7 +18,6 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
-use Wamcar\Vehicle\Vehicle;
 use AppBundle\Api\DTO\VehicleDTO;
 use Swagger\Annotations as SWG;
 
@@ -65,7 +64,7 @@ class VehicleController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        $this->vehicleRepository->deleteAllForGarage($this->getUserGarage());
+        $this->proVehicleEditionService->deleteAllForGarage($this->getUserGarage());
 
         return new Response();
     }
@@ -199,7 +198,7 @@ class VehicleController extends BaseController
     public function deleteAction(Request $request, string $id): Response
     {
         $vehicle = $this->getVehicleFromId($id);
-        $this->vehicleRepository->remove($vehicle);
+        $this->proVehicleEditionService->deleteVehicle($vehicle);
 
         return new Response();
     }
