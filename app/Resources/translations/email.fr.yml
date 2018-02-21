@@ -55,5 +55,5 @@ notifyUserOfMessageCreated:
     body: >
         <p>Vous avez reçu un nouveau message de %messageAuthorName%</p>
         <p>%message%</p>
-    action_label: Signaler
+    action_label: Répondre
 
