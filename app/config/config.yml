@@ -122,6 +122,7 @@ stof_doctrine_extensions:
             softdeleteable: true
             timestampable: true
             blameable: true
+            sortable: true
 
 vich_uploader:
     db_driver: orm

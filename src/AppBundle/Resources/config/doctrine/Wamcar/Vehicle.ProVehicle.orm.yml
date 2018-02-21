@@ -19,6 +19,8 @@ Wamcar\Vehicle\ProVehicle:
             mappedBy: vehicle
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+            orderBy:
+                position: ASC
 
     manyToOne:
         garage:

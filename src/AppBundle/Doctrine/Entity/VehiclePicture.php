@@ -13,6 +13,8 @@ abstract class VehiclePicture extends Picture implements ApplicationPicture
 
     /** @var string */
     private $id;
+    /** @var integer */
+    protected $position;
 
     /**
      * VehiclePicture constructor.
@@ -20,11 +22,13 @@ abstract class VehiclePicture extends Picture implements ApplicationPicture
      * @param Vehicle $vehicle
      * @param File $file
      * @param string|null $caption
+     * @param int|null $position
      */
-    public function __construct($id = null, Vehicle $vehicle, File $file, string $caption = null)
+    public function __construct($id = null, Vehicle $vehicle, File $file, string $caption = null, int $position = null)
     {
         $this->id = $id ?: Uuid::uuid4();
         $this->setFile($file);
+        $this->position = $position;
         parent::__construct($vehicle, $caption);
     }
 

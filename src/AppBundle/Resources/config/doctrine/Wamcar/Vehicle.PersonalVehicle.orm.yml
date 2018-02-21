@@ -19,6 +19,8 @@ Wamcar\Vehicle\PersonalVehicle:
             mappedBy: vehicle
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+            orderBy:
+                position: ASC
 
     manyToOne:
         owner:

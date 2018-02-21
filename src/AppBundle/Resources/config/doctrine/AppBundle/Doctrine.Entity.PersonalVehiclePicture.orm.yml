@@ -4,6 +4,12 @@ AppBundle\Doctrine\Entity\PersonalVehiclePicture:
 
     exclusion_policy: ALL
 
+    fields:
+        position:
+            type: integer
+            gedmo:
+                - sortablePosition
+
     manyToOne:
         vehicle:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
@@ -11,3 +17,5 @@ AppBundle\Doctrine\Entity\PersonalVehiclePicture:
             joinColumn:
                 name: vehicle_id
                 referencedColumnName: id
+            gedmo:
+                - sortableGroup
