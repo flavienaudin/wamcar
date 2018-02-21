@@ -38,7 +38,7 @@
                             <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span>
                             <div class="vehicle-bottom block-grid full-width align-middle">
                                 <span class="small-6 vehicle-city black-color no-margin">{{ vehicle.cityName }}</span>
-                                {% if app.user.isPro %}<strong class="small-6 primary-color">{{ vehicle.price|localizednumber }} €</strong>{% endif %}
+                                {% if app.user.isPro %}<strong class="small-6 primary-color">{{ vehicle.price|localizedcurrency('EUR') }}</strong>{% endif %}
                             </div>
                             <div class="vehicle-infos-arrow icon-arrow-right-2"></div>
                         </div>

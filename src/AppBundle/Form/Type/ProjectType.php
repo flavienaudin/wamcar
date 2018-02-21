@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\ProjectDTO;
+use AppBundle\Form\Type\SpecificField\AmountType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -27,7 +28,7 @@ class ProjectType extends AbstractType
                 ],
                 'error_bubbling' => true
             ])
-            ->add('budget', IntegerType::class, [
+            ->add('budget', AmountType::class, [
                 'error_bubbling' => true,
                 'required' => false
             ])
