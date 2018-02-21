@@ -401,6 +401,7 @@ abstract class BaseVehicle implements Vehicle
                     $picture->setFileOriginalName($addPicture->getFileOriginalName());
                     $picture->setFileSize($addPicture->getFileSize());
                     $picture->setCaption($addPicture->getCaption());
+                    $picture->setPosition($addPicture->getPosition());
                     return;
                 }
             }

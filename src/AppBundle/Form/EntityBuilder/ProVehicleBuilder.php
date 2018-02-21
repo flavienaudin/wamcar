@@ -47,9 +47,10 @@ class ProVehicleBuilder implements VehicleBuilder
             $vehicleDTO->getReference()
         );
 
-        foreach ($vehicleDTO->pictures as $pictureDTO) {
+        foreach ($vehicleDTO->pictures as $key => $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
                 $picture = new ProVehiclePicture(null, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture->setPosition($key);
                 $vehicle->addPicture($picture);
             }
         }
@@ -89,12 +90,13 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setReference($vehicleDTO->getReference());
 
         /** @var VehiclePictureDTO $pictureDTO */
-        foreach ($vehicleDTO->pictures as $pictureDTO) {
+        foreach ($vehicleDTO->pictures as $key => $pictureDTO) {
             if ($pictureDTO && !$pictureDTO->isRemoved) {
                 if ($pictureDTO->id && !$pictureDTO->file) {
                     $vehicle->editPictureCaption($pictureDTO->id, $pictureDTO->caption);
                 } elseif ($pictureDTO->file) {
                     $picture = new ProVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                    $picture->setPosition($key);
                     $vehicle->addPicture($picture);
                 }
             } else if ($pictureDTO && $pictureDTO->isRemoved) {

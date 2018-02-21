@@ -4,6 +4,12 @@ AppBundle\Doctrine\Entity\ProVehiclePicture:
 
     exclusion_policy: ALL
 
+    fields:
+        position:
+            type: integer
+            gedmo:
+                - sortablePosition
+
     manyToOne:
         vehicle:
             targetEntity: Wamcar\Vehicle\ProVehicle
@@ -11,3 +17,7 @@ AppBundle\Doctrine\Entity\ProVehiclePicture:
             joinColumn:
                 name: vehicle_id
                 referencedColumnName: id
+            orderBy:
+                position: 'ASC'
+            gedmo:
+                - sortableGroup
