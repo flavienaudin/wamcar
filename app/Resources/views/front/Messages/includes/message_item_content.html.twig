@@ -25,7 +25,7 @@
             </a>
             <div class="messages-main">
                 <div class="is-flex">
-                    <a href="#">
+                    <a href="{{ path('front_view_user_info', {'id': message.user.id}) }}">
                         <strong class="messages-sender-name messages-item-sender-name">
                             {{ message.user.fullName }}
                         </strong>
