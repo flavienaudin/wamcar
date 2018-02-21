@@ -36,9 +36,9 @@ class PersonalVehicleBuilder
             $vehicleDTO->getCity()
         );
 
-        foreach ($vehicleDTO->pictures as $pictureDTO) {
+        foreach ($vehicleDTO->pictures as $index => $pictureDTO) {
             if ($pictureDTO && $pictureDTO->file) {
-                $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption, $index);
                 $vehicle->addPicture($picture);
             }
         }
@@ -69,12 +69,12 @@ class PersonalVehicleBuilder
         $vehicle->setAdditionalInformation($vehicleDTO->getAdditionalInformation());
         $vehicle->setCity($vehicleDTO->getCity());
 
-        foreach ($vehicleDTO->pictures as $pictureDTO) {
+        foreach ($vehicleDTO->pictures as $index => $pictureDTO) {
             if ($pictureDTO && !$pictureDTO->isRemoved) {
                 if ($pictureDTO->id && !$pictureDTO->file) {
                     $vehicle->editPictureCaption($pictureDTO->id, $pictureDTO->caption);
                 } elseif ($pictureDTO->file) {
-                    $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption);
+                    $picture = new PersonalVehiclePicture($pictureDTO->id, $vehicle, $pictureDTO->file, $pictureDTO->caption, $index);
                     $vehicle->addPicture($picture);
                 }
             } elseif ($pictureDTO && $pictureDTO->isRemoved) {
