@@ -375,14 +375,26 @@
   }
 
   &-item-vehicle-proposed-infos {
+    a {
+      color: $primary-color;
+    }
     margin-left: rem-calc(15);
     position: relative;
     top: rem-calc(-4);
   }
 
   &-item-vehicle-proposed-model {
+    a {
+      color: white;
+    }
     color: white;
     margin: 0 0 rem-calc(3);
+  }
+
+  &-item-vehicle-proposed-model-infos {
+    a {
+      color: $medium-gray;
+    }
   }
 
   &-item-vehicle-proposed-subline {

@@ -1,3 +1,8 @@
+
+<!-- Véhicule lié -->
+{% if vehicleHeader %}
+    {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
+{% endif %}
 <!-- Message answer -->
 <div class="messages-item-answer" id="message-answer-block">
     {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
