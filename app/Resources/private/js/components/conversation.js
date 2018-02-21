@@ -21,7 +21,7 @@ if ($inputText) {
     let unlockRefresh = srcUnloadEvent.hasAttribute('type') && srcUnloadEvent.getAttribute('type') === 'submit';
 
     if ($inputText.value !== '' && !unlockRefresh) {
-      var confirmationMessage = 'Do you really want to leave our brilliant application?';
+      var confirmationMessage = 'Etes vous sûre de vouloir changer de page ? Vous risquez de perdre le message commencer.';
 
       e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
       return confirmationMessage;              // Gecko, WebKit, Chrome <34
