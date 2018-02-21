@@ -20,6 +20,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
@@ -70,7 +71,7 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param string $tab
+     * @param string $tab {'profil','project'}
      * @return Response
      * @throws \Exception
      */
@@ -198,11 +199,12 @@ class UserController extends BaseController
         }
 
         if (!$this->getUser() || !$user->canSeeMyProfile($this->getUser())) {
+
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
                 'flash.warning.user.unauthorized_to_access_profile'
             );
-            return $this->redirectToRoute('security_login_page');
+            throw new AccessDeniedException();
         }
 
 

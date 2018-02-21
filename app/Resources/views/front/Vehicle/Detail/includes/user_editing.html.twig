@@ -1,7 +1,7 @@
 <div class="vehicle-aside vehicle-editing block-grid small-12">
-    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ isProVehicle?path('front_vehicle_pro_edit', {'id': vehicle.id}) :path('front_vehicle_personal_edit', {'id': vehicle.id}) }}" class="button add icon-pen">Modifier ce véhicule</a></span>
-    <span class="column small-collapse small-shrink large-uncollapse large-left-collapse"><button type="button" title="Supprimer ce véhicule" class="button remove icon-remove" data-open="js-modal-remove-vehicle"><span class="show-for-sr">Supprimer ce véhicule</span></button></span>
+    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ isProVehicle?path('front_vehicle_pro_edit', {'id': vehicle.id}) :path('front_vehicle_personal_edit', {'id': vehicle.id}) }}" class="button add icon-pen">{{ 'vehicle.edit'|trans }}</a></span>
+    <span class="column small-collapse small-shrink large-uncollapse large-left-collapse"><button type="button" title="{{ 'vehicle.delete'|trans }}" class="button remove icon-remove" data-open="js-modal-remove-vehicle"><span class="show-for-sr">{{ 'vehicle.delete'|trans }}</span></button></span>
 </div>
 <div class="vehicle-aside vehicle-editing vehicle-edit-profile block-grid small-12">
-    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ path('front_edit_user_info') }}" class="button add icon-pen">Editer mon profil</a></span>
+    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ path('front_edit_user_info') }}" class="button add icon-pen">{{ 'user.profile.edit'|trans }}</a></span>
 </div>

@@ -1,4 +1,3 @@
-{% trans_default_domain 'garage' %}
 {% form_theme garageForm 'front/Layout/includes/forms/fields.html.twig' %}
 
 {% extends 'front/Layout/layout.html.twig' %}
@@ -7,7 +6,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ isNew ? 'Créer' : 'Editer' }} mon garage{% endblock %}
+{% block title %}{{ isNew ? 'Créer' : 'Editer' }} {{ 'garage.my_garage'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
