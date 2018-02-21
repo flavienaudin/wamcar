@@ -5,6 +5,9 @@
 import {
   disabledClass
 } from '../settings/settings.js';
+import {
+  clearSelectOptions
+} from './registration';
 
 const $toggleId = document.querySelectorAll('[data-toggle-id]');
 
@@ -18,10 +21,7 @@ const $toggleId = document.querySelectorAll('[data-toggle-id]');
     target.classList.add(disabledClass);
 
     let targetSelect = target.getElementsByTagName('select')[0];
-    let targetOptions = targetSelect.getElementsByTagName('option');
-    for (let index in targetOptions) {
-      targetSelect.remove(targetOptions[index]);
-    }
+    clearSelectOptions(targetSelect);
 
     fetch(dataFetchUrl.replace('%value%', select.value), {
       credentials: 'include',

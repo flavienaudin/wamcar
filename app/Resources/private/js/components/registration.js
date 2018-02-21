@@ -4,6 +4,18 @@
 
 import {$registerForm} from './step';
 
+export let clearSelectOptions = function (select, doAddEmpty) {
+  $(select).find('option').remove();
+
+  if (!doAddEmpty) {
+    return;
+  }
+
+  let defaultOption = document.createElement('option');
+  defaultOption.text = '';
+  select.add(defaultOption);
+};
+
 let $information = document.getElementById('js-registration-information');
 let $informationSelectList = document.querySelectorAll('#js-registration-information select');
 
@@ -16,24 +28,11 @@ if ($information != null) {
     filterValues[dataType] = value;
     filterForm.append('filters[TYPE]'.replace('TYPE', dataType), value);
   };
+
   let filterRemove = function (dataType) {
     filterValues[dataType] = null;
     filterForm.delete('filters[TYPE]'.replace('TYPE', dataType));
-    clearSelect(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)));
-  };
-  let clearSelect = function (select, doAddEmpty) {
-    let selectOptions = select.getElementsByTagName('option');
-    for (let index in selectOptions) {
-      select.remove(selectOptions[index]);
-    }
-
-    if (!doAddEmpty) {
-      return;
-    }
-
-    let defaultOption = document.createElement('option');
-    defaultOption.text = '';
-    select.add(defaultOption);
+    clearSelectOptions(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)));
   };
 
   [...$informationSelectList].forEach((select) => {
@@ -74,7 +73,7 @@ if ($information != null) {
             if (data.hasOwnProperty(key)) {
               let selectorToFill = document.querySelector('select[data-type="%type%"]'.replace('%type%', key));
               let hasMultipleOptions = Object.keys(data[key]).length > 1;
-              clearSelect(selectorToFill, hasMultipleOptions);
+              clearSelectOptions(selectorToFill, hasMultipleOptions);
               for (let value in data[key]) {
                 if (data[key].hasOwnProperty(value)) {
                   let option = document.createElement('option');
