@@ -169,10 +169,13 @@
           background: darken($grey-alt, 6%);
         }
       }
+
+      .messages-content {
+        font-weight: normal;
+      }
     }
 
-    &.is-unread,
-    &.is-current {
+    &.is-unread {
       .messages-sender-name {
         font-weight: $global-weight-bold;
         color: $primary-color;
