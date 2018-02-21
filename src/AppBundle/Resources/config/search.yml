@@ -87,7 +87,7 @@ parameters:
             pro_vehicle:
                 _source : { enabled : true }
                 properties:
-                    proLocation:
+                    location:
                         type: geo_point
                     mileage:
                         type: integer
