@@ -165,6 +165,7 @@ class ConversationController extends BaseController
             'messageForm' => $messageForm->createView(),
             'user' => $this->getUser(),
             'interlocutor' => $messageDTO->interlocutor,
+            'vehicleHeader' => $messageDTO->vehicleHeader,
             'conversations' => $conversations,
             'currentConversation' => $conversation,
             'messages' => $messages
