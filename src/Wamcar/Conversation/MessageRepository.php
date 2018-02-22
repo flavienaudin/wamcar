@@ -35,4 +35,8 @@ interface MessageRepository
      */
     public function getLastVehicleHeader(Conversation $conversation): ?Message;
 
+    /**
+     * @param Message $message
+     */
+    public function update(Message $message): void;
 }

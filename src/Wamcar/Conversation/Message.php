@@ -134,6 +134,12 @@ class Message
         }
     }
 
+    public function removeVehicleHeader(): void
+    {
+        $this->proVehicleHeader = null;
+        $this->personalVehicleHeader = null;
+    }
+
     /**
      * @return null|ProVehicle
      */
@@ -168,6 +174,12 @@ class Message
         } elseif ($vehicle instanceof PersonalVehicle) {
             $this->personalVehicle = $vehicle;
         }
+    }
+
+    public function removeVehicle(): void
+    {
+        $this->proVehicle = null;
+        $this->personalVehicle = null;
     }
 
     /**

@@ -16,6 +16,16 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
     /**
      * {@inheritdoc}
      */
+    public function update(Message $message): void
+    {
+        $message = $this->_em->merge($message);
+        $this->_em->persist($message);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getLastConversationMessage(Conversation $conversation): ?Message
     {
         $messages = $this->findByConversationAndOrdered($conversation);

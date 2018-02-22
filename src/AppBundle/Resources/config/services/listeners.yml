@@ -1,4 +1,5 @@
 services:
     AppBundle\EventListener\VehicleRemoved:
+        autowire: true
         tags:
             - { name: doctrine.event_listener, event: preRemove }
