@@ -2,11 +2,6 @@
     <div class="column small-12 medium-4 large-shrink medium-right-collapse">
         <label for="vehicle-search">Que recherchez-vous ?</label>
     </div>
-    {#{% include 'front/Layout/includes/forms/input.html.twig' with {
-            name: 'vehicle-search',
-            placeholder: 'Rechercher une marque, un modèle de véhicule...',
-            class_field: 'column small-12 medium-8 large-auto medium-left-collapse'
-        } %}#}
     {{ form_widget(smallSearchForm.text, {
         'label': false,
         'required_class': '',
