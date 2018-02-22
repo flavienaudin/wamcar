@@ -25,18 +25,15 @@
                     <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
                     {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-                <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
-                <div class="input-margin column small-12 medium-6 xlarge-5">
-                <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/placeholders/user/unisex-avatar.jpg') }}" class="separator">
                     {{ form_widget(avatarForm.avatar, {
                         'label': false,
                         'required': false,
                         'required_class': '',
-                        'classPreview': 'small-6 large-4 file-preview-avatar',
-                        'imgPreview':  user.avatar|avatar('user_thumbnail')
+                        'classPreview': 'file-preview-avatar',
+                        'input_class': 'js-onchange-submit',
+                        'imgPreview':  user.avatar|avatar('user_thumbnail'),
+                        'isRemovable': false
                     }) }}
-                </div></div>
-                </div>
                     {{ form_widget(avatarForm) }}
                 {% endif %}
             </span>
