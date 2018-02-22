@@ -104,15 +104,16 @@ class SearchController extends BaseController
      */
     private function getSearchForm(Request $request, string $actionPath)
     {
+        $paramSearchVehicle = $request->query->get('search_vehicle');
         $filters = [
-            'make' => $request->query->get('search_vehicle')['make'],
-            'model' => $request->query->get('search_vehicle')['model']
+            'make' => $paramSearchVehicle['make']?? null ,
+            'model' => $paramSearchVehicle['model'] ?? null
         ];
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $searchVehicleDTO = new SearchVehicleDTO();
+
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'method' => 'GET',
             'action' => $this->generateRoute($actionPath),
             'available_values' => $availableValues
         ]);

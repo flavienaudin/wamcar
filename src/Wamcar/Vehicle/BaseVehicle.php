@@ -3,6 +3,7 @@
 namespace Wamcar\Vehicle;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
@@ -58,6 +59,10 @@ abstract class BaseVehicle implements Vehicle
     protected $createdAt;
     /** @var \DateTimeInterface */
     protected $updatedAt;
+    /** @var ArrayCollection */
+    protected $headerMessages;
+    /** @var ArrayCollection */
+    protected $messages;
 
     /**
      * BaseVehicle constructor.

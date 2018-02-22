@@ -35,21 +35,25 @@ Wamcar\Conversation\Message:
                 referencedColumnName: id
         proVehicleHeader:
             targetEntity: Wamcar\Vehicle\ProVehicle
+            inversedBy: headerMessages
             joinColumn:
                 name: pro_vehicle_header_id
                 referencedColumnName: id
         personalVehicleHeader:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
+            inversedBy: headerMessages
             joinColumn:
                 name: personal_vehicle_header_id
                 referencedColumnName: id
         proVehicle:
             targetEntity: Wamcar\Vehicle\ProVehicle
+            inversedBy: messages
             joinColumn:
                 name: pro_vehicle_id
                 referencedColumnName: id
         personalVehicle:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
+            inversedBy: messages
             joinColumn:
                 name: personal_vehicle_id
                 referencedColumnName: id

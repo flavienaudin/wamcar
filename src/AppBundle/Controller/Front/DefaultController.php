@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -47,6 +49,7 @@ class DefaultController extends BaseController
         }
 
         $vehicleInformationDTO = new VehicleInformationDTO();
+        $formSearchVehicleDTO = new SearchVehicleDTO();
 
         $vehicleInformationForm = $this->formFactory->create(
             VehicleInformationType::class,
@@ -57,12 +60,22 @@ class DefaultController extends BaseController
             ]
         );
 
+        $formSearchVehicleDTO = $this->formFactory->create(
+            SearchVehicleType::class,
+            $formSearchVehicleDTO,
+            [
+                'action' => $this->generateRoute('front_search_personal'),
+                'small_version' => true
+            ]
+        );
+
         $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
 
         return $this->render(
             ':front/Home:home.html.twig',
             [
                 'vehicleInformationForm' => $vehicleInformationForm->createView(),
+                'smallSearchForm' => $formSearchVehicleDTO->createView(),
                 'last_vehicles' => $last_vehicles
             ]
         );

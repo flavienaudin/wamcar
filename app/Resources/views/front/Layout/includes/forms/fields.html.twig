@@ -170,7 +170,7 @@
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
-        pattern="{{ pattern }}"
+        {% if pattern %}pattern="{{ pattern }}"{% endif %}
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
