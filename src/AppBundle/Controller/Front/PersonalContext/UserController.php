@@ -12,7 +12,9 @@ use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
+use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserInformationType;
+use AppBundle\Form\Type\UserPictureType;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
@@ -205,7 +207,6 @@ class UserController extends BaseController
             return $this->redirectToRoute('security_login_page');
         }
 
-
         $templates = [
             ProUser::TYPE => 'front/Seller/card.html.twig',
             PersonalUser::TYPE => 'front/User/card.html.twig',
@@ -215,9 +216,49 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
+        $avatarForm = null;
+        if ($user->is($this->getUser())) {
+            $avatarForm = $this->createAvatarForm();
+            $avatarForm->handleRequest($request);
+
+            if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
+                $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
+                if ($this->getUser() === PersonalUser::TYPE) {
+                    $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
+                } else {
+                    $this->eventBus->handle(new ProUserUpdated($this->getUser()));
+                }
+
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.user_edit'
+                );
+
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
+        }
+
         return $this->render($templates[$user->getType()], [
+            'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    protected function createAvatarForm()
+    {
+        $userDTOs = [
+            ProApplicationUser::TYPE => ProUserInformationDTO::class,
+            PersonalApplicationUser::TYPE => UserInformationDTO::class
+        ];
+        /** @var UserInformationDTO $userInformationDTO */
+        $userInformationDTO = new $userDTOs[$this->getUser()->getType()]($this->getUser());
+        return $this->formFactory->create(
+            UserAvatarType::class,
+            $userInformationDTO
+        );
     }
 }

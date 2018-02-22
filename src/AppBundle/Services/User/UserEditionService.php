@@ -136,5 +136,4 @@ class UserEditionService
 
         $userSpecificRepository->updatePassword($user, $encodedPassword, $salt);
     }
-
 }

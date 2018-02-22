@@ -21,7 +21,21 @@
         </div>
         <div class="column medium-shrink medium-order-1">
             <span class="profil-image">
-                <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
+                {% if not userIsMe %}
+                    <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
+                {% else %}
+                    {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                    {{ form_widget(avatarForm.avatar, {
+                        'label': false,
+                        'required': false,
+                        'required_class': '',
+                        'classPreview': 'file-preview-avatar',
+                        'input_class': 'js-onchange-submit',
+                        'imgPreview':  user.avatar|avatar('user_thumbnail'),
+                        'isRemovable': false
+                    }) }}
+                    {{ form_widget(avatarForm) }}
+                {% endif %}
             </span>
         </div>
     </header>

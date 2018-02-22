@@ -15,8 +15,8 @@ parameters:
 
     placeholders:
         avatar: '/assets/images/placeholders/user/unisex-avatar.jpg'
-        banner: '/assets/images/placeholders/garages/bg-plus-banner.jpg'
-        logo: '/assets/images/placeholders/garages/bg-plus.jpg'
+        banner: '/assets/images/placeholders/garages/banner.png'
+        logo: '/assets/images/placeholders/garages/logo.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
 
 
