@@ -49,7 +49,7 @@ class DefaultController extends BaseController
         }
 
         $vehicleInformationDTO = new VehicleInformationDTO();
-        $searchVehicleDTO = new SearchVehicleDTO();
+        $formSearchVehicleDTO = new SearchVehicleDTO();
 
         $vehicleInformationForm = $this->formFactory->create(
             VehicleInformationType::class,
@@ -60,14 +60,12 @@ class DefaultController extends BaseController
             ]
         );
 
-        $searchVehicleDTO = $this->formFactory->create(
+        $formSearchVehicleDTO = $this->formFactory->create(
             SearchVehicleType::class,
-            $searchVehicleDTO,
+            $formSearchVehicleDTO,
             [
-                'method' => 'GET',
                 'action' => $this->generateRoute('front_search_personal'),
-                'small_version' => true,
-                'available_values' => []
+                'small_version' => true
             ]
         );
 
@@ -77,7 +75,7 @@ class DefaultController extends BaseController
             ':front/Home:home.html.twig',
             [
                 'vehicleInformationForm' => $vehicleInformationForm->createView(),
-                'smallSearchForm' => $searchVehicleDTO->createView(),
+                'smallSearchForm' => $formSearchVehicleDTO->createView(),
                 'last_vehicles' => $last_vehicles
             ]
         );

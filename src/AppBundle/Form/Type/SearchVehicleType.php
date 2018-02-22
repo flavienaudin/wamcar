@@ -92,7 +92,9 @@ class SearchVehicleType extends AbstractType
             'data_class' => SearchVehicleDTO::class,
             'translation_domain' => 'search',
             'csrf_protection'   => false,
-            'small_version'   => false
+            'available_values' => [],
+            'small_version'   => false,
+            'method' => 'GET'
         ]);
         $resolver->setRequired('available_values');
     }
