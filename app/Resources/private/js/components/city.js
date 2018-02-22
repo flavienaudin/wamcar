@@ -53,14 +53,17 @@ let removeRequiredCityInput = function (select) {
 
     if (zipcodeValue.length > 0) {
       addRequiredCityInput(cityInput);
+      cityInput.classList.add('is-disabled');
     } else if (zipcodeValue.length == 0) {
       removeRequiredCityInput(cityInput);
+      cityInput.classList.add('is-disabled');
     }
 
     if (zipcodeValue.length !== 5) {
       clearSelect(cityInput);
       return;
     }
+    cityInput.classList.remove('is-disabled');
 
     let filterForm = new FormData();
     filterForm.append('zipcode', zipcodeValue);
