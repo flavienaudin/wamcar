@@ -218,7 +218,7 @@ class UserController extends BaseController
 
         $avatarForm = null;
         if ($user->is($this->getUser())) {
-            $avatarForm = $this->updateAvatarForm();
+            $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
 
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
@@ -248,7 +248,7 @@ class UserController extends BaseController
     /**
      * @return \Symfony\Component\Form\FormInterface
      */
-    protected function updateAvatarForm()
+    protected function createAvatarForm()
     {
         $userDTOs = [
             ProApplicationUser::TYPE => ProUserInformationDTO::class,
