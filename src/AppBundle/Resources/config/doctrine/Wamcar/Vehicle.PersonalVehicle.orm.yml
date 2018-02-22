@@ -22,6 +22,18 @@ Wamcar\Vehicle\PersonalVehicle:
             orderBy:
                 position: ASC
 
+        headerMessages:
+            targetEntity: Wamcar\Conversation\Message
+            mappedBy: personalVehicleHeader
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
+
+        messages:
+            targetEntity: Wamcar\Conversation\Message
+            mappedBy: personalVehicle
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
+
     manyToOne:
         owner:
             targetEntity: Wamcar\User\PersonalUser

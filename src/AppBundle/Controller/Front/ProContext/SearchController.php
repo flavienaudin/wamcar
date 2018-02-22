@@ -114,7 +114,6 @@ class SearchController extends BaseController
         $searchVehicleDTO = new SearchVehicleDTO();
 
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'method' => 'GET',
             'action' => $this->generateRoute($actionPath),
             'available_values' => $availableValues
         ]);

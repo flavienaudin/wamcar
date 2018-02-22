@@ -22,6 +22,18 @@ Wamcar\Vehicle\ProVehicle:
             orderBy:
                 position: ASC
 
+        headerMessages:
+            targetEntity: Wamcar\Conversation\Message
+            mappedBy: proVehicleHeader
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
+
+        messages:
+            targetEntity: Wamcar\Conversation\Message
+            mappedBy: proVehicle
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
+
     manyToOne:
         garage:
             targetEntity: Wamcar\Garage\Garage
