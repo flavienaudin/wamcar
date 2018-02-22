@@ -219,28 +219,27 @@ class UserController extends BaseController
         $avatarForm = null;
         if ($user->is($this->getUser())) {
             $avatarForm = $this->updateAvatarForm();
-        }
+            $avatarForm->handleRequest($request);
 
-        $avatarForm->handleRequest($request);
+            if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
+                $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
+                if ($this->getUser() === PersonalUser::TYPE) {
+                    $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
+                } else {
+                    $this->eventBus->handle(new ProUserUpdated($this->getUser()));
+                }
 
-        if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
-            $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
-            if ($this->getUser() === PersonalUser::TYPE) {
-                $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
-            } else {
-                $this->eventBus->handle(new ProUserUpdated($this->getUser()));
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.user_edit'
+                );
+
+                return $this->redirectToRoute('front_view_current_user_info');
             }
-
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user_edit'
-            );
-
-            return $this->redirectToRoute('front_view_current_user_info');
         }
 
         return $this->render($templates[$user->getType()], [
-            'avatarForm' => $avatarForm->createView(),
+            'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);
