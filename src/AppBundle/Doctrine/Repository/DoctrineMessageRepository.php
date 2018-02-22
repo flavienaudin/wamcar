@@ -11,6 +11,8 @@ use Wamcar\User\BaseUser;
 
 class DoctrineMessageRepository extends EntityRepository implements MessageRepository
 {
+
+
     /**
      * {@inheritdoc}
      */
