@@ -19,12 +19,15 @@ class SearchVehicleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $availableValues = $options['available_values'] ?? [];
+        $smallVersion = $options['small_version'] ?? [];
 
-        $builder
-            ->add('text', TextType::class, [
+        $builder->add('text', TextType::class, [
                 'required' => false
-            ])
-            ->add('postalCode', TextType::class, [
+            ]);
+
+        if (!$smallVersion) {
+            $builder->
+            add('postalCode', TextType::class, [
                 'attr' => [
                     'pattern' => '^[0-9][0-9|A|B][0-9]{3}$'
                 ]
@@ -76,8 +79,8 @@ class SearchVehicleType extends AbstractType
             ->add('budgetMax', ChoiceType::class, [
                 'choices' => BudgetChoice::getListMax(),
                 'error_bubbling' => true,
-            ])
-        ;
+            ]);
+        }
     }
 
     /**
@@ -88,7 +91,8 @@ class SearchVehicleType extends AbstractType
         $resolver->setDefaults([
             'data_class' => SearchVehicleDTO::class,
             'translation_domain' => 'search',
-            'csrf_protection'   => false
+            'csrf_protection'   => false,
+            'small_version'   => false
         ]);
         $resolver->setRequired('available_values');
     }

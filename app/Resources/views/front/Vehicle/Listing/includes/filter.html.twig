@@ -1,13 +1,19 @@
-<form action="{{ path('front_search_pro') }}" class="vehicle-filter block-grid small-12 align-middle" data-abide novalidate>
+{{ form_start(smallSearchForm, {'attr': {'class': 'vehicle-filter block-grid small-12 align-middle', 'data-abide' : '', 'novalidate': 'novalidate'}}) }}
     <div class="column small-12 medium-4 large-shrink medium-right-collapse">
         <label for="vehicle-search">Que recherchez-vous ?</label>
     </div>
-    {% include 'front/Layout/includes/forms/input.html.twig' with {
-        name: 'vehicle-search',
-        placeholder: 'Rechercher une marque, un modèle de véhicule...',
-        class_field: 'column small-12 medium-8 large-auto medium-left-collapse'
-    } %}
+    {#{% include 'front/Layout/includes/forms/input.html.twig' with {
+            name: 'vehicle-search',
+            placeholder: 'Rechercher une marque, un modèle de véhicule...',
+            class_field: 'column small-12 medium-8 large-auto medium-left-collapse'
+        } %}#}
+    {{ form_widget(smallSearchForm.text, {
+        'label': false,
+        'required_class': '',
+        'class_field': 'column small-12 medium-8 large-auto medium-left-collapse',
+        'placeholder': 'Rechercher une marque, un modèle de véhicule...'
+    }) }}
     <div class="column small-12 medium-6 large-4">
         <button type="submit" class="button full-width">Trouver ma future voiture</button>
     </div>
-</form>
+{{ form_end(smallSearchForm) }}
