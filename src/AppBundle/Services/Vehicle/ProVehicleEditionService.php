@@ -115,13 +115,21 @@ class ProVehicleEditionService
 
     /**
      * @param ProVehicle $proVehicle
-     * @return ProVehicle
      */
-    public function deleteVehicle(ProVehicle $proVehicle): ProVehicle
+    public function deleteVehicle(ProVehicle $proVehicle): void
     {
         $this->vehicleRepository->remove($proVehicle);
         $this->eventBus->handle(new ProVehicleRemoved($proVehicle));
-        return $proVehicle;
+    }
+
+    /**
+     * @param Garage $garage
+     */
+    public function deleteAllForGarage(Garage $garage): void
+    {
+        foreach ($garage->getProVehicles() as $proVehicle) {
+            $this->deleteVehicle($proVehicle);
+        }
     }
 
     /**
