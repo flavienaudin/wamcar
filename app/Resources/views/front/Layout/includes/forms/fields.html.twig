@@ -413,9 +413,9 @@
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
 
-    <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }}" {% if required %}required{% endif %} >
+    <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
         {% if value is not defined or value == '' %}
-            <option value="" selected="selected">Veuillez d'abord rens. le code postal</option>
+            <option value="" selected="selected">Veuillez rens. le code postal</option>
         {% else %}
             <option value="{{ value }}" selected="selected">{{ value }}</option>
         {% endif %}
@@ -555,7 +555,6 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
-    {% set pattern = pattern|default('') %}
     {% set type = type|default('text') %}
 
     {% if label %}
@@ -572,7 +571,6 @@
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
-        pattern="{{ pattern }}"
         {{ required ? 'required' }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
