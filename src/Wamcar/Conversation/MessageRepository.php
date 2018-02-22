@@ -33,10 +33,5 @@ interface MessageRepository
      * @return null|Message
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getLastVehicleHeader(Conversation $conversation): ?Message;
-
-    /**
-     * @param Message $message
-     */
-    public function update(Message $message): void;
+    public function getLastVehicleHeader(Conversation $conversation): ?Message;g
 }

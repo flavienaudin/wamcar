@@ -11,18 +11,6 @@ use Wamcar\User\BaseUser;
 
 class DoctrineMessageRepository extends EntityRepository implements MessageRepository
 {
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function update(Message $message): void
-    {
-        $message = $this->_em->merge($message);
-        $this->_em->persist($message);
-        $this->_em->flush();
-    }
-
     /**
      * {@inheritdoc}
      */
