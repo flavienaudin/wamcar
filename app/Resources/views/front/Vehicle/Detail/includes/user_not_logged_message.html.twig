@@ -1,5 +1,5 @@
 <div class="vehicle-editing block-grid small-12">
     <span class="column small-collapse small-auto large-uncollapse">
-        <a href="{{ path('security_login_page') }}" class="button add icon-message">Envoyer un message</a>
+        <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id}) }}" class="button add icon-message">{{ 'global.button.send_message'|trans }}</a>
     </span>
 </div>

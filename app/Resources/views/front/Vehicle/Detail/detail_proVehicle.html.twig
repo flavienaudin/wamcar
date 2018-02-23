@@ -3,7 +3,6 @@
 {% set page_garage = true %}
 
 {# Integration data #}
-
 {#{% set isEditableByCurrentUser = true %}
 {% set vehicle = inte.vehicle['golf-2-tdi'] %}
 {% set isProVehicles = true %}#}
@@ -15,14 +14,18 @@
 {% block title %}{{ vehicle.name }}{% endblock %}
 
 {% block body %}
-    {% if not isLogged %}
+    {% if isUserPro and isEditableByCurrentUser %}
         {% set breadcrumbs = [
+            {
+                'name': 'garage.my_garage'|trans,
+                'href': path('front_garage_view', {'id': vehicle.garage.id})
+            },
             {
                 'name': block('title'),
                 'href': app.request.requestUri
             }
         ] %}
-    {% elseif isLogged and not isEditableByCurrentUser %}
+    {% else %}
         {% set breadcrumbs = [
             {
                 'name': vehicle.garage.name,
@@ -33,18 +36,8 @@
                 'href': app.request.requestUri
             }
         ] %}
-    {% elseif isUserPro and isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'Mon garage',
-                'href': path('front_garage_view', {'id': vehicle.garage.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% endif %}
+{% endif %}
+
 
 <script type="application/ld+json">
     {
@@ -86,9 +79,9 @@
             </div>
 
             <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                {% if isUserPro %}
+                {# TODO not implemented feature ==> hidden #}
+                {% if false and isEditableByCurrentUser %}
                     <div class="column small-12 medium-6 large-order-2 large-12">
-                        {# TODO : d'où sont tirés les données ? à définir dans sprint suivant ? #}
                         {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
                     </div>
                 {% endif %}
@@ -96,14 +89,13 @@
                     {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
                 </div>
                 <div class="small-12 large-order-3">
-                    {% if not isLogged %}
-                        {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
-                    {% elseif isUserPersonal %}
-                        {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                    {% elseif isEditableByCurrentUser %}
+                    {% if isEditableByCurrentUser %}
                         {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                    {% elseif isLogged %}
+                        {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                    {% elseif not isLogged %}
+                        {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
                     {% endif %}
-                    {# TODO question : Pas de lien si utilisateur connecté est un pro, non membre du garage ? #}
                 </div>
             </div>
         </section>

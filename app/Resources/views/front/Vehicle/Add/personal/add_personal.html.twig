@@ -46,8 +46,8 @@
             <ul id="js-step" class="step">
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
-                    'vehicleForm' : personalVehicleForm,
-                    'fetch_plate_url' : (vehicle ? path('front_vehicle_personal_edit', {'id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_personal_add', {'plateNumber':'_plate_number_'}))
+                        'vehicleForm' : personalVehicleForm,
+                        'fetch_plate_url' : (vehicle ? path('front_vehicle_personal_edit', {'id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_personal_add', {'plateNumber':'_plate_number_'}))
                     } %}
                 </li>
                 <li class="block-grid" data-step="2">

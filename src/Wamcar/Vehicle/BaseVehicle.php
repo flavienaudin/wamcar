@@ -59,9 +59,9 @@ abstract class BaseVehicle implements Vehicle
     protected $createdAt;
     /** @var \DateTimeInterface */
     protected $updatedAt;
-    /** @var ArrayCollection */
+    /** @var Collection */
     protected $headerMessages;
-    /** @var ArrayCollection */
+    /** @var Collection */
     protected $messages;
 
     /**
@@ -389,6 +389,22 @@ abstract class BaseVehicle implements Vehicle
         }
 
         return $this->pictures[0];
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getHeaderMessages(): Collection
+    {
+        return $this->headerMessages;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
     }
 
     /**

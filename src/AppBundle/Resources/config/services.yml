@@ -5,6 +5,7 @@ imports:
     - { resource: services/builders.yml }
     - { resource: services/repositories.yml }
     - { resource: services/events.yml }
+    - { resource: services/listeners.yml }
     - { resource: services/mail.yml }
     - { resource: services/autodata.yml }
     - { resource: services/voters.yml }
@@ -80,3 +81,8 @@ services:
     AppBundle\Services\Vehicle\VehicleRepositoryResolver:
         class: AppBundle\Services\Vehicle\VehicleRepositoryResolver
         autowire: true
+
+    AppBundle\Services\Vehicle\VehicleEditionService:
+        class: AppBundle\Services\Vehicle\VehicleEditionService
+        autowire: true
+

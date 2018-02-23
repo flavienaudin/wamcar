@@ -1,20 +1,17 @@
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            {# TODO : vérifier l'intégration de la cartouche d'un particulier ci-dessous #}
-            <span class="seller-pic"><img src="{{ isLogged ? vehicle.owner.avatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.sellerName : 'Particulier inscrit' }}"></span>
+            <span class="seller-pic"><img src="{{ isAbleToSeeFullInformation ? vehicle.seller.avatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ vehicleSellerName }}"></span>
             <div>
-                {% if isLogged %}
-                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>{{ vehicle.sellerName }}</b></a> <br>
-                    {% if vehicle.owner.userProfile.phone %}
-                    <span class="icon-tel primary-color">
-                        <a href="tel:{{ vehicle.owner.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.owner.userProfile.phone }}</a>
-                    </span>
+                <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3"><b>{{ vehicleSellerName }}</b></a> <br>
+
+                {% if isAbleToSeeFullInformation %}
+                    {% if vehicle.seller.userProfile.phone is not empty %}
+                        <span class="icon-tel primary-color"><a href="tel:{{ vehicle.seller.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.userProfile.phone }}</a></span>
                     {% endif %}
-                {% else %}
-                    <a href="{{ path('front_view_user_info', {'id': vehicle.owner.id}) }}" class="primary-color h3"><b>Particulier inscrit</b></a> <br>
+                {% elseif not isLogged %}
                     <span class="primary-color">
-                        <a href="{{ path('security_login_page') }}" class="text-underline" rel="noopener noreferrer">Plus d'information</a>
+                        <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="text-underline" rel="noopener noreferrer">{{ 'global.button.more_information'|trans }}</a>
                     </span>
                 {% endif %}
             </div>

@@ -5,7 +5,7 @@
     {% endif %}
     <p class="small-12">
         {#{{ vehicle.modelVersionName }} &nbsp;#}
-        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber~"km" }}</span> &nbsp;
+        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span> &nbsp;
         <span class="black-color">{{ vehicle.cityName }}</span>
     </p>
 </header>

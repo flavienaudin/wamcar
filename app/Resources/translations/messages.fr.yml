@@ -17,3 +17,33 @@ flash:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
+    user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+
+global:
+  button:
+    send_message: Envoyer un message
+    more_information: Plus d'information
+
+garage:
+  my_garage: Mon garage
+
+vehicle:
+  my_vehicle: Ma voiture
+  vehicle_of: La voiture de %ownerName%
+  edit: Modifier ce véhicule
+  delete: Supprimer ce véhicule
+
+user:
+  profile:
+    my_profile: Mon profil
+    obfuscated_name: Particulier inscrit
+    edit: Editer mon profil
+  project:
+    my_project: Mon projet
+    seller_project: Projet du vendeur
+    create: Créer mon projet
+    edit: Editer mon projet
+    answer: Répondre à son projet
+    empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
+    defined_budget: Budget de %budget_ammount%
+    undefined_budget: Budget non défini
