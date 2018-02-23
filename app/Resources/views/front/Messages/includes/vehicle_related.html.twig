@@ -10,7 +10,7 @@
     <div class="messages-item-vehicle-proposed-infos">
         <strong class="messages-small-text primary-color">
             <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" target="_blank">
-                {{ vehicle.seller.id === app.user.id?'vehicle.my_vehicle'|trans:'vehicle.vehicle_of'|trans({'%ownerName%':vehicle.sellerName}) }}
+                {{ vehicle.seller.id == app.user.id?'vehicle.my_vehicle'|trans:'vehicle.vehicle_of'|trans({'%ownerName%':vehicle.sellerName}) }}
             </a>
         </strong>
         <div class="messages-item-vehicle-proposed-model">
