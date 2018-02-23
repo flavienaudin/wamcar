@@ -14,7 +14,7 @@ Wamcar\Conversation\Message:
 
     fields:
         content:
-            type: string
+            type: text
         isFleet:
             type: boolean
         publishedAt:

@@ -34,7 +34,7 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                 'username' => $interlocutor->getFullName(),
                 'messageAuthorName' => $message->getUser()->getFullName(),
                 'message' => $message->getContent(),
-                'message_url' => $this->router->generate("front_conversation_edit", ['id' => $message->getConversation()->getId(),'_fragment'=>'message-answer-block'], UrlGeneratorInterface::ABSOLUTE_URL),
+                'message_url' => $this->router->generate("front_conversation_edit", ['id' => $message->getConversation()->getId(),'_fragment'=>'last-message'], UrlGeneratorInterface::ABSOLUTE_URL),
                 'vehicle' => $message->getVehicle(),
                 'vehiclePrice' => ($message->getVehicle() instanceof ProVehicle?$message->getVehicle()->getPrice():null),
                 'thumbnailUrl' => $pathImg
