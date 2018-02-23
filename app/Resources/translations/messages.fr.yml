@@ -47,3 +47,6 @@ user:
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
     defined_budget: Budget de %budget_ammount%
     undefined_budget: Budget non défini
+
+conversation:
+  you: Vous
