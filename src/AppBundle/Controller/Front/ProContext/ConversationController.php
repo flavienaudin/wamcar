@@ -110,6 +110,7 @@ class ConversationController extends BaseController
      */
     public function editAction(Request $request, ApplicationConversation $conversation, ?string $vehicleId = null): Response
     {
+        $this->conversationAuthorizationChecker->memberOfConversation($this->getUser(), $conversation);
 
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
         $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
