@@ -76,6 +76,7 @@ class Step {
       },
       onChange: function() {
         this.setAutoHeight();
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
       }
     });
 
@@ -256,6 +257,7 @@ if ($step) {
   const step = new Step();
   step.initAbide();
 
+
   if ($registerForm) {
     const registerFormAbide = new Abide($($registerForm));
 
@@ -298,7 +300,8 @@ if ($step) {
     }).then(() => {
       step.updateNavigation('next');
       step.initAbide();
-      showPrevButton();
+      document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
+
     });
   });
 

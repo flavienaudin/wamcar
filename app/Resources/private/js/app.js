@@ -128,6 +128,10 @@ $(function() {
       }, 400);
     }
   });
+
+  $('#message_send').on('click', function () {
+    $(this).addClass('loader-visible');
+  });
 });
 
 

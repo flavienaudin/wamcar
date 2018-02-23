@@ -3,40 +3,37 @@
    =========================================================================== */
 
 
-
 /*
    Style
    ===================================== */
 
-
 @mixin buttonHeight {
-height: rem-calc(50);
-
-  @include breakpoint(medium) {
-    height: rem-calc(60);
-  }
+    height: rem-calc(50);
+    @include breakpoint(medium) {
+        height: rem-calc(60);
+    }
 }
 
 @mixin buttonPadding {
-  padding-right: rem-calc(20);
-  padding-left: rem-calc(20);
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
 }
 
 @mixin buttonStyle {
-  @include buttonHeight;
-  @include buttonPadding;
-  display: block;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  background: $primary-color;
-  font-weight: bold;
-  border-radius: rem-calc(30);
-  color: white;
-  border: rem-calc(2) solid $primary-color;
-  transition: $global-transition;
+    @include buttonHeight;
+    @include buttonPadding;
+    position: relative;
+    display: block;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: $primary-color;
+    font-weight: bold;
+    border-radius: rem-calc(30);
+    color: white;
+    border: rem-calc(2) solid $primary-color;
+    transition: $global-transition;
 }
-
 
 
 /*
@@ -44,22 +41,21 @@ height: rem-calc(50);
    ===================================== */
 
 @mixin buttonTheme($background, $color, $hover: false) {
-  background: $background;
-  color: $color;
-  border-color: currentColor;
-
-  &:hover,
-  &:focus {
-    @if $hover {
-      background: $hover;
-      border-color: $hover;
-      color: white;
-    } @else {
-      background: transparent;
+    background: $background;
+    color: $color;
+    border-color: currentColor;
+    &:hover,
+    &:focus {
+        @if $hover {
+            background: $hover;
+            border-color: $hover;
+            color: white;
+        }
+        @else {
+            background: transparent;
+        }
     }
-  }
 }
-
 
 
 /*
@@ -67,103 +63,107 @@ height: rem-calc(50);
    ===================================== */
 
 button {
-  color: $body-font-color;
-  cursor: pointer;
+    color: $body-font-color;
+    cursor: pointer;
 }
 
 a.button {
-  display: flex;
+    display: flex;
+    &:focus {
+        background: $primary-color;
+        color: $white;
+    }
 }
 
 .button {
-  @include buttonStyle;
-
-  @include breakpoint(xlarge) {
-    &:hover {
-      background: white;
-      color: $primary-color;
-    }
-  }
-
-  &::before {
-    font-weight: normal;
-
+    @include buttonStyle;
     @include breakpoint(xlarge) {
-      font-size: rem-calc(20);
+        &:hover {
+            background: white;
+            color: $primary-color;
+            .loader {
+                .loader-child {
+                    &:before {
+                        background-color: $primary-color;
+                    }
+                }
+            }
+        }
     }
-  }
-
-  /* Size */
-
-  &.small {
-    @include breakpoint(medium) {
-      height: rem-calc(50);
-    }
-  }
-
-  /* Theme */
-
-  &.white {
-    @include buttonTheme(white, $primary-color, $primary-color);
-  }
-
-  /* Add */
-
-  &.add {
-    background: $dark-gray;
-    color: white;
-    border-color: $dark-gray;
-
     &::before {
-      font-size: rem-calc(16);
-      color: $primary-color;
+        font-weight: normal;
+        @include breakpoint(xlarge) {
+            font-size: rem-calc(20);
+        }
     }
-
-    @include breakpoint(large) {
-      &:hover {
-        background: white;
-        color: $dark-gray;
-      }
+    /* Size */
+    &.small {
+        @include breakpoint(medium) {
+            height: rem-calc(50);
+        }
     }
-  }
-
-  &.reverse {
-    background: white;
-    color: $primary-color;
-
-    @include breakpoint(large) {
-      &:hover {
-        background: $primary-color;
+    /* Theme */
+    &.white {
+        @include buttonTheme(white, $primary-color, $primary-color);
+    }
+    /* Add */
+    &.add {
+        background: $dark-gray;
         color: white;
-      }
+        border-color: $dark-gray;
+        &::before {
+            font-size: rem-calc(16);
+            color: $primary-color;
+        }
+        @include breakpoint(large) {
+            &:hover {
+                background: white;
+                color: $dark-gray;
+            }
+        }
     }
-  }
-
-  /* remove */
-
-  &.remove {
-    width: rem-calc(60);
-    height: rem-calc(60);
-    background: $medium-gray;
-    border-color: $medium-gray;
-    border-radius: 50%;
-    color: white;
-
-    &::before {
-      margin-right: 0;
-    }
-
-    @include breakpoint(large) {
-      &:hover {
+    &.reverse {
         background: white;
-        color: $medium-gray;
-      }
+        color: $primary-color;
+        @include breakpoint(large) {
+            &:hover {
+                background: $primary-color;
+                color: white;
+            }
+        }
     }
-  }
-
-  /* Form margin */
-
-  form & {
-    margin-top: rem-calc(10);
-  }
+    /* remove */
+    &.remove {
+        width: rem-calc(60);
+        height: rem-calc(60);
+        background: $medium-gray;
+        border-color: $medium-gray;
+        border-radius: 50%;
+        color: white;
+        &::before {
+            margin-right: 0;
+        }
+        @include breakpoint(large) {
+            &:hover {
+                background: white;
+                color: $medium-gray;
+            }
+        }
+    }
+    /* Form margin */
+    form & {
+        margin-top: rem-calc(10);
+    }
+    /* Loader */
+    .loader {
+        opacity: 0;
+        visibility: hidden;
+        transition: $global-transition;
+    }
+    &.loader-visible {
+        .loader {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
 }

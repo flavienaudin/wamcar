@@ -1,7 +1,7 @@
 <ul id="js-carousel-vehicle" class="js-carousel carousel">
     {% for picture in vehicle.pictures %}
         <li>
-            <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ picture.caption }}">
+            <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
             {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
             <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
         </li>
@@ -15,7 +15,7 @@
 </ul>
 <nav id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
 {% for picture in vehicle.pictures %}
-    <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ picture.caption }}">
+    <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
 {% else %}
     <li>
         <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="">

@@ -20,7 +20,7 @@
 <ul class="reinsurance-wamcar block-grid column large-collapse small-12 small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
         <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle xlarge-collapse">
-            <span class="reinsurance-wamcar-image medium-12 text-center primary-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.png') }}" alt="{{ reinsurance.alt }}" width="130"></span>
+            <span class="reinsurance-wamcar-image medium-12 text-center primary-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }}" srcset="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }} 1x, {{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'-2x.jpg') }} 2x" alt="{{ reinsurance.alt }}" width="130"></span>
             <p class="reinsurance-wamcar-body no-margin">{{ reinsurance.content }}</p>
         </li>
     {% endfor %}

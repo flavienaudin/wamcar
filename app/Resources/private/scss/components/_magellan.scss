@@ -3,48 +3,46 @@
    =========================================================================== */
 
 .magellan {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  height: rem-calc(50);
-  background: $primary-color;
-  color: white;
-  margin-left: 0;
-  padding-left: rem-calc(10);
-
-  @include breakpoint(medium) {
-    height: rem-calc(60);
-    padding-left: rem-calc(20);
-  }
-
-  @include breakpoint(large only) {
-    justify-content: center;
-  }
-
-  @include breakpoint(xlarge) {
-    padding-left: rem-calc(40);
-  }
-
-  /* Components */
-
-  a {
-    font-weight: bold;
-    color: currentColor;
-    transition: $global-transition;
-    margin-right: rem-calc(15);
-
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: rem-calc(50);
+    background: $primary-color;
+    color: white;
+    margin-left: 0;
+    padding-left: rem-calc(10);
     @include breakpoint(medium) {
-      margin-right: rem-calc(25);
+        height: rem-calc(60);
+        padding-left: rem-calc(20);
     }
-
-    &:not(.is-active) { opacity: 0.6; }
-
-    &:focus { opacity: 1; }
-  }
-
-  /* Exceptions */
-
-  &.vehicle-magellan {
-    margin-bottom: 0;
-  }
+    @include breakpoint(large only) {
+        justify-content: center;
+    }
+    @include breakpoint(xlarge) {
+        padding-left: rem-calc(40);
+    }
+    /* Components */
+    a {
+        display: inline-block;
+        font-weight: bold;
+        color: currentColor;
+        transition: $global-transition;
+        margin-right: rem-calc(15);
+        @include breakpoint(medium) {
+            margin-right: rem-calc(25);
+        }
+        &:not(.is-active) {
+            opacity: 0.6;
+        }
+        &:focus {
+            opacity: 1;
+        }
+    }
+    /* Exceptions */
+    &.vehicle-magellan {
+        margin-bottom: 0;
+        @include breakpoint(small only) {
+            overflow-x: auto;
+        }
+    }
 }
