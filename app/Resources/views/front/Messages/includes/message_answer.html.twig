@@ -38,7 +38,8 @@
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
             'label': 'Envoyer le message',
-            'class': 'small-12 medium-10 large-6 messages-send-btn button'
+            'class': 'small-12 medium-10 large-6 messages-send-btn button',
+            'loader': true
         }) }}
     </div>
     {{ form_end(messageForm) }}

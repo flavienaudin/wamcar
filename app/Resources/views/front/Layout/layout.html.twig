@@ -52,7 +52,7 @@
         <style>{% include 'front/Layout/css/debug.css' %}</style>
         {% include 'front/Layout/includes/debug.html.twig' %}
 {% else %}
-    <body>
+    <body class="{% block bodyClass %}{% endblock %}">
 {% endif %}
 
     {% if is_register_page %}
