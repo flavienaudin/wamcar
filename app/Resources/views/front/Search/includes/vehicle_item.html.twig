@@ -3,6 +3,9 @@
     <div class="vehicle-picture medium-auto">
         <div class="is-relative">
             <img src="{{ vehicle.picture ? vehicle.picture : 'vehicle_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.modelVersion }}">
+            <div class="vehicle-count-pics">
+                <span class="icon-pics">{{ vehicle.nbPicture }}</span>
+            </div>
         </div>
     </div>
     <div class="vehicle-infos small-shrink">
