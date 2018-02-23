@@ -41,7 +41,6 @@ class Step {
     this._init && this.updateProgressBar();
     this.step = new Abide($(this._getCurrentSlideItem()));
     this.autoHeight();
-    this.step.validateForm();
   }
 
   /**
