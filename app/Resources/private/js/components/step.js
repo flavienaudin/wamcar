@@ -228,8 +228,6 @@ class Step {
    */
   updateHeaderNavigation(newElementActive, offset) {
     newElementActive.classList.remove(disabledClass);
-    console.log('active');
-    console.log(newElementActive);
     newElementActive.classList.add(activeClass);
 
     this.updateProgressBar(offset);
@@ -286,7 +284,6 @@ if ($step) {
       step.prev().then(() => {
         step.updateNavigation('prev');
         step.initAbide();
-        console.log(step);
         if (step.getCurrentSlide() === 1) {
           hidePrevButton();
         }
