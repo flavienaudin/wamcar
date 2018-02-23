@@ -45,7 +45,7 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 1000);
+        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 10000);
 
         foreach ($data as $field => $value) {
             if (!empty($value)) {
