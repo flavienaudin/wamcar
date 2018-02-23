@@ -270,12 +270,23 @@ if ($step) {
     $registerForm.addEventListener('pictureAdd', () => step.autoHeight());
   }
 
+  function showPrevButton() {
+    document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
+  }
+
+  function hidePrevButton() {
+    document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.add(hideClass);
+  }
+
   // Button prev step
   [...document.querySelectorAll('.js-carousel-prev')].forEach((item) => {
     item.addEventListener('click', () => {
       step.prev().then(() => {
         step.updateNavigation('prev');
         step.initAbide();
+        if (step.getCurrentSlide() === 1) {
+          hidePrevButton();
+        }
       });
     });
   });
@@ -287,34 +298,38 @@ if ($step) {
     }).then(() => {
       step.updateNavigation('next');
       step.initAbide();
-      document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
+      showPrevButton();
     });
   });
 
   // Step navigation
   [...document.querySelectorAll('.js-step-navigation')].forEach((item) => {
     item.addEventListener('click', () => {
-      const currentSlide = step.getCurrentSlide();
-      const index = getIndex(item) - 1;
+      let currentSlide = step.getCurrentSlide();
+      const index = getIndex(item);
 
       // Prev direction
       if (index < currentSlide) {
-        step.goToSlide(index).then(() => {
-          step.initAbide();
-        });
-      }
-
-      // Next direction
-      if (index >= currentSlide) {
+        while(index < currentSlide) {
+          step.prev().then(() => {
+            step.updateNavigation('prev');
+            step.initAbide();
+            if (step.getCurrentSlide() === 1) {
+              hidePrevButton();
+            }
+          });
+          currentSlide = step.getCurrentSlide();
+        }
+      } else if (currentSlide < index) {
+        // Next direction
         step.valid().then(() => {
-          return step.goToSlide(index);
+          return step.next();
         }).then(() => {
+          step.updateNavigation('next');
           step.initAbide();
+          showPrevButton();
         });
       }
-
-      $('.js-step-navigation').removeClass('is-active is-valid');
-      $('.js-step-navigation[data-step=' + getIndex(item) + ']').addClass('is-active');
     });
   });
 }
