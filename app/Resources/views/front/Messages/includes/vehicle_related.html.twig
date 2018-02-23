@@ -1,26 +1,3 @@
-{#{% if vehicleSelected == 1 %}
-<div class="messages-item-vehicle-proposed block-grid">
-    <img src="{{ asset('assets/images/placeholders/vehicle/small1.jpg') }}" alt="Toyota Aygo">
-    <div class="messages-item-vehicle-proposed-infos">
-        <strong class="messages-small-text primary-color">
-            Voiture de Juliette Dupont
-        </strong>
-        <div class="messages-item-vehicle-proposed-model">
-            <strong>Toyota Aygo</strong>
-            <span>Hybrid 5P</span>
-        </div>
-        <div class="messages-small-text">
-            2015, 22 180 km, Villeurbanne
-        </div>
-    </div>
-    {% if severalVehicles %}
-        <div class="messages-small-text messages-item-vehicle-proposed-subline">
-            Juliette dispose d'une flotte. <a href="#" class="text-underline">Voir ses véhicules</a>
-        </div>
-    {% endif %}
-</div>
-{% else %}#}
-
 {% if vehicle.isPro %}
     {% set path = path('front_vehicle_pro_detail', {'id': vehicle.id}) %}
 {% else %}
@@ -33,18 +10,18 @@
     <div class="messages-item-vehicle-proposed-infos">
         <strong class="messages-small-text primary-color">
             <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" target="_blank">
-            Voiture de {{ vehicle.seller.fullName }}
+                {{ vehicle.seller.id === app.user.id?'vehicle.my_vehicle'|trans:'vehicle.vehicle_of'|trans({'%ownerName%':vehicle.sellerName}) }}
             </a>
         </strong>
         <div class="messages-item-vehicle-proposed-model">
             <a href="{{ path }}" target="_blank">
                 <strong>{{ vehicle.name }}</strong>
-                <span>{{ vehicle.engineName}}</span>
+                <span>{{ vehicle.engineName }}</span>
             </a>
         </div>
         <div class="messages-small-text messages-item-vehicle-proposed-model-infos">
             <a href="{{ path }}" target="_blank">
-                {{ vehicle.years }},  {{ vehicle.mileage|localizednumber }} km, {{ vehicle.cityName }}
+                {{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km, {{ vehicle.cityName }}
             </a>
         </div>
     </div>
