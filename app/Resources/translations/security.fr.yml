@@ -5,7 +5,7 @@ user:
       placeholder: Entrez votre adresse email
       error: Veuillez indiquer votre adresse email
     password:
-      text: Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.
+      text: Pour la sécutiré de votre compte, votre mot de passe devrait contenir au moins 8 caractères dont un chiffre et une majuscule.
       first:
         label: Mot de passe
         placeholder: Entrez votre mot de passe

@@ -10,7 +10,7 @@
         <section class="input-margin small-12">
             <header class="column">
                 <h1 class="secondary-color">Réinitialiser votre mot de passe</h1>
-                <p>Votre mot de passe doit contenir au moins 8 caractères dont un chiffre et une majuscule.</p>
+                <p>{{ 'user.field.password.text'|trans({}, 'security') }}</p>
                 <br>
             </header>
             {% include 'front/Security/ResetPassword/includes/form_reset_password.html.twig' %}
