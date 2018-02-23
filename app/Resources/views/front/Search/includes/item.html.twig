@@ -5,7 +5,7 @@
 
     <a href="{{ vehicle.userUrl }}">
         <div class="vehicle-user-infos">
-            <div class="vehicle-user-pic"><img src="{{ isLogged ? vehicle.userPicture : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isLogged ? vehicle.userName : 'Particulier inscrit' }}"></div>
+            <div class="vehicle-user-pic"><img src="{{ isUserPro ? vehicle.userPicture : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isUserPro ? vehicle.userName : 'user.profile.obfuscated_name'|trans }}"></div>
             {% if vehicle.projectVehicles or vehicle.projectBudget %}
             <div class="small-12 dark-gray-color">
                 {% if vehicle.projectBudget %}

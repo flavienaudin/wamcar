@@ -1,6 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{# TODO définir menu à rendre actif #}
 {% set page_garage = true %}
 
 {# Integration data #}
@@ -15,21 +14,13 @@
 {% block title %}{{ vehicle.name }}{% endblock %}
 
 {% block body %}
-    {% if not isEditableByCurrentUser %}
+    {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
+    {% set vehicleSellerName = isAbleToSeeFullInformation ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans %}
+
+    {% if isEditableByCurrentUser %}
         {% set breadcrumbs = [
             {
-                'name': isLogged ? vehicle.ownerName : 'Particulier inscrit',
-                'href': path('front_view_user_info', {'id': vehicle.owner.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% elseif isUserPersonal and isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'Mon profil',
+                'name': 'user.profile.my_profile'|trans,
                 'href': path('front_view_current_user_info')
             },
             {
@@ -37,83 +28,91 @@
                 'href': app.request.requestUri
             }
         ] %}
+    {% else %}
+        {% set breadcrumbs = [
+            {
+                'name': vehicleSellerName,
+                'href': path('front_view_user_info', {'id': vehicle.seller.id})
+            },
+            {
+                'name': block('title'),
+                'href': app.request.requestUri
+            }
+        ] %}
+
     {% endif %}
 
-<script type="application/ld+json">
+    <script type="application/ld+json">
     {
     "@context": "http://schema.org",
     "@type": "Person",
     "name" : "{{ vehicle.sellerName }}",
-    {# TODO Informations à fournir ? #}
     }
 
-</script>
+    </script>
 
-{% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
-<div class="l-main-container vehicle-perso">
-    <div class="row">
+    <div class="l-main-container vehicle-perso">
+        <div class="row">
 
-        <section class="small-12 large-7 xlarge-8">
-            <div class="small-12">
-                {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
-                <div class="column small-collapse large-uncollapse">
-                    {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
-                </div>
-            </div>
-
-            <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                <div class="column small-12 medium-6 large-12">
-                    {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
-                </div>
-                {# TODO Montrer seulement en mode vue créateur particulier #}
-                {% if not isUserPro %}
-                    <div class="column small-12 medium-6 large-12">
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+            <section class="small-12 large-7 xlarge-8">
+                <div class="small-12">
+                    {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+                    <div class="column small-collapse large-uncollapse">
+                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
                     </div>
-                {% endif %}
-                <div class="small-12 large-order-3">
-                    {% if not isLogged %}
-                        {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
-                    {% elseif isUserPro %}
-                        {# TODO revoir les liens à afficher si Pro connecté #}
-                        {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                    {% elseif isEditableByCurrentUser %}
-                        {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                </div>
+
+                <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
+                    </div>
+                    {# TODO not implemented feature ==> hidden #}
+                    {% if false and isEditableByCurrentUser %}
+                        <div class="column small-12 medium-6 large-12">
+                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                        </div>
                     {% endif %}
+                    <div class="small-12 large-order-3">
+                        {% if isEditableByCurrentUser %}
+                            {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                        {% elseif isUserPro %}
+                            {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                        {% elseif not isLogged %}
+                            {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="small-12 xlarge-8 large-order-2">
-            <div class="vehicle-detail block-grid small-12">
-                <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
-                    {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+            <section class="small-12 xlarge-8 large-order-2">
+                <div class="vehicle-detail block-grid small-12">
+                    <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
+                        {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
+                        {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                    </div>
+                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
+                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project" data-magellan-target="js-project">
+                        {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
+                         data-magellan-target="js-associate">
+                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.seller.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
+                    </div>
                 </div>
-                <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
-                    {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
-                    {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
-                </div>
-                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12"
-                     id="js-description" data-magellan-target="js-description">
-                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project"
-                     data-magellan-target="js-project">
-                    {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
-                     data-magellan-target="js-associate">
-                    {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.owner.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
-                </div>
-            </div>
-        </section>
-        <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
+            </section>
+            <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4"
+                   aria-hidden="true"></aside>
+        </div>
     </div>
-</div>
-
 {% endblock body %}
 
 {% block modal %}

@@ -24,7 +24,7 @@
     },
     {
         slug: path_garage,
-        label: 'Mon Garage',
+        label: 'garage.my_garage'|trans,
         icon: 'garage',
         current: page_garage
     },
@@ -44,7 +44,6 @@
 ] %}
 
 {% block navigation %}
-
     {% for item in navigation_items %}
         <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
             {% if (item.showCountMessage ?? false) and (getCountUnreadMessages(app.user) > 0) %}
@@ -53,5 +52,4 @@
             <b class="show-for-xlarge">{{ item.label }}</b>
         </a>
     {% endfor %}
-
 {% endblock %}
