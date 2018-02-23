@@ -31,7 +31,8 @@
             {% if interlocutor != null and conversations|length != 0 %}
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
-                {% if currentConversation == null and interlocutor != null %}
+                {% if currentConversation == null %}
+                    {# Nouvelle conversation #}
                     <li class="messages-list-item is-unread is-current block-grid">
                         <span class="small-3 large-2">
                             <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.fullName }}">
@@ -62,7 +63,7 @@
                     {% set interlocutorList = conversationInterlocutor.user %}
 
                     <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} {% if conversation == currentConversation %}is-current{% endif %}">
-                        <a href="{{ path('front_conversation_edit', {'id': conversation.id}) }}#message-answer-block" class="block-grid">
+                        <a href="{{ path('front_conversation_edit', {'id': conversation.id}) }}#last-message" class="block-grid">
                         <span class="small-3 large-2">
                                 <img class="messages-user-img messages-list-user-img" src="{{ interlocutorList.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutorList.fullName }}">
                             </span>
