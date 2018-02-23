@@ -12,6 +12,8 @@ Wamcar\Vehicle\PersonalVehicle:
     id:
         id:
             type: uuid
+    entityListeners:
+        AppBundle\EntityListener\VehicleListener:
 
     oneToMany:
         pictures:

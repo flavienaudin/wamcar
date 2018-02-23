@@ -1,13 +1,13 @@
 <?php
 
 
-namespace AppBundle\EventListener;
+namespace AppBundle\EntityListener;
 
 use AppBundle\Services\Vehicle\VehicleEditionService;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Wamcar\Vehicle\BaseVehicle;
 
-class VehicleRemoved
+class VehicleListener
 {
     /**
      * @var VehicleEditionService $vehicleEditionService
@@ -19,16 +19,8 @@ class VehicleRemoved
         $this->vehicleEditionService = $vehicleEditionService;
     }
 
-    public function preRemove(LifecycleEventArgs $args)
+    public function preRemove(BaseVehicle $vehicle, LifecycleEventArgs $event)
     {
-        $entity = $args->getEntity();
-
-        // only act on some "Product" entity
-        if (!$entity instanceof BaseVehicle) {
-            return;
-        }
-
-        $this->vehicleEditionService->deleteAssociationWithMessage($entity);
-
+        $this->vehicleEditionService->deleteAssociationWithMessage($vehicle);
     }
 }
