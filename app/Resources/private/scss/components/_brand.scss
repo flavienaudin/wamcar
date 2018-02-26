@@ -62,5 +62,9 @@
       border: 0;
       padding: 0;
     }
+
+    &-rounded > img{
+      border-radius: 50%;
+    }
   }
 }

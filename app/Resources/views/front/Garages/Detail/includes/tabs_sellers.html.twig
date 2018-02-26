@@ -7,19 +7,22 @@
             {% for membership in garage.members %}
                 <li>
                     {% set userIsMe = membership.proUser.is(app.user) %}
-                    <h2 class="column large-collapse">{{ membership.proUser.fullName }}</h2>
+                    <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
+                        <figure class="block-grid align-middle" role="group">
+                            <span class="brand-logo is-logo brand-logo-rounded"><img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ membership.proUser.fullName }}"></span>
+                            <span class="h2">{{  membership.proUser.fullName }}</span>
+                    </figure>
+                    </a>
+
                     {% if membership.proUser.description %}
                         <p>{{ membership.proUser.description|nl2br }}</p>
                     {% elseif userIsMe %}
                         <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
                     {% endif %}
-                    {# Vue particulier #}
-                    {# <p class="is-inline-block"><a href="mailto:{{ membership.prouser.email  }}" class="icon-message"><span class="text-underline">Envoyer un message</span></a></p> #}
-                    {# Vue pro #}
                     {% if not isLogged %}
-                        <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">Envoyer un message</a></p>
+                        <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
                     {% elseif userIsMe %}
-                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mon profil</a></p>
+                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}l</a></p>
                     {% elseif isUserPersonal %}
                         <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
                     {% endif %}
