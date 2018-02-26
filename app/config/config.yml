@@ -188,45 +188,45 @@ liip_imagine:
         vehicle_picture:
             quality: 75
             filters:
-                thumbnail: { size: [800, 500] }
                 auto_rotate: ~
+                thumbnail: { size: [800, 500] }
         vehicle_mini_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [120, 90], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [120, 90], mode: outbound }
         vehicle_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [310, 235], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [310, 235], mode: outbound }
         user_mini_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [52, 52], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [52, 52], mode: outbound }
         user_thumbnail:
             quality: 75
             filters:
-                thumbnail: { size: [100, 100], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [100, 100], mode: outbound }
         garage_banner:
             quality: 75
             filters:
-                thumbnail: { size: [760, 340], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [760, 340], mode: outbound }
         garage_mini_banner:
             quality: 75
             filters:
-                thumbnail: { size: [360, 160], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [360, 160], mode: outbound }
         garage_logo:
             quality: 75
             filters:
-                thumbnail: { size: [120, 120], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [120, 120], mode: outbound }
         garage_mini_logo:
             quality: 75
             filters:
-                thumbnail: { size: [50, 50], mode: outbound }
                 auto_rotate: ~
+                thumbnail: { size: [50, 50], mode: outbound }
