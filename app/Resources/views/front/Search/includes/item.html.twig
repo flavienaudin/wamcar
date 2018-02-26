@@ -16,7 +16,7 @@
                 <ul class="vehicle-user-greetings no-bullet">
                     {% for projectVehicle in vehicle.projectVehicles %}
                         <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
-                            {{ (projectVehicle.yearMax) ? projectVehicle.yearMax~"+ " : '' }}
+                            {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
                             {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
                         </li>
                     {% endfor %}

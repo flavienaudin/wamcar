@@ -15,7 +15,7 @@ Wamcar\User\ProjectVehicle:
             type: string
         model:
             type: string
-        yearMax:
+        yearMin:
             type: integer
             nullable: true
         mileageMax:

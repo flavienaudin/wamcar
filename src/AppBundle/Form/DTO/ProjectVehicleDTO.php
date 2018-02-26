@@ -14,7 +14,7 @@ class ProjectVehicleDTO
     /** @var string */
     public $model;
     /** @var  int */
-    public $yearMax;
+    public $yearMin;
     /** @var  int */
     public $mileageMax;
 
@@ -29,7 +29,7 @@ class ProjectVehicleDTO
         $dto->id = $projectVehicle->getId();
         $dto->make = $projectVehicle->getMake();
         $dto->model = $projectVehicle->getModel();
-        $dto->yearMax = $projectVehicle->getYearMax();
+        $dto->yearMin = $projectVehicle->getYearMin();
         $dto->mileageMax = $projectVehicle->getMileageMax();
 
         return $dto;
