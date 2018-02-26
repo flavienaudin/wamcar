@@ -1,6 +1,6 @@
 {% set class = class|default('') %}
 
-<input type="radio" name="{{ name }}" id="{{ id }}" value="{{ value }}">
+<input type="radio" name="{{ name }}" id="{{ id }}" value="{{ value }}" {% if checked is defined and checked is same as(true) %}checked="checked"{% endif %}>
 <label for="{{ id }}" class="radio-item {{ class }}">
     {{ label }}
     {% include 'front/Layout/includes/svg/check_alt.html.twig' %}

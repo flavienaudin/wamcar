@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\Validator\Constraints\Message;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -72,7 +73,8 @@ class MessageType extends AbstractType
             'data_class' => MessageDTO::class,
             'translation_domain' => 'message',
             'label_format' => 'message.field.%name%.label',
-            'user' => null
+            'user' => null,
+            'constraints' => new Message()
         ]);
     }
 }

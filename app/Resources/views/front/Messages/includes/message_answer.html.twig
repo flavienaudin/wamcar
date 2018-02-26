@@ -13,6 +13,7 @@
         'class': 'no-margin',
         'required': true
     }) }}
+    {{ form_errors(messageForm) }}
     {% if messageForm.vehicle is defined %}
         {{ form_widget(messageForm.vehicle, {
             'isNew': currentConversation == null
