@@ -171,7 +171,7 @@ class Project
     {
         $projectVehicle->setMake($updateProjectVehicle->getMake());
         $projectVehicle->setModel($updateProjectVehicle->getModel());
-        $projectVehicle->setYearMax($updateProjectVehicle->getYearMax());
+        $projectVehicle->setYearMin($updateProjectVehicle->getYearMin());
         $projectVehicle->setMileageMax($updateProjectVehicle->getMileageMax());
 
         return $projectVehicle;
