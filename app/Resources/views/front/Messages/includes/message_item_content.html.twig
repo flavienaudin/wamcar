@@ -1,4 +1,6 @@
-{% set currentConversationLastMessage = getLastMessageConversation(currentConversation) %}
+{% if currentConversation %}
+    {% set currentConversationLastMessage = getLastMessageConversation(currentConversation) %}
+{% endif %}
 
 <!-- Header for mobile -->
 <div class="messages-header messages-header-item-mobile block-grid hide-for-medium">
