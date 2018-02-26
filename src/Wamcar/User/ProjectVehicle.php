@@ -13,7 +13,7 @@ class ProjectVehicle
     /** @var string */
     protected $model;
     /** @var  null|int */
-    protected $yearMax;
+    protected $yearMin;
     /** @var  null|int */
     protected $mileageMax;
 
@@ -23,7 +23,7 @@ class ProjectVehicle
      * @param int|null $id
      * @param string $make
      * @param string $model
-     * @param int|null $yearMax
+     * @param int|null $yearMin
      * @param int|null $mileageMax
      */
     public function __construct(
@@ -31,7 +31,7 @@ class ProjectVehicle
         int $id = null,
         string $make,
         string $model,
-        int $yearMax = null,
+        int $yearMin = null,
         int $mileageMax = null
     )
     {
@@ -39,7 +39,7 @@ class ProjectVehicle
         $this->id = $id;
         $this->make = $make;
         $this->model = $model;
-        $this->yearMax = $yearMax;
+        $this->yearMin = $yearMin;
         $this->mileageMax = $mileageMax;
     }
 
@@ -78,9 +78,9 @@ class ProjectVehicle
     /**
      * @return int|null
      */
-    public function getYearMax(): ?int
+    public function getYearMin(): ?int
     {
-        return $this->yearMax;
+        return $this->yearMin;
     }
 
     /**
@@ -116,11 +116,11 @@ class ProjectVehicle
     }
 
     /**
-     * @param int|null $yearMax
+     * @param int|null $yearMin
      */
-    public function setYearMax(?int $yearMax): void
+    public function setYearMin(?int $yearMin): void
     {
-        $this->yearMax = $yearMax;
+        $this->yearMin = $yearMin;
     }
 
     /**

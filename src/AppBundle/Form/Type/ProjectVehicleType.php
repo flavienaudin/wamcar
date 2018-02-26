@@ -46,8 +46,8 @@ class ProjectVehicleType extends AbstractType
                 'placeholder' => count($models) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
-            ->add('yearMax', ChoiceType::class, [
-                'choices' => YearsChoice::getLastYears(),
+            ->add('yearMin', ChoiceType::class, [
+                'choices' => YearsChoice::getLastYears(58),
                 'required' => false,
                 'error_bubbling' => true,
             ])

@@ -10,7 +10,7 @@
 <ul class="list-bullet">
     {% for projectVehicle in project.projectVehicles %}
         <li><strong class="black-color">{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
-            {{ (projectVehicle.yearMax) ? '/ '~projectVehicle.yearMax~"+ " : '' }}
+            {{ (projectVehicle.yearMin) ? '/ '~projectVehicle.yearMin~"+ " : '' }}
             {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
         </li>
     {% endfor %}

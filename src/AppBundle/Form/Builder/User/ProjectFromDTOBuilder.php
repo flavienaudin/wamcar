@@ -38,7 +38,7 @@ class ProjectFromDTOBuilder
                 $projectVehicleDTO->id,
                 $projectVehicleDTO->make,
                 $projectVehicleDTO->model,
-                $projectVehicleDTO->yearMax,
+                $projectVehicleDTO->yearMin,
                 $projectVehicleDTO->mileageMax
             );
         }

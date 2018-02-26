@@ -152,7 +152,7 @@ class IndexablePersonalVehicle implements Indexable
                 $projectVehicles[] = [
                     'make' => $projectVehicle->getMake(),
                     'model' => $projectVehicle->getModel(),
-                    'yearMax' => $projectVehicle->getYearMax(),
+                    'yearMin' => $projectVehicle->getYearMin(),
                     'mileageMax' => $projectVehicle->getMileageMax(),
                     'key_make' => $projectVehicle->getMake(),
                     'key_model' => $projectVehicle->getModel()
