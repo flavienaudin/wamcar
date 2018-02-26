@@ -7,6 +7,8 @@ use Wamcar\Garage\Garage;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\Enum\Funding;
+use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
@@ -16,25 +18,25 @@ class ProVehicle extends BaseVehicle
 {
 
     /** @var float */
-    private $price;
+    protected $price;
     /** @var float */
-    private $catalogPrice;
+    protected $catalogPrice;
     /** @var float */
-    private $discount;
+    protected $discount;
+    /** @var Guarantee */
+    protected $guarantee;
     /** @var string */
-    private $guarantee;
+    protected $otherGuarantee;
+    /** @var Funding */
+    protected $funding;
     /** @var string */
-    private $otherGuarantee;
+    protected $otherFunding;
     /** @var string */
-    private $funding;
+    protected $additionalServices;
     /** @var string */
-    private $otherFunding;
-    /** @var string */
-    private $additionalServices;
-    /** @var string */
-    private $reference;
+    protected $reference;
     /** @var Garage */
-    private $garage;
+    protected $garage;
 
 
     public function __construct(
@@ -58,9 +60,9 @@ class ProVehicle extends BaseVehicle
         float $price,
         float $catalogPrice = null,
         float $discount = null,
-        string $guarantee = null,
+        Guarantee $guarantee = null,
         string $otherGuarantee = null,
-        string $funding = null,
+        Funding $funding = null,
         string $otherFunding = null,
         string $additionalServices = null,
         string $reference = null
@@ -119,9 +121,9 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return string
+     * @return Guarantee
      */
-    public function getGuarantee(): ?string
+    public function getGuarantee(): Guarantee
     {
         return $this->guarantee;
     }
@@ -135,9 +137,9 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return string
+     * @return Funding
      */
-    public function getFunding(): ?string
+    public function getFunding(): Funding
     {
         return $this->funding;
     }
@@ -220,6 +222,22 @@ class ProVehicle extends BaseVehicle
     public function setOtherGuarantee(?string $otherGuarantee): void
     {
         $this->otherGuarantee = $otherGuarantee;
+    }
+
+    /**
+     * @param string $funding
+     */
+    public function setFunding(string $funding): void
+    {
+        $this->funding = $funding;
+    }
+
+    /**
+     * @param string $otherFunding
+     */
+    public function setOtherFunding(string $otherFunding): void
+    {
+        $this->otherFunding = $otherFunding;
     }
 
     /**

@@ -96,13 +96,13 @@ Wamcar\Vehicle\ProVehicle:
             type: float
             nullable: true
         guarantee:
-            type: string
+            type: vehicleguarantee
             nullable: true
         otherGuarantee:
             type: string
             nullable: true
         funding:
-            type: string
+            type: vehiclefunding
             nullable: true
         otherFunding:
             type: string

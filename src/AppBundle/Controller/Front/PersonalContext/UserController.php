@@ -108,7 +108,7 @@ class UserController extends BaseController
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
-            if ($this->getUser() === PersonalUser::TYPE) {
+            if ($this->getUser()->getType() === PersonalUser::TYPE) {
                 $this->eventBus->handle(new PersonalUserUpdated($user));
             } else {
                 $this->eventBus->handle(new ProUserUpdated($user));

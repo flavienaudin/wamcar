@@ -1,12 +1,12 @@
 {% set state_inte = [
     { label: "Changement de courroie de distribution", value: vehicle.getisTimingBeltChanged ? 'Oui' : 'Non' },
-    { label: "Date du dernier controle technique", value: vehicle.safetyTestDate },
-    { label: "Resultat du dernier controle technique", value: vehicle.safetyTestState },
+    { label: "Date du dernier controle technique", value: vehicle.safetyTestDate.key|trans([], 'enumeration') },
+    { label: "Resultat du dernier controle technique", value: vehicle.safetyTestState.key|trans([], 'enumeration') },
     { label: "Statut", value: vehicle.isFirstHand ? 'Neuf' : 'Occasion' },
     { label: "Etat de la carrosserie", value: vehicle.bodyState|default('Non renseigné') },
     { label: "Etat du moteur", value: vehicle.engineState|default('Non renseigné') },
     { label: "Etat des pneus", value: vehicle.tyreState|default('Non renseigné') },
-    { label: "Carnet d’entretien", value: vehicle.maintenanceState }
+    { label: "Carnet d’entretien", value: vehicle.maintenanceState.key|trans([], 'enumeration') }
 ] %}
 
 <h2 class="separator medium primary-color">Etat du véhicule</h2>
