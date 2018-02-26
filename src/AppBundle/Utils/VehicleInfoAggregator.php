@@ -45,7 +45,7 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 10000);
+        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
 
         foreach ($data as $field => $value) {
             if (!empty($value)) {
@@ -61,9 +61,9 @@ class VehicleInfoAggregator
             'ktypNumber' => ['make', 'model', 'engine', 'fuel'],
         ];
 
-        $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel'));
+        $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel', ['size' => 0]));
         if (empty($data)) {
-            $qb->addAggregation(new Aggregation('make', 'terms', 'make', ['size' => 1000]));
+            $qb->addAggregation(new Aggregation('make', 'terms', 'make', ['size' => 0]));
         }
 
         $childAggregations = [];
@@ -71,7 +71,7 @@ class VehicleInfoAggregator
             $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
         }
         foreach ($childAggregations as $aggregationField) {
-            $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField));
+            $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField, ['size' => 0]));
         }
         $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
         foreach ($result->aggregations() as $field => $aggregation) {

@@ -20,10 +20,7 @@ class MessageDTO
     public $user;
     /** @var  BaseUser */
     public $interlocutor;
-    /**
-     * @var  string
-     * @Assert\NotBlank()
-     */
+    /**  @var  string */
     public $content;
     /** @var null|BaseVehicle */
     public $vehicleHeader;

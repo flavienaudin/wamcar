@@ -47,7 +47,7 @@ class Message
     public function __construct(
         Conversation $conversation,
         CanBeInConversation $user,
-        string $content,
+        ?string $content = '',
         ?BaseVehicle $vehicleHeader = null,
         ?BaseVehicle $vehicle = null,
         ?bool $isFleet = false
@@ -55,7 +55,7 @@ class Message
     {
         $this->conversation = $conversation;
         $this->user = $user;
-        $this->content = $content;
+        $this->content = $content ?? '';
         $this->isFleet = $isFleet;
         $this->publishedAt = new \DateTime();
         if ($vehicleHeader) {
