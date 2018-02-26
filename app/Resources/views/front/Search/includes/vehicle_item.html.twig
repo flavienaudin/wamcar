@@ -18,7 +18,7 @@
             <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
             <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</time>
             {% if vehicle.price is defined %}
-                <strong class="vehicle-price small-shrink">{{ vehicle.price|localizedcurrency('EUR') }}</strong>
+                <strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }} €</strong>
             {% endif %}
         </div>
     </div>

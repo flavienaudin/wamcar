@@ -118,10 +118,10 @@ class SecurityController extends BaseController
                     $this->session->remove($key);
                     return $this->redirect($redirectTo);
                 } else {
-                    return $this->redirectToRoute('front_default');
+                    return $this->redirectToRoute('front_default', ['_fragment' => 'activation-'.$type]);
                 }
             }
-            return $this->redirectToRoute('register_confirm');
+            return $this->redirectToRoute('register_confirm', ['_fragment' => 'register-'.$type]);
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [

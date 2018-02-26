@@ -85,6 +85,9 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setDiscount($vehicleDTO->getDiscount());
         $vehicle->setGuarantee($vehicleDTO->getGuarantee());
         $vehicle->setOtherGuarantee($vehicleDTO->getOtherGuarantee());
+        $vehicle->setFunding($vehicleDTO->getFunding());
+        $vehicle->setOtherFunding($vehicleDTO->getOtherFunding());
+        $vehicle->setOtherGuarantee($vehicleDTO->getOtherGuarantee());
         $vehicle->setAdditionalServices($vehicleDTO->getAdditionalServices());
         $vehicle->setReference($vehicleDTO->getReference());
 

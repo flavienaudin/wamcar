@@ -2,7 +2,7 @@
 <ul class="list-bullet dark-gray-color no-margin">
     {% if vehicle.funding or vehicle.otherFunding %}
         {% if vehicle.funding %}
-            <li>{{ vehicle.funding }}</li>
+            <li>{{ vehicle.funding.key|trans([], 'enumeration') }}</li>
         {% endif %}
         {{ vehicle.otherFunding|raw }}
     {% else %}

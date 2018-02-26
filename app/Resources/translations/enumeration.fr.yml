@@ -8,5 +8,12 @@ LESS_THAN_SIX_MONTH: 'Moins de six mois'
 MORE_THAN_SIX_MONTH: 'Plus de six mois'
 NOT_APPLICABLE: 'Non applicable'
 
+G12_MONTH: 'Garantie de 12 mois'
+G24_MONTH: 'Garantie de 24 mois'
+G36_MONTH: 'Garantie de 36 mois'
+
+CREDIT_WITHOUT_CONTRIBUTOIN: 'Crédit'
+PRIME_A_L_HYBRIDE: Prime à l'hybride
+
 OK: 'Valide'
 NOT_OK: 'Non valide'

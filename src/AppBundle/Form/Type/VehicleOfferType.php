@@ -40,6 +40,7 @@ class VehicleOfferType extends AbstractType
             ->add('guarantee', ChoiceType::class, [
                 'choices' => Guarantee::toArray(),
                 'error_bubbling' => true,
+                'choice_translation_domain' => 'enumeration',
                 'required' => false
             ])
             ->add('otherGuarantee', TextType::class, [
@@ -49,6 +50,7 @@ class VehicleOfferType extends AbstractType
             ->add('funding', ChoiceType::class, [
                 'choices' => Funding::toArray(),
                 'error_bubbling' => true,
+                'choice_translation_domain' => 'enumeration',
                 'required' => false
             ])
             ->add('otherFunding', TextType::class, [
@@ -64,6 +66,9 @@ class VehicleOfferType extends AbstractType
                 'required' => false
             ])
         ;
+
+        $builder->get('guarantee')->addModelTransformer(new EnumDataTransformer(Guarantee::class));
+        $builder->get('funding')->addModelTransformer(new EnumDataTransformer(Funding::class));
     }
 
     /**

@@ -77,6 +77,8 @@ doctrine:
             vehiclemaintenancestate:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
             vehiclesafetyteststate:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
             vehiclesafetytestdate:  AppBundle\Doctrine\Type\VehicleSafetyTestDateType
+            vehicleguarantee:  AppBundle\Doctrine\Type\GuaranteeType
+            vehiclefunding:  AppBundle\Doctrine\Type\FundingType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

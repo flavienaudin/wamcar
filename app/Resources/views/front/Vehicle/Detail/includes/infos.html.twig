@@ -2,7 +2,7 @@
     { label: "Marque", value: vehicle.make },
     { label: "Modèle", value: vehicle.modelName },
     { label: "Année", value: vehicle.years },
-    { label: "Kilométrage", value: vehicle.mileAge },
+    { label: "Kilométrage", value: vehicle.mileAge|localizednumber ~ ' km' },
     { label: "Motorisation", value: vehicle.engineName },
     { label: "Boite de vitesse", value: vehicle.transmission },
     { label: "Energie", value: vehicle.fuelName },

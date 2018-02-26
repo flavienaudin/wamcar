@@ -32,6 +32,8 @@ class VehicleOfferDTO
      * @param $discount
      * @param $guarantee
      * @param $otherGuarantee
+     * @param $funding
+     * @param $otherFunding
      * @param $additionalServices
      * @param $reference
      * @return VehicleOfferDTO
