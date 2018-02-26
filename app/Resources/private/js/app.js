@@ -27,6 +27,7 @@ import './components/datepicker';
 import './components/city';
 import './components/conversation';
 import './components/vehicle';
+import './components/star';
 import './components/project';
 import './components/avatar';
 import scrollTo from './components/scrollTo';
