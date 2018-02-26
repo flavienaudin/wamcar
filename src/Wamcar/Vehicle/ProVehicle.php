@@ -18,25 +18,25 @@ class ProVehicle extends BaseVehicle
 {
 
     /** @var float */
-    protected $price;
+    private $price;
     /** @var float */
-    protected $catalogPrice;
+    private $catalogPrice;
     /** @var float */
-    protected $discount;
+    private $discount;
     /** @var Guarantee */
-    protected $guarantee;
+    private $guarantee;
     /** @var string */
-    protected $otherGuarantee;
+    private $otherGuarantee;
     /** @var Funding */
-    protected $funding;
+    private $funding;
     /** @var string */
-    protected $otherFunding;
+    private $otherFunding;
     /** @var string */
-    protected $additionalServices;
+    private $additionalServices;
     /** @var string */
-    protected $reference;
+    private $reference;
     /** @var Garage */
-    protected $garage;
+    private $garage;
 
 
     public function __construct(
