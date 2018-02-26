@@ -3,7 +3,6 @@
 namespace AppBundle\Form\Validator\Constraints;
 
 
-use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraint;
@@ -31,7 +30,7 @@ class MessageValidator extends ConstraintValidator
             throw new UnexpectedTypeException($value, MessageDTO::class);
         }
 
-        if ($value->vehicle == null &&  $value->content == null) {
+        if ($value->vehicle == null && $value->content == null) {
             $this->context->buildViolation($this->translation->trans($constraint->message, [], "validations"))
                 ->addViolation();
         }
