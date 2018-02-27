@@ -13,10 +13,13 @@ use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
 use Novaway\ElasticsearchClient\Query\QueryBuilder;
+use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
 
 class QueryBuilderFilterer
 {
     const LIMIT_DISTANCE = '300';
+    const OFFSET_SCORE = '100km';
+    const SCALE_SCORE = '100km';
 
     /**
      * @param QueryBuilder $queryBuilder
@@ -30,6 +33,10 @@ class QueryBuilderFilterer
 
         if (!empty($searchVehicleDTO->cityName)) {
             $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
+            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE , self::SCALE_SCORE);
+            $queryBuilder->addFunctionScore($score);
+        } else {
+            $queryBuilder->addSort('sortCreatedAt', 'desc');
         }
 
         $queryBuilder = $this->handleMake($queryBuilder, $queryType, $searchVehicleDTO->make);
@@ -176,6 +183,10 @@ class QueryBuilderFilterer
 
         if (!empty($searchVehicleDTO->cityName)) {
             $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LIMIT_DISTANCE));
+            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE, self::SCALE_SCORE);
+            $queryBuilder->addFunctionScore($score);
+        } else {
+            $queryBuilder->addSort('sortCreatedAt', 'desc');
         }
         if ($searchVehicleDTO->make) {
             $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));

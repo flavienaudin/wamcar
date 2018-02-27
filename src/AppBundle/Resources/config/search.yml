@@ -87,6 +87,8 @@ parameters:
             pro_vehicle:
                 _source : { enabled : true }
                 properties:
+                    sortCreatedAt:
+                        type: date
                     location:
                         type: geo_point
                     mileage:
@@ -99,6 +101,8 @@ parameters:
             personal_vehicle:
                 _source : { enabled : true }
                 properties:
+                    sortCreatedAt:
+                        type: date
                     location:
                         type: geo_point
                     mileage:

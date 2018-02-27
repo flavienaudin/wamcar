@@ -190,6 +190,7 @@ class IndexablePersonalVehicle implements Indexable
                 'lat' => $this->latitude,
                 'lon' => $this->longitude
             ],
+            'sortCreatedAt' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
             'createdAt' => $this->createdAt,
             'deletedAt' => $this->deletedAt,
             'picture' => $this->picture,
