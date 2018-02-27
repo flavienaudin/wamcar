@@ -74,9 +74,7 @@ class SearchResultProvider
             self::MIN_SCORE
         );
 
-        //if ($submittedAndValid) {
-            $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
-        //}
+        $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
 
         return $this->queryExecutor->execute(
             $queryBuilder->getQueryBody(),
