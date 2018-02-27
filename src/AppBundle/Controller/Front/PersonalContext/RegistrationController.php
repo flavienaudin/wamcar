@@ -122,9 +122,7 @@ class RegistrationController extends BaseController
         $vehicleDTO->vehicleReplace = (bool) $request->get('vehicle-replace', $vehicleDTO->vehicleReplace);
         $vehicleDTO->updateFromFilters($filters);
 
-        $availableValues = array_key_exists('ktypNumber', $filters) ?
-            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
-            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $vehicleForm = $this->formFactory->create(
             UserRegistrationPersonalVehicleType::class,
