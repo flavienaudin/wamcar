@@ -48,11 +48,10 @@ class SearchResultProvider
     public function getSearchProResult(FormInterface $searchForm, array $pages): array
     {
         $searchVehicleDTO = $searchForm->getData();
-        $formValidate = $searchForm->isSubmitted() && $searchForm->isValid();
 
         $searchResult = [];
         foreach ($this->queryTypes as $queryType) {
-            $searchResult[$queryType] = $this->getQueryProResult($queryType, $searchVehicleDTO, $pages, $formValidate);
+            $searchResult[$queryType] = $this->getQueryProResult($queryType, $searchVehicleDTO, $pages);
         }
 
         return $searchResult;
@@ -62,10 +61,9 @@ class SearchResultProvider
      * @param string $queryType
      * @param SearchVehicleDTO $searchVehicleDTO
      * @param array $pages
-     * @param bool $submittedAndValid
      * @return Result
      */
-    private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages, bool $submittedAndValid): Result
+    private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
     {
 
         $queryBuilder = QueryBuilder::createNew(

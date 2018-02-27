@@ -36,7 +36,7 @@ class QueryBuilderFilterer
             $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE , self::SCALE_SCORE);
             $queryBuilder->addFunctionScore($score);
         } else {
-            $queryBuilder->addSort('createdAt', 'desc');
+            $queryBuilder->addSort('sortCreatedAt', 'desc');
         }
 
         $queryBuilder = $this->handleMake($queryBuilder, $queryType, $searchVehicleDTO->make);
