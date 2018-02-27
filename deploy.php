@@ -47,7 +47,7 @@ after('deploy', 'cleanup');
 
 after('deploy', 'reload:php-fpm');
 after('rollback', 'reload:php-fpm');
-after('deploy', 'deploy:slack');
+after('deploy', 'slack');
 
 // Servers
 set('default_stage', 'demo');
