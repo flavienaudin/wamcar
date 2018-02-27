@@ -5,18 +5,8 @@ namespace Deployer;
 use Symfony\Component\Console\Input\InputArgument;
 
 require 'recipe/symfony3.php';
-require_once 'recipe/slack.php';
 
 inventory('hosts.yml');
-
-// Set Slack configuration
-set('slack', [
-    'token'    => 'xoxp-3247955744-35578078612-175164251713-00fadcb729ab34283fbd79971cf79480',
-    'team'     => 'novaway',
-    'app'      => 'CI deployer',
-    'username' => 'CI deployer',
-    'channel'  => '#projet_wamcar'
-]);
 
 set('ssh_type', 'native');
 set('ssh_multiplexing', true);
@@ -47,7 +37,6 @@ after('deploy', 'cleanup');
 
 after('deploy', 'reload:php-fpm');
 after('rollback', 'reload:php-fpm');
-after('deploy', 'slack');
 
 // Servers
 set('default_stage', 'demo');
