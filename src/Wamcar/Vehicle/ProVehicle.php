@@ -121,9 +121,9 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return Guarantee
+     * @return null|Guarantee
      */
-    public function getGuarantee(): Guarantee
+    public function getGuarantee(): ?Guarantee
     {
         return $this->guarantee;
     }
@@ -137,9 +137,9 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return Funding
+     * @return null|Funding
      */
-    public function getFunding(): Funding
+    public function getFunding(): ?Funding
     {
         return $this->funding;
     }

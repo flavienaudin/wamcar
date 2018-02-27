@@ -102,9 +102,7 @@ class VehicleController extends BaseController
 
         $vehicleDTO->updateFromFilters($filters);
 
-        $availableValues = array_key_exists('ktypNumber', $filters) ?
-            $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters) :
-            $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $proVehicleForm = $this->formFactory->create(
             ProVehicleType::class,
