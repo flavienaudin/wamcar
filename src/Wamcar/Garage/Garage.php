@@ -5,6 +5,7 @@ namespace Wamcar\Garage;
 use AppBundle\Doctrine\Entity\GaragePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
@@ -12,6 +13,8 @@ use Wamcar\Vehicle\ProVehicle;
 
 class Garage
 {
+    use SoftDeleteable;
+
     /** @var int */
     protected $id;
     /** @var string */

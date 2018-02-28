@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
@@ -115,7 +116,7 @@ class GarageController extends BaseController
      */
     public function removeAction(Garage $garage): RedirectResponse
     {
-        $this->garageRepository->remove($garage);
+        $this->garageEditionService->remove($garage);
 
         $this->session->getFlashBag()->add(
             self::FLASH_LEVEL_INFO,

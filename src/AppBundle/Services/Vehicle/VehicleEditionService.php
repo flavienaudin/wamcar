@@ -53,5 +53,4 @@ class VehicleEditionService
             $this->em->persist($message);
         }
     }
-
 }

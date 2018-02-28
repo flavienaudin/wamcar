@@ -171,7 +171,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return Garage
      */
-    public function getGarage(): Garage
+    public function getGarage(): ?Garage
     {
         return $this->garage;
     }
@@ -179,7 +179,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @param Garage $garage
      */
-    public function setGarage(Garage $garage): void
+    public function setGarage(?Garage $garage): void
     {
         $this->garage = $garage;
     }
@@ -259,7 +259,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @return ProUser
      */
-    public function getSeller(): ProUser
+    public function getSeller(): ?ProUser
     {
         return $this->getGarage()->getSeller();
     }

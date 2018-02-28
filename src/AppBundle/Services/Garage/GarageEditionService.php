@@ -2,12 +2,13 @@
 
 namespace AppBundle\Services\Garage;
 
+use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Services\User\CanBeGarageMember;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Wamcar\Garage\Garage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
@@ -21,21 +22,27 @@ class GarageEditionService
     private $garageProUserRepository;
     /** @var GarageFromDTOBuilder  */
     private $garageBuilder;
+    /** @var ProVehicleEditionService  */
+    private $proVehicleEditionService;
+
     /**
      * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
      * @param GarageProUserRepository $garageProUserRepository
      * @param GarageFromDTOBuilder $garageBuilder
+     * @param ProVehicleEditionService $proVehicleEditionService
      */
     public function __construct(
         GarageRepository $garageRepository,
         GarageProUserRepository $garageProUserRepository,
-        GarageFromDTOBuilder $garageBuilder
+        GarageFromDTOBuilder $garageBuilder,
+        ProVehicleEditionService $proVehicleEditionService
     )
     {
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;
         $this->garageBuilder = $garageBuilder;
+        $this->proVehicleEditionService = $proVehicleEditionService;
     }
 
     /**
@@ -103,5 +110,18 @@ class GarageEditionService
         $this->garageRepository->update($garage);
 
         return $garage;
+    }
+
+    /**
+     * @param Garage $garage
+     */
+    public function remove(Garage $garage)
+    {
+        /** @var GarageProUser $member */
+        foreach ($garage->getMembers() as $member) {
+            $this->removeMember($garage, $member->getProUser());
+        }
+
+        $this->garageRepository->remove($garage);
     }
 }
