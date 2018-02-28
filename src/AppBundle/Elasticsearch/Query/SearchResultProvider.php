@@ -95,9 +95,7 @@ class SearchResultProvider
             self::MIN_SCORE
         );
 
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $queryBuilder = $this->queryBuilderFilterer->getQueryPersonalBuilder($queryBuilder, $searchVehicleDTO);
-        }
+        $queryBuilder = $this->queryBuilderFilterer->getQueryPersonalBuilder($queryBuilder, $searchVehicleDTO);
 
         return $this->queryExecutor->execute(
             $queryBuilder->getQueryBody(),
