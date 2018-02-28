@@ -1,6 +1,6 @@
 <h2 class="separator medium primary-color no-margin-top">Description</h2>
 {%  if vehicle.additionalInformation|trim|length > 0 %}
-    <div>{{ vehicle.additionalInformation|raw }}</div>
+    <div>{{ vehicle.additionalInformation|raw|nl2br }}</div>
 {%  else %}
     <p>Le vendeur n'a pas renseigné de description complémentaire du véhicule.</p>
 {% endif %}
