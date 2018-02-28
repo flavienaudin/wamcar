@@ -1,0 +1,25 @@
+AppBundle\Doctrine\Entity\ApplicationCity:
+
+    type: entity
+    table: city
+
+    id:
+        insee:
+            type: string
+            generator:
+                strategy: none
+
+    embedded:
+        city:
+            class: Wamcar\Location\City
+            columnPrefix: city_
+
+    fields:
+        codeDepartement:
+            type: string
+        codeRegion:
+            type: string
+        departement:
+            type: string
+        region:
+            type: string
