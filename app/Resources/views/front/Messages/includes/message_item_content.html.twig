@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="messages-item-content full-width">
-            {{ message.content }}
+            {{ message.content|nl2br }}
         </div>
         {% if message.vehicle %}
             {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false } %}

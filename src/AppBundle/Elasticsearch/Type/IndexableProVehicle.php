@@ -47,6 +47,10 @@ class IndexableProVehicle implements Indexable
     /** @var string */
     private $sellerName;
     /** @var string */
+    private $garageUrl;
+    /** @var string */
+    private $garageName;
+    /** @var string */
     private $sellerPicture;
     /** @var \DateTime */
     private $deletedAt;
@@ -57,23 +61,25 @@ class IndexableProVehicle implements Indexable
      * @param string $detailUrl
      * @param string $make
      * @param string $model
-     * @param string $modelVersion
+     * @param string|null $modelVersion
      * @param string $engine
      * @param string $transmission
      * @param string $fuel
      * @param string $years
      * @param string $mileage
      * @param string $cityName
-     * @param string $latitude
-     * @param string $longitude
+     * @param null|string $latitude
+     * @param null|string $longitude
      * @param int $price
      * @param \DateTime $createdAt
      * @param string $picture
      * @param int $nbPicture
      * @param string $sellerUrl
      * @param string $sellerName
+     * @param string $garageUrl
+     * @param string $garageName
      * @param string $sellerPicture
-     * @param \DateTime $deletedAt
+     * @param \DateTime|null $deletedAt
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -94,6 +100,8 @@ class IndexableProVehicle implements Indexable
                                 int $nbPicture,
                                 string $sellerUrl,
                                 string $sellerName,
+                                string $garageUrl,
+                                string $garageName,
                                 string $sellerPicture,
                                 ?\DateTime $deletedAt
     )
@@ -117,6 +125,8 @@ class IndexableProVehicle implements Indexable
         $this->nbPicture = $nbPicture;
         $this->sellerUrl = $sellerUrl;
         $this->sellerName = $sellerName;
+        $this->garageUrl = $sellerUrl;
+        $this->garageName = $garageName;
         $this->sellerPicture = $sellerPicture;
         $this->deletedAt = $deletedAt;
 
@@ -171,6 +181,8 @@ class IndexableProVehicle implements Indexable
             'nbPicture' => $this->nbPicture,
             'sellerUrl' => $this->sellerUrl,
             'sellerName' => $this->sellerName,
+            'garageUrl' => $this->garageUrl,
+            'garageName' => $this->garageName,
             'sellerPicture' => $this->sellerPicture,
         ];
     }
