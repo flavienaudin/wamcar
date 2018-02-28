@@ -29,12 +29,17 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregatesFromMakeAndModel(array $data = []): array
     {
-        $aggregations = $this->getVehicleInfoAggregates([]);
+        $aggregations = $this->getVehicleInfoAggregates();
+
         if(isset($data['make'])) {
             $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['make' => $data['make']]));
-        }
-        if(isset($data['model'])) {
-            $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['model' => $data['model']]));
+            if(isset($data['model'])) {
+                $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
+                    'make' => $data['make'],
+                    'model' => $data['model'],
+                ]));
+            }
+
         }
         return $aggregations;
     }
@@ -67,6 +72,7 @@ class VehicleInfoAggregator
         }
 
         $childAggregations = [];
+        $formattedAggregations = [];
         foreach ($aggregationMapping as $key => $children) {
             $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
         }
