@@ -235,7 +235,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @param string $funding
      */
-    public function setFunding(string $funding): void
+    public function setFunding(?string $funding): void
     {
         $this->funding = $funding;
     }
@@ -243,7 +243,7 @@ class ProVehicle extends BaseVehicle
     /**
      * @param string $otherFunding
      */
-    public function setOtherFunding(string $otherFunding): void
+    public function setOtherFunding(?string $otherFunding): void
     {
         $this->otherFunding = $otherFunding;
     }
