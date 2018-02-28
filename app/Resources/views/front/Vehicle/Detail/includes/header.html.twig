@@ -5,7 +5,8 @@
     {% endif %}
     <p class="small-12">
         {#{{ vehicle.modelVersionName }} &nbsp;#}
-        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span> &nbsp;
+        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span> &nbsp;
         <span class="black-color">{{ vehicle.cityName }}</span>
+        <span class="float-right black-color">Publié le {{ vehicle.createdAt|localizeddate('short', 'none') }}</span>
     </p>
 </header>

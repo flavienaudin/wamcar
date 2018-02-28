@@ -117,6 +117,7 @@ class GarageEditionService
      */
     public function remove(Garage $garage)
     {
+        $this->proVehicleEditionService->deleteAllForGarage($garage);
         /** @var GarageProUser $member */
         foreach ($garage->getMembers() as $member) {
             $this->removeMember($garage, $member->getProUser());

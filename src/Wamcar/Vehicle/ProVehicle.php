@@ -177,6 +177,14 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * @return null|string
+     */
+    public function getGarageName(): ?string
+    {
+        return $this->garage ? $this->garage->getName() : null;
+    }
+
+    /**
      * @param Garage $garage
      */
     public function setGarage(?Garage $garage): void
