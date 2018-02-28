@@ -171,3 +171,7 @@ front_conversation_edit:
 front_conversation_list:
     path: /conversations
     defaults: { _controller: AppBundle:Front\ProContext\Conversation:index }
+
+front_city_autocomplete:
+    path: /city/autocomplete
+    defaults: { _controller: AppBundle:Front\ProContext\City:autocomplete }

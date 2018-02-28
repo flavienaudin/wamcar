@@ -12,6 +12,7 @@ use Novaway\ElasticsearchClient\Filter\TermFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
+use Novaway\ElasticsearchClient\Query\PrefixQuery;
 use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
 
@@ -219,4 +220,24 @@ class QueryBuilderFilterer
         return $queryBuilder;
     }
 
+    /**
+     * @param string $terms
+     * @return QueryBuilder
+     */
+    public function getQueryCity(string $terms): QueryBuilder
+    {
+        $queryBuilder = new QueryBuilder();
+
+        $termsAsArray = explode(' ', $terms);
+
+        foreach ($termsAsArray as $term) {
+            $boolQuery = new BoolQuery();
+            // prefix field must be not_analyzed, but the data is saved as uppercase : so we must search as uppercase
+            $boolQuery->addClause(new PrefixQuery('cityName', strtoupper($term), CombiningFactor::SHOULD));
+            $boolQuery->addClause(new PrefixQuery('postalCode', $term, CombiningFactor::SHOULD));
+            $queryBuilder->addQuery($boolQuery);
+        }
+
+        return $queryBuilder;
+    }
 }
