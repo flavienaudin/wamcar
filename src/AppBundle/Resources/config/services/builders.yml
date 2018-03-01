@@ -8,6 +8,6 @@ services:
 
     AppBundle\Elasticsearch\Builder\:
         resource: '../../../Elasticsearch/Builder'
-        public: false
+        public: true
         autowire: true
         autoconfigure: false

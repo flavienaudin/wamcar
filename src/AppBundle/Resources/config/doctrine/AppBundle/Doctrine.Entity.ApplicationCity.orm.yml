@@ -2,6 +2,7 @@ AppBundle\Doctrine\Entity\ApplicationCity:
 
     type: entity
     table: city
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineCityRepository
 
     id:
         insee:

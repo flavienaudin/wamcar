@@ -1,0 +1,104 @@
+/* ===========================================================================
+   Select2
+   =========================================================================== */
+
+.select2 {
+
+
+  /*
+    Custom container
+    ===================================== */
+
+  &-custom-container {
+    padding-top:0;
+  }
+
+
+  /*
+     Container
+     ===================================== */
+
+  &-container,
+  &-selection {
+    min-height: rem-calc(50);
+
+    @include breakpoint(medium) {
+      min-height: rem-calc(60);
+    }
+
+    .small & {
+      min-height: rem-calc(48); // Select height - border
+    }
+  }
+
+  &-container {
+    border: $input-border;
+    border-radius: $global-radius;
+    margin-bottom: $input-margin-bottom - rem-calc(5);
+
+    .search-filter-form-body & {
+      border: 0;
+      margin-bottom: 0;
+    }
+  }
+
+
+  /*
+     Selection choice
+     ===================================== */
+
+  &-selection__choice {
+    margin-top: 0;
+  }
+
+
+  /*
+     Selection
+     ===================================== */
+
+  &-selection {
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    border: none !important;
+  }
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+  padding: rem-calc(5);
+
+  .search-filter-form-body & {
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  margin: rem-calc(5);
+}
+
+.select2-container .select2-search--inline .select2-search__field {
+  margin-top: 0;
+  padding-left: rem-calc(5);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  font-size: rem-calc(13);
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: #f2f3f5;
+  border-color: $border-color;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  top: 50%;
+  right: rem-calc(15);
+  transform: translate3d(0, -50%, 0);
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding: $input-padding;
+}

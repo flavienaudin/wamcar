@@ -69,3 +69,9 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineMessageRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\Conversation\Message']
+
+    AppBundle\Doctrine\Repository\DoctrineCityRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineCityRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['AppBundle\Doctrine\Entity\ApplicationCity']
+        public: true

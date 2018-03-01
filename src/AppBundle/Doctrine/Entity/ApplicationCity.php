@@ -31,6 +31,40 @@ class ApplicationCity
     }
 
     /**
+     * @return null|string
+     */
+    public function getCityName(): ?string
+    {
+        return $this->city ? $this->city->getName(): null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPostalCode(): ?string
+    {
+        return $this->city ? $this->city->getPostalCode(): null;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getLatitude(): ?string
+    {
+        return $this->city ? $this->city->getLatitude(): null;
+    }
+
+
+    /**
+     * @return null|string
+     */
+    public function getLongitude(): ?string
+    {
+        return $this->city ? $this->city->getLongitude(): null;
+    }
+
+
+    /**
      * @return null|City
      */
     public function getCity(): ?City
