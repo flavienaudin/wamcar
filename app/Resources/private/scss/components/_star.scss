@@ -3,103 +3,100 @@
    =========================================================================== */
 
 .star {
-
-
-  /*
+    /*
     List
     ===================================== */
-
-  &-list {
-    position: relative;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
-
-    .star-reset {
-      &:hover {
-        cursor: pointer;
-      }
+    &-list {
+        position: relative;
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        .star-reset {
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
-  }
-
-
-  /*
+    /*
      Item
      ===================================== */
-
-  &-item {
-    position: static;
-    width: rem-calc(30);
-    height: rem-calc(30);
-    margin-right: rem-calc(6);
-    margin-bottom: 0;
-    transition: $global-transition;
-    color: $secondary-color;
-
-    @include breakpoint(small only) {
-      width: rem-calc(20);
-      height: rem-calc(20);
+    &-item {
+        position: static;
+        width: rem-calc(30);
+        height: rem-calc(30);
+        margin-right: rem-calc(6);
+        margin-bottom: 0;
+        transition: $global-transition;
+        color: $secondary-color;
+        @include breakpoint(small only) {
+            width: rem-calc(20);
+            height: rem-calc(20);
+        }
+        &::before {
+            content: "\e90c";
+            font: rem-calc(30) 'icomoon';
+            @include breakpoint(small only) {
+                font: rem-calc(20) 'icomoon';
+            }
+        }
+        /* Checked state */
+         :checked+&:nth-of-type(1)~.star-label:nth-of-type(5),
+         :checked+&:nth-of-type(2)~.star-label:nth-of-type(4),
+         :checked+&:nth-of-type(3)~.star-label:nth-of-type(3),
+         :checked+&:nth-of-type(4)~.star-label:nth-of-type(2),
+         :checked+&:nth-of-type(5)~.star-label:nth-of-type(1) {
+            opacity: 1;
+        }
+         :checked+& {
+            &,
+            ~.star-item {
+                &::before {
+                    content: "\e90b";
+                }
+            }
+        } // End checkedd + &
+        /* Error state */
+        &.is-invalid-label {
+            color: $alert-color;
+        }
     }
-
-    &::before {
-      content: "\e90c";
-      font: rem-calc(30) 'icomoon';
-
-      @include breakpoint(small only) {
-        font: rem-calc(20) 'icomoon';
-      }
-    }
-
-    /* Checked state */
-
-    :checked + &:nth-of-type(1) ~ .star-label:nth-of-type(5),
-    :checked + &:nth-of-type(2) ~ .star-label:nth-of-type(4),
-    :checked + &:nth-of-type(3) ~ .star-label:nth-of-type(3),
-    :checked + &:nth-of-type(4) ~ .star-label:nth-of-type(2),
-    :checked + &:nth-of-type(5) ~ .star-label:nth-of-type(1) { opacity: 1; }
-
-    :checked + & {
-      &,
-      ~ .star-item {
-        &::before { content: "\e90b"; }
-      }
-    } // End checkedd + &
-
-    /* Error state */
-
-    &.is-invalid-label {
-      color: $alert-color;
-    }
-  }
-
-
-  /*
+    /*
      Full star
      ===================================== */
-
-  &-full:before {
-      content: "\e90b";
-  }
-
-  /*
+    &-full:before {
+        content: "\e90b";
+    }
+    /*
      label
      ===================================== */
-
-  &-label {
-    position: absolute;
-    top: 50%;
-    right: rem-calc(35);
-    opacity: 0;
-    transition: .3s;
-    transform: translate3d(0, calc(-50% + #{rem-calc(2)}), 0);
-
-    @include breakpoint(360) {
-      right: rem-calc(65);
+    &-label {
+        position: absolute;
+        top: 50%;
+        right: rem-calc(35);
+        opacity: 0;
+        transition: .3s;
+        transform: translate3d(0, calc(-50% + #{rem-calc(2)}), 0);
+        @include breakpoint(360) {
+            right: rem-calc(65);
+        }
+        @include breakpoint(medium) {
+            right: 0;
+        }
     }
-
-    @include breakpoint(medium) {
-      right: 0;
+    /*
+     Required message
+     ===================================== */
+    &-required {
+        position: absolute;
+        top: rem-calc(30);
+        @include breakpoint(medium) {
+            top: rem-calc(35);
+        }
     }
-  }
-
+    /*
+     Star form margin
+     ===================================== */
+    &-form-margin {
+      margin-bottom: rem-calc(40);
+    }
 }

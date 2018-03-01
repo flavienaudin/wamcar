@@ -474,6 +474,9 @@
                 <span class="star-label">{{ child.vars.label }}</span>
             {% endfor %}
             <span class="star-reset icon-remove"></span>
+            {% if required %}
+                <small class="star-required {{ required_class }}">{{ required_message }}</small>
+            {% endif %}
         </div>
     </div>
 
@@ -595,10 +598,12 @@
 
 {% block _pro_user_information_avatar_widget %}
     {{ block('picture_widget') }}
+    <div class="file-preview-info">Dimensions conseillées : 100 * 100px</div>
 {% endblock %}
 
 {% block _user_information_avatar_widget %}
     {{ block('picture_widget') }}
+    <div class="file-preview-info">Dimensions conseillées : 100 * 100px</div>
 {% endblock %}
 
 {% block _user_avatar_avatar_widget %}
