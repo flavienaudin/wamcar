@@ -70,7 +70,7 @@ if ($picturesList) {
         if (this.legend) {
           this.legend.value = '';
         }
-        this.image.setAttribute('src', this.defaultImage);
+        this.image.setAttribute('src', this.image.getAttribute('data-default-src'));
         resolve(this._hideButtonRemove());
       });
     }
@@ -179,7 +179,7 @@ if ($picturesList) {
       button.addEventListener('click', function () {
         const $parent = this.closest('.js-file-index');
         $parent.querySelector('.js-file-preview-input').value = '';
-        $parent.querySelector('.js-file-preview-image').setAttribute('src', defaultThumbnailSrc);
+        $parent.querySelector('.js-file-preview-image').setAttribute('src', $parent.querySelector('.js-file-preview-image').getAttribute('data-default-src'));
         $parent.querySelector('.js-file-remove-input').checked = true;
         this.classList.add(hideClass);
         fileCount--;
@@ -210,7 +210,7 @@ if ($picturesList) {
       nbFullPicture = 0;
 
       [...document.querySelectorAll('.js-file-preview-image')].forEach((preview) => {
-        if (preview.getAttribute('src') === defaultThumbnailSrc) {
+        if (preview.getAttribute('src') === preview.getAttribute('data-default-src')) {
           nbEmptyPicture++;
         } else {
           nbFullPicture++;
