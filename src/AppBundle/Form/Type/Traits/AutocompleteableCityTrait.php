@@ -50,7 +50,7 @@ trait AutocompleteableCityTrait
             if ($form->has('postalCode')) {
                 $form->remove('postalCode');
                 $form->add('postalCode', ChoiceType::class, [
-                    'choices' => $data && $data['postalCode'] ? [$data['cityName'] . ' ('.$data['postalCode'].')' => $data['postalCode']] : null,
+                    'choices' => $data && isset($data['postalCode']) ? [$data['cityName'] . ' ('.$data['postalCode'].')' => $data['postalCode']] : null,
                     'attr' => [
                         'class' => 'js-city-autocomplete'
                     ]
