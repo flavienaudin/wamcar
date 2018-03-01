@@ -34,10 +34,6 @@ class QueryBuilderFilterer
 
         if (!empty($searchVehicleDTO->cityName)) {
             $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
-            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE , self::SCALE_SCORE);
-            $queryBuilder->addFunctionScore($score);
-        } else {
-            $queryBuilder->addSort('sortCreatedAt', 'desc');
         }
 
         $queryBuilder = $this->handleMake($queryBuilder, $queryType, $searchVehicleDTO->make);
@@ -59,6 +55,8 @@ class QueryBuilderFilterer
                 $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
             }
         }
+
+        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
 
         return $queryBuilder;
     }
@@ -168,6 +166,24 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
+     * @param SearchVehicleDTO $searchVehicleDTO
+     * @return QueryBuilder
+     */
+    private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO): QueryBuilder
+    {
+        if (!empty($searchVehicleDTO->cityName)) {
+            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE , self::SCALE_SCORE);
+            $queryBuilder->addFunctionScore($score);
+        }
+
+        $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::GAUSS, date('Y-m-d'), '1m', '9999d');
+        $queryBuilder->addFunctionScore($score);
+
+        return $queryBuilder;
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
      * @param $searchVehicleDTO
      * @return QueryBuilder
      */
@@ -184,10 +200,6 @@ class QueryBuilderFilterer
 
         if (!empty($searchVehicleDTO->cityName)) {
             $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LIMIT_DISTANCE));
-            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE, self::SCALE_SCORE);
-            $queryBuilder->addFunctionScore($score);
-        } else {
-            $queryBuilder->addSort('sortCreatedAt', 'desc');
         }
         if ($searchVehicleDTO->make) {
             $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
@@ -216,6 +228,8 @@ class QueryBuilderFilterer
         if (!empty($searchVehicleDTO->fuel)) {
             $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
         }
+
+        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
 
         return $queryBuilder;
     }
