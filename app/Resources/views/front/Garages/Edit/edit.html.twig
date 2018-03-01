@@ -63,28 +63,20 @@
                                     'required_message': 'Veuillez indiquer votre adresse.'
                                 }) }}
                             </div>
-                            <div class="column small-5 medium-3 large-2">
+                            <div class="column small-12 medium-12 large-6">
                                 {{ form_widget(garageForm.postalCode, {
                                     'label': 'Code postal',
-                                    'class': 'js-postalCode',
+                                    'class': 'js-city-autocomplete select2-custom-container js-complete-coordinate',
                                     'required': true,
                                     'attr' : {
-                                        'data-fetch-url': path('front_fetch_city'),
-                                        'data-city-field': 'garage_cityName'
-                                    }
-                                }) }}
-                            </div>
-                            <div class="column small-7 medium-9  large-4">
-                                {{ form_widget(garageForm.cityName, {
-                                    'label': 'Ville',
-                                    'class': 'js-complete-coordinate',
-                                    'required': true,
-                                    'attr':  {
+                                        'data-autocomplete-url': path('front_city_autocomplete'),
+                                        'data-city-field': 'garage_cityName',
                                         'data-latitude-field': 'garage_latitude',
                                         'data-longitude-field': 'garage_longitude'
                                     }
                                 }) }}
                             </div>
+                            {{ form_widget(garageForm.cityName) }}
                             {{ form_widget(garageForm.latitude) }}
                             {{ form_widget(garageForm.longitude) }}
                             <div class="column small-7 medium-9  large-4">

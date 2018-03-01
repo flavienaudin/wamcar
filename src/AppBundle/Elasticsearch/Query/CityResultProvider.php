@@ -4,6 +4,7 @@
 namespace AppBundle\Elasticsearch\Query;
 
 
+use AppBundle\Elasticsearch\Builder\IndexableCityBuilder;
 use AppBundle\Elasticsearch\Type\IndexableCity;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
@@ -15,14 +16,18 @@ class CityResultProvider
     private $queryBuilderFilterer;
     /** @var QueryExecutor */
     private $queryExecutor;
+    /** @var IndexableCityBuilder */
+    private $resultTransformer;
 
     public function __construct(
         QueryBuilderFilterer $queryBuilderFilterer,
-        QueryExecutor $queryExecutor
+        QueryExecutor $queryExecutor,
+        IndexableCityBuilder $resultTransformer
     )
     {
         $this->queryBuilderFilterer = $queryBuilderFilterer;
         $this->queryExecutor = $queryExecutor;
+        $this->resultTransformer = $resultTransformer;
     }
 
     public function provideForSearch(string $terms): Result
@@ -31,7 +36,8 @@ class CityResultProvider
 
         return $this->queryExecutor->execute(
             $qb->getQueryBody(),
-            IndexableCity::TYPE
+            IndexableCity::TYPE,
+            $this->resultTransformer
         );
     }
 

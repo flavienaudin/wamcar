@@ -137,35 +137,25 @@
             <label class="medium-no-margin small-12 medium-4">Ville</label>
             <div class="small-12 medium-8">
                 <div class="row">
-                    <div class="column small-4">
+                    <div class="column small-12">
                         {{ form_widget(vehicleForm.specifics.postalCode, {
-                            'class' : 'input no-margin js-postalCode',
-                            'required' : true,
+                            'label': false,
+                            'class': 'input no-margin js-city-autocomplete select2-custom-container js-complete-coordinate',
+                            'required': true,
                             'required_message' : 'Veuillez indiquer votre code postal',
                             'required_class' : 'form-error',
                             'attr' : {
-                                'data-fetch-url': path('front_fetch_city'),
-                                'data-city-field': dataCityField
-                            }
-                        }) }}
-                    </div>
-                    <div class="column small-8">
-                        {{ form_widget(vehicleForm.specifics.cityName, {
-                            'class' : 'no-margin js-complete-coordinate',
-                            'required' : true,
-                            'required_message' : 'Veuillez d\'abord renseigner le code postal',
-                            'required_class' : 'form-error',
-                            'label' : '',
-                            'label_class' : '',
-                            'attr':  {
+                                'data-autocomplete-url': path('front_city_autocomplete'),
+                                'data-city-field': dataCityField,
                                 'data-latitude-field': dataLatitudeField,
                                 'data-longitude-field': dataLongitudeField
                             }
                         }) }}
-                        <small class="form-error">Veuillez indiquer votre ville</small>
-                        {{ form_widget(vehicleForm.specifics.latitude) }}
-                        {{ form_widget(vehicleForm.specifics.longitude) }}
                     </div>
+                    <small class="form-error">Veuillez indiquer votre ville</small>
+                    {{ form_widget(vehicleForm.specifics.cityName) }}
+                    {{ form_widget(vehicleForm.specifics.latitude) }}
+                    {{ form_widget(vehicleForm.specifics.longitude) }}
                 </div>
             </div>
         </div>
