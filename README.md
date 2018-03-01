@@ -129,5 +129,8 @@ Les tests génèrent des rapports au format xunit contenus dans le répertoire `
 
 ### Production
 
-> Todo
+#### Chargement des villes : 
+
+- wamcar:populate:city : qui charge les villes du fichier CSV (database/fixtures/cities.csv) en BDD
+- wamcar:populate:es-cities : qui charge les villes de la BDD dans elastic search
 

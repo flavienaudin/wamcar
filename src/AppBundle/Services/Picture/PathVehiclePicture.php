@@ -20,4 +20,14 @@ class PathVehiclePicture extends BasePathPicture
         return $this->getPicturePath($vehiclePicture, $filter, 'file', 'vehicle');
     }
 
+    /**
+     * @param string $filter
+     * @param $index
+     * @return null|string
+     */
+    public function getFormPathPlaceholder(string $filter, $index): ?string
+    {
+        return $this->getFormPicturePathPlaceholder($filter, $index);
+    }
+
 }

@@ -287,7 +287,10 @@
 
 {% block _pro_vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
-    {% set image = image|default('assets/images/register/pictures_default.jpg') %}
+    {% set defaultImage = null %}
+    {% if form.vars.name matches '/^\\d+$/' %}
+        {% set defaultImage = 'vehicle_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
+    {% endif %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
@@ -299,7 +302,10 @@
 
 {% block _personal_vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
-    {% set image = image|default('assets/images/register/pictures_default.jpg') %}
+    {% set defaultImage = null %}
+    {% if form.vars.name matches '/^\\d+$/' %}
+        {% set defaultImage = 'vehicle_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
+    {% endif %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
@@ -307,7 +313,8 @@
 
 {% block _vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
-    {% set image = value ? value.realPicture|vehiclePicture('vehicle_thumbnail') : asset('vehicle_thumbnail'|defaultVehiclePicture) %}
+    {% set defaultImage = defaultImage ?? asset('vehicle_thumbnail'|defaultVehiclePicture) %}
+    {% set image = value and value.realPicture ? value.realPicture|vehiclePicture('vehicle_thumbnail') : defaultImage %}
     {% set isEdit = value and value.realPicture ? true : false %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
@@ -319,7 +326,7 @@
             {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
             <label for="{{ form.vars.id }}_file" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
                 <div class="file-preview-image no-margin">
-                    <span><img src="{{ asset(image) }}" width="100%" class="js-file-preview-image"></span>
+                    <span><img src="{{ asset(image) }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
                 </div>
                 <span class="show-for-sr">Ajouter une photo</span>
             </label>

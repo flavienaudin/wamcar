@@ -58,7 +58,8 @@ class PictureExtension extends AbstractExtension
             new \Twig_SimpleFilter('logo', array($this, 'logoFilter')),
             new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
             new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
-            new \Twig_SimpleFilter('defaultAvatar', array($this, 'defaultAvatarFilter'))
+            new \Twig_SimpleFilter('defaultAvatar', array($this, 'defaultAvatarFilter')),
+            new \Twig_SimpleFilter('defaultVehicleFormPicture', array($this, 'defaultVehicleFormPictureFilter'))
         );
     }
 
@@ -90,5 +91,10 @@ class PictureExtension extends AbstractExtension
     public function defaultVehiclePictureFilter(string $filter)
     {
         return $this->pathVehiclePicture->getPath(null, $filter);
+    }
+
+    public function defaultVehicleFormPictureFilter(?string $filter, $index)
+    {
+        return $this->pathVehiclePicture->getFormPathPlaceholder($filter, $index);
     }
 }

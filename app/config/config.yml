@@ -18,6 +18,11 @@ parameters:
         banner: '/assets/images/placeholders/garages/banner.png'
         logo: '/assets/images/placeholders/garages/logo.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
+        form_vehicle:
+            0: '/assets/images/placeholders/vehicle/Placeholder-Principale.png'
+            1: '/assets/images/placeholders/vehicle/Placeholder-Profil.png'
+            2: '/assets/images/placeholders/vehicle/Placeholder-Avant.png'
+            3: '/assets/images/placeholders/vehicle/Placeholder-Arriere.png'
 
 
 framework:
