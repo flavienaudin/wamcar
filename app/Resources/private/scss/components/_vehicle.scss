@@ -204,6 +204,16 @@
       width: rem-calc(260);
       flex: 0 0 rem-calc(260);
     }
+
+    img {
+      @include breakpoint(large) {
+        min-height: rem-calc(152);
+      }
+
+      @include breakpoint(xlarge) {
+        min-height: rem-calc(197);
+      }
+    }
   }
 
 
