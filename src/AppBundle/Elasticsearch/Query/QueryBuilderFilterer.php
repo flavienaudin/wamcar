@@ -176,8 +176,13 @@ class QueryBuilderFilterer
             $queryBuilder->addFunctionScore($score);
         }
 
-        $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::GAUSS, date('Y-m-d'), '1m', '9999d');
-        $queryBuilder->addFunctionScore($score);
+
+        if (empty($searchVehicleDTO->cityName) && empty($searchVehicleDTO->text)) {
+            $queryBuilder->addSort('sortCreatedAt', 'desc');
+        } else {
+            $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::GAUSS, date('Y-m-d'), '1m', '9999d');
+            $queryBuilder->addFunctionScore($score);
+        }
 
         return $queryBuilder;
     }
