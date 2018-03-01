@@ -21,28 +21,19 @@
             <label for="search_vehicle_postalCode">Votre location <span class="">Facultatif</span></label>
             <div class="block-grid small-12">
             {{ form_widget(searchForm.postalCode, {
-                'class' : 'js-postalCode input small-4 large-no-margin',
-                'required' : false,
-                'label' : '',
-                'label_class' : '',
-                'placeholder': 'Code postal',
-                'attr' : {
-                    'data-fetch-url': path('front_fetch_city'),
-                    'data-city-field': 'search_vehicle_cityName'
-                }
-            }) }}
-            {{ form_widget(searchForm.cityName, {
-                'class' : 'js-complete-coordinate small-8 large-no-margin',
+                'label': false,
+                'class': 'js-city-autocomplete select2-custom-container input large-no-margin',
                 'required' : false,
                 'required_message' : 'Veuillez d\'abord renseigner le code postal',
                 'required_class' : 'form-error',
-                'label' : '',
-                'label_class' : '',
-                'attr':  {
+                'attr' : {
+                    'data-autocomplete-url': path('front_city_autocomplete'),
+                    'data-city-field': 'search_vehicle_cityName',
                     'data-latitude-field': 'search_vehicle_latitude',
                     'data-longitude-field': 'search_vehicle_longitude'
                 }
             }) }}
+            {{ form_widget(searchForm.cityName) }}
             {{ form_widget(searchForm.latitude) }}
             {{ form_widget(searchForm.longitude) }}
             </div>
