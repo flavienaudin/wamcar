@@ -120,6 +120,15 @@ parameters:
                             model:
                                 type: string
                                 index: not_analyzed
+            city:
+                _source : { enabled : true }
+                properties:
+                    postalCode:
+                        type: string
+                        index: not_analyzed
+                    cityName:
+                        type: string
+                        index: not_analyzed
 
 services:
     _defaults:

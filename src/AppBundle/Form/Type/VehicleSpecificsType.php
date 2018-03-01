@@ -8,10 +8,10 @@ use AppBundle\Form\DTO\VehicleSpecificsDTO;
 use AppBundle\Form\Type\SpecificField\AmountType;
 use AppBundle\Form\Type\SpecificField\StarType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
-use AppBundle\Utils\StarsChoice;
+use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, DateType, HiddenType, IntegerType, TextareaType, TextType
+    ChoiceType, DateType, TextareaType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,8 +21,12 @@ use Wamcar\Vehicle\Enum\SafetyTestState;
 
 class VehicleSpecificsType extends AbstractType
 {
+    use AutocompleteableCityTrait;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $data = $builder->getData();
+
         $builder
             ->add('registrationDate', DateType::class, [
                 'error_bubbling' => true,
@@ -75,14 +79,6 @@ class VehicleSpecificsType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
-            ->add('postalCode', TextType::class, [
-                'attr' => [
-                    'pattern' => '^[0-9][0-9|A|B][0-9]{3}$'
-                ]
-            ])
-            ->add('cityName', TextType::class)
-            ->add('latitude', HiddenType::class)
-            ->add('longitude', HiddenType::class)
         ;
 
         $builder->get('safetyTestDate')->addModelTransformer(new EnumDataTransformer(SafetyTestDate::class));
@@ -92,6 +88,8 @@ class VehicleSpecificsType extends AbstractType
         $builder->get('isTimingBeltChanged')->addModelTransformer(new YesNoDataTransformer());
         $builder->get('isImported')->addModelTransformer(new YesNoDataTransformer());
         $builder->get('isFirstHand')->addModelTransformer(new YesNoDataTransformer());
+
+        $this->addAutocompletableCityField($builder, $data);
     }
 
     /**
