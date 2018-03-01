@@ -45,6 +45,7 @@
     "animated-scrollto": "^1.1.0",
     "foundation-sites": "^6.3.0",
     "motion-ui": "^1.1.1",
+    "select2": "^4.0.6-rc.1",
     "siema": "^1.4.6",
     "slick-carousel": "^1.8.1"
   }

@@ -3,6 +3,7 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
 use AppBundle\Utils\MileageChoice;
 use AppBundle\Utils\YearsChoice;
@@ -16,8 +17,11 @@ use Wamcar\Vehicle\Enum\Transmission;
 
 class SearchVehicleType extends AbstractType
 {
+    use AutocompleteableCityTrait;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $data = $builder->getData();
         $availableValues = $options['available_values'] ?? [];
         $smallVersion = $options['small_version'] ?? [];
 
@@ -26,21 +30,7 @@ class SearchVehicleType extends AbstractType
             ]);
 
         if (!$smallVersion) {
-            $builder->
-            add('postalCode', TextType::class, [
-                'attr' => [
-                    'pattern' => '^[0-9][0-9|A|B][0-9]{3}$'
-                ]
-            ])
-            ->add('cityName', TextType::class, [
-                'required' => false
-            ])
-            ->add('latitude', HiddenType::class, [
-                'required' => false
-            ])
-            ->add('longitude', HiddenType::class, [
-                'required' => false
-            ])
+            $builder
             ->add('make', ChoiceType::class, [
                 'choices' => $availableValues['make'] ?? [],
                 'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
@@ -81,6 +71,8 @@ class SearchVehicleType extends AbstractType
                 'error_bubbling' => true,
             ]);
         }
+
+        $this->addAutocompletableCityField($builder, $data);
     }
 
     /**

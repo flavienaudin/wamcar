@@ -11,6 +11,7 @@
 @import 'settings/settings';
 @import '~foundation-sites/scss/foundation';
 @import '~motion-ui/src/motion-ui';
+@import '~select2/dist/css/select2.min.css';
 @include foundation-global-styles;
 // @include foundation-grid;
 // @include foundation-xy-grid-classes;
@@ -157,4 +158,5 @@
 @import "components/messages";
 @import "components/loader";
 @import "components/home";
+@import "components/select2";
 @import "components/state"; // Only on last
