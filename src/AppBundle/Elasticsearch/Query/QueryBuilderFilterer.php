@@ -19,8 +19,8 @@ use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
 class QueryBuilderFilterer
 {
     const LIMIT_DISTANCE = '300';
-    const OFFSET_SCORE = '100km';
-    const SCALE_SCORE = '100km';
+    const OFFSET_SCORE = '1km';
+    const SCALE_SCORE = '150km';
 
     /**
      * @param QueryBuilder $queryBuilder
