@@ -46,8 +46,8 @@ class ProVehicleBuilder implements VehicleBuilder
             null,
             null,
             null,
-            null,
             $vehicleDTO->GarantieLibelle,
+            null,
             null,
             null,
             $vehicleDTO->IdentifiantVehicule

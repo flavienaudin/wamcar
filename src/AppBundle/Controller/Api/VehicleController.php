@@ -3,23 +3,25 @@
 namespace AppBundle\Controller\Api;
 
 
+use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use Swagger\Annotations as SWG;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
-use AppBundle\Api\DTO\VehicleDTO;
-use Swagger\Annotations as SWG;
 
 /**
  * @SWG\Parameter(parameter="client_id", name="client_id", in="query", description="Votre client ID API", required=true, type="string")
@@ -64,9 +66,12 @@ class VehicleController extends BaseController
      */
     public function clearAction(Request $request): Response
     {
-        $this->proVehicleEditionService->deleteAllForGarage($this->getUserGarage());
-
-        return new Response();
+        try {
+            $this->proVehicleEditionService->deleteAllForGarage($this->getUserGarage());
+            return new JsonResponse([]);
+        } catch (UnauthorizedHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        }
     }
 
     /**
@@ -89,18 +94,21 @@ class VehicleController extends BaseController
      */
     public function getListAction(Request $request): Response
     {
-        if (!$this->getUserGarage()) {
-            throw new AccessDeniedHttpException();
-        }
+        try {
+            $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
 
-        $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
-        $data = [];
-        /** @var ProVehicle $vehicle */
-        foreach ($vehicles as $vehicle) {
-            $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
-        }
+            $data = [];
+            /** @var ProVehicle $vehicle */
+            foreach ($vehicles as $vehicle) {
+                $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
+            }
 
-        return new JsonResponse(array_values($data), Response::HTTP_OK);
+            return new JsonResponse(array_values($data), Response::HTTP_OK);
+        } catch (BadRequestHttpException|UnauthorizedHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+        }
     }
 
     /**
@@ -130,21 +138,26 @@ class VehicleController extends BaseController
      */
     public function addAction(Request $request): Response
     {
-        if (!$this->getUserGarage()) {
-            throw new AccessDeniedHttpException();
+        try {
+            /** @var Garage $userGarage */
+            $userGarage = $this->getUserGarage();
+
+            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+
+            $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
+            if ($vehicle) {
+                throw new ConflictHttpException('reference already used');
+            }
+
+            $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $userGarage);
+            $data = VehicleShortDTO::createFromProVehicle($vehicle);
+
+            return new JsonResponse($data, Response::HTTP_OK);
+        } catch (BadRequestHttpException|UnauthorizedHttpException|ConflictHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode(), $e->getHeaders());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
         }
-
-        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-
-        $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
-        if ($vehicle) {
-            throw new ConflictHttpException();
-        }
-
-        $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getUserGarage());
-        $data = VehicleShortDTO::createFromProVehicle($vehicle);
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -168,14 +181,15 @@ class VehicleController extends BaseController
      */
     public function getAction(Request $request, string $id): Response
     {
-        $vehicle = $this->getVehicleFromId($id);
+        try {
+            $vehicleDTO = VehicleDTO::createFromProVehicle($this->getVehicleFromId($id));
 
-        if (!$vehicle) {
-            throw new NotFoundHttpException();
+            return new JsonResponse($vehicleDTO);
+        } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
         }
-        $vehicleDTO = VehicleDTO::createFromProVehicle($vehicle);
-
-        return new JsonResponse($vehicleDTO);
     }
 
     /**
@@ -197,10 +211,15 @@ class VehicleController extends BaseController
      */
     public function deleteAction(Request $request, string $id): Response
     {
-        $vehicle = $this->getVehicleFromId($id);
-        $this->proVehicleEditionService->deleteVehicle($vehicle);
+        try {
+            $this->proVehicleEditionService->deleteVehicle($this->getVehicleFromId($id));
 
-        return new Response();
+            return new JsonResponse();
+        } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+        }
     }
 
     /**
@@ -230,13 +249,19 @@ class VehicleController extends BaseController
      */
     public function editAction(Request $request, string $id): Response
     {
-        $vehicle = $this->getVehicleFromId($id);
+        try {
+            $vehicle = $this->getVehicleFromId($id);
 
-        $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-        $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-        $data = VehicleShortDTO::createFromProVehicle($vehicle);
+            $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
+            $vehicle = $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
+            $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
-        return new JsonResponse($data, Response::HTTP_OK);
+            return new JsonResponse($data, Response::HTTP_OK);
+        } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+        }
     }
 
     /**
@@ -263,22 +288,28 @@ class VehicleController extends BaseController
      */
     public function addImageAction(Request $request, string $id): Response
     {
-        $vehicle = $this->getVehicleFromId($id);
+        try {
+            $vehicle = $this->getVehicleFromId($id);
 
-        if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
-            throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
+            if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
+                throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
+            }
+
+            $pictures = [];
+            /** @var UploadedFile $file */
+            foreach ($request->files as $file) {
+                $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
+            }
+
+            $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
+            $data = VehicleShortDTO::createFromProVehicle($vehicle);
+
+            return new JsonResponse($data, Response::HTTP_OK);
+        } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\InvalidArgumentException|\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
         }
-
-        $pictures = [];
-        /** @var UploadedFile $file */
-        foreach ($request->files as $file) {
-            $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
-        }
-
-        $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
-        $data = VehicleShortDTO::createFromProVehicle($vehicle);
-
-        return new JsonResponse($data, Response::HTTP_OK);
     }
 
     /**
@@ -301,30 +332,37 @@ class VehicleController extends BaseController
      */
     public function removeImagesAction(Request $request, string $id): Response
     {
-        $vehicle = $this->getVehicleFromId($id);
-        $vehicle = $this->proVehicleEditionService->removePictures($vehicle);
+        try {
+            $vehicle = $this->getVehicleFromId($id);
+            $vehicle = $this->proVehicleEditionService->removePictures($vehicle);
 
-        $data = VehicleShortDTO::createFromProVehicle($vehicle);
+            $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
-        return new JsonResponse($data, Response::HTTP_OK);
+            return new JsonResponse($data, Response::HTTP_OK);
+        } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
+        } catch (\Exception $e) {
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+        }
     }
 
     /**
      * @return Garage
+     * @throws UnauthorizedHttpException
      */
     private function getUserGarage(): Garage
     {
         $user = $this->getUser();
         if (!$user) {
-            throw new UnauthorizedHttpException('Newauth realm="use login token".');
+            throw new UnauthorizedHttpException('Newauth realm="use login token".', 'use login token', null, 10);
         }
 
         if (!$user instanceof CanBeGarageMember) {
-            throw new UnauthorizedHttpException('Newauth realm="not proper user".');
+            throw new UnauthorizedHttpException('Newauth realm="not proper user".', 'not proper user', null, 11);
         }
 
         if (!$user->getGarage()) {
-            throw new UnauthorizedHttpException('Newauth realm="create garage first".');
+            throw new UnauthorizedHttpException('Newauth realm="create garage first".', 'create garage first', null, 12);
         }
 
         return $user->getGarage();
@@ -333,6 +371,7 @@ class VehicleController extends BaseController
     /**
      * @param string $id
      * @return ProVehicle
+     * @throws AccessDeniedException|NotFoundHttpException
      */
     private function getVehicleFromId(string $id): ProVehicle
     {
