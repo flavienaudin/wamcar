@@ -4,7 +4,7 @@
         {% if vehicle.funding %}
             <li>{{ vehicle.funding.key|trans([], 'enumeration') }}</li>
         {% endif %}
-        {{ vehicle.otherFunding|raw }}
+        {{ vehicle.otherFunding|raw|nl2br }}
     {% else %}
         Ce champ n'a pas été renseigné par le professionnel
     {% endif %}
