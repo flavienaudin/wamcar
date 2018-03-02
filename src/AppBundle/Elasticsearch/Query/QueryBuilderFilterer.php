@@ -180,7 +180,7 @@ class QueryBuilderFilterer
         if (empty($searchVehicleDTO->cityName) && empty($searchVehicleDTO->text)) {
             $queryBuilder->addSort('sortCreatedAt', 'desc');
         } else {
-            $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::GAUSS, date('Y-m-d'), '1m', '9999d');
+            $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::LINEAR, date('Y-m-d\TH:i:s\Z'), '1m', '9999d');
             $queryBuilder->addFunctionScore($score);
         }
 
