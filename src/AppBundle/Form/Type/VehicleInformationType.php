@@ -29,10 +29,7 @@ class VehicleInformationType extends AbstractType
             ->add('model', ChoiceType::class, [
                 'choices' => $availableValues['model'] ?? [],
                 'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
-                'error_bubbling' => true,
-                'choice_value' => function ($value) {
-                    return strtoupper($value);
-                },
+                'error_bubbling' => true
             ]);
 
 
