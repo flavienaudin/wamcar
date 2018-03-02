@@ -137,6 +137,24 @@
   }
 
 
+  /*
+     Garage
+     ===================================== */
+
+  &-garage {
+    display: inline-block;
+    border: rem-calc(2) solid $border-color;
+
+    .file-preview-image-container {
+      padding: 0;
+      margin: 0;
+    }
+
+    .file-preview-image {
+      position: relative;
+    }
+  }
+
   &-info {
     font-size: rem-calc(14);
   }

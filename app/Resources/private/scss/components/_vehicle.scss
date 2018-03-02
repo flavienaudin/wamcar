@@ -450,6 +450,10 @@
     @include breakpoint(medium) {
       padding-top: rem-calc(45);
     }
+
+    .is-sticky {
+      z-index: 1;
+    }
   }
 
 
@@ -461,7 +465,7 @@
   &-aside {
     z-index: 2;
 
-    @media screen and (min-height: rem-calc(900)) {
+    @media screen and (min-width: rem-calc(1200)) {
       position: sticky;
       position: -webkit-sticky;
       top: $header-height-medium + rem-calc(30);
