@@ -270,7 +270,7 @@ class QueryBuilderFilterer
 
         foreach ($data as $field => $value) {
             if (!empty($value)) {
-                $queryBuilder->addFilter(new TermFilter($field === 'model' ? 'modelUppercase': $field, $field === 'model' ? strtoupper($value): $value));
+                $queryBuilder->addFilter(new TermFilter($field, $value));
             }
         }
 
