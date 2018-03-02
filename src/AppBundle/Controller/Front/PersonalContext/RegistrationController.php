@@ -88,7 +88,8 @@ class RegistrationController extends BaseController
                 $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
                 $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
                 $filters['make'] = $information['Vehicule']['MARQUE'];
-                $filters['model'] = $information['Vehicule']['MODELE'];
+                $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                $filters['engine'] = $information['Vehicule']['VERSION'];
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
             } catch (AutodataException $autodataException) {
