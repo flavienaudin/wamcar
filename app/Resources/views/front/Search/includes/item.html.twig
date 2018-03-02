@@ -9,7 +9,7 @@
             {% if vehicle.projectVehicles or vehicle.projectBudget %}
             <div class="small-12 dark-gray-color">
                 {% if vehicle.projectBudget %}
-                    <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|localizedcurrency('EUR') }} pour</strong></p>
+                    <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|localizednumber }} € pour</strong></p>
                 {% else %}
                     <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
                 {% endif %}

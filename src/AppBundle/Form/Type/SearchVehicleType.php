@@ -70,9 +70,9 @@ class SearchVehicleType extends AbstractType
                 'choices' => BudgetChoice::getListMax(),
                 'error_bubbling' => true,
             ]);
-        }
 
-        $this->addAutocompletableCityField($builder, $data);
+            $this->addAutocompletableCityField($builder, $data);
+        }
     }
 
     /**

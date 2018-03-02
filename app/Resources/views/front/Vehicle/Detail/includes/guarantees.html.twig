@@ -4,7 +4,7 @@
         {% if vehicle.guarantee %}
             <li>{{ vehicle.guarantee.key|trans([], 'enumeration') }}</li>
         {% endif %}
-        {{ vehicle.otherGuarantee|raw }}
+        {{ vehicle.otherGuarantee|raw|nl2br }}
     {% else %}
         Ce champ n'a pas été renseigné par le professionnel
     {% endif %}
