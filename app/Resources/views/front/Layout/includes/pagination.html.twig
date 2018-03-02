@@ -6,8 +6,12 @@
     <a href="{{ path(route, {'page': previous}) }}?{{ app.request.queryString }}" class="pagination-item previous {% if previous == page %}is-disabled{% endif %} icon-arrow-left" aria-label="Page précédente"><span class="show-for-sr">Page précédente</span></a>
 
     {% if previous < lastPage %}
+        {% set countNextPage = 0 %}
         {% for i in previous..lastPage %}
-            <a href="{{ path(route, {'page': i}) }}?{{ app.request.queryString }}" class="pagination-item {% if i == page %}is-current{% endif %} " aria-label="Page {{ i }}">{{ i }}</a>
+            {% set countNextPage = countNextPage + 1 %}
+            {% if countNextPage < 5 %}
+                <a href="{{ path(route, {'page': i}) }}?{{ app.request.queryString }}" class="pagination-item {% if i == page %}is-current{% endif %} " aria-label="Page {{ i }}">{{ i }}</a>
+            {% endif %}
         {% endfor %}
     {% else %}
         <a href="{{ path(route, {'page': 1}) }}?{{ app.request.queryString }}" class="pagination-item is-current" aria-label="Page 1">1</a>
