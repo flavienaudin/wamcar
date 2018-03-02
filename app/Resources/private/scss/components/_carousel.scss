@@ -88,4 +88,21 @@
     }
   }
 
+
+  /*
+     Slick slide
+     ===================================== */
+
+  .slick-slide {
+    li {
+      padding: rem-calc(20) 0;
+      margin: 0 0 rem-calc(10);
+      background: $grey-alt2;
+    }
+
+    img {
+      margin: 0 auto;
+    }
+  }
+
 }

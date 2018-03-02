@@ -81,6 +81,10 @@
 
   &-button-next {
     margin-left: auto;
+
+    @include breakpoint(large) {
+      margin: 0 auto;
+    }
   }
 
 }

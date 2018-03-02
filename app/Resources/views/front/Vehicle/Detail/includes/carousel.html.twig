@@ -3,13 +3,17 @@
         <li>
             <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
             {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
-            <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
+            {% if picture.caption %}
+                <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
+            {% endif %}
         </li>
     {% else %}
         <li>
             <img src="{{ 'vehicle_picture'|defaultVehiclePicture }}" alt="">
             {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
-            <p class="vehicle-carousel-legend text-center"></p>
+            {% if picture.caption %}
+                <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
+            {% endif %}
         </li>
     {% endfor %}
 </ul>
@@ -20,7 +24,9 @@
     <li>
         <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="">
         {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
-        <p class="vehicle-carousel-legend text-center"></p>
+        {% if picture.caption %}
+            <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
+        {% endif %}
     </li>
 {% endfor %}
 </nav>
