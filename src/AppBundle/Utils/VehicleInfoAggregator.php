@@ -2,6 +2,7 @@
 
 namespace AppBundle\Utils;
 
+use AppBundle\Elasticsearch\Query\QueryBuilderFilterer;
 use AppBundle\Elasticsearch\Type\VehicleInfo;
 use Novaway\ElasticsearchClient\Aggregation\Aggregation;
 use Novaway\ElasticsearchClient\Filter\TermFilter;
@@ -12,15 +13,21 @@ class VehicleInfoAggregator
 {
     /** @var QueryExecutor */
     private $queryExecutor;
+    /** @var QueryBuilderFilterer */
+    private $queryBuilderFilterer;
 
     /**
      * RegistrationController constructor.
      *
      * @param QueryExecutor $queryExecutor
      */
-    public function __construct(QueryExecutor $queryExecutor)
+    public function __construct(
+        QueryExecutor $queryExecutor,
+        QueryBuilderFilterer $queryBuilderFilterer
+    )
     {
         $this->queryExecutor = $queryExecutor;
+        $this->queryBuilderFilterer = $queryBuilderFilterer;
     }
 
     /**
@@ -50,13 +57,7 @@ class VehicleInfoAggregator
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
-
-        foreach ($data as $field => $value) {
-            if (!empty($value)) {
-                $qb->addFilter(new TermFilter($field, $value));
-            }
-        }
+        $qb = $this->queryBuilderFilterer->getQueryVehicleInfo($data);
 
         $aggregationMapping = [
             'make' => ['model'],
@@ -66,6 +67,7 @@ class VehicleInfoAggregator
             'ktypNumber' => ['make', 'model', 'engine', 'fuel'],
         ];
 
+        // 'size' => 0 => mean unlimited
         $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel', ['size' => 0]));
         if (empty($data)) {
             $qb->addAggregation(new Aggregation('make', 'terms', 'make', ['size' => 0]));
