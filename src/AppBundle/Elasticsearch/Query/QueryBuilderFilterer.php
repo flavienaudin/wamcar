@@ -259,4 +259,21 @@ class QueryBuilderFilterer
 
         return $queryBuilder;
     }
+
+    /**
+     * @param array $data
+     * @return QueryBuilder
+     */
+    public function getQueryVehicleInfo(array $data): QueryBuilder
+    {
+        $queryBuilder = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
+
+        foreach ($data as $field => $value) {
+            if (!empty($value)) {
+                $queryBuilder->addFilter(new TermFilter($field === 'model' ? 'modelUppercase': $field, $field === 'model' ? strtoupper($value): $value));
+            }
+        }
+
+        return $queryBuilder;
+    }
 }

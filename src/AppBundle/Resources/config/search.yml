@@ -48,6 +48,9 @@ parameters:
                     model:
                         type: string
                         index: not_analyzed
+                    modelUppercase:
+                        type: string
+                        index: not_analyzed
                     modelVersion:
                         type: string
                         index: not_analyzed
@@ -55,6 +58,9 @@ parameters:
                         type: string
                         index: not_analyzed
                     engine:
+                        type: string
+                        index: not_analyzed
+                    engineUppercase:
                         type: string
                         index: not_analyzed
                     startDate:
