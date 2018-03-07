@@ -1,34 +1,25 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding{% endblock %}
+{% block mainClass %}no-padding messages-l-main{% endblock %}
 
 {% block title %}Messagerie{% endblock %}
 
-{% set breadcrumbs = [
-    {
-        'name': block('title'),
-        'href': app.request.requestUri
-    }
-] %}
-
 {% block body %}
-    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
-
-    <!-- Header -->
-    <div class="messages-header messages-list-header  {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
-        <div class="row">
-            <div class="small-12 messages-header-title block-grid">
-                <h1 class="primary-color no-margin">Messagerie</h1>
-                <div class="messages-header-right-link messages-unread-info">{{ getCountUnreadMessages(app.user) }} message(s) non lus</div>
-            </div>
-        </div>
-    </div>
     <div class="row messages-list-wrapper {{ interlocutor == null and conversations|length == 0 ? 'empty-list-wrapper'}}">
         {% if interlocutor == null and conversations|length == 0 %}
             {% include 'front/Messages/includes/messages_list_empty.html.twig' %}
         {% endif %}
         <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
             {% if interlocutor != null and conversations|length != 0 %}
+
+            <!-- Header -->
+            <div class="messages-header messages-list-header {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
+                <div class="messages-header-title">
+                    <h1 class="primary-color no-margin">Messagerie</h1>
+                    <div class="messages-header-right-link messages-unread-info">{{ getCountUnreadMessages(app.user) }} message(s) non lus</div>
+                </div>
+            </div>
+
             <!-- Messages list -->
             <ul class="messages-list no-bullet no-margin">
                 {% if currentConversation == null %}
@@ -110,3 +101,6 @@
         {% endif %}
     </div>
 {% endblock %}
+
+{# No footer #}
+{% block footer %}{% endblock %}
