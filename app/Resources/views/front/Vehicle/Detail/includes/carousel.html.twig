@@ -9,11 +9,7 @@
         </li>
     {% else %}
         <li>
-            <img src="{{ 'vehicle_picture'|defaultVehiclePicture }}" alt="">
-            {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
-            {% if picture.caption %}
-                <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
-            {% endif %}
+            <img src="{{ 'vehicle_picture'|defaultVehiclePicture }}" alt="default vehicle picture">
         </li>
     {% endfor %}
 </ul>
@@ -22,11 +18,7 @@
     <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
 {% else %}
     <li>
-        <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="">
-        {# La légende sera reprise dans l'attribut alt de la navigation (ci-dessous et ci-dessus) #}
-        {% if picture.caption %}
-            <p class="vehicle-carousel-legend text-center">{{ picture.caption }}</p>
-        {% endif %}
+        <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="default vehicle picture">
     </li>
 {% endfor %}
 </nav>

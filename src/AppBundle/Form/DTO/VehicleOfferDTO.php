@@ -2,8 +2,8 @@
 
 namespace AppBundle\Form\DTO;
 
-use Symfony\Component\HttpFoundation\File\File;
-use Wamcar\Vehicle\ProVehicle;
+use Wamcar\Vehicle\Enum\Funding;
+use Wamcar\Vehicle\Enum\Guarantee;
 
 class VehicleOfferDTO
 {
@@ -13,11 +13,11 @@ class VehicleOfferDTO
     public $catalogPrice;
     /** @var float */
     public $discount;
-    /** @var string */
+    /** @var Guarantee */
     public $guarantee;
     /** @var string */
     public $otherGuarantee;
-    /** @var string */
+    /** @var Funding */
     public $funding;
     /** @var string */
     public $otherFunding;

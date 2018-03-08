@@ -3,6 +3,8 @@
 namespace AppBundle\Form\DTO;
 
 use AppBundle\Services\Vehicle\CanBeProVehicle;
+use Wamcar\Vehicle\Enum\Funding;
+use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\ProVehicle;
 
 final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
@@ -111,7 +113,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     /**
      * @return string
      */
-    public function getGuarantee(): ?string
+    public function getGuarantee(): ?Guarantee
     {
         return $this->offer->guarantee;
     }
@@ -127,7 +129,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
     /**
      * @return string
      */
-    public function getFunding(): ?string
+    public function getFunding(): ?Funding
     {
         return $this->offer->funding;
     }
