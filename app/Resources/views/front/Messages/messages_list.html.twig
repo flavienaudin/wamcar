@@ -95,7 +95,7 @@
             {% endif %}
         </div>
         {% if interlocutor != null %}
-            <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %} medium-7 large-8">
+            <div class="messages-item-wrapper-desktop {% if app.request.attributes.get('_route') == 'front_conversation_list' %}hide-for-small-only{% endif %}  small-12 medium-7 large-8">
                 {% include 'front/Messages/includes/message_item_content.html.twig' %}
             </div>
         {% endif %}
