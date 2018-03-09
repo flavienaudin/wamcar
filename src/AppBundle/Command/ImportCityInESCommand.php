@@ -24,6 +24,7 @@ class ImportCityInESCommand extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
         $cityRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineCityRepository');
         $indexableCityBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableCityBuilder');

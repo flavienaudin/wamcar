@@ -8,83 +8,109 @@ class VehicleInfo implements Indexable
 {
     const TYPE = 'vehicle_info';
 
-    /** @var string */
+    /** @var string tecdoc_ktypnr */
     private $ktypNumber;
-    /** @var string */
+    /** @var string tecdoc_constr */
+    private $makeOrig;
+    /** @var string TRAIT-1 */
     private $make;
-    /** @var string */
+    /** @var int tecdoc_constrcode */
+    private $makeCode;
+    /** @var string tecdoc_model1 */
     private $model;
-    /** @var string */
-    private $modelVersion;
-    /** @var string */
+    /** @var int tecdoc_modelcode */
+    private $modelCode;
+    /** @var string tecdoc_codemoteur */
     private $engineCode;
-    /** @var string */
+    /** @var string tecdoc_cyl */
     private $engine;
-    /** @var \DateTimeInterface */
+    /** @var \DateTimeInterface (tecdoc_moisdseb, tecdoc_anneedeb) */
     private $startDate;
-    /** @var \DateTimeInterface|null */
+    /** @var \DateTimeInterface|null (tecdoc_moisfin, tecdoc_anneefin) */
     private $endDate;
-    /** @var float */
+    /** @var float tecdoc_litr */
     private $engineSize;
-    /** @var int */
+    /* @var int tecdoc_ccmtech */
+    private $engineCm3;
+    /** @var int tecdoc_kw */
+    private $kwPower;
+    /** @var int tecdoc_cv */
     private $horsePower;
-    /** @var string */
+    /** @var string tecdoc_carross */
     private $body;
-    /** @var string */
+    /** @var string tecdoc_propulsion */
     private $wheelDrive;
-    /** @var string */
+    /** @var string tecdoc_energie */
+    private $fuelOrig;
+    /** @var string TRAIT-2 */
     private $fuel;
-    /** @var int */
+    /** @var int tecdoc_nbcyl */
     private $nbCylinders;
-    /** @var int */
+    /** @var int tecdoc_nbsoup */
     private $nbValve;
 
     /**
      * VehicleInfo constructor.
      * @param string $ktypNumber
+     * @param string $makeOrig
      * @param string $make
+     * @param int $makeCode
      * @param string $model
+     * @param int $modelCode
      * @param string $engineCode
      * @param string $engine
      * @param \DateTimeInterface $startDate
      * @param \DateTimeInterface $endDate
      * @param float $engineSize
+     * @param int $engineCm3
+     * @param int $kwPower
      * @param int $horsePower
      * @param string $body
      * @param string $wheelDrive
+     * @param string $fuelOrig
      * @param string $fuel
      * @param int $nbCylinders
      * @param int $nbValve
      */
     public function __construct(string $ktypNumber,
+                                string $makeOrig,
                                 string $make,
+                                int $makeCode,
                                 string $model,
-                                string $modelVersion,
+                                int $modelCode,
                                 string $engineCode,
                                 string $engine,
                                 \DateTimeInterface $startDate,
                                 ?\DateTimeInterface $endDate,
                                 float $engineSize,
+                                int $engineCm3,
+                                int $kwPower,
                                 int $horsePower,
                                 string $body,
                                 string $wheelDrive,
+                                string $fuelOrig,
                                 string $fuel,
                                 int $nbCylinders,
                                 int $nbValve
     )
     {
         $this->ktypNumber = $ktypNumber;
+        $this->makeOrig = $makeOrig;
         $this->make = $make;
+        $this->makeCode = $makeCode;
         $this->model = $model;
-        $this->modelVersion = $modelVersion;
+        $this->modelCode = $modelCode;
         $this->engineCode = $engineCode;
         $this->engine = $engine;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
         $this->engineSize = $engineSize;
+        $this->engineCm3 = $engineCm3;
+        $this->kwPower = $kwPower;
         $this->horsePower = $horsePower;
         $this->body = $body;
         $this->wheelDrive = $wheelDrive;
+        $this->fuelOrig = $fuelOrig;
         $this->fuel = $fuel;
         $this->nbCylinders = $nbCylinders;
         $this->nbValve = $nbValve;
@@ -113,19 +139,24 @@ class VehicleInfo implements Indexable
     {
         return [
             'ktypNumber' => $this->ktypNumber,
+            'makeOrig' => $this->makeOrig,
             'make' => $this->make,
+            'makeCode' => $this->makeCode,
             'model' => $this->model,
             'modelUppercase' => strtoupper($this->model),
-            'modelVersion' => $this->modelVersion,
+            'modelCode' => $this->modelCode,
             'engineCode' => $this->engineCode,
             'engine' => $this->engine,
             'engineUppercase' => strtoupper($this->engine),
             'startDate' => $this->startDate->format('Y-m-d'),
             'endDate' => $this->endDate ? $this->endDate->format('Y-m-d') : null,
             'engineSize' => $this->engineSize,
+            'engineCm3' => $this->engineCm3,
+            'kwPower' => $this->kwPower,
             'horsePower' => $this->horsePower,
             'body' => $this->body,
             'wheelDrive' => $this->wheelDrive,
+            'fuelOrig' => $this->fuelOrig,
             'fuel' => $this->fuel,
             'nbCylinders' => $this->nbCylinders,
             'nbValve' => $this->nbValve,

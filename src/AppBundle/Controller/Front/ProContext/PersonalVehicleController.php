@@ -150,6 +150,7 @@ class PersonalVehicleController extends BaseController
      */
     public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
+        dump($vehicle->getPictures());
         return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
