@@ -11,6 +11,7 @@ flash:
     password_changed: Votre nouveau mot de passe a bien été enregistré.
     vehicle_create: Le véhicule a bien été enregistré.
     remove_vehicle: Le véhicule a bien été supprimé.
+    conversation_update: Votre message a bien envoyé.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
   error:

@@ -5,14 +5,30 @@
 .messages {
 
   /*
+   Layout
+   ===================================== */
+
+  &-l-main {
+    position: absolute;
+    top: $header-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    @include breakpoint(large) {
+      top: $header-height-medium;
+    }
+  }
+
+  /*
      Header
      ===================================== */
 
   &-header {
-    padding: rem-calc(25) rem-calc(15);
+    padding: rem-calc(2) rem-calc(15);
     background: $grey-alt;
 
-    &:not(.messages-header-item-mobile) {
+    &:not(.messages-header-item-mobile)   {
       @include breakpoint(small only) {
         align-items: center;
         justify-content: center;
@@ -26,8 +42,12 @@
     }
   }
 
+  &-header-item-mobile {
+    padding: rem-calc(25) rem-calc(15);
+  }
+
   &-header-right-link {
-    margin-left: rem-calc(20);
+    margin-left: 0;
     margin-top: rem-calc(12);
 
     @include breakpoint(small only) {
@@ -106,13 +126,16 @@
   &-list-wrapper {
 
     &:not(.empty-list-wrapper) {
+      height: 100%;
+
       @include breakpoint(medium) {
         border-top: rem-calc(1) solid $border-color;
         border-bottom: rem-calc(1) solid $border-color;
       }
 
       @include breakpoint(large) {
-        margin-bottom: rem-calc(60);
+        //margin-top: 0;
+        //margin-bottom: 0;
         box-shadow: 0 rem-calc(1) rem-calc(7) rgba(black, .1);
       }
     }
@@ -124,7 +147,6 @@
 
   &-list {
     @include breakpoint(medium) {
-      height: 100%;
       border-left: rem-calc(1) solid $border-color;
     }
   }
@@ -163,7 +185,7 @@
 
     &.is-current {
       @include breakpoint(medium) {
-        background: darken($grey-alt,3%);
+        background: darken($grey-alt, 3%);
 
         &:hover {
           background: darken($grey-alt, 6%);
@@ -230,23 +252,23 @@
      ===================================== */
 
   &-item {
-   padding: $message-xs-padding;
+    padding: $message-xs-padding;
 
-   &:not(:last-child) {
-     border-bottom: rem-calc(1) solid $border-color;
-   }
+    &:not(:last-child) {
+      border-bottom: rem-calc(1) solid $border-color;
+    }
 
-   @include breakpoint(medium) {
-     padding: $message-medium-padding;
-   }
+    @include breakpoint(medium) {
+      padding: $message-medium-padding;
+    }
 
-   @include breakpoint(large) {
-     padding: $message-large-padding;
-   }
+    @include breakpoint(large) {
+      padding: $message-large-padding;
+    }
 
-   .messages-main {
-     flex-grow: 1;
-   }
+    .messages-main {
+      flex-grow: 1;
+    }
   }
 
   &-item-wrapper-desktop {
@@ -303,7 +325,7 @@
   }
 
   &-send-btn {
-    margin-top: rem-calc(35)!important;
+    margin-top: rem-calc(35) !important;
   }
 
   &-item-vehicle-taken {
@@ -354,17 +376,17 @@
     }
 
     &:after {
-    	top: 100%;
-    	left: rem-calc(25);
-    	border: solid transparent;
-    	content: " ";
-    	height: 0;
-    	width: 0;
-    	position: absolute;
-    	pointer-events: none;
-    	border-color: rgba(23, 48, 59, 0);
-    	border-top-color: #17303b;
-    	border-width: rem-calc(10);
+      top: 100%;
+      left: rem-calc(25);
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+      border-color: rgba(23, 48, 59, 0);
+      border-top-color: #17303b;
+      border-width: rem-calc(10);
 
       @include breakpoint(medium) {
         left: rem-calc(35);
@@ -438,7 +460,7 @@
     }
 
     &:hover {
-      background: darken($dark-blue,5%);
+      background: darken($dark-blue, 5%);
     }
   }
 
@@ -455,7 +477,6 @@
     }
   }
 
-
   /*
      Messages list & content max height
      ===================================== */
@@ -463,16 +484,16 @@
   &-item-wrapper-desktop,
   &-list {
     @include breakpoint(medium) {
-      max-height: 55vh;
+      max-height: 100%;
       overflow-y: auto;
     }
 
     @include breakpoint(large) {
-      max-height: 70vh;
+      //max-height: 70vh;
     }
 
     @include breakpoint(xlarge) {
-      max-height: 75vh;
+      //max-height: 75vh;
     }
   }
 

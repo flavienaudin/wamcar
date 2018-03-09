@@ -71,7 +71,9 @@
         {% block body %}{% endblock %}
     </main>
 
-    {% include 'front/Layout/includes/footer.html.twig' %}
+    {% block footer %}
+        {% include 'front/Layout/includes/footer.html.twig' %}
+    {% endblock %}
 
     {% if cookiebar is defined and cookiebar == true %}
         {% include 'front/Layout/includes/cookie_bar.html.twig' %}
@@ -82,5 +84,5 @@
     {% block javascripts %}{% endblock %}
     <script src="{{ asset('assets/bundle/bundle.js') }}"></script>
 
-</body>
+    </body>
 </html>

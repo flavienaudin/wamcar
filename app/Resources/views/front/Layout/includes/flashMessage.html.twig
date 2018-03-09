@@ -1,7 +1,12 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
-        <div class="callout {{ label }} no-margin">
-            <p class="column row no-margin-bottom">{{ message|trans }}</p>
+        <div class="small-10 small-offset-1">
+            <div class="callout {{ label }} no-margin" data-closable>
+                <button class="close-button" aria-label="Close alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <p class="column row no-margin-bottom">{{ message|trans }}</p>
+            </div>
         </div>
     {% endfor %}
 {% endfor %}
