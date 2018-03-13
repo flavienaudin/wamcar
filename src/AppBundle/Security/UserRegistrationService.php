@@ -6,6 +6,7 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\RegistrationDTO;
+use AppBundle\Utils\TokenGenerator;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
@@ -52,7 +53,7 @@ class UserRegistrationService
      */
     public function registerUser(RegistrationDTO $registrationDTO, bool $vehicleReplace = false): ApplicationUser
     {
-        $salt = uniqid(mt_rand(), true);
+        $salt = TokenGenerator::generateSalt();
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
 
         $userClassMapping = [

@@ -34,6 +34,22 @@ services:
         calls:
           - ['setCountry', ['FR']]
 
+# Guzzle Clients for HwiOauth
+    Http\Adapter\Guzzle6\Client:
+        class: Http\Adapter\Guzzle6\Client
+        factory:
+            - Http\Adapter\Guzzle6\Client
+            - createWithConfig
+        arguments:
+            - timeout: 10
+            - verify_peer: false # set to true in PROD environment
+            - max_redirects: 5
+            - ignore_errors: false # set to true in PROD environment
+            #- proxy: "example.com:8080"
+
+    Http\Message\MessageFactory\GuzzleMessageFactory:
+        class: Http\Message\MessageFactory\GuzzleMessageFactory
+
     # SECURITY
     wamcar.security.password_encoder:
         class: Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface
@@ -58,6 +74,9 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineProjectRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
+        autowire: true
+
+    AppBundle\Security\UserProvider:
         autowire: true
 
     AppBundle\Services\Garage\GarageEditionService:

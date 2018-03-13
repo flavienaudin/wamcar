@@ -25,6 +25,10 @@ abstract class BaseUser
     protected $messages;
     /** @var  Collection <ConversationUser> */
     protected $conversationUsers;
+    /** @var string */
+    protected $facebookId;
+    /** @var string */
+    protected $facebookAccessToken;
 
     /**
      * User constructor.
@@ -125,6 +129,38 @@ abstract class BaseUser
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId(): string
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookId
+     */
+    public function setFacebookId(string $facebookId): void
+    {
+        $this->facebookId = $facebookId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookAccessToken(): string
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param string $facebookAccessToken
+     */
+    public function setFacebookAccessToken(string $facebookAccessToken): void
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
     }
 
     /**
