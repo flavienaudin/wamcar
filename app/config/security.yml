@@ -50,9 +50,9 @@ security:
                 resource_owners:
                     facebook:           "/login/check-facebook"
                     #google:             "/login/check-google"
-                login_path:        hwi_oauth_connect
+                login_path:        security_login_page
                 use_forward:       false
-                failure_path:      hwi_oauth_connect
+                failure_path:      security_login_page
                 oauth_user_provider:
                     service: AppBundle\Security\UserProvider
 

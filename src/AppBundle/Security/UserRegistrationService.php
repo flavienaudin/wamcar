@@ -61,6 +61,7 @@ class UserRegistrationService
             ProApplicationUser::TYPE => ProApplicationUser::class,
         ];
 
+        /** @var ApplicationUser $applicationUser */
         $applicationUser = new $userClassMapping[$registrationDTO->type](
             $registrationDTO->email,
             $encodedPassword,
@@ -68,6 +69,9 @@ class UserRegistrationService
             $registrationDTO->firstName,
             $registrationDTO->lastName
         );
+        if(!empty($registrationDTO->socialNetworkOrigin)){
+            $applicationUser->confirmRegistration();
+        }
         $this->userRepository->add($applicationUser);
 
         try {
