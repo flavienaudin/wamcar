@@ -2,8 +2,6 @@
    Social Networks
    =========================================================================== */
 
-
-
 /*
    Mixin
    ===================================== */
@@ -12,11 +10,11 @@
   background: $color;
 
   @include breakpoint(xlarge) {
-    &:hover { background: lighten($color, 10%); }
+    &:hover {
+      background: lighten($color, 10%);
+    }
   }
 }
-
-
 
 /*
    Class
@@ -45,11 +43,11 @@
     }
 
     @include breakpoint(xlarge) {
-      &:not(:first-child) { margin-left: rem-calc(20); }
+      &:not(:first-child) {
+        margin-left: rem-calc(20);
+      }
     }
   }
-
-
 
   /*
     Link
@@ -77,37 +75,28 @@
         height: rem-calc(50);
         flex: 0 0 rem-calc(50);
       }
-    } // End &::before
+    }
+    // End &::before
 
-  } // End &-link
-
-
+  }
+  // End &-link
 
   /*
      Login
      ===================================== */
 
+  &-login-small-button,
   &-login-button {
     background: $primary-color;
-    max-width: rem-calc(325);
-    border-radius: 50%;
-    height: rem-calc(50);
     font-weight: bold;
     transition: $global-transition;
+    height: rem-calc(50);
+    border-radius: 50%;
 
     &,
     &:hover,
-    &:focus { color: white; }
-
-    @include breakpoint(small only) {
-      width: rem-calc(50);
-      margin-right: rem-calc(20);
-    }
-
-    @include breakpoint(medium) {
-      height: rem-calc(60);
-      border-radius: rem-calc(30);
-      margin-bottom: rem-calc(30);
+    &:focus {
+      color: white;
     }
 
     &::before {
@@ -118,20 +107,46 @@
       height: 100%;
       font-weight: normal;
       margin-right: 0;
+    }
 
-      @include breakpoint(medium) {
+    /* Thèmes */
+    &.icon-facebook {
+      @include socialTheme(#2667b5);
+    }
+    &.icon-twitter {
+      @include socialTheme(#00aced);
+    }
+    &.icon-google-plus {
+      @include socialTheme(#dc4e41);
+    }
+    &.icon-linkedin {
+      @include socialTheme(#0078b9);
+    }
+  }
+
+  &-login-small-button {
+    width: rem-calc(50);
+    max-width: rem-calc(50);
+    margin-bottom: rem-calc(10);
+  }
+
+  &-login-button {
+    max-width: rem-calc(325);
+
+    @include breakpoint(small only) {
+      width: rem-calc(50);
+      margin-right: rem-calc(20);
+    }
+
+    @include breakpoint(medium) {
+      height: rem-calc(60);
+      border-radius: rem-calc(30);
+      margin-bottom: rem-calc(30);
+
+      &::before {
         border-right: rem-calc(1) solid rgba(black, .15);
         margin-right: rem-calc(30);
       }
     }
-
-    /* Thèmes */
-
-    &.icon-facebook { @include socialTheme(#2667b5); }
-    &.icon-twitter { @include socialTheme(#00aced); }
-    &.icon-google-plus { @include socialTheme(#dc4e41); }
-    &.icon-linkedin { @include socialTheme(#0078b9); }
-
-  } // End &-login-button
-
+  }
 }
