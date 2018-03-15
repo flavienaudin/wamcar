@@ -19,7 +19,7 @@ class VehicleSpecificsDTO
     public $safetyTestDate;
     /** @var SafetyTestState */
     public $safetyTestState;
-    /** @var int */
+    /** @var int|null */
     public $bodyState;
     /** @var int|null */
     public $engineState;
@@ -45,9 +45,9 @@ class VehicleSpecificsDTO
     /**
      * VehicleSpecificsDTO constructor.
      */
-    public function __construct(?string $date1erCir = 'last year')
+    public function __construct(?string $date1erCir = null)
     {
-        $this->registrationDate = new \DateTimeImmutable($date1erCir);
+        $this->registrationDate = ($date1erCir ? new \DateTimeImmutable($date1erCir) : null);
         $this->safetyTestDate = SafetyTestDate::UNKNOWN();
         $this->safetyTestState = SafetyTestState::UNKNOWN();
         $this->maintenanceState = MaintenanceState::UNKNOWN();
