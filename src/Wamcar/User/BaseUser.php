@@ -72,7 +72,7 @@ abstract class BaseUser
      */
     public function getFirstName(): string
     {
-        return $this->getUserProfile()->getFirstName();
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getFirstName() : null);
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class BaseUser
      */
     public function getLastName(): ?string
     {
-        return $this->getUserProfile()->getLastName();
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getLastName() : null);
     }
 
     /**
@@ -89,6 +89,11 @@ abstract class BaseUser
     public function getDescription(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getDescription() : null);
+    }
+
+    public function getTitle(): ?Title
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getTitle() : null);
     }
 
     /**

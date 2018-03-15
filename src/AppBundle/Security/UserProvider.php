@@ -11,14 +11,17 @@ use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
+use Wamcar\User\Title;
 
 class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
@@ -34,18 +37,21 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     private $userRegistrationService;
     /** @var SessionInterface */
     private $session;
+    /** @var LoggerInterface */
+    private $logger;
 
     public function __construct(DoctrineUserRepository $doctrineUserRepository,
                                 DoctrineProUserRepository $doctrineProUserRepository,
                                 DoctrinePersonalUserRepository $doctrinePersonalUserRepository,
                                 UserRegistrationService $userRegistrationService,
-                                SessionInterface $session)
+                                SessionInterface $session, LoggerInterface $logger)
     {
         $this->doctrineUserRepository = $doctrineUserRepository;
         $this->doctrineProUserRepository = $doctrineProUserRepository;
         $this->doctrinePersonalUserRepository = $doctrinePersonalUserRepository;
         $this->userRegistrationService = $userRegistrationService;
         $this->session = $session;
+        $this->logger = $logger;
     }
 
     /**
@@ -88,6 +94,9 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
                 $registrationDTO->socialNetworkOrigin = $service;
 
                 $registrationDTO->email = $response->getEmail();
+                if(empty($registrationDTO->email)){
+                    throw new UnsupportedUserException("flash.error.social_account_without_email");
+                }
                 $registrationDTO->firstName = $response->getFirstName();
                 $registrationDTO->lastName = $response->getLastName();
 
@@ -97,7 +106,20 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $user->$setter_id($userServiceId);
             $user->$setter_token($response->getAccessToken());
 
-            // TODO récupérer les données disponibles
+            if(empty($user->getLastName())){
+                $user->getUserProfile()->setLastName($response->getLastName());
+            }
+            if(empty($user->getLastName())){
+                $user->getUserProfile()->setLastName($response->getLastName());
+            }
+            $responseData = $response->getData();
+            if(empty($user->getDescription()) && array_key_exists('about', $responseData)){
+                $user->getUserProfile()->setDescription($responseData['about']);
+            }
+            if(empty($user->getTitle()) && array_key_exists('gender', $responseData)){
+                $user->getUserProfile()->setTitle(Title::convertGender($responseData['gender']));
+            }
+
 
             $urlPicture = $response->getProfilePicture();
             if ($user->getAvatar() === null && !empty($urlPicture)) {
@@ -110,7 +132,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
                         $picture = new UserPicture($user, $uploadedFile);
                         $user->setAvatar($picture);
                     } catch (FileNotFoundException $fileNotFoundException) {
-
+                        $this->logger->warning($fileNotFoundException->getMessage());
                     }
                 }
             }

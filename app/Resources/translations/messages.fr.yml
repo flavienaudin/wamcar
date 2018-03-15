@@ -17,6 +17,7 @@ flash:
   error:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
     no_registration_type: Veuillez créer un compte Wamcar.
+    social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
