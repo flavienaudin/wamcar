@@ -4,12 +4,15 @@ namespace AppBundle\Security;
 
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
 use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,7 +22,7 @@ use Wamcar\User\ProUser;
 
 class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
-    const SESSION_KEY = 'registration_type';
+    const REGISTRATION_TYPE_SESSION_KEY = 'registration_type';
 
     /** @var DoctrineUserRepository */
     private $doctrineUserRepository;
@@ -71,15 +74,15 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
             if ($user == null) {
                 // get the registration type and check its validity
-                if (!$this->session->has(self::SESSION_KEY)) {
+                if (!$this->session->has(self::REGISTRATION_TYPE_SESSION_KEY)) {
                     throw new UsernameNotFoundException("flash.error.no_registration_type");
                 }
 
-                $registrationType = $this->session->get(self::SESSION_KEY);
+                $registrationType = $this->session->get(self::REGISTRATION_TYPE_SESSION_KEY);
                 if ($registrationType != ProUser::TYPE && $registrationType != PersonalUser::TYPE) {
                     $registrationType = PersonalUser::TYPE;
                 }
-                $this->session->remove(self::SESSION_KEY);
+                $this->session->remove(self::REGISTRATION_TYPE_SESSION_KEY);
 
                 $registrationDTO = new RegistrationDTO($registrationType);
                 $registrationDTO->socialNetworkOrigin = $service;
@@ -95,31 +98,24 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $user->$setter_token($response->getAccessToken());
 
             // TODO récupérer les données disponibles
-            /* TODO : gérer la récupération de l'image de l'utilisateur
+
             $urlPicture = $response->getProfilePicture();
             if ($user->getAvatar() === null && !empty($urlPicture)) {
-                $tmpFileDownload = sys_get_temp_dir().DIRECTORY_SEPARATOR . $service . "_" . $userServiceId . "_" . $user->getFirstName().'.jpeg';
-
-                if (file_put_contents($tmpFileDownload, fopen($urlPicture, "r")) !== false) {
+                $parsedUrl = parse_url($urlPicture);
+                $originalFileName = last(explode("/", $parsedUrl['path']));
+                $tmpDirPictureFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
+                if (file_put_contents($tmpDirPictureFilename, fopen($urlPicture, "r")) !== false) {
                     try {
-                        $tmpFile = new File($tmpFileDownload, true);
-                        $picture = new UserPicture($user, $tmpFile);
+                        $uploadedFile = new UploadedFile($tmpDirPictureFilename, $originalFileName, mime_content_type($tmpDirPictureFilename), filesize($tmpDirPictureFilename), null, true);
+                        $picture = new UserPicture($user, $uploadedFile);
                         $user->setAvatar($picture);
                     } catch (FileNotFoundException $fileNotFoundException) {
-                        // TODO on laisse l'avatar vide
+
                     }
                 }
             }
-            */
             $this->doctrineUserRepository->update($user);
         }
-
-        if ($user == null) {
-            $usernameNotFoundException = new UsernameNotFoundException("flash.error.no_registration_type");
-            $usernameNotFoundException->setUsername($response->getEmail());
-            throw $usernameNotFoundException;
-        }
-
         return $user;
     }
 

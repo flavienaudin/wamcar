@@ -390,7 +390,7 @@ class SecurityController extends BaseController
             }
 
             if ($request->query->has('type')) {
-                $session->set(UserProvider::SESSION_KEY, $request->query->get('type'));
+                $session->set(UserProvider::REGISTRATION_TYPE_SESSION_KEY, $request->query->get('type'));
             }
         }
         return $this->redirect($authorizationUrl);
