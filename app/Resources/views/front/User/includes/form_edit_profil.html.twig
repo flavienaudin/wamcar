@@ -32,16 +32,14 @@
         </div>
     </div>
     <h2 class="separator">Identité</h2>
-    {% if editUserForm.title is defined %}
-        <div class="input-margin">
-            {{ form_widget(editUserForm.title, {
-                'label': 'Civilité',
-                'required_class': '',
-                'list_class': '',
-                'required': false
-            }) }}
-        </div>
-    {% endif %}
+    <div class="input-margin">
+        {{ form_widget(editUserForm.title, {
+            'label': 'Civilité',
+            'required_class': '',
+            'list_class': '',
+            'required': false
+        }) }}
+    </div>
     {{ form_widget(editUserForm.firstName, {
         'label': 'Prénom',
         'required': true

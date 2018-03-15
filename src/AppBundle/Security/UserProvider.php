@@ -92,6 +92,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
 
                 $registrationDTO = new RegistrationDTO($registrationType);
                 $registrationDTO->socialNetworkOrigin = $service;
+                $registrationDTO->password = uniqid("pwd");
 
                 $registrationDTO->email = $response->getEmail();
                 if(empty($registrationDTO->email)){
@@ -106,9 +107,6 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $user->$setter_id($userServiceId);
             $user->$setter_token($response->getAccessToken());
 
-            if(empty($user->getLastName())){
-                $user->getUserProfile()->setLastName($response->getLastName());
-            }
             if(empty($user->getLastName())){
                 $user->getUserProfile()->setLastName($response->getLastName());
             }
