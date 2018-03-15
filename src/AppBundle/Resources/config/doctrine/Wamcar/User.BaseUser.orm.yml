@@ -40,6 +40,14 @@ Wamcar\User\BaseUser:
             type: string
             length: 255
             nullable: true
+        linkedinId:
+            type: string
+            length: 255
+            nullable: true
+        linkedinAccessToken:
+            type: string
+            length: 255
+            nullable: true
 
     oneToOne:
         avatar:

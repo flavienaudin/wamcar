@@ -44,3 +44,5 @@ hwi_oauth_service_redirect:
 
 facebook_login:
     path: /login/check-facebook
+linkedin_login:
+    path: /login/check-linkedin

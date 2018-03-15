@@ -271,3 +271,15 @@ hwi_oauth:
                 profilepicture: picture.data.url
                 gender: gender
                 about: about
+        linkedin:
+            type: linkedin
+            client_id: '%env(LINKEDIN_ID)%'
+            client_secret: '%env(LINKEDIN_SECRET)%'
+            scope: "r_basicprofile,r_emailaddress"
+            options:
+                csrf: true
+            infos_url: "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json"
+            paths:
+                firstname: firstName
+                lastname: lastName
+                profilepicture: pictureUrl

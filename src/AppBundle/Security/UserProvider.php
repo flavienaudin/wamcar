@@ -88,14 +88,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
                 if ($registrationType != ProUser::TYPE && $registrationType != PersonalUser::TYPE) {
                     $registrationType = PersonalUser::TYPE;
                 }
-                $this->session->remove(self::REGISTRATION_TYPE_SESSION_KEY);
 
                 $registrationDTO = new RegistrationDTO($registrationType);
                 $registrationDTO->socialNetworkOrigin = $service;
                 $registrationDTO->password = uniqid("pwd");
 
                 $registrationDTO->email = $response->getEmail();
-                if(empty($registrationDTO->email)){
+                if (empty($registrationDTO->email)) {
+                    $this->session->remove(self::REGISTRATION_TYPE_SESSION_KEY);
                     throw new UnsupportedUserException("flash.error.social_account_without_email");
                 }
                 $registrationDTO->firstName = $response->getFirstName();
@@ -107,14 +107,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $user->$setter_id($userServiceId);
             $user->$setter_token($response->getAccessToken());
 
-            if(empty($user->getLastName())){
+            if (empty($user->getLastName())) {
                 $user->getUserProfile()->setLastName($response->getLastName());
             }
             $responseData = $response->getData();
-            if(empty($user->getDescription()) && array_key_exists('about', $responseData)){
+            if (empty($user->getDescription()) && array_key_exists('about', $responseData)) {
                 $user->getUserProfile()->setDescription($responseData['about']);
             }
-            if(empty($user->getTitle()) && array_key_exists('gender', $responseData)){
+            if (empty($user->getTitle()) && array_key_exists('gender', $responseData)) {
                 $user->getUserProfile()->setTitle(Title::convertGender($responseData['gender']));
             }
 
@@ -122,7 +122,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $urlPicture = $response->getProfilePicture();
             if ($user->getAvatar() === null && !empty($urlPicture)) {
                 $parsedUrl = parse_url($urlPicture);
-                $originalFileName = last(explode("/", $parsedUrl['path']));
+                $originalFileName = uniqid("avatar") . "_" . last(explode("/", $parsedUrl['path']));
                 $tmpDirPictureFilename = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
                 if (file_put_contents($tmpDirPictureFilename, fopen($urlPicture, "r")) !== false) {
                     try {
@@ -136,6 +136,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             }
             $this->doctrineUserRepository->update($user);
         }
+        $this->session->remove(self::REGISTRATION_TYPE_SESSION_KEY);
         return $user;
     }
 
