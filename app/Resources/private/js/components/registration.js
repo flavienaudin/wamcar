@@ -43,7 +43,7 @@ if ($information != null) {
     }
     filterAdd(dataType, select.value);
 
-    select.addEventListener('blur', () => {
+    select.addEventListener('change', () => {
       let selectDataType = select.getAttribute('data-type') + '';
 
       filterAdd(selectDataType, select.value);
