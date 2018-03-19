@@ -3,6 +3,7 @@
    =========================================================================== */
 
 import { Tabs } from 'foundation-sites/js/foundation.tabs';
+require('formdata-polyfill');
 
 const $searchTabs = document.getElementById('js-search-tabs');
 

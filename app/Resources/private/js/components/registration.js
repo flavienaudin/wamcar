@@ -3,6 +3,7 @@
    =========================================================================== */
 
 import {$registerForm} from './step';
+require('formdata-polyfill');
 
 export let clearSelectOptions = function (select, doAddEmpty) {
   $(select).find('option').remove();
@@ -47,6 +48,7 @@ if ($information != null) {
       let selectDataType = select.getAttribute('data-type') + '';
 
       filterAdd(selectDataType, select.value);
+
       switch (selectDataType) {
       case 'make':
         filterRemove('model', null);
@@ -74,6 +76,7 @@ if ($information != null) {
               let selectorToFill = document.querySelector('select[data-type="%type%"]'.replace('%type%', key));
               let hasMultipleOptions = Object.keys(data[key]).length > 1;
               clearSelectOptions(selectorToFill, hasMultipleOptions);
+
               for (let value in data[key]) {
                 if (data[key].hasOwnProperty(value)) {
                   let option = document.createElement('option');

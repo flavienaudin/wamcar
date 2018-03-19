@@ -2,6 +2,8 @@
    User Project
    =========================================================================== */
 
+require('formdata-polyfill');
+
 let $collectionHolder = document.getElementById('js-project-list');
 let $addInput = document.getElementById('add-project-list');
 
