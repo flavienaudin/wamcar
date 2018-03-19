@@ -6,9 +6,9 @@ namespace AppBundle\MailWorkflow;
 
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
-use Wamcar\Vehicle\Event\VehicleRemoved;
 
 class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements VehicleEventHandler
 {
@@ -17,7 +17,7 @@ class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements V
      */
     public function notify(VehicleEvent $event)
     {
-        $this->checkEventClass($event, VehicleRemoved::class);
+        $this->checkEventClass($event, PersonalVehicleRemoved::class);
 
         /** @var BaseVehicle $user */
         $vehicle = $event->getVehicle();

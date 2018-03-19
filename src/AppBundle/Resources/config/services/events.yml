@@ -38,7 +38,6 @@ services:
         arguments:
            - vehicle_removed
         tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
     wamcar.event.elasticsearch.personal_user_updated.index:
