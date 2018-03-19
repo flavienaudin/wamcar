@@ -68,6 +68,7 @@ Wamcar\Vehicle\PersonalVehicle:
             type: integer
         bodyState:
             type: integer
+            nullable: true
         engineState:
             type: integer
             nullable: true

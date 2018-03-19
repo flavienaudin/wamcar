@@ -48,7 +48,7 @@ class ProVehicle extends BaseVehicle
         array $pictures,
         SafetyTestDate $safetyTestDate,
         SafetyTestState $safetyTestState,
-        int $bodyState,
+        int $bodyState = null,
         int $engineState = null,
         int $tyreState = null,
         MaintenanceState $maintenanceState,

@@ -183,7 +183,7 @@ class VehicleDTO
     /**
      * @return int
      */
-    public function getBodyState(): int
+    public function getBodyState(): ?int
     {
         return $this->specifics->bodyState;
     }

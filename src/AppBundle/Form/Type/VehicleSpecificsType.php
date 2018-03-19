@@ -54,6 +54,7 @@ class VehicleSpecificsType extends AbstractType
                 'error_bubbling' => true,
             ])
             ->add('bodyState', StarType::class, [
+                'required' => false,
                 'error_bubbling' => true,
             ])
             ->add('engineState', StarType::class, [

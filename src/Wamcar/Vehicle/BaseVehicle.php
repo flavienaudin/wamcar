@@ -37,7 +37,7 @@ abstract class BaseVehicle implements Vehicle
     protected $safetyTestDate;
     /** @var SafetyTestState */
     protected $safetyTestState;
-    /** @var int */
+    /** @var int|null */
     protected $bodyState;
     /** @var int|null */
     protected $engineState;
@@ -74,7 +74,7 @@ abstract class BaseVehicle implements Vehicle
      * @param array $pictures
      * @param SafetyTestDate $safetyTestDate
      * @param SafetyTestState $safetyTestState
-     * @param int $bodyState
+     * @param int|null $bodyState
      * @param int|null $engineState
      * @param int|null $tyreState
      * @param MaintenanceState $maintenanceState
@@ -93,7 +93,7 @@ abstract class BaseVehicle implements Vehicle
         array $pictures,
         SafetyTestDate $safetyTestDate,
         SafetyTestState $safetyTestState,
-        int $bodyState,
+        int $bodyState = null,
         int $engineState = null,
         int $tyreState = null,
         MaintenanceState $maintenanceState,
@@ -264,7 +264,7 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return int
      */
-    public function getBodyState(): int
+    public function getBodyState(): ?int
     {
         return $this->bodyState;
     }
@@ -536,9 +536,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param int $bodyState
+     * @param int|null $bodyState
      */
-    public function setBodyState(int $bodyState): void
+    public function setBodyState(?int $bodyState): void
     {
         $this->bodyState = $bodyState;
     }
