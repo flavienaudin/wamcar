@@ -5,7 +5,6 @@
 // CSS
 import '../scss/app.scss';
 // JS
-import './components/polyfill';
 import $ from 'jquery';
 import { Foundation } from 'foundation-sites/js/foundation.core';
 import { Abide } from 'foundation-sites/js/foundation.abide';
