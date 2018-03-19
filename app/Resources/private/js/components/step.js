@@ -73,6 +73,7 @@ class Step {
       loop: false,
       onInit: () => {
         this._init = true;
+        window.history.pushState({step: 1}, document.title +  ' - etape-1', '#etape-1');
       },
       onChange: function() {
         this.setAutoHeight();
@@ -231,6 +232,11 @@ class Step {
     newElementActive.classList.remove(disabledClass);
     newElementActive.classList.add(activeClass);
 
+    let $prevs = $(newElementActive).prevAll('.js-step-navigation');
+    let stepNum = $prevs.length +1;
+
+    window.history.pushState({step: stepNum}, document.title +  ' - Etape -' + stepNum, '#etape-' + stepNum);
+
     this.updateProgressBar(offset);
   }
 
@@ -257,6 +263,32 @@ if ($step) {
   const step = new Step();
   step.initAbide();
 
+  window.addEventListener('popstate', (event) => {
+    let currentSlide = step.getCurrentSlide();
+    const index = event.state.step;
+    // Prev direction
+    if (index < currentSlide) {
+      while(index < currentSlide) {
+        step.prev().then(() => {
+          step.updateNavigation('prev');
+          step.initAbide();
+          if (step.getCurrentSlide() === 1) {
+            hidePrevButton();
+          }
+        });
+        currentSlide = step.getCurrentSlide();
+      }
+    } else if (currentSlide < index) {
+      // Next direction
+      step.valid().then(() => {
+        return step.next();
+      }).then(() => {
+        step.updateNavigation('next');
+        step.initAbide();
+        showPrevButton();
+      });
+    }
+  });
 
   if ($registerForm) {
     const registerFormAbide = new Abide($($registerForm));

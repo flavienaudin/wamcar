@@ -55,6 +55,7 @@ services:
             wamcar:
                 aliases:
                     - wamcar.local
+                    - wamcar.local.fr
                     - myapp.local
 
         depends_on:
