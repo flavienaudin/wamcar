@@ -46,6 +46,17 @@ security:
                 target: front_default
             access_denied_url: security_login_page
 
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    linkedin:           "/login/check-linkedin"
+                    #google:             "/login/check-google"
+                login_path:        security_login_page
+                use_forward:       false
+                failure_path:      security_login_page
+                oauth_user_provider:
+                    service: AppBundle\Security\UserProvider
+
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: ^/garage/list, roles: ROLE_ADMIN }

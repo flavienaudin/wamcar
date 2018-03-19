@@ -4,9 +4,9 @@
 namespace AppBundle\MailWorkflow;
 
 
-use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Wamcar\User\BaseUser;
 use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\UserEvent;
 use Wamcar\User\Event\UserEventHandler;
@@ -20,9 +20,10 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
     {
         $this->checkEventClass($event, ProUserCreated::class);
 
-        /** @var ApplicationUser $user */
+        /** @var BaseUser $user */
         $user = $event->getUser();
 
+        // TODO : Adapater l'email ? identifiant = email mais mot de passe non connu de l'utilisateur
         $this->send(
             $this->translator->trans('notifyProUserOfRegistration.object', [], 'email'),
             'Mail/notifyProUserOfRegistration.html.twig',

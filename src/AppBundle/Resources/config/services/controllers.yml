@@ -18,6 +18,17 @@ services:
         parent: AppBundle\Controller\Front\BaseController
         tags: ['controller.service_arguments']
 
+    AppBundle\Controller\Front\SecurityController:
+        parent: AppBundle\Controller\Front\BaseController
+        autowire: true
+        calls:
+            - ['setHwiOAuthSecurityOAuthUtils', ['@hwi_oauth.security.oauth_utils']]
+            - ['setHwiOAuthFirewallNames', ['%hwi_oauth.firewall_names%']]
+            - ['setHwiOAuthTargetPathParameter', ['%hwi_oauth.target_path_parameter%']]
+            - ['setHwiOAuthFailedUseReferer', ['%hwi_oauth.failed_use_referer%']]
+            - ['setHwiOAuthUseReferer', ['%hwi_oauth.use_referer%']]
+
+
     AppBundle\Controller\Api\BaseController:
         abstract: true
         calls:

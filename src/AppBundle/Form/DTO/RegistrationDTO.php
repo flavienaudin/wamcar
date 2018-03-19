@@ -19,7 +19,8 @@ class RegistrationDTO
     public $firstName;
     /** @var  ?string */
     public $lastName;
-
+    /** @var  ?string */
+    public $socialNetworkOrigin;
     /**
      * RegistrationDTO constructor.
      * @param string $type

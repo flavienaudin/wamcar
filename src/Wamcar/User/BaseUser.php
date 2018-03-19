@@ -6,8 +6,6 @@ use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
-use Wamcar\Conversation\ConversationUser;
-use Wamcar\Conversation\Message;
 
 abstract class BaseUser
 {
@@ -25,6 +23,14 @@ abstract class BaseUser
     protected $messages;
     /** @var  Collection <ConversationUser> */
     protected $conversationUsers;
+    /** @var string */
+    protected $facebookId;
+    /** @var string */
+    protected $facebookAccessToken;
+    /** @var string */
+    protected $linkedinId;
+    /** @var string */
+    protected $linkedinAccessToken;
 
     /**
      * User constructor.
@@ -60,7 +66,7 @@ abstract class BaseUser
      */
     public function getFullName(): ?string
     {
-        return $this->getFirstName().($this->getLastName()?' '.$this->getLastName():'');
+        return $this->getFirstName() . ($this->getLastName() ? ' ' . $this->getLastName() : '');
     }
 
     /**
@@ -68,7 +74,7 @@ abstract class BaseUser
      */
     public function getFirstName(): string
     {
-        return $this->getUserProfile()->getFirstName();
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getFirstName() : null);
     }
 
     /**
@@ -76,7 +82,7 @@ abstract class BaseUser
      */
     public function getLastName(): ?string
     {
-        return $this->getUserProfile()->getLastName();
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getLastName() : null);
     }
 
     /**
@@ -85,6 +91,11 @@ abstract class BaseUser
     public function getDescription(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getDescription() : null);
+    }
+
+    public function getTitle(): ?Title
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getTitle() : null);
     }
 
     /**
@@ -125,6 +136,70 @@ abstract class BaseUser
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId(): string
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookId
+     */
+    public function setFacebookId(string $facebookId): void
+    {
+        $this->facebookId = $facebookId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookAccessToken(): string
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param string $facebookAccessToken
+     */
+    public function setFacebookAccessToken(string $facebookAccessToken): void
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLinkedinId(): string
+    {
+        return $this->linkedinId;
+    }
+
+    /**
+     * @param string $linkedinId
+     */
+    public function setLinkedinId(string $linkedinId): void
+    {
+        $this->linkedinId = $linkedinId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLinkedinAccessToken(): string
+    {
+        return $this->linkedinAccessToken;
+    }
+
+    /**
+     * @param string $linkedinAccessToken
+     */
+    public function setLinkedinAccessToken(string $linkedinAccessToken): void
+    {
+        $this->linkedinAccessToken = $linkedinAccessToken;
     }
 
     /**

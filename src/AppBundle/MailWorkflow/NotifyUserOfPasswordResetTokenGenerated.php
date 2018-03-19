@@ -6,11 +6,9 @@ namespace AppBundle\MailWorkflow;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Wamcar\User\Event\UserCreated;
+use Symfony\Component\Routing\RouterInterface;
 use Wamcar\User\Event\UserEvent;
 use Wamcar\User\Event\UserEventHandler;
-use Symfony\Component\Routing\RouterInterface;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
 
 class NotifyUserOfPasswordResetTokenGenerated extends AbstractEmailEventHandler implements UserEventHandler

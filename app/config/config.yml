@@ -235,3 +235,51 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [50, 50], mode: outbound }
+
+hwi_oauth:
+    http:
+        client: Http\Adapter\Guzzle6\Client
+        message_factory: Http\Message\MessageFactory\GuzzleMessageFactory
+
+    # list of names of the firewalls in which this bundle is active, this setting MUST be set
+    firewall_names: [front]
+
+    # an optional setting to configure a query string parameter which can be used to redirect
+    # the user after authentication, e.g. /connect/facebook?_destination=/my/destination will
+    # redirect the user to /my/destination after facebook authenticates them.  If this is not
+    # set then the user will be redirected to the original resource that they requested, or
+    # the base address if no resource was requested.  This is similar to the behaviour of
+    # [target_path_parameter for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html).
+    # target_path_parameter: _destination
+
+    # an optional setting to use the HTTP REFERER header to be used in case no
+    # previous URL was stored in the session (i.e. no resource was requested).
+    # This is similar to the behaviour of
+    # [using the referring URL for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html#using-the-referring-url).
+    use_referer: true
+
+    resource_owners:
+        facebook:
+            type: facebook
+            client_id: '%env(FACEBOOK_ID)%'
+            client_secret: '%env(FACEBOOK_SECRET)%'
+            scope: "email,public_profile,user_about_me"
+            options:
+                csrf: true
+            infos_url: "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture.type(large),gender,about"
+            paths:
+                profilepicture: picture.data.url
+                gender: gender
+                about: about
+        linkedin:
+            type: linkedin
+            client_id: '%env(LINKEDIN_ID)%'
+            client_secret: '%env(LINKEDIN_SECRET)%'
+            scope: "r_basicprofile,r_emailaddress"
+            options:
+                csrf: true
+            infos_url: "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json"
+            paths:
+                firstname: firstName
+                lastname: lastName
+                profilepicture: pictureUrl

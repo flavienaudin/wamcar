@@ -32,6 +32,22 @@ Wamcar\User\BaseUser:
             type: string
             length: 191   # needed to index field in utf8mb4
             unique: true
+        facebookId:
+            type: string
+            length: 255
+            nullable: true
+        facebookAccessToken:
+            type: string
+            length: 255
+            nullable: true
+        linkedinId:
+            type: string
+            length: 255
+            nullable: true
+        linkedinAccessToken:
+            type: string
+            length: 255
+            nullable: true
 
     oneToOne:
         avatar:

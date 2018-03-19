@@ -12,7 +12,7 @@
 
     <section class="small-12">
         <div class="register-form input-margin row">
-            {% include 'front/Security/Register/includes/account.html.twig' %}
+            {% include 'front/Security/Register/includes/account.html.twig' with { context:constant("Wamcar\\User\\PersonalUser::TYPE") }%}
         </div>
     </section>
 

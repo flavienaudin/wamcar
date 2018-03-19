@@ -11,14 +11,18 @@ use AppBundle\Form\Type\RegistrationType;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\RegisteredWithConfirmationProvider;
 use AppBundle\Security\UserAuthenticator;
+use AppBundle\Security\UserProvider;
 use AppBundle\Security\UserRegistrationService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserGlobalSearchService;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use HWI\Bundle\OAuthBundle\Security\OAuthUtils;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
 
@@ -42,6 +46,17 @@ class SecurityController extends BaseController
     private $authenticationUtils;
     /** @var MessageBus */
     private $eventBus;
+    /** @var OAuthUtils */
+    private $hwiOAuthSecurityOAuthUtils;
+    /** @var array */
+    private $hwiOAuthFirewallNames;
+    /** @var string */
+    private $hwiOAuthTargetPathParameter;
+    /** @var string */
+    private $hwiOAuthFailedUseReferer;
+    /** @var string */
+    private $hwiOAuthUseReferer;
+
 
     /**
      * SecurityController constructor.
@@ -78,12 +93,56 @@ class SecurityController extends BaseController
     }
 
     /**
+     * @param array $hwiOAuthFirewallNames
+     */
+    public function setHwiOAuthFirewallNames(array $hwiOAuthFirewallNames): void
+    {
+        $this->hwiOAuthFirewallNames = $hwiOAuthFirewallNames;
+    }
+
+    /**
+     * @param OAuthUtils $hwiOAuthSecurityOAuthUtils
+     */
+    public function setHwiOAuthSecurityOAuthUtils(OAuthUtils $hwiOAuthSecurityOAuthUtils): void
+    {
+        $this->hwiOAuthSecurityOAuthUtils = $hwiOAuthSecurityOAuthUtils;
+    }
+
+    /**
+     * @param string $hwiOAuthTargetPathParameter
+     */
+    public function setHwiOAuthTargetPathParameter(string $hwiOAuthTargetPathParameter = null): void
+    {
+        $this->hwiOAuthTargetPathParameter = $hwiOAuthTargetPathParameter;
+    }
+
+    /**
+     * @param string $hwiOAuthFailedUseReferer
+     */
+    public function setHwiOAuthFailedUseReferer(string $hwiOAuthFailedUseReferer = null): void
+    {
+        $this->hwiOAuthFailedUseReferer = $hwiOAuthFailedUseReferer;
+    }
+
+    /**
+     * @param string $hwiOAuthUseReferer
+     */
+    public function setHwiOAuthUseReferer(string $hwiOAuthUseReferer = null): void
+    {
+        $this->hwiOAuthUseReferer = $hwiOAuthUseReferer;
+    }
+
+    /**
      * @param Request $request
      * @param string $type
      * @return Response
      */
     public function registerAction(Request $request, string $type): Response
     {
+        if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+            return $this->redirectToRoute("front_default");
+        }
+
         $registrationForm = $this->formFactory->create(RegistrationType::class);
         $registrationForm->handleRequest($request);
 
@@ -118,10 +177,10 @@ class SecurityController extends BaseController
                     $this->session->remove($key);
                     return $this->redirect($redirectTo);
                 } else {
-                    return $this->redirectToRoute('front_default', ['_fragment' => 'activation-'.$type]);
+                    return $this->redirectToRoute('front_default', ['_fragment' => 'activation-' . $type]);
                 }
             }
-            return $this->redirectToRoute('register_confirm', ['_fragment' => 'register-'.$type]);
+            return $this->redirectToRoute('register_confirm', ['_fragment' => 'register-' . $type]);
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
@@ -288,5 +347,52 @@ class SecurityController extends BaseController
             'form' => $form->createView(),
             'token' => $token
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param string $service
+     *
+     * @throws NotFoundHttpException
+     *
+     * @return RedirectResponse
+     */
+    public function redirectToServiceAction(Request $request, $service)
+    {
+        try {
+            $authorizationUrl = $this->hwiOAuthSecurityOAuthUtils->getAuthorizationUrl($request, $service);
+        } catch (\RuntimeException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        // Check for a return path and store it before redirect
+        if ($request->hasSession()) {
+            // initialize the session for preventing SessionUnavailableException
+            $session = $request->getSession();
+            $session->start();
+
+            foreach ($this->hwiOAuthFirewallNames as $providerKey) {
+                $sessionKey = '_security.' . $providerKey . '.target_path';
+                $sessionKeyFailure = '_security.' . $providerKey . '.failed_target_path';
+
+                $param = $this->hwiOAuthTargetPathParameter;
+                if (!empty($param) && $targetUrl = $request->get($param)) {
+                    $session->set($sessionKey, $targetUrl);
+                }
+
+                if ($this->hwiOAuthFailedUseReferer && !$session->has($sessionKeyFailure) && ($targetUrl = $request->headers->get('Referer')) && $targetUrl !== $authorizationUrl) {
+                    $session->set($sessionKeyFailure, $targetUrl);
+                }
+
+                if ($this->hwiOAuthUseReferer && !$session->has($sessionKey) && ($targetUrl = $request->headers->get('Referer')) && $targetUrl !== $authorizationUrl) {
+                    $session->set($sessionKey, $targetUrl);
+                }
+            }
+
+            if ($request->query->has('type')) {
+                $session->set(UserProvider::REGISTRATION_TYPE_SESSION_KEY, $request->query->get('type'));
+            }
+        }
+        return $this->redirect($authorizationUrl);
     }
 }
