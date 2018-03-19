@@ -21,12 +21,21 @@ services:
     AppBundle\Controller\Front\SecurityController:
         parent: AppBundle\Controller\Front\BaseController
         autowire: true
-        calls:
-            - ['setHwiOAuthSecurityOAuthUtils', ['@hwi_oauth.security.oauth_utils']]
-            - ['setHwiOAuthFirewallNames', ['%hwi_oauth.firewall_names%']]
-            - ['setHwiOAuthTargetPathParameter', ['%hwi_oauth.target_path_parameter%']]
-            - ['setHwiOAuthFailedUseReferer', ['%hwi_oauth.failed_use_referer%']]
-            - ['setHwiOAuthUseReferer', ['%hwi_oauth.use_referer%']]
+        arguments:
+            - '@form.factory'
+            - '@AppBundle\Security\UserRegistrationService'
+            - '@AppBundle\Security\UserAuthenticator'
+            - '@AppBundle\Services\User\UserEditionService'
+            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
+            - '@AppBundle\Services\User\UserGlobalSearchService'
+            - '@security.authentication_utils'
+            - '@simple_bus.event_bus'
+            - '@hwi_oauth.security.oauth_utils'
+            - '%hwi_oauth.firewall_names%'
+            - '%hwi_oauth.target_path_parameter%'
+            - '%hwi_oauth.failed_use_referer%'
+            - '%hwi_oauth.use_referer%'
 
 
     AppBundle\Controller\Api\BaseController:

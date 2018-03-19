@@ -9,6 +9,7 @@ imports:
     - { resource: services/mail.yml }
     - { resource: services/autodata.yml }
     - { resource: services/voters.yml }
+    - { resource: services/user.yml }
     - { resource: services/extensions.yml }
     - { resource: services/pictures.yml }
     - { resource: services/validators.yml }
@@ -74,6 +75,9 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineProjectRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
+        autowire: true
+
+    AppBundle\Security\UserAuthenticator:
         autowire: true
 
     AppBundle\Security\UserProvider:

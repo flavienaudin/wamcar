@@ -50,11 +50,11 @@ class SecurityController extends BaseController
     private $hwiOAuthSecurityOAuthUtils;
     /** @var array */
     private $hwiOAuthFirewallNames;
-    /** @var string */
+    /** @var null|string */
     private $hwiOAuthTargetPathParameter;
-    /** @var string */
+    /** @var bool */
     private $hwiOAuthFailedUseReferer;
-    /** @var string */
+    /** @var bool */
     private $hwiOAuthUseReferer;
 
 
@@ -62,12 +62,18 @@ class SecurityController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRegistrationService $userRegistration
+     * @param UserAuthenticator $userAuthenticator
      * @param UserEditionService $userEditionService
      * @param DoctrineUserRepository $userRepository
      * @param DoctrinePersonalUserRepository $personalUserRepository
      * @param UserGlobalSearchService $userGlobalSearchService
      * @param AuthenticationUtils $authenticationUtils
      * @param MessageBus $eventBus
+     * @param OAuthUtils $hwiOAuthSecurityOAuthUtils
+     * @param array $hwiOAuthFirewallNames
+     * @param string $hwiOAuthTargetPathParameter
+     * @param bool $hwiOAuthFailedUseReferer
+     * @param bool $hwiOAuthUseReferer
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -78,7 +84,12 @@ class SecurityController extends BaseController
         DoctrinePersonalUserRepository $personalUserRepository,
         UserGlobalSearchService $userGlobalSearchService,
         AuthenticationUtils $authenticationUtils,
-        MessageBus $eventBus
+        MessageBus $eventBus,
+        OAuthUtils $hwiOAuthSecurityOAuthUtils,
+        array $hwiOAuthFirewallNames,
+        ?string $hwiOAuthTargetPathParameter,
+        bool $hwiOAuthFailedUseReferer,
+        bool $hwiOAuthUseReferer
     )
     {
         $this->formFactory = $formFactory;
@@ -90,45 +101,10 @@ class SecurityController extends BaseController
         $this->userGlobalSearchService = $userGlobalSearchService;
         $this->authenticationUtils = $authenticationUtils;
         $this->eventBus = $eventBus;
-    }
-
-    /**
-     * @param array $hwiOAuthFirewallNames
-     */
-    public function setHwiOAuthFirewallNames(array $hwiOAuthFirewallNames): void
-    {
-        $this->hwiOAuthFirewallNames = $hwiOAuthFirewallNames;
-    }
-
-    /**
-     * @param OAuthUtils $hwiOAuthSecurityOAuthUtils
-     */
-    public function setHwiOAuthSecurityOAuthUtils(OAuthUtils $hwiOAuthSecurityOAuthUtils): void
-    {
         $this->hwiOAuthSecurityOAuthUtils = $hwiOAuthSecurityOAuthUtils;
-    }
-
-    /**
-     * @param string $hwiOAuthTargetPathParameter
-     */
-    public function setHwiOAuthTargetPathParameter(string $hwiOAuthTargetPathParameter = null): void
-    {
+        $this->hwiOAuthFirewallNames = $hwiOAuthFirewallNames;
         $this->hwiOAuthTargetPathParameter = $hwiOAuthTargetPathParameter;
-    }
-
-    /**
-     * @param string $hwiOAuthFailedUseReferer
-     */
-    public function setHwiOAuthFailedUseReferer(string $hwiOAuthFailedUseReferer = null): void
-    {
         $this->hwiOAuthFailedUseReferer = $hwiOAuthFailedUseReferer;
-    }
-
-    /**
-     * @param string $hwiOAuthUseReferer
-     */
-    public function setHwiOAuthUseReferer(string $hwiOAuthUseReferer = null): void
-    {
         $this->hwiOAuthUseReferer = $hwiOAuthUseReferer;
     }
 
