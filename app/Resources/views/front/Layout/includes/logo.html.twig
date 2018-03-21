@@ -1,6 +1,6 @@
 {% set isLogged = isLogged|default(false) %}
 
-<a href="{{ path('front_default') }}" class="logo-container column {{ isLogged ? 'small-shink small-collapse medium-uncollapse is-logged' : 'small-5' }} medium-3 large-2">
+<a href="{{ path('front_default') }}" class="logo-container column shrink {{ isLogged ? 'small-collapse medium-uncollapse is-logged' }}">
     {% if isLogged %}
         <picture>
             <source media="(max-width: 590px)" srcset="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}">
