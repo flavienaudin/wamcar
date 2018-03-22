@@ -35,16 +35,3 @@ if ($($garagePicture).length) {
     mediaQuery: '(min-width: 1024px)'
   });
 }
-
-const $moveVehicleAside = '#js-move-vehicle-aside';
-const $vehicleAside = '#js-vehicle-aside';
-
-if ($($vehicleAside).length) {
-  if ($(window).width() > 1023 && $(window).width() < 1200) {
-    $($moveVehicleAside).append($($vehicleAside));
-  }
-  $($vehicleAside).responsiveDom({
-    appendTo: $moveVehicleAside,
-    mediaQuery: '(min-width: 1200px)'
-  });
-}

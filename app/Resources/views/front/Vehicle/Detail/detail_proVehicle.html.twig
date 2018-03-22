@@ -77,17 +77,19 @@
                     {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
                 </div>
             </div>
+        </section>
 
+        <aside id="js-move-vehicle-aside" class="vehicle-aside-container small-12 large-5 xlarge-4" aria-hidden="true">
             <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                {# TODO not implemented feature ==> hidden #}
-                {% if false and isEditableByCurrentUser %}
-                    <div class="column small-12 medium-6 large-order-2 large-12">
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                    </div>
-                {% endif %}
                 <div class="column small-12 medium-6 large-12">
                     {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
                 </div>
+                {# TODO not implemented feature ==> hidden #}
+                {% if false and isEditableByCurrentUser %}
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                    </div>
+                {% endif %}
                 <div class="small-12 large-order-3">
                     {% if isEditableByCurrentUser %}
                         {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
@@ -98,15 +100,14 @@
                     {% endif %}
                 </div>
             </div>
-        </section>
+        </aside>
 
-        <section class="small-12 xlarge-8 large-order-2">
+        <section class="small-12 xlarge-8">
             <div class="vehicle-detail block-grid small-12">
                 <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                     {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
                 </div>
-                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12"
-                     id="js-description" data-magellan-target="js-description">
+                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
                     {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
                 </div>
                 <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
@@ -130,10 +131,8 @@
                 </div>
             </div>
         </section>
-        <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4" aria-hidden="true"></aside>
     </div>
 </div>
-
 {% endblock body %}
 
 {% block modal %}
