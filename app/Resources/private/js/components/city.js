@@ -63,6 +63,8 @@ if ($cities.length) {
       });
       $city.on('select2:unselect', function (e) {
         let selectInput = e.target;
+        $(selectInput).children('option').remove(); // Allow to select another city with same CP
+
         let latitudeInput = document.getElementById(selectInput.getAttribute('data-latitude-field'));
         let longitudeInput = document.getElementById(selectInput.getAttribute('data-longitude-field'));
         let cityInput = document.getElementById(selectInput.getAttribute('data-city-field'));
