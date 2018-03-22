@@ -24,6 +24,7 @@ parameters:
             2: '/assets/images/placeholders/vehicle/Placeholder-Avant.png'
             3: '/assets/images/placeholders/vehicle/Placeholder-Arriere.png'
 
+    preferred_makeName: '%preferred_makes%'
 
 framework:
     #esi: ~

@@ -7,3 +7,8 @@ services:
     AppBundle\Form\Type\:
         resource: '../../../Form/Type'
         exclude: '../../../Form/Type/{VehicleType,VehicleInformationType}.php'
+
+    AppBundle\Form\Type\VehicleInformationType:
+        autowire: true
+        arguments:
+            - '%preferred_makeName%'

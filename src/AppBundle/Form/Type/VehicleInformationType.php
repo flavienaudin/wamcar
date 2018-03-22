@@ -16,19 +16,31 @@ use Wamcar\Vehicle\Enum\Transmission;
 
 class VehicleInformationType extends AbstractType
 {
+    /** @var array */
+    private $preferredMakes;
+
+    public function __construct($preferredMakes = [])
+    {
+        $this->preferredMakes = $preferredMakes;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $availableValues = $options['available_values'] ?? [];
-
         $builder
             ->add('make', ChoiceType::class, [
                 'choices' => $availableValues['make'] ?? [],
-                'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
+                'preferred_choices' => function($val, $key) {
+                    return in_array($key, $this->preferredMakes);
+                },
+                'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : 'vehicle.field.make.placeholder',
+                'translation_domain' => 'messages',
                 'error_bubbling' => true,
             ])
             ->add('model', ChoiceType::class, [
                 'choices' => $availableValues['model'] ?? [],
-                'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
+                'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : 'vehicle.field.model.placeholder',
+                'translation_domain' => 'messages',
                 'error_bubbling' => true
             ]);
 
