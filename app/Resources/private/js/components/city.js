@@ -16,6 +16,9 @@ if ($cities.length) {
         language: fr,
         placeholder: 'Ville, CP',
         minimumInputLength: 2,
+        maximumSelectionLength: 1,
+        multiple: true,
+        allowClear: true,
         width: '100%',
         ajax: {
           url: $city.data('autocomplete-url'),
@@ -57,6 +60,16 @@ if ($cities.length) {
         latitudeInput.value = data.latitude;
         longitudeInput.value = data.longitude;
         cityInput.value = data.cityName;
+      });
+      $city.on('select2:unselect', function (e) {
+        let selectInput = e.target;
+        let latitudeInput = document.getElementById(selectInput.getAttribute('data-latitude-field'));
+        let longitudeInput = document.getElementById(selectInput.getAttribute('data-longitude-field'));
+        let cityInput = document.getElementById(selectInput.getAttribute('data-city-field'));
+
+        latitudeInput.value = null;
+        longitudeInput.value = null;
+        cityInput.value = null;
       });
 
     });
