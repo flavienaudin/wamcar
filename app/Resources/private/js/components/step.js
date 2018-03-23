@@ -125,6 +125,16 @@ class Step {
   }
 
   /**
+   * Check all required field if valid
+   *
+   * @returns boolean
+   * @memberof Step
+   */
+  validBool() {
+    return this.step.validateForm();
+  }
+
+  /**
    * Go to next step
    *
    * @returns {Promise} Promise object end of carousel.next() method
@@ -356,14 +366,19 @@ if ($step) {
           currentSlide = step.getCurrentSlide();
         }
       } else if (currentSlide < index) {
-        // Next direction
-        step.valid().then(() => {
-          return step.next();
-        }).then(() => {
-          step.updateNavigation('next');
-          step.initAbide();
-          showPrevButton();
-        });
+        while(currentSlide < index) {
+          if (step.validBool()) {
+            step.next().then(() => {
+              step.updateNavigation('next');
+              step.initAbide();
+              showPrevButton();
+            });
+
+            currentSlide = step.getCurrentSlide();
+          } else {
+            currentSlide = 999;
+          }
+        }
       }
     });
   });
