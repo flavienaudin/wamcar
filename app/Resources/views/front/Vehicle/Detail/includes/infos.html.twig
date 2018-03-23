@@ -7,8 +7,8 @@
     { label: "Boite de vitesse", value: vehicle.transmission },
     { label: "Energie", value: vehicle.fuelName },
     { label: "Mise en circulation", value: vehicle.registrationDate|date("d/m/Y") },
-    { label: "Véhicule importé", value: vehicle.isImported is not defined ? null : vehicle.isImported ? 'Oui' : 'Non' },
-    { label: "Véhicule 1ère main", value: vehicle.isImported is not defined ? null :vehicle.isFirstHand ? 'Oui' : 'Non' }
+    { label: "Véhicule importé", value: vehicle.isImported is null ? null : vehicle.isImported ? 'Oui' : 'Non' },
+    { label: "Véhicule 1ère main", value: vehicle.isFirstHand is null ? null :vehicle.isFirstHand ? 'Oui' : 'Non' }
 ] %}
 
 {% if isUserPro or isEditableByCurrentUser %}

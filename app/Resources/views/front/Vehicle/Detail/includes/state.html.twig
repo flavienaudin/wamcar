@@ -2,7 +2,7 @@
     { label: "Changement de courroie de distribution", value: vehicle.getisTimingBeltChanged ? null : vehicle.getisTimingBeltChanged ? 'Oui' : 'Non' },
     { label: "Date du dernier controle technique", value: vehicle.safetyTestDate.key == 'UNKNOWN' ? null : vehicle.safetyTestDate.key|trans([], 'enumeration') },
     { label: "Resultat du dernier controle technique", value: vehicle.safetyTestState.key == 'UNKNOWN' ? null : vehicle.safetyTestState.key|trans([], 'enumeration') },
-    { label: "Statut", value: vehicle.isFirstHand is not defined ? null : vehicle.isFirstHand ? 'Neuf' : 'Occasion' },
+    { label: "Statut", value: vehicle.isFirstHand is null ? null : vehicle.isFirstHand ? 'Neuf' : 'Occasion' },
     { label: "Etat de la carrosserie", value: vehicle.bodyState|default(null) },
     { label: "Etat du moteur", value: vehicle.engineState|default(null) },
     { label: "Etat des pneus", value: vehicle.tyreState|default(null) },
