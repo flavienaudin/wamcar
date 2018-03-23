@@ -1,14 +1,14 @@
 {% set infos_vehicle = [
     { label: "Marque", value: vehicle.make },
     { label: "Modèle", value: vehicle.modelName },
-    { label: "Année", value: vehicle.years },
+    { label: "Année de commercialisation", value: vehicle.years },
     { label: "Kilométrage", value: vehicle.mileAge|localizednumber ~ ' km' },
     { label: "Motorisation", value: vehicle.engineName },
     { label: "Boite de vitesse", value: vehicle.transmission },
     { label: "Energie", value: vehicle.fuelName },
     { label: "Mise en circulation", value: vehicle.registrationDate|date("d/m/Y") },
-    { label: "Véhicule importé", value: vehicle.isImported ? 'Oui' : 'Non' },
-    { label: "Véhicule 1ère main", value: vehicle.isFirstHand ? 'Oui' : 'Non' }
+    { label: "Véhicule importé", value: vehicle.isImported is not defined ? null : vehicle.isImported ? 'Oui' : 'Non' },
+    { label: "Véhicule 1ère main", value: vehicle.isImported is not defined ? null :vehicle.isFirstHand ? 'Oui' : 'Non' }
 ] %}
 
 {% if isUserPro or isEditableByCurrentUser %}
@@ -21,6 +21,8 @@
 <h2 class="separator medium primary-color">Informations principales</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for info in infos_vehicle %}
-        <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
+        {% if info.value %}
+            <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
+        {% endif %}
     {% endfor %}
 </ul>
