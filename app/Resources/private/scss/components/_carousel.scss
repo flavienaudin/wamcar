@@ -56,6 +56,22 @@
     }
   }
 
+  /*
+     Vehicle pictures
+     ===================================== */
+
+  &-vehicle-pictures {
+    .slick-slide {
+      li {
+        margin: 0 !important;
+      }
+    }
+
+    .slick-track {
+      background: $grey-alt2;
+      margin: 0 0 rem-calc(10);
+    }
+  }
 
   /*
      Next/prev
@@ -104,5 +120,4 @@
       margin: 0 auto;
     }
   }
-
 }

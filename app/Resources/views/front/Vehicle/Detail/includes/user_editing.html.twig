@@ -2,6 +2,3 @@
     <span class="column small-collapse small-auto large-uncollapse"><a href="{{ isProVehicle?path('front_vehicle_pro_edit', {'id': vehicle.id}) :path('front_vehicle_personal_edit', {'id': vehicle.id}) }}" class="button add icon-pen">{{ 'vehicle.edit'|trans }}</a></span>
     <span class="column small-collapse small-shrink large-uncollapse large-left-collapse"><button type="button" title="{{ 'vehicle.delete'|trans }}" class="button remove icon-remove" data-open="js-modal-remove-vehicle"><span class="show-for-sr">{{ 'vehicle.delete'|trans }}</span></button></span>
 </div>
-<div class="vehicle-aside vehicle-editing vehicle-edit-profile block-grid small-12 hide-for-small-only">
-    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ path('front_edit_user_info') }}" class="button add icon-pen">Editer mon profil</a></span>
-</div>

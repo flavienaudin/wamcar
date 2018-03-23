@@ -1,4 +1,4 @@
-<ul id="js-carousel-vehicle" class="js-carousel carousel">
+<ul id="js-carousel-vehicle" class="js-carousel carousel carousel-vehicle-pictures">
     {% for picture in vehicle.pictures %}
         <li>
             <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">

@@ -63,7 +63,9 @@
                         {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
                     </div>
                 </div>
+            </section>
 
+            <aside id="js-move-vehicle-aside" class="vehicle-aside-container small-12 large-5 xlarge-4" aria-hidden="true">
                 <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
                     <div class="column small-12 medium-6 large-12">
                         {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
@@ -84,9 +86,9 @@
                         {% endif %}
                     </div>
                 </div>
-            </section>
+            </aside>
 
-            <section class="small-12 xlarge-8 large-order-2">
+            <section class="small-12 xlarge-8">
                 <div class="vehicle-detail block-grid small-12">
                     <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                         {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
@@ -109,8 +111,6 @@
                     </div>
                 </div>
             </section>
-            <aside id="js-move-vehicle-aside" class="vehicle-aside-container large-5 xlarge-4"
-                   aria-hidden="true"></aside>
         </div>
     </div>
 {% endblock body %}
