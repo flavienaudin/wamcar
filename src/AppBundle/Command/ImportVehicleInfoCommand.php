@@ -64,8 +64,8 @@ class ImportVehicleInfoCommand extends BaseCommand
             /*** Règles de traitement ***/
             // TRAIT-1
             $makeConstCodeToConstName = [
-                121 => 'Volkswagen',
-                609 => 'AC Cars'
+                121 => 'VOLKSWAGEN',
+                609 => 'AC CARS'
             ];
 
             //TRAIT-2
