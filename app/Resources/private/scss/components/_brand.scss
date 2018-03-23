@@ -65,6 +65,7 @@
 
     &-rounded > img{
       border-radius: 50%;
+      border: rem-calc(1) solid $border-color;
     }
   }
 }
