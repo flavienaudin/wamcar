@@ -12,6 +12,7 @@ use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
+use Wamcar\Vehicle\Event\ProVehicleUpdated;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -82,6 +83,8 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
         $this->vehicleRepository->update($proVehicle);
+        $this->eventBus->handle(new ProVehicleUpdated($vehicle));
+
         return $vehicle;
     }
 
@@ -97,6 +100,7 @@ class ProVehicleEditionService
         }
 
         $this->vehicleRepository->update($vehicle);
+        $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
     }
@@ -109,6 +113,7 @@ class ProVehicleEditionService
     {
         $vehicle->clearPictures();
         $this->vehicleRepository->update($vehicle);
+        $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
     }

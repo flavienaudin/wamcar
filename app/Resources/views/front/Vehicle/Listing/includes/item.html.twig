@@ -20,7 +20,7 @@
         <div class="vehicle-infos small-shrink">
             {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
             <{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
-            <p class="vehicle-model">{{ vehicle.modelName }}</p>
+            <p class="vehicle-model">{#{{ vehicle.modelName }}#}</p>
             <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span>
             {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
             <div class="vehicle-bottom block-grid full-width align-middle">
