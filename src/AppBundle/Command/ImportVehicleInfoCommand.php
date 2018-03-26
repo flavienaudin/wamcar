@@ -76,7 +76,7 @@ class ImportVehicleInfoCommand extends BaseCommand
             $vehicleInfo = new VehicleInfo(
                 $record['tecdoc_ktypnr'],
                 $record['tecdoc_constr'],
-                isset($makeConstCodeToConstName[$record['tecdoc_constrcode']]) ?? $record['tecdoc_constr'],
+                isset($makeConstCodeToConstName[$record['tecdoc_constrcode']]) ? $makeConstCodeToConstName[$record['tecdoc_constrcode']] : $record['tecdoc_constr'],
                 (int)$record['tecdoc_constrcode'],
                 $record['tecdoc_model1'],
                 (int)$record['tecdoc_modelcode'],
@@ -91,7 +91,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 $record['tecdoc_carross'],
                 $record['tecdoc_propulsion'],
                 $record['tecdoc_energie'],
-                isset($energieName[$record['tecdoc_energie']]) ?? $record['tecdoc_energie'],
+                isset($energieName[$record['tecdoc_energie']]) ? $energieName[$record['tecdoc_energie']] : $record['tecdoc_energie'],
                 (int)$record['tecdoc_nbcyl'],
                 (int)$record['tecdoc_nbsoup']
             );
