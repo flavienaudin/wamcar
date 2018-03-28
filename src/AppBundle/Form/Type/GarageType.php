@@ -5,9 +5,9 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DTO\GarageDTO;
-use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Form\Validator\Constraints\UniqueGarageSiren;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GarageType extends AbstractType
 {
-    use AutocompleteableCityTrait;
-
     /**
      * {@inheritdoc}
      */
@@ -25,6 +23,7 @@ class GarageType extends AbstractType
         $data = $builder->getData();
 
         $builder
+            ->add('googlePlaceId', HiddenType::class)
             ->add('name', TextType::class)
             ->add('siren', TextType::class, [
                 'attr' => [
@@ -39,6 +38,14 @@ class GarageType extends AbstractType
                 'required' => false
             ])
             ->add('address', TextType::class)
+            ->add('postalCode', TextType::class)
+            ->add('cityName', TextType::class)
+            ->add('latitude', HiddenType::class, [
+                'required' => false,
+            ])
+            ->add('longitude', HiddenType::class, [
+                'required' => false,
+            ])
             ->add('phone', TextType::class, [
                 'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
             ])
@@ -48,8 +55,6 @@ class GarageType extends AbstractType
             ->add('logo', GaragePictureType::class, [
                 'error_bubbling' => true
             ]);
-
-        $this->addAutocompletableCityField($builder, $data);
     }
 
     /**

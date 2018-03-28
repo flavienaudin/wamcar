@@ -15,6 +15,8 @@ class GarageDTO
     /** @var int */
     public $id;
     /** @var string */
+    public $googlePlaceId;
+    /** @var string */
     public $name;
     /** @var  string */
     public $siren;
@@ -47,6 +49,7 @@ class GarageDTO
     {
         if (null !== $garage) {
             $this->id = $garage->getId();
+            $this->googlePlaceId = $garage->getGooglePlaceId();
             $this->name = $garage->getName();
             $this->siren = $garage->getSiren();
             $this->phone = $garage->getPhone();

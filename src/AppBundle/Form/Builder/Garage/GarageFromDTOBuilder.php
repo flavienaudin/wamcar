@@ -45,6 +45,7 @@ class GarageFromDTOBuilder
         }
 
         $garage =  new Garage(
+            $dto->googlePlaceId,
             $dto->name,
             $dto->siren,
             $dto->openingHours,
@@ -83,8 +84,9 @@ class GarageFromDTOBuilder
             );
         }
 
-        $garage->setEmail($dto->email);
+        $garage->setGooglePlaceId($dto->googlePlaceId);
         $garage->setName($dto->name);
+        $garage->setEmail($dto->email);
         $garage->setPhone($dto->phone);
         $garage->setSiren($dto->siren);
         $garage->setOpeningHours($dto->openingHours);
