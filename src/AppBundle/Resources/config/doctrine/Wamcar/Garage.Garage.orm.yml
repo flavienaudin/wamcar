@@ -30,6 +30,10 @@ Wamcar\Garage\Garage:
                 strategy: AUTO
 
     fields:
+        googlePlaceId:
+            type: string
+            length: 64
+            nullable: true
         name:
             type: string
             nullable: false

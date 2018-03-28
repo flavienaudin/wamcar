@@ -18,6 +18,8 @@ class Garage
     /** @var int */
     protected $id;
     /** @var string */
+    protected $googlePlaceId;
+    /** @var string */
     protected $name;
     /** @var  string */
     protected $siren;
@@ -44,6 +46,7 @@ class Garage
 
     /**
      * Garage constructor.
+     * @param string|null $googlePlaceId
      * @param string $name
      * @param string $siren
      * @param null|string $openingHours
@@ -54,6 +57,7 @@ class Garage
      * @param Picture|null $logo
      */
     public function __construct(
+        ?string $googlePlaceId,
         string $name,
         string $siren,
         ?string $openingHours,
@@ -64,6 +68,7 @@ class Garage
         Picture $logo = null
     )
     {
+        $this->googlePlaceId = $googlePlaceId;
         $this->name = $name;
         $this->siren = $siren;
         $this->openingHours = $openingHours;
@@ -82,6 +87,14 @@ class Garage
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGooglePlaceId(): ?string
+    {
+        return $this->googlePlaceId;
     }
 
     /**
@@ -154,6 +167,14 @@ class Garage
     public function getCity(): City
     {
         return $this->address->getCity();
+    }
+
+    /**
+     * @param string $googlePlaceId
+     */
+    public function setGooglePlaceId(?string $googlePlaceId): void
+    {
+        $this->googlePlaceId = $googlePlaceId;
     }
 
     /**
