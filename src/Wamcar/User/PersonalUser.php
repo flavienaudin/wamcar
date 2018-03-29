@@ -37,11 +37,11 @@ class PersonalUser extends BaseUser
 
     /**
      * Tell if the $user is authorized to see $this's profile
-     * @param BaseUser $user
+     * @param BaseUser|null $user
      * @return bool
      */
-    public function canSeeMyProfile(BaseUser $user): bool{
-        return $this->is($user) || $user->getType() === ProUser::TYPE;
+    public function canSeeMyProfile(?BaseUser $user): bool{
+        return $this->is($user) || ($user != null && $user->getType() === ProUser::TYPE);
     }
 
     /**

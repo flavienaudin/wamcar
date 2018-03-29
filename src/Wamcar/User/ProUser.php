@@ -115,10 +115,10 @@ class ProUser extends BaseUser
 
     /**
      * Tell if the $user is authorized to see $this's profile
-     * @param BaseUser $user
+     * @param BaseUser|null $user
      * @return bool
      */
-    public function canSeeMyProfile(BaseUser $user): bool{
+    public function canSeeMyProfile(?BaseUser $user): bool{
         return true;
     }
 }
