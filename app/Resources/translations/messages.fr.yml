@@ -44,7 +44,10 @@ vehicle:
       placeholder: Marque du véhicule
     model:
       placeholder: Modèle du véhicule
-
+    engine:
+      placeholder: Motorisation du véhicule
+    fuel:
+      placeholder: Carburant du véhicule
 
 user:
   profile:

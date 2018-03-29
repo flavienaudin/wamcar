@@ -49,7 +49,8 @@ class VehicleInformationType extends AbstractType
             $builder
                 ->add('engine', ChoiceType::class, [
                     'choices' => $availableValues['engine'] ?? [],
-                    'placeholder' => count($availableValues['engine'] ?? []) === 1 ? false : '',
+                    'placeholder' => count($availableValues['engine'] ?? []) === 1 ? false : 'vehicle.field.engine.placeholder',
+                    'translation_domain' => 'messages',
                     'error_bubbling' => true,
                 ])
                 ->add('transmission', ChoiceType::class, [
@@ -58,7 +59,8 @@ class VehicleInformationType extends AbstractType
                 ])
                 ->add('fuel', ChoiceType::class, [
                     'choices' => $availableValues['fuel'] ?? [],
-                    'placeholder' => count($availableValues['fuel'] ?? []) === 1 ? false : '',
+                    'placeholder' => count($availableValues['fuel'] ?? []) === 1 ? false : 'vehicle.field.fuel.placeholder',
+                    'translation_domain' => 'messages',
                     'error_bubbling' => true,
                 ]);
 

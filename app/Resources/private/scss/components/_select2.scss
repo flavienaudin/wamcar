@@ -63,12 +63,6 @@
   }
 }
 
-.select2-container--default .select2-selection--single,
-.select2-container--default .select2-selection--multiple {
-  padding-right: rem-calc(20);
-  padding-left: rem-calc(20);
-}
-
 .select2-container--default .select2-selection--multiple {
   min-height: rem-calc(50);
 
@@ -115,13 +109,6 @@
   transform: translate3d(0, -50%, 0);
 }
 
-.select2-results  {
-  color: $input-color;
-}
-
-
 .select2-container .select2-selection--single .select2-selection__rendered {
   padding: $input-padding;
-  color: $input-color;
 }
-
