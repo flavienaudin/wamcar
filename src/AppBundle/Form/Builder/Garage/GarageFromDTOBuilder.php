@@ -51,7 +51,11 @@ class GarageFromDTOBuilder
             $dto->openingHours,
             $dto->presentation,
             $dto->getAddress(),
-            $dto->phone
+            $dto->phone,
+            null,
+            null,
+            $dto->googleRating
+
         );
 
         if ($dto->banner->file){
@@ -92,6 +96,7 @@ class GarageFromDTOBuilder
         $garage->setOpeningHours($dto->openingHours);
         $garage->setPresentation($dto->presentation);
         $garage->setBenefit($dto->benefit);
+        $garage->setGoogleRating($dto->googleRating);
         $garage->setAddress($dto->getAddress());
         if ($dto->banner) {
             if ($dto->banner->isRemoved) {

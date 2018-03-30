@@ -23,24 +23,29 @@
     } %}
 
     <div class="row">
-
-        <div class="block-grid small-12">
-
             {% if not isNew and not isUserAdmin %}
-                <p class="column"><a href="{{ path('front_garage_view', {'id': app.user.garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
+                <p class="column small-12"><a href="{{ path('front_garage_view', {'id': app.user.garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
             {% endif %}
-            {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-            <div class="column small-12">
-                <div class="row small-12">
-                    <h2 class="column small-12">Coordonnées</h2>
 
-                    <div class="column small-12">
-                        {% include 'front/Layout/includes/forms/input.html.twig' with {
-                            label: 'Rechercher votre établissement',
-                            name: 'google_place',
-                            placeholder: '',
-                        } %}
-                    </div>
+            {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+            <div class="column small-12 garage-google-autocomplete input-margin">
+                <h2 class="small-12">Aide</h2>
+                <div class="small-12">
+                    <p class="small">Rechercher votre établissement sur Google Map pour renseigner automatiquement votre adresse.</p>
+                </div>
+                <div class="small-12">
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        label: 'Rechercher votre établissement',
+                        label_class: 'hide',
+                        name: 'google_place',
+                        placeholder: ''
+                    } %}
+                </div>
+            </div>
+
+            <div class="column small-12">
+                <div class="row">
+                    <h2 class="column small-12">Coordonnées</h2>
 
                     <div class="column small-12">
                         {{ form_widget(garageForm.address, {
@@ -181,7 +186,7 @@
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
         $(autocompleteInputField).on('keypress', (e) => {
-          if (e.keyCode == 13) {
+          if (e.keyCode === 13) {
             return false;
           }
         })
@@ -193,8 +198,9 @@
 
           {# Google Place Id#}
         document.getElementById('{{ garageForm.googlePlaceId.vars.id }}').value = place.place_id;
-
-        console.log(place);
+        if(place.hasOwnProperty('rating')) {
+          document.getElementById('{{ garageForm.googleRating.vars.id }}').value = place.rating;
+        }
 
           {# Address #}
         let address = '', codePostal = '', cityName = '';

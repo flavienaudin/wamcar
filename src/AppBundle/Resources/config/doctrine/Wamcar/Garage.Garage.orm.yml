@@ -58,6 +58,9 @@ Wamcar\Garage\Garage:
         benefit:
             type: text
             nullable: true
+        googleRating:
+            type: float
+            nullable: true
         deletedAt:
             type: date
             nullable: true

@@ -3,6 +3,13 @@
     <li>
         <address>{{ garage.address }}, {{ garage.address.postalCode }} {{ garage.address.cityName }}</address>
         <a href="https://google.com/maps/search/?q={{ garage.name }}&q_place_id={{ garage.googlePlaceId }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
+        <div class="star-list">
+            {% for i in 5..1 %}
+                {% set starClass = garage.googleRating < i ? (garage.googleRating > i-1 ? "star-half":"star-empty"):"star-full" %}
+                <i class="star-item {{ starClass }}"></i>
+            {% endfor %}
+            <span class="star-label" style="opacity: 1">{{ garage.googleRating }}</span>
+        </div>
     </li>
     {% if garage.openingHours %}
         <li>{{ garage.openingHours|nl2br }}</li>
