@@ -45,7 +45,7 @@ class IndexableProVehicleBuilder
         return new IndexableProVehicle(
             $vehicle->getId(),
             $this->router->generate('front_vehicle_pro_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-            $vehicle->getMake(),
+            strtoupper($vehicle->getMake()),
             $vehicle->getName(),
             $vehicle->getModelName(),
             $vehicle->getEngineName(),
