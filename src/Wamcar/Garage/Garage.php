@@ -33,6 +33,8 @@ class Garage
     protected $presentation;
     /** @var  string */
     protected $benefit;
+    /** @var  float */
+    protected $googleRating;
     /** @var  Address */
     protected $address;
     /** @var  Collection */
@@ -55,6 +57,7 @@ class Garage
      * @param string $phone
      * @param Picture|null $banner
      * @param Picture|null $logo
+     * @param float|null $googleRating
      */
     public function __construct(
         ?string $googlePlaceId,
@@ -65,7 +68,8 @@ class Garage
         Address $address,
         string $phone,
         Picture $banner = null,
-        Picture $logo = null
+        Picture $logo = null,
+        ?float $googleRating = null
     )
     {
         $this->googlePlaceId = $googlePlaceId;
@@ -79,6 +83,7 @@ class Garage
         $this->proVehicles = new ArrayCollection();
         $this->banner = $banner;
         $this->logo = $logo;
+        $this->googleRating = $googleRating;
     }
 
     /**
@@ -151,6 +156,14 @@ class Garage
     public function getBenefit(): ?string
     {
         return $this->benefit;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getGoogleRating(): ?float
+    {
+        return $this->googleRating;
     }
 
     /**
@@ -231,6 +244,14 @@ class Garage
     public function setBenefit(?string $benefit)
     {
         $this->benefit = $benefit;
+    }
+
+    /**
+     * @param float|null $googleRating
+     */
+    public function setGoogleRating(?float $googleRating): void
+    {
+        $this->googleRating = $googleRating;
     }
 
     /**

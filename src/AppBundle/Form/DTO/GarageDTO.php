@@ -30,6 +30,8 @@ class GarageDTO
     public $presentation;
     /** @var  string */
     public $benefit;
+    /** @var  float */
+    public $googleRating;
     /** @var string */
     public $address;
     /** @var string */
@@ -57,6 +59,7 @@ class GarageDTO
             $this->openingHours = $garage->getOpeningHours();
             $this->presentation = $garage->getPresentation();
             $this->benefit = $garage->getBenefit();
+            $this->googleRating = $garage->getGoogleRating();
             $this->email = $garage->getEmail();
             $this->address = $garage->getAddress()->getAddress();
             $this->postalCode = $garage->getAddress()->getPostalCode();

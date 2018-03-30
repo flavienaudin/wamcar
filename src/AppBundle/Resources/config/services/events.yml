@@ -46,6 +46,12 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalUserUpdated, method: notify }
 
+    wamcar.event.elasticsearch.garage_updated.index:
+        class: AppBundle\Elasticsearch\IndexUpdatedGarage
+        autowire: true
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageUpdated, method: notify }
+
     wamcar.event.elasticsearch.pro_vehicle_created.index:
         class: AppBundle\Elasticsearch\IndexCreatedProVehicle
         autowire: true

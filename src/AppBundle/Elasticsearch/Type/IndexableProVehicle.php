@@ -54,6 +54,8 @@ class IndexableProVehicle implements Indexable
     private $sellerPicture;
     /** @var \DateTime */
     private $deletedAt;
+    /** @var float */
+    private $googleRating;
 
     /**
      * IndexableProVehicle constructor.
@@ -80,6 +82,7 @@ class IndexableProVehicle implements Indexable
      * @param string $garageName
      * @param string $sellerPicture
      * @param \DateTime|null $deletedAt
+     * @param null|float $googleRating
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -103,7 +106,8 @@ class IndexableProVehicle implements Indexable
                                 string $garageUrl,
                                 string $garageName,
                                 string $sellerPicture,
-                                ?\DateTime $deletedAt
+                                ?\DateTime $deletedAt,
+                                ?float $googleRating
     )
     {
         $this->id = $id;
@@ -129,6 +133,7 @@ class IndexableProVehicle implements Indexable
         $this->garageName = $garageName;
         $this->sellerPicture = $sellerPicture;
         $this->deletedAt = $deletedAt;
+        $this->googleRating = $googleRating;
 
     }
 
@@ -184,6 +189,7 @@ class IndexableProVehicle implements Indexable
             'garageUrl' => $this->garageUrl,
             'garageName' => $this->garageName,
             'sellerPicture' => $this->sellerPicture,
+            'googleRating' => $this->googleRating
         ];
     }
 

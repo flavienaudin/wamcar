@@ -24,6 +24,7 @@ class GarageType extends AbstractType
 
         $builder
             ->add('googlePlaceId', HiddenType::class)
+            ->add('googleRating', HiddenType::class)
             ->add('name', TextType::class)
             ->add('siren', TextType::class, [
                 'attr' => [
