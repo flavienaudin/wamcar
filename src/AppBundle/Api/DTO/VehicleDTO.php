@@ -68,7 +68,7 @@ final class VehicleDTO implements CanBeProVehicle
 
             $vehicleDto->IdentifiantVehicule = $data['IdentifiantVehicule'];
             $vehicleDto->Date1Mec = $data['Date1Mec'];
-            $vehicleDto->Marque = $data['Marque'];
+            $vehicleDto->Marque = strtoupper($data['Marque']);
             $vehicleDto->Type = $data['Type'];
             $vehicleDto->Motorisation = $data['Motorisation'];
             $vehicleDto->Modele = $data['Modele'];

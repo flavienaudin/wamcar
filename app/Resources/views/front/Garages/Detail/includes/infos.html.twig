@@ -5,7 +5,7 @@
         <a href="https://maps.google.com/?q={{ garage.address.address }} {{ garage.address.postalCode }} {{ garage.address.cityName }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
     </li>
     {% if garage.openingHours %}
-        <li>{{ garage.openingHours }}</li>
+        <li>{{ garage.openingHours|nl2br }}</li>
     {% endif %}
     {% if garage.phone %}
         <li>Téléphone : {{ garage.phone }}</li>
