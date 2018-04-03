@@ -8,6 +8,7 @@ imports:
     - { resource: services/listeners.yml }
     - { resource: services/mail.yml }
     - { resource: services/autodata.yml }
+    - { resource: services/google.yml }
     - { resource: services/voters.yml }
     - { resource: services/user.yml }
     - { resource: services/extensions.yml }
@@ -88,6 +89,8 @@ services:
         public: false
         autowire: true
         autoconfigure: false
+        arguments:
+          $googleMapsApiConnector: '@GoogleApi\GoogleMapsApiConnector'
 
     AppBundle\Services\Conversation\ConversationEditionService:
         class: AppBundle\Services\Conversation\ConversationEditionService

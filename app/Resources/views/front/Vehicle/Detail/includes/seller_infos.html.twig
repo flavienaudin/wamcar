@@ -1,15 +1,7 @@
 
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
-        <figure class="block-grid align-middle" role="group">
-            <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="brand-logo {{ info.tel is defined ? 'is-logo' : '' }}">
-                <img src="{{ vehicle.garage|logo('garage_mini_logo') }}" alt="{{ vehicle.garage.name }}">
-            </a>
-            <div>
-                <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="primary-color h3"><b>{{ vehicle.garage.name }}</b></a> <br>
-                <span>{{ vehicle.garage.address.cityName }}</span>
-            </div>
-        </figure>
+        {{ include("front/Garages/Detail/includes/summary_card.html.twig", {garage: vehicle.garage})  }}
     </li>
     {% if vehicle.sellerName %}
     <li class="no-margin">

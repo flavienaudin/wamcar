@@ -3,13 +3,17 @@
 <article class="vehicle-item is-flex">
     {{ include('front/Search/includes/vehicle_item.html.twig') }}
 
-    <a href="{{ vehicle.sellerUrl }}">
-        <div class="vehicle-user-infos">
-            <div class="vehicle-user-pic"><img src="{{ vehicle.sellerPicture }}" alt="{{ vehicle.sellerName }}"></div>
-            <div class="small-12 dark-gray-color">
-                <p class="no-margin"><strong class="primary-color">{{ vehicle.sellerName }}</strong></p>
-                <a href="{{ vehicle.garageUrl }}" class="dark-gray-color">{{ vehicle.garageName }}</a>
-            </div>
+    <div class="vehicle-user-infos">
+        <div class="vehicle-user-pic">
+            <a href="{{ vehicle.sellerUrl }}"><img src="{{ vehicle.sellerPicture }}" alt="{{ vehicle.sellerName }}"></a>
         </div>
-    </a>
+
+        <div class="small-12 dark-gray-color">
+            <p class="no-margin"><a href="{{ vehicle.sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
+            <p class="no-margin"><a href="{{ vehicle.garageUrl }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
+
+            {% set garageRating = vehicle.googleRating %}
+            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay : false}) }}
+        </div>
+    </div>
 </article>

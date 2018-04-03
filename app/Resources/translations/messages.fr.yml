@@ -33,6 +33,8 @@ garage:
     vehicles: Véhicules
     about: A propos
     sellers: Vendeurs
+  google_rating:
+    unknown: Note inconnue
 
 vehicle:
   my_vehicle: Ma voiture

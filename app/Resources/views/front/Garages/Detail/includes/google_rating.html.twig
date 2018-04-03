@@ -1,0 +1,17 @@
+{% set poweredByGoogleDisplay = poweredByGoogleDisplay|default(false)%}
+{% if garageRating is defined %}
+    <div class="star-list">
+        <span class="star-item star-item-small google-rating google-rating-label" >{{ garageRating }}</span>
+        {% for i in 5..1 %}
+            {% set starClass = garageRating < i ? (garageRating > i-1 ? "star-half":"star-empty"):"star-full" %}
+            <i class="star-item google-rating star-item-small {{ starClass }} "></i>
+        {% endfor %}
+    </div>
+    {% if poweredByGoogleDisplay %}
+        <div>
+            <img src="{{ asset('assets/images/google/powered_by_google_on_white.png') }}" alt="Powered by google" title="Powered by google">
+        </div>
+    {% endif %}
+{% else %}
+    <p class="no-margin">{{ 'garage.google_rating.unknown'|trans }}</p>
+{% endif %}
