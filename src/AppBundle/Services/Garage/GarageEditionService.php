@@ -7,6 +7,9 @@ use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use GoogleApi\GoogleMapsApiConnector;
+use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Wamcar\Garage\GarageProUser;
@@ -16,14 +19,18 @@ use Wamcar\Garage\GarageRepository;
 
 class GarageEditionService
 {
-    /** @var GarageRepository  */
+    /** @var GarageRepository */
     private $garageRepository;
-    /** @var GarageProUserRepository  */
+    /** @var GarageProUserRepository */
     private $garageProUserRepository;
-    /** @var GarageFromDTOBuilder  */
+    /** @var GarageFromDTOBuilder */
     private $garageBuilder;
-    /** @var ProVehicleEditionService  */
+    /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+    /** @var GoogleMapsApiConnector */
+    private $googleMapsApi;
+    /** @var MessageBus */
+    protected $eventBus;
 
     /**
      * GarageEditionService constructor.
@@ -36,13 +43,17 @@ class GarageEditionService
         GarageRepository $garageRepository,
         GarageProUserRepository $garageProUserRepository,
         GarageFromDTOBuilder $garageBuilder,
-        ProVehicleEditionService $proVehicleEditionService
+        ProVehicleEditionService $proVehicleEditionService,
+        GoogleMapsApiConnector $googleMapsApiConnector,
+        MessageBus $eventBus
     )
     {
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;
         $this->garageBuilder = $garageBuilder;
         $this->proVehicleEditionService = $proVehicleEditionService;
+        $this->googleMapsApi = $googleMapsApiConnector;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -66,7 +77,7 @@ class GarageEditionService
         /** @var Garage $garage */
         $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
 
-        if(!$creator->isMemberOfGarage($garage)) {
+        if (!$creator->isMemberOfGarage($garage)) {
             $this->addMember($garage, $creator);
         }
 
@@ -83,8 +94,7 @@ class GarageEditionService
     public function addMember(Garage $garage, ProApplicationUser $proApplicationUser): Garage
     {
         /** @var GarageProUser $garageProUser */
-        if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles()))
-        {
+        if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles())) {
             $garageProUser = new GarageProUser($garage, $proApplicationUser);
             $garage->addMember($garageProUser);
             $this->garageRepository->update($garage);
@@ -124,5 +134,24 @@ class GarageEditionService
         }
 
         $this->garageRepository->remove($garage);
+    }
+
+    /**
+     * @param Garage $garage
+     */
+    public function getGooglePlaceDetails(Garage $garage)
+    {
+        if (!empty($garage->getGooglePlaceId())) {
+            $googlePlaceDetails = $this->googleMapsApi->getPlaceDetails($garage->getGooglePlaceId());
+            if ($googlePlaceDetails != null) {
+                if(isset($googlePlaceDetails["rating"]) && $garage->getGoogleRating() !== $googlePlaceDetails["rating"]){
+                    $garage->setGoogleRating($googlePlaceDetails["rating"]);
+                    $this->garageRepository->update($garage);
+                    $this->eventBus->handle(new GarageUpdated($garage));
+                }
+            }
+            return $googlePlaceDetails;
+        }
+        return null;
     }
 }

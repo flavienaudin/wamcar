@@ -129,7 +129,7 @@ class IndexableProVehicle implements Indexable
         $this->nbPicture = $nbPicture;
         $this->sellerUrl = $sellerUrl;
         $this->sellerName = $sellerName;
-        $this->garageUrl = $sellerUrl;
+        $this->garageUrl = $garageUrl;
         $this->garageName = $garageName;
         $this->sellerPicture = $sellerPicture;
         $this->deletedAt = $deletedAt;

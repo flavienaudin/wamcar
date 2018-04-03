@@ -1,0 +1,11 @@
+services:
+    GoogleApi\GoogleMapsApiConnector:
+        autowire: true
+        autoconfigure: true
+        public: false
+        arguments:
+          - '@logger'
+          - '%env(GOOGLE_MAPS_API_HOST)%'
+          - '%env(GOOGLE_API_KEY)%'
+          - '%env(GOOGLE_MAPS_API_PLACE_DETAILS_PATH)%'
+

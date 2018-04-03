@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Doctrine\Entity\ApplicationGarage;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
@@ -72,7 +71,8 @@ class GarageController extends BaseController
     {
         return $this->render('front/Garages/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
-            'garage' => $garage
+            'garage' => $garage,
+            'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage)
         ]);
     }
 
