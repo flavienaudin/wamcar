@@ -200,7 +200,7 @@ class UserController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        if (!$this->getUser() || !$user->canSeeMyProfile($this->getUser())) {
+        if (!$user->canSeeMyProfile($this->getUser())) {
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
