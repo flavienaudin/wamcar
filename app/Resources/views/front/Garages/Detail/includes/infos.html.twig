@@ -10,6 +10,9 @@
             {% endfor %}
             <span class="star-label" style="opacity: 1">{{ garage.googleRating }}</span>
         </div>
+        <div>
+            <img src="{{ asset('assets/images/google/powered_by_google_on_white.png') }}" title="Powered by google">
+        </div>
     </li>
     {% if garage.openingHours %}
         <li>{{ garage.openingHours|nl2br }}</li>
