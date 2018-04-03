@@ -39,6 +39,15 @@ vehicle:
   vehicle_of: La voiture de %ownerName%
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
+  field:
+    make:
+      placeholder: Marque du véhicule
+    model:
+      placeholder: Modèle du véhicule
+    engine:
+      placeholder: Motorisation du véhicule
+    fuel:
+      placeholder: Carburant du véhicule
 
 user:
   profile:

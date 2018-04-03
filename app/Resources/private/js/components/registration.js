@@ -13,7 +13,14 @@ export let clearSelectOptions = function (select, doAddEmpty) {
   }
 
   let defaultOption = document.createElement('option');
-  defaultOption.text = '';
+  if(select.hasAttribute('emptyOptionText')){
+    defaultOption.text = select.getAttribute('emptyOptionText');
+  }else {
+    defaultOption.text = '';
+  }
+  defaultOption.value = null;
+  defaultOption.setAttribute('disabled','disabled');
+  defaultOption.setAttribute('selected','selected');
   select.add(defaultOption);
 };
 
@@ -37,7 +44,6 @@ if ($information != null) {
   };
 
   [...$informationSelectList].forEach((select) => {
-
     let dataType = select.getAttribute('data-type');
     if (dataType === null) {
       return;

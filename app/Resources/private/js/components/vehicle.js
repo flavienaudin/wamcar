@@ -1,3 +1,7 @@
+/* ===========================================================================
+   Vehicle
+   =========================================================================== */
+
 const $sectionRegistration = document.getElementById('js-registration-information');
 const $linkPlate = document.getElementById('js-update-plate');
 

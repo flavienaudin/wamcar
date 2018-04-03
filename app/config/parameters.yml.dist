@@ -7,3 +7,5 @@ parameters:
     secret: ThisTokenIsNotSoSecretChangeIt
 
     email_catcher_address: null
+
+    preferred_makes: ['RENAULT','PEUGEOT','CITROEN','Volkswagen', 'VOLKSWAGEN','DACIA','TOYOTA','FORD','OPEL','NISSAN','FIAT']
