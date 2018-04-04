@@ -1,5 +1,7 @@
 {% set poweredByGoogleDisplay = poweredByGoogleDisplay|default(false)%}
-{% if garageRating is defined %}
+{% set garageRating = garageRating|default(null) %}
+
+{% if garageRating is not null %}
     <div class="star-list">
         <span class="star-item star-item-small google-rating google-rating-label" >{{ garageRating }}</span>
         {% for i in 5..1 %}

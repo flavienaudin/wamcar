@@ -1,43 +1,43 @@
-<h2><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
-{% if garage.proVehicles|length > 0 %}
-    <div class="block-grid small-12 align-middle input-margin">
-        <div class="small-12 medium-6">
-            <select class="no-margin" id="vehicle-filter" aria-label="Filter les véhicules">
-                <option value="">Lorem</option>
-                <option value="">Ipsum</option>
-            </select>
-        </div>
-        {% if isEditableByCurrentUser %}
-            <div class="show-for-medium small-12 medium-shrink medium-right">
-                <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+<div class="column">
+    <h2><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
+    {% if garage.proVehicles|length > 0 %}
+        <div class="block-grid small-12 align-middle input-margin">
+            <div class="small-12 medium-6">
+                <select class="no-margin" id="vehicle-filter" aria-label="Filter les véhicules">
+                    <option value="">Lorem</option>
+                    <option value="">Ipsum</option>
+                </select>
             </div>
-        {% endif %}
-    </div>
-    {% set balise = 'h3' %}
-
-
-
-    {% set vehicleToList = garage.proVehicles %}
-    {% set isProVehicles = true %}
-    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-    <br>
-    <div class="block-grid small-12 align-middle input-margin">
-        <div class="small-12 medium-6">
-            {% include 'front/Layout/includes/pagination.html.twig' %}
+            {% if isEditableByCurrentUser %}
+                <div class="show-for-medium small-12 medium-shrink medium-right">
+                    <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                </div>
+            {% endif %}
         </div>
-        {% if isEditableByCurrentUser %}
-            <div class="small-12 medium-shrink medium-right">
-                <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+
+        {% set balise = 'h3' %}
+        {% set vehicleToList = garage.proVehicles %}
+        {% set isProVehicles = true %}
+        {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+        <br>
+        <div class="block-grid small-12 align-middle input-margin">
+            <div class="small-12 medium-6">
+                {% include 'front/Layout/includes/pagination.html.twig' %}
             </div>
-        {% endif %}
-    </div>
-{% else %}
-    {% if isEditableByCurrentUser %}
-        <p>Vous n'avez aucun véhicule en vente.</p>
-        <div class="small-12 medium-6 large-4">
-            <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+            {% if isEditableByCurrentUser %}
+                <div class="small-12 medium-shrink medium-right">
+                    <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                </div>
+            {% endif %}
         </div>
     {% else %}
-        <p>Aucun véhicule n'est en vente.</p>
+        {% if isEditableByCurrentUser %}
+            <p>Vous n'avez aucun véhicule en vente.</p>
+            <div class="small-12 medium-6 large-4">
+                <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+            </div>
+        {% else %}
+            <p>Aucun véhicule n'est en vente.</p>
+        {% endif %}
     {% endif %}
-{% endif %}
+</div>

@@ -19,6 +19,8 @@ class GoogleMapsApiConnector
     private $placeDetailsPath;
     /** @var string */
     private $outputFormat;
+    /** @var string */
+    private $language;
 
 
     /**
@@ -46,6 +48,7 @@ class GoogleMapsApiConnector
         $this->placeDetailsPath = $placeDetailsPath;
 
         $this->outputFormat = $output;
+        $this->language = $language;
     }
 
     public function getPlaceDetails(string $placeId): array
@@ -55,7 +58,7 @@ class GoogleMapsApiConnector
                 'query' => [
                     'key' => $this->apiKey,
                     'placeid' => $placeId,
-                    'extensions' => 'review_summary'
+                    'language' => $this->language
                 ]
             ]);
             $decodedResponse = json_decode($jsonReponse->getBody(), true);

@@ -1,4 +1,4 @@
-<div class="column xlarge-collapse">
+<div class="column">
     <h2>Présentation</h2>
     {% if garage.presentation %}
         <p>{{ garage.presentation|nl2br|raw }}</p>
@@ -7,3 +7,4 @@
         <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mon garage</a>
     {% endif %}
 </div>
+

@@ -13,16 +13,15 @@
     }
 ] %}
 
-{% set vehicle_list = inte.vehicle %}
+{#{% set vehicle_list = inte.vehicle %}#}
+{% set garageReviews = (garagePlaceDetail is not null and garagePlaceDetail.reviews is defined and garagePlaceDetail.reviews|length > 0)?garagePlaceDetail.reviews:null %}
+
 
 {% block body %}
-
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     <div class="row">
-
         <div class="garage-container block-grid">
-
             <header class="column small-collapse small-12 large-4 large-uncollapse">
                 <div class="garage-header block-grid">
                     {% include 'front/Garages/Detail/includes/picture.html.twig' %}
@@ -37,34 +36,32 @@
                 <div class="js-banner-full-container">
                     <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
                     <div id="js-move-garage-picture"></div>
-                    <ul id="js-garage-tabs" class="tabs" data-tabs>
+                    <ul id="js-garage-tabs" class="tabs" data-tabs data-deep-link="true" data-update-history="true">
                         <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles"|trans }}</a></li>
                         <li class="tabs-title"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
-                        {# Pour l'instant, l'onglet avis reste caché jusqu'à la décision du sont contenu. #}
-                        {# <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">Avis</a></li> #}
+                        {% if garageReviews is not null %}
+                            <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">{{ "garage.tabs.opinions.title"|trans }}</a></li>
+                        {% endif %}
                         <li class="tabs-title"><a data-tabs-target="sellers" href="#sellers">{{ 'garage.tabs.sellers'|trans }}</a></li>
                     </ul>
                 </div>
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
-                    <div id="vehicles" class="tabs-panel column large-collapse is-active">
+                    <div id="vehicles" class="tabs-panel is-active">
                         {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
                     </div>
                     <div id="about" class="tabs-panel">
                         {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
                     </div>
-                    {# Pour l'instant, l'onglet avis reste caché jusqu'à la décision du sont contenu. #}
-                    {# <div id="opinions" class="tabs-panel">
-                        {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
-                    </div> #}
+                    {% if garageReviews is not null %}
+                        <div id="opinions" class="tabs-panel">
+                            {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
+                        </div>
+                    {% endif %}
                     <div id="sellers" class="tabs-panel">
                         {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
                     </div>
                 </div>
             </section>
-
         </div>
-
     </div>
-
-
 {% endblock body %}
