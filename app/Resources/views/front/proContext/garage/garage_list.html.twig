@@ -1,5 +1,7 @@
 {% extends ':front/Layout:layout.html.twig' %}
 
+{% block title %}Garages Administration{% endblock title %}
+
 {% block body %}
     <a href="{{ path('front_garage_create') }}" class="button">Créer un garage</a>
     <div class="row">
@@ -8,11 +10,21 @@
                 <figcaption class="vehicle-infos">
                     <span class="vehicle-brand">{{ garage.id }}</span>
                     <a href="{{ path('front_garage_view', {'id': garage.id}) }}"><span class="vehicle-name">{{ garage.name }}</span></a>
-                    <p class="vehicle-model no-margin">{{ garage.siren }}</p>
-                    <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.phone }}</span>
-                    <span class="vehicle-years primary-color" style="margin-top: auto">{{ garage.address.address }}</span>
-                    <span class="vehicle-city black-color is-block" style="margin-top: auto">{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
-                    <strong>{{ garage.email }}</strong>
+                    <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
+                    <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
+                    <p class="black-color no-margin"><strong>Adresse :</strong><br>
+                    <span>{{ garage.address.address }}</span><br>
+                    <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
+                    </p>
+                    <div class="black-color">
+                        <strong>Google Place details&nbsp;:</strong>
+                        <ul>
+                            <li>Id&nbsp;: {{ garage.googlePlaceId  }}</li>
+                            <li>Note&nbsp;: {{ garage.googleRating  }}</li>
+                        </ul>
+                    </div>
+
+                    {#<strong>{{ garage.email }}</strong>#}
                 </figcaption>
                 <ul>
                     {% if is_granted('ROLE_PRO') %}

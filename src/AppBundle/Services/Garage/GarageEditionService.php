@@ -82,6 +82,7 @@ class GarageEditionService
         }
 
         $garage = $this->garageRepository->update($garage);
+        $this->eventBus->handle(new GarageUpdated($garage));
 
         return $garage;
     }
