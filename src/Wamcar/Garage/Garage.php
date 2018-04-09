@@ -18,6 +18,8 @@ class Garage
     /** @var int */
     protected $id;
     /** @var string */
+    protected $googlePlaceId;
+    /** @var string */
     protected $name;
     /** @var  string */
     protected $siren;
@@ -31,6 +33,8 @@ class Garage
     protected $presentation;
     /** @var  string */
     protected $benefit;
+    /** @var  float */
+    protected $googleRating;
     /** @var  Address */
     protected $address;
     /** @var  Collection */
@@ -44,6 +48,7 @@ class Garage
 
     /**
      * Garage constructor.
+     * @param string|null $googlePlaceId
      * @param string $name
      * @param string $siren
      * @param null|string $openingHours
@@ -52,8 +57,10 @@ class Garage
      * @param string $phone
      * @param Picture|null $banner
      * @param Picture|null $logo
+     * @param float|null $googleRating
      */
     public function __construct(
+        ?string $googlePlaceId,
         string $name,
         string $siren,
         ?string $openingHours,
@@ -61,9 +68,11 @@ class Garage
         Address $address,
         string $phone,
         Picture $banner = null,
-        Picture $logo = null
+        Picture $logo = null,
+        ?float $googleRating = null
     )
     {
+        $this->googlePlaceId = $googlePlaceId;
         $this->name = $name;
         $this->siren = $siren;
         $this->openingHours = $openingHours;
@@ -74,6 +83,7 @@ class Garage
         $this->proVehicles = new ArrayCollection();
         $this->banner = $banner;
         $this->logo = $logo;
+        $this->googleRating = $googleRating;
     }
 
     /**
@@ -82,6 +92,14 @@ class Garage
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGooglePlaceId(): ?string
+    {
+        return $this->googlePlaceId;
     }
 
     /**
@@ -141,6 +159,14 @@ class Garage
     }
 
     /**
+     * @return float|null
+     */
+    public function getGoogleRating(): ?float
+    {
+        return $this->googleRating;
+    }
+
+    /**
      * @return Address
      */
     public function getAddress(): Address
@@ -154,6 +180,14 @@ class Garage
     public function getCity(): City
     {
         return $this->address->getCity();
+    }
+
+    /**
+     * @param string $googlePlaceId
+     */
+    public function setGooglePlaceId(?string $googlePlaceId): void
+    {
+        $this->googlePlaceId = $googlePlaceId;
     }
 
     /**
@@ -210,6 +244,14 @@ class Garage
     public function setBenefit(?string $benefit)
     {
         $this->benefit = $benefit;
+    }
+
+    /**
+     * @param float|null $googleRating
+     */
+    public function setGoogleRating(?float $googleRating): void
+    {
+        $this->googleRating = $googleRating;
     }
 
     /**

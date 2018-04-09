@@ -65,7 +65,8 @@ class IndexableProVehicleBuilder
             $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['id' => $vehicle->getGarage()->getId()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
             $vehicle->getGarageName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),
-            $vehicle->getDeletedAt()
+            $vehicle->getDeletedAt(),
+            $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating():null
         );
     }
 

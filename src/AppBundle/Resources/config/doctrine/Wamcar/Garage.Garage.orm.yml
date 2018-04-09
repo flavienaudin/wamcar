@@ -30,6 +30,10 @@ Wamcar\Garage\Garage:
                 strategy: AUTO
 
     fields:
+        googlePlaceId:
+            type: string
+            length: 64
+            nullable: true
         name:
             type: string
             nullable: false
@@ -53,6 +57,9 @@ Wamcar\Garage\Garage:
             nullable: true
         benefit:
             type: text
+            nullable: true
+        googleRating:
+            type: float
             nullable: true
         deletedAt:
             type: date

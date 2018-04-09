@@ -45,12 +45,17 @@ class GarageFromDTOBuilder
         }
 
         $garage =  new Garage(
+            $dto->googlePlaceId,
             $dto->name,
             $dto->siren,
             $dto->openingHours,
             $dto->presentation,
             $dto->getAddress(),
-            $dto->phone
+            $dto->phone,
+            null,
+            null,
+            $dto->googleRating
+
         );
 
         if ($dto->banner->file){
@@ -83,13 +88,15 @@ class GarageFromDTOBuilder
             );
         }
 
-        $garage->setEmail($dto->email);
+        $garage->setGooglePlaceId($dto->googlePlaceId);
         $garage->setName($dto->name);
+        $garage->setEmail($dto->email);
         $garage->setPhone($dto->phone);
         $garage->setSiren($dto->siren);
         $garage->setOpeningHours($dto->openingHours);
         $garage->setPresentation($dto->presentation);
         $garage->setBenefit($dto->benefit);
+        $garage->setGoogleRating($dto->googleRating);
         $garage->setAddress($dto->getAddress());
         if ($dto->banner) {
             if ($dto->banner->isRemoved) {

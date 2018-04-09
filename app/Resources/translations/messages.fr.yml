@@ -32,7 +32,12 @@ garage:
   tabs:
     vehicles: Véhicules
     about: A propos
+    opinions:
+      title: Avis
+      no_opinion: Aucun avis n'est connu pour ce garage
     sellers: Vendeurs
+  google_rating:
+    unknown: Note inconnue
 
 vehicle:
   my_vehicle: Ma voiture
