@@ -287,3 +287,13 @@ hwi_oauth:
                 firstname: firstName
                 lastname: lastName
                 profilepicture: pictureUrl
+        google:
+            type: google
+            client_id: '%env(GOOGLE_ID)%'
+            client_secret: '%env(GOOGLE_SECRET)%'
+            scope: "openid email profile"
+            options:
+                csrf: true
+            paths:
+                profilepicture: picture
+                gender: gender

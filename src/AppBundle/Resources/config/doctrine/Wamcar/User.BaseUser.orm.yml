@@ -48,6 +48,14 @@ Wamcar\User\BaseUser:
             type: string
             length: 255
             nullable: true
+        googleId:
+            type: string
+            length: 255
+            nullable: true
+        googleAccessToken:
+            type: string
+            length: 255
+            nullable: true
 
     oneToOne:
         avatar:

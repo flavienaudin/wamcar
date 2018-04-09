@@ -116,6 +116,7 @@
     &.icon-twitter {
       @include socialTheme(#00aced);
     }
+    &.icon-google,
     &.icon-google-plus {
       @include socialTheme(#dc4e41);
     }

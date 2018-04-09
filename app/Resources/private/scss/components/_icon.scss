@@ -20,7 +20,7 @@
   &:focus { text-decoration: none; }
 
   &::before {
-    font-family: 'icomoon';
+    font-family: 'icomoon' !important;
     margin-right: rem-calc(12);
 
     @include breakpoint(large down) {
@@ -58,6 +58,9 @@
 }
 .icon-check:before {
   content: "\e90d";
+}
+.icon-google:before {
+  content: "\e91e";
 }
 .icon-google-plus:before {
   content: "\e909";

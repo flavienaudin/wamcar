@@ -31,6 +31,10 @@ abstract class BaseUser
     protected $linkedinId;
     /** @var string */
     protected $linkedinAccessToken;
+    /** @var string */
+    protected $googleId;
+    /** @var string */
+    protected $googleAccessToken;
 
     /**
      * User constructor.
@@ -200,6 +204,38 @@ abstract class BaseUser
     public function setLinkedinAccessToken(string $linkedinAccessToken): void
     {
         $this->linkedinAccessToken = $linkedinAccessToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleId(): string
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param string $googleId
+     */
+    public function setGoogleId(string $googleId): void
+    {
+        $this->googleId = $googleId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleAccessToken(): string
+    {
+        return $this->googleAccessToken;
+    }
+
+    /**
+     * @param string $googleAccessToken
+     */
+    public function setGoogleAccessToken(string $googleAccessToken): void
+    {
+        $this->googleAccessToken = $googleAccessToken;
     }
 
     /**
