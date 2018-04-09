@@ -12,8 +12,7 @@
             <p class="no-margin"><a href="{{ vehicle.sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
             <p class="no-margin"><a href="{{ vehicle.garageUrl }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
 
-            {% set garageRating = vehicle.googleRating %}
-            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay : false}) }}
+            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:false, garageRating:vehicle.googleRating|default(null)}) }}
         </div>
     </div>
 </article>
