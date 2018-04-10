@@ -48,9 +48,10 @@ security:
 
             oauth:
                 resource_owners:
-                    facebook:           "/login/check-facebook"
-                    linkedin:           "/login/check-linkedin"
-                    google:             "/login/check-google"
+                    facebook: "/login/check-facebook"
+                    linkedin: "/login/check-linkedin"
+                    google: "/login/check-google"
+                    twitter: "/login/check-twitter"
                 login_path:        security_login_page
                 use_forward:       false
                 failure_path:      security_login_page

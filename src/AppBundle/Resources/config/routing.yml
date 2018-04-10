@@ -48,3 +48,5 @@ linkedin_login:
     path: /login/check-linkedin
 google_login:
     path: /login/check-google
+twitter_login:
+    path: /login/check-twitter

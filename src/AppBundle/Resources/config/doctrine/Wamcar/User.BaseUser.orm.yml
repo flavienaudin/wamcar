@@ -56,6 +56,14 @@ Wamcar\User\BaseUser:
             type: string
             length: 255
             nullable: true
+        twitterId:
+            type: string
+            length: 255
+            nullable: true
+        twitterAccessToken:
+            type: string
+            length: 255
+            nullable: true
 
     oneToOne:
         avatar:

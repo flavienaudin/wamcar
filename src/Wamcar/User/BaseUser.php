@@ -35,6 +35,10 @@ abstract class BaseUser
     protected $googleId;
     /** @var string */
     protected $googleAccessToken;
+    /** @var string */
+    protected $twitterId;
+    /** @var string */
+    protected $twitterAccessToken;
 
     /**
      * User constructor.
@@ -220,6 +224,38 @@ abstract class BaseUser
     public function setGoogleId(string $googleId): void
     {
         $this->googleId = $googleId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitterId(): string
+    {
+        return $this->twitterId;
+    }
+
+    /**
+     * @param string $twitterId
+     */
+    public function setTwitterId(string $twitterId): void
+    {
+        $this->twitterId = $twitterId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwitterAccessToken(): string
+    {
+        return $this->twitterAccessToken;
+    }
+
+    /**
+     * @param string $twitterAccessToken
+     */
+    public function setTwitterAccessToken(string $twitterAccessToken): void
+    {
+        $this->twitterAccessToken = $twitterAccessToken;
     }
 
     /**

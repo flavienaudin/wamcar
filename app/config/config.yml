@@ -323,3 +323,13 @@ hwi_oauth:
             paths:
                 profilepicture: picture
                 gender: gender
+        twitter:
+            type: twitter
+            client_id: '%env(TWITTER_ID)%'
+            client_secret: '%env(TWITTER_SECRET)%'
+            scope: " profile"
+            options:
+                csrf: true
+                include_email: true
+            paths:
+                firstname: name
