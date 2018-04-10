@@ -32,6 +32,18 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
+    wamcar.event.vehicle_updated:
+        class: Wamcar\Vehicle\Event\ResolveLiipImagineCache
+        arguments:
+           - '@AppBundle\Services\Picture\PathVehiclePicture'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleCreated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleUpdated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
+
     wamcar.event.vehicle_removed:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyOwnerOfVehicleRemoved

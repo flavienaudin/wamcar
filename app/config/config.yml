@@ -199,16 +199,27 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [800, 500] }
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
         vehicle_mini_thumbnail:
             quality: 75
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [120, 90], mode: outbound }
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
+                    size: 0.20
         vehicle_thumbnail:
             quality: 75
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [310, 235], mode: outbound }
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
+                    size: 0.40
         user_mini_thumbnail:
             quality: 75
             filters:
