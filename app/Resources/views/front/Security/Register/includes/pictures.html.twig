@@ -8,7 +8,7 @@
 } %}
 
 <section class="small-12 large-7">
-    <div id="js-pictures-list" class="block-grid small-12" data-preview-src="{{ asset('vehicle_thumbnail'|defaultVehiclePicture) }}" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
+    <div id="js-pictures-list" class="block-grid small-12" data-preview-src="{{ asset('vehicle_placeholder_thumbnail'|defaultVehiclePicture) }}" data-prototype="{{ form_widget(vehicleForm.pictures.vars.prototype)|e('html_attr') }}">
         {% for pictureSubForm in vehicleForm.pictures %}
             {{ form_widget(pictureSubForm) }}
         {% endfor %}

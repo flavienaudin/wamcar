@@ -220,6 +220,21 @@ liip_imagine:
                     image: ../web/assets/images/watermark/wam.png
                     position: topright
                     size: 0.40
+        vehicle_placeholder_picture:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [800, 500] }
+        vehicle_placeholder_mini_thumbnail:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [120, 90], mode: outbound }
+        vehicle_placeholder_thumbnail:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [310, 235], mode: outbound }
         user_mini_thumbnail:
             quality: 75
             filters:

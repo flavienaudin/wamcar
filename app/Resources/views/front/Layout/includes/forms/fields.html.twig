@@ -289,7 +289,7 @@
     {% set class = class|default('') %}
     {% set defaultImage = null %}
     {% if form.vars.name matches '/^\\d+$/' %}
-        {% set defaultImage = 'vehicle_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
+        {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
@@ -304,7 +304,7 @@
     {% set class = class|default('') %}
     {% set defaultImage = null %}
     {% if form.vars.name matches '/^\\d+$/' %}
-        {% set defaultImage = 'vehicle_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
+        {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
     {% set title = title|default('Photo supplémentaire conseillée') %}
 
@@ -313,7 +313,7 @@
 
 {% block _vehicle_pictures_entry_widget %}
     {% set class = class|default('') %}
-    {% set defaultImage = defaultImage ?? asset('vehicle_thumbnail'|defaultVehiclePicture) %}
+    {% set defaultImage = defaultImage ?? asset('vehicle_placeholder_thumbnail'|defaultVehiclePicture) %}
     {% set image = value and value.realPicture ? value.realPicture|vehiclePicture('vehicle_thumbnail') : defaultImage %}
     {% set isEdit = value and value.realPicture ? true : false %}
     {% set title = title|default('Photo supplémentaire conseillée') %}

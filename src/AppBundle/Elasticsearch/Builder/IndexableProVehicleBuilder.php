@@ -58,7 +58,7 @@ class IndexableProVehicleBuilder
             $vehicle->getLongitude(),
             $vehicle->getPrice(),
             $vehicle->getCreatedAt(),
-            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_thumbnail'),
+            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
