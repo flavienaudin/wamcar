@@ -28,7 +28,7 @@ $header-background: white;
   flex: 0 0 $header-height;
   background: $header-background;
   box-shadow: 0 rem-calc(2) rem-calc(10) rgba(black, .1);
-  z-index: 1055; // Select 2 dropdown z-index: 1051
+  z-index: $header-zindex;
 
   @include breakpoint(large) {
     z-index: 1055; // Select 2 dropdown z-index: 1051

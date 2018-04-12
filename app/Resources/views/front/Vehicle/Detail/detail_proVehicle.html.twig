@@ -33,10 +33,10 @@
                 'href': app.request.requestUri
             }
         ] %}
-{% endif %}
+    {% endif %}
 
 
-<script type="application/ld+json">
+    <script type="application/ld+json">
     {
     "@context": "http://schema.org",
     "@type": "Person",
@@ -60,71 +60,84 @@
         }
     }
 
-</script>
+    </script>
 
-{% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
-<div class="l-main-container vehicle-pro">
-    <div class="row">
+    <div class="l-main-container vehicle-pro">
+        <div class="row">
 
-        <section class="small-12 large-7 xlarge-8">
-            <div class="small-12">
-                {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
-                <div class="column small-collapse large-uncollapse">
-                    {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+            <section class="small-12 large-7 xlarge-8">
+                <div class="small-12">
+                    {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
+                    <div class="column small-collapse large-uncollapse">
+                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
+                            'carouselId':'js-carousel-vehicle',
+                            'carouselClass':'',
+                            'carouselNavigationId' :'js-carousel-navigation-vehicle',
+                            'modalIdToOpen':'js-modal-carousel-vehicle'
+                        } %}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <aside id="js-move-vehicle-aside" class="vehicle-aside-container small-12 large-5 xlarge-4" aria-hidden="true">
-            <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                <div class="column small-12 medium-6 large-12">
-                    {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
-                </div>
-                <div class="small-12 large-order-3">
-                    {% if isEditableByCurrentUser %}
-                        {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
-                    {% else %}
-                        {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+            <aside id="js-move-vehicle-aside" class="vehicle-aside-container small-12 large-5 xlarge-4" aria-hidden="true">
+                <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
+                    <div class="column small-12 medium-6 large-12">
+                        {% include 'front/Vehicle/Detail/includes/seller_infos.html.twig' %}
+                    </div>
+                    {# TODO not implemented feature ==> hidden #}
+                    {% if false and isEditableByCurrentUser %}
+                        <div class="column small-12 medium-6 large-12">
+                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                        </div>
                     {% endif %}
+                    <div class="small-12 large-order-3">
+                        {% if isEditableByCurrentUser %}
+                            {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                        {% elseif isLogged %}
+                            {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                        {% elseif not isLogged %}
+                            {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
-        </aside>
-
-        <section class="small-12 xlarge-8">
-            <div class="vehicle-detail block-grid small-12">
-                <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
-                    {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+            </aside>
+            <section class="small-12 xlarge-8">
+                <div class="vehicle-detail block-grid small-12">
+                    <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
+                        {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
+                    </div>
+                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
+                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
+                        {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees"
+                         data-magellan-target="js-guarantees">
+                        {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding"
+                         data-magellan-target="js-funding">
+                        {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
+                    </div>
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate" data-magellan-target="js-associate">
+                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.garage.proVehicles, 'title': 'Autres véhicules de ce garage'} %}
+                        <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">Voir tous les véhicules de ce garage</a>
+                    </div>
                 </div>
-                <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
-                    {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
-                    {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
-                    {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees" data-magellan-target="js-guarantees">
-                    {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
-                </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding" data-magellan-target="js-funding">
-                    {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
-                    {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                </div>
-                <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
-                    {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehicleToList': vehicle.garage.proVehicles, 'excludedVehicle':vehicle, 'title': 'vehicle.section.other_vehicle.title.pro'|trans} %}
-                    <br>
-                    <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
-</div>
 {% endblock body %}
 
 {% block modal %}
-    {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% if isEditableByCurrentUser %}
+        {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% endif %}
+    {% include 'front/Vehicle/Detail/includes/modal_carousel.html.twig' %}
 {% endblock %}

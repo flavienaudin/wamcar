@@ -59,6 +59,7 @@
 //  54. Tooltip
 //  55. Top Bar
 //  56. Xy Grid
+//  57. Slick
 
 @import '~foundation-sites/scss/util/util';
 
@@ -102,6 +103,7 @@ $global-prototype-breakpoints: false;
 $global-color-pick-contrast-tolerance: 0;
 $global-transition: .3s;
 $print-transparent-backgrounds: true;
+$header-zindex:1055; // Above Select 2 dropdown (z-index: 1051)
 
 
 @include add-foundation-colors;
@@ -747,7 +749,7 @@ $reveal-max-width: $global-width;
 $reveal-padding: 0;
 $reveal-border: 0;
 $reveal-radius: $global-radius;
-$reveal-zindex: 1005;
+$reveal-zindex: ($header-zindex + 2);
 $reveal-overlay-background: rgba($black, 0.45);
 
 // 48. Slider
@@ -885,3 +887,11 @@ $grid-margin-gutters: (
 );
 $grid-padding-gutters: $grid-margin-gutters;
 $block-grid-max: 8;
+
+
+// 57. Xy Grid
+// -----------
+
+$slick-opacity-default: 0.75 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 0.25 !default;

@@ -3,7 +3,6 @@
    =========================================================================== */
 
 .off-canvas {
-
   @include breakpoint(medium down) {
     top: $header-height;
   }
@@ -16,7 +15,6 @@
   @include breakpoint(large) {
     border-left: rem-calc(3) solid $primary-color;
   }
-
 
   /*
      Navigation
@@ -32,7 +30,6 @@
       color: white;
     }
   }
-
 
   /*
      Header
@@ -69,15 +66,18 @@
 
     /* Componenbts */
 
-    > * { color: white; }
+    > * {
+      color: white;
+    }
 
     .icon-close {
       font-size: rem-calc(20);
 
-      &::before { margin-right: 0; }
+      &::before {
+        margin-right: 0;
+      }
     }
   }
-
 
   /*
      Content
@@ -91,7 +91,6 @@
       padding-top: rem-calc(25);
     }
   }
-
 
   /*
      Separator

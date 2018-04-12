@@ -52,12 +52,15 @@
 
     <div class="l-main-container vehicle-perso">
         <div class="row">
-
             <section class="small-12 large-7 xlarge-8">
                 <div class="small-12">
                     {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
                     <div class="column small-collapse large-uncollapse">
-                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
+                            'carouselId':'js-carousel-vehicle',
+                            'carouselNavigationId' :'js-carousel-navigation-vehicle',
+                            'modalIdToOpen':'js-modal-carousel-vehicle'
+                        } %}
                     </div>
                 </div>
             </section>
@@ -94,11 +97,8 @@
                     <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">
                         {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
                     </div>
-                    <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
-                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehicleToList': vehicle.seller.vehicles, 'excludedVehicle':vehicle, 'title': 'vehicle.section.other_vehicle.title.personal'|trans} %}
+                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate" data-magellan-target="js-associate">
+                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.seller.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
                     </div>
                 </div>
             </section>
@@ -107,5 +107,8 @@
 {% endblock body %}
 
 {% block modal %}
-    {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% if isEditableByCurrentUser %}
+        {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% endif %}
+    {% include 'front/Vehicle/Detail/includes/modal_carousel.html.twig' %}
 {% endblock %}
