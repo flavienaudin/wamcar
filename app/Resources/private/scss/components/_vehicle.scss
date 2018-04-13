@@ -79,9 +79,8 @@
       margin-top: 0;
     }
 
-  } // End &-filter
-
-
+  }
+  // End &-filter
 
   /*
      List
@@ -105,7 +104,8 @@
         margin-top: rem-calc(-10);
         margin-bottom: rem-calc(40);
       }
-    } // End .section &
+    }
+    // End .section &
 
     .vehicle-other & {
       margin-top: rem-calc(20);
@@ -124,10 +124,8 @@
         margin-top: rem-calc(20);
       }
     }
-
-  } // End &-list
-
-
+  }
+  // End &-list
 
   /*
      Item
@@ -174,9 +172,8 @@
       width: 100%;
     }
 
-  } // End &-item
-
-
+  }
+  // End &-item
 
   /*
      Picture
@@ -216,7 +213,6 @@
     }
   }
 
-
   /*
      Name
      ===================================== */
@@ -238,8 +234,6 @@
     }
   }
 
-
-
   /*
      Infos
      ===================================== */
@@ -257,9 +251,8 @@
     @include breakpoint(xlarge) {
       padding: rem-calc(15) rem-calc(20);
     }
-  } // End &-infos
-
-
+  }
+  // End &-infos
 
   /*
      Infos list
@@ -276,8 +269,6 @@
       }
     }
   }
-
-
 
   /*
      Model
@@ -302,7 +293,6 @@
     }
   }
 
-
   /*
      Years
      ===================================== */
@@ -318,13 +308,16 @@
   &-years {
     font-size: rem-calc(10);
 
-    @include breakpoint(medium only) { margin-bottom: rem-calc(-4); }
-    @include breakpoint(large only) { margin-bottom: rem-calc(-4); }
+    @include breakpoint(medium only) {
+      margin-bottom: rem-calc(-4);
+    }
+    @include breakpoint(large only) {
+      margin-bottom: rem-calc(-4);
+    }
     @include breakpoint(large) {
       font-size: rem-calc(14);
     }
   }
-
 
   /*
      City
@@ -341,8 +334,6 @@
       margin-bottom: rem-calc(-5);
     }
   }
-
-
 
   /*
      Brand
@@ -364,7 +355,6 @@
     }
   }
 
-
   /*
      Price
      ===================================== */
@@ -379,7 +369,6 @@
     right: 15px;
   }
 
-
   /*
      Bottom
      ===================================== */
@@ -389,7 +378,6 @@
     margin-top: auto;
   }
 
-
   /*
      Header
      ===================================== */
@@ -398,21 +386,17 @@
 
     /* Components */
 
-    h1 {
-      @include breakpoint(small only) { margin-bottom: rem-calc(6); }
+    h1, .h1 {
+      margin-bottom: 0;
     }
 
-    .h1 {
-      @include breakpoint(small only) { margin-bottom: rem-calc(7); }
-    }
-
-    h1,
+    /*h1,
     .h1 {
       @include breakpoint(medium) { margin-bottom: rem-calc(10); }
       @include breakpoint(xlarge) { margin-bottom: rem-calc(18); }
-    }
+    }*/
 
-    p {
+    div:not(.block-grid) {
       margin-bottom: rem-calc(10);
 
       @include breakpoint(xlarge) {
@@ -420,7 +404,6 @@
       }
     }
   }
-
 
   /*
      Carousel legend
@@ -439,7 +422,6 @@
     }
   }
 
-
   /*
      Detail
      ===================================== */
@@ -455,7 +437,6 @@
       z-index: 1;
     }
   }
-
 
   /*
      Aside container
@@ -477,7 +458,6 @@
     z-index: 2;
   }
 
-
   /*
      Aside
      ===================================== */
@@ -498,34 +478,33 @@
     }
   }
 
-
   /*
      Users interested
      ===================================== */
 
-   &-perso {
-     .vehicle-users {
-       margin-top: rem-calc(30);
+  &-perso {
+    .vehicle-users {
+      margin-top: rem-calc(30);
 
-       @include breakpoint(medium) {
-         margin-top: 0;
-       }
+      @include breakpoint(medium) {
+        margin-top: 0;
+      }
 
-       @include breakpoint(large) {
-         margin-bottom: rem-calc(30);
-       }
-     }
-   }
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(30);
+      }
+    }
+  }
 
-   &-pro {
-     .vehicle-users {
-       margin-bottom: rem-calc(30);
+  &-pro {
+    .vehicle-users {
+      margin-bottom: rem-calc(30);
 
-       @include breakpoint(medium only) {
-         margin-bottom: 0;
-       }
-     }
-   }
+      @include breakpoint(medium only) {
+        margin-bottom: 0;
+      }
+    }
+  }
 
   &-users {
     @include breakpoint(medium down) {
@@ -533,8 +512,6 @@
       padding: 0;
     }
   }
-
-
 
   /*
      Editing
@@ -567,9 +544,7 @@
         &::before { margin-right: 0; }
       }
     }
-
   }
-
 
   /*
      Editing static
@@ -586,8 +561,6 @@
       }
     }
   }
-
-
 
   /*
      Editing
@@ -609,8 +582,8 @@
       }
     }
 
-  } // End &-editing
-
+  }
+  // End &-editing
 
   &-edit-profile {
 
@@ -624,7 +597,6 @@
     }
 
   }
-
 
   /*
     Container
@@ -689,7 +661,6 @@
     }
   }
 
-
   /*
     Form
     ===================================== */
@@ -711,9 +682,8 @@
       z-index: 2; // IE fix
     }
 
-  } // End &-form
-
-
+  }
+  // End &-form
 
   /*
      Form header
@@ -753,10 +723,10 @@
         margin-right: auto;
         margin-left: auto;
       }
-    } // End p
-  } // End &-header
-
-
+    }
+    // End p
+  }
+  // End &-header
 
   /*
      User infos
@@ -799,9 +769,8 @@
       padding-top: rem-calc(38);
     }
 
-  } // End &-user-info
-
-
+  }
+  // End &-user-info
 
   /*
      User picture
@@ -829,14 +798,12 @@
     }
   }
 
-
   /*
      Time
      ===================================== */
 
   &-time {
   }
-
 
   /*
      Time
@@ -845,7 +812,6 @@
   &-time {
     color: #666666;
   }
-
 
   /*
      User greetings
@@ -873,9 +839,8 @@
         &:not(:last-child) { padding-bottom: rem-calc(5); }
       }
     }
-  } // End &-yser-greetings
-
-
+  }
+  // End &-yser-greetings
 
   /*
      Pics count
@@ -902,14 +867,13 @@
     }
   }
 
-
   /*
      Messages Vehicle list
      ===================================== */
 
   &-messages-create {
     @include breakpoint(medium) {
-      margin-top: rem-calc(8)!important;
+      margin-top: rem-calc(8) !important;
     }
   }
 
@@ -930,7 +894,6 @@
 
     .vehicle-item {
       width: 100%;
-
 
       @include breakpoint(small only) {
         border: 0;

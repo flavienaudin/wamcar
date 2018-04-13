@@ -1,12 +1,19 @@
 <header class="vehicle-header block-grid column small-12 align-middle">
-    <h1 class="small-12 medium-auto">{{ vehicle.name }}</h1>
-    {% if isProVehicle %}
-        <strong class="h1 medium-shrink medium-right primary-color">{{ vehicle.price|localizednumber }} €</strong>
-    {% endif %}
-    <p class="small-12">
-        {#{{ vehicle.modelVersionName }} &nbsp;#}
-        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span> &nbsp;
-        <span class="black-color">{{ vehicle.cityName }}</span>
-        <span class="float-right black-color">Publié le {{ vehicle.createdAt|localizeddate('short', 'none') }}</span>
-    </p>
+    <div class="block-grid column small-12">
+        <h1 class="small-auto">{{ vehicle.name }}</h1>
+        <span class="small-shrink medium-right black-color align-self-bottom">Publié le {{ vehicle.createdAt|localizeddate('short', 'none') }}</span>
+    </div>
+    <div class="block-grid column small-12">
+        <div class="small-auto">
+            {% if isProVehicle %}
+                <h1 class="small-shrink medium-right primary-color"><strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong></h1>
+            {% endif %}
+            <span>{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span> &nbsp;
+            <span class="black-color">{{ vehicle.cityName }}</span>
+
+        </div>
+        <div class="small-shrink small-centered medium-right align-self-middle">
+            <span class="js-like like icon-unkown">25</span>
+        </div>
+    </div>
 </header>

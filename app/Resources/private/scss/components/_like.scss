@@ -2,16 +2,32 @@
    Like
    =========================================================================== */
 
-/* Settings */
+.like{
+  color: $primary-color;
+  font-size: 1.75rem;
 
-$like-width: rem-calc(50);
+  &::before {
+    content: "\f087";
+  }
+
+  &.is-active {
+    &::before {
+      content: "\f164";
+      animation: like .6s;
+    }
+  }
+}
+
+
+/* Settings */
+/*$like-width: rem-calc(50);
 
 .like {
   width: $like-width;
   height: $like-width;
   font-size: 0;
 
-  /* Exception */
+  !* Exception *!
 
   &::before,
   &::after,
@@ -41,7 +57,7 @@ $like-width: rem-calc(50);
     padding: rem-calc(8) 0 0 rem-calc(8);
   }
 
-  /* Active state */
+  !* Active state *!
 
   &.is-active {
     &::after {
@@ -50,13 +66,14 @@ $like-width: rem-calc(50);
     }
   }
 
-  /* Component */
+  !* Component *!
 
   > span {
     max-width: rem-calc(33);
   }
 
-}
+}*/
+
 
 @keyframes like {
   from {
