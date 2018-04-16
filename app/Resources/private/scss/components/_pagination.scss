@@ -73,7 +73,7 @@
 
   &-item.previous {
     &::before {
-      transform: rotate(180deg) translate3d(#{rem-calc(1)}, 0, 0);
+      transform: translate3d(#{rem-calc(1)}, 0, 0);
     }
   }
 
