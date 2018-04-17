@@ -9,7 +9,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
 use Wamcar\User\{
-    BaseUser, Picture as UserPicture
+    BaseLikeVehicle, BaseUser, Picture as UserPicture
 };
 use Wamcar\Vehicle\Enum\{
     MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
@@ -63,6 +63,8 @@ abstract class BaseVehicle implements Vehicle
     protected $headerMessages;
     /** @var Collection */
     protected $messages;
+    /** @var Collection */
+    protected $likes;
 
     /**
      * BaseVehicle constructor.
@@ -121,6 +123,8 @@ abstract class BaseVehicle implements Vehicle
         $this->isFirstHand = $isFirstHand;
         $this->additionalInformation = $additionalInformation;
         $this->city = $city;
+
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -193,7 +197,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationMineType(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getMineType();
         }
         return null;
@@ -204,7 +208,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationPlateNumber(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getPlateNumber();
         }
         return null;
@@ -215,7 +219,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationVin(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getVin();
         }
         return null;
@@ -408,6 +412,36 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return Collection
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @return BaseLikeVehicle|null
+     */
+    public function getLikeOfUser(BaseUser $user): BaseLikeVehicle
+    {
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return $like;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param BaseLikeVehicle $likeVehicle
+     */
+    public function addLike(BaseLikeVehicle $likeVehicle)
+    {
+        $this->likes->add($likeVehicle);
+    }
+
+    /**
      * @param VehiclePicture $addPicture
      */
     public function addPicture(VehiclePicture $addPicture): void
@@ -460,7 +494,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function removePicture(?string $pictureId): void
     {
-        if ($pictureId){
+        if ($pictureId) {
             /** @var VehiclePicture $picture */
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $pictureId) {
@@ -618,7 +652,7 @@ abstract class BaseVehicle implements Vehicle
     public function getSellerName(): ?string
     {
         $seller = $this->getSeller();
-        if(!$seller instanceof BaseUser) {
+        if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
 
@@ -631,7 +665,7 @@ abstract class BaseVehicle implements Vehicle
     public function getSellerAvatar(): ?UserPicture
     {
         $seller = $this->getSeller();
-        if(!$seller instanceof BaseUser) {
+        if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
 

@@ -35,6 +35,10 @@ Wamcar\Vehicle\PersonalVehicle:
             mappedBy: personalVehicle
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+        likes:
+            targetEntity: Wamcar\User\PersonalLikeVehicle
+            mappedBy: vehicle
+            cascade: ["persist", "merge", "remove"]
 
     manyToOne:
         owner:

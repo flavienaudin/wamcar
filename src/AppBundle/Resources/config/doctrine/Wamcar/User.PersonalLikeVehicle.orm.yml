@@ -1,0 +1,11 @@
+Wamcar\User\PersonalLikeVehicle:
+    type: entity
+
+    manyToOne:
+        vehicle:
+            targetEntity: Wamcar\Vehicle\PersonalVehicle
+            inversedBy: likes
+            joinColumn:
+                name: vehicle_id
+                referencedColumnName: id
+                nullable: false

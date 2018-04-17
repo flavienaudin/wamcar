@@ -6,6 +6,7 @@ use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Wamcar\Vehicle\BaseVehicle;
 
 abstract class BaseUser
 {
@@ -39,6 +40,8 @@ abstract class BaseUser
     protected $twitterId;
     /** @var string */
     protected $twitterAccessToken;
+    /** @var Collection */
+    protected $likes;
 
     /**
      * User constructor.
@@ -59,6 +62,7 @@ abstract class BaseUser
         $this->avatar = $avatar;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -313,6 +317,37 @@ abstract class BaseUser
     public function getConversationUsers(): Collection
     {
         return $this->conversationUsers;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @param BaseVehicle $vehicle
+     * @return BaseLikeVehicle|null
+     */
+    public function getLikeOfVehicle(BaseVehicle $vehicle): BaseLikeVehicle
+    {
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getVehicle() === $vehicle) {
+                return $like;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param BaseLikeVehicle $likeVehicle
+     */
+    public function addLike(BaseLikeVehicle $likeVehicle)
+    {
+        $this->likes->add($likeVehicle);
     }
 
     /**

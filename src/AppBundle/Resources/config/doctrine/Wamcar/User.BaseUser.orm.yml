@@ -83,3 +83,8 @@ Wamcar\User\BaseUser:
             targetEntity: Wamcar\Conversation\Message
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
+        likes:
+            targetEntity: Wamcar\User\BaseLikeVehicle
+            mappedBy: user
+            cascade: ["persist", "merge", "remove"]
+

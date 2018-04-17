@@ -1,0 +1,52 @@
+Wamcar\User\BaseLikeVehicle:
+
+    type: entity
+    inheritanceType: SINGLE_TABLE
+    table: user_like_vehicle
+    discriminatorColumn:
+        name: discriminator
+        type: string
+    discriminatorMap:
+        personal: Wamcar\User\PersonalLikeVehicle
+        pro: Wamcar\User\ProLikeVehicle
+
+    exclusion_policy: ALL
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [user, vehicle]
+            errorPath: proUser
+            message: 'This user is already liking this vehicle.'
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        value:
+            type: smallint
+            nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        user:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: likes
+            joinColumn:
+                name: user_id
+                referencedColumnName: id
+                nullable: false
+
