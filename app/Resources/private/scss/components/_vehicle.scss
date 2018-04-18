@@ -182,6 +182,7 @@
   &-picture {
     width: rem-calc(135);
     flex: 0 0 rem-calc(135);
+    margin: auto;
 
     @include breakpoint(320 down) {
       width: rem-calc(100);
@@ -203,6 +204,8 @@
     }
 
     img {
+      object-fit: cover;
+
       @include breakpoint(large) {
         min-height: rem-calc(152);
       }
@@ -245,11 +248,20 @@
     padding-left: rem-calc(10);
 
     @include breakpoint(large) {
-      padding: rem-calc(11) rem-calc(15);
+      padding: rem-calc(11) rem-calc(20) rem-calc(11) rem-calc(15);
     }
 
     @include breakpoint(xlarge) {
       padding: rem-calc(15) rem-calc(20);
+    }
+
+    & .like {
+      font-size: rem-calc(24);
+
+      @include breakpoint(small only) {
+        font-size: rem-calc(18);
+      }
+
     }
   }
   // End &-infos
@@ -297,7 +309,6 @@
      Years
      ===================================== */
 
-  &-model,
   &-city,
   &-years {
     @include breakpoint(medium only) {
@@ -308,12 +319,6 @@
   &-years {
     font-size: rem-calc(10);
 
-    @include breakpoint(medium only) {
-      margin-bottom: rem-calc(-4);
-    }
-    @include breakpoint(large only) {
-      margin-bottom: rem-calc(-4);
-    }
     @include breakpoint(large) {
       font-size: rem-calc(14);
     }
@@ -740,7 +745,7 @@
     border-color: $border-color;
 
     @include breakpoint(medium down) {
-      width: 100%;
+      //width: 100%;
       margin-top: rem-calc(15);
       padding-top: rem-calc(10);
     }
@@ -803,14 +808,7 @@
      ===================================== */
 
   &-time {
-  }
-
-  /*
-     Time
-     ===================================== */
-
-  &-time {
-    color: #666666;
+    font-size: rem-calc(12);
   }
 
   /*

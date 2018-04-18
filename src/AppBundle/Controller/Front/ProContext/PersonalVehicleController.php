@@ -73,7 +73,7 @@ class PersonalVehicleController extends BaseController
     {
 
         if (!$this->getUser() instanceof PersonalUser) {
-            throw new AccessDeniedHttpException('Pro user need a garage');
+            throw new AccessDeniedException('Pro user need a garage');
         }
 
         if ($vehicle) {

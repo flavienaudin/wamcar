@@ -1,17 +1,16 @@
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
 <header class="vehicle-header block-grid column small-12 align-middle">
-    <div class="block-grid column small-12">
+    <div class="column small-12">
         <h1 class="small-auto">{{ vehicle.name }}</h1>
-        <span class="small-shrink medium-right black-color align-self-bottom">Publié le {{ vehicle.createdAt|localizeddate('short', 'none') }}</span>
+        <span>
+        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}&nbsp;km</span> &nbsp;
+        {{ vehicle.cityName }}, {{ "vehicle.publish_at"|trans({"%createdAt%":vehicle.createdAt|localizeddate('short', 'none')}) }}</span>
     </div>
     <div class="block-grid column small-12">
         <div class="small-auto">
-            {% if isProVehicle %}
+            {% if vehicle.price is defined %}
                 <h1 class="small-shrink medium-right primary-color"><strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong></h1>
             {% endif %}
-            <span>{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span> &nbsp;
-            <span class="black-color">{{ vehicle.cityName }}</span>
-
         </div>
         <div class="small-shrink small-centered medium-right align-self-middle">
             <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id }) }}" class="like {{ likeIcon }}"><sub>{{ positiveLikes|length }}</sub></a>

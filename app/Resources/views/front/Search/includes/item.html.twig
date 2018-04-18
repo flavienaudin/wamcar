@@ -1,12 +1,12 @@
 {% set balise = balise|default('h2') %}
 
-<article class="vehicle-item is-flex">
+<article class="vehicle-item row">
     {{ include('front/Search/includes/vehicle_item.html.twig') }}
 
-    <a href="{{ vehicle.userUrl }}">
-        <div class="vehicle-user-infos">
-            <div class="vehicle-user-pic"><img src="{{ isUserPro ? vehicle.userPicture : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isUserPro ? vehicle.userName : 'user.profile.obfuscated_name'|trans }}"></div>
-            {% if vehicle.projectVehicles or vehicle.projectBudget %}
+    <div class="vehicle-user-infos small-12 medium-auto">
+        <div class="vehicle-user-pic"><img src="{{ isUserPro ? vehicle.userPicture : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isUserPro ? vehicle.userName : 'user.profile.obfuscated_name'|trans }}"></div>
+        <a href="{{ vehicle.userUrl }}">
+        {% if vehicle.projectVehicles or vehicle.projectBudget %}
             <div class="small-12 dark-gray-color">
                 {% if vehicle.projectBudget %}
                     <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.projectBudget|localizednumber }} € pour</strong></p>
@@ -22,9 +22,9 @@
                     {% endfor %}
                 </ul>
             </div>
-            {% else %}
-                <p class="dark-gray-color no-margin small-10 large-12"><strong>Ce vendeur n’a pas encore indiqué de souhaits</strong>. Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.</p>
-            {% endif %}
-        </div>
-    </a>
+        {% else %}
+            <p class="dark-gray-color no-margin small-10 large-12"><strong>Ce vendeur n’a pas encore indiqué de souhaits</strong>. Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.</p>
+        {% endif %}
+        </a>
+    </div>
 </article>

@@ -1,24 +1,34 @@
-<a href="{{ vehicle.detailUrl }}" class="is-flex full-width is-relative">
-    <div class="vehicle-picture medium-auto">
-        <div class="is-relative">
-            <img src="{{ vehicle.picture ? vehicle.picture : 'vehicle_placeholder_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.modelVersion }}">
-            <div class="vehicle-count-pics">
-                <span class="icon-pics">{{ vehicle.nbPicture }}</span>
+{% set likeIcon = 'icon-thumbs-o-up' %}
+{#like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up'#}
+
+<div class="small-12 medium-auto">
+    <div class="block-grid small-12">
+        <div class="vehicle-picture align-self-middle">
+            <div class="is-relative">
+                <a href="{{ vehicle.detailUrl }}">
+                    <img src="{{ vehicle.picture ? vehicle.picture : 'vehicle_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.modelVersion }}">
+                    <span class="vehicle-count-pics">
+                        <span class="icon-pics">{{ vehicle.nbPicture }}</span>
+                    </span>
+                </a>
             </div>
         </div>
-    </div>
-    <div class="vehicle-infos small-shrink">
-        {# TODO : Utiliser un trucate sur vehicle.name à 22 #}
-        <{{ balise }} class="vehicle-name h3">{{ vehicle.model }}</{{ balise }}>
-        <p class="vehicle-model">{#{{ vehicle.modelVersion }}#}</p>
-        <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span>
-        {# TODO : Utiliser un trucate sur vehicle.city à 16 #}
-        <div class="vehicle-bottom block-grid full-width align-middle">
-            <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
-            <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</time>
-            {% if vehicle.price is defined %}
-                <strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }} €</strong>
-            {% endif %}
+
+        <div class="vehicle-infos small-auto">
+            <{{ balise }} class="vehicle-name">{{ vehicle.model }}</{{ balise }}>
+            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span>
+
+            <div class="row">
+                <h2 class="column small-auto primary-color">{% if vehicle.price is defined %}
+                        <strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong>{% endif %}</h2>
+                <div class="column small-shrink small-right">
+                    <a href="{{ path('front_user_like_'~vehicle_type ~'_vehicle', {'id': vehicle.id }) }}"
+                       class="like {{ likeIcon }}"><sub>15{#{{ vehicle.positiveLikes|length }}#}</sub></a>
+                </div>
+            </div>
+
+            <span class="vehicle-city primary-color">{{ vehicle.cityName }}</span>
+            <time class="vehicle-time black-color">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</time>
         </div>
     </div>
-</a>
+</div>
