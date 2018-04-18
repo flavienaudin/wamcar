@@ -9,11 +9,14 @@
 namespace AppBundle\Services\Vehicle;
 
 
+use AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Security\UserRegistrationService;
 use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalLikeVehicle;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
 use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
@@ -30,27 +33,32 @@ class PersonalVehicleEditionService
     private $vehicleBuilder;
     /** @var UserRegistrationService */
     private $userRegistrationService;
+    /** @var DoctrineLikePersonalVehicleRepository */
+    private $likePersonalVehicleRepository;
     /** @var MessageBus */
     private $eventBus;
 
     /**
      * PersonalVehicleEditionService constructor.
-     *
+     *ProVehicleEditionService
      * @param PersonalVehicleRepository $vehicleRepository
      * @param PersonalVehicleBuilder $personalVehicleBuilder
      * @@param UserRegistrationService $userRegistrationService
+     * @param DoctrineLikePersonalVehicleRepository $likePersonalVehicleRepository
      * @param MessageBus $eventBus
      */
     public function __construct(
         PersonalVehicleRepository $vehicleRepository,
         PersonalVehicleBuilder $personalVehicleBuilder,
         UserRegistrationService $userRegistrationService,
+        DoctrineLikePersonalVehicleRepository $likePersonalVehicleRepository,
         MessageBus $eventBus
     )
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleBuilder = $personalVehicleBuilder;
         $this->userRegistrationService = $userRegistrationService;
+        $this->likePersonalVehicleRepository = $likePersonalVehicleRepository;
         $this->eventBus = $eventBus;
     }
 
@@ -66,7 +74,7 @@ class PersonalVehicleEditionService
         $personalVehicle = PersonalVehicleBuilder::buildFromDTO($personalVehicleDTO);
 
         if ($futurOwner == null && $personalVehicleDTO instanceof UserRegistrationPersonalVehicleDTO) {
-            $futurOwner = $this->userRegistrationService->registerUser($personalVehicleDTO->userRegistration,(bool) $personalVehicleDTO->vehicleReplace);
+            $futurOwner = $this->userRegistrationService->registerUser($personalVehicleDTO->userRegistration, (bool)$personalVehicleDTO->vehicleReplace);
         }
 
         if ($futurOwner instanceof PersonalUser) {
@@ -132,5 +140,24 @@ class PersonalVehicleEditionService
     public function findPersonalToRemind()
     {
         return $this->vehicleRepository->retrieveVehiclesWithLessThan2PicturesSince24h();
+    }
+
+    /**
+     * Create a new PersonalLikeVehicle with value to 1 or update the existing PersonalLikeVehicle with toggled value
+     */
+    public function userLikesVehicle(BaseUser $user, PersonalVehicle $vehicle)
+    {
+        $like = $this->likePersonalVehicleRepository->findOneByUserAndVehicle($user, $vehicle);
+        if ($like === null) {
+            $like = new PersonalLikeVehicle($user, $vehicle, 1);
+            $this->likePersonalVehicleRepository->add($like);
+        } else {
+            if ($like->getValue() === 1) {
+                $like->setValue(0);
+            } elseif ($like->getValue() === 0) {
+                $like->setValue(1);
+            }
+            $this->likePersonalVehicleRepository->update($like);
+        }
     }
 }

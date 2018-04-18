@@ -11,7 +11,7 @@ trait DoctrineUserRepositoryTrait
     /**
      * {@inheritdoc}
      */
-    public function findAll(): array
+    public function findAll()
     {
         return $this->findBy([]);
     }

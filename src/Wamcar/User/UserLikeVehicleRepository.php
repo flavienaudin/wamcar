@@ -2,8 +2,6 @@
 
 namespace Wamcar\User;
 
-use Wamcar\Vehicle\BaseVehicle;
-
 interface UserLikeVehicleRepository
 {
     /**
@@ -45,11 +43,5 @@ interface UserLikeVehicleRepository
      * @return BaseLikeVehicle
      */
     public function findOneBy(array $criteria, array $orderBy = NULL);
-
-    /**
-     * @param BaseVehicle $vehicle
-     * @return BaseLikeVehicle[]
-     */
-    public function findAllByVehicle(BaseVehicle $vehicle): array;
 
 }

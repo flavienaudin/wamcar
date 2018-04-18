@@ -1,5 +1,6 @@
 Wamcar\User\ProLikeVehicle:
     type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository
 
     manyToOne:
         vehicle:

@@ -95,10 +95,8 @@
                 <div class="small-12 large-order-3">
                     {% if isEditableByCurrentUser %}
                         {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
-                    {% elseif isLogged %}
+                    {% else %}
                         {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                    {% elseif not isLogged %}
-                        {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
                     {% endif %}
                 </div>
             </div>

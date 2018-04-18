@@ -16,6 +16,7 @@ use Wamcar\Vehicle\Enum\Transmission;
 
 class ProVehicle extends BaseVehicle
 {
+    const TYPE = "pro";
 
     /** @var float */
     private $price;

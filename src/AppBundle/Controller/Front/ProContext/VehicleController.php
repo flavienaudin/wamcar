@@ -13,12 +13,10 @@ use AutoData\ApiConnector;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\Garage\Garage;
-use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
 class VehicleController extends BaseController
@@ -94,11 +92,11 @@ class VehicleController extends BaseController
             $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
             $filters['engine'] = $information['Vehicule']['VERSION'];
             $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
-            if($date1erCir){
+            if ($date1erCir) {
                 $vehicleDTO->setRegistrationDate($date1erCir);
             }
-            $vin= $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
-            if($vin){
+            $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
+            if ($vin) {
                 $vehicleDTO->setRegistrationVin($vin);
             }
         }
@@ -137,11 +135,17 @@ class VehicleController extends BaseController
      */
     public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
+        $userLike = null;
+        if($this->isUserAuthenticated()){
+            $userLike = $vehicle->getLikeOfUser($this->getUser());
+        }
         return $this->render('front/Vehicle/Detail/detail_proVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
             'isProVehicle' => true,
-            'isProVehicles' => true
+            'isProVehicles' => true,
+            'positiveLikes' => $vehicle->getPositiveLikes(),
+            'like' => $userLike
         ]);
     }
 
@@ -171,5 +175,19 @@ class VehicleController extends BaseController
         return $this->redirectToRoute('front_garage_view', [
             'id' => $proVehicle->getGarage()->getId()
         ]);
+    }
+
+    /**
+     * @param ProVehicle $vehicle
+     * @return Response
+     */
+    public function likeProVehicleAction(ProVehicle $vehicle): Response
+    {
+        if (!$this->isUserAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+
+        $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+        return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
     }
 }

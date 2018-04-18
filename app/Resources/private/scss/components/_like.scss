@@ -6,15 +6,17 @@
   color: $primary-color;
   font-size: 1.75rem;
 
-  &::before {
-    content: "\f087";
+  &::before{
+    margin-right: rem-calc(4);
   }
 
-  &.is-active {
-    &::before {
-      content: "\f164";
-      animation: like .6s;
-    }
+  & sub {
+    bottom: -0.75em;
+    font-size: 50%;
+  }
+
+  &-button {
+    font-size: 1rem;
   }
 }
 
@@ -72,8 +74,7 @@
     max-width: rem-calc(33);
   }
 
-}*/
-
+}
 
 @keyframes like {
   from {
@@ -92,3 +93,4 @@
     transform: scale(1);
   }
 }
+*/

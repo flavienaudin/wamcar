@@ -5,11 +5,14 @@ namespace AppBundle\Services\Vehicle;
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
+use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\User\BaseUser;
+use Wamcar\User\ProLikeVehicle;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\ProVehicleUpdated;
@@ -25,6 +28,8 @@ class ProVehicleEditionService
     private $garageRepository;
     /** @var array */
     private $vehicleBuilder;
+    /** @var DoctrineLikeProVehicleRepository */
+    private $likeProVehicleRepository;
     /** @var MessageBus */
     private $eventBus;
 
@@ -33,16 +38,19 @@ class ProVehicleEditionService
      * ProVehicleEditionService constructor.
      * @param ProVehicleRepository $vehicleRepository
      * @param GarageRepository $garageRepository
+     * @param DoctrineLikeProVehicleRepository $likeProVehicleRepository
      * @param MessageBus $eventBus
      */
     public function __construct(
         ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
+        DoctrineLikeProVehicleRepository $likeProVehicleRepository,
         MessageBus $eventBus
     )
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
+        $this->likeProVehicleRepository = $likeProVehicleRepository;
         $this->eventBus = $eventBus;
         $this->vehicleBuilder = [
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
@@ -145,5 +153,24 @@ class ProVehicleEditionService
     public function canEdit($user, ProVehicle $vehicle): bool
     {
         return $vehicle !== null && $vehicle->canEditMe($user);
+    }
+
+    /**
+     * Create a new ProLikeVehicle with value to 1 or update the existing ProLikeVehicle with toggled value
+     */
+    public function userLikesVehicle(BaseUser $user, ProVehicle $vehicle)
+    {
+        $like = $this->likeProVehicleRepository->findOneByUserAndVehicle($user, $vehicle);
+        if ($like === null) {
+            $like = new ProLikeVehicle($user, $vehicle, 1);
+            $this->likeProVehicleRepository->add($like);
+        } else {
+            if ($like->getValue() === 1) {
+                $like->setValue(0);
+            } elseif ($like->getValue() === 0) {
+                $like->setValue(1);
+            }
+            $this->likeProVehicleRepository->update($like);
+        }
     }
 }

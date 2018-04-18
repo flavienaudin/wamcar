@@ -12,12 +12,10 @@ use AutoData\ApiConnector;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\User\PersonalUser;
-use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 
 class PersonalVehicleController extends BaseController
@@ -101,11 +99,11 @@ class PersonalVehicleController extends BaseController
             $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
             $filters['engine'] = $information['Vehicule']['VERSION'];
             $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
-            if($date1erCir){
+            if ($date1erCir) {
                 $vehicleDTO->setRegistrationDate($date1erCir);
             }
-            $vin= $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
-            if($vin){
+            $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
+            if ($vin) {
                 $vehicleDTO->setRegistrationVin($vin);
             }
         }
@@ -150,11 +148,17 @@ class PersonalVehicleController extends BaseController
      */
     public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
+        $userLike = null;
+        if ($this->isUserAuthenticated()) {
+            $userLike = $vehicle->getLikeOfUser($this->getUser());
+        }
         return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
             'isProVehicle' => false,
-            'isProVehicles' => false
+            'isProVehicles' => false,
+            'positiveLikes' => $vehicle->getPositiveLikes(),
+            'like' => $userLike
         ]);
     }
 
@@ -183,5 +187,20 @@ class PersonalVehicleController extends BaseController
 
         // TODO redirectTo personal_user_detail
         return $this->redirectToRoute('front_view_current_user_info');
+    }
+
+
+    /**
+     * @param PersonalVehicle $vehicle
+     * @return Response
+     */
+    public function likePersonalVehicleAction(PersonalVehicle $vehicle): Response
+    {
+        if (!$this->isUserAuthenticated()) {
+            throw new AccessDeniedException();
+        }
+
+        $this->personalVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+        return $this->redirectToRoute("front_vehicle_personal_detail", ['id' => $vehicle->getId()]);
     }
 }

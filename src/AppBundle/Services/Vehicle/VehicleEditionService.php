@@ -14,7 +14,7 @@ class VehicleEditionService
 
 
     /**
-     * ProVehicleEditionService constructor.
+     * VehicleEditionService constructor.
      * @param EntityManager $em
      */
     public function __construct(

@@ -10,6 +10,7 @@ use Wamcar\User\ProUser;
 
 class PersonalVehicle extends BaseVehicle
 {
+    const TYPE = "personal";
 
     /** @var PersonalUser */
     private $owner;

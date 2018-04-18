@@ -38,6 +38,8 @@ class GarageEditionService
      * @param GarageProUserRepository $garageProUserRepository
      * @param GarageFromDTOBuilder $garageBuilder
      * @param ProVehicleEditionService $proVehicleEditionService
+     * @param GoogleMapsApiConnector $googleMapsApiConnector
+     * @param MessageBus $eventBus
      */
     public function __construct(
         GarageRepository $garageRepository,

@@ -39,6 +39,14 @@ abstract class BaseLikeVehicle
     }
 
     /**
+     * @param mixed $value
+     */
+    public function setValue($value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
      * @return BaseUser
      */
     public function getUser(): BaseUser

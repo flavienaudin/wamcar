@@ -1,5 +1,6 @@
 Wamcar\User\PersonalLikeVehicle:
     type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository
 
     manyToOne:
         vehicle:

@@ -18,6 +18,7 @@ use Wamcar\Vehicle\Enum\{
 abstract class BaseVehicle implements Vehicle
 {
     use SoftDeleteable;
+    const TYPE = '';
 
     /** @var string */
     protected $id;
@@ -133,6 +134,14 @@ abstract class BaseVehicle implements Vehicle
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
     }
 
     /**
@@ -420,9 +429,24 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return array
+     */
+    public function getPositiveLikes(): array
+    {
+        $positiveLikes = array();
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getValue() > 0) {
+                $positiveLikes[] = $like;
+            }
+        }
+        return $positiveLikes;
+    }
+
+    /**
      * @return BaseLikeVehicle|null
      */
-    public function getLikeOfUser(BaseUser $user): BaseLikeVehicle
+    public function getLikeOfUser(BaseUser $user): ?BaseLikeVehicle
     {
         /** @var BaseLikeVehicle $like */
         foreach ($this->likes as $like) {

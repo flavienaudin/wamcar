@@ -175,3 +175,13 @@ front_conversation_list:
 front_city_autocomplete:
     path: /city/autocomplete
     defaults: { _controller: AppBundle:Front\ProContext\City:autocomplete }
+
+front_user_like_pro_vehicle:
+    path: /user/like/pro/{id}
+    defaults:
+        _controller: AppBundle:Front\ProContext\Vehicle:likeProVehicle
+
+front_user_like_personal_vehicle:
+    path: /user/like/personal/{id}
+    defaults:
+        _controller: AppBundle:Front\ProContext\PersonalVehicle:likePersonalVehicle

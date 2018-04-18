@@ -9,16 +9,14 @@ class ProLikeVehicle extends BaseLikeVehicle
 {
     /**
      * ProLikeVehicle constructor.
-     * @param int $id
-     * @param $value
      * @param BaseUser $user
      * @param ProVehicle $vehicle
+     * @param $value
      */
-    public function __construct(int $id, $value, BaseUser $user, ProVehicle $vehicle)
+    public function __construct(BaseUser $user, ProVehicle $vehicle,$value)
     {
-        $this->id = $id;
-        $this->value = $value;
         $this->user = $user;
         $this->vehicle = $vehicle;
+        $this->value = $value;
     }
 }

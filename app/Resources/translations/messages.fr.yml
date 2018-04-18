@@ -26,6 +26,8 @@ global:
   button:
     send_message: Envoyer un message
     more_information: Plus d'information
+    dislike: Je n'aime plus
+    like_vehicle: J'aime ce véhicule
 
 garage:
   my_garage: Mon garage

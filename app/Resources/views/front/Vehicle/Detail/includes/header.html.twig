@@ -1,3 +1,4 @@
+{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
 <header class="vehicle-header block-grid column small-12 align-middle">
     <div class="block-grid column small-12">
         <h1 class="small-auto">{{ vehicle.name }}</h1>
@@ -13,7 +14,7 @@
 
         </div>
         <div class="small-shrink small-centered medium-right align-self-middle">
-            <span class="js-like like icon-unkown">25</span>
+            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id }) }}" class="like {{ likeIcon }}"><sub>{{ positiveLikes|length }}</sub></a>
         </div>
     </div>
 </header>

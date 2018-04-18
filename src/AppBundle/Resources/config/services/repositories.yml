@@ -75,3 +75,18 @@ services:
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['AppBundle\Doctrine\Entity\ApplicationCity']
         public: true
+
+    AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\BaseLikeVehicle']
+
+    AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\ProLikeVehicle']
+
+    AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\PersonalLikeVehicle']

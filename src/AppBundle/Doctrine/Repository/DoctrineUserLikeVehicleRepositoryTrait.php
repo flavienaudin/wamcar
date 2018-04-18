@@ -3,18 +3,11 @@
 namespace AppBundle\Doctrine\Repository;
 
 use Wamcar\User\BaseLikeVehicle;
+use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\BaseVehicle;
 
 trait DoctrineUserLikeVehicleRepositoryTrait
 {
-    /**
-     * @param BaseVehicle $vehicle
-     * @return BaseLikeVehicle[]
-     */
-    public function findAllByVehicle(BaseVehicle $vehicle): array
-    {
-        return $this->findBy(['vehicle' => $vehicle]);
-    }
 
     /**
      * {@inheritdoc}
@@ -22,6 +15,14 @@ trait DoctrineUserLikeVehicleRepositoryTrait
     public function findOne(int $likeId): BaseLikeVehicle
     {
         return $this->findOneBy(['id' => $likeId]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByUserAndVehicle(BaseUser $user, BaseVehicle $vehicle): ?BaseVehicle{
+
+        return $this->findOneBy(['user' => $user, 'vehicle' => $vehicle]);
     }
 
     /**

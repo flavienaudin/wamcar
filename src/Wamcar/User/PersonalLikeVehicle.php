@@ -10,16 +10,14 @@ class PersonalLikeVehicle extends BaseLikeVehicle
 
     /**
      * PersonalLikeVehicle constructor.
-     * @param int $id
-     * @param $value
      * @param BaseUser $user
      * @param PersonalVehicle $vehicle
+     * @param $value
      */
-    public function __construct(int $id, $value, BaseUser $user, PersonalVehicle $vehicle)
+    public function __construct(BaseUser $user, PersonalVehicle $vehicle, $value)
     {
-        $this->id = $id;
-        $this->value = $value;
         $this->user = $user;
         $this->vehicle = $vehicle;
+        $this->value = $value;
     }
 }

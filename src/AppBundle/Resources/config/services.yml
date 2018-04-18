@@ -90,7 +90,7 @@ services:
         autowire: true
         autoconfigure: false
         arguments:
-          $googleMapsApiConnector: '@GoogleApi\GoogleMapsApiConnector'
+            $googleMapsApiConnector: '@GoogleApi\GoogleMapsApiConnector'
 
     AppBundle\Services\Conversation\ConversationEditionService:
         class: AppBundle\Services\Conversation\ConversationEditionService
