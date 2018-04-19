@@ -63,7 +63,8 @@ class IndexablePersonalVehicleBuilder
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),
-            $vehicle->getOwner()->getProject()
+            $vehicle->getOwner()->getProject(),
+            count($vehicle->getPositiveLikes())
         );
     }
 

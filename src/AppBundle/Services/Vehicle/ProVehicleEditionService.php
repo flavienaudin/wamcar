@@ -8,6 +8,7 @@ use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
+use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
@@ -56,6 +57,25 @@ class ProVehicleEditionService
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
             FormVehicleDTO::class => FormVehicleBuilder::class
         ];
+    }
+
+    /**
+     * Retrieve ProVehicles from the search result
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getVehiclesBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $vehicle) {
+            $ids[] = $vehicle['id'];
+        }
+        $result['hits'] = $this->vehicleRepository->findByIds($ids);
+
+        return $result;
     }
 
     /**
@@ -171,6 +191,7 @@ class ProVehicleEditionService
                 $like->setValue(1);
             }
             $this->likeProVehicleRepository->update($like);
+            $this->eventBus->handle(new ProVehicleUpdated($vehicle));
         }
     }
 }

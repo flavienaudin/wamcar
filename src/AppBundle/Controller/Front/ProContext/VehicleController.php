@@ -136,7 +136,7 @@ class VehicleController extends BaseController
     public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
         $userLike = null;
-        if($this->isUserAuthenticated()){
+        if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
         }
         return $this->render('front/Vehicle/Detail/detail_proVehicle.html.twig', [
@@ -179,15 +179,23 @@ class VehicleController extends BaseController
 
     /**
      * @param ProVehicle $vehicle
+     * @param Request $request
      * @return Response
      */
-    public function likeProVehicleAction(ProVehicle $vehicle): Response
+    public function likeProVehicleAction(ProVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
             throw new AccessDeniedException();
         }
-
         $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+
+        if ($request->headers->has("referer")) {
+            $referer = $request->headers->get("referer");
+            if (!empty($referer)) {
+                return $this->redirect($referer . '#' . $vehicle->getId());
+            }
+        }
+
         return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
     }
 }

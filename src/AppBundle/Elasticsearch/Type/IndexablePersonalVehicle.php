@@ -53,7 +53,8 @@ class IndexablePersonalVehicle implements Indexable
     private $projectBudget;
     /** @var array */
     private $projectVehicles;
-
+    /** @var int */
+    private $nbPositiveLikes;
 
     /**
      * IndexablePersonalVehicle constructor.
@@ -78,6 +79,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $userName
      * @param string $userPicture
      * @param null|Project $userProject
+     * @param int $nbPositiveLikes
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -99,7 +101,8 @@ class IndexablePersonalVehicle implements Indexable
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
-                                ?Project $userProject
+                                ?Project $userProject,
+                                int $nbPositiveLikes
     )
     {
         $this->id = $id;
@@ -124,6 +127,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->userPicture = $userPicture;
         $this->fillUserProject($userProject);
         $this->deletedAt = $deletedAt;
+        $this->nbPositiveLikes = $nbPositiveLikes;
     }
 
     /**
@@ -199,7 +203,8 @@ class IndexablePersonalVehicle implements Indexable
             'userName' => $this->userName,
             'userPicture' => $this->userPicture,
             'projectBudget' => $this->projectBudget,
-            'projectVehicles' => $this->projectVehicles
+            'projectVehicles' => $this->projectVehicles,
+            'nbPositiveLikes' => $this->nbPositiveLikes
         ];
     }
 

@@ -1,18 +1,19 @@
 {% set balise = balise|default('h2') %}
+{% set sellerUrl = path('front_view_user_info', {'id': vehicle.seller.id}) %}
 
 <article class="vehicle-item row">
     {{ include('front/Search/includes/vehicle_item.html.twig') }}
 
     <div class="vehicle-user-infos small-12 medium-auto">
         <div class="vehicle-user-pic">
-            <a href="{{ vehicle.sellerUrl }}"><img src="{{ vehicle.sellerPicture }}" alt="{{ vehicle.sellerName }}"></a>
+            <a href="{{ sellerUrl }}"><img src="{{ vehicle.garage.seller.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.sellerName }}"></a>
         </div>
 
         <div class="small-12 dark-gray-color">
-            <p class="no-margin"><a href="{{ vehicle.sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
-            <p class="no-margin"><a href="{{ vehicle.garageUrl }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
+            <p class="no-margin"><a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
+            <p class="no-margin"><a href="{{ path('front_garage_view', {'id':vehicle.garage.id}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
 
-            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:false, garageRating:vehicle.googleRating|default(null)}) }}
+            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:false, garageRating:vehicle.garage.googleRating|default(null)}) }}
         </div>
     </div>
 </article>

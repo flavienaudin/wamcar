@@ -2,6 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
@@ -71,5 +73,17 @@ class DoctrineVehicleRepository extends EntityRepository
         }
 
         return null;
+    }
+
+
+    /**
+     * {@inheritdoc()}
+     */
+    public function findByIds(array $ids): Collection
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->in("id", $ids));
+
+        return $this->matching($criteria);
     }
 }

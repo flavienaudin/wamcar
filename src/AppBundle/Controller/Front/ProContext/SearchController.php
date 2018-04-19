@@ -6,6 +6,8 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
+use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +25,10 @@ class SearchController extends BaseController
     private $vehicleInfoAggregator;
     /** @var SearchResultProvider */
     private $searchResultProvider;
+    /** @var PersonalVehicleEditionService*/
+    private $personalVehicleEditionService;
+    /** @var ProVehicleEditionService */
+    private $proVehicleEditionService;
 
     /**
      * SearchController constructor.
@@ -33,12 +39,16 @@ class SearchController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        SearchResultProvider $searchResultProvider
+        SearchResultProvider $searchResultProvider,
+        PersonalVehicleEditionService $personalVehicleEditionService,
+        ProVehicleEditionService $proVehicleEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->searchResultProvider = $searchResultProvider;
+        $this->personalVehicleEditionService = $personalVehicleEditionService;
+        $this->proVehicleEditionService = $proVehicleEditionService;
 
     }
 
@@ -58,6 +68,9 @@ class SearchController extends BaseController
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchProResult($searchForm, $pages);
+        $searchResultVehicles[self::QUERY_ALL] = $this->personalVehicleEditionService->getVehiclesBySearchResult($searchResult[self::QUERY_ALL]);
+        $searchResultVehicles[self::QUERY_RECOVERY] = $this->personalVehicleEditionService->getVehiclesBySearchResult($searchResult[self::QUERY_RECOVERY]);
+        $searchResultVehicles[self::QUERY_PROJECT] = $this->personalVehicleEditionService->getVehiclesBySearchResult($searchResult[self::QUERY_PROJECT]);
 
         $lastPage[self::QUERY_ALL] = $searchResult[self::QUERY_ALL]->numberOfPages();
         $lastPage[self::QUERY_RECOVERY] = $searchResult[self::QUERY_RECOVERY]->numberOfPages();
@@ -66,7 +79,7 @@ class SearchController extends BaseController
         return $this->render('front/Search/search_pro.html.twig', [
                 'searchForm' => $searchForm->createView(),
                 'filterData' => $searchForm->getData(),
-                'result' => $searchResult,
+                'result' => $searchResultVehicles,
                 'pages' => $pages,
                 'lastPage' => $lastPage,
                 'tab' => $type
@@ -85,13 +98,14 @@ class SearchController extends BaseController
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchPersonalResult($searchForm, $page);
+        $searchResultVehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult);
 
         $lastPage = $searchResult->numberOfPages();
 
         return $this->render('front/Search/search_personal.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterData' => $searchForm->getData(),
-            'result' => $searchResult,
+            'result' => $searchResultVehicles,
             'page' => $page,
             'lastPage' => $lastPage
         ])

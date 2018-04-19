@@ -66,7 +66,8 @@ class IndexableProVehicleBuilder
             $vehicle->getGarageName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),
             $vehicle->getDeletedAt(),
-            $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating():null
+            $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating():null,
+            count($vehicle->getPositiveLikes())
         );
     }
 

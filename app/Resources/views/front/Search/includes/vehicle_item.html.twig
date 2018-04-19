@@ -1,29 +1,31 @@
-{% set likeIcon = 'icon-thumbs-o-up' %}
-{#{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up'#}
+{% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
+
+{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+{% set detailUrl = (vehicle.type == constant('Wamcar\\Vehicle\\ProVehicle::TYPE'))?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
 
 <div class="small-12 medium-auto">
     <div class="block-grid small-12">
         <div class="vehicle-picture align-self-middle">
-            <div class="is-relative">
-                <a href="{{ vehicle.detailUrl }}">
-                    <img src="{{ vehicle.picture ? vehicle.picture : 'vehicle_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.modelVersion }}">
+            <div class="is-relative" id="{{ vehicle.id }}">
+                <a href="{{ detailUrl }}">
+                    <img src="{{ vehicle.mainPicture ? vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') : 'vehicle_thumbnail'|defaultVehiclePicture }}" alt="{{ vehicle.name }}">
                     <span class="vehicle-count-pics">
-                        <span class="icon-pics">{{ vehicle.nbPicture }}</span>
+                        <span class="icon-pics">{{ vehicle.nbPictures }}</span>
                     </span>
                 </a>
             </div>
         </div>
 
         <div class="vehicle-infos small-auto">
-            <{{ balise }} class="vehicle-name">{{ vehicle.model }}</{{ balise }}>
-            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span>
+            <a href="{{ detailUrl }}"><{{ balise }} class="vehicle-name">{{ vehicle.name }}</{{ balise }}></a>
+            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}&nbsp;km</span>
 
             <div class="row">
                 <h2 class="column small-auto primary-color">{% if vehicle.price is defined %}
                         <strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong>{% endif %}</h2>
                 <div class="column small-shrink small-right">
-                    <a href="{{ path('front_user_like_'~vehicle_type ~'_vehicle', {'id': vehicle.id }) }}"
-                       class="like {{ likeIcon }}"><sub>15{#{{ vehicle.positiveLikes|length }}#}</sub></a>
+                    <a href="{{ path('front_user_like_'~vehicle_type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}"
+                       class="like {{ likeIcon }}"><sub>{{ vehicle.positiveLikes|length }}</sub></a>
                 </div>
             </div>
 

@@ -56,6 +56,8 @@ class IndexableProVehicle implements Indexable
     private $deletedAt;
     /** @var float */
     private $googleRating;
+    /** @var int */
+    private $nbPositiveLikes;
 
     /**
      * IndexableProVehicle constructor.
@@ -83,6 +85,7 @@ class IndexableProVehicle implements Indexable
      * @param string $sellerPicture
      * @param \DateTime|null $deletedAt
      * @param null|float $googleRating
+     * @param int $nbPositiveLikes
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -107,7 +110,8 @@ class IndexableProVehicle implements Indexable
                                 string $garageName,
                                 string $sellerPicture,
                                 ?\DateTime $deletedAt,
-                                ?float $googleRating
+                                ?float $googleRating,
+                                int $nbPositiveLikes
     )
     {
         $this->id = $id;
@@ -134,7 +138,7 @@ class IndexableProVehicle implements Indexable
         $this->sellerPicture = $sellerPicture;
         $this->deletedAt = $deletedAt;
         $this->googleRating = $googleRating;
-
+        $this->nbPositiveLikes = $nbPositiveLikes;
     }
 
     /**
@@ -189,7 +193,8 @@ class IndexableProVehicle implements Indexable
             'garageUrl' => $this->garageUrl,
             'garageName' => $this->garageName,
             'sellerPicture' => $this->sellerPicture,
-            'googleRating' => $this->googleRating
+            'googleRating' => $this->googleRating,
+            'nbPositiveLikes' => $this->nbPositiveLikes
         ];
     }
 

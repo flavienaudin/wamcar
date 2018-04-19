@@ -14,6 +14,7 @@ use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\EntityBuilder\PersonalVehicleBuilder;
 use AppBundle\Security\UserRegistrationService;
+use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalLikeVehicle;
@@ -60,6 +61,25 @@ class PersonalVehicleEditionService
         $this->userRegistrationService = $userRegistrationService;
         $this->likePersonalVehicleRepository = $likePersonalVehicleRepository;
         $this->eventBus = $eventBus;
+    }
+
+    /**
+     * Retrieve PersonalVehicles from the search result
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getVehiclesBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $vehicle) {
+            $ids[] = $vehicle['id'];
+        }
+        $result['hits'] = $this->vehicleRepository->findByIds($ids);
+
+        return $result;
     }
 
     /**
@@ -158,6 +178,7 @@ class PersonalVehicleEditionService
                 $like->setValue(1);
             }
             $this->likePersonalVehicleRepository->update($like);
+            $this->eventBus->handle(new PersonalVehicleUpdated($vehicle));
         }
     }
 }

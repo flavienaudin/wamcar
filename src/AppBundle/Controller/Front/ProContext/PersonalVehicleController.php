@@ -192,15 +192,22 @@ class PersonalVehicleController extends BaseController
 
     /**
      * @param PersonalVehicle $vehicle
+     * @param Request $request
      * @return Response
      */
-    public function likePersonalVehicleAction(PersonalVehicle $vehicle): Response
+    public function likePersonalVehicleAction(PersonalVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
             throw new AccessDeniedException();
         }
-
         $this->personalVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+
+        if ($request->headers->has("referer")) {
+            $referer = $request->headers->get("referer");
+            if (!empty($referer)) {
+                return $this->redirect($referer . '#' . $vehicle->getId());
+            }
+        }
         return $this->redirectToRoute("front_vehicle_personal_detail", ['id' => $vehicle->getId()]);
     }
 }

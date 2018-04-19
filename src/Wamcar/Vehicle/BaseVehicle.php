@@ -383,13 +383,20 @@ abstract class BaseVehicle implements Vehicle
         return $this->createdAt;
     }
 
-
     /**
      * @return array|Picture[]
      */
     public function getPictures()
     {
         return $this->pictures;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbPictures(): int
+    {
+        return count($this->pictures);
     }
 
     /**
