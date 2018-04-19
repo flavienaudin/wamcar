@@ -59,6 +59,8 @@ class PictureExtension extends AbstractExtension
             new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
             new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
             new \Twig_SimpleFilter('defaultAvatar', array($this, 'defaultAvatarFilter')),
+            new \Twig_SimpleFilter('defaultBanner', array($this, 'defaultBannerFilter')),
+            new \Twig_SimpleFilter('defaultLogo', array($this, 'defaultLogoFilter')),
             new \Twig_SimpleFilter('defaultVehicleFormPicture', array($this, 'defaultVehicleFormPictureFilter'))
         );
     }
@@ -78,9 +80,19 @@ class PictureExtension extends AbstractExtension
         return $this->pathGaragePicture->getBannerPath($garage, $filter);
     }
 
+    public function defaultBannerFilter(string $filter)
+    {
+        return $this->pathGaragePicture->getPicturePathPlaceholder($filter, 'banner');
+    }
+
     public function logoFilter(?Garage $garage, string $filter)
     {
         return $this->pathGaragePicture->getLogoPath($garage, $filter);
+    }
+
+    public function defaultLogoFilter(string $filter)
+    {
+        return $this->pathGaragePicture->getPicturePathPlaceholder($filter, 'logo');
     }
 
     public function vehiclePictureFilter(?VehiclePicture $vehiclePicture, string $filter)

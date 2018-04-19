@@ -349,6 +349,7 @@
     {% set label_class = label_class|default('') %}
     {% set isEdit = value and value.file ? true : false %}
     {% set isRemovable = isRemovable ?? true %}
+    {% set defaultImage = defaultImage ?? '' %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
@@ -358,7 +359,7 @@
         {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
         <label for="{{ form.vars.id }}_file" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
             <div class="file-preview-image no-margin">
-                <span><img src="{{ imgPreview }}" width="100%" class="js-file-preview-image"></span>
+                <span><img src="{{ imgPreview }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
             </div>
             <span class="show-for-sr">Ajouter une photo</span>
         </label>

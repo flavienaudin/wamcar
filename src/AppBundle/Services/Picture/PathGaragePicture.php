@@ -31,5 +31,4 @@ class PathGaragePicture extends BasePathPicture
 
         return $this->getPicturePath($garage ? $garage->getLogo() : null, $filter, 'file', 'logo');
     }
-
 }
