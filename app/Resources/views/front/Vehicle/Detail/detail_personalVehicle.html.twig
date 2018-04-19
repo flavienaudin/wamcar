@@ -1,13 +1,15 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% set page_garage = true %}
+{% if app.user and vehicle.seller.id == app.user.id %}
+    {% set page_garage = true %}
+{% else %}
+    {% set page_search = true %}
+{% endif %}
 
 {# Integration data #}
 {#{% set isEditableByCurrentUser = true %}
 {% set vehicle = inte.vehicle['golf-2-tdi'] %}
 {% set isProVehicles = false %}#}
-
-{% set sellers = inte.garage.sellers %}
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
