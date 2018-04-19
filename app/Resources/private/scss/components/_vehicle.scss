@@ -158,14 +158,10 @@
     /* Exceptions */
 
     .section &,
+    .garage-container.search-result-pro &,
     .garage-container.search-result-personal & {
-      margin-right: rem-calc(10);
-      margin-left: rem-calc(10);
-
-      @include breakpoint(768) {
-        margin-right: rem-calc(20);
-        margin-left: rem-calc(20);
-      }
+      margin-right: 0;
+      margin-left: 0;
     }
 
     .garage-container & {
