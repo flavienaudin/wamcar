@@ -116,16 +116,13 @@
                 <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
                     {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
                 </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees"
-                     data-magellan-target="js-guarantees">
+                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees" data-magellan-target="js-guarantees">
                     {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
                 </div>
-                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding"
-                     data-magellan-target="js-funding">
+                <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding" data-magellan-target="js-funding">
                     {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
                 </div>
-                <div class="column small-12 medium-6 xlarge-12" id="js-associate"
-                     data-magellan-target="js-associate">
+                <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
                     {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.garage.proVehicles, 'title': 'Autres véhicules de ce garage'} %}
                     <br>
                     <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">Voir tous les véhicules de ce garage</a>

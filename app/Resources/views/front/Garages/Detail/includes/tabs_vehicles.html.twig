@@ -1,7 +1,7 @@
-<div class="column">
-    <h2><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
+<div class="column small-12">
+    <h2 class="column"><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
     {% if garage.proVehicles|length > 0 %}
-        <div class="block-grid small-12 align-middle input-margin">
+        <div class="block-grid column small-12 align-middle input-margin">
             <div class="small-12 medium-6">
                 <select class="no-margin" id="vehicle-filter" aria-label="Filter les véhicules">
                     <option value="">Lorem</option>

@@ -99,14 +99,13 @@
                     <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
                         {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
                     </div>
-                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
+                    <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-description" data-magellan-target="js-description">
                         {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
                     </div>
-                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project" data-magellan-target="js-project">
+                    <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">
                         {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
                     </div>
-                    <div class="column small-12 medium-6 xlarge-12" id="js-associate"
-                         data-magellan-target="js-associate">
+                    <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
                         {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.seller.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
                     </div>
                 </div>

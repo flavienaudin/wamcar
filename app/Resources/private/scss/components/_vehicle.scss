@@ -157,7 +157,18 @@
 
     /* Exceptions */
 
-    .section &,
+    .garage-container &,
+    .separator-section &,
+    .section &{
+      margin-right: rem-calc(10);
+      margin-left: rem-calc(10);
+
+      @include breakpoint(medium) {
+        margin-right: rem-calc(20);
+        margin-left: rem-calc(20);
+      }
+    }
+
     .garage-container.search-result-pro &,
     .garage-container.search-result-personal & {
       margin-right: 0;
@@ -166,6 +177,12 @@
 
     .garage-container & {
       width: 100%;
+    }
+
+    .vehicle-detail & {
+      @include breakpoint(xlarge) {
+        width: calc(100% - #{rem-calc(40)});
+      }
     }
 
   }
@@ -178,7 +195,13 @@
   &-picture {
     width: rem-calc(135);
     flex: 0 0 rem-calc(135);
-    margin: auto;
+
+    /* Exceptions */
+    .garage-container.search-result-pro &,
+    .garage-container.search-result-personal & {
+      margin: auto;
+    }
+
 
     @include breakpoint(320 down) {
       width: rem-calc(100);
