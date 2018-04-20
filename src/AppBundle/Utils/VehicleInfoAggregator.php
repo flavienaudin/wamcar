@@ -60,7 +60,7 @@ class VehicleInfoAggregator
         $qb = $this->queryBuilderFilterer->getQueryVehicleInfo($data);
 
         $aggregationMapping = [
-            'make' => ['model'],
+            'make' => ['model', 'engine', 'fuel'],
             'model' => ['engine', 'fuel'],
             'engine' => ['fuel'],
             'fuel' => ['engine'],
