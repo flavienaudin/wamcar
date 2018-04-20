@@ -54,4 +54,21 @@ abstract class BasePathPicture
         }
 
     }
+
+    /**
+     * @param string $filter
+     * @param string $placeholder
+     * @return null|string
+     */
+    public function getPicturePathPlaceholder(string $filter, string $placeholder): ?string
+    {
+        if (isset($this->placeholders[$placeholder])) {
+            $picturePath = $this->placeholders[$placeholder];
+
+            return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
+        } else {
+            return null;
+        }
+
+    }
 }
