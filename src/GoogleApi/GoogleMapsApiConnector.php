@@ -51,7 +51,7 @@ class GoogleMapsApiConnector
         $this->language = $language;
     }
 
-    public function getPlaceDetails(string $placeId): array
+    public function getPlaceDetails(string $placeId): ?array
     {
         try {
             $jsonReponse = $this->client->request('GET', $this->placeDetailsPath . $this->outputFormat, [
