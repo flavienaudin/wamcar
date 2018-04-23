@@ -195,13 +195,8 @@
   &-picture {
     width: rem-calc(135);
     flex: 0 0 rem-calc(135);
-
-    /* Exceptions */
-    .garage-container.search-result-pro &,
-    .garage-container.search-result-personal & {
-      margin: auto;
-    }
-
+    margin-top: auto;
+    margin-bottom: auto;
 
     @include breakpoint(320 down) {
       width: rem-calc(100);
@@ -274,13 +269,13 @@
       padding: rem-calc(15) rem-calc(20);
     }
 
+    & .vehicle-price,
     & .like {
       font-size: rem-calc(24);
 
       @include breakpoint(small only) {
         font-size: rem-calc(18);
       }
-
     }
   }
   // End &-infos
@@ -380,17 +375,22 @@
   }
 
   /*
-     Price
+     Like
      ===================================== */
 
-  &-price {
+  &-like {
     display: flex;
-    align-items: center;
-    height: rem-calc(25);
-    background: white;
-    color: $primary-color;
+    align-items: right;
     position: absolute;
     right: 15px;
+  }
+
+  /*
+     Middle
+     ===================================== */
+
+  &-middle {
+    margin-top: auto;
   }
 
   /*
