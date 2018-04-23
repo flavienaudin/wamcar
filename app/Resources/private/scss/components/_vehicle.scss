@@ -420,7 +420,7 @@
       @include breakpoint(xlarge) { margin-bottom: rem-calc(18); }
     }*/
 
-    div:not(.block-grid) {
+    div.column {
       margin-bottom: rem-calc(10);
 
       @include breakpoint(xlarge) {

@@ -6,7 +6,7 @@
         <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}&nbsp;km</span> &nbsp;
         {{ vehicle.cityName }}, {{ "vehicle.publish_at"|trans({"%createdAt%":vehicle.createdAt|localizeddate('short', 'none')}) }}</span>
     </div>
-    <div class="block-grid column small-12">
+    <div class="block-grid column small-12 align-middle">
         <div class="small-auto">
             {% if vehicle.price is defined %}
                 <h1 class="small-shrink medium-right primary-color"><strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong></h1>
