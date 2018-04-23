@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="vehicle-infos small-shrink">
-            <{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
+            <a href="{{ detailUrl }}"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}></a>
             <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }}km</span>
 
             <div class="vehicle-middle block-grid full-width">

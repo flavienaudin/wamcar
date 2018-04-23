@@ -38,7 +38,7 @@
     <div class="row">
         <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
             <div id="js-search-all" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')%}is-active{% endif %}">
-                 {% include 'front/Search/includes/result_all.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')]} %}
+                 {% include 'front/Search/includes/result_all_pro.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')]} %}
              </div>
              <div id="js-search-reprises" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')%}is-active{% endif %}">
                  {% include 'front/Search/includes/result_reprises.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')]}%}
