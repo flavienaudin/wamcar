@@ -1,9 +1,9 @@
-{% extends 'front/Vehicle/Listing/includes/item.html.twig'%}
+{% extends 'front/Vehicle/Listing/includes/vehicle_item.html.twig'%}
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_user_info', {'id': vehicle.seller.id}) %}
 
-{% block seller_block %}
+{% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">
         <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ isUserPro ? vehicle.sellerAvatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isUserPro ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans }}"></a></div>
         <a href="{{ sellerUrl }}">

@@ -74,3 +74,6 @@ user:
 
 conversation:
   you: Vous
+  proposed_vehicle: Véhicule proposé
+  to_sell_vehicle: Votre véhicule à reprendre
+  auto_added: (automatiquement ajouté à votre message)

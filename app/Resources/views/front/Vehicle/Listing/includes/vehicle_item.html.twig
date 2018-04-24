@@ -2,7 +2,7 @@
 {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
 
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-{% set detailUrl = vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
+{% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
@@ -22,9 +22,12 @@
 
             <div class="vehicle-middle block-grid full-width">
                 <strong class="vehicle-price primary-color">{% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</strong>
-                <a class="vehicle-like small-shrink" href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}">
-                    <span class="like {{ likeIcon }}"><sub>{{ vehicle.positiveLikes|length }}</sub></span>
-                </a>
+                <span class="vehicle-like small-shrink">
+                    {% block right_action %}
+                        <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
+                            <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                    {% endblock %}
+                </span>
             </div>
             <div class="vehicle-bottom block-grid full-width align-middle">
                 <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
@@ -33,5 +36,5 @@
         </div>
     </div>
 
-    {% block seller_block %}{% endblock %}
+    {% block complementary_block %}{% endblock %}
 </article>

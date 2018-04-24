@@ -21,36 +21,13 @@
         </div>
     {% else %}
         {% if vehicle.isPro %}
-            {% set path = path('front_vehicle_pro_detail', {'id': vehicle.id}) %}
-            {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
+            {% set label = '<strong class="secondary-color">'~ "conversation.proposed_vehicle"|trans ~'</strong>' %}
         {% else %}
-            {% set path = path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
-            {% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>'  %}
+            {% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">'~ "conversation.to_sell_vehicle"|trans ~'</strong><div>'~"conversation.auto_added"|trans~'</div>' : '<strong class="secondary-color">'~ "conversation.to_sell_vehicle"|trans ~'</strong>'  %}
         {% endif %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="vehicle-list small-12">
-            <article class="vehicle-item is-flex">
-                <a href="{{ path }}" target="_blank" class="is-flex full-width">
-                    <div class="vehicle-picture medium-auto is-relative">
-                        <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
-                        <div class="vehicle-count-pics">
-                          <span class="icon-pics">{{ vehicle.pictures|length }}</span>
-                        </div>
-                    </div>
-                    <div class="vehicle-infos small-shrink">
-                        <h3 class="vehicle-name h3">{{ vehicle.name }}</h3>
-                        <span class="vehicle-years body-font-color">{{ vehicle.years }},  {{ vehicle.mileage|localizednumber }}km</span>
-                        <div class="vehicle-bottom block-grid full-width align-middle">
-                            <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
-                            <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate(format = "d MMM, HH'h'mm") }}</time>
-                            {% if vehicle.isPro %}<strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }} €</strong>{% endif %}
-                        </div>
-                    </div>
-                </a>
-                {% if removeButton %}
-                    <button type="button" id="js-remove-vehicle-selected" class="messages-vehicle-item-delete icon-remove is-block"></button>
-                {% endif %}
-            </article>
+            {{ include('front/Messages/includes/item_vehicle_selected.html.twig') }}
         </div>
     {% endif %}
 </div>

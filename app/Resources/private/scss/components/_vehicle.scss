@@ -382,7 +382,7 @@
     display: flex;
     align-items: right;
     position: absolute;
-    right: 15px;
+    right: rem-calc(36);
   }
 
   /*
@@ -934,16 +934,10 @@
     }
 
     .vehicle-infos-arrow {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      margin-top: rem-calc(-11);
+      margin: auto rem-calc(-15) auto rem-calc(10);
+
       font-size: rem-calc(15);
       color: $medium-gray;
-
-      @include breakpoint(medium) {
-        right: rem-calc(15);
-      }
 
       &:before {
         margin-right: 0;
