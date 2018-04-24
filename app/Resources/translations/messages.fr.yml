@@ -77,3 +77,7 @@ conversation:
   proposed_vehicle: Véhicule proposé
   to_sell_vehicle: Votre véhicule à reprendre
   auto_added: (automatiquement ajouté à votre message)
+
+favorites:
+  page_title: Ma sélection
+  my_favorites: Mes likes

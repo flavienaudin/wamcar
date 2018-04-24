@@ -328,6 +328,21 @@ abstract class BaseUser
     }
 
     /**
+     * @return array
+     */
+    public function getPositivesLikes(): array
+    {
+        $positivesLikes = array();
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getValue() > 0) {
+                $positivesLikes[] = $like;
+            }
+        }
+        return $positivesLikes;
+    }
+
+    /**
      * @param BaseVehicle $vehicle
      * @return BaseLikeVehicle|null
      */
