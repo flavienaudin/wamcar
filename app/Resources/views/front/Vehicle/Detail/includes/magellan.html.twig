@@ -1,17 +1,18 @@
 <ul class="magellan vehicle-magellan small-12" data-magellan>
     {% if vehicle.isPro %}
-        <li><a href="#js-description">Description</a></li>
+        <li><a href="#js-description">{{ 'vehicle.section.description.title'|trans }}</a></li>
     {% endif %}
-    <li><a href="#js-infos"><span class="hide-for-medium">Infos</span> <span class="show-for-medium">Informations principales</span></a></li>
-    <li><a href="#js-state">Etat <span class="show-for-medium">du véhicule</span></a></li>
+    <li><a href="#js-infos"><span class="hide-for-medium">{{ 'vehicle.section.infos.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.infos.tab.long'|trans }}</span></a></li>
+    <li><a href="#js-state"><span class="hide-for-medium">{{ 'vehicle.section.states.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.states.tab.long'|trans }}</span></a></li>
     {% if vehicle.isPersonal %}
-        <li><a href="#js-description">Description</a></li>
+        <li><a href="#js-description">{{ 'vehicle.section.description.title'|trans }}</a></li>
     {% endif %}
     {% if vehicle.isPro %}
-        <li><a href="#js-guarantees">Garantie</a></li>
-        <li><a href="#js-funding">Financement</a></li>
+        <li><a href="#js-guarantees">{{ 'vehicle.section.guarantee.tab'|trans }}</a></li>
+        <li><a href="#js-funding">{{ 'vehicle.section.funding.tab'|trans }}</a></li>
     {% else %}
-        <li><a href="#js-project">Projet</a></li>
+        <li><a href="#js-project">{{ 'vehicle.section.project.tab'|trans }}</a></li>
     {% endif %}
-    <li><a href="#js-associate">Autres véhicules</a></li>
+    <li><a href="#js-interested_users">{{ 'vehicle.section.interested_users.tab'|trans }}</a></li>
+    <li><a href="#js-associate">{{ 'vehicle.section.other_vehicle.tab'|trans }}</a></li>
 </ul>

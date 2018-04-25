@@ -8,6 +8,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class FavoriteController extends BaseController
 {
+    const FAVORITES_ALL = 'all';
+    const FAVORITES_PRO = 'pro';
+    const FAVORITES_PERSONAL = 'personal';
 
     public function viewAction()
     {
@@ -16,7 +19,7 @@ class FavoriteController extends BaseController
         }
 
         return $this->render('front/Favorites/user_favorites.html.twig', [
-            'user_likes' => $this->getUser()->getPositivesLikes()
+            'user_likes' => $this->getUser()->getPositiveLikes()
         ]);
     }
 

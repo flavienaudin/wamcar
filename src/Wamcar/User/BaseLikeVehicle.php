@@ -16,7 +16,6 @@ abstract class BaseLikeVehicle
     protected $user;
     /** @var BaseVehicle */
     protected $vehicle;
-
     /** @var \DateTimeInterface */
     protected $createdAt;
     /** @var \DateTimeInterface */
@@ -61,4 +60,13 @@ abstract class BaseLikeVehicle
     {
         return $this->vehicle;
     }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use AppBundle\Controller\Front\ProContext\FavoriteController;
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -445,6 +446,31 @@ abstract class BaseVehicle implements Vehicle
         foreach ($this->likes as $like) {
             if ($like->getValue() > 0) {
                 $positiveLikes[] = $like;
+            }
+        }
+        return $positiveLikes;
+    }
+
+    /**
+     * Get positives likes ordered by user type : All/Pro/Personal
+     * @return array
+     */
+    public function getPositiveLikesByUserType(): array
+    {
+        $positiveLikes = [
+            FavoriteController::FAVORITES_ALL => [],
+            FavoriteController::FAVORITES_PRO => [],
+            FavoriteController::FAVORITES_PERSONAL => []
+        ];
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getValue() > 0) {
+                $positiveLikes[FavoriteController::FAVORITES_ALL][] = $like;
+                if ($like->getUser()->isPro()) {
+                    $positiveLikes[FavoriteController::FAVORITES_PRO][] = $like;
+                } else {
+                    $positiveLikes[FavoriteController::FAVORITES_PERSONAL][] = $like;
+                }
             }
         }
         return $positiveLikes;

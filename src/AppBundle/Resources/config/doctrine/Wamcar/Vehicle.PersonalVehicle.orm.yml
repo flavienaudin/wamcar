@@ -39,6 +39,8 @@ Wamcar\Vehicle\PersonalVehicle:
             targetEntity: Wamcar\User\PersonalLikeVehicle
             mappedBy: vehicle
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+              updatedAt: DESC
 
     manyToOne:
         owner:

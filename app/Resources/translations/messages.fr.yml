@@ -46,7 +46,44 @@ vehicle:
   vehicle_of: La voiture de %ownerName%
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
-  publish_at: Publié le %createdAt%
+  publish_at: publiée le %createdAt%
+  section:
+    description:
+      tab: Description
+      title: Description
+    infos:
+      tab:
+        short: Infos
+        long: Informations principales
+      title: Informations principales
+    states:
+      tab:
+        short: Etat
+        long: Etat du véhicule
+      title: Etat du véhicule
+    guarantee:
+      tab: Garantie
+      title: Garantie
+    funding:
+      tab: Financement
+      title: Financement
+    project:
+      tab: Projet
+    interested_users:
+      tab: Likes
+    other_vehicle:
+      tab: Autres véhicules
+      title:
+        pro: Autres véhicules de ce garage
+        personal: Autres véhicules de ce particulier
+      button:
+        garage: Voir tous les véhicules de ce garage
+  interested_user:
+    title: Ils aiment
+    tabs:
+      all: Toutes (%nb%)
+      pro: Professionnels (%nb%)
+      personal: Particuliers (%nb%)
   field:
     make:
       placeholder: Marque du véhicule
@@ -64,13 +101,16 @@ user:
     edit: Editer mon profil
   project:
     my_project: Mon projet
-    seller_project: Projet du vendeur
+    seller_project: Projet de %seller_firstname%
     create: Créer mon projet
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
     defined_budget: Budget de %budget_ammount%
     undefined_budget: Budget non défini
+    favorites:
+      title: %user_firstname% aime
+
 
 conversation:
   you: Vous

@@ -155,7 +155,7 @@ class PersonalVehicleController extends BaseController
         return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
-            'positiveLikes' => $vehicle->getPositiveLikes(),
+            'positiveLikes' => $vehicle->getPositiveLikesByUserType(),
             'like' => $userLike
         ]);
     }

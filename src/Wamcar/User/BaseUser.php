@@ -330,16 +330,16 @@ abstract class BaseUser
     /**
      * @return array
      */
-    public function getPositivesLikes(): array
+    public function getPositiveLikes(): array
     {
-        $positivesLikes = array();
+        $positiveLikes = array();
         /** @var BaseLikeVehicle $like */
         foreach ($this->likes as $like) {
             if ($like->getValue() > 0) {
-                $positivesLikes[] = $like;
+                $positiveLikes[] = $like;
             }
         }
-        return $positivesLikes;
+        return $positiveLikes;
     }
 
     /**

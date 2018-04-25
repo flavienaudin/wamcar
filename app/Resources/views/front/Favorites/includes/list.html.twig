@@ -1,0 +1,11 @@
+<div class="vehicle-list small-12">
+    {% if likeToList is defined %}
+        {% for like in likeToList %}
+            {% include 'front/Vehicle/Listing/includes/vehicle_item.html.twig' with {'vehicle':like.vehicle}%}
+        {% else %}
+            <div class="column small-12">
+                <p>Aucun véhicule liké pour le moment</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

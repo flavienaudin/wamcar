@@ -9,7 +9,7 @@
     { label: "Carnet d’entretien", value: vehicle.maintenanceState.key == 'UNKNOWN' ? null : vehicle.maintenanceState.key|trans([], 'enumeration') }
 ] %}
 
-<h2 class="separator medium primary-color">Etat du véhicule</h2>
+<h2 class="separator medium primary-color">{{ 'vehicle.section.states.title'|trans }}</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for state in state_inte %}
         {% if state.value %}

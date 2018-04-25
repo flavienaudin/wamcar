@@ -185,6 +185,9 @@ class ConversationController extends BaseController
         if ($vehicleId) {
             /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
+            if($vehicleHeader === null){
+                $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
+            }
             $messageDTO->vehicleHeader =$vehicleHeader;
         }
 
@@ -192,6 +195,9 @@ class ConversationController extends BaseController
         if ($request->query->has('v')) {
             /** @var BaseVehicle $vehicle */
             $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
+            if($vehicle === null){
+                $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
+            }
             if ($vehicle && $vehicle->canEditMe($this->getUser())) {
                 $messageDTO->vehicle = $vehicle;
             }

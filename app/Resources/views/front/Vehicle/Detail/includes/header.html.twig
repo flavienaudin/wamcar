@@ -13,7 +13,7 @@
             {% endif %}
         </div>
         <div class="small-shrink small-centered medium-right align-self-middle">
-            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id }) }}" class="like {{ likeIcon }}"><sub>{{ positiveLikes|length }}</sub></a>
+            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id }) }}" class="like {{ likeIcon }}"><sub>{{ positiveLikes[constant('AppBundle\\Controller\\Front\\ProContext\\FavoriteController::FAVORITES_ALL')]|length }}</sub></a>
         </div>
     </div>
 </header>

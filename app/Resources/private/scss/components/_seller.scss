@@ -93,6 +93,13 @@
     height: rem-calc(60);
     margin-right: rem-calc(20);
 
+    .seller-list & {
+      width: rem-calc(24);
+      height: rem-calc(24);
+      margin-left: rem-calc(20);
+      margin-right: rem-calc(10);
+    }
+
     > img { max-height: 100%; border-radius: 50%;}
   }
 

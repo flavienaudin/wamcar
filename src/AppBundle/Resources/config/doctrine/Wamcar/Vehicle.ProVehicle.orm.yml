@@ -39,6 +39,8 @@ Wamcar\Vehicle\ProVehicle:
             targetEntity: Wamcar\User\ProLikeVehicle
             mappedBy: vehicle
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+              updatedAt: DESC
 
     manyToOne:
         garage:
