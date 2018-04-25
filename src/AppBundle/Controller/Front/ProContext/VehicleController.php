@@ -142,8 +142,6 @@ class VehicleController extends BaseController
         return $this->render('front/Vehicle/Detail/detail_proVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
-            'isProVehicle' => true,
-            'isProVehicles' => true,
             'positiveLikes' => $vehicle->getPositiveLikes(),
             'like' => $userLike
         ]);

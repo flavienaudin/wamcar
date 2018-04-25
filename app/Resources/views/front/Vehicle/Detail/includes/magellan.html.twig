@@ -1,13 +1,13 @@
 <ul class="magellan vehicle-magellan small-12" data-magellan>
-    {% if isProVehicle %}
+    {% if vehicle.isPro %}
         <li><a href="#js-description">Description</a></li>
     {% endif %}
     <li><a href="#js-infos"><span class="hide-for-medium">Infos</span> <span class="show-for-medium">Informations principales</span></a></li>
     <li><a href="#js-state">Etat <span class="show-for-medium">du véhicule</span></a></li>
-    {% if not isProVehicle %}
+    {% if vehicle.isPersonal %}
         <li><a href="#js-description">Description</a></li>
     {% endif %}
-    {% if isProVehicle %}
+    {% if vehicle.isPro %}
         <li><a href="#js-guarantees">Garantie</a></li>
         <li><a href="#js-funding">Financement</a></li>
     {% else %}
