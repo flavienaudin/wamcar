@@ -80,6 +80,7 @@ vehicle:
         garage: Voir tous les véhicules de ce garage
   interested_user:
     title: Ils aiment
+    no_like: Personne n'a encore liké ce véhicule
     tabs:
       all: Toutes (%nb%)
       pro: Professionnels (%nb%)
@@ -121,3 +122,5 @@ conversation:
 favorites:
   page_title: Ma sélection
   my_favorites: Mes likes
+  tooltip:
+    like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu

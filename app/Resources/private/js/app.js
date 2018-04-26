@@ -13,6 +13,7 @@ import { Toggler } from 'foundation-sites/js/foundation.toggler';
 import { Reveal } from 'foundation-sites/js/foundation.reveal';
 import { Tabs } from 'foundation-sites/js/foundation.tabs';
 import { Magellan } from 'foundation-sites/js/foundation.magellan';
+import { Tooltip } from 'foundation-sites/js/foundation.tooltip';
 import './components/responsiveDom';
 import './components/search';
 import './components/header';
@@ -109,6 +110,19 @@ $(function() {
 
     $magellan.each((index, magellan) => {
       return new Magellan($(magellan), options);
+    });
+  }
+
+  /* Tooltips */
+
+  const $tooltip = $('[data-tooltip]');
+
+  if ($tooltip) {
+    const options = {
+    };
+
+    $tooltip.each((index, tooltip) => {
+      return new Tooltip($(tooltip), options);
     });
   }
 

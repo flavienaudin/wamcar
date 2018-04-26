@@ -6,6 +6,7 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -135,6 +136,19 @@ abstract class BaseController
     protected function generateRoute(string $routeName, array $routeParameters = []): string
     {
         return $this->router->generate($routeName, $routeParameters);
+    }
+
+    /**
+     * Returns url of the given route with the given parameters.
+     *
+     * @param string $routeName
+     * @param array $routeParameters
+     *
+     * @return string
+     */
+    protected function generateUrl(string $routeName, array $routeParameters = []): string
+    {
+        return $this->router->generate($routeName, $routeParameters,UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**

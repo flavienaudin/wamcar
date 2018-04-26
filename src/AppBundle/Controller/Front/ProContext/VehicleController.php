@@ -190,6 +190,9 @@ class VehicleController extends BaseController
         if ($request->headers->has("referer")) {
             $referer = $request->headers->get("referer");
             if (!empty($referer)) {
+                if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['id' => $vehicle->getId()])) {
+                    return $this->redirect($referer . '#header-' . $vehicle->getId());
+                }
                 return $this->redirect($referer . '#' . $vehicle->getId());
             }
         }

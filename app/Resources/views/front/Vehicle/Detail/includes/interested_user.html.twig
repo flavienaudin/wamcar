@@ -1,37 +1,41 @@
 <div class="vehicle-users">
     <h2 class="separator medium primary-color">{{ 'vehicle.interested_user.title'|trans }}</h2>
-    <ul class="tabs" data-tabs id="example-tabs">
-        {% for userType , likes in positiveLikes %}
-            <li class="tabs-title {{ loop.first?'is-active' }}"><a href="#tab_panel_{{ userType }}" {{ loop.first?'aria-selected="true"' }}>{{ ('vehicle.interested_user.tabs.'~userType)|trans({'%nb%':likes|length}) }}</a></li>
-        {% endfor %}
-    </ul>
+    {% if positiveLikes.all|length > 0 %}
+        <ul class="tabs" data-tabs id="example-tabs">
+            {% for userType , likes in positiveLikes %}
+                <li class="tabs-title {{ loop.first?'is-active' }}"><a href="#tab_panel_{{ userType }}" {{ loop.first?'aria-selected="true"' }}>{{ ('vehicle.interested_user.tabs.'~userType)|trans({'%nb%':likes|length}) }}</a></li>
+            {% endfor %}
+        </ul>
 
-    <div class="tabs-content" data-tabs-content="example-tabs">
-        {% for userType , likes in positiveLikes %}
-            <div class="tabs-panel {{ loop.first?'is-active' }}" id="tab_panel_{{ userType }}">
-                <ul class="seller-list no-bullet list-border tiny no-margin">
-                    {% for like in likes %}
-                        <li class="block-grid no-margin align-middle">
-                            <span><time>{{ like.updatedAt|localizeddate('short', 'none') }}</time></span>
-                            <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
-                                <span class="seller-pic">
-                                    <img src="{{ like.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ like.user.fullName }}">
-                                </span>
-                            </a>
-                            <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
-                                <span class="seller-name dark-gray-color">{{ like.user == app.user?'conversation.you'|trans:like.user.fullName }}</span>
-                            </a>
-                            {% if like.user != app.user %}
-                                <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}" class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">
-                                    <span class="show-for-medium">{{ 'global.button.send_message'|trans }}</span>
+        <div class="tabs-content" data-tabs-content="example-tabs">
+            {% for userType , likes in positiveLikes %}
+                <div class="tabs-panel {{ loop.first?'is-active' }}" id="tab_panel_{{ userType }}">
+                    <ul class="seller-list no-bullet list-border tiny no-margin">
+                        {% for like in likes %}
+                            <li class="block-grid no-margin align-middle">
+                                <span><time>{{ like.updatedAt|localizeddate('short', 'none') }}</time></span>
+                                <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
+                                    <span class="seller-pic">
+                                        <img src="{{ like.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ like.user.fullName }}">
+                                    </span>
                                 </a>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endfor %}
-    </div>
+                                <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
+                                    <span class="seller-name dark-gray-color">{{ like.user == app.user?'conversation.you'|trans:like.user.fullName }}</span>
+                                </a>
+                                {% if like.user != app.user %}
+                                    <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}" class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">
+                                        <span class="show-for-medium">{{ 'global.button.send_message'|trans }}</span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>{{ 'vehicle.interested_user.no_like'|trans }}</p>
+    {% endif %}
 
 
 </div>
