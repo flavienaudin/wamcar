@@ -4,7 +4,7 @@
 
 {% block title %}{{ 'notifyAdminOfGoogleApiReturn.object'|trans }}{% endblock %}
 
-{% set urlCall = callParams.placeDetailsPath|default('') ~ '/' ~ callParams.outputFormat|default('') %}
+{% set urlCall = callParams.placeDetailsPath|default('') ~ callParams.outputFormat|default('') %}
 
 {% block body %}
     <div>
@@ -13,6 +13,6 @@
             '%status%':status,
             '%message%':message
         })|raw }}
-        <pre>{{ callParams.query|default({]})|json_encode }}</pre>
+        <pre>{{ callParams.query|default({})|json_encode }}</pre>
     </div>
 {% endblock %}
