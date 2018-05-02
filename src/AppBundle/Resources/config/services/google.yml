@@ -7,6 +7,6 @@ services:
           - '@event_bus'
           - '@logger'
           - '%env(GOOGLE_MAPS_API_HOST)%'
-          - '%env(GOOGLE_API_KEY)%'
+          - '%env(GOOGLE_API_SERVER_KEY)%'
           - '%env(GOOGLE_MAPS_API_PLACE_DETAILS_PATH)%'
 
