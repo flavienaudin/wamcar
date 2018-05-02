@@ -1,4 +1,4 @@
-{% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating is not empty)?garagePlaceDetail.rating:garage.googleRating %}
+{% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
 {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
 
 <h1 class="h2 primary-color no-margin">{{ garage.name }}</h1>

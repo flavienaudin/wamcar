@@ -57,3 +57,9 @@ notifyUserOfMessageCreated:
         <p>%message%</p>
     action_label: Répondre
 
+notifyAdminOfGoogleApiReturn:
+    object: "Wamcar ADMIN-Google API Return Error"
+    body: >
+        <p>Une erreur est survenue lors de l'appel à l'API Google:</p>
+        <p>%url_call%<p>
+        <p>%status% : %message%</p>

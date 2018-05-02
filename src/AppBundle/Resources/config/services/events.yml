@@ -105,3 +105,11 @@ services:
           - message_created
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
+
+    googleApi.event.place_detail_error:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
+        arguments:
+          $type: place_detail_error
+        tags:
+            - { name: event_subscriber, subscribes_to: \GoogleApi\Event\PlaceDetailError, method: notify }

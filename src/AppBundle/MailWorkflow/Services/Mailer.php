@@ -53,7 +53,7 @@ class Mailer
                 'subject' => $subject
             ]);
         } catch (\Exception $e) {
-            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $emailRecipientList), [
+            $this->log(sprintf("An error occured (%s) when sending a '%s' email to %s", $e->getMessage(), $type, $emailRecipientList), [
                 'to' => $emailRecipientList->toArray(),
                 'subject' => $subject
             ], LogLevel::ERROR);

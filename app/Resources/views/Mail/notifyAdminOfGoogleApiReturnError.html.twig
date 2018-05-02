@@ -1,0 +1,18 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+
+{% block title %}{{ 'notifyAdminOfGoogleApiReturn.object'|trans }}{% endblock %}
+
+{% set urlCall = callParams.placeDetailsPath|default('') ~ '/' ~ callParams.outputFormat|default('') %}
+
+{% block body %}
+    <div>
+        {{ 'notifyAdminOfGoogleApiReturn.body'|trans({
+            '%url_call%':urlCall,
+            '%status%':status,
+            '%message%':message
+        })|raw }}
+        <pre>{{ callParams.query|default({]})|json_encode }}</pre>
+    </div>
+{% endblock %}
