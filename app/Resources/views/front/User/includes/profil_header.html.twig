@@ -20,7 +20,7 @@
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">
-            <span class="profil-image">
+            <div class="profil-image">
                 {% if not userIsMe %}
                     <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
@@ -35,8 +35,9 @@
                         'isRemovable': false
                     }) }}
                     {{ form_widget(avatarForm) }}
+                    {{ form_end(avatarForm) }}
                 {% endif %}
-            </span>
+            </div>
         </div>
     </header>
 </aside>
