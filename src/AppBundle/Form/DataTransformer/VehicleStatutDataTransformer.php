@@ -2,10 +2,10 @@
 
 namespace AppBundle\Form\DataTransformer;
 
-use AppBundle\Form\Type\SpecificField\YesNoType;
+use AppBundle\Form\Type\SpecificField\VehicleStatutType;
 use Symfony\Component\Form\DataTransformerInterface;
 
-class YesNoDataTransformer implements DataTransformerInterface
+class VehicleStatutDataTransformer implements DataTransformerInterface
 {
     /**
      * @param mixed $value
@@ -16,7 +16,7 @@ class YesNoDataTransformer implements DataTransformerInterface
         if ($value === null)
             return null;
         else
-            return $value ? YesNoType::YES : YesNoType::NO;
+            return $value ? VehicleStatutType::NEW : VehicleStatutType::SECOND_HAND;
     }
 
     /**
@@ -26,9 +26,9 @@ class YesNoDataTransformer implements DataTransformerInterface
     public function reverseTransform($value): ?bool
     {
         switch ($value) {
-            case YesNoType::YES:
+            case VehicleStatutType::NEW:
                 return true;
-            case YesNoType::NO:
+            case VehicleStatutType::SECOND_HAND:
                 return false;
             default:
                 return null;

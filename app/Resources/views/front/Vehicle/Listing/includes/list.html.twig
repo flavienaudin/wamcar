@@ -1,7 +1,7 @@
 {% set excludedVehicle = excludedVehicle|default(null) %}
 <div class="vehicle-list small-12">
-    {% if vehicleToList is defined %}
-        {% for vehicle in vehicleToList if excludedVehicle != vehicle %}
+    {% if vehiclesToList is defined %}
+        {% for vehicle in vehiclesToList if excludedVehicle != vehicle %}
             {% include 'front/Vehicle/Listing/includes/vehicle_item.html.twig' %}
         {% else %}
             <div class="column small-12">

@@ -29,7 +29,7 @@ class PersonalVehicleBuilder
             $vehicleDTO->getEngineState(),
             $vehicleDTO->getTyreState(),
             $vehicleDTO->getMaintenanceState(),
-            $vehicleDTO->isTimingBeltChanged(),
+            $vehicleDTO->getTimingBeltState(),
             $vehicleDTO->isImported(),
             $vehicleDTO->isFirstHand(),
             $vehicleDTO->getAdditionalInformation(),
@@ -63,7 +63,7 @@ class PersonalVehicleBuilder
         $vehicle->setEngineState($vehicleDTO->getEngineState());
         $vehicle->setTyreState($vehicleDTO->getTyreState());
         $vehicle->setMaintenanceState($vehicleDTO->getMaintenanceState());
-        $vehicle->setIsTimingBeltChanged($vehicleDTO->isTimingBeltChanged());
+        $vehicle->setTimingBeltState($vehicleDTO->getTimingBeltState());
         $vehicle->setIsImported($vehicleDTO->isImported());
         $vehicle->setIsFirstHand($vehicleDTO->isFirstHand());
         $vehicle->setAdditionalInformation($vehicleDTO->getAdditionalInformation());

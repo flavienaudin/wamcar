@@ -291,7 +291,7 @@
     {% if form.vars.name matches '/^\\d+$/' %}
         {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
-    {% set title = title|default('Photo supplémentaire conseillée') %}
+    {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
 {% endblock %}
@@ -306,7 +306,7 @@
     {% if form.vars.name matches '/^\\d+$/' %}
         {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
-    {% set title = title|default('Photo supplémentaire conseillée') %}
+    {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
 {% endblock %}
@@ -316,7 +316,7 @@
     {% set defaultImage = defaultImage ?? asset('vehicle_placeholder_thumbnail'|defaultVehiclePicture) %}
     {% set image = value and value.realPicture ? value.realPicture|vehiclePicture('vehicle_thumbnail') : defaultImage %}
     {% set isEdit = value and value.realPicture ? true : false %}
-    {% set title = title|default('Photo supplémentaire conseillée') %}
+    {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
         <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span class="medium-12 medium-no-margin">Facultatif (format conseillé : 310x235)</span></label>
@@ -376,19 +376,19 @@
         <div class="row small-12">
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.make, {
-                    'label': 'Marque',
+                    'label': 'vehicle.field.make.label'|trans,
                     'class': 'make-select',
                     required: true,
-                    required_message: 'Veuillez indiquer la marque recherchée.'
+                    required_message: 'vehicle.field.make.require_message'|trans
                 }) }}
                 {{ form_widget(form.id) }}
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.model, {
-                    'label': 'Modèle',
+                    'label': 'vehicle.field.model.label'|trans,
                     'class': 'model-select',
                     required: true,
-                    required_message: 'Veuillez indiquer le modèle recherché.'
+                    required_message: 'vehicle.field.model.require_message'|trans
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
@@ -439,6 +439,7 @@
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('small-up-2') %}
+    {% set values_translation_domain = values_translation_domain|default('message')%}
 
     {% if label %}
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
@@ -446,16 +447,15 @@
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
             {% if child.vars.value %}
-                <li class="column small-collapse">
+                <li class="column small-collapse js-radio-item-container">
                     {{ form_widget(child) }}
-                    <label for="{{ child.vars.id }}" class="radio-item">
-                        {{ child.vars.value }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
+                    <label for="{{ child.vars.id }}" class="radio-item {{ not required?'js-radio-deselectable' }}">
+                        {{ child.vars.value|trans({}, values_translation_domain) }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
                     </label>
                 </li>
             {% endif %}
         {% endfor %}
     </ul>
-
 {%- endblock yesno_widget -%}
 
 {%- block star_widget -%}

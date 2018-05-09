@@ -13,7 +13,7 @@ use Wamcar\User\{
     BaseLikeVehicle, BaseUser, Picture as UserPicture
 };
 use Wamcar\Vehicle\Enum\{
-    MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
+    MaintenanceState, SafetyTestDate, SafetyTestState, TimingBeltState, Transmission
 };
 
 abstract class BaseVehicle implements Vehicle
@@ -35,9 +35,9 @@ abstract class BaseVehicle implements Vehicle
     protected $mileage;
     /** @var Collection */
     protected $pictures;
-    /** @var SafetyTestDate */
+    /** @var SafetyTestDate|null  */
     protected $safetyTestDate;
-    /** @var SafetyTestState */
+    /** @var SafetyTestState|null  */
     protected $safetyTestState;
     /** @var int|null */
     protected $bodyState;
@@ -45,13 +45,13 @@ abstract class BaseVehicle implements Vehicle
     protected $engineState;
     /** @var int|null */
     protected $tyreState;
-    /** @var MaintenanceState */
+    /** @var MaintenanceState|null  */
     protected $maintenanceState;
-    /** @var bool|null */
-    protected $isTimingBeltChanged;
+    /** @var TimingBeltState|null */
+    protected $timingBeltState;
     /** @var bool|null */
     protected $isImported;
-    /** @var bool|null */
+    /** @var bool */
     protected $isFirstHand;
     /** @var string|null */
     protected $additionalInformation;
@@ -76,15 +76,15 @@ abstract class BaseVehicle implements Vehicle
      * @param \DateTimeInterface $registrationDate
      * @param int $mileage
      * @param array $pictures
-     * @param SafetyTestDate $safetyTestDate
-     * @param SafetyTestState $safetyTestState
+     * @param SafetyTestDate|null $safetyTestDate
+     * @param SafetyTestState|null $safetyTestState
      * @param int|null $bodyState
      * @param int|null $engineState
      * @param int|null $tyreState
-     * @param MaintenanceState $maintenanceState
-     * @param bool|null $isTimingBeltChanged
+     * @param MaintenanceState|null $maintenanceState
+     * @param TimingBeltState|null $timingBeltState
      * @param bool|null $isImported
-     * @param bool|null $isFirstHand
+     * @param bool $isFirstHand
      * @param string|null $additionalInformation
      * @param City $city
      */
@@ -95,15 +95,15 @@ abstract class BaseVehicle implements Vehicle
         \DateTimeInterface $registrationDate,
         int $mileage,
         array $pictures,
-        SafetyTestDate $safetyTestDate,
-        SafetyTestState $safetyTestState,
+        SafetyTestDate $safetyTestDate = null,
+        SafetyTestState $safetyTestState = null,
         int $bodyState = null,
         int $engineState = null,
         int $tyreState = null,
-        MaintenanceState $maintenanceState,
-        bool $isTimingBeltChanged = null,
+        MaintenanceState $maintenanceState = null,
+        TimingBeltState $timingBeltState = null,
         bool $isImported = null,
-        bool $isFirstHand = null,
+        bool $isFirstHand = false,
         string $additionalInformation = null,
         City $city = null)
     {
@@ -120,7 +120,7 @@ abstract class BaseVehicle implements Vehicle
         $this->engineState = $engineState;
         $this->tyreState = $tyreState;
         $this->maintenanceState = $maintenanceState;
-        $this->isTimingBeltChanged = $isTimingBeltChanged;
+        $this->timingBeltState = $timingBeltState;
         $this->isImported = $isImported;
         $this->isFirstHand = $isFirstHand;
         $this->additionalInformation = $additionalInformation;
@@ -260,17 +260,17 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return SafetyTestDate
+     * @return SafetyTestDate|null
      */
-    public function getSafetyTestDate(): SafetyTestDate
+    public function getSafetyTestDate(): ?SafetyTestDate
     {
         return $this->safetyTestDate;
     }
 
     /**
-     * @return SafetyTestState
+     * @return SafetyTestState|null
      */
-    public function getSafetyTestState(): SafetyTestState
+    public function getSafetyTestState(): ?SafetyTestState
     {
         return $this->safetyTestState;
     }
@@ -300,33 +300,33 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return MaintenanceState
+     * @return MaintenanceState|null
      */
-    public function getMaintenanceState(): MaintenanceState
+    public function getMaintenanceState(): ?MaintenanceState
     {
         return $this->maintenanceState;
     }
 
     /**
-     * @return bool|null
+     * @return TimingBeltState|null
      */
-    public function getisTimingBeltChanged(): ?bool
+    public function getTimingBeltState(): ?TimingBeltState
     {
-        return $this->isTimingBeltChanged;
+        return $this->timingBeltState;
     }
 
     /**
      * @return bool|null
      */
-    public function getisImported(): ?bool
+    public function isImported(): ?bool
     {
         return $this->isImported;
     }
 
     /**
-     * @return bool|null
+     * @return bool
      */
-    public function getisFirstHand(): ?bool
+    public function getisFirstHand(): bool
     {
         return $this->isFirstHand;
     }
@@ -611,17 +611,17 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param SafetyTestDate $safetyTestDate
+     * @param SafetyTestDate|null $safetyTestDate
      */
-    public function setSafetyTestDate(SafetyTestDate $safetyTestDate): void
+    public function setSafetyTestDate(?SafetyTestDate $safetyTestDate): void
     {
         $this->safetyTestDate = $safetyTestDate;
     }
 
     /**
-     * @param SafetyTestState $safetyTestState
+     * @param SafetyTestState|null $safetyTestState
      */
-    public function setSafetyTestState(SafetyTestState $safetyTestState): void
+    public function setSafetyTestState(?SafetyTestState $safetyTestState): void
     {
         $this->safetyTestState = $safetyTestState;
     }
@@ -651,19 +651,19 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param MaintenanceState $maintenanceState
+     * @param MaintenanceState|null $maintenanceState
      */
-    public function setMaintenanceState(MaintenanceState $maintenanceState): void
+    public function setMaintenanceState(?MaintenanceState $maintenanceState): void
     {
         $this->maintenanceState = $maintenanceState;
     }
 
     /**
-     * @param bool|null $isTimingBeltChanged
+     * @param TimingBeltState|null $timingBeltState
      */
-    public function setIsTimingBeltChanged(?bool $isTimingBeltChanged): void
+    public function setTimingBeltState(?TimingBeltState $timingBeltState): void
     {
-        $this->isTimingBeltChanged = $isTimingBeltChanged;
+        $this->timingBeltState = $timingBeltState;
     }
 
     /**
@@ -675,9 +675,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param bool|null $isFirstHand
+     * @param bool $isFirstHand
      */
-    public function setIsFirstHand(?bool $isFirstHand): void
+    public function setIsFirstHand(bool $isFirstHand): void
     {
         $this->isFirstHand = $isFirstHand;
     }

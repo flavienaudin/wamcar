@@ -7,6 +7,7 @@ use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -157,25 +158,25 @@ class VehicleDTO
     }
 
     /**
-     * @return bool
+     * @return TimingBeltState|null
      */
-    public function isTimingBeltChanged(): bool
+    public function getTimingBeltState(): ?TimingBeltState
     {
-        return $this->specifics->isTimingBeltChanged;
+        return $this->specifics->timingBeltState;
     }
 
     /**
-     * @return SafetyTestDate
+     * @return SafetyTestDate|null
      */
-    public function getSafetyTestDate(): SafetyTestDate
+    public function getSafetyTestDate(): ?SafetyTestDate
     {
         return $this->specifics->safetyTestDate;
     }
 
     /**
-     * @return SafetyTestState
+     * @return SafetyTestState|null
      */
-    public function getSafetyTestState(): SafetyTestState
+    public function getSafetyTestState(): ?SafetyTestState
     {
         return $this->specifics->safetyTestState;
     }
@@ -205,17 +206,17 @@ class VehicleDTO
     }
 
     /**
-     * @return MaintenanceState
+     * @return MaintenanceState|null
      */
-    public function getMaintenanceState(): MaintenanceState
+    public function getMaintenanceState(): ?MaintenanceState
     {
         return $this->specifics->maintenanceState;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isImported(): bool
+    public function isImported(): ?bool
     {
         return $this->specifics->isImported;
     }

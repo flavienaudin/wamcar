@@ -64,10 +64,13 @@ Wamcar\Vehicle\ProVehicle:
             type: vehicletransmission
         safetyTestState:
             type: vehiclesafetyteststate
+            nullable: true
         safetyTestDate:
             type: vehiclesafetytestdate
+            nullable: true
         maintenanceState:
             type: vehiclemaintenancestate
+            nullable: true
         registrationDate:
             type: date
         mileage:
@@ -81,15 +84,14 @@ Wamcar\Vehicle\ProVehicle:
         tyreState:
             type: integer
             nullable: true
-        isTimingBeltChanged:
-            type: boolean
+        timingBeltState:
+            type: vehicletimingbeltstate
             nullable: true
         isImported:
             type: boolean
             nullable: true
         isFirstHand:
             type: boolean
-            nullable: true
         additionalInformation:
             type: text
             nullable: true

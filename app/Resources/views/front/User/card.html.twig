@@ -45,7 +45,7 @@
             <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
             <div class="row">
                 {% set balise = 'h3' %}
-                {% set vehicleToList = user.vehicles %}
+                {% set vehiclesToList = user.vehicles %}
                 {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
             </div>
 

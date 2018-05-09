@@ -6,6 +6,12 @@
     {% set page_search = true %}
 {% endif %}
 
+{% set vehiclesToList = vehicle.garage.proVehicles %}
+{% set state_block %}
+    {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
+{% endset %}
+
+
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
 {% block title %}{{ vehicle.name }}{% endblock %}
@@ -65,7 +71,6 @@
 
     <div class="l-main-container vehicle-pro">
         <div class="row">
-
             <section class="small-12 large-7 xlarge-8">
                 <div class="small-12">
                     {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
@@ -100,29 +105,45 @@
                     <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                         {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
                     </div>
-                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
-                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                    </div>
                     <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
                         {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
                     </div>
-                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
-                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees" data-magellan-target="js-guarantees">
-                        {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding" data-magellan-target="js-funding">
-                        {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
-                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
-                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehicleToList': vehicle.garage.proVehicles, 'excludedVehicle':vehicle, 'title': 'vehicle.section.other_vehicle.title.pro'|trans} %}
-                        <br>
-                        <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
-                    </div>
+                    {% if state_block is not empty %}
+                        <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                            <h2 class="separator medium primary-color">{{ 'vehicle.section.states.title'|trans }}</h2>
+                            <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
+                                {{ state_block }}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if vehicle.additionalInformation|trim|length > 0 %}
+                        <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-additional-information" data-magellan-target="js-additional-information">
+                            {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if vehicle.guarantee or vehicle.otherGuarantee %}
+                        <div class="separator-section column small-12 medium-6 xlarge-12" id="js-guarantees" data-magellan-target="js-guarantees">
+                            {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if vehicle.funding or vehicle.otherFunding %}
+                        <div class="separator-section column small-12 medium-6 xlarge-12" id="js-funding" data-magellan-target="js-funding">
+                            {% include 'front/Vehicle/Detail/includes/funding.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if positiveLikes.all|length > 0 %}
+                        <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
+                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if vehiclesToList|length > 1 %}{# if length == 1 Then it is the current and excluded vehicle #}
+                        <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
+                            <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
+                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList, 'excludedVehicle':vehicle} %}
+                            <br>
+                            <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+                        </div>
+                    {% endif %}
                 </div>
             </section>
         </div>

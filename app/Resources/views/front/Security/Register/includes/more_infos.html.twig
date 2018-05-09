@@ -1,11 +1,4 @@
 {% set asideId = '3' %}
-{% set rent_list = [
-    { label: 'Très mauvais état' },
-    { label: 'Mauvais état' },
-    { label: 'En état' },
-    { label: 'Bon état' },
-    { label: 'Très bon état' }
-] %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
     content: '
@@ -15,60 +8,43 @@
 } %}
 
 <section class="small-12 large-7">
-
-    <div class="block-grid input-margin column small">
-        {{ form_widget(vehicleForm.specifics.registrationDate, {
-            'class' : 'medium-no-margin small-12 medium-4 js-datepicker',
-            'required' : true,
-            'required_message' : 'Veuillez indiquer la date de 1ère mise en circulation',
-            'required_class' : 'form-error small-12 medium-offset-4',
-            'label' : 'Date de 1ère mise en circulation',
-            'label_class' : 'medium-no-margin small-12 medium-4',
-        }) }}
-    </div>
-    <div class="block-grid input-margin column">
-        {{ form_widget(vehicleForm.specifics.mileage, {
-            'class' : 'medium-no-margin small-12 medium-4',
-            'required' : true,
-            'required_message' : 'Veuillez indiquer un kilométrage',
-            'required_class' : 'form-error small-12 medium-offset-4',
-            'label' : 'Kilométrage',
-            'label_class' : 'medium-no-margin small-12 medium-4',
-        }) }}
-
-    </div>
-    <div class="block-grid input-margin column">
-        {{ form_widget(vehicleForm.specifics.isTimingBeltChanged, {
-            'class' : 'medium-no-margin small-12 medium-4',
-            'required' : true,
-            'required_message' : 'Veuillez préciser si la couroie a été changée',
-            'required_class' : 'form-error',
-            'label' : 'Changement de courroie de distribution',
-            'label_class' : 'medium-no-margin small-12 medium-4',
-            'list_class': 'small-up-2 small-12 medium-8'
-        }) }}
-    </div>
-    <div class="block-grid input-margin column">
-        {{ form_widget(vehicleForm.specifics.safetyTestDate, {
-            label: 'Date du dernier contrôle technique',
-            label_class: 'medium-no-margin small-12 medium-4',
-            class: 'no-margin small-12 medium-8',
-            required: false,
-            required_class: 'large-no-margin'
-        }) }}
-    </div>
-    <div class="block-grid input-margin column">
-        {{ form_widget(vehicleForm.specifics.safetyTestState, {
-            label: 'Résultat du dernier contrôle technique',
-            label_class: 'medium-no-margin small-12 medium-4',
-            class: 'no-margin small-12 medium-8',
-            required: false,
-            required_class: 'large-no-margin'
-        }) }}
-    </div>
     <div class="column">
+        <div class="block-grid input-margin">
+            {{ form_widget(vehicleForm.specifics.isFirstHand, {
+                'class' : 'medium-no-margin small-12 medium-4',
+                'label' : 'vehicle.field.isFirstHand.label'|trans,
+                'label_class' : 'medium-no-margin small-12 medium-4',
+                'required' : true,
+                'required_message' : 'vehicle.field.isFirstHand.require_message'|trans,
+                'required_class' : 'form-error',
+                'list_class': 'small-up-2 small-12 medium-8',
+                'values_translation_domain':'enumeration'
+
+            }) }}
+        </div>
+        <div class="block-grid input-margin">
+            {{ form_widget(vehicleForm.specifics.registrationDate, {
+                'class' : 'medium-no-margin small-12 medium-4 js-datepicker',
+                'label' : 'vehicle.field.registrationDate.label'|trans,
+                'label_class' : 'medium-no-margin small-12 medium-4',
+                'required' : true,
+                'required_message' : 'vehicle.field.registrationDate.require_message'|trans,
+                'required_class' : 'form-error small-12 medium-offset-4',
+            }) }}
+        </div>
+        <div class="block-grid input-margin">
+            {{ form_widget(vehicleForm.specifics.mileage, {
+                'class' : 'medium-no-margin small-12 medium-4',
+                'label' : 'vehicle.field.mileage.label'|trans,
+                'label_class' : 'medium-no-margin small-12 medium-4',
+                'required' : true,
+                'required_message' : 'vehicle.field.mileage.require_message'|trans,
+                'required_class' : 'form-error small-12 medium-offset-4',
+            }) }}
+        </div>
+
         <div class="form-separator">
-            <div class="block-grid input-margin star-form-margin">
+            <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.bodyState, {
                     'class' : 'medium-no-margin small-12 medium-4',
                     'required' : false,
@@ -93,77 +69,91 @@
                 }) }}
             </div>
         </div>
-    </div>
-    <div class="column">
+
         <div class="form-separator">
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.maintenanceState, {
-                    label: 'Carnet d\'entretien',
+                    label: 'vehicle.field.maintenance_state.label'|trans,
                     label_class: 'medium-no-margin small-12 medium-4',
                     class: 'no-margin small-12 medium-8',
-                    'required' : true,
-                    'required_message' : 'Veuillez préciser les informations d\'entretien',
-                    'required_class' : 'form-error',
+                    'required' : false
                 }) }}
             </div>
+            <div class="block-grid input-margin">
+                {{ form_widget(vehicleForm.specifics.safetyTestDate, {
+                    label: 'vehicle.field.safety_test_date.label'|trans,
+                    label_class: 'medium-no-margin small-12 medium-4',
+                    class: 'no-margin small-12 medium-8',
+                    required: false
+                }) }}
+            </div>
+            <div class="block-grid input-margin">
+                {{ form_widget(vehicleForm.specifics.safetyTestState, {
+                    label: 'vehicle.field.safety_test_state.label'|trans,
+                    label_class: 'medium-no-margin small-12 medium-4',
+                    class: 'no-margin small-12 medium-8',
+                    required: false
+                }) }}
+            </div>
+            <div class="block-grid input-margin">
+                {{ form_widget(vehicleForm.specifics.timingBeltState, {
+                    label : 'vehicle.field.timingBeltState.label'|trans,
+                    label_class : 'medium-no-margin small-12 medium-4',
+                    class : 'no-margin small-12 medium-8',
+                    required : false
+                }) }}
+            </div>
+        </div>
+
+        <div class="form-separator">
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.isImported, {
                     'class' : 'medium-no-margin small-12 medium-4',
-                    'required' : true,
-                    'required_message' : 'Veuillez préciser si le véhicule est importé',
-                    'required_class' : 'form-error',
-                    'label' : 'Véhicule importé',
-                    'label_class' : 'medium-no-margin small-12 medium-4',
-                    'list_class': 'small-up-2 small-12 medium-8'
-                }) }}
-            </div>
-            <div class="block-grid input-margin">
-                {{ form_widget(vehicleForm.specifics.isFirstHand, {
-                    'class' : 'medium-no-margin small-12 medium-4',
-                    'required' : true,
-                    'required_message' : 'Veuillez préciser si le véhicule est une première main',
-                    'required_class' : 'form-error',
-                    'label' : 'Première main',
+                    'required' : false,
+                    'label' : 'vehicle.field.imported.label'|trans,
                     'label_class' : 'medium-no-margin small-12 medium-4',
                     'list_class': 'small-up-2 small-12 medium-8'
                 }) }}
             </div>
         </div>
-    </div>
-    <div class="column">
-        <div class="form-separator block-grid input-margin">
-            <label class="medium-no-margin small-12 medium-4">Ville</label>
-            <div class="small-12 medium-8">
-                <div class="row">
-                    <div class="column small-12">
-                        {{ form_widget(vehicleForm.specifics.postalCode, {
-                            'label': false,
-                            'class': 'input no-margin js-city-autocomplete select2-custom-container js-complete-coordinate',
-                            'required': true,
-                            'required_message' : 'Veuillez indiquer votre code postal',
-                            'required_class' : 'form-error',
-                            'attr' : {
-                                'data-autocomplete-url': path('front_city_autocomplete'),
-                                'data-city-field': dataCityField,
-                                'data-latitude-field': dataLatitudeField,
-                                'data-longitude-field': dataLongitudeField
-                            }
-                        }) }}
-                    </div>
-                    <small class="form-error">Veuillez indiquer votre ville</small>
-                    {{ form_widget(vehicleForm.specifics.cityName) }}
-                    {{ form_widget(vehicleForm.specifics.latitude) }}
-                    {{ form_widget(vehicleForm.specifics.longitude) }}
+        <div class=" form-separator">
+            <div class="block-grid input-margin">
+                <label for="message" class="align-self-top medium-no-margin small-12 medium-4">{{ "vehicle.field.additionalInformation.label"|trans }}</label>
+                <div class="small-12 medium-8">
+                    {{ form_widget(vehicleForm.specifics.additionalInformation, {
+                        'attr' : { 'placeholder' : "vehicle.field.additionalInformation.placeholder"|trans},
+                    }) }}
                 </div>
             </div>
         </div>
-        <div class="form-separator block-grid input-margin">
-            <label for="message" class="align-self-top medium-no-margin small-12 medium-4">Informations complémentaires sur votre véhicule</label>
-            <div class="small-12 medium-8">
-                {{ form_widget(vehicleForm.specifics.additionalInformation, { 'attr' : {  }}) }}
-                <small class="form-error">Veuillez indiquer des informations complémentaires</small>
+        <div class="form-separator">
+            <div class="block-grid input-margin">
+                <label class="medium-no-margin small-12 medium-4" for="{{ vehicleForm.specifics.postalCode.vars.name }}">{{ 'vehicle.field.city.label'|trans }}</label>
+                <div class="small-12 medium-8">
+                    <div class="row">
+                        <div class="column small-12">
+                            {{ form_widget(vehicleForm.specifics.postalCode, {
+                                'label': false,
+                                'class': 'input no-margin js-city-autocomplete select2-custom-container js-complete-coordinate',
+                                'required': true,
+                                'required_message' : 'vehicle.field.city.require_message'|trans,
+                                'required_class' : 'form-error',
+                                'attr' : {
+                                    'data-autocomplete-url': path('front_city_autocomplete'),
+                                    'data-city-field': dataCityField,
+                                    'data-latitude-field': dataLatitudeField,
+                                    'data-longitude-field': dataLongitudeField,
+                                    'data-placeholder': 'vehicle.field.city.placeholder'|trans
+                                }
+                            }) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        {{ form_widget(vehicleForm.specifics.cityName) }}
+        {{ form_widget(vehicleForm.specifics.latitude) }}
+        {{ form_widget(vehicleForm.specifics.longitude) }}
     </div>
 
     {% if isLastStep is defined and isLastStep %}

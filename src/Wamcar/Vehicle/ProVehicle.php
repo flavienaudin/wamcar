@@ -12,6 +12,7 @@ use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
 
 class ProVehicle extends BaseVehicle
@@ -53,9 +54,9 @@ class ProVehicle extends BaseVehicle
         int $engineState = null,
         int $tyreState = null,
         MaintenanceState $maintenanceState,
-        bool $isTimingBeltChanged = null,
+        TimingBeltState $timingBeltState = null,
         bool $isImported = null,
-        bool $isFirstHand = null,
+        bool $isFirstHand = false,
         string $additionalInformation = null,
         City $city = null,
         float $price,
@@ -69,7 +70,7 @@ class ProVehicle extends BaseVehicle
         string $reference = null
     )
     {
-        parent::__construct($modelVersion, $transmission, $registration, $registrationDate, $mileage, $pictures, $safetyTestDate, $safetyTestState, $bodyState, $engineState, $tyreState, $maintenanceState, $isTimingBeltChanged, $isImported, $isFirstHand, $additionalInformation, $city);
+        parent::__construct($modelVersion, $transmission, $registration, $registrationDate, $mileage, $pictures, $safetyTestDate, $safetyTestState, $bodyState, $engineState, $tyreState, $maintenanceState, $timingBeltState, $isImported, $isFirstHand, $additionalInformation, $city);
         $this->price = $price;
         $this->catalogPrice = $catalogPrice;
         $this->discount = $discount;

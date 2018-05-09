@@ -89,6 +89,7 @@ doctrine:
             vehiclesafetytestdate:  AppBundle\Doctrine\Type\VehicleSafetyTestDateType
             vehicleguarantee:  AppBundle\Doctrine\Type\GuaranteeType
             vehiclefunding:  AppBundle\Doctrine\Type\FundingType
+            vehicletimingbeltstate:  AppBundle\Doctrine\Type\VehicleTimingBeltStateType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

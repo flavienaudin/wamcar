@@ -3,28 +3,30 @@
 {% set project = vehicle.ownerProject %}
 {% if project is not null and (project.budget is not null or project.projectVehicles|length>0 or project.description|length>0) %}
     {{ include(':front/User/includes:personal_user_project.html.twig') }}
+
+    <div class="medium-6 medium-offset-3">
+        {% if isEditableByCurrentUser %}
+            <a href="{{ path('front_edit_user_info_tab', {'tab':'project'}) }}" class="button seller-project-button">{{ 'user.project.edit'|trans }}</a>
+        {% else %}
+            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}" class="button seller-project-button">{{ 'user.project.answer'|trans }}</a>
+        {% endif %}
+    </div>
 {% else %}
-    {% if isEditableByCurrentUser %}
-        <a href="{{ path('front_edit_user_info_tab', {'tab':'project'}) }}" class="button seller-project-button">{{ 'user.project.create'|trans }}</a>
-    {% else %}
-        <p class="dark-gray-color">{{ 'user.project.empty_placeholder'|trans }}</p>
-    {% endif %}
+    <div class="medium-6 medium-offset-3">
+        {% if isEditableByCurrentUser %}
+            <a href="{{ path('front_edit_user_info_tab', {'tab':'project'}) }}" class="button seller-project-button">{{ 'user.project.create'|trans }}</a>
+        {% else %}
+            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}" class="button seller-project-button">{{ 'global.button.send_message'|trans }}</a>
+        {% endif %}
+    </div>
 {% endif %}
 
 {% set sellerLikes = vehicle.seller.positiveLikes %}
 {% if sellerLikes|length > 0 %}
-    <h3><strong class="primary-color">{{ 'user.project.favorites.title'|trans({'%user_firstname%': vehicle.seller.firstname}) }}</strong></h3>
-
+    <h3 class=""><strong class="primary-color">{{ isEditableByCurrentUser?'user.project.favorites.owner'|trans:'user.project.favorites.title'|trans({'%user_firstname%': vehicle.seller.firstname}) }}</strong></h3>
     <div class="row">
         {% include ':front/Favorites/includes:list.html.twig' with {'likeToList':sellerLikes} %}
     </div>
 {% endif %}
 
-<div class="medium-6">
-    {% if isUserPro %}
-        <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}" class="button seller-project-button">{{ 'user.project.answer'|trans }}</a>
-    {% elseif isEditableByCurrentUser %}
-        <a href="{{ path('front_edit_user_info_tab', {'tab':'project'}) }}" class="button seller-project-button">{{ 'user.project.edit'|trans }}</a>
-    {% endif %}
-</div>
 

@@ -17,3 +17,11 @@ PRIME_A_L_HYBRIDE: Prime à l'hybride
 
 OK: 'Valide'
 NOT_OK: 'Non valide'
+
+TIMING_BELT_OK: 'Ok'
+TO_CHANGE: 'A changer'
+NO_TIMING_BELT: 'Pas de courroie'
+
+VEHICLE_STATUT:
+  FIRST_HAND: 'Neuf'
+  SECOND_HAND: 'Occasion'

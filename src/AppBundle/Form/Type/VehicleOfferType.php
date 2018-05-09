@@ -3,23 +3,16 @@
 namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
-use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\VehicleOfferDTO;
-use AppBundle\Form\DTO\VehicleSpecificsDTO;
 use AppBundle\Form\Type\SpecificField\AmountType;
-use AppBundle\Form\Type\SpecificField\StarType;
-use AppBundle\Form\Type\SpecificField\YesNoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\{
-    CheckboxType, ChoiceType, DateType, IntegerType, TextareaType, TextType
+    ChoiceType, TextareaType, TextType
 };
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Wamcar\Vehicle\Enum\Funding;
 use Wamcar\Vehicle\Enum\Guarantee;
-use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
-use Wamcar\Vehicle\Enum\SafetyTestState;
 
 class VehicleOfferType extends AbstractType
 {

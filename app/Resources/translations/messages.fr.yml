@@ -10,6 +10,7 @@ flash:
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien été enregistré.
     vehicle_create: Le véhicule a bien été enregistré.
+    vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
     conversation_update: Votre message a bien envoyé.
   danger:
@@ -23,6 +24,8 @@ flash:
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
 
 global:
+  yes: Oui
+  no: Non
   button:
     send_message: Envoyer un message
     more_information: Plus d'information
@@ -48,19 +51,49 @@ vehicle:
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
   section:
-    description:
-      tab: Description
-      title: Description
     infos:
       tab:
         short: Infos
         long: Informations principales
       title: Informations principales
+      make:
+        label : Marque
+      model:
+        label : Modèle
+      statut:
+        label: Statut
+      registrationDate:
+        label: Date de 1ère mise en circulation
+      commercializationDate:
+        label: Date de commercialisation
+      mileage:
+        label : Kilométrage
+      engine_name:
+        label : Motorisation
+      transmission:
+        label : Boite de vitesse
+      fuel_name:
+        label : Energie
+      imported:
+        label : Véhicule importé
+      first_hand:
+        label : Véhicule 1ère main
+      immatriculation:
+        label : Immatriculation
+      vin:
+        label : V.I.N.
     states:
       tab:
         short: Etat
         long: Etat du véhicule
       title: Etat du véhicule
+
+    additionalInformation:
+      tab:
+        short: Infos compl.
+        long: Informations complémentaires
+      title: Informations complémentaires
+
     guarantee:
       tab: Garantie
       title: Garantie
@@ -76,24 +109,77 @@ vehicle:
       title:
         pro: Autres véhicules de ce garage
         personal: Autres véhicules de ce particulier
+        owner: Mes autres véhicules
       button:
         garage: Voir tous les véhicules de ce garage
   interested_user:
     title: Ils aiment
-    no_like: Personne n'a encore liké ce véhicule
     tabs:
       all: Toutes (%nb%)
       pro: Professionnels (%nb%)
       personal: Particuliers (%nb%)
   field:
     make:
+      label: Marque
       placeholder: Marque du véhicule
+      require_message: Veuillez indiquer la marque du véhicule
     model:
+      label: Modèle
       placeholder: Modèle du véhicule
+      require_message: Veuillez indiquer le modèle du véhicule
     engine:
+      label: Motorisation
       placeholder: Motorisation du véhicule
+      require_message: Veuillez indiquer la motorisation du véhicule
     fuel:
+      label: Energie
       placeholder: Carburant du véhicule
+      require_message: Veuillez indiquer l'énergie du véhicule
+    transmission:
+      label: Boite de vitesse
+      require_message: Veuillez indiquer la boite de vitesse du véhicule
+    vin:
+      label: V.I.N.
+    picture:
+      label:
+        main: Photo principale conseillée
+        additionnal: Photo supplémentaire conseillée
+    isFirstHand:
+      label: Statut
+      require_message: Veuillez préciser si le véhicule est neuf ou d'occasion
+    registrationDate:
+      label: Date de 1ère mise en circulation ou de commercialisation
+      require_message: Veuillez indiquer la date de 1ère mise en circulation
+    commercializationDate:
+      label: Date de commercialisation
+      require_message: Veuillez indiquer la date de commercialisation
+    mileage:
+      label: Kilométrage
+      require_message: Veuillez indiquer un kilométrage
+    body_state:
+      label: Etat de la carrosserie
+    engine_state:
+      label: Etat du moteur
+    tyre_state:
+      label: Etat des pneus
+    maintenance_state:
+      label: Carnet d’entretien
+    safety_test_date:
+      label: Date du dernier controle technique
+    safety_test_state:
+      label: Résultat du dernier controle technique
+    timingBeltState:
+      label: Etat de la courroie de distribution
+    imported:
+      label : Véhicule importé
+    additionalInformation:
+      label: Informations complémentaires sur votre véhicule
+      placeholder: Indiquez ici les équipements que possèdent votre véhicule , sa version, ...
+    city:
+      label: Ville
+      placeholder: Ville, CP
+      require_message: Veuillez indiquer votre ville
+
 
 user:
   profile:
@@ -111,6 +197,7 @@ user:
     undefined_budget: Budget non défini
     favorites:
       title: %user_firstname% aime
+      owner: J'aime
 
 
 conversation:

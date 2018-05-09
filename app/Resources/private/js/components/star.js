@@ -3,7 +3,6 @@
    =========================================================================== */
 
 const $starResetInputs = document.querySelectorAll('.star-reset');
-const $starItemInputs = document.querySelectorAll('.star-item');
 
 [...$starResetInputs].forEach((input) => {
   input.addEventListener('click', () => {

@@ -6,6 +6,7 @@ use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\Enum\TimingBeltState;
 
 class VehicleSpecificsDTO
 {
@@ -13,11 +14,11 @@ class VehicleSpecificsDTO
     public $registrationDate;
     /** @var int */
     public $mileage;
-    /** @var bool */
-    public $isTimingBeltChanged;
-    /** @var SafetyTestDate */
+    /** @var TimingBeltState|null */
+    public $timingBeltState;
+    /** @var SafetyTestDate|null */
     public $safetyTestDate;
-    /** @var SafetyTestState */
+    /** @var SafetyTestState|null */
     public $safetyTestState;
     /** @var int|null */
     public $bodyState;
@@ -25,9 +26,9 @@ class VehicleSpecificsDTO
     public $engineState;
     /** @var int|null */
     public $tyreState;
-    /** @var MaintenanceState */
+    /** @var MaintenanceState|null */
     public $maintenanceState;
-    /** @var bool */
+    /** @var bool|null */
     public $isImported;
     /** @var bool */
     public $isFirstHand;
@@ -48,11 +49,11 @@ class VehicleSpecificsDTO
     public function __construct(?string $date1erCir = null)
     {
         $this->registrationDate = ($date1erCir ? new \DateTimeImmutable($date1erCir) : null);
-        $this->safetyTestDate = SafetyTestDate::UNKNOWN();
-        $this->safetyTestState = SafetyTestState::UNKNOWN();
-        $this->maintenanceState = MaintenanceState::UNKNOWN();
-        $this->isTimingBeltChanged = false;
-        $this->isImported = false;
+        $this->safetyTestDate = null;
+        $this->safetyTestState = null;
+        $this->maintenanceState = null;
+        $this->timingBeltState = null;
+        $this->isImported = null;
         $this->isFirstHand = false;
     }
 
@@ -67,7 +68,7 @@ class VehicleSpecificsDTO
     /**
      * @param $registrationDate
      * @param $mileAge
-     * @param $isTimingBeltChanged
+     * @param $timingBeltState
      * @param $safetyTestDate
      * @param $safetyTestState
      * @param $bodyState
@@ -86,7 +87,7 @@ class VehicleSpecificsDTO
     public static function buildFromSpecifics(
         $registrationDate,
         $mileAge,
-        $isTimingBeltChanged,
+        $timingBeltState,
         $safetyTestDate,
         $safetyTestState,
         $bodyState,
@@ -105,7 +106,7 @@ class VehicleSpecificsDTO
         $dto = new self();
         $dto->registrationDate = $registrationDate;
         $dto->mileage = $mileAge;
-        $dto->isTimingBeltChanged = $isTimingBeltChanged;
+        $dto->timingBeltState = $timingBeltState;
         $dto->safetyTestDate = $safetyTestDate;
         $dto->safetyTestState = $safetyTestState;
         $dto->bodyState = $bodyState;

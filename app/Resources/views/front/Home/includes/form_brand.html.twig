@@ -12,7 +12,7 @@
 
 <div class="column small-12 medium-6">
     {{ form_widget(vehicleInformationForm.make, {
-        label: 'Marque',
+        label: 'vehicle.field.make.label'|trans,
         dataToggleId: 'js-model',
         dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=model',
         required: true,
@@ -21,7 +21,7 @@
 </div>
 <div id="js-model" class="column small-12 medium-6 is-disabled">
     {{ form_widget(vehicleInformationForm.model, {
-        label: 'Modèle',
+        label: 'vehicle.field.model.label'|trans,
         required: true,
         required_message: 'Veuillez choisir un modèle.'
 
