@@ -1,11 +1,15 @@
 <h2 class="separator medium primary-color">{{ 'vehicle.section.guarantee.title'|trans }}</h2>
-<ul class="list-bullet dark-gray-color no-margin">
-    {% if vehicle.guarantee or vehicle.otherGuarantee %}
-        {% if vehicle.guarantee %}
-            <li>{{ vehicle.guarantee.key|trans([], 'enumeration') }}</li>
-        {% endif %}
-        {{ vehicle.otherGuarantee|raw|nl2br }}
-    {% else %}
-        Ce champ n'a pas été renseigné par le professionnel
+<ul class="vehicle-guarantees-list list-border tiny no-bullet no-margin">
+    {% if vehicle.guarantee %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.guarantee.guarantee.label"|trans}}</strong>
+            {{ vehicle.guarantee.key|trans([], 'enumeration') }}
+        </li>
+    {% endif %}
+    {% if vehicle.otherGuarantee %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.guarantee.otherGuarantee.label"|trans}}</strong>
+            {{ vehicle.otherGuarantee|raw|nl2br }}
+        </li>
     {% endif %}
 </ul>

@@ -7,10 +7,10 @@
         <li><a href="#js-additional-information"><span class="hide-for-medium">{{ 'vehicle.section.additionalInformation.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.additionalInformation.tab.long'|trans }}</span></a></li>
     {% endif %}
     {% if vehicle.isPro %}
-        {% if vehicle.funding or vehicle.otherFunding %}
+        {% if vehicle.guarantee or vehicle.otherGuarantee %}
             <li><a href="#js-guarantees">{{ 'vehicle.section.guarantee.tab'|trans }}</a></li>
         {% endif %}
-        {% if vehicle.guarantee or vehicle.otherGuarantee %}
+        {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
             <li><a href="#js-funding">{{ 'vehicle.section.funding.tab'|trans }}</a></li>
         {% endif %}
     {% else %}

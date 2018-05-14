@@ -87,19 +87,31 @@ vehicle:
         short: Etat
         long: Etat du véhicule
       title: Etat du véhicule
-
     additionalInformation:
       tab:
         short: Infos compl.
         long: Informations complémentaires
       title: Informations complémentaires
-
     guarantee:
       tab: Garantie
       title: Garantie
+      guarantee:
+        label: Garantie
+      otherGuarantee:
+        label: Autre garantie
     funding:
       tab: Financement
       title: Financement
+      funding:
+        label: Financement
+      catalogPrice:
+        label: Prix catalogue
+      discount:
+        label: Remise
+      otherFunding:
+        label: Autre financement
+    additionalServices:
+      title: Services complémentaires
     project:
       tab: Projet
     interested_users:
@@ -181,6 +193,28 @@ vehicle:
       label: Ville
       placeholder: Ville, CP
       require_message: Veuillez indiquer votre ville
+    price:
+      label: Prix (€)
+      require_message: Veuillez indiquer le prix de vente de votre véhicule.
+    catalogPrice:
+      label: Prix catalogue (€)
+    discount:
+      label: Remise (%)
+    guarantee:
+      label: Garantie
+    otherGuarantee:
+      label: Autre garantie
+      placeholder: Autre, précisez...
+    funding:
+      label: Financement
+    otherFunding:
+      label: Autre financement
+      placeholder: Autre, précisez...
+    additionalServices:
+      label: Services complémentaires
+      placeholder: Renseignez ici les différents services proposés à l'acheteur
+    reference:
+      label: Référence
 
 
 user:

@@ -1,11 +1,30 @@
 <h2 class="separator medium primary-color">{{ 'vehicle.section.funding.title'|trans }}</h2>
-<ul class="list-bullet dark-gray-color no-margin">
-    {% if vehicle.funding or vehicle.otherFunding %}
-        {% if vehicle.funding %}
-            <li>{{ vehicle.funding.key|trans([], 'enumeration') }}</li>
-        {% endif %}
-        {{ vehicle.otherFunding|raw|nl2br }}
-    {% else %}
-        Ce champ n'a pas été renseigné par le professionnel
+<ul class="vehicle-funding-list list-border tiny no-bullet no-margin">
+    {% if vehicle.catalogPrice %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.funding.catalogPrice.label"|trans}}</strong>
+            {{ vehicle.catalogPrice|localizednumber }}€
+        </li>
+    {% endif %}
+    {% if vehicle.discount %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.funding.discount.label"|trans}}</strong>
+            {{ vehicle.discount|localizednumber }}%
+        </li>
+    {% endif %}
+    {% if vehicle.funding %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.funding.funding.label"|trans}}</strong>
+            {{ vehicle.funding.key|trans([], 'enumeration') }}
+        </li>
+    {% endif %}
+    {% if vehicle.otherFunding %}
+        <li class="dark-gray-color block-grid">
+            <strong class="small-6 medium-6 xlarge-5">{{ "vehicle.section.funding.otherFunding.label"|trans}}</strong>
+            {{ vehicle.otherFunding|raw|nl2br }}
+        </li>
     {% endif %}
 </ul>
+
+
+
