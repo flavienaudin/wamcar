@@ -28,16 +28,16 @@ class ProVehicleBuilder implements VehicleBuilder
             self::getModelVersion($vehicleDTO),
             self::getTransmissionMatch($vehicleDTO->BoiteLibelle),
             null,
-            new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
-            $vehicleDTO->Neuf,
+            new \DateTime($vehicleDTO->Date1Mec),
+            !$vehicleDTO->Neuf,
             $vehicleDTO->Kilometrage,
             [],
-            SafetyTestDate::UNKNOWN(),
-            SafetyTestState::UNKNOWN(),
-            3,
             null,
             null,
-            MaintenanceState::UNKNOWN(),
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,
@@ -66,8 +66,8 @@ class ProVehicleBuilder implements VehicleBuilder
     {
         $vehicle->setModelVersion(self::getModelVersion($vehicleDTO));
         $vehicle->setTransmission(self::getTransmissionMatch($vehicleDTO->BoiteLibelle));
-        $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
-        $vehicle->setIsUsed($vehicleDTO->Neuf);
+        $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Date1Mec));
+        $vehicle->setIsUsed(!$vehicleDTO->Neuf);
         $vehicle->setMileage($vehicleDTO->Kilometrage);
         $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
         $vehicle->setPrice($vehicleDTO->PrixVenteTTC);
