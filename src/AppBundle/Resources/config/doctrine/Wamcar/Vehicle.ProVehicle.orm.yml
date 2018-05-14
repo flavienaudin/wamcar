@@ -73,6 +73,8 @@ Wamcar\Vehicle\ProVehicle:
             nullable: true
         registrationDate:
             type: date
+        isUsed:
+            type: boolean
         mileage:
             type: integer
         bodyState:
@@ -92,6 +94,7 @@ Wamcar\Vehicle\ProVehicle:
             nullable: true
         isFirstHand:
             type: boolean
+            nullable: true
         additionalInformation:
             type: text
             nullable: true

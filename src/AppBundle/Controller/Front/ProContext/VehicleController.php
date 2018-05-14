@@ -71,7 +71,7 @@ class VehicleController extends BaseController
         string $plateNumber = null): Response
     {
         if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
-            throw new AccessDeniedHttpException('You need to have an garage');
+            throw new AccessDeniedException('You need to have an garage');
         }
         /** @var Garage $garage */
         $garage = $this->getUser()->getGarage();

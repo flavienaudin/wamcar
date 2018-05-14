@@ -47,6 +47,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
 
         $dto->specifics = VehicleSpecificsDTO::buildFromSpecifics(
             $vehicle->getRegistrationDate(),
+            $vehicle->isUsed(),
             $vehicle->getMileage(),
             $vehicle->getTimingBeltState(),
             $vehicle->getSafetyTestDate(),
@@ -56,7 +57,7 @@ final class ProVehicleDTO extends VehicleDTO implements CanBeProVehicle
             $vehicle->getTyreState(),
             $vehicle->getMaintenanceState(),
             $vehicle->isImported(),
-            $vehicle->getisFirstHand(),
+            $vehicle->getIsFirstHand(),
             $vehicle->getAdditionalInformation(),
             $vehicle->getPostalCode(),
             $vehicle->getCityName(),

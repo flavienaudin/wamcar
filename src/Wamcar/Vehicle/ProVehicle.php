@@ -46,6 +46,7 @@ class ProVehicle extends BaseVehicle
         Transmission $transmission,
         Registration $registration = null,
         \DateTimeInterface $registrationDate,
+        bool $isUsed,
         int $mileage,
         array $pictures,
         SafetyTestDate $safetyTestDate,
@@ -70,7 +71,7 @@ class ProVehicle extends BaseVehicle
         string $reference = null
     )
     {
-        parent::__construct($modelVersion, $transmission, $registration, $registrationDate, $mileage, $pictures, $safetyTestDate, $safetyTestState, $bodyState, $engineState, $tyreState, $maintenanceState, $timingBeltState, $isImported, $isFirstHand, $additionalInformation, $city);
+        parent::__construct($modelVersion, $transmission, $registration, $registrationDate, $isUsed, $mileage, $pictures, $safetyTestDate, $safetyTestState, $bodyState, $engineState, $tyreState, $maintenanceState, $timingBeltState, $isImported, $isFirstHand, $additionalInformation, $city);
         $this->price = $price;
         $this->catalogPrice = $catalogPrice;
         $this->discount = $discount;

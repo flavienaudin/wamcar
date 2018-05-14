@@ -23,6 +23,7 @@ class ProVehicleBuilder implements VehicleBuilder
             $vehicleDTO->getTransmission(),
             Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()),
             $vehicleDTO->getRegistrationDate(),
+            $vehicleDTO->isUsed(),
             $vehicleDTO->getMileage(),
             [],
             $vehicleDTO->getSafetyTestDate(),
@@ -68,6 +69,7 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()));
         $vehicle->setTransmission($vehicleDTO->getTransmission());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
+        $vehicle->setIsUsed($vehicleDTO->isUsed());
         $vehicle->setMileage($vehicleDTO->getMileage());
         $vehicle->setSafetyTestDate($vehicleDTO->getSafetyTestDate());
         $vehicle->setSafetyTestState($vehicleDTO->getSafetyTestState());

@@ -12,6 +12,8 @@ class VehicleSpecificsDTO
 {
     /** @var \DateTimeInterface */
     public $registrationDate;
+    /** @var bool */
+    public $isUsed;
     /** @var int */
     public $mileage;
     /** @var TimingBeltState|null */
@@ -30,7 +32,7 @@ class VehicleSpecificsDTO
     public $maintenanceState;
     /** @var bool|null */
     public $isImported;
-    /** @var bool */
+    /** @var bool|null */
     public $isFirstHand;
     /** @var string|null */
     public $additionalInformation;
@@ -45,16 +47,19 @@ class VehicleSpecificsDTO
 
     /**
      * VehicleSpecificsDTO constructor.
+     * @var \DateTimeImmutable|null $date1erCir
+     * @throws \Exception
      */
     public function __construct(?string $date1erCir = null)
     {
         $this->registrationDate = ($date1erCir ? new \DateTimeImmutable($date1erCir) : null);
+        $this->isUsed = false;
         $this->safetyTestDate = null;
         $this->safetyTestState = null;
         $this->maintenanceState = null;
         $this->timingBeltState = null;
         $this->isImported = null;
-        $this->isFirstHand = false;
+        $this->isFirstHand = null;
     }
 
     /**
@@ -67,6 +72,7 @@ class VehicleSpecificsDTO
 
     /**
      * @param $registrationDate
+     * @param $isUsed
      * @param $mileAge
      * @param $timingBeltState
      * @param $safetyTestDate
@@ -86,6 +92,7 @@ class VehicleSpecificsDTO
      */
     public static function buildFromSpecifics(
         $registrationDate,
+        $isUsed,
         $mileAge,
         $timingBeltState,
         $safetyTestDate,
@@ -105,6 +112,7 @@ class VehicleSpecificsDTO
     {
         $dto = new self();
         $dto->registrationDate = $registrationDate;
+        $dto->isUsed = $isUsed;
         $dto->mileage = $mileAge;
         $dto->timingBeltState = $timingBeltState;
         $dto->safetyTestDate = $safetyTestDate;

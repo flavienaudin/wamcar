@@ -29,6 +29,8 @@ abstract class BaseVehicle implements Vehicle
     protected $transmission;
     /** @var Registration|null */
     protected $registration;
+    /** @var bool */
+    protected $isUsed;
     /** @var \DateTimeInterface */
     protected $registrationDate;
     /** @var int */
@@ -51,7 +53,7 @@ abstract class BaseVehicle implements Vehicle
     protected $timingBeltState;
     /** @var bool|null */
     protected $isImported;
-    /** @var bool */
+    /** @var bool|null */
     protected $isFirstHand;
     /** @var string|null */
     protected $additionalInformation;
@@ -74,6 +76,7 @@ abstract class BaseVehicle implements Vehicle
      * @param Transmission $transmission
      * @param Registration|null $registration
      * @param \DateTimeInterface $registrationDate
+     * @param bool $isUsed
      * @param int $mileage
      * @param array $pictures
      * @param SafetyTestDate|null $safetyTestDate
@@ -84,7 +87,7 @@ abstract class BaseVehicle implements Vehicle
      * @param MaintenanceState|null $maintenanceState
      * @param TimingBeltState|null $timingBeltState
      * @param bool|null $isImported
-     * @param bool $isFirstHand
+     * @param bool|null $isFirstHand
      * @param string|null $additionalInformation
      * @param City $city
      */
@@ -93,6 +96,7 @@ abstract class BaseVehicle implements Vehicle
         Transmission $transmission,
         Registration $registration = null,
         \DateTimeInterface $registrationDate,
+        bool $isUsed,
         int $mileage,
         array $pictures,
         SafetyTestDate $safetyTestDate = null,
@@ -103,7 +107,7 @@ abstract class BaseVehicle implements Vehicle
         MaintenanceState $maintenanceState = null,
         TimingBeltState $timingBeltState = null,
         bool $isImported = null,
-        bool $isFirstHand = false,
+        bool $isFirstHand = null,
         string $additionalInformation = null,
         City $city = null)
     {
@@ -112,6 +116,7 @@ abstract class BaseVehicle implements Vehicle
         $this->transmission = $transmission;
         $this->registration = $registration;
         $this->registrationDate = $registrationDate;
+        $this->isUsed = $isUsed;
         $this->mileage = $mileage;
         $this->pictures = $pictures;
         $this->safetyTestDate = $safetyTestDate;
@@ -252,6 +257,14 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->isUsed;
+    }
+
+    /**
      * @return int
      */
     public function getMileage(): int
@@ -324,9 +337,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function getisFirstHand(): bool
+    public function getIsFirstHand(): ?bool
     {
         return $this->isFirstHand;
     }
@@ -595,6 +608,14 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @param bool $isUsed
+     */
+    public function setIsUsed(bool $isUsed): void
+    {
+        $this->isUsed = $isUsed;
+    }
+
+    /**
      * @param int $mileage
      */
     public function setMileage(int $mileage): void
@@ -675,9 +696,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param bool $isFirstHand
+     * @param bool|null $isFirstHand
      */
-    public function setIsFirstHand(bool $isFirstHand): void
+    public function setIsFirstHand(?bool $isFirstHand): void
     {
         $this->isFirstHand = $isFirstHand;
     }

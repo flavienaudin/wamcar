@@ -150,6 +150,14 @@ class VehicleDTO
     }
 
     /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->specifics->isUsed;
+    }
+
+    /**
      * @return int
      */
     public function getMileage(): int
@@ -222,9 +230,9 @@ class VehicleDTO
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isFirstHand(): bool
+    public function isFirstHand(): ?bool
     {
         return $this->specifics->isFirstHand;
     }

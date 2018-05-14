@@ -21,6 +21,7 @@ class PersonalVehicleBuilder
             $vehicleDTO->getTransmission(),
             Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()),
             $vehicleDTO->getRegistrationDate(),
+            $vehicleDTO->isUsed(),
             $vehicleDTO->getMileage(),
             [],
             $vehicleDTO->getSafetyTestDate(),
@@ -56,6 +57,7 @@ class PersonalVehicleBuilder
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setTransmission($vehicleDTO->getTransmission());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
+        $vehicle->setIsUsed($vehicleDTO->isUsed());
         $vehicle->setMileage($vehicleDTO->getMileage());
         $vehicle->setSafetyTestDate($vehicleDTO->getSafetyTestDate());
         $vehicle->setSafetyTestState($vehicleDTO->getSafetyTestState());

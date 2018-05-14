@@ -1,12 +1,13 @@
 {% set infos_vehicle = [
     {label: "vehicle.section.infos.make.label"|trans, value: vehicle.make},
     {label: "vehicle.section.infos.model.label"|trans, value: vehicle.modelName},
-    {label: "vehicle.section.infos.statut.label"|trans, value: vehicle.isFirstHand?'VEHICLE_STATUT.FIRST_HAND'|trans({},'enumeration'):'VEHICLE_STATUT.SECOND_HAND'|trans({},'enumeration')},
-    {label: (vehicle.isFirstHand?"vehicle.section.infos.commercializationDate.label"|trans:"vehicle.section.infos.registrationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
+    {label: "vehicle.section.infos.statut.label"|trans, value: vehicle.isUsed?'VEHICLE_STATUT.FIRST_HAND'|trans({},'enumeration'):'VEHICLE_STATUT.SECOND_HAND'|trans({},'enumeration')},
+    {label: (vehicle.isUsed?"vehicle.section.infos.commercializationDate.label"|trans:"vehicle.section.infos.registrationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
     {label: "vehicle.section.infos.mileage.label"|trans, value: vehicle.mileAge|localizednumber ~ ' km' },
     {label: "vehicle.section.infos.engine_name.label"|trans, value: vehicle.engineName },
     {label: "vehicle.section.infos.transmission.label"|trans, value: vehicle.transmission },
     {label: "vehicle.section.infos.fuel_name.label"|trans, value: vehicle.fuelName },
+    {label: "vehicle.section.infos.first_hand.label"|trans, value: vehicle.isFirstHand is null ? null : vehicle.isFirstHand ? 'global.yes'|trans : 'global.no'|trans },
     {label: "vehicle.section.infos.imported.label"|trans, value: vehicle.isImported is null ? null : vehicle.isImported ? 'global.yes'|trans : 'global.no'|trans },
 ] %}
 

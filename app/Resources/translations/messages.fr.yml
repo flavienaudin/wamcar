@@ -144,7 +144,7 @@ vehicle:
       label:
         main: Photo principale conseillée
         additionnal: Photo supplémentaire conseillée
-    isFirstHand:
+    isUsed:
       label: Statut
       require_message: Veuillez préciser si le véhicule est neuf ou d'occasion
     registrationDate:
@@ -170,6 +170,8 @@ vehicle:
       label: Résultat du dernier controle technique
     timingBeltState:
       label: Etat de la courroie de distribution
+    isFirstHand:
+      label: Première main
     imported:
       label : Véhicule importé
     additionalInformation:

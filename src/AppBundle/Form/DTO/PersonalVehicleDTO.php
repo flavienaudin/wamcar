@@ -42,6 +42,7 @@ class PersonalVehicleDTO extends VehicleDTO
 
         $dto->specifics = VehicleSpecificsDTO::buildFromSpecifics(
             $vehicle->getRegistrationDate(),
+            $vehicle->isUsed(),
             $vehicle->getMileage(),
             $vehicle->getTimingBeltState(),
             $vehicle->getSafetyTestDate(),
@@ -51,7 +52,7 @@ class PersonalVehicleDTO extends VehicleDTO
             $vehicle->getTyreState(),
             $vehicle->getMaintenanceState(),
             $vehicle->isImported(),
-            $vehicle->getisFirstHand(),
+            $vehicle->getIsFirstHand(),
             $vehicle->getAdditionalInformation(),
             $vehicle->getPostalCode(),
             $vehicle->getCityName(),

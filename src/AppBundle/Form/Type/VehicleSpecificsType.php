@@ -40,6 +40,10 @@ class VehicleSpecificsType extends AbstractType
                     'data-date-format' => 'yyyy-mm-dd'
                 ]
             ])
+            ->add('isUsed', VehicleStatutType::class, [
+                'required' => true,
+                'error_bubbling' => true
+            ])
             ->add('mileage', AmountType::class, [
                 'error_bubbling' => true,
             ])
@@ -83,8 +87,9 @@ class VehicleSpecificsType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true
             ])
-            ->add('isFirstHand', VehicleStatutType::class, [
-                'error_bubbling' => true,
+            ->add('isFirstHand', YesNoType::class, [
+                'required' => false,
+                'error_bubbling' => true
             ])
             ->add('additionalInformation', TextareaType::class, [
                 'required' => false,
@@ -96,8 +101,9 @@ class VehicleSpecificsType extends AbstractType
         $builder->get('safetyTestState')->addModelTransformer(new EnumDataTransformer(SafetyTestState::class));
         $builder->get('maintenanceState')->addModelTransformer(new EnumDataTransformer(MaintenanceState::class));
 
+        $builder->get('isUsed')->addModelTransformer(new VehicleStatutDataTransformer());
         $builder->get('isImported')->addModelTransformer(new YesNoDataTransformer());
-        $builder->get('isFirstHand')->addModelTransformer(new VehicleStatutDataTransformer());
+        $builder->get('isFirstHand')->addModelTransformer(new YesNoDataTransformer());
 
         $this->addAutocompletableCityField($builder, $data);
     }

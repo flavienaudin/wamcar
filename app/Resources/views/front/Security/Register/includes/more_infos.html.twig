@@ -10,12 +10,12 @@
 <section class="small-12 large-7">
     <div class="column">
         <div class="block-grid input-margin">
-            {{ form_widget(vehicleForm.specifics.isFirstHand, {
+            {{ form_widget(vehicleForm.specifics.isUsed, {
                 'class' : 'medium-no-margin small-12 medium-4',
-                'label' : 'vehicle.field.isFirstHand.label'|trans,
+                'label' : 'vehicle.field.isUsed.label'|trans,
                 'label_class' : 'medium-no-margin small-12 medium-4',
                 'required' : true,
-                'required_message' : 'vehicle.field.isFirstHand.require_message'|trans,
+                'required_message' : 'vehicle.field.isUsed.require_message'|trans,
                 'required_class' : 'form-error',
                 'list_class': 'small-up-2 small-12 medium-8',
                 'values_translation_domain':'enumeration'
@@ -106,6 +106,15 @@
         </div>
 
         <div class="form-separator">
+            <div class="block-grid input-margin">
+                {{ form_widget(vehicleForm.specifics.isFirstHand, {
+                    'class' : 'medium-no-margin small-12 medium-4',
+                    'label' : 'vehicle.field.isFirstHand.label'|trans,
+                    'label_class' : 'medium-no-margin small-12 medium-4',
+                    'required' : false,
+                    'list_class': 'small-up-2 small-12 medium-8'
+                }) }}
+            </div>
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.isImported, {
                     'class' : 'medium-no-margin small-12 medium-4',
