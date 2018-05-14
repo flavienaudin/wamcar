@@ -246,6 +246,14 @@ class VehicleDTO
     }
 
     /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->specifics->getCity();
+    }
+
+    /**
      * @param Transmission $transmission
      */
     public function setTransmission(Transmission $transmission): void
@@ -287,11 +295,16 @@ class VehicleDTO
     }
 
     /**
-     * @return City
+     * @param City|null $city
      */
-    public function getCity(): City
+    public function setCity(?City $city)
     {
-        return $this->specifics->getCity();
+        if ($city != null) {
+            $this->specifics->postalCode = $city->getPostalCode();
+            $this->specifics->cityName = $city->getName();
+            $this->specifics->longitude = $city->getLongitude();
+            $this->specifics->latitude = $city->getLatitude();
+        }
     }
 
 

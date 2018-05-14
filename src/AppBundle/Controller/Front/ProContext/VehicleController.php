@@ -80,6 +80,7 @@ class VehicleController extends BaseController
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
         } else {
             $vehicleDTO = new ProVehicleDTO($plateNumber);
+            $vehicleDTO->setCity($garage->getCity());
         }
 
         $filters = $vehicleDTO->retrieveFilter();
