@@ -16,7 +16,7 @@ class AmountTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        return "'".$value."'";
+        return (string) $value;
     }
 
     /**
