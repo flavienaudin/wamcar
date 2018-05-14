@@ -31,9 +31,15 @@
             </header>
             {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
             <strong class="black-color h2 column small-12">Les dernières offres publiées sur Wamcar</strong>
-            {% set vehiclesToList = last_vehicles %}
             {% set balise = 'h3' %}
-            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+            <div class="last-vehicles-container">
+                <div class="vehicle-list small-12">
+                    {% for vehicle in last_vehicles %}
+                        {% include 'front/Search/includes/item_personal.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+
             <footer class="section-footer column small-12 medium-7 large-5">
                 <a href="{{ path('front_search_personal') }}" class="button">Découvrez tous les véhicules près de chez vous</a>
             </footer>
