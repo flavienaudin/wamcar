@@ -35,7 +35,10 @@
     </div>
 </header>
 
-<div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
-     {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
-</div>
+{% if not isLogged %}
+    <div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
+        {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
+    </div>
+{% endif %}
+
 <div id="js-off-canvas-navigation" class="off-canvas off-canvas-navigation position-right" data-off-canvas></div>
