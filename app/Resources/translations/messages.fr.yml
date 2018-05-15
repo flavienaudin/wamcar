@@ -32,6 +32,31 @@ global:
     dislike: Je n'aime plus
     like_vehicle: J'aime ce véhicule
 
+homepage:
+  title: Accueil
+  vehicle_form:
+    header:
+      title: Je change de voiture
+      subtitle: Déposez votre annonce, recevez et comparer les offres de reprise des professionnels
+    tabs:
+      immatriculation:
+        title: Identifier par immatriculation
+        field:
+          immatriculation:
+            label: Numéro d'immatriculation
+            placeholder: "Ex: AA-123-BB, 123AA55"
+            required_message: Veuillez indiquer un numéro d'immatriculation
+          replacement:
+            label: Je cherche un véhicule pour le remplacer
+      model:
+        title: Modèle
+        field:
+
+    submit:
+      text: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
+      button: C'est parti !
+  background.alt: Je veux changer de voiture
+
 garage:
   my_garage: Mon garage
   tabs:
@@ -134,22 +159,22 @@ vehicle:
     make:
       label: Marque
       placeholder: Marque du véhicule
-      require_message: Veuillez indiquer la marque du véhicule
+      required_message: Veuillez indiquer la marque du véhicule
     model:
       label: Modèle
       placeholder: Modèle du véhicule
-      require_message: Veuillez indiquer le modèle du véhicule
+      required_message: Veuillez indiquer le modèle du véhicule
     engine:
       label: Motorisation
       placeholder: Motorisation du véhicule
-      require_message: Veuillez indiquer la motorisation du véhicule
+      required_message: Veuillez indiquer la motorisation du véhicule
     fuel:
       label: Energie
       placeholder: Carburant du véhicule
-      require_message: Veuillez indiquer l'énergie du véhicule
+      required_message: Veuillez indiquer l'énergie du véhicule
     transmission:
       label: Boite de vitesse
-      require_message: Veuillez indiquer la boite de vitesse du véhicule
+      required_message: Veuillez indiquer la boite de vitesse du véhicule
     vin:
       label: V.I.N.
     picture:
@@ -158,16 +183,16 @@ vehicle:
         additionnal: Photo supplémentaire conseillée
     isUsed:
       label: Statut
-      require_message: Veuillez préciser si le véhicule est neuf ou d'occasion
+      required_message: Veuillez préciser si le véhicule est neuf ou d'occasion
     registrationDate:
       label: Date de 1ère mise en circulation ou de commercialisation
-      require_message: Veuillez indiquer la date de 1ère mise en circulation
+      required_message: Veuillez indiquer la date de 1ère mise en circulation
     commercializationDate:
       label: Date de commercialisation
-      require_message: Veuillez indiquer la date de commercialisation
+      required_message: Veuillez indiquer la date de commercialisation
     mileage:
       label: Kilométrage
-      require_message: Veuillez indiquer un kilométrage
+      required_message: Veuillez indiquer un kilométrage
     body_state:
       label: Etat de la carrosserie
     engine_state:
@@ -192,10 +217,10 @@ vehicle:
     city:
       label: Ville
       placeholder: Ville, CP
-      require_message: Veuillez indiquer votre ville
+      required_message: Veuillez indiquer votre ville
     price:
       label: Prix (€)
-      require_message: Veuillez indiquer le prix de vente de votre véhicule.
+      required_message: Veuillez indiquer le prix de vente de votre véhicule.
     catalogPrice:
       label: Prix catalogue (€)
     discount:
