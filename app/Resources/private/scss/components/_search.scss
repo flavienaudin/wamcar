@@ -44,7 +44,7 @@
   &-actions-open {
     &.is-active {
       &::before {
-        content: "-";
+        content: '\2212';
         width: rem-calc(14);
         height: rem-calc(14);
         line-height: rem-calc(9);

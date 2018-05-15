@@ -31,6 +31,7 @@
         @include breakpoint(small only) {
             width: rem-calc(20);
             height: rem-calc(20);
+            margin-right: rem-calc(3);
         }
         &:not(.google-rating-label) {
             &::before {
@@ -46,6 +47,11 @@
             width: rem-calc(20);
             height: rem-calc(20);
             margin-right: rem-calc(4);
+
+            @include breakpoint(small only) {
+                margin-right: 0;
+            }
+
             &:not(.google-rating-label) {
                 &::before {
                     font: rem-calc(20) 'icomoon';

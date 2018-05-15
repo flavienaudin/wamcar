@@ -13,7 +13,7 @@
             <p class="no-margin"><a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
             <p class="no-margin"><a href="{{ path('front_garage_view', {'id':vehicle.garage.id}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
 
-            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:false, garageRating:vehicle.garage.googleRating|default(null)}) }}
+            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:true, garageRating:vehicle.garage.googleRating|default(null)}) }}
         </div>
     </div>
 {% endblock %}
