@@ -16,6 +16,17 @@
                 cursor: pointer;
             }
         }
+
+        &-container {
+            display: flex;
+            @include breakpoint(small only){
+                justify-content: center;
+
+                .star-label-sticky{
+                    width: 80px;
+                }
+            }
+        }
     }
     /*
      Item
@@ -115,6 +126,16 @@
             color: #EB6E00;
         }
     }
+
+    &-label-sticky {
+        margin-left: rem-calc(10);
+        line-height: rem-calc(30);
+
+        @include breakpoint(small only) {
+            line-height: rem-calc(20);
+        }
+    }
+
     /*
      Required message
      ===================================== */

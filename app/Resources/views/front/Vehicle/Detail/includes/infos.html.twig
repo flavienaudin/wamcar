@@ -22,7 +22,10 @@
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for info in infos_vehicle %}
         {% if info.value %}
-            <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
+            <li class="dark-gray-color block-grid">
+                <strong class="small-5 medium-4 large-5 xlarge-3">{{ info.label }}</strong>
+                <span class="small-auto">{{ info.value }}</span>
+            </li>
         {% endif %}
     {% endfor %}
 </ul>
