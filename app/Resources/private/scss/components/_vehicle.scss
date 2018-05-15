@@ -157,6 +157,12 @@
 
     /* Exceptions */
 
+    @include breakpoint(small only) {
+      > div:first-child {
+        min-height: fit-content;
+      }
+    }
+
     .garage-container &,
     .separator-section &,
     .section &{
