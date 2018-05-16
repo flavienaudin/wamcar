@@ -2,15 +2,11 @@
    Register
    =========================================================================== */
 
-import $ from 'jquery';
 import { Abide } from 'foundation-sites/js/foundation.abide';
+import $ from 'jquery';
 import Siema from 'siema';
+import { activeClass, disabledClass, hideClass } from '../settings/settings.js';
 import getIndex from './getIndex';
-import {
-  hideClass,
-  activeClass,
-  disabledClass
-} from '../settings/settings.js';
 import scrollTo from './scrollTo';
 
 const $step = document.getElementById('js-step');
@@ -22,7 +18,6 @@ export const $registerForm = document.getElementById('js-register-form');
  * @class Step
  */
 class Step {
-
   /**
    * Creates an instance of Register.
    * @memberof Step
@@ -73,7 +68,11 @@ class Step {
       loop: false,
       onInit: () => {
         this._init = true;
-        window.history.pushState({step: 1}, document.title +  ' - etape-1', '#etape-1');
+        window.history.pushState(
+          { step: 1 },
+          document.title + ' - etape-1',
+          '#etape-1'
+        );
       },
       onChange: function() {
         this.setAutoHeight();
@@ -88,7 +87,7 @@ class Step {
         let currentItems, min, max, itemHeightList, height, maxHeight;
 
         min = this.currentSlide;
-        max =  min + this.perPage;
+        max = min + this.perPage;
         itemHeightList = [];
 
         for (i = min; i < max; i++) {
@@ -100,11 +99,9 @@ class Step {
         this.sliderFrame.style.height = maxHeight + 'px';
       };
 
-      window.addEventListener('resize', () => {
-        this.sliderFrame.style.height = '';
-        clearTimeout(timeout);
-        timeout = setTimeout(autoHeight, 500);
-      });
+      this.sliderFrame.style.height = '';
+      clearTimeout(timeout);
+      timeout = setTimeout(autoHeight, 500);
 
       autoHeight();
     };
@@ -121,7 +118,10 @@ class Step {
   valid() {
     const isValid = this.step.validateForm();
     this.carousel.setAutoHeight();
-    return new Promise((resolve) => isValid ? resolve(scrollTo('body')) : scrollTo('.is-invalid-input'));
+    return new Promise(
+      resolve =>
+        isValid ? resolve(scrollTo('body')) : scrollTo('.is-invalid-input')
+    );
   }
 
   /**
@@ -141,7 +141,7 @@ class Step {
    * @memberof Step
    */
   next() {
-    return new Promise((resolve) => resolve(this.carousel.next()));
+    return new Promise(resolve => resolve(this.carousel.next()));
   }
 
   /**
@@ -151,7 +151,7 @@ class Step {
    * @memberof Step
    */
   prev() {
-    return new Promise((resolve) => resolve(this.carousel.prev()));
+    return new Promise(resolve => resolve(this.carousel.prev()));
   }
 
   /**
@@ -162,7 +162,7 @@ class Step {
    * @memberof Step
    */
   goToSlide(index) {
-    return new Promise((resolve) => resolve(this.carousel.goTo(index)));
+    return new Promise(resolve => resolve(this.carousel.goTo(index)));
   }
 
   /**
@@ -184,7 +184,9 @@ class Step {
    */
   _getCurrentSlideItem() {
     const currentSlide = this.carousel.currentSlide + 1;
-    const $currentSlide = document.querySelector(`[data-step="${currentSlide}"]`);
+    const $currentSlide = document.querySelector(
+      `[data-step="${currentSlide}"]`
+    );
     return $currentSlide;
   }
 
@@ -243,9 +245,13 @@ class Step {
     newElementActive.classList.add(activeClass);
 
     let $prevs = $(newElementActive).prevAll('.js-step-navigation');
-    let stepNum = $prevs.length +1;
+    let stepNum = $prevs.length + 1;
 
-    window.history.pushState({step: stepNum}, document.title +  ' - Etape -' + stepNum, '#etape-' + stepNum);
+    window.history.pushState(
+      { step: stepNum },
+      document.title + ' - Etape -' + stepNum,
+      '#etape-' + stepNum
+    );
 
     this.updateProgressBar(offset);
   }
@@ -260,25 +266,25 @@ class Step {
     const value = this._getActiveItemNavigation().offsetLeft;
     $progressBar.style.width = `${value}px`;
   }
-
 }
 
 /* Running */
 
 if ($step) {
-
-  const $stepNavigation = document.getElementById('js-register-step-navigation');
+  const $stepNavigation = document.getElementById(
+    'js-register-step-navigation'
+  );
   const $prevButton = document.querySelector('.js-carousel-prev');
   const $nextButton = document.querySelector('.js-carousel-next');
   const step = new Step();
   step.initAbide();
 
-  window.addEventListener('popstate', (event) => {
+  window.addEventListener('popstate', event => {
     let currentSlide = step.getCurrentSlide();
     const index = event.state.step;
     // Prev direction
     if (index < currentSlide) {
-      while(index < currentSlide) {
+      while (index < currentSlide) {
         step.prev().then(() => {
           step.updateNavigation('prev');
           step.initAbide();
@@ -290,13 +296,16 @@ if ($step) {
       }
     } else if (currentSlide < index) {
       // Next direction
-      step.valid().then(() => {
-        return step.next();
-      }).then(() => {
-        step.updateNavigation('next');
-        step.initAbide();
-        showPrevButton();
-      });
+      step
+        .valid()
+        .then(() => {
+          return step.next();
+        })
+        .then(() => {
+          step.updateNavigation('next');
+          step.initAbide();
+          showPrevButton();
+        });
     }
   });
 
@@ -315,15 +324,21 @@ if ($step) {
   }
 
   function showPrevButton() {
-    document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
+    document
+      .getElementById('js-step-navigation')
+      .querySelector('.js-carousel-prev')
+      .classList.remove(hideClass);
   }
 
   function hidePrevButton() {
-    document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.add(hideClass);
+    document
+      .getElementById('js-step-navigation')
+      .querySelector('.js-carousel-prev')
+      .classList.add(hideClass);
   }
 
   // Button prev step
-  [...document.querySelectorAll('.js-carousel-prev')].forEach((item) => {
+  [...document.querySelectorAll('.js-carousel-prev')].forEach(item => {
     item.addEventListener('click', () => {
       step.prev().then(() => {
         step.updateNavigation('prev');
@@ -337,25 +352,30 @@ if ($step) {
 
   // Button next step
   $nextButton.addEventListener('click', () => {
-    step.valid().then(() => {
-      return step.next();
-    }).then(() => {
-      step.updateNavigation('next');
-      step.initAbide();
-      document.getElementById('js-step-navigation').querySelector('.js-carousel-prev').classList.remove(hideClass);
-
-    });
+    step
+      .valid()
+      .then(() => {
+        return step.next();
+      })
+      .then(() => {
+        step.updateNavigation('next');
+        step.initAbide();
+        document
+          .getElementById('js-step-navigation')
+          .querySelector('.js-carousel-prev')
+          .classList.remove(hideClass);
+      });
   });
 
   // Step navigation
-  [...document.querySelectorAll('.js-step-navigation')].forEach((item) => {
+  [...document.querySelectorAll('.js-step-navigation')].forEach(item => {
     item.addEventListener('click', () => {
       let currentSlide = step.getCurrentSlide();
       const index = getIndex(item);
 
       // Prev direction
       if (index < currentSlide) {
-        while(index < currentSlide) {
+        while (index < currentSlide) {
           step.prev().then(() => {
             step.updateNavigation('prev');
             step.initAbide();
@@ -366,7 +386,7 @@ if ($step) {
           currentSlide = step.getCurrentSlide();
         }
       } else if (currentSlide < index) {
-        while(currentSlide < index) {
+        while (currentSlide < index) {
           if (step.validBool()) {
             step.next().then(() => {
               step.updateNavigation('next');
