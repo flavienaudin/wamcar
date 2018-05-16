@@ -296,11 +296,6 @@
     @include breakpoint(large only) {
       columns: 2;
       column-gap: rem-calc(40);
-
-      > li {
-        display: inline-block;
-        width: 100%;
-      }
     }
   }
 
