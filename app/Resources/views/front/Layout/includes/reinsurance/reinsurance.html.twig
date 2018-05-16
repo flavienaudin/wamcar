@@ -10,6 +10,11 @@
         content: 'Aucun engagement, aucune commission.'
     },
     {
+        svg: 'star',
+        title: 'Avisé',
+        content: 'Bénéficiez des avis <img src="'~asset('assets/images/google/powered_by_google_on_non_white.png')~'" alt="'~'global.poweredByGoogle'|trans~'" title="'~'global.poweredByGoogle'|trans~'"> en temps réel.'
+    },
+    {
         svg: 'just',
         title: 'Juste',
         content: 'Site indépendant de tout groupe ou marque.'
@@ -22,7 +27,7 @@
 ] %}
 
 <h2 class="h1 small-12 text-center">Quatre bonnes raisons de vendre sur <span class="primary-color">Wamcar</span></h2>
-<ul class="reinsurance row small-12 small-up-1 medium-up-4 no-bullet">
+<ul class="reinsurance row small-12 small-up-1 medium-up-5 no-bullet">
     {% for reinsurance in reinsurance_list %}
         <li class="reinsurance-item block-grid column align-middle">
             <div class="small-4 medium-12 column medium-text-center">
@@ -30,7 +35,7 @@
             </div>
             <div class="small-8 medium-12 medium-text-center">
                 <h3 class="h2 primary-color">{{ reinsurance.title }}</h3>
-                <p class="no-margin">{{ reinsurance.content }}</p>
+                <p class="no-margin">{{ reinsurance.content|raw }}</p>
             </div>
         </li>
     {% endfor %}

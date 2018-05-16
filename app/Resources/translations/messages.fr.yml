@@ -26,6 +26,7 @@ flash:
 global:
   yes: Oui
   no: Non
+  poweredByGoogle: Produit par Google
   button:
     send_message: Envoyer un message
     more_information: Plus d'information
