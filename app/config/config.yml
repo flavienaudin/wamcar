@@ -60,7 +60,6 @@ twig:
         facebook_url: 'https://www.facebook.com/wamcar.france/'
         twitter_url: 'https://twitter.com/wamcar'
         inte: '%inte%'
-        google_analytics_id: '%env(GOOGLE_ANALYTICS_ID)%'
         google_tag_manager_id: '%env(GOOGLE_TAG_MANAGER_ID)%'
         google_api_client_key: '%env(GOOGLE_API_CLIENT_KEY)%'
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
