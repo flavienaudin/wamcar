@@ -2,13 +2,13 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+static:
+    resource: "routing/static.yml"
+    prefix: /
+
 api:
     resource: "routing/api.yml"
     prefix: /api/
-
-_integration:
-    resource: "routing/_integration.yml"
-    prefix: /
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
