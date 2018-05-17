@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DTO\VehicleRegistrationDTO;
+use AppBundle\Form\Type\SpecificField\VINType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -19,7 +20,7 @@ class VehicleRegistrationType extends AbstractType
                 'required' => false,
                 'error_bubbling' => true,
             ])
-            ->add('vin', TextType::class, [
+            ->add('vin', VINType::class, [
                 'required' => false,
                 'error_bubbling' => true,
             ]);
