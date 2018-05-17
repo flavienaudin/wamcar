@@ -5,7 +5,7 @@
     { label: "vehicle.field.maintenance_state.label"|trans(), value: vehicle.maintenanceState is null ? null : vehicle.maintenanceState.key|trans([], 'enumeration') },
     { label: "vehicle.field.safety_test_date.label"|trans(), value: vehicle.safetyTestDate is null ? null : vehicle.safetyTestDate.key|trans([], 'enumeration') },
     { label: "vehicle.field.safety_test_state.label"|trans(), value: vehicle.safetyTestState is null  ? null : vehicle.safetyTestState.key|trans([], 'enumeration') },
-    { label: "vehicle.field.timingBeltState.label"|trans(), value: (vehicle.getTimingBeltState is null ? null : vehicle.getTimingBeltState ? 'global.yes'|trans : 'global.no'|trans) },
+    { label: "vehicle.field.timingBeltState.label"|trans(), value: vehicle.timingBeltState is null ? null : vehicle.timingBeltState.key|trans([], 'enumeration') },
 ] %}
 {% for state in state_infos if state.value %}
     <li class="dark-gray-color block-grid">
