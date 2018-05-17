@@ -5,9 +5,6 @@ namespace AppBundle\Api\EntityBuilder;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\Engine;
-use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
-use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -128,7 +125,7 @@ class ProVehicleBuilder implements VehicleBuilder
      */
     protected static function getTransmissionMatch(?string $label): Transmission
     {
-        if(!$label) {
+        if (!$label) {
             return Transmission::MANUAL();
         }
 

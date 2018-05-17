@@ -3,7 +3,7 @@
     { label: "vehicle.field.engine_state.label"|trans(), value: vehicle.engineState|default(null) },
     { label: "vehicle.field.tyre_state.label"|trans(), value: vehicle.tyreState|default(null) },
     { label: "vehicle.field.maintenance_state.label"|trans(), value: vehicle.maintenanceState is null ? null : vehicle.maintenanceState.key|trans([], 'enumeration') },
-    { label: "vehicle.field.safety_test_date.label"|trans(), value: vehicle.safetyTestDate is null ? null : vehicle.safetyTestDate.key|trans([], 'enumeration') },
+    { label: "vehicle.field.safety_test_date.label"|trans(), value: vehicle.safetyTestDate is null ? null : vehicle.safetyTestDate|date("d/m/Y") },
     { label: "vehicle.field.safety_test_state.label"|trans(), value: vehicle.safetyTestState is null  ? null : vehicle.safetyTestState.key|trans([], 'enumeration') },
     { label: "vehicle.field.timingBeltState.label"|trans(), value: vehicle.timingBeltState is null ? null : vehicle.timingBeltState.key|trans([], 'enumeration') },
 ] %}

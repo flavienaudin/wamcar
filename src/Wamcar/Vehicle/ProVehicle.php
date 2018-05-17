@@ -10,7 +10,6 @@ use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Enum\Funding;
 use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
@@ -49,7 +48,7 @@ class ProVehicle extends BaseVehicle
         bool $isUsed,
         int $mileage,
         array $pictures,
-        SafetyTestDate $safetyTestDate = null,
+        \DateTimeInterface $safetyTestDate = null,
         SafetyTestState $safetyTestState = null,
         int $bodyState = null,
         int $engineState = null,

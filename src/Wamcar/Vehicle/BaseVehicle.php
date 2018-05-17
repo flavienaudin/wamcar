@@ -13,7 +13,7 @@ use Wamcar\User\{
     BaseLikeVehicle, BaseUser, Picture as UserPicture
 };
 use Wamcar\Vehicle\Enum\{
-    MaintenanceState, SafetyTestDate, SafetyTestState, TimingBeltState, Transmission
+    MaintenanceState, SafetyTestState, TimingBeltState, Transmission
 };
 
 abstract class BaseVehicle implements Vehicle
@@ -37,7 +37,7 @@ abstract class BaseVehicle implements Vehicle
     protected $mileage;
     /** @var Collection */
     protected $pictures;
-    /** @var SafetyTestDate|null  */
+    /** @var \DateTimeInterface |null  */
     protected $safetyTestDate;
     /** @var SafetyTestState|null  */
     protected $safetyTestState;
@@ -79,7 +79,7 @@ abstract class BaseVehicle implements Vehicle
      * @param bool $isUsed
      * @param int $mileage
      * @param array $pictures
-     * @param SafetyTestDate|null $safetyTestDate
+     * @param \DateTimeInterface|null $safetyTestDate
      * @param SafetyTestState|null $safetyTestState
      * @param int|null $bodyState
      * @param int|null $engineState
@@ -99,7 +99,7 @@ abstract class BaseVehicle implements Vehicle
         bool $isUsed,
         int $mileage,
         array $pictures,
-        SafetyTestDate $safetyTestDate = null,
+        \DateTimeInterface $safetyTestDate = null,
         SafetyTestState $safetyTestState = null,
         int $bodyState = null,
         int $engineState = null,
@@ -273,9 +273,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return SafetyTestDate|null
+     * @return \DateTimeInterface |null
      */
-    public function getSafetyTestDate(): ?SafetyTestDate
+    public function getSafetyTestDate(): ?\DateTimeInterface
     {
         return $this->safetyTestDate;
     }
@@ -632,9 +632,9 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param SafetyTestDate|null $safetyTestDate
+     * @param \DateTimeInterface |null $safetyTestDate
      */
-    public function setSafetyTestDate(?SafetyTestDate $safetyTestDate): void
+    public function setSafetyTestDate(?\DateTimeInterface  $safetyTestDate): void
     {
         $this->safetyTestDate = $safetyTestDate;
     }

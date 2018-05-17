@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\{
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\TimingBeltState;
 
@@ -35,9 +34,10 @@ class VehicleSpecificsType extends AbstractType
                 'error_bubbling' => true,
                 'html5' => false,
                 'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
                 'attr' => [
                     'data-view' => 'years',
-                    'data-date-format' => 'yyyy-mm-dd'
+                    'data-date-format' => 'dd-mm-yyyy'
                 ]
             ])
             ->add('isUsed', VehicleStatutType::class, [
@@ -53,11 +53,16 @@ class VehicleSpecificsType extends AbstractType
                 'choice_translation_domain' => 'enumeration',
                 'error_bubbling' => true,
             ])
-            ->add('safetyTestDate', ChoiceType::class, [
-                'required' => false,
-                'choices' => SafetyTestDate::toArray(),
-                'choice_translation_domain' => 'enumeration',
+            ->add('safetyTestDate', DateType::class, [
                 'error_bubbling' => true,
+                'required' => false,
+                'html5' => false,
+                'widget' => 'single_text',
+                'format' => 'dd-MM-yyyy',
+                'attr' => [
+                    'data-view' => 'years',
+                    'data-date-format' => 'dd-mm-yyyy'
+                ]
             ])
             ->add('safetyTestState', ChoiceType::class, [
                 'required' => false,
@@ -97,7 +102,6 @@ class VehicleSpecificsType extends AbstractType
             ]);
 
         $builder->get('timingBeltState')->addModelTransformer(new EnumDataTransformer(TimingBeltState::class));
-        $builder->get('safetyTestDate')->addModelTransformer(new EnumDataTransformer(SafetyTestDate::class));
         $builder->get('safetyTestState')->addModelTransformer(new EnumDataTransformer(SafetyTestState::class));
         $builder->get('maintenanceState')->addModelTransformer(new EnumDataTransformer(MaintenanceState::class));
 
