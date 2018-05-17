@@ -93,9 +93,9 @@
             label: 'vehicle.field.vin.label'|trans,
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
-            required: false,
-
+            required: false
         }) }}
-        {{  form_errors(vehicleForm.vehicleRegistration.vin) }}
+        <small class="form-error medium-offset-4">{{ 'vehicle.field.timingBeltState.format_error'|trans }}</small>
+        {{ form_errors(vehicleForm.vehicleRegistration.vin) }}
     </div>
 </section>

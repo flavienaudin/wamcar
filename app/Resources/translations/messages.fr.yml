@@ -208,6 +208,7 @@ vehicle:
       label: Résultat du dernier controle technique
     timingBeltState:
       label: Etat de la courroie de distribution
+      format_error: Le V.I.N. est composé de 17 caractères
     isFirstHand:
       label: Première main
     imported:
