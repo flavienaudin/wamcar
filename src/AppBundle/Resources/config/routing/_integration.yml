@@ -72,12 +72,6 @@ inte_login:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Login/login.html.twig
 
-inte_cgu:
-    path: /inte/conditions-generales-utilisation
-    defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Static/cgu.html.twig
-
 inte_search:
     path: /inte/recherche
     defaults:

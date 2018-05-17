@@ -1,0 +1,5 @@
+cgu:
+    path: /conditions-generales-utilisation
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Static/cgu.html.twig
