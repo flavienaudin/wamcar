@@ -21,7 +21,7 @@ class Version20180509092301 extends AbstractMigration
         $this->addSql('UPDATE personal_vehicle SET maintenance_state = NULL WHERE maintenance_state = ""');
         $this->addSql('UPDATE personal_vehicle SET safety_test_date = NULL WHERE safety_test_date = ""');
         $this->addSql('UPDATE personal_vehicle SET safety_test_state = NULL WHERE safety_test_state = ""');
-        $this->addSql('UPDATE personal_vehicle SET is_first_hand = NULL WHERE safety_test_state = ""');
+        $this->addSql('UPDATE personal_vehicle SET is_first_hand = false WHERE is_first_hand IS NULL');
         $this->addSql('UPDATE pro_vehicle SET maintenance_state = NULL WHERE maintenance_state = ""');
         $this->addSql('UPDATE pro_vehicle SET safety_test_date = NULL WHERE safety_test_date = ""');
         $this->addSql('UPDATE pro_vehicle SET safety_test_state = NULL WHERE safety_test_state = ""');

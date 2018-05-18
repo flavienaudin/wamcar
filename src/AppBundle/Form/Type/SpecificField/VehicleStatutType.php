@@ -7,15 +7,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class VehicleStatutType extends ChoiceType
 {
-    const NEW = 'VEHICLE_STATUT.FIRST_HAND';
-    const SECOND_HAND = 'VEHICLE_STATUT.SECOND_HAND';
+    const NEW = 'VEHICLE_STATUT.NEW';
+    const USED = 'VEHICLE_STATUT.USED';
 
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('choices', [self::NEW, self::SECOND_HAND]);
+        $resolver->setDefault('choices', [self::NEW, self::USED]);
         $resolver->setDefault('expanded', true);
     }
 

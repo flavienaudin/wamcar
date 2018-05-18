@@ -2,30 +2,35 @@
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_user_info', {'id': vehicle.seller.id}) %}
+{% set vehicleSellerName = app.user == vehicle.seller?"global.you"|trans:vehicle.sellerName(not isLogged or isUserPersonal) %}
 
 {% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">
-        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ isUserPro ? vehicle.sellerAvatar|avatar('user_mini_thumbnail') : 'user_mini_thumbnail'|defaultAvatar }}" alt="{{ isUserPro ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans }}"></a></div>
+        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}"></a></div>
         <a href="{{ sellerUrl }}">
-        {% if vehicle.ownerProject and (vehicle.ownerProject.budget is not null or vehicle.ownerProject.projectVehicles|length > 0 ) %}
-            <div class="small-12 dark-gray-color">
-                {% if vehicle.ownerProject.budget is not null %}
-                    <p class="no-margin"><strong class="primary-color">Budget de {{ vehicle.ownerProject.budget|localizednumber }}&nbsp;€ pour</strong></p>
-                {% else %}
-                    <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
-                {% endif %}
-                <ul class="vehicle-user-greetings no-bullet">
-                    {% for projectVehicle in vehicle.ownerProject.projectVehicles %}
-                        <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
-                            {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
-                            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% else %}
-            <p class="dark-gray-color no-margin small-10 large-12"><strong>Ce vendeur n’a pas encore indiqué de souhaits</strong>. Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.</p>
-        {% endif %}
+            {% if vehicle.ownerProject and (vehicle.ownerProject.budget is not null or vehicle.ownerProject.projectVehicles|length > 0 ) %}
+                <div class="small-12 dark-gray-color">
+                    {% if vehicle.ownerProject.budget is not null %}
+                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user == vehicle.seller?0:1, {'%prenom%' : vehicleSellerName, '%budget%':vehicle.ownerProject.budget|localizednumber  }) }}</strong></p>
+                    {% else %}
+                        <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
+                    {% endif %}
+                    <ul class="vehicle-user-greetings no-bullet">
+                        {% for projectVehicle in vehicle.ownerProject.projectVehicles %}
+                            <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
+                                {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
+                                {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
+                            </li>
+                        {% else %}
+                            <li>{{ 'vehicle.item.no_wish'|trans }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="dark-gray-color no-margin small-10 large-12">
+                    <strong>{{ 'vehicle.item.no_project.title'|transchoice(app.user == vehicle.seller?0:1, {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                </p>
+            {% endif %}
         </a>
     </div>
 {% endblock  %}

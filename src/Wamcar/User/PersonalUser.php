@@ -41,7 +41,7 @@ class PersonalUser extends BaseUser
      * @return bool
      */
     public function canSeeMyProfile(?BaseUser $user): bool{
-        return $this->is($user) || ($user != null && $user->getType() === ProUser::TYPE);
+        return true;
     }
 
     /**
@@ -92,7 +92,7 @@ class PersonalUser extends BaseUser
      */
     public function canSeeMyVehicles(BaseUser $user = null): bool
     {
-        return $this->is($user) || ($user != null && $user->getType() === ProUser::TYPE);
+        return true;
     }
 
     /**

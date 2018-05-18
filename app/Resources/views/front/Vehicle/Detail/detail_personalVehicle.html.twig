@@ -17,7 +17,7 @@
 
 {% block body %}
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
-    {% set vehicleSellerName = isAbleToSeeFullInformation ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans %}
+    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
 
     {% if isEditableByCurrentUser %}
         {% set breadcrumbs = [
@@ -48,7 +48,7 @@
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.sellerName }}",
+    "name" : "{{ vehicleSellerName }}",
     }
     </script>
 
@@ -89,6 +89,11 @@
                     <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                         {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
                     </div>
+                    {% if vehicle.additionalInformation|trim|length > 0 %}
+                        <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-additional-information" data-magellan-target="js-additional-information">
+                            {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' %}
+                        </div>
+                    {% endif %}
                     <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
                         {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
                     </div>
@@ -98,11 +103,6 @@
                             <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
                                 {{ state_block }}
                             </ul>
-                        </div>
-                    {% endif %}
-                    {% if vehicle.additionalInformation|trim|length > 0 %}
-                        <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-additional-information" data-magellan-target="js-additional-information">
-                            {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' %}
                         </div>
                     {% endif %}
                     <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">

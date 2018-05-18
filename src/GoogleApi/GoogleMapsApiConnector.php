@@ -71,7 +71,6 @@ class GoogleMapsApiConnector
             $decodedResponse = json_decode($jsonReponse->getBody(), true);
 
             if (isset($decodedResponse['error_message'])) {
-                dump($decodedResponse);
                 $this->eventBus->handle(new PlaceDetailError(
                     $decodedResponse['status'],
                     $decodedResponse['error_message'], [

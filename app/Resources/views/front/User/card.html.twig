@@ -2,14 +2,14 @@
 
 {% block title %}
     {% if userIsMe %}
-        Ma fiche profil
+        {{ 'user.title.personal.mine'|trans }}
     {% else %}
-        Fiche profil de {{ user.fullName }}
+        {{ 'user.title.personal.other'|trans({'%username%':app.user.isPro?user.fullName:user.firstName}) }}
     {% endif %}
 {% endblock %}
 
 {% block presentation %}
-    <h2>Présentation</h2>
+    <h2>{{ 'user.presentation.title.personal'|trans }}</h2>
     {% if user.description %}
         <p>{{ user.description|nl2br }}</p>
     {% elseif userIsMe %}
@@ -40,20 +40,18 @@
 {% endblock %}
 
 {% block vehicle %}
-    {% if iCanSeeUserVehicles %}
-        <div class="separator small-12 section">
-            <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
-            <div class="row">
-                {% set balise = 'h3' %}
-                {% set vehiclesToList = user.vehicles %}
-                {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-            </div>
-
-            {% if userIsMe %}
-                <div class="small-12 medium-6 large-4">
-                    <a href="{{ path('front_vehicle_personal_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
-                </div>
-            {% endif %}
+    <div class="separator small-12 section">
+        <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
+        <div class="row">
+            {% set balise = 'h3' %}
+            {% set vehiclesToList = user.vehicles %}
+            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
         </div>
-    {% endif %}
+
+        {% if userIsMe %}
+            <div class="small-12 medium-6 large-4">
+                <a href="{{ path('front_vehicle_personal_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

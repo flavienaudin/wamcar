@@ -76,7 +76,7 @@
                                 </div>
                                 <div class="messages-content messages-list-item-content">
                                     {% if conversationLastMessage.user.id == app.user.id %}
-                                        {{ 'conversation.you'|trans }}
+                                        {{ 'global.you'|trans }}
                                     {% else %}
                                         {{ conversationLastMessage.user.firstName }}
                                     {% endif %}&nbsp;:&nbsp;
