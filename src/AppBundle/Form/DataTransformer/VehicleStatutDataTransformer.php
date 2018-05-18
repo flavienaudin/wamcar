@@ -16,7 +16,7 @@ class VehicleStatutDataTransformer implements DataTransformerInterface
         if ($value === null)
             return null;
         else
-            return $value ? VehicleStatutType::NEW : VehicleStatutType::SECOND_HAND;
+            return $value ? VehicleStatutType::NEW : VehicleStatutType::USED;
     }
 
     /**
@@ -28,7 +28,7 @@ class VehicleStatutDataTransformer implements DataTransformerInterface
         switch ($value) {
             case VehicleStatutType::NEW:
                 return true;
-            case VehicleStatutType::SECOND_HAND:
+            case VehicleStatutType::USED:
                 return false;
             default:
                 return null;

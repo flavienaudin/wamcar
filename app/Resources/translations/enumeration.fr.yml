@@ -23,5 +23,5 @@ TO_CHANGE: 'A changer'
 NO_TIMING_BELT: 'Pas de courroie'
 
 VEHICLE_STATUT:
-  FIRST_HAND: 'Neuf'
-  SECOND_HAND: 'Occasion'
+  NEW: 'Neuf'
+  USED: 'Occasion'
