@@ -4,7 +4,6 @@ namespace AppBundle\Form\DTO;
 
 use Wamcar\Location\City;
 use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\TimingBeltState;
 
@@ -18,7 +17,7 @@ class VehicleSpecificsDTO
     public $mileage;
     /** @var TimingBeltState|null */
     public $timingBeltState;
-    /** @var SafetyTestDate|null */
+    /** @var \DateTimeInterface|null */
     public $safetyTestDate;
     /** @var SafetyTestState|null */
     public $safetyTestState;

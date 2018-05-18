@@ -85,7 +85,6 @@ doctrine:
             vehicletransmission:  AppBundle\Doctrine\Type\VehicleTransmissionType
             vehiclemaintenancestate:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
             vehiclesafetyteststate:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
-            vehiclesafetytestdate:  AppBundle\Doctrine\Type\VehicleSafetyTestDateType
             vehicleguarantee:  AppBundle\Doctrine\Type\GuaranteeType
             vehiclefunding:  AppBundle\Doctrine\Type\FundingType
             vehicletimingbeltstate:  AppBundle\Doctrine\Type\VehicleTimingBeltStateType

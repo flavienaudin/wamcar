@@ -29,7 +29,7 @@
                 'label_class' : 'medium-no-margin small-12 medium-4',
                 'required' : true,
                 'required_message' : 'vehicle.field.registrationDate.required_message'|trans,
-                'required_class' : 'form-error small-12 medium-offset-4',
+                'required_class' : 'form-error small-12 medium-offset-4'
             }) }}
         </div>
         <div class="block-grid input-margin">
@@ -39,7 +39,7 @@
                 'label_class' : 'medium-no-margin small-12 medium-4',
                 'required' : true,
                 'required_message' : 'vehicle.field.mileage.required_message'|trans,
-                'required_class' : 'form-error small-12 medium-offset-4',
+                'required_class' : 'form-error small-12 medium-offset-4'
             }) }}
         </div>
 
@@ -83,7 +83,7 @@
                 {{ form_widget(vehicleForm.specifics.safetyTestDate, {
                     label: 'vehicle.field.safety_test_date.label'|trans,
                     label_class: 'medium-no-margin small-12 medium-4',
-                    class: 'no-margin small-12 medium-8',
+                    class: 'no-margin small-12 medium-4 js-datepicker',
                     required: false
                 }) }}
             </div>

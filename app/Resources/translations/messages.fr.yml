@@ -203,9 +203,9 @@ vehicle:
     maintenance_state:
       label: Carnet d’entretien
     safety_test_date:
-      label: Date du dernier controle technique
+      label: Date de fin de validité du contrôle technique
     safety_test_state:
-      label: Résultat du dernier controle technique
+      label: Résultat du dernier contrôle technique
     timingBeltState:
       label: Etat de la courroie de distribution
       format_error: Le V.I.N. est composé de 17 caractères

@@ -5,7 +5,6 @@ namespace AppBundle\Form\DTO;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
@@ -174,9 +173,9 @@ class VehicleDTO
     }
 
     /**
-     * @return SafetyTestDate|null
+     * @return \DateTimeInterface|null
      */
-    public function getSafetyTestDate(): ?SafetyTestDate
+    public function getSafetyTestDate(): ?\DateTimeInterface
     {
         return $this->specifics->safetyTestDate;
     }
