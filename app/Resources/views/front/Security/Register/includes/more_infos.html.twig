@@ -17,7 +17,7 @@
                 'required' : true,
                 'required_message' : 'vehicle.field.isUsed.required_message'|trans,
                 'required_class' : 'form-error',
-                'list_class': 'small-up-2 small-12 medium-8',
+                'list_class': 'small-up-2 small-12 medium-8 js-is-used-controller',
                 'values_translation_domain':'enumeration'
 
             }) }}
@@ -43,13 +43,13 @@
             }) }}
         </div>
 
-        <div class="form-separator">
+        <div class="form-separator js-used-data-fields">
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.bodyState, {
                     'class' : 'medium-no-margin small-12 medium-4',
                     'required' : false,
                     'label' : 'Etat de la carrosserie',
-                    'label_class' : 'medium-no-margin small-12 medium-4',
+                    'label_class' : 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
             <div class="block-grid input-margin">
@@ -57,7 +57,7 @@
                     'class' : 'medium-no-margin small-12 medium-4',
                     'required' : false,
                     'label' : 'Etat du moteur',
-                    'label_class' : 'medium-no-margin small-12 medium-4',
+                    'label_class' : 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
             <div class="block-grid input-margin">
@@ -65,53 +65,53 @@
                     'class' : 'medium-no-margin small-12 medium-4',
                     'required' : false,
                     'label' : 'Etat des pneus',
-                    'label_class' : 'medium-no-margin small-12 medium-4',
+                    'label_class' : 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
         </div>
 
-        <div class="form-separator">
+        <div class="form-separator js-used-data-fields">
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.maintenanceState, {
-                    label: 'vehicle.field.maintenance_state.label'|trans,
-                    label_class: 'medium-no-margin small-12 medium-4',
-                    class: 'no-margin small-12 medium-8',
-                    'required' : false
+                    'class': 'no-margin small-12 medium-8',
+                    'required' : false,
+                    'label': 'vehicle.field.maintenance_state.label'|trans,
+                    'label_class': 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.safetyTestDate, {
-                    label: 'vehicle.field.safety_test_date.label'|trans,
-                    label_class: 'medium-no-margin small-12 medium-4',
-                    class: 'no-margin small-12 medium-4 js-datepicker',
-                    required: false
+                    'class': 'no-margin small-12 medium-4 js-datepicker',
+                    'required': false,
+                    'label': 'vehicle.field.safety_test_date.label'|trans,
+                    'label_class': 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.safetyTestState, {
-                    label: 'vehicle.field.safety_test_state.label'|trans,
-                    label_class: 'medium-no-margin small-12 medium-4',
-                    class: 'no-margin small-12 medium-8',
-                    required: false
+                    'class': 'no-margin small-12 medium-8',
+                    'required': false,
+                    'label': 'vehicle.field.safety_test_state.label'|trans,
+                    'label_class': 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.timingBeltState, {
-                    label : 'vehicle.field.timingBeltState.label'|trans,
-                    label_class : 'medium-no-margin small-12 medium-4',
-                    class : 'no-margin small-12 medium-8',
-                    required : false
+                    'class' : 'no-margin small-12 medium-8',
+                    'required' : false,
+                    'label': 'vehicle.field.timingBeltState.label'|trans,
+                    'label_class': 'medium-no-margin small-12 medium-4'
                 }) }}
             </div>
         </div>
 
-        <div class="form-separator">
+        <div class="form-separator js-used-data-fields">
             <div class="block-grid input-margin">
                 {{ form_widget(vehicleForm.specifics.isFirstHand, {
                     'class' : 'medium-no-margin small-12 medium-4',
+                    'required' : false,
                     'label' : 'vehicle.field.isFirstHand.label'|trans,
                     'label_class' : 'medium-no-margin small-12 medium-4',
-                    'required' : false,
                     'list_class': 'small-up-2 small-12 medium-8'
                 }) }}
             </div>
@@ -169,7 +169,7 @@
         {# Button submit #}
         <div class="block-grid column small-12 align-middle">
             <div class="input-margin small-12">
-                <button type="submit" class="button full-width">{{ vehicle ? "Editer le véhicule" : "Ajouter le véhicule" }}</button>
+                <button type="submit" class="button full-width">{{ vehicle ? "global.button.edit_this_vehicle"|trans : "global.button.add_this_vehicle"|trans }}</button>
             </div>
             <div class="small-12">
                 <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape précédente</b></button>
