@@ -117,9 +117,9 @@ vehicle:
       title: Etat du véhicule
     additionalInformation:
       tab:
-        short: Infos compl.
-        long: Informations complémentaires
-      title: Informations complémentaires
+        short: Desc.
+        long: Description
+      title: Description
     guarantee:
       tab: Garantie
       title: Garantie
@@ -216,8 +216,8 @@ vehicle:
     imported:
       label : Véhicule importé
     additionalInformation:
-      label: Informations complémentaires sur votre véhicule
-      placeholder: Indiquez ici les équipements que possèdent votre véhicule , sa version, ...
+      label: Description votre véhicule
+      placeholder: "Décrivez votre véhicule: équipements qu'il possède, sa version, ..."
     city:
       label: Ville
       placeholder: Ville, CP

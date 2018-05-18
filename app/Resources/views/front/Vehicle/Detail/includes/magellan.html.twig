@@ -1,10 +1,10 @@
 <ul class="magellan vehicle-magellan small-12" data-magellan>
+    {% if vehicle.additionalInformation|trim|length > 0 %}
+        <li><a href="#js-additional-information"><span class="hide-for-medium">{{ 'vehicle.section.additionalInformation.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.additionalInformation.tab.long'|trans }}</span></a></li>
+    {% endif %}
     <li><a href="#js-infos"><span class="hide-for-medium">{{ 'vehicle.section.infos.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.infos.tab.long'|trans }}</span></a></li>
     {% if state_block is not empty %}
         <li><a href="#js-state"><span class="hide-for-medium">{{ 'vehicle.section.states.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.states.tab.long'|trans }}</span></a></li>
-    {% endif %}
-    {% if vehicle.additionalInformation|trim|length > 0 %}
-        <li><a href="#js-additional-information"><span class="hide-for-medium">{{ 'vehicle.section.additionalInformation.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.additionalInformation.tab.long'|trans }}</span></a></li>
     {% endif %}
     {% if vehicle.isPro %}
         {% if vehicle.guarantee or vehicle.otherGuarantee %}
