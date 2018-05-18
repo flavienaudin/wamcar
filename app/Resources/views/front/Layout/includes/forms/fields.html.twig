@@ -17,7 +17,7 @@
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
-    <select {{ block('widget_attributes') }} id="{{ id }}" class="{{ class }}" {{ required ? 'required' }}
+    <select {{ block('widget_attributes') }} class="{{ class }}" {{ required ? 'required' }}
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
         {{ dataFetchUrl ? 'data-fetch-url=' ~ dataFetchUrl ~ '' }}
         {{ dataType ? 'data-type=' ~ dataType ~ '' }}
@@ -89,7 +89,6 @@
     <input
         type="email"
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
@@ -125,7 +124,6 @@
     <input
         type="password"
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
@@ -165,7 +163,6 @@
     <input
         type="{{ type }}"
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
@@ -200,7 +197,6 @@
     {% endif %}
     <textarea
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
@@ -237,7 +233,6 @@
     <input
         type="number"
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         value="{{ value }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
@@ -421,7 +416,7 @@
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
 
-    <select {{ block('widget_attributes') }} type="text" id="{{ id }}" class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
+    <select {{ block('widget_attributes') }} type="text" class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
         {% if value is not defined or value == '' %}
             <option value="" selected="selected">Veuillez rens. le code postal</option>
         {% else %}
@@ -582,7 +577,6 @@
     <input
         type="{{ type }}"
         {{ block('widget_attributes') }}
-        id="{{ name }}"
         value="{{ value ? value|localizednumber : '' }}"
         class="input {{ class }}"
         placeholder="{{ placeholder }}"
