@@ -17,7 +17,7 @@
 
 {% block body %}
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
-    {% set vehicleSellerName = isAbleToSeeFullInformation ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans %}
+    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
 
     {% if isEditableByCurrentUser %}
         {% set breadcrumbs = [
@@ -48,7 +48,7 @@
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.sellerName }}",
+    "name" : "{{ vehicleSellerName }}",
     }
     </script>
 

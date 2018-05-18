@@ -16,11 +16,11 @@
                                 <span><time>{{ like.updatedAt|localizeddate('short', 'none') }}</time></span>
                                 <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
                                     <span class="seller-pic">
-                                        <img src="{{ like.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ like.user.fullName }}">
+                                        <img src="{{ like.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ like.user.isPro or isUserPro?like.user.fullName:like.user.firstName }}">
                                     </span>
                                 </a>
                                 <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
-                                    <span class="seller-name dark-gray-color">{{ like.user == app.user?'conversation.you'|trans:like.user.fullName }}</span>
+                                    <span class="seller-name dark-gray-color">{{ like.user == app.user?'global.you'|trans:(like.user.isPro or isUserPro?like.user.fullName:like.user.firstName) }}</span>
                                 </a>
                                 {% if like.user != app.user %}
                                     <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}" class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">

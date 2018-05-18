@@ -727,14 +727,17 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return null|string
      */
-    public function getSellerName(): ?string
+    public function getSellerName(bool $restrictedName = false): ?string
     {
         $seller = $this->getSeller();
         if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
-
-        return $seller->getFullName();
+        if($restrictedName){
+            return $seller->getFirstName();
+        }else{
+            return $seller->getFullName();
+        }
     }
 
     /**

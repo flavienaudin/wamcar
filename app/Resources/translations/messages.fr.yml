@@ -26,6 +26,7 @@ flash:
 global:
   yes: Oui
   no: Non
+  you: Vous
   poweredByGoogle: Produit par Google
   button:
     send_message: Envoyer un message
@@ -244,13 +245,33 @@ vehicle:
       placeholder: Renseignez ici les différents services proposés à l'acheteur
     reference:
       label: Référence
+  item:
+    budget:
+      with_price: "{0}%prenom% avez un budget de %budget%€ pour:|{1}%prenom% a un budget de %budget%€ pour:"
+    no_wish: Aucun souhait
+    no_project:
+      title: "{0}%prenom% n'avez pas encore indiqué de souhaits.|{1}%prenom% n'a pas encore indiqué de souhaits."
+      subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.
+
+
 
 
 user:
+  title:
+    personal:
+      mine: Ma fiche profil
+      other: Fiche profil de %username%
+    pro:
+      mine: Ma fiche vendeur
+      other: Fiche vendeur de %username%
   profile:
     my_profile: Mon profil
-    obfuscated_name: Particulier inscrit
     edit: Editer mon profil
+  presentation:
+    title:
+      personal: Présentation
+      pro: Présentation du vendeur
+
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
@@ -266,7 +287,6 @@ user:
 
 
 conversation:
-  you: Vous
   proposed_vehicle: Véhicule proposé
   to_sell_vehicle: Votre véhicule à reprendre
   auto_added: (automatiquement ajouté à votre message)
