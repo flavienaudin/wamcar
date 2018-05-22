@@ -8,6 +8,7 @@ import Siema from 'siema';
 import { activeClass, disabledClass, hideClass } from '../settings/settings.js';
 import getIndex from './getIndex';
 import scrollTo from './scrollTo';
+import {initSelect2, killSelect2} from './city';
 
 const $step = document.getElementById('js-step');
 export const $registerForm = document.getElementById('js-register-form');
@@ -48,6 +49,35 @@ class Step {
     return this.carousel.setAutoHeight();
   }
 
+  setAllTabIndex() {
+    const $disableElements = document.getElementById('js-step').querySelectorAll('input, textarea, select, button, a');
+
+    [...$disableElements].forEach((item) => {
+      item.setAttribute('tabindex', '-1');
+    });
+
+  }
+
+  setActiveTabIndex() {
+    const currentSlide = this._getCurrentSlideItem();
+    console.log(currentSlide);
+    const $inputs = currentSlide.querySelectorAll('[tabindex="-1"]');
+
+    [...$inputs].forEach((item) => {
+      item.setAttribute('tabindex', '1');
+    });
+  }
+
+  setActiveSelect2City() {
+    if (this.getCurrentSlide() === 3) {
+      initSelect2(document.querySelector('.js-city-autocomplete-manual'));
+    } else {
+      if (document.querySelector('.select2-container')) {
+        killSelect2(document.querySelector('.js-city-autocomplete-manual'));
+      }
+    }
+  }
+
   /**
    * Init carousel
    *
@@ -56,6 +86,7 @@ class Step {
    * @memberof Step
    */
   _initCarousel() {
+    const $this = this;
     const carousel = new Siema({
       selector: '#js-step',
       duration: 600,
@@ -66,8 +97,12 @@ class Step {
       multipleDrag: false,
       threshold: 20,
       loop: false,
-      onInit: () => {
+      onInit: function () {
         this._init = true;
+        setTimeout(() => {
+          $this.setAllTabIndex();
+          $this.setActiveTabIndex();
+        }, 2000);
         window.history.pushState(
           { step: 1 },
           document.title + ' - etape-1',
@@ -75,6 +110,9 @@ class Step {
         );
       },
       onChange: function() {
+        $this.setActiveSelect2City();
+        $this.setAllTabIndex();
+        $this.setActiveTabIndex();
         this.setAutoHeight();
         $('html, body').animate({ scrollTop: 0 }, 'slow');
       }
