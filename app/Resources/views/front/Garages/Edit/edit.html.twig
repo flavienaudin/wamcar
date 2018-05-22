@@ -166,9 +166,6 @@
 {% endblock body %}
 
 {% block javascripts %}
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key={{ google_api_client_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}"
-            async defer></script>
     <script>
       let autocomplete;
 
@@ -250,6 +247,6 @@
           openingHOursField.value = openingHours;
         }
       }
-
     </script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ google_api_client_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}" async defer></script>
 {% endblock javascripts %}
