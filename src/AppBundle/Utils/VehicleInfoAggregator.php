@@ -46,6 +46,13 @@ class VehicleInfoAggregator
                     'model' => $data['model'],
                 ]));
             }
+            if(isset($data['engine'])) {
+                $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
+                    'make' => $data['make'],
+                    'model' => $data['model'],
+                    'engine' => $data['engine'],
+                ]));
+            }
 
         }
         return $aggregations;

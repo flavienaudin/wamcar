@@ -209,7 +209,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 211;BMW;16;5;456;520/6;2;1977;9;1977;5;1981;sept-77;mai-81;90;122;A trois volumes;Propulsion;Essence;M20 B20 (206VA);6;2
 212;BMW;16;5;456;525;2.5;2478;8;1973;10;1976;août-73;oct-76;107;146;A trois volumes;Propulsion;Essence;M30 B25;6;2
 213;BMW;16;5;456;525;2.5;2478;8;1976;5;1981;août-76;mai-81;110;150;A trois volumes;Propulsion;Essence;M30 B25 (256VA);6;2
-214;VW;121;PASSAT;9003;1.4 TSI;1.4;1390;8;2010;12;2014;août-10;déc-14;90;122;A trois volumes;Traction avant;Essence;CAXA;4;4
+214;VOLKSWAGEN;121;PASSAT;9003;1.4 TSI;1.4;1390;8;2010;12;2014;août-10;déc-14;90;122;A trois volumes;Traction avant;Essence;CAXA;4;4
 215;BMW;16;5;456;528;2.8;2769;1;1975;8;1977;janv-75;août-77;121;165;A trois volumes;Propulsion;Essence;M30 B28;6;2
 216;BMW;16;5;456;528;2.8;2769;1;1975;8;1977;janv-75;août-77;125;170;A trois volumes;Propulsion;Essence;M30 B28;6;2
 217;BMW;16;5;456;528 i;2.8;2769;4;1977;5;1981;avr-77;mai-81;130;177;A trois volumes;Propulsion;Essence;M30 B28;6;2
@@ -264,14 +264,14 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 266;BMW;16;2000-3.2 Coupé;224;2800 CS;2.8;2769;1;1969;4;1971;janv-69;avr-71;125;170;Coupé;Propulsion;Essence;M30 B28;6;2
 267;BMW;16;2000-3.2 Coupé;224;3.0 CS;3;2966;5;1971;3;1976;mai-71;mars-76;132;180;Coupé;Propulsion;Essence;M30 B30;6;2
 268;BMW;16;2000-3.2 Coupé;224;3.0 Csi;3;2966;7;1971;3;1976;juil-71;mars-76;147;200;Coupé;Propulsion;Essence;M30 B30;6;2
-269;VW;121;PASSAT;9003;1.8 TSI;1.8;1798;8;2010;12;2014;août-10;déc-14;118;160;A trois volumes;Traction avant;Essence;CDAA;4;4
+269;VOLKSWAGEN;121;PASSAT;9003;1.8 TSI;1.8;1798;8;2010;12;2014;août-10;déc-14;118;160;A trois volumes;Traction avant;Essence;CDAA;4;4
 270;BMW;16;6;486;628 CSi;2.8;2769;9;1979;8;1987;sept-79;août-87;135;184;Coupé;Propulsion;Essence;M30 B28;6;2
 271;BMW;16;6;486;630 CS;3;2966;4;1976;8;1979;avr-76;août-79;136;185;Coupé;Propulsion;Essence;M30 B30;6;2
 272;BMW;16;6;486;633 CSi;3.2;3188;10;1975;12;1981;oct-75;déc-81;147;200;Coupé;Propulsion;Essence;M30 B32;6;2
 273;BMW;16;6;486;635 CSi;3.4;3400;6;1978;8;1988;juin-78;août-88;160;218;Coupé;Propulsion;Essence;M30 B35 (L-Jetronic,10:1),M30 B35 (Motronic,10:1),M30 B35 (Motronic,9.3:1);6;2
 274;BMW;16;6;486;M 635 CSi;3.5;3400;4;1984;12;1988;avr-84;déc-88;210;286;Coupé;Propulsion;Essence;M88 B35;6;4
 275;BMW;16;6;486;635 CSi;3.4;3406;8;1987;4;1989;août-87;avr-89;155;211;Coupé;Propulsion;Essence;M30 B34 (346KB);6;2
-276;VW;121;PASSAT;9003;2.0 TSI;2;1984;11;2010;12;2014;nov-10;déc-14;155;210;A trois volumes;Traction avant;Essence;CCZB;4;4
+276;VOLKSWAGEN;121;PASSAT;9003;2.0 TSI;2;1984;11;2010;12;2014;nov-10;déc-14;155;210;A trois volumes;Traction avant;Essence;CCZB;4;4
 277;BMW;16;7;539;728;2.8;2769;5;1977;8;1979;mai-77;août-79;125;170;A trois volumes;Propulsion;Essence;M30 B28;6;2
 278;BMW;16;7;539;728 i;2.8;2769;7;1978;8;1986;juil-78;août-86;135;184;A trois volumes;Propulsion;Essence;M30 B28;6;2
 279;BMW;16;7;539;730;3;2966;5;1977;8;1979;mai-77;août-79;135;184;A trois volumes;Propulsion;Essence;M30 B30;6;2
@@ -288,10 +288,10 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 290;BMW;16;7;544;740 i,iL V8;4;3982;4;1992;9;1994;avr-92;sept-94;210;286;A trois volumes;Propulsion;Essence;M60 B40 (408S1);8;4
 291;BMW;16;7;544;750 i,iL V12;5;4988;9;1987;9;1994;sept-87;sept-94;220;300;A trois volumes;Propulsion;Essence;M70 B50 (5012A);12;2
 292;BMW;16;8;67;850 i,Ci;5;4988;4;1990;10;1994;avr-90;oct-94;220;300;Coupé;Propulsion;Essence;M70 B50 (5012A);12;2
-293;VW;121;PASSAT;9003;1.6 TDI;1.6;1598;8;2010;12;2014;août-10;déc-14;77;105;A trois volumes;Traction avant;Diesel;CAYC;4;4
-294;VW;121;PASSAT;9003;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;103;140;A trois volumes;Traction avant;Diesel;CFFB;4;4
-295;VW;121;PASSAT;9003;2.0 TDI 4motion;2;1968;8;2010;12;2014;août-10;déc-14;103;140;A trois volumes;Traction intégrale;Diesel;CFFB;4;4
-296;VW;121;PASSAT;9003;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;125;170;A trois volumes;Traction avant;Diesel;CLLA,CFGB;4;4
+293;VOLKSWAGEN;121;PASSAT;9003;1.6 TDI;1.6;1598;8;2010;12;2014;août-10;déc-14;77;105;A trois volumes;Traction avant;Diesel;CAYC;4;4
+294;VOLKSWAGEN;121;PASSAT;9003;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;103;140;A trois volumes;Traction avant;Diesel;CFFB;4;4
+295;VOLKSWAGEN;121;PASSAT;9003;2.0 TDI 4motion;2;1968;8;2010;12;2014;août-10;déc-14;103;140;A trois volumes;Traction intégrale;Diesel;CFFB;4;4
+296;VOLKSWAGEN;121;PASSAT;9003;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;125;170;A trois volumes;Traction avant;Diesel;CLLA,CFGB;4;4
 297;BMW;16;Z1 Roadster;138;2.5;2.5;2494;6;1988;6;1991;juin-88;juin-91;125;170;Décapotable;Propulsion;Essence;M20 B25 (256K1);6;2
 298;BMW;16;3 Décapotable;430;318 i;1.8;1796;9;1990;10;1993;sept-90;oct-93;83;113;Décapotable;Propulsion;Essence;M40 B18 (184E1);4;2
 299;BMW;16;3 Décapotable;430;320 i;2;1976;4;1986;10;1993;avr-86;oct-93;95;129;Décapotable;Propulsion;Essence;M20 B20 (206KA);6;2
@@ -309,10 +309,10 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 311;MERCEDES-BENZ;74;190;52;E 2.0;2;1977;2;1985;12;1986;févr-85;déc-86;83;113;A trois volumes;Propulsion;Essence;M 102.961,M 102.962;4;2
 312;MERCEDES-BENZ;74;190;52;E 2.0;2;1977;2;1985;12;1986;févr-85;déc-86;85;116;A trois volumes;Propulsion;Essence;M 102.962;4;2
 313;MERCEDES-BENZ;74;190;52;2.0;2;1977;1;1986;5;1990;janv-86;mai-90;75;102;A trois volumes;Propulsion;Essence;M 102.924;4;2
-314;VW;121;PASSAT;9003;2.0 TDI 4motion;2;1968;8;2010;1;2013;août-10;janv-13;125;170;A trois volumes;Traction intégrale;Diesel;CFGB;4;4
-315;VW;121;PASSAT;9003;1.4 TSI EcoFuel;1.4;1390;8;2010;12;2014;août-10;déc-14;110;150;A trois volumes;Traction avant;Essence;CDGA;4;4
+314;VOLKSWAGEN;121;PASSAT;9003;2.0 TDI 4motion;2;1968;8;2010;1;2013;août-10;janv-13;125;170;A trois volumes;Traction intégrale;Diesel;CFGB;4;4
+315;VOLKSWAGEN;121;PASSAT;9003;1.4 TSI EcoFuel;1.4;1390;8;2010;12;2014;août-10;déc-14;110;150;A trois volumes;Traction avant;Essence;CDGA;4;4
 316;MERCEDES-BENZ;74;190;52;2.0;2;1977;9;1984;5;1990;sept-84;mai-90;77;105;A trois volumes;Propulsion;Essence;M 102.924;4;2
-317;VW;121;PASSAT Variant;9004;1.4 TSI;1.4;1390;8;2010;12;2014;août-10;déc-14;90;122;Break;Traction avant;Essence;CAXA;4;4
+317;VOLKSWAGEN;121;PASSAT Variant;9004;1.4 TSI;1.4;1390;8;2010;12;2014;août-10;déc-14;90;122;Break;Traction avant;Essence;CAXA;4;4
 318;MERCEDES-BENZ;74;190;52;E 2.0;2;1977;1;1985;8;1993;janv-85;août-93;87;118;A trois volumes;Propulsion;Essence;M 102.962;4;2
 319;MERCEDES-BENZ;74;190;52;E 2.0;2;1977;10;1982;6;1993;oct-82;juin-93;90;122;A trois volumes;Propulsion;Essence;M 102.961,M 102.962;4;2
 320;FORD;36;FIESTA I;402;0.9;0.9;935;5;1976;8;1983;mai-76;août-83;29;40;3/5 portes;Traction avant;Essence;TKW,TKA;4;2
@@ -321,8 +321,8 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 323;FORD;36;FIESTA I;402;1.1;1.1;1087;5;1976;8;1983;mai-76;août-83;39;53;3/5 portes;Traction avant;Essence;GLA;4;2
 324;FORD;36;FIESTA I;402;1.3;1.3;1263;8;1977;8;1983;août-77;août-83;49;66;3/5 portes;Traction avant;Essence;J3E;4;2
 325;FORD;36;FIESTA I;402;1.6 XR2;1.6;1566;8;1981;8;1983;août-81;août-83;62;84;3/5 portes;Traction avant;Essence;L3E;4;2
-326;VW;121;PASSAT Variant;9004;1.8 TSI;1.8;1798;8;2010;12;2014;août-10;déc-14;118;160;Break;Traction avant;Essence;CDAA;4;4
-327;VW;121;PASSAT Variant;9004;1.6 TDI;1.6;1598;8;2010;12;2014;août-10;déc-14;77;105;Break;Traction avant;Diesel;CAYC;4;4
+326;VOLKSWAGEN;121;PASSAT Variant;9004;1.8 TSI;1.8;1798;8;2010;12;2014;août-10;déc-14;118;160;Break;Traction avant;Essence;CDAA;4;4
+327;VOLKSWAGEN;121;PASSAT Variant;9004;1.6 TDI;1.6;1598;8;2010;12;2014;août-10;déc-14;77;105;Break;Traction avant;Diesel;CAYC;4;4
 328;FORD;36;ESCORT I;313;1100;1.1;1071;1;1968;12;1974;janv-68;déc-74;32;45;A trois volumes;Propulsion;Essence;G1;4;2
 329;FORD;36;ESCORT II;317;1.1;1.1;1071;12;1974;8;1980;déc-74;août-80;32;45;A trois volumes;Propulsion;Essence;G1;4;2
 330;FORD;36;ESCORT II;317;1.1;1.1;1071;6;1975;8;1980;juin-75;août-80;34;46;A trois volumes;Propulsion;Essence;G1;4;2
@@ -341,7 +341,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 343;FORD;36;ESCORT II;317;2.0 RS;2;1954;8;1975;8;1980;août-75;août-80;80;110;A trois volumes;Propulsion;Essence;NE;4;2
 344;MERCEDES-BENZ;74;190;52;E 2.5-16;2.5;2475;9;1988;8;1993;sept-88;août-93;150;204;A trois volumes;Propulsion;Essence;M 102.990;4;4
 345;FORD;36;ESCORT III;322;1.1;1.1;1087;8;1983;12;1985;août-83;déc-85;37;50;3/5 portes;Traction avant;Essence;GSE;4;2
-346;VW;121;PASSAT Variant;9004;2.0 TSI;2;1984;11;2010;12;2014;nov-10;déc-14;155;210;Break;Traction avant;Essence;CCZB;4;4
+346;VOLKSWAGEN;121;PASSAT Variant;9004;2.0 TSI;2;1984;11;2010;12;2014;nov-10;déc-14;155;210;Break;Traction avant;Essence;CCZB;4;4
 347;MERCEDES-BENZ;74;190;52;E 2.6;2.6;2548;9;1986;12;1989;sept-86;déc-89;122;166;A trois volumes;Propulsion;Essence;M 103.942;6;2
 348;MERCEDES-BENZ;74;190;52;D 2.0;2;1984;8;1983;8;1989;août-83;août-89;53;72;A trois volumes;Propulsion;Diesel;OM 601.911;4;2
 349;MERCEDES-BENZ;74;190;52;D 2.0;2;1984;8;1989;8;1993;août-89;août-93;55;75;A trois volumes;Propulsion;Diesel;OM 601.911;4;2
@@ -351,12 +351,12 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 353;MERCEDES-BENZ;74;190;52;D 2.5;2.5;2479;8;1989;8;1993;août-89;août-93;69;94;A trois volumes;Propulsion;Diesel;OM 602.911;5;2
 354;MERCEDES-BENZ;74;190;52;Turbo-D 2.5;2.5;2479;2;1988;8;1993;févr-88;août-93;90;122;A trois volumes;Propulsion;Diesel;OM 602.961;5;2
 355;MERCEDES-BENZ;74;190;52;Turbo-D 2.5;2.5;2479;2;1988;8;1993;févr-88;août-93;93;126;A trois volumes;Propulsion;Diesel;OM 602.961;5;2
-356;VW;121;PASSAT Variant;9004;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;103;140;Break;Traction avant;Diesel;CFFB;4;4
-357;VW;121;PASSAT Variant;9004;2.0 TDI 4motion;2;1968;8;2010;12;2014;août-10;déc-14;103;140;Break;Traction intégrale;Diesel;CFFB;4;4
-358;VW;121;PASSAT Variant;9004;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;125;170;Break;Traction avant;Diesel;CLLA,CFGB;4;4
-359;VW;121;PASSAT Variant;9004;2.0 TDI 4motion;2;1968;8;2010;1;2013;août-10;janv-13;125;170;Break;Traction intégrale;Diesel;CFGB;4;4
+356;VOLKSWAGEN;121;PASSAT Variant;9004;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;103;140;Break;Traction avant;Diesel;CFFB;4;4
+357;VOLKSWAGEN;121;PASSAT Variant;9004;2.0 TDI 4motion;2;1968;8;2010;12;2014;août-10;déc-14;103;140;Break;Traction intégrale;Diesel;CFFB;4;4
+358;VOLKSWAGEN;121;PASSAT Variant;9004;2.0 TDI;2;1968;8;2010;12;2014;août-10;déc-14;125;170;Break;Traction avant;Diesel;CLLA,CFGB;4;4
+359;VOLKSWAGEN;121;PASSAT Variant;9004;2.0 TDI 4motion;2;1968;8;2010;1;2013;août-10;janv-13;125;170;Break;Traction intégrale;Diesel;CFGB;4;4
 360;MERCEDES-BENZ;74;190;52;E Evolution II 2.5;2.5;2498;5;1990;8;1993;mai-90;août-93;173;235;A trois volumes;Propulsion;Essence;M 102.992;4;2
-361;VW;121;PASSAT Variant;9004;1.4 TSI EcoFuel;1.4;1390;8;2010;12;2014;août-10;déc-14;110;150;Break;Traction avant;Essence;CDGA;4;4
+361;VOLKSWAGEN;121;PASSAT Variant;9004;1.4 TSI EcoFuel;1.4;1390;8;2010;12;2014;août-10;déc-14;110;150;Break;Traction avant;Essence;CDGA;4;4
 362;MERCEDES-BENZ;74;190;52;E 2.6;2.6;2548;9;1986;8;1993;sept-86;août-93;118;160;A trois volumes;Propulsion;Essence;M 103.942;6;2
 363;MERCEDES-BENZ;74;HECKFLOSSE;529;190 C;1.9;1884;4;1961;8;1965;avr-61;août-65;59;80;A trois volumes;Propulsion;Essence;M 121.924;4;2
 364;MERCEDES-BENZ;74;HECKFLOSSE;529;200;2;1971;7;1965;2;1968;juil-65;févr-68;61;83;A trois volumes;Propulsion;Essence;M 121.940;4;2
@@ -496,7 +496,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 500;MITSUBISHI;77;OUTLANDER II;6233;2.2 DI-D 4WD;2.2;2268;11;2006;11;2012;nov-06;nov-12;130;177;Véhicule tout terrain fermé;Traction intégrale;Diesel;4N14;4;4
 4500;ISUZU;54;MIDI Van;1188;2.2 D 4WD;2.2;2189;6;1988;8;1992;juin-88;août-92;45;61;Autobus/Autocar;Traction intégrale;Diesel;4FD1;4;2
 4501;ISUZU;54;MIDI Van;1188;2.4 TD;2.4;2380;1;1994;7;1996;janv-94;juil-96;56;76;Autobus/Autocar;Propulsion;Diesel;4FG1T;4;2
-4502;VW;121;GOLF PLUS;5379;1.6 BiFuel;1.6;1595;5;2009;12;2013;mai-09;déc-13;75;102;3/5 portes;Traction avant;Essence;CHGA;4;2
+4502;VOLKSWAGEN;121;GOLF PLUS;5379;1.6 BiFuel;1.6;1595;5;2009;12;2013;mai-09;déc-13;75;102;3/5 portes;Traction avant;Essence;CHGA;4;2
 4503;ALFA ROMEO;2;8C SPIDER;9071;4.7;4.7;4691;1;2008;10;2010;janv-08;oct-10;331;450;Décapotable;Propulsion;Essence;AR8C;8;4
 4504;MAZDA;72;E-SERIE Camion plate-forme/Châssis;8507;E2000;2;1998;11;1988;9;1989;nov-88;sept-89;63;86;Camion plate-forme/Châssis;Propulsion;Essence;FEY7;4;2
 4505;SUZUKI;109;VITARA;1237;1.6 Traction intégrale;1.6;1589;7;1988;12;1991;juil-88;déc-91;60;82;Véhicule tout terrain fermé;Traction intégrale;Essence;G16A (8V);4;2
@@ -529,8 +529,8 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 4532;MAZDA;72;E-SERIE Camion plate-forme/Châssis;8507;E2000;2;1998;1;1991;8;1998;janv-91;août-98;71;97;Camion plate-forme/Châssis;Propulsion;Essence;FEY9;4;3
 4533;FORD;36;MAVERICK;1310;2.4 i;2.4;2389;2;1993;8;1996;févr-93;août-96;91;124;Véhicule tout terrain fermé;Traction intégrale;Essence;KA24-E;4;3
 4534;FORD;36;MAVERICK;1310;2.7 TD;2.7;2663;2;1993;8;1996;févr-93;août-96;74;100;Véhicule tout terrain fermé;Traction intégrale;Diesel;TD27;4;2
-4535;VW;121;GOLF VI;7873;1.6 MultiFuel;1.6;1595;10;2008;11;2012;oct-08;nov-12;75;102;3/5 portes;Traction avant;Essence;CMXA,CCSA;4;2
-4536;VW;121;GOLF PLUS;5379;1.6 TDI;1.6;1598;2;2009;12;2013;févr-09;déc-13;66;90;3/5 portes;Traction avant;Diesel;CAYB;4;4
+4535;VOLKSWAGEN;121;GOLF VI;7873;1.6 MultiFuel;1.6;1595;10;2008;11;2012;oct-08;nov-12;75;102;3/5 portes;Traction avant;Essence;CMXA,CCSA;4;2
+4536;VOLKSWAGEN;121;GOLF PLUS;5379;1.6 TDI;1.6;1598;2;2009;12;2013;févr-09;déc-13;66;90;3/5 portes;Traction avant;Diesel;CAYB;4;4
 4537;HYUNDAI;183;PONY I;1294;1.3;1.3;1341;10;1994;1;2000;oct-94;janv-00;44;60;3/5 portes;Traction avant;Essence;G4EH;4;3
 4538;HYUNDAI;183;PONY I;1294;1.3;1.3;1341;10;1994;1;2000;oct-94;janv-00;55;75;3/5 portes;Traction avant;Essence;G4EH;4;3
 4539;HYUNDAI;183;PONY I;1294;1.3 i 12V;1.3;1341;10;1994;1;2000;oct-94;janv-00;62;84;3/5 portes;Traction avant;Essence;G4EH;4;3
@@ -673,11 +673,11 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 4676;JEEP;882;GRAND CHEROKEE IV;9072;5.7 V8 4x4;5.7;5654;11;2010;-;-;nov-10;-;259;352;Véhicule tout terrain fermé;Traction intégrale;Essence;EZH;8;2
 4677;PORSCHE;92;911 Décapotable;3470;3.8 Carrera 4;3.8;3746;6;1995;9;1997;juin-95;sept-97;210;286;Décapotable;Traction intégrale;Essence;M 64.05S,M 64.06S;6;2
 4678;PORSCHE;92;911;160;3.8 Carrera RS;3.8;3746;6;1995;9;1997;juin-95;sept-97;221;300;Coupé;Propulsion;Essence;M 64.20;6;2
-4679;VW;121;POLO;427;64 1.9 D;1.9;1896;10;1994;10;1999;oct-94;oct-99;47;64;3/5 portes;Traction avant;Diesel;AEF;4;2
-4681;VW;121;GOLF III Variant;510;1.9 TDI Syncro;1.9;1896;7;1995;4;1999;juil-95;avr-99;66;90;Break;Traction intégrale;Diesel;1Z,ALE,AHU;4;2
-4682;VW;121;SHARAN;1312;1.9 TDI;1.9;1896;9;1995;3;2010;sept-95;mars-10;66;90;Monospace;Traction avant;Diesel;1Z,ANU,AHU;4;2
-4683;VW;121;SHARAN;1312;2.0;2;1984;9;1995;3;2010;sept-95;mars-10;85;115;Monospace;Traction avant;Essence;ATM,ADY;4;2
-4684;VW;121;SHARAN;1312;2.8 VR6;2.8;2792;9;1995;4;2000;sept-95;avr-00;128;174;Monospace;Traction avant;Essence;AAA,AMY;6;2
+4679;VOLKSWAGEN;121;POLO;427;64 1.9 D;1.9;1896;10;1994;10;1999;oct-94;oct-99;47;64;3/5 portes;Traction avant;Diesel;AEF;4;2
+4681;VOLKSWAGEN;121;GOLF III Variant;510;1.9 TDI Syncro;1.9;1896;7;1995;4;1999;juil-95;avr-99;66;90;Break;Traction intégrale;Diesel;1Z,ALE,AHU;4;2
+4682;VOLKSWAGEN;121;SHARAN;1312;1.9 TDI;1.9;1896;9;1995;3;2010;sept-95;mars-10;66;90;Monospace;Traction avant;Diesel;1Z,ANU,AHU;4;2
+4683;VOLKSWAGEN;121;SHARAN;1312;2.0;2;1984;9;1995;3;2010;sept-95;mars-10;85;115;Monospace;Traction avant;Essence;ATM,ADY;4;2
+4684;VOLKSWAGEN;121;SHARAN;1312;2.8 VR6;2.8;2792;9;1995;4;2000;sept-95;avr-00;128;174;Monospace;Traction avant;Essence;AAA,AMY;6;2
 4685;MERCEDES-BENZ;74;SPRINTER 2-t Autobus/Autocar;2040;208 D;2.3;2299;2;1995;4;2000;févr-95;avr-00;58;79;Autobus/Autocar;Propulsion;Diesel;OM 601.943;4;2
 4686;MERCEDES-BENZ;74;SPRINTER 2-t Autobus/Autocar;2040;212 D;2.9;2874;2;1995;4;2000;févr-95;avr-00;90;122;Autobus/Autocar;Propulsion;Diesel;OM 602.980;5;2
 4687;MERCEDES-BENZ;74;SPRINTER 2-t Autobus/Autocar;2040;214;2.3;2295;2;1995;5;2006;févr-95;mai-06;105;143;Autobus/Autocar;Propulsion;Essence;M 111.979;4;4
@@ -782,9 +782,9 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 4788;MAZDA;72;MX-5 I;336;1.6;1.6;1598;1;1995;4;1998;janv-95;avr-98;66;90;Décapotable;Propulsion;Essence;8AN1;4;4
 4789;MAZDA;72;323 S V;365;1.6 TD;1.6;1686;5;1994;9;1998;mai-94;sept-98;60;82;A trois volumes;Traction avant;Diesel;4EE1-T;4;2
 4790;MAZDA;72;XEDOS 9;87;2.3 24V;2.3;2255;2;1995;1;2000;févr-95;janv-00;155;211;A trois volumes;Traction avant;Essence;KJ -ZEM;6;4
-4791;VW;121;COCCINELLE;90;1302 1.3;1.3;1276;8;1970;8;1972;août-70;août-72;32;44;Evolution spéciale;Propulsion;Essence;AB;4;2
+4791;VOLKSWAGEN;121;COCCINELLE;90;1302 1.3;1.3;1276;8;1970;8;1972;août-70;août-72;32;44;Evolution spéciale;Propulsion;Essence;AB;4;2
 4792;OPEL;84;KADETT E Décapotable;74;1.6 i;1.6;1587;7;1989;2;1993;juil-89;févr-93;60;82;Décapotable;Traction avant;Essence;16 SV;4;2
-4793;VW;121;CORRADO;3887;2.0 i;2;1984;4;1993;12;1995;avr-93;déc-95;85;115;Coupé;Traction avant;Essence;2E,ADY;4;2
+4793;VOLKSWAGEN;121;CORRADO;3887;2.0 i;2;1984;4;1993;12;1995;avr-93;déc-95;85;115;Coupé;Traction avant;Essence;2E,ADY;4;2
 4794;MERCEDES-BENZ;74;T1 Autobus/Autocar;473;207 D 2.4;2.4;2350;7;1982;1;1990;juil-82;janv-90;53;72;Autobus/Autocar;Propulsion;Diesel;OM 616.937,OM 616.939;4;2
 4795;FORD;36;ORION II;373;1.6 i;1.6;1567;3;1986;7;1990;mars-86;juil-90;77;105;A trois volumes;Traction avant;Essence;LRB;4;2
 4796;FORD;36;SIERRA Break;260;2.8 4x4;2.8;2772;1;1987;8;1988;janv-87;août-88;110;150;Break;Traction intégrale;Essence;PRG;6;2
@@ -807,11 +807,11 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 4813;TOYOTA;111;4 RUNNER;383;3.0;3;2904;7;1990;11;1995;juil-90;nov-95;105;143;Véhicule tout terrain fermé;Traction intégrale;Essence;3VZ-E;6;2
 4814;MITSUBISHI;77;LANCER V Break;1328;1.6 16V;1.6;1597;12;1992;10;2003;déc-92;oct-03;83;113;Break;Traction avant;Essence;4G92 (SOHC 16V);4;4
 4815;MITSUBISHI;77;LANCER V Break;1328;2.0 D;2;1998;12;1992;10;2003;déc-92;oct-03;50;68;Break;Traction avant;Diesel;4D68;4;2
-4816;VW;121;CADDY I;3943;1.5;1.5;1439;8;1982;7;1983;août-82;juil-83;51;70;Pick-up;Traction avant;Essence;JB;4;2
-4817;VW;121;CADDY I;3943;1.6;1.6;1576;1;1983;7;1992;janv-83;juil-92;55;75;Pick-up;Traction avant;Essence;EW;4;2
-4818;VW;121;CADDY I;3943;1.8;1.8;1760;8;1985;7;1992;août-85;juil-92;70;95;Pick-up;Traction avant;Essence;JH;4;2
+4816;VOLKSWAGEN;121;CADDY I;3943;1.5;1.5;1439;8;1982;7;1983;août-82;juil-83;51;70;Pick-up;Traction avant;Essence;JB;4;2
+4817;VOLKSWAGEN;121;CADDY I;3943;1.6;1.6;1576;1;1983;7;1992;janv-83;juil-92;55;75;Pick-up;Traction avant;Essence;EW;4;2
+4818;VOLKSWAGEN;121;CADDY I;3943;1.8;1.8;1760;8;1985;7;1992;août-85;juil-92;70;95;Pick-up;Traction avant;Essence;JH;4;2
 4819;SKODA;106;OCTAVIA II Combi;5162;2.0 TDI 4x4;2;1968;5;2011;2;2013;mai-11;févr-13;81;110;Break;Traction intégrale;Diesel;CFHF;4;4
-4820;VW;121;CADDY I;3943;1.6 D;1.6;1589;8;1982;7;1992;août-82;juil-92;40;55;Pick-up;Traction avant;Diesel;ME,JK;4;2
+4820;VOLKSWAGEN;121;CADDY I;3943;1.6 D;1.6;1589;8;1982;7;1992;août-82;juil-92;40;55;Pick-up;Traction avant;Diesel;ME,JK;4;2
 4821;MAZDA;72;323 C IV;356;1.7 D;1.7;1720;8;1989;7;1994;août-89;juil-94;41;56;3/5 portes;Traction avant;Diesel;PN54;4;2
 4822;MAZDA;72;323 C IV;356;1.8 16V Turbo 4WD;1.8;1840;1;1993;7;1994;janv-93;juil-94;136;185;3/5 portes;Traction intégrale;Essence;BP Turbo;4;4
 4823;MAZDA;72;626 IV Hatchback;525;2.0 D GLX Comprex;2;1998;1;1993;4;1997;janv-93;avr-97;55;75;3/5 portes;Traction avant;Diesel;RF55;4;2
@@ -833,10 +833,10 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 4839;MERCEDES-BENZ;74;CLASSE E Break;118;E 300 T Turbo-D;3;2996;6;1993;6;1996;juin-93;juin-96;108;147;Break;Propulsion;Diesel;OM 603.960;6;2
 4840;MERCEDES-BENZ;74;CLASSE E Break;118;E 300 T 4-matic;3;2960;6;1993;6;1996;juin-93;juin-96;132;180;Break;Traction intégrale;Essence;M 103.985;6;2
 4841;MERCEDES-BENZ;74;CLASSE E Break;118;E 300 T Turbo-D 4-matic;3;2996;6;1993;6;1996;juin-93;juin-96;108;147;Break;Traction intégrale;Diesel;OM 603.963;6;2
-4842;VW;121;POLO CLASSIC;3885;1.0;1;1035;1;1985;10;1986;janv-85;oct-86;29;40;A trois volumes;Traction avant;Essence;GL;4;2
-4843;VW;121;POLO CLASSIC;3885;1.0;1;1035;1;1985;9;1994;janv-85;sept-94;33;45;A trois volumes;Traction avant;Essence;AAK,HZ,AAU;4;2
-4844;VW;121;POLO CLASSIC;3885;1.3 D;1.3;1263;8;1986;12;1988;août-86;déc-88;33;45;A trois volumes;Traction avant;Diesel;MN;4;2
-4845;VW;121;POLO CLASSIC;3885;1.3 Cat;1.3;1272;7;1987;9;1994;juil-87;sept-94;40;55;A trois volumes;Traction avant;Essence;MH,NZ;4;2
+4842;VOLKSWAGEN;121;POLO CLASSIC;3885;1.0;1;1035;1;1985;10;1986;janv-85;oct-86;29;40;A trois volumes;Traction avant;Essence;GL;4;2
+4843;VOLKSWAGEN;121;POLO CLASSIC;3885;1.0;1;1035;1;1985;9;1994;janv-85;sept-94;33;45;A trois volumes;Traction avant;Essence;AAK,HZ,AAU;4;2
+4844;VOLKSWAGEN;121;POLO CLASSIC;3885;1.3 D;1.3;1263;8;1986;12;1988;août-86;déc-88;33;45;A trois volumes;Traction avant;Diesel;MN;4;2
+4845;VOLKSWAGEN;121;POLO CLASSIC;3885;1.3 Cat;1.3;1272;7;1987;9;1994;juil-87;sept-94;40;55;A trois volumes;Traction avant;Essence;MH,NZ;4;2
 4846;PORSCHE;92;911;5141;3.8 Carrera 4 GTS;3.8;3800;6;2009;12;2012;juin-09;déc-12;300;408;Coupé;Traction intégrale;Essence;MA1.01;6;4
 4847;MERCEDES-BENZ;74;A trois volumes;18;200 E;2;1998;10;1992;6;1993;oct-92;juin-93;100;136;A trois volumes;Propulsion;Essence;M 111.940;4;4
 4848;MERCEDES-BENZ;74;A trois volumes;18;220 E;2.2;2199;10;1992;6;1993;oct-92;juin-93;110;150;A trois volumes;Propulsion;Essence;M 111.960;4;4
@@ -1022,8 +1022,8 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16032;FORD;36;PUMA;3961;1.6 16V;1.6;1596;8;2000;6;2002;août-00;juin-02;76;103;Coupé;Traction avant;Essence;L1W;4;4
 16033;TOYOTA;111;COROLLA;1972;2.0 D-4D;2;1995;9;2000;11;2001;sept-00;nov-01;66;90;A trois volumes;Traction avant;Diesel;1CD-FTV;4;4
 16034;PORSCHE;92;911;160;3.6 Carrera;3.6;3600;8;1995;9;1997;août-95;sept-97;210;286;Coupé;Propulsion;Essence;M 64.24,M 64.21,M 64.22,M 64.23;6;2
-16035;VW;121;PASSAT;4736;4.0 W8 4motion;4;3999;9;2001;9;2004;sept-01;sept-04;202;275;A trois volumes;Traction intégrale;Essence;BDN;8;4
-16036;VW;121;PASSAT Variant;4737;4.0 W8 4motion;4;3999;9;2001;9;2004;sept-01;sept-04;202;275;Break;Traction intégrale;Essence;BDN;8;4
+16035;VOLKSWAGEN;121;PASSAT;4736;4.0 W8 4motion;4;3999;9;2001;9;2004;sept-01;sept-04;202;275;A trois volumes;Traction intégrale;Essence;BDN;8;4
+16036;VOLKSWAGEN;121;PASSAT Variant;4737;4.0 W8 4motion;4;3999;9;2001;9;2004;sept-01;sept-04;202;275;Break;Traction intégrale;Essence;BDN;8;4
 16037;BUGATTI;788;VEYRON EB 16.4;4796;8.0 W16;8;7993;10;2003;12;2012;oct-03;déc-12;736;1001;Coupé;Traction intégrale;Essence;;16;4
 16038;JEEP;882;CHEROKEE;4242;2.1 TD;2.1;2068;6;1989;3;1992;juin-89;mars-92;59;80;Véhicule tout terrain fermé;Propulsion;Diesel;J8S;4;2
 16040;AUDI;5;A4;6418;1.8 TFSI;1.8;1798;11;2011;12;2015;nov-11;déc-15;125;170;A trois volumes;Traction avant;Essence;CJEB;4;4
@@ -1045,15 +1045,15 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16059;SKODA;106;FABIA I A trois volumes;4777;1.4;1.4;1397;7;2001;5;2003;juil-01;mai-03;50;68;A trois volumes;Traction avant;Essence;AQW,ATZ,AME;4;2
 16060;SKODA;106;FABIA I A trois volumes;4777;1.4 16V;1.4;1390;12;1999;12;2007;déc-99;déc-07;74;100;A trois volumes;Traction avant;Essence;BBZ,AUB;4;4
 16061;ASTON MARTIN;881;VANQUISH;4799;6.0 V12;6;5935;9;2001;8;2007;sept-01;août-07;338;460;Coupé;Propulsion;Essence;AM 702;12;4
-16062;VW;121;SHARAN;1312;1.9 TDI 4motion;1.9;1896;4;2000;3;2010;avr-00;mars-10;85;115;Monospace;Traction intégrale;Diesel;AUY,BVK;4;2
-16063;VW;121;GOLF IV;1994;1.9 TDI;1.9;1896;11;2000;6;2005;nov-00;juin-05;96;130;3/5 portes;Traction avant;Diesel;ASZ;4;2
-16064;VW;121;GOLF IV;1994;1.9 TDI 4motion;1.9;1896;11;2000;6;2005;nov-00;juin-05;96;130;3/5 portes;Traction intégrale;Diesel;ASZ;4;2
-16065;VW;121;GOLF IV Variant;1995;1.9 TDI;1.9;1896;11;2000;6;2006;nov-00;juin-06;96;130;Break;Traction avant;Diesel;ASZ;4;2
-16066;VW;121;GOLF IV Variant;1995;1.9 TDI 4motion;1.9;1896;11;2000;6;2006;nov-00;juin-06;96;130;Break;Traction intégrale;Diesel;ASZ;4;2
-16067;VW;121;BORA;3884;1.9 TDI;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;A trois volumes;Traction avant;Diesel;ASZ;4;2
-16068;VW;121;BORA;3884;1.9 TDI 4motion;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;A trois volumes;Traction intégrale;Diesel;ASZ;4;2
-16069;VW;121;BORA Variant;4125;1.9 TDI;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;Break;Traction avant;Diesel;ASZ;4;2
-16070;VW;121;BORA Variant;4125;1.9 TDI 4motion;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;Break;Traction intégrale;Diesel;ASZ;4;2
+16062;VOLKSWAGEN;121;SHARAN;1312;1.9 TDI 4motion;1.9;1896;4;2000;3;2010;avr-00;mars-10;85;115;Monospace;Traction intégrale;Diesel;AUY,BVK;4;2
+16063;VOLKSWAGEN;121;GOLF IV;1994;1.9 TDI;1.9;1896;11;2000;6;2005;nov-00;juin-05;96;130;3/5 portes;Traction avant;Diesel;ASZ;4;2
+16064;VOLKSWAGEN;121;GOLF IV;1994;1.9 TDI 4motion;1.9;1896;11;2000;6;2005;nov-00;juin-05;96;130;3/5 portes;Traction intégrale;Diesel;ASZ;4;2
+16065;VOLKSWAGEN;121;GOLF IV Variant;1995;1.9 TDI;1.9;1896;11;2000;6;2006;nov-00;juin-06;96;130;Break;Traction avant;Diesel;ASZ;4;2
+16066;VOLKSWAGEN;121;GOLF IV Variant;1995;1.9 TDI 4motion;1.9;1896;11;2000;6;2006;nov-00;juin-06;96;130;Break;Traction intégrale;Diesel;ASZ;4;2
+16067;VOLKSWAGEN;121;BORA;3884;1.9 TDI;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;A trois volumes;Traction avant;Diesel;ASZ;4;2
+16068;VOLKSWAGEN;121;BORA;3884;1.9 TDI 4motion;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;A trois volumes;Traction intégrale;Diesel;ASZ;4;2
+16069;VOLKSWAGEN;121;BORA Variant;4125;1.9 TDI;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;Break;Traction avant;Diesel;ASZ;4;2
+16070;VOLKSWAGEN;121;BORA Variant;4125;1.9 TDI 4motion;1.9;1896;11;2000;5;2005;nov-00;mai-05;96;130;Break;Traction intégrale;Diesel;ASZ;4;2
 16071;SEAT;104;TOLEDO II;3899;2.3 V5 20V;2.3;2324;9;2000;11;2003;sept-00;nov-03;125;170;A trois volumes;Traction avant;Essence;AQN;5;4
 16072;BMW;16;Z3 Roadster;3483;M 3.2;3.2;3246;6;2001;1;2003;juin-01;janv-03;239;325;Décapotable;Propulsion;Essence;S54 B32 (326S4);6;4
 16073;BMW;16;Z3 Coupé;2079;M;3.2;3246;6;2001;6;2003;juin-01;juin-03;239;325;Coupé;Propulsion;Essence;S54 B32 (326S4);6;4
@@ -1087,7 +1087,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16102;FORD;36;FIESTA V;4802;1.4 TDCi;1.4;1398;11;2001;6;2008;nov-01;juin-08;50;68;3/5 portes;Traction avant;Diesel;F6JB,F6JA;4;2
 16103;HONDA;45;CIVIC VII A trois volumes;4803;1.7;1.7;1668;2;2001;9;2005;févr-01;sept-05;85;116;A trois volumes;Traction avant;Essence;D17A6;4;4
 16104;RENAULT;93;CLIO II;3508;1.2 16V (BB05, BB0W, BB11, BB27, BB2T, BB2U, BB2V, CB05,...;1.2;1149;6;2001;-;-;juin-01;-;55;75;3/5 portes;Traction avant;Essence;D4F 706,D4F 728,D4F 722,D4F 712,D4F 714;4;4
-16105;VW;121;POLO;4804;1.9 TDI;1.9;1896;10;2001;11;2009;oct-01;nov-09;74;101;3/5 portes;Traction avant;Diesel;ATD,AXR,BMT;4;2
+16105;VOLKSWAGEN;121;POLO;4804;1.9 TDI;1.9;1896;10;2001;11;2009;oct-01;nov-09;74;101;3/5 portes;Traction avant;Diesel;ATD,AXR,BMT;4;2
 16106;NISSAN;80;PRIMERA Hatchback;1900;1.6 16V;1.6;1597;9;2000;7;2002;sept-00;juil-02;78;106;3/5 portes;Traction avant;Essence;QG16DE;4;4
 16107;NISSAN;80;PRIMERA;1899;1.6 16V;1.6;1597;6;1996;12;2001;juin-96;déc-01;78;106;A trois volumes;Traction avant;Essence;QG16DE;4;4
 16108;RENAULT;93;CLIO II;3508;1.5 dCi;1.5;1461;6;2001;-;-;juin-01;-;48;65;3/5 portes;Traction avant;Diesel;K9K 704,K9K 700;4;2
@@ -1111,14 +1111,14 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16127;OPEL;84;ASTRA F;376;1.6;1.6;1598;9;1995;9;1998;sept-95;sept-98;55;75;A trois volumes;Traction avant;Essence;16 LZ2;4;2
 16128;OPEL;84;ASTRA F Break;3440;1.6;1.6;1598;9;1995;1;1998;sept-95;janv-98;55;75;Break;Traction avant;Essence;16 LZ2;4;2
 16129;MERCEDES-BENZ;74;SL;4806;500;5;4966;10;2001;1;2012;oct-01;janv-12;225;306;Décapotable;Propulsion;Essence;M 113.963;8;3
-16130;VW;121;LT 28-35 II Autobus/Autocar;3378;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Autobus/Autocar;Propulsion;Diesel;BBE;5;2
-16131;VW;121;LT 28-35 II Autobus/Autocar;3378;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Autobus/Autocar;Propulsion;Diesel;BBF;5;2
+16130;VOLKSWAGEN;121;LT 28-35 II Autobus/Autocar;3378;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Autobus/Autocar;Propulsion;Diesel;BBE;5;2
+16131;VOLKSWAGEN;121;LT 28-35 II Autobus/Autocar;3378;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Autobus/Autocar;Propulsion;Diesel;BBF;5;2
 16133;MINI;1523;MINI COUNTRYMAN;8981;Cooper;1.6;1598;1;2010;10;2016;janv-10;oct-16;85;115;Break;Traction avant;Essence;N16 B16 A;4;4
 16134;MERCEDES-BENZ;74;CLASSE A;1982;A 140;1.6;1598;1;2001;8;2004;janv-01;août-04;60;82;3/5 portes;Traction avant;Essence;M 166.960;4;2
-16135;VW;121;LT 28-46 II Camionnette;3379;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Camionnette;Propulsion;Diesel;BBE;5;2
-16136;VW;121;LT 28-46 II Camionnette;3379;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Camionnette;Propulsion;Diesel;BBF;5;2
-16137;VW;121;LT 28-46 II Camion plate-forme/Châssis (2DC, 2DF, 2DG, 2DL,;3380;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Camion plate-forme/Châssis;Propulsion;Diesel;BBE;5;2
-16138;VW;121;LT 28-46 II Camion plate-forme/Châssis (2DC, 2DF, 2DG, 2DL,;3380;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Camion plate-forme/Châssis;Propulsion;Diesel;BBF;5;2
+16135;VOLKSWAGEN;121;LT 28-46 II Camionnette;3379;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Camionnette;Propulsion;Diesel;BBE;5;2
+16136;VOLKSWAGEN;121;LT 28-46 II Camionnette;3379;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Camionnette;Propulsion;Diesel;BBF;5;2
+16137;VOLKSWAGEN;121;LT 28-46 II Camion plate-forme/Châssis (2DC, 2DF, 2DG, 2DL,;3380;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;61;83;Camion plate-forme/Châssis;Propulsion;Diesel;BBE;5;2
+16138;VOLKSWAGEN;121;LT 28-46 II Camion plate-forme/Châssis (2DC, 2DF, 2DG, 2DL,;3380;2.5 TDI;2.5;2461;5;2001;7;2006;mai-01;juil-06;70;95;Camion plate-forme/Châssis;Propulsion;Diesel;BBF;5;2
 16139;TOYOTA;111;1000;4808;1.0;1;993;4;1969;8;1988;avr-69;août-88;33;45;3/5 portes;Propulsion;Essence;2K;4;2
 16140;TOYOTA;111;1000 Camionnette;4809;1.0;1;993;4;1969;8;1988;avr-69;août-88;33;45;Camionnette;Propulsion;Essence;2K;4;2
 16141;FIAT;35;PALIO;2046;1.4;1.4;1372;4;1996;10;2002;avr-96;oct-02;51;69;3/5 portes;Traction avant;Essence;178 B2.000;4;2
@@ -1227,7 +1227,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16250;MERCEDES-BENZ;74;CLASSE S;3575;S 63 AMG;6.3;6258;9;2001;8;2005;sept-01;août-05;326;444;A trois volumes;Propulsion;Essence;M 137.980;12;3
 16251;MERCEDES-BENZ;74;CLASSE S Coupé;4095;CL 63 AMG;6.3;6258;9;2001;3;2006;sept-01;mars-06;326;444;Coupé;Propulsion;Essence;M 137.980;12;3
 16252;TOYOTA;111;RAV 4 II;4649;2.0 D-4D 4WD;2;1995;5;2001;11;2005;mai-01;nov-05;85;116;Véhicule tout terrain fermé;Traction intégrale;Diesel;1CD-FTV;4;4
-16253;VW;121;GOLF IV;1994;1.8 T GTI;1.8;1781;8;2001;6;2005;août-01;juin-05;132;180;3/5 portes;Traction avant;Essence;AUQ;4;5
+16253;VOLKSWAGEN;121;GOLF IV;1994;1.8 T GTI;1.8;1781;8;2001;6;2005;août-01;juin-05;132;180;3/5 portes;Traction avant;Essence;AUQ;4;5
 16254;OPEL;84;OMEGA B;3466;2.5 DTI;2.5;2497;9;2001;7;2003;sept-01;juil-03;110;150;A trois volumes;Propulsion;Diesel;Y 25 DT;6;4
 16255;OPEL;84;OMEGA B Break;359;2.5 DTI;2.5;2497;9;2001;7;2003;sept-01;juil-03;110;150;Break;Propulsion;Diesel;Y 25 DT;6;4
 16258;MERCEDES-BENZ;74;SL;4806;55 AMG;5.4;5439;10;2001;6;2002;oct-01;juin-02;350;476;Décapotable;Propulsion;Essence;M 113.992;8;3
@@ -1251,7 +1251,7 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16276;NISSAN;80;PRIMERA Break;4834;2.0;2;1998;3;2002;-;-;mars-02;-;103;140;Break;Traction avant;Essence;QR20DE;4;4
 16277;NISSAN;80;PRIMERA Break;4834;2.2 Di;2.2;2184;3;2002;-;-;mars-02;-;93;126;Break;Traction avant;Diesel;YD22DDT;4;4
 16278;DAIHATSU;25;TERIOS;2049;1.3;1.3;1298;9;2001;10;2005;sept-01;oct-05;63;86;Véhicule tout terrain fermé;Propulsion;Essence;K3-VE;4;4
-16279;VW;121;POLO;4804;1.4 TDI;1.4;1422;10;2001;6;2005;oct-01;juin-05;55;75;3/5 portes;Traction avant;Diesel;BAY,AMF;3;2
+16279;VOLKSWAGEN;121;POLO;4804;1.4 TDI;1.4;1422;10;2001;6;2005;oct-01;juin-05;55;75;3/5 portes;Traction avant;Diesel;BAY,AMF;3;2
 16280;CHEVROLET;138;TRAILBLAZER;4835;4.2 AWD;4.2;4157;9;2001;9;2008;sept-01;sept-08;201;273;Véhicule tout terrain fermé;Traction intégrale;Essence;LL8;6;4
 16281;PEUGEOT;88;PARTNER Combispace;1961;1.6 16V;1.6;1587;7;2001;3;2008;juil-01;mars-08;80;109;Monospace;Traction avant;Essence;NFU (TU5JP4);4;4
 16282;HYUNDAI;183;SANTA FÉ I;4712;2.0 CRDi;2;1991;8;2001;3;2006;août-01;mars-06;83;113;Véhicule tout terrain fermé;Traction avant;Diesel;D4EA;4;4
@@ -1268,13 +1268,13 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16293;SKODA;106;SUPERB I;4837;2.8 V6;2.8;2771;12;2001;3;2008;déc-01;mars-08;142;193;A trois volumes;Traction avant;Essence;AMX;6;5
 16294;SKODA;106;SUPERB I;4837;1.9 TDI;1.9;1896;12;2001;3;2008;déc-01;mars-08;96;130;A trois volumes;Traction avant;Diesel;AWX,AVF;4;2
 16295;SKODA;106;SUPERB I;4837;2.5 TDI;2.5;2496;12;2001;8;2003;déc-01;août-03;114;155;A trois volumes;Traction avant;Diesel;AYM;6;4
-16296;VW;121;PASSAT;1568;2.0;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;A trois volumes;Traction avant;Essence;ASU,AUZ;4;2
-16297;VW;121;PASSAT;1568;2.0 4motion;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;A trois volumes;Traction intégrale;Essence;ASU;4;2
-16298;VW;121;PASSAT;1568;1.9 TDI;1.9;1896;2;2000;11;2000;févr-00;nov-00;74;101;A trois volumes;Traction avant;Diesel;AVB;4;2
-16299;VW;121;PASSAT Variant;1907;1.9 TDI;1.9;1896;2;2000;11;2000;févr-00;nov-00;74;101;Break;Traction avant;Diesel;AVB;4;2
-16300;VW;121;POLO;4804;1.4 16V;1.4;1390;10;2001;5;2008;oct-01;mai-08;55;75;3/5 portes;Traction avant;Essence;BKY,AUA,BBY;4;4
-16301;VW;121;PASSAT Variant;1907;2.0;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;Break;Traction avant;Essence;ASU,AUZ;4;2
-16302;VW;121;PASSAT Variant;1907;2.0 4motion;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;Break;Traction intégrale;Essence;ASU,AUZ;4;2
+16296;VOLKSWAGEN;121;PASSAT;1568;2.0;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;A trois volumes;Traction avant;Essence;ASU,AUZ;4;2
+16297;VOLKSWAGEN;121;PASSAT;1568;2.0 4motion;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;A trois volumes;Traction intégrale;Essence;ASU;4;2
+16298;VOLKSWAGEN;121;PASSAT;1568;1.9 TDI;1.9;1896;2;2000;11;2000;févr-00;nov-00;74;101;A trois volumes;Traction avant;Diesel;AVB;4;2
+16299;VOLKSWAGEN;121;PASSAT Variant;1907;1.9 TDI;1.9;1896;2;2000;11;2000;févr-00;nov-00;74;101;Break;Traction avant;Diesel;AVB;4;2
+16300;VOLKSWAGEN;121;POLO;4804;1.4 16V;1.4;1390;10;2001;5;2008;oct-01;mai-08;55;75;3/5 portes;Traction avant;Essence;BKY,AUA,BBY;4;4
+16301;VOLKSWAGEN;121;PASSAT Variant;1907;2.0;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;Break;Traction avant;Essence;ASU,AUZ;4;2
+16302;VOLKSWAGEN;121;PASSAT Variant;1907;2.0 4motion;2;1984;4;2000;11;2000;avr-00;nov-00;88;120;Break;Traction intégrale;Essence;ASU,AUZ;4;2
 16303;FORD;36;TRANSIT Autobus/Autocar;1483;2.5 TD;2.5;2496;8;1994;6;2000;août-94;juin-00;55;75;Autobus/Autocar;Propulsion;Diesel;4HA,4HD;4;2
 16304;FORD;36;TRANSIT Camionnette;2043;2.5 TD;2.5;2496;10;1998;3;2000;oct-98;mars-00;55;75;Camionnette;Propulsion;Diesel;4HA,4HD;4;2
 16305;FORD;36;TRANSIT Camion plate-forme/Châssis;2044;2.5 TD;2.5;2496;10;1998;7;2000;oct-98;juil-00;55;75;Camion plate-forme/Châssis;Propulsion;Diesel;4HA,4HD;4;2
@@ -1296,24 +1296,24 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 16329;CHEVROLET;138;TRANS SPORT;1915;3.4 V6 AWD;3.4;3350;10;2001;9;2005;oct-01;sept-05;138;188;Monospace;Traction intégrale;Essence;LA1;6;2
 16330;CITROEN;21;C3 I;4841;1.1 i;1.1;1124;2;2002;-;-;févr-02;-;44;60;3/5 portes;Traction avant;Essence;HFX (TU1A),HFX (TU1JP);4;2
 16331;CITROEN;21;C3 I;4841;1.4 HDi;1.4;1398;2;2002;-;-;févr-02;-;50;68;3/5 portes;Traction avant;Diesel;8HX (DV4TD);4;2
-16332;VW;121;POLO;4804;1.2 12V;1.2;1198;10;2001;7;2007;oct-01;juil-07;47;64;3/5 portes;Traction avant;Essence;BME,AZQ;3;4
-16333;VW;121;POLO;4804;1.9 SDI;1.9;1896;10;2001;11;2009;oct-01;nov-09;47;64;3/5 portes;Traction avant;Diesel;ASY;4;2
+16332;VOLKSWAGEN;121;POLO;4804;1.2 12V;1.2;1198;10;2001;7;2007;oct-01;juil-07;47;64;3/5 portes;Traction avant;Essence;BME,AZQ;3;4
+16333;VOLKSWAGEN;121;POLO;4804;1.9 SDI;1.9;1896;10;2001;11;2009;oct-01;nov-09;47;64;3/5 portes;Traction avant;Diesel;ASY;4;2
 16334;CITROEN;21;C3 I;4841;1.4 i Bivalent;1.4;1360;2;2002;-;-;févr-02;-;54;73;3/5 portes;Traction avant;Essence;KFV (TU3JP);4;2
 16335;CITROEN;21;C3 I;4841;1.6 16V;1.6;1587;2;2002;-;-;févr-02;-;80;109;3/5 portes;Traction avant;Essence;NFU (TU5JP4);4;4
 16336;CITROEN;21;C3 I;4841;1.4 16V HDi;1.4;1398;2;2002;-;-;févr-02;-;66;90;3/5 portes;Traction avant;Diesel;8HY (DV4TED4);4;4
 16337;FORD;36;FIESTA V;4802;1.3;1.3;1299;11;2001;6;2008;nov-01;juin-08;44;60;3/5 portes;Traction avant;Essence;BAJA;4;2
 16338;FORD;36;FIESTA V;4802;1.3;1.3;1299;11;2001;6;2008;nov-01;juin-08;51;69;3/5 portes;Traction avant;Essence;A9JA,A9JB;4;2
 16339;AUDI;5;A4 Avant;4797;2.5 TDI;2.5;2496;9;2001;7;2002;sept-01;juil-02;114;155;Break;Traction avant;Diesel;AYM;6;4
-16340;VW;121;NEW BEETLE;3402;1.4;1.4;1390;11;2001;9;2010;nov-01;sept-10;55;75;3/5 portes;Traction avant;Essence;BCA;4;4
+16340;VOLKSWAGEN;121;NEW BEETLE;3402;1.4;1.4;1390;11;2001;9;2010;nov-01;sept-10;55;75;3/5 portes;Traction avant;Essence;BCA;4;4
 16341;ROVER;95;75;3989;2.5 V6;2.5;2497;10;2001;5;2005;oct-01;mai-05;130;177;A trois volumes;Traction avant;Essence;25 K4F;6;4
 16343;MAZDA;72;E-SERIE Autobus/Autocar;301;E2200 D 4WD;2.2;2184;1;1984;2;1988;janv-84;févr-88;47;64;Autobus/Autocar;Traction intégrale;Diesel;R2;4;2
 16344;MG;75;MG ZT- T;5054;160;2.5;2497;10;2001;7;2005;oct-01;juil-05;118;160;Break;Traction avant;Essence;25 K4F;6;4
 16345;MG;75;MG ZT- T;5054;190;2.5;2497;10;2001;7;2005;oct-01;juil-05;140;190;Break;Traction avant;Essence;25 K4F;6;4
-16346;VW;121;PASSAT;4736;2.0;2;1984;11;2001;5;2005;nov-01;mai-05;96;130;A trois volumes;Traction avant;Essence;ALT;4;5
-16347;VW;121;PASSAT Variant;4737;2.0;2;1984;11;2001;5;2005;nov-01;mai-05;96;130;Break;Traction avant;Essence;ALT;4;5
-16348;VW;121;GOLF IV Variant;1995;2.0 Bi-Fuel;2;1984;2;2002;6;2006;févr-02;juin-06;85;116;Break;Traction avant;Essence;BEH;4;2
-16349;VW;121;BORA Variant;4125;1.9 TDI;1.9;1896;5;2001;5;2005;mai-01;mai-05;110;150;Break;Traction avant;Diesel;ARL;4;2
-16350;VW;121;BORA Variant;4125;1.9 TDI 4motion;1.9;1896;5;2001;5;2005;mai-01;mai-05;110;150;Break;Traction intégrale;Diesel;ARL;4;2
+16346;VOLKSWAGEN;121;PASSAT;4736;2.0;2;1984;11;2001;5;2005;nov-01;mai-05;96;130;A trois volumes;Traction avant;Essence;ALT;4;5
+16347;VOLKSWAGEN;121;PASSAT Variant;4737;2.0;2;1984;11;2001;5;2005;nov-01;mai-05;96;130;Break;Traction avant;Essence;ALT;4;5
+16348;VOLKSWAGEN;121;GOLF IV Variant;1995;2.0 Bi-Fuel;2;1984;2;2002;6;2006;févr-02;juin-06;85;116;Break;Traction avant;Essence;BEH;4;2
+16349;VOLKSWAGEN;121;BORA Variant;4125;1.9 TDI;1.9;1896;5;2001;5;2005;mai-01;mai-05;110;150;Break;Traction avant;Diesel;ARL;4;2
+16350;VOLKSWAGEN;121;BORA Variant;4125;1.9 TDI 4motion;1.9;1896;5;2001;5;2005;mai-01;mai-05;110;150;Break;Traction intégrale;Diesel;ARL;4;2
 16351;SAAB;99;09-mai;2045;2.3 Turbo;2.3;2290;9;2001;12;2009;sept-01;déc-09;184;250;A trois volumes;Traction avant;Essence;B235R;4;4
 16352;VOLVO;120;S60 I;4696;2.0 T;2;1984;7;2000;4;2010;juil-00;avr-10;132;180;A trois volumes;Traction avant;Essence;B 5204 T5;5;4
 16353;LAMBORGHINI;701;MURCIÉLAGO;4843;6.2;6.2;6192;11;2001;-;-;nov-01;-;426;579;Coupé;Traction intégrale;Essence;;12;4
@@ -1541,3 +1541,39 @@ tecdoc_ktypnr;tecdoc_constr;tecdoc_constrcode;tecdoc_model1;tecdoc_modelcode;tec
 124996;KAWASAKI;4057;VERSYS;12357;Versys 1000;1.04;1050;1;2017;-;-;janv-17;-;88;120;Moto;Chaîne;Essence;;4;4
 124998;FERRARI;700;GTC4 Lusso / Lusso T;36521;3.9 T;3.9;3855;10;2016;-;-;oct-16;-;449;610;Coupé;Propulsion;Essence;;8;4
 21981;AMC;2246;EAGLE A trois volumes;30060;4.2 4WD;4.2;4229;10;1979;8;1985;oct-79;août-85;90;122;A trois volumes;Traction intégrale;Essence;;6;2
+5118;VOLKSWAGEN;121;TIGUAN;2;2.0 TDI;2.5;2497;10;1995;5;2000;oct-95;01/05/00;110;150;A trois volumes;Propulsion;Diesel;OM 605.960;5;4
+9352;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;2;2008;8;2009;févr-08;août-09;120;163;Véhicule tout terrain fermé;Traction intégrale;Diesel;CBBA;4;4
+10929;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI;1.4;1390;5;2011;-;-;mai-11;-;118;160;Véhicule tout terrain fermé;Traction avant;Essence;CAVD,CTHD;4;4
+10932;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI 4motion;1.4;1390;5;2011;-;-;mai-11;-;118;160;Véhicule tout terrain fermé;Traction intégrale;Essence;CAVD,CTHD;4;4
+10935;VOLKSWAGEN;121;TIGUAN;6397;2.0 TSI 4motion;2;1984;5;2011;-;-;mai-11;-;132;180;Véhicule tout terrain fermé;Traction intégrale;Essence;CCZD;4;4
+10954;VOLKSWAGEN;121;TIGUAN;6397;2.0 TSI 4motion;2;1984;5;2011;-;-;mai-11;-;155;211;Véhicule tout terrain fermé;Traction intégrale;Essence;CCZB;4;4
+23178;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;9;2007;-;-;sept-07;-;103;140;Véhicule tout terrain fermé;Traction intégrale;Diesel;CLJA,CFFB,CBAB;4;4
+23179;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;9;2007;-;-;sept-07;-;125;170;Véhicule tout terrain fermé;Traction intégrale;Diesel;CBBB,CFGB;4;4
+23180;VOLKSWAGEN;121;TIGUAN;6397;2.0 TFSI 4motion;2;1984;9;2007;-;-;sept-07;-;147;200;Véhicule tout terrain fermé;Traction intégrale;Essence;CCTA,CAWB,CCZA;4;4
+23181;VOLKSWAGEN;121;TIGUAN;6397;2.0 TFSI 4motion;2;1984;9;2007;-;-;sept-07;-;125;170;Véhicule tout terrain fermé;Traction intégrale;Essence;CCZC,CAWA;4;4
+23182;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI 4motion;1.4;1390;9;2007;-;-;sept-07;-;110;150;Véhicule tout terrain fermé;Traction intégrale;Essence;CAVA,CTHA,BWK;4;4
+29996;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI;1.4;1390;5;2008;-;-;mai-08;-;110;150;Véhicule tout terrain fermé;Traction avant;Essence;CAVA,CTHA,BWK;4;4
+29997;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI;2;1968;3;2008;-;-;mars-08;-;103;140;Véhicule tout terrain fermé;Traction avant;Diesel;CFFB,CBAB;4;4
+30397;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;11;2007;-;-;nov-07;-;100;136;Véhicule tout terrain fermé;Traction intégrale;Diesel;CFFA,CBAA;4;4
+33673;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI;1.4;1390;8;2010;-;-;août-10;-;90;122;Véhicule tout terrain fermé;Traction avant;Essence;CAXA;4;4
+33674;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI;2;1968;5;2010;-;-;mai-10;-;81;110;Véhicule tout terrain fermé;Traction avant;Diesel;CFFD;4;4
+57510;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;11;2012;-;-;nov-12;-;130;177;Véhicule tout terrain fermé;Traction intégrale;Diesel;CFGC;4;4
+112955;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI;2;1968;5;2015;-;-;mai-15;-;110;150;Véhicule tout terrain fermé;Traction avant;Diesel;CUVC;4;4
+112956;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;5;2015;-;-;mai-15;-;110;150;Véhicule tout terrain fermé;Traction intégrale;Diesel;CUVC;4;4
+113334;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI;1.4;1395;5;2015;-;-;mai-15;-;92;125;Véhicule tout terrain fermé;Traction avant;Essence;CZDB;4;4
+113340;VOLKSWAGEN;121;TIGUAN;6397;2.0 TDI 4motion;2;1968;5;2015;-;-;mai-15;-;135;184;Véhicule tout terrain fermé;Traction intégrale;Diesel;CUWA;4;4
+116130;VOLKSWAGEN;121;TIGUAN;6397;1.4 TSI;1.4;1395;5;2015;-;-;mai-15;-;110;150;Véhicule tout terrain fermé;Traction avant;Essence;CZDA;4;4
+118646;VOLKSWAGEN;121;TIGUAN;36223;2.0 TSI 4motion;2;1984;1;2016;-;-;janv-16;-;132;180;Véhicule tout terrain fermé;Traction intégrale;Essence;CZPA;4;4
+118647;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI;2;1968;1;2016;-;-;janv-16;-;110;150;Véhicule tout terrain fermé;Traction avant;Diesel;DFGA;4;4
+118648;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI 4motion;2;1968;1;2016;-;-;janv-16;-;110;150;Véhicule tout terrain fermé;Traction intégrale;Diesel;DFGA;4;4
+119690;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI 4motion;2;1968;4;2016;-;-;avr-16;-;140;190;Véhicule tout terrain fermé;Traction intégrale;Diesel;DFHA;4;4
+119766;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI 4motion;2;1968;5;2016;-;-;mai-16;-;176;240;Véhicule tout terrain fermé;Traction intégrale;Diesel;CUAA;4;4
+119767;VOLKSWAGEN;121;TIGUAN;36223;1.4 TSI;1.4;1395;1;2016;-;-;janv-16;-;92;125;Véhicule tout terrain fermé;Traction avant;Essence;CZCA;4;4
+119768;VOLKSWAGEN;121;TIGUAN;36223;1.4 TSI;1.4;1395;5;2016;-;-;mai-16;-;110;150;Véhicule tout terrain fermé;Traction avant;Essence;CZDA,CZEA;4;4
+120209;VOLKSWAGEN;121;TIGUAN;36223;1.4 TSI 4motion;1.4;1395;5;2016;-;-;mai-16;-;110;150;Véhicule tout terrain fermé;Traction intégrale;Essence;CZDA,CZEA;4;4
+120210;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI;2;1968;5;2016;-;-;mai-16;-;85;115;Véhicule tout terrain fermé;Traction avant;Diesel;DFGC;4;4
+121841;VOLKSWAGEN;121;TIGUAN;36223;2.0 TSI 4motion;2;1984;6;2016;-;-;juin-16;-;162;220;Véhicule tout terrain fermé;Traction intégrale;Essence;CHHB;4;4
+122007;VOLKSWAGEN;121;TIGUAN;36223;1.6 TDI;1.6;1598;5;2016;-;-;mai-16;-;85;115;Véhicule tout terrain fermé;Traction avant;Diesel;DGDB;4;4
+124068;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI;2;1968;8;2016;-;-;août-16;-;81;110;Véhicule tout terrain fermé;Traction avant;Diesel;CYKC;4;4
+124069;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI 4motion;2;1968;6;2016;-;-;juin-16;-;105;143;Véhicule tout terrain fermé;Traction intégrale;Diesel;CRFD;4;4
+124077;VOLKSWAGEN;121;TIGUAN;36223;2.0 TDI 4motion;2;1968;8;2016;-;-;août-16;-;130;177;Véhicule tout terrain fermé;Traction intégrale;Diesel;CRGB;4;4
