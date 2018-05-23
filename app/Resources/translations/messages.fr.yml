@@ -29,12 +29,18 @@ global:
   you: Vous
   poweredByGoogle: Produit par Google
   button:
+    connect: Se connecter
     send_message: Envoyer un message
     more_information: Plus d'information
     dislike: Je n'aime plus
     like_vehicle: J'aime ce véhicule
     add_this_vehicle: Ajouter le véhicule
     edit_this_vehicle: Editer le véhicule
+
+header:
+  menu:
+    search: Recherchez
+    sell: Déposez votre annonce
 
 homepage:
   title: Accueil
