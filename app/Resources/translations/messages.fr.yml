@@ -29,7 +29,10 @@ global:
   you: Vous
   poweredByGoogle: Produit par Google
   button:
+    close: Fermer
     connect: Se connecter
+    connexion: Connexion
+    send: Envoyer
     send_message: Envoyer un message
     more_information: Plus d'information
     dislike: Je n'aime plus
@@ -41,6 +44,25 @@ header:
   menu:
     search: Recherchez
     sell: Déposez votre annonce
+
+sidebar:
+  title: Espace membre
+  account_creation:
+    title: Je me crée un compte %sitename%
+    personal: Je suis un particulier
+    professionnal: Je suis un conseiller automobile
+
+login_form:
+  title: J'ai un compte %sitename%
+
+password_lost:
+  modal:
+    title: J’ai oublié mon mot de passe
+    subtitle: Pas de panique, cela arrive même aux meilleurs !
+    instructions: Entrez simplement votre adresse email et vous recevrez un mail de Wamcar vous permettant de réinitialiser votre mot de passe.
+
+social_network:
+  connexion_with: Se connecter via %social_network%
 
 footer:
   concept: Concept
