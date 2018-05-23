@@ -137,9 +137,6 @@
      ===================================== */
 
   &-footer {
-    display: flex;
-    flex-wrap: wrap;
-
     @include breakpoint(large down) {
       padding-top: rem-calc(15);
       padding-bottom: rem-calc(15);
@@ -150,6 +147,15 @@
     > a {
       padding-top: rem-calc(5);
       padding-bottom: rem-calc(5);
+      text-align: center;
+
+      @include breakpoint(small) {
+        font-size: rem-calc(12);
+      }
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(14);
+      }
 
       @include breakpoint(large) {
         font-size: rem-calc(17);
@@ -159,8 +165,6 @@
         font-size: rem-calc(20);
         padding-top: rem-calc(35);
         padding-bottom: rem-calc(35);
-
-        &:not(:first-child) { margin-left: rem-calc(35); }
       }
     } // End > a
 

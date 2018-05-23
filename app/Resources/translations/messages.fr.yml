@@ -42,6 +42,14 @@ header:
     search: Recherchez
     sell: Déposez votre annonce
 
+footer:
+  concept: Concept
+  who_are_we: Qui sommes-nous ?
+  contact_us: Contactez-nous
+  cgu: Conditions d'utilisation
+  data_protection: Protection des données
+  legal_notice: Mentions légales
+
 homepage:
   title: Accueil
   vehicle_form:
