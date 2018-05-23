@@ -9,3 +9,9 @@ parameters:
     email_catcher_address: null
 
     preferred_makes: ['RENAULT','PEUGEOT','CITROEN','Volkswagen', 'VOLKSWAGEN','DACIA','TOYOTA','FORD','OPEL','NISSAN','FIAT']
+
+    sitename: Wamcar
+    facebook_username: wamcar.france
+    facebook_page_id: ~
+    facebook_admin_ids: ~
+    twitter_username: wamcar
