@@ -1,11 +1,17 @@
+{#
+ATTENTION!
+Template utilisé pour l'inté uniquement dans le template front/Vehicle/Edit/edit.html.twig
+
+#}
+
 {% set asideId = '1' %}
-{% set title = 'Prix et détail de l\'offre' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
-    content: '
+    content:'
         <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
         <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
-    '
+    ',
+    asideTitle:'Prix et détail de l\'offre'
 } %}
 
 <section class="block-grid small-12 large-7">

@@ -1,25 +1,23 @@
 {% set asideId = '1' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
-    content: '
-        <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
-        <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
-    '
+    content: '<p>'~'vehicle.form.aside.identification.content_1'|trans~'</p><p class="no-margin">'~'vehicle.form.aside.identification.content_2'|trans~'</p>'
 } %}
 
 <section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" data-fetch-plate="{{ fetch_plate_url }}">
     <div class="register-infos input-margin block-grid">
         <div class="small-12 large-8">
-            <label for="immat">Immatriculation <span>Facultatif</span></label>
-            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+            <label for="immat">{{ 'vehicle.field.plateNumber.label'|trans }}<span>{{ 'global.facultative'|trans }}</span></label>
+            <p class="small">{{ 'vehicle.field.plateNumber.help_message'|trans }}</p>
         </div>
         {{ form_widget(vehicleForm.vehicleRegistration.plateNumber, {
+            'label' : null,
+            'placeholder': 'vehicle.field.plateNumber.placeholder'|trans,
             'class' : 'medium-no-margin',
             'class_field': 'small-12 large-4 align-self-bottom',
-            'required' : false,
-            'label' : null
+            'required' : false
         }) }}
-        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}">Compléter</a>
+        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}">{{ 'global.button.complete'|trans }}</a>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
@@ -95,7 +93,7 @@
             class: 'no-margin small-12 medium-8',
             required: false
         }) }}
-        <small class="form-error medium-offset-4">{{ 'vehicle.field.timingBeltState.format_error'|trans }}</small>
+        <small class="form-error medium-offset-4">{{ 'vehicle.field.vin.format_error'|trans }}</small>
         {{ form_errors(vehicleForm.vehicleRegistration.vin) }}
     </div>
 </section>

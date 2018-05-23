@@ -28,7 +28,7 @@
     <meta name="description" content="{% block meta_description %}{% endblock %}">
 
     {# ogp.me : required properties #}
-    <meta property="og:title" content="{{ block('title') }} - {{ site_name }}">
+    <meta property="og:title" content="{{ block('title') }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
     <meta property="og:image" content="{% block seo_img %}{{ asset('og-image.jpg') }}{% endblock %}">
     <meta property="og:url" content="{{ current_url }}">
@@ -38,11 +38,11 @@
     <meta property="og:description" content="{{ block('meta_description') }}">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ block('title') }} - {{ site_name }}">
+    <meta name="twitter:title" content="{{ block('title') }}">
     <meta name="twitter:description" content="{{ block('meta_description') }}">
     <meta name="twitter:image" content="{{ block('seo_img') }}">
     <meta name="twitter:image:alt" content="{{ block('title') }}">
-    <meta property="twitter:url" content="{{ current_url }}">
+    <meta name="twitter:url" content="{{ current_url }}">
     <meta name="twitter:site" content="@{{ twitter_username }}">
     <meta name="twitter:creator" content="@{{ twitter_username }}">
 

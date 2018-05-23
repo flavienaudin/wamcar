@@ -1,10 +1,7 @@
 {% set asideId = '3' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
-    content: '
-        <p>Merci de remplir ces informations complémentaires avec précision.</p>
-        <p>Vous obtiendrez ainsi de nos professionnels des offres de reprise au prix le plus juste.</p>
-    '
+    content: '<p>'~'vehicle.form.aside.additionnal_infos.content_1'|trans~'</p><p class="no-margin">'~'vehicle.form.aside.additionnal_infos.content_2'|trans~'</p>'
 } %}
 
 <section class="small-12 large-7">
@@ -19,7 +16,6 @@
                 'required_class' : 'form-error',
                 'list_class': 'small-up-2 small-12 medium-8 js-is-used-controller',
                 'values_translation_domain':'enumeration'
-
             }) }}
         </div>
         <div class="block-grid input-margin">
@@ -172,7 +168,7 @@
                 <button type="submit" class="button full-width">{{ vehicle ? "global.button.edit_this_vehicle"|trans : "global.button.add_this_vehicle"|trans }}</button>
             </div>
             <div class="small-12">
-                <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape précédente</b></button>
+                <button type="button" class="js-carousel-prev text-underline"><b class="black-color">{{ 'global.button.previous_step'|trans }}</b></button>
             </div>
         </div>
     {% endif %}

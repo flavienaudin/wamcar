@@ -281,12 +281,10 @@
 {%- endblock -%}
 
 {% block _pro_vehicle_pictures_entry_widget %}
-    {% set class = class|default('') %}
     {% set defaultImage = null %}
     {% if form.vars.name matches '/^\\d+$/' %}
         {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
-    {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
 {% endblock %}
@@ -296,12 +294,10 @@
 {% endblock %}
 
 {% block _personal_vehicle_pictures_entry_widget %}
-    {% set class = class|default('') %}
     {% set defaultImage = null %}
     {% if form.vars.name matches '/^\\d+$/' %}
         {% set defaultImage = 'vehicle_placeholder_thumbnail'|defaultVehicleFormPicture(form.vars.name) %}
     {% endif %}
-    {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     {{ block('_vehicle_pictures_entry_widget') }}
 {% endblock %}
@@ -314,21 +310,21 @@
     {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
-        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span class="medium-12 medium-no-margin">Facultatif (format conseillé : 310x235)</span></label>
+        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }}</label>
         <div class="js-file-preview file-preview column small-6 medium-12">
             {{ form_widget(form.id) }}
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
             {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
-            <label for="{{ form.vars.id }}_file" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
+            <label for="{{ form.vars.id }}_file" title="{{ 'vehicle.field.picture.action.add'|trans }}" class="js-file-preview-image-container file-preview-image-container">
                 <div class="file-preview-image no-margin">
                     <span><img src="{{ asset(image) }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
                 </div>
-                <span class="show-for-sr">Ajouter une photo</span>
+                <span class="show-for-sr">{{ 'vehicle.field.picture.action.add'|trans }}</span>
             </label>
-            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span class="show-for-sr">{{ 'vehicle.field.picture.action.add'|trans }}</span></button>
         </div>
         <div class="column small-6 medium-12">
-            {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'Ajouter une légende' } } ) }}
+            {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'vehicle.field.picture.action.add_caption'|trans } } ) }}
         </div>
     </div>
 {% endblock %}
@@ -345,21 +341,20 @@
     {% set isEdit = value and value.file ? true : false %}
     {% set isRemovable = isRemovable ?? true %}
     {% set defaultImage = defaultImage ?? '' %}
-
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
     {% endif %}
     <div class="js-file-preview file-preview js-file-index {{ classPreview }}">
         {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
         {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
-        <label for="{{ form.vars.id }}_file" title="Ajouter une photo" class="js-file-preview-image-container file-preview-image-container">
+        <label for="{{ form.vars.id }}_file" title="{{ 'form.picture.add_photo'|trans }}" class="js-file-preview-image-container file-preview-image-container">
             <div class="file-preview-image no-margin">
                 <span><img src="{{ imgPreview }}" data-default-src="{{ defaultImage }}" width="100%" class="js-file-preview-image"></span>
             </div>
-            <span class="show-for-sr">Ajouter une photo</span>
+            <span class="show-for-sr">{{ 'form.picture.add_photo'|trans }}</span>
         </label>
         {% if isRemovable %}
-            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="Supprimer la photo"><span class="show-for-sr">Supprimer la photo</span></button>
+            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'form.picture.remove_photo'|trans }}"><span class="show-for-sr">{{ 'form.picture.remove_photo'|trans }}</span></button>
         {% endif %}
     </div>
 {% endblock %}

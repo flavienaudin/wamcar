@@ -1,10 +1,10 @@
 {% set asideId = '4' %}
-{% set title = 'Prix et détail de l\'offre' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
     content: '
         <p>Apportez plus de détails sur votre véhicule : son prix, ses attouts (garanties, financements, services complémentaires...etc) Plus vous donnerez de détails à votre annonce, de meilleures chances vous aurez d\'intérésser un particulier.</p>
-    '
+    ',
+    asideTitle:'Prix et détail de l\'offre'
 } %}
 
 <section class="block-grid small-12 large-7">
@@ -86,7 +86,7 @@
             <button type="submit" class="button full-width">{{ vehicle ? "Editer le véhicule" : "Ajouter le véhicle" }}</button>
         </div>
         <div class="small-12">
-            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape précédente</b></button>
+            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">{{ 'global.button.previous_step'|trans }}</b></button>
         </div>
     </div>
 </section>
