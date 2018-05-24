@@ -40,7 +40,7 @@
 {% endblock %}
 
 {% block vehicle %}
-    {% if user.vehicles|length > 0 %}
+    {% if user.vehicles|length > 0 or userIsMe %}
         <div class="separator small-12 section">
             <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
             <div class="row">
