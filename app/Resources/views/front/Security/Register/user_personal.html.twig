@@ -2,12 +2,12 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Inscription particulier{% endblock %}
+{% block title %}{{ 'user.registration.personal.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'user.registration.personal.meta_description'|trans }}{% endblock %}
 
 {% block body %}
-
     <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">Particulier, inscrivez-vous pour obtenir des offres de reprise personnalisées et/ou acheter votre nouvelle voiture à un tarif préférentiel !</h1>
+        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.personal.banner'|trans }}</h1>
     </header>
 
     <section class="small-12">
