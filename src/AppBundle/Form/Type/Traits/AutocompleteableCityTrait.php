@@ -18,9 +18,6 @@ trait AutocompleteableCityTrait
         $builder
             ->add('postalCode', ChoiceType::class, [
                 'choices' => $data && $data->postalCode ? [$data->cityName . ' ('.$data->postalCode.')' => $data->postalCode] : null,
-                'attr' => [
-                    'class' => 'js-city-autocomplete'
-                ]
             ])
             ->add('cityName', HiddenType::class, [
                 'required' => false,
