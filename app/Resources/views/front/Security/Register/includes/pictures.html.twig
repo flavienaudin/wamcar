@@ -1,10 +1,7 @@
 {% set asideId = '2' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
-    content: '
-        <p>Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails.</p>
-        <p class="no-margin">Un angle de 3/4 avant sera parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visible !</p>
-    '
+    content: '<p>'~'vehicle.form.aside.picture.content_1'|trans~'</p><p class="no-margin">'~'vehicle.form.aside.picture.content_2'|trans~'</p>'
 } %}
 
 <section class="small-12 large-7">
@@ -13,6 +10,5 @@
             {{ form_widget(pictureSubForm) }}
         {% endfor %}
     </div>
-    {#<a id="js-tmp-add-picture" href="#">Ajouter</a>#}
-    <p class="small column">Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.</p>
+    <p class="small column text-justify">{{ 'vehicle.form.aside.picture.bottom_content'|trans }}</p>
 </section>

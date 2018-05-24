@@ -28,13 +28,58 @@ global:
   no: Non
   you: Vous
   poweredByGoogle: Produit par Google
+  help: Aide
+  facultative: Facultatif
   button:
+    close: Fermer
+    connect: Se connecter
+    connexion: Connexion
+    send: Envoyer
     send_message: Envoyer un message
+    complete: Compléter
     more_information: Plus d'information
     dislike: Je n'aime plus
     like_vehicle: J'aime ce véhicule
     add_this_vehicle: Ajouter le véhicule
     edit_this_vehicle: Editer le véhicule
+    previous_step: Etape précédente
+    next_step: Etape suivante
+    back: Retour
+
+header:
+  menu:
+    search: Recherchez
+    sell: Déposez votre annonce
+
+breadcrumb:
+  home: Accueil
+
+sidebar:
+  title: Espace membre
+  account_creation:
+    title: Je me crée un compte %sitename%
+    personal: Je suis un particulier
+    professionnal: Je suis un conseiller automobile
+
+login_form:
+  title: J'ai un compte %sitename%
+
+password_lost:
+  modal:
+    title: J’ai oublié mon mot de passe
+    subtitle: Pas de panique, cela arrive même aux meilleurs !
+    instructions: Entrez simplement votre adresse email et vous recevrez un mail de Wamcar vous permettant de réinitialiser votre mot de passe.
+
+social_network:
+  connexion_with: Se connecter avec %social_network%
+
+footer:
+  concept: Concept
+  who_are_we: Qui sommes-nous ?
+  contact_us: Contactez-nous
+  cgu: Conditions d'utilisation
+  data_protection: Protection des données
+  legal_notice: Mentions légales
 
 homepage:
   title: Accueil
@@ -48,7 +93,7 @@ homepage:
         field:
           immatriculation:
             label: Numéro d'immatriculation
-            placeholder: "Ex: AA-123-BB, 123AA55"
+            placeholder: "Ex: AA-123-BB"
             required_message: Veuillez indiquer un numéro d'immatriculation
           replacement:
             label: Je cherche un véhicule pour le remplacer
@@ -74,11 +119,43 @@ garage:
     unknown: Note inconnue
 
 vehicle:
+  inscription:
+    title: Inscription, description et état de ma voiture
+    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
+  form:
+    step_navigation:
+      identification: Identification du véhicule
+      picture: Photos
+      additionnal_infos: Infos complémentaires
+      registration: Création du compte
+    aside:
+      identification:
+        content_1: Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.
+        content_2: Le numéro VIN disponible sur votre carte grise sur la ligne E aidera les professionnels à vous faire une offre juste.
+      picture:
+        content_1: Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails. Il est prouvé que les annonces avec plusieurs photos ont plus de visites et plus d'offres.
+        content_2: Un angle de 3/4 avant serait parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visibles !
+        bottom_content: >
+          Des photos récentes sont indispensables pour une estimation de votre véhicule.
+          Elles permettent d'évaluer son état extérieur et intérieur.
+          Si vous n'en avez pas de disponibles immédiatement, vous pourrez en ajouter par la suite depuis votre espace membre.
+      additionnal_infos:
+        content_1: Merci de remplir ces informations avec précision.
+        content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
+      registration: Création du compte
+
   my_vehicle: Ma voiture
   vehicle_of: La voiture de %ownerName%
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
+  detail:
+    pro:
+      title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
+      meta_description:
+        discount: Remise de %vehicleDiscount%% sur ce véhicule
+        price: à la vente au prix de %vehiclePrice%
+        published_at: le %publishedAt%
   section:
     infos:
       tab:
@@ -122,8 +199,8 @@ vehicle:
         long: Description
       title: Description
     guarantee:
-      tab: Garantie
-      title: Garantie
+      tab: Garanties
+      title: Garanties
       guarantee:
         label: Garantie
       otherGuarantee:
@@ -148,18 +225,25 @@ vehicle:
     other_vehicle:
       tab: Autres véhicules
       title:
-        pro: Autres véhicules de ce garage
-        personal: Autres véhicules de ce particulier
+        pro: Autres véhicules de ce vendeur
+        personal: Autres véhicules de %firstname%
         owner: Mes autres véhicules
       button:
-        garage: Voir tous les véhicules de ce garage
+        garage: Voir tous les véhicules de ce vendeur
+        owner: Voir tous mes véhicules
   interested_user:
-    title: Ils aiment
+    title:
+      pro: Ils aiment ce véhicule
+      personal: Ils aiment cette annonce
     tabs:
-      all: Toutes (%nb%)
+      all: Tous (%nb%)
       pro: Professionnels (%nb%)
       personal: Particuliers (%nb%)
   field:
+    plateNumber:
+      label: Immatriculation
+      placeholder: 'Ex: AA-123-BB'
+      help_message: Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.
     make:
       label: Marque
       placeholder: Marque du véhicule
@@ -174,29 +258,31 @@ vehicle:
       required_message: Veuillez indiquer la motorisation du véhicule
     fuel:
       label: Energie
-      placeholder: Carburant du véhicule
+      placeholder: Energie du véhicule
       required_message: Veuillez indiquer l'énergie du véhicule
     transmission:
       label: Boite de vitesse
       required_message: Veuillez indiquer la boite de vitesse du véhicule
     vin:
       label: V.I.N.
+      format_error: Le V.I.N. est composé de 17 caractères
     picture:
       label:
-        main: Photo principale conseillée
-        additionnal: Photo supplémentaire conseillée
+        main: Photo principale
+        additionnal: Photo supplémentaire
+      action:
+        add: Ajouter une photo
+        remove: Supprimer la photo
+        add_caption: Ajouter une légende
     isUsed:
       label: Statut
       required_message: Veuillez préciser si le véhicule est neuf ou d'occasion
     registrationDate:
-      label: Date de 1ère mise en circulation ou de commercialisation
+      label: Date de 1ère mise en circulation
       required_message: Veuillez indiquer la date de 1ère mise en circulation
-    commercializationDate:
-      label: Date de commercialisation
-      required_message: Veuillez indiquer la date de commercialisation
     mileage:
       label: Kilométrage
-      required_message: Veuillez indiquer un kilométrage
+      required_message: Veuillez indiquer le kilométrage de votre véhicule
     body_state:
       label: Etat de la carrosserie
     engine_state:
@@ -204,25 +290,24 @@ vehicle:
     tyre_state:
       label: Etat des pneus
     maintenance_state:
-      label: Carnet d’entretien
+      label: Entretien
     safety_test_date:
       label: Date de fin de validité du contrôle technique
     safety_test_state:
       label: Résultat du dernier contrôle technique
     timingBeltState:
-      label: Etat de la courroie de distribution
-      format_error: Le V.I.N. est composé de 17 caractères
+      label: Courroie de distribution
     isFirstHand:
       label: Première main
     imported:
       label : Véhicule importé
     additionalInformation:
-      label: Description votre véhicule
-      placeholder: "Décrivez votre véhicule: équipements qu'il possède, sa version, ..."
+      label: Description
+      placeholder: 'Indiquez ici les informations complémentaires : version, équipements, défauts constatés...'
     city:
       label: Ville
-      placeholder: Ville, CP
-      required_message: Veuillez indiquer votre ville
+      placeholder: Ville ou Code Postal
+      required_message: Veuillez indiquer votre ville ou votre code postal
     price:
       label: Prix (€)
       required_message: Veuillez indiquer le prix de vente de votre véhicule.
@@ -245,6 +330,8 @@ vehicle:
       placeholder: Renseignez ici les différents services proposés à l'acheteur
     reference:
       label: Référence
+  list:
+    empty_list: Aucun véhicule n'a été renseigné pour le moment
   item:
     budget:
       with_price: "{0}%prenom% avez un budget de %budget%€ pour:|{1}%prenom% a un budget de %budget%€ pour:"
@@ -253,10 +340,31 @@ vehicle:
       title: "{0}%prenom% n'avez pas encore indiqué de souhaits.|{1}%prenom% n'a pas encore indiqué de souhaits."
       subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule, que ce soit dans le cadre d’une reprise ou non.
 
-
-
-
 user:
+  registration:
+    social_connect: Inscription via une plateforme
+    with_email: Inscription par email
+    pro:
+      title: Inscription pour les professionnels de l'automobile
+      meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
+      banner: Conseiller Automobile, inscrivez-vous sur Wamcar pour accèder à un sourcing et des leads de qualité
+    personal:
+      title: Inscription rapide pour les particuliers
+      meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
+      banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+  reinsurance.pro:
+    title: La vente avec reprise, c’est simple avec
+    items:
+      first:
+        alt: Un prospect crée sa demande de changement de voiture sur Wamcar
+        content: Un prospect crée sa demande de changement de voiture sur Wamcar en renseignant son profil, son véhicule à reprendre, son souhait et son budget. Il accède à votre profil et à votre vitrine en ligne, et peut liker vos véhicules.
+      second:
+        alt: Vous choisissez vos leads
+        content: Vous savez quels prospects ont liké vos véhicules. Vous likez les projets de reprise qui vous intéressent. Vous discutez et faites vos offres VN ou VO avec estimation de reprise directement via la messagerie en ligne.
+      third:
+        alt: Le particulier vous répond et prend rendez-vous directement.
+        content: Après quelques échanges, le prospect prend rendez-vous avec vous sereinement et en toute confiance, pour finaliser l'expertise et l'essai de vos véhicules.
+    bottom: Rejoignez-nous dès maintenant pour profiter de nombreuses opportunités !
   title:
     personal:
       mine: Ma fiche profil
@@ -271,7 +379,6 @@ user:
     title:
       personal: Présentation
       pro: Présentation du vendeur
-
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
@@ -283,7 +390,7 @@ user:
     undefined_budget: Budget non défini
     favorites:
       title: %user_firstname% aime
-      owner: J'aime
+      owner: Mes likes
 
 
 conversation:
@@ -296,3 +403,8 @@ favorites:
   my_favorites: Mes likes
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
+
+form:
+  picture:
+    add_photo: Ajouter une photo
+    remove_photo: Supprimer la photo

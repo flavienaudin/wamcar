@@ -2,7 +2,7 @@
 <div id="{{ modalId }}" class="reveal {% block class %}{% endblock %}" data-reveal>
     <header class="off-canvas-header {% block header_class %}{% endblock %}">
         <strong>{% block title %}{% endblock %}</strong>
-        <button class="small-right icon-close" data-close aria-label="Fermer" title="Fermer"><span class="show-for-sr">Fermer</span></button>
+        <button class="small-right icon-close" data-close aria-label="{{ 'global.button.close'|trans }}" title="{{ 'global.button.close'|trans }}"><span class="show-for-sr">{{ 'global.button.close'|trans }}</span></button>
     </header>
     <div class="modal-content row full-width {% block modal_content_class %}{% endblock %}">
         {% block content %}{{ content|raw }}{% endblock %}

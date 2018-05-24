@@ -1,12 +1,18 @@
+{% trans_default_domain 'security' %}
+
 {% set context = context|default(null) %}
+{% set social_connect = social_connect is defined?social_connect:true %}
 
-<aside class="register-right small-12 medium-6">
-    <h2 class="black-color column small-12">Inscription via un réseau social</h2>
-    {% include 'front/Security/Register/includes/social_networks_login.html.twig' with {"context" : context} %}
-</aside>
+{% if social_connect %}
+    <aside class="register-right small-12 medium-6">
+        <h2 class="black-color column small-12">{{ 'user.social_connect'|trans }}</h2>
+        {% include 'front/Security/Register/includes/social_networks_login.html.twig' with {"context" : context} %}
+    </aside>
+{% endif %}
 
-<section class="register-left input-margin small-12 medium-6">
-    <h2 class="black-color column small-12">Inscription par email</h2>
+
+<section class="input-margin small-12 {{ social_connect?'medium-6 register-left' }}">
+    <h2 class="black-color column small-12">{{ 'user.with_email'|trans }}</h2>
     <div class="column">
         {% include 'front/Security/Register/includes/form_register.html.twig' with {
             'registrationForm' : (vehicleForm is defined ? vehicleForm.userRegistration : form),

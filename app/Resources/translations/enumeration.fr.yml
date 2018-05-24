@@ -1,8 +1,8 @@
 UNKNOWN: 'Inconnu'
 
-UP_TO_DATE_WITH_INVOICES: 'A jour avec factures'
-UP_TO_DATE: 'A jour'
-MISSING: 'Manquant'
+UP_TO_DATE_WITH_INVOICES: 'A jour avec historique (carnet, factures)'
+UP_TO_DATE: 'A jour, sans historique'
+MISSING: 'A faire'
 
 LESS_THAN_SIX_MONTH: 'Moins de six mois'
 MORE_THAN_SIX_MONTH: 'Plus de six mois'

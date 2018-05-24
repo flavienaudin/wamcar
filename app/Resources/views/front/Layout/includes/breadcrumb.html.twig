@@ -1,7 +1,7 @@
 <div class="row">
     <ol class="breadcrumb is-flex no-bullet column show-for-medium" itemscope itemtype="http://schema.org/BreadcrumbList">
         <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
-            <a itemprop="item" href="{{ path('front_default') }}"><span itemprop="name">Accueil</span></a>
+            <a itemprop="item" href="{{ path('front_default') }}"><span itemprop="name">{{ 'breadcrumb.home'|trans }}</span></a>
             <meta itemprop="position" content="1" />
         </li>
         {% if breadcrumbs is defined %}

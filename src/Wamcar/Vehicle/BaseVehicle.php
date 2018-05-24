@@ -257,6 +257,14 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->isUsed?'VEHICLE_STATUT.USED':'VEHICLE_STATUT.NEW';
+    }
+
+    /**
      * @return bool
      */
     public function isUsed(): bool
@@ -395,6 +403,14 @@ abstract class BaseVehicle implements Vehicle
     public function getCreatedAt(): \DateTimeInterface
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 
     /**

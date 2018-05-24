@@ -1,9 +1,18 @@
 user:
+  social_connect: Inscription via une plateforme
+  with_email: Inscription par email
   field:
     email:
       label: Email
       placeholder: Entrez votre adresse email
       error: Veuillez indiquer votre adresse email
+    firstname:
+      label: Prénom
+      placeholder: Entrez votre prénom
+      error: Veuillez indiquer votre prénom
+    lastname:
+      label: Nom
+      placeholder: Entrez votre nom
     password:
       text: Pour la sécurité de votre compte, votre mot de passe devrait contenir au moins 8 caractères dont un chiffre et une majuscule.
       first:
@@ -11,7 +20,7 @@ user:
         placeholder: Entrez votre mot de passe
         error: Veuillez indiquer votre mot de passe.
       second:
-        label: Confirmation mot de passe
+        label: <div>Confirmation <span class="show-for-medium"><br></span> mot de passe</div>
         placeholder: Confirmez votre mot de passe
         error: Veuillez confirmer votre mot de passe
       show: Afficher le mot de passe
@@ -23,4 +32,4 @@ user:
       text-link: Conditions Générales d’Utilisation
       error: Veuillez accepter nos Conditions Générales d’Utilisation
   submit:
-    i_register: Je crée mon compte Wamcar
+    i_register: Inscription
