@@ -30,7 +30,7 @@
     {# ogp.me : required properties #}
     <meta property="og:title" content="{{ block('title') }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-    <meta property="og:image" content="{% block seo_img %}{{ asset('og-image.jpg') }}{% endblock %}">
+    {% block seo_img_block %}<meta property="og:image" content="{{ seo_img_url|default(asset('og-image.jpg')) }}">{% endblock %}
     <meta property="og:url" content="{{ current_url }}">
     {# ogp.me : optional metadatas #}
     <meta property="og:locale" content="{{ app.request.locale~'_'~app.request.locale|upper }}">
@@ -40,7 +40,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ block('title') }}">
     <meta name="twitter:description" content="{{ block('meta_description') }}">
-    <meta name="twitter:image" content="{{ block('seo_img') }}">
+    <meta name="twitter:image" content="{{ seo_img_url|default(asset('og-image.jpg')) }}">
     <meta name="twitter:image:alt" content="{{ block('title') }}">
     <meta name="twitter:url" content="{{ current_url }}">
     <meta name="twitter:site" content="@{{ twitter_username }}">
@@ -49,6 +49,8 @@
     <meta property="fb:page_id" content="{{ facebook_page_id }}">
     <meta property="fb:admins" content="{{ facebook_admin_ids }}">
     <meta property="fb:app_id" content="{{ facebook_app_id }}">
+
+    {% block additional_meta %}{% endblock %}
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicons/apple-touch-icon.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicons/favicon-32x32.png') }}">

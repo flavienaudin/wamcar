@@ -40,18 +40,19 @@
 {% endblock %}
 
 {% block vehicle %}
-    <div class="separator small-12 section">
-        <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
-        <div class="row">
-            {% set balise = 'h3' %}
-            {% set vehiclesToList = user.vehicles %}
-            {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-        </div>
-
-        {% if userIsMe %}
-            <div class="small-12 medium-6 large-4">
-                <a href="{{ path('front_vehicle_personal_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+    {% if user.vehicles|length > 0 %}
+        <div class="separator small-12 section">
+            <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
+            <div class="row">
+                {% set balise = 'h3' %}
+                {% set vehiclesToList = user.vehicles %}
+                {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
             </div>
-        {% endif %}
-    </div>
+            {% if userIsMe %}
+                <div class="small-12 medium-6 large-4">
+                    <a href="{{ path('front_vehicle_personal_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
 {% endblock %}

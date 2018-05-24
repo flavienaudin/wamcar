@@ -51,6 +51,9 @@ header:
     search: Recherchez
     sell: Déposez votre annonce
 
+breadcrumb:
+  home: Accueil
+
 sidebar:
   title: Espace membre
   account_creation:
@@ -146,6 +149,13 @@ vehicle:
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
+  detail:
+    pro:
+      title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
+      meta_description:
+        discount: Remise de %vehicleDiscount%% sur ce véhicule
+        price: à la vente au prix de %vehiclePrice%
+        published_at: le %publishedAt%
   section:
     infos:
       tab:
@@ -189,8 +199,8 @@ vehicle:
         long: Description
       title: Description
     guarantee:
-      tab: Garantie
-      title: Garantie
+      tab: Garanties
+      title: Garanties
       guarantee:
         label: Garantie
       otherGuarantee:
@@ -215,15 +225,16 @@ vehicle:
     other_vehicle:
       tab: Autres véhicules
       title:
-        pro: Autres véhicules de ce garage
+        pro: Autres voitures de ce vendeur
         personal: Autres véhicules de ce particulier
         owner: Mes autres véhicules
       button:
-        garage: Voir tous les véhicules de ce garage
+        garage: Voir tous les véhicules de ce vendeur
+        owner: Voir tous mes véhicules
   interested_user:
-    title: Ils aiment
+    title: Ils aiment ce véhicule
     tabs:
-      all: Toutes (%nb%)
+      all: Tous (%nb%)
       pro: Professionnels (%nb%)
       personal: Particuliers (%nb%)
   field:
@@ -317,6 +328,8 @@ vehicle:
       placeholder: Renseignez ici les différents services proposés à l'acheteur
     reference:
       label: Référence
+  list:
+    empty_list: Aucun véhicule n'a été renseigné pour le moment
   item:
     budget:
       with_price: "{0}%prenom% avez un budget de %budget%€ pour:|{1}%prenom% a un budget de %budget%€ pour:"

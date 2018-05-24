@@ -6,7 +6,6 @@
                 <li class="tabs-title {{ loop.first?'is-active' }}"><a href="#tab_panel_{{ userType }}" {{ loop.first?'aria-selected="true"' }}>{{ ('vehicle.interested_user.tabs.'~userType)|trans({'%nb%':likes|length}) }}</a></li>
             {% endfor %}
         </ul>
-
         <div class="tabs-content" data-tabs-content="example-tabs">
             {% for userType , likes in positiveLikes %}
                 <div class="tabs-panel {{ loop.first?'is-active' }}" id="tab_panel_{{ userType }}">
