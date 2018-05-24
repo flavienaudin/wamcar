@@ -225,14 +225,16 @@ vehicle:
     other_vehicle:
       tab: Autres véhicules
       title:
-        pro: Autres voitures de ce vendeur
-        personal: Autres véhicules de ce particulier
+        pro: Autres véhicules de ce vendeur
+        personal: Autres véhicules de %firstname%
         owner: Mes autres véhicules
       button:
         garage: Voir tous les véhicules de ce vendeur
         owner: Voir tous mes véhicules
   interested_user:
-    title: Ils aiment ce véhicule
+    title:
+      pro: Ils aiment ce véhicule
+      personal: Ils aiment cette annonce
     tabs:
       all: Tous (%nb%)
       pro: Professionnels (%nb%)
@@ -388,7 +390,7 @@ user:
     undefined_budget: Budget non défini
     favorites:
       title: %user_firstname% aime
-      owner: J'aime
+      owner: Mes likes
 
 
 conversation:

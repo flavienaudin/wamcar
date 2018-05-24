@@ -38,7 +38,6 @@
     <meta property="article:modified_time" content="{{ vehicle.updatedAt|date('c') }}">{# datetime ISO 8601#}
 {% endblock additional_meta %}
 
-
 {% block body %}
     {% if isUserPro and isEditableByCurrentUser %}
         {% set breadcrumbs = [

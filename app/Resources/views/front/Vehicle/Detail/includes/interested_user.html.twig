@@ -1,5 +1,5 @@
 <div class="vehicle-users">
-    <h2 class="separator medium primary-color">{{ 'vehicle.interested_user.title'|trans }}</h2>
+    <h2 class="separator medium primary-color">{{ vehicle.isPro?'vehicle.interested_user.title.pro'|trans:'vehicle.interested_user.title.personal'|trans }}</h2>
     {% if positiveLikes.all|length > 0 %}
         <ul class="tabs" data-tabs id="example-tabs">
             {% for userType , likes in positiveLikes %}
