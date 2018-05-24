@@ -33,16 +33,16 @@
                 {% include 'front/Security/Register/includes/more_infos.html.twig' with { 'vehicleForm' : vehicleForm, 'dataCityField' : 'user_registration_personal_vehicle_specifics_cityName', 'dataLatitudeField': 'user_registration_personal_vehicle_specifics_latitude', 'dataLongitudeField': 'user_registration_personal_vehicle_specifics_longitude' } %}
             </li>
             <li class="block-grid" data-step="4">
-                {% include 'front/Security/Register/includes/account.html.twig' with { 'vehicleForm' : vehicleForm, context:constant("Wamcar\\User\\PersonalUser::TYPE") } %}
+                {% include 'front/Security/Register/includes/account.html.twig' with {'vehicleForm':vehicleForm,social_connect:false,context:constant("Wamcar\\User\\PersonalUser::TYPE")} %}
             </li>
         </ul>
         <nav id="js-step-navigation" class="column small-12">
             <div class="register-navigation block-grid small-12 align-middle">
                 <div class="small-6 large-7">
-                    <a class="js-carousel-prev text-underline is-hidden">Retour</a>
+                    <a class="js-carousel-prev text-underline is-hidden">{{ 'global.button.back'|trans }}</a>
                 </div>
                 <div class="small-6 large-5 xlarge-4 xlarge-offset-1">
-                    <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">Étape suivante</button>
+                    <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">{{ 'global.button.next_step'|trans }}</button>
                 </div>
             </div>
         </nav>

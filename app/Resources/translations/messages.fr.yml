@@ -43,6 +43,8 @@ global:
     add_this_vehicle: Ajouter le véhicule
     edit_this_vehicle: Editer le véhicule
     previous_step: Etape précédente
+    next_step: Etape suivante
+    back: Retour
 
 header:
   menu:
@@ -116,7 +118,7 @@ garage:
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture
-    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des pros de votre région
+    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
   form:
     step_navigation:
       identification: Identification du véhicule
@@ -327,6 +329,23 @@ user:
   registration:
     social_connect: Inscription via une plateforme
     with_email: Inscription par email
+    pro:
+      title: Inscription pour les professionnels de l'automobile
+      meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
+      banner: Conseiller Automobile, inscrivez-vous sur Wamcar pour accèder à un sourcing et des leads de qualité
+  reinsurance.pro:
+    title: La vente avec reprise, c’est simple avec
+    items:
+      first:
+        alt: Un prospect crée sa demande de changement de voiture sur Wamcar
+        content: Un prospect crée sa demande de changement de voiture sur Wamcar en renseignant son profil, son véhicule à reprendre, son souhait et son budget. Il accède à votre profil et à votre vitrine en ligne, et peut liker vos véhicules.
+      second:
+        alt: Vous choisissez vos leads
+        content: Vous savez quels prospects ont liké vos véhicules. Vous likez les projets de reprise qui vous intéressent. Vous discutez et faites vos offres VN ou VO avec estimation de reprise directement via la messagerie en ligne.
+      third:
+        alt: Le particulier vous répond et prend rendez-vous directement.
+        content: Après quelques échanges, le prospect prend rendez-vous avec vous sereinement et en toute confiance, pour finaliser l'expertise et l'essai de vos véhicules.
+    bottom: Rejoignez-nous dès maintenant pour profiter de nombreuses opportunités !
   title:
     personal:
       mine: Ma fiche profil
@@ -341,7 +360,6 @@ user:
     title:
       personal: Présentation
       pro: Présentation du vendeur
-
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%

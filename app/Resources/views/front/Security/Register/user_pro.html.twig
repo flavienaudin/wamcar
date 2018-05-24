@@ -2,12 +2,14 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Inscription professionnel{% endblock %}
+{% block title %}{{ 'user.registration.pro.title'|trans }}{% endblock %}
+{% block meta_description%}{{ 'user.registration.pro.meta_description'|trans }}{% endblock %}
+{% block og_type%}article{% endblock %}
+
 
 {% block body %}
-
     <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">Professionnel, inscrivez-vous et développez votre business avec les offres de reprise et la vente sur Wamcar</h1>
+        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.pro.banner'|trans }}</h1>
     </header>
 
     <section class="small-12">
@@ -18,10 +20,9 @@
 
     <section class="section reinsurance-container small-12">
         <div class="row">
-            <h2 class="xlarge-no-margin h1 text-center full-width">La reprise, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
+            <h2 class="xlarge-no-margin h1 text-center full-width">{{ 'user.reinsurance.pro.title'|trans }}<span class="primary-color">{{ site_name }}</span></h2>
             {% include 'front/Layout/includes/reinsurance/reinsurance_pro.html.twig' %}
-            <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. Vous pouvez également utiliser Wamcar uniquement pour vendre.</p>
+            <p class="no-margin text-center full-width">{{ 'user.reinsurance.pro.bottom'|trans }}</p>
         </div>
     </section>
-
 {% endblock body %}
