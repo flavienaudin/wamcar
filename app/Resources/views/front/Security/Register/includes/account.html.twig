@@ -1,7 +1,8 @@
 {% trans_default_domain 'security' %}
 
 {% set context = context|default(null) %}
-{% set social_connect = social_connect|default(true) %}
+{% set social_connect = social_connect is defined?social_connect:true %}
+
 
 {% if social_connect %}
     <aside class="register-right small-12 medium-6">
