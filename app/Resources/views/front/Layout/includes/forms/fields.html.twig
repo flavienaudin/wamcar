@@ -310,7 +310,7 @@
     {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
-        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }}</label>
+        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }}<span>{{ 'global.facultative'|trans }}</span></label>
         <div class="js-file-preview file-preview column small-6 medium-12">
             {{ form_widget(form.id) }}
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}

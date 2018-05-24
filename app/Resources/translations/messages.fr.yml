@@ -130,10 +130,13 @@ vehicle:
       picture:
         content_1: Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails. Il est prouvé que les annonces avec plusieurs photos ont plus de visites et plus d'offres.
         content_2: Un angle de 3/4 avant serait parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visibles !
-        bottom_content: Si vous n’ajouter pas de photographies maintenant, vous pourrez tout de même en ajouter par la suite en éditant cette annonce dans votre Espace Membre.
+        bottom_content: >
+          Des photos récentes sont indispensables pour une estimation de votre véhicule.
+          Elles permettent d'évaluer son état extérieur et intérieur.
+          Si vous n'en avez pas de disponibles immédiatement, vous pourrez en ajouter par la suite depuis votre espace membre.
       additionnal_infos:
-        content_1: Merci de remplir ces infos avec précision.
-        content_2: Vous obtiendrez ainsi de nos professionnels des offres de reprise au prix le plus juste.
+        content_1: Merci de remplir ces informations avec précision.
+        content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
       registration: Création du compte
 
   my_vehicle: Ma voiture
