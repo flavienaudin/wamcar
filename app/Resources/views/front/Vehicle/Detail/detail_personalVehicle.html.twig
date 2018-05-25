@@ -35,30 +35,16 @@
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
     {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
 
-    {% if isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'user.profile.my_profile'|trans,
-                'href': path('front_view_current_user_info')
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% else %}
-        {% set breadcrumbs = [
-            {
-                'name': vehicleSellerName,
-                'href': path('front_view_user_info', {'id': vehicle.seller.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-
-    {% endif %}
+    {% set breadcrumbs = [
+        {
+            'name': vehicleSellerName,
+            'href': path('front_view_user_info', {'id': vehicle.seller.id})
+        },
+        {
+            'name': vehicle.name,
+            'href': app.request.requestUri
+        }
+    ] %}
 
     <script type="application/ld+json">
     {
