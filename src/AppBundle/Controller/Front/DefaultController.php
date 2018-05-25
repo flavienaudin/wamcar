@@ -44,10 +44,6 @@ class DefaultController extends BaseController
      */
     public function homepageAction(): Response
     {
-        if ($this->isUserAuthenticated()) {
-            return $this->redirectToRoute('front_view_current_user_info');
-        }
-
         $vehicleInformationDTO = new VehicleInformationDTO();
         $formSearchVehicleDTO = new SearchVehicleDTO();
 

@@ -18,6 +18,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 
 class RegistrationController extends BaseController
@@ -80,6 +82,20 @@ class RegistrationController extends BaseController
         unset($filters['_token']);
 
         $plateNumber = $plateNumber ?? $request->get('plate_number', null);
+
+        if ($this->isUserAuthenticated()) {
+            $user = $this->getUser();
+            if($user instanceof PersonalUser) {
+                return $this->redirectToRoute('front_vehicle_personal_add', [
+                    'plateNumber' => $plateNumber
+                ]);
+            }elseif ($user instanceof ProUser){
+                return $this->redirectToRoute('front_vehicle_pro_add', [
+                    'plateNumber' => $plateNumber
+                ]);
+            }
+        }
+
         $date1erCir = null;
         $vin = null;
         if ($plateNumber) {
