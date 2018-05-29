@@ -4,60 +4,58 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Connexion{% endblock %}
+{% block title %}{{ 'user.login.title'|trans({},'messages') }}{% endblock %}
 
 {% block body %}
-
-
     <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">Connexion à mon espace {{ site_name }}</h1>
+        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.login.header_title'|trans({'%sitename%':site_name},'messages') }}</h1>
     </header>
 
     <section class="small-12">
         <div class="register-form input-margin row">
 
         <aside class="register-right small-12 medium-6">
-            <h2 class="black-color column small-12">Connexion via un réseau social</h2>
+            <h2 class="black-color column small-12">{{ 'user.login.social_connect'|trans({},'messages') }}</h2>
             {% include 'front/Security/Register/includes/social_networks_login.html.twig' %}
         </aside>
 
         <section class="register-left input-margin small-12 medium-6">
-            <h2 class="black-color column small-12">Connexion via mon compte {{ site_name }}</h2>
+            <h2 class="black-color column small-12">{{ 'user.login.with_email'|trans({'%sitename%':site_name},'messages') }}</h2>
             <div class="small-12">
                 <form action="{{ path('security_login_page') }}" id="form-login" method="post" data-abide novalidate>
                     {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        id: 'email_login',
+                        name: '_username',
+                        type: 'email',
                         class_field: 'block-grid column input-margin small-12',
+                        label: 'user.field.email.label'|trans,
                         label_class: 'large-no-margin small-12 large-4',
                         class: 'medium-no-margin small-12 large-8',
-                        required_class: 'large-offset-4',
-                        label: 'user.field.email.label'|trans,
-                        type: 'email',
-                        name: '_username',
-                        id: 'email_login',
                         required: true,
-                        required_message: 'Veuillez indiquer votre adresse email.'
+                        required_class: 'large-offset-4',
+                        required_message: 'user.field.email.error'|trans
                     } %}
                     {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        id: 'password_login',
+                        name: '_password',
+                        type: 'password',
                         class_field: 'block-grid column input-margin small-12',
+                        label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
                         label_class: 'large-no-margin small-12 large-4',
                         class: 'medium-no-margin small-12 large-8',
-                        required_class: 'large-offset-4',
-                        label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
-                        type: 'password',
-                        name: '_password',
-                        id: 'password_login',
                         required: true,
-                        required_message: 'Veuillez indiquer votre mot de passe.'
+                        required_class: 'large-offset-4',
+                        required_message: 'user.field.password.first.error'|trans
                     } %}
                     <div class="column small-12">
-                       <button type="submit" id="form-login-submit" class="button full-width">Connexion</button>
+                       <button type="submit" id="form-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
                     </div>
                 </form>
             </div>
-            <h2 class="black-color column small-12 separator">Je me crée un compte {{ site_name }}</h2>
+            <h2 class="black-color column small-12 separator">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
             <div class="small-12">
-                <a href="{{ path('register') }}" class="button white input-margin">Je suis un particulier</a>
-                <a href="{{ path('register', { 'type' : 'pro'}) }}" class="button white">Je suis un professionnel</a>
+                <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
+                <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
             </div>
         </section>
 
@@ -69,5 +67,4 @@
             {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
     </section>
-
 {% endblock body %}

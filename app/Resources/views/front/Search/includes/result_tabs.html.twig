@@ -1,20 +1,11 @@
 <ul id="js-search-tabs" class="tabs column">
-    <li
-        data-href="https://jsonplaceholder.typicode.com/posts"
-        class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')%}is-active{% endif %}"
-    >
+    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL') %}is-active{% endif %}">
         <a href="#js-search-all" aria-selected="true">Toutes <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')].totalHits }})</small></a>
     </li>
-    <li
-        data-href="https://jsonplaceholder.typicode.com/posts"
-        class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')%}is-active{% endif %}"
-    >
+    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY') %}is-active{% endif %}">
         <a href="#js-search-reprises" aria-selected="true">Reprises <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')].totalHits }})</small></a>
     </li>
-    <li
-        data-href="https://jsonplaceholder.typicode.com/posts"
-        class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')%}is-active{% endif %}"
-    >
-        <a href="#js-search-greetings" aria-selected="true">Souhaits <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')].totalHits }})</small></a>
+    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT') %}is-active{% endif %}">
+        <a href="#js-search-greetings" aria-selected="true">Souhaits<small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')].totalHits }})</small></a>
     </li>
 </ul>

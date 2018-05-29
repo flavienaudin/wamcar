@@ -4,7 +4,6 @@ flash:
     remove_garage: La suppression de votre garage est enregistrée.
     garage_create: Votre garage est bien enregistré.
     garage_edit: Les modifications de votre garage ont été enregistrées.
-    registration_success_personal: Votre inscription a bien été enregistrée. Afin de finaliser votre compte, merci de cliquer sur le lien contenu dans l'email qui vient de vous être envoyé.
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
@@ -17,6 +16,7 @@ flash:
     registration_duplicate: Un compte utilise déjà cet email.
   error:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
+    bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
   warning:
@@ -352,6 +352,27 @@ user:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
       banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+  confirmation:
+    title: Inscription confirmée
+    header_title: Merci de vous être inscrit sur
+    content: >
+      Vous allez recevoir un email confirmant votre inscription dans les prochaines minutes.
+      Vous pouvez dès à présent accéder à votre <a href="%url_profile%" class="text-underline">Espace membre</a>.
+      Vous retrouverez les offres de reprises au sein  <a href="%url_conversations%" class="text-underline">des conversations que vous aurez avec des professionnels</a>.
+      Vous pouvez dès à présent <a href="%url_add_vehicle%" class="text-underline">vendre</a> et <a href="%url_search_personal%" class="text-underline">acheter</a> des véhicules sur Wamcar.
+    action:
+      project: Definir mes souhaits d'achat
+      sell: Ajouter un véhicule à la vente
+      search: Voir les voitures disponibles
+      profile: Compléter mon profil
+
+
+  login:
+    title: Connexion
+    header_title: Connexion à mon espace %sitename%
+    social_connect: Connexion via une plateforme
+    with_email: Connexion via mon compte %sitename%
+
   reinsurance.pro:
     title: La vente avec reprise, c’est simple avec
     items:

@@ -32,6 +32,9 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
+    const TAB_PROFILE = 'profile';
+    const TAB_PROJECT = 'project';
+
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -72,11 +75,11 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param string $tab {'profil','project'}
+     * @param string $tab {self::TAB_PROFILE,self::TAB_PROJECT}
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request, $tab = 'profil'): Response
+    public function editInformationsAction(Request $request, $tab = self::TAB_PROFILE): Response
     {
         /** @var ApplicationUser $user */
         $user = $this->getUser();

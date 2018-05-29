@@ -21,10 +21,10 @@
 
     <div class="row">
         <div class="tabs-content small-12" data-tabs-content="js-search-tabs">
-            <div id="js-profil" class="tabs-panel  {% if tab == 'profil' %}is-active{% endif %}">
+            <div id="js-profil" class="tabs-panel  {% if tab == constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROFILE') %}is-active{% endif %}">
                 {% include 'front/User/includes/form_edit_profil.html.twig' %}
             </div>
-            <div id="js-project" class="tabs-panel {% if tab == 'project' %}is-active{% endif %}">
+            <div id="js-project" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT') %}is-active{% endif %}">
                 {% include ':front/User/includes:form_project.html.twig' %}
             </div>
         </div>
