@@ -1,14 +1,13 @@
 {{ form_start(smallSearchForm, {'attr': {'class': 'vehicle-filter block-grid small-12 align-middle', 'data-abide' : '', 'novalidate': 'novalidate'}}) }}
     <div class="column small-12 medium-4 large-shrink medium-right-collapse">
-        <label for="vehicle-search">Que recherchez-vous ?</label>
+        <label for="vehicle-search">{{ 'homepage.search.filter.label'|trans }}</label>
     </div>
     {{ form_widget(smallSearchForm.text, {
         'label': false,
-        'required_class': '',
         'class_field': 'column small-12 medium-8 large-auto medium-left-collapse',
-        'placeholder': 'Rechercher une marque, un modèle de véhicule...'
+        'placeholder': 'homepage.search.filter.placeholder'|trans
     }) }}
     <div class="column small-12 medium-6 large-4">
-        <button type="submit" class="button full-width">Trouver ma future voiture</button>
+        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
 {{ form_end(smallSearchForm) }}
