@@ -1,0 +1,51 @@
+{% extends 'front/Layout/static.html.twig' %}
+{% trans_default_domain "static_pages" %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}{{ 'contact.title'|trans }}{% endblock %}
+
+{% block staticBody %}
+    <section class="row">
+        <div class="column small-12 small-order-2 large-7 large-order-1">
+            <div class="typeform-widget" data-url="https://wamcar.typeform.com/to/TfRx3t"
+                 style="width: 100%;height: 500px"></div>
+        </div>
+        <div class="column small-12 small-order-1 large-5 large-order-2">
+            <div class="row">
+                <div class="column small-shrink"><span class="icon-location no-margin"></span></div>
+                <div class="column">
+                    <b>Wamcar</b><br>
+                    200 Bvd de la résistance<br>
+                    71000 Mâcon
+                </div>
+            </div>
+            <div class="row">
+                <div class="column small-shrink"><span class="icon-clock no-margin"></span></div>
+                <div class="column">{{ 'contact.opening_hours'|trans }}</div>
+            </div>
+            <div class="row">
+                <div class="column small-shrink"><span class="icon-mobile2 no-margin"></span></div>
+                <div class="column">06-52-37-44-82</div>
+            </div>
+            <div class="row">
+                <div class="column small-shrink"><span class="icon-envelop no-margin"></span></div>
+                <div class="column"><a href="mailto:contact@wamcar.fr">contact@wamcar.fr</a></div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script> (function () {
+        var qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName,
+          id = "typef_orm", b = "https://embed.typeform.com/";
+        if (!gi.call(d, id)) {
+          js = ce.call(d, "script");
+          js.id = id;
+          js.src = b + "embed.js";
+          q = gt.call(d, "script")[0];
+          q.parentNode.insertBefore(js, q)
+        }
+      })() </script>
+{% endblock %}

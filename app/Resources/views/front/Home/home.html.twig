@@ -12,19 +12,19 @@
 
 {% block body %}
 
-    <section class="vehicle-form-container small-12">
+    <section class="vehicle-form-container small-12" id="change_vehicle">
         <div class="row">
             {% include 'front/Home/includes/vehicle_form.html.twig' %}
         </div>
     </section>
 
-    <section class="section reinsurance-container small-12">
+    <section class="section reinsurance-container small-12" id="reinsurance_general">
         <div class="row">
             {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
     </section>
 
-    <section class="section small-12">
+    <section class="section small-12" id="search_vehicle">
         <div class="row">
             <header class="small-12 text-center">
                 <h2 class="section-title h1 primary-color">{{ 'homepage.search.title'|trans }}</h2>
@@ -48,7 +48,7 @@
         </div>
     </section>
 
-    <section class="reinsurance-wamcar-container section small-12">
+    <section class="reinsurance-wamcar-container section small-12" id="reinsurance_personal">
         <div class="row">
             <h2 class="section-title white-color h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.personal.title'|trans }}</h2>
             {% set reinsurance_class = 'medium-order-3' %}
@@ -58,13 +58,13 @@
         </div>
     </section>
 
-    <section class="mission block-dark-blue small-12">
+    <section class="mission block-dark-blue small-12" id="wamcar_mission">
         <div class="row">
             {% include 'front/Home/includes/our_mission.html.twig' %}
         </div>
     </section>
 
-    <section class="business small-12">
+    <section class="business small-12" id="professional_business">
         <div class="block-white section row">
             {% include 'front/Home/includes/business.html.twig' %}
         </div>

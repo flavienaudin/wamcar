@@ -389,7 +389,7 @@ user:
       Vous retrouverez les offres de reprises au sein  <a href="%url_conversations%" class="text-underline">des conversations que vous aurez avec des professionnels</a>.
       Vous pouvez dès à présent <a href="%url_add_vehicle%" class="text-underline">vendre</a> et <a href="%url_search_personal%" class="text-underline">acheter</a> des véhicules sur Wamcar.
     action:
-      project: Definir mes souhaits d'achat
+      project: Définir mes souhaits d'achat
       sell: Ajouter un véhicule à la vente
       search: Voir les voitures disponibles
       profile: Compléter mon profil
@@ -487,3 +487,4 @@ form:
   picture:
     add_photo: Ajouter une photo
     remove_photo: Supprimer la photo
+

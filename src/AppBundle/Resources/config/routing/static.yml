@@ -3,3 +3,9 @@ cgu:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Static/cgu.html.twig
+
+contact:
+    path: /contact
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Static/contact.html.twig
