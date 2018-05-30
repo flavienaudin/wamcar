@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
+use AppBundle\Controller\Front\PersonalContext\UserController;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
@@ -25,6 +26,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 
 class SecurityController extends BaseController
 {
@@ -119,6 +122,11 @@ class SecurityController extends BaseController
             return $this->redirectToRoute("front_default");
         }
 
+        if ($type != PersonalUser::TYPE && $type != ProUser::TYPE) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'flash.error.bad_registration_type');
+            return $this->redirectToRoute('front_default');
+        }
+
         $registrationForm = $this->formFactory->create(RegistrationType::class);
         $registrationForm->handleRequest($request);
 
@@ -139,24 +147,22 @@ class SecurityController extends BaseController
                 ]);
             }
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.registration_success_' . $type
-            );
+            $this->userAuthenticator->authenticate($registeredUser);
 
-            if ($registeredUser->hasConfirmedRegistration()) {
-                $this->userAuthenticator->authenticate($registeredUser);
-
-                // Check if target_path in session due to a previous AccessDeniedException
-                $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
-                if ($redirectTo = $this->session->get($key)) {
-                    $this->session->remove($key);
-                    return $this->redirect($redirectTo);
-                } else {
-                    return $this->redirectToRoute('front_default', ['_fragment' => 'activation-' . $type]);
-                }
+            // Check if target_path in session due to a previous AccessDeniedException
+            $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
+            if ($redirectTo = $this->session->get($key)) {
+                $this->session->remove($key);
+                return $this->redirect($redirectTo);
+            } else if ($type == ProUser::TYPE) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.registration_success_pro'
+                );
+                return $this->redirectToRoute('front_default');
+            } else {
+                return $this->redirectToRoute('register_confirm');
             }
-            return $this->redirectToRoute('register_confirm', ['_fragment' => 'register-' . $type]);
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
@@ -204,7 +210,7 @@ class SecurityController extends BaseController
                 return $this->redirect($redirectTo);
             } else {
                 $vehicleReplace = $request->get(RegistrationController::VEHICLE_REPLACE_PARAM);
-                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => 'project']) : $this->redirectToRoute('front_default');
+                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => UserController::TAB_PROJECT]) : $this->redirectToRoute('front_default');
             }
         }
 

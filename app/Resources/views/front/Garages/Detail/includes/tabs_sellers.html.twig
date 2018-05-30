@@ -22,7 +22,7 @@
                     {% if not isLogged %}
                         <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
                     {% elseif userIsMe %}
-                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}l</a></p>
+                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}</a></p>
                     {% elseif isUserPersonal %}
                         <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
                     {% endif %}

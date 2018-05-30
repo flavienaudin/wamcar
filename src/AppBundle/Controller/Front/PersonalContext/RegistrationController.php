@@ -159,7 +159,7 @@ class RegistrationController extends BaseController
                     self::FLASH_LEVEL_DANGER,
                     'flash.danger.registration_duplicate'
                 );
-                // TODO aller directement à l'étape d'inscription (garder le véhicule à créer)
+                // TODO aller directement à l'étape 4 d'inscription (garder le véhicule à créer)
             }
         }
 

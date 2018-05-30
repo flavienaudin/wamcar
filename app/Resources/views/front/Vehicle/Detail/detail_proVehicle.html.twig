@@ -39,29 +39,16 @@
 {% endblock additional_meta %}
 
 {% block body %}
-    {% if isUserPro and isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'garage.my_garage'|trans,
-                'href': path('front_garage_view', {'id': vehicle.garage.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% else %}
-        {% set breadcrumbs = [
-            {
-                'name': vehicle.garage.name,
-                'href': path('front_garage_view', {'id': vehicle.garage.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% endif %}
+    {% set breadcrumbs = [
+        {
+            'name': vehicle.garage.name,
+            'href': path('front_garage_view', {'id': vehicle.garage.id})
+        },
+        {
+            'name': vehicle.name,
+            'href': app.request.requestUri
+        }
+    ] %}
 
     <script type="application/ld+json">
     {

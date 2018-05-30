@@ -77,15 +77,13 @@ a.button {
 
 .button {
     @include buttonStyle;
-    @include breakpoint(xlarge) {
-        &:hover {
-            background: white;
-            color: $primary-color;
-            .loader {
-                .loader-child {
-                    &:before {
-                        background-color: $primary-color;
-                    }
+    &:hover {
+        background: white;
+        color: $primary-color;
+        .loader {
+            .loader-child {
+                &:before {
+                    background-color: $primary-color;
                 }
             }
         }
@@ -116,11 +114,9 @@ a.button {
             font-size: rem-calc(16);
             color: $primary-color;
         }
-        @include breakpoint(large) {
-            &:hover {
-                background: white;
-                color: $dark-gray;
-            }
+        &:hover {
+            background: white;
+            color: $dark-gray;
         }
     }
     &.reverse {
@@ -131,15 +127,16 @@ a.button {
             font-size: rem-calc(16);
             color: $primary-color;
         }
-        @include breakpoint(large) {
-            &:hover {
-                background: $primary-color;
+
+        &:hover {
+            background: $primary-color;
+            color: white;
+            border-color: white;
+            &::before {
                 color: white;
-                &::before {
-                    color: white;
-                }
             }
         }
+
     }
     /* remove */
     &.remove {
@@ -152,11 +149,9 @@ a.button {
         &::before {
             margin-right: 0;
         }
-        @include breakpoint(large) {
-            &:hover {
-                background: white;
-                color: $medium-gray;
-            }
+        &:hover {
+            background: white;
+            color: $medium-gray;
         }
     }
     /* Form margin */

@@ -18,7 +18,7 @@
         </div>
 
         <div class="column small-12 medium-6 large-5">
-            <label for="search_vehicle_postalCode">Votre location <span class="">Facultatif</span></label>
+            <label for="search_vehicle_postalCode">Votre localisation</label>
             <div class="block-grid small-12">
             {{ form_widget(searchForm.postalCode, {
                 'label': false,
@@ -40,8 +40,8 @@
         </div>
 
         <div class="show-for-large column large-3">
-            <label for="search-label" class="show-for-large is-invisible">Rechercher</label>
-            <button type="submit" class="button full-width">Recherche</button>
+            <label for="search-label" class="show-for-large is-invisible">{{ 'global.button.search'|trans }}</label>
+            <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
         </div>
 
         <div id="js-search-expand" class="is-hidden block-grid small-12" data-toggler=".is-hidden">
@@ -135,7 +135,7 @@
             {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
         </div>
         <div class="hide-for-large column small-12">
-            <button type="submit" class="button full-width">Recherche</button>
+            <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
         </div>
     {{ form_end(searchForm) }}
 </div>

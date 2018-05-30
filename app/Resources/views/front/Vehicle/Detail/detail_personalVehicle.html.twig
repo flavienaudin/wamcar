@@ -13,8 +13,17 @@
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}{{ 'vehicle.detail.pro.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
-{%- block meta_description %}{% endblock -%}
+{% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
+{%- block meta_description %}
+    {{ 'vehicle.detail.personal.meta_description'|trans({
+        '%nbPositiveLikes%':vehicle.positiveLikes|length,
+        '%vehicleFuelName%':vehicle.fuelName,
+        '%vehicleTransmission%':vehicle.transmission,
+        '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
+        '%vehicleMileage%': vehicle.mileage,
+        '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
+    }) }}
+{% endblock -%}
 {% block og_type %}article{% endblock %}
 
 {% set seo_img_url = vehicle.pictures|length>0?vehicle.mainPicture|vehiclePicture('vehicle_picture'):'vehicle_placeholder_picture'|defaultVehiclePicture %}
@@ -35,30 +44,16 @@
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
     {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
 
-    {% if isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'user.profile.my_profile'|trans,
-                'href': path('front_view_current_user_info')
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% else %}
-        {% set breadcrumbs = [
-            {
-                'name': vehicleSellerName,
-                'href': path('front_view_user_info', {'id': vehicle.seller.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-
-    {% endif %}
+    {% set breadcrumbs = [
+        {
+            'name': vehicleSellerName,
+            'href': path('front_view_user_info', {'id': vehicle.seller.id})
+        },
+        {
+            'name': vehicle.name,
+            'href': app.request.requestUri
+        }
+    ] %}
 
     <script type="application/ld+json">
     {

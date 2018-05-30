@@ -8,29 +8,31 @@
 {% block mainClass %}has-no-scroll no-padding{% endblock %}
 
 {% block title %}{{ 'homepage.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'homepage.description'|trans }}{% endblock %}
 
 {% block body %}
 
-    <section class="vehicle-form-container small-12">
+    <section class="vehicle-form-container small-12" id="change_vehicle">
         <div class="row">
             {% include 'front/Home/includes/vehicle_form.html.twig' %}
         </div>
     </section>
 
-    <section class="section reinsurance-container small-12">
+    <section class="section reinsurance-container small-12" id="reinsurance_general">
         <div class="row">
             {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
     </section>
 
-    <section class="section small-12">
+    <section class="section small-12" id="search_vehicle">
         <div class="row">
             <header class="small-12 text-center">
-                <h2 class="section-title h1 primary-color">Je cherche une nouvelle voiture</h2>
-                <p>Découvrez les véhicules d’occasion vendus par des professionnels vérifiés</p>
+                <h2 class="section-title h1 primary-color">{{ 'homepage.search.title'|trans }}</h2>
+                <p>{{ 'homepage.search.subtitle'|trans }}</p>
             </header>
             {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
-            <strong class="black-color h2 column small-12">Les dernières offres publiées sur Wamcar</strong>
+
+            <strong class="black-color h2 column small-12">{{ 'homepage.last_offer.title'|trans }}</strong>
             {% set balise = 'h3' %}
             <div class="last-vehicles-container">
                 <div class="vehicle-list small-12">
@@ -41,29 +43,28 @@
             </div>
 
             <footer class="section-footer column small-12 medium-7 large-5">
-                <a href="{{ path('front_search_personal') }}" class="button">Découvrez tous les véhicules près de chez vous</a>
+                <a href="{{ path('front_search_personal') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
             </footer>
-            </div>
         </div>
     </section>
 
-    <section class="reinsurance-wamcar-container section small-12">
+    <section class="reinsurance-wamcar-container section small-12" id="reinsurance_personal">
         <div class="row">
-            <h2 class="section-title white-color h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">Je veux remplacer mon véhicule. Qu’est-ce que Wamcar m’apporte ?</h2>
+            <h2 class="section-title white-color h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.personal.title'|trans }}</h2>
             {% set reinsurance_class = 'medium-order-3' %}
             {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
-            <button type="button" class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-concept-video"><b>Le concept <span class="show-for-medium"><br></span> en vidéo</b></button>
+            <button type="button" class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
             {% include 'front/Home/includes/modal_concept_video.html.twig' %}
         </div>
     </section>
 
-    <section class="mission block-dark-blue small-12">
+    <section class="mission block-dark-blue small-12" id="wamcar_mission">
         <div class="row">
             {% include 'front/Home/includes/our_mission.html.twig' %}
         </div>
     </section>
 
-    <section class="business small-12">
+    <section class="business small-12" id="professional_business">
         <div class="block-white section row">
             {% include 'front/Home/includes/business.html.twig' %}
         </div>

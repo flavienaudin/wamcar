@@ -3,3 +3,21 @@ cgu:
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Static/cgu.html.twig
+
+contact:
+    path: /contact
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Static/contact.html.twig
+
+legal_notices:
+    path: /mentions-legales
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Static/legal_notices.html.twig
+
+privacy_policy:
+    path: /politique_confidentialite
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template: front/Static/privacy_policy.html.twig

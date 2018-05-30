@@ -1,32 +1,32 @@
 {% set reinsurance_list = [
     {
-        svg: 'shape',
-        title: 'Réaliste',
-        content: 'Des offres faites par des hommes, pas des machines.'
+        svg: 'just',
+        title: 'user.reinsurance.common.items.first.title'|trans,
+        content: 'user.reinsurance.common.items.first.content'|trans
     },
     {
         svg: 'smile',
-        title: 'Gratuit',
-        content: 'Aucun engagement, aucune commission.'
+        title: 'user.reinsurance.common.items.second.title'|trans,
+        content: 'user.reinsurance.common.items.second.content'|trans
     },
     {
         svg: 'star',
-        title: 'Avisé',
-        content: 'Bénéficiez des avis <img src="'~asset('assets/images/google/powered_by_google_on_non_white.png')~'" alt="'~'global.poweredByGoogle'|trans~'" title="'~'global.poweredByGoogle'|trans~'"> en temps réel.'
+        title: 'user.reinsurance.common.items.third.title'|trans,
+        content: 'user.reinsurance.common.items.third.content'|trans
     },
     {
-        svg: 'just',
-        title: 'Juste',
-        content: 'Site indépendant de tout groupe ou marque.'
+        svg: 'shape',
+        title: 'user.reinsurance.common.items.fourth.title'|trans,
+        content: 'user.reinsurance.common.items.fourth.content'|trans
     },
     {
         svg: 'security',
-        title: 'Sécurisé',
-        content: 'Messagerie sécurisée, pas de spams ou d\'appels intempestifs.'
+        title: 'user.reinsurance.common.items.fifth.title'|trans,
+        content: 'user.reinsurance.common.items.fifth.content'|trans
     }
 ] %}
 
-<h2 class="h1 small-12 text-center">Quatre bonnes raisons de vendre sur <span class="primary-color">Wamcar</span></h2>
+<h2 class="h1 small-12 text-center">{{ 'user.reinsurance.common.title'|trans }}&nbsp;<span class="primary-color">{{ site_name }}</span></h2>
 <ul class="reinsurance row small-12 small-up-1 medium-up-5 no-bullet">
     {% for reinsurance in reinsurance_list %}
         <li class="reinsurance-item block-grid column align-middle">

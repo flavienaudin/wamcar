@@ -4,7 +4,6 @@ flash:
     remove_garage: La suppression de votre garage est enregistrée.
     garage_create: Votre garage est bien enregistré.
     garage_edit: Les modifications de votre garage ont été enregistrées.
-    registration_success_personal: Votre inscription a bien été enregistrée. Afin de finaliser votre compte, merci de cliquer sur le lien contenu dans l'email qui vient de vous être envoyé.
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
@@ -17,6 +16,7 @@ flash:
     registration_duplicate: Un compte utilise déjà cet email.
   error:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
+    bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
   warning:
@@ -34,6 +34,7 @@ global:
     close: Fermer
     connect: Se connecter
     connexion: Connexion
+    search: Rechercher
     send: Envoyer
     send_message: Envoyer un message
     complete: Compléter
@@ -48,8 +49,8 @@ global:
 
 header:
   menu:
-    search: Recherchez
-    sell: Déposez votre annonce
+    search: Rechercher une voiture
+    sell: Déposer une annonce
 
 breadcrumb:
   home: Accueil
@@ -78,33 +79,67 @@ footer:
   who_are_we: Qui sommes-nous ?
   contact_us: Contactez-nous
   cgu: Conditions d'utilisation
-  data_protection: Protection des données
+  privacy_policy: Protection des données
   legal_notice: Mentions légales
 
+cookie:
+  instruction: En poursuivant sur ce site, vous acceptez l'utilisation de cookies pour vous offrir une meilleure expérience utilisateur.
+  more_link: En savoir plus
+  button.accept: Accepter
+
 homepage:
-  title: Accueil
+  title: Achat, reprise et vente de voitures par affinités
+  description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
   vehicle_form:
     header:
       title: Je change de voiture
-      subtitle: Déposez votre annonce, recevez et comparer les offres de reprise des professionnels
+      subtitle: Déposez votre annonce, recevez et comparez les offres de reprise des professionnels
     tabs:
       immatriculation:
-        title: Identifier par immatriculation
+        title: Par immatriculation
         field:
           immatriculation:
-            label: Numéro d'immatriculation
-            placeholder: "Ex: AA-123-BB"
+            label: Entrez l'immatriculation de votre voiture
+            placeholder: "Ex: AA-123-BB, 558QFM75"
             required_message: Veuillez indiquer un numéro d'immatriculation
           replacement:
-            label: Je cherche un véhicule pour le remplacer
+            label: Je cherche une voiture pour la remplacer
+        pre_submit: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous vendez et ce que vous recherchez.
       model:
-        title: Modèle
-        field:
-
+        title: Par modèle
+        pre_submit: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
     submit:
-      text: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
-      button: C'est parti !
+      button: Déposer une annonce
   background.alt: Je veux changer de voiture
+  search:
+    title: Je cherche une nouvelle voiture
+    subtitle: Découvrez les véhicules vendus par les professionnels les mieux notés.
+    filter:
+      label: Que recherchez-vous ?
+      placeholder: Entrez une marque, un modèle...
+  last_offer:
+    title: Les dernières offres publiées
+    action: Voir toutes les annonces
+  video:
+    action: Le concept en vidéo
+    modal_title: Le concept en vidéo
+  our_mission:
+    title: Notre mission
+    content:
+      first: >
+        <strong class="primary-color">Diffuser votre demande</strong> sans vos données personnelles à un maximum de pros de votre région*.
+        <small>* Toutes marques, concessionnaires, garages, mandataires, importateurs</small>
+      second: Vous fournir un outil <strong class="primary-color">facile à utiliser, intuitif et puissant qui vous fasse gagner du temps</strong>.
+      third: Etre <strong class="primary-color">à votre écoute </strong> pour répondre à vos besoins.
+    background.alt: Magicien Wamcar
+  business:
+    title: <span class="primary-color">Conseiller automobile ?</span> Rencontrez vos clients en ligne sur Wamcar
+    content:
+      first: Wamcar est un site ouvert aux professionnels qui défendent des valeurs d’honnêteté, de loyauté et de respect du client.
+      second: Wamcar vous permet d'accéder plus facilement au marché VO (sourcing et vente), de diversifier votre offre et de renforcer votre marché VN.
+      third: En rencontrant votre clientèle sur internet, vous prendrez contact facilement avec des acheteurs hautement qualifiés.
+    action: Accéder au site professionnel
+    background.alt: Citrën DS 3
 
 garage:
   my_garage: Mon garage
@@ -117,6 +152,12 @@ garage:
     sellers: Vendeurs
   google_rating:
     unknown: Note inconnue
+
+search:
+  vehicle_personal:
+    title: Rechercher un lead
+  vehicle_pro:
+    title: Rechercher une voiture
 
 vehicle:
   inscription:
@@ -150,11 +191,14 @@ vehicle:
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
   detail:
+    personal:
+      title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
+      meta_description: "%nbPositiveLikes% personnes aiment cette voiture %vehicleFuelName% %vehicleTransmission% de %vehicleRegistrationDate% avec %vehicleMileage%km - Annonce publiée le %publishedAt%."
     pro:
       title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
       meta_description:
         discount: Remise de %vehicleDiscount%% sur ce véhicule
-        price: à la vente au prix de %vehiclePrice%
+        price: à la vente au prix de %vehiclePrice%€
         published_at: le %publishedAt%
   section:
     infos:
@@ -251,7 +295,7 @@ vehicle:
     model:
       label: Modèle
       placeholder: Modèle du véhicule
-      required_message: Veuillez indiquer le modèle du véhicule
+      required_message: Veuillez choisir un modèle
     engine:
       label: Motorisation
       placeholder: Motorisation du véhicule
@@ -347,24 +391,75 @@ user:
     pro:
       title: Inscription pour les professionnels de l'automobile
       meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
-      banner: Conseiller Automobile, inscrivez-vous sur Wamcar pour accèder à un sourcing et des leads de qualité
+      banner: Conseiller Automobile? Inscrivez-vous sur Wamcar pour accèder à des leads et à un sourcing VO de qualité
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
       banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
-  reinsurance.pro:
-    title: La vente avec reprise, c’est simple avec
-    items:
-      first:
-        alt: Un prospect crée sa demande de changement de voiture sur Wamcar
-        content: Un prospect crée sa demande de changement de voiture sur Wamcar en renseignant son profil, son véhicule à reprendre, son souhait et son budget. Il accède à votre profil et à votre vitrine en ligne, et peut liker vos véhicules.
-      second:
-        alt: Vous choisissez vos leads
-        content: Vous savez quels prospects ont liké vos véhicules. Vous likez les projets de reprise qui vous intéressent. Vous discutez et faites vos offres VN ou VO avec estimation de reprise directement via la messagerie en ligne.
-      third:
-        alt: Le particulier vous répond et prend rendez-vous directement.
-        content: Après quelques échanges, le prospect prend rendez-vous avec vous sereinement et en toute confiance, pour finaliser l'expertise et l'essai de vos véhicules.
-    bottom: Rejoignez-nous dès maintenant pour profiter de nombreuses opportunités !
+  confirmation:
+    title: Inscription confirmée
+    header_title: Merci de vous être inscrit sur
+    content: >
+      Vous allez recevoir un email confirmant votre inscription dans les prochaines minutes.
+      Vous pouvez dès à présent accéder à votre <a href="%url_profile%" class="text-underline">Espace membre</a>.
+      Vous retrouverez les offres de reprises au sein  <a href="%url_conversations%" class="text-underline">des conversations que vous aurez avec des professionnels</a>.
+      Vous pouvez dès à présent <a href="%url_add_vehicle%" class="text-underline">vendre</a> et <a href="%url_search_personal%" class="text-underline">acheter</a> des véhicules sur Wamcar.
+    action:
+      project: Définir mes souhaits d'achat
+      sell: Ajouter un véhicule à la vente
+      search: Voir les voitures disponibles
+      profile: Compléter mon profil
+
+  login:
+    title: Connexion
+    header_title: Connexion à mon espace %sitename%
+    social_connect: Connexion via une plateforme
+    with_email: Connexion via mon compte %sitename%
+
+  reinsurance:
+    common:
+      title: Cinq bonnes raisons d'utiliser
+      items:
+        first:
+          title: Humain
+          content: Des offres réalistes faites par des hommes, pas des machines
+        second:
+          title: Gratuit
+          content: Aucun engagement et aucun frais
+        third:
+          title: Avisé
+          content: Bénéficiez des derniers avis Google sur les professionels
+        fourth:
+          title: Juste
+          content: Site indépendant de tout groupe ou marque
+        fifth:
+          title: Sécurisé
+          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs.
+    personal:
+      title: Je veux remplacer mon véhicule. Comment  marche  Wamcar?
+      items:
+        first:
+          alt:
+          content: Des professionnels souhaitent racheter mon véhicule en annonce sur Wamcar.
+        second:
+          alt:
+          content: Je sélectionne les véhicules neufs ou d'occasion qui me plaisent.
+        third:
+          alt:
+          content: J'ai trouvé un véhicule chez un pro qui me fait une bonne offre de reprise via la messagerie sécurisée !!!
+    pro:
+      title: La vente avec reprise, c’est simple avec
+      items:
+        first:
+          alt: Un prospect crée sa demande de changement de voiture sur Wamcar
+          content: Un prospect crée sa demande de changement de voiture sur Wamcar en renseignant son profil, son véhicule à reprendre, son souhait et son budget. Il accède à votre profil et à votre vitrine en ligne, et peut liker vos véhicules.
+        second:
+          alt: Vous choisissez vos leads
+          content: Vous savez quels prospects ont liké vos véhicules. Vous likez les projets de reprise qui vous intéressent. Vous discutez et faites vos offres VN ou VO avec estimation de reprise directement via la messagerie en ligne.
+        third:
+          alt: Le particulier vous répond et prend rendez-vous directement.
+          content: Après quelques échanges, le prospect prend rendez-vous avec vous sereinement et en toute confiance, pour finaliser l'expertise et l'essai de vos véhicules.
+      bottom: Rejoignez-nous dès maintenant pour profiter de nombreuses opportunités !
   title:
     personal:
       mine: Ma fiche profil
@@ -392,7 +487,6 @@ user:
       title: %user_firstname% aime
       owner: Mes likes
 
-
 conversation:
   proposed_vehicle: Véhicule proposé
   to_sell_vehicle: Votre véhicule à reprendre
@@ -408,3 +502,4 @@ form:
   picture:
     add_photo: Ajouter une photo
     remove_photo: Supprimer la photo
+

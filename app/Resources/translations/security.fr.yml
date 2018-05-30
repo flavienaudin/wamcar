@@ -28,8 +28,10 @@ user:
       error:
         repeated: Les mots de passe doivent être identiques
     accept:
-      label: J’accepte les
-      text-link: Conditions Générales d’Utilisation
+      start: J’accepte les
+      text-cgu-link: Conditions Générales d’Utilisation
+      and: et la
+      text-privacy-policy-link: Politique de confidentialité
       error: Veuillez accepter nos Conditions Générales d’Utilisation
   submit:
     i_register: Inscription

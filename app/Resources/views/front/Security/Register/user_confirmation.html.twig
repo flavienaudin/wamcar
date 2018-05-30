@@ -2,16 +2,33 @@
 
 {% block mainClass %}no-padding-bottom{% endblock %}
 
-{% block title %}Inscription confirmée{% endblock %}
+{% block title %}{{ 'user.confirmation.title'|trans()}}{% endblock %}
+{% block og_type%}article{% endblock %}
+{% block additional_meta %}<meta name="robots" content="noindex">{% endblock %}
 
 {% block body %}
-
     <div class="register-confirm-drawing">
         <div class="row full-width">
             <section class="column small-12 medium-7 medium-offset-5 large-offset-6 large-5 xlarge-6">
-                <h1 class="secondary-color">Merci de vous être inscrit sur <span class="primary-color">{{ site_name }}</span></h1>
-                <p>Vous allez recevoir un email confirmant votre inscription dans les prochaines minutes. Vous pouvez dès à présent accéder à votre Espace membre. C’est à cet endroit que vous retrouverez les offres de reprises faites par des professionnels ainsi que vos conversations avec eux. Vous pouvez dès à présent vendre et acheter des véhicules sur {{ site_name }}.</p>
-                <a href="{{ path('front_search_personal') }}" class="button input-margin small-12 large-9 xlarge-7">Voir les voitures disponibles</a>
+                <h1 class="secondary-color">{{ 'user.confirmation.header_title'|trans }}&nbsp;<span class="primary-color">{{ site_name }}</span></h1>
+                {# Contents #}
+                <p class="text-justify">{{ 'user.confirmation.content'|trans({
+                        '%url_profile%':path('front_view_current_user_info'),
+                        '%url_conversations%':path('front_conversation_list'),
+                        '%url_add_vehicle%':path('front_vehicle_personal_add'),
+                        '%url_search_personal%':path('front_search_pro')
+                    })|raw }}</p>
+
+                {# Buttons #}
+                {% if app.user is defined and (app.user.project is not defined or app.user.project is null or app.user.project.projectVehicles|length == 0) %}
+                    <a href="{{ path('front_edit_user_info_tab', {'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT')}) }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.project'|trans }}</a>
+                {% endif %}
+                {% if app.user is defined and (app.user.vehicles is defined and app.user.vehicles|length == 0) %}
+                    <a href="{{ path('front_vehicle_personal_add') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.sell'|trans }}</a>
+                {% endif %}
+                <a href="{{ path('front_search_personal') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.search'|trans }}</a>
+                <a href="{{ path('front_edit_user_info_tab', {'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROFILE')}) }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.profile'|trans }}</a>
+
             </section>
         </div>
     </div>

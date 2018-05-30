@@ -4,9 +4,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}
-    Rechercher un lead
-{% endblock %}
+{% block title %}{{ 'search.vehicle_personal.title'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -14,8 +12,6 @@
         'href': app.request.requestUri
     }
 ] %}
-
-{#{% set vehicle_list = inte.vehicle %}#}
 
 {% block body %}
 

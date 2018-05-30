@@ -3,17 +3,17 @@ front_default:
     defaults:
         _controller: AppBundle:Front\Default:homepage
 
-register:
-    path: /inscription/{type}
-    defaults:
-        _controller: AppBundle:Front\Security:register
-        type: personal
-
 register_confirm:
     path: /inscription/confirmation
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Register/user_confirmation.html.twig
+
+register:
+    path: /inscription/{type}
+    defaults:
+        _controller: AppBundle:Front\Security:register
+        type: personal
 
 front_vehicle_registration_form_update:
     path: /je-vends-mon-vehicule/form_update.json
@@ -35,9 +35,9 @@ front_edit_user_info_tab:
     path: /user-info/{tab}
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:editInformations
-        tab: profil
+        tab: profile
     requirements:
-        tab:  profil|project
+        tab: profile|project
 
 front_view_current_user_info:
     path: /mon-profil

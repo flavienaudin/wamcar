@@ -1,0 +1,32 @@
+{% extends 'front/Layout/static.html.twig' %}
+{% trans_default_domain "static_pages" %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}{{ 'legal_notices.title'|trans }}{% endblock %}
+
+{% block staticBody %}
+    <div class="row">
+        <div class="column">
+            <h2>{{ 'legal_notices.editor.title'|trans }}</h2>
+            <p class="no-margin">{{ 'legal_notices.editor.content'|trans({'%site_url%':'wamcar.com','%site_name%': 'Wamcar SAS'})|raw }}</p>
+            <address>
+                200 boulevard de la résistance<br>
+                71000 Mâcon
+            </address>
+            <p>{{ 'legal_notices.phone_label'|trans }}&nbsp;:&nbsp;06-52-37-44-82</p>
+            <p>{{ 'legal_notices.editor.publication_director'|trans }}&nbsp;:&nbsp;Xavier POUSSET, président.</p>
+
+
+            <h2>{{ 'legal_notices.hosting.title'|trans }}</h2>
+            <p class="no-margin"><b>OVH SAS</b></p>
+            <address class="input-margin">
+                2 rue Kellermann<br>
+                BP 80157<br>
+                59053 ROUBAIX CEDEX 1
+            </address>
+            <p class="no-margin">{{ 'legal_notices.phone_label'|trans }}&nbsp;:&nbsp;0 820 320 363 / n° indigo (0,118 €/min)</p>
+            <p>{{ 'legal_notices.website'|trans }}&nbsp;:&nbsp;<a href="https://www.ovh.com/fr/support/">https://www.ovh.com/fr/support/</a></p>
+        </div>
+    </div>
+{% endblock %}

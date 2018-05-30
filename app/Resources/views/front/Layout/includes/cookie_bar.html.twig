@@ -1,17 +1,17 @@
 {% if not app.request.cookies.get('cookie-disclaimer') %}
     <div id="js-cookie-bar" class="cookie-bar block-primary white-color full-width">
         <div class="row align-middle full-width">
-            <p class="cookie-bar-body no-margin column medium-7"><b>En poursuivant sur ce site, vous acceptez l'utilisation de cookies pour vous offrir une meilleure expérience utilisateur. <a href="" target="_blank" class="text-underline">En savoir plus</a></b></p>
+            <p class="cookie-bar-body no-margin column medium-7"><b>{{ 'cookie.instruction'|trans }} <a href="{{ path('privacy_policy') }}" target="_blank" class="text-underline">{{ 'cookie.more_link'|trans }}</a></b></p>
             <div class="column shrink small-right">
-                <button type="button" class="js-cookie-bar-button button white no-margin">Accepter</button>
+                <button type="button" class="js-cookie-bar-button button reverse no-margin">{{ 'cookie.button.accept'|trans }}</button>
             </div>
         </div>
     </div>
 
     <script>
-        var $cookieBar = document.getElementById('js-cookie-bar');
-        var $cookieBarButton = document.querySelector('.js-cookie-bar-button');
-        var cookiebarHeight;
+        let $cookieBar = document.getElementById('js-cookie-bar');
+        let $cookieBarButton = document.querySelector('.js-cookie-bar-button');
+        let cookiebarHeight;
 
         setTimeout(function() {
             cookiebarHeight = $cookieBar.offsetHeight;
@@ -19,8 +19,8 @@
         }, 500);
 
         $cookieBarButton.addEventListener('click', function(e) {
-            var d=new Date;d.setTime(d.getTime()+31536e6);
-            var expires="expires="+d.toUTCString();document.cookie="cookie-disclaimer=true; "+expires;
+            let d=new Date;d.setTime(d.getTime()+31536e6);
+            let expires="expires="+d.toUTCString();document.cookie="cookie-disclaimer=true; "+expires;
 
             $cookieBar.style.transform = 'translate3d(0, ' + cookiebarHeight + 'px, 0)';
             document.body.style.marginBottom = '0px';
