@@ -1,3 +1,30 @@
 contact:
   title: Contactez-nous
   opening_hours: Du lundi au Vendredi, de 9h00 à 18h00
+
+legal_notices:
+  title: Mentions légales
+  phone_label: Tél.
+  website: Site web
+  editor:
+    title: Editeur
+    content: "Le site <strong>%site_url%</strong> est propriété de la société <strong>%site_name%</strong>:"
+    publication_director: Directeur de la publication
+  hosting:
+    title: Hébergement
+
+privacy_policy:
+  title: Politique de confidentialité
+  article:
+    generalities: Généralités
+    collected_data: Les informations que nous recueillons
+    data_retention_period: Durée de conservation de vos données
+    how_we_use_data: Comment utilisons-nous les données que nous recueillons ?
+    data_recipients: Qui sont les destinataires des informations que nous recueillons et pourquoi leur transmettons nous ces informations ?
+    how_we_moderate_message: Comment utilisons-nous et modérons-nous vos messages ?
+    ads_we_sent: Publicité ciblée, e-mails et SMS que nous vous envoyons
+    data_transfert: Vos données sont-elles transférées, comment et où ?
+    user_rights: Quels sont vos droits sur vos données personnelles ?
+    paswword_privacy: Confidentialité de votre mot de passe
+    other_website_links: Liens vers d'autres sites internet et réseaux sociaux
+    privacy_policy_changes: Modification de notre politique de confidentialité
