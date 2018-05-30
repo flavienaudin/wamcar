@@ -153,6 +153,12 @@ garage:
   google_rating:
     unknown: Note inconnue
 
+search:
+  vehicle_personal:
+    title: Rechercher un lead
+  vehicle_pro:
+    title: Rechercher une voiture
+
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture
@@ -185,11 +191,14 @@ vehicle:
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
   detail:
+    personal:
+      title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
+      meta_description: "%nbPositiveLikes% personnes aiment cette voiture %vehicleFuelName% %vehicleTransmission% de %vehicleRegistrationDate% avec %vehicleMileage%km - Annonce publiée le %publishedAt%."
     pro:
       title: '%vehicleName% - %vehicleCityName% - Véhicule %vehicleStatus% de %vehicleYear%'
       meta_description:
         discount: Remise de %vehicleDiscount%% sur ce véhicule
-        price: à la vente au prix de %vehiclePrice%
+        price: à la vente au prix de %vehiclePrice%€
         published_at: le %publishedAt%
   section:
     infos:
@@ -477,7 +486,6 @@ user:
     favorites:
       title: %user_firstname% aime
       owner: Mes likes
-
 
 conversation:
   proposed_vehicle: Véhicule proposé

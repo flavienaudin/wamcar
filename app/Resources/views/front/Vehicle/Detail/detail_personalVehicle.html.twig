@@ -13,8 +13,17 @@
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}{{ 'vehicle.detail.pro.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
-{%- block meta_description %}{% endblock -%}
+{% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
+{%- block meta_description %}
+    {{ 'vehicle.detail.personal.meta_description'|trans({
+        '%nbPositiveLikes%':vehicle.positiveLikes|length,
+        '%vehicleFuelName%':vehicle.fuelName,
+        '%vehicleTransmission%':vehicle.transmission,
+        '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
+        '%vehicleMileage%': vehicle.mileage,
+        '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
+    }) }}
+{% endblock -%}
 {% block og_type %}article{% endblock %}
 
 {% set seo_img_url = vehicle.pictures|length>0?vehicle.mainPicture|vehiclePicture('vehicle_picture'):'vehicle_placeholder_picture'|defaultVehiclePicture %}
