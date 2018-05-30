@@ -49,8 +49,8 @@ global:
 
 header:
   menu:
-    search: Recherchez
-    sell: Déposez votre annonce
+    search: Rechercher une voiture
+    sell: Déposer une annonce
 
 breadcrumb:
   home: Accueil
@@ -82,6 +82,11 @@ footer:
   privacy_policy: Protection des données
   legal_notice: Mentions légales
 
+cookie:
+  instruction: En poursuivant sur ce site, vous acceptez l'utilisation de cookies pour vous offrir une meilleure expérience utilisateur.
+  more_link: En savoir plus
+  button.accept: Accepter
+
 homepage:
   title: Achat, reprise et vente de voitures par affinités
   description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
@@ -99,10 +104,11 @@ homepage:
             required_message: Veuillez indiquer un numéro d'immatriculation
           replacement:
             label: Je cherche une voiture pour la remplacer
+        pre_submit: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous vendez et ce que vous recherchez.
       model:
         title: Par modèle
+        pre_submit: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
     submit:
-      text: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous vendez et ce que vous recherchez.
       button: Déposer une annonce
   background.alt: Je veux changer de voiture
   search:
@@ -125,12 +131,13 @@ homepage:
         <small>* Toutes marques, concessionnaires, garages, mandataires, importateurs</small>
       second: Vous fournir un outil <strong class="primary-color">facile à utiliser, intuitif et puissant qui vous fasse gagner du temps</strong>.
       third: Etre <strong class="primary-color">à votre écoute </strong> pour répondre à vos besoins.
+    background.alt: Magicien Wamcar
   business:
     title: <span class="primary-color">Conseiller automobile ?</span> Rencontrez vos clients en ligne sur Wamcar
-    content: >
-      Wamcar est un site ouvert aux professionnels qui défendent des valeurs d’honnêteté, de loyauté et de respect du client.
-      Wamcar vous permet d'accéder plus facilement au marché VO (sourcing et vente), de diversifier votre offre et de renforcer votre marché VN.
-      En rencontrant votre clientèle sur internet, vous prendrez contact facilement avec des acheteurs hautement qualifiés.
+    content:
+      first: Wamcar est un site ouvert aux professionnels qui défendent des valeurs d’honnêteté, de loyauté et de respect du client.
+      second: Wamcar vous permet d'accéder plus facilement au marché VO (sourcing et vente), de diversifier votre offre et de renforcer votre marché VN.
+      third: En rencontrant votre clientèle sur internet, vous prendrez contact facilement avec des acheteurs hautement qualifiés.
     action: Accéder au site professionnel
     background.alt: Citrën DS 3
 
@@ -279,7 +286,7 @@ vehicle:
     model:
       label: Modèle
       placeholder: Modèle du véhicule
-      required_message: Veuillez indiquer le modèle du véhicule
+      required_message: Veuillez choisir un modèle
     engine:
       label: Motorisation
       placeholder: Motorisation du véhicule

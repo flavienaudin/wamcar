@@ -1,16 +1,16 @@
 {% set reinsurance_list = [
     {
-        image: 'je-vends-mon-vehicule',
+        image: '1-They_like_it.gif',
         alt: 'user.reinsurance.personal.items.first.alt'|trans,
         content: 'user.reinsurance.personal.items.first.content'|trans,
     },
     {
-        image: 'je-recois-des-offres',
+        image: '2-I_like_it.gif',
         alt: 'user.reinsurance.personal.items.second.alt'|trans,
         content: 'user.reinsurance.personal.items.second.content'|trans,
     },
     {
-        image: 'je-vends-ma-voiture',
+        image: '3-Its a match.png',
         alt: 'user.reinsurance.personal.items.third.alt'|trans,
         content: 'user.reinsurance.personal.items.third.content'|trans,
     }
@@ -20,7 +20,7 @@
 <ul class="reinsurance-wamcar block-grid column large-collapse small-12 small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
         <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle xlarge-collapse">
-            <span class="reinsurance-wamcar-image medium-12 text-center primary-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }}" srcset="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }} 1x, {{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'-2x.jpg') }} 2x" alt="{{ reinsurance.alt }}" width="130"></span>
+            <span class="reinsurance-wamcar-image medium-12 text-center primary-color"><img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image) }}" {#srcset="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }} 1x, {{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'-2x.jpg') }} 2x"#} alt="{{ reinsurance.alt }}" width="130"></span>
             <p class="reinsurance-wamcar-body no-margin">{{ reinsurance.content }}</p>
         </li>
     {% endfor %}

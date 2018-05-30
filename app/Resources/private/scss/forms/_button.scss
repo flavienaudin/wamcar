@@ -131,6 +131,7 @@ a.button {
         &:hover {
             background: $primary-color;
             color: white;
+            border-color: white;
             &::before {
                 color: white;
             }
