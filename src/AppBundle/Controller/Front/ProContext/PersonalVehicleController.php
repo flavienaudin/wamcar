@@ -9,6 +9,8 @@ use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
+use AutoData\Exception\AutodataException;
+use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -92,19 +94,28 @@ class PersonalVehicleController extends BaseController
         $filters = $vehicleDTO->retrieveFilter();
 
         if ($plateNumber) {
-            $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
-            $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
-            $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
-            $filters['make'] = $information['Vehicule']['MARQUE'];
-            $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
-            $filters['engine'] = $information['Vehicule']['VERSION'];
-            $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
-            if ($date1erCir) {
-                $vehicleDTO->setRegistrationDate($date1erCir);
-            }
-            $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
-            if ($vin) {
-                $vehicleDTO->setRegistrationVin($vin);
+            try {
+                $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
+                $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
+                $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
+                $filters['make'] = $information['Vehicule']['MARQUE'];
+                $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                $filters['engine'] = $information['Vehicule']['VERSION'];
+                $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
+                if ($date1erCir) {
+                    $vehicleDTO->setRegistrationDate($date1erCir);
+                }
+                $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
+                if ($vin) {
+                    $vehicleDTO->setRegistrationVin($vin);
+                }
+            } catch (AutodataException $autodataException) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    $autodataException instanceof AutodataWithUserMessageException ?
+                        $autodataException->getMessage() :
+                        'flash.warning.registration_recognition_failed'
+                );
             }
         }
 
