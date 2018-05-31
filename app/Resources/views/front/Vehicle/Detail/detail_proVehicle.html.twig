@@ -13,7 +13,7 @@
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}{{ 'vehicle.detail.pro.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
+{% block title %}{{ 'vehicle.detail.pro.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName|upper,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
 {%- block meta_description %}
     {% if vehicle.discount is not null %}
         {{ 'vehicle.detail.pro.meta_description.discount'|trans({'%vehicleDiscount%':vehicle.discount}) }}

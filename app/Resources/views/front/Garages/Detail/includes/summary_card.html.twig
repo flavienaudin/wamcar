@@ -4,7 +4,7 @@
     </a>
     <div>
         <a href="{{ path('front_garage_view', {'id': garage.id}) }}" class="primary-color h3"><b>{{ garage.name }}</b></a><br>
-        <span>{{ garage.address.cityName }}</span>
+        <span>{{ garage.address.cityName|upper }}</span>
         {% set garageRating = garage.googleRating %}
         {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay : true}) }}
     </div>
