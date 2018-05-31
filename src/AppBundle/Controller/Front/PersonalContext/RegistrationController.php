@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
+use AppBundle\Security\UserAuthenticator;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AutoData\ApiConnector;
@@ -34,6 +35,8 @@ class RegistrationController extends BaseController
     private $vehicleInfoAggregator;
     /** @var PersonalVehicleEditionService */
     protected $personalVehicleEditionService;
+    /** @var UserAuthenticator */
+    protected $userAuthenticator;
     /** @var ApiConnector */
     protected $autoDataConnector;
     /** @var ZipCode */
@@ -47,6 +50,7 @@ class RegistrationController extends BaseController
      * @param PersonalVehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param PersonalVehicleEditionService $personalVehicleEditionService
+     * @param UserAuthenticator $userAuthenticator
      * @param ApiConnector $autoDataConnector
      * @param ZipCode $zipCodeService
      * @param MessageBus $eventBus
@@ -56,6 +60,7 @@ class RegistrationController extends BaseController
         PersonalVehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
         PersonalVehicleEditionService $personalVehicleEditionService,
+        UserAuthenticator $userAuthenticator,
         ApiConnector $autoDataConnector,
         ZipCode $zipCodeService,
         MessageBus $eventBus
@@ -65,6 +70,7 @@ class RegistrationController extends BaseController
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
+        $this->userAuthenticator = $userAuthenticator;
         $this->autoDataConnector = $autoDataConnector;
         $this->zipCodeService = $zipCodeService;
         $this->eventBus = $eventBus;
@@ -152,7 +158,8 @@ class RegistrationController extends BaseController
 
         if ($vehicleForm->isSubmitted() && $vehicleForm->isValid()) {
             try {
-                $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
+                $registeredVehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
+                $this->userAuthenticator->authenticate($registeredVehicle->getOwner());
                 return $this->redirectToRoute('register_confirm');
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
