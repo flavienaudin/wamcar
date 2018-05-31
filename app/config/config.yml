@@ -240,12 +240,12 @@ liip_imagine:
                 auto_rotate: ~
                 thumbnail: { size: [310, 235], mode: outbound }
         user_mini_thumbnail:
-            quality: 75
+            quality: 100
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [52, 52], mode: outbound }
         user_thumbnail:
-            quality: 75
+            quality: 90
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [100, 100], mode: outbound }
@@ -265,7 +265,7 @@ liip_imagine:
                 auto_rotate: ~
                 thumbnail: { size: [120, 120], mode: outbound }
         garage_mini_logo:
-            quality: 75
+            quality: 100
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [50, 50], mode: outbound }
