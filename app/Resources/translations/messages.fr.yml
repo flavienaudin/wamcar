@@ -295,7 +295,7 @@ vehicle:
     model:
       label: Modèle
       placeholder: Modèle du véhicule
-      required_message: Veuillez choisir un modèle
+      required_message: Veuillez indiquer un modèle
     engine:
       label: Motorisation
       placeholder: Motorisation du véhicule
