@@ -52,7 +52,7 @@ class VehicleSpecificsDTO
     public function __construct(?string $date1erCir = null)
     {
         $this->registrationDate = ($date1erCir ? new \DateTimeImmutable($date1erCir) : null);
-        $this->isUsed = false;
+        $this->isUsed = true;
         $this->safetyTestDate = null;
         $this->safetyTestState = null;
         $this->maintenanceState = null;
