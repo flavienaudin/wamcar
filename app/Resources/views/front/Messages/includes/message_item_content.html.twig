@@ -53,4 +53,4 @@
     </div>
 {% endfor %}
 
-    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.fullName } %}
+{% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.fullName } %}

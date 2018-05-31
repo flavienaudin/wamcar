@@ -34,7 +34,8 @@ class MessageType extends AbstractType
             ->add('send', SubmitType::class)
             ;
 
-        if (count($user->getVehicles()) > 0) {
+        $userVehicles = $user->getVehicles();
+        if ($userVehicles != null && count($userVehicles) > 0) {
             $builder->add('selectVehicle', SubmitType::class);
         } else {
             $builder->add('createVehicle', SubmitType::class);
