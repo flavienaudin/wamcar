@@ -37,8 +37,11 @@
                     <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
                     <div id="js-move-garage-picture"></div>
                     <ul id="js-garage-tabs" class="tabs" data-tabs data-deep-link="true" data-update-history="true">
-                        <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles"|trans }}</a></li>
-                        <li class="tabs-title"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
+                        <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles"|trans }}</a>
+                        </li>
+                        {% if garage.presentation or isEditableByCurrentUser %}
+                            <li class="tabs-title"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
+                        {% endif %}
                         {% if garageReviews is not null %}
                             <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">{{ "garage.tabs.opinions.title"|trans }}</a></li>
                         {% endif %}
@@ -49,9 +52,11 @@
                     <div id="vehicles" class="tabs-panel is-active">
                         {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
                     </div>
-                    <div id="about" class="tabs-panel">
-                        {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
-                    </div>
+                    {% if garage.presentation or isEditableByCurrentUser %}
+                        <div id="about" class="tabs-panel">
+                            {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
+                        </div>
+                    {% endif %}
                     {% if garageReviews is not null %}
                         <div id="opinions" class="tabs-panel">
                             {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
