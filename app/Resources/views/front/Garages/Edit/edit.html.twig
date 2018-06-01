@@ -226,17 +226,17 @@
         }
           {# Name #}
         let nameField = document.getElementById('{{ garageForm.name.vars.id }}');
-        if (nameField.value === '' && place.hasOwnProperty('name')) {
+        if (place.hasOwnProperty('name')) {
           nameField.value = place.name;
         }
           {# Phone #}
         let phoneField = document.getElementById('{{ garageForm.phone.vars.id }}');
-        if (phoneField.value === '' && place.hasOwnProperty('formatted_phone_number')) {
+        if (place.hasOwnProperty('formatted_phone_number')) {
           phoneField.value = place.formatted_phone_number.replace(/ /g, '');
         }
           {# Opening hours #}
         let openingHOursField = document.getElementById('{{ garageForm.openingHours.vars.id }}');
-        if (openingHOursField.value === '' && place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
+        if (place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
           let openingHours = '';
           for (let i = 0; i < place.opening_hours.weekday_text.length; i++) {
             openingHours += place.opening_hours.weekday_text[i] + '\n';
