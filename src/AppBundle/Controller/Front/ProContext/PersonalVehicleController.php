@@ -87,7 +87,7 @@ class PersonalVehicleController extends BaseController
                 return $this->redirectToRoute("front_default");
             }
             $vehicleDTO = PersonalVehicleDTO::buildFromPersonalVehicle($vehicle);
-            if(!empty($plateNumber)){
+            if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
         } else {
@@ -196,8 +196,6 @@ class PersonalVehicleController extends BaseController
             self::FLASH_LEVEL_INFO,
             'flash.success.remove_vehicle'
         );
-
-        // TODO redirectTo personal_user_detail
         return $this->redirectToRoute('front_view_current_user_info');
     }
 
@@ -210,14 +208,18 @@ class PersonalVehicleController extends BaseController
     public function likePersonalVehicleAction(PersonalVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
+            if ($request->headers->has("referer")) {
+                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get('referer'));
+            }
             throw new AccessDeniedException();
         }
         $this->personalVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
-        if ($request->headers->has("referer")) {
-            $referer = $request->headers->get("referer");
+        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has("referer")) {
+            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
+            $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
-                if($referer === $this->generateUrl('front_vehicle_personal_detail', ['id' => $vehicle->getId()])){
+                if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['id' => $vehicle->getId()])) {
                     return $this->redirect($referer . '#header-' . $vehicle->getId());
                 }
                 return $this->redirect($referer . '#' . $vehicle->getId());

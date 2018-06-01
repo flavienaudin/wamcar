@@ -87,7 +87,7 @@ class VehicleController extends BaseController
                 return $this->redirectToRoute("front_garage_view", ['id' => $garage->getId()]);
             }
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
-            if(!empty($plateNumber)){
+            if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
         } else {
@@ -205,20 +205,23 @@ class VehicleController extends BaseController
     public function likeProVehicleAction(ProVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
+            if ($request->headers->has("referer")) {
+                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get('referer'));
+            }
             throw new AccessDeniedException();
         }
         $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
-        if ($request->headers->has("referer")) {
-            $referer = $request->headers->get("referer");
+        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has("referer")) {
+            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
+            $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
-                if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['id' => $vehicle->getId()])) {
+                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['id' => $vehicle->getId()])) {
                     return $this->redirect($referer . '#header-' . $vehicle->getId());
                 }
                 return $this->redirect($referer . '#' . $vehicle->getId());
             }
         }
-
         return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
     }
 }
