@@ -80,6 +80,9 @@ class VehicleController extends BaseController
 
         if ($vehicle) {
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
+            if(!empty($plateNumber)){
+                $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
+            }
         } else {
             $vehicleDTO = new ProVehicleDTO($plateNumber);
             $vehicleDTO->setCity($garage->getCity());

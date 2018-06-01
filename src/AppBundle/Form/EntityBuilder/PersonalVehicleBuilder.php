@@ -57,6 +57,8 @@ class PersonalVehicleBuilder
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setTransmission($vehicleDTO->getTransmission());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
+        $vehicle->setRegistrationPlateNumber($vehicleDTO->getVehicleRegistration()->getPlateNumber());
+        $vehicle->setRegistrationVin($vehicleDTO->getVehicleRegistration()->getVin());
         $vehicle->setIsUsed($vehicleDTO->isUsed());
         $vehicle->setMileage($vehicleDTO->getMileage());
         if($vehicle->isUsed()){

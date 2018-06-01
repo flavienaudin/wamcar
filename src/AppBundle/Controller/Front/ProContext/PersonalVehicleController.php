@@ -87,6 +87,9 @@ class PersonalVehicleController extends BaseController
                 return $this->redirectToRoute("front_default");
             }
             $vehicleDTO = PersonalVehicleDTO::buildFromPersonalVehicle($vehicle);
+            if(!empty($plateNumber)){
+                $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
+            }
         } else {
             $vehicleDTO = new PersonalVehicleDTO($plateNumber);
         }

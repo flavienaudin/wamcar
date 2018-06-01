@@ -37,9 +37,9 @@ abstract class BaseVehicle implements Vehicle
     protected $mileage;
     /** @var Collection */
     protected $pictures;
-    /** @var \DateTimeInterface |null  */
+    /** @var \DateTimeInterface |null */
     protected $safetyTestDate;
-    /** @var SafetyTestState|null  */
+    /** @var SafetyTestState|null */
     protected $safetyTestState;
     /** @var int|null */
     protected $bodyState;
@@ -47,7 +47,7 @@ abstract class BaseVehicle implements Vehicle
     protected $engineState;
     /** @var int|null */
     protected $tyreState;
-    /** @var MaintenanceState|null  */
+    /** @var MaintenanceState|null */
     protected $maintenanceState;
     /** @var TimingBeltState|null */
     protected $timingBeltState;
@@ -261,7 +261,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getStatus(): string
     {
-        return $this->isUsed?'VEHICLE_STATUT.USED':'VEHICLE_STATUT.NEW';
+        return $this->isUsed ? 'VEHICLE_STATUT.USED' : 'VEHICLE_STATUT.NEW';
     }
 
     /**
@@ -616,6 +616,22 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @param null|string $plateNumber
+     */
+    public function setRegistrationPlateNumber(?string $plateNumber): void
+    {
+        $this->registration->setPlateNumber($plateNumber);
+    }
+
+    /**
+     * @param null|string $vin
+     */
+    public function setRegistrationVin(?string $vin): void
+    {
+        $this->registration->setVin($vin);
+    }
+
+    /**
      * @param \DateTimeInterface $registrationDate
      */
     public function setRegistrationDate(\DateTimeInterface $registrationDate): void
@@ -650,7 +666,7 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @param \DateTimeInterface |null $safetyTestDate
      */
-    public function setSafetyTestDate(?\DateTimeInterface  $safetyTestDate): void
+    public function setSafetyTestDate(?\DateTimeInterface $safetyTestDate): void
     {
         $this->safetyTestDate = $safetyTestDate;
     }
@@ -749,9 +765,9 @@ abstract class BaseVehicle implements Vehicle
         if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
-        if($restrictedName){
+        if ($restrictedName) {
             return $seller->getFirstName();
-        }else{
+        } else {
             return $seller->getFullName();
         }
     }

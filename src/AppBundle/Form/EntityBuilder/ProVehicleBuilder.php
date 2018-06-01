@@ -68,6 +68,8 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()));
         $vehicle->setTransmission($vehicleDTO->getTransmission());
+        $vehicle->setRegistrationPlateNumber($vehicleDTO->getVehicleRegistration()->getPlateNumber());
+        $vehicle->setRegistrationVin($vehicleDTO->getVehicleRegistration()->getVin());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
         $vehicle->setIsUsed($vehicleDTO->isUsed());
         $vehicle->setMileage($vehicleDTO->getMileage());
