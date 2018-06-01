@@ -79,6 +79,13 @@ class VehicleController extends BaseController
         $garage = $this->getUser()->getGarage();
 
         if ($vehicle) {
+            if (!$this->proVehicleEditionService->canEdit($this->getUser(), $vehicle)) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.error.unauthorized_to_edit_vehicle'
+                );
+                return $this->redirectToRoute("front_garage_view", ['id' => $garage->getId()]);
+            }
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
             if(!empty($plateNumber)){
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
