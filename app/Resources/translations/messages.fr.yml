@@ -19,6 +19,7 @@ flash:
     bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
+    unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
@@ -46,6 +47,13 @@ global:
     previous_step: Etape précédente
     next_step: Etape suivante
     back: Retour
+  pagination:
+    pagination: Pagination
+    first: Première page
+    previous: Page précédente
+    next: Page suivante
+    last: Dernière page
+    page: Page
 
 header:
   menu:
@@ -172,7 +180,7 @@ vehicle:
     aside:
       identification:
         content_1: Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.
-        content_2: Le numéro VIN disponible sur votre carte grise sur la ligne E aidera les professionnels à vous faire une offre juste.
+        content_2: Le numéro VIN, disponible sur votre carte grise sur la ligne E, aidera les professionnels à vous faire une offre juste.
       picture:
         content_1: Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails. Il est prouvé que les annonces avec plusieurs photos ont plus de visites et plus d'offres.
         content_2: Un angle de 3/4 avant serait parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visibles !

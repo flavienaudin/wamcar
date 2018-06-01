@@ -2,8 +2,6 @@
    Icon
    =========================================================================== */
 
-
-
 /*
    Default settings
    ===================================== */
@@ -37,6 +35,45 @@
 /*
    Icon list
    ===================================== */
+.icon-ellipsis-h:before {
+  content: "\f141";
+}
+.icon-angle-double-left:before {
+  content: "\f102";
+}
+.icon-angle-double-right:before {
+  content: "\f103";
+}
+.icon-angle-left:before {
+  content: "\f106";
+}
+.icon-angle-right:before {
+  content: "\f107";
+}
+.icon-full-arrow:before {
+  content: "\e91c";
+}
+.icon-plus-circle:before {
+  content: "\e919";
+}
+.icon-heart-o:before {
+  content: "\e904";
+}
+.icon-heart:before {
+  content: "\e903";
+}
+.icon-thumbs-o-up:before {
+  content: "\f087";
+}
+.icon-thumbs-o-down:before {
+  content: "\f088";
+}
+.icon-thumbs-up:before {
+  content: "\f164";
+}
+.icon-thumbs-down:before {
+  content: "\f165";
+}
 .icon-envelop:before {
   content: "\e945";
 }
@@ -46,7 +83,6 @@
 .icon-mobile2:before {
   content: "\e958";
 }
-
 .icon-close:before {
   content: "\e906";
 }
@@ -137,30 +173,3 @@
 .icon-search:before {
   content: "\e912";
 }
-.icon-full-arrow:before {
-  content: "\e91c";
-  color: #7a7a7a;
-}
-.icon-plus-circle:before {
-  content: "\e919";
-}
-.icon-heart-o:before {
-  content: "\e904";
-}
-.icon-heart:before {
-  content: "\e903";
-}
-.icon-thumbs-o-up:before {
-  content: "\f087";
-}
-.icon-thumbs-o-down:before {
-  content: "\f088";
-}
-.icon-thumbs-up:before {
-  content: "\f164";
-}
-.icon-thumbs-down:before {
-  content: "\f165";
-}
-
-

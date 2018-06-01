@@ -60,4 +60,21 @@ final class Registration
     {
         return $this->vin;
     }
+
+    /**
+     * @param null|string $plateNumber
+     */
+    public function setPlateNumber(?string $plateNumber): void
+    {
+        $this->plateNumber = $plateNumber;
+    }
+
+    /**
+     * @param null|string $vin
+     */
+    public function setVin(?string $vin): void
+    {
+        $this->vin = $vin;
+    }
+
 }

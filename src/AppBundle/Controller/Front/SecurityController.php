@@ -159,7 +159,7 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.registration_success_pro'
                 );
-                return $this->redirectToRoute('front_default');
+                return $this->redirectToRoute('front_view_current_user_info');
             } else {
                 return $this->redirectToRoute('register_confirm');
             }
