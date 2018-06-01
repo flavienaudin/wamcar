@@ -2,7 +2,9 @@
     <nav class="pagination" role="navigation" aria-label="{{ 'global.pagination.pagination'|trans }}">
         {% set previous = page == 1 ? 1 : page - 1 %}
         {% set next = page == lastPage ? page : page + 1 %}
-        {% set startPage =  (page-2)<=0?1:page-2 %}
+
+        {% set startPage =  (page-1)<=0?1:page-1 %}
+        {% set endPage =  (page+1)>=lastPage?lastPage:page+1 %}
 
         <a href="{{ path(route, {'page': 1}) }}?{{ app.request.queryString }}"
            class="pagination-item {% if page == 1 %}is-disabled{% endif %} icon-angle-double-left"
@@ -12,23 +14,24 @@
            class="pagination-item previous {% if previous == page %}is-disabled{% endif %} icon-angle-left"
            title=="{{ 'global.pagination.previous'|trans }}" aria-label="{{ 'global.pagination.previous'|trans }}"><span
                     class="show-for-sr">{{ 'global.pagination.previous'|trans }}</span></a>
-
-        {% if previous < lastPage %}
-            {% set countNextPage = 0 %}
-            {% for i in startPage..lastPage %}
-                {% set countNextPage = countNextPage + 1 %}
-                {% if countNextPage < 5 %}
-                    <a href="{{ path(route, {'page': i}) }}?{{ app.request.queryString }}"
-                       class="pagination-item{% if i == page %} is-current{% endif %}"
-                       title="{{ 'global.pagination.page'|trans }} {{ i }}"
-                       aria-label="{{ 'global.pagination.page'|trans }} {{ i }}">{{ i }}</a>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <a href="{{ path(route, {'page': 1}) }}?{{ app.request.queryString }}" class="pagination-item is-current"
-               title="{{ 'global.pagination.page'|trans }} 1" aria-label="{{ 'global.pagination.page'|trans }} 1">1</a>
+        {% if startPage > 1 %}
+            <span class="pagination-item ellipsis icon-ellipsis-h"></span>
         {% endif %}
 
+        {% if previous < lastPage %}
+        {% for i in startPage..endPage %}
+            <a href="{{ path(route, {'page': i}) }}?{{ app.request.queryString }}"
+               class="pagination-item{% if i == page %} is-current{% endif %}"
+               title="{{ 'global.pagination.page'|trans }} {{ i }}"
+               aria-label="{{ 'global.pagination.page'|trans }} {{ i }}">{{ i }}</a>
+        {% endfor %}
+        {% else %}
+            <a href="{{ path(route, {'page': 1}) }}?{{ app.request.queryString }}" class="pagination-item is-current" aria-label="Page 1">1</a>
+        {% endif %}
+
+        {% if endPage < lastPage %}
+            <span class="pagination-item ellipsis icon-ellipsis-h"></span>
+        {% endif %}
         <a href="{{ path(route, {'page': next}) }}?{{ app.request.queryString }}"
            class="pagination-item next {% if next == page %}is-disabled{% endif %} icon-angle-right"
            title="{{ 'global.pagination.next'|trans }}" aria-label="{{ 'global.pagination.next'|trans }}"><span
