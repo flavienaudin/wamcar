@@ -2,12 +2,8 @@
    Disabled
    =========================================================================== */
 
-form {
-
-  .is-disabled {
-    transition: $global-transition;
-    opacity: 0.5;
-    pointer-events: none;
-  }
-
+.is-disabled {
+  transition: $global-transition;
+  opacity: 0.5;
+  pointer-events: none;
 }
