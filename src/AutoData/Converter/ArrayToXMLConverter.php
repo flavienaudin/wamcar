@@ -49,10 +49,21 @@ class ArrayToXMLConverter
     private static function recursiveXMLToArray(\SimpleXMLElement $node): array
     {
         $out = [];
-        foreach ($node->children() as $key => $child) {
+        $idx = null;
+        $prevKey = null;
+        if (count($node->children()) > 1) {
+            $idx = 0;
+        }
+        foreach ($node->children() as $currentKey => $child) {
+            $key = $currentKey;
+            if ($currentKey === $prevKey) {
+                // Sibling element with identical key
+                $key .= '_' . ++$idx;
+            }
+            $prevKey = $key;
             $out[$key] = count($child->children()) ? self::recursiveXMLToArray($child) : \trim((string)$child);
         }
-
+        unset($idx);
         return $out;
     }
 }

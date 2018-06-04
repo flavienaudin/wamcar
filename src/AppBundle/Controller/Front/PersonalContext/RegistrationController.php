@@ -8,6 +8,7 @@ use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserAuthenticator;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
+use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -33,6 +34,8 @@ class RegistrationController extends BaseController
     private $vehicleRepository;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
+    /** @var VehicleInfoProvider */
+    private $vehicleInfoProvider;
     /** @var PersonalVehicleEditionService */
     protected $personalVehicleEditionService;
     /** @var UserAuthenticator */
@@ -49,6 +52,7 @@ class RegistrationController extends BaseController
      * @param FormFactoryInterface $formFactory
      * @param PersonalVehicleRepository $vehicleRepository
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleInfoProvider $vehicleInfoProvider
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param UserAuthenticator $userAuthenticator
      * @param ApiConnector $autoDataConnector
@@ -59,6 +63,7 @@ class RegistrationController extends BaseController
         FormFactoryInterface $formFactory,
         PersonalVehicleRepository $vehicleRepository,
         VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleInfoProvider $vehicleInfoProvider,
         PersonalVehicleEditionService $personalVehicleEditionService,
         UserAuthenticator $userAuthenticator,
         ApiConnector $autoDataConnector,
@@ -69,6 +74,7 @@ class RegistrationController extends BaseController
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoProvider= $vehicleInfoProvider;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->userAuthenticator = $userAuthenticator;
         $this->autoDataConnector = $autoDataConnector;
@@ -107,11 +113,50 @@ class RegistrationController extends BaseController
         if ($plateNumber) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
-                $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
-                $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : $filters;
-                $filters['make'] = $information['Vehicule']['MARQUE'];
-                $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
-                $filters['engine'] = $information['Vehicule']['VERSION'];
+                $ktypNumber = null;
+                if(isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])){
+                    $ktypNumber = $information['Vehicule']['ktypnr_aaa'];
+                } elseif(isset($information['Vehicule']['LTYPVEH'])){
+                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value){
+                        if(isset($value['KTYPNR']) && !empty($value['KTYPNR'])){
+                            if(!empty($ktypNumber)){
+                                $this->session->getFlashBag()->add(
+                                    self::FLASH_LEVEL_DANGER,
+                                    'flash.warning.vehicle.multiple_vehicle_types'
+                                );
+                            }
+                            $ktypNumber = $value['KTYPNR'];
+                        }
+                    }
+                };
+
+                $vehicleInfo = [];
+                if(!empty($ktypNumber)) {
+                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                }
+                if(count($vehicleInfo) == 1){
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])){
+                        $filters['make'] = $vehicleInfo[0]['make'];
+                    }else{
+                        $filters['make'] = $information['Vehicule']['MARQUE'];
+                    }
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])){
+                        $filters['model'] = $vehicleInfo[0]['model'];
+                    }else{
+                        $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                    }
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])){
+                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    }else{
+                        $filters['engine'] = $information['Vehicule']['VERSION'];
+                    }
+
+                }else {
+                    $filters['make'] = $information['Vehicule']['MARQUE'];
+                    $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                    $filters['engine'] = $information['Vehicule']['VERSION'];
+                }
+
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
             } catch (AutodataException $autodataException) {

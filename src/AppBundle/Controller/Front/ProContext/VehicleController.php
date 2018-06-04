@@ -9,6 +9,7 @@ use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
 use AppBundle\Utils\VehicleInfoAggregator;
+use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -29,6 +30,8 @@ class VehicleController extends BaseController
     protected $formFactory;
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
+    /** @var VehicleInfoProvider */
+    private $vehicleInfoProvider;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
     /** @var ApiConnector */
@@ -40,6 +43,7 @@ class VehicleController extends BaseController
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleInfoProvider $vehicleInfoProvider
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
@@ -47,6 +51,7 @@ class VehicleController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleInfoProvider $vehicleInfoProvider,
         ProVehicleEditionService $proVehicleEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager
@@ -54,6 +59,7 @@ class VehicleController extends BaseController
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoProvider= $vehicleInfoProvider;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
@@ -100,11 +106,50 @@ class VehicleController extends BaseController
         if ($plateNumber) {
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
-                $ktypNumber = $information['Vehicule']['LTYPVEH']['TYPVEH']['KTYPNR'] ?? null;
-                $filters = $ktypNumber ? ['ktypNumber' => $ktypNumber] : [];
-                $filters['make'] = $information['Vehicule']['MARQUE'];
-                $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
-                $filters['engine'] = $information['Vehicule']['VERSION'];
+                $ktypNumber = null;
+                if(isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])){
+                    $ktypNumber = $information['Vehicule']['ktypnr_aaa'];
+                } elseif(isset($information['Vehicule']['LTYPVEH'])){
+                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value){
+                        if(isset($value['KTYPNR']) && !empty($value['KTYPNR'])){
+                            if(!empty($ktypNumber)){
+                                $this->session->getFlashBag()->add(
+                                    self::FLASH_LEVEL_DANGER,
+                                    'flash.warning.vehicle.multiple_vehicle_types'
+                                );
+                            }
+                            $ktypNumber = $value['KTYPNR'];
+                        }
+                    }
+                };
+
+                $vehicleInfo = [];
+                if(!empty($ktypNumber)) {
+                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                }
+                if(count($vehicleInfo) == 1){
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])){
+                        $filters['make'] = $vehicleInfo[0]['make'];
+                    }else{
+                        $filters['make'] = $information['Vehicule']['MARQUE'];
+                    }
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])){
+                        $filters['model'] = $vehicleInfo[0]['model'];
+                    }else{
+                        $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                    }
+                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])){
+                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    }else{
+                        $filters['engine'] = $information['Vehicule']['VERSION'];
+                    }
+
+                }else {
+                    $filters['make'] = $information['Vehicule']['MARQUE'];
+                    $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
+                    $filters['engine'] = $information['Vehicule']['VERSION'];
+                }
+
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
                 if ($date1erCir) {
                     $vehicleDTO->setRegistrationDate($date1erCir);
