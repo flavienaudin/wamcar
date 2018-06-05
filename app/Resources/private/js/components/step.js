@@ -34,7 +34,7 @@ class Step {
    * @memberof Step
    */
   initAbide() {
-    this._init && this.updateProgressBar();
+    this.updateProgressBar();
     this.step = new Abide($(this._getCurrentSlideItem()));
     this.autoHeight();
   }

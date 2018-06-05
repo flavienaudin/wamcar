@@ -19,7 +19,12 @@
             'required' : false,
             'label' : null
         }) }}
-        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}">Compléter</a>
+        <div class="small-12 large-6">
+            <a class="button medium-8" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}" data-platenumber-error="error-platenumber-field">Compléter</a>
+        </div>
+        <div class="small-12 large-6">
+            <p><small id="error-platenumber-field" class="form-error">Veuillez indiquer un numéro d'immatriculation.</small></p>
+        </div>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
