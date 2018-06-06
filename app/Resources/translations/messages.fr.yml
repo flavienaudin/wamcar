@@ -167,10 +167,43 @@ garage:
     unknown: Note inconnue
 
 search:
-  vehicle_personal:
-    title: Rechercher un lead
-  vehicle_pro:
-    title: Rechercher une voiture
+  common:
+    field:
+      text:
+        label: Votre recherche
+        placeholder: Ex. Citröen C3
+      location:
+        label: Autour de
+        placeholder: Ville ou code postal
+      mileageMax:
+        label: Kilométrage max
+        placeholder: Kilométrage max
+      yearsMin:
+        label: Année min
+        placeholder: Année min
+      yearsMax:
+        label: Année max
+        placeholder: Année max
+      budgetMin:
+        label: Budget min
+        placeholder: Budget min
+      budgetMax:
+        label: Budget max
+        placeholder: Budget max
+      transmission:
+        label: Boite de vitesse
+        placeholder: Boite de vitesse
+      fuel:
+        label: Energie
+        placeholder: Energie
+    more_criteria: Plus de critère
+    less_criteria: Moins de critère
+  personal_user:
+    title: Annonces de professionnels
+    breadcrumbs: Annonces de professionnels
+  pro_user:
+    title: Annonces des particuliers
+    breadcrumbs: Annonces des particuliers
 
 vehicle:
   inscription:

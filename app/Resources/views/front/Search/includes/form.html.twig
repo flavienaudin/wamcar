@@ -10,23 +10,23 @@
         <div class="column small-12 medium-6 large-4">
             {{ form_widget(searchForm.text, {
                 'class' : '',
-                'required' : false,
-                'label' : 'Véhicule recherché',
+                'label' : 'search.common.field.text.label'|trans,
                 'label_class' : '',
-                'placeholder': 'Ex. Citröen C3'
+                'required' : false,
+                'required_class': 'show-for-sr',
+                'placeholder': 'search.common.field.text.placeholder'|trans
             }) }}
         </div>
 
         <div class="column small-12 medium-6 large-5">
-            <label for="search_vehicle_postalCode">Votre localisation</label>
+            <label for="search_vehicle_postalCode">{{ 'search.common.field.location.label'|trans }} <span class="show-for-sr">{{ 'global.facultative'|trans }}</span></label>
             <div class="block-grid small-12">
             {{ form_widget(searchForm.postalCode, {
                 'label': false,
                 'class': 'js-city-autocomplete',
                 'required' : false,
-                'required_message' : 'Veuillez d\'abord renseigner le code postal',
-                'required_class' : 'form-error',
                 'attr' : {
+                    'data-placeholder': 'search.common.field.location.placeholder'|trans,
                     'data-autocomplete-url': path('front_city_autocomplete'),
                     'data-city-field': 'search_vehicle_cityName',
                     'data-latitude-field': 'search_vehicle_latitude',
@@ -49,27 +49,30 @@
                 {{ form_widget(searchForm.make, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Marque',
+                    'required_class': 'show-for-sr',
+                    'label' : 'vehicle.field.make.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Marque du véhicule'
+                    'placeholder': 'vehicle.field.make.placeholder'|trans
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(searchForm.model, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Modèle',
+                    'required_class': 'show-for-sr',
+                    'label' : 'vehicle.field.model.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Modèle du véhicule'
+                    'placeholder': 'vehicle.field.model.placeholder'|trans
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(searchForm.mileageMax, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Kilométrage max',
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.mileageMax.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Kilométrage max'
+                    'placeholder': 'search.common.field.mileageMax.placeholder'|trans
                 }) }}
             </div>
             <div class="block-grid small-12">
@@ -77,61 +80,67 @@
                     {{ form_widget(searchForm.yearsMin, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Année min',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.yearsMin.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Année min'
+                        'placeholder': 'search.common.field.yearsMin.placeholder'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(searchForm.yearsMax, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Année max',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.yearsMax.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Année max'
+                        'placeholder': 'search.common.field.yearsMax.placeholder'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(searchForm.budgetMin, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Budget min',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.budgetMin.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Budget min'
+                        'placeholder': 'search.common.field.budgetMin.placeholder'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(searchForm.budgetMax, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Budget max',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.budgetMax.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Budget max'
+                        'placeholder': 'search.common.field.budgetMax.placeholder'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(searchForm.transmission, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Boite de vitesse',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.transmission.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Boite de vitesse'
+                        'placeholder': 'search.common.field.transmission.placeholder'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(searchForm.fuel, {
                         'class' : '',
                         'required' : false,
-                        'label' : 'Energie',
+                        'required_class': 'show-for-sr',
+                        'label' : 'search.common.field.fuel.label'|trans,
                         'label_class' : '',
-                        'placeholder': 'Energie'
+                        'placeholder': 'search.common.field.fuel.placeholder'|trans
                     }) }}
                 </div>
             </div>
         </div>
 
         <div class="search-actions-button input-margin block-grid column small-12 large-order-2">
-            <a class="search-actions-open icon-plus-circle" data-toggle="js-search-expand"><span class="text-underline">Plus de critères</span></a>
+            <a class="search-actions-open icon-plus-circle" data-toggle="js-search-expand"><span class="text-underline">{{ 'search.common.more_criteria'|trans }}</span></a>
             {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
         </div>
         <div class="hide-for-large column small-12">

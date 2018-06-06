@@ -5,26 +5,21 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'search.vehicle_pro.title'|trans }}{% endblock %}
+{% block title %}{{ 'search.personal_user.title'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
-        'name': block('title'),
+        'name': 'search.personal_user.breadcrumbs'|trans,
         'href': app.request.requestUri
     }
 ] %}
 
-{#{% set vehicle_list = inte.vehicle %}#}
-
 {% block body %}
-
-    {% set switchLinkLabel = 'Véhicules proposés par les particuliers' %}
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title'),
-        title_class: 'medium-auto',
-        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="'~ path('front_search_pro') ~'" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
+        title_class: 'show-for-sr'
     } %}
 
     <div class="block-gray has-border-bottom">
