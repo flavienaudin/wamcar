@@ -15,6 +15,7 @@
 
   @include breakpoint(large) {
     border-left: rem-calc(3) solid $primary-color;
+    z-index: ($header-zindex + 1);
   }
 
   /*
@@ -26,7 +27,6 @@
     padding-top: rem-calc(30);
 
     /* Components */
-
     a {
       color: white;
     }
@@ -85,11 +85,12 @@
      ===================================== */
 
   &-content {
-    border-top: rem-calc(1) solid $border-color;
     padding-top: rem-calc(15);
+    padding-bottom: rem-calc(15);
 
     @include breakpoint(large) {
       padding-top: rem-calc(25);
+      padding-bottom: rem-calc(25);
     }
   }
 
@@ -98,6 +99,6 @@
      ===================================== */
 
   &-separator {
-    border-bottom: rem-calc(1) solid $border-color;
+    border-top: rem-calc(1) solid $border-color;
   }
 }

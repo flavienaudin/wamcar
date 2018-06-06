@@ -8,25 +8,33 @@
 
 {% block body %}
     <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.login.header_title'|trans({'%sitename%':site_name},'messages') }}</h1>
+        <h1 class="no-margin text-center column large-10 xlarge-8">{{ 'user.login.header_title'|trans({'%sitename%':site_name},'messages') }}</h1>
     </header>
 
     <section class="small-12">
         <div class="register-form input-margin row">
 
         <aside class="register-right small-12 medium-6">
-            <h2 class="black-color column small-12">{{ 'user.login.social_connect'|trans({},'messages') }}</h2>
-            {% include 'front/Security/Register/includes/social_networks_login.html.twig' %}
+            <h2 class="column small-12 black-color">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
+            <div class="column small-12">
+                <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
+                <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
+            </div>
         </aside>
 
         <section class="register-left input-margin small-12 medium-6">
-            <h2 class="black-color column small-12">{{ 'user.login.with_email'|trans({'%sitename%':site_name},'messages') }}</h2>
+            <h2 class="black-color column small-12">{{ 'user.login.account'|trans({'%sitename%':site_name},'messages') }}</h2>
+            <div class="small-12 medium-9 medium-offset-1 input-margin">
+                {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+            </div>
+
             <div class="small-12">
                 <form action="{{ path('security_login_page') }}" id="form-login" method="post" data-abide novalidate>
                     {% include 'front/Layout/includes/forms/input.html.twig' with {
                         id: 'email_login',
                         name: '_username',
                         type: 'email',
+                        value: (lastUsername is defined?lastUsername:null),
                         class_field: 'block-grid column input-margin small-12',
                         label: 'user.field.email.label'|trans,
                         label_class: 'large-no-margin small-12 large-4',
@@ -51,11 +59,6 @@
                        <button type="submit" id="form-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
                     </div>
                 </form>
-            </div>
-            <h2 class="black-color column small-12 separator">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
-            <div class="small-12">
-                <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
-                <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
             </div>
         </section>
 

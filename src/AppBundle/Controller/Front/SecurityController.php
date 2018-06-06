@@ -24,6 +24,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
 use Wamcar\User\PersonalUser;
@@ -228,7 +230,6 @@ class SecurityController extends BaseController
      */
     public function loginAction(Request $request): Response
     {
-
         return $this->render('front/User/includes/form_login.html.twig');
     }
 
@@ -247,14 +248,23 @@ class SecurityController extends BaseController
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
         if ($error) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                $error->getMessage()
-            );
+            if($error instanceof BadCredentialsException){
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.error.bad_credentials'
+                );
+            }else {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    $error->getMessage()
+                );
+            }
             return $this->redirectToRoute('security_login_page');
         }
 
+        $this->session->remove(Security::LAST_USERNAME);
         return $this->render('front/Security/Login/login.html.twig', [
+            'lastUsername' => $lastUsername
         ]);
     }
 
