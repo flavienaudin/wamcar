@@ -22,6 +22,7 @@ flash:
     unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
+    vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
 
 global:

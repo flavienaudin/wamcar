@@ -276,4 +276,20 @@ class QueryBuilderFilterer
 
         return $queryBuilder;
     }
+
+
+    /**
+     * @param string $ktypNumber
+     * @return QueryBuilder
+     */
+    public function getQueryVehicleInfoByKtypNumber(string $ktypNumber): QueryBuilder
+    {
+        $queryBuilder = new QueryBuilder();
+
+        $boolQuery = new BoolQuery();
+        $boolQuery->addClause(new PrefixQuery('ktypNumber', $ktypNumber, CombiningFactor::MUST));
+        $queryBuilder->addQuery($boolQuery);
+
+        return $queryBuilder;
+    }
 }
