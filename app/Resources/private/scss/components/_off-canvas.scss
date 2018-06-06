@@ -5,6 +5,7 @@
 .off-canvas {
   @include breakpoint(medium down) {
     top: $header-height;
+    padding-bottom: $header-height;
   }
 
   @include breakpoint(medium) {

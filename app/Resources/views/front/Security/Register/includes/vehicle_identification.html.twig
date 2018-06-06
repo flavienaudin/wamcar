@@ -17,7 +17,12 @@
             'class_field': 'small-12 large-4 align-self-bottom',
             'required' : false
         }) }}
-        <a class="button small-12 medium-6 large-3" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}">{{ 'global.button.complete'|trans }}</a>
+        <div class="small-12 large-6">
+            <a class="button medium-8" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}" data-platenumber-error="error-platenumber-field">{{ 'global.button.complete'|trans }}</a>
+        </div>
+        <div class="small-12 large-6">
+            <p><small id="error-platenumber-field" class="form-error">{{ 'vehicle.field.plateNumber.required_message'|trans }}</small></p>
+        </div>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
