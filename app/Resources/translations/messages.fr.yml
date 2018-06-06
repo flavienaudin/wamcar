@@ -295,6 +295,7 @@ vehicle:
     plateNumber:
       label: Immatriculation
       placeholder: 'Ex: AA-123-BB'
+      required_message: Veuillez indiquer un numéro d'immatriculation.
       help_message: Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.
     make:
       label: Marque
