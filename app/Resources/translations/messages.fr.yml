@@ -83,6 +83,7 @@ password_lost:
     instructions: Entrez simplement votre adresse email et vous recevrez un mail de Wamcar vous permettant de réinitialiser votre mot de passe.
 
 social_network:
+  registration_with: S'inscrire avec %social_network%
   connexion_with: Se connecter avec %social_network%
 
 footer:

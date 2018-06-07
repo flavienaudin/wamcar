@@ -14,54 +14,54 @@
     <section class="small-12">
         <div class="register-form input-margin row">
 
-        <aside class="register-right small-12 medium-6">
-            <h2 class="column small-12 black-color">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
-            <div class="column small-12">
-                <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
-                <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
-            </div>
-        </aside>
+            <aside class="register-right small-12 medium-6">
+                <h2 class="column small-12 black-color">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
+                <div class="column small-12">
+                    <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
+                    <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
+                </div>
+            </aside>
 
-        <section class="register-left input-margin small-12 medium-6">
-            <h2 class="black-color column small-12">{{ 'user.login.account'|trans({'%sitename%':site_name},'messages') }}</h2>
-            <div class="small-12 medium-9 medium-offset-1 input-margin">
-                {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
-            </div>
+            <section class="register-left input-margin small-12 medium-6">
+                <h2 class="black-color column small-12">{{ 'user.login.account'|trans({'%sitename%':site_name},'messages') }}</h2>
 
-            <div class="small-12">
-                <form action="{{ path('security_login_page') }}" id="form-login" method="post" data-abide novalidate>
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        id: 'email_login',
-                        name: '_username',
-                        type: 'email',
-                        value: (lastUsername is defined?lastUsername:null),
-                        class_field: 'block-grid column input-margin small-12',
-                        label: 'user.field.email.label'|trans,
-                        label_class: 'large-no-margin small-12 large-4',
-                        class: 'medium-no-margin small-12 large-8',
-                        required: true,
-                        required_class: 'large-offset-4',
-                        required_message: 'user.field.email.error'|trans
-                    } %}
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        id: 'password_login',
-                        name: '_password',
-                        type: 'password',
-                        class_field: 'block-grid column input-margin small-12',
-                        label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
-                        label_class: 'large-no-margin small-12 large-4',
-                        class: 'medium-no-margin small-12 large-8',
-                        required: true,
-                        required_class: 'large-offset-4',
-                        required_message: 'user.field.password.first.error'|trans
-                    } %}
-                    <div class="column small-12">
-                       <button type="submit" id="form-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
-                    </div>
-                </form>
-            </div>
-        </section>
+                <div class="small-12 medium-9 medium-offset-1 input-margin">
+                    {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+                </div>
 
+                <div class="small-12">
+                    <form action="{{ path('security_login_page') }}" id="form-login" method="post" data-abide novalidate>
+                        {% include 'front/Layout/includes/forms/input.html.twig' with {
+                            id: 'email_login',
+                            name: '_username',
+                            type: 'email',
+                            value: (lastUsername is defined?lastUsername:null),
+                            class_field: 'block-grid column input-margin small-12',
+                            label: 'user.field.email.label'|trans,
+                            label_class: 'large-no-margin small-12 large-4',
+                            class: 'medium-no-margin small-12 large-8',
+                            required: true,
+                            required_class: 'large-offset-4',
+                            required_message: 'user.field.email.error'|trans
+                        } %}
+                        {% include 'front/Layout/includes/forms/input.html.twig' with {
+                            id: 'password_login',
+                            name: '_password',
+                            type: 'password',
+                            class_field: 'block-grid column input-margin small-12',
+                            label: 'user.field.password.first.label'|trans ~ '<a data-open="js-password-lost" class="is-small large-no-margin">'~'user.field.password.forget'|trans~'</a>',
+                            label_class: 'large-no-margin small-12 large-4',
+                            class: 'medium-no-margin small-12 large-8',
+                            required: true,
+                            required_class: 'large-offset-4',
+                            required_message: 'user.field.password.first.error'|trans
+                        } %}
+                        <div class="column small-12">
+                           <button type="submit" id="form-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
         </div>
     </section>
 
