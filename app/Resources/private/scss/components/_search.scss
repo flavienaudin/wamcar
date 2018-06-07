@@ -35,28 +35,16 @@
 
   } // &-actions-button
 
-
-
   /*
-     Actions open
+      Tabs
      ===================================== */
 
-  &-actions-open {
-    &.is-active {
-      &::before {
-        content: '\2212';
-        width: rem-calc(14);
-        height: rem-calc(14);
-        line-height: rem-calc(9);
-        background: $primary-color;
-        border-radius: 50%;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-      }
+  &-tabs{
+    > ul.tabs {
+      width: auto;
+      padding-right: 0;
     }
   }
-
 
 
   /*

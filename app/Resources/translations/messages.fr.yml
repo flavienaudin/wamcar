@@ -201,9 +201,17 @@ search:
   personal_user:
     title: Annonces de professionnels
     breadcrumbs: Annonces de professionnels
+    tab:
+      all: Professionnels
+      pro_user_search: Particuliers
   pro_user:
     title: Annonces des particuliers
     breadcrumbs: Annonces des particuliers
+    tab:
+      all: Particuliers
+      recovery: Reprises
+      project: Souhaits
+      personal_user_search: Professionnels
 
 vehicle:
   inscription:

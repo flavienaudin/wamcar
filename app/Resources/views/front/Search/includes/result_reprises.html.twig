@@ -1,6 +1,6 @@
 <header class="block-grid small-12 align-middle">
     <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
-    {% include 'front/Layout/includes/forms/select.html.twig' with {
+    {#{% include 'front/Layout/includes/forms/select.html.twig' with {
         class_field: 'small-12 medium-5 medium-right large-4',
         class: 'no-margin',
         label: false,
@@ -11,13 +11,13 @@
         id: 'search_all_filter',
         name: 'search_all_filter',
         form: 'js-search-form',
-    } %}
+    } %}#}
 </header>
 <div class="garage-container search-result-vehicle">
     {% set balise = 'h2' %}
     {% include ':front/Search/includes:list_pro.html.twig' %}
-    <br />
-    <br />
+    <br/>
+    <br/>
 </div>
 
 {% include 'front/Layout/includes/pagination.html.twig' with {

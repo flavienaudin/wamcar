@@ -25,9 +25,14 @@
     <div class="block-gray has-border-bottom">
         {% include 'front/Search/includes/form.html.twig' %}
         <div class="search-tabs row">
-            <ul id="js-search-tabs" class="tabs column">
-                <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title is-active">
-                    <a href="#js-search-all" aria-selected="true">Toutes <small>({{ result.totalHits }})</small></a>
+            <ul id="js-search-tabs" class="tabs column small-shrink">
+                <li class="tabs-title is-active">
+                    <a href="#js-search-all" aria-selected="true">{{ 'search.personal_user.tab.all'|trans }} <small>({{ result.totalHits }})</small></a>
+                </li>
+            </ul>
+            <ul class="tabs">
+                <li class="tabs-title">
+                    <a href="{{ path('front_search_pro') ~ '?' ~ app.request.queryString }}">{{ 'search.personal_user.tab.pro_user_search'|trans }}</a>
                 </li>
             </ul>
         </div>

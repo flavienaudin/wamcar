@@ -1,11 +1,16 @@
-<ul id="js-search-tabs" class="tabs column">
-    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL') %}is-active{% endif %}">
-        <a href="#js-search-all" aria-selected="true">Toutes <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')].totalHits }})</small></a>
+<ul id="js-search-tabs" class="tabs column small-shrink">
+    <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL') %}is-active{% endif %}">
+        <a href="#js-search-all" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL') %}aria-selected="true"{% endif %}>{{ 'search.pro_user.tab.all'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_ALL')].totalHits }})</small></a>
     </li>
-    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY') %}is-active{% endif %}">
-        <a href="#js-search-reprises" aria-selected="true">Reprises <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')].totalHits }})</small></a>
+    <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY') %}is-active{% endif %}">
+        <a href="#js-search-reprises" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY') %}aria-selected="true"{% endif %}>{{ 'search.pro_user.tab.recovery'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')].totalHits }})</small></a>
     </li>
-    <li data-href="https://jsonplaceholder.typicode.com/posts" class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT') %}is-active{% endif %}">
-        <a href="#js-search-greetings" aria-selected="true">Souhaits<small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')].totalHits }})</small></a>
+    <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT') %}is-active{% endif %}">
+        <a href="#js-search-greetings" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT') %}aria-selected="true"{% endif %}>{{ 'search.pro_user.tab.project'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')].totalHits }})</small></a>
+    </li>
+</ul>
+<ul class="tabs">
+    <li class="tabs-title">
+        <a href="{{ path('front_search_personal') ~ '?' ~ app.request.queryString}}">{{ 'search.pro_user.tab.personal_user_search'|trans }}</a>
     </li>
 </ul>
