@@ -16,4 +16,4 @@ parameters:
     facebook_admin_ids: ~
     twitter_username: wamcar
 
-    pro_site_url: pro.wamcar.com
+    pro_space_url: pro.wamcar.com
