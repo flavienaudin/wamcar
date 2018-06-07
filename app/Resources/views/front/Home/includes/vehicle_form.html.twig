@@ -3,11 +3,11 @@
         <h1 class="primary-color section-title">{{ 'homepage.vehicle_form.header.title'|trans }}</h1>
         <p class="black-color medium small-8 large-10"><b>{{ 'homepage.vehicle_form.header.subtitle'|trans }}</b></p>
     </header>
-    <ul id="js-search-tabs" class="tabs" data-tabs>
+    <ul id="js-tabs" class="tabs" data-tabs>
         <li class="tabs-title is-active"><a href="#immatriculation" aria-selected="true">{{ 'homepage.vehicle_form.tabs.immatriculation.title'|trans }}</a></li>
         <li class="tabs-title small-auto"><a data-tabs-target="model" href="#model">{{ 'homepage.vehicle_form.tabs.model.title'|trans }}</a></li>
     </ul>
-    <div class="tabs-content column" data-tabs-content="js-search-tabs">
+    <div class="tabs-content column" data-tabs-content="js-tabs">
         <div id="immatriculation" class="tabs-panel is-active">
             {% include 'front/Home/includes/form_registration_number.html.twig' %}
         </div>

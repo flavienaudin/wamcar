@@ -67,6 +67,7 @@ twig:
         google_tag_manager_id: '%env(GOOGLE_TAG_MANAGER_ID)%'
         google_api_client_key: '%env(GOOGLE_API_CLIENT_KEY)%'
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
+        pro_site_url: '%pro_space_url%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
 

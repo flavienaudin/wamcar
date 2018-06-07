@@ -15,7 +15,7 @@
         <div class="{{ class_field }}">
     {% endif %}
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} class="{{ class }}" {{ required ? 'required' }}
         {{ dataToggleId ? 'data-toggle-id=' ~ dataToggleId ~ '' }}
@@ -81,7 +81,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class}}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -116,7 +116,7 @@
     {% set equalTo_message = equalTo_message|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -155,7 +155,7 @@
     {% set type = type|default('text') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -190,7 +190,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -225,7 +225,7 @@
     {% set equalTo = equalTo|default('') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">
@@ -312,7 +312,7 @@
     {% set title = title|default(form.vars.id ends with '_0'?'vehicle.field.picture.label.main'|trans:'vehicle.field.picture.label.additionnal'|trans) %}
 
     <div id="js-file-preview-{{ form.vars.id }}" class="js-file-index block-grid small-12 medium-6 {{ class }}">
-        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }}<span>{{ 'global.facultative'|trans }}</span></label>
+        <label for="{{ form.vars.id }}" class="js-file-preview-label file-preview-label column small-12">{{ title }} <span>{{ 'global.facultative'|trans }}</span></label>
         <div class="js-file-preview file-preview column small-6 medium-12">
             {{ form_widget(form.id) }}
             {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden' } }) }}
@@ -344,7 +344,7 @@
     {% set isRemovable = isRemovable ?? true %}
     {% set defaultImage = defaultImage ?? '' %}
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <div class="js-file-preview file-preview js-file-index {{ classPreview }}">
         {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
@@ -410,7 +410,7 @@
     {% set required_class = required_class|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
 
     <select {{ block('widget_attributes') }} type="text" class="{{ class }} {% if value is not defined or value == '' %}is-disabled{% endif %}" {% if required %}required{% endif %} >
@@ -434,7 +434,7 @@
     {% set values_translation_domain = values_translation_domain|default('message')%}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
@@ -460,7 +460,7 @@
     {% set label_class = label_class|default('') %}
 
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="medium-12 medium-no-margin">Facultatif</span>'|raw }}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
 
     <div class="small-12 medium-5 large-6">
@@ -492,7 +492,7 @@
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('small-up-2') %}
     {% if label %}
-        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">Facultatif</span>{% endif %}</label>
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
@@ -519,17 +519,13 @@
 
 {%- block _message_vehicle_widget -%}
     {% if value is defined %}
-        {% set vehicle = form.vars.data %}
-
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: isNew ? false : true, user: app.user } %}
+        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: false, vehicle: form.vars.data, user: app.user } %}
         {{ form_widget(form, {'class': 'is-hidden'}) }}
     {% endif %}
 {%- endblock _message_vehicle_widget -%}
 
 {%- block _message_isFleet_widget -%}
-    {% set vehicle = form.vars.data %}
-
-    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false, severalVehicles: app.user.vehicles|length, user: app.user } %}
+    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: false, severalVehicles: app.user.vehicles|length, user: app.user } %}
     {{ form_widget(form, {'class': 'is-hidden'}) }}
 {%- endblock _message_isFleet_widget -%}
 
@@ -566,7 +562,7 @@
     {% set type = type|default('text') %}
 
     {% if label %}
-        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {{ not required ? '<span class="">Facultatif</span>'|raw }}</label>
+        <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
         <div class="{{ class_field }}">

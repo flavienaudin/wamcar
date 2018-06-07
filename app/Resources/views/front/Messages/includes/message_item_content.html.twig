@@ -14,6 +14,7 @@
         </div>
     </div>
 </div>
+
 <!-- Messages item -->
 {% for message in messages %}
     <!-- Véhicule lié -->
@@ -46,11 +47,12 @@
             {{ message.content|nl2br }}
         </div>
         {% if message.vehicle %}
-            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false } %}
+            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, vehicle: message.vehicle, user: message.user } %}
         {% elseif message.isFleet %}
-            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false, severalVehicles: message.user.vehicles|length, user: message.user } %}
+            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, severalVehicles: message.user.vehicles|length, user: message.user  } %}
         {% endif %}
     </div>
 {% endfor %}
 
-{% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.fullName } %}
+{% include 'front/Messages/includes/message_answer.html.twig' with {'interlocutor':interlocutor} %}
+

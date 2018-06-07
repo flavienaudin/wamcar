@@ -4,24 +4,25 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'search.vehicle_personal.title'|trans }}{% endblock %}
+{% block title %}{{ 'search.pro_user.title'|trans }}{% endblock %}
+{% block additional_meta %}
+    {#<link rel="prev" href=""/>#}
+    {#<link rel="next" href=""/>#}
+{% endblock additional_meta %}
 
 {% set breadcrumbs = [
     {
-        'name': block('title'),
+        'name': 'search.pro_user.breadcrumbs'|trans,
         'href': app.request.requestUri
     }
 ] %}
 
 {% block body %}
-
-    {% set switchLinkLabel = 'Véhicules proposés par les professionnels' %}
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title'),
-        title_class: 'medium-auto',
-        link: '<p class="search-link text-center medium-text-left small-12 medium-shrink"><a href="'~ path('front_search_personal') ~'" class="text-underline medium-shrink">' ~ switchLinkLabel ~ '</a></p>'
+        title_class: 'show-for-sr'
     } %}
 
     <div class="block-gray has-border-bottom">
@@ -43,5 +44,4 @@
              </div>
         </div>
     </div>
-
 {% endblock %}

@@ -2,140 +2,149 @@
 
 <div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container" data-toggler=".is-hidden">
     {{ form_start(searchForm, {
-        'attr' : {
-            'class' : 'search-form row',
-            'id' : 'js-search-form'
-        }
+        'attr' : {'class' : 'search-form row','id' : 'js-search-form'}
     }) }}
-        <div class="column small-12 medium-6 large-4">
-            {{ form_widget(searchForm.text, {
+    <div class="column small-12 medium-6 large-4">
+        {{ form_widget(searchForm.text, {
+            'class' : '',
+            'label' : 'search.common.field.text.label'|trans,
+            'label_class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'placeholder': 'search.common.field.text.placeholder'|trans
+        }) }}
+    </div>
+
+    <div class="column small-12 medium-6 large-5">
+        <label for="search_vehicle_postalCode">{{ 'search.common.field.location.label'|trans }} <span class="show-for-sr">{{ 'global.facultative'|trans }}</span></label>
+        <div class="block-grid small-12">
+        {{ form_widget(searchForm.postalCode, {
+            'label': false,
+            'class': 'js-city-autocomplete',
+            'required' : false,
+            'attr' : {
+                'data-placeholder': 'search.common.field.location.placeholder'|trans,
+                'data-autocomplete-url': path('front_city_autocomplete'),
+                'data-city-field': 'search_vehicle_cityName',
+                'data-latitude-field': 'search_vehicle_latitude',
+                'data-longitude-field': 'search_vehicle_longitude'
+            }
+        }) }}
+        {{ form_widget(searchForm.cityName) }}
+        {{ form_widget(searchForm.latitude) }}
+        {{ form_widget(searchForm.longitude) }}
+        </div>
+    </div>
+
+    <div class="show-for-large column large-3">
+        <label for="search-label" class="show-for-large is-invisible">{{ 'global.button.search'|trans }}</label>
+        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    </div>
+
+    <div class="search-actions-button input-margin block-grid column small-12">
+        <a class="search-actions-open" data-toggle="js-search-expand js-more-criteria js-less-criteria">
+            <span id="js-more-criteria" data-toggler=".is-hidden" class="text-underline icon-plus-circle">{{ 'search.common.more_criteria'|trans }}</span>
+            <span id="js-less-criteria" data-toggler=".is-hidden" class="text-underline icon-minus-circle is-hidden">{{ 'search.common.less_criteria'|trans }}</span>
+        </a>
+        {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
+    </div>
+
+    <div id="js-search-expand" class="is-hidden block-grid small-12" data-toggler=".is-hidden" >
+        <div class="column small-12 medium-6 large-3">
+            {{ form_widget(searchForm.make, {
                 'class' : '',
                 'required' : false,
-                'label' : 'Véhicule recherché',
+                'required_class': 'show-for-sr',
+                'label' : 'vehicle.field.make.label'|trans,
                 'label_class' : '',
-                'placeholder': 'Ex. Citröen C3'
+                'placeholder': 'vehicle.field.make.placeholder'|trans
             }) }}
         </div>
-
-        <div class="column small-12 medium-6 large-5">
-            <label for="search_vehicle_postalCode">Votre localisation</label>
-            <div class="block-grid small-12">
-            {{ form_widget(searchForm.postalCode, {
-                'label': false,
-                'class': 'js-city-autocomplete',
+        <div class="column small-12 medium-6 large-3">
+            {{ form_widget(searchForm.model, {
+                'class' : '',
                 'required' : false,
-                'required_message' : 'Veuillez d\'abord renseigner le code postal',
-                'required_class' : 'form-error',
-                'attr' : {
-                    'data-autocomplete-url': path('front_city_autocomplete'),
-                    'data-city-field': 'search_vehicle_cityName',
-                    'data-latitude-field': 'search_vehicle_latitude',
-                    'data-longitude-field': 'search_vehicle_longitude'
-                }
+                'required_class': 'show-for-sr',
+                'label' : 'vehicle.field.model.label'|trans,
+                'label_class' : '',
+                'placeholder': 'vehicle.field.model.placeholder'|trans
             }) }}
-            {{ form_widget(searchForm.cityName) }}
-            {{ form_widget(searchForm.latitude) }}
-            {{ form_widget(searchForm.longitude) }}
-            </div>
         </div>
-
-        <div class="show-for-large column large-3">
-            <label for="search-label" class="show-for-large is-invisible">{{ 'global.button.search'|trans }}</label>
-            <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+        <div class="column small-12 medium-6 large-3">
+            {{ form_widget(searchForm.mileageMax, {
+                'class' : '',
+                'required' : false,
+                'required_class': 'show-for-sr',
+                'label' : 'search.common.field.mileageMax.label'|trans,
+                'label_class' : '',
+                'placeholder': 'search.common.field.mileageMax.placeholder'|trans
+            }) }}
         </div>
-
-        <div id="js-search-expand" class="is-hidden block-grid small-12" data-toggler=".is-hidden">
+        <div class="block-grid small-12">
             <div class="column small-12 medium-6 large-3">
-                {{ form_widget(searchForm.make, {
+                {{ form_widget(searchForm.yearsMin, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Marque',
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.yearsMin.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Marque du véhicule'
+                    'placeholder': 'search.common.field.yearsMin.placeholder'|trans
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
-                {{ form_widget(searchForm.model, {
+                {{ form_widget(searchForm.yearsMax, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Modèle',
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.yearsMax.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Modèle du véhicule'
+                    'placeholder': 'search.common.field.yearsMax.placeholder'|trans
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
-                {{ form_widget(searchForm.mileageMax, {
+                {{ form_widget(searchForm.budgetMin, {
                     'class' : '',
                     'required' : false,
-                    'label' : 'Kilométrage max',
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.budgetMin.label'|trans,
                     'label_class' : '',
-                    'placeholder': 'Kilométrage max'
+                    'placeholder': 'search.common.field.budgetMin.placeholder'|trans
                 }) }}
             </div>
-            <div class="block-grid small-12">
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.yearsMin, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Année min',
-                        'label_class' : '',
-                        'placeholder': 'Année min'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.yearsMax, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Année max',
-                        'label_class' : '',
-                        'placeholder': 'Année max'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.budgetMin, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Budget min',
-                        'label_class' : '',
-                        'placeholder': 'Budget min'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.budgetMax, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Budget max',
-                        'label_class' : '',
-                        'placeholder': 'Budget max'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.transmission, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Boite de vitesse',
-                        'label_class' : '',
-                        'placeholder': 'Boite de vitesse'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6 large-3">
-                    {{ form_widget(searchForm.fuel, {
-                        'class' : '',
-                        'required' : false,
-                        'label' : 'Energie',
-                        'label_class' : '',
-                        'placeholder': 'Energie'
-                    }) }}
-                </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(searchForm.budgetMax, {
+                    'class' : '',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.budgetMax.label'|trans,
+                    'label_class' : '',
+                    'placeholder': 'search.common.field.budgetMax.placeholder'|trans
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(searchForm.transmission, {
+                    'class' : '',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.transmission.label'|trans,
+                    'label_class' : '',
+                    'placeholder': 'search.common.field.transmission.placeholder'|trans
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(searchForm.fuel, {
+                    'class' : '',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'label' : 'search.common.field.fuel.label'|trans,
+                    'label_class' : '',
+                    'placeholder': 'search.common.field.fuel.placeholder'|trans
+                }) }}
             </div>
         </div>
-
-        <div class="search-actions-button input-margin block-grid column small-12 large-order-2">
-            <a class="search-actions-open icon-plus-circle" data-toggle="js-search-expand"><span class="text-underline">Plus de critères</span></a>
-            {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
-        </div>
-        <div class="hide-for-large column small-12">
-            <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
-        </div>
+    </div>
+    <div class="hide-for-large column small-12">
+        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    </div>
     {{ form_end(searchForm) }}
 </div>

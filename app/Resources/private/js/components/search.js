@@ -7,9 +7,11 @@ require('formdata-polyfill');
 
 const $searchTabs = document.getElementById('js-search-tabs');
 
-const $information = document.getElementById('js-search-form-container');
+/*const $information = document.getElementById('js-search-form-container');*/
+/* Jamais utilisé
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
+*/
 
 /**
  * Get vehicle
@@ -26,9 +28,9 @@ const getVehicle = async (url) => {
 };
 
 if ($searchTabs) {
+  const searchTabs = new Tabs($($searchTabs));
 
-  if ($makeSelect) {
-
+  /*if ($makeSelect) {
     let clearSelect = function (select) {
       let selectOptions = select.getElementsByTagName('OPTION');
       while(selectOptions.length > 0) {
@@ -72,23 +74,24 @@ if ($searchTabs) {
           throw err;
         });
     });
-  }
+  }*/
 
-  const searchTabs = new Tabs($($searchTabs));
-
+  /*
   $($searchTabs).on('change.zf.tabs', (event, $target) => {
     const url = $($target).data('href');
     return getVehicle(url).then((data) => console.log(JSON.parse(data)));
   });
+  */
 
+  /* Intégré mais non utilisé
   const $searchLabel = document.getElementById('js-search-label');
-  const fixedClass = 'is-fixed';
-  const scrollLimit = 120;
-
   if ($searchLabel) {
+    const fixedClass = 'is-fixed';
+    const scrollLimit = 120;
+
     document.addEventListener('scroll', () => {
       let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
       currentScroll > scrollLimit ? $searchLabel.classList.add(fixedClass) : $searchLabel.classList.remove(fixedClass);
     });
-  }
+  }*/
 }
