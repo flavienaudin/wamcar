@@ -63,6 +63,7 @@ header:
     search: Voir les annonces
     sell: Déposer une annonce
     log: Inscription / Connexion
+    pro_space: Je suis un professionnel
 
 breadcrumb:
   home: Accueil
@@ -101,11 +102,11 @@ cookie:
   button.accept: Accepter
 
 homepage:
-  title: Achat, reprise et vente de voitures par affinités
+  title: Echange, reprise et vente de voitures par affinités
   description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
   vehicle_form:
     header:
-      title: Je change de voiture
+      title: Échangez votre voiture
       subtitle: Déposez votre annonce, recevez et comparez les offres de reprise des professionnels
     tabs:
       immatriculation:
@@ -151,7 +152,7 @@ homepage:
       first: Wamcar est un site ouvert aux professionnels qui défendent des valeurs d’honnêteté, de loyauté et de respect du client.
       second: Wamcar vous permet d'accéder plus facilement au marché VO (sourcing et vente), de diversifier votre offre et de renforcer votre marché VN.
       third: En rencontrant votre clientèle sur internet, vous prendrez contact facilement avec des acheteurs hautement qualifiés.
-    action: Accéder au site professionnel
+    action: Accéder à l'espace professionnel
     background.alt: Citrën DS 3
 
 garage:
@@ -483,25 +484,25 @@ user:
           content: Aucun engagement et aucun frais
         third:
           title: Avisé
-          content: Bénéficiez des derniers avis Google sur les professionels
+          content: Bénéficiez des derniers avis Google sur les professionnels
         fourth:
           title: Juste
           content: Site indépendant de tout groupe ou marque
         fifth:
           title: Sécurisé
-          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs.
+          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
     personal:
       title: Je veux remplacer mon véhicule. Comment  marche  Wamcar?
       items:
         first:
           alt:
-          content: Des professionnels souhaitent racheter mon véhicule en annonce sur Wamcar.
+          content: Des pros souhaitant racheter mon véhicule en annonce sur Wamcar cliquent sur le bouton "J'aime"
         second:
           alt:
-          content: Je sélectionne les véhicules neufs ou d'occasion qui me plaisent.
+          content: Je sélectionne grâce au bouton "J'aime" les annonces de véhicules neufs ou d'occasion qui me plaisent.
         third:
           alt:
-          content: J'ai trouvé un véhicule chez un pro qui me fait une bonne offre de reprise via la messagerie sécurisée !!!
+          content: Nos intérêts convergent ! Nous prenons rendez-vous grâce à la messagerie sécurisée.
     pro:
       title: La vente avec reprise, c’est simple avec
       items:
