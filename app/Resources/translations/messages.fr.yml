@@ -240,8 +240,6 @@ vehicle:
         content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
       registration: Création du compte
 
-  my_vehicle: Ma voiture
-  vehicle_of: La voiture de %ownerName%
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
@@ -544,9 +542,25 @@ user:
       owner: Mes likes
 
 conversation:
-  proposed_vehicle: Véhicule proposé
-  to_sell_vehicle: Votre véhicule à reprendre
+  my_vehicle: Mon véhicule
+  personal_vehicle_of: Véhicule de %ownerName%
+  fleet_presented_by: Flotte automobile de %ownerName%
+  vehicle_presented_by: Véhicule présenté par %ownerName%
+  vehicle_to_sell: Votre véhicule à reprendre
+  fleet_to_sell: Votre flotte automobile à reprendre
+
   auto_added: (automatiquement ajouté à votre message)
+  fleet:
+    yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules
+    him: Votre interlocuteur dispose d’une flotte composée de %severalVehicles% véhicules
+  answer:
+    field:
+      message:
+        label: Votre message pour %interlocutorName%
+        placeholder: Entrez votre message...
+      vehicle:
+        create: Créer un véhicule
+        select: Proposer un véhicule
 
 favorites:
   page_title: Ma sélection

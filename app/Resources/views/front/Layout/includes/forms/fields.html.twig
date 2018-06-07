@@ -519,17 +519,13 @@
 
 {%- block _message_vehicle_widget -%}
     {% if value is defined %}
-        {% set vehicle = form.vars.data %}
-
-        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: isNew ? false : true, user: app.user } %}
+        {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: false, vehicle: form.vars.data, user: app.user } %}
         {{ form_widget(form, {'class': 'is-hidden'}) }}
     {% endif %}
 {%- endblock _message_vehicle_widget -%}
 
 {%- block _message_isFleet_widget -%}
-    {% set vehicle = form.vars.data %}
-
-    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { removeButton: false, severalVehicles: app.user.vehicles|length, user: app.user } %}
+    {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: false, severalVehicles: app.user.vehicles|length, user: app.user } %}
     {{ form_widget(form, {'class': 'is-hidden'}) }}
 {%- endblock _message_isFleet_widget -%}
 

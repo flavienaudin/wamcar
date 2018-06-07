@@ -8,10 +8,11 @@
     {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
 
     {{ form_widget(messageForm.content, {
-        'label': labelName,
-        'placeholder': 'Entrez votre message...',
+        'label': 'conversation.answer.field.message.label'|trans({'%interlocutorName%':interlocutor.fullName}),
+        'placeholder': 'conversation.answer.field.message.placeholder'|trans,
         'class': 'no-margin',
-        'required': true
+        'required':'false',
+        'required_class': 'show-for-sr'
     }) }}
     {{ form_errors(messageForm) }}
     {% if messageForm.vehicle is defined %}
@@ -21,14 +22,14 @@
     {% endif %}
     {% if messageForm.selectVehicle is defined %}
         {{ form_widget(messageForm.selectVehicle, {
-            'label': 'Sélectionner un véhicule proposé',
-            'class': 'messages-create-vehicle-btn text-underline'
+            'label': 'conversation.answer.field.vehicle.select'|trans,
+            'class': 'messages-vehicle-button text-underline'
         }) }}
     {% endif %}
     {% if messageForm.createVehicle is defined %}
         {{ form_widget(messageForm.createVehicle, {
-            'label': 'Créer un véhicule',
-            'class': 'messages-create-vehicle-btn text-underline'
+            'label': 'conversation.answer.field.vehicle.create'|trans,
+            'class': 'messages-vehicle-button text-underline'
         }) }}
     {% endif %}
     {% if messageForm.isFleet is defined %}
@@ -38,7 +39,7 @@
     {% endif %}
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
-            'label': 'Envoyer le message',
+            'label': 'global.button.send'|trans,
             'class': 'small-12 medium-10 large-6 messages-send-btn button',
             'loader': true
         }) }}

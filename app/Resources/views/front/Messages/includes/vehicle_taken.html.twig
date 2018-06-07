@@ -1,8 +1,12 @@
-{% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>'  %}
-
 <!-- Véhicule à reprendre -->
 <div class="messages-item-vehicle-taken">
     {% if severalVehicles is defined %}
+        {% set label = isNew is defined and isNew == true ?
+            '<strong class="secondary-color">'~ "conversation.fleet_to_sell"|trans ~'</strong><div>'~"conversation.auto_added"|trans~'</div>' :
+            app.user.id == user.id ?
+                '<strong class="secondary-color">'~ "conversation.fleet_to_sell"|trans ~'</strong>' :
+                '<strong class="secondary-color">'~ "conversation.fleet_presented_by"|trans({'%ownerName%':user.fullName}) ~'</strong>'
+        %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="messages-item-vehicle-taken-message is-flex">
             <div class="several-img">
@@ -10,20 +14,22 @@
             </div>
             <div class="several-content">
                 <strong>
-                    {% if app.user.id == user.id %}
-                        Vous disposez d’une flotte composée de {{ severalVehicles }} véhicules
-                    {% else  %}
-                        Votre interlocuteur dispose d’une flotte composée de {{ severalVehicles }} véhicules
-                    {% endif %}
+                    {{ app.user.id == user.id?'conversation.fleet.yours'|trans({'%severalVehicles%':severalVehicles}):'conversation.fleet.him'|trans({'%severalVehicles%':severalVehicles}) }}
                 </strong>
                 <a href="{{ path('front_view_user_info', {'id':user.id,'_fragment':'user_vehicles_section'}) }}" target="_blank" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
             </div>
         </div>
     {% else %}
         {% if vehicle.isPro %}
-            {% set label = '<strong class="secondary-color">'~ "conversation.proposed_vehicle"|trans ~'</strong>' %}
+            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>' %}
         {% else %}
-            {% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">'~ "conversation.to_sell_vehicle"|trans ~'</strong><div>'~"conversation.auto_added"|trans~'</div>' : '<strong class="secondary-color">'~ "conversation.to_sell_vehicle"|trans ~'</strong>'  %}
+            {% set label = vehicle.seller.id == app.user.id ?
+                '<strong class="secondary-color">'~ "conversation.vehicle_to_sell"|trans ~'</strong>' :
+                '<strong class="secondary-color">'~ "conversation.personal_vehicle_of"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>'
+            %}
+            {% if isNew is defined and isNew == true %}
+                {% set label = label ~ '<div>'~"conversation.auto_added"|trans~'</div>' %}
+            {% endif %}
         {% endif %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="vehicle-list small-12">
