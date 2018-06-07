@@ -1,7 +1,6 @@
 {% trans_default_domain 'security' %}
 
 <form action="{{ path('security_login_page') }}" id="form-side-login" method="post" data-abide novalidate>
-    <strong class="h3 input-margin black-color is-block">{{ 'login_form.title'|trans({'%sitename%':site_name}, 'messages')}}</strong>
     <div>
         {% include 'front/Layout/includes/forms/input.html.twig' with {
             type: 'email',

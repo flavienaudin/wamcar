@@ -15,6 +15,7 @@ flash:
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
   error:
+    bad_credentials: Votre email et/ou votre mot de passe sont incorrects. Merci de les saisir à nouveau.
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
     bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
@@ -58,8 +59,9 @@ global:
 
 header:
   menu:
-    search: Rechercher une voiture
+    search: Voir les annonces
     sell: Déposer une annonce
+    log: Inscription / Connexion
 
 breadcrumb:
   home: Accueil
@@ -81,6 +83,7 @@ password_lost:
     instructions: Entrez simplement votre adresse email et vous recevrez un mail de Wamcar vous permettant de réinitialiser votre mot de passe.
 
 social_network:
+  registration_with: S'inscrire avec %social_network%
   connexion_with: Se connecter avec %social_network%
 
 footer:
@@ -422,9 +425,9 @@ user:
 
   login:
     title: Connexion
-    header_title: Connexion à mon espace %sitename%
+    header_title: Rejoindre mon espace %sitename% pour utiliser toutes ses fonctionnalités
     social_connect: Connexion via une plateforme
-    with_email: Connexion via mon compte %sitename%
+    account: Connexion à mon compte %sitename%
 
   reinsurance:
     common:

@@ -31,7 +31,7 @@ $header-background: white;
   z-index: $header-zindex;
 
   @include breakpoint(large) {
-    z-index: 1055; // Select 2 dropdown z-index: 1051
+    z-index: $header-zindex; // Select 2 dropdown z-index: 1051
     height: $header-height-medium;
     flex: 0 0 $header-height-medium;
   }

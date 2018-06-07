@@ -2,17 +2,23 @@
     <strong>{{ 'sidebar.title'|trans }}</strong>
     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">{{ 'global.button.close'|trans }}</span></button>
 </header>
+
 <div class="off-canvas-content off-canvas-separator">
-    {{ render(controller('AppBundle:Front/Security:login')) }}
-    {% include 'front/User/includes/modal_password_lost.html.twig' %}
-</div>
-<div class="off-canvas-content off-canvas-separator">
-    {{ include(':front/Security/Register/includes:social_networks_login_row.html.twig') }}
-</div>
-<div class="off-canvas-content">
     <div>
-        <strong class="h3 input-margin black-color is-block">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</strong>
+        <strong class="h3 black-color is-block">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</strong>
         <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
         <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans }}</a>
     </div>
 </div>
+
+<div class="off-canvas-content ">
+    <strong class="h3 input-margin black-color is-block">{{ 'login_form.title'|trans({'%sitename%':site_name}, 'messages')}}</strong>
+    <div class="input-margin">
+        {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+    </div>
+
+    {% include('front/User/includes/form_login.html.twig') %}
+    {% include 'front/User/includes/modal_password_lost.html.twig' %}
+</div>
+
+
