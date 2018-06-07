@@ -99,9 +99,14 @@ class ProUser extends BaseUser
     /**
      * @inheritdoc
      */
-    public function getVehicles(): Collection
+    public function getVehicles(): ?Collection
     {
-        return $this->getGarage()->getProVehicles();
+        if($this->getGarage() != null) {
+            return $this->getGarage()->getProVehicles();
+        } else {
+            return null;
+        }
+
     }
 
     /**

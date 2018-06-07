@@ -45,9 +45,9 @@ class PersonalUser extends BaseUser
     }
 
     /**
-     * @return Collection
+     * @inheritdoc
      */
-    public function getVehicles(): Collection
+    public function getVehicles(): ?Collection
     {
         return $this->vehicles;
     }

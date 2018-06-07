@@ -396,7 +396,7 @@ abstract class BaseUser
     abstract public function canSeeMyVehicles(BaseUser $user = null): bool;
 
     /**
-     * @return Collection
+     * @return null|Collection
      */
-    abstract public function getVehicles(): Collection;
+    abstract public function getVehicles(): ?Collection;
 }

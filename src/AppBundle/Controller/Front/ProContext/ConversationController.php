@@ -66,7 +66,10 @@ class ConversationController extends BaseController
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
         if (count($conversations)> 0 ) {
-            return $this->editAction($request, reset($conversations) ?: null);
+            return $this->redirectToRoute('front_conversation_edit', [
+                'id' => $conversations[0]->getId(),
+                '_fragment' => 'last-message'
+            ]) ;
         }
 
         return $this->render('front/Messages/messages_list.html.twig', [
