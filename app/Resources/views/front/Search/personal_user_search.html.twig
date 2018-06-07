@@ -1,11 +1,14 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-
 {% set page_search = true %}
 
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}{{ 'search.personal_user.title'|trans }}{% endblock %}
+{% block additional_meta %}
+    {#<link rel="prev" href=""/>#}
+    {#<link rel="next" href=""/>#}
+{% endblock additional_meta %}
 
 {% set breadcrumbs = [
     {
@@ -44,5 +47,4 @@
              </div>
         </div>
     </div>
-
 {% endblock %}
