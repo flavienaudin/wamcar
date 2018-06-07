@@ -20,7 +20,7 @@ flash:
     no_registration_type: Veuillez créer un compte Wamcar.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
     unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
-    pro_user_need_garage: Vous devez commencer par créer votre garage.
+    pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.

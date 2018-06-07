@@ -80,7 +80,7 @@ class VehicleController extends BaseController
     {
         if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
-            throw new AccessDeniedException('flash.error.pro_user_need_garage');
+            return $this->redirectToRoute("front_garage_create");
         }
         /** @var Garage $garage */
         $garage = $this->getUser()->getGarage();
