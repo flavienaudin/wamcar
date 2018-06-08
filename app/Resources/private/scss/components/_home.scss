@@ -3,14 +3,23 @@
 =========================================================================== */
 
 .home {
-    /*
-    Wrapper
-    ===================================== */
-    &-wrapper {
-        @include breakpoint(large) {
-            .callout {
-                margin-top: rem-calc(90)!important;
-            }
-        }
+  /*
+  Wrapper
+  ===================================== */
+  &-wrapper {
+    @include breakpoint(large) {
+      .callout {
+        margin-top: rem-calc(90) !important;
+      }
     }
+  }
+
+  /*
+  Background image
+  ===================================== */
+  &-form-background {
+    @include breakpoint(medium down) {
+      text-align: center;
+    }
+  }
 }
