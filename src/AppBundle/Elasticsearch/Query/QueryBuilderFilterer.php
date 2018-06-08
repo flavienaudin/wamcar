@@ -172,7 +172,7 @@ class QueryBuilderFilterer
     private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO): QueryBuilder
     {
         if (!empty($searchVehicleDTO->cityName)) {
-            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE , self::SCALE_SCORE);
+            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE, self::SCALE_SCORE);
             $queryBuilder->addFunctionScore($score);
         }
 
@@ -287,7 +287,7 @@ class QueryBuilderFilterer
         $queryBuilder = new QueryBuilder();
 
         $boolQuery = new BoolQuery();
-        $boolQuery->addClause(new PrefixQuery('ktypNumber', $ktypNumber, CombiningFactor::MUST));
+        $boolQuery->addClause(new MatchQuery('ktypNumber', $ktypNumber, CombiningFactor::MUST));
         $queryBuilder->addQuery($boolQuery);
 
         return $queryBuilder;
