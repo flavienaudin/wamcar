@@ -17,15 +17,14 @@ notifyProUserOfRegistration:
         <p>Voici l'identifiant vous permettant d’accéder à votre espace personnel :
         <ul><li>Votre identifiant : %user_mail%</li></ul>
         </p>
-        <p>
-        Vous bénéficiez désormais d’un espace personnel vous permet notamment de :
+        <p>Vous bénéficiez désormais d’un <a href="%url_profile_page%">espace personnel</a> vous permettant de :
         <ul>
         <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
         <li>Chercher parmis des demandes de particuliers : reprise et/ou achat</li>
         <li>Envoyer des offres à des particuliers</li>
         </ul>
         </p>
-        <p>Pour toute question, n'hésitez pas à consulter nos pages d'<a href="%url_help_page%">aide en ligne</a>, ou à contacter notre service client.</p>
+        <p>Pour toute question, n'hésitez pas à consulter à contacter <a href="%url_contact_page%">notre service client</a>.</p>
     action_label: Consulter votre profil
 
 notifyUserOfPasswordResetTokenGenerated:
