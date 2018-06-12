@@ -60,7 +60,6 @@ class Step {
 
   setActiveTabIndex() {
     const currentSlide = this._getCurrentSlideItem();
-    console.log(currentSlide);
     const $inputs = currentSlide.querySelectorAll('[tabindex="-1"]');
 
     [...$inputs].forEach((item) => {

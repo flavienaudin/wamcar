@@ -197,7 +197,10 @@ class RegistrationController extends BaseController
         $vehicleForm = $this->formFactory->create(
             UserRegistrationPersonalVehicleType::class,
             $vehicleDTO,
-            ['available_values' => $availableValues]);
+            [
+                'available_values' => $availableValues,
+                'action' => $this->generateRoute('front_vehicle_registration', ['plateNumber' => $plateNumber])
+            ]);
 
         $vehicleForm->handleRequest($request);
 
