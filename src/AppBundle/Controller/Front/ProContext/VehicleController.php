@@ -97,9 +97,16 @@ class VehicleController extends BaseController
             if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
+            $actionRoute = $this->generateRoute('front_vehicle_pro_edit', [
+                'id' => $vehicle->getId(),
+                'plateNumber' => $plateNumber
+            ]);
         } else {
             $vehicleDTO = new ProVehicleDTO($plateNumber);
             $vehicleDTO->setCity($garage->getCity());
+            $actionRoute = $this->generateRoute('front_vehicle_pro_add', [
+                'plateNumber' => $plateNumber
+            ]);
         }
 
         $filters = $vehicleDTO->retrieveFilter();
@@ -174,7 +181,10 @@ class VehicleController extends BaseController
         $proVehicleForm = $this->formFactory->create(
             ProVehicleType::class,
             $vehicleDTO,
-            ['available_values' => $availableValues]);
+            [
+                'available_values' => $availableValues,
+                'action' => $actionRoute
+            ]);
         $proVehicleForm->handleRequest($request);
 
         if ($proVehicleForm->isSubmitted() && $proVehicleForm->isValid()) {

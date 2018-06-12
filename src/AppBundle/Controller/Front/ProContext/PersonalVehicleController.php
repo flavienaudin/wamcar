@@ -96,8 +96,15 @@ class PersonalVehicleController extends BaseController
             if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
+            $actionRoute = $this->generateRoute('front_vehicle_personal_edit', [
+                'id' => $vehicle->getId(),
+                'plateNumber' => $plateNumber
+            ]);
         } else {
             $vehicleDTO = new PersonalVehicleDTO($plateNumber);
+            $actionRoute = $this->generateRoute('front_vehicle_personal_add', [
+                'plateNumber' => $plateNumber
+            ]);
         }
 
         $filters = $vehicleDTO->retrieveFilter();
@@ -174,7 +181,10 @@ class PersonalVehicleController extends BaseController
         $personalVehicleForm = $this->formFactory->create(
             PersonalVehicleType::class,
             $vehicleDTO,
-            ['available_values' => $availableValues]);
+            [
+                'available_values' => $availableValues,
+                'action' => $actionRoute
+            ]);
         $personalVehicleForm->handleRequest($request);
 
         if ($personalVehicleForm->isSubmitted() && $personalVehicleForm->isValid()) {

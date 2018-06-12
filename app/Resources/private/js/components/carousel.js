@@ -55,7 +55,6 @@ if ($carousel) {
     $('#js-modal-carousel-vehicle').on('open.zf.reveal', () => {
       // Wait modal to be completely opened
       setTimeout(function(){
-        console.log('init modal carousel');
         $($modalCarouselVehicle).slick({
           slidesToShow: 1,
           slidesToScroll: 1,
