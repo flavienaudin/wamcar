@@ -97,14 +97,14 @@ class VehicleController extends BaseController
             if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
-            $actionRoute = $this->generateRoute('front_vehicle_pro_edit', [
+            $actionRoute = $this->generateUrl('front_vehicle_pro_edit', [
                 'id' => $vehicle->getId(),
                 'plateNumber' => $plateNumber
             ]);
         } else {
             $vehicleDTO = new ProVehicleDTO($plateNumber);
             $vehicleDTO->setCity($garage->getCity());
-            $actionRoute = $this->generateRoute('front_vehicle_pro_add', [
+            $actionRoute = $this->generateUrl('front_vehicle_pro_add', [
                 'plateNumber' => $plateNumber
             ]);
         }

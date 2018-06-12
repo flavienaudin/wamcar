@@ -96,13 +96,13 @@ class PersonalVehicleController extends BaseController
             if (!empty($plateNumber)) {
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
-            $actionRoute = $this->generateRoute('front_vehicle_personal_edit', [
+            $actionRoute = $this->generateUrl('front_vehicle_personal_edit', [
                 'id' => $vehicle->getId(),
                 'plateNumber' => $plateNumber
             ]);
         } else {
             $vehicleDTO = new PersonalVehicleDTO($plateNumber);
-            $actionRoute = $this->generateRoute('front_vehicle_personal_add', [
+            $actionRoute = $this->generateUrl('front_vehicle_personal_add', [
                 'plateNumber' => $plateNumber
             ]);
         }

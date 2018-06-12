@@ -199,7 +199,7 @@ class RegistrationController extends BaseController
             $vehicleDTO,
             [
                 'available_values' => $availableValues,
-                'action' => $this->generateRoute('front_vehicle_registration', ['plateNumber' => $plateNumber])
+                'action' => $this->generateUrl('front_vehicle_registration', ['plateNumber' => $plateNumber])
             ]);
 
         $vehicleForm->handleRequest($request);
