@@ -13,7 +13,7 @@
 {% set navigation_items = [
     {
         slug: path('front_search_pro'),
-        label: 'Recherche un véhicule',
+        label: 'header.common.search'|trans,
         icon: 'search',
         current: page_search
     },
@@ -31,7 +31,7 @@
     },
     {
         slug: path('front_conversation_list'),
-        label: 'Messagerie',
+        label: 'header.common.conversations'|trans,
         icon: 'message',
         current: page_message,
         showCountMessage: true

@@ -63,8 +63,11 @@ header:
   menu:
     search: Voir les annonces
     sell: Déposer une annonce
-    log: Inscription / Connexion
+    log: Connexion / Inscription
     pro_space: Je suis un professionnel
+  common:
+    search: Annonces
+    conversations: Messagerie
 
 breadcrumb:
   home: Accueil
