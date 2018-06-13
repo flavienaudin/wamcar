@@ -18,7 +18,7 @@ export let clearSelectOptions = function (select, doAddEmpty) {
   }else {
     defaultOption.text = '';
   }
-  defaultOption.value = null;
+  defaultOption.value = '';
   defaultOption.setAttribute('disabled','disabled');
   defaultOption.setAttribute('selected','selected');
   select.add(defaultOption);
@@ -40,7 +40,7 @@ if ($information != null) {
   let filterRemove = function (dataType) {
     filterValues[dataType] = null;
     filterForm.delete('filters[TYPE]'.replace('TYPE', dataType));
-    clearSelectOptions(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)));
+    clearSelectOptions(document.querySelector('select[data-type="%type%"]'.replace('%type%', dataType)), true);
   };
 
   [...$informationSelectList].forEach((select) => {
@@ -92,9 +92,7 @@ if ($information != null) {
                 }
               }
               selectorToFill.value = filterValues[key];
-              if (!hasMultipleOptions) {
-                selectorToFill.selectedIndex = 0;
-              }
+              selectorToFill.selectedIndex = 0;
             }
           }
         })
