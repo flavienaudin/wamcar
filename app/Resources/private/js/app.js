@@ -6,14 +6,13 @@
 import '../scss/app.scss';
 // JS
 import $ from 'jquery';
-import { Foundation } from 'foundation-sites/js/foundation.core';
-import { Abide } from 'foundation-sites/js/foundation.abide';
-import { OffCanvas } from 'foundation-sites/js/foundation.offcanvas';
-import { Toggler } from 'foundation-sites/js/foundation.toggler';
-import { Reveal } from 'foundation-sites/js/foundation.reveal';
-import { Tabs } from 'foundation-sites/js/foundation.tabs';
-import { Magellan } from 'foundation-sites/js/foundation.magellan';
-import { Tooltip } from 'foundation-sites/js/foundation.tooltip';
+import {Abide} from 'foundation-sites/js/foundation.abide';
+import {OffCanvas} from 'foundation-sites/js/foundation.offcanvas';
+import {Toggler} from 'foundation-sites/js/foundation.toggler';
+import {Reveal} from 'foundation-sites/js/foundation.reveal';
+import {Tabs} from 'foundation-sites/js/foundation.tabs';
+import {Magellan} from 'foundation-sites/js/foundation.magellan';
+import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
 import './components/responsiveDom';
 import './components/search';
 import './components/header';
@@ -33,20 +32,17 @@ import './components/radio';
 import './components/project';
 import './components/avatar';
 import scrollTo from './components/scrollTo';
-import {
-  activeClass
-} from './settings/settings.js';
+import {activeClass} from './settings/settings.js';
 
 Reveal.defaults.animationIn = 'slide-in-down';
 Reveal.defaults.animationOut = 'fade-out';
-
 
 
 /* ===========================================================================
    jQuery
    =========================================================================== */
 
-$(function() {
+$(function () {
 
   /* Off Canvas */
 
@@ -77,7 +73,7 @@ $(function() {
   const $toggles = $('[data-toggle]');
 
   $toggles.each((index, toggle) => {
-    $(toggle).on('click', function() {
+    $(toggle).on('click', function () {
       $(this).toggleClass(activeClass);
     });
   });
@@ -119,8 +115,7 @@ $(function() {
   const $tooltip = $('[data-tooltip]');
 
   if ($tooltip) {
-    const options = {
-    };
+    const options = {};
 
     $tooltip.each((index, tooltip) => {
       return new Tooltip($(tooltip), options);
@@ -130,14 +125,13 @@ $(function() {
 
   /* Form invalid */
 
-  var $form = $('#js-register-form');
+  const $form = $('#js-register-form');
 
-  $form.on('forminvalid.zf.abide', function(e) {
-
-    var invalidFields = $(this).find('[data-invalid]');
+  $form.on('forminvalid.zf.abide', function (e) {
+    let invalidFields = $(this).find('[data-invalid]');
 
     if (invalidFields) {
-      var scrollTo = $('#'+invalidFields[0].id).offset().top - 280;
+      let scrollTo = $('#' + invalidFields[0].id).offset().top - 280;
 
       $('html, body').animate({
         scrollTop: scrollTo
@@ -145,18 +139,25 @@ $(function() {
     }
   });
 
+  const $registerSimpleForm = $('#js-register-simple-form');
+  if ($registerSimpleForm) {
+    $registerSimpleForm.on('formvalid.zf.abide', () => {
+      $('#register_submit').addClass('loader-visible');
+    });
+
+  }
+
   $('#message_send').on('click', function () {
     $(this).addClass('loader-visible');
   });
 });
 
 
-
 /* ===========================================================================
    DOM Content Loaded (for pure Javascript function)
    =========================================================================== */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
 
   /*
@@ -165,7 +166,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const $buttonShowGrid = document.getElementById('button-show-grid');
 
-  $buttonShowGrid && $buttonShowGrid.addEventListener('click', () => { grid.show(); });
+  $buttonShowGrid && $buttonShowGrid.addEventListener('click', () => {
+    grid.show();
+  });
 
 
   /*
@@ -185,14 +188,13 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 
-
 /* ===========================================================================
    Keydown
    =========================================================================== */
 
 const $debugGrid = document.querySelector('[data-toggle="js-debug-grid"]');
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
 
   if ($debugGrid) {
     if (e.ctrlKey && e.which === 72) {

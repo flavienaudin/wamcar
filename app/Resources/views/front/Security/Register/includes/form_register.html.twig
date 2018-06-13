@@ -3,7 +3,11 @@
 {% form_theme registrationForm 'front/Layout/includes/forms/fields.html.twig' %}
 
 {% if isIsolatedRegistration %}
-    {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_start(registrationForm, { 'attr' : {
+        'id': 'js-register-simple-form',
+        'class': 'js-password register-form row small-4',
+        'data-abide' : '',
+        'novalidate': 'novalidate'} }) }}
     {{ form_errors(registrationForm) }}
 {% endif %}
 
@@ -81,7 +85,10 @@
 {# Button submit #}
 <div class="block-grid column small-12 align-middle">
     <div class="input-margin small-12">
-        <button type="submit" class="button full-width">{{'user.submit.i_register'|trans}}</button>
+        <button id="register_submit" type="submit" class="button full-width">
+            {% include 'front/Layout/includes/forms/loader.html.twig' %}
+            {{'user.submit.i_register'|trans}}
+        </button>
     </div>
     <div class="small-12">
         {% if isIsolatedRegistration %}
