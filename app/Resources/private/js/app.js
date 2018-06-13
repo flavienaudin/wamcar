@@ -13,6 +13,7 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 import {Tabs} from 'foundation-sites/js/foundation.tabs';
 import {Magellan} from 'foundation-sites/js/foundation.magellan';
 import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
+import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import './components/responsiveDom';
 import './components/search';
 import './components/header';
@@ -122,6 +123,19 @@ $(function () {
     });
   }
 
+  /* Dropdown menu */
+
+  const $dropdownMenu = $('[data-dropdown-menu]');
+  if($dropdownMenu){
+    const options = {
+      'data-disable-hover' : true,
+      'data-autoclose' : false
+    };
+
+    $dropdownMenu.each((index, dropdown) => {
+      new DropdownMenu($(dropdown), options);
+    });
+  }
 
   /* Form invalid */
 

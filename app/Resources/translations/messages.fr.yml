@@ -39,6 +39,7 @@ global:
     close: Fermer
     connect: Se connecter
     connexion: Connexion
+    logout: Déconnexion
     search: Rechercher
     send: Envoyer
     send_message: Envoyer un message
@@ -67,6 +68,7 @@ header:
     pro_space: Je suis un professionnel
   common:
     search: Annonces
+    see_search: Voir les annonces
     conversations: Messagerie
 
 breadcrumb:

@@ -1,0 +1,26 @@
+/* ===========================================================================
+   Dropdown menu
+   =========================================================================== */
+
+$dropdownmenu-arrows: false;
+
+.dropdown {
+  a {
+    color: #000;
+
+    &:hover {
+      color: $primary-color;
+      background-color: $light-gray;
+    }
+  }
+
+  .icon-avatar {
+    display: flex;
+    padding: 0;
+  }
+  /* Separator
+     ===================================== */
+  .menu-separator {
+    border-top: rem-calc(1) solid $border-color;
+  }
+}

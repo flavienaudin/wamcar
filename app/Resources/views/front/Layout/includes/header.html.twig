@@ -16,13 +16,30 @@
         {% endif %}
     {% endblock %}
 
-    <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse text-center {{ is_register_page ? 'is-hidden' : '' }}">
+    <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
         {% block header_right %}
             {% if isLogged %}
-                <a href="{{ path('front_view_current_user_info') }}" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar is-logo brand-logo-rounded">
-                    <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}" title="{{ app.user.firstName }}">
-                    <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
-                </a>
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li>
+                        <a href="#" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar is-logo brand-logo-rounded">
+                            <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}"
+                                 title="{{ app.user.firstName }}">
+                            <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
+                        </a>
+                        <ul class="menu is-dropdown-submenu">
+                            <li><a href="{{ path('front_view_current_user_info') }}">{{ 'user.profile.my_profile'|trans }}</a></li>
+                            {% if isUserPro  %}
+                                <li><a href="{{ app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') }}">{{ 'garage.my_garage'|trans }}</a></li>
+                            {% else %}
+                                <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) }}">{{ 'garage.my_garage'|trans }}</a></li>
+                            {% endif %}
+                            <li><a href="{{ isUserPro?path('front_vehicle_pro_add'):path('front_vehicle_personal_add') }}">{{ 'header.menu.sell'|trans }}</a></li>
+                            <li><a href="{{ isUserPro?path('front_search_pro'):path('front_search_personal') }}">{{ 'header.common.see_search'|trans }}</a></li>
+                            <li class="menu-separator"></li>
+                            <li><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>
+                        </ul>
+                    </li>
+                </ul>
             {% else %}
                 <button type="button" class="l-header-button icon-user small-right" id="open-side-login" data-toggle="js-off-canvas-user" title="{{ 'header.menu.log'|trans }}">
                     <span class="show-for-xlarge">{{ 'header.menu.log'|trans }}</span>
