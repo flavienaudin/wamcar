@@ -203,8 +203,8 @@ search:
       fuel:
         label: Energie
         placeholder: Energie
-    more_criteria: Plus de critère
-    less_criteria: Moins de critère
+    more_criteria: Plus de critères
+    less_criteria: Moins de critères
   personal_user:
     title: Annonces des professionnels
     breadcrumbs: Annonces des professionnels
