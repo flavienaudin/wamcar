@@ -7,11 +7,10 @@ require('formdata-polyfill');
 
 const $searchTabs = document.getElementById('js-search-tabs');
 
-/*const $information = document.getElementById('js-search-form-container');*/
-/* Jamais utilisé
+const $information = document.getElementById('js-search-form-container');
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
-*/
+
 
 /**
  * Get vehicle
@@ -30,7 +29,7 @@ const getVehicle = async (url) => {
 if ($searchTabs) {
   const searchTabs = new Tabs($($searchTabs));
 
-  /*if ($makeSelect) {
+  if ($makeSelect) {
     let clearSelect = function (select) {
       let selectOptions = select.getElementsByTagName('OPTION');
       while(selectOptions.length > 0) {
@@ -74,7 +73,7 @@ if ($searchTabs) {
           throw err;
         });
     });
-  }*/
+  }
 
   /*
   $($searchTabs).on('change.zf.tabs', (event, $target) => {
