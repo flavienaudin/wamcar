@@ -27,11 +27,11 @@
 @include foundation-callout;
 // @include foundation-card;
 @include foundation-close-button;
-// @include foundation-menu;
-// @include foundation-menu-icon;
+@include foundation-menu;
+@include foundation-menu-icon;
 // @include foundation-drilldown-menu;
-// @include foundation-dropdown;
-// @include foundation-dropdown-menu;
+@include foundation-dropdown;
+@include foundation-dropdown-menu;
 // @include foundation-responsive-embed;
 // @include foundation-label;
 // @include foundation-media-object;
@@ -162,4 +162,6 @@
 @import "components/select2";
 @import "components/callout";
 @import "components/contact";
-@import "components/state"; // Only on last
+@import "components/state";
+@import "components/dropdown-menu";
+// Only on last

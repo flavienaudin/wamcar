@@ -39,6 +39,7 @@ global:
     close: Fermer
     connect: Se connecter
     connexion: Connexion
+    logout: Déconnexion
     search: Rechercher
     send: Envoyer
     send_message: Envoyer un message
@@ -63,8 +64,12 @@ header:
   menu:
     search: Voir les annonces
     sell: Déposer une annonce
-    log: Inscription / Connexion
+    log: Connexion / Inscription
     pro_space: Je suis un professionnel
+  common:
+    search: Annonces
+    see_search: Voir les annonces
+    conversations: Messagerie
 
 breadcrumb:
   home: Accueil
@@ -198,8 +203,8 @@ search:
       fuel:
         label: Energie
         placeholder: Energie
-    more_criteria: Plus de critère
-    less_criteria: Moins de critère
+    more_criteria: Plus de critères
+    less_criteria: Moins de critères
   personal_user:
     title: Annonces des professionnels
     breadcrumbs: Annonces des professionnels
