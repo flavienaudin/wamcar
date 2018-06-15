@@ -239,6 +239,7 @@ vehicle:
       additionnal_infos:
         content_1: Merci de remplir ces informations avec précision.
         content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
+        content_3: La date de fin de validité du contrôle technique est indiquée sur la vignette du parebrise et sur celle collée au dos de la carte grise.
       registration: Création du compte
 
   edit: Modifier ce véhicule
