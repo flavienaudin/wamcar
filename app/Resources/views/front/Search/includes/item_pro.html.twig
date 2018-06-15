@@ -10,7 +10,7 @@
         <a href="{{ sellerUrl }}">
             {% if vehicle.ownerProject and (vehicle.ownerProject.budget is not null or vehicle.ownerProject.projectVehicles|length > 0 ) %}
                 <div class="small-12 dark-gray-color">
-                    {% if vehicle.ownerProject.budget is not null %}
+                    {% if vehicle.ownerProject.budget|default(0) > 0 %}
                         <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user == vehicle.seller?0:1, {'%prenom%' : vehicleSellerName, '%budget%':vehicle.ownerProject.budget|localizednumber  }) }}</strong></p>
                     {% else %}
                         <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
@@ -22,7 +22,11 @@
                                 {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
                             </li>
                         {% else %}
-                            <li>{{ 'vehicle.item.no_wish'|trans }}</li>
+                            {% if vehicle.ownerProject.description is not empty %}
+                                <li class="user-project-description">{{ vehicle.ownerProject.description|length>162?vehicle.ownerProject.description|slice(0,162)~'...':vehicle.ownerProject.description }}</li>
+                            {% else %}
+                                <li>{{ 'vehicle.item.no_wish'|trans }}</li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 </div>
