@@ -102,6 +102,7 @@ class GarageFromDTOBuilder
             if ($dto->banner->isRemoved) {
                 $garage->removeBanner();
             } elseif ($dto->banner->file) {
+                $garage->removeBanner();
                 $banner = new GarageBanner($garage, $dto->banner->file);
                 $garage->setBanner($banner);
             }
@@ -110,6 +111,7 @@ class GarageFromDTOBuilder
             if ($dto->logo->isRemoved) {
                 $garage->removeLogo();
             } elseif ($dto->logo->file) {
+                $garage->removeLogo();
                 $logo = new GarageLogo($garage, $dto->logo->file);
                 $garage->setLogo($logo);
             }
