@@ -264,12 +264,12 @@ liip_imagine:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [120, 120], mode: outbound }
+                thumbnail: { size: [120, 120], mode: inset }
         garage_mini_logo:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [50, 50], mode: outbound }
+                thumbnail: { size: [50, 50], mode: inset }
 
 hwi_oauth:
     http:
