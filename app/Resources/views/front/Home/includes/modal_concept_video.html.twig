@@ -3,6 +3,7 @@
 {% set modalId = 'js-modal-concept-video' %}
 
 {% block title %}{{ 'homepage.video.modal_title'|trans }}{% endblock %}
+{% block class %}large{% endblock %}
 {% block content %}
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/hVEmFoIxA_E" frameborder="0" allowfullscreen></iframe>
+    <div class="youtube-player" data-id="hVEmFoIxA_E"></div>
 {% endblock %}
