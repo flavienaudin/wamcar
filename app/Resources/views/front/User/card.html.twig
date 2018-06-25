@@ -4,7 +4,7 @@
     {% if userIsMe %}
         {{ 'user.title.personal.mine'|trans }}
     {% else %}
-        {{ 'user.title.personal.other'|trans({'%username%':app.user.isPro?user.fullName:user.firstName}) }}
+        {{ 'user.title.personal.other'|trans({'%username%':(app.user is not null and app.user.isPro)?user.fullName:user.firstName}) }}
     {% endif %}
 {% endblock %}
 

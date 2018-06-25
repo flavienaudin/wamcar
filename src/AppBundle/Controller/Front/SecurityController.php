@@ -121,7 +121,7 @@ class SecurityController extends BaseController
     public function registerAction(Request $request, string $type): Response
     {
         if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
-            return $this->redirectToRoute("front_default");
+            return $this->redirectToRoute("front_view_current_user_info");
         }
 
         if ($type != PersonalUser::TYPE && $type != ProUser::TYPE) {
@@ -248,12 +248,12 @@ class SecurityController extends BaseController
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
         if ($error) {
-            if($error instanceof BadCredentialsException){
+            if ($error instanceof BadCredentialsException) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.bad_credentials'
                 );
-            }else {
+            } else {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     $error->getMessage()
