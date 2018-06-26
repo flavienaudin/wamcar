@@ -134,6 +134,7 @@
     &-label-sticky {
         margin-left: rem-calc(10);
         line-height: rem-calc(30);
+        white-space: nowrap;
 
         @include breakpoint(small only) {
             margin-left: 0;
