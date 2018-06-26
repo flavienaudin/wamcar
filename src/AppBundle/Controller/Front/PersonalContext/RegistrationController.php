@@ -159,6 +159,9 @@ class RegistrationController extends BaseController
 
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
+                if($vin && strlen($vin) < 17){
+                    $vin = str_pad($vin, 17, '_', STR_PAD_LEFT);
+                }
             } catch (AutodataException $autodataException) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,

@@ -16,10 +16,10 @@ class VINType extends AbstractType
     {
         $resolver->setDefaults([
             'attr' => [
-                'pattern' => '^[A-HJ-NPR-Za-hj-npr-z\d]{17}$',
+                'pattern' => '^[\_A-HJ-NPR-Za-hj-npr-z\d]{17}$',
                 'maxlength' => 17
             ],
-            'constraints' => new Regex(['pattern' => '/^[A-HJ-NPR-Z\d]{17}$/i'])
+            'constraints' => new Regex(['pattern' => '/^[\_A-HJ-NPR-Z\d]{17}$/i'])
         ]);
     }
 

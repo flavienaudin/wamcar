@@ -164,6 +164,9 @@ class VehicleController extends BaseController
                 }
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
                 if ($vin) {
+                    if(strlen($vin) < 17){
+                        $vin = str_pad($vin, 17, '_', STR_PAD_LEFT);
+                    }
                     $vehicleDTO->setRegistrationVin($vin);
                 }
             } catch (AutodataException $autodataException) {
