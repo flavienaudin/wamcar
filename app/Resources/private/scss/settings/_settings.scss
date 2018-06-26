@@ -511,9 +511,9 @@ $meter-fill-bad: $alert-color;
 // 25. Off-canvas
 // --------------
 
-$offcanvas-size: 100vw;
-$offcanvas-size-medium: rem-calc(400);
-$offcanvas-vertical-size: rem-calc(300);
+$offcanvas-sizes: 100vw;
+$offcanvas-sizes-medium: rem-calc(400);
+$offcanvas-vertical-sizes: rem-calc(300);
 $offcanvas-background: white;
 $offcanvas-shadow: none;
 $offcanvas-inner-shadow-size: 20px;

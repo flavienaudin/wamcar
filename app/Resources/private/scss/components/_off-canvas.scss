@@ -9,8 +9,8 @@
   }
 
   @include breakpoint(medium) {
-    width: $offcanvas-size-medium;
-    transform: translateX($offcanvas-size-medium);
+    width: $offcanvas-sizes-medium;
+    transform: translateX($offcanvas-sizes-medium);
   }
 
   @include breakpoint(large) {
