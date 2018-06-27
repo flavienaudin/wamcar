@@ -301,10 +301,9 @@ hwi_oauth:
             scope: "email,public_profile"
             options:
                 csrf: true
-            infos_url: "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture.type(large),gender"
+            infos_url: "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture.type(large)"
             paths:
                 profilepicture: picture.data.url
-                gender: gender
         linkedin:
             type: linkedin
             client_id: '%env(LINKEDIN_ID)%'

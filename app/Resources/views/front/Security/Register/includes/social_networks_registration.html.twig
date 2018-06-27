@@ -1,0 +1,7 @@
+{% set context = context|default(null)%}
+<ul class="block-grid small-9 medium-12 no-bullet no-margin align-justify">
+    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"facebook", "type" : context }) }}" class="social-networks-login-button icon-facebook is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Facebook'}) }}</span></a></li>
+    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"linkedin", "type" : context }) }}" class="social-networks-login-button icon-linkedin is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'LinkedIn'}) }}</span></a></li>
+    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"google", "type" : context }) }}" class="social-networks-login-button icon-google2 is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Google'}) }}</span></a></li>
+    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"twitter", "type" : context }) }}" class="social-networks-login-button icon-twitter is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Twitter'}) }}</span></a></li>
+</ul>
