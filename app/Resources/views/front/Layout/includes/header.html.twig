@@ -27,22 +27,26 @@
                             <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
                         </a>
                         <ul class="menu is-dropdown-submenu">
-                            <li><a href="{{ path('front_view_current_user_info') }}">{{ 'user.profile.my_profile'|trans }}</a></li>
-                            {% if isUserPro  %}
-                                <li><a href="{{ app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') }}">{{ 'garage.my_garage'|trans }}</a></li>
-                            {% else %}
-                                <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) }}">{{ 'garage.my_garage'|trans }}</a></li>
+                            {% if isUserPro %}
+                                <li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.pro.my_profile'|trans }}</a></li>
+                                <li><a href="{{ app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') }}">{{ 'header.pro.my_garage'|trans }}</a></li>
+                                <li><a href="{{ path('front_vehicle_pro_add') }}">{{ 'header.anonyme.sell'|trans }}</a></li>
+                                <li><a href="{{ path('front_search_pro') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+                            {% elseif isUserPersonal%}
+                                <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_project_section'}) }}">{{ 'header.personal.my_add'|trans }}</a></li>
+                                <li><a href="{{ path('front_edit_user_info') }}">{{ 'header.personal.profile_edit'|trans }}</a></li>
+                                <li><a href="{{ path('front_edit_user_info_tab',{'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT')}) }}">{{ 'header.personal.project_edit'|trans }}</a></li>
+                                <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) }}">{{ 'header.personal.my_vehicles'|trans }}</a></li>
+                                <li><a href="{{ path('front_vehicle_personal_add') }}">{{ 'header.personal.add_vehicle'|trans }}</a></li>
                             {% endif %}
-                            <li><a href="{{ isUserPro?path('front_vehicle_pro_add'):path('front_vehicle_personal_add') }}">{{ 'header.menu.sell'|trans }}</a></li>
-                            <li><a href="{{ isUserPro?path('front_search_pro'):path('front_search_personal') }}">{{ 'header.common.see_search'|trans }}</a></li>
                             <li class="menu-separator"></li>
                             <li><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>
                         </ul>
                     </li>
                 </ul>
             {% else %}
-                <button type="button" class="l-header-button icon-user small-right" id="open-side-login" data-toggle="js-off-canvas-user" title="{{ 'header.menu.log'|trans }}">
-                    <span class="show-for-xlarge">{{ 'header.menu.log'|trans }}</span>
+                <button type="button" class="l-header-button icon-user small-right" id="open-side-login" data-toggle="js-off-canvas-user" title="{{ 'header.anonyme.log'|trans }}">
+                    <span class="show-for-xlarge">{{ 'header.anonyme.log'|trans }}</span>
                 </button>
                 <button class="l-header-button hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation">
                     <span class="hamburger-line"></span>

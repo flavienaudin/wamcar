@@ -1,5 +1,7 @@
 {% extends 'front/Seller/card.html.twig' %}
 
+{% set page_garage = true %}
+
 {% block title %}
     {% if userIsMe %}
         {{ 'user.title.personal.mine'|trans }}
@@ -23,7 +25,7 @@
 {% endblock %}
 
 {% block other_informations %}
-    <h2>{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
+    <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
     {% if user.project and (user.project.budget or user.project.projectVehicles) %}
         {% set project = user.project %}
         {{ include('front/User/includes/personal_user_project.html.twig') }}

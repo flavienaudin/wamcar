@@ -61,15 +61,26 @@ global:
     page: Page
 
 header:
-  menu:
-    search: Voir les annonces
+  anonyme:
+    see_search: Voir les annonces
     sell: Déposer une annonce
     log: Connexion / Inscription
     pro_space: Je suis un professionnel
   common:
     search: Annonces
-    see_search: Voir les annonces
+    my_favorites: Ma sélection
     conversations: Messagerie
+  pro:
+    my_profile: Mon profil
+    my_garage: Mon garage
+  personal:
+    my_add: Mon annonce
+    profile_edit: Editer mon profil
+    project_edit: Editer mon projet
+    my_vehicles: Mes véhicules
+    add_vehicle: Ajouter un véhicule
+
+
 
 breadcrumb:
   home: Accueil

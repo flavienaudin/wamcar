@@ -5,7 +5,7 @@
 {% set page_favorites = page_favorites|default(false) %}
 {% set page_message = page_message|default(false) %}
 
-{% set path_garage = path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) %}
+{% set path_garage = path('front_view_current_user_info',{'_fragment':'user_project_section'}) %}
 {% set path_favorites = path('front_user_favorites_list') %}
 
 {% set nbUnreadMessages = getCountUnreadMessages(app.user) %}
@@ -19,13 +19,13 @@
     },
     {
         slug: path_garage,
-        label: 'garage.my_garage'|trans,
+        label: 'header.personal.my_add'|trans,
         icon: 'garage',
         current: page_garage
     },
     {
         slug: path_favorites,
-        label: 'favorites.page_title'|trans,
+        label: 'header.common.my_favorites'|trans,
         icon: 'thumbs-up',
         current: page_favorites
     },
