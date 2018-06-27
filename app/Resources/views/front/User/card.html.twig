@@ -1,6 +1,6 @@
 {% extends 'front/Seller/card.html.twig' %}
 
-{% set page_garage = true %}
+{% set page_garage = userIsMe %}
 
 {% block title %}
     {% if userIsMe %}
