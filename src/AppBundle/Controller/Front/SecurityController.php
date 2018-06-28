@@ -129,7 +129,12 @@ class SecurityController extends BaseController
             return $this->redirectToRoute('front_default');
         }
 
-        $registrationForm = $this->formFactory->create(RegistrationType::class);
+        $data = new RegistrationDTO();
+        if($request->query->has('email_registration')){
+            $data->email = $request->query->get('email_registration');
+        }
+
+        $registrationForm = $this->formFactory->create(RegistrationType::class, $data);
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {

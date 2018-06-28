@@ -1,7 +1,38 @@
 {% set context = context|default(null)%}
+{% set destination = destination is defined?{'_destination':destination}:{} %}
+{% set services = [
+    {
+        'name':'facebook',
+        'icon':'icon-facebook',
+        'label':'Facebook'
+    },
+    {
+        'name':'linkedin',
+        'icon':'icon-linkedin',
+        'label':'Linkedin'
+    },
+    {
+        'name':'google',
+        'icon':'icon-google2',
+        'label':'Google'
+    },
+    {
+        'name':'twitter',
+        'icon':'icon-twitter',
+        'label':'Twitter'
+    },
+] %}
+
+
 <ul class="block-grid small-12 no-bullet no-margin align-justify">
-    <li class="column"><a href="{{ path('hwi_oauth_service_redirect',{"service":"facebook", "type" : context }) }}" class="social-networks-login-small-button icon-facebook is-center"><span class="hide">{{ 'social_network.connexion_with'|trans({'%social_network%':'Facebook'}) }}</span></a></li>
-    <li class="column"><a href="{{ path('hwi_oauth_service_redirect',{"service":"linkedin", "type" : context }) }}" class="social-networks-login-small-button icon-linkedin is-center"><span class="hide">{{ 'social_network.connexion_with'|trans({'%social_network%':'LinkedIn'}) }}</span></a></li>
-    <li class="column"><a href="{{ path('hwi_oauth_service_redirect',{"service":"google", "type" : context }) }}" class="social-networks-login-small-button icon-google2 is-center"><span class="hide">{{ 'social_network.connexion_with'|trans({'%social_network%':'Google'}) }}</span></a></li>
-    <li class="column"><a href="{{ path('hwi_oauth_service_redirect',{"service":"twitter", "type" : context }) }}" class="social-networks-login-small-button icon-twitter is-center"><span class="hide">{{ 'social_network.connexion_with'|trans({'%social_network%':'Twitter'}) }}</span></a></li>
+    {% for service in services %}
+        {% set path_params = {
+            'service':service.name,
+            'type':context
+        } %}
+        {% set path_params = path_params|merge(destination) %}
+
+        <li class="column"><a href="{{ path('hwi_oauth_service_redirect',path_params) }}" class="social-networks-login-small-button {{ service.icon }} is-center">
+                <span class="hide">{{ 'social_network.connexion_with'|trans({'%social_network%':service.label}) }}</span></a></li>
+    {% endfor %}
 </ul>

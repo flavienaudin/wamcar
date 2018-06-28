@@ -172,6 +172,25 @@ homepage:
     action: Accéder à l'espace professionnel
     background.alt: Citrën DS 3
 
+landing.meeting:
+  title: Site de rencontre pour la reprise et l'achat de voitures
+  description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+  field:
+    social_connect.label: Inscription via une plateforme
+    email:
+      label: Inscription par e-mail
+      placeholder: Entrez votre e-mail
+      required_message: Veuillez indiquer votre adresse email
+    submit: Inscription
+  pro_email_registration_form:
+    title: Conseiller automobile
+    subtitle: Découvrez de belles reprises et rencontrez vos clients sur %sitename%
+    pre_submit: Améliorer votre sourcing en choisissant de belles reprises, proposez vos véhicules neufs ou d'occasion, et répondez aux particuliers grâce à la messagerie sécurisée.
+  personal_email_registration_form:
+    title: Particulier
+    subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
+    pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
+
 garage:
   my_garage: Mon garage
   tabs:

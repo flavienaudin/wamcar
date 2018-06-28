@@ -3,6 +3,11 @@ front_default:
     defaults:
         _controller: AppBundle:Front\Default:homepage
 
+front_landing_meeting:
+    path: /rencontre
+    defaults:
+        _controller: AppBundle:Front\Default:landingMeeting
+
 register_confirm:
     path: /inscription/confirmation
     defaults:
