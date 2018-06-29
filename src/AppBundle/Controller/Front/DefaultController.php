@@ -44,21 +44,18 @@ class DefaultController extends BaseController
      */
     public function homepageAction(): Response
     {
-        $vehicleInformationDTO = new VehicleInformationDTO();
-        $formSearchVehicleDTO = new SearchVehicleDTO();
-
         $vehicleInformationForm = $this->formFactory->create(
             VehicleInformationType::class,
-            $vehicleInformationDTO,
+            new VehicleInformationDTO(),
             [
                 'available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates(),
                 'small_version' => true
             ]
         );
 
-        $formSearchVehicleDTO = $this->formFactory->create(
+        $searchVehicleForm = $this->formFactory->create(
             SearchVehicleType::class,
-            $formSearchVehicleDTO,
+            new SearchVehicleDTO(),
             [
                 'action' => $this->generateRoute('front_search_personal'),
                 'small_version' => true
@@ -71,7 +68,32 @@ class DefaultController extends BaseController
             ':front/Home:home.html.twig',
             [
                 'vehicleInformationForm' => $vehicleInformationForm->createView(),
-                'smallSearchForm' => $formSearchVehicleDTO->createView(),
+                'smallSearchForm' => $searchVehicleForm->createView(),
+                'last_vehicles' => $last_vehicles
+            ]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function landingMeetingAction(): Response
+    {
+        $searchVehicleForm = $this->formFactory->create(
+            SearchVehicleType::class,
+            new SearchVehicleDTO(),
+            [
+                'action' => $this->generateRoute('front_search_personal'),
+                'small_version' => true
+            ]
+        );
+
+        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+
+        return $this->render(
+            '/front/Home/landing_meeting.html.twig',
+            [
+                'smallSearchForm' => $searchVehicleForm->createView(),
                 'last_vehicles' => $last_vehicles
             ]
         );
