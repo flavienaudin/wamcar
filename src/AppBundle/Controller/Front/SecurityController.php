@@ -163,7 +163,7 @@ class SecurityController extends BaseController
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             } else {
-                return $this->redirectToRoute('register_confirm');
+                return $this->redirectToRoute('register_confirm', ['#'=>'c']);
             }
         }
 
