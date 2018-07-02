@@ -208,7 +208,7 @@ class RegistrationController extends BaseController
             try {
                 $registeredVehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $this->userAuthenticator->authenticate($registeredVehicle->getOwner());
-                return $this->redirectToRoute('register_confirm');
+                return $this->redirectToRoute('register_confirm', ['#'=>'l']);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
