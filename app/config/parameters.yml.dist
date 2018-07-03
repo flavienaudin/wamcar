@@ -17,3 +17,6 @@ parameters:
     twitter_username: wamcar
 
     pro_space_url: pro.wamcar.com
+
+    admin_email: xavier@wamcar.com
+    admin_name: Xavier Pousset
