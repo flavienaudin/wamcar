@@ -258,13 +258,12 @@ class UserController extends BaseController
             $addGarageForm->handleRequest($request);
             if($addGarageForm->isSubmitted()){
                 if($addGarageForm->isValid()){
-                    $garage = $this->garageEditionService->editInformations($garageDTO, null, $this->getUser());
+                    $this->garageEditionService->editInformations($garageDTO, null, $this->getUser());
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage_create');
                     return $this->redirectToRoute('front_view_current_user_info');
                 }else{
-                    $this->redirectToRoute('front_garage_create',$request->request->all());
+                    return $this->redirectToRoute('front_garage_create');
                 }
-
             }
         }
 

@@ -23,7 +23,7 @@ class Garage
     protected $name;
     /** @var  ?string */
     protected $siren;
-    /** @var  string */
+    /** @var  ?string */
     protected $phone;
     /** @var  string */
     protected $email;
@@ -54,7 +54,7 @@ class Garage
      * @param string|null $openingHours
      * @param string|null $presentation
      * @param Address $address
-     * @param string $phone
+     * @param string|null $phone
      * @param Picture|null $banner
      * @param Picture|null $logo
      * @param float|null $googleRating
@@ -66,7 +66,7 @@ class Garage
         ?string $openingHours,
         ?string $presentation,
         Address $address,
-        string $phone,
+        string $phone = null,
         Picture $banner = null,
         Picture $logo = null,
         ?float $googleRating = null
