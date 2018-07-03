@@ -4,13 +4,19 @@
 
 import $ from 'jquery';
 import responsiveDom from 'ResponsiveDom';
+import foundation from 'foundation-sites';
 
 const $navigation = '#js-navigation';
 const $offCanvasNavigation = '#js-off-canvas-navigation';
 
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
-  mediaQuery: '(max-width: 1023px)'
+  mediaQuery: '(max-width: 1023px)',
+  callback: function(mediaMatched) {
+    if (!mediaMatched) {
+      $($offCanvasNavigation).foundation('close');
+    }
+  }
 });
 
 const $movePicturesList = '#js-move-pictures-list';
