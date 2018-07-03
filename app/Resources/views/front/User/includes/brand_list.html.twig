@@ -3,6 +3,7 @@
         {% set garageRating = membership.garage.googleRating %}
         <li>
             {{ include('front/Garages/Detail/includes/summary_card.html.twig', {garage: membership.garage}) }}
+            <p><a href="{{ path('front_garage_edit', {'id': membership.garage.id}) }}" class="text-underline">{{ 'garage.edit'|trans }}</a></p>
         </li>
     {% endfor %}
 </ul>

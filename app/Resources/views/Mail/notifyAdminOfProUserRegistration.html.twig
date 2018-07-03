@@ -1,0 +1,14 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% block title %}Wamcar - Nouvelle inscription d'un professionnel{% endblock %}
+
+{% block body %}
+    <div>
+        <p>Un nouvel utilisateur professionnel s'est inscrit :</p>
+        <ul>
+            <li>Nom : {{ firstname }} {{ lastname }}</li>
+            <li>Email : {{ user_mail }}</li>
+            <li>Page profile : <a href="{{ url_profile_page }}">{{ url_profile_page }}</a></li>
+        </ul>
+    </div>
+{% endblock %}

@@ -21,9 +21,9 @@ class Garage
     protected $googlePlaceId;
     /** @var string */
     protected $name;
-    /** @var  string */
+    /** @var  ?string */
     protected $siren;
-    /** @var  string */
+    /** @var  ?string */
     protected $phone;
     /** @var  string */
     protected $email;
@@ -50,11 +50,11 @@ class Garage
      * Garage constructor.
      * @param string|null $googlePlaceId
      * @param string $name
-     * @param string $siren
-     * @param null|string $openingHours
-     * @param null|string $presentation
+     * @param string|null $siren
+     * @param string|null $openingHours
+     * @param string|null $presentation
      * @param Address $address
-     * @param string $phone
+     * @param string|null $phone
      * @param Picture|null $banner
      * @param Picture|null $logo
      * @param float|null $googleRating
@@ -62,11 +62,11 @@ class Garage
     public function __construct(
         ?string $googlePlaceId,
         string $name,
-        string $siren,
+        ?string $siren,
         ?string $openingHours,
         ?string $presentation,
         Address $address,
-        string $phone,
+        string $phone = null,
         Picture $banner = null,
         Picture $logo = null,
         ?float $googleRating = null
@@ -95,7 +95,7 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getGooglePlaceId(): ?string
     {
@@ -111,15 +111,15 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSiren(): string
+    public function getSiren(): ?string
     {
         return $this->siren;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPhone(): ?string
     {
@@ -127,7 +127,7 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getEmail(): ?string
     {
@@ -135,7 +135,7 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getOpeningHours(): ?string
     {
@@ -143,7 +143,7 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPresentation(): ?string
     {
@@ -151,7 +151,7 @@ class Garage
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getBenefit(): ?string
     {
@@ -183,7 +183,7 @@ class Garage
     }
 
     /**
-     * @param string $googlePlaceId
+     * @param string|null $googlePlaceId
      */
     public function setGooglePlaceId(?string $googlePlaceId): void
     {
@@ -199,15 +199,15 @@ class Garage
     }
 
     /**
-     * @param string $siren
+     * @param string|null $siren
      */
-    public function setSiren(string $siren)
+    public function setSiren(?string $siren)
     {
         $this->siren = $siren;
     }
 
     /**
-     * @param string $phone
+     * @param string|null $phone
      */
     public function setPhone(?string $phone)
     {
@@ -215,7 +215,7 @@ class Garage
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      */
     public function setEmail(?string $email)
     {
@@ -223,7 +223,7 @@ class Garage
     }
 
     /**
-     * @param string $openingHours
+     * @param string|null $openingHours
      */
     public function setOpeningHours(?string $openingHours)
     {
@@ -231,7 +231,7 @@ class Garage
     }
 
     /**
-     * @param string $presentation
+     * @param string|null $presentation
      */
     public function setPresentation(?string $presentation)
     {
@@ -239,7 +239,7 @@ class Garage
     }
 
     /**
-     * @param string $benefit
+     * @param string|null $benefit
      */
     public function setBenefit(?string $benefit)
     {
@@ -357,7 +357,7 @@ class Garage
     }
 
     /**
-     * @return null|Picture
+     * @return Picture|null
      */
     public function getBanner(): ?Picture
     {
@@ -365,25 +365,9 @@ class Garage
     }
 
     /**
-     * @return null|File
+     * @return File|null
      */
     public function getBannerFile(): ?File
-    {
-        return $this->banner ? $this->banner->getFile() : null;
-    }
-
-    /**
-     * @return null|Picture
-     */
-    public function getLogo(): ?Picture
-    {
-        return $this->logo;
-    }
-
-    /**
-     * @return null|File
-     */
-    public function getLogoFile(): ?File
     {
         return $this->banner ? $this->banner->getFile() : null;
     }
@@ -405,7 +389,23 @@ class Garage
     }
 
     /**
-     * @param null|GaragePicture $logo
+     * @return Picture|null
+     */
+    public function getLogo(): ?Picture
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @return File|null
+     */
+    public function getLogoFile(): ?File
+    {
+        return $this->logo ? $this->logo->getFile() : null;
+    }
+
+    /**
+     * @param GaragePicture|null $logo
      */
     public function setLogo(?GaragePicture $logo)
     {

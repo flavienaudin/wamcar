@@ -15,7 +15,7 @@
                 {% if not userIsMe %}
                     <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block" class="icon-message small-12 medium-shrink"><span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
                 {% else %}
-                    <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">Déconnexion</a>
+                    <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">{{ 'global.button.logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>

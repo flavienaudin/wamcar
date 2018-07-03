@@ -29,6 +29,8 @@ services:
         class: AppBundle\MailWorkflow\NotifyProUserOfRegistration
         arguments:
           - registration_pro
+          - '%admin_email%'
+          - '%admin_name%'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
