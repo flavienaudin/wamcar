@@ -5,7 +5,7 @@
 {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay : true}) }}
 <ul class="list-bullet">
     <li>
-        <address>{{ garage.address }}, {{ garage.address.postalCode }} {{ garage.address.cityName }}</address>
+        <address>{{ garage.address.address?garage.address.address~', ':'' }}{{ garage.address.postalCode }} {{ garage.address.cityName }}</address>
         <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
     </li>
     {% if garage.openingHours %}
@@ -16,5 +16,5 @@
     {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}
-    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">Modifier mon garage</a>
+    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.edit'|trans }}</a>
 {% endif %}

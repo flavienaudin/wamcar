@@ -44,21 +44,23 @@ class UniqueGarageSirenValidator extends ConstraintValidator
             throw new UnexpectedTypeException($value, Garage::class . '||' . GarageDTO::class);
         }
 
-        $garage = $this->garageRepository->findOneBy(['siren' => $value->getSiren()]);
+        if(!empty($value->getSiren())) {
+            $garage = $this->garageRepository->findOneBy(['siren' => $value->getSiren()]);
 
-        if ($garage != null && ($garage->getId() !== $value->getId())) {
-            $this->context->buildViolation($this->translation->trans($constraint->message, ['%siren%' => $value->getSiren()], "validations"))
-                ->setParameter('%siren%', $value->getSiren())
-                ->atPath('siren')
-                ->addViolation();
+            if ($garage != null && ($garage->getId() !== $value->getId())) {
+                $this->context->buildViolation($this->translation->trans($constraint->message, ['%siren%' => $value->getSiren()], "validations"))
+                    ->setParameter('%siren%', $value->getSiren())
+                    ->atPath('siren')
+                    ->addViolation();
 
-            $this->session->getFlashBag()->add(
-                BaseController::FLASH_LEVEL_DANGER,
-                $this->translation->trans('flash.error.already_registered_siren_by_user', [
-                    '%userFullName%' => $garage->getSeller()->getFullName(),
-                    '%contactUrl%' => $this->router->generate('contact')
-                ])
-            );
+                $this->session->getFlashBag()->add(
+                    BaseController::FLASH_LEVEL_DANGER,
+                    $this->translation->trans('flash.error.already_registered_siren_by_user', [
+                        '%userFullName%' => $garage->getSeller()->getFullName(),
+                        '%contactUrl%' => $this->router->generate('contact')
+                    ])
+                );
+            }
         }
     }
 

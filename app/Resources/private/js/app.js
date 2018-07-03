@@ -172,12 +172,9 @@ $(function () {
    =========================================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {
-
-
   /*
      Grid
      ===================================== */
-
   const $buttonShowGrid = document.getElementById('button-show-grid');
 
   $buttonShowGrid && $buttonShowGrid.addEventListener('click', () => {
@@ -188,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function () {
   /*
      ScrollTo
      ===================================== */
-
   const $scrollTo = document.querySelectorAll('[data-scroll-to]');
 
   [...$scrollTo].forEach((item) => {
@@ -200,11 +196,9 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
 
-
   /*
      Light embeded youtube video
      ===================================== */
-
 
   let div, n, v = document.querySelectorAll('.youtube-player');
   for (n = 0; n < v.length; n++) {

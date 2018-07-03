@@ -7,13 +7,16 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserInformationType;
+use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
@@ -44,6 +47,9 @@ class UserController extends BaseController
     /** @var UserEditionService */
     protected $userEditionService;
 
+    /** @var GarageEditionService */
+    protected $garageEditionService;
+
     /** @var VehicleInfoAggregator */
     private $vehicleInfoAggregator;
 
@@ -55,6 +61,7 @@ class UserController extends BaseController
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
      * @param UserEditionService $userEditionService
+     * @param GarageEditionService $garageEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param MessageBus $eventBus
      */
@@ -62,6 +69,7 @@ class UserController extends BaseController
         FormFactoryInterface $formFactory,
         UserRepository $userRepository,
         UserEditionService $userEditionService,
+        GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
         MessageBus $eventBus
     )
@@ -69,6 +77,7 @@ class UserController extends BaseController
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
         $this->userEditionService = $userEditionService;
+        $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->eventBus = $eventBus;
     }
@@ -242,8 +251,27 @@ class UserController extends BaseController
             }
         }
 
+        $addGarageForm = null;
+        if($user instanceof ProUser && $user->getGarage() == null){
+            $garageDTO = new GarageDTO();
+            $addGarageForm = $this->formFactory->create(GarageType::class, $garageDTO,['only_google_fields' => true]);
+            $addGarageForm->handleRequest($request);
+            if($addGarageForm->isSubmitted()){
+                if($addGarageForm->isValid()){
+                    $garage = $this->garageEditionService->editInformations($garageDTO, null, $this->getUser());
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage_create');
+                    return $this->redirectToRoute('front_view_current_user_info');
+                }else{
+                    $this->redirectToRoute('front_garage_create',$request->request->all());
+                }
+
+            }
+        }
+
+
         return $this->render($templates[$user->getType()], [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);

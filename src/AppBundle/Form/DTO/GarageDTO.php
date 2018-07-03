@@ -90,7 +90,7 @@ class GarageDTO
     public function getAddress(): ?Address
     {
         $address = null;
-        if (null !== $this->address && null !== $this->getCity()) {
+        if (null !== $this->getCity()) {
             $address = new Address($this->address, $this->getCity());
         }
 
