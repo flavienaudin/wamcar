@@ -20,42 +20,50 @@ class GarageType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $data = $builder->getData();
-
         $builder
             ->add('googlePlaceId', HiddenType::class)
-            ->add('googleRating', HiddenType::class)
-            ->add('name', TextType::class)
-            ->add('siren', TextType::class, [
-                'attr' => [
-                    'pattern' => '^[0-9]{9}$',
-                    'maxlength' => 9
-                ]
-            ])
-            ->add('openingHours', TextareaType::class, [
-                'required' => false
-            ])
-            ->add('presentation', TextareaType::class, [
-                'required' => false
-            ])
-            ->add('address', TextType::class)
-            ->add('postalCode', TextType::class)
-            ->add('cityName', TextType::class)
-            ->add('latitude', HiddenType::class, [
-                'required' => false,
-            ])
-            ->add('longitude', HiddenType::class, [
-                'required' => false,
-            ])
-            ->add('phone', TextType::class, [
-                'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
-            ])
-            ->add('banner', GaragePictureType::class, [
-                'error_bubbling' => true
-            ])
-            ->add('logo', GaragePictureType::class, [
-                'error_bubbling' => true
-            ]);
+            ->add('googleRating', HiddenType::class, ['required' => false])
+            ->add('latitude', HiddenType::class, ['required' => false])
+            ->add('longitude', HiddenType::class, ['required' => false]);
+        if ($options['only_google_fields']) {
+            $builder
+                ->add('name', HiddenType::class, ['required' => false])
+                ->add('openingHours', HiddenType::class, ['required' => false])
+                ->add('address', HiddenType::class, ['required' => false])
+                ->add('postalCode', HiddenType::class, ['required' => false])
+                ->add('cityName', HiddenType::class, ['required' => false])
+                ->add('phone', HiddenType::class, [
+                    'required' => false,
+                    'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+                ]);
+        } else {
+            $builder
+                ->add('name', TextType::class)
+                ->add('siren', TextType::class, [
+                    'attr' => [
+                        'pattern' => '^[0-9]{9}$',
+                        'maxlength' => 9
+                    ]
+                ])
+                ->add('presentation', TextareaType::class, [
+                    'required' => false
+                ])
+                ->add('openingHours', TextareaType::class, [
+                    'required' => false
+                ])
+                ->add('address', TextType::class)
+                ->add('postalCode', TextType::class)
+                ->add('cityName', TextType::class)
+                ->add('phone', TextType::class, [
+                    'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+                ])
+                ->add('banner', GaragePictureType::class, [
+                    'error_bubbling' => true
+                ])
+                ->add('logo', GaragePictureType::class, [
+                    'error_bubbling' => true
+                ]);
+        }
     }
 
     /**
@@ -65,7 +73,7 @@ class GarageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GarageDTO::class,
-            'translation_domain' => 'garage',
+            'only_google_fields' => false,
             'label_format' => 'garage.field.%name%.label',
             'constraints' => new UniqueGarageSiren()
         ]);

@@ -12,6 +12,10 @@
 {% set pattern = pattern|default('') %}
 {% set optional_class = optional_class|default('') %}
 {% set id = id|default(name) %}
+{% set attribute = '' %}
+{% for key, value in attributes|default({}) %}
+    {% set attribute = attribute~key~'='~value~' b' %}
+{% endfor %}
 
 {% if class_field %}
     <div class="{{ class_field }}">
@@ -28,7 +32,8 @@
         placeholder="{{ placeholder }}"
         data-equalto="{{ equal_to }}"
         pattern="{{ pattern }}"
-        {{ required ? 'required' }}>
+        {{ required ? 'required' }}
+        {{ attribute }}>
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}

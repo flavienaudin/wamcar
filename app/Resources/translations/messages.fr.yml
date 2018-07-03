@@ -52,6 +52,7 @@ global:
     previous_step: Etape précédente
     next_step: Etape suivante
     back: Retour
+    validate: Valider
   pagination:
     pagination: Pagination
     first: Première page
@@ -193,6 +194,7 @@ landing.meeting:
 
 garage:
   my_garage: Mon garage
+  edit: Modifier mon garage
   tabs:
     vehicles: Véhicules
     about: A propos
@@ -202,6 +204,11 @@ garage:
     sellers: Vendeurs
   google_rating:
     unknown: Note inconnue
+  form:
+    field:
+      googleSearch:
+        label: Rechercher votre établissement
+        placeholder: Rechercher votre établissement sur Google Map
 
 search:
   common:
@@ -565,6 +572,10 @@ user:
     title:
       personal: Présentation
       pro: Présentation du vendeur
+    empty: >
+      Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
+      possible pour faciliter la confiance dans le dialogue avec vos clients.
+    edit: Modifier mes informations
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
@@ -577,6 +588,10 @@ user:
     favorites:
       title: %user_firstname% aime
       owner: Mes likes
+  garage:
+    seller_for: Vendeur pour
+    empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
+    add: Ajouter un garage
 
 conversation:
   my_vehicle: Mon véhicule

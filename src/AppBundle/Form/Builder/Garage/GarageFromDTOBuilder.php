@@ -55,14 +55,13 @@ class GarageFromDTOBuilder
             null,
             null,
             $dto->googleRating
-
         );
 
-        if ($dto->banner->file){
+        if ($dto->banner && $dto->banner->file){
             $banner = new GarageBanner($garage, $dto->banner->file);
             $garage->setBanner($banner);
         }
-        if ($dto->logo->file){
+        if ($dto->logo && $dto->logo->file){
             $logo = new GarageLogo($garage, $dto->logo->file);
             $garage->setLogo($logo);
         }

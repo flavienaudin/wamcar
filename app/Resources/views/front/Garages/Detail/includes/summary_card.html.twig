@@ -1,14 +1,16 @@
-<figure class="block-grid align-middle" role="group">
-    <a href="{{ path('front_garage_view', {'id': garage.id}) }}" class="brand-logo is-logo">
-        <img src="{{ garage|logo('garage_mini_logo') }}" alt="{{ garage.name }}">
-    </a>
-    <div>
-        <a href="{{ path('front_garage_view', {'id': garage.id}) }}" class="primary-color h3"><b>{{ garage.name }}</b></a><br>
-        <span>{{ garage.address.cityName|upper }}</span>
-        {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
-            garageRating : garage.googleRating,
-            poweredByGoogleDisplay : true,
-            garageId : garage.id
-        }) }}
-    </div>
-</figure>
+<div class="input-margin">
+    <figure class="block-grid align-middle" role="group">
+        <a href="{{ path('front_garage_view', {'id': garage.id}) }}" class="brand-logo is-logo">
+            <img src="{{ garage|logo('garage_mini_logo') }}" alt="{{ garage.name }}">
+        </a>
+        <div>
+            <a href="{{ path('front_garage_view', {'id': garage.id}) }}" class="primary-color h3"><b>{{ garage.name }}</b></a><br>
+            <span>{{ garage.address.cityName|upper }}</span>
+            {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+                garageRating : garage.googleRating,
+                poweredByGoogleDisplay : true,
+                garageId : garage.id
+            }) }}
+        </div>
+    </figure>
+</div>
