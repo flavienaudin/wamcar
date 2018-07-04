@@ -98,4 +98,29 @@ class DefaultController extends BaseController
             ]
         );
     }
+
+    /**
+     * @return Response
+     */
+    public function landingMixteAction(): Response
+    {
+        $searchVehicleForm = $this->formFactory->create(
+            SearchVehicleType::class,
+            new SearchVehicleDTO(),
+            [
+                'action' => $this->generateRoute('front_search_personal'),
+                'small_version' => true
+            ]
+        );
+
+        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+
+        return $this->render(
+            '/front/Home/landing_mixte.html.twig',
+            [
+                'smallSearchForm' => $searchVehicleForm->createView(),
+                'last_vehicles' => $last_vehicles
+            ]
+        );
+    }
 }
