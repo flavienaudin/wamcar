@@ -7,6 +7,8 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
+use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -23,6 +25,7 @@ use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\User\BaseUser;
@@ -44,6 +47,12 @@ class UserController extends BaseController
     /** @var UserRepository */
     protected $userRepository;
 
+    /** @var DoctrinePersonalUserRepository */
+    protected $personalUserRepository;
+
+    /** @var DoctrineProUserRepository */
+    protected $proUserRepository;
+
     /** @var UserEditionService */
     protected $userEditionService;
 
@@ -60,6 +69,10 @@ class UserController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
+     * @param DoctrinePersonalUserRepository $userRepository
+     * @param DoctrinePersonalUserRepository $personalUserRepository ,
+     * @param DoctrineProUserRepository $proUserRepository ,
+     * @param UserRepository $userRepository
      * @param UserEditionService $userEditionService
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
@@ -68,6 +81,8 @@ class UserController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         UserRepository $userRepository,
+        DoctrinePersonalUserRepository $personalUserRepository,
+        DoctrineProUserRepository $proUserRepository,
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
@@ -76,6 +91,8 @@ class UserController extends BaseController
     {
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
+        $this->personalUserRepository = $personalUserRepository;
+        $this->proUserRepository = $proUserRepository;
         $this->userEditionService = $userEditionService;
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
@@ -252,16 +269,16 @@ class UserController extends BaseController
         }
 
         $addGarageForm = null;
-        if($user instanceof ProUser && $user->getGarage() == null){
+        if ($user instanceof ProUser && $user->getGarage() == null) {
             $garageDTO = new GarageDTO();
-            $addGarageForm = $this->formFactory->create(GarageType::class, $garageDTO,['only_google_fields' => true]);
+            $addGarageForm = $this->formFactory->create(GarageType::class, $garageDTO, ['only_google_fields' => true]);
             $addGarageForm->handleRequest($request);
-            if($addGarageForm->isSubmitted()){
-                if($addGarageForm->isValid()){
+            if ($addGarageForm->isSubmitted()) {
+                if ($addGarageForm->isValid()) {
                     $this->garageEditionService->editInformations($garageDTO, null, $this->getUser());
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage_create');
                     return $this->redirectToRoute('front_view_current_user_info');
-                }else{
+                } else {
                     return $this->redirectToRoute('front_garage_create');
                 }
             }
@@ -273,6 +290,26 @@ class UserController extends BaseController
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function listAction(Request $request)
+    {
+        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+            throw new AccessDeniedHttpException('Only admin can access user listing');
+        }
+
+        $personalUsers = $this->personalUserRepository->findBy([], ['createdAt' => 'DESC']);
+
+        $proUsers = $this->proUserRepository->findBy([], ['createdAt' => 'DESC']);
+
+
+        return $this->render("front/adminContext/user/user_list.html.twig", [
+            'personalUsers' => $personalUsers,
+            'proUsers' => $proUsers
         ]);
     }
 

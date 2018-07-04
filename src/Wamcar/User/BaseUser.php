@@ -105,9 +105,21 @@ abstract class BaseUser
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getDescription() : null);
     }
 
+
+    /**
+     * @return Title|null
+     */
     public function getTitle(): ?Title
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getTitle() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): ?string
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->getPhone() : null);
     }
 
     /**
@@ -151,73 +163,73 @@ abstract class BaseUser
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFacebookId(): string
+    public function getFacebookId(): ?string
     {
         return $this->facebookId;
     }
 
     /**
-     * @param string $facebookId
+     * @param string|null $facebookId
      */
-    public function setFacebookId(string $facebookId): void
+    public function setFacebookId(?string $facebookId): void
     {
         $this->facebookId = $facebookId;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFacebookAccessToken(): string
+    public function getFacebookAccessToken(): ?string
     {
         return $this->facebookAccessToken;
     }
 
     /**
-     * @param string $facebookAccessToken
+     * @param string|null $facebookAccessToken
      */
-    public function setFacebookAccessToken(string $facebookAccessToken): void
+    public function setFacebookAccessToken(?string $facebookAccessToken): void
     {
         $this->facebookAccessToken = $facebookAccessToken;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLinkedinId(): string
+    public function getLinkedinId(): ?string
     {
         return $this->linkedinId;
     }
 
     /**
-     * @param string $linkedinId
+     * @param string|null $linkedinId
      */
-    public function setLinkedinId(string $linkedinId): void
+    public function setLinkedinId(?string $linkedinId): void
     {
         $this->linkedinId = $linkedinId;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getLinkedinAccessToken(): string
+    public function getLinkedinAccessToken(): ?string
     {
         return $this->linkedinAccessToken;
     }
 
     /**
-     * @param string $linkedinAccessToken
+     * @param string|null $linkedinAccessToken
      */
-    public function setLinkedinAccessToken(string $linkedinAccessToken): void
+    public function setLinkedinAccessToken(?string $linkedinAccessToken): void
     {
         $this->linkedinAccessToken = $linkedinAccessToken;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getGoogleId(): string
+    public function getGoogleId(): ?string
     {
         return $this->googleId;
     }
@@ -231,52 +243,53 @@ abstract class BaseUser
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getTwitterId(): string
-    {
-        return $this->twitterId;
-    }
-
-    /**
-     * @param string $twitterId
-     */
-    public function setTwitterId(string $twitterId): void
-    {
-        $this->twitterId = $twitterId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTwitterAccessToken(): string
-    {
-        return $this->twitterAccessToken;
-    }
-
-    /**
-     * @param string $twitterAccessToken
-     */
-    public function setTwitterAccessToken(string $twitterAccessToken): void
-    {
-        $this->twitterAccessToken = $twitterAccessToken;
-    }
-
-    /**
-     * @return string
-     */
-    public function getGoogleAccessToken(): string
+    public function getGoogleAccessToken(): ?string
     {
         return $this->googleAccessToken;
     }
 
     /**
-     * @param string $googleAccessToken
+     * @param string|null $googleAccessToken
      */
-    public function setGoogleAccessToken(string $googleAccessToken): void
+    public function setGoogleAccessToken(?string $googleAccessToken): void
     {
         $this->googleAccessToken = $googleAccessToken;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getTwitterId(): ?string
+    {
+        return $this->twitterId;
+    }
+
+    /**
+     * @param string|null $twitterId
+     */
+    public function setTwitterId(?string $twitterId): void
+    {
+        $this->twitterId = $twitterId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTwitterAccessToken(): ?string
+    {
+        return $this->twitterAccessToken;
+    }
+
+    /**
+     * @param string|null $twitterAccessToken
+     */
+    public function setTwitterAccessToken(?string $twitterAccessToken): void
+    {
+        $this->twitterAccessToken = $twitterAccessToken;
+    }
+
 
     /**
      * @param mixed|null $user
