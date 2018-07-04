@@ -57,7 +57,7 @@ class GarageController extends BaseController
 
         $lastGarages = $this->garageRepository->getLatest();
 
-        return $this->render('front/proContext/garage/garage_list.html.twig', [
+        return $this->render('front/adminContext/garage/garage_list.html.twig', [
             'garages' => $lastGarages
         ]);
     }

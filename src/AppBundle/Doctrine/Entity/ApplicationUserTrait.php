@@ -52,6 +52,14 @@ trait ApplicationUserTrait
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function eraseCredentials()

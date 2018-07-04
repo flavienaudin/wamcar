@@ -54,6 +54,11 @@ front_view_user_info:
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:viewInformation
 
+front_user_list:
+    path: /user/list
+    defaults:
+        _controller: AppBundle:Front\PersonalContext\User:list
+
 front_garage_view:
     path: /garage/view/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:view }
