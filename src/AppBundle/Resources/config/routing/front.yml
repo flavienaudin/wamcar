@@ -8,6 +8,11 @@ front_landing_meeting:
     defaults:
         _controller: AppBundle:Front\Default:landingMeeting
 
+front_landing_mixte:
+    path: /m
+    defaults:
+        _controller: AppBundle:Front\Default:landingMixte
+
 register_confirm:
     path: /inscription/confirmation
     defaults:
