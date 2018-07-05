@@ -9,7 +9,7 @@
             <div class="column small-12">
                 <label>{{ 'landing.meeting.field.social_connect.label'|trans }}</label>
             </div>
-            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('front_view_current_user_info')} %}
+            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_confirm',{'inscr':'__context__-__platform__'})} %}
         </div>
 
         <div class="">

@@ -1,7 +1,40 @@
-{% set context = context|default(null)%}
+{% set context = context|default(constant("Wamcar\\User\\PersonalUser::TYPE")) %}
+{% set services = [
+    {
+        'name':'facebook',
+        'icon':'icon-facebook',
+        'label':'Facebook'
+    },
+    {
+        'name':'linkedin',
+        'icon':'icon-linkedin',
+        'label':'Linkedin'
+    },
+    {
+        'name':'google',
+        'icon':'icon-google2',
+        'label':'Google'
+    },
+    {
+        'name':'twitter',
+        'icon':'icon-twitter',
+        'label':'Twitter'
+    },
+] %}
+
+
 <ul class="block-grid small-9 medium-12 no-bullet no-margin align-justify">
-    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"facebook", "type" : context }) }}" class="social-networks-login-button icon-facebook is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Facebook'}) }}</span></a></li>
-    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"linkedin", "type" : context }) }}" class="social-networks-login-button icon-linkedin is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'LinkedIn'}) }}</span></a></li>
-    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"google", "type" : context }) }}" class="social-networks-login-button icon-google2 is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Google'}) }}</span></a></li>
-    <li class="column medium-12 input-margin"><a href="{{ path('hwi_oauth_service_redirect',{"service":"twitter", "type" : context }) }}" class="social-networks-login-button icon-twitter is-center"><span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':'Twitter'}) }}</span></a></li>
+    {% for service in services %}
+        {% set path_params = {
+            'service':service.name,
+            'type':context
+        } %}
+        {% set destination_param = (destination is defined)?{'_destination':destination|replace({'__context__':context,'__platform__':service.name})}:{} %}
+        {% set path_params = path_params|merge(destination_param) %}
+        <li class="column medium-12 input-margin">
+            <a href="{{ path('hwi_oauth_service_redirect',path_params) }}" class="social-networks-login-button {{ service.icon }} is-center">
+                <span class="show-for-medium">{{ 'social_network.registration_with'|trans({'%social_network%':service.label}) }}</span></a>
+        </li>
+    {% endfor %}
 </ul>
+
