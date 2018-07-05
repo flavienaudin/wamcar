@@ -4,7 +4,7 @@
 {% set social_connect = social_connect is defined?social_connect:true %}
 
 {% if social_connect %}
-    {% set destination_url = (context == constant("Wamcar\\User\\ProUser::TYPE")? url('front_view_current_user_info',{'inscr':'__context__-__platform__'}) : url('register_confirm',{'insc':'__context__-__platform__'}) )%}
+    {% set destination_url = (context == constant("Wamcar\\User\\ProUser::TYPE")? url('front_view_current_user_info') : url('register_confirm') )%}
     <aside class="register-right small-12 medium-6">
         <h2 class="black-color column small-12">{{ 'user.social_connect'|trans }}</h2>
         {% include 'front/Security/Register/includes/social_networks_registration.html.twig' with {"context":context,"destination":destination_url} %}

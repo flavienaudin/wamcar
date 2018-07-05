@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserAuthenticator;
@@ -211,7 +212,7 @@ class RegistrationController extends BaseController
             try {
                 $registeredVehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $this->userAuthenticator->authenticate($registeredVehicle->getOwner());
-                return $this->redirectToRoute('register_confirm', ['insc'=>'l']);
+                return $this->redirectToRoute('register_confirm', [SecurityController::INSCRIPTION_QUERY_PARAM =>'personal-emaill']);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
