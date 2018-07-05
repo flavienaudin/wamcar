@@ -373,7 +373,7 @@ class SecurityController extends BaseController
                 $sessionKeyFailure = '_security.' . $providerKey . '.failed_target_path';
 
                 $param = $this->hwiOAuthTargetPathParameter;
-                if (!empty($param) && $targetUrl = $request->get($param)) {
+                if (!empty($param) && !$session->has($sessionKey) && $targetUrl = $request->get($param)) {
                     $session->set($sessionKey, $targetUrl);
                 }
 
