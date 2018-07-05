@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
@@ -59,7 +60,7 @@ class VehicleController extends BaseController
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider= $vehicleInfoProvider;
+        $this->vehicleInfoProvider = $vehicleInfoProvider;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
@@ -115,12 +116,12 @@ class VehicleController extends BaseController
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = null;
-                if(isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])){
+                if (isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])) {
                     $ktypNumber = $information['Vehicule']['ktypnr_aaa'];
-                } elseif(isset($information['Vehicule']['LTYPVEH'])){
-                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value){
-                        if(isset($value['KTYPNR']) && !empty($value['KTYPNR'])){
-                            if(!empty($ktypNumber)){
+                } elseif (isset($information['Vehicule']['LTYPVEH'])) {
+                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value) {
+                        if (isset($value['KTYPNR']) && !empty($value['KTYPNR'])) {
+                            if (!empty($ktypNumber)) {
                                 $this->session->getFlashBag()->add(
                                     self::FLASH_LEVEL_DANGER,
                                     'flash.warning.vehicle.multiple_vehicle_types'
@@ -132,27 +133,27 @@ class VehicleController extends BaseController
                 };
 
                 $vehicleInfo = [];
-                if(!empty($ktypNumber)) {
+                if (!empty($ktypNumber)) {
                     $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if(count($vehicleInfo) == 1){
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])){
+                if (count($vehicleInfo) == 1) {
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
                         $filters['make'] = $vehicleInfo[0]['make'];
-                    }else{
+                    } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
                         $filters['model'] = $vehicleInfo[0]['model'];
-                    }else{
+                    } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
                         $filters['engine'] = $vehicleInfo[0]['engine'];
-                    }else{
+                    } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
 
-                }else {
+                } else {
                     $filters['make'] = $information['Vehicule']['MARQUE'];
                     $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     $filters['engine'] = $information['Vehicule']['VERSION'];
@@ -164,7 +165,7 @@ class VehicleController extends BaseController
                 }
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
                 if ($vin) {
-                    if(strlen($vin) < 17){
+                    if (strlen($vin) < 17) {
                         $vin = str_pad($vin, 17, '_', STR_PAD_LEFT);
                     }
                     $vehicleDTO->setRegistrationVin($vin);
@@ -275,10 +276,16 @@ class VehicleController extends BaseController
             $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
             $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
-                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['id' => $vehicle->getId()])) {
-                    return $this->redirect($referer . '#header-' . $vehicle->getId());
+                // Keep the query param from the request
+                $queryParam = '';
+                if ($request->query->has(SecurityController::INSCRIPTION_QUERY_PARAM)) {
+                    $queryParam = str_contains($referer, '?') ? '&' : '?';
+                    $queryParam .= SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $request->query->get(SecurityController::INSCRIPTION_QUERY_PARAM);
                 }
-                return $this->redirect($referer . '#' . $vehicle->getId());
+                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['id' => $vehicle->getId()])) {
+                    return $this->redirect($referer . $queryParam . '#header-' . $vehicle->getId());
+                }
+                return $this->redirect($referer . $queryParam . '#' . $vehicle->getId());
             }
         }
         return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
