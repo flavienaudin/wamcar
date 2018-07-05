@@ -1,4 +1,5 @@
 {% set context = context|default(null)%}
+{% set destination_param = (destination is defined)?{'_destination':destination}:{} %}
 {% set services = [
     {
         'name':'facebook',
@@ -29,7 +30,6 @@
             'service':service.name,
             'type':context
         } %}
-        {% set destination_param = (destination is defined)?{'_destination':destination|replace({'__context__':context,'__platform__':service.name})}:{} %}
         {% set path_params = path_params|merge(destination_param ) %}
         <li class="column">
             <a href="{{ path('hwi_oauth_service_redirect',path_params) }}" class="social-networks-login-small-button {{ service.icon }} is-center">

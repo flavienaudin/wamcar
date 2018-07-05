@@ -3,6 +3,7 @@
 namespace AppBundle\Security;
 
 
+use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
@@ -143,17 +144,18 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             // Add the query param to track the inscription
             if ($this->session->has('_security.front.target_path')) {
                 $url_targeted = $this->session->get('_security.front.target_path');
-                if( !str_contains($url_targeted,'insc=')){
-                    if(str_contains($url_targeted,'?')){
-                        $this->session->set('_security.front.target_path', $url_targeted . "&insc=".$registrationType."-".$service);
-                    }else{
-                        $this->session->set('_security.front.target_path', $url_targeted . "?insc=".$registrationType."-".$service);
+                if (!str_contains($url_targeted, SecurityController::INSCRIPTION_QUERY_PARAM . '=')) {
+                    $queryParam = SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $registrationType . "-" . $service;
+                    if (str_contains($url_targeted, '?')) {
+                        $this->session->set('_security.front.target_path', $url_targeted . "&" . $queryParam);
+                    } else {
+                        $this->session->set('_security.front.target_path', $url_targeted . "?" . $queryParam);
                     }
                 }
             }
         } else {
             // if target_path is set to REGISTER_CONFIRM path while the user is already registred Then redirection to its profile
-            if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_confirm'))) {
+            if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_confirm', [], UrlGeneratorInterface::ABSOLUTE_URL))) {
                 $this->session->set('_security.front.target_path', $this->router->generate('front_view_current_user_info', [], UrlGeneratorInterface::ABSOLUTE_URL));
             }
         }

@@ -33,6 +33,8 @@ use Wamcar\User\ProUser;
 
 class SecurityController extends BaseController
 {
+    const INSCRIPTION_QUERY_PARAM = 'insc';
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var UserRegistrationService */
@@ -130,7 +132,7 @@ class SecurityController extends BaseController
         }
 
         $data = new RegistrationDTO();
-        if($request->query->has('email_registration')){
+        if ($request->query->has('email_registration')) {
             $data->email = $request->query->get('email_registration');
         }
 
@@ -160,15 +162,23 @@ class SecurityController extends BaseController
             $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
             if ($redirectTo = $this->session->get($key)) {
                 $this->session->remove($key);
+                if (!str_contains($redirectTo, self::INSCRIPTION_QUERY_PARAM . '=')) {
+                    $queryParam = self::INSCRIPTION_QUERY_PARAM . "=" . $type . "-emailc";
+                    if (str_contains($redirectTo, '?')) {
+                        $redirectTo .= "&" . $queryParam;
+                    } else {
+                        $redirectTo .= "?" . $queryParam;
+                    }
+                }
                 return $this->redirect($redirectTo);
             } else if ($type == ProUser::TYPE) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.registration_success_pro'
                 );
-                return $this->redirectToRoute('front_view_current_user_info');
+                return $this->redirectToRoute('front_view_current_user_info', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
             } else {
-                return $this->redirectToRoute('register_confirm', ['insc'=>'c']);
+                return $this->redirectToRoute('register_confirm', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
             }
         }
 
