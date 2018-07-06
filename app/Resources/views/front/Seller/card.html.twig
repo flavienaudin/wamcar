@@ -74,7 +74,9 @@
                         {% else %}
                             <p>{{ 'user.garage.empty'|trans }}</p>
                         {% endif %}
-                        <a href="{{ path('front_garage_create') }}" class="text-underline">{{ 'user.garage.add'|trans }}</a>
+                        {% if userIsMe %}
+                            <a href="{{ path('front_garage_create') }}" class="text-underline">{{ 'user.garage.add'|trans }}</a>
+                        {% endif %}
                     {% endif %}
                 {% endblock %}
             </div>

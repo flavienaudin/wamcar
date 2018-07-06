@@ -269,7 +269,7 @@ class UserController extends BaseController
         }
 
         $addGarageForm = null;
-        if ($user instanceof ProUser && $user->getGarage() == null) {
+        if ($user instanceof ProUser && $user->getGarage() == null && $user === $this->getUser()) {
             $garageDTO = new GarageDTO();
             $addGarageForm = $this->formFactory->create(GarageType::class, $garageDTO, ['only_google_fields' => true]);
             $addGarageForm->handleRequest($request);
