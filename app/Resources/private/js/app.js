@@ -126,10 +126,10 @@ $(function () {
   /* Dropdown menu */
 
   const $dropdownMenu = $('[data-dropdown-menu]');
-  if($dropdownMenu){
+  if ($dropdownMenu) {
     const options = {
-      'data-disable-hover' : true,
-      'data-autoclose' : false
+      'data-disable-hover': true,
+      'data-autoclose': false
     };
 
     $dropdownMenu.each((index, dropdown) => {
@@ -164,43 +164,12 @@ $(function () {
   $('#message_send').on('click', function () {
     $(this).addClass('loader-visible');
   });
-});
-
-
-/* ===========================================================================
-   DOM Content Loaded (for pure Javascript function)
-   =========================================================================== */
-
-document.addEventListener('DOMContentLoaded', function () {
-  /*
-     Grid
-     ===================================== */
-  const $buttonShowGrid = document.getElementById('button-show-grid');
-
-  $buttonShowGrid && $buttonShowGrid.addEventListener('click', () => {
-    grid.show();
-  });
-
-
-  /*
-     ScrollTo
-     ===================================== */
-  const $scrollTo = document.querySelectorAll('[data-scroll-to]');
-
-  [...$scrollTo].forEach((item) => {
-    item.addEventListener('click', () => {
-      const $target = item.getAttribute('data-scroll-to');
-
-      setTimeout(() => scrollTo($target), 100);
-    });
-  });
-
 
   /*
      Light embeded youtube video
      ===================================== */
 
-  let div, n, v = document.querySelectorAll('.youtube-player');
+  let div, n, v = $('.youtube-player');
   for (n = 0; n < v.length; n++) {
     div = document.createElement('div');
     div.setAttribute('data-id', v[n].dataset.id);
@@ -209,8 +178,19 @@ document.addEventListener('DOMContentLoaded', function () {
     v[n].appendChild(div);
   }
 
-}, false);
+  /*
+     ScrollTo : A vérifier lors de la première utilisation
+     ===================================== */
+  /*const $scrollTo = document.querySelectorAll('[data-scroll-to]');
+  [...$scrollTo].forEach((item) => {
+    item.addEventListener('click', () => {
+      const $target = item.getAttribute('data-scroll-to');
 
+      setTimeout(() => scrollTo($target), 100);
+    });
+  });*/
+
+});
 
 
 /*
