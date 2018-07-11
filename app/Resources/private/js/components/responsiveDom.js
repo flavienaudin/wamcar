@@ -3,18 +3,20 @@
    =========================================================================== */
 
 import $ from 'jquery';
-import responsiveDom from 'ResponsiveDom';
-import foundation from 'foundation-sites';
+import 'ResponsiveDom';
+import 'foundation-sites';
 
 const $navigation = '#js-navigation';
 const $offCanvasNavigation = '#js-off-canvas-navigation';
 
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
-  mediaQuery: '(max-width: 1023px)',
+  mediaQuery: '(max-width: 1024px)',
   callback: function(mediaMatched) {
+    $($navigation).toggleClass('is-flex');
     if (!mediaMatched) {
-      $($offCanvasNavigation).foundation('close');
+      // Test pour corriger le flash rouge sur Chrome
+      //$($offCanvasNavigation).foundation('close');
     }
   }
 });

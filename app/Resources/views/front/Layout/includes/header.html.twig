@@ -20,7 +20,7 @@
         {% block header_right %}
             {% if isLogged %}
                 <ul class="dropdown menu" data-dropdown-menu>
-                    <li>
+                    <li class="is-flex">
                         <a href="#" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar is-logo brand-logo-rounded">
                             <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}"
                                  title="{{ app.user.firstName }}">

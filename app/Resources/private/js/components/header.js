@@ -15,3 +15,6 @@ if ($vehicleForm) {
     currentScroll > scrollLimit ? $header.classList.remove(transparentClass) : $header.classList.add(transparentClass);
   });
 }
+
+/* Graphic trick : on rend visible les liens de l'entête une fois le JS chargé */
+$('.l-navigation.is-hidden').removeClass('is-hidden');
