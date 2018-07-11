@@ -39,7 +39,7 @@
                                         <ul class="menu">
                                             {% for garageMemberShip in app.user.garageMemberships %}
                                                 <li><a href="{{ path('front_garage_view', {'id': garageMemberShip.garage.id}) }}" class="logo-garage">
-                                                    <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                    <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
                                                             &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
 
                                                     </a></li>
@@ -58,7 +58,7 @@
                                         <ul class="menu">
                                             {% for garageMemberShip in app.user.garageMemberships %}
                                                 <li><a href="{{ path('front_vehicle_pro_add', {'garage_id': garageMemberShip.garage.id}) }}" class="logo-garage">
-                                                        <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                        <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
                                                         &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
                                                     </a></li>
                                             {% endfor %}
