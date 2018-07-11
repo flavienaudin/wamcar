@@ -88,6 +88,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         $this->banner = $banner;
         $this->logo = $logo;
         $this->googleRating = $googleRating;
+        $this->generateApiCredentials();
     }
 
     /**

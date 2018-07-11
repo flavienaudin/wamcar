@@ -13,7 +13,7 @@
                 <h1 class="primary-color no-margin">Véhicules&nbsp;</h1>
                 {% if isUserPro %}
                     {% if not app.user.hasGarage %}
-                        <a href="{{ path('front_garage_create') }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": 0 }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
                             {{ 'vehicle.create'|trans }}
                         </a>
                     {% elseif app.user.garageMemberships|length == 1 %}

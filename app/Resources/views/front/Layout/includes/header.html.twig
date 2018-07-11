@@ -20,7 +20,7 @@
         {% block header_right %}
             {% if isLogged %}
                 <ul class="dropdown menu" data-dropdown-menu>
-                    <li>
+                    <li class="is-flex">
                         <a href="#" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar is-logo brand-logo-rounded">
                             <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}"
                                  title="{{ app.user.firstName }}">
@@ -39,7 +39,7 @@
                                         <ul class="menu">
                                             {% for garageMemberShip in app.user.garageMemberships %}
                                                 <li><a href="{{ path('front_garage_view', {'id': garageMemberShip.garage.id}) }}" class="logo-garage">
-                                                    <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                    <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
                                                             &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
 
                                                     </a></li>
@@ -58,7 +58,7 @@
                                         <ul class="menu">
                                             {% for garageMemberShip in app.user.garageMemberships %}
                                                 <li><a href="{{ path('front_vehicle_pro_add', {'garage_id': garageMemberShip.garage.id}) }}" class="logo-garage">
-                                                        <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                        <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
                                                         &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
                                                     </a></li>
                                             {% endfor %}
