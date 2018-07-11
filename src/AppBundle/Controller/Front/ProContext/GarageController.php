@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Session\SessionMessageManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -19,30 +20,35 @@ use Wamcar\Garage\GarageRepository;
 
 class GarageController extends BaseController
 {
+    use VehicleTrait;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
-
     /** @var GarageRepository */
     protected $garageRepository;
-
     /** @var GarageEditionService */
     protected $garageEditionService;
+    /** @var SessionMessageManager */
+    protected $sessionMessageManager;
 
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
+     * @param SessionMessageManager $sessionMessageManager
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         GarageRepository $garageRepository,
-        GarageEditionService $garageEditionService
+        GarageEditionService $garageEditionService,
+        SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
+        $this->sessionMessageManager = $sessionMessageManager;
     }
 
     /**
@@ -100,10 +106,11 @@ class GarageController extends BaseController
                 self::FLASH_LEVEL_INFO,
                 $successMessage
             );
-            return $this->redirectToRoute('front_garage_view', ['id' => $garage->getId()]);
+            return $this->redirSave([], 'front_garage_view', ['id' => $garage->getId()]);
         }
 
         return $this->render('front/Garages/Edit/edit.html.twig', [
+            'garage' => $garage,
             'isNew' => $garageDTO->isNew,
             'garageForm' => $garageForm->createView(),
         ]);

@@ -35,12 +35,12 @@ class MessageType extends AbstractType
             ;
 
         $userVehicles = $user->getVehicles();
-        if ($userVehicles != null && count($userVehicles) > 0) {
+        /*if ($userVehicles != null && count($userVehicles) > 0) {*/
             $builder->add('selectVehicle', SubmitType::class);
-        } else {
+        /*} else {
+            TODO : Permettre la création d'un véhicule directement mais gére le cas multi-garages : Cf ConversationController->redirectionFromSubmitButton()
             $builder->add('createVehicle', SubmitType::class);
-        }
-
+        }*/
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             /** @var MessageDTO $messageDTO */

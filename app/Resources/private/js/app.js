@@ -13,6 +13,7 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 import {Tabs} from 'foundation-sites/js/foundation.tabs';
 import {Magellan} from 'foundation-sites/js/foundation.magellan';
 import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
+import {Dropdown} from 'foundation-sites/js/foundation.dropdown';
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import './components/responsiveDom';
 import './components/search';
@@ -32,7 +33,6 @@ import './components/star';
 import './components/radio';
 import './components/project';
 import './components/avatar';
-import scrollTo from './components/scrollTo';
 import {activeClass} from './settings/settings.js';
 
 Reveal.defaults.animationIn = 'slide-in-down';
@@ -123,8 +123,17 @@ $(function () {
     });
   }
 
-  /* Dropdown menu */
+  /* Dropdown */
+  const $dropdown = $('[data-dropdown]');
+  if ($dropdown) {
+    const options = {};
 
+    $dropdown.each((index, dropdown) => {
+      new Dropdown($(dropdown), options);
+    });
+  }
+
+  /* Dropdown menu */
   const $dropdownMenu = $('[data-dropdown-menu]');
   if ($dropdownMenu) {
     const options = {

@@ -29,8 +29,42 @@
                         <ul class="menu is-dropdown-submenu">
                             {% if isUserPro %}
                                 <li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.pro.my_profile'|trans }}</a></li>
-                                <li><a href="{{ app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') }}">{{ 'header.pro.my_garage'|trans }}</a></li>
-                                <li><a href="{{ path('front_vehicle_pro_add') }}">{{ 'header.anonyme.sell'|trans }}</a></li>
+                                {% if not app.user.hasGarage %}
+                                    <li><a href="{{ path('front_garage_create') }}">{{ 'header.pro.my_garage'|trans }}</a></li>
+                                {% elseif app.user.garageMemberships|length == 1 %}
+                                    <li><a href="{{ path('front_garage_view', {'id': app.user.garageMemberships.first.garage.id}) }}">{{ 'header.pro.my_garage'|trans }}</a></li>
+                                {% else %}
+                                    <li>
+                                        <a href="#" >{{ 'header.pro.my_garages'|trans }}</a>
+                                        <ul class="menu">
+                                            {% for garageMemberShip in app.user.garageMemberships %}
+                                                <li><a href="{{ path('front_garage_view', {'id': garageMemberShip.garage.id}) }}" class="logo-garage">
+                                                    <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                            &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
+
+                                                    </a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif%}
+                                {% if not app.user.garage %}
+                                    {# Astuce : Pas de possibilité d'ajouter un véhicule avant d'avoir créer le garage => Redirection vers page de création d'un garage avec message dans l'action #}
+                                    <li><a href="{{ path('front_vehicle_pro_add', {'garage_id':0}) }}">{{ 'header.anonyme.sell'|trans }}</a></li>
+                                {% elseif app.user.garageMemberships|length == 1 %}
+                                    <li><a href="{{ path('front_vehicle_pro_add', {'garage_id': app.user.garageMemberships.first.garage.id}) }}">{{ 'header.anonyme.sell'|trans }}</a></li>
+                                {% else %}
+                                    <li>
+                                        <a href="#" >{{ 'header.anonyme.sell'|trans }}</a>
+                                        <ul class="menu">
+                                            {% for garageMemberShip in app.user.garageMemberships %}
+                                                <li><a href="{{ path('front_vehicle_pro_add', {'garage_id': garageMemberShip.garage.id}) }}" class="logo-garage">
+                                                        <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                                        &nbsp;{{ garageMemberShip.garage.name}} - {{ garageMemberShip.garage.city.name}}
+                                                    </a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endif%}
                                 <li><a href="{{ path('front_search_pro') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
                             {% elseif isUserPersonal%}
                                 <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_project_section'}) }}">{{ 'header.personal.my_add'|trans }}</a></li>

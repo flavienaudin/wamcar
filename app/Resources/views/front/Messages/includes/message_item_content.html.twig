@@ -8,8 +8,14 @@
     <div class="">
         <h1 class="primary-color no-margin">{{ interlocutor.fullName }}</h1>
         <div class="messages-small-text">
-            {% if interlocutor.isPro and interlocutor.garage %}
-                {{ interlocutor.garage.name }}
+            {% if interlocutor.isPro and interlocutor.hasGarage %}
+                {% set garageMemberships = interlocutor.garageMemberships %}
+                {% if garageMemberships|length == 1 %}
+                    <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                {% else %}
+                    {# TODO placeholder ou liste des garages ? #}
+                    Plusieurs garages
+                {% endif %}
             {% endif %}
         </div>
     </div>
@@ -38,8 +44,14 @@
                 </div>
             </div>
             <div class="messages-small-text">
-                {% if message.user.isPro and message.user.garage %}
-                    <a href="{{ path('front_garage_view', {'id':message.user.garage.id}) }}" target="_blank">{{ message.user.garage.name }}</a>
+                {% if message.user.isPro and message.user.hasGarage %}
+                    {% set garageMemberships = message.user.garageMemberships %}
+                    {% if garageMemberships|length == 1 %}
+                        <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                    {% else %}
+                        {# TODO placeholder ou liste des garages ? #}
+                        Plusieurs garages
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -15,10 +15,12 @@ use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicle;
@@ -68,23 +70,49 @@ class VehicleController extends BaseController
 
     /**
      * @param Request $request
+     * @param Garage $garage
      * @param string $plateNumber
      * @param ProVehicle $vehicle
      * @Security("has_role('ROLE_USER')")
      * @return Response
      * @throws \AutoData\Exception\AutodataException
+     * @ParamConverter("garage", class="Wamcar\Garage\Garage", options={"id" = "garage_id"})
+     * @ParamConverter("vehicle", class="Wamcar\Vehicle\ProVehicle", options={"id" = "vehicle_id"})
      */
     public function saveAction(
         Request $request,
+        Garage $garage = null,
         ProVehicle $vehicle = null,
         string $plateNumber = null): Response
     {
-        if (!$this->getUser() instanceof CanBeGarageMember || !$this->getUser()->getGarage()) {
+        /* BaseUser $user */
+        $user = $this->getUser();
+
+        if (!$user instanceof CanBeGarageMember) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.not_pro_user_no_garage');
+            return $this->redirectToRoute("front_view_current_user_info");
+        }
+        if (!$user->hasGarage()) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
             return $this->redirectToRoute("front_garage_create");
         }
-        /** @var Garage $garage */
-        $garage = $this->getUser()->getGarage();
+
+        /* Check request parameters */
+        if ($garage == null) {
+            if($vehicle) {
+                $garage = $vehicle->getGarage();
+            } else{
+                throw new BadRequestHttpException('A vehicle to edit or a garage to add a new vehicle, is required');
+            }
+        } else{
+            if($vehicle && $vehicle->getGarage() != $garage){
+                throw new BadRequestHttpException('A vehicle to edit OR a garage to add a new vehicle, is required, not both');
+            }
+            if (!$user->isMemberOfGarage($garage)) {
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized_to_add_vehicle_to_garage');
+                return $this->redirectToRoute("front_view_current_user_info");
+            }
+        }
 
         if ($vehicle) {
             if (!$this->proVehicleEditionService->canEdit($this->getUser(), $vehicle)) {
@@ -99,13 +127,14 @@ class VehicleController extends BaseController
                 $vehicleDTO->getVehicleRegistration()->setPlateNumber($plateNumber);
             }
             $actionRoute = $this->generateUrl('front_vehicle_pro_edit', [
-                'id' => $vehicle->getId(),
+                'vehicle_id' => $vehicle->getId(),
                 'plateNumber' => $plateNumber
             ]);
         } else {
             $vehicleDTO = new ProVehicleDTO($plateNumber);
             $vehicleDTO->setCity($garage->getCity());
             $actionRoute = $this->generateUrl('front_vehicle_pro_add', [
+                'garage_id' => $garage->getId(),
                 'plateNumber' => $plateNumber
             ]);
         }
@@ -201,7 +230,7 @@ class VehicleController extends BaseController
             }
 
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $flashMessage);
-            return $this->redirSave($vehicle, 'front_vehicle_pro_detail');
+            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_pro_detail', ['id' => $vehicle->getId()]);
         }
 
         return $this->render('front/Vehicle/Add/add.html.twig', [

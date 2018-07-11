@@ -1,0 +1,9 @@
+{#{% extends ':front/Vehicle/Listing/includes:vehicle_item.html.twig' %}#}
+
+{% extends ':front/Search/includes:item_personal.html.twig' %}
+
+{% set detailUrl = path(linkRoute, linkRouteParams|merge({'v': vehicle.id, '_fragment':'message-answer-block'})) %}
+
+{% block right_action %}
+    <a href="{{ detailUrl }}" class="vehicle-infos-arrow icon-plus"></a>
+{% endblock %}

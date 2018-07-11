@@ -2,7 +2,7 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Ajouter un véhicule{% endblock %}
+{% block title %}{{ 'vehicle.add'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Header -->
@@ -10,32 +10,72 @@
         <div class="row">
             <div class="small-12 messages-header-title block-grid">
                 <a href="{{ path(linkRoute, linkRouteParams) }}#message-answer-block" class="messages-back-btn icon-close"></a>
-                <h1 class="primary-color no-margin">Véhicules</h1>
-                <a href="{{ app.user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') }}" class="text-underline vehicle-messages-create messages-header-right-link">
-                    Créer un véhicule
-                </a>
+                <h1 class="primary-color no-margin">Véhicules&nbsp;</h1>
+                {% if isUserPro %}
+                    {% if not app.user.hasGarage %}
+                        <a href="{{ path('front_garage_create') }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                            {{ 'vehicle.create'|trans }}
+                        </a>
+                    {% elseif app.user.garageMemberships|length == 1 %}
+                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": app.user.garageMemberships.first.garage.id }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                            {{ 'vehicle.create'|trans }}
+                        </a>
+                    {% else %}
+                        <a href="#" class="text-underline vehicle-messages-create messages-header-right-link" data-toggle="add_vehicle_garage_list">{{ 'vehicle.create'|trans }}</a>
+                        <div id="add_vehicle_garage_list" class="dropdown-pane text-left" data-dropdown data-hover="true" data-hover-pane="true" data-position="bottom" data-alignment="left">
+                            <ul class="no-margin no-bullet">
+                                {% for garageMemberShip in app.user.garageMemberships %}
+                                    <li>
+                                        <div class="is-flex">
+                                            <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                            &nbsp;<a href="{{ path('front_vehicle_pro_add',{'garage_id':garageMemberShip.garage.id}) }}" >{{ garageMemberShip.garage.name }}</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ path('front_vehicle_personal_add') }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                        {{ 'vehicle.create'|trans }}
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
     <div class="row">
         <div class="small-12">
-            <!-- Vehicle list -->
-            <ul class="block-grid vehicle-messages-list no-bullet">
-                {% for vehicle in vehicles %}
-                    <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
-                        {% include 'front/Messages/includes/item_selection_vehicle.html.twig' %}
-                    </li>
+            {% if vehicles|length > 0 %}
+                {% if app.user.isPro %}
+                    <!-- Pro vehicles list -->
+                    <div class="garage-container messages-list-vehicle">
+                        <div class="vehicle-list">
+                        {% for vehicle in vehicles %}
+                            <li class="small-12 column vehicle-messages-item-wrapper">
+                                {% include 'front/Messages/includes/item_selection_pro_vehicle.html.twig' %}
+                            </li>
+                        {% endfor %}
+                        </div>
+                    </div>
                 {% else %}
+                    <!-- Personal vehicles list -->
+                    <ul class="block-grid vehicle-messages-list no-bullet">
+                        {% for vehicle in vehicles %}
+                            <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
+                                {% include 'front/Messages/includes/item_selection_personal_vehicle.html.twig' %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% else %}
+                <div class="block-grid vehicle-messages-list">
                     <div class="vehicle-messages-list-empty text-center">
                         {% include 'front/Layout/includes/svg/red_car.html.twig' %}
                         <strong class="is-block">Vous n’avez pas encore de véhicule dans votre garage.</strong>
                         <p>Afin de pouvoir proposer un véhicule à un particulier, vous devez d’abord ajouter un véhicule à la vente.</p>
-                        <div class="block-grid">
-                            <button class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button" type="button">Créer un véhicule</button>
-                        </div>
                     </div>
-                {% endfor %}
-            </ul>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
