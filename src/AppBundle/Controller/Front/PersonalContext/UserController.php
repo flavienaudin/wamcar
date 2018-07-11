@@ -269,7 +269,7 @@ class UserController extends BaseController
         }
 
         $addGarageForm = null;
-        if ($user instanceof ProUser && $user->getGarage() == null && $user === $this->getUser()) {
+        if ($user instanceof ProUser && !$user->hasGarage() && $user === $this->getUser()) {
             $garageDTO = new GarageDTO();
             $addGarageForm = $this->formFactory->create(GarageType::class, $garageDTO, ['only_google_fields' => true]);
             $addGarageForm->handleRequest($request);
@@ -279,6 +279,7 @@ class UserController extends BaseController
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage_create');
                     return $this->redirectToRoute('front_view_current_user_info');
                 } else {
+                    // TODO Transmettre les données de la rechercehe Google Api pour pré-remplir le formulaire
                     return $this->redirectToRoute('front_garage_create');
                 }
             }

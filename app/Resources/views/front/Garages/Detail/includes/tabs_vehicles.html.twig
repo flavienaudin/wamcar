@@ -4,7 +4,7 @@
         {% if isEditableByCurrentUser %}
             <div class="block-grid column small-12 align-middle input-margin">
                 <div class="show-for-medium small-12 medium-shrink medium-right">
-                    <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                    <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
                 </div>
             </div>
         {% endif %}
@@ -19,7 +19,7 @@
             </div>
             {% if isEditableByCurrentUser %}
                 <div class="small-12 medium-shrink medium-right">
-                    <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                    <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
                 </div>
             {% endif %}
         </div>
@@ -27,7 +27,7 @@
         {% if isEditableByCurrentUser %}
             <p>Vous n'avez aucun véhicule en vente.</p>
             <div class="small-12 medium-6 large-4">
-                <a href="{{ path('front_vehicle_pro_add') }}" class="button add icon-plus">Ajouter un véhicule</a>
+                <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
             </div>
         {% else %}
             <p>Aucun véhicule n'est en vente.</p>

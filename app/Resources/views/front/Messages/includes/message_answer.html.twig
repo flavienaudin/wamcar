@@ -26,12 +26,14 @@
             'class': 'messages-vehicle-button text-underline'
         }) }}
     {% endif %}
+    {# Supprimer pour simplifier dans un premier temps : toujours rediriger vers liste des véhicules (vide)
     {% if messageForm.createVehicle is defined %}
         {{ form_widget(messageForm.createVehicle, {
             'label': 'conversation.answer.field.vehicle.create'|trans,
             'class': 'messages-vehicle-button text-underline'
         }) }}
     {% endif %}
+    #}
     {% if messageForm.isFleet is defined %}
         {{ form_widget(messageForm.isFleet, {
             'isNew': currentConversation == null

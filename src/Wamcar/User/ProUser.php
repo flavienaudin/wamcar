@@ -85,15 +85,12 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getGarage(): ?Garage
+    public function hasGarage(): bool
     {
-        if (count($this->garageMemberships) > 0) {
-            return $this->garageMemberships[0]->getGarage();
-        }
+        return count($this->garageMemberships) > 0;
 
-        return null;
     }
 
     /**
@@ -101,12 +98,14 @@ class ProUser extends BaseUser
      */
     public function getVehicles(): ?Collection
     {
-        if($this->getGarage() != null) {
-            return $this->getGarage()->getProVehicles();
-        } else {
-            return null;
+        $vehicles = new ArrayCollection();
+        /** @var GarageProUser $garageMembership */
+        foreach ($this->garageMemberships as $garageMembership) {
+            foreach ($garageMembership->getGarage()->getProVehicles() as $vehicle) {
+                $vehicles->add($vehicle);
+            }
         }
-
+        return $vehicles;
     }
 
     /**
@@ -123,7 +122,8 @@ class ProUser extends BaseUser
      * @param BaseUser|null $user
      * @return bool
      */
-    public function canSeeMyProfile(?BaseUser $user): bool{
+    public function canSeeMyProfile(?BaseUser $user): bool
+    {
         return true;
     }
 }

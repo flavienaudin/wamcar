@@ -204,7 +204,7 @@ class PersonalVehicleController extends BaseController
                 $flashMessage
             );
 
-            return $this->redirSave($vehicle, 'front_vehicle_personal_detail');
+            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_personal_detail', ['id' => $vehicle->getId()]);
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [

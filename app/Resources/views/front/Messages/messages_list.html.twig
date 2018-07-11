@@ -40,8 +40,14 @@
                                 </div>
                             </div>
                             <div class="messages-small-text">
-                                {% if interlocutor.isPro and interlocutor.garage %}
-                                    {{ interlocutor.garage.name }}
+                                {% if interlocutor.isPro and interlocutor.hasGarage %}
+                                    {% set garageMemberships = interlocutor.garageMemberships %}
+                                    {% if garageMemberships|length == 1 %}
+                                        <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                                    {% else %}
+                                        {# TODO placeholder ou liste des garages ? #}
+                                        Plusieurs garages
+                                    {% endif %}
                                 {% endif %}
                             </div>
                             <div class="messages-content messages-list-item-content">
@@ -70,8 +76,14 @@
                                     </div>
                                 </div>
                                 <div class="messages-small-text">
-                                    {% if interlocutorList.type == 'pro' and interlocutorList.garage != null %}
-                                        {{ interlocutorList.garage.name }}
+                                    {% if interlocutorList.isPro and interlocutorList.hasGarage %}
+                                        {% set garageMemberships = interlocutorList.garageMemberships %}
+                                        {% if garageMemberships|length == 1 %}
+                                            <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                                        {% else %}
+                                            {# TODO placeholder ou liste des garages ? #}
+                                            Plusieurs garages
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                                 <div class="messages-content messages-list-item-content">

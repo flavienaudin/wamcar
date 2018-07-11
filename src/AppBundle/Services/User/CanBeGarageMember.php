@@ -23,8 +23,9 @@ interface CanBeGarageMember
     public function isMemberOfGarage(Garage $garage): bool;
 
     /**
-     * @return null|Garage
+     * Decide if ProUser has at least ont garage
+     * @return bool
      */
-    public function getGarage(): ?Garage;
+    public function hasGarage(): bool;
 
 }

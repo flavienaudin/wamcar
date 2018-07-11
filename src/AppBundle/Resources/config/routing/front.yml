@@ -97,12 +97,20 @@ front_fetch_city:
     defaults: { _controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode }
 
 front_vehicle_pro_add:
-    path: /vehicule/vendeur/ajouter/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:save, plateNumber: null, vehicle: null  }
+    path: /vehicule/vendeur/ajouter/{garage_id}/{plateNumber}
+    requirements:
+        garage_id: '\d+'
+    defaults:
+      _controller: AppBundle:Front\ProContext\Vehicle:save
+      plateNumber: null
+      vehicle: null
 
 front_vehicle_pro_edit:
-    path: /vehicule/vendeur/{id}/modifier/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:save, plateNumber: null }
+    path: /vehicule/vendeur/modifier/{vehicle_id}/{plateNumber}
+    defaults:
+      _controller: AppBundle:Front\ProContext\Vehicle:save
+      garage: null
+      plateNumber: null
 
 front_vehicle_pro_detail:
     path: /vehicule/detail/{id}

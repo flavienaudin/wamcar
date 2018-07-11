@@ -1,0 +1,25 @@
+/* ===========================================================================
+   Dropdown
+   =========================================================================== */
+
+.dropdown {
+  &-pane {
+    a {
+      color: #000;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+
+    /* Separator
+       ===================================== */
+    .menu-separator {
+      border-bottom: rem-calc(1) solid $border-color;
+    }
+
+    li:not(:last-child){
+      @include inputMargin;
+    }
+  }
+}

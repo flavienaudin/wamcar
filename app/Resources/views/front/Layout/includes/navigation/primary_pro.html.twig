@@ -5,7 +5,34 @@
 {% set page_favorites = page_favorites|default(false) %}
 {% set page_message = page_message|default(false) %}
 
-{% set path_garage = isUserPro and app.user.garage ? path('front_garage_view', {'id': app.user.garage.id}) : path('front_garage_create') %}
+{% if app.user.garageMemberShips|length > 1 %}
+    {% set submenus = [] %}
+    {% for garageMemberShip in app.user.garageMemberShips %}
+        {% set submenus = submenus|merge([
+            {
+                label: garageMemberShip.garage.name ~ ' - ' ~ garageMemberShip.garage.city.name,
+                slug: path('front_garage_view', {'id':garageMemberShip.garage.id}),
+                logo: garageMemberShip.garage|logo('garage_mini_logo')
+            }
+        ]) %}
+    {% endfor %}
+    {% set garage_item = {
+        slug:'',
+        label: 'header.pro.my_garages'|trans,
+        icon: 'garage',
+        current: page_garage,
+        submenu: submenus
+    } %}
+{% else %}
+    {% set path_garage = isUserPro and app.user.hasGarage ? path('front_garage_view', {'id': app.user.garageMemberShips.first.garage.id}) : path('front_garage_create') %}
+    {% set garage_item = {
+        slug: path_garage,
+        label: 'header.pro.my_garage'|trans,
+        icon: 'garage',
+        current: page_garage
+    } %}
+{% endif %}
+
 {% set path_favorites = path('front_user_favorites_list') %}
 
 {% set nbUnreadMessages = getCountUnreadMessages(app.user) %}
@@ -17,12 +44,8 @@
         icon: 'search',
         current: page_search
     },
-    {
-        slug: path_garage,
-        label: 'header.pro.my_garage'|trans,
-        icon: 'garage',
-        current: page_garage
-    },
+    garage_item
+    ,
     {
         slug: path_favorites,
         label: 'header.common.my_favorites'|trans,
@@ -40,11 +63,28 @@
 
 {% block navigation %}
     {% for item in navigation_items %}
-        <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : ''  }} l-header-button icon-{{ item.icon }} body-font-color l-header-button">
+        <a href="{{ item.slug }}"
+           class="l-navigation-item is-logged {{ item.current ? 'is-active' : '' }} l-header-button icon-{{ item.icon }} body-font-color l-header-button {{ item.submenu is defined?"float-left" }}"
+           {% if item.submenu is defined %}data-toggle="header_garage_list"{% endif %}>
             {% if (item.showCountMessage ?? false) and (nbUnreadMessages > 0) %}
                 <span class="messages-notification">{{ nbUnreadMessages }}</span>
             {% endif %}
             <b class="show-for-xlarge">{{ item.label }}</b>
         </a>
+        {% if item.submenu is defined %}
+            <div id="header_garage_list" class="dropdown-pane text-left" data-dropdown data-hover="true"
+                 data-hover-pane="true" data-position="bottom" data-alignment="left">
+                <ul class="no-margin no-bullet">
+                    {% for submenuItem in item.submenu %}
+                        <li>
+                            <div class="is-flex">
+                                <img src="{{ submenuItem.logo }}" class="small-2 logo-mini" alt="Logo {{ submenuItem.label }}">
+                                &nbsp;<a href="{{ submenuItem.slug }}">{{ submenuItem.label }}</a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

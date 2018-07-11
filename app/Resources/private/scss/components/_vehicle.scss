@@ -946,13 +946,16 @@
         margin-right: 0;
 
         @include breakpoint(large) {
-          content: '\e913';
+          // content: '\e913';
         }
       }
     }
   }
 
   &-messages-item-wrapper {
+
+    display: flex;
+    flex-wrap: wrap;
 
     @include breakpoint(small only) {
       border: 0;

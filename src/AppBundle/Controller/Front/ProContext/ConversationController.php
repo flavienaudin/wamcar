@@ -18,7 +18,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\BaseVehicle;
 
 class ConversationController extends BaseController
@@ -255,7 +257,24 @@ class ConversationController extends BaseController
                 break;
             case 'createVehicle':
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
-                return $this->redirectToRoute($this->getUser()->isPro() ? 'front_vehicle_pro_add' : 'front_vehicle_personal_add');
+                $user = $this->getUser();
+                if($user->isPersonal()){
+                    return $this->redirectToRoute('front_vehicle_personal_add');
+                }else {
+                    /** @var ProUser $user */
+                    /** @var GarageProUser $userGarages */
+                    $nbUserGarages = count($user->getGarageMemberships());
+                    if($nbUserGarages  == 0){
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
+                        return $this->redirectToRoute('front_garage_create');
+                    }elseif($nbUserGarages  == 1){
+                        return $this->redirectToRoute('front_vehicle_pro_add',['garage_id' => $user->getGarageMemberships()->first()->getGarage()->getId()]);
+                    }else{
+                        /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
+                        return $this->redirectToRoute('front_view_current_user_info');
+                    }
+                }
                 break;
         }
 

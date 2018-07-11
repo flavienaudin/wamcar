@@ -3,6 +3,5 @@
 {% set detailUrl = path(linkRoute, linkRouteParams|merge({'v': vehicle.id, '_fragment':'message-answer-block'})) %}
 
 {% block right_action %}
-    {{ parent() }}
-    <a href="{{ detailUrl }}" class="vehicle-infos-arrow icon-arrow-right-2"></a>
+    <a href="{{ detailUrl }}" class="vehicle-infos-arrow icon-plus"></a>
 {% endblock %}

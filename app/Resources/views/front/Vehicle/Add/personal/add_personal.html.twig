@@ -8,7 +8,7 @@
     {% if vehicle %}
         Modifier mon véhicule {{ vehicle.name }}
     {% else %}
-        Ajouter un véhicule
+        {{ 'vehicle.add'|trans }}
     {% endif %}
 {% endblock %}
 
