@@ -64,6 +64,12 @@ Wamcar\Garage\Garage:
         deletedAt:
             type: date
             nullable: true
+        apiClientId:
+            type: string
+            nullable: true
+        apiSecret:
+            type: string
+            nullable: true
 
     oneToMany:
         members:

@@ -13,8 +13,17 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
-class ApiTokenAuthenticator extends AbstractGuardAuthenticator
+class GarageApiTokenAuthenticator extends AbstractGuardAuthenticator
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request)
+    {
+        return $request->headers->has('secret') && $request->query->has('client_id');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -37,11 +46,11 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
     {
         $clientId = $credentials['clientId'];
 
-        if(!$clientId) {
+        if (!$clientId) {
             return null;
         }
 
-        if(!$userProvider instanceof ApiUserProvider) {
+        if (!$userProvider instanceof ApiUserProvider) {
             return null;
         }
 
@@ -53,7 +62,7 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if(!$user instanceof HasApiCredential) {
+        if (!$user instanceof HasApiCredential) {
             return false;
         }
 
@@ -76,17 +85,8 @@ class ApiTokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $request->getSession()->set('AUTH_USER', $token->getUser());
+        $request->getSession()->set('AUTH_GARAGE', $token->getUser());
         return null;
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports(Request $request)
-    {
-        return $request->headers->has('secret') && $request->query->has('client_id');;
     }
 
     /**

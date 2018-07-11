@@ -51,9 +51,9 @@ class VehicleController extends BaseController
     /**
      * @SWG\Delete(
      *     path="/vehicules",
-     *     summary="Supprimer tous les véhicules",
+     *     summary="Supprimer tous les véhicules du garage",
      *     tags={"vehicle", "delete", "list"},
-     *     description="Supprimer tous les véhicules du professionel",
+     *     description="Supprimer tous les véhicules du garage",
      *     operationId="vehicleClearAction",
      *     @SWG\Parameter(ref="#/parameters/client_id"),
      *     @SWG\Parameter(ref="#/parameters/secret"),
@@ -67,8 +67,8 @@ class VehicleController extends BaseController
     public function clearAction(Request $request): Response
     {
         try {
-            $this->proVehicleEditionService->deleteAllForGarage($this->getUserGarage());
-            return new JsonResponse([]);
+            $nbProVehiclesDeleted = $this->proVehicleEditionService->deleteAllForGarage($this->getGarage());
+            return new JsonResponse(["nbVehicleDeleted" => $nbProVehiclesDeleted], Response::HTTP_OK);
         } catch (UnauthorizedHttpException $e) {
             return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
         }
@@ -77,9 +77,9 @@ class VehicleController extends BaseController
     /**
      * @SWG\Get(
      *     path="/vehicules",
-     *     summary="Récupérer tous les vehicules du professionel",
+     *     summary="Récupérer tous les vehicules du garage",
      *     tags={"vehicle", "list"},
-     *     description="Récupérer tous les vehicules du professionel (la date de dernière mise à jour ainsi que la liste des photos de chaque véhicule).",
+     *     description="Récupérer tous les vehicules du garage (la date de dernière mise à jour ainsi que la liste des photos de chaque véhicule).",
      *     operationId="vehicleListAction",
      *     @SWG\Parameter(ref="#/parameters/client_id"),
      *     @SWG\Parameter(ref="#/parameters/secret"),
@@ -95,12 +95,14 @@ class VehicleController extends BaseController
     public function getListAction(Request $request): Response
     {
         try {
-            $vehicles = $this->vehicleRepository->findAllForGarage($this->getUserGarage());
+            $vehicles = $this->vehicleRepository->findAllForGarage($this->getGarage());
 
             $data = [];
             /** @var ProVehicle $vehicle */
             foreach ($vehicles as $vehicle) {
-                $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
+                if($vehicle->getReference()) {
+                    $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
+                }
             }
 
             return new JsonResponse(array_values($data), Response::HTTP_OK);
@@ -139,24 +141,20 @@ class VehicleController extends BaseController
     public function addAction(Request $request): Response
     {
         try {
-            /** @var Garage $userGarage */
-            $userGarage = $this->getUserGarage();
-
             $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-
             $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
             if ($vehicle) {
                 throw new ConflictHttpException('reference already used');
             }
 
-            $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $userGarage);
+            $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $this->getGarage());
             $data = VehicleShortDTO::createFromProVehicle($vehicle);
 
             return new JsonResponse($data, Response::HTTP_OK);
         } catch (BadRequestHttpException|UnauthorizedHttpException|ConflictHttpException $e) {
             return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode(), $e->getHeaders());
         } catch (\Exception $e) {
-            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -347,35 +345,13 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @return Garage
-     * @throws UnauthorizedHttpException
-     */
-    private function getUserGarage(): Garage
-    {
-        $user = $this->getUser();
-        if (!$user) {
-            throw new UnauthorizedHttpException('Newauth realm="use login token".', 'use login token', null, 10);
-        }
-
-        if (!$user instanceof CanBeGarageMember) {
-            throw new UnauthorizedHttpException('Newauth realm="not proper user".', 'not proper user', null, 11);
-        }
-
-        if (!$user->getGarage()) {
-            throw new UnauthorizedHttpException('Newauth realm="create garage first".', 'create garage first', null, 12);
-        }
-
-        return $user->getGarage();
-    }
-
-    /**
      * @param string $id
      * @return ProVehicle
      * @throws AccessDeniedException|NotFoundHttpException
      */
     private function getVehicleFromId(string $id): ProVehicle
     {
-        if (!$this->getUserGarage()) {
+        if (!$this->getGarage()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -384,7 +360,7 @@ class VehicleController extends BaseController
             throw new NotFoundHttpException();
         }
 
-        if (!$this->getUserGarage()->hasVehicle($vehicle)) {
+        if (!$this->getGarage()->hasVehicle($vehicle)) {
             throw new AccessDeniedHttpException();
         }
 
