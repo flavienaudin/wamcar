@@ -78,6 +78,9 @@ services:
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true
 
+    AppBundle\Security\GarageApiTokenAuthenticator:
+        autowire: true
+
     AppBundle\Security\UserAuthenticator:
         autowire: true
 

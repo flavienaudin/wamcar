@@ -156,13 +156,19 @@ class ProVehicleEditionService
     }
 
     /**
+     * Supprime les véhicules du garage
      * @param Garage $garage
+     * @return int Nombre de véhicules supprimés
      */
-    public function deleteAllForGarage(Garage $garage): void
+    public function deleteAllForGarage(Garage $garage): int
     {
+        $nbProVehicles = 0;
+        /** @var ProVehicle $proVehicle */
         foreach ($garage->getProVehicles() as $proVehicle) {
             $this->deleteVehicle($proVehicle);
+            $nbProVehicles++;
         }
+        return $nbProVehicles;
     }
 
     /**

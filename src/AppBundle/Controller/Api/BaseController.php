@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Api;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Wamcar\Garage\Garage;
 
 /**
  * @SWG\Swagger(
@@ -56,10 +57,10 @@ abstract class BaseController
     }
 
     /**
-     * @return ApplicationUser
+     * @return Garage
      */
-    public function getUser(): ApplicationUser
+    public function getGarage(): Garage
     {
-        return $this->session->get('AUTH_USER');
+        return $this->session->get('AUTH_GARAGE');
     }
 }

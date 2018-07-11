@@ -7,7 +7,7 @@ security:
         database:
             id: AppBundle\Doctrine\Repository\DoctrineUserRepository
         api:
-            id: AppBundle\Doctrine\Repository\DoctrineProUserRepository
+            id: AppBundle\Doctrine\Repository\DoctrineGarageRepository
 
     role_hierarchy:
         ROLE_PRO: ROLE_USER
@@ -26,7 +26,7 @@ security:
             stateless: true
             guard:
                 authenticators:
-                    - AppBundle\Security\ApiTokenAuthenticator
+                    - AppBundle\Security\GarageApiTokenAuthenticator
 
         front:
             anonymous: ~

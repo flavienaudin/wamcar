@@ -3,17 +3,21 @@
 namespace Wamcar\Garage;
 
 use AppBundle\Doctrine\Entity\GaragePicture;
+use AppBundle\Security\SecurityInterface\HasApiCredential;
+use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
-class Garage
+class Garage implements \Serializable, UserInterface, HasApiCredential
 {
     use SoftDeleteable;
+    use ApiCredentialTrait;
 
     /** @var int */
     protected $id;
@@ -93,6 +97,58 @@ class Garage
     {
         return $this->id;
     }
+
+
+    /** Méthodes pour l'interface UserInterface */
+    public function getUsername()
+    {
+        return $this->id;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_GARAGE');
+    }
+
+    public function getPassword()
+    {
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function eraseCredentials()
+    {
+    }
+    /** Fin des méthodes pour l'interface UserInterface */
+
+
+
+    /** Méthodes pour l'interface Serializable */
+    /**
+     * {@inheritdoc}
+     */
+    public function serialize(): string
+    {
+        return serialize(array(
+            $this->id,
+            $this->name,
+
+        ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->name
+            ) = unserialize($serialized);
+    }
+    /** Fin des méthodes pour l'interface Serializable */
 
     /**
      * @return string|null
