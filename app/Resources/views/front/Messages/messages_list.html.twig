@@ -11,7 +11,7 @@
         {% if interlocutor == null and conversations|length == 0 %}
             {% include 'front/Messages/includes/messages_list_empty.html.twig' %}
         {% endif %}
-        <div class="small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
+        <div class="messages-interlocutors-list small-12 medium-5 large-4 {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}" >
             {% if interlocutor != null and conversations|length != 0 %}
 
             <!-- Header -->

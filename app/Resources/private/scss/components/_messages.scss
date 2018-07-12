@@ -481,19 +481,12 @@
      Messages list & content max height
      ===================================== */
 
+  &-interlocutors-list,
   &-item-wrapper-desktop,
   &-list {
     @include breakpoint(medium) {
       max-height: 100%;
       overflow-y: auto;
-    }
-
-    @include breakpoint(large) {
-      //max-height: 70vh;
-    }
-
-    @include breakpoint(xlarge) {
-      //max-height: 75vh;
     }
   }
 
