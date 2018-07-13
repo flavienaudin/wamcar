@@ -76,7 +76,15 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->Energie = $data['Energie'];
             $vehicleDto->Kilometrage = $data['Kilometrage'];
             $vehicleDto->PrixVenteTTC = $data['PrixVenteTTC'];
-            $vehicleDto->Neuf = $data['Neuf'] ?? null;
+
+            /** Patch Ubiflow */
+            if($data['Neuf'] === "false"){
+                $data['Neuf'] = false;
+            }elseif($data['Neuf'] === "true"){
+                $data['Neuf'] = true;
+            }
+            $vehicleDto->Neuf =  $data['Neuf'] ?? null;
+
             $vehicleDto->Description = $data['Description'];
             $vehicleDto->URLVehicule = $data['URLVehicule'] ?? null;
             $vehicleDto->Annee = $data['Annee'] ?? null;
