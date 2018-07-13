@@ -32,7 +32,7 @@
      ===================================== */
 
   &-header,
-  &-content {
+  &-content-element {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
 
@@ -95,5 +95,13 @@
 
   &-separator {
     border-top: rem-calc(1) solid $border-color;
+  }
+
+  > :last-child{
+    margin-bottom: $header-height;
+
+    @include breakpoint(medium){
+      margin-bottom: $header-height-medium;
+    }
   }
 }

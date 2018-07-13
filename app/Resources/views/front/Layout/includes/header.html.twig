@@ -91,9 +91,10 @@
 </header>
 
 {% if not isLogged %}
-    <div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
+    <div id="js-off-canvas-user" class="off-canvas position-right is-closed" data-content-scroll="false" aria-hidden="true">
         {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
     </div>
+    <div id="js-off-canvas-navigation" class="off-canvas position-right is-closed off-canvas-navigation " data-content-scroll="false" aria-hidden="true"></div>
 {% endif %}
 
-<div id="js-off-canvas-navigation" class="off-canvas off-canvas-navigation position-right" data-off-canvas></div>
+
