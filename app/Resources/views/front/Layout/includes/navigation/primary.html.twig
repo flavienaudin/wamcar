@@ -1,7 +1,8 @@
 {% set isLogged = isLogged|default(false) %}
 {% set navigation_class = navigation_class|default('is-flex align-center align-middle') %}
 
-<nav id="{{ not isLogged ? 'js-navigation' }}" class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
+<nav id="{{ not isLogged ? 'js-navigation' }}"
+     class="l-navigation column large-text-center show-for-large {{ navigation_class }}">
     {% block navigation %}
         <a href="{{ path('front_search_personal') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.see_search'|trans }}</strong></a>
         <a href="{{ path('front_vehicle_registration') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.sell'|trans }}</strong></a>

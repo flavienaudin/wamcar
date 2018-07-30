@@ -11,14 +11,8 @@ const $offCanvasNavigation = '#js-off-canvas-navigation';
 
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
-  mediaQuery: '(max-width: 1024px)',
-  callback: function(mediaMatched) {
-    $($navigation).toggleClass('is-flex');
-    if (!mediaMatched) {
-      // Test pour corriger le flash rouge sur Chrome
-      //$($offCanvasNavigation).foundation('close');
-    }
-  }
+  mediaQuery: '(max-width: 1023px)',
+  callback: matched => matched && $($navigation).removeClass('show-for-large')
 });
 
 const $movePicturesList = '#js-move-pictures-list';
@@ -40,3 +34,4 @@ if ($($garagePicture).length) {
     mediaQuery: '(min-width: 1024px)'
   });
 }
+
