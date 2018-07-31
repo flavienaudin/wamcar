@@ -10,13 +10,14 @@
 
   &-l-main {
     position: absolute;
-    top: $header-height;
-    bottom: 0;
+    top: $header-height + rem-calc(20);
+    bottom: rem-calc(20);
     left: 0;
     right: 0;
+    overflow-y: hidden;
 
     @include breakpoint(large) {
-      top: $header-height-medium;
+      top: $header-height-medium + rem-calc(20);
     }
   }
 
@@ -481,19 +482,15 @@
      Messages list & content max height
      ===================================== */
 
-  &-list,
+  &-interlocutors-list,
   &-item-wrapper-desktop{
-    @include breakpoint(medium) {
-      max-height: 100%;
-      overflow-y: auto;
-    }
+    max-height: 100%;
+    overflow-y: auto;
   }
 
-  &-interlocutors-list
+  &-list
   {
-    @include breakpoint(medium) {
-      overflow-y: hidden;
-    }
+    overflow-y: hidden;
   }
 
   /*
