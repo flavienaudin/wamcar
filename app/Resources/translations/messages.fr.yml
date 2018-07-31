@@ -128,7 +128,7 @@ homepage:
   description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
   vehicle_form:
     header:
-      title: Échangez votre voiture
+      title: Changez de voiture
       subtitle: Déposez votre annonce, recevez et comparez les offres de reprise des professionnels
     tabs:
       immatriculation:
@@ -140,7 +140,7 @@ homepage:
             required_message: Veuillez indiquer un numéro d'immatriculation
           replacement:
             label: Je cherche une voiture pour la remplacer
-        pre_submit: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous vendez et ce que vous recherchez.
+        pre_submit: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous souhaitez vendre et acheter.
       model:
         title: Par modèle
         pre_submit: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
@@ -148,7 +148,7 @@ homepage:
       button: Déposer une annonce
   background.alt: Je veux changer de voiture
   search:
-    title: Je cherche une nouvelle voiture
+    title: Je cherche à acheter une nouvelle voiture
     subtitle: Découvrez les véhicules vendus par les professionnels les mieux notés.
     filter:
       label: Que recherchez-vous ?
@@ -165,8 +165,8 @@ homepage:
       first: >
         <strong class="primary-color">Diffuser votre demande</strong> sans vos données personnelles à un maximum de pros de votre région*.
         <small>* Toutes marques, concessionnaires, garages, mandataires, importateurs</small>
-      second: Vous fournir un outil <strong class="primary-color">facile à utiliser, intuitif et puissant qui vous fasse gagner du temps</strong>.
-      third: Etre <strong class="primary-color">à votre écoute </strong> pour répondre à vos besoins.
+      second: Vous fournir un outil <strong class="primary-color">facile à utiliser, intuitif, simple et rapide qui vous fasse gagner du temps</strong>.
+      third: Mettre tout en oeuvre pour faire des <strong class="primary-color">mises en relation sérieuses basées sur vos affinités et vos besoins</strong>. On fait de <strong class="primary-color">bonnes affaires quand on a confiance</strong> !
     background.alt: Magicien Wamcar
   business:
     title: <span class="primary-color">Conseiller automobile ?</span> Rencontrez vos clients en ligne sur Wamcar
@@ -621,6 +621,8 @@ user:
     add: Ajouter un garage
 
 conversation:
+  list:
+    unread-messages: '{0,1} %n% message non lu|]2,Inf[ %n% messages non lus'
   my_vehicle: Mon véhicule
   personal_vehicle_of: Véhicule de %ownerName%
   fleet_presented_by: Flotte automobile de %ownerName%

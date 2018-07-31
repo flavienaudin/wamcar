@@ -13,7 +13,7 @@
         {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
             <li><a href="#js-funding">{{ 'vehicle.section.funding.tab'|trans }}</a></li>
         {% endif %}
-    {% else %}
+    {% elseif displayProjectTab|default(false) %}
         <li><a href="#js-project">{{ 'vehicle.section.project.tab'|trans }}</a></li>
     {% endif %}
     {% if positiveLikes.all|length > 0 %}

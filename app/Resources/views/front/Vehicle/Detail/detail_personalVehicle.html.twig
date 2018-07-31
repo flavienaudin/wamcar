@@ -11,6 +11,9 @@
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
 {% endset %}
 
+{% set ownersProject = vehicle.ownerProject %}
+{% set displayProjectTab = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0%}
+
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
 {% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName|upper,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
@@ -116,9 +119,11 @@
                             </ul>
                         </div>
                     {% endif %}
-                    <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">
-                        {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
-                    </div>
+                    {% if displayProjectTab %}
+                        <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">
+                            {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
+                        </div>
+                    {% endif %}
                     {% if positiveLikes.all|length > 0 %}
                         <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
                             {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}

@@ -11,12 +11,11 @@ const $offCanvasNavigation = '#js-off-canvas-navigation';
 
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
-  mediaQuery: '(max-width: 1024px)',
-  callback: function(mediaMatched) {
+  mediaQuery: '(max-width: 1023px)',
+  callback: (matched) => {
     $($navigation).toggleClass('is-flex');
-    if (!mediaMatched) {
-      // Test pour corriger le flash rouge sur Chrome
-      //$($offCanvasNavigation).foundation('close');
+    if (matched) {
+      $($navigation).removeClass('show-for-large');
     }
   }
 });
@@ -40,3 +39,4 @@ if ($($garagePicture).length) {
     mediaQuery: '(min-width: 1024px)'
   });
 }
+
