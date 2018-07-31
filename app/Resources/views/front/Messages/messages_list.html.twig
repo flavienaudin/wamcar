@@ -18,7 +18,8 @@
             <div class="messages-header messages-list-header {% if app.request.attributes.get('_route') != 'front_conversation_list' %}hide-for-small-only{% endif %}">
                 <div class="messages-header-title">
                     <h1 class="primary-color no-margin">Messagerie</h1>
-                    <div class="messages-header-right-link messages-unread-info">{{ getCountUnreadMessages(app.user) }} message(s) non lus</div>
+                    {% set unreadMessageCount = getCountUnreadMessages(app.user) %}
+                    <div class="messages-header-right-link messages-unread-info">{{ 'conversation.list.unread-messages'|transchoice(unreadMessageCount, {'%n%':unreadMessageCount}) }}</div>
                 </div>
             </div>
 
