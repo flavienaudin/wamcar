@@ -12,7 +12,12 @@ const $offCanvasNavigation = '#js-off-canvas-navigation';
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
   mediaQuery: '(max-width: 1023px)',
-  callback: matched => matched && $($navigation).removeClass('show-for-large')
+  callback: (matched) => {
+    $($navigation).toggleClass('is-flex');
+    if (matched) {
+      $($navigation).removeClass('show-for-large');
+    }
+  }
 });
 
 const $movePicturesList = '#js-move-pictures-list';
