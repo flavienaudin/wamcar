@@ -72,7 +72,7 @@ class SearchController extends BaseController
 
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
-            'filterData' => $searchForm->getData(),
+            'filterData' => (array) $searchForm->getData(),
 
             'result' => $searchResult,
             /*,

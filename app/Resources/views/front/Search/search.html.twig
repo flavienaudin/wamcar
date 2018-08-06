@@ -25,17 +25,8 @@
         title_class: 'show-for-sr'
     } %}
 
-    {{ dump(filterData) }}
     <div class="block-gray has-border-bottom">
         {% include 'front/Search/includes/form.html.twig' %}
-        <div class=" row">
-            Filtres :
-            {% if filterData.text is not empty %}
-                <span class="">Votre recherche&nbsp;:&nbsp;{{ filterData.text }}</span>
-            {% endif %}
-
-
-        </div>
         <div class="search-tabs row">
             {#{% include 'front/Search/includes/result_tabs.html.twig' %}#}
             <ul id="js-search-tabs" class="tabs column small-shrink">

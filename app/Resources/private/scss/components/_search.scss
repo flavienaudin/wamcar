@@ -140,6 +140,18 @@
 
   } // End &-label
 
+  &-filter {
+    display: inline-block;
+    white-space: nowrap;
+    background-color: #e30613;
+    color: white;
+    font-weight: bold;
+    margin: 2px;
+    padding: 5px 15px;
+    border-radius: 1.875rem;
+
+  }
+
 }
 
 @keyframes labelAnimation {
