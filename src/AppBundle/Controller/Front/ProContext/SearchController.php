@@ -15,6 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends BaseController
 {
+    const TAB_ALL = 'TAB_ALL';
+    const TAB_PERSONAL = 'TAB_PERSONAL';
+    const TAB_PRO = 'TAB_PRO';
+    const TAB_PROJECT = 'TAB_PROJECT';
+
+
     const QUERY_ALL = 'ALL';
     const QUERY_RECOVERY = 'RECOVERY';
     const QUERY_PROJECT = 'PROJECT';
@@ -50,6 +56,31 @@ class SearchController extends BaseController
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->proVehicleEditionService = $proVehicleEditionService;
 
+    }
+
+    public function searchAction(Request $request, string $type = self::TAB_ALL, int $page = 1): Response
+    {
+        $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
+        $pages[$type] = $page;
+
+        $searchForm = $this->getSearchForm($request, 'front_search');
+        $searchForm->handleRequest($request);
+
+        $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
+
+        // TODO transforms/completes results into tab contents
+
+        return $this->render('front/Search/search.html.twig', [
+            'searchForm' => $searchForm->createView(),
+            'filterData' => $searchForm->getData(),
+
+            'result' => $searchResult,
+            /*,
+            'pages' => $pages,
+            'lastPage' => $lastPage,
+             */
+            'tab' => $type
+        ]);
     }
 
     /**

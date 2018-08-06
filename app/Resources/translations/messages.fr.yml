@@ -266,6 +266,11 @@ search:
         placeholder: Energie
     more_criteria: Plus de critères
     less_criteria: Moins de critères
+    tab:
+      all: Toutes
+      personals: Particuliers
+      projects: Souhaits
+      pros: Professionnels
   personal_user:
     title: Annonces des professionnels
     breadcrumbs: Annonces des professionnels

@@ -136,6 +136,10 @@ front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
 
+front_search:
+    path: /recherche
+    controller: AppBundle:Front\ProContext\Search:search
+
 front_search_pro:
     path: /vendeur/rechercher
     defaults:

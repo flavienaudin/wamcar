@@ -1,0 +1,78 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_search = true %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ 'search.pro_user.title'|trans }}{% endblock %}
+{% block additional_meta %}
+    {#<link rel="prev" href=""/>#}
+    {#<link rel="next" href=""/>#}
+{% endblock additional_meta %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'search.pro_user.breadcrumbs'|trans,
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title'),
+        title_class: 'show-for-sr'
+    } %}
+
+    {{ dump(filterData) }}
+    <div class="block-gray has-border-bottom">
+        {% include 'front/Search/includes/form.html.twig' %}
+        <div class=" row">
+            Filtres :
+            {% if filterData.text is not empty %}
+                <span class="">Votre recherche&nbsp;:&nbsp;{{ filterData.text }}</span>
+            {% endif %}
+
+
+        </div>
+        <div class="search-tabs row">
+            {#{% include 'front/Search/includes/result_tabs.html.twig' %}#}
+            <ul id="js-search-tabs" class="tabs column small-shrink">
+                <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL') %}is-active{% endif %}">
+                    <a href="#js-search-all" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL') %}aria-selected="true"{% endif %}>{{ 'search.common.tab.all'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')].totalHits }})</small></a>
+                </li>
+                <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL') %}is-active{% endif %}">
+                    <a href="#js-search-reprises" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL') %}aria-selected="true"{% endif %}>{{ 'search.common.tab.personals'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')].totalHits }})</small></a>
+                </li>
+                <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO') %}is-active{% endif %}">
+                    <a href="#js-search-pro" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO') %}aria-selected="true"{% endif %}>{{ 'search.common.tab.pros'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')].totalHits }})</small></a>
+                </li>
+                <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT') %}is-active{% endif %}">
+                    <a href="#js-search-greetings" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT') %}aria-selected="true"{% endif %}>{{ 'search.common.tab.projects'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')].totalHits }})</small></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
+            <div id="js-search-all" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')%}is-active{% endif %}">
+                 {#{% include 'front/Search/includes/result_all_pro.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')]} %}#}
+                {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')])  }}
+            </div>
+             <div id="js-search-reprises" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')%}is-active{% endif %}">
+                 {#{% include 'front/Search/includes/result_reprises.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')]}%}#}
+                 {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')])  }}
+             </div>
+            <div id="js-search-pro" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')%}is-active{% endif %}">
+                {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')])  }}
+            </div>
+             <div id="js-search-greetings" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')%}is-active{% endif %}">
+                 {#{% include 'front/Search/includes/result_greetings.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')]}%}#}
+                 {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')])  }}
+             </div>
+        </div>
+    </div>
+{% endblock %}

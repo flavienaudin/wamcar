@@ -51,6 +51,7 @@ class IndexableProVehicleBuilder
             $vehicle->getEngineName(),
             $vehicle->getTransmission(),
             $vehicle->getFuelName(),
+            $vehicle->getAdditionalInformation(),
             $vehicle->getYears(),
             $vehicle->getMileage(),
             $vehicle->getCityName(),

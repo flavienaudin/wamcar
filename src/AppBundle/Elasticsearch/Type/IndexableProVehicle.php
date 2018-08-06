@@ -25,6 +25,8 @@ class IndexableProVehicle implements Indexable
     /** @var string */
     private $fuel;
     /** @var string */
+    private $description;
+    /** @var string */
     private $years;
     /** @var string */
     private $mileage;
@@ -69,6 +71,7 @@ class IndexableProVehicle implements Indexable
      * @param string $engine
      * @param string $transmission
      * @param string $fuel
+     * @param string $description
      * @param string $years
      * @param string $mileage
      * @param string $cityName
@@ -95,6 +98,7 @@ class IndexableProVehicle implements Indexable
                                 string $engine,
                                 string $transmission,
                                 string $fuel,
+                                ?string $description,
                                 string $years,
                                 string $mileage,
                                 string $cityName,
@@ -122,6 +126,7 @@ class IndexableProVehicle implements Indexable
         $this->engine = $engine;
         $this->transmission = $transmission;
         $this->fuel = $fuel;
+        $this->description = $description;
         $this->years = $years;
         $this->mileage = $mileage;
         $this->cityName = $cityName;
@@ -176,6 +181,7 @@ class IndexableProVehicle implements Indexable
             'key_fuel' => $this->fuel,
             'transmission' => $this->transmission,
             'fuel' => $this->fuel,
+            'description' => $this->description,
             'years' => $this->years,
             'mileage' => $this->mileage,
             'cityName' => $this->cityName,
