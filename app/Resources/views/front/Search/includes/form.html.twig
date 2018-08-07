@@ -1,6 +1,6 @@
 {% form_theme searchForm ':front/Layout/includes/forms:fields.html.twig' %}
 
-{% macro filterAsTag(label, values) %}
+{% macro filterAsTag(label, values, resetedFields) %}
     {% if values is iterable %}
         {% set values_str = values|join(', ') %}
     {% else %}

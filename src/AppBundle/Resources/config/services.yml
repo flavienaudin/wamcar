@@ -74,6 +74,8 @@ services:
             - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
             - '@AppBundle\Form\Builder\User\ProjectFromDTOBuilder'
             - '@AppBundle\Doctrine\Repository\ProjectRepository'
+            - '@Wamcar\Vehicle\PersonalVehicleRepository'
+            - '@Wamcar\Vehicle\ProVehicleRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true

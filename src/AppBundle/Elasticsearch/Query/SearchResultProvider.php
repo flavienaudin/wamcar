@@ -19,7 +19,7 @@ use Symfony\Component\Form\FormInterface;
 
 class SearchResultProvider
 {
-    const LIMIT = 10;
+    const LIMIT = 73;
     const MIN_SCORE = 0.05;
     const OFFSET = 0;
 
@@ -77,7 +77,7 @@ class SearchResultProvider
         $queryBuilder = QueryBuilder::createNew(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            0
+            self::MIN_SCORE
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
@@ -91,8 +91,6 @@ class SearchResultProvider
         } elseif ($queryType === SearchController::TAB_PROJECT) {
             $queryBuilder->addFilter(new TermFilter('_type', IndexablePersonalProject::TYPE, CombiningFactor::FILTER));
         }
-        dump($queryType);
-        dump(json_encode($queryBuilder->getQueryBody()));
         return $this->queryExecutor->execute($queryBuilder->getQueryBody());
     }
 

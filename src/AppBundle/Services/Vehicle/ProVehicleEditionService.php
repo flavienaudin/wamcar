@@ -74,7 +74,6 @@ class ProVehicleEditionService
             $ids[] = $vehicle['id'];
         }
         $result['hits'] = $this->vehicleRepository->findByIds($ids);
-
         return $result;
     }
 

@@ -168,6 +168,7 @@ class IndexableProVehicle implements Indexable
     public function toArray(): array
     {
         return [
+            'type' => self::TYPE,
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
             'make' => $this->make,

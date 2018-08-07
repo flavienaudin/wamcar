@@ -2,8 +2,6 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
@@ -75,15 +73,19 @@ class DoctrineVehicleRepository extends EntityRepository
         return null;
     }
 
-
     /**
-     * {@inheritdoc()}
+     * Get ProVehicle by IDs, keeping the $ids order
+     * @param $ids array Array of entities'id
+     * @return array
      */
-    public function findByIds(array $ids): Collection
+    public function findByIds(array $ids): array
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->in("id", $ids));
-
-        return $this->matching($criteria);
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p')
+            ->from($this->getClassName(), 'p')
+            ->where($qb->expr()->in('p.id', $ids))
+            ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds ) '));
+        $qb->setParameter('orderedIds', $ids);
+        return $qb->getQuery()->getResult();
     }
 }

@@ -84,6 +84,7 @@ class IndexablePersonalProject implements Indexable
     public function toArray(): array
     {
         return [
+            'type' => self::TYPE,
             'id' => $this->id,
             'userId' => $this->userId,
             'projectDescription' => $this->description,

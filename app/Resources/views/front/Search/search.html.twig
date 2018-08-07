@@ -50,19 +50,16 @@
     <div class="row">
         <div class="search-result tabs-content column small-12" data-tabs-content="js-search-tabs">
             <div id="js-search-all" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')%}is-active{% endif %}">
-                 {#{% include 'front/Search/includes/result_all_pro.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')]} %}#}
-                {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')])  }}
+                 {% include 'front/Search/includes/tab_result_all.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')]} %}
             </div>
              <div id="js-search-reprises" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')%}is-active{% endif %}">
-                 {#{% include 'front/Search/includes/result_reprises.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_RECOVERY')]}%}#}
-                 {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')])  }}
+                 {% include 'front/Search/includes/tab_result_personal_vehicles.html.twig' with {'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')]}%}
              </div>
             <div id="js-search-pro" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')%}is-active{% endif %}">
-                {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')])  }}
+                {% include 'front/Search/includes/tab_result_pro_vehicles.html.twig' with {'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')]} %}
             </div>
              <div id="js-search-greetings" class="tabs-panel {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')%}is-active{% endif %}">
-                 {#{% include 'front/Search/includes/result_greetings.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::QUERY_PROJECT')]}%}#}
-                 {{ dump(result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')])  }}
+                 {% include 'front/Search/includes/tab_result_projects.html.twig' with { 'result': result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PROJECT')]}%}
              </div>
         </div>
     </div>

@@ -151,6 +151,7 @@ class IndexablePersonalVehicle implements Indexable
     {
         // key_ because conflict with not indexed in vehicle_info type
         return [
+            'type' => self::TYPE,
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
             'key_make' => $this->make,
