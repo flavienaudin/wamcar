@@ -6,6 +6,7 @@ use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
 use AppBundle\Utils\MileageChoice;
+use AppBundle\Utils\RadiusChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -79,7 +80,12 @@ class SearchVehicleType extends AbstractType
                 ->add('budgetMax', ChoiceType::class, [
                     'choices' => BudgetChoice::getListMax(),
                     'error_bubbling' => true,
-                ]);
+                ])
+                ->add('radius', ChoiceType::class, [
+                    'choices' => RadiusChoice::getListRadius(),
+                    'error_bubbling' => true,
+                ])
+            ;
 
             $this->addAutocompletableCityField($builder, $data);
         }

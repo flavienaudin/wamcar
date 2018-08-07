@@ -86,8 +86,8 @@ class IndexablePersonalProject implements Indexable
         return [
             'id' => $this->id,
             'userId' => $this->userId,
-            'description' => $this->description,
-            'budget' => $this->budget,
+            'projectDescription' => $this->description,
+            'projectBudget' => $this->budget,
             'isFleet' => $this->isFleet,
             'projectVehicles' => $this->projectVehicles,
         ];

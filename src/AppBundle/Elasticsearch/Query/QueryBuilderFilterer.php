@@ -33,8 +33,12 @@ class QueryBuilderFilterer
     {
         $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
 
-        /*if (!empty($searchVehicleDTO->cityName)) {
-            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LIMIT_DISTANCE));
+        if (!empty($searchVehicleDTO->cityName)) {
+            $radius = self::LIMIT_DISTANCE;
+            if (!empty($searchVehicleDTO->radius)) {
+                $radius = $searchVehicleDTO->radius;
+            }
+            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, $radius));
         }
 
         $queryBuilder = $this->handleMake($queryBuilder, $queryType, $searchVehicleDTO->make);
@@ -57,7 +61,7 @@ class QueryBuilderFilterer
             }
         }
 
-        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO)*/
+        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
 
         return $queryBuilder;
     }
@@ -116,12 +120,13 @@ class QueryBuilderFilterer
             ) {
                 $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_modelVersion', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
             if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::QUERY_ALL ||
                 $queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
             ) {
+                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
@@ -147,8 +152,8 @@ class QueryBuilderFilterer
             }
             if ($queryType === SearchController::QUERY_ALL || $queryType === SearchController::TAB_ALL) {
                 $boolQueryMake = new BoolQuery();
-                $boolQueryMake->addClause(new MatchQuery('make', $value, CombiningFactor::MUST, ['operator' => 'OR']));
-                $boolQueryMake->addClause(new MatchQuery('projectVehicles.make', $value, CombiningFactor::MUST, ['operator' => 'OR']));
+                $boolQueryMake->addClause(new MatchQuery('make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQueryMake->addClause(new MatchQuery('projectVehicles.make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $queryBuilder->addQuery($boolQueryMake);
             }
         }
@@ -173,8 +178,8 @@ class QueryBuilderFilterer
             }
             if ($queryType === SearchController::QUERY_ALL || $queryType === SearchController::TAB_ALL) {
                 $boolQueryModel = new BoolQuery();
-                $boolQueryModel->addClause(new MatchQuery('model', $value, CombiningFactor::MUST, ['operator' => 'OR']));
-                $boolQueryModel->addClause(new MatchQuery('projectVehicles.model', $value, CombiningFactor::MUST, ['operator' => 'OR']));
+                $boolQueryModel->addClause(new MatchQuery('model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQueryModel->addClause(new MatchQuery('projectVehicles.model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $queryBuilder->addQuery($boolQueryModel);
             }
         }

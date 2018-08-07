@@ -6,7 +6,13 @@
     {% else %}
         {% set values_str = values %}
     {% endif %}
-    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}{#&nbsp;&nbsp;X#}</span>
+    {% set newQueryParam = {} %}
+
+    {% for key, value in app.request.query.all.search_vehicle if key not in resetedFields %}
+        {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
+    {% endfor  %}
+
+    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ path('front_search', {'search_vehicle': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
 {% endmacro %}
 
 {% import _self as macro %}
@@ -55,16 +61,14 @@
     </div>
 
     <div class="column small-12 medium-4">
-        <label for="search_vehicle_postalCode">Rayon de <span
-                    class="show-for-sr">{{ 'global.facultative'|trans }}</span></label>
-        <div class="block-grid small-12">
-            <select>
-                <option>Distance</option>
-                <option>20 km</option>
-                <option>50 km</option>
-                <option>100 km</option>
-            </select>
-        </div>
+        {{ form_widget(searchForm.radius, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.radius.label'|trans,
+            'label_class' : '',
+            'placeholder': 'search.common.field.radius.placeholder'|trans
+        }) }}
     </div>
 
     <div class="search-actions-button input-margin block-grid column small-12">
@@ -178,40 +182,41 @@
     <div class="row">
         <div class="column small-12">
             {% if filterData.text is not null %}
-                {{ macro.filterAsTag('search.common.field.text.label', filterData.text) }}
+                {{ macro.filterAsTag('search.common.field.text.label', filterData.text, ['text']) }}
             {% endif %}
             {% if filterData.postalCode is not null and filterData.cityName is not null %}
-                {{ macro.filterAsTag('search.common.field.location.label', filterData.postalCode~"-"~filterData.cityName) }}
+                {{ macro.filterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', ['postalCode','cityName']) }}
+            {% endif %}
+            {% if filterData.radius is not null %}
+                {{ macro.filterAsTag('search.common.field.radius.label', filterData.radius~'km',['radius']) }}
             {% endif %}
             {% if filterData.make is not null %}
-                {{ macro.filterAsTag('vehicle.field.make.label', filterData.make) }}
+                {{ macro.filterAsTag('vehicle.field.make.label', filterData.make,['make']) }}
             {% endif %}
             {% if filterData.model is not null %}
-                {{ macro.filterAsTag('vehicle.field.model.label', filterData.model) }}
+                {{ macro.filterAsTag('vehicle.field.model.label', filterData.model,['model']) }}
             {% endif %}
             {% if filterData.mileageMax is not null %}
-                {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,['mileageMax']) }}
             {% endif %}
             {% if filterData.yearsMin is not null %}
-                {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,['yearsMin']) }}
             {% endif %}
             {% if filterData.yearsMax is not null %}
-                {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,['yearsMax']) }}
             {% endif %}
             {% if filterData.budgetMin is not null %}
-                {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,['budgetMin']) }}
             {% endif %}
             {% if filterData.budgetMax is not null %}
-                {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,['budgetMax']) }}
             {% endif %}
             {% if filterData.transmission is not null %}
-                {{ macro.filterAsTag('search.common.field.transmission.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.transmission.label', filterData.transmission,['transmission']) }}
             {% endif %}
             {% if filterData.fuel is not null %}
-                {{ macro.filterAsTag('search.common.field.fuel.label', filterData.model) }}
+                {{ macro.filterAsTag('search.common.field.fuel.label', filterData.fuel,['fuel']) }}
             {% endif %}
         </div>
-
-
     </div>
 </div>

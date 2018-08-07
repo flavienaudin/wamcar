@@ -3,8 +3,6 @@
 namespace AppBundle\Form\DTO;
 
 
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-
 class SearchVehicleDTO
 {
     /** @var string */
@@ -18,6 +16,8 @@ class SearchVehicleDTO
     /** @var string */
     public $longitude;
     /** @var string */
+    public $radius;
+        /** @var string */
     public $make;
     /** @var string */
     public $model;

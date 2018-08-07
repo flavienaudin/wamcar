@@ -77,7 +77,7 @@ class SearchResultProvider
         $queryBuilder = QueryBuilder::createNew(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            0.40
+            0
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
