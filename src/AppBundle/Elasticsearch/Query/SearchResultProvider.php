@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormInterface;
 
 class SearchResultProvider
 {
-    const LIMIT = 73;
+    const LIMIT = 10;
     const MIN_SCORE = 0;
     const OFFSET = 0;
 

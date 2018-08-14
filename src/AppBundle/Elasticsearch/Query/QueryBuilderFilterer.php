@@ -55,6 +55,12 @@ class QueryBuilderFilterer
         if (!empty($searchVehicleDTO->yearsMax)) {
             $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
         }
+        if (!empty($searchVehicleDTO->budgetMin)) {
+            $queryBuilder->addFilter(new RangeFilter('sortingPrice', $searchVehicleDTO->budgetMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
+        }
+        if (!empty($searchVehicleDTO->budgetMax)) {
+            $queryBuilder->addFilter(new RangeFilter('sortingPrice', $searchVehicleDTO->budgetMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
+        }
 
         if ($queryType !== SearchController::TAB_PROJECT) {
             if (!empty($searchVehicleDTO->transmission)) {
