@@ -21,6 +21,9 @@ class IndexablePersonalProject implements Indexable
     protected $isFleet;
     /** @var array */
     protected $projectVehicles;
+    /** @var \DateTime */
+    private $updatedAt;
+
 
     /**
      * IndexablePersonalProject constructor.
@@ -31,7 +34,7 @@ class IndexablePersonalProject implements Indexable
      * @param bool $isFleet
      * @param array $projectVehicles Each ProjectVehicle should be an array compatible with indexation (See static method : createFromPersonalProject)
      */
-    public function __construct(int $id, int $userId, ?string $description, ?int $budget, bool $isFleet, array $projectVehicles)
+    public function __construct(int $id, int $userId, ?string $description, ?int $budget, bool $isFleet, array $projectVehicles, \DateTime $updatedAt)
     {
         $this->id = $id;
         $this->userId = $userId;
@@ -39,6 +42,7 @@ class IndexablePersonalProject implements Indexable
         $this->budget = $budget;
         $this->isFleet = $isFleet;
         $this->projectVehicles = $projectVehicles;
+        $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -48,7 +52,7 @@ class IndexablePersonalProject implements Indexable
      */
     public static function createFromPersonalProject(Project $project): IndexablePersonalProject
     {
-        $indexablePersonalProject = new IndexablePersonalProject($project->getId(), $project->getPersonalUser()->getId(), $project->getDescription(), $project->getBudget(), $project->isFleet(), []);
+        $indexablePersonalProject = new IndexablePersonalProject($project->getId(), $project->getPersonalUser()->getId(), $project->getDescription(), $project->getBudget(), $project->isFleet(), [], $project->getUpdatedAt());
         foreach ($project->getProjectVehicles() as $projectVehicle){
             $indexablePersonalProject->projectVehicles[] = [
                 'make' => $projectVehicle->getMake(),
@@ -91,6 +95,8 @@ class IndexablePersonalProject implements Indexable
             'projectBudget' => $this->budget,
             'isFleet' => $this->isFleet,
             'projectVehicles' => $this->projectVehicles,
+            'sortingPrice' => $this->budget,
+            'sortingDate' => $this->updatedAt->format('Y-m-d\TH:i:s\Z')
         ];
     }
 

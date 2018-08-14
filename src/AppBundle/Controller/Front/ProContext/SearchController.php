@@ -71,7 +71,7 @@ class SearchController extends BaseController
         $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
         $pages[$type] = $page;
 
-        $searchForm = $this->getSearchForm($request, 'front_search');
+        $searchForm = $this->getSearchForm($request, 'front_search', true);
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
@@ -156,9 +156,11 @@ class SearchController extends BaseController
 
     /**
      * @param Request $request
+     * @param string $actionPath
+     * @param null|bool $displaySortingField Display or not a field to sort result
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function getSearchForm(Request $request, string $actionPath)
+    private function getSearchForm(Request $request, string $actionPath, bool $displaySortingField = false)
     {
         $paramSearchVehicle = $request->query->get('search_vehicle');
         $filters = [
@@ -166,12 +168,11 @@ class SearchController extends BaseController
             'model' => $paramSearchVehicle['model'] ?? null
         ];
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
-
         $searchVehicleDTO = new SearchVehicleDTO();
-
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'action' => $this->generateRoute($actionPath),
-            'available_values' => $availableValues
+            'available_values' => $availableValues,
+            'sortingField' => $displaySortingField
         ]);
     }
 }

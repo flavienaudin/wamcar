@@ -84,7 +84,7 @@ class DoctrineVehicleRepository extends EntityRepository
         $qb->select('p')
             ->from($this->getClassName(), 'p')
             ->where($qb->expr()->in('p.id', $ids))
-            ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds ) '));
+            ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds) '));
         $qb->setParameter('orderedIds', $ids);
         return $qb->getQuery()->getResult();
     }

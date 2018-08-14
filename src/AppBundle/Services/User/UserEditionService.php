@@ -171,7 +171,9 @@ class UserEditionService
         foreach ($searchResult->hits() as $project) {
             $ids[] = $project['id'];
         }
-        $result['hits'] = $this->projectRepository->findByIds($ids);
+        if(count($ids)> 0 ) {
+            $result['hits'] = $this->projectRepository->findByIds($ids);
+        }
         return $result;
     }
 

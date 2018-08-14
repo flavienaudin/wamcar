@@ -267,6 +267,8 @@ search:
       fuel:
         label: Energie
         placeholder: Energie
+      sorting:
+        label: Trier par :
     more_criteria: Plus de critères
     less_criteria: Moins de critères
     tab:
@@ -274,6 +276,8 @@ search:
       personals: Particuliers
       projects: Souhaits
       pros: Professionnels
+    result:
+      no_vehicle_to_sell.alt: Pas de reprise
   personal_user:
     title: Annonces des professionnels
     breadcrumbs: Annonces des professionnels

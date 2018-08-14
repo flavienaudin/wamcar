@@ -35,5 +35,7 @@ class SearchVehicleDTO
     public $transmission;
     /** @var string */
     public $fuel;
+    /** @var string */
+    public $sorting;
 
 }

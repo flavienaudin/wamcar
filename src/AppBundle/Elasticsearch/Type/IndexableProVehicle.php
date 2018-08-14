@@ -191,7 +191,8 @@ class IndexableProVehicle implements Indexable
                 'lon' => $this->longitude
             ],
             'price' => $this->price,
-            'sortCreatedAt' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
+            'sortingPrice' => $this->price,
+            'sortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
             'createdAt' => $this->createdAt,
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,

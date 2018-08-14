@@ -9,18 +9,15 @@ use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
-use Novaway\ElasticsearchClient\Filter\InArrayFilter;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\CombiningFactor;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 use Symfony\Component\Form\FormInterface;
 
+
 class SearchResultProvider
 {
     const LIMIT = 73;
-    const MIN_SCORE = 0.05;
+    const MIN_SCORE = 0;
     const OFFSET = 0;
 
     /** @var QueryExecutor */
@@ -74,7 +71,7 @@ class SearchResultProvider
      */
     private function getQueryResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
     {
-        $queryBuilder = QueryBuilder::createNew(
+        $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
             self::MIN_SCORE
@@ -82,16 +79,17 @@ class SearchResultProvider
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
 
+        $types = "";
         if ($queryType === SearchController::TAB_ALL) {
-            $queryBuilder->addFilter(new InArrayFilter('_type', [IndexablePersonalVehicle::TYPE, IndexableProVehicle::TYPE, IndexablePersonalProject::TYPE]));
+            $types = join(',', [IndexablePersonalVehicle::TYPE, IndexableProVehicle::TYPE, IndexablePersonalProject::TYPE]);
         } elseif ($queryType === SearchController::TAB_PERSONAL) {
-            $queryBuilder->addFilter(new TermFilter('_type', IndexablePersonalVehicle::TYPE, CombiningFactor::FILTER));
+            $types = IndexablePersonalVehicle::TYPE;
         } elseif ($queryType === SearchController::TAB_PRO) {
-            $queryBuilder->addFilter(new TermFilter('_type', IndexableProVehicle::TYPE, CombiningFactor::FILTER));
+            $types = IndexableProVehicle::TYPE;
         } elseif ($queryType === SearchController::TAB_PROJECT) {
-            $queryBuilder->addFilter(new TermFilter('_type', IndexablePersonalProject::TYPE, CombiningFactor::FILTER));
+            $types = IndexablePersonalProject::TYPE;
         }
-        return $this->queryExecutor->execute($queryBuilder->getQueryBody());
+        return $this->queryExecutor->execute($queryBuilder->getQueryBody(), $types);
     }
 
     /**
@@ -120,7 +118,7 @@ class SearchResultProvider
     private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
     {
 
-        $queryBuilder = QueryBuilder::createNew(
+        $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
             0.75
@@ -143,7 +141,7 @@ class SearchResultProvider
     {
         $searchVehicleDTO = $searchForm->getData();
 
-        $queryBuilder = QueryBuilder::createNew(
+        $queryBuilder = new QueryBuilder(
             self::OFFSET + ($page - 1) * self::LIMIT,
             self::LIMIT,
             self::MIN_SCORE

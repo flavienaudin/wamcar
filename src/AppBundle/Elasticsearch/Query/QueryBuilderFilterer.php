@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Query;
 
 
 use AppBundle\Controller\Front\ProContext\SearchController;
+use AppBundle\Elasticsearch\Score\FieldValueFactorScore;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Filter\RangeFilter;
@@ -13,14 +14,17 @@ use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
 use Novaway\ElasticsearchClient\Query\PrefixQuery;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
+use Wamcar\Vehicle\Enum\Sorting;
 
 class QueryBuilderFilterer
 {
-    const LIMIT_DISTANCE = '50';
-    const OFFSET_SCORE = '1km';
-    const SCALE_SCORE = '150km';
+    const LOCATION_RADIUS_DEFAULT = '50';
+    const LOCATION_DECAY_OFFSET = '10km';
+    const LOCATION_DECAY_SCALE = '75km';
+
+    const SORTING_DATE_DECAY_OFFSET = '6h';
+    const SORTING_DATE_DECAY_SCALE = '15d';
 
 
     /**
@@ -34,7 +38,7 @@ class QueryBuilderFilterer
         $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
 
         if (!empty($searchVehicleDTO->cityName)) {
-            $radius = self::LIMIT_DISTANCE;
+            $radius = self::LOCATION_RADIUS_DEFAULT;
             if (!empty($searchVehicleDTO->radius)) {
                 $radius = $searchVehicleDTO->radius;
             }
@@ -61,12 +65,13 @@ class QueryBuilderFilterer
             }
         }
 
-        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
+        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO, $queryType);
 
         return $queryBuilder;
     }
 
     /**
+     * @deprecated after Recherche v2
      * @param QueryBuilder $queryBuilder
      * @param SearchVehicleDTO $searchVehicleDTO
      * @param string $queryType
@@ -100,7 +105,7 @@ class QueryBuilderFilterer
             }
         }
 
-        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
+        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO, $queryType);
 
         return $queryBuilder;
     }
@@ -118,17 +123,17 @@ class QueryBuilderFilterer
             if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::QUERY_ALL ||
                 $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
             ) {
-                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
             }
             if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::QUERY_ALL ||
                 $queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
             ) {
-                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
             }
             $queryBuilder->addQuery($boolQuery);
         }
@@ -216,27 +221,81 @@ class QueryBuilderFilterer
     /**
      * @param QueryBuilder $queryBuilder
      * @param SearchVehicleDTO $searchVehicleDTO
+     * @param string|null $queryType
      * @return QueryBuilder
      */
-    private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO): QueryBuilder
+    private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, string $queryType = null): QueryBuilder
     {
-        if (!empty($searchVehicleDTO->cityName)) {
-            $score = new DecayFunctionScore('location', DecayFunctionScore::GAUSS, ['lat' => $searchVehicleDTO->latitude, 'lon' => $searchVehicleDTO->longitude], self::OFFSET_SCORE, self::SCALE_SCORE);
-            $queryBuilder->addFunctionScore($score);
+        switch ($searchVehicleDTO->sorting) {
+            case Sorting::SEARCH_SORTING_DISTANCE:
+                if (!empty($searchVehicleDTO->cityName)) {
+                    $score = new DecayFunctionScore('location',
+                        DecayFunctionScore::GAUSS, [
+                            'lat' => $searchVehicleDTO->latitude,
+                            'lon' => $searchVehicleDTO->longitude],
+                        self::LOCATION_DECAY_OFFSET,
+                        self::LOCATION_DECAY_SCALE);
+                    $queryBuilder->addFunctionScore($score);
+                    break;
+                }
+            // default sorting by RELEVANCE below :
+            case Sorting::SEARCH_SORTING_RELEVANCE:
+                if ($queryType == SearchController::TAB_PRO || $queryType == SearchController::TAB_PERSONAL) {
+                    $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                        "nbPositiveLikes",
+                        FieldValueFactorScore::LOG1P,
+                        3,
+                        0
+                    ));
+                    $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                        "nbPicture",
+                        FieldValueFactorScore::LOG1P,
+                        1,
+                        0
+                    ));
+                }
+                if ($queryType == SearchController::TAB_PRO) {
+                    $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                        "googleRating",
+                        FieldValueFactorScore::LOG1P,
+                        2,
+                        1
+                    ));
+                }
+                if (!empty($searchVehicleDTO->cityName)) {
+                    $queryBuilder->addFunctionScore(new DecayFunctionScore('location',
+                        DecayFunctionScore::GAUSS, [
+                            'lat' => $searchVehicleDTO->latitude,
+                            'lon' => $searchVehicleDTO->longitude],
+                        self::LOCATION_DECAY_OFFSET,
+                        self::LOCATION_DECAY_SCALE));
+                }
+                $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                    DecayFunctionScore::LINEAR,
+                    date('Y-m-d\TH:i:s\Z'),
+                    0,
+                    self::SORTING_DATE_DECAY_SCALE));
+
+                $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
+
+                break;
+            case Sorting::SEARCH_SORTING_DATE:
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
+            case Sorting::SEARCH_SORTING_PRICE_ASC:
+                $queryBuilder->addSort('sortingPrice', 'asc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
+            case Sorting::SEARCH_SORTING_PRICE_DESC:
+                $queryBuilder->addSort('sortingPrice', 'desc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
         }
-
-
-        if (empty($searchVehicleDTO->cityName) && empty($searchVehicleDTO->text)) {
-            $queryBuilder->addSort('sortCreatedAt', 'desc');
-        } else {
-            $score = new DecayFunctionScore('sortCreatedAt', DecayFunctionScore::LINEAR, date('Y-m-d\TH:i:s\Z'), '1m', '9999d');
-            $queryBuilder->addFunctionScore($score);
-        }
-
         return $queryBuilder;
     }
 
     /**
+     * @deprecated after Recherche v2
      * @param QueryBuilder $queryBuilder
      * @param $searchVehicleDTO
      * @return QueryBuilder
@@ -253,7 +312,7 @@ class QueryBuilderFilterer
         }
 
         if (!empty($searchVehicleDTO->cityName)) {
-            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LIMIT_DISTANCE));
+            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LOCATION_RADIUS_DEFAULT));
         }
         if ($searchVehicleDTO->make) {
             $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
@@ -315,7 +374,7 @@ class QueryBuilderFilterer
      */
     public function getQueryVehicleInfo(array $data): QueryBuilder
     {
-        $queryBuilder = QueryBuilder::createNew(QueryBuilder::DEFAULT_OFFSET, 0);
+        $queryBuilder = new QueryBuilder(QueryBuilder::DEFAULT_OFFSET, 0);
 
         foreach ($data as $field => $value) {
             if (!empty($value)) {

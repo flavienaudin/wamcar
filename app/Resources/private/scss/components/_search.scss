@@ -4,7 +4,6 @@
 
 .search {
 
-
   /*
     Form
     ===================================== */
@@ -16,8 +15,6 @@
       padding-top: rem-calc(15);
     }
   }
-
-
 
   /*
      Actions button
@@ -33,19 +30,19 @@
       }
     }
 
-  } // &-actions-button
+  }
+  // &-actions-button
 
   /*
       Tabs
      ===================================== */
 
-  &-tabs{
+  &-tabs {
     > ul.tabs {
       width: auto;
       padding-right: 0;
     }
   }
-
 
   /*
      Link
@@ -59,7 +56,6 @@
       margin-top: rem-calc(15);
     }
   }
-
 
   /*
      Label container
@@ -101,7 +97,6 @@
     }
   }
 
-
   /*
      Label
      ===================================== */
@@ -122,14 +117,17 @@
 
       @include breakpoint(medium down) {
         &,
-        .text-underline { color: white; }
+        .text-underline {
+          color: white;
+        }
       }
 
       @include breakpoint(xlarge) {
         top: $header-height-medium;
         background: #f7f7f7;
       }
-    } // End &.is-fixed
+    }
+    // End &.is-fixed
 
     /* Components */
 
@@ -138,7 +136,8 @@
       margin-bottom: 0;
     }
 
-  } // End &-label
+  }
+  // End &-label
 
   &-filter {
     display: inline-block;
@@ -150,11 +149,22 @@
     padding: 5px 15px;
     border-radius: 1.875rem;
 
+    &-container {
+      min-height: rem-calc(50);
+      @include breakpoint(medium) {
+        min-height: rem-calc(60);
+      }
+    ;
+    }
   }
 
 }
 
 @keyframes labelAnimation {
-  from { transform: translate3d(0, -100%, 0); }
-  to { transform: translate3d(0, 0, 0); }
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }

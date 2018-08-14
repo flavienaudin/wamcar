@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Doctrine\Type\SortingType;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
@@ -13,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\Vehicle\Enum\Sorting;
 use Wamcar\Vehicle\Enum\Transmission;
 
 class SearchVehicleType extends AbstractType
@@ -32,6 +34,7 @@ class SearchVehicleType extends AbstractType
         $data = $builder->getData();
         $availableValues = $options['available_values'] ?? [];
         $smallVersion = $options['small_version'] ?? [];
+        $sortingField = $options['sortingField'] ?? [];
 
         $builder->add('text', TextType::class, [
             'required' => false
@@ -84,8 +87,16 @@ class SearchVehicleType extends AbstractType
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
                     'error_bubbling' => true,
-                ])
-            ;
+                ]);
+            if ($sortingField) {
+                $builder
+                    ->add('sorting', ChoiceType::class, [
+                        'choices' => Sorting::toArray(),
+                        'choice_translation_domain' => 'enumeration',
+                        'required' => true,
+                        'empty_data' => Sorting::SEARCH_SORTING_RELEVANCE
+                    ]);
+            }
 
             $this->addAutocompletableCityField($builder, $data);
         }
@@ -102,6 +113,7 @@ class SearchVehicleType extends AbstractType
             'csrf_protection' => false,
             'available_values' => [],
             'small_version' => false,
+            'sortingField' => false,
             'method' => 'GET'
         ]);
         $resolver->setRequired('available_values');

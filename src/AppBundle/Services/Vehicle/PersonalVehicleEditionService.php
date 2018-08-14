@@ -77,8 +77,9 @@ class PersonalVehicleEditionService
         foreach ($searchResult->hits() as $vehicle) {
             $ids[] = $vehicle['id'];
         }
-        $result['hits'] = $this->vehicleRepository->findByIds($ids);
-
+        if(count($ids)> 0 ) {
+            $result['hits'] = $this->vehicleRepository->findByIds($ids);
+        }
         return $result;
     }
 

@@ -8,7 +8,15 @@
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
         {% if project.personalUser.vehicles|length == 0 %}
-            <p>Pas de véhicule à reprendre</p>
+            <div class="vehicle-picture small-auto">
+                <div class="is-relative">
+                    <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+                </div>
+            </div>
+            <div class="vehicle-infos small-shrink">
+                <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
+                <p>Ce particulier n'a pas de véhicule à vendre mais a préciser son projet d'achat.</p>
+            </div>
         {% elseif project.personalUser.vehicles|length == 1 %}
             {% set vehicle = project.personalUser.vehicles.first %}
             {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
@@ -48,6 +56,10 @@
                 <div class="is-relative">
                     {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
                 </div>
+            </div>
+            <div class="vehicle-infos small-shrink">
+                <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
+                <p>Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.</p>
             </div>
         {% endif %}
     </div>
