@@ -262,6 +262,17 @@ class QueryBuilderFilterer
     private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, string $queryType = null): QueryBuilder
     {
         switch ($searchVehicleDTO->sorting) {
+            case Sorting::SEARCH_SORTING_DATE:
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
+            case Sorting::SEARCH_SORTING_PRICE_ASC:
+                $queryBuilder->addSort('sortingPrice', 'asc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
+            case Sorting::SEARCH_SORTING_PRICE_DESC:
+                $queryBuilder->addSort('sortingPrice', 'desc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+                break;
             case Sorting::SEARCH_SORTING_DISTANCE:
                 if (!empty($searchVehicleDTO->cityName)) {
                     $score = new DecayFunctionScore('location',
@@ -275,6 +286,7 @@ class QueryBuilderFilterer
                 }
             // default sorting by RELEVANCE below :
             case Sorting::SEARCH_SORTING_RELEVANCE:
+            default:
                 if ($queryType == SearchController::TAB_PRO || $queryType == SearchController::TAB_PERSONAL) {
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPositiveLikes",
@@ -313,17 +325,6 @@ class QueryBuilderFilterer
 
                 $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
 
-                break;
-            case Sorting::SEARCH_SORTING_DATE:
-                $queryBuilder->addSort('sortingDate', 'desc');
-                break;
-            case Sorting::SEARCH_SORTING_PRICE_ASC:
-                $queryBuilder->addSort('sortingPrice', 'asc');
-                $queryBuilder->addSort('sortingDate', 'desc');
-                break;
-            case Sorting::SEARCH_SORTING_PRICE_DESC:
-                $queryBuilder->addSort('sortingPrice', 'desc');
-                $queryBuilder->addSort('sortingDate', 'desc');
                 break;
         }
         return $queryBuilder;
