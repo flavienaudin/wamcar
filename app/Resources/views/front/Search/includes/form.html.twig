@@ -17,8 +17,7 @@
 
 {% import _self as macro %}
 
-<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}"
-     class="search-form-container" data-toggler=".is-hidden">
+<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container" data-toggler=".is-hidden">
     {{ form_start(searchForm, {
         'attr' : {'class' : 'search-form row','id' : 'js-search-form'}
     }) }}

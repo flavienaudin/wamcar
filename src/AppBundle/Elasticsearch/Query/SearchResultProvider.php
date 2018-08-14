@@ -12,6 +12,7 @@ use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 use Symfony\Component\Form\FormInterface;
+use Wamcar\Garage\Garage;
 
 
 class SearchResultProvider
@@ -90,6 +91,27 @@ class SearchResultProvider
             $types = IndexablePersonalProject::TYPE;
         }
         return $this->queryExecutor->execute($queryBuilder->getQueryBody(), $types);
+    }
+
+    /**
+     * @param Garage $garage
+     * @param string|null $text
+     * @param int $page
+     * @param int|null $limit
+     * @return Result
+     */
+    public function getQueryGarageVehiclesResult(Garage $garage, string $text = null, int $page, int $limit = self::LIMIT): Result
+    {
+        $queryBuilder = new QueryBuilder(
+            self::OFFSET + ($page - 1) * $limit,
+            $limit,
+            self::MIN_SCORE
+        );
+
+        $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garage->getId(), $text);
+
+        $queryBody = $queryBuilder->getQueryBody();
+        return $this->queryExecutor->execute($queryBody, IndexableProVehicle::TYPE);
     }
 
     /**

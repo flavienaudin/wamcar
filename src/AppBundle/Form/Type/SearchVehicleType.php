@@ -33,8 +33,8 @@ class SearchVehicleType extends AbstractType
     {
         $data = $builder->getData();
         $availableValues = $options['available_values'] ?? [];
-        $smallVersion = $options['small_version'] ?? [];
-        $sortingField = $options['sortingField'] ?? [];
+        $smallVersion = $options['small_version'] ?? false;
+        $sortingField = $options['sortingField'] ?? false;
 
         $builder->add('text', TextType::class, [
             'required' => false
