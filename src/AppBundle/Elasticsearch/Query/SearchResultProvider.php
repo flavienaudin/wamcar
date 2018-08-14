@@ -5,18 +5,19 @@ namespace AppBundle\Elasticsearch\Query;
 
 
 use AppBundle\Controller\Front\ProContext\SearchController;
+use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Form\DTO\SearchVehicleDTO;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 use Symfony\Component\Form\FormInterface;
 
+
 class SearchResultProvider
 {
     const LIMIT = 10;
-    const MIN_SCORE = 0.05;
+    const MIN_SCORE = 0;
     const OFFSET = 0;
 
     /** @var QueryExecutor */
@@ -28,6 +29,9 @@ class SearchResultProvider
     /** @var array */
     private $queryTypes;
 
+    /** @var array */
+    private $tabTypes;
+
     /**
      * SearchResultProvider constructor.
      * @param QueryExecutor $queryExecutor
@@ -38,6 +42,54 @@ class SearchResultProvider
         $this->queryExecutor = $queryExecutor;
         $this->queryBuilderFilterer = $queryBuilderFilterer;
         $this->queryTypes = [SearchController::QUERY_ALL, SearchController::QUERY_RECOVERY, SearchController::QUERY_PROJECT];
+        $this->tabTypes = [SearchController::TAB_ALL, SearchController::TAB_PERSONAL, SearchController::TAB_PRO, SearchController::TAB_PROJECT];
+    }
+
+
+    /**
+     * @param FormInterface $searchForm
+     * @param array $pages
+     * @return array
+     */
+    public function getSearchResult(FormInterface $searchForm, array $pages): array
+    {
+        $searchVehicleDTO = $searchForm->getData();
+
+        $searchResult = [];
+        foreach ($this->tabTypes as $tabType) {
+            $searchResult[$tabType] = $this->getQueryResult($tabType, $searchVehicleDTO, $pages);
+        }
+
+        return $searchResult;
+    }
+
+    /**
+     * @param string $queryType
+     * @param SearchVehicleDTO $searchVehicleDTO
+     * @param array $pages
+     * @return Result
+     */
+    private function getQueryResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
+    {
+        $queryBuilder = new QueryBuilder(
+            self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
+            self::LIMIT,
+            self::MIN_SCORE
+        );
+
+        $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
+
+        $types = "";
+        if ($queryType === SearchController::TAB_ALL) {
+            $types = join(',', [IndexablePersonalVehicle::TYPE, IndexableProVehicle::TYPE, IndexablePersonalProject::TYPE]);
+        } elseif ($queryType === SearchController::TAB_PERSONAL) {
+            $types = IndexablePersonalVehicle::TYPE;
+        } elseif ($queryType === SearchController::TAB_PRO) {
+            $types = IndexableProVehicle::TYPE;
+        } elseif ($queryType === SearchController::TAB_PROJECT) {
+            $types = IndexablePersonalProject::TYPE;
+        }
+        return $this->queryExecutor->execute($queryBuilder->getQueryBody(), $types);
     }
 
     /**
@@ -66,10 +118,10 @@ class SearchResultProvider
     private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
     {
 
-        $queryBuilder = QueryBuilder::createNew(
+        $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            self::MIN_SCORE
+            0.75
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
@@ -89,7 +141,7 @@ class SearchResultProvider
     {
         $searchVehicleDTO = $searchForm->getData();
 
-        $queryBuilder = QueryBuilder::createNew(
+        $queryBuilder = new QueryBuilder(
             self::OFFSET + ($page - 1) * self::LIMIT,
             self::LIMIT,
             self::MIN_SCORE

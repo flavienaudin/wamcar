@@ -114,6 +114,9 @@ doctrine:
                 is_bundle: false
                 prefix: AppBundle
                 alias: AppBundle
+        dql:
+            string_functions:
+                field: DoctrineExtensions\Query\Mysql\Field
 
 doctrine_migrations:
     dir_name:             '%kernel.root_dir%/../database/migrations'

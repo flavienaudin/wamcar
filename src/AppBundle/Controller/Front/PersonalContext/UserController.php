@@ -29,6 +29,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
@@ -121,17 +122,6 @@ class UserController extends BaseController
         /** @var UserInformationDTO $userInformationDTO */
         $userInformationDTO = new $userDTOs[$user->getType()]($user);
 
-        if ($user instanceof PersonalUser) {
-            if ($user->getProject() === null) {
-                $user->setProject(new Project($user));
-            }
-            $projectDTO = ProjectDTO::buildFromProject($user->getProject());
-            $projectForm = $this->createProjectForm($projectDTO);
-            $projectForm->handleRequest($request);
-        } else {
-            $projectForm = null;
-        }
-
         $editForm = $this->createEditForm($user, $userInformationDTO);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
@@ -150,16 +140,27 @@ class UserController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        if ($projectForm && $projectForm->isSubmitted() && $projectForm->isValid()) {
-            $this->userEditionService->projectInformations($user, $projectDTO);
-            $this->eventBus->handle(new PersonalUserUpdated($user));
+        if ($user instanceof PersonalUser) {
+            if ($user->getProject() === null) {
+                $user->setProject(new Project($user));
+            }
+            $projectDTO = ProjectDTO::buildFromProject($user->getProject());
+            $projectForm = $this->createProjectForm($projectDTO);
+            $projectForm->handleRequest($request);
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user_edit'
-            );
+            if ($projectForm->isSubmitted() && $projectForm->isValid()) {
+                $this->userEditionService->projectInformations($user, $projectDTO);
+                $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
-            return $this->redirectToRoute('front_view_current_user_info');
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.user_edit'
+                );
+
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
+        } else {
+            $projectForm = null;
         }
 
         return $this->render($userProfileTemplate[$user->getType()], [
