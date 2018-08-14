@@ -1,10 +1,28 @@
 {% form_theme searchForm ':front/Layout/includes/forms:fields.html.twig' %}
 
-<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container" data-toggler=".is-hidden">
+{% macro filterAsTag(label, values, resetedFields) %}
+    {% if values is iterable %}
+        {% set values_str = values|join(', ') %}
+    {% else %}
+        {% set values_str = values %}
+    {% endif %}
+    {% set newQueryParam = {} %}
+
+    {% for key, value in app.request.query.all.search_vehicle if key not in resetedFields %}
+        {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
+    {% endfor  %}
+
+    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ path('front_search', {'search_vehicle': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
+{% endmacro %}
+
+{% import _self as macro %}
+
+<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}"
+     class="search-form-container" data-toggler=".is-hidden">
     {{ form_start(searchForm, {
         'attr' : {'class' : 'search-form row','id' : 'js-search-form'}
     }) }}
-    <div class="column small-12 medium-6 large-4">
+    <div class="column small-12 medium-7">
         {{ form_widget(searchForm.text, {
             'class' : '',
             'label' : 'search.common.field.text.label'|trans,
@@ -15,41 +33,65 @@
         }) }}
     </div>
 
-    <div class="column small-12 medium-6 large-5">
-        <label for="search_vehicle_postalCode">{{ 'search.common.field.location.label'|trans }} <span class="show-for-sr">{{ 'global.facultative'|trans }}</span></label>
-        <div class="block-grid small-12">
-        {{ form_widget(searchForm.postalCode, {
-            'label': false,
-            'class': 'js-city-autocomplete',
-            'required' : false,
-            'attr' : {
-                'data-placeholder': 'search.common.field.location.placeholder'|trans,
-                'data-autocomplete-url': path('front_city_autocomplete'),
-                'data-city-field': 'search_vehicle_cityName',
-                'data-latitude-field': 'search_vehicle_latitude',
-                'data-longitude-field': 'search_vehicle_longitude'
-            }
+
+    <div class="column medium-5">
+        {{ form_widget(searchForm.sorting, {
+            'class' : '',
+            'required' : true,
+            'label' : 'search.common.field.sorting.label'|trans,
+            'label_class' : ''
         }) }}
-        {{ form_widget(searchForm.cityName) }}
-        {{ form_widget(searchForm.latitude) }}
-        {{ form_widget(searchForm.longitude) }}
+    </div>
+
+    <div class="column small-12 medium-7 large-5">
+        <label for="search_vehicle_postalCode">{{ 'search.common.field.location.label'|trans }} <span
+                    class="show-for-sr">{{ 'global.facultative'|trans }}</span></label>
+        <div class="block-grid small-12">
+            {{ form_widget(searchForm.postalCode, {
+                'label': false,
+                'class': 'js-city-autocomplete',
+                'required' : false,
+                'attr' : {
+                    'data-placeholder': 'search.common.field.location.placeholder'|trans,
+                    'data-autocomplete-url': path('front_city_autocomplete'),
+                    'data-city-field': 'search_vehicle_cityName',
+                    'data-latitude-field': 'search_vehicle_latitude',
+                    'data-longitude-field': 'search_vehicle_longitude'
+                }
+            }) }}
+            {{ form_widget(searchForm.cityName) }}
+            {{ form_widget(searchForm.latitude) }}
+            {{ form_widget(searchForm.longitude) }}
         </div>
     </div>
 
-    <div class="show-for-large column large-3">
+    <div class="column small-12 medium-5 large-3">
+        {{ form_widget(searchForm.radius, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.radius.label'|trans,
+            'label_class' : '',
+            'placeholder': 'search.common.field.radius.placeholder'|trans
+        }) }}
+    </div>
+
+    <div class="show-for-large column large-4">
         <label for="search-label" class="show-for-large is-invisible">{{ 'global.button.search'|trans }}</label>
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
 
     <div class="search-actions-button input-margin block-grid column small-12">
         <a class="search-actions-open" data-toggle="js-search-expand js-more-criteria js-less-criteria">
-            <span id="js-more-criteria" data-toggler=".is-hidden" class="text-underline icon-plus-circle">{{ 'search.common.more_criteria'|trans }}</span>
-            <span id="js-less-criteria" data-toggler=".is-hidden" class="text-underline icon-minus-circle is-hidden">{{ 'search.common.less_criteria'|trans }}</span>
+            <span id="js-more-criteria" data-toggler=".is-hidden"
+                  class="text-underline icon-plus-circle">{{ 'search.common.more_criteria'|trans }}</span>
+            <span id="js-less-criteria" data-toggler=".is-hidden"
+                  class="text-underline icon-minus-circle is-hidden">{{ 'search.common.less_criteria'|trans }}</span>
         </a>
         {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
     </div>
 
-    <div id="js-search-expand" class="is-hidden block-grid small-12" data-toggler=".is-hidden" >
+    <div id="js-search-expand" class="is-hidden block-grid small-12" data-toggler=".is-hidden">
         <div class="column small-12 medium-6 large-3">
             {{ form_widget(searchForm.make, {
                 'class' : '',
@@ -145,6 +187,45 @@
     </div>
     <div class="hide-for-large column small-12">
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    </div>
+
+    <div class="column small-12 input-margin">
+        {% if filterData.text is not null %}
+            {{ macro.filterAsTag('search.common.field.text.label', filterData.text, ['text']) }}
+        {% endif %}
+        {% if filterData.postalCode is not null and filterData.cityName is not null %}
+            {{ macro.filterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', ['postalCode','cityName']) }}
+        {% endif %}
+        {% if filterData.radius is not null %}
+            {{ macro.filterAsTag('search.common.field.radius.label', filterData.radius~'km',['radius']) }}
+        {% endif %}
+        {% if filterData.make is not null %}
+            {{ macro.filterAsTag('vehicle.field.make.label', filterData.make,['make']) }}
+        {% endif %}
+        {% if filterData.model is not null %}
+            {{ macro.filterAsTag('vehicle.field.model.label', filterData.model,['model']) }}
+        {% endif %}
+        {% if filterData.mileageMax is not null %}
+            {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,['mileageMax']) }}
+        {% endif %}
+        {% if filterData.yearsMin is not null %}
+            {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,['yearsMin']) }}
+        {% endif %}
+        {% if filterData.yearsMax is not null %}
+            {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,['yearsMax']) }}
+        {% endif %}
+        {% if filterData.budgetMin is not null %}
+            {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,['budgetMin']) }}
+        {% endif %}
+        {% if filterData.budgetMax is not null %}
+            {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,['budgetMax']) }}
+        {% endif %}
+        {% if filterData.transmission is not null %}
+            {{ macro.filterAsTag('search.common.field.transmission.label', filterData.transmission,['transmission']) }}
+        {% endif %}
+        {% if filterData.fuel is not null %}
+            {{ macro.filterAsTag('search.common.field.fuel.label', filterData.fuel,['fuel']) }}
+        {% endif %}
     </div>
     {{ form_end(searchForm) }}
 </div>

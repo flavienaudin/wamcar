@@ -76,9 +76,13 @@ abstract class BaseUser
     /**
      * @return string
      */
-    public function getFullName(): ?string
+    public function getFullName(bool $restrictedName = false): ?string
     {
-        return $this->getFirstName() . ($this->getLastName() ? ' ' . $this->getLastName() : '');
+        if ($restrictedName) {
+            return $this->getFirstName();
+        } else {
+            return $this->getFirstName() . ($this->getLastName() ? ' ' . $this->getLastName() : '');
+        }
     }
 
     /**

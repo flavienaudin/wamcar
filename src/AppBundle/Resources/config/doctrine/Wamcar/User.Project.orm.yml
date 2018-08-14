@@ -22,6 +22,16 @@ Wamcar\User\Project:
         description:
             type: text
             nullable: true
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
 
     oneToOne:
         personalUser:

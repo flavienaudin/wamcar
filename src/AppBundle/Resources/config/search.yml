@@ -118,14 +118,17 @@ parameters:
                     transmission:
                         type: string
                         index: not_analyzed
-                    projectVehicles :
-                        properties:
-                            make:
-                                type: string
-                                index: not_analyzed
-                            model:
-                                type: string
-                                index: not_analyzed
+            personal_project :
+                _source: { enabled : true }
+                properties:
+                    sortCreatedAt:
+                        type: date
+                    make:
+                        type: string
+                        index: not_analyzed
+                    model:
+                        type: string
+                        index: not_analyzed
             city:
                 _source : { enabled : true }
                 properties:

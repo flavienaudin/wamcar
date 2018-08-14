@@ -17,6 +17,12 @@ services:
         arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
         public: true
 
+    AppBundle\Doctrine\Repository\ProjectRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProjectRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\User\Project']
+        public: true
+
     # Interfaces default service
     Wamcar\User\UserRepository: '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
 
@@ -44,11 +50,6 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\Garage\GarageProUser']
-
-    AppBundle\Doctrine\Repository\DoctrineProjectRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProjectRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\Project']
 
     AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository'
