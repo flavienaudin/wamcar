@@ -7,7 +7,6 @@ use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Vehicle\ProVehicle;
 
 class IndexableProVehicleBuilder
@@ -59,15 +58,16 @@ class IndexableProVehicleBuilder
             $vehicle->getLongitude(),
             $vehicle->getPrice(),
             $vehicle->getCreatedAt(),
-            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
+            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture() ? 'vehicle_thumbnail' : 'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
+            $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
             $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['id' => $vehicle->getGarage()->getId()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
             $vehicle->getGarageName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),
             $vehicle->getDeletedAt(),
-            $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating():null,
+            $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating() : null,
             count($vehicle->getPositiveLikes())
         );
     }

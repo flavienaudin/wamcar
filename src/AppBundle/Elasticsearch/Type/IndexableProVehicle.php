@@ -48,6 +48,8 @@ class IndexableProVehicle implements Indexable
     private $sellerUrl;
     /** @var string */
     private $sellerName;
+    /** @var int */
+    private $garageId;
     /** @var string */
     private $garageUrl;
     /** @var string */
@@ -83,6 +85,7 @@ class IndexableProVehicle implements Indexable
      * @param int $nbPicture
      * @param string $sellerUrl
      * @param string $sellerName
+     * @param int $garageId
      * @param string $garageUrl
      * @param string $garageName
      * @param string $sellerPicture
@@ -110,6 +113,7 @@ class IndexableProVehicle implements Indexable
                                 int $nbPicture,
                                 string $sellerUrl,
                                 string $sellerName,
+                                int $garageId,
                                 string $garageUrl,
                                 string $garageName,
                                 string $sellerPicture,
@@ -138,6 +142,7 @@ class IndexableProVehicle implements Indexable
         $this->nbPicture = $nbPicture;
         $this->sellerUrl = $sellerUrl;
         $this->sellerName = $sellerName;
+        $this->garageId = $garageId;
         $this->garageUrl = $garageUrl;
         $this->garageName = $garageName;
         $this->sellerPicture = $sellerPicture;
@@ -198,6 +203,7 @@ class IndexableProVehicle implements Indexable
             'nbPicture' => $this->nbPicture,
             'sellerUrl' => $this->sellerUrl,
             'sellerName' => $this->sellerName,
+            'garageId' => $this->garageId,
             'garageUrl' => $this->garageUrl,
             'garageName' => $this->garageName,
             'sellerPicture' => $this->sellerPicture,

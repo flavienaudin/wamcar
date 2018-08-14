@@ -77,6 +77,35 @@ class QueryBuilderFilterer
     }
 
     /**
+     * @param QueryBuilder $queryBuilder
+     * @param string|null $text
+     * @return QueryBuilder
+     */
+    public function getGarageVehiclesQueryBuilder(QueryBuilder $queryBuilder, int $garageID, string $text = null): QueryBuilder
+    {
+        $queryBuilder->addFilter(new TermFilter('garageId', $garageID));
+        if (!empty($text)) {
+            $boolQuery = new BoolQuery();
+            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $queryBuilder->addQuery($boolQuery);
+
+
+        }
+        $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                DecayFunctionScore::LINEAR,
+                date('Y-m-d\TH:i:s\Z'),
+                '0d', '7d')
+        );
+
+        // $queryBuilder->addSort('sortingDate', 'desc');
+        $queryBuilder->setMinimumScore(0.3);
+        return $queryBuilder;
+    }
+
+    /**
      * @deprecated after Recherche v2
      * @param QueryBuilder $queryBuilder
      * @param SearchVehicleDTO $searchVehicleDTO
