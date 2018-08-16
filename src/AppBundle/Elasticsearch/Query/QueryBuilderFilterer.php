@@ -320,7 +320,7 @@ class QueryBuilderFilterer
                 $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
                     DecayFunctionScore::LINEAR,
                     date('Y-m-d\TH:i:s\Z'),
-                    0,
+                    '0d',
                     self::SORTING_DATE_DECAY_SCALE));
 
                 $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
