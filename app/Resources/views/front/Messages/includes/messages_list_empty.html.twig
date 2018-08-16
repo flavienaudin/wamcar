@@ -3,6 +3,6 @@
     <strong class="is-block">Vous n'avez pas reçu ni envoyé de message pour le moment.</strong>
     <p>Vous pouvez contacter un {{ app.user.isPro ? 'particulier' : 'professionnel'}} de votre choix depuis une fiche véhicule ou sa page profil.</p>
     <div class="block-grid">
-        <a href="{{  app.user.isPro ? path('front_search_pro') : path('front_search_personal') }}" class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button">Rechercher un véhicule</a>
+        <a href="{{  app.user.isPro ? path('text_field_only') : path('front_search_personal') }}" class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button">Rechercher un véhicule</a>
     </div>
 </div>

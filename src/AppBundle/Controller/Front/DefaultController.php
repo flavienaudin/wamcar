@@ -57,7 +57,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -83,7 +83,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -108,7 +108,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
