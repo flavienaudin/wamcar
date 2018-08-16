@@ -23,7 +23,7 @@ class QueryBuilderFilterer
     const LOCATION_DECAY_OFFSET = '10km';
     const LOCATION_DECAY_SCALE = '75km';
 
-    const SORTING_DATE_DECAY_OFFSET = '6h';
+    const SORTING_DATE_DECAY_OFFSET = '1d';
     const SORTING_DATE_DECAY_SCALE = '15d';
 
 
@@ -97,7 +97,8 @@ class QueryBuilderFilterer
         $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
                 DecayFunctionScore::LINEAR,
                 date('Y-m-d\TH:i:s\Z'),
-                '0d', '7d')
+                self::SORTING_DATE_DECAY_OFFSET,
+                self::SORTING_DATE_DECAY_SCALE)
         );
 
         // $queryBuilder->addSort('sortingDate', 'desc');
@@ -317,11 +318,16 @@ class QueryBuilderFilterer
                         self::LOCATION_DECAY_OFFSET,
                         self::LOCATION_DECAY_SCALE));
                 }
-                $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
-                    DecayFunctionScore::LINEAR,
-                    date('Y-m-d\TH:i:s\Z'),
-                    '0d',
-                    self::SORTING_DATE_DECAY_SCALE));
+                if ($queryBuilder->getFunctionScoreCollectionLength() > 0) {
+                    $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                        DecayFunctionScore::GAUSS,
+                        date('Y-m-d\TH:i:s\Z'),
+                        self::SORTING_DATE_DECAY_OFFSET,
+                        self::SORTING_DATE_DECAY_SCALE
+                    ));
+                } else {
+                    $queryBuilder->addSort('sortingDate', 'desc');
+                }
 
                 $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
 
