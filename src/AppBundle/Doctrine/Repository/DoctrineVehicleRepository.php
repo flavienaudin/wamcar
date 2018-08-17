@@ -2,9 +2,14 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Vehicle;
 
 class DoctrineVehicleRepository extends EntityRepository
@@ -87,5 +92,43 @@ class DoctrineVehicleRepository extends EntityRepository
             ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds) '));
         $qb->setParameter('orderedIds', $ids);
         return $qb->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param BaseUser $user
+     * @param null|string $text
+     * @return Collection
+     */
+    public function findByTextSearch(BaseUser $user, string $text = null): Collection
+    {
+        $criteria = Criteria::create();
+        if ($user instanceof PersonalUser) {
+            $criteria->where(Criteria::expr()->eq('owner', $user));
+        } elseif ($user instanceof ProUser) {
+            $garageIds = [];
+            /** @var GarageProUser $garageProUser */
+            foreach ($user->getGarageMemberships() as $garageProUser) {
+                $garageIds[] = $garageProUser->getGarage()->getId();
+            }
+            $criteria->where(Criteria::expr()->in('garage', $garageIds));
+        } else {
+            throw new \InvalidArgumentException(sprintf(
+                'DoctrineVehicleRepository::findByTextSearch() expects $user argument to be an instance of %s or %s, %s given',
+                PersonalUser::class, ProUser::class, get_class($user)));
+        }
+
+        if (!empty($text)) {
+            $criteria
+                ->andWhere(Criteria::expr()->orX(
+                    Criteria::expr()->contains('modelVersion.model.make.name', $text),
+                    Criteria::expr()->contains('modelVersion.model.name', $text),
+                    Criteria::expr()->contains('modelVersion.engine.name', $text),
+                    Criteria::expr()->contains('additionalInformation', $text)
+                ));
+        }
+        $criteria->orderBy(['updatedAt' => 'desc']);
+        return $this->matching($criteria);
+
     }
 }

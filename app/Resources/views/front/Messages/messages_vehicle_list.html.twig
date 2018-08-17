@@ -41,6 +41,27 @@
                     </a>
                 {% endif %}
             </div>
+            <div class="small-12">
+                <div class="column">
+                    {{ form_start(searchForm) }}
+                    <div class="row">
+                        <div class="column small-12 medium-auto">
+                            {{ form_widget(searchForm.text, {
+                                'class':'',
+                                'label':'search.common.field.text.label'|trans,
+                                'label_class':'',
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'placeholder':'search.common.field.text.placeholder'|trans
+                            }) }}
+                        </div>
+                        <div class="column small-12 medium-shrink input-margin medium-no-margin is-flex ">
+                            <button type="submit" class="button no-margin full-width align-self-middle">{{ 'global.button.search'|trans }}</button>
+                        </div>
+                    </div>
+                    {{ form_end(searchForm) }}
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">

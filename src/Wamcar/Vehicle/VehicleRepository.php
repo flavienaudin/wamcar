@@ -2,7 +2,9 @@
 
 namespace Wamcar\Vehicle;
 
+use Doctrine\Common\Collections\Collection;
 use Wamcar\Garage\Garage;
+use Wamcar\User\BaseUser;
 
 interface VehicleRepository
 {
@@ -37,4 +39,12 @@ interface VehicleRepository
      * @return Vehicle
      */
     public function find($id);
+
+
+    /**
+     * @param BaseUser $user
+     * @param string $text
+     * @return Collection
+     */
+    public function findByTextSearch(BaseUser $user, string $text): Collection;
 }

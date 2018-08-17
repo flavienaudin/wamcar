@@ -90,7 +90,9 @@ class SearchResultProvider
         } elseif ($queryType === SearchController::TAB_PROJECT) {
             $types = IndexablePersonalProject::TYPE;
         }
-        return $this->queryExecutor->execute($queryBuilder->getQueryBody(), $types);
+
+        $queryBody = $queryBuilder->getQueryBody();
+        return $this->queryExecutor->execute($queryBody, $types);
     }
 
     /**

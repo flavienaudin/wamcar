@@ -7,7 +7,9 @@ use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\MessageType;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
@@ -67,7 +69,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-        if (count($conversations)> 0 ){
+        if (count($conversations) > 0) {
             return $this->editAction($request, reset($conversations) ?: null);
         }
 
@@ -187,17 +189,17 @@ class ConversationController extends BaseController
         if ($vehicleId) {
             /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            if($vehicleHeader === null){
+            if ($vehicleHeader === null) {
                 $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
             }
-            $messageDTO->vehicleHeader =$vehicleHeader;
+            $messageDTO->vehicleHeader = $vehicleHeader;
         }
 
         //If Vehicle added
         if ($request->query->has('v')) {
             /** @var BaseVehicle $vehicle */
             $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
-            if($vehicle === null){
+            if ($vehicle === null) {
                 $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
             }
             if ($vehicle && $vehicle->canEditMe($this->getUser())) {
@@ -255,18 +257,18 @@ class ConversationController extends BaseController
             case 'createVehicle':
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
                 $user = $this->getUser();
-                if($user->isPersonal()){
+                if ($user->isPersonal()) {
                     return $this->redirectToRoute('front_vehicle_personal_add');
-                }else {
+                } else {
                     /** @var ProUser $user */
                     /** @var GarageProUser $userGarages */
                     $nbUserGarages = count($user->getGarageMemberships());
-                    if($nbUserGarages  == 0){
+                    if ($nbUserGarages == 0) {
                         $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
                         return $this->redirectToRoute('front_garage_create');
-                    }elseif($nbUserGarages  == 1){
-                        return $this->redirectToRoute('front_vehicle_pro_add',['garage_id' => $user->getGarageMemberships()->first()->getGarage()->getId()]);
-                    }else{
+                    } elseif ($nbUserGarages == 1) {
+                        return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $user->getGarageMemberships()->first()->getGarage()->getId()]);
+                    } else {
                         /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
                         $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
                         return $this->redirectToRoute('front_view_current_user_info');
@@ -286,14 +288,29 @@ class ConversationController extends BaseController
     {
         /** @var SessionMessage $sessionMessage */
         $sessionMessage = $this->sessionMessageManager->get();
-
         //Redirection to conversation list if no session
         if (!$sessionMessage) {
             return $this->redirectToRoute('front_conversation_list');
         }
 
+        $searchVehicleDTO = new SearchVehicleDTO();
+        $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+            'available_values' => [],
+            'small_version' => true
+        ]);
+
+        $searchForm->handleRequest($request);
+        $textSearch = $searchForm->get('text')->getData();
+        $vehicles = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->findByTextSearch($this->getUser(), $textSearch);
+
+        //$page = $request->query->get('page', 1);
+        //$searchResult = $this->searchResultProvider->getQueryGarageVehiclesResult($garage, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+        //$vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult);
+        //$lastPage = $searchResult->numberOfPages();
+
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'vehicles' => $this->getUser()->getVehicles(),
+            'searchForm' => $searchForm->createView(),
+            'vehicles' => $vehicles,
             'linkRoute' => $sessionMessage->route,
             'linkRouteParams' => $sessionMessage->routeParams
         ]);
