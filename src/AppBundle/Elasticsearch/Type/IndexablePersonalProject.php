@@ -21,7 +21,7 @@ class IndexablePersonalProject implements Indexable
     protected $isFleet;
     /** @var array */
     protected $projectVehicles;
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
     private $updatedAt;
 
 
@@ -32,9 +32,10 @@ class IndexablePersonalProject implements Indexable
      * @param null|string $description
      * @param int|null $budget
      * @param bool $isFleet
+     * @param \DateTimeInterface $updatedAt
      * @param array $projectVehicles Each ProjectVehicle should be an array compatible with indexation (See static method : createFromPersonalProject)
      */
-    public function __construct(int $id, int $userId, ?string $description, ?int $budget, bool $isFleet, array $projectVehicles, \DateTime $updatedAt)
+    public function __construct(int $id, int $userId, ?string $description, ?int $budget, bool $isFleet, array $projectVehicles, \DateTimeInterface $updatedAt)
     {
         $this->id = $id;
         $this->userId = $userId;

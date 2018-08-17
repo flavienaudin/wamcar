@@ -262,6 +262,10 @@ class QueryBuilderFilterer
      */
     private function addSort(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, string $queryType = null): QueryBuilder
     {
+        $locationOffset = self::LOCATION_DECAY_OFFSET;
+        if (!empty($searchVehicleDTO->radius)) {
+            $locationOffset = ($searchVehicleDTO->radius / 2) . 'km';
+        }
         switch ($searchVehicleDTO->sorting) {
             case Sorting::SEARCH_SORTING_DATE:
                 $queryBuilder->addSort('sortingDate', 'desc');
@@ -280,8 +284,10 @@ class QueryBuilderFilterer
                         DecayFunctionScore::GAUSS, [
                             'lat' => $searchVehicleDTO->latitude,
                             'lon' => $searchVehicleDTO->longitude],
-                        self::LOCATION_DECAY_OFFSET,
-                        self::LOCATION_DECAY_SCALE);
+                        $locationOffset,
+                        self::LOCATION_DECAY_SCALE,[
+                            'weight' => 5
+                        ]);
                     $queryBuilder->addFunctionScore($score);
                     break;
                 }
@@ -315,16 +321,12 @@ class QueryBuilderFilterer
                         DecayFunctionScore::GAUSS, [
                             'lat' => $searchVehicleDTO->latitude,
                             'lon' => $searchVehicleDTO->longitude],
-                        self::LOCATION_DECAY_OFFSET,
+                        $locationOffset,
                         self::LOCATION_DECAY_SCALE));
                 }
                 if ($queryBuilder->getFunctionScoreCollectionLength() > 0) {
-                    $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
-                        DecayFunctionScore::GAUSS,
-                        date('Y-m-d\TH:i:s\Z'),
-                        self::SORTING_DATE_DECAY_OFFSET,
-                        self::SORTING_DATE_DECAY_SCALE
-                    ));
+                    $queryBuilder->addSort('_score', 'desc');
+                    $queryBuilder->addSort('sortingDate', 'desc');
                 } else {
                     $queryBuilder->addSort('sortingDate', 'desc');
                 }
