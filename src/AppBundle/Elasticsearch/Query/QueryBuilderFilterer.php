@@ -92,7 +92,7 @@ class QueryBuilderFilterer
             $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
             $queryBuilder->addQuery($boolQuery);
 
-
+            $queryBuilder->setMinimumScore(0.3);
         }
         $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
                 DecayFunctionScore::LINEAR,
@@ -102,7 +102,6 @@ class QueryBuilderFilterer
         );
 
         // $queryBuilder->addSort('sortingDate', 'desc');
-        $queryBuilder->setMinimumScore(0.3);
         return $queryBuilder;
     }
 

@@ -27,7 +27,7 @@ class GarageController extends BaseController
 {
     use VehicleTrait;
 
-    const NB_VEHICLES_PER_PAGE = 10 ;
+    const NB_VEHICLES_PER_PAGE = 7 ;
 
     /** @var FormFactoryInterface */
     protected $formFactory;
@@ -119,7 +119,7 @@ class GarageController extends BaseController
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),
-                'hits' => $garage->getProVehicles()
+                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage)
             ];
         }
 
