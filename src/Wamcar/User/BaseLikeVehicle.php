@@ -3,10 +3,13 @@
 namespace Wamcar\User;
 
 
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Wamcar\Vehicle\BaseVehicle;
 
 abstract class BaseLikeVehicle
 {
+
+    use SoftDeleteableEntity;
 
     /** @var int */
     protected $id;

@@ -9,6 +9,10 @@ Wamcar\User\BaseLikeVehicle:
     discriminatorMap:
         personal: Wamcar\User\PersonalLikeVehicle
         pro: Wamcar\User\ProLikeVehicle
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository
@@ -40,6 +44,9 @@ Wamcar\User\BaseLikeVehicle:
             gedmo:
                 timestampable:
                     on: update
+        deletedAt:
+            type: date
+            nullable: true
 
     manyToOne:
         user:
