@@ -61,6 +61,7 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getDeletedAt(),
             $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
+            $vehicle->getOwner()->getId(),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),

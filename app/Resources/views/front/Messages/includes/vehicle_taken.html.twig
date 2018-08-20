@@ -33,7 +33,7 @@
         {% endif %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="vehicle-list small-12">
-            {{ include('front/Messages/includes/item_vehicle_selected.html.twig') }}
+            {{ include('front/Messages/includes/item_vehicle_selected.html.twig',{detailUrlTarget:'_blank'}) }}
         </div>
     {% endif %}
 </div>

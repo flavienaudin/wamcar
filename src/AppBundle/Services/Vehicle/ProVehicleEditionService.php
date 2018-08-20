@@ -8,7 +8,6 @@ use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
@@ -64,11 +63,12 @@ class ProVehicleEditionService
     /**
      * Retrieve ProVehicles from the search result
      * @param Result $searchResult
-     * @return Collection
+     * @param array $orderBy
+     * @return array
      */
     public function getVehiclesByGarage(Garage $garage, array $orderBy = []): array
     {
-        return $this->vehicleRepository->getByGarage($garage, ['createdAt' => Criteria::DESC])->toArray();
+        return $this->vehicleRepository->getByGarage($garage, array_merge($orderBy, ['createdAt' => Criteria::DESC]))->toArray();
     }
 
     /**

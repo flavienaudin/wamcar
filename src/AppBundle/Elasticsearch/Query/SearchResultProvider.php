@@ -13,6 +13,10 @@ use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 use Symfony\Component\Form\FormInterface;
 use Wamcar\Garage\Garage;
+use Wamcar\Garage\GarageProUser;
+use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 
 
 class SearchResultProvider
@@ -107,13 +111,45 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($page - 1) * $limit,
             $limit,
-            self::MIN_SCORE
+            0.3
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garage->getId(), $text);
 
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, IndexableProVehicle::TYPE);
+    }
+
+    /**
+     * @param BaseUser $user
+     * @param string|null $text
+     * @param int $page
+     * @param int|null $limit
+     * @return Result
+     */
+    public function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): Result
+    {
+        $queryBuilder = new QueryBuilder(
+            self::OFFSET + ($page - 1) * $limit,
+            $limit,
+            0.3
+        );
+        $type = null;
+        if ($user instanceof ProUser) {
+            $garageIds = [];
+            /** @var GarageProUser $garageMembership */
+            foreach ($user->getGarageMemberships() as $garageMembership) {
+                $garageIds[] = $garageMembership->getGarage()->getId();
+            }
+            $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garageIds, $text);
+            $type = IndexableProVehicle::TYPE;
+        } elseif ($user instanceof PersonalUser) {
+            $queryBuilder = $this->queryBuilderFilterer->getUserVehiclesQueryBuilder($queryBuilder, $user->getId(), $text);
+            $type = IndexablePersonalVehicle::TYPE;
+        }
+
+        $queryBody = $queryBuilder->getQueryBody();
+        return $this->queryExecutor->execute($queryBody, $type);
     }
 
     /**

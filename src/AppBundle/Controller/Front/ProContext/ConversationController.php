@@ -6,6 +6,7 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
+use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\MessageType;
@@ -27,6 +28,8 @@ use Wamcar\Vehicle\BaseVehicle;
 
 class ConversationController extends BaseController
 {
+    const NB_VEHICLES_PER_PAGE = 10;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var ConversationEditionService */
@@ -41,6 +44,8 @@ class ConversationController extends BaseController
     protected $messageRepository;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
+    /** @var SearchResultProvider */
+    private $searchResultProvider;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -49,7 +54,8 @@ class ConversationController extends BaseController
         DoctrineConversationRepository $conversationRepository,
         VehicleRepositoryResolver $vehicleRepositoryResolver,
         DoctrineMessageRepository $messageRepository,
-        SessionMessageManager $sessionMessageManager
+        SessionMessageManager $sessionMessageManager,
+        SearchResultProvider $searchResultProvider
     )
     {
         $this->formFactory = $formFactory;
@@ -59,6 +65,7 @@ class ConversationController extends BaseController
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
         $this->messageRepository = $messageRepository;
         $this->sessionMessageManager = $sessionMessageManager;
+        $this->searchResultProvider = $searchResultProvider;
     }
 
     /**
@@ -300,19 +307,31 @@ class ConversationController extends BaseController
         ]);
 
         $searchForm->handleRequest($request);
-        $textSearch = $searchForm->get('text')->getData();
-        $vehicles = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->findByTextSearch($this->getUser(), $textSearch);
 
-        //$page = $request->query->get('page', 1);
-        //$searchResult = $this->searchResultProvider->getQueryGarageVehiclesResult($garage, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-        //$vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult);
-        //$lastPage = $searchResult->numberOfPages();
+        $page = $request->query->get('page', 1);
+        /** @var BaseUser $currentUser */
+        $currentUser = $this->getUser();
+        $searchResult = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $hit) {
+            $ids[] = $hit['id'];
+        }
+        if (count($ids) > 0) {
+            $result['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+        }
+
+        $lastPage = $searchResult->numberOfPages();
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'searchForm' => $searchForm->createView(),
-            'vehicles' => $vehicles,
+            'vehicles' => $result,
             'linkRoute' => $sessionMessage->route,
-            'linkRouteParams' => $sessionMessage->routeParams
+            'linkRouteParams' => $sessionMessage->routeParams,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
+            'searchForm' => $searchForm->createView(),
         ]);
     }
 }

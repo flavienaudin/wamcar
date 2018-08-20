@@ -12,7 +12,7 @@
 {% endset %}
 
 {% set ownersProject = vehicle.ownerProject %}
-{% set displayProjectTab = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0%}
+{% set displayProjectTab = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 

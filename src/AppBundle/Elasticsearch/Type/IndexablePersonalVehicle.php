@@ -45,6 +45,8 @@ class IndexablePersonalVehicle implements Indexable
     private $picture;
     /** @var int */
     private $nbPicture;
+    /** @var $userId */
+    private $userId;
     /** @var string */
     private $userUrl;
     /** @var string */
@@ -74,6 +76,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param \DateTime|null $deletedAt
      * @param string $picture
      * @param int $nbPicture
+     * @param int $userId
      * @param string $userUrl
      * @param string $userName
      * @param string $userPicture
@@ -97,6 +100,7 @@ class IndexablePersonalVehicle implements Indexable
                                 \DateTime $deletedAt = null,
                                 string $picture,
                                 int $nbPicture,
+                                int $userId,
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
@@ -121,6 +125,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->deletedAt = $deletedAt;
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
+        $this->userId = $userId;
         $this->userUrl = $userUrl;
         $this->userName = $userName;
         $this->userPicture = $userPicture;
@@ -178,6 +183,7 @@ class IndexablePersonalVehicle implements Indexable
             'deletedAt' => $this->deletedAt,
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
+            'userId' => $this->userId,
             'userUrl' => $this->userUrl,
             'userName' => $this->userName,
             'userPicture' => $this->userPicture,

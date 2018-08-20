@@ -8,6 +8,7 @@ use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Score\FieldValueFactorScore;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
+use Novaway\ElasticsearchClient\Filter\InArrayFilter;
 use Novaway\ElasticsearchClient\Filter\RangeFilter;
 use Novaway\ElasticsearchClient\Filter\TermFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
@@ -24,7 +25,8 @@ class QueryBuilderFilterer
     const LOCATION_DECAY_SCALE = '75km';
 
     const SORTING_DATE_DECAY_OFFSET = '1d';
-    const SORTING_DATE_DECAY_SCALE = '15d';
+    const SORTING_DATE_DECAY_SCALE = '365d';
+    const SORTING_DATE_DECAY_DECAY = 0.2;
 
 
     /**
@@ -78,12 +80,17 @@ class QueryBuilderFilterer
 
     /**
      * @param QueryBuilder $queryBuilder
+     * @param array|int $garageIds Array of garages'id Or a garage's id
      * @param string|null $text
      * @return QueryBuilder
      */
-    public function getGarageVehiclesQueryBuilder(QueryBuilder $queryBuilder, int $garageID, string $text = null): QueryBuilder
+    public function getGarageVehiclesQueryBuilder(QueryBuilder $queryBuilder, $garageIds, string $text = null): QueryBuilder
     {
-        $queryBuilder->addFilter(new TermFilter('garageId', $garageID));
+        if (is_array($garageIds)) {
+            $queryBuilder->addFilter(new InArrayFilter('garageId', $garageIds));
+        } else {
+            $queryBuilder->addFilter(new TermFilter('garageId', $garageIds));
+        }
         if (!empty($text)) {
             $boolQuery = new BoolQuery();
             $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
@@ -91,17 +98,45 @@ class QueryBuilderFilterer
             $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
             $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
             $queryBuilder->addQuery($boolQuery);
+        }
+        $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                DecayFunctionScore::EXP,
+                'now',
+                self::SORTING_DATE_DECAY_OFFSET,
+                self::SORTING_DATE_DECAY_SCALE,
+                [],
+                self::SORTING_DATE_DECAY_DECAY)
+        );
+        $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
 
-            $queryBuilder->setMinimumScore(0.3);
+        return $queryBuilder;
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param int $userId
+     * @param string|null $text
+     * @return QueryBuilder
+     */
+    public function getUserVehiclesQueryBuilder(QueryBuilder $queryBuilder, int $userId, string $text = null): QueryBuilder
+    {
+        $queryBuilder->addFilter(new TermFilter('userId', $userId));
+        if (!empty($text)) {
+            $boolQuery = new BoolQuery();
+            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $queryBuilder->addQuery($boolQuery);
         }
         $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
                 DecayFunctionScore::LINEAR,
                 date('Y-m-d\TH:i:s\Z'),
                 self::SORTING_DATE_DECAY_OFFSET,
-                self::SORTING_DATE_DECAY_SCALE)
+                self::SORTING_DATE_DECAY_SCALE,
+                [],
+                self::SORTING_DATE_DECAY_DECAY)
         );
-
-        // $queryBuilder->addSort('sortingDate', 'desc');
         return $queryBuilder;
     }
 
@@ -284,7 +319,7 @@ class QueryBuilderFilterer
                             'lat' => $searchVehicleDTO->latitude,
                             'lon' => $searchVehicleDTO->longitude],
                         $locationOffset,
-                        self::LOCATION_DECAY_SCALE,[
+                        self::LOCATION_DECAY_SCALE, [
                             'weight' => 5
                         ]);
                     $queryBuilder->addFunctionScore($score);

@@ -123,7 +123,7 @@ class GarageController extends BaseController
             'vehicles' => $vehicles,
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
-            'garagePlaceDetail' => null/*$this->garageEditionService->getGooglePlaceDetails($garage)*/,
+            'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
             'searchForm' => $searchForm ? $searchForm->createView() : null
         ]);
     }
