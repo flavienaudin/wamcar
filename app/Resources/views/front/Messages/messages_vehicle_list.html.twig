@@ -41,16 +41,37 @@
                     </a>
                 {% endif %}
             </div>
+            <div class="small-12">
+                <div class="column">
+                    {{ form_start(searchForm) }}
+                    <div class="row">
+                        <div class="column small-12 medium-auto">
+                            {{ form_widget(searchForm.text, {
+                                'class':'',
+                                'label':'search.common.field.text.label'|trans,
+                                'label_class':'',
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'placeholder':'search.common.field.text.placeholder'|trans
+                            }) }}
+                        </div>
+                        <div class="column small-12 medium-shrink input-margin medium-no-margin is-flex ">
+                            <button type="submit" class="button no-margin full-width align-self-middle">{{ 'global.button.search'|trans }}</button>
+                        </div>
+                    </div>
+                    {{ form_end(searchForm) }}
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
         <div class="small-12">
-            {% if vehicles|length > 0 %}
+            {% if vehicles.totalHits|length > 0 %}
                 {% if app.user.isPro %}
                     <!-- Pro vehicles list -->
                     <div class="garage-container messages-list-vehicle">
                         <div class="vehicle-list">
-                        {% for vehicle in vehicles %}
+                        {% for vehicle in vehicles.hits %}
                             <li class="small-12 column vehicle-messages-item-wrapper">
                                 {% include 'front/Messages/includes/item_selection_pro_vehicle.html.twig' %}
                             </li>
@@ -60,13 +81,25 @@
                 {% else %}
                     <!-- Personal vehicles list -->
                     <ul class="block-grid vehicle-messages-list no-bullet">
-                        {% for vehicle in vehicles %}
+                        {% for vehicle in vehicles.hits %}
                             <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
                                 {% include 'front/Messages/includes/item_selection_personal_vehicle.html.twig' %}
                             </li>
                         {% endfor %}
                     </ul>
                 {% endif %}
+                <br>
+
+                <div class="block-grid small-12 align-middle input-margin">
+                    <div class="small-12">
+                        {% include 'front/Layout/includes/pagination.html.twig' with {
+                            'route': 'front_conversation_vehicle_list',
+                            'route_params':{},
+                            'page': page,
+                            'lastPage': lastPage
+                        } %}
+                    </div>
+                </div>
             {% else %}
                 <div class="block-grid vehicle-messages-list">
                     <div class="vehicle-messages-list-empty text-center">

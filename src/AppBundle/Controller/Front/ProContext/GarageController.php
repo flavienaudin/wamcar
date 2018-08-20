@@ -27,7 +27,7 @@ class GarageController extends BaseController
 {
     use VehicleTrait;
 
-    const NB_VEHICLES_PER_PAGE = 10 ;
+    const NB_VEHICLES_PER_PAGE = 10;
 
     /** @var FormFactoryInterface */
     protected $formFactory;
@@ -99,16 +99,10 @@ class GarageController extends BaseController
     {
         $searchForm = null;
         if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
-            $paramSearchVehicle = $request->query->get('search_vehicle');
-            $filters = [
-                'make' => $paramSearchVehicle['make'] ?? null,
-                'model' => $paramSearchVehicle['model'] ?? null
-            ];
-            $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
             $searchVehicleDTO = new SearchVehicleDTO();
             $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
                 'action' => $this->generateRoute('front_garage_view', ['id' => $garage->getId()]),
-                'available_values' => $availableValues,
+                'available_values' => [],
                 'small_version' => true
             ]);
             $searchForm->handleRequest($request);
@@ -119,7 +113,7 @@ class GarageController extends BaseController
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),
-                'hits' => $garage->getProVehicles()
+                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage)
             ];
         }
 
@@ -129,7 +123,7 @@ class GarageController extends BaseController
             'vehicles' => $vehicles,
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
-            'garagePlaceDetail' => null/*$this->garageEditionService->getGooglePlaceDetails($garage)*/,
+            'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
             'searchForm' => $searchForm ? $searchForm->createView() : null
         ]);
     }

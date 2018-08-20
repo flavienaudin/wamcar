@@ -61,7 +61,7 @@
         {% if message.vehicle %}
             {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, vehicle: message.vehicle, user: message.user } %}
         {% elseif message.isFleet %}
-            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, severalVehicles: message.user.vehicles|length, user: message.user  } %}
+            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, severalVehicles: message.user.vehicles|length, user: message.user } %}
         {% endif %}
     </div>
 {% endfor %}

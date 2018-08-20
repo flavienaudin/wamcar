@@ -3,12 +3,13 @@
 
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
 {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
+{% set detailUrlTarget = detailUrlTarget|default('_self') %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
         <div class="vehicle-picture small-auto">
             <div class="is-relative"  id="{{ vehicle.id }}">
-                <a href="{{ detailUrl }}">
+                <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
                     <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
                 </a>
                 <div class="vehicle-count-pics">
@@ -17,7 +18,7 @@
             </div>
         </div>
         <div class="vehicle-infos small-shrink">
-            <a href="{{ detailUrl }}"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}></a>
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}></a>
             <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span>
 
             <div class="vehicle-middle block-grid full-width">
