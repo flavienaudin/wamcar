@@ -5,7 +5,6 @@ namespace AppBundle\Elasticsearch\Query;
 
 
 use AppBundle\Controller\Front\ProContext\SearchController;
-use AppBundle\Elasticsearch\Score\FieldValueFactorScore;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Filter\InArrayFilter;
@@ -16,6 +15,7 @@ use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
 use Novaway\ElasticsearchClient\Query\PrefixQuery;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
+use Novaway\ElasticsearchClient\Score\FieldValueFactorScore;
 use Wamcar\Vehicle\Enum\Sorting;
 
 class QueryBuilderFilterer
@@ -107,7 +107,7 @@ class QueryBuilderFilterer
                 [],
                 self::SORTING_DATE_DECAY_DECAY)
         );
-        $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
+        $queryBuilder->setBoostMode(QueryBuilder::SUM);
 
         return $queryBuilder;
     }
@@ -331,13 +331,13 @@ class QueryBuilderFilterer
                 if ($queryType == SearchController::TAB_PRO || $queryType == SearchController::TAB_PERSONAL) {
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPositiveLikes",
-                        FieldValueFactorScore::LOG1P,
-                        3,
+                        FieldValueFactorScore::SQRT,
+                        1.3,
                         0
                     ));
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPicture",
-                        FieldValueFactorScore::LOG1P,
+                        FieldValueFactorScore::SQRT,
                         1,
                         0
                     ));
@@ -345,8 +345,8 @@ class QueryBuilderFilterer
                 if ($queryType == SearchController::TAB_PRO) {
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "googleRating",
-                        FieldValueFactorScore::LOG1P,
-                        2,
+                        FieldValueFactorScore::SQRT,
+                        1.2,
                         1
                     ));
                 }
@@ -356,16 +356,24 @@ class QueryBuilderFilterer
                             'lat' => $searchVehicleDTO->latitude,
                             'lon' => $searchVehicleDTO->longitude],
                         $locationOffset,
-                        self::LOCATION_DECAY_SCALE));
+                        self::LOCATION_DECAY_SCALE,
+                        ['weight' => 10] // Decay Function score € [0;1] x 10 => [0;10]
+                    ));
                 }
-                if ($queryBuilder->getFunctionScoreCollectionLength() > 0) {
-                    $queryBuilder->addSort('_score', 'desc');
-                    $queryBuilder->addSort('sortingDate', 'desc');
-                } else {
+                $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                        DecayFunctionScore::GAUSS,
+                        'now',
+                        self::SORTING_DATE_DECAY_OFFSET,
+                        self::SORTING_DATE_DECAY_SCALE,
+                        ['weight' => 10], // Decay Function score € [0;1] x 10 => [0;10]
+                        self::SORTING_DATE_DECAY_DECAY)
+                );
+                if ($queryBuilder->getFunctionScoreCollectionLength() == 0) {
                     $queryBuilder->addSort('sortingDate', 'desc');
                 }
 
-                $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
+                $queryBuilder->setBoostMode(QueryBuilder::SUM);
+                $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
 
                 break;
         }
