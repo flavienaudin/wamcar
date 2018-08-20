@@ -196,6 +196,8 @@ class ProVehicleEditionService
 
     /**
      * Create a new ProLikeVehicle with value to 1 or update the existing ProLikeVehicle with toggled value
+     * @param BaseUser $user The user who likes
+     * @param ProVehicle $vehicle The liked vehicle
      */
     public function userLikesVehicle(BaseUser $user, ProVehicle $vehicle)
     {
@@ -210,7 +212,7 @@ class ProVehicleEditionService
                 $like->setValue(1);
             }
             $this->likeProVehicleRepository->update($like);
-            $this->eventBus->handle(new ProVehicleUpdated($vehicle));
         }
+        $this->eventBus->handle(new ProVehicleUpdated($vehicle));
     }
 }
