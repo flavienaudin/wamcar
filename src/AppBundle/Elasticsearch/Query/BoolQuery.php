@@ -18,14 +18,14 @@ class BoolQuery extends BaseBoolQuery
 
     /**
      * BoolQuery constructor.
-     * @param null|bool $disable_coord
      * @param null|int $minimum_should_match
+     * @param null|bool $disable_coord
      */
-    public function __construct(?bool $disable_coord = false, ?int $minimum_should_match = null)
+    public function __construct(?int $minimum_should_match = null, ?bool $disable_coord = false)
     {
         parent::__construct();
-        $this->disable_coord = $disable_coord;
         $this->minimum_should_match = $minimum_should_match;
+        $this->disable_coord = $disable_coord;
     }
 
     public function formatForQuery(): array
