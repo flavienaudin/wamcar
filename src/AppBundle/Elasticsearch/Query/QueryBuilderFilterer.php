@@ -341,7 +341,7 @@ class QueryBuilderFilterer
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPicture",
                         FieldValueFactorScore::LOG2P,
-                        1,
+                        0.5,
                         0
                     ));
                 }
