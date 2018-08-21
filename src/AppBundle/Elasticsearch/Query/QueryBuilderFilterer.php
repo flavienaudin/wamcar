@@ -5,17 +5,18 @@ namespace AppBundle\Elasticsearch\Query;
 
 
 use AppBundle\Controller\Front\ProContext\SearchController;
-use AppBundle\Elasticsearch\Score\FieldValueFactorScore;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Filter\InArrayFilter;
 use Novaway\ElasticsearchClient\Filter\RangeFilter;
 use Novaway\ElasticsearchClient\Filter\TermFilter;
 use Novaway\ElasticsearchClient\Query\BoolQuery;
+use Novaway\ElasticsearchClient\Query\BoostMode;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
 use Novaway\ElasticsearchClient\Query\PrefixQuery;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
+use Novaway\ElasticsearchClient\Score\FieldValueFactorScore;
 use Wamcar\Vehicle\Enum\Sorting;
 
 class QueryBuilderFilterer
@@ -25,8 +26,8 @@ class QueryBuilderFilterer
     const LOCATION_DECAY_SCALE = '75km';
 
     const SORTING_DATE_DECAY_OFFSET = '1d';
-    const SORTING_DATE_DECAY_SCALE = '365d';
-    const SORTING_DATE_DECAY_DECAY = 0.2;
+    const SORTING_DATE_DECAY_SCALE = '100d';
+    const SORTING_DATE_DECAY_DECAY = 0.3;
 
 
     /**
@@ -107,7 +108,7 @@ class QueryBuilderFilterer
                 [],
                 self::SORTING_DATE_DECAY_DECAY)
         );
-        $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
+        $queryBuilder->setBoostMode(QueryBuilder::SUM);
 
         return $queryBuilder;
     }
@@ -189,21 +190,21 @@ class QueryBuilderFilterer
     private function handleText(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
-            $boolQuery = new BoolQuery();
+            $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
             if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::QUERY_ALL ||
                 $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
             ) {
-                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
             if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::QUERY_ALL ||
                 $queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
             ) {
-                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
             }
             $queryBuilder->addQuery($boolQuery);
         }
@@ -320,7 +321,7 @@ class QueryBuilderFilterer
                             'lon' => $searchVehicleDTO->longitude],
                         $locationOffset,
                         self::LOCATION_DECAY_SCALE, [
-                            'weight' => 5
+                            'weight' => 10
                         ]);
                     $queryBuilder->addFunctionScore($score);
                     break;
@@ -329,43 +330,73 @@ class QueryBuilderFilterer
             case Sorting::SEARCH_SORTING_RELEVANCE:
             default:
                 if ($queryType == SearchController::TAB_PRO || $queryType == SearchController::TAB_PERSONAL) {
+                    // Importance : 3
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPositiveLikes",
-                        FieldValueFactorScore::LOG1P,
-                        3,
+                        FieldValueFactorScore::LOG2P,
+                        1.5,
                         0
                     ));
+                    // Importance : 1
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPicture",
-                        FieldValueFactorScore::LOG1P,
-                        1,
+                        FieldValueFactorScore::LOG2P,
+                        0.75,
                         0
                     ));
                 }
                 if ($queryType == SearchController::TAB_PRO) {
+                    // Importance : 2
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "googleRating",
-                        FieldValueFactorScore::LOG1P,
-                        2,
+                        FieldValueFactorScore::LOG2P,
+                        1.25,
                         1
                     ));
                 }
                 if (!empty($searchVehicleDTO->cityName)) {
+                    // Importance : 1
                     $queryBuilder->addFunctionScore(new DecayFunctionScore('location',
                         DecayFunctionScore::GAUSS, [
                             'lat' => $searchVehicleDTO->latitude,
                             'lon' => $searchVehicleDTO->longitude],
                         $locationOffset,
-                        self::LOCATION_DECAY_SCALE));
+                        self::LOCATION_DECAY_SCALE,
+                        ['weight' => 3] // Decay Function score € [0;1] x 3 => [0;3]*/
+                    ));
                 }
-                if ($queryBuilder->getFunctionScoreCollectionLength() > 0) {
+
+                if ($queryBuilder->getFunctionScoreCollectionLength() == 0) {
                     $queryBuilder->addSort('_score', 'desc');
                     $queryBuilder->addSort('sortingDate', 'desc');
                 } else {
-                    $queryBuilder->addSort('sortingDate', 'desc');
-                }
+                    // Importance : 5
+                    $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                        "_score",
+                        FieldValueFactorScore::SQUARE,
+                        3,
+                        1
+                    ));
 
-                $queryBuilder->setFunctionScoreBoostMode(QueryBuilder::SUM);
+                    // Importance : 2
+                    $sortingDateWeight = 1.25;
+                    if (empty($searchVehicleDTO->text)) {
+                        $sortingDateWeight = 2;
+                    }
+                    $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                        DecayFunctionScore::GAUSS,
+                        'now',
+                        self::SORTING_DATE_DECAY_OFFSET,
+                        self::SORTING_DATE_DECAY_SCALE,
+                        ['weight' => $sortingDateWeight], // Decay Function score € [0;1] x1.25/x3 => [0;1.25/3]
+                        self::SORTING_DATE_DECAY_DECAY
+                    ));
+                }
+                // Functions score combination
+                $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
+                // Query score and function score combination
+                $queryBuilder->setBoostMode(BoostMode::REPLACE);
+
 
                 break;
         }

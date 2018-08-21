@@ -38,9 +38,15 @@
      ===================================== */
 
   &-tabs {
-    > ul.tabs {
+    > ul.tab {
       width: auto;
       padding-right: 0;
+
+      &.vertical-small {
+        @include breakpoint(medium down) {
+          width: 100%;
+        }
+      }
     }
   }
 
@@ -141,7 +147,6 @@
 
   &-filter {
     display: inline-block;
-    white-space: nowrap;
     background-color: #e30613;
     color: white;
     font-weight: bold;

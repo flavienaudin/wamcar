@@ -164,7 +164,9 @@ class PersonalVehicleEditionService
     }
 
     /**
-     * Create a new PersonalLikeVehicle with value to 1 or update the existing PersonalLikeVehicle with toggled value
+     * Create a new PersonalLikeVehicle with value to 1 or update the existing PersonalLikeVehicle with toggled value     *
+     * @param BaseUser $user The user who likes
+     * @param PersonalVehicle $vehicle The liked vehicle
      */
     public function userLikesVehicle(BaseUser $user, PersonalVehicle $vehicle)
     {
@@ -179,7 +181,7 @@ class PersonalVehicleEditionService
                 $like->setValue(1);
             }
             $this->likePersonalVehicleRepository->update($like);
-            $this->eventBus->handle(new PersonalVehicleUpdated($vehicle));
         }
+        $this->eventBus->handle(new PersonalVehicleUpdated($vehicle));
     }
 }

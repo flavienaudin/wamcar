@@ -7,24 +7,26 @@ use Novaway\ElasticsearchClient\Query\QueryBuilder as BaseQueryBuilder;
 class QueryBuilder extends BaseQueryBuilder
 {
 
-    // Multiply the _score with the function result (default)
+    // ScoreMode : Multiply the _score with the function result (default)
     const MULTIPLY = "multiply";
-    // Add the function result to the _score
+    // ScoreMode : Add the function result to the _score
     const SUM = "sum";
-    // The lower of the _score and the function result
+    // ScoreMode : The lower of the _score and the function result
     const MIN = "min";
-    // The higher of the _score and the function result
+    // ScoreMode : The higher of the _score and the function result
     const MAX = "max";
-    // Replace the _score with the function result
-    const REPLACE = "replace";
+    // ScoreMode : The first function that has a matching filter is applied
+    const FIRST = "first";
+    // ScoreMode : Scores are averaged
+    const AVG = "avg";
 
-    /** @var string $functionScoreBoostMode */
-    protected $functionScoreBoostMode;
+    /** @var string $functionScoreMode */
+    protected $functionScoreMode;
 
-    public function __construct(int $offset = BaseQueryBuilder::DEFAULT_OFFSET, int $limit = BaseQueryBuilder::DEFAULT_LIMIT, float $minScore = BaseQueryBuilder::DEFAULT_MIN_SCORE, string $boostMode = self::MULTIPLY)
+    public function __construct(int $offset = BaseQueryBuilder::DEFAULT_OFFSET, int $limit = BaseQueryBuilder::DEFAULT_LIMIT, float $minScore = BaseQueryBuilder::DEFAULT_MIN_SCORE, string $boostMode = self::MULTIPLY, string $scoreMode = self::MULTIPLY)
     {
-        BaseQueryBuilder::__construct($offset, $limit, $minScore);
-        $this->functionScoreBoostMode = $boostMode;
+        BaseQueryBuilder::__construct($offset, $limit, $minScore, $boostMode);
+        $this->functionScoreMode = $scoreMode;
     }
 
     /**
@@ -36,11 +38,13 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * @param string $functionScoreBoostMode
+     * @param string $functionScoreMode
+     * @return QueryBuilder
      */
-    public function setFunctionScoreBoostMode(string $functionScoreBoostMode): void
+    public function setFunctionScoreMode(string $functionScoreMode): QueryBuilder
     {
-        $this->functionScoreBoostMode = $functionScoreBoostMode;
+        $this->functionScoreMode = $functionScoreMode;
+        return $this;
     }
 
     /**
@@ -50,7 +54,7 @@ class QueryBuilder extends BaseQueryBuilder
     {
         $queryBody = BaseQueryBuilder::getQueryBody();
         if (isset($queryBody['query']['function_score'])) {
-            $queryBody['query']['function_score']['boost_mode'] = $this->functionScoreBoostMode;
+            $queryBody['query']['function_score']['score_mode'] = $this->functionScoreMode;
         }
 
         return $queryBody;
