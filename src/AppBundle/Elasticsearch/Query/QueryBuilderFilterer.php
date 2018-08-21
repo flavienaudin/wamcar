@@ -26,8 +26,8 @@ class QueryBuilderFilterer
     const LOCATION_DECAY_SCALE = '75km';
 
     const SORTING_DATE_DECAY_OFFSET = '1d';
-    const SORTING_DATE_DECAY_SCALE = '365d';
-    const SORTING_DATE_DECAY_DECAY = 0.2;
+    const SORTING_DATE_DECAY_SCALE = '100d';
+    const SORTING_DATE_DECAY_DECAY = 0.3;
 
 
     /**
@@ -341,7 +341,7 @@ class QueryBuilderFilterer
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPicture",
                         FieldValueFactorScore::LOG2P,
-                        0.5,
+                        0.75,
                         0
                     ));
                 }
@@ -370,19 +370,18 @@ class QueryBuilderFilterer
                     $queryBuilder->addSort('_score', 'desc');
                     $queryBuilder->addSort('sortingDate', 'desc');
                 } else {
-
                     // Importance : 5
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "_score",
                         FieldValueFactorScore::SQUARE,
-                        2,
+                        3,
                         1
                     ));
 
                     // Importance : 2
                     $sortingDateWeight = 1.25;
                     if (empty($searchVehicleDTO->text)) {
-                        $sortingDateWeight = 3;
+                        $sortingDateWeight = 2;
                     }
                     $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
                         DecayFunctionScore::GAUSS,
