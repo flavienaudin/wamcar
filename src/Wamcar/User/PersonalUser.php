@@ -30,7 +30,7 @@ class PersonalUser extends BaseUser
         parent::__construct($email, $firstName, $name);
 
         $this->vehicles = new ArrayCollection();
-        if($firstVehicle){
+        if ($firstVehicle) {
             $this->vehicles->add($firstVehicle);
         }
     }
@@ -40,7 +40,8 @@ class PersonalUser extends BaseUser
      * @param BaseUser|null $user
      * @return bool
      */
-    public function canSeeMyProfile(?BaseUser $user): bool{
+    public function canSeeMyProfile(?BaseUser $user): bool
+    {
         return true;
     }
 
@@ -112,5 +113,4 @@ class PersonalUser extends BaseUser
         $this->project = $project;
         return $this;
     }
-
 }

@@ -14,10 +14,10 @@ use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\Type\GarageType;
+use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
-use AppBundle\Form\Type\UserInformationType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -126,7 +126,7 @@ class UserController extends BaseController
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
-            if ($this->getUser()->getType() === PersonalUser::TYPE) {
+            if ($user->getType() === PersonalUser::TYPE) {
                 $this->eventBus->handle(new PersonalUserUpdated($user));
             } else {
                 $this->eventBus->handle(new ProUserUpdated($user));
@@ -150,6 +150,10 @@ class UserController extends BaseController
 
             if ($projectForm->isSubmitted() && $projectForm->isValid()) {
                 $this->userEditionService->projectInformations($user, $projectDTO);
+                if ($user->getCity() === null || $user->getCity() != $projectDTO->getCity()) {
+                    $this->userEditionService->updateUserCity($user, $projectDTO->getCity());
+                }
+
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
                 $this->session->getFlashBag()->add(
@@ -180,7 +184,7 @@ class UserController extends BaseController
     {
         $userForms = [
             ProApplicationUser::TYPE => ProUserInformationType::class,
-            PersonalApplicationUser::TYPE => UserInformationType::class
+            PersonalApplicationUser::TYPE => PersonalUserInformationType::class
         ];
 
 

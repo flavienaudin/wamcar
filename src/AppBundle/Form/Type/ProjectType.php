@@ -4,16 +4,18 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\Type\SpecificField\AmountType;
+use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectType extends AbstractType
 {
+    use AutocompleteableCityTrait;
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $availableMakes = $options['available_makes'] ?? [];
@@ -49,8 +51,8 @@ class ProjectType extends AbstractType
                     'available_models' => $availableModels,
                     'label' => false
                 ]
-            ])
-        ;
+            ]);
+        $this->addAutocompletableCityField($builder, $builder->getData());
     }
 
     /**

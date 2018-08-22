@@ -11,7 +11,7 @@
                 'required': false
             }) }}
         </div>
-        <div class="column small-12 medium-6">
+        <div class="column medium-6">
             {{ form_widget(projectForm.budget, {
                 'label': 'Budget global',
                 'required_class': '',
@@ -19,6 +19,26 @@
                 'required': false,
                 'placeholder': 'Ex : 200 000 €'
             }) }}
+        </div>
+    </div>
+    <div class="row small-12">
+        <div class="column medium-6 input-margin">
+            <label for="{{ projectForm.postalCode.vars.name }}">Ville</label>
+            {{ form_widget(projectForm.postalCode, {
+                'label': false,
+                'class': 'js-city-autocomplete',
+                'required': true,
+                'required_message' : 'Vous devez saisir votre ville',
+                'required_class' : '',
+                'attr' : {
+                    'data-autocomplete-url': path('front_city_autocomplete'),
+                    'data-city-field': projectForm.cityName.vars.id,
+                    'data-latitude-field': projectForm.latitude.vars.id,
+                    'data-longitude-field': projectForm.longitude.vars.id,
+                    'data-placeholder': 'Ville ou code postal'
+                }
+            }) }}
+
         </div>
     </div>
     <div class="small-12">
