@@ -6,6 +6,7 @@ use AppBundle\Doctrine\Entity\UserPicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use Wamcar\Location\City;
 use Wamcar\Vehicle\BaseVehicle;
 
 abstract class BaseUser
@@ -124,6 +125,14 @@ abstract class BaseUser
     public function getPhone(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getPhone() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): ?City
+    {
+        return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty()? $this->getUserProfile()->getCity() : null);
     }
 
     /**

@@ -615,6 +615,11 @@ user:
       Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
       possible pour faciliter la confiance dans le dialogue avec vos clients.
     edit: Modifier mes informations
+  city:
+    title:
+      your_city: Votre ville
+      its_city: Sa ville
+    empty: Vous n'avez pas encore renseigné votre ville
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%

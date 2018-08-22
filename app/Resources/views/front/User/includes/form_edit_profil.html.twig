@@ -50,6 +50,26 @@
     }) }}
 </div>
 <div class="column small-12 medium-6 xlarge-5 xlarge-offset-1">
+    {% if editUserForm.postalCode is defined %}
+        <h2 class="separator-for-small">Ville</h2>
+        <div class="input-margin">
+            <label for="{{ editUserForm.postalCode.vars.name }}">Ville</label>
+            {{ form_widget(editUserForm.postalCode, {
+                'label': false,
+                'class': 'input js-city-autocomplete',
+                'required': true,
+                'required_message' : 'Vous devez saisir votre ville',
+                'required_class' : '',
+                'attr' : {
+                    'data-autocomplete-url': path('front_city_autocomplete'),
+                    'data-city-field': editUserForm.cityName.vars.id,
+                    'data-latitude-field': editUserForm.latitude.vars.id,
+                    'data-longitude-field': editUserForm.longitude.vars.id,
+                    'data-placeholder': 'Ville ou code postal'
+                }
+            }) }}
+        </div>
+    {% endif %}
     <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
     {% if editUserForm.phonePro is defined %}
         {{ form_widget(editUserForm.phonePro, {

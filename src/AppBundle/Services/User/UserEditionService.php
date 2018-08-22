@@ -16,12 +16,11 @@ use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
 use Novaway\ElasticsearchClient\Query\Result;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Wamcar\User\Project;
+use Wamcar\Location\City;
+use Wamcar\User\BaseUser;
 use Wamcar\User\ProjectRepository;
 use Wamcar\User\UserRepository;
-use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
-use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 
@@ -158,6 +157,17 @@ class UserEditionService
     }
 
     /**
+     * Update the city of the given user
+     * @param BaseUser $user
+     * @param City $newCity
+     */
+    public function updateUserCity(BaseUser $user, City $newCity)
+    {
+        $user->getUserProfile()->setCity($newCity);
+        $this->userRepository->update($user);
+    }
+
+    /**
      * Retrieve PersonalProject from the search result
      * @param Result $searchResult
      * @return array
@@ -171,7 +181,7 @@ class UserEditionService
         foreach ($searchResult->hits() as $project) {
             $ids[] = $project['id'];
         }
-        if(count($ids)> 0 ) {
+        if (count($ids) > 0) {
             $result['hits'] = $this->projectRepository->findByIds($ids);
         }
         return $result;
@@ -188,11 +198,11 @@ class UserEditionService
         $result['totalHits'] = $searchResult->totalHits();
         $result['hits'] = array();
         foreach ($searchResult->hits() as $hit) {
-            if($hit['type'] === IndexablePersonalVehicle::TYPE){
+            if ($hit['type'] === IndexablePersonalVehicle::TYPE) {
                 $result['hits'][] = $this->personalVehicleRepository->find($hit['id']);
-            }elseif($hit['type'] === IndexableProVehicle::TYPE){
+            } elseif ($hit['type'] === IndexableProVehicle::TYPE) {
                 $result['hits'][] = $this->proVehicleRepository->find($hit['id']);
-            }elseif($hit['type'] === IndexablePersonalProject::TYPE){
+            } elseif ($hit['type'] === IndexablePersonalProject::TYPE) {
                 $result['hits'][] = $this->projectRepository->find($hit['id']);
             }
         }
