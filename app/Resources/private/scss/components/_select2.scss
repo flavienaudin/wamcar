@@ -19,21 +19,17 @@
 
   &-container,
   &-selection {
-    min-height: rem-calc(50);
+    height: rem-calc(40);
 
     @include breakpoint(medium) {
-      min-height: rem-calc(60);
-    }
-
-    .small & {
-      min-height: rem-calc(48); // Select height - border
+      height: rem-calc(60);
     }
   }
 
   &-container {
     border: $input-border;
     border-radius: $global-radius;
-    margin-bottom: $input-margin-bottom - rem-calc(5);
+    margin-bottom: $input-margin-bottom ;
 
     .search-filter-form-body & {
       border: 0;
@@ -64,14 +60,10 @@
 }
 
 .select2-container--default .select2-selection--multiple {
-  min-height: rem-calc(50);
+  height: rem-calc(38); // Select height - border
 
   @include breakpoint(medium) {
-    min-height: rem-calc(60);
-  }
-
-  .small & {
-    min-height: rem-calc(48); // Select height - border
+    height: rem-calc(58); // Select height - border
   }
 }
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
