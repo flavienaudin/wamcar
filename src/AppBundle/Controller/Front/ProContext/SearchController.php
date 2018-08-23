@@ -13,6 +13,7 @@ use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\ProUser;
 
 class SearchController extends BaseController
 {
@@ -71,7 +72,7 @@ class SearchController extends BaseController
         $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
         $pages[$type] = $page;
 
-        $searchForm = $this->getSearchForm($request, 'front_search', true);
+        $searchForm = $this->getSearchForm($request, ($this->getUser() instanceof ProUser?'front_search_tab_personal':'front_search_tab_pro'), true);
         $searchForm->handleRequest($request);
 
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);

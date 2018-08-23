@@ -26,8 +26,8 @@ VEHICLE_STATUT:
   NEW: 'Neuf'
   USED: 'Occasion'
 
-SEARCH_SORTING_RELEVANCE: Pertinence
-SEARCH_SORTING_DATE: Date
-SEARCH_SORTING_DISTANCE: Distance
-SEARCH_SORTING_PRICE_ASC: Prix croissant
-SEARCH_SORTING_PRICE_DESC: Prix décroissant
+SEARCH_SORTING_RELEVANCE: Trier par pertinence
+SEARCH_SORTING_DATE: Trier par date
+SEARCH_SORTING_DISTANCE: Trier par distance
+SEARCH_SORTING_PRICE_ASC: Trier par prix croissant
+SEARCH_SORTING_PRICE_DESC: Trier par prix décroissant
