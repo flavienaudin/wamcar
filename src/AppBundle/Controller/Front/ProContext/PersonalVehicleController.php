@@ -199,15 +199,15 @@ class PersonalVehicleController extends BaseController
         if ($personalVehicleForm->isSubmitted() && $personalVehicleForm->isValid()) {
             if ($vehicle) {
                 $this->personalVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
-                /** @var PersonalUser $user */
-                $user = $this->getUser();
-                if ($user->getCity() === null || $user->getCity() != $vehicleDTO->getCity()) {
-                    $this->userEditionService->updateUserCity($user, $vehicleDTO->getCity());
-                }
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
                 $vehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $flashMessage = 'flash.success.vehicle_create';
+            }
+            /** @var PersonalUser $user */
+            $user = $this->getUser();
+            if ($user->getCity() === null || $user->getCity() != $vehicleDTO->getCity()) {
+                $this->userEditionService->updateUserCity($user, $vehicleDTO->getCity());
             }
 
             $this->session->getFlashBag()->add(
