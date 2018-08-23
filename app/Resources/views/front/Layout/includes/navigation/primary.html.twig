@@ -4,7 +4,7 @@
 <nav id="{{ not isLogged ? 'js-navigation' }}"
      class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
     {% block navigation %}
-        <a href="{{ path('front_search') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.see_search'|trans }}</strong></a>
+        <a href="{{ path('front_search_tab_pro') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.see_search'|trans }}</strong></a>
         <a href="{{ path('front_vehicle_registration') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.sell'|trans }}</strong></a>
         <a href="{{ pro_site_url }}" class="l-navigation-item body-font-color"><span>{{ 'header.anonyme.pro_space'|trans }}</span></a>
     {% endblock %}

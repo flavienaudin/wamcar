@@ -236,6 +236,7 @@ garage:
 
 search:
   common:
+    breadcrumbs: Recherche
     field:
       text:
         label: Votre recherche
@@ -273,9 +274,13 @@ search:
     less_criteria: Moins de critères
     tab:
       all: Toutes
-      personals: Particuliers
+      personals:
+        short: Part.
+        long: Particuliers
       projects: Souhaits
-      pros: Professionnels
+      pros:
+        short: Pros.
+        long: Professionnels
     result:
       no_vehicle_to_sell.alt: Pas de reprise
   personal_user:

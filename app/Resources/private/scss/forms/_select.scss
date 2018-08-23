@@ -33,8 +33,14 @@ select {
   background-repeat: no-repeat;
   cursor: pointer;
 
-  /* Exception */
+  &.sorting{
+    height: rem-calc(25);
+    background-color: transparent;
+    font-weight: bold;
+    border: 0;
+  }
 
+  /* Exception */
   .small & {
     @include breakpoint(small only) {
       background-position: calc(100% - #{rem-calc(5)}) center;
