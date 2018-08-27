@@ -8,8 +8,12 @@
     {% endif %}
     {% set newQueryParam = {} %}
 
-    {% for key, value in app.request.query.all.search_vehicle if key not in resetedFields %}
-        {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
+    {% for key, value in app.request.query.all.search_vehicle %}
+        {% if key in resetedFields|keys %}
+            {% set newQueryParam = {(key):(resetedFields[key])}|merge(newQueryParam) %}
+        {% else %}
+            {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
+        {% endif %}
     {% endfor  %}
 
     <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ isUserPro?path('front_search_tab_personal', {'search_vehicle': newQueryParam}):path('front_search_tab_pro', {'search_vehicle': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
@@ -19,40 +23,41 @@
 
 {% set form_criteria %}{% spaceless %}
     {% if filterData.text is not null %}
-        {{ macro.filterAsTag('search.common.field.text.label', filterData.text, ['text'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.text.label', filterData.text, {'text':null}, isUserPro) }}
     {% endif %}
     {% if filterData.postalCode is not null and filterData.cityName is not null %}
-        {{ macro.filterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', ['postalCode','cityName'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', {'postalCode':null,'cityName':null,'longitude':null,'latitude':null}, isUserPro) }}
+        {% if filterData.radius is not null %}
+            {{ macro.filterAsTag('search.common.field.radius.label', filterData.radius~'km',{'radius':50}, isUserPro) }}
+        {% endif %}
     {% endif %}
-    {% if filterData.radius is not null %}
-        {{ macro.filterAsTag('search.common.field.radius.label', filterData.radius~'km',['radius'], isUserPro) }}
-    {% endif %}
+
     {% if filterData.make is not null %}
-        {{ macro.filterAsTag('vehicle.field.make.label', filterData.make,['make'], isUserPro) }}
+        {{ macro.filterAsTag('vehicle.field.make.label', filterData.make,{'make':null}, isUserPro) }}
     {% endif %}
     {% if filterData.model is not null %}
-        {{ macro.filterAsTag('vehicle.field.model.label', filterData.model,['model'], isUserPro) }}
+        {{ macro.filterAsTag('vehicle.field.model.label', filterData.model,{'model':null}, isUserPro) }}
     {% endif %}
     {% if filterData.mileageMax is not null %}
-        {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,['mileageMax'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,{'mileageMax':null}, isUserPro) }}
     {% endif %}
     {% if filterData.yearsMin is not null %}
-        {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,['yearsMin'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,{'yearsMin':null}, isUserPro) }}
     {% endif %}
     {% if filterData.yearsMax is not null %}
-        {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,['yearsMax'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,{'yearsMax':null}, isUserPro) }}
     {% endif %}
     {% if filterData.budgetMin is not null %}
-        {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,['budgetMin'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,{'budgetMin':null}, isUserPro) }}
     {% endif %}
     {% if filterData.budgetMax is not null %}
-        {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,['budgetMax'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,{'budgetMax':null}, isUserPro) }}
     {% endif %}
     {% if filterData.transmission is not null %}
-        {{ macro.filterAsTag('search.common.field.transmission.label', filterData.transmission,['transmission'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.transmission.label', filterData.transmission,{'transmission':null}, isUserPro) }}
     {% endif %}
     {% if filterData.fuel is not null %}
-        {{ macro.filterAsTag('search.common.field.fuel.label', filterData.fuel,['fuel'], isUserPro) }}
+        {{ macro.filterAsTag('search.common.field.fuel.label', filterData.fuel,{'fuel':null}, isUserPro) }}
     {% endif %}
 {% endspaceless %}{% endset %}
 
