@@ -273,12 +273,10 @@ search:
     less_criteria: Moins de critères
     tab:
       all: Toutes
-      personals:
-        short: Part.
-        long: Particuliers
+      personals: Particuliers
       projects: Souhaits
       pros:
-        short: Pros.
+        short: Pros
         long: Professionnels
     result:
       no_vehicle_to_sell.alt: Pas de reprise
