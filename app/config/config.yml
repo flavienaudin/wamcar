@@ -68,6 +68,7 @@ twig:
         google_api_client_key: '%env(GOOGLE_API_CLIENT_KEY)%'
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
         pro_site_url: '%pro_space_url%'
+        typeform_contact: '%typeform.contact%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
 

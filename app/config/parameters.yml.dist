@@ -20,3 +20,5 @@ parameters:
 
     admin_email: xavier@wamcar.com
     admin_name: Xavier Pousset
+
+    typeform.contact: https://wamcar.typeform.com/to/AIMBwx
