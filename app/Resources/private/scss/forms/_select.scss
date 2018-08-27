@@ -36,8 +36,17 @@ select {
   &.sorting{
     height: rem-calc(25);
     background-color: transparent;
-    font-weight: bold;
     border: 0;
+    font-weight: bold;
+    font-size: rem-calc(13);
+
+    @include breakpoint(medium) {
+      font-size: rem-calc(15);
+    }
+
+    @include breakpoint(large) {
+      font-size: rem-calc(16);
+    }
   }
 
   /* Exception */
