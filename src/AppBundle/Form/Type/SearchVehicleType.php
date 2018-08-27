@@ -86,6 +86,7 @@ class SearchVehicleType extends AbstractType
                 ])
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
+                    'data' => 50,
                     'error_bubbling' => true,
                 ]);
             if ($sortingField) {

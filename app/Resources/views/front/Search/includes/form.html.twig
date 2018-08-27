@@ -94,11 +94,10 @@
     <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
         {{ form_widget(searchForm.radius, {
             'class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
+            'required' : true,
+
             'label' : 'search.common.field.radius.label'|trans,
-            'label_class' : '',
-            'placeholder': 'search.common.field.radius.placeholder'|trans
+            'label_class' : ''
         }) }}
     </div>
 

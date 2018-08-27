@@ -246,7 +246,6 @@ search:
         placeholder: Ville ou code postal
       radius:
         label: Rayon de
-        placeholder: Distance
       mileageMax:
         label: Kilométrage max
         placeholder: Kilométrage max
@@ -274,12 +273,10 @@ search:
     less_criteria: Moins de critères
     tab:
       all: Toutes
-      personals:
-        short: Part.
-        long: Particuliers
+      personals: Particuliers
       projects: Souhaits
       pros:
-        short: Pros.
+        short: Pros
         long: Professionnels
     result:
       no_vehicle_to_sell.alt: Pas de reprise
