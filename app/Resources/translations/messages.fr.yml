@@ -246,7 +246,6 @@ search:
         placeholder: Ville ou code postal
       radius:
         label: Rayon de
-        placeholder: Distance
       mileageMax:
         label: Kilométrage max
         placeholder: Kilométrage max
