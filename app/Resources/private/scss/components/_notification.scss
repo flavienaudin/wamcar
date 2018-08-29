@@ -1,0 +1,50 @@
+/* ===========================================================================
+   Notification
+   =========================================================================== */
+
+.notification {
+
+  &-container {
+    ul {
+      margin-left: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      padding: 0.5rem;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+
+      &:hover .notification-right-actions {
+        visibility: visible;
+      }
+    }
+
+    .has-tip {
+      border-bottom: none;
+      cursor: pointer;
+    }
+  }
+
+  &-right-actions {
+    visibility: hidden;
+  }
+
+  &-seen {
+    background-color: transparent;
+
+    .notification-mark-as-seen {
+      display: none;
+    }
+  }
+
+  &-unseen {
+    background-color: #f7f7f7;
+
+    .notification-mark-as-unseen {
+      display: none;
+    }
+  }
+}

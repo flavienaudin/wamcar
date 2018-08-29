@@ -1,0 +1,35 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_notifications = true %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ 'notifications.page_title'|trans }}{% endblock title %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title'),
+        link: '<span class="full-width text-right"><a href="#" class="text-underline">Paramètres de notification</a></span>'
+    } %}
+
+    <div class="row">
+        <div class="column small-12 notification-container">
+            <ul class="no-bullet">
+                {% for item in notificationList %}
+                    {{ include('front/Notifications/includes/notification_li.html.twig', {'notification':item}) }}
+                {% else %}
+                    <li>{{ 'notifications.zero_notification'|trans }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock body %}

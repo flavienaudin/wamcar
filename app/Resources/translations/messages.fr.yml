@@ -690,6 +690,18 @@ favorites:
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
 
+notifications:
+  page_title: Vos notifications
+  zero_notification: Vous n'avez pas de notification
+  parameters: Paramètres de notification
+  mark_all_as_seen: Marquer toutes comme lues
+  mark_as_seen: Marquer comme lue
+  mark_as_unseen: Marquer comme non lue
+  dropdown-pane:
+    title: Notifications
+    parameters: Paramètres
+    view_all: Voir tout
+
 form:
   picture:
     add_photo: Ajouter une photo

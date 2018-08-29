@@ -1,0 +1,18 @@
+<li class="block-border js-notification-{{ notification.notification.id }} {{ notification.seen?'notification-seen':'notification-unseen' }}">
+    <a href="{{ path('notification_follow_link',{'notifiableId':notification.notifiableEntity.id,'notificationId':notification.notification.id}) }}"
+       class="no-margin black-color">
+        <b>{{ notification.notification.subject }}</b>
+    </a>
+
+    <span class="float-right notification-right-actions">
+        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_seen', notification.notifiableEntity, notification.notification) }}"
+           class="js-notification-mark-link notification-mark-as-seen icon-circle primary-color" data-tooltip tabindex="1"
+           title="{{ 'notifications.mark_as_seen'|trans }}"></a>
+        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_unseen', notification.notifiableEntity, notification.notification) }}"
+           class="js-notification-mark-link notification-mark-as-unseen icon-circle-o primary-color" data-tooltip tabindex="1"
+           title="{{ 'notifications.mark_as_unseen'|trans }}"></a>
+    </span>
+    {% if notification.notification.message is not empty %}
+        <p class="no-margin">{{ notification.notification.message }}</p>
+    {% endif %}
+</li>

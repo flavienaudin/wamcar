@@ -64,3 +64,4 @@ security:
         - { path: ^/mon-profil, roles: ROLE_USER }
         - { path: ^/conversations, roles: ROLE_USER }
         - { path: ^/conversation, roles: ROLE_USER }
+        - { path: ^/notifications, roles: ROLE_USER }

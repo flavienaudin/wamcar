@@ -17,6 +17,7 @@ use AppBundle\Security\UserRegistrationService;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\PersonalLikeVehicle;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
@@ -183,5 +184,6 @@ class PersonalVehicleEditionService
             $this->likePersonalVehicleRepository->update($like);
         }
         $this->eventBus->handle(new PersonalVehicleUpdated($vehicle));
+        $this->eventBus->handle(new UserLikeVehicleEvent($like));
     }
 }

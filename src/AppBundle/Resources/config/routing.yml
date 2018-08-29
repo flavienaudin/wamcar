@@ -2,6 +2,10 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+notifications:
+    resource: "routing/notifications.yml"
+    prefix: /notifications/
+
 static:
     resource: "routing/static.yml"
     prefix: /

@@ -1,0 +1,24 @@
+notification_list:
+  path: /{notifiable}
+  methods: GET
+  controller: AppBundle:Front\PersonalContext\Notification:list
+
+notification_mark_as_seen:
+  path: /{notifiable}/mark_as_seen/{notification}
+  methods: [GET,POST]
+  controller: AppBundle:Front\PersonalContext\Notification:markAsSeen
+
+notification_mark_as_unseen:
+  path: /{notifiable}/mark_as_unseen/{notification}
+  methods: [GET,POST]
+  controller: AppBundle:Front\PersonalContext\Notification:markAsUnSeen
+
+notification_mark_all_as_seen:
+  path: /{notifiable}/markAllAsSeen
+  methods: [GET,POST]
+  controller: AppBundle:Front\PersonalContext\Notification:markAllAsSeen
+
+notification_follow_link:
+  path: /{notifiableId}/follow_link/{notificationId}
+  methods: GET
+  controller: AppBundle:Front\PersonalContext\Notification:followLink

@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new RobertoTru\ToInlineStyleEmailBundle\RobertoTruToInlineStyleEmailBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new Mgilet\NotificationBundle\MgiletNotificationBundle(),
             new AppBundle\AppBundle(),
         ];
 

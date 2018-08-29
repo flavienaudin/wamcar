@@ -8,6 +8,13 @@ services:
           - '@templating'
           - '@translator'
 
+    wamcar.event.notifications.abstract_event_handler:
+        abstract: true
+        class: AppBundle\Notifications\AbstractNotificationsHandler
+        arguments:
+          - '@mgilet.notification'
+          - '@router'
+
     wamcar.event.password_reset_token_generated:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfPasswordResetTokenGenerated
@@ -114,6 +121,12 @@ services:
           - message_created
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
+
+    wamcar.event.user_like_vehicle:
+        parent: wamcar.event.notifications.abstract_event_handler
+        class: AppBundle\Notifications\LikeNotificationsHandler
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
     googleApi.event.place_detail_error:
         parent: wamcar.event.mail.abstract_event_handler
