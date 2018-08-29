@@ -65,7 +65,7 @@
                                         </ul>
                                     </li>
                                 {% endif%}
-                                <li><a href="{{ path('front_search_pro') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+                                <li><a href="{{ path('front_search_tab_personal') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
                             {% elseif isUserPersonal%}
                                 <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_project_section'}) }}">{{ 'header.personal.my_add'|trans }}</a></li>
                                 <li><a href="{{ path('front_edit_user_info') }}">{{ 'header.personal.profile_edit'|trans }}</a></li>

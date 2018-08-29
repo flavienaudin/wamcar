@@ -4,6 +4,9 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
+use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
+use AppBundle\Elasticsearch\Type\IndexableProVehicle;
 use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -11,23 +14,33 @@ use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
+use Novaway\ElasticsearchClient\Query\Result;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
-use Wamcar\User\UserRepository;
+use Wamcar\Location\City;
+use Wamcar\User\BaseUser;
 use Wamcar\User\ProjectRepository;
+use Wamcar\User\UserRepository;
+use Wamcar\Vehicle\PersonalVehicleRepository;
+use Wamcar\Vehicle\ProVehicleRepository;
 
 
 class UserEditionService
 {
     /** @var PasswordEncoderInterface */
     private $passwordEncoder;
-    /** @var UserRepository  */
+    /** @var UserRepository */
     private $userRepository;
-    /** @var array  */
+    /** @var array */
     private $userSpecificRepositories;
-    /** @var ProjectFromDTOBuilder  */
+    /** @var ProjectFromDTOBuilder */
     private $projectBuilder;
-    /** @var ProjectRepository  */
+    /** @var ProjectRepository */
     private $projectRepository;
+    /** @var PersonalVehicleRepository */
+    private $personalVehicleRepository;
+    /** @var ProVehicleRepository */
+    private $proVehicleRepository;
+
     /**
      * UserEditionService constructor.
      * @param PasswordEncoderInterface $passwordEncoder
@@ -35,13 +48,17 @@ class UserEditionService
      * @param array $userSpecificRepositories
      * @param ProjectFromDTOBuilder $projectBuilder
      * @param ProjectRepository $projectRepository
+     * @param PersonalVehicleRepository $personalVehicleRepository
+     * @param ProVehicleRepository $proVehicleRepository
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
         UserRepository $userRepository,
         array $userSpecificRepositories,
         ProjectFromDTOBuilder $projectBuilder,
-        ProjectRepository $projectRepository
+        ProjectRepository $projectRepository,
+        PersonalVehicleRepository $personalVehicleRepository,
+        ProVehicleRepository $proVehicleRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -49,6 +66,8 @@ class UserEditionService
         $this->userSpecificRepositories = $userSpecificRepositories;
         $this->projectBuilder = $projectBuilder;
         $this->projectRepository = $projectRepository;
+        $this->personalVehicleRepository = $personalVehicleRepository;
+        $this->proVehicleRepository = $proVehicleRepository;
     }
 
     /**
@@ -135,5 +154,58 @@ class UserEditionService
         }
 
         $userSpecificRepository->updatePassword($user, $encodedPassword, $salt);
+    }
+
+    /**
+     * Update the city of the given user
+     * @param BaseUser $user
+     * @param City $newCity
+     */
+    public function updateUserCity(BaseUser $user, City $newCity)
+    {
+        $user->getUserProfile()->setCity($newCity);
+        $this->userRepository->update($user);
+    }
+
+    /**
+     * Retrieve PersonalProject from the search result
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getPersonalProjectsBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $project) {
+            $ids[] = $project['id'];
+        }
+        if (count($ids) > 0) {
+            $result['hits'] = $this->projectRepository->findByIds($ids);
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve PersonalVehicle, ProVehicle and PersonalProject from the search result ALL
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getMixedBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        foreach ($searchResult->hits() as $hit) {
+            if ($hit['type'] === IndexablePersonalVehicle::TYPE) {
+                $result['hits'][] = $this->personalVehicleRepository->find($hit['id']);
+            } elseif ($hit['type'] === IndexableProVehicle::TYPE) {
+                $result['hits'][] = $this->proVehicleRepository->find($hit['id']);
+            } elseif ($hit['type'] === IndexablePersonalProject::TYPE) {
+                $result['hits'][] = $this->projectRepository->find($hit['id']);
+            }
+        }
+        return $result;
     }
 }

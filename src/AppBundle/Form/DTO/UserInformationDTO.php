@@ -27,6 +27,10 @@ class UserInformationDTO
     public $cityName;
     /** @var  string */
     public $postalCode;
+    /** @var string */
+    public $latitude;
+    /** @var string */
+    public $longitude;
     /** @var  string */
     public $oldPassword;
     /** @var  string */
@@ -67,6 +71,8 @@ class UserInformationDTO
     {
         $this->cityName = $city->getName();
         $this->postalCode = $city->getPostalCode();
+        $this->latitude = $city->getLatitude();
+        $this->longitude = $city->getLongitude();
     }
 
     /**
@@ -76,8 +82,9 @@ class UserInformationDTO
     {
         $city = null;
 
-        if (!empty($this->postalCode) && !empty($this->cityName))
-            $city = new City($this->postalCode, $this->cityName);
+        if (!empty($this->postalCode) && !empty($this->cityName && !empty($this->latitude) && !empty($this->longitude))) {
+            $city = new City($this->postalCode, $this->cityName, $this->latitude, $this->longitude);
+        }
 
         return $city;
     }

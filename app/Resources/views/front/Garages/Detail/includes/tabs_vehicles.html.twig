@@ -1,31 +1,57 @@
-<div class="column small-12">
-    <h2 class="column"><span class="primary-color">{{ garage.proVehicles|length }}</span> véhicule{{ garage.proVehicles|length > 1 ? 's' : '' }} en vente</h2>
-    {% if garage.proVehicles|length > 0 %}
-        {% if isEditableByCurrentUser %}
-            <div class="block-grid column small-12 align-middle input-margin">
-                <div class="show-for-medium small-12 medium-shrink medium-right">
-                    <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
-                </div>
+{% if searchForm is not null %}
+    {{ form_start(searchForm) }}
+    <div class="column">
+        <div class="row">
+            <div class="column small-12 medium-auto">
+                {{ form_widget(searchForm.text, {
+                    'class':'',
+                    'label':'search.common.field.text.label'|trans,
+                    'label_class':'show-for-sr',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'placeholder':'search.common.field.text.placeholder'|trans
+                }) }}
             </div>
-        {% endif %}
-
-        {% set balise = 'h3' %}
-        {% set vehiclesToList = garage.proVehicles %}
-        {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-        <br>
-        <div class="block-grid small-12 align-middle input-margin">
-            <div class="small-12 medium-6">
-                {% include 'front/Layout/includes/pagination.html.twig' %}
+            <div class="column small-12 medium-shrink input-margin medium-no-margin ">
+                <button type="submit" class="button no-margin full-width">{{ 'global.button.search'|trans }}</button>
             </div>
         </div>
-    {% else %}
-        {% if isEditableByCurrentUser %}
-            <p>Vous n'avez aucun véhicule en vente.</p>
-            <div class="small-12 medium-6 large-4">
-                <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
-            </div>
-        {% else %}
-            <p>Aucun véhicule n'est en vente.</p>
-        {% endif %}
+    </div>
+    {{ form_end(searchForm) }}
+{% endif %}
+
+<div class="block-grid column small-12 align-bottom">
+    <h2 class="column no-margin"><span class="primary-color">{{ vehicles.totalHits }}</span> véhicule{{ vehicles.totalHits > 1 ? 's' : '' }} en vente</h2>
+    {% if isEditableByCurrentUser %}
+    <div class="small-12 medium-shrink medium-right">
+        <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+    </div>
     {% endif %}
 </div>
+
+{% if vehicles.totalHits > 0 %}
+    {% set balise = 'h3' %}
+    {% set vehiclesToList = vehicles.hits %}
+    {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+    <br>
+
+    <div class="block-grid small-12 align-middle input-margin">
+        <div class="small-12">
+            {% include 'front/Layout/includes/pagination.html.twig' with {
+                'route': 'front_garage_view',
+                'route_params':{'id':garage.id},
+                'page': page,
+                'lastPage': lastPage
+            } %}
+        </div>
+    </div>
+{% else %}
+    {% if isEditableByCurrentUser %}
+        <p>Vous n'avez aucun véhicule en vente.</p>
+        <div class="small-12 medium-6 large-4">
+            <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+        </div>
+    {% else %}
+        <p>Aucun véhicule n'est en vente.</p>
+    {% endif %}
+{% endif %}

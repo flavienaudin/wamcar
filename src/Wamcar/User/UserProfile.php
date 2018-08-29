@@ -94,6 +94,38 @@ class UserProfile
     }
 
     /**
+     * @return string|null
+     */
+    public function getPostalCode(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getPostalCode() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCityName(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getName() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLatitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLatitude() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLongitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLongitude() : null);
+    }
+
+    /**
      * @param mixed $title
      */
     public function setTitle($title): void

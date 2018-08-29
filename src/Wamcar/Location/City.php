@@ -67,4 +67,9 @@ class City
         return $this->getPostalCode() . ' ' . $this->getName();
     }
 
+    public function isEmpty(): bool
+    {
+        return empty($this->getPostalCode()) && empty($this->getName()) && empty($this->getLatitude()) && empty($this->getLongitude());
+    }
+
 }

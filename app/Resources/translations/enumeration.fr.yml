@@ -25,3 +25,9 @@ NO_TIMING_BELT: 'Pas de courroie'
 VEHICLE_STATUT:
   NEW: 'Neuf'
   USED: 'Occasion'
+
+SEARCH_SORTING_RELEVANCE: Trier par pertinence
+SEARCH_SORTING_DATE: Trier par date
+SEARCH_SORTING_DISTANCE: Trier par distance
+SEARCH_SORTING_PRICE_ASC: Trier par prix croissant
+SEARCH_SORTING_PRICE_DESC: Trier par prix décroissant

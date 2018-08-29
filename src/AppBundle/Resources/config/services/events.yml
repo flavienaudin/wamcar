@@ -60,6 +60,13 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalUserUpdated, method: notify }
 
+    wamcar.event.elasticsearch.personal_project_updated.index:
+            class: AppBundle\Elasticsearch\IndexUpdatedPersonalProject
+            autowire: true
+            tags:
+                - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectUpdated, method: notify }
+
+
     wamcar.event.elasticsearch.garage_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedGarage
         autowire: true

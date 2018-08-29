@@ -12,6 +12,12 @@
 
   /* Exceptions */
 
+  &.vertical-small {
+    @include breakpoint(medium down) {
+      display: list-item;
+    }
+  }
+
   .vehicle-form & {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
@@ -44,7 +50,6 @@
     }
   }
 
-
   /*
     Title
     ===================================== */
@@ -74,18 +79,25 @@
       /* Exceptions */
 
       .search-tabs & {
-        @include breakpoint(320 down) {
+        @include breakpoint(400 down) {
           flex-direction: column;
           line-height: 1;
         }
 
-        @include breakpoint(small only) {
-          padding-right: rem-calc(15);
-          padding-left: rem-calc(15);
+        @include breakpoint(small) {
+          padding-right: rem-calc(9);
+          padding-left: rem-calc(9);
         }
+
+        @include breakpoint(medium) {
+          padding-right: rem-calc(20);
+          padding-left: rem-calc(20);
+        }
+
       }
 
-    } // End > a
+    }
+    // End > a
 
     small {
       font-weight: normal;
@@ -109,8 +121,8 @@
       }
     }
 
-  } // End &-title
-
+  }
+  // End &-title
 
   /*
      Content
@@ -119,7 +131,6 @@
   &-content {
     background: white;
   }
-
 
   /*
      Pannel
@@ -135,7 +146,9 @@
 
     /* Active */
 
-    &.is-active { display: block; }
+    &.is-active {
+      display: block;
+    }
 
     /* Exceptions */
 
@@ -145,8 +158,10 @@
       @include breakpoint(medium) {
         padding-bottom: rem-calc(30);
       }
-    } // End .vehicle-form &
+    }
+    // End .vehicle-form &
 
-  } // End &-panel
+  }
+  // End &-panel
 
 }

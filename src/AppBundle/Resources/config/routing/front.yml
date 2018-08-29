@@ -136,43 +136,83 @@ front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
 
-front_search_pro:
-    path: /vendeur/rechercher
-    defaults:
-        _controller: AppBundle:Front\ProContext\Search:pro
-        type: 'ALL'
+front_search:
+    path: /recherche
+    controller: AppBundle:Front\ProContext\Search:search
 
-front_search_pro_page:
-    path: /vendeur/rechercher/{page}
+front_search_tab_all:
+    path: /recherche/{page}
+    controller: AppBundle:Front\ProContext\Search:search
+    requirements:
+        page: '\d+'
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
-        type: 'ALL'
+        type: 'TAB_ALL'
 
-front_search_pro_page_recovery:
-    path: /vendeur/rechercher/reprise/{page}
+front_search_tab_personal:
+    path: /recherche/particuliers/{page}
+    controller: AppBundle:Front\ProContext\Search:search
+    requirements:
+        page: '\d+'
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
-        type: 'RECOVERY'
+        type: 'TAB_PERSONAL'
 
-front_search_pro_page_project:
-    path: /vendeur/rechercher/souhait/{page}
+front_search_tab_pro:
+    path: /recherche/professionels/{page}
+    controller: AppBundle:Front\ProContext\Search:search
+    requirements:
+        page: '\d+'
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:pro
         page: 1
-        type: 'PROJECT'
+        type: 'TAB_PRO'
 
-front_search_personal:
-    path: /utilisateur/rechercher
+front_search_tab_project:
+    path: /recherche/souhaits/{page}
+    controller: AppBundle:Front\ProContext\Search:search
+    requirements:
+        page: '\d+'
     defaults:
-        _controller: AppBundle:Front\ProContext\Search:personal
-
-front_search_personal_page:
-    path: /utilisateur/rechercher/{page}
-    defaults:
-        _controller: AppBundle:Front\ProContext\Search:personal
         page: 1
+        type: 'TAB_PROJECT'
+
+#front_search_pro:
+#    path: /vendeur/rechercher
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:pro
+#        type: 'ALL'
+#
+#front_search_pro_page:
+#    path: /vendeur/rechercher/{page}
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:pro
+#        page: 1
+#        type: 'ALL'
+#
+#front_search_pro_page_recovery:
+#    path: /vendeur/rechercher/reprise/{page}
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:pro
+#        page: 1
+#        type: 'RECOVERY'
+#
+#front_search_pro_page_project:
+#    path: /vendeur/rechercher/souhait/{page}
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:pro
+#        page: 1
+#        type: 'PROJECT'
+#
+#front_search_personal:
+#    path: /utilisateur/rechercher
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:personal
+
+#front_search_personal_page:
+#    path: /utilisateur/rechercher/{page}
+#    defaults:
+#        _controller: AppBundle:Front\ProContext\Search:personal
+#        page: 1
 
 front_conversation_vehicle_list:
     path: /conversation/ajouter-vehicule/

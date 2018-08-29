@@ -8,7 +8,7 @@
    ===================================== */
 
 @mixin buttonHeight {
-    height: rem-calc(50);
+    height: rem-calc(40);
     @include breakpoint(medium) {
         height: rem-calc(60);
     }

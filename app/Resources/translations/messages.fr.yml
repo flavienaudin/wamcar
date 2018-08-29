@@ -236,6 +236,7 @@ garage:
 
 search:
   common:
+    breadcrumbs: Recherche
     field:
       text:
         label: Votre recherche
@@ -243,6 +244,8 @@ search:
       location:
         label: Autour de
         placeholder: Ville ou code postal
+      radius:
+        label: Rayon de
       mileageMax:
         label: Kilométrage max
         placeholder: Kilométrage max
@@ -264,8 +267,19 @@ search:
       fuel:
         label: Energie
         placeholder: Energie
+      sorting:
+        label: Trier par :
     more_criteria: Plus de critères
     less_criteria: Moins de critères
+    tab:
+      all: Toutes
+      personals: Particuliers
+      projects: Souhaits
+      pros:
+        short: Pros
+        long: Professionnels
+    result:
+      no_vehicle_to_sell.alt: Pas de reprise
   personal_user:
     title: Annonces des professionnels
     breadcrumbs: Annonces des professionnels
@@ -603,6 +617,11 @@ user:
       Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
       possible pour faciliter la confiance dans le dialogue avec vos clients.
     edit: Modifier mes informations
+  city:
+    title:
+      your_city: Votre ville
+      its_city: Sa ville
+    empty: Vous n'avez pas encore renseigné votre ville
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%

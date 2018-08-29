@@ -8,6 +8,7 @@ use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
+use Doctrine\Common\Collections\Criteria;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
@@ -62,6 +63,17 @@ class ProVehicleEditionService
     /**
      * Retrieve ProVehicles from the search result
      * @param Result $searchResult
+     * @param array $orderBy
+     * @return array
+     */
+    public function getVehiclesByGarage(Garage $garage, array $orderBy = []): array
+    {
+        return $this->vehicleRepository->getByGarage($garage, array_merge($orderBy, ['createdAt' => Criteria::DESC]))->toArray();
+    }
+
+    /**
+     * Retrieve ProVehicles from the search result
+     * @param Result $searchResult
      * @return array
      */
     public function getVehiclesBySearchResult(Result $searchResult): array
@@ -73,8 +85,9 @@ class ProVehicleEditionService
         foreach ($searchResult->hits() as $vehicle) {
             $ids[] = $vehicle['id'];
         }
-        $result['hits'] = $this->vehicleRepository->findByIds($ids);
-
+        if (count($ids) > 0) {
+            $result['hits'] = $this->vehicleRepository->findByIds($ids);
+        }
         return $result;
     }
 
@@ -183,6 +196,8 @@ class ProVehicleEditionService
 
     /**
      * Create a new ProLikeVehicle with value to 1 or update the existing ProLikeVehicle with toggled value
+     * @param BaseUser $user The user who likes
+     * @param ProVehicle $vehicle The liked vehicle
      */
     public function userLikesVehicle(BaseUser $user, ProVehicle $vehicle)
     {
@@ -197,7 +212,7 @@ class ProVehicleEditionService
                 $like->setValue(1);
             }
             $this->likeProVehicleRepository->update($like);
-            $this->eventBus->handle(new ProVehicleUpdated($vehicle));
         }
+        $this->eventBus->handle(new ProVehicleUpdated($vehicle));
     }
 }

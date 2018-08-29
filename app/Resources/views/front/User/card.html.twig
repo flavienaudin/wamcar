@@ -19,6 +19,12 @@
     {% else %}
         <p>Aucune description n'a été encore renseignée.</p>
     {% endif %}
+
+    {% if (user.city is not null and not user.city.isEmpty and isUserPro) or userIsMe %}
+        <h2>{{ userIsMe ? 'user.city.title.your_city'|trans:'user.city.title.its_city'|trans }}</h2>
+        <p>{{ user.city ??'user.city.empty'|trans }}</p>
+    {% endif %}
+
     {% if userIsMe %}
         <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
     {% endif %}

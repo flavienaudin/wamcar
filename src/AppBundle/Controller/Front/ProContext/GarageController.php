@@ -4,10 +4,15 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\GarageType;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
+use AppBundle\Utils\VehicleInfoAggregator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -22,6 +27,8 @@ class GarageController extends BaseController
 {
     use VehicleTrait;
 
+    const NB_VEHICLES_PER_PAGE = 10;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var GarageRepository */
@@ -30,6 +37,12 @@ class GarageController extends BaseController
     protected $garageEditionService;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
+    /** @var VehicleInfoAggregator */
+    private $vehicleInfoAggregator;
+    /** @var SearchResultProvider */
+    private $searchResultProvider;
+    /** @var ProVehicleEditionService */
+    private $proVehicleEditionService;
 
     /**
      * GarageController constructor.
@@ -37,18 +50,27 @@ class GarageController extends BaseController
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
      * @param SessionMessageManager $sessionMessageManager
+     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param SearchResultProvider $searchResultProvider
+     * @param ProVehicleEditionService $proVehicleEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         GarageRepository $garageRepository,
         GarageEditionService $garageEditionService,
-        SessionMessageManager $sessionMessageManager
+        SessionMessageManager $sessionMessageManager,
+        VehicleInfoAggregator $vehicleInfoAggregator,
+        SearchResultProvider $searchResultProvider,
+        ProVehicleEditionService $proVehicleEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
         $this->sessionMessageManager = $sessionMessageManager;
+        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->searchResultProvider = $searchResultProvider;
+        $this->proVehicleEditionService = $proVehicleEditionService;
     }
 
     /**
@@ -75,10 +97,34 @@ class GarageController extends BaseController
      */
     public function viewAction(Request $request, Garage $garage)
     {
+        $searchForm = null;
+        if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
+            $searchVehicleDTO = new SearchVehicleDTO();
+            $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+                'action' => $this->generateRoute('front_garage_view', ['id' => $garage->getId()]),
+                'available_values' => [],
+                'small_version' => true
+            ]);
+            $searchForm->handleRequest($request);
+            $page = $request->query->get('page', 1);
+            $searchResult = $this->searchResultProvider->getQueryGarageVehiclesResult($garage, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult);
+            $lastPage = $searchResult->numberOfPages();
+        } else {
+            $vehicles = [
+                'totalHits' => count($garage->getProVehicles()),
+                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage)
+            ];
+        }
+
         return $this->render('front/Garages/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
             'garage' => $garage,
-            'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage)
+            'vehicles' => $vehicles,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
+            'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
+            'searchForm' => $searchForm ? $searchForm->createView() : null
         ]);
     }
 

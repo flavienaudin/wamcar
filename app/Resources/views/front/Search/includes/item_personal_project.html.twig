@@ -1,0 +1,99 @@
+
+
+{% set balise = balise|default('h2') %}
+{% set sellerUrl = path('front_view_user_info', {'id': project.personalUser.id}) %}
+
+{% set vehicleSellerName = (app.user is same as (project.personalUser)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal)) %}
+
+<article class="vehicle-item is-flex">
+    <div class="is-flex full-width is-relative">
+        {% if project.personalUser.vehicles|length == 0 %}
+            <div class="vehicle-picture small-auto">
+                <div class="is-relative">
+                    <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+                </div>
+            </div>
+            <div class="vehicle-infos small-shrink">
+                <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
+                <p>Ce particulier n'a pas de véhicule à vendre mais a préciser son projet d'achat.</p>
+            </div>
+        {% elseif project.personalUser.vehicles|length == 1 %}
+            {% set vehicle = project.personalUser.vehicles.first %}
+            {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
+            {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+            {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
+
+            <div class="vehicle-picture small-auto">
+                <div class="is-relative"  id="{{ vehicle.id }}">
+                    <a href="{{ detailUrl }}">
+                        <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
+                    </a>
+                    <div class="vehicle-count-pics">
+                        <span class="icon-pics">{{ vehicle.pictures|length }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="vehicle-infos small-shrink">
+                <a href="{{ detailUrl }}"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}></a>
+                <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span>
+
+                <div class="vehicle-middle block-grid full-width">
+                    <strong class="vehicle-price primary-color">{% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</strong>
+                    <span class="vehicle-like small-shrink">
+                        {% block right_action %}
+                            <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
+                                <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                        {% endblock %}
+                    </span>
+                </div>
+                <div class="vehicle-bottom block-grid full-width align-middle">
+                    <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
+                    <time class="vehicle-time black-color small-auto">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</time>
+                </div>
+            </div>
+        {% else %}
+            <div class="vehicle-picture small-auto">
+                <div class="is-relative">
+                    {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+                </div>
+            </div>
+            <div class="vehicle-infos small-shrink">
+                <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
+                <p>Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="vehicle-user-infos small-12 medium-auto">
+        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}"></a></div>
+        <a href="{{ sellerUrl }}">
+            {% if project and (project.budget is not null or project.projectVehicles|length > 0 ) %}
+                <div class="small-12 dark-gray-color">
+                    {% if project.budget|default(0) > 0 %}
+                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user == project.personalUser?0:1, {'%prenom%' : vehicleSellerName, '%budget%':project.budget|localizednumber  }) }}</strong></p>
+                    {% else %}
+                        <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
+                    {% endif %}
+                    <ul class="vehicle-user-greetings no-bullet">
+                        {% for projectVehicle in project.projectVehicles %}
+                            <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
+                                {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
+                                {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
+                            </li>
+                        {% else %}
+                            {% if project.description is not empty %}
+                                <li class="user-project-description">{{ project.description|length>162?project.description|slice(0,162)~'...':project.description }}</li>
+                            {% else %}
+                                <li>{{ 'vehicle.item.no_wish'|trans }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="dark-gray-color no-margin small-10 large-12">
+                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user is same as (vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                </p>
+            {% endif %}
+        </a>
+    </div>
+</article>

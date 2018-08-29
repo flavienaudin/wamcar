@@ -9,6 +9,7 @@ use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 class DefaultController extends BaseController
@@ -57,7 +58,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
                 'small_version' => true
             ]
         );
@@ -83,7 +84,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
                 'small_version' => true
             ]
         );
@@ -108,7 +109,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
                 'small_version' => true
             ]
         );

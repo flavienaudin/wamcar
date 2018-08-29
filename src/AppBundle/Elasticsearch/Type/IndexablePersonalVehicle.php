@@ -26,6 +26,8 @@ class IndexablePersonalVehicle implements Indexable
     /** @var string */
     private $fuel;
     /** @var string */
+    private $description;
+    /** @var string */
     private $years;
     /** @var string */
     private $mileage;
@@ -43,16 +45,14 @@ class IndexablePersonalVehicle implements Indexable
     private $picture;
     /** @var int */
     private $nbPicture;
+    /** @var $userId */
+    private $userId;
     /** @var string */
     private $userUrl;
     /** @var string */
     private $userName;
     /** @var string */
     private $userPicture;
-    /** @var string */
-    private $projectBudget;
-    /** @var array */
-    private $projectVehicles;
     /** @var int */
     private $nbPositiveLikes;
 
@@ -66,6 +66,7 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $engine
      * @param string $transmission
      * @param string $fuel
+     * @param string|null $description
      * @param string $years
      * @param string $mileage
      * @param string $cityName
@@ -75,10 +76,10 @@ class IndexablePersonalVehicle implements Indexable
      * @param \DateTime|null $deletedAt
      * @param string $picture
      * @param int $nbPicture
+     * @param int $userId
      * @param string $userUrl
      * @param string $userName
      * @param string $userPicture
-     * @param null|Project $userProject
      * @param int $nbPositiveLikes
      */
     public function __construct(string $id,
@@ -89,6 +90,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $engine,
                                 string $transmission,
                                 string $fuel,
+                                ?string $description,
                                 string $years,
                                 string $mileage,
                                 string $cityName,
@@ -98,10 +100,10 @@ class IndexablePersonalVehicle implements Indexable
                                 \DateTime $deletedAt = null,
                                 string $picture,
                                 int $nbPicture,
+                                int $userId,
                                 string $userUrl,
                                 string $userName,
                                 string $userPicture,
-                                ?Project $userProject,
                                 int $nbPositiveLikes
     )
     {
@@ -113,6 +115,7 @@ class IndexablePersonalVehicle implements Indexable
         $this->engine = $engine;
         $this->transmission = $transmission;
         $this->fuel = $fuel;
+        $this->description = $description;
         $this->years = $years;
         $this->mileage = $mileage;
         $this->cityName = $cityName;
@@ -122,10 +125,10 @@ class IndexablePersonalVehicle implements Indexable
         $this->deletedAt = $deletedAt;
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
+        $this->userId = $userId;
         $this->userUrl = $userUrl;
         $this->userName = $userName;
         $this->userPicture = $userPicture;
-        $this->fillUserProject($userProject);
         $this->deletedAt = $deletedAt;
         $this->nbPositiveLikes = $nbPositiveLikes;
     }
@@ -146,27 +149,6 @@ class IndexablePersonalVehicle implements Indexable
         return $this->deletedAt === null;
     }
 
-    public function fillUserProject(?Project $project)
-    {
-        $this->projectBudget = $project && $project->getBudget() ? $project->getBudget() : '';
-
-        $projectVehicles = [];
-        if ($project && $project->getProjectVehicles()) {
-            foreach ($project->getProjectVehicles() as $projectVehicle) {
-                $projectVehicles[] = [
-                    'make' => $projectVehicle->getMake(),
-                    'model' => $projectVehicle->getModel(),
-                    'yearMin' => $projectVehicle->getYearMin(),
-                    'mileageMax' => $projectVehicle->getMileageMax(),
-                    'key_make' => $projectVehicle->getMake(),
-                    'key_model' => $projectVehicle->getModel()
-                ];
-            }
-        }
-
-        $this->projectVehicles = $projectVehicles;
-    }
-
     /**
      * @return array
      */
@@ -174,6 +156,7 @@ class IndexablePersonalVehicle implements Indexable
     {
         // key_ because conflict with not indexed in vehicle_info type
         return [
+            'type' => self::TYPE,
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
             'key_make' => $this->make,
@@ -187,6 +170,7 @@ class IndexablePersonalVehicle implements Indexable
             'engine' => $this->engine,
             'transmission' => $this->transmission,
             'fuel' => $this->fuel,
+            'description' => $this->description,
             'years' => $this->years,
             'mileage' => $this->mileage,
             'cityName' => $this->cityName,
@@ -194,16 +178,15 @@ class IndexablePersonalVehicle implements Indexable
                 'lat' => $this->latitude,
                 'lon' => $this->longitude
             ],
-            'sortCreatedAt' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
+            'sortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
             'createdAt' => $this->createdAt,
             'deletedAt' => $this->deletedAt,
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
+            'userId' => $this->userId,
             'userUrl' => $this->userUrl,
             'userName' => $this->userName,
             'userPicture' => $this->userPicture,
-            'projectBudget' => $this->projectBudget,
-            'projectVehicles' => $this->projectVehicles,
             'nbPositiveLikes' => $this->nbPositiveLikes
         ];
     }

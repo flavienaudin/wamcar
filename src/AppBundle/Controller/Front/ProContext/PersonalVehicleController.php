@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalVehicleType;
+use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -25,19 +26,20 @@ class PersonalVehicleController extends BaseController
 {
     use VehicleTrait;
 
-    /** @var FormFactoryInterface */
+    /** @var FormFactoryInterface $formFactory */
     protected $formFactory;
-    /** @var VehicleInfoAggregator */
+    /** @var VehicleInfoAggregator $vehicleInfoAggregator */
     private $vehicleInfoAggregator;
-    /** @var VehicleInfoProvider */
+    /** @var VehicleInfoProvider $vehicleInfoProvider */
     private $vehicleInfoProvider;
-    /** @var PersonalVehicleEditionService */
+    /** @var PersonalVehicleEditionService $personalVehicleEditionService */
     private $personalVehicleEditionService;
-    /** @var ApiConnector */
+    /** @var ApiConnector $autoDataConnector */
     protected $autoDataConnector;
-    /** @var SessionMessageManager */
+    /** @var SessionMessageManager $sessionMessageManager */
     protected $sessionMessageManager;
-
+    /** @var UserEditionService $userEditionService */
+    protected $userEditionService;
 
     /**
      * GarageController constructor.
@@ -47,6 +49,7 @@ class PersonalVehicleController extends BaseController
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
+     * @param UserEditionService $userEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -54,15 +57,17 @@ class PersonalVehicleController extends BaseController
         VehicleInfoProvider $vehicleInfoProvider,
         PersonalVehicleEditionService $personalVehicleEditionService,
         ApiConnector $autoDataConnector,
-        SessionMessageManager $sessionMessageManager
+        SessionMessageManager $sessionMessageManager,
+        UserEditionService $userEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider= $vehicleInfoProvider;
+        $this->vehicleInfoProvider = $vehicleInfoProvider;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
+        $this->userEditionService = $userEditionService;
     }
 
     /**
@@ -102,6 +107,7 @@ class PersonalVehicleController extends BaseController
             ]);
         } else {
             $vehicleDTO = new PersonalVehicleDTO($plateNumber);
+            $vehicleDTO->setCity($this->getUser()->getCity());
             $actionRoute = $this->generateUrl('front_vehicle_personal_add', [
                 'plateNumber' => $plateNumber
             ]);
@@ -113,12 +119,12 @@ class PersonalVehicleController extends BaseController
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = null;
-                if(isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])){
+                if (isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])) {
                     $ktypNumber = $information['Vehicule']['ktypnr_aaa'];
-                } elseif(isset($information['Vehicule']['LTYPVEH'])){
-                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value){
-                        if(isset($value['KTYPNR']) && !empty($value['KTYPNR'])){
-                            if(!empty($ktypNumber)){
+                } elseif (isset($information['Vehicule']['LTYPVEH'])) {
+                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value) {
+                        if (isset($value['KTYPNR']) && !empty($value['KTYPNR'])) {
+                            if (!empty($ktypNumber)) {
                                 $this->session->getFlashBag()->add(
                                     self::FLASH_LEVEL_DANGER,
                                     'flash.warning.vehicle.multiple_vehicle_types'
@@ -130,27 +136,27 @@ class PersonalVehicleController extends BaseController
                 };
 
                 $vehicleInfo = [];
-                if(!empty($ktypNumber)) {
+                if (!empty($ktypNumber)) {
                     $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if(count($vehicleInfo) == 1){
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])){
+                if (count($vehicleInfo) == 1) {
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
                         $filters['make'] = $vehicleInfo[0]['make'];
-                    }else{
+                    } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
                         $filters['model'] = $vehicleInfo[0]['model'];
-                    }else{
+                    } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
                         $filters['engine'] = $vehicleInfo[0]['engine'];
-                    }else{
+                    } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
 
-                }else {
+                } else {
                     $filters['make'] = $information['Vehicule']['MARQUE'];
                     $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     $filters['engine'] = $information['Vehicule']['VERSION'];
@@ -162,7 +168,7 @@ class PersonalVehicleController extends BaseController
                 }
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
                 if ($vin) {
-                    if(strlen($vin) < 17){
+                    if (strlen($vin) < 17) {
                         $vin = str_pad($vin, 17, '_', STR_PAD_LEFT);
                     }
                     $vehicleDTO->setRegistrationVin($vin);
@@ -197,6 +203,11 @@ class PersonalVehicleController extends BaseController
             } else {
                 $vehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $flashMessage = 'flash.success.vehicle_create';
+            }
+            /** @var PersonalUser $user */
+            $user = $this->getUser();
+            if ($user->getCity() === null || $user->getCity() != $vehicleDTO->getCity()) {
+                $this->userEditionService->updateUserCity($user, $vehicleDTO->getCity());
             }
 
             $this->session->getFlashBag()->add(

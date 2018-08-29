@@ -93,7 +93,7 @@ parameters:
             pro_vehicle:
                 _source : { enabled : true }
                 properties:
-                    sortCreatedAt:
+                    sortingDate:
                         type: date
                     location:
                         type: geo_point
@@ -107,7 +107,7 @@ parameters:
             personal_vehicle:
                 _source : { enabled : true }
                 properties:
-                    sortCreatedAt:
+                    sortingDate:
                         type: date
                     location:
                         type: geo_point
@@ -118,14 +118,17 @@ parameters:
                     transmission:
                         type: string
                         index: not_analyzed
-                    projectVehicles :
-                        properties:
-                            make:
-                                type: string
-                                index: not_analyzed
-                            model:
-                                type: string
-                                index: not_analyzed
+            personal_project :
+                _source: { enabled : true }
+                properties:
+                    sortingDate:
+                        type: date
+                    make:
+                        type: string
+                        index: not_analyzed
+                    model:
+                        type: string
+                        index: not_analyzed
             city:
                 _source : { enabled : true }
                 properties:

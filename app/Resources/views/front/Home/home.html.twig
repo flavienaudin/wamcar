@@ -43,7 +43,7 @@
             </div>
 
             <footer class="section-footer column small-12 medium-7 large-5">
-                <a href="{{ path('front_search_personal') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
+                <a href="{{ isUserPro ? path('front_search_tab_personal') : path('front_search_tab_pro') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
             </footer>
         </div>
     </section>

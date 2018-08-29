@@ -25,7 +25,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 'file',
                 InputArgument::OPTIONAL,
                 'The path of the CSV file to load (default: fixture data)',
-                __DIR__ . '/../../../database/fixtures/base_vehicule_20171010_short.csv'
+                __DIR__ . '/../../../database/fixtures/base_vehicule_20180228.csv'
             );
     }
 
