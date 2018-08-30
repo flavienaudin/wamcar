@@ -1,0 +1,52 @@
+{{ form_start(userPreferenceForm, {'action':path('front_user_edit_preferences'),'attr' : {'class' : 'column small-12'}}) }}
+
+<div class="row">
+    <h2 class="column small-12 primary-color">{{ 'user.preference.title.notifications'|trans }}</h2>
+
+    <div class="column small-12 input-margin medium-no-margin">
+        <div class="row align-middle input-margin">
+            <div class="column small-12 medium-4 large-auto input-margin medium-no-margin black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
+            <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
+                <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
+                {{ form_widget(userPreferenceForm.privateMessageEmailEnabled, {
+                    'switch_inners':['global.yes'|trans,'global.no'|trans],
+                    'switch_class':'large no-margin small-left',
+                    'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.privateMessage.label'|trans
+                }) }}
+            </div>
+            <div class="column small-auto medium-4 large-auto">
+                {{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
+                    'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.privateMessage.label'|trans,
+                    'label_class' : 'show-for-sr',
+                    'class':'no-margin'
+                }) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="column small-12 input-margin medium-no-margin">
+        <div class="row align-middle input-margin">
+            <div class="column small-12 medium-4 large-auto input-margin medium-no-margin black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
+            <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
+                <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
+                {{ form_widget(userPreferenceForm.likeEmailEnabled, {
+                    'switch_inners':['global.yes'|trans,'global.no'|trans],
+                    'switch_class':'large no-margin',
+                    'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.like.label'|trans
+                }) }}
+            </div>
+            <div class="column small-auto medium-4 large-auto">
+                {{ form_widget(userPreferenceForm.likeEmailFrequency,{
+                    'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.like.label'|trans,
+                    'label_class' : 'show-for-sr',
+                    'class':'no-margin'
+                }) }}
+            </div>
+        </div>
+    </div>
+    <div class="column small-12 medium-4">
+        <button type="submit" class="button full-width">{{ 'global.button.validate'|trans }}</button>
+    </div>
+</div>
+
+{{ form_end(userPreferenceForm) }}

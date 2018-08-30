@@ -42,7 +42,7 @@
 // @include foundation-slider;
 // @include foundation-sticky;
 @include foundation-reveal;
-// @include foundation-switch;
+@include foundation-switch;
 @include foundation-table;
 // @include foundation-tabs;
 // @include foundation-thumbnail;
@@ -168,4 +168,5 @@
 @import "components/dropdown-menu";
 @import "components/youtube";
 @import "components/notification";
+@import "components/switch";
 // Only on last

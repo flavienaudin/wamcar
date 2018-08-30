@@ -454,6 +454,23 @@
     </ul>
 {%- endblock yesno_widget -%}
 
+{%- block switch_widget -%}
+    {% set label = label|default(false) %}
+    {% set switch_class = switch_class|default('') %}
+    {% set switch_inners = switch_inners|default({}) %}
+
+    <div class="switch {{ switch_class }}">
+        {{ form_widget(form, {'attr':{'class':'switch-input'}}) }}
+        <label class="switch-paddle" for="{{ form.vars.id }}">
+            <span class="show-for-sr">{{ label }}</span>
+            {% for inner in switch_inners %}
+                <span class="{{ loop.index0 is even ?'switch-active':'switch-inactive'}}" aria-hidden="true">{{ inner }}</span>
+            {% endfor %}
+        </label>
+    </div>
+{%- endblock switch_widget -%}
+
+
 {%- block star_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}

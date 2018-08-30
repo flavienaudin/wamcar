@@ -2,6 +2,8 @@ notification_list:
   path: /{notifiable}
   methods: GET
   controller: AppBundle:Front\PersonalContext\Notification:list
+  requirements:
+      notifiable: '\d+'
 
 notification_mark_as_seen:
   path: /{notifiable}/mark_as_seen/{notification}

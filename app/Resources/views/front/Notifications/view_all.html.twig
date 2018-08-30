@@ -18,7 +18,7 @@
 
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title'),
-        link: '<span class="full-width text-right"><a href="#" class="text-underline">Paramètres de notification</a></span>'
+        link: '<span class="full-width text-right"><a href="'~path('front_user_edit_preferences')~'" class="text-underline">'~('notifications.parameters'|trans)~'</a></span>'
     } %}
 
     <div class="row">

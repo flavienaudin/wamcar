@@ -3,6 +3,7 @@
 namespace Wamcar\User;
 
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Doctrine\Entity\UserPreferences;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
@@ -43,6 +44,8 @@ abstract class BaseUser
     protected $twitterAccessToken;
     /** @var Collection */
     protected $likes;
+    /** @var UserPreferences */
+    protected $preferences;
 
     /**
      * User constructor.
@@ -64,6 +67,7 @@ abstract class BaseUser
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->preferences = new UserPreferences($this);
     }
 
     /**
@@ -132,7 +136,7 @@ abstract class BaseUser
      */
     public function getCity(): ?City
     {
-        return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty()? $this->getUserProfile()->getCity() : null);
+        return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty() ? $this->getUserProfile()->getCity() : null);
     }
 
     /**
@@ -413,6 +417,14 @@ abstract class BaseUser
     public function isPersonal(): bool
     {
         return $this->getType() === PersonalUser::TYPE;
+    }
+
+    /**
+     * @return UserPreferences|null
+     */
+    public function getPreferences(): ?UserPreferences
+    {
+        return $this->preferences;
     }
 
     /**

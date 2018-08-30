@@ -63,6 +63,10 @@ front_user_list:
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:list
 
+front_user_edit_preferences:
+    path: /preferences
+    controller: AppBundle:Front\PersonalContext\User:editPreferences
+
 front_garage_view:
     path: /garage/view/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:view }
