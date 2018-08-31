@@ -25,9 +25,9 @@ use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -325,18 +325,14 @@ class UserController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * security.yml - access_control : ROLE_ADMIN only
+     * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedHttpException('Only admin can access user listing');
-        }
-
         $personalUsers = $this->personalUserRepository->findBy([], ['createdAt' => 'DESC']);
 
         $proUsers = $this->proUserRepository->findBy([], ['createdAt' => 'DESC']);
-
 
         return $this->render("front/adminContext/user/user_list.html.twig", [
             'personalUsers' => $personalUsers,
@@ -345,7 +341,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     protected function createAvatarForm()
     {

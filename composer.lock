@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc24b5f80ec9a5121d4b1a14e9858311",
+    "content-hash": "ebb8608389cd5705c44eb6623ef63067",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -2428,6 +2428,70 @@
             "time": "2014-01-12T16:20:24+00:00"
         },
         {
+            "name": "jmose/command-scheduler-bundle",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/J-Mose/CommandSchedulerBundle.git",
+                "reference": "481609a9a63ad1955eda353bb56a9b81a08778fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/J-Mose/CommandSchedulerBundle/zipball/481609a9a63ad1955eda353bb56a9b81a08778fe",
+                "reference": "481609a9a63ad1955eda353bb56a9b81a08778fe",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "^1.6.10",
+                "doctrine/orm": "^2.5.11",
+                "mtdowling/cron-expression": "^1.2",
+                "php": "^5.6|>=7.0.8",
+                "sensio/framework-extra-bundle": "^5.1.0",
+                "symfony/asset": "^3.4|^4.0",
+                "symfony/console": "^3.4|^4.0",
+                "symfony/form": "^3.4|^4.0",
+                "symfony/framework-bundle": "^3.4|^4.0",
+                "symfony/security-bundle": "^3.4|^4.0",
+                "symfony/templating": "^3.4|^4.0",
+                "symfony/translation": "^3.4|^4.0",
+                "symfony/twig-bundle": "^3.4|^4.0",
+                "symfony/validator": "^3.4|^4.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-fixtures-bundle": "^3.0.0",
+                "liip/functional-test-bundle": "^1.9",
+                "php-coveralls/php-coveralls": "^2.0",
+                "phpunit/phpunit": "^5.7",
+                "symfony/css-selector": "^3.4|^4.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "JMose\\CommandSchedulerBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien Guyon",
+                    "email": "julienguyon@hotmail.com"
+                }
+            ],
+            "description": "This Symfony bundle will allow you to schedule all your commands just like UNIX crontab",
+            "homepage": "https://github.com/J-Mose/CommandSchedulerBundle",
+            "keywords": [
+                "command",
+                "cron",
+                "scheduler",
+                "symfony",
+                "task"
+            ],
+            "time": "2018-02-08T17:11:17+00:00"
+        },
+        {
             "name": "jms/metadata",
             "version": "1.6.0",
             "source": {
@@ -2769,6 +2833,50 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "mtdowling/cron-expression",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtdowling/cron-expression.git",
+                "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/9504fa9ea681b586028adaaa0877db4aecf32bad",
+                "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cron\\": "src/Cron/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
+            "keywords": [
+                "cron",
+                "schedule"
+            ],
+            "time": "2017-01-23T04:29:33+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -4182,38 +4290,39 @@
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v3.0.29",
+            "version": "v5.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "bb907234df776b68922eb4b25bfa061683597b6a"
+                "reference": "50e8b7292425957b8fd66887504430c89bcbd83c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/bb907234df776b68922eb4b25bfa061683597b6a",
-                "reference": "bb907234df776b68922eb4b25bfa061683597b6a",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/50e8b7292425957b8fd66887504430c89bcbd83c",
+                "reference": "50e8b7292425957b8fd66887504430c89bcbd83c",
                 "shasum": ""
             },
             "require": {
-                "doctrine/common": "~2.2",
-                "symfony/dependency-injection": "~2.3|~3.0",
-                "symfony/framework-bundle": "~2.3|~3.0|~4.0"
+                "doctrine/common": "^2.2",
+                "symfony/config": "^3.3|^4.0",
+                "symfony/dependency-injection": "^3.3|^4.0",
+                "symfony/framework-bundle": "^3.4|^4.0",
+                "symfony/http-kernel": "^3.3|^4.0"
             },
             "require-dev": {
-                "doctrine/doctrine-bundle": "~1.5",
-                "doctrine/orm": "~2.4,>=2.4.5",
-                "symfony/asset": "~2.7|~3.0|~4.0",
-                "symfony/browser-kit": "~2.3|~3.0|~4.0",
-                "symfony/dom-crawler": "~2.3|~3.0|~4.0",
-                "symfony/expression-language": "~2.4|~3.0|~4.0",
-                "symfony/finder": "~2.3|~3.0|~4.0",
-                "symfony/phpunit-bridge": "~3.2|~4.0",
-                "symfony/psr-http-message-bridge": "^0.3|^1.0",
-                "symfony/security-bundle": "~2.4|~3.0|~4.0",
-                "symfony/templating": "~2.3|~3.0|~4.0",
-                "symfony/translation": "~2.3|~3.0|~4.0",
-                "symfony/twig-bundle": "~2.3|~3.0|~4.0",
-                "symfony/yaml": "~2.3|~3.0|~4.0",
+                "doctrine/doctrine-bundle": "^1.6",
+                "doctrine/orm": "^2.5",
+                "symfony/browser-kit": "^3.3|^4.0",
+                "symfony/dom-crawler": "^3.3|^4.0",
+                "symfony/expression-language": "^3.3|^4.0",
+                "symfony/finder": "^3.3|^4.0",
+                "symfony/monolog-bridge": "^3.0|^4.0",
+                "symfony/monolog-bundle": "^3.2",
+                "symfony/phpunit-bridge": "^3.3|^4.0",
+                "symfony/psr-http-message-bridge": "^0.3",
+                "symfony/security-bundle": "^3.3|^4.0",
+                "symfony/twig-bundle": "^3.3|^4.0",
+                "symfony/yaml": "^3.3|^4.0",
                 "twig/twig": "~1.12|~2.0",
                 "zendframework/zend-diactoros": "^1.3"
             },
@@ -4225,7 +4334,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0.x-dev"
+                    "dev-master": "5.2.x-dev"
                 }
             },
             "autoload": {
@@ -4248,7 +4357,7 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2017-12-14T19:03:23+00:00"
+            "time": "2018-05-12T09:37:42+00:00"
         },
         {
             "name": "sensiolabs/security-checker",

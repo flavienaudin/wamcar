@@ -119,6 +119,8 @@ doctrine:
             MgiletNotificationBundle:
                 type: annotation
                 is_bundle: true
+            JMoseCommandSchedulerBundle: ~
+
         dql:
             string_functions:
                 field: DoctrineExtensions\Query\Mysql\Field
@@ -344,3 +346,10 @@ hwi_oauth:
                 include_email: true
             paths:
                 firstname: name
+
+jmose_command_scheduler:
+    # receivers for reporting mails
+    monitor_mail: ['%admin_email%']
+
+    # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
+    send_ok: true

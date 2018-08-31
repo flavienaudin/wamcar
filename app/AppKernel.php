@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new RobertoTru\ToInlineStyleEmailBundle\RobertoTruToInlineStyleEmailBundle(),
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Mgilet\NotificationBundle\MgiletNotificationBundle(),
+            new JMose\CommandSchedulerBundle\JMoseCommandSchedulerBundle(),
             new AppBundle\AppBundle(),
         ];
 
