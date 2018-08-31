@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 abstract class BaseUser
 {
@@ -425,6 +426,18 @@ abstract class BaseUser
     public function getPreferences(): ?UserPreferences
     {
         return $this->preferences;
+    }
+
+    public function updatePreferences(
+        bool $privateMessageEmailEnabled,
+        bool $likeEmailEnabled,
+        NotificationFrequency $privateMessageEmailFrequency,
+        NotificationFrequency $likeEmailFrequency): void
+    {
+        $this->getPreferences()->setPrivateMessageEmailEnabled($privateMessageEmailEnabled);
+        $this->getPreferences()->setPrivateMessageEmailFrequency($privateMessageEmailFrequency);
+        $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
+        $this->getPreferences()->setLikeEmailFrequency($likeEmailFrequency);
     }
 
     /**

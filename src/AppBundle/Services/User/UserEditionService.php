@@ -218,17 +218,18 @@ class UserEditionService
     }
 
     /**
+     * @param BaseUSer $user
      * @param UserPreferencesDTO $userPreferencesDTO
      */
-    public function editPreferences(UserPreferencesDTO $userPreferencesDTO)
+    public function editPreferences(BaseUser $user, UserPreferencesDTO $userPreferencesDTO)
     {
-        $userPreferences = new UserPreferences($userPreferencesDTO->getUser(),
+        $user->updatePreferences(
             $userPreferencesDTO->isPrivateMessageEmailEnabled(),
             $userPreferencesDTO->isLikeEmailEnabled(),
             $userPreferencesDTO->getPrivateMessageEmailFrequency(),
             $userPreferencesDTO->getLikeEmailFrequency()
         );
 
-        $this->userPreferencesRepository->update($userPreferences);
+        $this->userPreferencesRepository->update($user->getPreferences());
     }
 }

@@ -373,7 +373,7 @@ class UserController extends BaseController
         $userPreferenceForm->handleRequest($request);
         if ($userPreferenceForm->isSubmitted() && $userPreferenceForm->isValid()) {
 
-            $this->userEditionService->editPreferences($userPreferenceDTO);
+            $this->userEditionService->editPreferences($this->getUser(), $userPreferenceDTO);
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,

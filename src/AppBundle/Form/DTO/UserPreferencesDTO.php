@@ -8,25 +8,15 @@ use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class UserPreferencesDTO
 {
-    /** @var BaseUser $user */
-    private $user;
     /** @var bool $privateMessageEmailEnabled */
-    private $privateMessageEmailEnabled;
+    public $privateMessageEmailEnabled;
     /** @var NotificationFrequency $privateMessageEmailFrequency */
-    private $privateMessageEmailFrequency;
+    public $privateMessageEmailFrequency;
     /** @var bool $likeEmailEnabled */
-    private $likeEmailEnabled;
+    public $likeEmailEnabled;
     /** @var NotificationFrequency $likeEmailFrequency */
-    private $likeEmailFrequency;
+    public $likeEmailFrequency;
 
-    /**
-     * UserPreferencesDTO constructor.
-     * @param BaseUser $user
-     */
-    private function __construct(BaseUser $user)
-    {
-        $this->user = $user;
-    }
 
     /**
      * @param BaseUser $user
@@ -34,27 +24,15 @@ class UserPreferencesDTO
      */
     public static function createFromUser(BaseUser $user)
     {
-        $userPreferencesDTO = new self($user);
-        if ($user->getPreferences() != null) {
-            $userPreferencesDTO->setPrivateMessageEmailEnabled($user->getPreferences()->isPrivateMessageEmailEnabled());
-            $userPreferencesDTO->setPrivateMessageEmailFrequency($user->getPreferences()->getPrivateMessageEmailFrequency());
-            $userPreferencesDTO->setLikeEmailEnabled($user->getPreferences()->isLikeEmailEnabled());
-            $userPreferencesDTO->setLikeEmailFrequency($user->getPreferences()->getLikeEmailFrequency());
-        }else{
-            $userPreferencesDTO->setPrivateMessageEmailEnabled(true);
-            $userPreferencesDTO->setPrivateMessageEmailFrequency(NotificationFrequency::ONCE_A_DAY());
-            $userPreferencesDTO->setLikeEmailEnabled(true);
-            $userPreferencesDTO->setLikeEmailFrequency(NotificationFrequency::ONCE_A_DAY());
-        }
-        return $userPreferencesDTO;
-    }
+        $userPreferencesDTO = new self();
 
-    /**
-     * @return BaseUser
-     */
-    public function getUser(): BaseUser
-    {
-        return $this->user;
+        $userPreferencesDTO->setPrivateMessageEmailEnabled($user->getPreferences()->isPrivateMessageEmailEnabled());
+        $userPreferencesDTO->setPrivateMessageEmailFrequency($user->getPreferences()->getPrivateMessageEmailFrequency());
+
+        $userPreferencesDTO->setLikeEmailEnabled($user->getPreferences()->isLikeEmailEnabled());
+        $userPreferencesDTO->setLikeEmailFrequency($user->getPreferences()->getLikeEmailFrequency());
+
+        return $userPreferencesDTO;
     }
 
     /**

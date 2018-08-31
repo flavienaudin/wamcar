@@ -14,8 +14,8 @@ class DoctrineUserPreferencesRepository extends EntityRepository implements User
      */
     public function update(UserPreferences $userPreferences)
     {
-        $user = $this->_em->merge($userPreferences);
-        $this->_em->persist($user);
+        $userPreferences = $this->_em->merge($userPreferences);
+        $this->_em->persist($userPreferences);
         $this->_em->flush();
     }
 

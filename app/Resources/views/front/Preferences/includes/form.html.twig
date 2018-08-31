@@ -9,6 +9,7 @@
             <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.privateMessageEmailEnabled, {
+                    'switch':true,
                     'switch_inners':['global.yes'|trans,'global.no'|trans],
                     'switch_class':'large no-margin small-left',
                     'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.privateMessage.label'|trans
@@ -30,6 +31,7 @@
             <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.likeEmailEnabled, {
+                    'switch':true,
                     'switch_inners':['global.yes'|trans,'global.no'|trans],
                     'switch_class':'large no-margin',
                     'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.like.label'|trans

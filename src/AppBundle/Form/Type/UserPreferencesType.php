@@ -5,8 +5,8 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DTO\UserPreferencesDTO;
-use AppBundle\Form\Type\SpecificField\SwitchType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,13 +20,17 @@ class UserPreferencesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('privateMessageEmailEnabled', SwitchType::class)
+            ->add('privateMessageEmailEnabled', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('privateMessageEmailFrequency', ChoiceType::class, [
                 'multiple' => false,
                 'choices' => NotificationFrequency::toArray(),
                 'choice_translation_domain' => 'enumeration'
             ])
-            ->add('likeEmailEnabled', SwitchType::class)
+            ->add('likeEmailEnabled', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('likeEmailFrequency', ChoiceType::class, [
                 'multiple' => false,
                 'choices' => NotificationFrequency::toArray(),
