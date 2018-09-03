@@ -28,10 +28,13 @@ flash:
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    notification:
+      unauthorized: Cette notification ne vous est pas destinée.
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+
 
 global:
   yes: Oui

@@ -47,11 +47,12 @@ class NotificationController extends BaseController
             // Get current user notifications
             $notifiableEntity = $this->notificationsManager->getNotifiableEntity($this->getUser());
             if ($notifiableEntity->getId() != $notifiable) {
-                // Another identiable was required => redirect to current user notification instead
+                // Another notifiable (user) was required => redirect to current user notification instead
                 return $this->redirectToRoute("notification_list", ["notifiable" => $notifiableEntity->getId()]);
             }
         }
-        // Get the type of notifications to list
+
+        // Get the associated Notifiable Entity (user)
         $notifiedEntity = $this->notificationsManager->getNotifiableInterface($notifiableEntity);
 
         if ($notifiedEntity instanceof ProApplicationUser or $notifiedEntity instanceof PersonalApplicationUser) {
@@ -63,8 +64,10 @@ class NotificationController extends BaseController
                 return $this->redirectToRoute("notification_list", ["notifiable" => $currentUserNotifiable->getId()]);
             }
 
+            // Get the type of notifications to list
             $notifiableRepo = $this->entityManager->getRepository('MgiletNotificationBundle:NotifiableNotification');
             $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+
             return $this->render('front/Notifications/view_all.html.twig', array(
                 'notificationList' => $notificationList
             ));
@@ -95,16 +98,29 @@ class NotificationController extends BaseController
     {
         $notification = $this->notificationsManager->getNotification($notificationId);
         $notifiedEntity = $this->notificationsManager->getNotifiableInterface($this->notificationsManager->getNotifiableEntityById($notifiableId));
-
-        if(!$this->notificationsManager->isSeen($notifiedEntity, $notification)) {
-            $this->notificationsManager->markAsSeen(
-                $notifiedEntity,
-                $notification,
-                true
-            );
+        if ($notifiedEntity instanceof ProApplicationUser or $notifiedEntity instanceof PersonalApplicationUser) {
+            // Deal with User notifications
+            if ($notifiedEntity === $this->getUser()) {
+                if(!$this->notificationsManager->isSeen($notifiedEntity, $notification)) {
+                    $this->notificationsManager->markAsSeen(
+                        $notifiedEntity,
+                        $notification,
+                        true
+                    );
+                }
+                $link = $this->notificationsManager->getNotification($notification)->getLink();
+                return $this->redirect($link);
+            }
         }
-        $link = $this->notificationsManager->getNotification($notification)->getLink();
-        return $this->redirect($link);
+
+
+        // No page found to display the notifiable's notifications
+        $this->session->getFlashBag()->add(
+            self::FLASH_LEVEL_WARNING,
+            'flash.error.notification.unauthorized'
+        );
+        return $this->redirectToRoute("front_default");
+
     }
 
     /**
