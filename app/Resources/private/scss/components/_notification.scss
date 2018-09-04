@@ -20,6 +20,10 @@
       &:hover .notification-right-actions {
         visibility: visible;
       }
+
+      small {
+        font-size: 0.80rem;
+      }
     }
 
     .has-tip {
@@ -45,6 +49,20 @@
 
     .notification-mark-as-unseen {
       display: none;
+    }
+  }
+
+  &-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(60);
+    height: rem-calc(60);
+    margin-right: 0.5rem;
+
+    > img {
+      border-radius: 50%;
+      max-height: 100%;
     }
   }
 }

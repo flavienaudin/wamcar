@@ -6,6 +6,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\EntityManagerInterface;
 use Mgilet\NotificationBundle\Entity\NotifiableEntity;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
@@ -20,15 +21,20 @@ class NotificationController extends BaseController
     /** @var NotificationManager $notificationManager */
     private $notificationsManager;
 
+    /** @var NotificationManagerExtended $notificationsManagerExtended */
+    private $notificationsManagerExtended;
+
     /**
      * NotificationController constructor.
      * @param EntityManagerInterface $entityManager
      * @param NotificationManager $notificationsManager
+     * @param NotificationManagerExtended $notificationsManagerExtended
      */
-    public function __construct(EntityManagerInterface $entityManager, NotificationManager $notificationsManager)
+    public function __construct(EntityManagerInterface $entityManager, NotificationManager $notificationsManager, NotificationManagerExtended $notificationsManagerExtended)
     {
         $this->entityManager = $entityManager;
         $this->notificationsManager = $notificationsManager;
+        $this->notificationsManagerExtended = $notificationsManagerExtended;
     }
 
 
@@ -65,8 +71,7 @@ class NotificationController extends BaseController
             }
 
             // Get the type of notifications to list
-            $notifiableRepo = $this->entityManager->getRepository('MgiletNotificationBundle:NotifiableNotification');
-            $notificationList = $notifiableRepo->findAllForNotifiableId($notifiable);
+            $notificationList = $this->notificationsManagerExtended->getNotifications($notifiedEntity);
 
             return $this->render('front/Notifications/view_all.html.twig', array(
                 'notificationList' => $notificationList
@@ -101,7 +106,7 @@ class NotificationController extends BaseController
         if ($notifiedEntity instanceof ProApplicationUser or $notifiedEntity instanceof PersonalApplicationUser) {
             // Deal with User notifications
             if ($notifiedEntity === $this->getUser()) {
-                if(!$this->notificationsManager->isSeen($notifiedEntity, $notification)) {
+                if (!$this->notificationsManager->isSeen($notifiedEntity, $notification)) {
                     $this->notificationsManager->markAsSeen(
                         $notifiedEntity,
                         $notification,

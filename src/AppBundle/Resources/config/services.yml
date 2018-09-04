@@ -122,3 +122,5 @@ services:
         class: AppBundle\Services\Vehicle\VehicleEditionService
         autowire: true
 
+    AppBundle\Services\Notification\NotificationManagerExtended:
+        autowire: true

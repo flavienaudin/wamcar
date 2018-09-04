@@ -100,9 +100,12 @@
 </header>
 
 {% if isLogged %}
-    <div class="dropdown-pane dropdown-pane-notifications show-for-medium" id="notifications-dropdown" data-dropdown
-         data-position="bottom" data-alignment="right" data-auto-focus="true">
-        {{ mgilet_notification_render(app.user, {'seen': true, 'template':'front/Notifications/includes/notifications.html.twig', 'order':'desc'}) }}
+    <div class="dropdown-pane dropdown-pane-notifications show-for-medium" id="notifications-dropdown" data-dropdown data-position="bottom" data-alignment="right" data-auto-focus="true">
+        {{ wamcar_notification_render(app.user, {
+            'template':'front/Notifications/includes/notifications.html.twig',
+            'order':constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::ORDER_UNSEEN_FIRST'),
+            'limit':'5'
+        }) }}
     </div>
 {% else %}
     <div id="js-off-canvas-user" class="off-canvas position-right is-closed" data-content-scroll="false"

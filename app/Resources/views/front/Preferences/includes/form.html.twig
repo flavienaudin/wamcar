@@ -5,8 +5,8 @@
 
     <div class="column small-12 input-margin medium-no-margin">
         <div class="row align-middle input-margin">
-            <div class="column small-12 medium-4 large-auto input-margin medium-no-margin black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
-            <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
+            <div class="column small-12 input-margin medium-no-margin large-expand black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
+            <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.privateMessageEmailEnabled, {
                     'switch':true,
@@ -15,7 +15,7 @@
                     'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.privateMessage.label'|trans
                 }) }}
             </div>
-            <div class="column small-auto medium-4 large-auto">
+            <div class="column small-12 medium-6 large-expand">
                 {{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.privateMessage.label'|trans,
                     'label_class' : 'show-for-sr',
@@ -27,8 +27,8 @@
 
     <div class="column small-12 input-margin medium-no-margin">
         <div class="row align-middle input-margin">
-            <div class="column small-12 medium-4 large-auto input-margin medium-no-margin black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
-            <div class="column block-grid small-shrink input-margin medium-no-margin align-middle">
+            <div class="column small-12 input-margin medium-no-margin large-expand black-color">{{ 'user.preference.field.like.label'|trans }}</div>
+            <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.likeEmailEnabled, {
                     'switch':true,
@@ -37,7 +37,7 @@
                     'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.like.label'|trans
                 }) }}
             </div>
-            <div class="column small-auto medium-4 large-auto">
+            <div class="column small-12 medium-6 large-expand">
                 {{ form_widget(userPreferenceForm.likeEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.like.label'|trans,
                     'label_class' : 'show-for-sr',

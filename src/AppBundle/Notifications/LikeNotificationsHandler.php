@@ -17,14 +17,17 @@ class LikeNotificationsHandler extends AbstractNotificationsHandler
     {
         $this->checkEventClass($event, UserLikeVehicleEvent::class);
 
-        $userLiking = $event->getLikeVehicle()->getUser();
+        $like = $event->getLikeVehicle();
+        $data = json_encode([
+            'identifier' => $like->getId()
+        ]);
+
         $vehicle = $event->getLikeVehicle()->getVehicle();
 
         if($event->getLikeVehicle()->getValue()) {
-            // TODO : générer le message plus paramétrable quand il sera possible d'étendre la classe Notification
             $notification = $this->notificationsManager->createNotification(
-                $userLiking->getFullName() . " aime votre annonce " . $vehicle->getName(),
-                null,
+                get_class($like) ,
+                $data,
                 $this->router->generate($vehicle instanceof ProVehicle ? 'front_vehicle_pro_detail' : 'front_vehicle_personal_detail', ['id' => $vehicle->getId(), '_fragment' => 'js-interested_users'])
             );
             try {

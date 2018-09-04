@@ -1,19 +1,51 @@
-<li class="block-border js-notification-{{ notification.notification.id }} {{ notification.seen?'notification-seen':'notification-unseen' }}">
-    <a href="{{ path('notification_follow_link',{'notifiableId':notification.notifiableEntity.id,'notificationId':notification.notification.id}) }}"
-       class="no-margin black-color">
-        <b>{{ notification.notification.subject }}</b><br>
-        <small>{{ notification.notification.date|time_diff }}</small>
+{% if notification.notificationType == constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::NOTIFICATION_LIKE_VEHICLE') %}
+    {% if notification.likeVehicle.user.isPro %}
+        {% set subject = 'notifications.message.pro_like_vehicle'|trans({
+            '%username%':notification.likeVehicle.user.fullname,
+            '%vehicle_name%' : notification.likeVehicle.vehicle.name
+        }) %}
+    {% else %}
+        {% set subject = 'notifications.message.personal_like_vehicle'|trans({
+            '%username%':notification.likeVehicle.user.fullname,
+            '%vehicle_name%' : notification.likeVehicle.vehicle.name
+        }) %}
+    {% endif %}
+
+    {% set notificator_img = notification.likeVehicle.user.avatar|avatar('user_mini_thumbnail') %}
+    {% set notificator_alt = notification.likeVehicle.user.fullname %}
+    {% set notification_icon = '<span class="icon-heart primary-color"></span>' %}
+{% else %}
+    {% set subject = notification.notifiableNotification.notification.subject %}
+    {% set message = notification.notifiableNotification.notification.message %}
+{% endif %}
+
+
+<li class="is-flex align-justify block-border js-notification-{{ notification.notifiableNotification.notification.id }} {{ notification.notifiableNotification.seen?'notification-seen':'notification-unseen' }}">
+    <a href="{{ path('notification_follow_link',{'notifiableId':notification.notifiableNotification.notifiableEntity.id,'notificationId':notification.notifiableNotification.notification.id}) }}"
+       class="is-flex align-middle no-margin black-color">
+        {% if notificator_img is defined %}
+            <span class="notification-picture">
+                <img src="{{ notificator_img }}" alt="{{ notificator_alt }}">
+            </span>
+        {% endif %}
+        <span class="padding-right-1">
+            <span>{{ subject|raw }}</span>
+            {% if message is defined and message is not empty %}
+                <span>{{ message }}</span>
+            {% endif %}
+            <br>
+            <span class="is-flex align-middle">{{ notification_icon is defined?notification_icon|raw }}<small>{{ notification.notifiableNotification.notification.date|time_diff }}</small></span>
+        </span>
     </a>
 
-    <span class="float-right notification-right-actions">
-        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_seen', notification.notifiableEntity, notification.notification) }}"
-           class="js-notification-mark-link notification-mark-as-seen icon-circle primary-color" data-tooltip tabindex="1"
+    <span class="is-flex notification-right-actions">
+        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_seen', notification.notifiableNotification.notifiableEntity, notification.notifiableNotification.notification) }}"
+           class="js-notification-mark-link notification-mark-as-seen icon-circle primary-color" data-tooltip
+           tabindex="1"
            title="{{ 'notifications.mark_as_seen'|trans }}"></a>
-        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_unseen', notification.notifiableEntity, notification.notification) }}"
-           class="js-notification-mark-link notification-mark-as-unseen icon-circle-o primary-color" data-tooltip tabindex="1"
+        <a data-href="{{ mgilet_notification_generate_path('notification_mark_as_unseen', notification.notifiableNotification.notifiableEntity, notification.notifiableNotification.notification) }}"
+           class="js-notification-mark-link notification-mark-as-unseen icon-circle-o primary-color" data-tooltip
+           tabindex="1"
            title="{{ 'notifications.mark_as_unseen'|trans }}"></a>
     </span>
-    {% if notification.notification.message is not empty %}
-        <p class="no-margin">{{ notification.notification.message }}</p>
-    {% endif %}
 </li>
