@@ -10,7 +10,7 @@ class ProjectVehicle
     protected $project;
     /** @var  string */
     protected $make;
-    /** @var string */
+    /** @var null|string */
     protected $model;
     /** @var  null|int */
     protected $yearMin;
@@ -30,7 +30,7 @@ class ProjectVehicle
         Project $project,
         int $id = null,
         string $make,
-        string $model,
+        string $model = null,
         int $yearMin = null,
         int $mileageMax = null
     )
@@ -68,9 +68,9 @@ class ProjectVehicle
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getModel(): string
+    public function getModel(): ?string
     {
         return $this->model;
     }
@@ -110,7 +110,7 @@ class ProjectVehicle
     /**
      * @param string $model
      */
-    public function setModel(string $model): void
+    public function setModel(?string $model): void
     {
         $this->model = $model;
     }

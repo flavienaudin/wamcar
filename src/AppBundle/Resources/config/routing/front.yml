@@ -159,7 +159,7 @@ front_search_tab_personal:
         type: 'TAB_PERSONAL'
 
 front_search_tab_pro:
-    path: /recherche/professionels/{page}
+    path: /recherche/professionnels/{page}
     controller: AppBundle:Front\ProContext\Search:search
     requirements:
         page: '\d+'
