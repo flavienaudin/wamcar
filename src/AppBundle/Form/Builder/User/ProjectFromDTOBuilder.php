@@ -22,8 +22,8 @@ class ProjectFromDTOBuilder
             throw new \InvalidArgumentException(
                 sprintf(
                     "ProjectFromDTOBuilder::buildFromDTO expects dto argument to be an instance of '%s', '%s' given",
-                ProjectDTO::class,
-                get_class($dto))
+                    ProjectDTO::class,
+                    get_class($dto))
             );
         }
 
@@ -32,15 +32,17 @@ class ProjectFromDTOBuilder
         $project->setDescription($dto->description);
         $project->setIsFleet($dto->isFleet);
 
-        $projectVehicles =[];
+        $projectVehicles = [];
         foreach ($dto->projectVehicles as $projectVehicleDTO) {
-            $projectVehicles[] = new ProjectVehicle($project,
-                $projectVehicleDTO->id,
-                $projectVehicleDTO->make,
-                $projectVehicleDTO->model,
-                $projectVehicleDTO->yearMin,
-                $projectVehicleDTO->mileageMax
-            );
+            if (!empty($projectVehicleDTO->make)) {
+                $projectVehicles[] = new ProjectVehicle($project,
+                    $projectVehicleDTO->id,
+                    $projectVehicleDTO->make,
+                    $projectVehicleDTO->model,
+                    $projectVehicleDTO->yearMin,
+                    $projectVehicleDTO->mileageMax
+                );
+            }
         }
         $project->setProjectVehicles($projectVehicles);
 
