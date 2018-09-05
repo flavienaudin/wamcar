@@ -27,7 +27,7 @@ class UserPreferencesDTO
         $userPreferencesDTO = new self();
 
         $userPreferencesDTO->setPrivateMessageEmailEnabled($user->getPreferences()->isPrivateMessageEmailEnabled());
-        $userPreferencesDTO->setPrivateMessageEmailFrequency($user->getPreferences()->getPrivateMessageEmailFrequency());
+        $userPreferencesDTO->setPrivateMessageEmailFrequency(NotificationFrequency::IMMEDIATELY()/* Désactivé pour la v1 : $user->getPreferences()->getPrivateMessageEmailFrequency()*/);
 
         $userPreferencesDTO->setLikeEmailEnabled($user->getPreferences()->isLikeEmailEnabled());
         $userPreferencesDTO->setLikeEmailFrequency($user->getPreferences()->getLikeEmailFrequency());

@@ -23,6 +23,7 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\ProjectRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -226,7 +227,8 @@ class UserEditionService
         $user->updatePreferences(
             $userPreferencesDTO->isPrivateMessageEmailEnabled(),
             $userPreferencesDTO->isLikeEmailEnabled(),
-            $userPreferencesDTO->getPrivateMessageEmailFrequency(),
+            NotificationFrequency::IMMEDIATELY()
+            /* TODO Désactivé v1 : $userPreferencesDTO->getPrivateMessageEmailFrequency()*/,
             $userPreferencesDTO->getLikeEmailFrequency()
         );
 

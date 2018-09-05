@@ -32,7 +32,7 @@ class UserPreferences
     {
         $this->user = $user;
         $this->privateMessageEmailEnabled = $privateMessageEmailEnabled;
-        $this->privateMessageEmailFrequency = $privateMessageEmailFrequency ?? NotificationFrequency::ONCE_A_DAY();
+        $this->privateMessageEmailFrequency = $privateMessageEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
         $this->likeEmailEnabled = $likeEmailEnabled;
         $this->likeEmailFrequency = $likeEmailFrequency ?? NotificationFrequency::ONCE_A_DAY();
     }
