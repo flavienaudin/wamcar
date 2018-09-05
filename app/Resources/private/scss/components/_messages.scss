@@ -523,6 +523,10 @@
       font-size: rem-calc(11);
       line-height: rem-calc(20);
     }
+
+    + b {
+      margin-left: rem-calc(20);
+    }
   }
 
 }
