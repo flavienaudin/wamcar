@@ -6,18 +6,23 @@ namespace AppBundle\Services\Notification;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Illuminate\Support\Collection;
+use Mgilet\NotificationBundle\Entity\NotifiableEntity;
 use Mgilet\NotificationBundle\Entity\NotifiableNotification;
 use Mgilet\NotificationBundle\Entity\Notification;
 use Mgilet\NotificationBundle\Entity\Repository\NotifiableNotificationRepository;
+use Mgilet\NotificationBundle\Entity\Repository\NotifiableRepository;
 use Mgilet\NotificationBundle\Entity\Repository\NotificationRepository;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Wamcar\User\BaseLikeVehicle;
+use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalLikeVehicle;
 use Wamcar\User\ProLikeVehicle;
 use Wamcar\User\UserLikeVehicleRepository;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class NotificationManagerExtended
 {
@@ -31,6 +36,8 @@ class NotificationManagerExtended
 
     /** @var NotificationManager */
     private $notificationManager;
+    /** @var NotifiableRepository $notifiableEntityRepository */
+    private $notifiableEntityRepository;
     /** @var NotifiableNotificationRepository $notifiableNotificationRepository */
     private $notifiableNotificationRepository;
     /** @var NotificationRepository $notificationRepository */
@@ -46,6 +53,7 @@ class NotificationManagerExtended
     public function __construct(NotificationManager $notificationManager, EntityManagerInterface $entityManager)
     {
         $this->notificationManager = $notificationManager;
+        $this->notifiableEntityRepository = $entityManager->getRepository(NotifiableEntity::class);
         $this->notifiableNotificationRepository = $entityManager->getRepository(NotifiableNotification::class);
         $this->notificationRepository = $entityManager->getRepository(Notification::class);
         $this->userLikeVehicleRepository = $entityManager->getRepository(BaseLikeVehicle::class);
@@ -123,39 +131,46 @@ class NotificationManagerExtended
     }
 
     /**
-     * Get last 24h notifications
+     * Get last 24h notifications that require to send an email to there recipient, according to recipient's preferences
      *
-     * @param bool|null $seen
      * @return Collection
      * @throws \Exception
      */
-    public function getUnseenNotificationsToSendEmail($seen = null)
+    public function getNotifiablesWithEmailableNotification()
     {
-        $qb = $this->notificationRepository->createQueryBuilder("n");
-        $qb->addSelect('n.notifiableNotifications')
-            ->addSelect('nn.notifiableEntity')
-            ->join('n.notifiableNotifications', 'nn')
-            ->join('nn.notifiableEntity', 'ne')
+        $qb = $this->notifiableEntityRepository->createQueryBuilder("ne");
+        $qb->from(BaseUser::class, 'u');
+        $qb->join('ne.notifiableNotifications', 'nn')
+            ->join('nn.notification', 'n', Expr\Join::WITH, ':select_interval_start <= n.date AND n.date < :select_interval_end')
+            ->join('u.preferences', 'p')
+            ->select('ne as notifiableEntity')
+            ->addSelect('nn')
+            ->addSelect('n')
+            ->addSelect('u.id as recipient_id', 'u.email as recipient_email', 'u.userProfile.firstName as recipient_firstname', 'u.userProfile.lastName as recipient_lastname')
+
+            ->groupBy('ne')
+            ->addGroupBy('nn')
+            ->addGroupBy('recipient_id', 'recipient_id', 'recipient_firstname', 'recipient_lastname')
             ->where($qb->expr()->andX(
                 $qb->expr()->gte('n.date', ':select_interval_start'),
                 $qb->expr()->lt('n.date', ':select_interval_end')
-            ));
-
-        if ($seen !== null) {
-            $whereSeen = $seen ? 1 : 0;
-            $qb->andWhere('nn.seen = :seen')
-                ->setParameter('seen', $whereSeen);
-        }
+            ))
+            ->andWhere('nn.seen = :seen')
+            ->andWhere($qb->expr()->eq('u.id', 'ne.identifier'))
+            ->andWhere($qb->expr()->andX(
+                $qb->expr()->eq('p.likeEmailEnabled', 1),
+                $qb->expr()->eq('p.likeEmailFrequency', ':likeEmailFrequency')
+            ))
+            ->setParameter('seen', 0)
+            ->setParameter('likeEmailFrequency', NotificationFrequency::ONCE_A_DAY);;
 
         $selectIntervalStart = new \DateTime("now");
-        $selectIntervalStart->sub(new \DateInterval('PT25H'));
+        $selectIntervalStart->sub(new \DateInterval('PT24H'));
         $qb->setParameter("select_interval_start", $selectIntervalStart);
 
         $selectIntervalEnd = new \DateTime("now");
-        $selectIntervalEnd->sub(new \DateInterval('PT24H'));
         $qb->setParameter("select_interval_end", $selectIntervalEnd);
 
         return $qb->getQuery()->getResult();
     }
-
 }

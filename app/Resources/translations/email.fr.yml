@@ -56,6 +56,11 @@ notifyUserOfMessageCreated:
         <p>%message%</p>
     action_label: Répondre
 
+unseenNotificationsDailyDigest:
+    object: "Quoi de neuf sur votre Wamcar ?"
+    body: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles noficiations sur Wamcar.</p>"
+    action_label: Voir
+
 notifyAdminOfGoogleApiReturn:
     object: "Wamcar ADMIN-Google API Return Error"
     body: >
