@@ -3,9 +3,10 @@
 BASEDIR=$(dirname "$0")
 cd "$BASEDIR"/..
 
+ARG_1="$1:-''"
 ENV="${SYMFONY_ENV:-dev}"
 
-if [ "docker-cmd" = $1 ]
+if [ "docker-cmd" = "${ARG_1}" ]
 then
     export USER_ID=`id -u`
     export USER_GID=`id -g`
