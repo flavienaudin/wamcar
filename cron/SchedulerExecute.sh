@@ -22,6 +22,7 @@ else
 
     export REQUEST_CONTEXT_HOST="${MAILER_DEFAUT_SENDER_NAME:-www.wamcar.com}"
     export REQUEST_CONTEXT_SCHEME="${REQUEST_CONTEXT_SCHEME:-https}"
+    export REQUEST_CONTEXT_BASE_URL=
 
     php bin/console scheduler:execute --env=${ENV}
 fi
