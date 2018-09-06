@@ -1,0 +1,19 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'notifyUserOfLikeVehicle.object'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyUserOfLikeVehicle.body'|trans({
+            '%messageAuthorName%': messageAuthorName,
+            '%annonceTitle%': annonceTitle,
+        })|raw }}
+        {% if vehicle != null %}
+            {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
+         {% endif %}
+        {{ action_button(message_url, 'notifyUserOfLikeVehicle.action_label'|trans) }}
+    </div>
+{% endblock %}
