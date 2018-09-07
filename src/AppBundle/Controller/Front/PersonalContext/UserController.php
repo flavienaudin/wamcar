@@ -102,11 +102,10 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param string $tab {self::TAB_PROFILE,self::TAB_PROJECT}
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request, $tab = self::TAB_PROFILE): Response
+    public function editInformationsAction(Request $request): Response
     {
         /** @var ApplicationUser $user */
         $user = $this->getUser();
@@ -140,6 +139,23 @@ class UserController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
+        return $this->render($userProfileTemplate[$user->getType()], [
+            'editUserForm' => $editForm->createView(),
+            'user' => $user
+        ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function editProjectAction(Request $request): Response
+    {
+        /** @var ApplicationUser $user */
+        $user = $this->getUser();
+
         if ($user instanceof PersonalUser) {
             if ($user->getProject() === null) {
                 $user->setProject(new Project($user));
@@ -163,16 +179,20 @@ class UserController extends BaseController
 
                 return $this->redirectToRoute('front_view_current_user_info');
             }
+
+            return $this->render('front/User/project_edit.html.twig', [
+                'projectForm' => $projectForm->createView(),
+                'user' => $user
+            ]);
         } else {
-            $projectForm = null;
+            // TODO : Throw Exception
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.only_personal_can_have_project'
+            );
+            return $this->redirectToRoute("front_default");
         }
 
-        return $this->render($userProfileTemplate[$user->getType()], [
-            'editUserForm' => $editForm->createView(),
-            'projectForm' => $projectForm ? $projectForm->createView() : null,
-            'user' => $user,
-            'tab' => $tab
-        ]);
     }
 
     /**

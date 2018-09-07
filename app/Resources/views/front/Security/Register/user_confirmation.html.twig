@@ -26,13 +26,13 @@
 
                 {# Buttons #}
                 {% if app.user is defined and (app.user.project is not defined or app.user.project is null or app.user.project.projectVehicles|length == 0) %}
-                    <a href="{{ path('front_edit_user_info_tab', {'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT')}) }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.project'|trans }}</a>
+                    <a href="{{ path('front_edit_user_project') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.project'|trans }}</a>
                 {% endif %}
                 {% if app.user is defined and (app.user.vehicles is defined and app.user.vehicles|length == 0) %}
                     <a href="{{ path('front_vehicle_personal_add') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.sell'|trans }}</a>
                 {% endif %}
                 <a href="{{ path('front_search_tab_pro') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.search'|trans }}</a>
-                <a href="{{ path('front_edit_user_info_tab', {'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROFILE')}) }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.profile'|trans }}</a>
+                <a href="{{ path('front_edit_user_info') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.profile'|trans }}</a>
 
             </section>
         </div>

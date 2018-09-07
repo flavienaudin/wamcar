@@ -2,11 +2,11 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'user.profile.edit'|trans }}{% endblock %}
+{% block title %}{{ 'user.project.edit'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
-        'name': 'user.profile.my_profile'|trans,
+        'name': 'user.project.my_project'|trans,
         'href': path('front_view_current_user_info')
     },
     {
@@ -16,14 +16,12 @@
 ] %}
 
 {% block body %}
-
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title')
     } %}
 
     <div class="row">
-        {% include "front/User/includes/form_edit_profil.html.twig" %}
+        {% include 'front/User/includes/form_project.html.twig' %}
     </div>
-
-{% endblock body %}
+{% endblock %}

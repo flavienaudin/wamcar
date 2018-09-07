@@ -69,7 +69,7 @@
                             {% elseif isUserPersonal%}
                                 <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_project_section'}) }}">{{ 'header.personal.my_add'|trans }}</a></li>
                                 <li><a href="{{ path('front_edit_user_info') }}">{{ 'header.personal.profile_edit'|trans }}</a></li>
-                                <li><a href="{{ path('front_edit_user_info_tab',{'tab':constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT')}) }}">{{ 'header.personal.project_edit'|trans }}</a></li>
+                                <li><a href="{{ path('front_edit_user_project') }}">{{ 'header.personal.project_edit'|trans }}</a></li>
                                 <li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) }}">{{ 'header.personal.my_vehicles'|trans }}</a></li>
                                 <li><a href="{{ path('front_vehicle_personal_add') }}">{{ 'header.personal.add_vehicle'|trans }}</a></li>
                             {% endif %}
