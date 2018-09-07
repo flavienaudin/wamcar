@@ -13,7 +13,7 @@
 
     {% set notificator_img = notification.likeVehicle.user.avatar|avatar('user_mini_thumbnail') %}
     {% set notificator_alt = notification.likeVehicle.user.fullname %}
-    {% set notification_icon = '<span class="icon-heart primary-color"></span>' %}
+    {% set notification_icon = '<span class="icon-thumbs-up primary-color"></span>' %}
 {% else %}
     {% set subject = notification.notifiableNotification.notification.subject %}
     {% set message = notification.notifiableNotification.notification.message %}
