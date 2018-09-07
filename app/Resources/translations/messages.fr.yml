@@ -236,7 +236,8 @@ garage:
 
 search:
   common:
-    breadcrumbs: Recherche
+    title: Annonces de voitures
+    breadcrumbs: Annonces
     field:
       text:
         label: Votre recherche

@@ -40,3 +40,11 @@ if ($($garagePicture).length) {
   });
 }
 
+const $moveVehicleActions = '.js-vehicle-actions';
+
+if ($($moveVehicleActions).length) {
+  $($moveVehicleActions).responsiveDom({
+    appendTo: 'body',
+    mediaQuery: '(max-width: 1023px)'
+  });
+}

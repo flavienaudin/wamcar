@@ -9,8 +9,7 @@
    ===================================== */
 
 $textarea-padding: rem-calc(20);
-$textarea-min-height: rem-calc(210);
-$textarea-min-height-medium: rem-calc(300);
+$textarea-min-height: rem-calc(200);
 
 
 
@@ -21,10 +20,6 @@ $textarea-min-height-medium: rem-calc(300);
 textarea {
   min-height: $textarea-min-height;
   resize: vertical;
-
-  @include breakpoint(medium) {
-    min-height: $textarea-min-height-medium;
-  }
 
   /* Exception */
 
