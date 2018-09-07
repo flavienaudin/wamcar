@@ -236,6 +236,7 @@ garage:
 
 search:
   common:
+    title: Annonces de voitures
     breadcrumbs: Annonces
     field:
       text:
