@@ -248,5 +248,4 @@ front_user_like_personal_vehicle:
 
 front_user_favorites_list:
     path: /user/favorites
-    defaults:
-        _controller: AppBundle:Front\ProContext\Favorite:view
+    controller: AppBundle:Front\ProContext\Favorite:view
