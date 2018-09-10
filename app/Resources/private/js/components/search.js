@@ -2,10 +2,13 @@
    Seach
    =========================================================================== */
 
-import { Tabs } from 'foundation-sites/js/foundation.tabs';
+import {Tabs} from 'foundation-sites/js/foundation.tabs';
+
 require('formdata-polyfill');
 
+
 const $searchTabs = document.getElementById('js-search-tabs');
+const $searchForm = $('#js-search-form');
 
 const $information = document.getElementById('js-search-form-container');
 const $makeSelect = document.getElementById('search_vehicle_make');
@@ -29,10 +32,16 @@ const getVehicle = async (url) => {
 if ($searchTabs) {
   const searchTabs = new Tabs($($searchTabs));
 
+  if ($searchForm.length) {
+    $searchForm.on('submit', () => {
+      $('#search_vehicle_tab').val($($searchTabs).find('li.is-active').data('tab'));
+    });
+  }
+
   if ($makeSelect) {
     let clearSelect = function (select) {
       let selectOptions = select.getElementsByTagName('OPTION');
-      while(selectOptions.length > 0) {
+      while (selectOptions.length > 0) {
         select.remove(selectOptions[0]);
       }
 

@@ -87,4 +87,7 @@ Wamcar\User\BaseUser:
             targetEntity: Wamcar\User\BaseLikeVehicle
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+                updatedAt: "desc"
+
 
