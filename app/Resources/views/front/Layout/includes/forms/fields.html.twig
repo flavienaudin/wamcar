@@ -364,7 +364,7 @@
 {% block _project_projectVehicles_entry_widget %}
     {% set index = index|default('__name__') %}
     <li class="wish-item block-gray">
-        <label for="wish-1" class="wish-label black-color small-12">Souhait {{ index }}<a href="javascript:;" class="delete-project small-right">Supprimer ce souhait</a></label>
+        <label for="wish-1" class="wish-label black-color small-12">{{ 'user.project.field.projectVehicle.label'|trans }}&nbsp;{{ index }}<a href="javascript:;" class="delete-project small-right">{{ 'user.project.field.projectVehicle.remove'|trans }}</a></label>
         <div class="row small-12">
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.id) }}
@@ -387,7 +387,7 @@
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.yearMin, {
-                    'label': 'Année min',
+                    'label': 'user.project.field.projectVehicle.yearMin.label'|trans,
                     'class': '',
                     'required': false,
                     'required_class' : 'show-for-sr'
@@ -395,7 +395,7 @@
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.mileageMax, {
-                    'label': 'Km max',
+                    'label': 'user.project.field.projectVehicle.mileageMax.label'|trans,
                     'class': '',
                     'required' : false,
                     'required_class' : 'show-for-sr'

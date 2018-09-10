@@ -633,6 +633,26 @@ user:
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
     defined_budget: Budget de %budget_ammount%
     undefined_budget: Budget non défini
+    field:
+      isFleet.label: Type de recherche
+      budget:
+        label: Budget global
+        placeholder: 'Ex : 20 000 €'
+      city:
+        label: Ma ville
+        placeholder: Ville ou code postal
+        required_message: Vous devez saisir votre ville
+      description:
+        label: Description de ma recherche
+        placeholder: "Ecrivez ici ce que vous voulez : un type de voiture (SUV, berline, Monospace,...), une couleur, une option, un équipement spécifique,... Ou choisissez directement un modèle en utilisant le formulaire ci-dessous."
+      projectVehicle:
+        add: Ajouter un souhait
+        remove: Supprimer ce souhait
+        label: Souhait
+        yearMin.label: Année min
+        mileageMax.label: Km max
+
+      submit: Enregistrer mon projet
     favorites:
       title: %user_firstname% aime
       owner: Mes likes
