@@ -123,11 +123,9 @@
                                             <table>
                                                 <tr>
                                                     <th>
-                                                        <p>Ce mail vous est envoyé par Wamcar. Conformément à la loi
-                                                            informatique et libertés du 6 janvier 1978, vous disposez
-                                                            d'un droit d'accès, de rectification et de suppression des
-                                                            données vous concernant.</p>
-                                                        <p>© 2018 Wamcar. Tous droits réservés.</p>
+                                                        <p>{{ 'email.footer.legal'|trans }}</p>
+                                                        <p>{{ 'email.footer.manage_preference'|trans({'%edit_preference_url%':url('front_user_edit_preferences') })|raw }}</p>
+                                                        <p>{{ 'email.footer.copyright'|trans|raw }}</p>
                                                     </th>
                                                     <th class="expander"></th>
                                                 </tr>
