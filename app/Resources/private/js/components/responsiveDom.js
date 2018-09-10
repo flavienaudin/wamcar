@@ -11,7 +11,7 @@ const $offCanvasNavigation = '#js-off-canvas-navigation';
 
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
-  mediaQuery: '(max-width: 1024px)',
+  mediaQuery: '(max-width: 1023px)',
   callback: (matched) => {
     $($navigation).toggleClass('is-flex');
     if (matched) {
