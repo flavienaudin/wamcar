@@ -1,17 +1,19 @@
 front_default:
     path: /
-    defaults:
-        _controller: AppBundle:Front\Default:homepage
+    controller: AppBundle:Front\Default:landingMixte
+
+# legacy
+front_landing_mixte:
+    path: /m
+    controller: AppBundle:Front\Default:landingMixte
+
+front_landing_reprise:
+    path: /reprise
+    controller: AppBundle:Front\Default:landingReprise
 
 front_landing_meeting:
     path: /rencontre
-    defaults:
-        _controller: AppBundle:Front\Default:landingMeeting
-
-front_landing_mixte:
-    path: /m
-    defaults:
-        _controller: AppBundle:Front\Default:landingMixte
+    controller: AppBundle:Front\Default:landingMeeting
 
 register_confirm:
     path: /inscription/confirmation

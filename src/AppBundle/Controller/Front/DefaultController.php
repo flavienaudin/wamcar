@@ -43,7 +43,7 @@ class DefaultController extends BaseController
     /**
      * @return Response
      */
-    public function homepageAction(): Response
+    public function landingRepriseAction(): Response
     {
         $vehicleInformationForm = $this->formFactory->create(
             VehicleInformationType::class,
