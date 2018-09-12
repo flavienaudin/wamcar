@@ -5,7 +5,6 @@
         {% set values_str = values|join(', ') %}
     {% else %}
         {% set values_str = values %}
-    {% endif %}
 
     {% if resetedFields is iterable %}
         {% set resetedFields_str = resetedFields|join(',') %}
@@ -63,7 +62,6 @@
         {{ form_widget(searchProForm.cityName) }}
         {{ form_widget(searchProForm.latitude) }}
         {{ form_widget(searchProForm.longitude) }}
-
     </div>
 
     <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
