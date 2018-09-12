@@ -710,6 +710,20 @@ notifications:
     personal_like_vehicle: <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
     pro_like_vehicle: Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
 
+directory:
+  page_tile: Annuaire des professionnels
+  field:
+    text:
+      label: Votre recherche
+      placeholder: Entrer un nom ou une marque
+    location:
+      label: Autour de
+      placeholder: Ville ou code postal
+    radius:
+      label: Rayon de
+    sorting:
+      label: Trier par :
+
 form:
   picture:
     add_photo: Ajouter une photo

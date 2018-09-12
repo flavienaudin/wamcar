@@ -1,0 +1,115 @@
+{% form_theme searchProForm ':front/Layout/includes/forms:fields.html.twig' %}
+
+{% macro filterAsTag(label, values, resetedFields) %}
+    {% if values is iterable %}
+        {% set values_str = values|join(', ') %}
+    {% else %}
+        {% set values_str = values %}
+    {% endif %}
+    {% set newQueryParam = {} %}
+
+    {% for key, value in app.request.query.all.search_vehicle %}
+        {% if key in resetedFields|keys %}
+            {% set newQueryParam = {(key):(resetedFields[key])}|merge(newQueryParam) %}
+        {% else %}
+            {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
+        {% endif %}
+    {% endfor  %}
+
+    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ path('front_directory_view', {'search_pro': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
+{% endmacro %}
+
+{% import _self as macro %}
+
+{% set form_criteria %}{% spaceless %}
+    {% if filterData.text is not null %}
+        {{ macro.filterAsTag('directory.field.text.label', filterData.text, {'text':null}) }}
+    {% endif %}
+    {% if filterData.postalCode is not null and filterData.cityName is not null %}
+        {{ macro.filterAsTag('directory.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', {'postalCode':null,'cityName':null,'longitude':null,'latitude':null}) }}
+        {% if filterData.radius is not null %}
+            {{ macro.filterAsTag('directory.field.radius.label', filterData.radius~'km',{'radius':50}) }}
+        {% endif %}
+    {% endif %}
+{% endspaceless %}{% endset %}
+
+<div class="search-form-container">
+    {{ form_start(searchProForm, {
+        'attr' : {'class' : 'search-form row'}
+    }) }}
+    <div class="column small-12 medium-6 medium-order-1 large-4">
+        {{ form_widget(searchProForm.text, {
+            'class' : '',
+            'label' : 'directory.field.text.label'|trans,
+            'label_class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'placeholder': 'directory.field.text.placeholder'|trans
+        }) }}
+    </div>
+
+    <div class="column small-12 medium-6 medium-order-3 large-4 large-order-2">
+        {{ form_widget(searchProForm.postalCode, {
+            'label': 'directory.field.location.label'|trans,
+            'class': 'js-city-autocomplete',
+            'required' : false,
+            'required_class' : 'show-for-sr',
+            'attr' : {
+                'data-placeholder': 'directory.field.location.placeholder'|trans,
+                'data-autocomplete-url': path('front_city_autocomplete'),
+                'data-city-field': 'search_vehicle_cityName',
+                'data-latitude-field': 'search_vehicle_latitude',
+                'data-longitude-field': 'search_vehicle_longitude'
+            }
+        }) }}
+        {{ form_widget(searchProForm.cityName) }}
+        {{ form_widget(searchProForm.latitude) }}
+        {{ form_widget(searchProForm.longitude) }}
+
+    </div>
+
+    <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
+        {{ form_widget(searchProForm.radius, {
+            'class' : '',
+            'required' : true,
+
+            'label' : 'directory.field.radius.label'|trans,
+            'label_class' : ''
+        }) }}
+    </div>
+
+    <div class="column show-for-medium medium-6 medium-order-2 large-2">
+        <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
+        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    </div>
+
+    <div class="block-grid small-12 medium-order-3 align-middle">
+        {#<div class="search-actions-button block-grid column small-6">
+            <a class="search-actions-open input-margin" data-toggle="js-search-expand js-more-criteria js-less-criteria">
+                <span id="js-more-criteria" data-toggler=".is-hidden"
+                      class="text-underline icon-plus-circle">{{ 'directory.more_criteria'|trans }}</span>
+                <span id="js-less-criteria" data-toggler=".is-hidden"
+                      class="text-underline icon-minus-circle is-hidden">{{ 'directory.less_criteria'|trans }}</span>
+            </a>
+        </div>#}
+        <div class="block-grid column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
+            {{ form_widget(searchProForm.sorting, {
+                'label' : 'directory.field.sorting.label'|trans,
+                'label_class' : 'show-for-sr',
+                'class' : 'sorting',
+                'required' : true
+            }) }}
+        </div>
+    </div>
+
+    <div class="hide-for-medium column small-12 medium-order-3 input-margin">
+        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    </div>
+
+    {% if form_criteria is not empty %}
+        <div class="column small-12  medium-order-3 input-margin">
+            {{ form_criteria }}
+        </div>
+    {% endif %}
+    {{ form_end(searchProForm) }}
+</div>
