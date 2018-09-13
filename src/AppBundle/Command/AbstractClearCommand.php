@@ -16,18 +16,22 @@ abstract class AbstractClearCommand extends BaseCommand
     private $description;
     /** @var string */
     private $indexableType;
+    /** @var string */
+    private $idProperty;
 
     /**
      * AbstractClearCommand constructor.
      * @param string $name
      * @param string $description
      * @param string $indexableType
+     * @param string $idProperty
      */
-    public function __construct(string $name, string $description, string $indexableType)
+    public function __construct(string $name, string $description, string $indexableType, string $idProperty = 'id')
     {
         parent::__construct($name);
         $this->description = $description;
         $this->indexableType = $indexableType;
+        $this->idProperty = $idProperty;
     }
 
     /**
@@ -67,7 +71,7 @@ abstract class AbstractClearCommand extends BaseCommand
             $nbCurrentHits = count($result->hits());
             foreach ($result->hits() as $hit) {
                 $progress->advance();
-                $objectIndexer->removeById($hit['id'], $this->indexableType);
+                $objectIndexer->removeById($hit[$this->idProperty], $this->indexableType);
             }
             // To let the deletion propagation occurs
             sleep(1);

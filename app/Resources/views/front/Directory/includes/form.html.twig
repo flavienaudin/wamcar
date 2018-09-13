@@ -57,9 +57,9 @@
             'attr' : {
                 'data-placeholder': 'directory.field.location.placeholder'|trans,
                 'data-autocomplete-url': path('front_city_autocomplete'),
-                'data-city-field': 'search_vehicle_cityName',
-                'data-latitude-field': 'search_vehicle_latitude',
-                'data-longitude-field': 'search_vehicle_longitude'
+                'data-city-field': searchProForm.cityName.vars.id,
+                'data-latitude-field': searchProForm.latitude.vars.id,
+                'data-longitude-field': searchProForm.longitude.vars.id
             }
         }) }}
         {{ form_widget(searchProForm.cityName) }}

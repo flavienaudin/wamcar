@@ -4,7 +4,7 @@
 namespace AppBundle\Elasticsearch\Query;
 
 
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
 
@@ -31,7 +31,7 @@ class VehicleInfoProvider
 
         return $this->queryExecutor->execute(
             $qb->getQueryBody(),
-            VehicleInfo::TYPE
+            IndexableVehicleInfo::TYPE
         );
     }
 

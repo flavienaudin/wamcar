@@ -157,8 +157,10 @@ class SearchResultProvider
             $limit,
             0.3
         );
+
         $queryBuilder = $this->queryBuilderFilterer->getDirectoryProUserQueryBuilder($queryBuilder, $searchProDTO);
         $queryBody = $queryBuilder->getQueryBody();
+
         return $this->queryExecutor->execute($queryBody, IndexableProUser::TYPE);
     }
 }

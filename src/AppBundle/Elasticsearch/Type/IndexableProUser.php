@@ -107,7 +107,7 @@ class IndexableProUser implements Indexable
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'description' => $this->description,
-            'garages' => $this->garages
+            'garages' => array_values($this->garages)
         ];
         if($this->maxGarageGoogleRating > 0){
             $arr['maxGaragesGoogleRating'] = $this->maxGarageGoogleRating;

@@ -2,18 +2,12 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\VehicleInfo;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use League\Csv\Reader as CsvReader;
-use Novaway\ElasticsearchClient\Aggregation\Aggregation;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Wamcar\Vehicle\Fuel;
 
 class ImportCityCommand extends BaseCommand
 {
@@ -77,9 +71,9 @@ class ImportCityCommand extends BaseCommand
 
         $data = $this->convertCsvToArray($filename);
 
-        $size      = count($data);
+        $size = count($data);
         $batchSize = 500;
-        $i         = 1;
+        $i = 1;
 
         // Starting progress
         $progress = new ProgressBar($output, $size);
@@ -88,7 +82,7 @@ class ImportCityCommand extends BaseCommand
         $stmt = $connection->prepare("TRUNCATE TABLE city");
         $stmt->execute();
 
-        foreach($data as $row) {
+        foreach ($data as $row) {
             list($lat, $lon) = explode(',', $row[5]);
             $insertValues[] = "(\"$row[0]\", \"$row[1]\", \"$row[2]\", \"$lat\", \"$lon\", \"$row[6]\", \"$row[7]\", \"$row[3]\", \"$row[4]\")";
 
@@ -119,31 +113,27 @@ class ImportCityCommand extends BaseCommand
 
     /**
      * @param        $filename
-     * @param array  $header
+     * @param array $header
      * @param string $delimiter
      * @return array|bool
      */
     private function convertCsvToArray($filename, $delimiter = ';', $skipFirstLine = true)
     {
-        if(!file_exists($filename) || !is_readable($filename)) {
+        if (!file_exists($filename) || !is_readable($filename)) {
             return false;
         }
 
         $data = [];
-
         if (($handle = fopen($filename, 'r')) !== false) {
             while (($row = fgetcsv($handle, 10000, $delimiter)) !== false) {
                 if ($skipFirstLine) {
                     $skipFirstLine = !$skipFirstLine;
                     continue;
                 }
-
                 $data[] = $row;
             }
-
             fclose($handle);
         }
-
         return $data;
     }
 

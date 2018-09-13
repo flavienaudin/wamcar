@@ -22,7 +22,7 @@
                     {% set garage = garageProUser.garage %}
                     <h3><a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="dark-gray-color">
                             {{ garage.name }}</a></h3>
-
+                    <span>{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>
                     {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
                         poweredByGoogleDisplay : true,
                         garageRating : garage.googleRating|default(null)

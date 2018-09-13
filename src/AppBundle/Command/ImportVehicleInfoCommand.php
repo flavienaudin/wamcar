@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use League\Csv\Exception;
 use League\Csv\Reader as CsvReader;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -73,7 +73,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 'moteur électrique' => 'Electrique'
             ];
 
-            $vehicleInfo = new VehicleInfo(
+            $vehicleInfo = new IndexableVehicleInfo(
                 $record['tecdoc_ktypnr'],
                 $record['tecdoc_constr'],
                 isset($makeConstCodeToConstName[$record['tecdoc_constrcode']]) ? $makeConstCodeToConstName[$record['tecdoc_constrcode']] : $record['tecdoc_constr'],
@@ -96,7 +96,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 (int)$record['tecdoc_nbsoup']
             );
 
-            $objectIndexer->index($vehicleInfo, VehicleInfo::TYPE);
+            $objectIndexer->index($vehicleInfo, IndexableVehicleInfo::TYPE);
         }
 
         $progress->finish();

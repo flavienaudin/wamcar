@@ -4,7 +4,7 @@ namespace AppBundle\Utils;
 
 
 use AppBundle\Elasticsearch\Query\QueryBuilderFilterer;
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use Novaway\ElasticsearchClient\QueryExecutor;
 
 class VehicleInfoProvider
@@ -36,7 +36,7 @@ class VehicleInfoProvider
     public function getVehicleInfoByKtypNumber(string $ktypnr): array
     {
         $qb = $this->queryBuilderFilterer->getQueryVehicleInfoByKtypNumber($ktypnr);
-        $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
+        $result = $this->queryExecutor->execute($qb->getQueryBody(), IndexableVehicleInfo::TYPE);
         return $result->hits();
     }
 }
