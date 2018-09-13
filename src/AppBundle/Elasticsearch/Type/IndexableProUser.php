@@ -55,7 +55,6 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getRoles()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
-
         /** @var GarageProUser $garageMembership */
         foreach ($proApplicationUser->getGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
