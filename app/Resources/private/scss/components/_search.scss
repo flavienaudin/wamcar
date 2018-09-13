@@ -52,10 +52,9 @@
   }
 
   /*
-     Label container
+     Label container (non utilisé)
      ===================================== */
-
-  $search-label-height: rem-calc(50);
+  /*$search-label-height: rem-calc(50);
 
   &-label-container {
     height: $search-label-height;
@@ -72,7 +71,7 @@
       margin-bottom: rem-calc(10);
     }
 
-    /* Brother components */
+    !* Brother components *!
 
     + .search-form-container {
       @include breakpoint(small only) {
@@ -89,15 +88,14 @@
         margin-top: rem-calc(10);
       }
     }
-  }
+  }*/
 
   /*
-     Label
+     Label (on utilisé)
      ===================================== */
+  /*&-label {
 
-  &-label {
-
-    /* Fixed state */
+    !* Fixed state *!
 
     &.is-fixed {
       position: fixed;
@@ -123,14 +121,14 @@
     }
     // End &.is-fixed
 
-    /* Components */
+    !* Components *!
 
     p {
       line-height: $search-label-height;
       margin-bottom: 0;
     }
 
-  }
+  }*/
   // End &-label
 
   &-filter {

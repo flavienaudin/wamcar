@@ -8,7 +8,7 @@
         </div>
         <div class="directory-item-user-info overflow-hidden full-width">
             <h2 class="is-flex align-justify">
-                <span>{{ proUser.fullName }}</span>
+                <a href="{{ sellerUrl }}"><span class="dark-gray-color">{{ proUser.fullName }}</span></a>
                 <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"><span class="icon-message"></span></a>
             </h2>
             <p>{{ proUser.description|nl2br }}</p>

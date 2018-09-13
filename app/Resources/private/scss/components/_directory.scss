@@ -8,6 +8,23 @@ $directory-item-min-height : 182;
 /** Class definition */
 .directory {
 
+  // Change label and button colors
+  &-form-container {
+    label {
+      color: $dark-blue;
+    }
+
+    button[type=submit] {
+      background-color: $dark-blue;
+      border-color: $dark-blue;
+
+      &:hover {
+        color: $dark-blue;
+        background-color: white;
+      }
+    }
+  }
+
   &-result {
     padding-top: rem-calc(15);
 
@@ -77,7 +94,7 @@ $directory-item-min-height : 182;
       }
       h2 {
         margin-bottom: rem-calc(10);
-        > a {
+        > a > span.icon-message {
           margin-left: rem-calc(15);
         }
       }
