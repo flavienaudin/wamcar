@@ -64,6 +64,23 @@ class ProUser extends BaseUser
     }
 
     /**
+     * Return list of user's garages ordered by GoogleRating
+     * @return array
+     */
+    public function getGaragesOrderByGoogleRating(): array
+    {
+        $orderedGrages = $this->getGarageMemberships()->toArray();
+        uasort($orderedGrages, function ($gm1, $gm2){
+            $g1gr = $gm1->getGarage()->getGoogleRating() ?? -1;
+            $g2gr = $gm2->getGarage()->getGoogleRating() ?? -1;
+           if($g1gr == $g2gr){
+               return 0;
+           }
+           return $g1gr < $g2gr ? 1 : -1;
+        });
+        return $orderedGrages;
+    }
+    /**
      * @param GarageProUser $member
      * @return ProUser
      */

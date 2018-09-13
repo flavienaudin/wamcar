@@ -723,6 +723,10 @@ directory:
       label: Rayon de
     sorting:
       label: Trier par :
+  result:
+    empty: Aucun résultat n'a été trouvé, rééssayez votre recherche.
+    no_garage: Pas de garage renseigné pour l'instant
+    more_garage: '{1} %n% garage supplémentaire|[2,Inf[ %n% garages supplémentaires'
 
 form:
   picture:

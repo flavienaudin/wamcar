@@ -10,8 +10,6 @@
     }
 ] %}
 
-
-
 {% block body %}
     {% set page_header_class = 'no-margin' %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
@@ -20,9 +18,33 @@
         title: block('title')
     } %}
 
-<div class="block-gray">
-    {% include 'front/Directory/includes/form.html.twig' %}
-</div>
+    <div class="block-gray">
+        {% include 'front/Directory/includes/form.html.twig' %}
+    </div>
 
+    <div class="row">
+        <div class="directory-result column small-12">
+            <header class="block-grid small-12 align-middle">
+                <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
+            </header>
+            <div>
+                {% if result.totalHits > 0 %}
+                    {% for hit in result.hits %}
+                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
+                            'proUser' : hit
+                        }) }}
+                    {% endfor %}
+                    {% include 'front/Layout/includes/pagination.html.twig' with {
+                        'route': 'front_directory_view',
+                        'page': page,
+                        'lastPage': lastPage
+                    } %}
+                {% else %}
+                    <br>
+                    <p>{{ 'directory.result.empty'|trans }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
 {% endblock body %}

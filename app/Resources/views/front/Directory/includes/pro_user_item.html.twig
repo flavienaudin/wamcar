@@ -1,0 +1,44 @@
+{% set sellerUrl = path('front_view_user_info', {'id': proUser.id}) %}
+
+<article class="directory-item">
+    <div class="small-12 medium-8 is-flex">
+        <div class="directory-item-user-picture is-flex align-middle">
+            <a href="{{ sellerUrl }}"><img src="{{ proUser.avatar|avatar('user_thumbnail') }}"
+                                           alt="{{ proUser.fullName }}"></a>
+        </div>
+        <div class="directory-item-user-info overflow-hidden full-width">
+            <h2 class="is-flex align-justify">
+                <span>{{ proUser.fullName }}</span>
+                <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"><span class="icon-message"></span></a>
+            </h2>
+            <p>{{ proUser.description|nl2br }}</p>
+        </div>
+    </div>
+    <div class="small-12 medium-4">
+        <div class="directory-item-garages">
+            {% set userGarages = proUser.garagesOrderByGoogleRating %}
+            {% for garageProUser in userGarages|slice(0,1) %}
+                <div class="directory-item-garage">
+                    {% set garage = garageProUser.garage %}
+                    <h3><a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="dark-gray-color">
+                            {{ garage.name }}</a></h3>
+
+                    {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+                        poweredByGoogleDisplay : true,
+                        garageRating : garage.googleRating|default(null)
+                    }) }}
+                </div>
+            {% else %}
+                <div class="directory-item-garage">
+                    <p>{{ 'directory.result.no_garage'|trans }}</p>
+                </div>
+            {% endfor %}
+            {% if userGarages|length > 1 %}
+                <div class="directory-item-more-garage">
+                    <a href="{{ sellerUrl }}"
+                       class="text-underline">{{ 'directory.result.more_garage'|transchoice((userGarages|length - 1),{'%n%':(userGarages|length - 1)}) }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</article>

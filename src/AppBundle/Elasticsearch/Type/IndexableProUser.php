@@ -21,6 +21,8 @@ class IndexableProUser implements Indexable
     private $description;
     /** @var array */
     private $garages = [];
+    /** @var float */
+    private $maxGarageGoogleRating;
 
     /**
      * IndexableProUser constructor.
@@ -48,6 +50,7 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getDescription(),
             []
         );
+        $indexableProUser->maxGarageGoogleRating = -1;
         /** @var GarageProUser $garageMembership */
         foreach ($proApplicationUser->getGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
@@ -55,14 +58,25 @@ class IndexableProUser implements Indexable
                 'garageName' => $garage->getName(),
                 'garagePresentation' => $garage->getPresentation(),
                 'garageCityName' => $garage->getCity()->getName(),
-                'garageCityPostalCode' => $garage->getCity()->getPostalCode(),
-                'garageCityLatitude' => $garage->getCity()->getLatitude(),
-                'garageCityLongitude' => $garage->getCity()->getLongitude(),
+                'garageLocation' => [
+                    'lat' => $garage->getCity()->getLatitude(),
+                    'lon' => $garage->getCity()->getLongitude()
+                ],
                 'garageGoogleRating' => $garage->getGoogleRating()
             ];
             $indexableProUser->garages[] = $garageArray;
+            if ($indexableProUser->maxGarageGoogleRating < $garageArray['garageGoogleRating']) {
+                $indexableProUser->maxGarageGoogleRating = $garageArray['garageGoogleRating'];
+            }
         }
-
+        // Sort garages by Google Rating to help the function score in search query
+        uasort($indexableProUser->garages, function ($garage1, $garage2) {
+            if ($garage1['garageGoogleRating'] == $garage2['garageGoogleRating']) {
+                return 0;
+            }
+            // Décroissant
+            return ($garage1['garageGoogleRating'] < $garage2['garageGoogleRating']) ? 1 : -1;
+        });
         return $indexableProUser;
     }
 
@@ -87,7 +101,7 @@ class IndexableProUser implements Indexable
      */
     public function toArray(): array
     {
-        return [
+        $arr = [
             'type' => self::TYPE,
             'id' => $this->id,
             'firstName' => $this->firstName,
@@ -95,5 +109,9 @@ class IndexableProUser implements Indexable
             'description' => $this->description,
             'garages' => $this->garages
         ];
+        if($this->maxGarageGoogleRating > 0){
+            $arr['maxGaragesGoogleRating'] = $this->maxGarageGoogleRating;
+        }
+        return $arr;
     }
 }

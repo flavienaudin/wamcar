@@ -8,7 +8,7 @@
     {% endif %}
     {% set newQueryParam = {} %}
 
-    {% for key, value in app.request.query.all.search_vehicle %}
+    {% for key, value in app.request.query.all.search_pro %}
         {% if key in resetedFields|keys %}
             {% set newQueryParam = {(key):(resetedFields[key])}|merge(newQueryParam) %}
         {% else %}

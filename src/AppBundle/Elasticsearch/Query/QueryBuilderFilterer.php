@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Query;
 
 
 use AppBundle\Controller\Front\ProContext\SearchController;
+use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Filter\GeoDistanceFilter;
 use Novaway\ElasticsearchClient\Filter\InArrayFilter;
@@ -17,6 +18,7 @@ use Novaway\ElasticsearchClient\Query\MatchQuery;
 use Novaway\ElasticsearchClient\Query\PrefixQuery;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
 use Novaway\ElasticsearchClient\Score\FieldValueFactorScore;
+use Wamcar\Vehicle\Enum\DirectorySorting;
 use Wamcar\Vehicle\Enum\Sorting;
 
 class QueryBuilderFilterer
@@ -138,6 +140,87 @@ class QueryBuilderFilterer
                 [],
                 self::SORTING_DATE_DECAY_DECAY)
         );
+        return $queryBuilder;
+    }
+
+    public function getDirectoryProUserQueryBuilder(QueryBuilder $queryBuilder, SearchProDTO $searchProDTO): QueryBuilder
+    {
+        if (!empty($searchProDTO->text)) {
+            $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
+            $boolQuery->addClause(new MatchQuery('firstName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('lastName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('description', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+
+            $boolQuery->addClause(new MatchQuery('garages.garageName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('garages.garagePresentation', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
+
+            $queryBuilder->addQuery($boolQuery);
+        }
+
+        if (!empty($searchProDTO->cityName)) {
+            $radius = self::LOCATION_RADIUS_DEFAULT;
+            if (!empty($searchProDTO->radius)) {
+                $radius = $searchProDTO->radius;
+            }
+            $queryBuilder->addFilter(new GeoDistanceFilter('garages.garageLocation', $searchProDTO->latitude, $searchProDTO->longitude, $radius));
+        }
+
+        // sorting
+        $locationOffset = self::LOCATION_DECAY_OFFSET;
+        if (!empty($searchProDTO->radius)) {
+            $locationOffset = ($searchProDTO->radius / 2) . 'km';
+        }
+        switch ($searchProDTO->sorting) {
+            case DirectorySorting::DIRECTORY_SORTING_DISTANCE:
+                if (!empty($searchProDTO->cityName)) {
+                    $score = new DecayFunctionScore('garages.garageLocation',
+                        DecayFunctionScore::GAUSS, [
+                            'lat' => $searchProDTO->latitude,
+                            'lon' => $searchProDTO->longitude],
+                        $locationOffset,
+                        self::LOCATION_DECAY_SCALE, [
+                            'weight' => 10
+                        ]);
+                    $queryBuilder->addFunctionScore($score);
+                    break;
+                }
+            // default sorting by RELEVANCE below :
+            case DirectorySorting::DIRECTORY_SORTING_RELEVANCE:
+            default:
+                // Importance : 2
+                $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                    "maxGaragesGoogleRating",
+                    FieldValueFactorScore::NONE,
+                    1,
+                    1
+                ));
+
+                if (!empty($searchProDTO->cityName)) {
+                    // Importance : 1
+                    $queryBuilder->addFunctionScore(new DecayFunctionScore('location',
+                        DecayFunctionScore::GAUSS, [
+                            'lat' => $searchProDTO->latitude,
+                            'lon' => $searchProDTO->longitude],
+                        $locationOffset,
+                        self::LOCATION_DECAY_SCALE,
+                        ['weight' => 2] // Decay Function score € [0;1] x 3 => [0;3]*/
+                    ));
+                }
+
+                // Importance : 5
+                $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                    "_score",
+                    FieldValueFactorScore::SQUARE,
+                    1.5,
+                    1
+                ));
+                // Functions score combination
+                $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
+                // Query score and function score combination
+                $queryBuilder->setBoostMode(BoostMode::REPLACE);
+                break;
+        }
+
         return $queryBuilder;
     }
 

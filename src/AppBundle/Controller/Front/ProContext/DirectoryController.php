@@ -4,10 +4,10 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\SearchProType;
+use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,37 +18,43 @@ class DirectoryController extends BaseController
     protected $formFactory;
     /** @var SearchResultProvider */
     private $searchResultProvider;
-    /** @var DoctrineProUserRepository */
-    private $proUserRepository;
+    /** @var UserEditionService $userEditionService */
+    private $userEditionService;
 
     /**
      * SearchController constructor.
      * @param FormFactoryInterface $formFactory
      * @param SearchResultProvider $searchResultProvider ,
-     * @param DoctrineProUserRepository $proUserRepository
+     * @param UserEditionService $userEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         SearchResultProvider $searchResultProvider,
-        DoctrineProUserRepository $proUserRepository
+        UserEditionService $userEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->searchResultProvider = $searchResultProvider;
-        $this->proUserRepository = $proUserRepository;
-
+        $this->userEditionService = $userEditionService;
     }
 
-    public function viewAction(Request $request)
+    public function viewAction(Request $request, int $page = 1)
     {
-        $searchVehicleDTO = new SearchProDTO();
-        $searchProForm = $this->formFactory->create(SearchProType::class, $searchVehicleDTO, [
+        $searchProDTO = new SearchProDTO();
+        $searchProForm = $this->formFactory->create(SearchProType::class, $searchProDTO, [
             'action' => $this->generateRoute('front_directory_view')
         ]);
+        $searchProForm->handleRequest($request);
+        $result = $this->searchResultProvider->getQueryDirectoryProUserResult($searchProDTO, $page);
+
+        $proUserResult = $this->userEditionService->getUsersBySearchResult($result);
 
         return $this->render('front/Directory/view.html.twig', [
             'searchProForm' => $searchProForm->createView(),
+            'result' => $proUserResult,
             'filterData' => (array)$searchProForm->getData(),
+            'page' => $page,
+            'lastPage' => $result->numberOfPages()
         ]);
     }
 }
