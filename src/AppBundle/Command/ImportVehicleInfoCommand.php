@@ -102,6 +102,6 @@ class ImportVehicleInfoCommand extends BaseCommand
         $progress->finish();
 
         $this->logCRLF();
-        $this->log('success', sprintf('Done ! (%d)', $nbRefused));
+        $this->log('success', sprintf('Done ! (%d refused)', $nbRefused));
     }
 }
