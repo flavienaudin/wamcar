@@ -51,7 +51,7 @@ if ($searchTabs) {
 
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
-if ($makeSelect) {
+if ($makeSelect && $modelSelect) {
   let clearSelect = function (select) {
     let selectOptions = select.getElementsByTagName('OPTION');
     while (selectOptions.length > 0) {
