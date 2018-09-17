@@ -11,6 +11,7 @@ use AppBundle\Utils\RadiusChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -88,7 +89,9 @@ class SearchVehicleType extends AbstractType
                     'choices' => RadiusChoice::getListRadius(),
                     'data' => 50,
                     'error_bubbling' => true,
-                ]);
+                ])
+                ->add('tab', HiddenType::class)
+            ;
             if ($sortingField) {
                 $builder
                     ->add('sorting', ChoiceType::class, [

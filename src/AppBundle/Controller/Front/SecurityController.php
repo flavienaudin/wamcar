@@ -227,7 +227,7 @@ class SecurityController extends BaseController
                 return $this->redirect($redirectTo);
             } else {
                 $vehicleReplace = $request->get(RegistrationController::VEHICLE_REPLACE_PARAM);
-                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => UserController::TAB_PROJECT]) : $this->redirectToRoute('front_default');
+                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_project') : $this->redirectToRoute('front_default');
             }
         }
 

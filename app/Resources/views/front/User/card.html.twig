@@ -43,7 +43,7 @@
         {% endif %}
     {% endif %}
     {% if userIsMe %}
-        <a href="{{ path('front_edit_user_info_tab', {'tab': constant('AppBundle\\Controller\\Front\\PersonalContext\\UserController::TAB_PROJECT')}) }}" class="text-underline">Gérer mon projet</a>
+        <a href="{{ path('front_edit_user_project') }}" class="text-underline">Gérer mon projet</a>
     {% endif %}
 {% endblock %}
 

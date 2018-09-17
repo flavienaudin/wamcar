@@ -3,7 +3,7 @@
     <button class="small-right icon-close" data-toggle="js-off-canvas-user"><span class="show-for-sr">{{ 'global.button.close'|trans }}</span></button>
 </header>
 
-<div class="off-canvas-content off-canvas-separator">
+<div class="off-canvas-content-element off-canvas-separator">
     <div>
         <strong class="h3 black-color is-block">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</strong>
         <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
@@ -11,7 +11,7 @@
     </div>
 </div>
 
-<div class="off-canvas-content ">
+<div class="off-canvas-content-element">
     <strong class="h3 input-margin black-color is-block">{{ 'login_form.title'|trans({'%sitename%':site_name}, 'messages')}}</strong>
     <div class="input-margin">
         {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}

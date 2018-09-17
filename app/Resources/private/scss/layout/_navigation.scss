@@ -21,31 +21,29 @@
       padding: rem-calc(15) rem-calc(30);
     }
 
-    @include breakpoint(large) {
-      &:nth-child(2) { margin-right: rem-calc(10); }
-    }
-
-    @include breakpoint(xlarge) {
-      &:nth-child(2) { margin-right: rem-calc(15); }
-    }
-
-    /* Black color */
-
-    &.black-color {
+    &.margin-right {
       @include breakpoint(large) {
-        padding-right: rem-calc(9);
-        padding-left: rem-calc(9);
+        margin-right: rem-calc(10);
       }
 
       @include breakpoint(xlarge) {
-        padding-right: rem-calc(25);
-        padding-left: rem-calc(25);
+        margin-right: rem-calc(15);
       }
+    }
+
+    @include breakpoint(large) {
+      padding-right: rem-calc(9);
+      padding-left: rem-calc(9);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(25);
+      padding-left: rem-calc(25);
     }
 
     /* Body font color */
 
-    &.body-font-color {
+    &.l-header-button {
       @include breakpoint(large) {
         position: relative;
         padding-right: rem-calc(20);
@@ -63,8 +61,8 @@
       }
 
       @include breakpoint(xlarge) {
-        padding-right: rem-calc(40);
-        padding-left: rem-calc(40);
+        padding-right: rem-calc(30);
+        padding-left: rem-calc(30);
       }
     } // End &.body-font-color
 
@@ -88,12 +86,11 @@
         }
 
         @include breakpoint(xlarge) {
-          margin-right: rem-calc(20);
+          margin-right: rem-calc(10);
         }
       }
 
       &::after { content: none; }
-      &:nth-child(2) { margin-right: 0; }
     }
 
     /* Active state */

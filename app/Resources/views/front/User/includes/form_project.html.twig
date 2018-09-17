@@ -2,44 +2,39 @@
 
 {{ form_start(projectForm, {'attr': {'class': 'column', 'data-abide' : 'data-abide','novalidate' : 'novalidate'}}) }}
 
-<h2>Budget et recherche</h2>
-
 <div class="row small-12 align-justify">
     <div class="column small-12 medium-auto input-margin">
         {{ form_widget(projectForm.isFleet, {
-            'label': 'Votre recherche',
+            'label': 'user.project.field.isFleet.label'|trans,
             'required_class': '',
-            'list_class': '',
             'required': false,
             'required_class': 'show-for-sr',
         }) }}
     </div>
     <div class="column small-12 medium-shrink">
         {{ form_widget(projectForm.budget, {
-            'label': 'Budget global',
+            'label': 'user.project.field.budget.label'|trans,
             'required_class': '',
-            'list_class': '',
             'required': false,
             'required_class': 'show-for-sr',
-            'placeholder': 'Ex : 20 000 €'
+            'placeholder': 'user.project.field.budget.placeholder'|trans
         }) }}
     </div>
 </div>
 <div class="row small-12">
     <div class="column medium-6 input-margin">
-        <label for="{{ projectForm.postalCode.vars.name }}">Ville</label>
+        <label for="{{ projectForm.postalCode.vars.name }}">{{ 'user.project.field.city.label'|trans }}</label>
         {{ form_widget(projectForm.postalCode, {
             'label': false,
             'class': 'js-city-autocomplete',
             'required': true,
-            'required_message' : 'Vous devez saisir votre ville',
-            'required_class' : '',
+            'required_message' : 'user.project.field.city.required_message'|trans,
             'attr' : {
                 'data-autocomplete-url': path('front_city_autocomplete'),
                 'data-city-field': projectForm.cityName.vars.id,
                 'data-latitude-field': projectForm.latitude.vars.id,
                 'data-longitude-field': projectForm.longitude.vars.id,
-                'data-placeholder': 'Ville ou code postal'
+                'data-placeholder': 'user.project.field.city.placeholder'|trans
             }
         }) }}
 
@@ -48,22 +43,15 @@
 
 <div class="small-12">
     {{ form_widget(projectForm.description, {
-        'label': 'Description de votre recherche',
-        'required_class': '',
-        'list_class': '',
-        'class': 'no-margin',
+        'label': 'user.project.field.description.label'|trans,
+        'class': '',
         'required': false,
         'required_class': 'show-for-sr',
-        'placeholder': 'Decrivez votre recherche'
+        'placeholder': 'user.project.field.description.placeholder'|trans
     }) }}
 </div>
 
 <div class="small-12">
-    <h2 class="separator medium">Véhicule(s) recherché(s)</h2>
-    <p>Vous n’avez pas encore indiqué le ou les véhicules que vous recherchez actuellement. En ajoutant des véhicules,
-        vous avez l’assurance d’obtenir des offres de reprises étudiées spécialement pour vous par les professionnels
-        inscrits sur Wamcar.</p>
-
     <ul class="wish-list input-margin" id="js-project-list"
         data-prototype="{{ form_widget(projectForm.projectVehicles.vars.prototype)|e('html_attr') }}"
         data-fetch-url="{{ path('front_vehicle_registration_form_update') }}">
@@ -73,9 +61,9 @@
     </ul>
 </div>
 
-<button type="button" id="add-project-list" class="text-underline input-margin">Ajouter un souhait</button>
+<button type="button" id="add-project-list" class="text-underline input-margin">{{ 'user.project.field.projectVehicle.add'|trans }}</button>
 
 <div class="small-12 medium-6 large-3">
-    <button type="submit" class="button full-width">Enregistrer mes souhaits</button>
+    <button type="submit" class="button full-width">{{ 'user.project.field.submit'|trans }}</button>
 </div>
 {{ form_end(projectForm) }}

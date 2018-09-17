@@ -364,7 +364,7 @@
 {% block _project_projectVehicles_entry_widget %}
     {% set index = index|default('__name__') %}
     <li class="wish-item block-gray">
-        <label for="wish-1" class="wish-label black-color small-12">Souhait {{ index }}<a href="javascript:;" class="delete-project small-right">Supprimer ce souhait</a></label>
+        <label for="wish-1" class="wish-label black-color small-12">{{ 'user.project.field.projectVehicle.label'|trans }}&nbsp;{{ index }}<a href="javascript:;" class="delete-project small-right">{{ 'user.project.field.projectVehicle.remove'|trans }}</a></label>
         <div class="row small-12">
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.id) }}
@@ -387,7 +387,7 @@
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.yearMin, {
-                    'label': 'Année min',
+                    'label': 'user.project.field.projectVehicle.yearMin.label'|trans,
                     'class': '',
                     'required': false,
                     'required_class' : 'show-for-sr'
@@ -395,7 +395,7 @@
             </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(form.mileageMax, {
-                    'label': 'Km max',
+                    'label': 'user.project.field.projectVehicle.mileageMax.label'|trans,
                     'class': '',
                     'required' : false,
                     'required_class' : 'show-for-sr'
@@ -453,6 +453,29 @@
         {% endfor %}
     </ul>
 {%- endblock yesno_widget -%}
+
+
+{%- block checkbox_widget -%}
+    {% if switch is defined %}
+        {% set label = label|default(false) %}
+        {% set switch_class = switch_class|default('') %}
+        {% set switch_inners = switch_inners|default({}) %}
+        <div class="switch {{ switch_class }}">
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+
+            <label class="switch-paddle" for="{{ form.vars.id }}">
+                <span class="show-for-sr">{{ label }}</span>
+                {% for inner in switch_inners %}
+                    <span class="{{ loop.index0 is even ?'switch-active':'switch-inactive'}}" aria-hidden="true">{{ inner }}</span>
+                {% endfor %}
+            </label>
+        </div>
+    {% else %}
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endif %}
+{%- endblock checkbox_widget -%}
+
+
 
 {%- block star_widget -%}
     {% set class_field = class_field|default('') %}
@@ -545,7 +568,7 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-    <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
+        <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
     {% if loader is defined %}
         {% include 'front/Layout/includes/forms/loader.html.twig' %}
     {% endif %}

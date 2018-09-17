@@ -1,69 +1,67 @@
 {% form_theme searchForm ':front/Layout/includes/forms:fields.html.twig' %}
 
-{% macro filterAsTag(label, values, resetedFields, isUserPro) %}
+{% macro jsFilterAsTag(label, values, resetedFields) %}
     {% if values is iterable %}
         {% set values_str = values|join(', ') %}
     {% else %}
         {% set values_str = values %}
     {% endif %}
-    {% set newQueryParam = {} %}
 
-    {% for key, value in app.request.query.all.search_vehicle %}
-        {% if key in resetedFields|keys %}
-            {% set newQueryParam = {(key):(resetedFields[key])}|merge(newQueryParam) %}
-        {% else %}
-            {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
-        {% endif %}
-    {% endfor  %}
+    {% if resetedFields is iterable %}
+        {% set resetedFields_str = resetedFields|join(',') %}
+    {% else %}
+        {% set resetedFields_str = resetedFields %}
+    {% endif %}
 
-    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ isUserPro?path('front_search_tab_personal', {'search_vehicle': newQueryParam}):path('front_search_tab_pro', {'search_vehicle': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
+    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;
+        <a href="#" data-field-id="{{ resetedFields_str }}" class="white-color"><b>X</b></a></span>
 {% endmacro %}
 
 {% import _self as macro %}
 
 {% set form_criteria %}{% spaceless %}
     {% if filterData.text is not null %}
-        {{ macro.filterAsTag('search.common.field.text.label', filterData.text, {'text':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.text.label', filterData.text, searchForm.text.vars.id) }}
     {% endif %}
     {% if filterData.postalCode is not null and filterData.cityName is not null %}
-        {{ macro.filterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', {'postalCode':null,'cityName':null,'longitude':null,'latitude':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', [searchForm.postalCode.vars.id,searchForm.cityName.vars.id,searchForm.longitude.vars.id,searchForm.latitude.vars.id]) }}
         {% if filterData.radius is not null %}
-            {{ macro.filterAsTag('search.common.field.radius.label', filterData.radius~'km',{'radius':50}, isUserPro) }}
+            {{ macro.jsFilterAsTag('search.common.field.radius.label', filterData.radius~'km', searchForm.radius.vars.id~'=50') }}
         {% endif %}
     {% endif %}
 
     {% if filterData.make is not null %}
-        {{ macro.filterAsTag('vehicle.field.make.label', filterData.make,{'make':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('vehicle.field.make.label', filterData.make, [searchForm.make.vars.id, searchForm.model.vars.id]) }}
     {% endif %}
     {% if filterData.model is not null %}
-        {{ macro.filterAsTag('vehicle.field.model.label', filterData.model,{'model':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('vehicle.field.model.label', filterData.model,searchForm.model.vars.id) }}
     {% endif %}
     {% if filterData.mileageMax is not null %}
-        {{ macro.filterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,{'mileageMax':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.mileageMax.label', filterData.mileageMax,searchForm.mileageMax.vars.id) }}
     {% endif %}
     {% if filterData.yearsMin is not null %}
-        {{ macro.filterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,{'yearsMin':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.yearsMin.label', filterData.yearsMin,searchForm.yearsMin.vars.id) }}
     {% endif %}
     {% if filterData.yearsMax is not null %}
-        {{ macro.filterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,{'yearsMax':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.yearsMax.label', filterData.yearsMax,searchForm.yearsMax.vars.id) }}
     {% endif %}
     {% if filterData.budgetMin is not null %}
-        {{ macro.filterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,{'budgetMin':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.budgetMin.label', filterData.budgetMin,searchForm.budgetMin.vars.id) }}
     {% endif %}
     {% if filterData.budgetMax is not null %}
-        {{ macro.filterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,{'budgetMax':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.budgetMax.label', filterData.budgetMax,searchForm.budgetMax.vars.id) }}
     {% endif %}
     {% if filterData.transmission is not null %}
-        {{ macro.filterAsTag('search.common.field.transmission.label', filterData.transmission,{'transmission':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.transmission.label', filterData.transmission,searchForm.transmission.vars.id) }}
     {% endif %}
     {% if filterData.fuel is not null %}
-        {{ macro.filterAsTag('search.common.field.fuel.label', filterData.fuel,{'fuel':null}, isUserPro) }}
+        {{ macro.jsFilterAsTag('search.common.field.fuel.label', filterData.fuel,searchForm.fuel.vars.id) }}
     {% endif %}
 {% endspaceless %}{% endset %}
 
 <div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container" data-toggler=".is-hidden">
     {{ form_start(searchForm, {
-        'attr' : {'class' : 'search-form row','id' : 'js-search-form'}
+        'attr' : {'class' : 'search-form row', 'id':'js-search-form'}
     }) }}
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchForm.text, {

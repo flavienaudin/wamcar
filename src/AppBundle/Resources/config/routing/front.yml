@@ -1,17 +1,19 @@
 front_default:
     path: /
-    defaults:
-        _controller: AppBundle:Front\Default:homepage
+    controller: AppBundle:Front\Default:landingMixte
+
+# legacy
+front_landing_mixte:
+    path: /m
+    controller: AppBundle:Front\Default:landingMixte
+
+front_landing_reprise:
+    path: /reprise
+    controller: AppBundle:Front\Default:landingReprise
 
 front_landing_meeting:
     path: /rencontre
-    defaults:
-        _controller: AppBundle:Front\Default:landingMeeting
-
-front_landing_mixte:
-    path: /m
-    defaults:
-        _controller: AppBundle:Front\Default:landingMixte
+    controller: AppBundle:Front\Default:landingMeeting
 
 register_confirm:
     path: /inscription/confirmation
@@ -37,17 +39,14 @@ front_vehicle_registration:
         plateNumber: null
 
 front_edit_user_info:
-    path: /user-info
+    path: /mon-profil/edit
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:editInformations
 
-front_edit_user_info_tab:
-    path: /user-info/{tab}
+front_edit_user_project:
+    path: /mon-projet/edit
     defaults:
-        _controller: AppBundle:Front\PersonalContext\User:editInformations
-        tab: profile
-    requirements:
-        tab: profile|project
+        _controller: AppBundle:Front\PersonalContext\User:editProject
 
 front_view_current_user_info:
     path: /mon-profil
@@ -63,6 +62,10 @@ front_user_list:
     path: /user/list
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:list
+
+front_user_edit_preferences:
+    path: /preferences
+    controller: AppBundle:Front\PersonalContext\User:editPreferences
 
 front_garage_view:
     path: /garage/view/{id}
@@ -251,5 +254,4 @@ front_user_like_personal_vehicle:
 
 front_user_favorites_list:
     path: /user/favorites
-    defaults:
-        _controller: AppBundle:Front\ProContext\Favorite:view
+    controller: AppBundle:Front\ProContext\Favorite:view

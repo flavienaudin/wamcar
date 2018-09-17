@@ -31,3 +31,8 @@ services:
         tags:
             - { name: twig.extension }
         autowire: true
+
+    AppBundle\Twig\NotificationPlusExtension:
+        tags:
+            - { name: twig.extension }
+        autowire: true

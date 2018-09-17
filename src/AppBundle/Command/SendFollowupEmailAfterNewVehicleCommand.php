@@ -46,6 +46,7 @@ class SendFollowupEmailAfterNewVehicleCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $this->log('notice', 'Starting at '.date(\DateTime::ISO8601));
 
         $personals = $this->personalVehicleEditionService->findPersonalToRemind();
 
@@ -59,7 +60,8 @@ class SendFollowupEmailAfterNewVehicleCommand extends BaseCommand
         $progress->finish();
 
         $this->logCRLF();
-        $this->log('success', 'Done !');
+        $this->log('success', 'Done at : ' . date(\DateTime::ISO8601));
+        $this->logCRLF();
     }
 
 }

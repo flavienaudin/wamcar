@@ -1,0 +1,68 @@
+/* ===========================================================================
+   Notification
+   =========================================================================== */
+
+.notification {
+
+  &-container {
+    ul {
+      margin-left: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      padding: 0.5rem;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $border-color;
+      }
+
+      &:hover .notification-right-actions {
+        visibility: visible;
+      }
+
+      small {
+        font-size: 0.80rem;
+      }
+    }
+
+    .has-tip {
+      border-bottom: none;
+      cursor: pointer;
+    }
+  }
+
+  &-right-actions {
+    visibility: hidden;
+  }
+
+  &-seen {
+    background-color: transparent;
+
+    .notification-mark-as-seen {
+      display: none;
+    }
+  }
+
+  &-unseen {
+    background-color: #f7f7f7;
+
+    .notification-mark-as-unseen {
+      display: none;
+    }
+  }
+
+  &-picture {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: rem-calc(60);
+    height: rem-calc(60);
+    margin-right: 0.5rem;
+
+    > img {
+      border-radius: 50%;
+      max-height: 100%;
+    }
+  }
+}

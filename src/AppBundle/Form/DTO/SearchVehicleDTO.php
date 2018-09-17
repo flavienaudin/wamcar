@@ -37,5 +37,7 @@ class SearchVehicleDTO
     public $fuel;
     /** @var string */
     public $sorting;
+    /** @var string */
+    public $tab;
 
 }

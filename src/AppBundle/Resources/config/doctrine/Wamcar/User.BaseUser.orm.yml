@@ -73,6 +73,10 @@ Wamcar\User\BaseUser:
                 name: avatar_id
                 referencedColumnName: id
             cascade: ["persist", "merge", "remove"]
+        preferences:
+            targetEntity: AppBundle\Doctrine\Entity\UserPreferences
+            mappedBy: user
+            cascade: ["persist","merge","remove"]
 
     oneToMany:
         conversationUsers:
@@ -87,4 +91,7 @@ Wamcar\User\BaseUser:
             targetEntity: Wamcar\User\BaseLikeVehicle
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+                updatedAt: "desc"
+
 

@@ -2,6 +2,10 @@ front:
     resource: "routing/front.yml"
     prefix: /
 
+notifications:
+    resource: "routing/notifications.yml"
+    prefix: /notifications/
+
 static:
     resource: "routing/static.yml"
     prefix: /
@@ -12,6 +16,10 @@ api:
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.yaml"
+
+jmose_command_scheduler:
+    resource: "@JMoseCommandSchedulerBundle/Resources/config/routing.yml"
+    prefix:   /
 
 # Security processes
 security_login_page:

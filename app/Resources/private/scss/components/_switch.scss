@@ -1,0 +1,20 @@
+/* ===========================================================================
+   Switch
+   =========================================================================== */
+
+.switch {
+
+  &-inactive,
+  &-active {
+    color: white;
+    margin-left: rem-calc(5);
+  }
+
+  &-right-label {
+    margin-left: 1rem;
+  }
+
+  &-left-label {
+    margin-right: 1rem;
+  }
+}

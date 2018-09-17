@@ -3,11 +3,13 @@
 namespace Wamcar\User;
 
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Doctrine\Entity\UserPreferences;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 abstract class BaseUser
 {
@@ -43,6 +45,8 @@ abstract class BaseUser
     protected $twitterAccessToken;
     /** @var Collection */
     protected $likes;
+    /** @var UserPreferences */
+    protected $preferences;
 
     /**
      * User constructor.
@@ -64,6 +68,7 @@ abstract class BaseUser
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->preferences = new UserPreferences($this);
     }
 
     /**
@@ -132,7 +137,7 @@ abstract class BaseUser
      */
     public function getCity(): ?City
     {
-        return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty()? $this->getUserProfile()->getCity() : null);
+        return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty() ? $this->getUserProfile()->getCity() : null);
     }
 
     /**
@@ -413,6 +418,26 @@ abstract class BaseUser
     public function isPersonal(): bool
     {
         return $this->getType() === PersonalUser::TYPE;
+    }
+
+    /**
+     * @return UserPreferences|null
+     */
+    public function getPreferences(): ?UserPreferences
+    {
+        return $this->preferences;
+    }
+
+    public function updatePreferences(
+        bool $privateMessageEmailEnabled,
+        bool $likeEmailEnabled,
+        NotificationFrequency $privateMessageEmailFrequency,
+        NotificationFrequency $likeEmailFrequency): void
+    {
+        $this->getPreferences()->setPrivateMessageEmailEnabled($privateMessageEmailEnabled);
+        $this->getPreferences()->setPrivateMessageEmailFrequency($privateMessageEmailFrequency);
+        $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
+        $this->getPreferences()->setLikeEmailFrequency($likeEmailFrequency);
     }
 
     /**

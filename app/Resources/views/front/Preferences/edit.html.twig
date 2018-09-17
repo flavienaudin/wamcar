@@ -1,0 +1,17 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ 'user.preference.page_title'|trans }}{% endblock %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <div class="row">
+        {% include "front/Preferences/includes/form.html.twig" %}
+    </div>
+
+{% endblock body %}

@@ -7,12 +7,18 @@ use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Mgilet\NotificationBundle\Annotation\Notifiable;
+use Mgilet\NotificationBundle\NotifiableInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential, CanBeInConversation
+/**
+ * Class ProApplicationUser
+ * @package AppBundle\Doctrine\Entity
+ * @Notifiable(name="ProApplicationUser")
+ */
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential, CanBeInConversation, NotifiableInterface
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
@@ -86,8 +92,8 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function isMemberOfGarage(Garage $garage): bool
     {
         /** @var GarageProUser $garageMembership */
-        foreach($this->garageMemberships as $garageMembership){
-            if($garageMembership->getGarage() === $garage){
+        foreach ($this->garageMemberships as $garageMembership) {
+            if ($garageMembership->getGarage() === $garage) {
                 return true;
             }
         }

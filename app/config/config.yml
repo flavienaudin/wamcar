@@ -86,14 +86,15 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
         types:
-            uuid:  Ramsey\Uuid\Doctrine\UuidType
-            usertitle:  AppBundle\Doctrine\Type\UserTitleType
-            vehicletransmission:  AppBundle\Doctrine\Type\VehicleTransmissionType
-            vehiclemaintenancestate:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
-            vehiclesafetyteststate:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
-            vehicleguarantee:  AppBundle\Doctrine\Type\GuaranteeType
-            vehiclefunding:  AppBundle\Doctrine\Type\FundingType
-            vehicletimingbeltstate:  AppBundle\Doctrine\Type\VehicleTimingBeltStateType
+            uuid: Ramsey\Uuid\Doctrine\UuidType
+            usertitle: AppBundle\Doctrine\Type\UserTitleType
+            vehicletransmission: AppBundle\Doctrine\Type\VehicleTransmissionType
+            vehiclemaintenancestate: AppBundle\Doctrine\Type\VehicleMaintenanceStateType
+            vehiclesafetyteststate: AppBundle\Doctrine\Type\VehicleSafetyTestStateType
+            vehicleguarantee: AppBundle\Doctrine\Type\GuaranteeType
+            vehiclefunding: AppBundle\Doctrine\Type\FundingType
+            vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
+            notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -115,6 +116,11 @@ doctrine:
                 is_bundle: false
                 prefix: AppBundle
                 alias: AppBundle
+            MgiletNotificationBundle:
+                type: annotation
+                is_bundle: true
+            JMoseCommandSchedulerBundle: ~
+
         dql:
             string_functions:
                 field: DoctrineExtensions\Query\Mysql\Field
@@ -340,3 +346,10 @@ hwi_oauth:
                 include_email: true
             paths:
                 firstname: name
+
+jmose_command_scheduler:
+    # receivers for reporting mails
+    monitor_mail: ['%admin_email%']
+
+    # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
+    send_ok: true
