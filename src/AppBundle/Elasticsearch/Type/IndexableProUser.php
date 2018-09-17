@@ -23,6 +23,8 @@ class IndexableProUser implements Indexable
     private $garages = [];
     /** @var float */
     private $maxGarageGoogleRating;
+    /** @var (Role|string)[] */
+    private $roles;
 
     /**
      * IndexableProUser constructor.
@@ -32,13 +34,14 @@ class IndexableProUser implements Indexable
      * @param null|string $description
      * @param array|null $garages
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [])
+    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], array $roles = [])
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->description = $description;
         $this->garages = $garages;
+        $this->roles = $roles;
     }
 
     public static function createFromProApplicationUser(ProApplicationUser $proApplicationUser): IndexableProUser
@@ -48,7 +51,8 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getFirstName(),
             $proApplicationUser->getLastName(),
             $proApplicationUser->getDescription(),
-            []
+            [],
+            $proApplicationUser->getRoles()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
         /** @var GarageProUser $garageMembership */
@@ -93,7 +97,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return true;
+        return !in_array('ROLE_ADMIN', $this->roles);
     }
 
     /**
