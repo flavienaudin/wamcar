@@ -23,6 +23,15 @@ $directory-item-min-height : 182;
         background-color: white;
       }
     }
+
+    .search-filter {
+      background-color: $dark-blue;
+      border-color: $dark-blue;
+
+      a:hover {
+        color: $black;
+      }
+    }
   }
 
   &-result {
