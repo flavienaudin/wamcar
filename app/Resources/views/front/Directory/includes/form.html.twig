@@ -1,41 +1,39 @@
 {% form_theme searchProForm ':front/Layout/includes/forms:fields.html.twig' %}
 
-{% macro filterAsTag(label, values, resetedFields) %}
+{% macro jsFilterAsTag(label, values, resetedFields) %}
     {% if values is iterable %}
         {% set values_str = values|join(', ') %}
     {% else %}
         {% set values_str = values %}
     {% endif %}
-    {% set newQueryParam = {} %}
 
-    {% for key, value in app.request.query.all.search_pro %}
-        {% if key in resetedFields|keys %}
-            {% set newQueryParam = {(key):(resetedFields[key])}|merge(newQueryParam) %}
-        {% else %}
-            {% set newQueryParam = {(key):(value)}|merge(newQueryParam) %}
-        {% endif %}
-    {% endfor  %}
+    {% if resetedFields is iterable %}
+        {% set resetedFields_str = resetedFields|join(',') %}
+    {% else %}
+        {% set resetedFields_str = resetedFields %}
+    {% endif %}
 
-    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;<a href="{{ path('front_directory_view', {'search_pro': newQueryParam}) }}" class="white-color"><b>X</b></a></span>
+    <span class="search-filter">{{ label|trans }}&nbsp;:&nbsp;{{ values_str }}&nbsp;&nbsp;
+        <a href="#" data-field-id="{{ resetedFields_str }}" class="white-color"><b>X</b></a></span>
 {% endmacro %}
 
 {% import _self as macro %}
 
 {% set form_criteria %}{% spaceless %}
     {% if filterData.text is not null %}
-        {{ macro.filterAsTag('directory.field.text.label', filterData.text, {'text':null}) }}
+        {{ macro.jsFilterAsTag('directory.field.text.label', filterData.text, searchProForm.text.vars.id) }}
     {% endif %}
     {% if filterData.postalCode is not null and filterData.cityName is not null %}
-        {{ macro.filterAsTag('directory.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', {'postalCode':null,'cityName':null,'longitude':null,'latitude':null}) }}
+        {{ macro.jsFilterAsTag('directory.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', [searchProForm.postalCode.vars.id,searchProForm.cityName.vars.id,searchProForm.longitude.vars.id,searchProForm.latitude.vars.id]) }}
         {% if filterData.radius is not null %}
-            {{ macro.filterAsTag('directory.field.radius.label', filterData.radius~'km',{'radius':50}) }}
+            {{ macro.jsFilterAsTag('directory.field.radius.label', filterData.radius~'km', searchProForm.radius.vars.id~'=50') }}
         {% endif %}
     {% endif %}
 {% endspaceless %}{% endset %}
 
 <div class="directory-form-container">
     {{ form_start(searchProForm, {
-        'attr' : {'class' : 'search-form row'}
+        'attr' : {'class' : 'search-form row', 'id':'js-search-form'}
     }) }}
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchProForm.text, {
