@@ -2,32 +2,30 @@
 
 <article class="directory-item">
     <div class="small-12 medium-8 is-flex">
-        <div class="directory-item-user-picture is-flex align-middle">
-            <a href="{{ sellerUrl }}"><img src="{{ proUser.avatar|avatar('user_thumbnail') }}"
-                                           alt="{{ proUser.fullName }}"></a>
-        </div>
-        <div class="directory-item-user-info overflow-hidden full-width">
-            <h2 class="is-flex align-justify">
-                <a href="{{ sellerUrl }}"><span class="dark-gray-color">{{ proUser.fullName }}</span></a>
-                <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"><span class="icon-message"></span></a>
-            </h2>
+        <a href="{{ sellerUrl }}" class="directory-item-user-picture  is-flex align-middle">
+            <img src="{{ proUser.avatar|avatar('user_thumbnail') }}" alt="{{ proUser.fullName }}">
+        </a>
+        <a href="{{ sellerUrl }}" class="directory-item-user-info overflow-hidden full-width">
+            <h2 class="dark-gray-color">{{ proUser.fullName }}</h2>
             <p>{{ proUser.description|nl2br }}</p>
+        </a>
+        <div class="directory-item-action is-flex align-middle">
+            <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"><span class="icon-message"></span></a>
         </div>
     </div>
     <div class="small-12 medium-4">
         <div class="directory-item-garages">
             {% set userGarages = proUser.garagesOrderByGoogleRating %}
             {% for garageProUser in userGarages|slice(0,1) %}
-                <div class="directory-item-garage">
-                    {% set garage = garageProUser.garage %}
-                    <h3><a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="dark-gray-color">
-                            {{ garage.name }}</a></h3>
-                    <span>{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>
+                {% set garage = garageProUser.garage %}
+                <a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="directory-item-garage is-block">
+                    <h3 class="dark-gray-color"> {{ garage.name }}</h3>
+                    <span class="body-font-color">{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>
                     {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
                         poweredByGoogleDisplay : true,
                         garageRating : garage.googleRating|default(null)
                     }) }}
-                </div>
+                </a>
             {% else %}
                 <div class="directory-item-garage">
                     <p>{{ 'directory.result.no_garage'|trans }}</p>

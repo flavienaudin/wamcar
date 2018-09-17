@@ -92,6 +92,7 @@ $directory-item-min-height : 182;
     &-user-info {
       margin-bottom: rem-calc(5);
       margin-left: rem-calc(5);
+      margin-right: rem-calc(5);
       height: 100%;
       max-height: rem-calc($directory-item-min-height - 22);
       overflow-y: hidden;
@@ -101,6 +102,7 @@ $directory-item-min-height : 182;
         margin-left: rem-calc(10);
         margin-right: rem-calc(10);
       }
+
       h2 {
         margin-bottom: rem-calc(10);
         > a > span.icon-message {
@@ -110,9 +112,37 @@ $directory-item-min-height : 182;
 
       p {
         margin-bottom: rem-calc(10);
+        color: $body-font-color;
         text-align: justify;
         max-height: rem-calc($directory-item-min-height - 62);
         overflow-y: auto;
+      }
+    }
+
+    &-action {
+      margin-top: rem-calc(-10);
+      margin-right: rem-calc(-10);
+
+      font-size: rem-calc(20);
+      background-color: $dark-blue;
+
+      @include breakpoint(medium){
+        margin-bottom: rem-calc(-10);
+        margin-right: 0;
+      }
+
+      a {
+        color: $white;
+        padding-left: rem-calc(16);
+        padding-right: rem-calc(16);
+
+        &:hover {
+          color: $primary-color;
+        }
+
+        .icon-message::before {
+            margin-right: 0;
+        }
       }
     }
 
