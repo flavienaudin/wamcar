@@ -28,7 +28,7 @@
     <div class="block-gray">
         {% include 'front/Search/includes/form.html.twig' %}
         <div class="search-tabs row">
-            <ul id="js-search-tabs" class="tabs">
+            <ul id="js-search-tabs" class="tabs" data-tabs>
                 <li class="tabs-title {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL') %}is-active{% endif %}" data-tab="{{ constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL') }}">
                     <a href="#js-search-all" {% if tab == constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL') %}aria-selected="true"{% endif %}>{{ 'search.common.tab.all'|trans }} <small>({{ result[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')].totalHits }})</small></a>
                 </li>
