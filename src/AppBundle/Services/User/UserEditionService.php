@@ -4,6 +4,7 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Doctrine\Entity\UserPreferences;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
@@ -11,6 +12,7 @@ use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
@@ -19,7 +21,9 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProjectRepository;
+use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -40,6 +44,8 @@ class UserEditionService
     private $personalVehicleRepository;
     /** @var ProVehicleRepository */
     private $proVehicleRepository;
+    /** @var UserPreferencesRepository */
+    private $userPreferencesRepository;
 
     /**
      * UserEditionService constructor.
@@ -50,6 +56,7 @@ class UserEditionService
      * @param ProjectRepository $projectRepository
      * @param PersonalVehicleRepository $personalVehicleRepository
      * @param ProVehicleRepository $proVehicleRepository
+     * @param UserPreferencesRepository $userPreferencesRepository
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
@@ -58,7 +65,8 @@ class UserEditionService
         ProjectFromDTOBuilder $projectBuilder,
         ProjectRepository $projectRepository,
         PersonalVehicleRepository $personalVehicleRepository,
-        ProVehicleRepository $proVehicleRepository
+        ProVehicleRepository $proVehicleRepository,
+        UserPreferencesRepository $userPreferencesRepository
     )
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -68,6 +76,7 @@ class UserEditionService
         $this->projectRepository = $projectRepository;
         $this->personalVehicleRepository = $personalVehicleRepository;
         $this->proVehicleRepository = $proVehicleRepository;
+        $this->userPreferencesRepository = $userPreferencesRepository;
     }
 
     /**
@@ -207,5 +216,22 @@ class UserEditionService
             }
         }
         return $result;
+    }
+
+    /**
+     * @param BaseUSer $user
+     * @param UserPreferencesDTO $userPreferencesDTO
+     */
+    public function editPreferences(BaseUser $user, UserPreferencesDTO $userPreferencesDTO)
+    {
+        $user->updatePreferences(
+            $userPreferencesDTO->isPrivateMessageEmailEnabled(),
+            $userPreferencesDTO->isLikeEmailEnabled(),
+            NotificationFrequency::IMMEDIATELY()
+            /* TODO Désactivé v1 : $userPreferencesDTO->getPrivateMessageEmailFrequency()*/,
+            $userPreferencesDTO->getLikeEmailFrequency()
+        );
+
+        $this->userPreferencesRepository->update($user->getPreferences());
     }
 }

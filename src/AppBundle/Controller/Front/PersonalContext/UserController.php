@@ -13,20 +13,23 @@ use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
+use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
@@ -107,6 +110,8 @@ class UserController extends BaseController
      */
     public function editInformationsAction(Request $request): Response
     {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+
         /** @var ApplicationUser $user */
         $user = $this->getUser();
 
@@ -304,7 +309,7 @@ class UserController extends BaseController
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage_create');
                     return $this->redirectToRoute('front_view_current_user_info');
                 } else {
-                    // TODO Transmettre les données de la rechercehe Google Api pour pré-remplir le formulaire
+                    // TODO Transmettre les données de la recherche Google Api pour pré-remplir le formulaire
                     return $this->redirectToRoute('front_garage_create');
                 }
             }
@@ -320,18 +325,14 @@ class UserController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * security.yml - access_control : ROLE_ADMIN only
+     * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedHttpException('Only admin can access user listing');
-        }
-
         $personalUsers = $this->personalUserRepository->findBy([], ['createdAt' => 'DESC']);
 
         $proUsers = $this->proUserRepository->findBy([], ['createdAt' => 'DESC']);
-
 
         return $this->render("front/adminContext/user/user_list.html.twig", [
             'personalUsers' => $personalUsers,
@@ -340,7 +341,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     protected function createAvatarForm()
     {
@@ -354,5 +355,32 @@ class UserController extends BaseController
             UserAvatarType::class,
             $userInformationDTO
         );
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function editPreferencesAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+
+        $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
+        $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
+        $userPreferenceForm->handleRequest($request);
+        if ($userPreferenceForm->isSubmitted() && $userPreferenceForm->isValid()) {
+
+            $this->userEditionService->editPreferences($this->getUser(), $userPreferenceDTO);
+
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user_preferences_edit'
+            );
+
+            return $this->redirectToRoute('front_user_edit_preferences');
+        }
+
+        return $this->render('front/Preferences/edit.html.twig', [
+            'userPreferenceForm' => $userPreferenceForm->createView()
+        ]);
     }
 }

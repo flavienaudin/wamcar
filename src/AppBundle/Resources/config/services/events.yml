@@ -103,7 +103,7 @@ services:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfAddingPicturesToVehicle
         arguments:
-          - sell.adding_pictures_to_vehicle_notification
+            - sell.adding_pictures_to_vehicle_notification
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification, method: notify }
 
@@ -111,14 +111,24 @@ services:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfMessageCreated
         arguments:
-          - message_created
+            - message_created
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
+
+    wamcar.event.user_like_vehicle:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\Notifications\LikeNotificationsHandler
+        arguments:
+            $type: new_like_vehicle
+            $notificationsManager: '@mgilet.notification'
+            $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
     googleApi.event.place_detail_error:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
         arguments:
-          $type: place_detail_error
+            $type: place_detail_error
         tags:
             - { name: event_subscriber, subscribes_to: \GoogleApi\Event\PlaceDetailError, method: notify }

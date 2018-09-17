@@ -33,6 +33,7 @@ import './components/star';
 import './components/radio';
 import './components/project';
 import './components/avatar';
+import './components/notification';
 import {activeClass} from './settings/settings.js';
 
 Reveal.defaults.animationIn = 'slide-in-down';
@@ -107,7 +108,11 @@ $(function () {
     };
 
     $magellan.each((index, magellan) => {
-      return new Magellan($(magellan), options);
+      let $currentMagellan = new Magellan($(magellan), options);
+      if(window.location.hash) {
+        $(magellan).foundation('scrollToLoc', window.location.hash);
+      }
+      return $currentMagellan;
     });
   }
 

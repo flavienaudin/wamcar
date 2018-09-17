@@ -454,6 +454,29 @@
     </ul>
 {%- endblock yesno_widget -%}
 
+
+{%- block checkbox_widget -%}
+    {% if switch is defined %}
+        {% set label = label|default(false) %}
+        {% set switch_class = switch_class|default('') %}
+        {% set switch_inners = switch_inners|default({}) %}
+        <div class="switch {{ switch_class }}">
+            <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+
+            <label class="switch-paddle" for="{{ form.vars.id }}">
+                <span class="show-for-sr">{{ label }}</span>
+                {% for inner in switch_inners %}
+                    <span class="{{ loop.index0 is even ?'switch-active':'switch-inactive'}}" aria-hidden="true">{{ inner }}</span>
+                {% endfor %}
+            </label>
+        </div>
+    {% else %}
+        <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+    {% endif %}
+{%- endblock checkbox_widget -%}
+
+
+
 {%- block star_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}
@@ -545,7 +568,7 @@
             {% set label = name|humanize %}
         {%- endif -%}
     {%- endif -%}
-    <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
+        <button type="{{ type|default('button') }}" class="{{ class }}" {{ block('button_attributes') }}>
     {% if loader is defined %}
         {% include 'front/Layout/includes/forms/loader.html.twig' %}
     {% endif %}

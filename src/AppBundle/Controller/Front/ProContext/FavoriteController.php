@@ -4,7 +4,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\HttpFoundation\Response;
 
 class FavoriteController extends BaseController
 {
@@ -12,12 +12,12 @@ class FavoriteController extends BaseController
     const FAVORITES_PRO = 'pro';
     const FAVORITES_PERSONAL = 'personal';
 
+    /**
+     * security.yml - access_control : ROLE_USER required
+     * @return Response
+     */
     public function viewAction()
     {
-        if (!$this->isUserAuthenticated()) {
-            throw new AccessDeniedException();
-        }
-
         return $this->render('front/Favorites/user_favorites.html.twig', [
             'user_likes' => $this->getUser()->getPositiveLikes()
         ]);

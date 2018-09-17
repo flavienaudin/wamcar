@@ -19,9 +19,13 @@ imports:
     - { resource: search.yml }
 
 services:
-
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+    twig.extension.date:
+        class: Twig_Extensions_Extension_Date
+        arguments: ["@translator"]
         tags:
             - { name: twig.extension }
 
@@ -76,6 +80,7 @@ services:
             - '@AppBundle\Doctrine\Repository\ProjectRepository'
             - '@Wamcar\Vehicle\PersonalVehicleRepository'
             - '@Wamcar\Vehicle\ProVehicleRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true
@@ -117,3 +122,5 @@ services:
         class: AppBundle\Services\Vehicle\VehicleEditionService
         autowire: true
 
+    AppBundle\Services\Notification\NotificationManagerExtended:
+        autowire: true

@@ -35,6 +35,18 @@
 /*
    Icon list
    ===================================== */
+.icon-circle-o:before {
+  content: "\f10c";
+}
+.icon-circle:before {
+  content: "\f111";
+}
+.icon-bell-o:before {
+  content: "\f0a2";
+}
+.icon-bell:before {
+  content: "\f0f3";
+}
 .icon-ellipsis-h:before {
   content: "\f141";
 }

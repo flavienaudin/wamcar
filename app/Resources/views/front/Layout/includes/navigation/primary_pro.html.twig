@@ -63,8 +63,7 @@
 
 {% block navigation %}
     {% for item in navigation_items %}
-        <a href="{{ item.slug }}"
-           class="l-navigation-item is-logged {{ item.current ? 'is-active' : '' }} l-header-button icon-{{ item.icon }} body-font-color l-header-button {{ item.submenu is defined?"float-left" }}"
+        <a href="{{ item.slug }}" class="l-navigation-item is-logged {{ item.current ? 'is-active' : '' }} l-header-button icon-{{ item.icon }} {{ item.submenu is defined?"float-left" }}"
            {% if item.submenu is defined %}data-toggle="header_garage_list"{% endif %}>
             {% if (item.showCountMessage ?? false) and (nbUnreadMessages > 0) %}
                 <span class="messages-notification">{{ nbUnreadMessages }}</span>

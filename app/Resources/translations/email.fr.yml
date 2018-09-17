@@ -3,6 +3,12 @@ email:
   signature: >
       Merci,<br>
       L'équipe Wamcar
+  footer:
+      legal: >
+          Ce mail vous est envoyé par Wamcar. Conformément à la loi informatique et libertés du 6 janvier 1978,
+          vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.
+      manage_preference: "Pour gérer vos notifications par e-mails, <a  href=\"%edit_preference_url%\">éditer vos préférences</a>."
+      copyright: "&copy;2018 Wamcar. Tous droits réservés."
 
 notifyUserOfRegistrationTokenGenerated:
     object: "Confirmez votre adresse e-mail - Wamcar"
@@ -55,6 +61,17 @@ notifyUserOfMessageCreated:
         <p>Vous avez reçu un nouveau message de %messageAuthorName%</p>
         <p>%message%</p>
     action_label: Répondre
+
+notifyUserOfLikeVehicle:
+    object: "Nouveau like sur votre annonce %annonceTitle%"
+    body: >
+        <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
+    action_label: Voir
+
+unseenNotificationsDailyDigest:
+    object: "Quoi de neuf sur votre Wamcar ?"
+    body: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles noficiations sur Wamcar.</p>"
+    action_label: Voir
 
 notifyAdminOfGoogleApiReturn:
     object: "Wamcar ADMIN-Google API Return Error"

@@ -42,7 +42,7 @@
 // @include foundation-slider;
 // @include foundation-sticky;
 @include foundation-reveal;
-// @include foundation-switch;
+@include foundation-switch;
 @include foundation-table;
 // @include foundation-tabs;
 // @include foundation-thumbnail;
@@ -52,7 +52,10 @@
 @include foundation-visibility-classes;
 // @include foundation-float-classes;
 @include foundation-flex-classes;
-// @include foundation-prototype-classes;
+//@include foundation-prototype-classes;
+// Only prototype spacing
+@include foundation-prototype-spacing;
+
 @include motion-ui-transitions;
 // @include motion-ui-animations;
 
@@ -167,4 +170,6 @@
 @import "components/dropdown";
 @import "components/dropdown-menu";
 @import "components/youtube";
+@import "components/notification";
+@import "components/switch";
 // Only on last

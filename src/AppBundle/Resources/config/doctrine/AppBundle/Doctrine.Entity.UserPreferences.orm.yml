@@ -1,0 +1,29 @@
+AppBundle\Doctrine\Entity\UserPreferences:
+
+    type: entity
+    table: user_preferences
+
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository
+
+    id:
+        user:
+            associationKey: true
+
+    fields:
+        privateMessageEmailEnabled:
+            type: boolean
+        privateMessageEmailFrequency:
+            type: notificationfrequency
+        likeEmailEnabled:
+              type: boolean
+        likeEmailFrequency:
+            type: notificationfrequency
+
+
+    oneToOne:
+        user:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: preferences
+            joinColumn:
+                name: user_id
+                referencedColumnName: id

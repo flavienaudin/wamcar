@@ -1,0 +1,19 @@
+<div class="dropdown-pane-header is-flex">
+    <span class="black-color"><b>{{ 'notifications.dropdown-pane.title'|trans }}</b></span>
+    <a href="{{ path('front_user_edit_preferences') }}" class="primary-color small-right">{{ 'notifications.dropdown-pane.parameters'|trans }}</a>
+</div>
+<div class="dropdown-pane-body">
+    <div class="notification-container">
+        <ul class="no-bullet">
+            {% for item in notificationList %}
+                {{ include('front/Notifications/includes/notification_li.html.twig', {'notification':item}) }}
+            {% else %}
+                <li class="block-border">{{ 'notifications.zero_notification'|trans }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="dropdown-pane-footer text-center">
+    <a href="{{ mgilet_notification_generate_path('notification_list', app.user) }}"
+       class="primary-color"><b>{{ 'notifications.dropdown-pane.view_all'|trans }}</b></a>
+</div>

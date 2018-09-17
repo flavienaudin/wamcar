@@ -1,6 +1,7 @@
 flash:
   success:
     user_edit: Les modifications de votre profil ont été enregistrées.
+    user_preferences_edit: Vos préférences ont été enregistrées.
     remove_garage: La suppression de votre garage est enregistrée.
     garage_create: Votre garage est bien enregistré.
     garage_edit: Les modifications de votre garage ont été enregistrées.
@@ -27,10 +28,13 @@ flash:
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    notification:
+      unauthorized: Cette notification ne vous est pas destinée.
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+
 
 global:
   yes: Oui
@@ -661,6 +665,21 @@ user:
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
     add: Ajouter un garage
 
+  preference:
+    page_title: Mes préférences
+    title:
+        notifications: Activation des notifications
+    common:
+      enabled: Activté
+      disabled: Désactivé
+      email_send: Par email
+      notification_frequency: Fréquence d'envoi
+    field:
+      privateMessage:
+        label: Quand on vous envoit un message privé
+      like:
+        label: Quand on like votre annonce
+
 conversation:
   list:
     unread-messages: '{0,1} %n% message non lu|[2,Inf[ %n% messages non lus'
@@ -689,6 +708,21 @@ favorites:
   my_favorites: Mes likes
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
+
+notifications:
+  page_title: Vos notifications
+  zero_notification: Vous n'avez pas de notification
+  parameters: Paramètres de notification
+  mark_all_as_seen: Marquer toutes comme lues
+  mark_as_seen: Marquer comme lue
+  mark_as_unseen: Marquer comme non lue
+  dropdown-pane:
+    title: Notifications
+    parameters: Paramètres
+    view_all: Voir tout
+  message:
+    personal_like_vehicle: <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
+    pro_like_vehicle: Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
 
 form:
   picture:

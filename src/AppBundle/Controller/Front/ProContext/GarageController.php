@@ -74,15 +74,11 @@ class GarageController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
-        if (!$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
-            throw new AccessDeniedHttpException('Only admin can access garage listing');
-        }
-
         $lastGarages = $this->garageRepository->getLatest();
 
         return $this->render('front/adminContext/garage/garage_list.html.twig', [

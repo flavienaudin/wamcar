@@ -14,6 +14,7 @@ use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\ProLikeVehicle;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
@@ -214,5 +215,6 @@ class ProVehicleEditionService
             $this->likeProVehicleRepository->update($like);
         }
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
+        $this->eventBus->handle(new UserLikeVehicleEvent($like));
     }
 }
