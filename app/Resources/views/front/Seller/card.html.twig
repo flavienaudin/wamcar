@@ -143,7 +143,7 @@
                   codePostal = place.address_components[i]['short_name'];
                   break;
                 case 'locality':
-                  cityName = place.address_components[i]['short_name'];
+                  cityName = (place.address_components[i]['short_name']).toUpperCase();
                   break;
               }
             }

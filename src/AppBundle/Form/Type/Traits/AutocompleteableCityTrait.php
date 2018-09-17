@@ -13,41 +13,37 @@ use Symfony\Component\Form\FormEvents;
 trait AutocompleteableCityTrait
 {
 
-    protected function addAutocompletableCityField(FormBuilderInterface $builder, $data)
+    protected function addAutocompletableCityField(FormBuilderInterface $builder, $data, $options = [])
     {
-        $builder
-            ->add('postalCode', ChoiceType::class, [
-                'choices' => $data && $data->postalCode ? [$data->cityName . ' ('.$data->postalCode.')' => $data->postalCode] : null,
-            ])
-            ->add('cityName', HiddenType::class, [
+        if (isset($options['only_google_fields']) && $options['only_google_fields']) {
+            $builder->add('postalCode', HiddenType::class, [
                 'required' => false,
-                'attr' => [
-                    'class' => 'js-cityname'
-                ]
+            ]);
+        } else {
+            $builder->add('postalCode', ChoiceType::class, [
+                'choices' => $data && $data->postalCode ? [$data->cityName . ' (' . $data->postalCode . ')' => $data->postalCode] : null,
+            ]);
+        }
+        $builder
+            ->add('cityName', HiddenType::class, [
+                'required' => false
             ])
             ->add('latitude', HiddenType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'js-latitude'
-                ]
+                'required' => false
             ])
             ->add('longitude', HiddenType::class, [
-                'required' => false,
-                'attr' => [
-                    'class' => 'js-longitude'
-                ]
+                'required' => false
             ]);
 
         // Replace choice by text to prevent validation, as fields are dynamically filled
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event)
-        {
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
 
             if ($form->has('postalCode')) {
                 $form->remove('postalCode');
                 $form->add('postalCode', ChoiceType::class, [
-                    'choices' => $data && isset($data['postalCode']) ? [$data['cityName'] . ' ('.$data['postalCode'].')' => $data['postalCode']] : null,
+                    'choices' => $data && isset($data['postalCode']) ? [$data['cityName'] . ' (' . $data['postalCode'] . ')' => $data['postalCode']] : null,
                     'attr' => [
                         'class' => 'js-city-autocomplete'
                     ]

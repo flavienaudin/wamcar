@@ -21,8 +21,8 @@ trait GarageIndexerTrait
     protected function indexUpdatedGarage(Garage $garage)
     {
         /** @var ProVehicle $garageMember */
-        foreach ($garage->getProVehicles() as $garageMember) {
-            $indexableProVehicle = $this->indexableProVehicleBuilder->buildFromVehicle($garageMember);
+        foreach ($garage->getProVehicles() as $proVehicle) {
+            $indexableProVehicle = $this->indexableProVehicleBuilder->buildFromVehicle($proVehicle);
 
             if ($indexableProVehicle->shouldBeIndexed()) {
                 $this->objectIndexer->index($indexableProVehicle, IndexableProVehicle::TYPE);
@@ -36,7 +36,6 @@ trait GarageIndexerTrait
             /** @var ProApplicationUser $proUser */
             $proUser = $garageMember->getProUser();
             $indexableProUser = IndexableProUser::createFromProApplicationUser($proUser);
-
             if ($indexableProUser->shouldBeIndexed()) {
                 $this->objectIndexer->index($indexableProUser, IndexableProUser::TYPE);
             } else {
