@@ -16,7 +16,7 @@ class UserProfile
     protected $description;
     /** @var ?string */
     protected $phone;
-    /** @var  ?City */
+    /** @var  City|null */
     protected $city;
 
     /**

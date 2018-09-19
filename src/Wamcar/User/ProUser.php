@@ -6,8 +6,8 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
+use Wamcar\Location\City;
 
 class ProUser extends BaseUser
 {
@@ -23,10 +23,11 @@ class ProUser extends BaseUser
      * @param string $email
      * @param string $firstName
      * @param string|null $name
+     * @param City|null $city
      */
-    public function __construct($email, $firstName, $name = null)
+    public function __construct($email, $firstName, $name = null, $city = null)
     {
-        parent::__construct($email, $firstName, $name);
+        parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
     }
 

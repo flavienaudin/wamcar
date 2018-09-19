@@ -11,6 +11,7 @@ use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
+use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 
 /**
@@ -35,6 +36,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      * @param string $role
      * @param string $firstName
      * @param string|null $name
+     * @param City|null $city
      */
     public function __construct(
         string $email,
@@ -42,10 +44,11 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
         string $salt,
         string $firstName,
         string $name = null,
-        string $role = null
+        string $role = null,
+        City $city = null
     )
     {
-        parent::__construct($email, $firstName, $name);
+        parent::__construct($email, $firstName, $name, $city);
 
         $this->password = $password;
         $this->salt = $salt;
