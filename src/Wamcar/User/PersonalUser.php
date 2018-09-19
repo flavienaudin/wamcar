@@ -6,6 +6,7 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Location\City;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\Vehicle;
 
@@ -24,10 +25,11 @@ class PersonalUser extends BaseUser
      * @param string $firstName
      * @param string|null $name
      * @param PersonalVehicle $firstVehicle
+     * @param City|null $city
      */
-    public function __construct(string $email, $firstName, $name = null, PersonalVehicle $firstVehicle = null)
+    public function __construct(string $email, $firstName, $name = null, PersonalVehicle $firstVehicle = null, City $city = null)
     {
-        parent::__construct($email, $firstName, $name);
+        parent::__construct($email, $firstName, $name, null, $city);
 
         $this->vehicles = new ArrayCollection();
         if ($firstVehicle) {

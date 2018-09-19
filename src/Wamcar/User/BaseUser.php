@@ -19,7 +19,7 @@ abstract class BaseUser
     protected $id;
     /** @var string */
     protected $email;
-    /** @var  ?UserProfile */
+    /** @var  UserProfile|null */
     protected $userProfile;
     /** @var ?Picture */
     protected $avatar;
@@ -52,18 +52,20 @@ abstract class BaseUser
      * User constructor.
      * @param string $email
      * @param string $firstName
-     * @param ?string|null $name
+     * @param string|null $name
      * @param Picture|null $avatar
+     * @param City|null $city
      */
     public function __construct(
         string $email,
         string $firstName,
         string $name = null,
-        Picture $avatar = null
+        Picture $avatar = null,
+        City $city = null
     )
     {
         $this->email = $email;
-        $this->userProfile = new UserProfile(null, $firstName, $name);
+        $this->userProfile = new UserProfile(null, $firstName, $name, null, null, $city);
         $this->avatar = $avatar;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();

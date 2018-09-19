@@ -96,7 +96,7 @@ class PersonalVehicleEditionService
         $personalVehicle = PersonalVehicleBuilder::buildFromDTO($personalVehicleDTO);
 
         if ($futurOwner == null && $personalVehicleDTO instanceof UserRegistrationPersonalVehicleDTO) {
-            $futurOwner = $this->userRegistrationService->registerUser($personalVehicleDTO->userRegistration, (bool)$personalVehicleDTO->vehicleReplace);
+            $futurOwner = $this->userRegistrationService->registerUser($personalVehicleDTO->userRegistration, (bool)$personalVehicleDTO->vehicleReplace, $personalVehicleDTO->getCity());
         }
 
         if ($futurOwner instanceof PersonalUser) {
