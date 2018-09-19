@@ -76,17 +76,17 @@ header:
     log: Connexion / Inscription
     pro_space: Je suis un professionnel
   common:
-    search: Annonces
+    search:
+      vehicle: Rechercher une voiture
+      directory: Rechercher un professionnel
+    my_profile: Mon profil
     my_favorites: Ma sélection
     conversations: Messagerie
   pro:
-    my_profile: Mon profil
     my_garage: Mon garage
     my_garages: Mes garages
   personal:
     my_add: Mon annonce
-    profile_edit: Editer mon profil
-    project_edit: Editer mon projet
     my_vehicles: Mes véhicules
     add_vehicle: Ajouter un véhicule
 

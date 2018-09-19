@@ -2,9 +2,8 @@
    Seach
    =========================================================================== */
 
-import {Tabs} from 'foundation-sites/js/foundation.tabs';
-
 require('formdata-polyfill');
+
 
 /**
  * Get vehicle
@@ -27,27 +26,31 @@ if ($searchTabs) {
     $searchForm.on('submit', () => {
       $('#search_vehicle_tab').val($($searchTabs).find('li.is-active').data('tab'));
     });
+
+
+    // Suppression du filtre par soumission de formulaire
+    let $filterLinks = $('.search-filter');
+    if ($filterLinks.length) {
+      $filterLinks.each((index, elt) => {
+        $(elt).find('a').on('click', function (e) {
+          e.preventDefault();
+          let toResetFieldArray = ($(this).data('field-id')).split(',');
+          toResetFieldArray.forEach((element) => {
+            if (element.indexOf('=') === -1) {
+              $('#' + element).val(null);
+            } else {
+              let field_value = element.split('=');
+              $('#' + field_value[0]).val(field_value[1]);
+            }
+          });
+          $searchForm.submit();
+        });
+
+      });
+    }
   }
 }
 
-let $filterLinks = $('.search-filter');
-if($filterLinks.length){
-  $filterLinks.each((index, elt) => {
-    $(elt).find('a').on('click', function(e){
-      e.preventDefault();
-      let toResetFieldArray = ($(this).data('field-id')).split(',');
-      toResetFieldArray.forEach((element) => {
-        if(element.indexOf('=') === -1) {
-          $('#' + element).val(null);
-        }else{
-          let field_value = element.split('=');
-          $('#' + field_value[0]).val(field_value[1]);
-        }
-      });
-      $searchForm.submit();
-    });
-  });
-}
 
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
