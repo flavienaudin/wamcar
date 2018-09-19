@@ -93,6 +93,10 @@ parameters:
             pro_vehicle:
                 _source : { enabled : true }
                 properties:
+                    garageId:
+                        type: integer
+                    sortingPrice:
+                        type: integer
                     sortingDate:
                         type: date
                     location:
@@ -104,9 +108,17 @@ parameters:
                     transmission:
                         type: string
                         index: not_analyzed
+                    nbPicture:
+                        type: long
+                    nbPositiveLikes:
+                        type: long
+                    googleRating:
+                        type: float
             personal_vehicle:
                 _source : { enabled : true }
                 properties:
+                    userId:
+                        type: integer
                     sortingDate:
                         type: date
                     location:
@@ -118,6 +130,10 @@ parameters:
                     transmission:
                         type: string
                         index: not_analyzed
+                    nbPicture:
+                        type: long
+                    nbPositiveLikes:
+                        type: long
             personal_project :
                 _source: { enabled : true }
                 properties:
