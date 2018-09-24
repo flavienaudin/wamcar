@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Doctrine\Type\SortingType;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
@@ -37,9 +36,11 @@ class SearchVehicleType extends AbstractType
         $smallVersion = $options['small_version'] ?? false;
         $sortingField = $options['sortingField'] ?? false;
 
-        $builder->add('text', TextType::class, [
-            'required' => false
-        ]);
+        $builder
+            ->add('text', TextType::class, [
+                'required' => false
+            ])
+            ->add('tab', HiddenType::class);
 
         if (!$smallVersion) {
             $builder
@@ -89,9 +90,7 @@ class SearchVehicleType extends AbstractType
                     'choices' => RadiusChoice::getListRadius(),
                     'data' => 50,
                     'error_bubbling' => true,
-                ])
-                ->add('tab', HiddenType::class)
-            ;
+                ]);
             if ($sortingField) {
                 $builder
                     ->add('sorting', ChoiceType::class, [

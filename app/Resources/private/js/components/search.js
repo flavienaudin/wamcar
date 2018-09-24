@@ -19,12 +19,13 @@ const getVehicle = async (url) => {
   }
 };
 
-const $searchTabs = document.getElementById('js-search-tabs');
-if ($searchTabs) {
-  const $searchForm = $('#js-search-form');
-  if ($searchForm.length) {
+const $searchForm = $('#js-search-form');
+if ($searchForm.length) {
+  // Mise à jour de la valeur du champ caché pour la sélection de l'onglet
+  const $searchTabs = $('#js-search-tabs');
+  if ($searchTabs.length) {
     $searchForm.on('submit', () => {
-      $('#search_vehicle_tab').val($($searchTabs).find('li.is-active').data('tab'));
+      $('#search_vehicle_tab').val($searchTabs.find('li.is-active').data('tab'));
     });
 
     // Suppression du filtre par soumission de formulaire
@@ -44,11 +45,11 @@ if ($searchTabs) {
           });
           $searchForm.submit();
         });
-
       });
     }
   }
 }
+
 
 
 const $makeSelect = document.getElementById('search_vehicle_make');

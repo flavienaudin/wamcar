@@ -21,7 +21,7 @@
                         '%url_profile%':path('front_view_current_user_info'),
                         '%url_conversations%':path('front_conversation_list'),
                         '%url_add_vehicle%':path('front_vehicle_personal_add'),
-                        '%url_search_personal%':path('front_search_tab_pro')
+                        '%url_search_personal%':path('front_search',{'search_vehicle' => {'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}})
                     })|raw }}</p>
 
                 {# Buttons #}
@@ -31,7 +31,7 @@
                 {% if app.user is defined and (app.user.vehicles is defined and app.user.vehicles|length == 0) %}
                     <a href="{{ path('front_vehicle_personal_add') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.sell'|trans }}</a>
                 {% endif %}
-                <a href="{{ path('front_search_tab_pro') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.search'|trans }}</a>
+                <a href="{{ path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}) }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.search'|trans }}</a>
                 <a href="{{ path('front_edit_user_info') }}" class="button input-margin small-12 large-9 xlarge-7">{{ 'user.confirmation.action.profile'|trans }}</a>
 
             </section>

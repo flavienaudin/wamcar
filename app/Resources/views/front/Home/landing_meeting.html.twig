@@ -47,7 +47,7 @@
             </div>
 
             <footer class="section-footer column small-12 medium-7 large-5">
-                <a href="{{ isUserPro ? path('front_search_tab_personal') : path('front_search_tab_pro') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
+                <a href="{{ isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}) }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
             </footer>
         </div>
     </section>

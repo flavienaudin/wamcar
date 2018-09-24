@@ -49,7 +49,7 @@
     </li>
 {% endif %}
 
-<li><a href="{{ path('front_search_tab_personal') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+<li><a href="{{ path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
 
 <li class="menu-separator"></li>
 
