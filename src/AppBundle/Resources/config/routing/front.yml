@@ -255,3 +255,11 @@ front_user_like_personal_vehicle:
 front_user_favorites_list:
     path: /user/favorites
     controller: AppBundle:Front\ProContext\Favorite:view
+
+front_affinity_personal_form:
+    path: /affinity/particulier
+    controller: AppBundle:Front\PersonalContext\Affinity:personalForm
+
+front_affinity_pro_form:
+    path: /affinity/professionnel
+    controller: AppBundle:Front\PersonalContext\Affinity:proForm

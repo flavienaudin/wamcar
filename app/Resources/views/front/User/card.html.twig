@@ -31,6 +31,13 @@
 {% endblock %}
 
 {% block other_informations %}
+    <h2>{{ "user.affinity.section.title"|trans }}</h2>
+    <p>{{ 'user.affinity.section.explanation'|trans }}
+        <a href="{{ path('front_affinity_personal_form') }}" class="text-underline">
+            {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
+    </p>
+
+
     <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
     {% if user.project and (user.project.budget or user.project.projectVehicles) %}
         {% set project = user.project %}

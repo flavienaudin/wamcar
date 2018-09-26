@@ -664,6 +664,13 @@ user:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
     add: Ajouter un garage
+  affinity:
+    page_title: Wam Affinity
+    section:
+      title: Qui suis-je ?
+      action: en répondant au questionnaire WamAffinity.
+      explanation: Découvrez votre degré d'affinité avec chaque professionnel
+      more_explanation: Cela vous aidera à choisir le professionnel qui vous accompagnera dans votre projet.
 
   preference:
     page_title: Mes préférences

@@ -1,0 +1,36 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block title %}{{ 'affinity.pro.page_title'|trans }}{% endblock title %}
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block body %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title'),
+        page_header_class: 'no-margin'
+    } %}
+
+    <div class="row">
+        <div class="column small-12">
+            <div class="typeform-widget" data-url="https://wamcar.typeform.com/to/oOG6ml?client_id={{ app.user.apiClientId }}&client_secret={{ app.user.apiSecret }}"
+                 data-hide-headers=true data-hide-footer=true
+                 style="width: 100%; height: 450px;">
+            </div>
+        </div>
+    </div>
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}
+
+{% block javascripts %}
+    <script> (function () {
+        let qs, js, q, s, d = document, gi = d.getElementById, ce = d.createElement, gt = d.getElementsByTagName,
+          id = "typef_orm", b = "https://embed.typeform.com/";
+        if (!gi.call(d, id)) {
+          js = ce.call(d, "script");
+          js.id = id;
+          js.src = b + "embed.js";
+          q = gt.call(d, "script")[0];
+          q.parentNode.insertBefore(js, q)
+        }
+      })() </script>
+{% endblock javascripts %}
