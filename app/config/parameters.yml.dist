@@ -22,3 +22,5 @@ parameters:
     admin_name: Xavier Pousset
 
     typeform.contact: https://wamcar.typeform.com/to/AIMBwx
+    typeform.affinity.personal.form: ~
+    typeform.affinity.pro.form: ~

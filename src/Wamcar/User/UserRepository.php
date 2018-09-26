@@ -49,5 +49,4 @@ interface UserRepository
      * @return BaseUser
      */
     public function findOneByEmail(string $email);
-
 }

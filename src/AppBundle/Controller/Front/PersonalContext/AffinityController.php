@@ -14,7 +14,7 @@ class AffinityController extends BaseController
         /*if (!$this->getUser() instanceof PersonalUser) {
             throw $this->createAccessDeniedException();
         }*/
-        return $this->render('front/Affinity/personalForm.html.twig');
+        return $this->render('front/Affinity/personal_form.html.twig');
     }
 
 
@@ -23,7 +23,7 @@ class AffinityController extends BaseController
         /*if (!$this->getUser() instanceof ProUser) {
             throw $this->createAccessDeniedException();
         }*/
-        return $this->render('front/Affinity/proForm.html.twig');
+        return $this->render('front/Affinity/pro_form.html.twig');
     }
 
 }

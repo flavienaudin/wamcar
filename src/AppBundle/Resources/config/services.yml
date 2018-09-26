@@ -17,6 +17,7 @@ imports:
     - { resource: services/sessions.yml }
     - { resource: services/commands.yml }
     - { resource: search.yml }
+    - { resource: ../../../TypeForm/Resources/config/services/typeform.yml }
 
 services:
     twig.extension.intl:

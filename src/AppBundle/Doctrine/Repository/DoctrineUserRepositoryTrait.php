@@ -3,8 +3,8 @@
 namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use Wamcar\User\BaseUser;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\User\BaseUser;
 
 trait DoctrineUserRepositoryTrait
 {

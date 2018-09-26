@@ -4,15 +4,20 @@ namespace Wamcar\User;
 
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\UserPreferences;
+use AppBundle\Security\SecurityInterface\HasApiCredential;
+use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
+use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
-abstract class BaseUser
+abstract class BaseUser implements HasApiCredential
 {
+    use ApiCredentialTrait;
+
     const TYPE = '';
 
     /** @var int */
@@ -21,7 +26,7 @@ abstract class BaseUser
     protected $email;
     /** @var  UserProfile|null */
     protected $userProfile;
-    /** @var ?Picture */
+    /** @var null|Picture */
     protected $avatar;
     /** @var  Collection <Message> */
     protected $messages;
@@ -47,6 +52,8 @@ abstract class BaseUser
     protected $likes;
     /** @var UserPreferences */
     protected $preferences;
+    /** @var AffinityAnswer|null */
+    protected $affinityAnswer;
 
     /**
      * User constructor.
@@ -71,6 +78,7 @@ abstract class BaseUser
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
+        $this->generateApiCredentials();
     }
 
     /**
@@ -440,6 +448,22 @@ abstract class BaseUser
         $this->getPreferences()->setPrivateMessageEmailFrequency($privateMessageEmailFrequency);
         $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
         $this->getPreferences()->setLikeEmailFrequency($likeEmailFrequency);
+    }
+
+    /**
+     * @return AffinityAnswer|null
+     */
+    public function getAffinityAnswer(): ?AffinityAnswer
+    {
+        return $this->affinityAnswer;
+    }
+
+    /**
+     * @param AffinityAnswer|null $affinityAnswer
+     */
+    public function setAffinityAnswer(?AffinityAnswer $affinityAnswer): void
+    {
+        $this->affinityAnswer = $affinityAnswer;
     }
 
     /**

@@ -64,6 +64,12 @@ Wamcar\User\BaseUser:
             type: string
             length: 255
             nullable: true
+        apiClientId:
+            type: string
+            nullable: true
+        apiSecret:
+            type: string
+            nullable: true
 
     oneToOne:
         avatar:
@@ -77,7 +83,10 @@ Wamcar\User\BaseUser:
             targetEntity: AppBundle\Doctrine\Entity\UserPreferences
             mappedBy: user
             cascade: ["persist","merge","remove"]
-
+        affinityAnswer:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityAnswer
+            mappedBy: user
+            cascade: ["persist","merge","remove"]
     oneToMany:
         conversationUsers:
             targetEntity: Wamcar\Conversation\ConversationUser

@@ -36,6 +36,7 @@
         <a href="{{ path('front_affinity_personal_form') }}" class="text-underline">
             {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
     </p>
+    <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered'}}</p>
 
 
     <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>

@@ -25,6 +25,8 @@ parameters:
             3: '/assets/images/placeholders/vehicle/Placeholder-Arriere.png'
 
     preferred_makeName: '%preferred_makes%'
+    typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+    typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
 
 framework:
     #esi: ~
@@ -69,6 +71,8 @@ twig:
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
         pro_site_url: '%pro_space_url%'
         typeform_contact: '%typeform.contact%'
+        typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+        typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
 
@@ -120,6 +124,12 @@ doctrine:
                 type: annotation
                 is_bundle: true
             JMoseCommandSchedulerBundle: ~
+            TypeForm:
+                type: yml
+                dir: '%kernel.root_dir%/../src/TypeForm/Resources/config/doctrine'
+                is_bundle: false
+                prefix: TypeForm
+                alias: TypeForm
 
         dql:
             string_functions:
