@@ -35,8 +35,15 @@
                         <p>{{ 'user.presentation.empty'|trans }}</p>
                     {% endif %}
                     {% if userIsMe %}
-                        <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
+                        <p><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a></p>
                     {% endif %}
+
+                    <h2>{{ "user.affinity.section.title"|trans }}</h2>
+                    <p>{{ 'user.affinity.section.explanation'|trans }}
+                        <a href="{{ path('front_affinity_pro_form') }}" class="text-underline">
+                            {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
+                    </p>
+                    <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered : '~user.affinityAnswer.content }}</p>
                 {% endblock %}
             </div>
             <div class="separator-for-small small-12 medium-4 medium-offset-1 large-6">

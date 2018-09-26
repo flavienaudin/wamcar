@@ -4,25 +4,26 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
-use Symfony\Component\HttpFoundation\Request;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 
 class AffinityController extends BaseController
 {
 
-    public function personalFormAction(Request $request)
+    public function personalFormAction()
     {
-        /*if (!$this->getUser() instanceof PersonalUser) {
+        if (!$this->getUser() instanceof PersonalUser) {
             throw $this->createAccessDeniedException();
-        }*/
+        }
         return $this->render('front/Affinity/personal_form.html.twig');
     }
 
 
-    public function proFormAction(Request $request)
+    public function proFormAction()
     {
-        /*if (!$this->getUser() instanceof ProUser) {
+        if (!$this->getUser() instanceof ProUser) {
             throw $this->createAccessDeniedException();
-        }*/
+        }
         return $this->render('front/Affinity/pro_form.html.twig');
     }
 
