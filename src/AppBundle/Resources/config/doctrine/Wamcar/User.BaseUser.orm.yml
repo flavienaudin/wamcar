@@ -102,5 +102,9 @@ Wamcar\User\BaseUser:
             cascade: ["persist", "merge", "remove"]
             orderBy:
                 updatedAt: "desc"
+        affinityDegrees:
+            targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
+            mappedBy: mainUser
+            cascade: ["persist", "merge"]
 
 

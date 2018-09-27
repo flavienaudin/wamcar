@@ -4,7 +4,6 @@
 namespace Wamcar\User;
 
 
-use AppBundle\Doctrine\Entity\AffinityDegree;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Garage\GarageProUser;
@@ -18,8 +17,6 @@ class ProUser extends BaseUser
     protected $phonePro;
     /** @var  Collection */
     protected $garageMemberships;
-    /** @var Collection $affinityDegrees */
-    protected $affinityDegrees;
 
     /**
      * ProUser constructor.
@@ -32,7 +29,6 @@ class ProUser extends BaseUser
     {
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
-        $this->affinityDegrees = new ArrayCollection();
     }
 
     /**
@@ -130,41 +126,5 @@ class ProUser extends BaseUser
     public function canSeeMyProfile(?BaseUser $user): bool
     {
         return true;
-    }
-
-    /**
-     * @return Collection
-     */
-    public function getAffinityDegrees(): Collection
-    {
-        return $this->affinityDegrees;
-    }
-
-    /**
-     * @param Collection $affinityDegrees
-     */
-    public function setAffinityDegrees(Collection $affinityDegrees): void
-    {
-        $this->affinityDegrees = $affinityDegrees;
-    }
-
-    /**
-     * @param AffinityDegree $affinityDegree
-     * @return ProUser
-     */
-    public function addAffinityDegree(AffinityDegree $affinityDegree): ProUser
-    {
-        $this->affinityDegrees->add($affinityDegree);
-        return $this;
-    }
-
-    /**
-     * @param AffinityDegree $affinityDegree
-     * @return ProUser
-     */
-    public function removeAffinityDegree(AffinityDegree $affinityDegree): ProUser
-    {
-        $this->affinityDegrees->removeElement($affinityDegree);
-        return $this;
     }
 }

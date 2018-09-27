@@ -6,11 +6,6 @@ Wamcar\User\PersonalUser:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
             mappedBy: owner
             cascade: ["persist", "merge", "remove"]
-        affinityDegrees:
-            targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
-            mappedBy: personalUser
-            cascade: ["persist", "merge"]
-
     oneToOne:
         project:
             targetEntity: Wamcar\User\Project

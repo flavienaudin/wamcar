@@ -11,29 +11,25 @@ AppBundle\Doctrine\Entity\AffinityDegree:
             message: 'The affinity between these users is already calculated.'
 
     id:
-      proUser:
+      mainUser:
         associationKey: true
-      personalUser:
+      withUser:
         associationKey: true
 
     fields:
-      proPersonalScore:
-        type: float
-        nullable: false
-      personalProScore:
+      affinityValue:
         type: float
         nullable: false
 
     manyToOne:
-        proUser:
-            targetEntity: Wamcar\User\ProUser
-            inversedBy: affinityDegrees
+        mainUser:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: myAffinityDegrees
             joinColumn:
-                name: pro_user_id
+                name: main_user_id
                 referencedColumnName: id
-        personalUser:
-            targetEntity: Wamcar\User\PersonalUser
-            inversedBy: affinityDegrees
+        withUser:
+            targetEntity: Wamcar\User\BaseUser
             joinColumn:
-                name: personal_user_id
+                name: with_user_id
                 referencedColumnName: id

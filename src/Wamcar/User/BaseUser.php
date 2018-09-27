@@ -2,6 +2,7 @@
 
 namespace Wamcar\User;
 
+use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\UserPreferences;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
@@ -54,6 +55,8 @@ abstract class BaseUser implements HasApiCredential
     protected $preferences;
     /** @var AffinityAnswer|null */
     protected $affinityAnswer;
+    /** @®var Collection $affinityDegree */
+    protected $affinityDegrees;
 
     /**
      * User constructor.
@@ -78,6 +81,7 @@ abstract class BaseUser implements HasApiCredential
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
+        $this->affinityDegrees = new ArrayCollection();
         $this->generateApiCredentials();
     }
 
@@ -464,6 +468,42 @@ abstract class BaseUser implements HasApiCredential
     public function setAffinityAnswer(?AffinityAnswer $affinityAnswer): void
     {
         $this->affinityAnswer = $affinityAnswer;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAffinityDegrees(): Collection
+    {
+        return $this->affinityDegrees;
+    }
+
+    /**
+     * @param Collection $affinityDegrees
+     */
+    public function setAffinityDegrees(Collection $affinityDegrees): void
+    {
+        $this->affinityDegrees = $affinityDegrees;
+    }
+
+    /**
+     * @param AffinityDegree $affinityDegree
+     * @return BaseUser
+     */
+    public function addAffinityDegree(AffinityDegree $affinityDegree): BaseUser
+    {
+        $this->affinityDegrees->add($affinityDegree);
+        return $this;
+    }
+
+    /**
+     * @param AffinityDegree $affinityDegree
+     * @return BaseUser
+     */
+    public function removeAffinityDegree(AffinityDegree $affinityDegree): BaseUser
+    {
+        $this->affinityDegrees->removeElement($affinityDegree);
+        return $this;
     }
 
     /**
