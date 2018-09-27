@@ -102,7 +102,8 @@ class AffinityFormManager
                 $formResponse['token'],
                 $formResponse['form_id'],
                 new \DateTime($formResponse['submitted_at']),
-                $originalJsonContent
+                $originalJsonContent,
+                null
             );
             $user->setAffinityAnswer($affinityAnswer);
             $this->userRepository->update($user);
@@ -111,6 +112,7 @@ class AffinityFormManager
             $user->getAffinityAnswer()->setFormId($formResponse['form_id']);
             $user->getAffinityAnswer()->setSubmittedAt(new \DateTime($formResponse['submitted_at']));
             $user->getAffinityAnswer()->setContent($originalJsonContent);
+            $user->getAffinityAnswer()->setTreatedAt(null);
             $this->userRepository->update($user);
         }
     }

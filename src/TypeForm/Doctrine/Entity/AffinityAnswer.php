@@ -21,6 +21,8 @@ class AffinityAnswer
     private $submittedAt;
     /** @var string */
     private $content;
+    /** @var \DateTime */
+    private $treatedAt;
 
     /**
      * AffinityAnswer constructor.
@@ -29,8 +31,9 @@ class AffinityAnswer
      * @param string $formId
      * @param \DateTime $submittedAt
      * @param string $content
+     * @param \DateTime|null $treatedAt
      */
-    public function __construct(BaseUser $user, string $token, string $formId, \DateTime $submittedAt, string $content)
+    public function __construct(BaseUser $user, string $token, string $formId, \DateTime $submittedAt, string $content, ?\DateTime $treatedAt = null)
     {
 
         $this->id = Uuid::uuid4();
@@ -39,6 +42,7 @@ class AffinityAnswer
         $this->formId = $formId;
         $this->submittedAt = $submittedAt;
         $this->content = $content;
+        $this->treatedAt = $treatedAt;
     }
 
     /**
@@ -98,6 +102,14 @@ class AffinityAnswer
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getTreatedAt(): \DateTime
+    {
+        return $this->treatedAt;
+    }
+
+    /**
      * @param string $token
      */
     public function setToken(string $token): void
@@ -129,4 +141,11 @@ class AffinityAnswer
         $this->content = $content;
     }
 
+    /**
+     * @param \DateTime|null $treatedAt
+     */
+    public function setTreatedAt(?\DateTime $treatedAt): void
+    {
+        $this->treatedAt = $treatedAt;
+    }
 }

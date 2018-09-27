@@ -2,6 +2,7 @@ TypeForm\Doctrine\Entity\AffinityAnswer:
 
     type: entity
     table: affinity_answer
+    repositoryClass: TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository
 
     id:
         id:
@@ -16,6 +17,9 @@ TypeForm\Doctrine\Entity\AffinityAnswer:
             type: datetime
         content:
             type: json
+        treatedAt:
+            type: datetime
+            nullable: true
 
     oneToOne:
         user:

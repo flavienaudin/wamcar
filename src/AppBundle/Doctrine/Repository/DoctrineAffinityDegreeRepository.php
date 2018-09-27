@@ -4,18 +4,46 @@ namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Doctrine\Entity\AffinityDegree;
 use Doctrine\ORM\EntityRepository;
-use Wamcar\User\PersonalUser;
-use Wamcar\User\ProUser;
+use Wamcar\User\BaseUser;
 
 class DoctrineAffinityDegreeRepository extends EntityRepository
 {
+
     /**
-     * @param ProUser $proUser
-     * @param PersonalUser $personalUser
+     * {@inheritdoc}
+     */
+    public function add(AffinityDegree $likeaffinityDegree)
+    {
+        $this->_em->persist($likeaffinityDegree);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(AffinityDegree $affinityDegree)
+    {
+        $affinityDegree = $this->_em->merge($affinityDegree);
+        $this->_em->persist($affinityDegree);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove(AffinityDegree $affinityDegree)
+    {
+        $this->_em->remove($affinityDegree);
+        $this->_em->flush();
+    }
+
+    /**
+     * @param BaseUser $mainUser
+     * @param BaseUser $withUser
      * @return AffinityDegree|null
      */
-    public function findOne(ProUser $proUser, PersonalUser $personalUser): ?AffinityDegree
+    public function findOne(BaseUser $mainUser, BaseUser $withUser): ?AffinityDegree
     {
-        return $this->findOneBy(['id' => ["proUser" => $proUser, "personalUser" => $personalUser]]);
+        return $this->findOneBy(['id' => ["mainUser" => $mainUser, "withUser" => $withUser]]);
     }
 }

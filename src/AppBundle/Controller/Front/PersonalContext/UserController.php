@@ -31,6 +31,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -69,6 +70,9 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
+    /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository*/
+    protected $affinityAnswerRepository;
+
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
@@ -81,6 +85,7 @@ class UserController extends BaseController
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param MessageBus $eventBus
+     * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -90,7 +95,8 @@ class UserController extends BaseController
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        MessageBus $eventBus
+        MessageBus $eventBus,
+        DoctrineAffinityAnswerRepository $affinityAnswerRepository
     )
     {
         $this->formFactory = $formFactory;
@@ -101,6 +107,7 @@ class UserController extends BaseController
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->eventBus = $eventBus;
+        $this->affinityAnswerRepository = $affinityAnswerRepository;
     }
 
     /**
@@ -314,6 +321,9 @@ class UserController extends BaseController
                 }
             }
         }
+
+
+        dump($this->affinityAnswerRepository->retrieveUntreatedProAnswer());
 
 
         return $this->render($templates[$user->getType()], [

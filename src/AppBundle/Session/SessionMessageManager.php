@@ -4,13 +4,10 @@
 namespace AppBundle\Session;
 
 
-use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
-use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use AppBundle\Session\Model\SessionMessage;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Wamcar\Vehicle\BaseVehicle;
 
 class SessionMessageManager
 {
