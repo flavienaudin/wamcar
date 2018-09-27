@@ -11,3 +11,7 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Garage\GarageProUser
             mappedBy: proUser
             cascade: ["persist", "merge"]
+        affinityDegrees:
+            targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
+            mappedBy: proUser
+            cascade: ["persist", "merge"]

@@ -1,0 +1,39 @@
+AppBundle\Doctrine\Entity\AffinityDegree:
+
+    type: entity
+    table: affinity_degree
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [proUser, personalUser ]
+            errorPath: proUser
+            message: 'The affinity between these users is already calculated.'
+
+    id:
+      proUser:
+        associationKey: true
+      personalUser:
+        associationKey: true
+
+    fields:
+      proPersonalScore:
+        type: float
+        nullable: false
+      personalProScore:
+        type: float
+        nullable: false
+
+    manyToOne:
+        proUser:
+            targetEntity: Wamcar\User\ProUser
+            inversedBy: affinityDegrees
+            joinColumn:
+                name: pro_user_id
+                referencedColumnName: id
+        personalUser:
+            targetEntity: Wamcar\User\PersonalUser
+            inversedBy: affinityDegrees
+            joinColumn:
+                name: personal_user_id
+                referencedColumnName: id

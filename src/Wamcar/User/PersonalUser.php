@@ -4,6 +4,7 @@
 namespace Wamcar\User;
 
 
+use AppBundle\Doctrine\Entity\AffinityDegree;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Location\City;
@@ -18,6 +19,9 @@ class PersonalUser extends BaseUser
     protected $project;
     /** @var Vehicle[]|array */
     protected $vehicles;
+    /** @®var Collection $affinityDegree */
+    protected $affinityDegrees;
+
 
     /**
      * PersonalUser constructor.
@@ -35,6 +39,7 @@ class PersonalUser extends BaseUser
         if ($firstVehicle) {
             $this->vehicles->add($firstVehicle);
         }
+        $this->affinityDegrees = new ArrayCollection();
     }
 
     /**
@@ -113,6 +118,42 @@ class PersonalUser extends BaseUser
     public function setProject(?Project $project): PersonalUser
     {
         $this->project = $project;
+        return $this;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAffinityDegrees(): Collection
+    {
+        return $this->affinityDegrees;
+    }
+
+    /**
+     * @param Collection $affinityDegrees
+     */
+    public function setAffinityDegrees(Collection $affinityDegrees): void
+    {
+        $this->affinityDegrees = $affinityDegrees;
+    }
+
+    /**
+     * @param AffinityDegree $affinityDegree
+     * @return PersonalUser
+     */
+    public function addAffinityDegree(AffinityDegree $affinityDegree): PersonalUser
+    {
+        $this->affinityDegrees->add($affinityDegree);
+        return $this;
+    }
+
+    /**
+     * @param AffinityDegree $affinityDegree
+     * @return PersonalUser
+     */
+    public function removeAffinityDegree(AffinityDegree $affinityDegree): PersonalUser
+    {
+        $this->affinityDegrees->removeElement($affinityDegree);
         return $this;
     }
 }
