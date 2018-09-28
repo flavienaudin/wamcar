@@ -66,7 +66,8 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                 $progress->advance();
 
                 $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
-                $this->affinityDegreeCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
+                // symetric score
+                //$this->affinityDegreeCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
@@ -86,7 +87,8 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             foreach ($untreatedProAnswers as $untreatedProAnswer) {
                 $progress->advance();
                 $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
-                $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
+                // symetric score
+                //$this->affinityDegreeCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
@@ -116,7 +118,8 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             foreach ($treatedPersonalAnswers as $treatedPersonalAnswer) {
                 $progressBis->advance();
                 $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedProAnswer, $treatedPersonalAnswer);
-                $this->affinityDegreeCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
+                // symetric score
+                //$this->affinityDegreeCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',

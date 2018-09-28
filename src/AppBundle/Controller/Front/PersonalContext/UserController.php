@@ -20,6 +20,7 @@ use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Services\Affinity\AffinityDegreeCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -70,8 +71,11 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
-    /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository*/
+    // TODO : to test only
+    /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository */
     protected $affinityAnswerRepository;
+    /** @var AffinityDegreeCalculationService $affinityDegreeCalculationService */
+    protected $affinityDegreeCalculationService;
 
     /**
      * SecurityController constructor.
@@ -86,6 +90,7 @@ class UserController extends BaseController
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param MessageBus $eventBus
      * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
+     * @param AffinityDegreeCalculationService $affinityDegreeCalculationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -96,7 +101,8 @@ class UserController extends BaseController
         GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
         MessageBus $eventBus,
-        DoctrineAffinityAnswerRepository $affinityAnswerRepository
+        DoctrineAffinityAnswerRepository $affinityAnswerRepository,
+        AffinityDegreeCalculationService $affinityDegreeCalculationService
     )
     {
         $this->formFactory = $formFactory;
@@ -108,6 +114,7 @@ class UserController extends BaseController
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->eventBus = $eventBus;
         $this->affinityAnswerRepository = $affinityAnswerRepository;
+        $this->affinityDegreeCalculationService = $affinityDegreeCalculationService;
     }
 
     /**
@@ -322,9 +329,14 @@ class UserController extends BaseController
             }
         }
 
-
-        dump($this->affinityAnswerRepository->retrieveUntreatedProAnswer());
-
+        // TODO : to test only
+        if($user->isPro()){
+            $otherAnswer = $this->affinityAnswerRepository->find('202de260-dbbc-430d-b6cb-d547ca39c96d');
+        }else {
+            $otherAnswer = $this->affinityAnswerRepository->find('a6553f6b-a27f-455c-99bd-4b09e858badc');
+        }
+        $this->affinityDegreeCalculationService->calculateAffinityValue($user->getAffinityAnswer(), $otherAnswer);
+        // End TODO
 
         return $this->render($templates[$user->getType()], [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,

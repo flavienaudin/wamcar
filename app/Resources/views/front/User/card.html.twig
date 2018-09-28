@@ -36,8 +36,10 @@
         <a href="{{ path('front_affinity_personal_form') }}" class="text-underline">
             {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
     </p>
-    <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered : '~user.affinityAnswer.content }}</p>
-    <p>{{ dump(user.affinityDegrees) }}</p>
+    <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered : ' }}
+    {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}
+    </p>
+    {#<p>{{ dump(user.affinityDegrees) }}</p>#}
 
 
 
