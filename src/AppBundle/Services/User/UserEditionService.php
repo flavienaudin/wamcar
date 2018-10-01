@@ -234,4 +234,23 @@ class UserEditionService
 
         $this->userPreferencesRepository->update($user->getPreferences());
     }
+    /**
+     * Retrieve User from the search result
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getUsersBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $project) {
+            $ids[] = $project['id'];
+        }
+        if (count($ids) > 0) {
+            $result['hits'] = $this->userRepository->findByIds($ids);
+        }
+        return $result;
+    }
 }

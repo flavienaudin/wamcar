@@ -4,7 +4,7 @@ namespace AppBundle\Elasticsearch\Type;
 
 use Novaway\ElasticsearchClient\Indexable;
 
-class VehicleInfo implements Indexable
+class IndexableVehicleInfo implements Indexable
 {
     const TYPE = 'vehicle_info';
 

@@ -10,11 +10,11 @@ class UserProfile
     protected $title;
     /** @var string */
     protected $firstName;
-    /** @var ?string */
+    /** @var null|string */
     protected $lastName;
     /** @var string */
     protected $description;
-    /** @var ?string */
+    /** @var null|string */
     protected $phone;
     /** @var  City|null */
     protected $city;

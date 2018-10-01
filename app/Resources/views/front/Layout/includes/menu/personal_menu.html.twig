@@ -1,0 +1,13 @@
+<li><a href="{{ path('front_view_current_user_info') }}">{{ 'header.common.my_profile'|trans }}</a></li>
+
+<li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_project_section'}) }}">{{ 'header.personal.my_add'|trans }}</a></li>
+
+<li><a href="{{ path('front_user_favorites_list') }}">{{ 'header.common.my_favorites'|trans }}</a> </li>
+
+<li><a href="{{ path('front_view_current_user_info',{'_fragment':'user_vehicles_section'}) }}">{{ 'header.personal.my_vehicles'|trans }}</a></li>
+
+<li><a href="{{ path('front_vehicle_personal_add') }}">{{ 'header.personal.add_vehicle'|trans }}</a></li>
+
+<li class="menu-separator"></li>
+
+<li><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>

@@ -94,11 +94,6 @@ $header-background: white;
       justify-content: center;
       width: $header-height;
       height: $header-height;
-      border-left: rem-calc(1) solid $border-color;
-
-      &:last-child {
-        border-right: rem-calc(1) solid $border-color;
-      }
 
       &::before { width: 100%; }
     } // End MQ large down

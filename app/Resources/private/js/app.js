@@ -109,7 +109,7 @@ $(function () {
 
     $magellan.each((index, magellan) => {
       let $currentMagellan = new Magellan($(magellan), options);
-      if(window.location.hash) {
+      if (window.location.hash) {
         $(magellan).foundation('scrollToLoc', window.location.hash);
       }
       return $currentMagellan;

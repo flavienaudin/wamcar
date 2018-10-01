@@ -7,7 +7,9 @@ namespace AppBundle\Elasticsearch\Query;
 use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
+use AppBundle\Elasticsearch\Type\IndexableProUser;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
+use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
@@ -75,7 +77,7 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            $queryType === SearchController::TAB_ALL?0:self::MIN_SCORE
+            $queryType === SearchController::TAB_ALL ? 0 : self::MIN_SCORE
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
@@ -146,5 +148,19 @@ class SearchResultProvider
 
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, $type);
+    }
+
+    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, int $limit = self::LIMIT): Result
+    {
+        $queryBuilder = new QueryBuilder(
+            self::OFFSET + ($page - 1) * $limit,
+            $limit,
+            0.3
+        );
+
+        $queryBuilder = $this->queryBuilderFilterer->getDirectoryProUserQueryBuilder($queryBuilder, $searchProDTO);
+        $queryBody = $queryBuilder->getQueryBody();
+
+        return $this->queryExecutor->execute($queryBody, IndexableProUser::TYPE);
     }
 }

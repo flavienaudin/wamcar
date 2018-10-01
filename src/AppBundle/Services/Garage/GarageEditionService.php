@@ -100,6 +100,7 @@ class GarageEditionService
         if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles())) {
             $garageProUser = new GarageProUser($garage, $proApplicationUser);
             $garage->addMember($garageProUser);
+            $proApplicationUser->addGarageMembership($garageProUser);
             $this->garageRepository->update($garage);
         }
 
@@ -147,7 +148,7 @@ class GarageEditionService
         if (!empty($garage->getGooglePlaceId())) {
             $googlePlaceDetails = $this->googleMapsApi->getPlaceDetails($garage->getGooglePlaceId());
             if ($googlePlaceDetails != null) {
-                if(isset($googlePlaceDetails["rating"]) && $garage->getGoogleRating() !== $googlePlaceDetails["rating"]){
+                if (isset($googlePlaceDetails["rating"]) && $garage->getGoogleRating() !== $googlePlaceDetails["rating"]) {
                     $garage->setGoogleRating($googlePlaceDetails["rating"]);
                     $this->garageRepository->update($garage);
                     $this->eventBus->handle(new GarageUpdated($garage));

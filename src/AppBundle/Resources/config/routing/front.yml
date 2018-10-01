@@ -15,6 +15,12 @@ front_landing_meeting:
     path: /rencontre
     controller: AppBundle:Front\Default:landingMeeting
 
+front_directory_view:
+    path: /annuaire/{page}
+    controller: AppBundle:Front\ProContext\Directory:view
+    defaults:
+        page: 1
+
 register_confirm:
     path: /inscription/confirmation
     defaults:

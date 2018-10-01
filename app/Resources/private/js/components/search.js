@@ -2,9 +2,8 @@
    Seach
    =========================================================================== */
 
-import {Tabs} from 'foundation-sites/js/foundation.tabs';
-
 require('formdata-polyfill');
+
 
 /**
  * Get vehicle
@@ -27,27 +26,31 @@ if ($searchTabs) {
     $searchForm.on('submit', () => {
       $('#search_vehicle_tab').val($($searchTabs).find('li.is-active').data('tab'));
     });
-  }
 
-  let $filterLinks = $('.search-filter');
-  if($filterLinks.length){
-    $filterLinks.each((index, elt) => {
-      $(elt).find('a').on('click', function(e){
-        e.preventDefault();
-        let toResetFieldArray = ($(this).data('field-id')).split(',');
-        toResetFieldArray.forEach((element) => {
-          if(element.indexOf('=') === -1) {
-            $('#' + element).val(null);
-          }else{
-            let field_value = element.split('=');
-            $('#' + field_value[0]).val(field_value[1]);
-          }
+
+    // Suppression du filtre par soumission de formulaire
+    let $filterLinks = $('.search-filter');
+    if ($filterLinks.length) {
+      $filterLinks.each((index, elt) => {
+        $(elt).find('a').on('click', function (e) {
+          e.preventDefault();
+          let toResetFieldArray = ($(this).data('field-id')).split(',');
+          toResetFieldArray.forEach((element) => {
+            if (element.indexOf('=') === -1) {
+              $('#' + element).val(null);
+            } else {
+              let field_value = element.split('=');
+              $('#' + field_value[0]).val(field_value[1]);
+            }
+          });
+          $searchForm.submit();
         });
-        $searchForm.submit();
+
       });
-    });
+    }
   }
 }
+
 
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
@@ -106,6 +109,17 @@ if ($searchLabel) {
   const fixedClass = 'is-fixed';
   const scrollLimit = 120;
 
+/*
+$($searchTabs).on('change.zf.tabs', (event, $target) => {
+  const url = $($target).data('href');
+  return getVehicle(url).then((data) => console.log(JSON.parse(data)));
+});
+*/
+/* Intégré mais non utilisé
+const $searchLabel = document.getElementById('js-search-label');
+if ($searchLabel) {
+  const fixedClass = 'is-fixed';
+  const scrollLimit = 120;
   document.addEventListener('scroll', () => {
     let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
     currentScroll > scrollLimit ? $searchLabel.classList.add(fixedClass) : $searchLabel.classList.remove(fixedClass);

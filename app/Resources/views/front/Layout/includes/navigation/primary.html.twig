@@ -1,12 +1,41 @@
 {% set isLogged = isLogged|default(false) %}
-{% set navigation_class = navigation_class|default('show-for-large is-flex align-center align-middle') %}
 
+{% set navigation_class = navigation_class|default('header-search align-left') %}
 
-<nav id="{{ not isLogged ? 'js-navigation' }}" class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
+{% set searchAction = isUserPro ? path('front_search_tab_personal') : path('front_search_tab_pro') %}
+{% set directoryAction = path('front_directory_view') %}
 
-    {% block navigation %}
-        <a href="{{ path('front_search_tab_pro') }}" class="l-navigation-item black-color"><strong>{{ 'header.anonyme.see_search'|trans }}</strong></a>
-        <a href="{{ path('front_vehicle_registration') }}" class="l-navigation-item black-color margin-right"><strong>{{ 'header.anonyme.sell'|trans }}</strong></a>
-        <a href="{{ pro_site_url }}" class="l-navigation-item body-font-color"><span>{{ 'header.anonyme.pro_space'|trans }}</span></a>
-    {% endblock %}
+{% set visibilityConfigClass =  isLogged ? 'hide-for-small-only' : 'show-for-large' %}
+
+<nav id="{{ not isLogged ? 'js-navigation' }}"
+     class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
+    <div class="l-navigation-header-search {{ visibilityConfigClass }}">
+        <form id="header-search-form" method="get">
+            <div class="{{ visibilityConfigClass }} is-flex">
+                <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
+                <input type="search" name="search_vehicle[text]" id="js-header-search" class="input no-margin"
+                       placeholder="{{ 'search.common.field.text.label'|trans }}"
+                       data-toggle="header_search_dropdown_pane">
+            </div>
+            <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
+                 data-close-on-click="true">
+                <div class="dropdown-pane-body">
+                    <ul class="no-bullet text-left">
+                        <li>
+                            <button type="submit" name="{{ constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::HEADER_SEARCH_VEHICLE') }}"
+                                    data-input-name="search_vehicle[text]" data-action="{{ searchAction }}"
+                                    class="full-width text-left black-color">{{ 'header.common.search.vehicle'|trans }}</button>
+                        </li>
+                        <li>
+                            <button type="submit" name="{{ constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::HEADER_SEARCH_USER_PRO') }}"
+                                    data-input-name="search_pro[text]" data-action="{{ directoryAction }}"
+                                    class="full-width text-left black-color">{{ 'header.common.search.directory'|trans }}</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    {% block navigation %}{% endblock %}
 </nav>

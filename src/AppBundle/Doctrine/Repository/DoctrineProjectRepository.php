@@ -31,9 +31,5 @@ class DoctrineProjectRepository extends EntityRepository implements ProjectRepos
             ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds ) '));
         $qb->setParameter('orderedIds', $ids);
         return $qb->getQuery()->getResult();
-
-        /*$criteria = Criteria::create()
-            ->where(Criteria::expr()->in("id", $ids));
-        return $this->matching($criteria);*/
     }
 }

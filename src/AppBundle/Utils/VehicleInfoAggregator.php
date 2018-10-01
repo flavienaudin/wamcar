@@ -3,7 +3,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Elasticsearch\Query\QueryBuilderFilterer;
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use Novaway\ElasticsearchClient\Aggregation\Aggregation;
 use Novaway\ElasticsearchClient\QueryExecutor;
 
@@ -87,7 +87,7 @@ class VehicleInfoAggregator
         foreach ($childAggregations as $aggregationField) {
             $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField, ['size' => 0]));
         }
-        $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
+        $result = $this->queryExecutor->execute($qb->getQueryBody(), IndexableVehicleInfo::TYPE);
         foreach ($result->aggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
                 return $aggregationDetail['key'];

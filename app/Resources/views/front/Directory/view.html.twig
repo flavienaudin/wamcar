@@ -1,0 +1,50 @@
+{% extends 'front/Layout/layout.html.twig' %}
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ 'directory.page_tile'|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'directory.page_tile'|trans,
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        page_header_class: 'show-for-sr',
+        title: block('title')
+    } %}
+
+    <div class="block-gray">
+        {% include 'front/Directory/includes/form.html.twig' %}
+    </div>
+
+    <div class="row">
+        <div class="directory-result column small-12">
+            <header class="block-grid small-12 align-middle">
+                <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
+            </header>
+            <div>
+                {% if result.totalHits > 0 %}
+                    {% for hit in result.hits %}
+                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
+                            'proUser' : hit
+                        }) }}
+                    {% endfor %}
+                    {% include 'front/Layout/includes/pagination.html.twig' with {
+                        'route': 'front_directory_view',
+                        'page': page,
+                        'lastPage': lastPage
+                    } %}
+                {% else %}
+                    <br>
+                    <p>{{ 'directory.result.empty'|trans }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
