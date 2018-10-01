@@ -22,7 +22,7 @@ use Wamcar\User\ProUser;
 class SearchResultProvider
 {
     const LIMIT = 10;
-    const MIN_SCORE = 0;
+    const MIN_SCORE = 0.1;
     const OFFSET = 0;
 
     /** @var QueryExecutor */

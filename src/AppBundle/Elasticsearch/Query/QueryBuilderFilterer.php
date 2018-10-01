@@ -324,6 +324,11 @@ class QueryBuilderFilterer
                     ));
                 }
 
+                $queryBuilder->addSort('_score', 'desc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+
+
+                /*
                 if ($queryBuilder->getFunctionScoreCollectionLength() == 0) {
                     $queryBuilder->addSort('_score', 'desc');
                     $queryBuilder->addSort('sortingDate', 'desc');
@@ -332,7 +337,7 @@ class QueryBuilderFilterer
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "_score",
                         FieldValueFactorScore::SQUARE,
-                        3,
+                        5,
                         1
                     ));
 
@@ -349,12 +354,12 @@ class QueryBuilderFilterer
                         ['weight' => $sortingDateWeight], // Decay Function score € [0;1] x1.25/x3 => [0;1.25/3]
                         self::SORTING_DATE_DECAY_DECAY
                     ));
-                }
+                }*/
 
                 // Functions score combination
                 $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
                 // Query score and function score combination
-                $queryBuilder->setBoostMode(BoostMode::REPLACE);
+                $queryBuilder->setBoostMode(BoostMode::SUM);
 
 
                 break;
