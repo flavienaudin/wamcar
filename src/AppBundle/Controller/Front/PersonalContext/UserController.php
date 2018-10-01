@@ -330,12 +330,12 @@ class UserController extends BaseController
         }
 
         // TODO : to test only
-        if($user->isPro()){
+        /*if($user->isPro()){
             $otherAnswer = $this->affinityAnswerRepository->find('202de260-dbbc-430d-b6cb-d547ca39c96d');
         }else {
             $otherAnswer = $this->affinityAnswerRepository->find('a6553f6b-a27f-455c-99bd-4b09e858badc');
         }
-        $this->affinityDegreeCalculationService->calculateAffinityValue($user->getAffinityAnswer(), $otherAnswer);
+        $this->affinityDegreeCalculationService->calculateAffinityValue($user->getAffinityAnswer(), $otherAnswer);*/
         // End TODO
 
         return $this->render($templates[$user->getType()], [

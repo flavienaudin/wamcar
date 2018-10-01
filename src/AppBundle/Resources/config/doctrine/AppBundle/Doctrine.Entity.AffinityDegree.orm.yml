@@ -20,6 +20,18 @@ AppBundle\Doctrine\Entity\AffinityDegree:
       affinityValue:
         type: float
         nullable: false
+      profileAffinityValue:
+        type: float
+        nullable: false
+      passionAffinityValue:
+        type: float
+        nullable: false
+      positioningAffinityValue:
+        type: float
+        nullable: false
+      atomesCrochusAffinityValue:
+        type: float
+        nullable: false
 
     manyToOne:
         mainUser:

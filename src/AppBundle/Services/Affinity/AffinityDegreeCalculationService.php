@@ -19,108 +19,123 @@ class AffinityDegreeCalculationService
     /** @var DoctrineAffinityDegreeRepository $affinityDegreeRepository */
     private $affinityDegreeRepository;
 
-    public function calculateAffinityValue(AffinityAnswer $mainAffinityAnswer, AffinityAnswer $withAffinityAnswer): ?float
+    /**
+     * @param AffinityAnswer $mainAffinityAnswer The main user's answer
+     * @param AffinityAnswer $withAffinityAnswer The user's answer to compare with
+     * @return array|null array of scores or null if errors
+     * scores = [
+     *  'affinity' => Total affinity score
+     *  'profile' => Profile questions score
+     *  'passion' => Passion questions score
+     *  'positioning' => Positioning questions score
+     *  'atomesCrochus' => AtomesCrochus questions score
+     * ]
+     */
+    public function calculateAffinityValue(AffinityAnswer $mainAffinityAnswer, AffinityAnswer $withAffinityAnswer): ?array
     {
+        $scores = null;
         if ($mainAffinityAnswer->getUser() instanceof ProUser && $withAffinityAnswer->getUser() instanceof PersonalUser) {
-            return $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
+            $cores =  $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
         } elseif ($mainAffinityAnswer->getUser() instanceof PersonalUser && $withAffinityAnswer->getUser() instanceof ProUser) {
-            // TODO score Pro = score Personal
-            return $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
+            // Score Pro = score Personal. If assymetric calculation, implement a different function.
+            $cores =   $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
         }
-        dump('Affinity Degree non calculé : réponses non compatibles');
-        return 0;
+        if(!is_array($scores)){
+            return null;
+        }
+
+        if($mainAffinityAnswer->getUser()){
+            $this->affinityDegreeRepository->update();
+        }
+
+        return $cores;
     }
 
     /**
      * Calculate the score between a Professional and a Personal
      * @param array $mainAllAnswers Content of professional answer
      * @param array $withAllAnswers Content of personal answer
-     * @return float
+     * @return array [
+     *  'affinity' => Total affinity score
+     *  'profile' => Profile questions score
+     *  'passion' => Passion questions score
+     *  'positioning' => Positioning questions score
+     *  'atomesCrochus' => AtomesCrochus questions score
+     * ]
      */
-    private function calculateProPersonalAffinityValue(array $mainAllAnswers, array $withAllAnswers): float
+    private function calculateProPersonalAffinityValue(array $mainAllAnswers, array $withAllAnswers): array
     {
         $mainQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($mainAllAnswers['form_response']['answers']);
         $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAllAnswers['form_response']['answers']);
 
+        $scores = [];
         dump($mainQuestionsAnswers);
         dump($withQuestionsAnswers);
 
-        /*---------------*/
-        /*--- Profile ---*/
-        /*---------------*/
-        /* Title */
-        $profilAffinityScore = $this->calculateTitleScore($mainQuestionsAnswers['N20Fa9XvCxe3'] ?? null, $withQuestionsAnswers['rKajnOTWhQ11'] ?? null);
-        dump('titleScore = ' . $profilAffinityScore);
-        /* Experience */
+        //---------------//
+        //--- Profile ---//
+        //---------------//
+        // Title
+        $profileAffinityScore = $this->calculateTitleScore($mainQuestionsAnswers['N20Fa9XvCxe3'] ?? null, $withQuestionsAnswers['rKajnOTWhQ11'] ?? null);
+        dump('title score = ' . $profileAffinityScore);
+        // Experience
         $experienceScore = $this->calculateExperienceScore($mainQuestionsAnswers['pXwMCaGPIkYn'] ?? null, $withQuestionsAnswers['HulaGSXnxphU'] ?? null);
-        dump('experienceScore = ' . $experienceScore);
-        $profilAffinityScore += $experienceScore;
+        dump('experience score = ' . $experienceScore);
+        $profileAffinityScore += $experienceScore;
+        // Total profile score
+        dump('Profile score = ' . $profileAffinityScore);
+        $scores['profile'] = $profileAffinityScore * self::POURCENTAGE_SCORE_PROFILE / 25.0;
 
-        dump('profilAffinityScore = ' . $profilAffinityScore);
-        $affinityValue = $profilAffinityScore * self::POURCENTAGE_SCORE_PROFILE / 25.0;
-
-        /*---------------*/
-        /*--- Passion ---*/
-        /*---------------*/
-        /* Passions */
+        //---------------//
+        //--- Passion ---//
+        //---------------//
+        // Passions
         $passionAffinityScore = $this->calculatePassionsScore($mainQuestionsAnswers['QrrfsAj21VTe'] ?? null, $mainQuestionsAnswers['Ik34QcWAoM7O'] ?? null, $withQuestionsAnswers['WZnVUWj4HHsW'] ?? []);
-        dump('passionsScore = ' . $passionAffinityScore);
-        /* Pro passion website */
+        dump('passions score = ' . $passionAffinityScore);
+        // Pro passion website
         if (isset($mainQuestionsAnswers['DbdnZwCAWaOR'])) {
             $passionAffinityScore += 10;
         }
         dump('pro passion website = 10');
-        /* Advise domain */
+        // Advise domain
         $adviceScore = $this->calculateAdvicesScore($mainQuestionsAnswers['VNAGSbICaJmB'] ?? null, $withQuestionsAnswers['a1jPPIiYk1pu'] ?? null);
-        dump('adviceScore = ' . $adviceScore);
+        dump('advice score = ' . $adviceScore);
         $passionAffinityScore += $adviceScore;
+        // Total passion score
+        dump('Passion score = ' . $passionAffinityScore);
+        $scores['passion'] = $passionAffinityScore * self::POURCENTAGE_SCORE_PASSION / 45.0;
 
-        dump('passionAffinityScore = ' . $passionAffinityScore);
-        $affinityValue += $passionAffinityScore * self::POURCENTAGE_SCORE_PASSION / 45.0;
-
-        /*-------------------*/
-        /*--- Positioning ---*/
-        /*-------------------*/
-        /* Price */
+        //-------------------//
+        //--- Positioning ---//
+        //-------------------//
+        // Price
         $positioningScore = $this->calculatePriceScore($mainQuestionsAnswers['KwwCbCkzNoro'] ?? [], $withQuestionsAnswers['OXDcMxNY7jXK'] ?? null);
-        dump('priceScore = ' . $positioningScore);
-        /* Brand : no question in personal form about brands */
-        /* Vehicle type */
+        dump('price score = ' . $positioningScore);
+        // Brand : no question in personal form about brands TODO
+        // Vehicle type
         $vehicleTypeScore = $this->calculateVehicleTypeScore($mainQuestionsAnswers['Sn72hV3LGlkh'] ?? [], $withQuestionsAnswers['TgCx9GnZokcZ'] ?? []);
-        dump('vehicleTypeScore = ' . $vehicleTypeScore);
+        dump('vehicleType score = ' . $vehicleTypeScore);
         $positioningScore += $vehicleTypeScore;
 
-        $affinityValue += $positioningScore * self::POURCENTAGE_SCORE_POSITIONING / 20.0;
+        $scores['positioning'] = $positioningScore * self::POURCENTAGE_SCORE_POSITIONING / 20.0;
 
-        /*----------------------*/
-        /*--- Atomes Crochus ---*/
-        /*----------------------*/
-        /* Hobbies */
+        //----------------------//
+        //--- Atomes Crochus ---//
+        //----------------------//
+        // Hobbies
         $atomesCrochusScore = $this->calculateHobbiesScore($mainQuestionsAnswers['m57Ls95xJ5Ca'] ?? [], $withQuestionsAnswers['VxsHHmccvxvy'] ?? []);
-        dump('hobbiesScore = ' . $atomesCrochusScore);
-        /* Road */
+        dump('hobbies score = ' . $atomesCrochusScore);
+        // Road
         $roadScore = $this->calculateRoadScore($mainQuestionsAnswers['Q7QBuiJTCKDB'] ?? null, $withQuestionsAnswers['smLmytwZXVX0'] ?? null);
-        dump('roadScore = ' . $roadScore);
+        dump('road score = ' . $roadScore);
         $atomesCrochusScore += $roadScore;
+        // Total atomesCrochus score
+        $scores['atomesCrochus'] = $atomesCrochusScore * self::POURCENTAGE_SCORE_ATOMES / 40.0;
 
-        $affinityValue += $atomesCrochusScore * self::POURCENTAGE_SCORE_ATOMES / 40.0;
-
-        dump('$affinityValue= ' . $affinityValue);
-        return $affinityValue;
-    }
-
-    /**
-     * Scores are symetrics : not required now
-     * Calculate the score between a Personal and a Professional
-     * @param array $mainAnswer Content of personal answer
-     * @param array $withAnswer Content of professional answer
-     * @return float
-     */
-    private function calculatePersonalProAffinityValue(array $mainAllAnswers, array $withAllAnswers): float
-    {
-        $affinityValue = 0.0;
-        // TODO implement calculation
-        return $affinityValue;
+        // Total affinity score
+        $scores['affinity'] = $scores['profile'] + $scores['passion'] + $scores['positioning'] + $scores['atomesCrochus'];
+        dump('$scores["affinity"]= ' . $scores['affinity']);
+        return $scores;
     }
 
     /**

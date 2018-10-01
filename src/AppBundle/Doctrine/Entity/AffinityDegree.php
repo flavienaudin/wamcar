@@ -14,18 +14,34 @@ class AffinityDegree
     private $withUser;
     /** @var float $affinityValue */
     private $affinityValue;
+    /** @var float $profileAffinityValue */
+    private $profileAffinityValue;
+    /** @var float $passionAffinityValue */
+    private $passionAffinityValue;
+    /** @var float $positioningAffinityValue */
+    private $positioningAffinityValue;
+    /** @var float $atomesCrochusAffinityValue */
+    private $atomesCrochusAffinityValue;
 
     /**
      * AffinityDegree constructor.
      * @param BaseUser $mainUser
      * @param BaseUser $withUser
      * @param float $affinityValue
+     * @param float $profileAffinityValue
+     * @param float $passionAffinityValue
+     * @param float $positioningAffinityValue
+     * @param float $atomesCrochusAffinityValue
      */
-    public function __construct(BaseUser $mainUser, BaseUser $withUser, float $affinityValue)
+    public function __construct(BaseUser $mainUser, BaseUser $withUser, float $affinityValue, float $profileAffinityValue, float $passionAffinityValue, float $positioningAffinityValue, float $atomesCrochusAffinityValue)
     {
         $this->mainUser = $mainUser;
         $this->withUser = $withUser;
         $this->affinityValue = $affinityValue;
+        $this->profileAffinityValue = $profileAffinityValue;
+        $this->passionAffinityValue = $passionAffinityValue;
+        $this->positioningAffinityValue = $positioningAffinityValue;
+        $this->atomesCrochusAffinityValue = $atomesCrochusAffinityValue;
     }
 
     /**
