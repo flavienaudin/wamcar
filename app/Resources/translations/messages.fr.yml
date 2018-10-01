@@ -286,21 +286,7 @@ search:
         long: Professionnels
     result:
       no_vehicle_to_sell.alt: Pas de reprise
-  personal_user:
-    title: Annonces des professionnels
-    breadcrumbs: Annonces des professionnels
-    tab:
-      all: Professionnels
-      pro_user_search: Particuliers
-  pro_user:
-    title: Annonces des particuliers
-    breadcrumbs: Annonces des particuliers
-    tab:
-      all: Particuliers
-      recovery: Reprises
-      project: Souhaits
-      personal_user_search: Professionnels
-
+  
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture

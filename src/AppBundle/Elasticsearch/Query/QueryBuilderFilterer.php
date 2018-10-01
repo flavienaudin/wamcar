@@ -142,46 +142,6 @@ class QueryBuilderFilterer
     }
 
     /**
-     * @deprecated after Recherche v2
-     * @param QueryBuilder $queryBuilder
-     * @param SearchVehicleDTO $searchVehicleDTO
-     * @param string $queryType
-     * @return QueryBuilder
-     */
-    public function getQueryProBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO, string $queryType): QueryBuilder
-    {
-        $queryBuilder = $this->handleText($queryBuilder, $queryType, $searchVehicleDTO->text);
-
-        if (!empty($searchVehicleDTO->cityName)) {
-            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, '300'));
-        }
-
-        $queryBuilder = $this->handleMake($queryBuilder, $queryType, $searchVehicleDTO->make);
-        $queryBuilder = $this->handleModel($queryBuilder, $queryType, $searchVehicleDTO->model);
-        $queryBuilder = $this->handleMileage($queryBuilder, $queryType, $searchVehicleDTO->mileageMax);
-
-        if (!empty($searchVehicleDTO->yearsMin)) {
-            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->yearsMax)) {
-            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-        }
-
-        if ($queryType !== SearchController::QUERY_PROJECT) {
-            if (!empty($searchVehicleDTO->transmission)) {
-                $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
-            }
-            if (!empty($searchVehicleDTO->fuel)) {
-                $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
-            }
-        }
-
-        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO, $queryType);
-
-        return $queryBuilder;
-    }
-
-    /**
      * @param QueryBuilder $queryBuilder
      * @param string $queryType
      * @param $value
@@ -191,16 +151,14 @@ class QueryBuilderFilterer
     {
         if (!empty($value)) {
             $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
-            if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::QUERY_ALL ||
-                $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
+            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
             ) {
                 $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
                 $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
                 $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
                 $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
-            if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::QUERY_ALL ||
-                $queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
+            if ($queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
             ) {
                 $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
@@ -220,13 +178,13 @@ class QueryBuilderFilterer
     private function handleMake(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
-            if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
+            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
                 $queryBuilder->addFilter(new TermFilter('make', $value));
             }
-            if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::TAB_PROJECT) {
+            if ($queryType === SearchController::TAB_PROJECT) {
                 $queryBuilder->addFilter(new TermFilter('projectVehicles.make', $value));
             }
-            if ($queryType === SearchController::QUERY_ALL || $queryType === SearchController::TAB_ALL) {
+            if ($queryType === SearchController::TAB_ALL) {
                 $boolQueryMake = new BoolQuery();
                 $boolQueryMake->addClause(new MatchQuery('make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQueryMake->addClause(new MatchQuery('projectVehicles.make', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
@@ -246,13 +204,13 @@ class QueryBuilderFilterer
     private function handleModel(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
-            if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
+            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
                 $queryBuilder->addFilter(new TermFilter('model', $value));
             }
-            if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::TAB_PROJECT) {
+            if ($queryType === SearchController::TAB_PROJECT) {
                 $queryBuilder->addFilter(new TermFilter('projectVehicles.model', $value));
             }
-            if ($queryType === SearchController::QUERY_ALL || $queryType === SearchController::TAB_ALL) {
+            if ($queryType === SearchController::TAB_ALL) {
                 $boolQueryModel = new BoolQuery();
                 $boolQueryModel->addClause(new MatchQuery('model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
                 $boolQueryModel->addClause(new MatchQuery('projectVehicles.model', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
@@ -272,13 +230,13 @@ class QueryBuilderFilterer
     private function handleMileage(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
-            if ($queryType === SearchController::QUERY_RECOVERY || $queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
+            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
                 $queryBuilder->addFilter(new RangeFilter('mileage', $value, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
             }
-            if ($queryType === SearchController::QUERY_PROJECT || $queryType === SearchController::TAB_PROJECT) {
+            if ($queryType === SearchController::TAB_PROJECT) {
                 $queryBuilder->addFilter(new RangeFilter('projectVehicles.mileageMax', $value, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
             }
-            if ($queryType === SearchController::QUERY_ALL || $queryType === SearchController::TAB_ALL) {
+            if ($queryType === SearchController::TAB_ALL) {
                 $boolQueryMileage = new BoolQuery();
                 $boolQueryMileage->addClause(new RangeFilter('mileage', $value, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
                 $boolQueryMileage->addClause(new RangeFilter('projectVehicles.mileageMax', $value, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
@@ -366,6 +324,11 @@ class QueryBuilderFilterer
                     ));
                 }
 
+                $queryBuilder->addSort('_score', 'desc');
+                $queryBuilder->addSort('sortingDate', 'desc');
+
+
+                /*
                 if ($queryBuilder->getFunctionScoreCollectionLength() == 0) {
                     $queryBuilder->addSort('_score', 'desc');
                     $queryBuilder->addSort('sortingDate', 'desc');
@@ -374,7 +337,7 @@ class QueryBuilderFilterer
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "_score",
                         FieldValueFactorScore::SQUARE,
-                        3,
+                        5,
                         1
                     ));
 
@@ -391,68 +354,16 @@ class QueryBuilderFilterer
                         ['weight' => $sortingDateWeight], // Decay Function score € [0;1] x1.25/x3 => [0;1.25/3]
                         self::SORTING_DATE_DECAY_DECAY
                     ));
-                }
+                }*/
+
                 // Functions score combination
                 $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
                 // Query score and function score combination
-                $queryBuilder->setBoostMode(BoostMode::REPLACE);
+                $queryBuilder->setBoostMode(BoostMode::SUM);
 
 
                 break;
         }
-        return $queryBuilder;
-    }
-
-    /**
-     * @deprecated after Recherche v2
-     * @param QueryBuilder $queryBuilder
-     * @param $searchVehicleDTO
-     * @return QueryBuilder
-     */
-    public function getQueryPersonalBuilder(QueryBuilder $queryBuilder, SearchVehicleDTO $searchVehicleDTO): QueryBuilder
-    {
-        if (!empty($searchVehicleDTO->text)) {
-            $boolQuery = new BoolQuery();
-            $boolQuery->addClause(new MatchQuery('key_make', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            $boolQuery->addClause(new MatchQuery('key_model', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            $boolQuery->addClause(new MatchQuery('key_modelVersion', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            $boolQuery->addClause(new MatchQuery('key_engine', $searchVehicleDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            $queryBuilder->addQuery($boolQuery);
-        }
-
-        if (!empty($searchVehicleDTO->cityName)) {
-            $queryBuilder->addFilter(new GeoDistanceFilter('location', $searchVehicleDTO->latitude, $searchVehicleDTO->longitude, self::LOCATION_RADIUS_DEFAULT));
-        }
-        if ($searchVehicleDTO->make) {
-            $queryBuilder->addFilter(new TermFilter('make', $searchVehicleDTO->make));
-        }
-        if ($searchVehicleDTO->model) {
-            $queryBuilder->addFilter(new TermFilter('model', $searchVehicleDTO->model));
-        }
-        if ($searchVehicleDTO->mileageMax) {
-            $queryBuilder->addFilter(new RangeFilter('mileage', $searchVehicleDTO->mileageMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->yearsMin)) {
-            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->yearsMax)) {
-            $queryBuilder->addFilter(new RangeFilter('years', $searchVehicleDTO->yearsMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->budgetMin)) {
-            $queryBuilder->addFilter(new RangeFilter('price', $searchVehicleDTO->budgetMin, RangeFilter::GREATER_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->budgetMax)) {
-            $queryBuilder->addFilter(new RangeFilter('price', $searchVehicleDTO->budgetMax, RangeFilter::LESS_THAN_OR_EQUAL_OPERATOR));
-        }
-        if (!empty($searchVehicleDTO->transmission)) {
-            $queryBuilder->addFilter(new TermFilter('transmission', $searchVehicleDTO->transmission));
-        }
-        if (!empty($searchVehicleDTO->fuel)) {
-            $queryBuilder->addFilter(new TermFilter('fuel', $searchVehicleDTO->fuel));
-        }
-
-        $queryBuilder = $this->addSort($queryBuilder, $searchVehicleDTO);
-
         return $queryBuilder;
     }
 
