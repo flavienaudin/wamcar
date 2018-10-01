@@ -32,9 +32,6 @@ class SearchResultProvider
     private $queryBuilderFilterer;
 
     /** @var array */
-    private $queryTypes;
-
-    /** @var array */
     private $tabTypes;
 
     /**
@@ -46,7 +43,6 @@ class SearchResultProvider
     {
         $this->queryExecutor = $queryExecutor;
         $this->queryBuilderFilterer = $queryBuilderFilterer;
-        $this->queryTypes = [SearchController::QUERY_ALL, SearchController::QUERY_RECOVERY, SearchController::QUERY_PROJECT];
         $this->tabTypes = [SearchController::TAB_ALL, SearchController::TAB_PERSONAL, SearchController::TAB_PRO, SearchController::TAB_PROJECT];
     }
 
@@ -150,68 +146,5 @@ class SearchResultProvider
 
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, $type);
-    }
-
-    /**
-     * @param FormInterface $searchForm
-     * @param array $pages
-     * @return array
-     */
-    public function getSearchProResult(FormInterface $searchForm, array $pages): array
-    {
-        $searchVehicleDTO = $searchForm->getData();
-
-        $searchResult = [];
-        foreach ($this->queryTypes as $queryType) {
-            $searchResult[$queryType] = $this->getQueryProResult($queryType, $searchVehicleDTO, $pages);
-        }
-
-        return $searchResult;
-    }
-
-    /**
-     * @param string $queryType
-     * @param SearchVehicleDTO $searchVehicleDTO
-     * @param array $pages
-     * @return Result
-     */
-    private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
-    {
-
-        $queryBuilder = new QueryBuilder(
-            self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
-            self::LIMIT,
-            0.75
-        );
-
-        $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
-
-        return $this->queryExecutor->execute(
-            $queryBuilder->getQueryBody(),
-            IndexablePersonalVehicle::TYPE
-        );
-    }
-
-    /**
-     * @param $searchForm
-     * @param $page
-     * @return Result
-     */
-    public function getSearchPersonalResult(FormInterface $searchForm, int $page): Result
-    {
-        $searchVehicleDTO = $searchForm->getData();
-
-        $queryBuilder = new QueryBuilder(
-            self::OFFSET + ($page - 1) * self::LIMIT,
-            self::LIMIT,
-            self::MIN_SCORE
-        );
-
-        $queryBuilder = $this->queryBuilderFilterer->getQueryPersonalBuilder($queryBuilder, $searchVehicleDTO);
-
-        return $this->queryExecutor->execute(
-            $queryBuilder->getQueryBody(),
-            IndexableProVehicle::TYPE
-        );
     }
 }
