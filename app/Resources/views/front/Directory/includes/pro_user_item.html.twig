@@ -11,12 +11,14 @@
         </a>
         <div class="directory-item-action is-flex align-middle">
             <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"><span class="icon-message"></span></a>
+
         </div>
     </div>
     <div class="small-12 medium-4">
         <div class="directory-item-garages">
             {% set userGarages = proUser.garagesOrderByGoogleRating %}
             {% for garageProUser in userGarages|slice(0,1) %}
+
                 {% set garage = garageProUser.garage %}
                 <a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="directory-item-garage is-block">
                     <h3 class="dark-gray-color"> {{ garage.name }}</h3>

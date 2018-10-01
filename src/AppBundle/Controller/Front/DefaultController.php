@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -58,7 +59,13 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
                 'small_version' => true
             ]
         );
@@ -84,7 +91,13 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
                 'small_version' => true
             ]
         );
@@ -109,7 +122,13 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ? $this->generateRoute('front_search_tab_personal') : $this->generateRoute('front_search_tab_pro')),
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
                 'small_version' => true
             ]
         );

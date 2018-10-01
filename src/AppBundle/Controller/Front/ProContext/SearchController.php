@@ -62,14 +62,18 @@ class SearchController extends BaseController
 
     }
 
-    public function searchAction(Request $request, string $type = self::TAB_ALL, int $page = 1): Response
+    public function searchAction(Request $request, int $page = 1): Response
     {
+        $type = $request->query->get('search_vehicle', self::TAB_ALL);
+        if(is_array($type)){
+            $type = $type['tab'] ?? self::TAB_ALL;
+        }
+
         $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
         $pages[$type] = $page;
 
-        $searchForm = $this->getSearchForm($request, ($this->getUser() instanceof ProUser ? 'front_search_tab_personal' : 'front_search_tab_pro'), true);
+        $searchForm = $this->getSearchForm($request, true);
         $searchForm->handleRequest($request);
-
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
 
         $searchResultVehicles[self::TAB_ALL] = $this->userEditionService->getMixedBySearchResult($searchResult[self::TAB_ALL]);
@@ -81,9 +85,6 @@ class SearchController extends BaseController
         $lastPage[self::TAB_PERSONAL] = $searchResult[self::TAB_PERSONAL]->numberOfPages();
         $lastPage[self::TAB_PRO] = $searchResult[self::TAB_PRO]->numberOfPages();
         $lastPage[self::TAB_PROJECT] = $searchResult[self::TAB_PROJECT]->numberOfPages();
-
-
-        $type = !empty($searchForm->get('tab')->getData()) ? $searchForm->get('tab')->getData() : $type;
 
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
@@ -101,7 +102,7 @@ class SearchController extends BaseController
      * @param null|bool $displaySortingField Display or not a field to sort result
      * @return \Symfony\Component\Form\FormInterface
      */
-    private function getSearchForm(Request $request, string $actionPath, bool $displaySortingField = false)
+    private function getSearchForm(Request $request, bool $displaySortingField = false)
     {
         $paramSearchVehicle = $request->query->get('search_vehicle');
         $filters = [
@@ -110,8 +111,15 @@ class SearchController extends BaseController
         ];
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
         $searchVehicleDTO = new SearchVehicleDTO();
+        $actionRoute = $this->getUser() instanceof ProUser ?
+            $this->generateRoute('front_search',[
+                'search_vehicle' => ['tab' => self::TAB_PERSONAL]
+            ]):
+            $this->generateRoute('front_search',[
+                'search_vehicle' => ['tab' => self::TAB_PRO]
+            ]);
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'action' => $this->generateRoute($actionPath),
+            'action' => $actionRoute,
             'available_values' => $availableValues,
             'sortingField' => $displaySortingField
         ]);

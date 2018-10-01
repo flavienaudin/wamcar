@@ -4,7 +4,6 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
-use AppBundle\Doctrine\Entity\UserPreferences;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
@@ -234,6 +233,7 @@ class UserEditionService
 
         $this->userPreferencesRepository->update($user->getPreferences());
     }
+
     /**
      * Retrieve User from the search result
      * @param Result $searchResult

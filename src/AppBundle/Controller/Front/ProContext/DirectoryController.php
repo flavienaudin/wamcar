@@ -22,7 +22,7 @@ class DirectoryController extends BaseController
     private $userEditionService;
 
     /**
-     * SearchController constructor.
+     * DirectoryController constructor.
      * @param FormFactoryInterface $formFactory
      * @param SearchResultProvider $searchResultProvider ,
      * @param UserEditionService $userEditionService
