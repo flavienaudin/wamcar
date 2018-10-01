@@ -24,13 +24,11 @@
                 <div class="dropdown-pane-body">
                     <ul class="no-bullet text-left">
                         <li>
-                            <button type="submit" name="{{ constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::HEADER_SEARCH_VEHICLE') }}"
-                                    data-input-name="search_vehicle[text]" data-action="{{ searchAction }}"
+                            <button type="submit" data-input-name="search_vehicle[text]" data-action="{{ searchAction }}"
                                     class="full-width text-left black-color">{{ 'header.common.search.vehicle'|trans }}</button>
                         </li>
                         <li>
-                            <button type="submit" name="{{ constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::HEADER_SEARCH_USER_PRO') }}"
-                                    data-input-name="search_pro[text]" data-action="{{ directoryAction }}"
+                            <button type="submit" data-input-name="search_pro[text]" data-action="{{ directoryAction }}"
                                     class="full-width text-left black-color">{{ 'header.common.search.directory'|trans }}</button>
                         </li>
                     </ul>
