@@ -131,16 +131,17 @@ $directory-item-min-height : 182;
         margin-right: 0;
       }
 
-      a {
+      &:hover span {
+        color: $primary-color;
+      }
+
+      span {
         color: $white;
+
         padding-left: rem-calc(16);
         padding-right: rem-calc(16);
 
-        &:hover {
-          color: $primary-color;
-        }
-
-        .icon-message::before {
+        &.icon-message::before {
             margin-right: 0;
         }
       }
@@ -166,6 +167,10 @@ $directory-item-min-height : 182;
 
       h3, p {
         margin-bottom: 0;
+      }
+
+      &:only-child {
+        height: 100%;
       }
     }
 
