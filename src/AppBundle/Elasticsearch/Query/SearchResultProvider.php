@@ -109,7 +109,7 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($page - 1) * $limit,
             $limit,
-            0.3
+            0.5
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garage->getId(), $text);

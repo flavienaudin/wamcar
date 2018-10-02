@@ -96,10 +96,10 @@ class QueryBuilderFilterer
         }
         if (!empty($text)) {
             $boolQuery = new BoolQuery();
-            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR']));
             $queryBuilder->addQuery($boolQuery);
         }
         $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
@@ -111,6 +111,7 @@ class QueryBuilderFilterer
                 self::SORTING_DATE_DECAY_DECAY)
         );
         $queryBuilder->setBoostMode(QueryBuilder::SUM);
+        $queryBuilder->addSort('_score', 'desc');
 
         return $queryBuilder;
     }
