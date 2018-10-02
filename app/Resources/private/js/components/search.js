@@ -21,42 +21,41 @@ const getVehicle = async (url) => {
 
 const $searchForm = $('#js-search-form');
 if ($searchForm.length) {
+
   // Mise à jour de la valeur du champ caché pour la sélection de l'onglet
   const $searchTabs = $('#js-search-tabs');
   if ($searchTabs.length) {
     $searchForm.on('submit', () => {
       $('#search_vehicle_tab').val($searchTabs.find('li.is-active').data('tab'));
     });
+  }
 
-    // Suppression du filtre par soumission de formulaire
-    let $filterLinks = $('.search-filter');
-    if ($filterLinks.length) {
-      $filterLinks.each((index, elt) => {
-        $(elt).find('a').on('click', function (e) {
-          e.preventDefault();
-          let toResetFieldArray = ($(this).data('field-id')).split(',');
-          toResetFieldArray.forEach((element) => {
-            if (element.indexOf('=') === -1) {
-              $('#' + element).val(null);
-            } else {
-              let field_value = element.split('=');
-              $('#' + field_value[0]).val(field_value[1]);
-            }
-          });
-          $searchForm.submit();
+  // Suppression du filtre par soumission de formulaire
+  let $filterLinks = $('.search-filter');
+  if ($filterLinks.length) {
+    $filterLinks.each((index, elt) => {
+      $(elt).find('a').on('click', function (e) {
+        e.preventDefault();
+        let toResetFieldArray = ($(this).data('field-id')).split(',');
+        toResetFieldArray.forEach((element) => {
+          if (element.indexOf('=') === -1) {
+            $('#' + element).val(null);
+          } else {
+            let field_value = element.split('=');
+            $('#' + field_value[0]).val(field_value[1]);
+          }
         });
-      });
-    }
-
-    // Submit form when changing sorting select
-    let $sortingSelect = $('#js-search-sorting-select');
-    if($sortingSelect.length){
-      $sortingSelect.on('change', () => {
         $searchForm.submit();
       });
-    }
+    });
+  }
 
-
+  // Submit form when changing sorting select
+  let $sortingSelect = $('#js-search-sorting-select');
+  if($sortingSelect.length){
+    $sortingSelect.on('change', () => {
+      $searchForm.submit();
+    });
   }
 }
 

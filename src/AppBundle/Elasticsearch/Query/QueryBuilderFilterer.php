@@ -169,12 +169,15 @@ class QueryBuilderFilterer
         // sorting
         $locationOffset = self::LOCATION_DECAY_OFFSET;
         if (!empty($searchProDTO->radius)) {
-            $locationOffset = ($searchProDTO->radius / 2) . 'km';
+            $locationOffset = ($searchProDTO->radius / 5) . 'km';
         }
         switch ($searchProDTO->sorting) {
             case DirectorySorting::DIRECTORY_SORTING_DISTANCE:
                 if (!empty($searchProDTO->cityName)) {
-                    $score = new DecayFunctionScore('garages.garageLocation',
+                    $queryBuilder->addDistanceSort('garages.garageLocation',
+                        $searchProDTO->latitude, $searchProDTO->longitude, 'asc', 'km', 'min');
+
+                    /*$score = new DecayFunctionScore('garages.garageLocation',
                         DecayFunctionScore::GAUSS, [
                             'lat' => $searchProDTO->latitude,
                             'lon' => $searchProDTO->longitude],
@@ -182,7 +185,7 @@ class QueryBuilderFilterer
                         self::LOCATION_DECAY_SCALE, [
                             'weight' => 10
                         ]);
-                    $queryBuilder->addFunctionScore($score);
+                    $queryBuilder->addFunctionScore($score);*/
                     break;
                 }
             // default sorting by RELEVANCE below :
