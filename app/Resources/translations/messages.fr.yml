@@ -238,6 +238,8 @@ garage:
       googleSearch:
         label: Rechercher votre établissement
         placeholder: Rechercher votre établissement sur Google Map
+      location:
+        placeholder: Ville ou code postal
 
 search:
   common:
