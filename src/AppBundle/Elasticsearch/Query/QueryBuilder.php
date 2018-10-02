@@ -60,4 +60,30 @@ class QueryBuilder extends BaseQueryBuilder
         return $queryBody;
     }
 
+    /**
+     * Sort by GeoDistance
+     * @param $field
+     * @param $lat
+     * @param $lon
+     * @param $order
+     * @param string $unit 'km' by default
+     * @param string $mode "min", "max" and "avg"
+     * @param string $distanceType "sloppy_arc" (default), "arc" (slightly more precise but significantly slower) or "plane" (faster, but inaccurate on long distances and close to the poles
+     * @return QueryBuilder
+     */
+    public function addDistanceSort($field, $lat, $lon, $order, $unit = 'km', $mode = "min", $distanceType = "sloppy_arc"): QueryBuilder
+    {
+        $this->queryBody['sort'][] = [
+            '_geo_distance' => [
+                $field => ['lat' => $lat, 'lon' => $lon],
+                'order' => $order,
+                'unit' => $unit,
+                'mode' => $mode,
+                'distance_type' => $distanceType
+            ]
+        ];
+
+        return $this;
+    }
+
 }

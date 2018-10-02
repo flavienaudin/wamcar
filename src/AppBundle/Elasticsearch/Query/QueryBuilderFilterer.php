@@ -340,7 +340,7 @@ class QueryBuilderFilterer
     {
         $locationOffset = self::LOCATION_DECAY_OFFSET;
         if (!empty($searchVehicleDTO->radius)) {
-            $locationOffset = ($searchVehicleDTO->radius / 2) . 'km';
+            $locationOffset = ($searchVehicleDTO->radius / 5) . 'km';
         }
         switch ($searchVehicleDTO->sorting) {
             case Sorting::SEARCH_SORTING_DATE:
@@ -356,6 +356,11 @@ class QueryBuilderFilterer
                 break;
             case Sorting::SEARCH_SORTING_DISTANCE:
                 if (!empty($searchVehicleDTO->cityName)) {
+                    $queryBuilder->addDistanceSort('location',
+                        $searchVehicleDTO->latitude,
+                        $searchVehicleDTO->longitude,
+                        'asc');
+                    /* Sort unsing DecayFunction.
                     $score = new DecayFunctionScore('location',
                         DecayFunctionScore::GAUSS, [
                             'lat' => $searchVehicleDTO->latitude,
@@ -364,7 +369,8 @@ class QueryBuilderFilterer
                         self::LOCATION_DECAY_SCALE, [
                             'weight' => 10
                         ]);
-                    $queryBuilder->addFunctionScore($score);
+                    $queryBuilder->addFunctionScore($score);*/
+
                     break;
                 }
             // default sorting by RELEVANCE below :
@@ -410,7 +416,6 @@ class QueryBuilderFilterer
                 $queryBuilder->addSort('_score', 'desc');
                 $queryBuilder->addSort('sortingDate', 'desc');
 
-
                 /*
                 if ($queryBuilder->getFunctionScoreCollectionLength() == 0) {
                     $queryBuilder->addSort('_score', 'desc');
@@ -443,7 +448,6 @@ class QueryBuilderFilterer
                 $queryBuilder->setFunctionScoreMode(QueryBuilder::SUM);
                 // Query score and function score combination
                 $queryBuilder->setBoostMode(BoostMode::SUM);
-
 
                 break;
         }
