@@ -33,7 +33,7 @@
 
 <div class="directory-form-container">
     {{ form_start(searchProForm, {
-        'attr' : {'class' : 'search-form row', 'id':'js-search-form'}
+        'attr':{'class':'search-form row', 'id':'js-search-form'}
     }) }}
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchProForm.text, {
@@ -63,7 +63,6 @@
         {{ form_widget(searchProForm.cityName) }}
         {{ form_widget(searchProForm.latitude) }}
         {{ form_widget(searchProForm.longitude) }}
-
     </div>
 
     <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
@@ -92,6 +91,7 @@
         </div>#}
         <div class="block-grid column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
             {{ form_widget(searchProForm.sorting, {
+                'id':'js-search-sorting-select',
                 'label' : 'directory.field.sorting.label'|trans,
                 'label_class' : 'show-for-sr',
                 'class' : 'sorting',

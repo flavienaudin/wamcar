@@ -19,8 +19,6 @@
 
 {% import _self as macro %}
 
-{% set form_id = 'js-search-form' %}
-
 {% set form_criteria %}{% spaceless %}
     {% if filterData.text is not null %}
         {{ macro.jsFilterAsTag('search.common.field.text.label', filterData.text, searchForm.text.vars.id) }}
@@ -63,7 +61,7 @@
 
 <div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container">
     {{ form_start(searchForm, {
-        'attr' : {'class' : 'search-form row', 'id': form_id}
+        'attr' : {'class' : 'search-form row', 'id': 'js-search-form'}
     }) }}
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchForm.text, {
