@@ -47,6 +47,16 @@ if ($searchForm.length) {
         });
       });
     }
+
+    // Submit form when changing sorting select
+    let $sortingSelect = $('#js-search-sorting-select');
+    if($sortingSelect.length){
+      $sortingSelect.on('change', () => {
+        $searchForm.submit();
+      });
+    }
+
+
   }
 }
 
