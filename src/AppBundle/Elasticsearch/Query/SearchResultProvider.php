@@ -113,7 +113,6 @@ class SearchResultProvider
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garage->getId(), $text);
-
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, IndexableProVehicle::TYPE);
     }
@@ -139,13 +138,16 @@ class SearchResultProvider
             foreach ($user->getGarageMemberships() as $garageMembership) {
                 $garageIds[] = $garageMembership->getGarage()->getId();
             }
-            $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garageIds, $text);
-            $type = IndexableProVehicle::TYPE;
+            if (count($garageIds) > 0) {
+                $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garageIds, $text);
+                $type = IndexableProVehicle::TYPE;
+            } else {
+                return new Result(0, [], [], $limit);
+            }
         } elseif ($user instanceof PersonalUser) {
             $queryBuilder = $this->queryBuilderFilterer->getUserVehiclesQueryBuilder($queryBuilder, $user->getId(), $text);
             $type = IndexablePersonalVehicle::TYPE;
         }
-
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, $type);
     }
