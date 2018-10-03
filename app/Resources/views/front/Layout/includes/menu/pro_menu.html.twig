@@ -21,6 +21,8 @@
     </li>
 {% endif %}
 
+<li><a href="{{ path('front_user_favorites_list') }}">{{ 'header.common.my_favorites'|trans }}</a> </li>
+
 {% if not app.user.hasGarage %}
     {# Astuce : Pas de possibilité d'ajouter un véhicule avant d'avoir créer le garage => Redirection vers page de création d'un garage avec message dans l'action #}
     <li>
@@ -47,9 +49,7 @@
             {% endfor %}
         </ul>
     </li>
-{% endif %}
-
-<li><a href="{{ path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+{% endif %}<li><a href="{{ path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
 
 <li class="menu-separator"></li>
 
