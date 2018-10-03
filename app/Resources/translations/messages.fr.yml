@@ -213,7 +213,7 @@ landing:
         required_message: Veuillez indiquer votre adresse email
       submit: Inscription
     pro_email_registration_tab:
-      title: Je suis un professionnel
+      title: Je suis un conseiller auto
       subtitle:  Découvrez de belles reprises et rencontrez vos clients sur %sitename%
       pre_submit: Devenez un vendeur digital et améliorez votre sourcing en choisissant de belles reprises, en proposant vos véhicules neufs ou d'occasion, et ne manquez aucun client grâce à la messagerie sécurisée.
     personal_email_registration_tab:

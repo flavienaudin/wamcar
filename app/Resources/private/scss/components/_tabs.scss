@@ -19,8 +19,8 @@
   }
 
   .vehicle-form & {
-    padding-right: rem-calc(20);
-    padding-left: rem-calc(20);
+    padding-right: rem-calc(10);
+    padding-left: rem-calc(10);
 
     @include breakpoint(medium) {
       padding-right: rem-calc(40);
