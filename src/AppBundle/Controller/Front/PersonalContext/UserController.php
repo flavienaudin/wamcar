@@ -283,7 +283,7 @@ class UserController extends BaseController
 
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
-                if ($this->getUser() === PersonalUser::TYPE) {
+                if ($user->getType() === PersonalUser::TYPE) {
                     $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
                 } else {
                     $this->eventBus->handle(new ProUserUpdated($this->getUser()));
