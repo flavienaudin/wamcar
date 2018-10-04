@@ -67,7 +67,7 @@
         <meta name="robots" content="noindex, nofollow">
     {% endif %}
 
-     <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}">
+     <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}?v={{ site_version }}">
 </head>
 {% if app.environment == 'inte' %}
     <body id="js-body" data-toggler=".debug">
@@ -109,7 +109,7 @@
 
     {% block modal %}{% endblock %}
 
-    <script src="{{ asset('assets/bundle/bundle.js') }}" defer async></script>
+    <script src="{{ asset('assets/bundle/bundle.js') }}?v={{ site_version }}" defer async></script>
     {% block javascripts %}{% endblock %}
 
     </body>
