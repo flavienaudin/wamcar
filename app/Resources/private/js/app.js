@@ -13,7 +13,9 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 import {Tabs} from 'foundation-sites/js/foundation.tabs';
 import {Magellan} from 'foundation-sites/js/foundation.magellan';
 import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
-import {Dropdown} from 'foundation-sites/js/foundation.dropdown';
+// Overridded version of DropDown
+import {Dropdown} from './foundation/foundation.override.dropdown';
+
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import './components/responsiveDom';
 import './components/search';
@@ -70,15 +72,14 @@ $(function () {
     return new Abide($(abide));
   });
 
-  /* Toogle */
+  /* Toogle : gérer par les scrips Foundation */
 
-  const $toggles = $('[data-toggle]');
-
+  /*const $toggles = $('[data-toggle]');
   $toggles.each((index, toggle) => {
     $(toggle).on('click', function () {
       $(this).toggleClass(activeClass);
     });
-  });
+  });*/
 
   const $togglers = $('[data-toggler]');
 
