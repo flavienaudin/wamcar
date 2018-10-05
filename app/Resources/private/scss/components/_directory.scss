@@ -3,14 +3,14 @@
    =========================================================================== */
 
 /** Settings **/
-$directory-item-min-height : 182;
+$directory-item-min-height: 182;
 
 /** Class definition */
 .directory {
 
   // Change label and button colors
   &-form-container {
-    label {
+    label  {
       color: $dark-blue;
     }
 
@@ -97,7 +97,7 @@ $directory-item-min-height : 182;
       max-height: rem-calc($directory-item-min-height - 22);
       overflow-y: hidden;
 
-      @include breakpoint(medium){
+      @include breakpoint(medium) {
         margin-bottom: 0;
         margin-left: rem-calc(10);
         margin-right: rem-calc(10);
@@ -114,8 +114,21 @@ $directory-item-min-height : 182;
         margin-bottom: rem-calc(10);
         color: $body-font-color;
         text-align: justify;
-        max-height: rem-calc($directory-item-min-height - 62);
-        overflow-y: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4; /* number of lines to show N*/
+
+        line-height: 1.5; /* fallback X */
+        max-height: rem-calc(16 * 6); /* fallback = font-size * X * N */
+        @include breakpoint(small only) {
+          max-height: rem-calc(13 * 6); /* fallback = font-size * X * N */
+        }
+
+        @include breakpoint(medium only) {
+          max-height: rem-calc(15 * 6); /* fallback = font-size * X * N */
+        }
       }
     }
 
@@ -126,7 +139,7 @@ $directory-item-min-height : 182;
       font-size: rem-calc(20);
       background-color: $dark-blue;
 
-      @include breakpoint(medium){
+      @include breakpoint(medium) {
         margin-bottom: rem-calc(-10);
         margin-right: 0;
       }
@@ -142,14 +155,14 @@ $directory-item-min-height : 182;
         padding-right: rem-calc(16);
 
         &.icon-message::before {
-            margin-right: 0;
+          margin-right: 0;
         }
       }
     }
 
     &-garages {
       height: 100%;
-      max-height: rem-calc($directory-item-min-height -22 );
+      max-height: rem-calc($directory-item-min-height -22);
       padding-top: rem-calc(5);
 
       border-top: rem-calc(1) solid $border-color;
