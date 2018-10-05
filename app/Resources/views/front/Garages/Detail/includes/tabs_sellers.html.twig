@@ -10,7 +10,9 @@
                         {% set userIsMe = membership.proUser.is(app.user) %}
                         <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
                             <figure class="block-grid align-middle" role="group">
-                                <span class="brand-logo is-logo brand-logo-rounded"><img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ membership.proUser.fullName }}"></span>
+                                <span class="user-thumbnail-mini margin-right-1">
+                                    <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}"
+                                         alt="{{ membership.proUser.fullName }}"></span>
                                 <span class="h2">{{  membership.proUser.fullName }}</span>
                             </figure>
                         </a>

@@ -35,8 +35,9 @@
                                             {{ user.id }}
                                         </a>
                                     </td>
-                                    <td><img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}"
-                                             width="100%"></td>
+                                    <td><span class="user-thumbnail-mini"><img
+                                                    src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                                    alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>
                                     <td>{{ user.email }}</td>
@@ -96,8 +97,9 @@
                                         <a href="{{ path('front_view_user_info',{'id':user.id}) }}">
                                             {{ user.id }}
                                         </a></td>
-                                    <td><img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}"
-                                             width="100%"></td>
+                                    <td><span class="user-thumbnail-mini">
+                                            <img src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                                 alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>
                                     <td>{{ user.email }}</td>
