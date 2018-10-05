@@ -57,6 +57,7 @@ $profil-image-offset: rem-calc(40);
   &-image {
     display: block;
     width: rem-calc(100);
+    height: rem-calc(100);
     overflow: hidden;
     border-radius: 50%;
 
@@ -66,6 +67,10 @@ $profil-image-offset: rem-calc(40);
 
     @include breakpoint(large) {
       width: rem-calc(100);
+    }
+
+    > img {
+      object-fit: cover;
     }
   } // End &-image
 

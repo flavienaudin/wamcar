@@ -56,7 +56,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_version: '1.1.3'
+        site_version: '1.1.3b'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
@@ -255,9 +255,9 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [52, 52], mode: outbound }
+                thumbnail: { size: [100, 100], mode: outbound }
         user_thumbnail:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [100, 100], mode: outbound }
@@ -265,7 +265,7 @@ liip_imagine:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [760, 340], mode: outbound }
+                thumbnail: { size: [760, 340], mode: outbound, allow_upscale: true }
         garage_mini_banner:
             quality: 75
             filters:
