@@ -80,8 +80,8 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function getMembershipByGarage(Garage $garage): ?GarageProUser
     {
         /** @var GarageProUser $member */
-        foreach ($garage->getMembers() as $member) {
-            if ($member->getProUser() === $this) {
+        foreach ($this->getGarageMemberships() as $member) {
+            if ($member->getGarage() === $garage) {
                 return $member;
             }
         }
@@ -118,7 +118,6 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     {
         /** @var GarageProUser $garageMembership */
         foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
-            dump($garageMembership);
             if ($garageMembership->getGarage() === $garage) {
                 return GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole());
             }

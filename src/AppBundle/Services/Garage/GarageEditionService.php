@@ -17,6 +17,7 @@ use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\User\Event\ProUserUpdated;
 
 
 class GarageEditionService
@@ -68,6 +69,16 @@ class GarageEditionService
     public function canEdit($user, Garage $garage): bool
     {
         return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($garage);
+    }
+
+    /**
+     * @param $user
+     * @param Garage $garage
+     * @return bool
+     */
+    public function canAdministrate($user, Garage $garage): bool
+    {
+        return $user instanceof CanBeGarageMember && $user->isAdministratorOfGarage($garage);
     }
 
     /**
@@ -146,7 +157,8 @@ class GarageEditionService
         $garage->removeMember($member);
         $this->garageProUserRepository->remove($member);
         $this->garageRepository->update($garage);
-
+        $this->eventBus->handle(new GarageUpdated($garage));
+        $this->eventBus->handle(new ProUserUpdated($proApplicationUser));
         return $garage;
     }
 

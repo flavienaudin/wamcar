@@ -11,6 +11,7 @@ use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\SearchVehicleType;
+use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
@@ -22,7 +23,10 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
 
 class GarageController extends BaseController
@@ -45,6 +49,8 @@ class GarageController extends BaseController
     private $searchResultProvider;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+    /** @var TranslatorInterface $translator */
+    private $translator;
 
     /**
      * GarageController constructor.
@@ -55,6 +61,7 @@ class GarageController extends BaseController
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param SearchResultProvider $searchResultProvider
      * @param ProVehicleEditionService $proVehicleEditionService
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -63,7 +70,8 @@ class GarageController extends BaseController
         SessionMessageManager $sessionMessageManager,
         VehicleInfoAggregator $vehicleInfoAggregator,
         SearchResultProvider $searchResultProvider,
-        ProVehicleEditionService $proVehicleEditionService
+        ProVehicleEditionService $proVehicleEditionService,
+        TranslatorInterface $translator
     )
     {
         $this->formFactory = $formFactory;
@@ -73,6 +81,7 @@ class GarageController extends BaseController
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->searchResultProvider = $searchResultProvider;
         $this->proVehicleEditionService = $proVehicleEditionService;
+        $this->translator = $translator;
     }
 
     /**
@@ -134,7 +143,7 @@ class GarageController extends BaseController
      */
     public function saveAction(Request $request, ?Garage $garage)
     {
-        if (null !== $garage && !$this->authorizationChecker->isGranted('edit', $garage)) {
+        if (null !== $garage && !$this->authorizationChecker->isGranted(GarageVoter::EDIT, $garage)) {
             throw new AccessDeniedHttpException('Only member can access edit this garage');
         }
 
@@ -154,8 +163,11 @@ class GarageController extends BaseController
             } catch (ExistingGarageException $e) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
-                    'flash.warning.garage.same_as_existing'
-                );
+                    $this->translator->trans('flash.warning.garage.same_as_existing', [
+                            '%requestUrl%' => $this->generateRoute('front_garage_request_to_join', [
+                                'id' => $e->getGarage()->getId()
+                            ])]
+                    ));
                 return $this->redirectToRoute('front_garage_view', [
                     'id' => $e->getGarage()->getId(),
                     '_fragment' => 'sellers']);
@@ -233,7 +245,7 @@ class GarageController extends BaseController
 
         $this->session->getFlashBag()->add(
             self::FLASH_LEVEL_INFO,
-            'flash.success.add_member_garage'
+            'flash.success.garage.assign_member'
         );
 
         return $this->redirectToRoute('front_garage_list');
@@ -241,23 +253,47 @@ class GarageController extends BaseController
 
     /**
      * @ParamConverter("garage", options={"id" = "garage_id"})
-     * @ParamConverter("user", options={"id" = "user_id"})
+     * @ParamConverter("proApplicationUser", options={"id" = "user_id"})
      * @param Garage $garage
-     * @param ProApplicationUser $user
+     * @param ProApplicationUser $proApplicationUser
      * @Security("has_role('ROLE_PRO')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function unassignAction(Garage $garage, ProApplicationUser $user): RedirectResponse
+    public function unassignAction(Garage $garage, ProApplicationUser $proApplicationUser): RedirectResponse
     {
-        throw new AccessDeniedHttpException('Action not used');
+        /** @var GarageProUser $member */
+        $member = $proApplicationUser->getMembershipByGarage($garage);
+        if ($member == null) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.error.garage.not_member'
+            );
+            return $this->redirectToRoute('front_garage_view', [
+                'id' => $garage->getId(),
+                '_fragment' => 'sellers'
+            ]);
+        }
+        if (!$this->getUser()->is($member->getProUser()) && !$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+            throw new AccessDeniedException();
+        }
 
-        $this->garageEditionService->removeMember($garage, $user);
+        $this->garageEditionService->removeMember($garage, $proApplicationUser);
 
-        $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_INFO,
-            'flash.success.add_member_garage'
-        );
+        if($this->getUser()->is($proApplicationUser)){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.garage.cancel_pending_request'
+            );
+        }else {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.garage.remove_member'
+            );
+        }
 
-        return $this->redirectToRoute('front_garage_list');
+        return $this->redirectToRoute('front_garage_view', [
+            'id' => $garage->getId(),
+            '_fragment' => 'sellers'
+        ]);
     }
 }

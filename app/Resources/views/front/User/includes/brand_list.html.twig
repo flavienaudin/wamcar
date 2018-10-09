@@ -11,7 +11,8 @@
                 {% if membership.requestedAt is not null %}
                     <p class="black-color">
                         <i>{{ 'user.garage.pending_request'|trans }}&nbsp;:</i>
-                        <a href="" class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                        <a href="{{ path('front_garage_unassign', {'garage_id':membership.garage.id,'user_id':app.user.id}) }}"
+                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
                 {% endif %}
             </li>
         {% endif %}

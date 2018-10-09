@@ -33,12 +33,14 @@
                                     <p class="is-inline-block">
                                         <span class="primary-color">TODO : implement pathes</span><br>
                                         <i class="black-color">{{ 'user.garage.pending_request'|trans }}&nbsp;:</i>
-                                        <a href="" class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':app.user.id}) }}"
+                                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
                                 {% else %}
                                     <p class="is-inline-block">
                                         <span class="primary-color">TODO : implement pathes</span><br>
                                         <a href="" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
-                                        <a href="" class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':app.user.id}) }}"
+                                           class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
                                 {% endif %}
                             {% endif %}
                         </li>
