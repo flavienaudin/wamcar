@@ -1,0 +1,17 @@
+/* ===========================================================================
+   Administration style
+   =========================================================================== */
+
+.admin {
+
+  &-table-container {
+    max-width: 100%;
+    max-height: 60vh;
+    overflow: auto;
+  }
+
+
+  .garage-pending-request{
+    font-style: italic;
+  }
+}

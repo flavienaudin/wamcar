@@ -2,16 +2,18 @@
 
 namespace AppBundle\Services\Garage;
 
-use AppBundle\Doctrine\Entity\ApplicationGarage;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Exception\Garage\AlreadyGarageMemberException;
+use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use GoogleApi\GoogleMapsApiConnector;
 use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
-use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
@@ -73,34 +75,56 @@ class GarageEditionService
      * @param null|Garage $garage
      * @param CanBeGarageMember $creator
      * @return Garage
+     * @throws AlreadyGarageMemberException|ExistingGarageException
      */
     public function editInformations(GarageDTO $garageDTO, ?Garage $garage, CanBeGarageMember $creator): Garage
     {
-        /** @var Garage $garage */
-        $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
+        $existingGarage = null;
 
-        if (!$creator->isMemberOfGarage($garage)) {
-            $this->addMember($garage, $creator);
+        if (!empty($garageDTO->googlePlaceId) && ($garage == null || $garage->getGooglePlaceId() !== $garageDTO->googlePlaceId)) {
+            $existingGarage = $this->garageRepository->findOneBy(['googlePlaceId' => $garageDTO->googlePlaceId]);
+        }
+        if ($existingGarage === null && ($garage == null || $garage->getName() !== $garageDTO->name)) {
+            $existingGarage = $this->garageRepository->findOneBy(['name' => $garageDTO->name]);
         }
 
-        $garage = $this->garageRepository->update($garage);
-        $this->eventBus->handle(new GarageUpdated($garage));
+        if ($existingGarage != null) {
+            if ($creator->isMemberOfGarage($existingGarage)) {
+                throw new AlreadyGarageMemberException($existingGarage);
+            } else {
+                throw new ExistingGarageException($existingGarage);
+            }
+        } else {
+            /** @var Garage $garage */
+            $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
 
-        return $garage;
+            if (!$creator->isMemberOfGarage($garage)) {
+                $this->addMember($garage, $creator, true);
+            }
+
+            $garage = $this->garageRepository->update($garage);
+            $this->eventBus->handle(new GarageUpdated($garage));
+
+            return $garage;
+        }
     }
 
     /**
      * @param Garage $garage
-     * @param ProApplicationUser $proApplicationUser
+     * @param ProApplicationUser $proUser
+     * @param boolean $isAdministrator
      * @return Garage
      */
-    public function addMember(Garage $garage, ProApplicationUser $proApplicationUser): Garage
+    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false): Garage
     {
-        /** @var GarageProUser $garageProUser */
-        if (!in_array('ROLE_ADMIN', $proApplicationUser->getRoles())) {
-            $garageProUser = new GarageProUser($garage, $proApplicationUser);
+        if (!in_array('ROLE_ADMIN', $proUser->getRoles())) {
+            /** @var GarageProUser $garageProUser */
+            $garageProUser = new GarageProUser($garage, $proUser, $isAdministrator ? GarageRole::GARAGE_ADMINISTRATOR() : GarageRole::GARAGE_MEMBER());
+            if (!$isAdministrator) {
+                $garageProUser->setRequestedAt(new \DateTime());
+            }
             $garage->addMember($garageProUser);
-            $proApplicationUser->addGarageMembership($garageProUser);
+            $proUser->addGarageMembership($garageProUser);
             $this->garageRepository->update($garage);
         }
 

@@ -93,6 +93,10 @@ front_garage_remove:
     path: /garage/remove/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:remove }
 
+front_garage_request_to_join:
+    path: /garage/request/{id}
+    controller: AppBundle:Front\ProContext\Garage:requestToJoin
+
 front_garage_assign:
     path: /garage/assign/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:assign }

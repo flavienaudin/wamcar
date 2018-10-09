@@ -6,6 +6,7 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 
@@ -56,6 +57,14 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @return Collection
+     */
+    public function getEnabledGarageMemberships(): Collection
+    {
+        return $this->garageMemberships->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
      * @param Collection $members
      */
     public function setGarageMemberships(Collection $members)
@@ -69,17 +78,18 @@ class ProUser extends BaseUser
      */
     public function getGaragesOrderByGoogleRating(): array
     {
-        $orderedGrages = $this->getGarageMemberships()->toArray();
-        uasort($orderedGrages, function ($gm1, $gm2){
+        $orderedGarages = $this->getEnabledGarageMemberships()->toArray();
+        uasort($orderedGarages, function ($gm1, $gm2) {
             $g1gr = $gm1->getGarage()->getGoogleRating() ?? -1;
             $g2gr = $gm2->getGarage()->getGoogleRating() ?? -1;
-           if($g1gr == $g2gr){
-               return 0;
-           }
-           return $g1gr < $g2gr ? 1 : -1;
+            if ($g1gr == $g2gr) {
+                return 0;
+            }
+            return $g1gr < $g2gr ? 1 : -1;
         });
-        return $orderedGrages;
+        return $orderedGarages;
     }
+
     /**
      * @param GarageProUser $member
      * @return ProUser
@@ -107,18 +117,25 @@ class ProUser extends BaseUser
      */
     public function hasGarage(): bool
     {
-        return count($this->garageMemberships) > 0;
-
+        return $this->numberOfGarages() > 0;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     */
+    public function numberOfGarages(): int
+    {
+        return count($this->getEnabledGarageMemberships());
+    }
+
+    /**
+     * @inheritdocs
      */
     public function getVehicles(): ?Collection
     {
         $vehicles = new ArrayCollection();
         /** @var GarageProUser $garageMembership */
-        foreach ($this->garageMemberships as $garageMembership) {
+        foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
             foreach ($garageMembership->getGarage()->getProVehicles() as $vehicle) {
                 $vehicles->add($vehicle);
             }

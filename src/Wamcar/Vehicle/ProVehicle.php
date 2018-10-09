@@ -267,6 +267,7 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * // TODO Implémenter l'assignation des véhicules à son vendeur
      * @return ProUser
      */
     public function getSeller(): ?ProUser

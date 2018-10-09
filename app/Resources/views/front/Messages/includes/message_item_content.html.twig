@@ -7,17 +7,17 @@
     <a href="{{ path('front_conversation_list') }}" class="messages-back-btn icon-full-arrow"></a>
     <div class="">
         <h1 class="primary-color no-margin">{{ interlocutor.fullName }}</h1>
-        <div class="messages-small-text">
-            {% if interlocutor.isPro and interlocutor.hasGarage %}
-                {% set garageMemberships = interlocutor.garageMemberships %}
+        {% if interlocutor.isPro and interlocutor.hasGarage %}
+            <div class="messages-small-text">
+                {% set garageMemberships = interlocutor.enabledGarageMemberships %}
                 {% if garageMemberships|length == 1 %}
                     <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
                 {% else %}
                     {# TODO placeholder ou liste des garages ? #}
                     Plusieurs garages
                 {% endif %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 </div>
 
@@ -43,17 +43,17 @@
                     {{ message.publishedAt|localizeddate(format = "dd/MM 'à' HH'h'mm") }}
                 </div>
             </div>
-            <div class="messages-small-text">
-                {% if message.user.isPro and message.user.hasGarage %}
-                    {% set garageMemberships = message.user.garageMemberships %}
+            {% if message.user.isPro and message.user.hasGarage %}
+                <div class="messages-small-text">
+                    {% set garageMemberships = message.user.enabledGarageMemberships %}
                     {% if garageMemberships|length == 1 %}
                         <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
                     {% else %}
                         {# TODO placeholder ou liste des garages ? #}
                         Plusieurs garages
                     {% endif %}
-                {% endif %}
-            </div>
+                </div>
+            {% endif %}
         </div>
         <div class="messages-item-content full-width">
             {{ message.content|nl2br }}

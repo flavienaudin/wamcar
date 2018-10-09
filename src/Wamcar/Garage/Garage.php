@@ -7,9 +7,11 @@ use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
@@ -328,6 +330,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @return Collection
+     */
+    public function getEnabledMembers(): Collection
+    {
+        return $this->members->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
      * @param Collection $members
      */
     public function setMembers(Collection $members)
@@ -403,14 +413,33 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return false;
     }
 
-
+    /**
+     * Get the first enabled seller of the garages
+     * @return null|ProUser
+     */
     public function getSeller(): ?ProUser
     {
-        if (count($this->members) > 0) {
-            return $this->members[0]->getProUser();
+        $enabledMembers = $this->getEnabledMembers();
+        if ($enabledMembers->count() > 0) {
+            return $enabledMembers->first()->getProUser();
         }
-
         return null;
+    }
+
+    /**
+     * Get garage's administrators
+     * @return Collection
+     */
+    public function getAdministrators(): Collection
+    {
+        $garageAdministrators = new ArrayCollection();
+        /** @var GarageProUser $enabledMember */
+        foreach($this->getEnabledMembers() as $enabledMember){
+            if(GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())){
+                $garageAdministrators->add($enabledMember);
+            }
+        }
+        return $garageAdministrators;
     }
 
     /**

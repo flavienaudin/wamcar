@@ -5,6 +5,8 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
+use AppBundle\Exception\Garage\AlreadyGarageMemberException;
+use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\GarageType;
@@ -141,13 +143,29 @@ class GarageController extends BaseController
         $garageForm->handleRequest($request);
 
         if ($garageForm->isSubmitted() && $garageForm->isValid()) {
-            $successMessage = (null === $garage ? 'flash.success.garage_create' : 'flash.success.garage_edit');
-            $garage = $this->garageEditionService->editInformations($garageDTO, $garage, $this->getUser());
+            try {
+                $garage = $this->garageEditionService->editInformations($garageDTO, $garage, $this->getUser());
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                $successMessage
-            );
+                $successMessage = (null === $garage ? 'flash.success.garage.create' : 'flash.success.garage.edit');
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    $successMessage
+                );
+            } catch (ExistingGarageException $e) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_WARNING,
+                    'flash.warning.garage.same_as_existing'
+                );
+                return $this->redirectToRoute('front_garage_view', [
+                    'id' => $e->getGarage()->getId(),
+                    '_fragment' => 'sellers']);
+            } catch (AlreadyGarageMemberException $e) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_WARNING,
+                    'flash.warning.garage.already_member'
+                );
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
             return $this->redirSave([], 'front_garage_view', ['id' => $garage->getId()]);
         }
 
@@ -178,6 +196,31 @@ class GarageController extends BaseController
     /**
      * @param Garage $garage
      * @Security("has_role('ROLE_PRO')")
+     * @return Response
+     */
+    public function requestToJoinAction(Garage $garage): Response
+    {
+        /** @var ProApplicationUser $user */
+        $user = $this->getUser();
+        if ($user->isMemberOfGarage($garage)) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_WARNING,
+                'flash.warning.garage.already_member'
+            );
+            return $this->redirectToRoute('front_view_current_user_info');
+        } else {
+            $this->garageEditionService->addMember($garage, $user, false);
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.garage.request_sent_to_administrator'
+            );
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+    }
+
+    /**
+     * @param Garage $garage
+     * @Security("has_role('ROLE_PRO')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function assignAction(Garage $garage): RedirectResponse
@@ -186,7 +229,7 @@ class GarageController extends BaseController
 
         $user = $this->getUser();
 
-        $this->garageEditionService->addMember($garage, $user);
+        $this->garageEditionService->addMember($garage, $user, false);
 
         $this->session->getFlashBag()->add(
             self::FLASH_LEVEL_INFO,

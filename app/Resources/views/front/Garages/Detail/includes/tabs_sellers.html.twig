@@ -6,35 +6,49 @@
             {# <h2 class="column large-collapse">Vendeur</h2> #}
             <ul class="seller-list no-bullet no-margin">
                 {% for membership in garage.members %}
-                    <li>
-                        {% set userIsMe = membership.proUser.is(app.user) %}
-                        <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
-                            <figure class="block-grid align-middle" role="group">
-                                <span class="user-thumbnail-mini margin-right-1">
-                                    <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}"
-                                         alt="{{ membership.proUser.fullName }}"></span>
-                                <span class="h2">{{  membership.proUser.fullName }}</span>
-                            </figure>
-                        </a>
+                    {% set userIsMe = membership.proUser.is(app.user) %}
+                    {% if membership.requestedAt is null or userIsMe or (isLogged and app.user.isAdministratorOfGarage(garage)) %}
+                        <li>
+                            <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
+                                <figure class="block-grid align-middle" role="group">
+                                    <span class="user-thumbnail-mini margin-right-1">
+                                        <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}"
+                                             alt="{{ membership.proUser.fullName }}"></span>
+                                    <span class="h2">{{  membership.proUser.fullName }}</span>
+                                </figure>
+                            </a>
 
-                        {% if membership.proUser.description %}
-                            <p>{{ membership.proUser.description|nl2br }}</p>
-                        {% elseif userIsMe %}
-                            <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
-                        {% endif %}
-                        {% if not isLogged %}
-                            <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
-                        {% elseif userIsMe %}
-                            <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}</a></p>
-                        {% elseif isUserPersonal %}
-                            <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
-                        {% endif %}
-                        {# <li class="block-grid column large-left-collapse align-middle">
-                        <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.fullName }}"></span>
-                        <span class="seller-name">{{ membership.proUser.fullName }}</span>
-                        <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>#}
-                    </li>
+                            {% if membership.proUser.description %}
+                                <p>{{ membership.proUser.description|nl2br }}</p>
+                            {% elseif userIsMe %}
+                                <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                            {% endif %}
+                            {% if not isLogged %}
+                                <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
+                            {% elseif isUserPersonal %}
+                                <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
+                            {% endif %}
+                            {% if membership.requestedAt is not null %}
+                                {% if userIsMe %}
+                                    <p class="is-inline-block">
+                                        <span class="primary-color">TODO : implement pathes</span><br>
+                                        <i class="black-color">{{ 'user.garage.pending_request'|trans }}&nbsp;:</i>
+                                        <a href="" class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                                {% else %}
+                                    <p class="is-inline-block">
+                                        <span class="primary-color">TODO : implement pathes</span><br>
+                                        <a href="" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
+                                        <a href="" class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endif %}
                 {% endfor %}
+                {% if isUserPro and not app.user.isMemberOfGarage(garage, true) %}
+                    <li>
+                        <a href="{{ path('front_garage_request_to_join', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.join'|trans }}</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
         {# <div class="column small-12 medium-6 large-collapse">
