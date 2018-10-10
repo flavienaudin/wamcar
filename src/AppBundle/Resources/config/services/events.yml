@@ -131,6 +131,15 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
+    wamcar.event.new_pending_request_to_join_garage:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\Notifications\NewPendingRequestToJoinGarageHandler
+        arguments:
+            $type: new_pending_request_to_join_garage
+            $notificationsManager: '@mgilet.notification'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\NewPendingRequestToJoinGarage, method: notify }
+
     googleApi.event.place_detail_error:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError

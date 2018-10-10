@@ -8,8 +8,9 @@ flash:
       edit: Les modifications de votre garage ont été enregistrées.
       request_sent_to_administrator: Votre demande pour rejoindre le garage a bien été transmise au gestionnaire.
       assign_member: La demande a été validée. Le vendeur a bien rejoint votre garage.
-      remove_member: La demande du vendeur a été annulée. Le vendeur n'a pas rejoind votre garage.
-      cancel_pending_request: Votre demande a bien été annulée.
+      remove_member:
+      cancel_pending_request_by_user: Votre demande a bien été annulée.
+      cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoind votre garage.
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
@@ -37,6 +38,8 @@ flash:
       unauthorized: Cette notification ne vous est pas destinée.
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
+      no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
+      unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
@@ -672,6 +675,7 @@ user:
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
     add: Ajouter un garage
     join: Rejoindre un garage
+    remove_member: Détacher ce vendeur
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande
     decline_request: Refuser la demande
@@ -735,6 +739,7 @@ notifications:
   message:
     personal_like_vehicle: <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
     pro_like_vehicle: Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>
+    new_pending_request_to_join_garage: Le conseiller automobile <b>%username%</b> souhaite rejoindre le garage <b>%garage_name%</b>
 
 directory:
   page_tile: Annuaire des professionnels

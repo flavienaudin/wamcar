@@ -17,6 +17,8 @@ use Mgilet\NotificationBundle\Entity\Repository\NotifiableRepository;
 use Mgilet\NotificationBundle\Entity\Repository\NotificationRepository;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Mgilet\NotificationBundle\NotifiableInterface;
+use Wamcar\Garage\GarageProUser;
+use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalLikeVehicle;
@@ -28,6 +30,7 @@ class NotificationManagerExtended
 {
 
     const NOTIFICATION_LIKE_VEHICLE = BaseLikeVehicle::class;
+    const NOTIFICATION_PENDING_REQUEST_TO_JOIN_GARAGE = GarageProUser::class;
     const NOTIFICATION_DEFAULT = Notification::class;
 
     const ORDER_UNSEEN_FIRST = "ORDER_UNSEEN_FIRST";
@@ -44,6 +47,8 @@ class NotificationManagerExtended
     private $notificationRepository;
     /** @var UserLikeVehicleRepository $userLikeVehicleRepository */
     private $userLikeVehicleRepository;
+    /** @var GarageProUserRepository $garageProUsereRepository */
+    private $garageProUsereRepository;
 
     /**
      * NotificationManagerExtended constructor.
@@ -57,6 +62,7 @@ class NotificationManagerExtended
         $this->notifiableNotificationRepository = $entityManager->getRepository(NotifiableNotification::class);
         $this->notificationRepository = $entityManager->getRepository(Notification::class);
         $this->userLikeVehicleRepository = $entityManager->getRepository(BaseLikeVehicle::class);
+        $this->garageProUsereRepository = $entityManager->getRepository(GarageProUser::class);
     }
 
     /**
@@ -121,6 +127,11 @@ class NotificationManagerExtended
                     $messageData = json_decode($notif->getMessage(), true);
                     $displayableNotification['likeVehicle'] = $this->userLikeVehicleRepository->findOne($messageData['identifier']);
                     break;
+                case GarageProUser::class:
+                    $displayableNotification['notificationType'] = self::NOTIFICATION_PENDING_REQUEST_TO_JOIN_GARAGE;
+                    $messageData = json_decode($notif->getMessage(), true);
+                    $displayableNotification['garageProUser'] = $this->garageProUsereRepository->findOne($messageData['garageId'], $messageData['proUserId']);
+                    break;
                 default:
                     $displayableNotification['notificationType'] = self::NOTIFICATION_DEFAULT;
             }
@@ -160,7 +171,6 @@ class NotificationManagerExtended
             ->addSelect('nn')
             ->addSelect('n')
             ->addSelect('u.id as recipient_id', 'u.email as recipient_email', 'u.userProfile.firstName as recipient_firstname', 'u.userProfile.lastName as recipient_lastname')
-
             ->groupBy('ne')
             ->addGroupBy('nn')
             ->addGroupBy('recipient_id', 'recipient_id', 'recipient_firstname', 'recipient_lastname')

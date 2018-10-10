@@ -14,6 +14,17 @@
     {% set notificator_img = notification.likeVehicle.user.avatar|avatar('user_mini_thumbnail') %}
     {% set notificator_alt = notification.likeVehicle.user.fullname %}
     {% set notification_icon = '<span class="icon-thumbs-up primary-color"></span>' %}
+
+{% elseif notification.notificationType == constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::NOTIFICATION_PENDING_REQUEST_TO_JOIN_GARAGE') %}
+    {% set subject = 'notifications.message.new_pending_request_to_join_garage'|trans({
+        '%username%':notification.garageProUser.prouser.fullname,
+        '%garage_name%' : notification.garageProUser.garage.name
+    }) %}
+
+    {% set notificator_img = notification.garageProUser.prouser.avatar|avatar('user_mini_thumbnail') %}
+    {% set notificator_alt = notification.garageProUser.prouser.fullname %}
+    {% set notification_icon = '<span class="icon-user primary-color"></span>' %}
+
 {% else %}
     {% set subject = notification.notifiableNotification.notification.subject %}
     {% set message = notification.notifiableNotification.notification.message %}

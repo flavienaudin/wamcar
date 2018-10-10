@@ -19,9 +19,9 @@ class DoctrineGarageProUserRepository extends EntityRepository implements Garage
     /**
      * {@inheritdoc}
      */
-    public function findOne(int $garageProUserId): ?GarageProUser
+    public function findOne(int $garageId, int $proUserId): ?GarageProUser
     {
-        return $this->findOneBy(['id' => $garageProUserId]);
+        return $this->findOneBy(['garage' => $garageId, 'proUser' => $proUserId]);
     }
 
     /**

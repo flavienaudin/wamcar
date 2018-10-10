@@ -165,7 +165,7 @@ class GarageController extends BaseController
                     self::FLASH_LEVEL_WARNING,
                     $this->translator->trans('flash.warning.garage.same_as_existing', [
                             '%requestUrl%' => $this->generateRoute('front_garage_request_to_join', [
-                                'id' => $e->getGarage()->getId()
+                                'garage_id' => $e->getGarage()->getId()
                             ])]
                     ));
                 return $this->redirectToRoute('front_garage_view', [
@@ -206,49 +206,70 @@ class GarageController extends BaseController
     }
 
     /**
+     * @ParamConverter("garage", options={"id" = "garage_id"})
+     * @ParamConverter("proApplicationUser", options={"id" = "user_id"})
      * @param Garage $garage
-     * @Security("has_role('ROLE_PRO')")
-     * @return Response
-     */
-    public function requestToJoinAction(Garage $garage): Response
-    {
-        /** @var ProApplicationUser $user */
-        $user = $this->getUser();
-        if ($user->isMemberOfGarage($garage)) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'flash.warning.garage.already_member'
-            );
-            return $this->redirectToRoute('front_view_current_user_info');
-        } else {
-            $this->garageEditionService->addMember($garage, $user, false);
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.garage.request_sent_to_administrator'
-            );
-            return $this->redirectToRoute('front_view_current_user_info');
-        }
-    }
-
-    /**
-     * @param Garage $garage
+     * @param ProApplicationUser|null $proApplicationUser
      * @Security("has_role('ROLE_PRO')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function assignAction(Garage $garage): RedirectResponse
+    public function assignAction(Garage $garage, ?ProApplicationUser $proApplicationUser = null): RedirectResponse
     {
-        throw new AccessDeniedHttpException('Action not used');
+        if($proApplicationUser == null) {
+            $proApplicationUser = $this->getUser();
+        }
+        $member = $proApplicationUser->getMembershipByGarage($garage);
+        if ($member != null) {
+            if($member->getRequestedAt() == null ) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_WARNING,
+                    'flash.warning.garage.already_member'
+                );
+                return $this->redirectToRoute('front_view_current_user_info');
+            }else{
+                // pending request
+                if($this->isGranted(GarageVoter::ADMINISTRATE, $garage)){
+                    $this->garageEditionService->acceptPendingRequest($member);
 
-        $user = $this->getUser();
-
-        $this->garageEditionService->addMember($garage, $user, false);
-
-        $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_INFO,
-            'flash.success.garage.assign_member'
-        );
-
-        return $this->redirectToRoute('front_garage_list');
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.garage.assign_member'
+                    );
+                    return $this->redirectToRoute('front_garage_view',[
+                        'id' => $garage->getId(),
+                        '_fragment' => 'sellers'
+                    ]);
+                }else{
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_DANGER,
+                        'flash.error.garage.unauthorized_to_administrate'
+                    );
+                    return $this->redirectToRoute('front_garage_view',[
+                        'id' => $garage->getId(),
+                        '_fragment' => 'sellers'
+                    ]);
+                }
+            }
+        } else {
+            $member = $this->garageEditionService->addMember($garage, $proApplicationUser, false);
+            if($this->isGranted(GarageVoter::ADMINISTRATE, $garage)){
+                $this->garageEditionService->acceptPendingRequest($member);
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.assign_member'
+                );
+                return $this->redirectToRoute('front_garage_view',[
+                    'id' => $garage->getId(),
+                    '_fragment' => 'sellers'
+                ]);
+            }else{
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.request_sent_to_administrator'
+                );
+            }
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
     }
 
     /**
@@ -277,18 +298,26 @@ class GarageController extends BaseController
             throw new AccessDeniedException();
         }
 
-        $this->garageEditionService->removeMember($garage, $proApplicationUser);
-
-        if($this->getUser()->is($proApplicationUser)){
+        if($member->getRequestedAt() == null){
+            // TODO Implémenter des vérification sur les véhicules gérer par le vendeur si ce n'est pas une requête en attente.
             $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.garage.cancel_pending_request'
+                self::FLASH_LEVEL_WARNING,
+                'Il n\'est pas encore possible des détacher des vendeurs'
             );
         }else {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.garage.remove_member'
-            );
+            // Cancel a pending request
+            $this->garageEditionService->removeMember($garage, $proApplicationUser);
+            if($this->getUser()->is($proApplicationUser)){
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.cancel_pending_request_by_user'
+                );
+            }else {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.cancel_pending_request_by_administrator'
+                );
+            }
         }
 
         return $this->redirectToRoute('front_garage_view', [

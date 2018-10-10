@@ -127,7 +127,6 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     /** Fin des méthodes pour l'interface UserInterface */
 
 
-
     /** Méthodes pour l'interface Serializable */
     /**
      * {@inheritdoc}
@@ -428,15 +427,15 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
 
     /**
      * Get garage's administrators
-     * @return Collection
+     * @return ProUser[]
      */
-    public function getAdministrators(): Collection
+    public function getAdministrators(): array
     {
-        $garageAdministrators = new ArrayCollection();
+        $garageAdministrators = [];
         /** @var GarageProUser $enabledMember */
-        foreach($this->getEnabledMembers() as $enabledMember){
-            if(GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())){
-                $garageAdministrators->add($enabledMember);
+        foreach ($this->getEnabledMembers() as $enabledMember) {
+            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())) {
+                $garageAdministrators[] = $enabledMember->getProUser();
             }
         }
         return $garageAdministrators;

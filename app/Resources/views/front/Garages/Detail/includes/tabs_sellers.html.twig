@@ -7,7 +7,9 @@
             <ul class="seller-list no-bullet no-margin">
                 {% for membership in garage.members %}
                     {% set userIsMe = membership.proUser.is(app.user) %}
-                    {% if membership.requestedAt is null or userIsMe or (isLogged and app.user.isAdministratorOfGarage(garage)) %}
+                    {% set userIsGarageAdministrator = is_granted(constant("AppBundle\\Security\\Voter\\GarageVoter::ADMINISTRATE"),membership.garage) %}
+
+                    {% if membership.requestedAt is null or userIsMe or userIsGarageAdministrator %}
                         <li>
                             <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
                                 <figure class="block-grid align-middle" role="group">
@@ -31,24 +33,27 @@
                             {% if membership.requestedAt is not null %}
                                 {% if userIsMe %}
                                     <p class="is-inline-block">
-                                        <span class="primary-color">TODO : implement pathes</span><br>
                                         <i class="black-color">{{ 'user.garage.pending_request'|trans }}&nbsp;:</i>
-                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':app.user.id}) }}"
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
                                            class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
                                 {% else %}
                                     <p class="is-inline-block">
-                                        <span class="primary-color">TODO : implement pathes</span><br>
-                                        <a href="" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
-                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':app.user.id}) }}"
+                                        <a href="{{ path('front_garage_assign',  {'garage_id':garage.id,'user_id':membership.prouser.id}) }}" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
                                            class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
                                 {% endif %}
+                            {% elseif userIsGarageAdministrator and not userIsMe%}
+                                <p class="is-inline-block">
+                                    {# TODO ajouter une popup de confirmation #}
+                                    <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                       class="text-underline">{{ 'user.garage.remove_member'|trans }}</a></p>
                             {% endif %}
                         </li>
                     {% endif %}
                 {% endfor %}
                 {% if isUserPro and not app.user.isMemberOfGarage(garage, true) %}
                     <li>
-                        <a href="{{ path('front_garage_request_to_join', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.join'|trans }}</a>
+                        <a href="{{ path('front_garage_request_to_join', {'garage_id': garage.id}) }}" class="text-underline">{{ 'garage.action.join'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>

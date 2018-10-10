@@ -13,11 +13,11 @@ use GoogleApi\GoogleMapsApiConnector;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Event\GarageUpdated;
+use Wamcar\Garage\Event\NewPendingRequestToJoinGarage;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
-use Wamcar\User\Event\ProUserUpdated;
 
 
 class GarageEditionService
@@ -124,9 +124,9 @@ class GarageEditionService
      * @param Garage $garage
      * @param ProApplicationUser $proUser
      * @param boolean $isAdministrator
-     * @return Garage
+     * @return GarageProUser
      */
-    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false): Garage
+    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false): GarageProUser
     {
         if (!in_array('ROLE_ADMIN', $proUser->getRoles())) {
             /** @var GarageProUser $garageProUser */
@@ -137,9 +137,26 @@ class GarageEditionService
             $garage->addMember($garageProUser);
             $proUser->addGarageMembership($garageProUser);
             $this->garageRepository->update($garage);
+            $this->eventBus->handle(new GarageUpdated($garageProUser->getGarage()));
+            if (!$isAdministrator) {
+                $this->eventBus->handle(new NewPendingRequestToJoinGarage($garageProUser));
+            }
+            return $garageProUser;
         }
+        return null;
+    }
 
-        return $garage;
+    /**
+     * Accept (set requestedAt to null) a pending request
+     * @param GarageProUser $garageProUser
+     * @return GarageProUser
+     */
+    public function acceptPendingRequest(GarageProUser $garageProUser)
+    {
+        $garageProUser->setRequestedAt(null);
+        $this->garageProUserRepository->update($garageProUser);
+        $this->eventBus->handle(new GarageUpdated($garageProUser->getGarage()));
+        return $garageProUser;
     }
 
     /**
@@ -158,7 +175,6 @@ class GarageEditionService
         $this->garageProUserRepository->remove($member);
         $this->garageRepository->update($garage);
         $this->eventBus->handle(new GarageUpdated($garage));
-        $this->eventBus->handle(new ProUserUpdated($proApplicationUser));
         return $garage;
     }
 
