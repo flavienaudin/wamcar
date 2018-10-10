@@ -225,7 +225,7 @@ class VehicleController extends BaseController
                 $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
+                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage, $user);
                 $flashMessage = 'flash.success.vehicle_create';
             }
 

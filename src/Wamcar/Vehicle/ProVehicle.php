@@ -38,8 +38,10 @@ class ProVehicle extends BaseVehicle
     private $reference;
     /** @var Garage */
     private $garage;
+    /** @var ProUser */
+    private $seller;
 
-
+    // Garage and Seller must be set manually
     public function __construct(
         ModelVersion $modelVersion,
         Transmission $transmission,
@@ -80,6 +82,47 @@ class ProVehicle extends BaseVehicle
         $this->otherFunding = $otherFunding;
         $this->additionalServices = $additionalServices;
         $this->reference = $reference;
+    }
+
+
+    /**
+     * @return Garage
+     */
+    public function getGarage(): ?Garage
+    {
+        return $this->garage;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getGarageName(): ?string
+    {
+        return $this->garage ? $this->garage->getName() : null;
+    }
+
+    /**
+     * @param Garage $garage
+     */
+    public function setGarage(?Garage $garage): void
+    {
+        $this->garage = $garage;
+    }
+
+    /**
+     * @return ProUser|null
+     */
+    public function getSeller(): ?ProUser
+    {
+        return $this->seller;
+    }
+
+    /**
+     * @param ProUser $seller
+     */
+    public function setSeller(ProUser $seller): void
+    {
+        $this->seller = $seller;
     }
 
     /**
@@ -171,30 +214,6 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return Garage
-     */
-    public function getGarage(): ?Garage
-    {
-        return $this->garage;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getGarageName(): ?string
-    {
-        return $this->garage ? $this->garage->getName() : null;
-    }
-
-    /**
-     * @param Garage $garage
-     */
-    public function setGarage(?Garage $garage): void
-    {
-        $this->garage = $garage;
-    }
-
-    /**
      * @param float $price
      */
     public function setPrice(float $price): void
@@ -265,16 +284,6 @@ class ProVehicle extends BaseVehicle
     {
         $this->reference = $reference;
     }
-
-    /**
-     * // TODO Implémenter l'assignation des véhicules à son vendeur
-     * @return ProUser
-     */
-    public function getSeller(): ?ProUser
-    {
-        return $this->getGarage()->getSeller();
-    }
-
 
     /**
      * @param BaseUser|null $user

@@ -16,6 +16,7 @@ use Wamcar\Garage\GarageRepository;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\ProLikeVehicle;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\ProVehicleUpdated;
@@ -95,13 +96,20 @@ class ProVehicleEditionService
     /**
      * @param CanBeProVehicle $proVehicleDTO
      * @param Garage $garage
+     * @param ProUser|null $seller
      * @return ProVehicle
      */
-    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
+    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage, ProUser $seller = null): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
+        if($seller == null){
+            // TODO Tirage aléatoire en attendant implémentation des règles
+            $members = $garage->getEnabledMembers()->toArray();
+            $seller = $members[array_rand($members)]->getProUser();
+        }
+        $proVehicle->setSeller($seller);
 
         if (!$garage->hasVehicle($proVehicle)) {
             $garage->addProVehicle($proVehicle);

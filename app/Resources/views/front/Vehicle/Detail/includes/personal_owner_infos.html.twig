@@ -2,7 +2,7 @@
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
             <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="seller-pic">
-                <img src="{{ vehicle.seller.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}">
+                <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}">
             </a>
             <div>
                 <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3"><b>{{ vehicleSellerName }}</b></a> <br>

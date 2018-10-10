@@ -18,6 +18,8 @@ class ProUser extends BaseUser
     protected $phonePro;
     /** @var  Collection */
     protected $garageMemberships;
+    /** @var  Collection */
+    protected $vehicles;
 
     /**
      * ProUser constructor.
@@ -30,6 +32,7 @@ class ProUser extends BaseUser
     {
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
     }
 
     /**
@@ -129,18 +132,11 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @inheritdocs
+     * {@inheritdoc}
      */
-    public function getVehicles(): ?Collection
+    public function getVehicles(): Collection
     {
-        $vehicles = new ArrayCollection();
-        /** @var GarageProUser $garageMembership */
-        foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
-            foreach ($garageMembership->getGarage()->getProVehicles() as $vehicle) {
-                $vehicles->add($vehicle);
-            }
-        }
-        return $vehicles;
+        return $this->vehicles;
     }
 
     /**

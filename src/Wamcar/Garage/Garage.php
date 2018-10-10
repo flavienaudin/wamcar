@@ -413,19 +413,6 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
-     * Get the first enabled seller of the garages
-     * @return null|ProUser
-     */
-    public function getSeller(): ?ProUser
-    {
-        $enabledMembers = $this->getEnabledMembers();
-        if ($enabledMembers->count() > 0) {
-            return $enabledMembers->first()->getProUser();
-        }
-        return null;
-    }
-
-    /**
      * Get garage's administrators
      * @return ProUser[]
      */
