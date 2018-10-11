@@ -103,7 +103,6 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                         new EmailRecipientList($this->createUserEmailContact($like->getVehicle()->getSeller()))
                     );
                 }
-
             } else {
                 $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription(get_class($like), $data);
                 try {

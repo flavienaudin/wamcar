@@ -4,6 +4,7 @@ namespace AppBundle\Notifications;
 
 
 use AppBundle\MailWorkflow\AbstractEmailEventHandler;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use Doctrine\ORM\OptimisticLockException;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
@@ -34,12 +35,13 @@ class NewPendingRequestToJoinGarageHandler extends AbstractEmailEventHandler imp
         $this->checkEventClass($event, NewPendingRequestToJoinGarage::class);
 
         $garage = $event->getGarageProUser()->getGarage();
+        $proUser = $event->getGarageProUser()->getProUser();
 
         //Creation of the notification to administrators
         try {
             $data = json_encode([
                 'garageId' => $garage->getId(),
-                'proUserId' => $event->getGarageProUser()->getProUser()->getId()
+                'proUserId' => $proUser->getId()
             ]);
             $notification = $this->notificationsManager->createNotification(
                 get_class($event->getGarageProUser()),
@@ -55,6 +57,18 @@ class NewPendingRequestToJoinGarageHandler extends AbstractEmailEventHandler imp
         }
 
         // Send an email to administrators
-        // TODO
+        foreach ($garage->getAdministrators() as $administrator) {
+            $this->send(
+                $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
+                    '%garage_name%' => $garage->getName()], 'email'),
+                'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
+                [
+                    'username' => $administrator->getFullName(),
+                    'garage' => $garage,
+                    'seller' => $proUser
+                ],
+                new EmailRecipientList($this->createUserEmailContact($administrator))
+            );
+        }
     }
 }

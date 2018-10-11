@@ -1,0 +1,26 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'notifyGarageAdministratorOfNewPendingRequest.object'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyGarageAdministratorOfNewPendingRequest.body.first'|trans({
+            '%garage_name%': garage.name,
+            '%seller_fullname%': seller.fullname,
+        })|raw }}
+
+        <table>
+            <tr>
+                <td>{{ action_button(url('front_garage_assign',{'garage_id':garage.id,'user_id':seller.id}), 'notifyGarageAdministratorOfNewPendingRequest.action.accept'|trans) }}</td>
+                <td>{{ action_button(url('front_garage_unassign',{'garage_id':garage.id,'user_id':seller.id}), 'notifyGarageAdministratorOfNewPendingRequest.action.decline'|trans) }}</td>
+            </tr>
+        </table>
+
+        {{ 'notifyGarageAdministratorOfNewPendingRequest.body.second'|trans({
+            '%garage_view_url%': url('front_garage_view',{'id':garage.id,'_fragment':'sellers'})
+        })|raw }}
+    </div>
+{% endblock %}
