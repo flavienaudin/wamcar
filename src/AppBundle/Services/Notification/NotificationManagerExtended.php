@@ -126,7 +126,7 @@ class NotificationManagerExtended
                     $displayableNotification['notificationType'] = self::NOTIFICATION_LIKE_VEHICLE;
                     $messageData = json_decode($notif->getMessage(), true);
                     $displayableNotification['likeVehicle'] = $this->userLikeVehicleRepository->findOne($messageData['identifier']);
-                    if($displayableNotification['likeVehicle']->getValue() < 1){
+                    if ($displayableNotification['likeVehicle']->getValue() < 1) {
                         $displayableNotification = null;
                     }
                     break;
@@ -135,14 +135,14 @@ class NotificationManagerExtended
                     $messageData = json_decode($notif->getMessage(), true);
 
                     $displayableNotification['garageProUser'] = $this->garageProUsereRepository->findOne($messageData['garageId'], $messageData['proUserId']);
-                    if($displayableNotification['garageProUser'] == null) {
+                    if ($displayableNotification['garageProUser'] == null || $displayableNotification['garageProUser']->getRequestedAt() == null) {
                         $displayableNotification = null;
                     }
                     break;
                 default:
                     $displayableNotification['notificationType'] = self::NOTIFICATION_DEFAULT;
             }
-            if($displayableNotification != null) {
+            if ($displayableNotification != null) {
                 $displayableNotifications[] = $displayableNotification;
             }
         }

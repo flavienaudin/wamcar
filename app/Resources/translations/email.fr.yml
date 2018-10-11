@@ -73,6 +73,15 @@ unseenNotificationsDailyDigest:
     body: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles noficiations sur Wamcar.</p>"
     action_label: Voir
 
+notifyGarageAdministratorOfNewPendingRequest:
+    object: "Nouvelle demande pour rejoindre le garage %garage_name%"
+    body:
+        first: <p>Le conseilleur automobile "%seller_fullname%" souhaite rejoindre le garage "%garage_name%".</p>
+        second: <p>Ou rendez-vous sur la <a href="%garage_view_url%">page du garage</a> pour l'administrer</p>
+    action:
+        accept: Accepter
+        decline: Refuser
+
 notifyAdminOfGoogleApiReturn:
     object: "Wamcar ADMIN-Google API Return Error"
     body: >
