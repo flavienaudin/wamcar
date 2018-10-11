@@ -126,16 +126,25 @@ class NotificationManagerExtended
                     $displayableNotification['notificationType'] = self::NOTIFICATION_LIKE_VEHICLE;
                     $messageData = json_decode($notif->getMessage(), true);
                     $displayableNotification['likeVehicle'] = $this->userLikeVehicleRepository->findOne($messageData['identifier']);
+                    if($displayableNotification['likeVehicle']->getValue() < 1){
+                        $displayableNotification = null;
+                    }
                     break;
                 case GarageProUser::class:
                     $displayableNotification['notificationType'] = self::NOTIFICATION_PENDING_REQUEST_TO_JOIN_GARAGE;
                     $messageData = json_decode($notif->getMessage(), true);
+
                     $displayableNotification['garageProUser'] = $this->garageProUsereRepository->findOne($messageData['garageId'], $messageData['proUserId']);
+                    if($displayableNotification['garageProUser'] == null) {
+                        $displayableNotification = null;
+                    }
                     break;
                 default:
                     $displayableNotification['notificationType'] = self::NOTIFICATION_DEFAULT;
             }
-            $displayableNotifications[] = $displayableNotification;
+            if($displayableNotification != null) {
+                $displayableNotifications[] = $displayableNotification;
+            }
         }
 
         return $displayableNotifications;
