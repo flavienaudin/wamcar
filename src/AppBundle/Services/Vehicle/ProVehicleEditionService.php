@@ -4,14 +4,17 @@ namespace AppBundle\Services\Vehicle;
 
 use AppBundle\Api\DTO\VehicleDTO as ApiVehicleDTO;
 use AppBundle\Api\EntityBuilder\ProVehicleBuilder as ApiVehicleBuilder;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
+use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use Doctrine\Common\Collections\Criteria;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
@@ -104,7 +107,7 @@ class ProVehicleEditionService
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
-        if($seller == null){
+        if ($seller == null) {
             // TODO Tirage aléatoire en attendant implémentation des règles
             $members = $garage->getEnabledMembers()->toArray();
             $seller = $members[array_rand($members)]->getProUser();
@@ -136,6 +139,41 @@ class ProVehicleEditionService
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
+    }
+
+    /**
+     * Assign the vehicle to another seller.
+     * @param ProVehicle $proVehicle
+     * @param ProApplicationUser|null $newSeller
+     * @return ProVehicle
+     * @throws \InvalidArgumentException
+     * @throws NewSellerToAssignNotFoundException
+     */
+    public function assignSeller(ProVehicle $proVehicle, ProApplicationUser $newSeller = null): ProVehicle
+    {
+        if ($newSeller == null) {
+            /** @var GarageProUser[] $members */
+            $members = $proVehicle->getGarage()->getEnabledMembers()->toArray();
+            do {
+                $randIndex = array_rand($members);
+                $newSeller = $members[$randIndex]->getProUser();
+                if (!$proVehicle->getSeller()->is($newSeller)) {
+                    break;
+                }
+                unset($members[$randIndex]);
+            } while (count($members) > 0);
+
+            if (count($members) == 0) {
+                throw new NewSellerToAssignNotFoundException($proVehicle);
+            }
+        }
+        if (!$newSeller->isMemberOfGarage($proVehicle->getGarage())) {
+            throw new \InvalidArgumentException('flash.error.vehicle.assign_to_non_garage_member');
+        }
+        $proVehicle->setSeller($newSeller);
+        $this->vehicleRepository->update($proVehicle);
+        $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
+        return $proVehicle;
     }
 
     /**

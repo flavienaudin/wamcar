@@ -8,7 +8,8 @@ flash:
       edit: Les modifications de votre garage ont été enregistrées.
       request_sent_to_administrator: Votre demande pour rejoindre le garage a bien été transmise au gestionnaire.
       assign_member: La demande a été validée. Le vendeur a bien rejoint votre garage.
-      remove_member:
+      remove_member: Le vendeur a bien été retiré de votre garage.
+      remove_member_with_reassignation: Le vendeur a bien été retiré de votre garage et ses véhicules ont été affectés aux autres vendeurs du garage.
       cancel_pending_request_by_user: Votre demande a bien été annulée.
       cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoind votre garage.
     registration_success_pro: Votre inscription a bien été enregistrée.
@@ -19,6 +20,8 @@ flash:
     vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
     conversation_update: Votre message a bien envoyé.
+    vehicle:
+      assign_new_seller: Le changement de vendeur a bien été enregistré.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
   error:
@@ -40,6 +43,14 @@ flash:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
       unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
+      remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
+      unable_to_detach_seller:
+        due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
+    vehicle:
+      unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
+      seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
+      assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
+
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.

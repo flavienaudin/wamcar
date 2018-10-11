@@ -7,6 +7,7 @@ namespace Wamcar\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 
@@ -137,6 +138,14 @@ class ProUser extends BaseUser
     public function getVehicles(): Collection
     {
         return $this->vehicles;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVehiclesOfGarage(Garage $garage): Collection
+    {
+        return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
     }
 
     /**

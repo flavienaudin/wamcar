@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
+use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\GarageType;
@@ -25,9 +26,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\Vehicle\ProVehicle;
 
 class GarageController extends BaseController
 {
@@ -299,11 +302,56 @@ class GarageController extends BaseController
         }
 
         if($member->getRequestedAt() == null){
-            // TODO Implémenter des vérification sur les véhicules gérer par le vendeur si ce n'est pas une requête en attente.
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'Il n\'est pas encore possible des détacher des vendeurs'
-            );
+            if(GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())){
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_WARNING,
+                    'flash.error.remove_administrator'
+                );
+            }else{
+                $userVehicles = $proApplicationUser->getVehiclesOfGarage($garage);
+                if(count($userVehicles) > 0) {
+                    $nbVehiclesNotAssigned = 0;
+                    /** @var ProVehicle $vehicle */
+                    foreach ($userVehicles as $vehicle){
+                        try {
+                            $this->proVehicleEditionService->assignSeller($vehicle);
+
+                        } catch (NewSellerToAssignNotFoundException $e) {
+                            $nbVehiclesNotAssigned++;
+                            $this->session->getFlashBag()->add(
+                                self::FLASH_LEVEL_DANGER,
+                                'flash.error.vehicle.seller_to_reassign_not_found'
+                            );
+                        } catch (\InvalidArgumentException $e) {
+                            $nbVehiclesNotAssigned++;
+                            $this->session->getFlashBag()->add(
+                                self::FLASH_LEVEL_DANGER,
+                                $e->getMessage()
+                            );
+                        }
+                    }
+
+                    if($nbVehiclesNotAssigned > 0) {
+                        $this->session->getFlashBag()->add(
+                            self::FLASH_LEVEL_WARNING,
+                            'flash.error.garage.unable_to_detach_seller.due_to_attached_vehicle'
+                        );
+                    }else{
+                        $this->garageEditionService->removeMember($garage, $proApplicationUser);
+                        $this->session->getFlashBag()->add(
+                            self::FLASH_LEVEL_INFO,
+                            'flash.success.garage.remove_member_with_reassignation'
+                        );
+                    }
+
+                }else{
+                    $this->garageEditionService->removeMember($garage, $proApplicationUser);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.garage.remove_member'
+                    );
+                }
+            }
         }else {
             // Cancel a pending request
             $this->garageEditionService->removeMember($garage, $proApplicationUser);
