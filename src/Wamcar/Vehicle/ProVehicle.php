@@ -291,6 +291,6 @@ class ProVehicle extends BaseVehicle
      */
     public function canEditMe(BaseUser $user = null): bool
     {
-        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($this->getGarage());
+        return $user instanceof CanBeGarageMember && $this->seller->is($user);
     }
 }
