@@ -77,7 +77,6 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     // tant pis pour la notification, on ne bloque pas l'action
                 }
 
-
                 if ($like->getVehicle()->getSeller()->getPreferences()->isLikeEmailEnabled() &&
                     $like->getVehicle()->getSeller()->getPreferences()->getLikeEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
 
