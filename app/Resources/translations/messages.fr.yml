@@ -733,6 +733,7 @@ conversation:
 favorites:
   page_title: Ma sélection
   my_favorites: Mes likes
+  ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
 
