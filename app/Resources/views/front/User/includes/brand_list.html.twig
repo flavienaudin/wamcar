@@ -16,5 +16,7 @@
                 {% endif %}
             </li>
         {% endif %}
+    {% else %}
+        <li class="margin-bottom-1">{{ 'user.garage.empty'|trans }}</li>
     {% endfor %}
 </ul>

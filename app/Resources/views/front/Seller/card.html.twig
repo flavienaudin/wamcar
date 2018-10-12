@@ -42,7 +42,7 @@
             <div class="separator-for-small small-12 medium-4 medium-offset-1 large-6">
                 {% block other_informations %}
                     <h2>{{ 'user.garage.seller_for'|trans }}</h2>
-                    {% if user.hasGarage %}
+                    {% if user.hasGarage or userIsMe %}
                         {% include 'front/User/includes/brand_list.html.twig' %}
                     {% else %}
                         <p>{{ 'user.garage.empty'|trans }}</p>

@@ -19,7 +19,7 @@ final class Version20181010142611 extends AbstractMigration
         $this->addSql('UPDATE pro_vehicle SET seller_id = (
                                 SELECT gu.pro_user_id as user_id
                                 from garage_pro_user gu
-                                where gu.role = \'GARAGE.ADMINISTRATOR\' and gu.garage_id = pro_vehicle.garage_id)'
+                                where gu.role = \'GARAGE.ADMINISTRATOR\' and gu.garage_id = pro_vehicle.garage_id LIMIT 1)'
         );
         $this->addSql('ALTER TABLE pro_vehicle ADD CONSTRAINT FK_EE29225D8DE820D9 FOREIGN KEY (seller_id) REFERENCES user (id)');
         $this->addSql('CREATE INDEX IDX_EE29225D8DE820D9 ON pro_vehicle (seller_id)');
