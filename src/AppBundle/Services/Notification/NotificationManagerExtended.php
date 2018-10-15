@@ -131,6 +131,19 @@ class NotificationManagerExtended
     }
 
     /**
+     * @param string $subject Type of the notification's object : className
+     * @param string $message Identifier of the notification's object : as json string
+     * @return Notification[]
+     */
+    public function getNotificationByObjectDescription(string $subject, string $message): array
+    {
+        return $this->notificationRepository->findBy([
+            'subject' => $subject,
+            'message' => $message
+        ]);
+    }
+
+    /**
      * Get last 24h notifications that require to send an email to there recipient, according to recipient's preferences
      *
      * @return Collection
