@@ -122,6 +122,8 @@ doctrine:
                 type: annotation
                 is_bundle: true
             JMoseCommandSchedulerBundle: ~
+        resolve_target_entities:
+            Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
 
         dql:
             string_functions:

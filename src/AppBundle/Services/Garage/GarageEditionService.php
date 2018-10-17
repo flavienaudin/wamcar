@@ -12,8 +12,13 @@ use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use GoogleApi\GoogleMapsApiConnector;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Enum\GarageRole;
+use Wamcar\Garage\Event\GarageMemberAssignedEvent;
+use Wamcar\Garage\Event\GarageMemberUnassignedEvent;
 use Wamcar\Garage\Event\GarageUpdated;
-use Wamcar\Garage\Event\NewPendingRequestToJoinGarage;
+use Wamcar\Garage\Event\PendingRequestToJoinGarageAcceptedEvent;
+use Wamcar\Garage\Event\PendingRequestToJoinGarageCancelledEvent;
+use Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent;
+use Wamcar\Garage\Event\PendingRequestToJoinGarageDeclinedEvent;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
@@ -110,7 +115,7 @@ class GarageEditionService
             $garage = $this->garageBuilder->buildFromDTO($garageDTO, $garage);
 
             if (!$creator->isMemberOfGarage($garage)) {
-                $this->addMember($garage, $creator, true);
+                $this->addMember($garage, $creator, true, true);
             }
 
             $garage = $this->garageRepository->update($garage);
@@ -124,22 +129,25 @@ class GarageEditionService
      * @param Garage $garage
      * @param ProApplicationUser $proUser
      * @param boolean $isAdministrator
+     * @param boolean $isEnabled
      * @return GarageProUser
      */
-    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false): GarageProUser
+    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false, bool $isEnabled = false): GarageProUser
     {
         if (!in_array('ROLE_ADMIN', $proUser->getRoles())) {
             /** @var GarageProUser $garageProUser */
             $garageProUser = new GarageProUser($garage, $proUser, $isAdministrator ? GarageRole::GARAGE_ADMINISTRATOR() : GarageRole::GARAGE_MEMBER());
-            if (!$isAdministrator) {
+            if (!$isEnabled) {
                 $garageProUser->setRequestedAt(new \DateTime());
             }
             $garage->addMember($garageProUser);
             $proUser->addGarageMembership($garageProUser);
             $this->garageRepository->update($garage);
             $this->eventBus->handle(new GarageUpdated($garageProUser->getGarage()));
-            if (!$isAdministrator) {
-                $this->eventBus->handle(new NewPendingRequestToJoinGarage($garageProUser));
+            if ($isEnabled) {
+                $this->eventBus->handle(new GarageMemberAssignedEvent($garageProUser));
+            } else {
+                $this->eventBus->handle(new PendingRequestToJoinGarageCreatedEvent($garageProUser));
             }
             return $garageProUser;
         }
@@ -156,18 +164,21 @@ class GarageEditionService
         $garageProUser->setRequestedAt(null);
         $this->garageProUserRepository->update($garageProUser);
         $this->eventBus->handle(new GarageUpdated($garageProUser->getGarage()));
+        $this->eventBus->handle(new PendingRequestToJoinGarageAcceptedEvent($garageProUser));
         return $garageProUser;
     }
 
     /**
      * @param Garage $garage
      * @param ProApplicationUser $proApplicationUser
+     * @param bool $isPendingRequestDeclined
      * @return Garage
      */
-    public function removeMember(Garage $garage, ProApplicationUser $proApplicationUser)
+    public function removeMember(Garage $garage, ProApplicationUser $proApplicationUser, bool $isPendingRequestDeclined = false)
     {
         /** @var GarageProUser $member */
         $member = $proApplicationUser->getMembershipByGarage($garage);
+        $wasPendingRequest = $member->getRequestedAt() != null;
         if (null === $member) {
             throw new \InvalidArgumentException('User should be member of the garage');
         }
@@ -175,6 +186,15 @@ class GarageEditionService
         $this->garageProUserRepository->remove($member);
         $this->garageRepository->update($garage);
         $this->eventBus->handle(new GarageUpdated($garage));
+        if ($wasPendingRequest) {
+            if ($isPendingRequestDeclined) {
+                $this->eventBus->handle(new PendingRequestToJoinGarageDeclinedEvent($member));
+            } else {
+                $this->eventBus->handle(new PendingRequestToJoinGarageCancelledEvent($member));
+            }
+        } else {
+            $this->eventBus->handle(new GarageMemberUnassignedEvent($member));
+        }
         return $garage;
     }
 
@@ -186,7 +206,7 @@ class GarageEditionService
         $this->proVehicleEditionService->deleteAllForGarage($garage);
         /** @var GarageProUser $member */
         foreach ($garage->getMembers() as $member) {
-            $this->removeMember($garage, $member->getProUser());
+            $this->removeMember($garage, $member->getProUser(), true);
         }
 
         $this->garageRepository->remove($garage);

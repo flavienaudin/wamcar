@@ -254,9 +254,10 @@ class GarageController extends BaseController
                 }
             }
         } else {
-            $member = $this->garageEditionService->addMember($garage, $proApplicationUser, false);
+
             if($this->isGranted(GarageVoter::ADMINISTRATE, $garage)){
-                $this->garageEditionService->acceptPendingRequest($member);
+                // Assignation by an adminsitrator
+                $this->garageEditionService->addMember($garage, $proApplicationUser, false, true);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.assign_member'
@@ -266,6 +267,8 @@ class GarageController extends BaseController
                     '_fragment' => 'sellers'
                 ]);
             }else{
+                // New pending request
+                $this->garageEditionService->addMember($garage, $proApplicationUser, false, false);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.request_sent_to_administrator'
@@ -297,11 +300,12 @@ class GarageController extends BaseController
                 '_fragment' => 'sellers'
             ]);
         }
-        if (!$this->getUser()->is($member->getProUser()) && !$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+        if (!$member->getProUser()->is($this->getUser()) && !$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
             throw new AccessDeniedException();
         }
 
         if($member->getRequestedAt() == null){
+            // Unassign garage member
             if(GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())){
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
@@ -310,6 +314,8 @@ class GarageController extends BaseController
             }else{
                 $userVehicles = $proApplicationUser->getVehiclesOfGarage($garage);
                 if(count($userVehicles) > 0) {
+                    // Vehicle distribution to other garage members
+
                     $nbVehiclesNotAssigned = 0;
                     /** @var ProVehicle $vehicle */
                     foreach ($userVehicles as $vehicle){
@@ -343,7 +349,6 @@ class GarageController extends BaseController
                             'flash.success.garage.remove_member_with_reassignation'
                         );
                     }
-
                 }else{
                     $this->garageEditionService->removeMember($garage, $proApplicationUser);
                     $this->session->getFlashBag()->add(
@@ -353,14 +358,17 @@ class GarageController extends BaseController
                 }
             }
         }else {
-            // Cancel a pending request
-            $this->garageEditionService->removeMember($garage, $proApplicationUser);
-            if($this->getUser()->is($proApplicationUser)){
+            // Pending request
+            if($proApplicationUser->is($this->getUser())){
+                // Cancelled by the proUser
+                $this->garageEditionService->removeMember($garage, $proApplicationUser, false);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.cancel_pending_request_by_user'
                 );
             }else {
+                // Declined by an administrator
+                $this->garageEditionService->removeMember($garage, $proApplicationUser, true);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.cancel_pending_request_by_administrator'

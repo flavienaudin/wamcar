@@ -1,0 +1,36 @@
+AppBundle\Doctrine\Entity\EventNotification:
+    type: entity
+    table: notification
+
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        date:
+            type: datetime
+            nullable: false
+        subject:
+            type: string
+            length: 4000
+            nullable: false
+        message:
+            type: string
+            length: 4000
+        link:
+            type: string
+            length: 4000
+            nullable: true
+        event:
+            type: string
+            length: 4000
+            nullable: true
+
+    oneToMany:
+        notifiableNotifications:
+            targetEntity: Mgilet\NotificationBundle\Entity\NotifiableNotification
+            mappedBy: notification
+            cascade: ["persist"]
+
+

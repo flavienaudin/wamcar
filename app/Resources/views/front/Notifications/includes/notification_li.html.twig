@@ -1,35 +1,40 @@
-{% if notification.notificationType == constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::NOTIFICATION_LIKE_VEHICLE') %}
-    {% if notification.likeVehicle.user.isPro %}
+{% if notification.notificationEvent is same as("Wamcar\\User\\Event\\UserLikeVehicleEvent") %}
+    {% if notification.subject.user.isPro %}
         {% set subject = 'notifications.message.pro_like_vehicle'|trans({
-            '%username%':notification.likeVehicle.user.fullname,
-            '%vehicle_name%' : notification.likeVehicle.vehicle.name
+            '%username%':notification.subject.user.fullname,
+            '%vehicle_name%' : notification.subject.vehicle.name
         }) %}
     {% else %}
         {% set subject = 'notifications.message.personal_like_vehicle'|trans({
-            '%username%':notification.likeVehicle.user.fullname,
-            '%vehicle_name%' : notification.likeVehicle.vehicle.name
+            '%username%':notification.subject.user.fullname,
+            '%vehicle_name%' : notification.subject.vehicle.name
         }) %}
     {% endif %}
 
-    {% set notificator_img = notification.likeVehicle.user.avatar|avatar('user_mini_thumbnail') %}
-    {% set notificator_alt = notification.likeVehicle.user.fullname %}
+    {% set notificator_img = notification.subject.user.avatar|avatar('user_mini_thumbnail') %}
+    {% set notificator_alt = notification.subject.user.fullname %}
     {% set notification_icon = '<span class="icon-thumbs-up primary-color"></span>' %}
 
-{% elseif notification.notificationType == constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::NOTIFICATION_PENDING_REQUEST_TO_JOIN_GARAGE') %}
-    {% set subject = 'notifications.message.new_pending_request_to_join_garage'|trans({
-        '%username%':notification.garageProUser.prouser.fullname,
-        '%garage_name%' : notification.garageProUser.garage.name
+{% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageCreatedEvent') %}
+    {% set subject = 'notifications.message.pending_request_to_join_garage_created'|trans({
+        '%username%':notification.subject.prouser.fullname,
+        '%garage_name%' : notification.subject.garage.name
     }) %}
 
-    {% set notificator_img = notification.garageProUser.prouser.avatar|avatar('user_mini_thumbnail') %}
-    {% set notificator_alt = notification.garageProUser.prouser.fullname %}
+    {% set notificator_img = notification.subject.prouser.avatar|avatar('user_mini_thumbnail') %}
+    {% set notificator_alt = notification.subject.prouser.fullname %}
     {% set notification_icon = '<span class="icon-user primary-color"></span>' %}
-
+{% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageDeclinedEvent') %}
+    {% set subject = 'notifications.message.pending_request_to_join_garage_declined'|trans({
+        '%garage_name%' : notification.subject.name
+    }) %}
+    {% set notificator_img = notification.subject|logo('garage_mini_logo') %}
+    {% set notificator_alt = notification.subject.name %}
+    {% set notification_icon = '<span class="icon-close primary-color"></span>' %}
 {% else %}
     {% set subject = notification.notifiableNotification.notification.subject %}
     {% set message = notification.notifiableNotification.notification.message %}
 {% endif %}
-
 
 <li class="is-flex align-justify block-border js-notification-{{ notification.notifiableNotification.notification.id }} {{ notification.notifiableNotification.seen?'notification-seen':'notification-unseen' }}">
     <a href="{{ path('notification_follow_link',{'notifiableId':notification.notifiableNotification.notifiableEntity.id,'notificationId':notification.notifiableNotification.notification.id}) }}"

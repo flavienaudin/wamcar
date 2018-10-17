@@ -5,7 +5,7 @@ namespace Wamcar\Garage\Event;
 
 use Wamcar\Garage\GarageProUser;
 
-abstract class AbstractPendingRequestToJoinGarageEvent
+abstract class AbstractGarageMemberManagementEvent
 {
     /** @var GarageProUser $garageProUser */
     private $garageProUser;
