@@ -7,7 +7,6 @@ use AppBundle\MailWorkflow\AbstractEmailEventHandler;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
-use Mgilet\NotificationBundle\Entity\Notification;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -43,17 +42,16 @@ class PendingRequestToJoinGarageCancelledEventHandler extends AbstractEmailEvent
 
         // Deletion of the administrators' notification
         $data = [
-            'garageId' => $garage->getId(),
-            'proUserId' => $proUser->getId()
+            'garage' => $garage->getId(),
+            'proUser' => $proUser->getId()
         ];
-        $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription(
-            get_class($event->getGarageProUser()), json_encode($data));
+        $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+            'subject' => get_class($event->getGarageProUser()),
+            'message' => json_encode($data)
+        ]);
         try {
-            if ($notifications instanceof Notification) {
-                $notifications = [$notifications];
-            }
             foreach ($notifications as $notification) {
-                $this->notificationsManager->removeNotification($garage->getAdministrators(), $notification);
+                $this->notificationsManager->removeNotification(array_merge([$proUser], $garage->getAdministrators()), $notification);
                 $this->notificationsManager->deleteNotification($notification, true);
             }
         } catch (OptimisticLockException $e) {

@@ -22,7 +22,6 @@ use Mgilet\NotificationBundle\MgiletNotificationEvents;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent;
-use Wamcar\Garage\Event\PendingRequestToJoinGarageDeclinedEvent;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
@@ -83,7 +82,6 @@ class NotificationManagerExtended
 
         return $notification;
     }
-
 
     /**
      * @param NotifiableInterface $notifiable
@@ -175,16 +173,15 @@ class NotificationManagerExtended
     }
 
     /**
-     * @param string $subject Type of the notification's object : className
-     * @param string $message Identifier of the notification's object : as json string
-     * @return Notification[]
+     * @param array $description Can contain :
+     *      - 'subject' Type of the notification's object : className
+     *      - 'message' Identifier(s) of the notification's object : as json string
+     *      - 'event'   Event which generated the notificatoin : className
+     * @return EventNotification[]
      */
-    public function getNotificationByObjectDescription(string $subject, string $message): array
+    public function getNotificationByObjectDescription(array $description): array
     {
-        return $this->notificationRepository->findBy([
-            'subject' => $subject,
-            'message' => $message
-        ]);
+        return $this->notificationRepository->findBy($description);
     }
 
     /**

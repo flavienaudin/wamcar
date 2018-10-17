@@ -10,22 +10,40 @@
             '%vehicle_name%' : notification.subject.vehicle.name
         }) %}
     {% endif %}
-
     {% set notificator_img = notification.subject.user.avatar|avatar('user_mini_thumbnail') %}
     {% set notificator_alt = notification.subject.user.fullname %}
     {% set notification_icon = '<span class="icon-thumbs-up primary-color"></span>' %}
-
 {% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageCreatedEvent') %}
     {% set subject = 'notifications.message.pending_request_to_join_garage_created'|trans({
         '%username%':notification.subject.prouser.fullname,
         '%garage_name%' : notification.subject.garage.name
     }) %}
-
     {% set notificator_img = notification.subject.prouser.avatar|avatar('user_mini_thumbnail') %}
     {% set notificator_alt = notification.subject.prouser.fullname %}
     {% set notification_icon = '<span class="icon-user primary-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageAcceptedEvent') %}
+    {% set subject = 'notifications.message.pending_request_to_join_garage_accepted'|trans({
+        '%garage_name%' : notification.subject.garage.name
+    }) %}
+    {% set notificator_img = notification.subject.garage|logo('garage_mini_logo') %}
+    {% set notificator_alt = notification.subject.garage.name %}
+    {% set notification_icon = '<span class="icon-check success-color"></span>' %}
 {% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageDeclinedEvent') %}
     {% set subject = 'notifications.message.pending_request_to_join_garage_declined'|trans({
+        '%garage_name%' : notification.subject.name
+    }) %}
+    {% set notificator_img = notification.subject|logo('garage_mini_logo') %}
+    {% set notificator_alt = notification.subject.name %}
+    {% set notification_icon = '<span class="icon-close primary-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\GarageMemberAssignedEvent') %}
+    {% set subject = 'notifications.message.garage_member_assigned'|trans({
+        '%garage_name%' : notification.subject.garage.name
+    }) %}
+    {% set notificator_img = notification.subject.garage|logo('garage_mini_logo') %}
+    {% set notificator_alt = notification.subject.garage.name %}
+    {% set notification_icon = '<span class="icon-check success-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\GarageMemberUnassignedEvent') %}
+    {% set subject = 'notifications.message.garage_member_unassigned'|trans({
         '%garage_name%' : notification.subject.name
     }) %}
     {% set notificator_img = notification.subject|logo('garage_mini_logo') %}

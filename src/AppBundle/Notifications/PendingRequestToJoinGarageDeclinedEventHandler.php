@@ -7,7 +7,6 @@ use AppBundle\MailWorkflow\AbstractEmailEventHandler;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
-use Mgilet\NotificationBundle\Entity\Notification;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -41,36 +40,37 @@ class PendingRequestToJoinGarageDeclinedEventHandler extends AbstractEmailEventH
         $garage = $event->getGarageProUser()->getGarage();
         $proUser = $event->getGarageProUser()->getProUser();
 
-        // Deletion of the administrators' notification
+        // Deletion of the administrators' notifications
         $data = [
-            'id' => $garage->getId()
+            'garage' => $garage->getId(),
+            'proUser' => $proUser->getId()
         ];
-        $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription(
-            get_class($event->getGarageProUser()), json_encode($data));
+        $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+            'subject' => get_class($event->getGarageProUser()),
+            'message' => json_encode($data)
+        ]);
         try {
-            if ($notifications instanceof Notification) {
-                $notifications = [$notifications];
-            }
             foreach ($notifications as $notification) {
-                $this->notificationsManager->removeNotification($garage->getAdministrators(), $notification);
+                $this->notificationsManager->removeNotification(array_merge([$proUser], $garage->getAdministrators()), $notification);
                 $this->notificationsManager->deleteNotification($notification, true);
             }
         } catch (OptimisticLockException $e) {
             // tant pis pour la suppression des notifications, on ne bloque pas l'action
         }
 
-        // ProUser Notification of the administrator decision
-        $data = [
+
+        // Notification to ProUser to inform of administrator refusal
+        $garageData = [
             'id' => $garage->getId()
         ];
-        $notifications = $this->notificationsManagerExtended->createNotification(
+        $notificationRefusal = $this->notificationsManagerExtended->createNotification(
             get_class($garage),
             get_class($event),
-            json_encode($data),
+            json_encode($garageData),
             $this->router->generate('front_garage_view', ['id' => $garage->getId(), '_fragment' => 'sellers'])
         );
         try {
-            $this->notificationsManager->addNotification([$proUser], $notifications, true);
+            $this->notificationsManager->addNotification([$proUser], $notificationRefusal, true);
         } catch (OptimisticLockException $e) {
             // tant pis pour la notification, on ne bloque pas l'action
         }

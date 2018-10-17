@@ -147,6 +147,7 @@ services:
             arguments:
                 $type: pending_request_to_join_garage_accepted
                 $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
             tags:
                 - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageAcceptedEvent, method: notify }
 
@@ -176,6 +177,7 @@ services:
             arguments:
                 $type: garage_member_assigned
                 $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
             tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
 
@@ -185,6 +187,7 @@ services:
             arguments:
                 $type: garage_member_unassigned
                 $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
             tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
 

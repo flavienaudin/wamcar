@@ -104,11 +104,11 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     );
                 }
             } else {
-                $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription(get_class($like), $data);
+                $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+                    'subject' => get_class($like),
+                    'message' => $data
+                ]);
                 try {
-                    if ($notifications instanceof Notification) {
-                        $notifications = [$notifications];
-                    }
                     foreach ($notifications as $notification) {
                         $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
                         $this->notificationsManager->deleteNotification($notification, true);
