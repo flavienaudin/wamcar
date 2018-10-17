@@ -15,7 +15,7 @@ final class Version20181010142611 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE pro_vehicle ADD seller_id INT DEFAULT NULL');
+        $this->addSql('ALTER TABLE pro_vehicle ADD seller_id INT NOT NULL');
         $this->addSql('UPDATE pro_vehicle SET seller_id = (
                                 SELECT gu.pro_user_id as user_id
                                 from garage_pro_user gu
