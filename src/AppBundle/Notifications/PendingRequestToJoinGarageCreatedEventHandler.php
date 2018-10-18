@@ -68,6 +68,7 @@ class PendingRequestToJoinGarageCreatedEventHandler extends AbstractEmailEventHa
         foreach ($garage->getAdministrators() as $administrator) {
             $this->send(
                 $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
+                    '%seller_fullname%' => $proUser->getFullName(),
                     '%garage_name%' => $garage->getName()], 'email'),
                 'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
                 [

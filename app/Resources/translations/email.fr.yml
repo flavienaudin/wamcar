@@ -74,10 +74,17 @@ unseenNotificationsDailyDigest:
     action_label: Voir
 
 notifyGarageAdministratorOfNewPendingRequest:
-    object: "Nouvelle demande pour rejoindre le garage %garage_name%"
+    object: "%seller_fullname% souhaite rejoindre %garage_name%"
     body:
-        first: <p>Le conseilleur automobile "%seller_fullname%" souhaite rejoindre le garage "%garage_name%".</p>
-        second: <p>Ou rendez-vous sur la <a href="%garage_view_url%">page du garage</a> pour l'administrer</p>
+        first: >
+            <p>Un nouveau vendeur professionnel souhaite rejoindre %garage_name% :</p>
+            <ul>
+                <li>Nom : %seller_fullname%</li>
+                <li>E-mail : %seller_email%</li>
+                <li>Page profil : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
+            </ul>
+        # second: <p>Ou rendez-vous sur la <a href="%garage_view_url%">page du garage</a> pour l'administrer</p>
+
     action:
         accept: Accepter
         decline: Refuser
