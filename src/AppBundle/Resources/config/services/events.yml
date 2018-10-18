@@ -29,8 +29,7 @@ services:
         class: AppBundle\MailWorkflow\NotifyProUserOfRegistration
         arguments:
           - registration_pro
-          - '%admin_email%'
-          - '%admin_name%'
+          - '%salespersons_emails%'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
@@ -135,5 +134,6 @@ services:
         class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
         arguments:
             $type: place_detail_error
+            $monitorsEmails: '%monitors_emails%'
         tags:
             - { name: event_subscriber, subscribes_to: \GoogleApi\Event\PlaceDetailError, method: notify }
