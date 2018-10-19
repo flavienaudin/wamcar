@@ -99,7 +99,7 @@
             <p>{{ 'garage.administrator.contact'|trans({
                     '%contactUrl%': url('contact'),
                     '%garage_name%': garage.name
-                }) }}</p>
+                })|raw }}</p>
         {% endif %}
         {# <div class="column small-12 medium-6 large-collapse">
             <h2 class="separator-for-small">Inviter un vendeur</h2>
