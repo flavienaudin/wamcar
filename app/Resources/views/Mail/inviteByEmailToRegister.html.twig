@@ -1,0 +1,17 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button %}
+
+{% block title %}{{ 'inviteByEmailToRegister.object'|trans({
+    '%administrator_fullname%': administrator_fullname
+}) }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'inviteByEmailToRegister.body'|trans({
+            '%administrator_fullname%': administrator_fullname
+        })|raw }}
+        {{ action_button(url('register',{'type':constant("Wamcar\\User\\ProUser::TYPE")}), 'inviteByEmailToRegister.action_label'|trans) }}
+    </div>
+{% endblock %}

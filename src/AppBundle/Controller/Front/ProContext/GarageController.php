@@ -10,6 +10,7 @@ use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Form\Type\GarageProInvitationType;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Security\Voter\GarageVoter;
@@ -30,6 +31,7 @@ use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
 class GarageController extends BaseController
@@ -127,6 +129,69 @@ class GarageController extends BaseController
             ];
         }
 
+        $inviteSellerForm = null;
+        if ($this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+            $inviteSellerForm = $this->formFactory->create(GarageProInvitationType::class);
+            $inviteSellerForm->handleRequest($request);
+            if ($inviteSellerForm->isSubmitted() && $inviteSellerForm->isValid()) {
+                $results = $this->garageEditionService->inviteMember($garage, $inviteSellerForm->get('emails')->getData());
+
+                // User automatically attached to the garage
+                if (count($results[GarageEditionService::INVITATION_EMAIL_ATTACHED]) > 0) {
+                    $prousersAttachedList = '';
+                    /**
+                     * @var string $email
+                     * @var ProUser $proUser
+                     */
+                    foreach ($results[GarageEditionService::INVITATION_EMAIL_ATTACHED] as $email => $proUser) {
+                        $prousersAttachedList .=
+                            (strlen($prousersAttachedList) > 0 ? ', ' : '') . $proUser->getFullName() . ' (' . $email . ')';
+                    }
+
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        $this->translator->transChoice('flash.success.garage.invitations.attached',
+                            count($results[GarageEditionService::INVITATION_EMAIL_ATTACHED]),
+                            [
+                                '%prousers_attached_list%' => $prousersAttachedList,
+                                '%garage_name%' => $garage->getName()
+                            ]
+                        ));
+                }
+                // User invited to register
+                if (count($results[GarageEditionService::INVITATION_EMAIL_INVITED]) > 0) {
+                    $emailsPersonalList = join(', ', $results[GarageEditionService::INVITATION_EMAIL_INVITED]);
+
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        $this->translator->transChoice('flash.success.garage.invitations.invited',
+                            count($results[GarageEditionService::INVITATION_EMAIL_INVITED]),
+                            [
+                                '%prousers_invited_list%' => $emailsPersonalList
+                            ]
+                        ));
+                }
+
+                // Email of personal users
+                if (count($results[GarageEditionService::INVITATION_EMAIL_PERSONAL]) > 0) {
+                    $emailsPersonalList = join(', ', array_keys($results[GarageEditionService::INVITATION_EMAIL_PERSONAL]));
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_WARNING,
+                        $this->translator->transChoice('flash.warning.garage.invitations.personal',
+                            count($results[GarageEditionService::INVITATION_EMAIL_PERSONAL]),
+                            [
+                                '%prousers_personal_list%' => $emailsPersonalList,
+                                '%garage_name%' => $garage->getName()
+                            ]
+                        ));
+                }
+
+                return $this->redirectToRoute('front_garage_view', [
+                    'id' => $garage->getId(),
+                    '_fragment' => 'sellers']);
+            }
+        }
+
         return $this->render('front/Garages/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
             'garage' => $garage,
@@ -134,7 +199,8 @@ class GarageController extends BaseController
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
             'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
-            'searchForm' => $searchForm ? $searchForm->createView() : null
+            'searchForm' => $searchForm ? $searchForm->createView() : null,
+            'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null
         ]);
     }
 
@@ -218,36 +284,36 @@ class GarageController extends BaseController
      */
     public function assignAction(Garage $garage, ?ProApplicationUser $proApplicationUser = null): RedirectResponse
     {
-        if($proApplicationUser == null) {
+        if ($proApplicationUser == null) {
             $proApplicationUser = $this->getUser();
         }
         $member = $proApplicationUser->getMembershipByGarage($garage);
         if ($member != null) {
-            if($member->getRequestedAt() == null ) {
+            if ($member->getRequestedAt() == null) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
                     'flash.warning.garage.already_member'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
-            }else{
+            } else {
                 // pending request
-                if($this->isGranted(GarageVoter::ADMINISTRATE, $garage)){
+                if ($this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
                     $this->garageEditionService->acceptPendingRequest($member);
 
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_INFO,
                         'flash.success.garage.assign_member'
                     );
-                    return $this->redirectToRoute('front_garage_view',[
+                    return $this->redirectToRoute('front_garage_view', [
                         'id' => $garage->getId(),
                         '_fragment' => 'sellers'
                     ]);
-                }else{
+                } else {
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_DANGER,
                         'flash.error.garage.unauthorized_to_administrate'
                     );
-                    return $this->redirectToRoute('front_garage_view',[
+                    return $this->redirectToRoute('front_garage_view', [
                         'id' => $garage->getId(),
                         '_fragment' => 'sellers'
                     ]);
@@ -255,18 +321,18 @@ class GarageController extends BaseController
             }
         } else {
 
-            if($this->isGranted(GarageVoter::ADMINISTRATE, $garage)){
+            if ($this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
                 // Assignation by an adminsitrator
                 $this->garageEditionService->addMember($garage, $proApplicationUser, false, true);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.assign_member'
                 );
-                return $this->redirectToRoute('front_garage_view',[
+                return $this->redirectToRoute('front_garage_view', [
                     'id' => $garage->getId(),
                     '_fragment' => 'sellers'
                 ]);
-            }else{
+            } else {
                 // New pending request
                 $this->garageEditionService->addMember($garage, $proApplicationUser, false, false);
                 $this->session->getFlashBag()->add(
@@ -304,21 +370,21 @@ class GarageController extends BaseController
             throw new AccessDeniedException();
         }
 
-        if($member->getRequestedAt() == null){
+        if ($member->getRequestedAt() == null) {
             // Unassign garage member
-            if(GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())){
+            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
                     'flash.error.remove_administrator'
                 );
-            }else{
+            } else {
                 $userVehicles = $proApplicationUser->getVehiclesOfGarage($garage);
-                if(count($userVehicles) > 0) {
+                if (count($userVehicles) > 0) {
                     // Vehicle distribution to other garage members
 
                     $nbVehiclesNotAssigned = 0;
                     /** @var ProVehicle $vehicle */
-                    foreach ($userVehicles as $vehicle){
+                    foreach ($userVehicles as $vehicle) {
                         try {
                             $this->proVehicleEditionService->assignSeller($vehicle);
 
@@ -337,19 +403,19 @@ class GarageController extends BaseController
                         }
                     }
 
-                    if($nbVehiclesNotAssigned > 0) {
+                    if ($nbVehiclesNotAssigned > 0) {
                         $this->session->getFlashBag()->add(
                             self::FLASH_LEVEL_WARNING,
                             'flash.error.garage.unable_to_detach_seller.due_to_attached_vehicle'
                         );
-                    }else{
+                    } else {
                         $this->garageEditionService->removeMember($garage, $proApplicationUser);
                         $this->session->getFlashBag()->add(
                             self::FLASH_LEVEL_INFO,
                             'flash.success.garage.remove_member_with_reassignation'
                         );
                     }
-                }else{
+                } else {
                     $this->garageEditionService->removeMember($garage, $proApplicationUser);
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_INFO,
@@ -357,16 +423,16 @@ class GarageController extends BaseController
                     );
                 }
             }
-        }else {
+        } else {
             // Pending request
-            if($proApplicationUser->is($this->getUser())){
+            if ($proApplicationUser->is($this->getUser())) {
                 // Cancelled by the proUser
                 $this->garageEditionService->removeMember($garage, $proApplicationUser, false);
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.cancel_pending_request_by_user'
                 );
-            }else {
+            } else {
                 // Declined by an administrator
                 $this->garageEditionService->removeMember($garage, $proApplicationUser, true);
                 $this->session->getFlashBag()->add(

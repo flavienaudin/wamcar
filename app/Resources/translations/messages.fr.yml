@@ -12,6 +12,9 @@ flash:
       remove_member_with_reassignation: Le vendeur a bien été retiré de votre garage et ses véhicules ont été affectés aux autres vendeurs du garage.
       cancel_pending_request_by_user: Votre demande a bien été annulée.
       cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoint votre garage.
+      invitations:
+        attached: "{1} %prousers_attached_list% a été automatiquement rattaché à %garage_name% |[2,Inf[ %prousers_attached_list% ont été automatiquement rattachés à %garage_name%"
+        invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
@@ -60,6 +63,8 @@ flash:
       same_as_existing: >
         Le garage que vous souhaitez créer, existe déjà. Cliquez sur <a href="%requestUrl%" class="text-underline">"Rejoindre ce garage"</a>
         pour envoyer une demande à l'adminstrateur.
+      invitations:
+        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[  Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
 
 global:
   yes: Oui
@@ -86,6 +91,7 @@ global:
     next_step: Etape suivante
     back: Retour
     validate: Valider
+    invite: Inviter
   pagination:
     pagination: Pagination
     first: Première page
@@ -271,8 +277,16 @@ garage:
       location:
         placeholder: Ville ou code postal
   assignation:
+    invitation:
+      title: Inviter vos collaborateurs à rejoindre %garage_name%
+      field:
+        email:
+          label: E-mail du vendeur
+          placeholder: E-mail du vendeur
     request:
       title: Rejoindre un garage
+  administrator:
+    contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
 
 search:
   common:
@@ -679,7 +693,7 @@ user:
 
       submit: Enregistrer mon projet
     favorites:
-      title: %user_firstname% aime
+      title: "%user_firstname% aime"
       owner: Mes likes
   garage:
     seller_for: Vendeur pour
@@ -690,8 +704,9 @@ user:
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande
     decline_request: Refuser la demande
-    pending_request: Demande en attente d'acception par un gestionnaire du garage
-
+    pending_request:
+      member: Votre demande est en attente d'acception par un gestionnaire du garage
+      administrator: "%seller_name% souhaite rejoindre %garage_name%"
   preference:
     page_title: Mes préférences
     title:

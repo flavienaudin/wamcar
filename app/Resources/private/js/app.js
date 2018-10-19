@@ -23,6 +23,7 @@ import './components/header';
 import './components/select';
 import './components/step';
 import './components/file';
+import './components/garage';
 import './components/registration';
 import './components/like';
 import './components/banner';

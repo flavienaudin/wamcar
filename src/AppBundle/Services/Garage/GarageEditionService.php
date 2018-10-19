@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services\Garage;
 
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
@@ -23,14 +24,22 @@ use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\User\Event\EmailsInvitationsEvent;
+use Wamcar\User\UserRepository;
 
 
 class GarageEditionService
 {
+    const INVITATION_EMAIL_ATTACHED = 'INVITATION_EMAIL_ATTACHED';
+    const INVITATION_EMAIL_INVITED = 'INVITATION_EMAIL_INVITED';
+    const INVITATION_EMAIL_PERSONAL = 'INVITATION_EMAIL_PERSONAL';
+
     /** @var GarageRepository */
     private $garageRepository;
     /** @var GarageProUserRepository */
     private $garageProUserRepository;
+    /** @var UserRepository */
+    private $userRepository;
     /** @var GarageFromDTOBuilder */
     private $garageBuilder;
     /** @var ProVehicleEditionService */
@@ -44,6 +53,7 @@ class GarageEditionService
      * GarageEditionService constructor.
      * @param GarageRepository $garageRepository
      * @param GarageProUserRepository $garageProUserRepository
+     * @param UserRepository $userRepository
      * @param GarageFromDTOBuilder $garageBuilder
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param GoogleMapsApiConnector $googleMapsApiConnector
@@ -52,6 +62,7 @@ class GarageEditionService
     public function __construct(
         GarageRepository $garageRepository,
         GarageProUserRepository $garageProUserRepository,
+        UserRepository $userRepository,
         GarageFromDTOBuilder $garageBuilder,
         ProVehicleEditionService $proVehicleEditionService,
         GoogleMapsApiConnector $googleMapsApiConnector,
@@ -60,6 +71,7 @@ class GarageEditionService
     {
         $this->garageRepository = $garageRepository;
         $this->garageProUserRepository = $garageProUserRepository;
+        $this->userRepository = $userRepository;
         $this->garageBuilder = $garageBuilder;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->googleMapsApi = $googleMapsApiConnector;
@@ -152,6 +164,47 @@ class GarageEditionService
             return $garageProUser;
         }
         return null;
+    }
+
+    /**
+     * @param Garage $garage
+     * @param array $emails Array of emails to invite to the garage
+     * @return array Result for each emails
+     */
+    public function inviteMember(Garage $garage, array $emails): array
+    {
+        $results = [
+            self::INVITATION_EMAIL_ATTACHED => [],
+            self::INVITATION_EMAIL_INVITED => [],
+            self::INVITATION_EMAIL_PERSONAL => []
+        ];
+        $emailInvitationsToSend = [];
+        foreach ($emails as $email) {
+            $user = $this->userRepository->findOneByEmail($email);
+            if ($user instanceof ProApplicationUser) {
+                if ($user->isMemberOfGarage($garage, true)) {
+                    $membership = $user->getMembershipByGarage($garage);
+                    if ($membership->getRequestedAt() != null) {
+                        // pending request
+                        $this->acceptPendingRequest($membership);
+                    }
+                } else {
+                    $this->addMember($garage, $user, false, true);
+                }
+                $results[self::INVITATION_EMAIL_ATTACHED][$email] = $user;
+            } elseif ($user instanceof PersonalApplicationUser) {
+                $results[self::INVITATION_EMAIL_PERSONAL][$email] = $user;
+            } else {
+                $emailInvitationsToSend[] = $email;
+                $results[self::INVITATION_EMAIL_INVITED][] = $email;
+            }
+        }
+
+        if (count($emailInvitationsToSend)) {
+            $this->eventBus->handle(new EmailsInvitationsEvent($emailInvitationsToSend, $garage));
+        }
+
+        return $results;
     }
 
     /**

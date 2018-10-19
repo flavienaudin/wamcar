@@ -33,11 +33,15 @@
                             {% if membership.requestedAt is not null %}
                                 {% if userIsMe %}
                                     <p class="is-inline-block">
-                                        <i class="black-color">{{ 'user.garage.pending_request'|trans }}&nbsp;:</i>
+                                        <i class="black-color">{{ 'user.garage.pending_request.member'|trans }}&nbsp;:</i>
                                         <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
                                            class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
                                 {% else %}
                                     <p class="is-inline-block">
+                                        <i class="black-color">{{ 'user.garage.pending_request.administrator'|trans({
+                                                '%seller_name%': membership.proUser.fullName,
+                                                '%garage_name%': garage.name
+                                            }) }}&nbsp;:</i>
                                         <a href="{{ path('front_garage_assign',  {'garage_id':garage.id,'user_id':membership.prouser.id}) }}" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
                                         <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
                                            class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
@@ -58,6 +62,45 @@
                 {% endif %}
             </ul>
         </div>
+        {% if inviteSellerForm is not null %}
+            <div class="small-12">
+                <h2>{{ 'garage.assignation.invitation.title'|trans({
+                        '%garage_name%':garage.name
+                    }) }}</h2>
+                <div>
+                    {{ form_start(inviteSellerForm, {
+                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'})
+                    } ) }}
+                    <div class="column">
+                        <div class="row">
+                            <div class="column small-12 medium-auto">
+                                {{ form_widget(inviteSellerForm.emails, {
+                                    'class':'js-garage-pro-invitation-emails',
+                                    'label':'garage.assignation.invitation.field.email.label'|trans,
+                                    'label_class':'show-for-sr',
+                                    'required' : false,
+                                    'required_class': 'show-for-sr',
+                                    'multiple':'multiple',
+                                    'attr':{
+                                        'placeholder':'garage.assignation.invitation.field.email.placeholder'|trans
+                                    }
+                                }) }}
+                            </div>
+                            <div class="column small-12 medium-shrink input-margin medium-no-margin ">
+                                <button type="submit" class="button no-margin full-width">{{ 'global.button.invite'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(inviteSellerForm ) }}
+                </div>
+            </div>
+        {% endif %}
+        {% if isEditableByCurrentUser %}
+            <p>{{ 'garage.administrator.contact'|trans({
+                    '%contactUrl%': url('contact'),
+                    '%garage_name%': garage.name
+                }) }}</p>
+        {% endif %}
         {# <div class="column small-12 medium-6 large-collapse">
             <h2 class="separator-for-small">Inviter un vendeur</h2>
             <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>

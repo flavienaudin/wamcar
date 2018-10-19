@@ -89,6 +89,11 @@ notifyGarageAdministratorOfNewPendingRequest:
         accept: Accepter
         decline: Refuser
 
+inviteByEmailToRegister:
+    object: "%administrator_fullname% vous invite à vous inscrire sur Wamcar"
+    body: "%administrator_fullname% souhaite que vous vous inscriviez sur Wamcar afin que vous puissiez collaborer"
+    action_label: S'inscrire
+
 notifyAdminOfGoogleApiReturn:
     object: "Wamcar ADMIN-Google API Return Error"
     body: >

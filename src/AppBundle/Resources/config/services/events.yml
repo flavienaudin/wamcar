@@ -191,6 +191,15 @@ services:
             tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
 
+    wamcar.event.garage_emails_invitations:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\MailWorkflow\EmailsInvitationsEventHandler
+            arguments:
+                $type: garage_emails_invitations
+            tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\EmailsInvitationsEvent, method: notify }
+
+
     googleApi.event.place_detail_error:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
