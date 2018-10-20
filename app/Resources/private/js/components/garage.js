@@ -19,5 +19,12 @@ $(document).ready(function () {
       width: '100%',
       AttachContainer: true
     });
+
+    $select.on('select2:close', function (e) {
+      let select2SearchField = $(this).parent().find('.select2-search__field');
+      setTimeout(function () {
+        select2SearchField.focus();
+      }, 100);
+    });
   }
 });
