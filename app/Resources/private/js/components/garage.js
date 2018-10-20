@@ -21,9 +21,8 @@ $(document).ready(function () {
     });
 
     $select.on('select2:close', function (e) {
-      let select2SearchField = $(this).parent().find('.select2-search__field');
       setTimeout(function () {
-        select2SearchField.focus();
+        $select.parent().find('.select2-search__field').focus();
       }, 100);
     });
   }
