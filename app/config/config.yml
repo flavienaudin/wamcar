@@ -350,7 +350,7 @@ hwi_oauth:
 
 jmose_command_scheduler:
     # receivers for reporting mails
-    monitor_mail: ['%admin_email%']
+    monitor_mail: '%monitors_emails%'
 
     # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
     send_ok: true

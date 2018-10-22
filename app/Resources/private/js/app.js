@@ -36,6 +36,7 @@ import './components/radio';
 import './components/project';
 import './components/avatar';
 import './components/notification';
+import './components/phone_number';
 import {activeClass} from './settings/settings.js';
 
 Reveal.defaults.animationIn = 'slide-in-down';

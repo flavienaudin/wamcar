@@ -22,12 +22,20 @@
                         {% elseif userIsMe %}
                             <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
                         {% endif %}
-                        {% if not isLogged %}
-                            <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
-                        {% elseif userIsMe %}
+                        {% if userIsMe %}
                             <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}</a></p>
-                        {% elseif isUserPersonal %}
-                            <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
+                        {% else %}
+                            <div class="is-flex">
+                                <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
+                                    <span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
+                                {% if membership.proUser.mainPhoneNumber %}
+                                    {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                        'phoneNumber_eventId':'showtelpro#'~membership.proUser.id,
+                                        'phoneNumber': membership.proUser.mainPhoneNumber,
+                                        'buttonClass': 'margin-left-1'
+                                    }) }}
+                                {% endif %}
+                            </div>
                         {% endif %}
                         {# <li class="block-grid column large-left-collapse align-middle">
                         <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.fullName }}"></span>
