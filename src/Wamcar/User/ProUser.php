@@ -32,6 +32,15 @@ class ProUser extends BaseUser
     }
 
     /**
+     * Get the main phone number or null if not given
+     * @return null|string
+     */
+    public function getMainPhoneNumber(): ?string
+    {
+        return $this->phonePro ?? $this->getPhone();
+    }
+
+    /**
      * @return string
      */
     public function getPhonePro(): ?string

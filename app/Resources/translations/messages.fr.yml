@@ -55,12 +55,15 @@ global:
     more_information: Plus d'information
     dislike: Je n'aime plus
     like_vehicle: J'aime ce véhicule
+    like: J'aime
     add_this_vehicle: Ajouter le véhicule
     edit_this_vehicle: Editer le véhicule
     previous_step: Etape précédente
     next_step: Etape suivante
     back: Retour
     validate: Valider
+    see_phone_number: Voir le numéro
+    call: Appeler
   pagination:
     pagination: Pagination
     first: Première page
