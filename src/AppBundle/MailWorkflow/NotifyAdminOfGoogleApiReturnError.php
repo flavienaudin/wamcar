@@ -31,7 +31,7 @@ class NotifyAdminOfGoogleApiReturnError extends AbstractEmailEventHandler implem
     {
         parent::__construct($mailer, $router, $templating, $translator, $type);;
         $this->monitorsEmails = [];
-        foreach ($this->monitorsEmails as $monitorsEmail) {
+        foreach ($monitorsEmails as $monitorsEmail) {
             $this->monitorsEmails[] = new EmailContact($monitorsEmail);
         }
     }
