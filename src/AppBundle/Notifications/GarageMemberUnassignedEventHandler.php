@@ -85,7 +85,7 @@ class GarageMemberUnassignedEventHandler extends AbstractEmailEventHandler imple
                 '%garage_name%' => $garage->getName()], 'email'),
             'Mail/notifyProOfUnassignationToGarage.html.twig',
             [
-                'username' => $proUser->getFullName(),
+                'username' => $proUser->getFirstName(),
                 'garage' => $garage,
                 'seller' => $proUser
             ],

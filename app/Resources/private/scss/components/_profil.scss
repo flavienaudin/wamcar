@@ -99,17 +99,10 @@ $profil-image-offset: rem-calc(40);
       }
     }
 
-    .icon-tel {
-      @include breakpoint(small only) {
-        justify-content: flex-end;
-        padding-right: rem-calc(10);
-      }
-    }
-
+    .icon-tel,
     .icon-mobile {
       @include breakpoint(small only) {
-        justify-content: flex-start;
-        padding-left: rem-calc(10);
+        justify-content: center;
       }
     }
 

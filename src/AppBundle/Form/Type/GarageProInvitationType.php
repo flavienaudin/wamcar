@@ -26,10 +26,10 @@ class GarageProInvitationType extends AbstractType
             $form = $event->getForm();
             $data = $event->getData();
 
-            if ($form->has('emails')) {
+            if ($form->has('emails') && isset($data['emails'])) {
                 $form->remove('emails');
                 $form->add('emails', ChoiceType::class, [
-                    'choices' => $data['emails'] ,
+                    'choices' => $data['emails'],
                     'multiple' => true
                 ]);
             }

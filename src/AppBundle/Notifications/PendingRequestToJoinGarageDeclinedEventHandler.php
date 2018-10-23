@@ -83,7 +83,7 @@ class PendingRequestToJoinGarageDeclinedEventHandler extends AbstractEmailEventH
             ], 'email'),
             'Mail/notifyProOfDeclinedPendingRequestToJoinGarage.html.twig',
             [
-                'username' => $proUser->getFullName(),
+                'username' => $proUser->getFirstName(),
                 'garage' => $garage,
                 'seller' => $proUser
             ],

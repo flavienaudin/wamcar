@@ -5,14 +5,14 @@
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
-                        <span class="small-6 medium-shrink">
+                        <span class="small-auto medium-shrink">
                             {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                                 'phoneNumber_eventId':'showtelproFixe'~user.id,
                                 'phoneNumber': user.phonePro
                             }) }}</span>
                     {% endif %}
                     {% if user.userProfile.phone %}
-                        <span class="small-6 medium-shrink">
+                        <span class="small-auto medium-shrink">
                             {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                                 'phoneNumber_eventId':'showtelproMobile'~user.id,
                                 'phoneNumber': user.userProfile.phone,

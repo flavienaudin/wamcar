@@ -26,7 +26,7 @@ class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements V
             $this->translator->trans('notifyOwnerOfVehicleRemoved.object', [], 'email'),
             'Mail/notifyOwnerOfVehicleRemoved.html.twig',
             [
-                'username' => $vehicle->getSellerName(),
+                'username' => $vehicle->getSellerName(true),
                 'name' => $vehicle->getName(),
                 'annee' => $vehicle->getYears()
             ],
