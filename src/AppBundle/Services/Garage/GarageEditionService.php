@@ -85,7 +85,7 @@ class GarageEditionService
      */
     public function canEdit($user, Garage $garage): bool
     {
-        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($garage);
+        return $user instanceof CanBeGarageMember && $user->isAdministratorOfGarage($garage);
     }
 
     /**

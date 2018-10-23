@@ -75,19 +75,79 @@ unseenNotificationsDailyDigest:
 
 notifyGarageAdministratorOfNewPendingRequest:
     object: "%seller_fullname% souhaite rejoindre %garage_name%"
-    body:
-        first: >
-            <p>Un nouveau vendeur professionnel souhaite rejoindre %garage_name% :</p>
-            <ul>
-                <li>Nom : %seller_fullname%</li>
-                <li>E-mail : %seller_email%</li>
-                <li>Page profil : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
-            </ul>
-        # second: <p>Ou rendez-vous sur la <a href="%garage_view_url%">page du garage</a> pour l'administrer</p>
-
+    body: >
+        <p>Un nouveau vendeur professionnel souhaite rejoindre %garage_name% :</p>
+        <ul>
+            <li>Nom : %seller_fullname%</li>
+            <li>E-mail : %seller_email%</li>
+            <li>Page profil : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
+        </ul>
     action:
-        accept: Accepter
-        decline: Refuser
+        accept: Accepter %seller_firstname%
+        decline: Refuser %seller_firstname%
+
+notifyProOfAcceptedPendingRequestToJoinGarage:
+    object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été acceptée"
+    body: >
+        <div>
+            <p>%administrator_fullname% vous a accepté dans %garage_name% :</p>
+            <ul>
+                <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
+            </ul>
+        </div>
+    action:
+        see_garage: Voir %garage_name%
+        add_vehicle: Ajouter un véhicule
+
+notifyProOfDeclinedPendingRequestToJoinGarage:
+    object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été refusée"
+    body: >
+        <div>
+            <p>Votre demande pour rejoindre %garage_name% a été refusée par %administrator_fullname%.</p>
+            <ul>
+                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+                <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
+            </ul>
+        </div>
+    action: Contacter %administrator_fullname%
+
+notifyGarageAdministratorOfCancelledPendingRequest:
+    object: "%seller_fullname% a annulé sa demande pour rejoindre %garage_name%"
+    body: >
+       <div>
+            <p>%seller_fullname% a annulé sa demande pour rejoindre %garage_name%:</p>
+            <ul>
+                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+                <li>Page profile : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
+            </ul>
+        </div>
+
+notifyProUserOfGarageAssignation:
+    object: "%seller_fullname%, vous êtes maintenant membre du %garage_name%"
+    body: >
+        <div>
+            <p>%administrator_fullname% vous a ajouté en tant que membre de %garage_name%.</p>
+            <ul>
+                <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
+            </ul>
+        </div>
+    action:
+        see_garage: Voir %garage_name%
+        add_vehicle: Ajouter un véhicule
+
+notifyProUserOfGarageUnassignation:
+    object: "%seller_fullname%, vous avez été détaché de %garage_name%"
+    body: >
+        <div>
+            <p>Vous avez avez été détaché de %garage_name% par %administrator_fullname%.</p>
+            <ul>
+                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+                <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
+            </ul>
+        </div>
+    action:
+        see_garage: Voir %garage_name%
+        contact: Contacter %administrator_fullname%
 
 inviteByEmailToRegister:
     object: "%administrator_fullname% vous invite à vous inscrire sur Wamcar"

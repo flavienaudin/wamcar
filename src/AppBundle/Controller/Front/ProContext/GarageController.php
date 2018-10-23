@@ -375,7 +375,7 @@ class GarageController extends BaseController
             if (GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_WARNING,
-                    'flash.error.remove_administrator'
+                    'flash.error.garage.remove_administrator'
                 );
             } else {
                 $userVehicles = $proApplicationUser->getVehiclesOfGarage($garage);

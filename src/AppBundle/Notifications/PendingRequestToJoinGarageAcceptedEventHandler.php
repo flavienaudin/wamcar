@@ -4,6 +4,7 @@ namespace AppBundle\Notifications;
 
 
 use AppBundle\MailWorkflow\AbstractEmailEventHandler;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
@@ -78,19 +79,19 @@ class PendingRequestToJoinGarageAcceptedEventHandler extends AbstractEmailEventH
             // tant pis pour la notification, on ne bloque pas l'action
         }
 
-        /* TODO Send an email to vendor ?
         $this->send(
-            $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
-                '%garage_name%' => $garage->getName()], 'email'),
-            'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
+            $this->translator->trans('notifyProOfAcceptedPendingRequestToJoinGarage.object', [
+                '%seller_fullname%' => $proUser->getFullName(),
+                '%garage_name%' => $garage->getName()
+            ], 'email'),
+            'Mail/notifyProOfAcceptedPendingRequestToJoinGarage.html.twig',
             [
-                'username' => $administrator->getFullName(),
+                'username' => $proUser->getFullName(),
                 'garage' => $garage,
                 'seller' => $proUser
             ],
             new EmailRecipientList($this->createUserEmailContact($proUser))
         );
-        */
     }
 
 }

@@ -4,6 +4,7 @@ namespace AppBundle\Notifications;
 
 
 use AppBundle\MailWorkflow\AbstractEmailEventHandler;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
@@ -58,7 +59,6 @@ class PendingRequestToJoinGarageDeclinedEventHandler extends AbstractEmailEventH
             // tant pis pour la suppression des notifications, on ne bloque pas l'action
         }
 
-
         // Notification to ProUser to inform of administrator refusal
         $garageData = [
             'id' => $garage->getId()
@@ -75,21 +75,20 @@ class PendingRequestToJoinGarageDeclinedEventHandler extends AbstractEmailEventH
             // tant pis pour la notification, on ne bloque pas l'action
         }
 
-        // TODO Send an email to administrators ?
-        /*foreach ($garage->getAdministrators() as $administrator) {
-            $this->send(
-                $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
-                    '%garage_name%' => $garage->getName()], 'email'),
-                'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
-                [
-                    'username' => $administrator->getFullName(),
-                    'garage' => $garage,
-                    'seller' => $proUser
-                ],
-                new EmailRecipientList($this->createUserEmailContact($administrator))
-            );
-        }*/
-
+        // Send e-mail to Pro to inform of administrator refusal
+        $this->send(
+            $this->translator->trans('notifyProOfDeclinedPendingRequestToJoinGarage.object', [
+                '%seller_fullname%' => $proUser->getFullName(),
+                '%garage_name%' => $garage->getName()
+            ], 'email'),
+            'Mail/notifyProOfDeclinedPendingRequestToJoinGarage.html.twig',
+            [
+                'username' => $proUser->getFullName(),
+                'garage' => $garage,
+                'seller' => $proUser
+            ],
+            new EmailRecipientList($this->createUserEmailContact($proUser))
+        );
     }
 
 }

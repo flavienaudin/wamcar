@@ -3,6 +3,7 @@
 namespace AppBundle\Notifications;
 
 use AppBundle\MailWorkflow\AbstractEmailEventHandler;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
@@ -77,20 +78,20 @@ class GarageMemberUnassignedEventHandler extends AbstractEmailEventHandler imple
             // tant pis pour la notification, on ne bloque pas l'action
         }
 
-        // TODO Send an email to administrators ?
-        /*foreach ($garage->getAdministrators() as $administrator) {
-            $this->send(
-                $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
-                    '%garage_name%' => $garage->getName()], 'email'),
-                'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
-                [
-                    'username' => $administrator->getFullName(),
-                    'garage' => $garage,
-                    'seller' => $proUser
-                ],
-                new EmailRecipientList($this->createUserEmailContact($administrator))
-            );
-        }*/
+        // Send an email to ProUser
+        $this->send(
+            $this->translator->trans('notifyProUserOfGarageUnassignation.object', [
+                '%seller_fullname%' => $proUser->getFullName(),
+                '%garage_name%' => $garage->getName()], 'email'),
+            'Mail/notifyProOfUnassignationToGarage.html.twig',
+            [
+                'username' => $proUser->getFullName(),
+                'garage' => $garage,
+                'seller' => $proUser
+            ],
+            new EmailRecipientList($this->createUserEmailContact($proUser))
+        );
+
     }
 
 }

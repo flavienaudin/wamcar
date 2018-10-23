@@ -429,6 +429,21 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * Get garage's main administrator (the first)
+     * @return ProUser
+     */
+    public function getMainAdministrator(): ProUser
+    {
+        /** @var GarageProUser $enabledMember */
+        foreach ($this->getEnabledMembers() as $enabledMember) {
+            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())) {
+                return $enabledMember->getProUser();
+            }
+        }
+        return null;
+    }
+
+    /**
      * @return Picture|null
      */
     public function getBanner(): ?Picture

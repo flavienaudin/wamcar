@@ -4,6 +4,7 @@ namespace AppBundle\Notifications;
 
 
 use AppBundle\MailWorkflow\AbstractEmailEventHandler;
+use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Doctrine\ORM\OptimisticLockException;
@@ -58,20 +59,21 @@ class PendingRequestToJoinGarageCancelledEventHandler extends AbstractEmailEvent
             // tant pis pour la suppression des notifications, on ne bloque pas l'action
         }
 
-        // TODO Send an email to administrators to inform administrators of the PR cancellation
-        /*foreach ($garage->getAdministrators() as $administrator) {
-            $this->send(
-                $this->translator->trans('notifyGarageAdministratorOfNewPendingRequest.object', [
-                    '%garage_name%' => $garage->getName()], 'email'),
-                'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
-                [
-                    'username' => $administrator->getFullName(),
-                    'garage' => $garage,
-                    'seller' => $proUser
-                ],
-                new EmailRecipientList($this->createUserEmailContact($administrator))
-            );
-        }*/
-    }
 
+        $emailContacts = [];
+        foreach ($garage->getAdministrators() as $administrator) {
+            $emailContacts[] = $this->createUserEmailContact($administrator);
+        }
+        $this->send(
+            $this->translator->trans('notifyGarageAdministratorOfCancelledPendingRequest.object', [
+                '%seller_fullname%' => $proUser->getFullName(),
+                '%garage_name%' => $garage->getName()], 'email'),
+            'Mail/notifyGarageAdministratorOfCancelledPendingRequest.html.twig',
+            [
+                'garage' => $garage,
+                'seller' => $proUser
+            ],
+            new EmailRecipientList($emailContacts)
+        );
+    }
 }

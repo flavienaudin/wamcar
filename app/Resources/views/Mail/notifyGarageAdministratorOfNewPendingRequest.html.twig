@@ -9,7 +9,7 @@
 
 {% block body %}
     <div>
-        {{ 'notifyGarageAdministratorOfNewPendingRequest.body.first'|trans({
+        {{ 'notifyGarageAdministratorOfNewPendingRequest.body'|trans({
             '%garage_name%': garage.name,
             '%seller_fullname%': seller.fullname,
             '%seller_email%': seller.email,
@@ -18,13 +18,10 @@
 
         <table>
             <tr>
-                <td>{{ action_button(url('front_garage_assign',{'garage_id':garage.id,'user_id':seller.id}), 'notifyGarageAdministratorOfNewPendingRequest.action.accept'|trans) }}</td>
-                <td>{{ action_button(url('front_garage_unassign',{'garage_id':garage.id,'user_id':seller.id}), 'notifyGarageAdministratorOfNewPendingRequest.action.decline'|trans) }}</td>
+                <td>{{ action_button(url('front_garage_assign',{'garage_id':garage.id,'user_id':seller.id}),
+                        'notifyGarageAdministratorOfNewPendingRequest.action.accept'|trans({'%seller_firstname%':seller.firstname})) }}</td>
+                <td>{{ action_button(url('front_garage_unassign',{'garage_id':garage.id,'user_id':seller.id}), 'notifyGarageAdministratorOfNewPendingRequest.action.decline'|trans({'%seller_firstname%':seller.firstname})) }}</td>
             </tr>
         </table>
-
-        {#{{ 'notifyGarageAdministratorOfNewPendingRequest.body.second'|trans({
-            '%garage_view_url%': url('front_garage_view',{'id':garage.id,'_fragment':'sellers'})
-        })|raw }}#}
     </div>
 {% endblock %}
