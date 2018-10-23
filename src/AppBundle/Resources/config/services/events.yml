@@ -131,6 +131,7 @@ services:
         arguments:
             $type: new_like_vehicle
             $notificationsManager: '@mgilet.notification'
+            $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
             $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
