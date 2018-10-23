@@ -6,24 +6,27 @@ import 'select2';
 
 const fr = require('select2/src/js/select2/i18n/fr');
 
-$(document).ready(function () {
-  const $select = $('.js-garage-pro-invitation-emails');
+const $selects = $('.js-garage-pro-invitation-emails');
+if ($selects.length) {
+  $(document).ready(() => {
+    [...$selects].forEach(function (select) {
+      const $select = $(select);
+      $select.select2({
+        language: fr,
+        placeholder: $select.attr('data-placeholder'),
+        multiple: true,
+        allowClear: true,
+        width: '100%',
+        tags: true,
+        tokenSeparators: [';', ',', ' '],
+        AttachContainer: true
+      });
 
-  if ($select.length) {
-    $select.select2({
-      language: fr,
-      placeholder: $select.attr('placeholder'),
-      tags: true,
-      tokenSeparators: [';', ',', ' '],
-      multiple: true,
-      width: '100%',
-      AttachContainer: true
+      $select.on('select2:close', function (e) {
+        setTimeout(function () {
+          $select.parent().find('.select2-search__field').focus();
+        }, 100);
+      });
     });
-
-    $select.on('select2:close', function (e) {
-      setTimeout(function () {
-        $select.parent().find('.select2-search__field').focus();
-      }, 100);
-    });
-  }
-});
+  });
+}

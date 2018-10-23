@@ -81,24 +81,30 @@
                     }) }}</h2>
                 <div>
                     {{ form_start(inviteSellerForm, {
-                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'})
+                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'}),
+                        'attr' : {
+                            'id' : 'js-garage-member-invitation-form',
+                            'data-abide' : 'data-abide',
+                            'novalidate' : 'novalidate'
+                        }
                     } ) }}
                     <div class="column">
                         <div class="row">
-                            <div class="column small-12">
+                            <div class="column small-12 input-margin">
                                 {{ form_widget(inviteSellerForm.emails, {
                                     'class':'js-garage-pro-invitation-emails',
                                     'label':'garage.assignation.invitation.field.email.label'|trans,
                                     'label_class':'show-for-sr',
-                                    'required' : false,
-                                    'required_class': 'show-for-sr',
+                                    'required' : true,
+                                    'required_message': 'garage.assignation.invitation.field.email.error.empty'|trans,
                                     'multiple':'multiple',
                                     'attr':{
-                                        'placeholder':'garage.assignation.invitation.field.email.placeholder'
+                                        'data-placeholder':'garage.assignation.invitation.field.email.placeholder'|trans
                                     }
                                 }) }}
+                                <small><i>{{ 'garage.assignation.invitation.field.email.instruction'|trans }}</i></small>
                             </div>
-                            <div class="column small-12 input-margin medium-no-margin ">
+                            <div class="column small-12 input-margin">
                                 <button type="submit" class="button no-margin full-width">{{ 'global.button.invite'|trans }}</button>
                             </div>
                         </div>
