@@ -17,18 +17,24 @@ Wamcar\Garage\GarageProUser:
         associationKey: true
 
     fields:
+      role:
+        type: garagerole
+        nullable: false
+      requestedAt:
+        type: datetime
+        nullable: true
 
     manyToOne:
-        garage:
-            targetEntity: Wamcar\Garage\Garage
-            inversedBy: members
-            joinColumn:
-                name: garage_id
-                referencedColumnName: id
+      garage:
+        targetEntity: Wamcar\Garage\Garage
+        inversedBy: members
+        joinColumn:
+          name: garage_id
+          referencedColumnName: id
 
-        proUser:
-            targetEntity: Wamcar\User\ProUser
-            inversedBy: garageMemberships
-            joinColumn:
-                name: pro_user_id
-                referencedColumnName: id
+      proUser:
+        targetEntity: Wamcar\User\ProUser
+        inversedBy: garageMemberships
+        joinColumn:
+          name: pro_user_id
+          referencedColumnName: id

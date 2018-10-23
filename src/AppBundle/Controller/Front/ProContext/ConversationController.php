@@ -16,12 +16,12 @@ use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use AppBundle\Session\Model\SessionMessage;
 use AppBundle\Session\SessionMessageManager;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\BaseVehicle;
@@ -268,13 +268,13 @@ class ConversationController extends BaseController
                     return $this->redirectToRoute('front_vehicle_personal_add');
                 } else {
                     /** @var ProUser $user */
-                    /** @var GarageProUser $userGarages */
-                    $nbUserGarages = count($user->getGarageMemberships());
-                    if ($nbUserGarages == 0) {
+                    /** @var Collection $userGarages */
+                    $userGarages = $user->getEnabledGarageMemberships();
+                    if ($userGarages->isEmpty()) {
                         $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
                         return $this->redirectToRoute('front_garage_create');
-                    } elseif ($nbUserGarages == 1) {
-                        return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $user->getGarageMemberships()->first()->getGarage()->getId()]);
+                    } elseif ($userGarages->count() == 1) {
+                        return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $userGarages->first()->getGarage()->getId()]);
                     } else {
                         /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
                         $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');

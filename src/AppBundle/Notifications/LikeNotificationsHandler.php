@@ -58,7 +58,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
 
         $like = $event->getLikeVehicle();
         $data = json_encode([
-            'identifier' => $like->getId()
+            'id' => $like->getId()
         ]);
 
         $vehicle = $event->getLikeVehicle()->getVehicle();
@@ -66,8 +66,9 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
         if (!$like->getUser()->is($like->getVehicle()->getSeller())) {
             // If user likes its own vehicle Then no notification
             if ($event->getLikeVehicle()->getValue()) {
-                $notifications = $this->notificationsManager->createNotification(
+                $notifications = $this->notificationsManagerExtended->createNotification(
                     get_class($like),
+                    get_class($event),
                     $data,
                     $this->router->generate($vehicle instanceof ProVehicle ? 'front_vehicle_pro_detail' : 'front_vehicle_personal_detail', ['id' => $vehicle->getId(), '_fragment' => 'js-interested_users'])
                 );
@@ -76,7 +77,6 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                 } catch (OptimisticLockException $e) {
                     // tant pis pour la notification, on ne bloque pas l'action
                 }
-
 
                 if ($like->getVehicle()->getSeller()->getPreferences()->isLikeEmailEnabled() &&
                     $like->getVehicle()->getSeller()->getPreferences()->getLikeEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
@@ -103,13 +103,12 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                         new EmailRecipientList($this->createUserEmailContact($like->getVehicle()->getSeller()))
                     );
                 }
-
             } else {
-                $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription(get_class($like), $data);
+                $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+                    'subject' => get_class($like),
+                    'message' => $data
+                ]);
                 try {
-                    if ($notifications instanceof Notification) {
-                        $notifications = [$notifications];
-                    }
                     foreach ($notifications as $notification) {
                         $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
                         $this->notificationsManager->deleteNotification($notification, true);

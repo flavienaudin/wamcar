@@ -136,6 +136,75 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
+    wamcar.event.pending_request_to_join_garage_created:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\Notifications\PendingRequestToJoinGarageCreatedEventHandler
+        arguments:
+            $type: pending_request_to_join_garage_created
+            $notificationManager: '@mgilet.notification'
+            $notificationManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent, method: notify }
+
+    wamcar.event.pending_request_to_join_garage_accepted:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\Notifications\PendingRequestToJoinGarageAcceptedEventHandler
+            arguments:
+                $type: pending_request_to_join_garage_accepted
+                $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+            tags:
+                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageAcceptedEvent, method: notify }
+
+    wamcar.event.pending_request_to_join_garage_declined:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\Notifications\PendingRequestToJoinGarageDeclinedEventHandler
+            arguments:
+                $type: pending_request_to_join_garage_declined
+                $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+            tags:
+                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageDeclinedEvent, method: notify }
+
+    wamcar.event.pending_request_to_join_garage_cancelled:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\Notifications\PendingRequestToJoinGarageCancelledEventHandler
+            arguments:
+                $type: pending_request_to_join_garage_declined
+                $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+            tags:
+                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCancelledEvent, method: notify }
+
+    wamcar.event.garage_member_assigned:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\Notifications\GarageMemberAssignedEventHandler
+            arguments:
+                $type: garage_member_assigned
+                $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+            tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
+
+    wamcar.event.garage_member_unassigned:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\Notifications\GarageMemberUnassignedEventHandler
+            arguments:
+                $type: garage_member_unassigned
+                $notificationsManager: '@mgilet.notification'
+                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+            tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
+
+    wamcar.event.garage_emails_invitations:
+            parent: wamcar.event.mail.abstract_event_handler
+            class: AppBundle\MailWorkflow\EmailsInvitationsEventHandler
+            arguments:
+                $type: garage_emails_invitations
+            tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\EmailsInvitationsEvent, method: notify }
+
+
     googleApi.event.place_detail_error:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError

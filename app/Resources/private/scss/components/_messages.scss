@@ -125,10 +125,9 @@
      ===================================== */
 
   &-list-wrapper {
+    height: 100%;
 
     &:not(.empty-list-wrapper) {
-      height: 100%;
-
       @include breakpoint(medium) {
         border-top: rem-calc(1) solid $border-color;
         border-bottom: rem-calc(1) solid $border-color;
@@ -229,13 +228,16 @@
   }
 
   &-list-empty {
-    padding: rem-calc(50);
+    padding: rem-calc(25);
     width: 100%;
 
     .messages-list-empty-icon {
       margin: 0 0 rem-calc(15);
-      font-size: rem-calc(120);
       color: $primary-color;
+      font-size: rem-calc(60);
+      @include breakpoint(medium) {
+        font-size: rem-calc(100);
+      }
     }
 
     strong {
@@ -482,6 +484,7 @@
      Messages list & content max height
      ===================================== */
 
+  &-list-empty,
   &-interlocutors-list,
   &-item-wrapper-desktop{
     max-height: 100%;
