@@ -16,7 +16,7 @@
     {% if garage.phone %}
         <li class="is-flex">Téléphone&nbsp;:&nbsp;
             {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                'phoneNumber_eventId':'showtelgarage#'~garage.id,
+                'phoneNumber_eventId':'showtelgarage'~garage.id,
                 'phoneNumber': garage.phone
             }) }}</li>
     {% endif %}

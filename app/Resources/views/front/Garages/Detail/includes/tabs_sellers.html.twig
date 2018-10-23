@@ -34,7 +34,7 @@
                                         <span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
                                     {% if membership.proUser.mainPhoneNumber %}
                                         {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                            'phoneNumber_eventId':'showtelpro#'~membership.proUser.id,
+                                            'phoneNumber_eventId':'showtelpro'~membership.proUser.id,
                                             'phoneNumber': membership.proUser.mainPhoneNumber,
                                             'buttonClass': 'margin-left-1'
                                         }) }}
