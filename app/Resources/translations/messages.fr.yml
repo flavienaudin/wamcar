@@ -711,7 +711,7 @@ user:
     accept_request: Accepter la demande
     decline_request: Refuser la demande
     pending_request:
-      member: Votre demande est en attente d'acception par un gestionnaire du garage
+      member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
       administrator: "%seller_name% souhaite rejoindre %garage_name%"
   preference:
     page_title: Mes préférences
