@@ -27,7 +27,7 @@ notifyProUserOfRegistration:
         <p>Vous bénéficiez désormais d’un <a href="%url_profile_page%">espace personnel</a> vous permettant de :
         <ul>
         <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
-        <li>Chercher parmis des demandes de particuliers : reprise et/ou achat</li>
+        <li>Chercher parmi des demandes de particuliers : reprise et/ou achat</li>
         <li>Envoyer des offres à des particuliers</li>
         </ul>
         </p>
@@ -97,7 +97,7 @@ notifyProOfAcceptedPendingRequestToJoinGarage:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         add_vehicle: Ajouter un véhicule
 
 notifyProOfDeclinedPendingRequestToJoinGarage:
@@ -133,7 +133,7 @@ notifyProUserOfGarageAssignation:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         add_vehicle: Ajouter un véhicule
 
 notifyProUserOfGarageUnassignation:
@@ -147,7 +147,7 @@ notifyProUserOfGarageUnassignation:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         contact: Contacter %administrator_fullname%
 
 inviteByEmailToRegister:

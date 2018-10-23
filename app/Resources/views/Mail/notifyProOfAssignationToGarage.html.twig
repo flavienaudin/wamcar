@@ -21,7 +21,7 @@
         <table>
             <tr>
                 <td>{{ action_button(url('front_garage_view',{'id':garage.id}),
-                        'notifyProUserOfGarageAssignation.action.see_garage'|trans({'%garage_name%': garage.name})) }}</td>
+                        'notifyProUserOfGarageAssignation.action.see_garage'|trans) }}</td>
                 <td>{{ action_button(url('front_vehicle_pro_add',{'garage_id':garage.id}),
                         'notifyProUserOfGarageAssignation.action.add_vehicle'|trans) }}</td>
             </tr>

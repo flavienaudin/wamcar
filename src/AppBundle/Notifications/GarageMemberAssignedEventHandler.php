@@ -68,7 +68,7 @@ class GarageMemberAssignedEventHandler extends AbstractEmailEventHandler impleme
                     '%garage_name%' => $garage->getName()], 'email'),
                 'Mail/notifyProOfAssignationToGarage.html.twig',
                 [
-                    'username' => $proUser->getFullName(),
+                    'username' => $proUser->getFirstName(),
                     'garage' => $garage,
                     'seller' => $proUser
                 ],

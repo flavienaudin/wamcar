@@ -34,7 +34,7 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                 $this->translator->trans('notifyUserOfMessageCreated.object', ['%messageAuthorName%' => $message->getUser()->getFullName()], 'email'),
                 'Mail/notifyUserOfMessageCreated.html.twig',
                 [
-                    'username' => $interlocutor->getFullName(),
+                    'username' => $interlocutor->getFirstName(),
                     'messageAuthorName' => $message->getUser()->getFullName(),
                     'message' => $message->getContent(),
                     'message_url' => $this->router->generate("front_conversation_edit", ['id' => $message->getConversation()->getId(), '_fragment' => 'last-message'], UrlGeneratorInterface::ABSOLUTE_URL),
