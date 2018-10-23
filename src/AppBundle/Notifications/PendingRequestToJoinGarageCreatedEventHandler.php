@@ -72,7 +72,7 @@ class PendingRequestToJoinGarageCreatedEventHandler extends AbstractEmailEventHa
                     '%garage_name%' => $garage->getName()], 'email'),
                 'Mail/notifyGarageAdministratorOfNewPendingRequest.html.twig',
                 [
-                    'username' => $administrator->getFullName(),
+                    'username' => $administrator->getFirstName(),
                     'garage' => $garage,
                     'seller' => $proUser
                 ],

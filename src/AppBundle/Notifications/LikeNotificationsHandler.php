@@ -87,7 +87,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                         $this->translator->trans('notifyUserOfLikeVehicle.object', ['%annonceTitle%' => $like->getVehicle()->getName()], 'email'),
                         'Mail/notifyUserOfNewLikeVehicle.html.twig',
                         [
-                            'username' => $like->getVehicle()->getSellerName(),
+                            'username' => $like->getVehicle()->getSellerName(true),
                             'messageAuthorName' => $like->getUser()->getFullName(),
                             'annonceTitle' => $like->getVehicle()->getName(),
                             'message_url' =>
