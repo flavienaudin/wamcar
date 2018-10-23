@@ -97,7 +97,7 @@ notifyProOfAcceptedPendingRequestToJoinGarage:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         add_vehicle: Ajouter un véhicule
 
 notifyProOfDeclinedPendingRequestToJoinGarage:
@@ -133,7 +133,7 @@ notifyProUserOfGarageAssignation:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         add_vehicle: Ajouter un véhicule
 
 notifyProUserOfGarageUnassignation:
@@ -147,7 +147,7 @@ notifyProUserOfGarageUnassignation:
             </ul>
         </div>
     action:
-        see_garage: Voir %garage_name%
+        see_garage: Voir la page entreprise
         contact: Contacter %administrator_fullname%
 
 inviteByEmailToRegister:
