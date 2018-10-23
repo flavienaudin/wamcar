@@ -156,10 +156,12 @@ class GarageEditionService
             $proUser->addGarageMembership($garageProUser);
             $this->garageRepository->update($garage);
             $this->eventBus->handle(new GarageUpdated($garageProUser->getGarage()));
-            if ($isEnabled) {
-                $this->eventBus->handle(new GarageMemberAssignedEvent($garageProUser));
-            } else {
-                $this->eventBus->handle(new PendingRequestToJoinGarageCreatedEvent($garageProUser));
+            if (!$isAdministrator) {
+                if ($isEnabled) {
+                    $this->eventBus->handle(new GarageMemberAssignedEvent($garageProUser));
+                } else {
+                    $this->eventBus->handle(new PendingRequestToJoinGarageCreatedEvent($garageProUser));
+                }
             }
             return $garageProUser;
         }
