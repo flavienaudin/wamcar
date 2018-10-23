@@ -3,15 +3,18 @@
 {% trans_default_domain 'email' %}
 {% from ':Mail/Layout:email.html.twig' import action_button %}
 
+{% set mainAdministrator = garage.mainAdministrator %}
+
 {% block title %}{{ 'inviteByEmailToRegister.object'|trans({
-    '%administrator_fullname%': administrator_fullname
+    '%administrator_fullname%': mainAdministrator.fullname
 }) }}{% endblock %}
 
 {% block body %}
     <div>
         {{ 'inviteByEmailToRegister.body'|trans({
-            '%administrator_fullname%': administrator_fullname
+            '%administrator_fullname%': mainAdministrator.fullname,
+            '%administrator_url%': url('front_view_user_info',{'id':mainAdministrator.id})
         })|raw }}
-        {{ action_button(url('register',{'type':constant("Wamcar\\User\\ProUser::TYPE")}), 'inviteByEmailToRegister.action_label'|trans) }}
+        {{ action_button(url('register',{'type':constant("Wamcar\\User\\ProUser::TYPE")}), 'inviteByEmailToRegister.action.register'|trans) }}
     </div>
 {% endblock %}

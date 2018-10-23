@@ -18,7 +18,7 @@
             '%garage_url%': url('front_garage_view', {'id':garage.id})
         })|raw }}
 
-        <p>{{ action_button(url('front_garage_view',{'id':garage.id}),
-                'notifyProOfDeclinedPendingRequestToJoinGarage.action'|trans({'%administrator_fullname%': mainAdministrator.fullname})) }}</p>
+        <p>{{ action_button(url('front_conversation_create',{'id':mainAdministrator.id}),
+                'notifyProOfDeclinedPendingRequestToJoinGarage.action.contact'|trans({'%administrator_fullname%': mainAdministrator.fullname})) }}</p>
     </div>
 {% endblock %}

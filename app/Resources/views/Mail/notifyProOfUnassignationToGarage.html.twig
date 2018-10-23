@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ action_button(url('front_garage_view',{'id':garage.id}),
                         'notifyProUserOfGarageUnassignation.action.see_garage'|trans({'%garage_name%': garage.name})) }}</td>
-                <td>{{ action_button(url('front_view_user_info',{'id':mainAdministrator.id}),
+                <td>{{ action_button(url('front_conversation_create',{'id':mainAdministrator.id}),
                         'notifyProUserOfGarageUnassignation.action.contact'|trans({'%administrator_fullname%': mainAdministrator.fullname})) }}</td>
             </tr>
         </table>

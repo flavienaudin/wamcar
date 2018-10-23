@@ -19,7 +19,7 @@ class EmailsInvitationsEventHandler extends AbstractEmailEventHandler implements
         $this->checkEventClass($invitationsEvent, EmailsInvitationsEvent::class);
         /** @var EmailsInvitationsEvent $invitationsEvent */
         $garage = $invitationsEvent->getGarage();
-        $administratorFullname = count($garage->getAdministrators()>0)?$garage->getAdministrators()[0]->getFullName():'On';
+        $administratorFullname = $garage->getMainAdministrator()->getFullName();
 
         $emailContactsList = [];
         foreach ($invitationsEvent->getInvitations() as $emailInvitation) {
@@ -32,7 +32,6 @@ class EmailsInvitationsEventHandler extends AbstractEmailEventHandler implements
             ], 'email'),
             'Mail/inviteByEmailToRegister.html.twig',
             [
-                'administrator_fullname' => $administratorFullname,
                 'garage' => $garage
             ],
             new EmailRecipientList($emailContactsList)
