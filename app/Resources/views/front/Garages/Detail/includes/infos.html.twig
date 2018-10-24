@@ -9,9 +9,7 @@
         <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
     </li>
     {% if garage.openingHours %}
-        <li><span class="text-underline" data-toggle="js-openinghours">{{ 'garage.infos.opening_hours'|trans }}</span>
-            <div id="js-openinghours" data-toggler='.is-hidden' class="is-hidden">{{ garage.openingHours|nl2br }}</div>
-        </li>
+        <li>{{ garage.openingHours|nl2br }}</li>
     {% endif %}
     {% if garage.phone %}
         <li class="is-flex">Téléphone&nbsp;:&nbsp;
