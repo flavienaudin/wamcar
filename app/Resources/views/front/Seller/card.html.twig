@@ -83,13 +83,6 @@
             </div>
             {% block vehicle %}{% endblock %}
         </div>
-        {% if userIsMe %}
-            <div class="separator hide-for-medium column block-grid small-12">
-                <div class="small-12 medium-7 large-5">
-                    <a href="{{ path('security_logout') }}" class="text-underline">{{ 'global.button.logout'|trans }}</a>
-                </div>
-            </div>
-        {% endif %}
     </section>
 {% endblock body %}
 
