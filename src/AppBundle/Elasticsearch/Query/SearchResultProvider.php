@@ -146,6 +146,7 @@ class SearchResultProvider
             }
         } elseif ($user instanceof PersonalUser) {
             $queryBuilder = $this->queryBuilderFilterer->getUserVehiclesQueryBuilder($queryBuilder, $user->getId(), $text);
+            $queryBuilder->setMinimumScore(0);
             $type = IndexablePersonalVehicle::TYPE;
         }
         $queryBody = $queryBuilder->getQueryBody();
