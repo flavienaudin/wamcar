@@ -12,19 +12,20 @@
                 <a href="{{ path(linkRoute, linkRouteParams) }}#message-answer-block" class="messages-back-btn icon-close"></a>
                 <h1 class="primary-color no-margin">Véhicules&nbsp;</h1>
                 {% if isUserPro %}
-                    {% if not app.user.hasGarage %}
+                    {% set nbOfGarages = app.user.numberOfGarages %}
+                    {% if nbOfGarages == 0 %}
                         <a href="{{ path('front_vehicle_pro_add',{"garage_id": 0 }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
                             {{ 'vehicle.create'|trans }}
                         </a>
-                    {% elseif app.user.garageMemberships|length == 1 %}
-                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": app.user.garageMemberships.first.garage.id }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                    {% elseif nbOfGarages == 1 %}
+                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": app.user.enabledGarageMemberships.first.garage.id }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
                             {{ 'vehicle.create'|trans }}
                         </a>
                     {% else %}
                         <a href="#" class="text-underline vehicle-messages-create messages-header-right-link" data-toggle="add_vehicle_garage_list">{{ 'vehicle.create'|trans }}</a>
                         <div id="add_vehicle_garage_list" class="dropdown-pane text-left" data-dropdown data-hover="true" data-hover-pane="true" data-position="bottom" data-alignment="left">
                             <ul class="no-margin no-bullet">
-                                {% for garageMemberShip in app.user.garageMemberships %}
+                                {% for garageMemberShip in app.user.enabledGarageMemberships %}
                                     <li>
                                         <div class="is-flex">
                                             <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">

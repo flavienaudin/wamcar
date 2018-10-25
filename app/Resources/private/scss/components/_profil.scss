@@ -8,7 +8,6 @@ $profil-image-offset: rem-calc(40);
 
 .profil {
 
-
   /*
     Header
     ===================================== */
@@ -34,7 +33,6 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-
   /*
     Name
     ===================================== */
@@ -48,7 +46,6 @@ $profil-image-offset: rem-calc(40);
       margin-bottom: rem-calc(10);
     }
   }
-
 
   /*
      Image
@@ -72,9 +69,8 @@ $profil-image-offset: rem-calc(40);
     > img {
       object-fit: cover;
     }
-  } // End &-image
-
-
+  }
+  // End &-image
 
   /*
      Action
@@ -83,6 +79,12 @@ $profil-image-offset: rem-calc(40);
   &-action {
     display: flex;
     flex-wrap: wrap;
+
+    @include breakpoint(medium) {
+      > :not(:first-child) {
+        margin-left: 1rem;
+      }
+    }
 
     /* Components */
 
@@ -93,28 +95,22 @@ $profil-image-offset: rem-calc(40);
 
       @include breakpoint(medium) {
         font-size: rem-calc(14);
-        margin-right: rem-calc(25);
 
-        &::before { font-size: rem-calc(16); }
+        &::before {
+          font-size: rem-calc(16);
+        }
       }
     }
 
-    .icon-tel {
-      @include breakpoint(small only) {
-        justify-content: flex-end;
-        padding-right: rem-calc(10);
-      }
-    }
-
+    .icon-tel,
     .icon-mobile {
       @include breakpoint(small only) {
-        justify-content: flex-start;
-        padding-left: rem-calc(10);
+        justify-content: center;
       }
     }
 
-  } // End &-action
-
+  }
+  // End &-action
 
   /*
      Body

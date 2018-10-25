@@ -18,7 +18,7 @@ parameters:
 
     pro_space_url: pro.wamcar.com
 
-    admin_email: xavier@wamcar.com
-    admin_name: Xavier Pousset
+    salespersons_emails: {"xavier@wamcar.com": "Xavier Pousset"}
+    monitors_emails: [flavien@wamcar.com]
 
     typeform.contact: https://wamcar.typeform.com/to/AIMBwx

@@ -22,4 +22,16 @@
   .menu-separator {
     border-top: rem-calc(1) solid $border-color;
   }
+
+
+  .is-dropdown-submenu {
+      @include breakpoint(400 down){
+        width: 100vw;
+      }
+
+    ul{
+      overflow-y: auto;
+      max-height: 400px;
+    }
+  }
 }

@@ -22,4 +22,19 @@
       object-fit: cover;
     }
   }
+
+  /*&-send-message-button{
+    background-color: $dark-blue;
+    border-color: $dark-blue;
+
+    &:active,
+    &:hover {
+      color: $dark-blue;
+      background-color: white;
+    }
+
+    &:before{
+      color: $primary-color;
+    }
+  }*/
 }

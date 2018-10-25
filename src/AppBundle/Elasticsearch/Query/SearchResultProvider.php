@@ -135,7 +135,7 @@ class SearchResultProvider
         if ($user instanceof ProUser) {
             $garageIds = [];
             /** @var GarageProUser $garageMembership */
-            foreach ($user->getGarageMemberships() as $garageMembership) {
+            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
                 $garageIds[] = $garageMembership->getGarage()->getId();
             }
             if (count($garageIds) > 0) {
@@ -146,6 +146,7 @@ class SearchResultProvider
             }
         } elseif ($user instanceof PersonalUser) {
             $queryBuilder = $this->queryBuilderFilterer->getUserVehiclesQueryBuilder($queryBuilder, $user->getId(), $text);
+            $queryBuilder->setMinimumScore(0);
             $type = IndexablePersonalVehicle::TYPE;
         }
         $queryBody = $queryBuilder->getQueryBody();

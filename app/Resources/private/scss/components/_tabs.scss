@@ -59,6 +59,7 @@
     > a {
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
       height: rem-calc(40);
       color: #9b9b9b;
@@ -78,6 +79,7 @@
 
       /* Exceptions */
 
+      .garage-container &,
       .search-tabs & {
         @include breakpoint(400 down) {
           flex-direction: column;

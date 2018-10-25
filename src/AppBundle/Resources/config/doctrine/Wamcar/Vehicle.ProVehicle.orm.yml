@@ -49,6 +49,13 @@ Wamcar\Vehicle\ProVehicle:
             joinColumn:
                 name: garage_id
                 referencedColumnName: id
+        seller:
+            targetEntity: Wamcar\User\ProUser
+            inversedBy: vehicles
+            joinColumn:
+                name: seller_id
+                referencedColumnName: id
+                nullable: false
 
     embedded:
         registration:

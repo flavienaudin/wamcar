@@ -34,9 +34,12 @@ Wamcar\Garage\Garage:
             type: string
             length: 64
             nullable: true
+            unique: true
         name:
             type: string
+            length: 128
             nullable: false
+            unique: true
         siren:
             type: string
             length: 32

@@ -9,6 +9,7 @@ use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
 use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Mgilet\NotificationBundle\NotifiableInterface;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
@@ -79,8 +80,8 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function getMembershipByGarage(Garage $garage): ?GarageProUser
     {
         /** @var GarageProUser $member */
-        foreach ($garage->getMembers() as $member) {
-            if ($member->getProUser() === $this) {
+        foreach ($this->getGarageMemberships() as $member) {
+            if ($member->getGarage() === $garage) {
                 return $member;
             }
         }
@@ -90,14 +91,35 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
 
     /**
      * @param Garage $garage
+     * @param bool $includePending
      * @return bool
      */
-    public function isMemberOfGarage(Garage $garage): bool
+    public function isMemberOfGarage(Garage $garage, bool $includePending = false): bool
     {
+        if ($includePending) {
+            $memberShips = $this->getGarageMemberships();
+        } else {
+            $memberShips = $this->getEnabledGarageMemberships();
+        }
         /** @var GarageProUser $garageMembership */
-        foreach ($this->garageMemberships as $garageMembership) {
+        foreach ($memberShips as $garageMembership) {
             if ($garageMembership->getGarage() === $garage) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param Garage $garage
+     * @return bool
+     */
+    public function isAdministratorOfGarage(Garage $garage): bool
+    {
+        /** @var GarageProUser $garageMembership */
+        foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
+            if ($garageMembership->getGarage() === $garage) {
+                return GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole());
             }
         }
         return false;

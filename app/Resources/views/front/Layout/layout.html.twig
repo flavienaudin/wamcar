@@ -50,6 +50,9 @@
     <meta property="fb:admins" content="{{ facebook_admin_ids }}">
     <meta property="fb:app_id" content="{{ facebook_app_id }}">
 
+    {# Turning off Number Detection in iOS #}
+    <meta name="format-detection" content="telephone=no">
+
     {% block additional_meta %}{% endblock %}
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicons/apple-touch-icon.png') }}">

@@ -2,7 +2,7 @@
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_user_info', {'id': vehicle.seller.id}) %}
-{% set vehicleSellerName = (app.user is same as (vehicle.seller)?"global.you"|trans:vehicle.sellerName(not isLogged or isUserPersonal)) %}
+{% set vehicleSellerName = (app.user.is(vehicle.seller)?"global.you"|trans:vehicle.sellerName(not isLogged or isUserPersonal)) %}
 
 {% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">
@@ -11,7 +11,7 @@
             {% if vehicle.ownerProject and (vehicle.ownerProject.budget is not null or vehicle.ownerProject.projectVehicles|length > 0 ) %}
                 <div class="small-12 dark-gray-color">
                     {% if vehicle.ownerProject.budget|default(0) > 0 %}
-                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user == vehicle.seller?0:1, {'%prenom%' : vehicleSellerName, '%budget%':vehicle.ownerProject.budget|localizednumber  }) }}</strong></p>
+                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user.is(vehicle.seller)?0:1, {'%prenom%' : vehicleSellerName, '%budget%':vehicle.ownerProject.budget|localizednumber  }) }}</strong></p>
                     {% else %}
                         <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
                     {% endif %}
@@ -32,7 +32,7 @@
                 </div>
             {% else %}
                 <p class="dark-gray-color no-margin small-10 large-12">
-                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user is same as (vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user.is(vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </p>
             {% endif %}
         </a>

@@ -9,12 +9,17 @@
         <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
     </li>
     {% if garage.openingHours %}
-        <li>{{ garage.openingHours|nl2br }}</li>
+        <li><span class="text-underline">{{ 'garage.infos.opening_hours'|trans }}&nbsp;:</span><br>
+            {{ garage.openingHours|nl2br }}</li>
     {% endif %}
     {% if garage.phone %}
-        <li>Téléphone : {{ garage.phone }}</li>
+        <li class="is-flex">Téléphone&nbsp;:&nbsp;
+            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                'phoneNumber_eventId':'showtelgarage'~garage.id,
+                'phoneNumber': garage.phone
+            }) }}</li>
     {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}
-    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.edit'|trans }}</a>
+    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.edit'|trans }}</a>
 {% endif %}

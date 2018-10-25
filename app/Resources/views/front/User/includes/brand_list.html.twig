@@ -1,9 +1,22 @@
 <ul class="brand-list">
     {% for membership in user.garageMemberships %}
-        {% set garageRating = membership.garage.googleRating %}
-        <li>
-            {{ include('front/Garages/Detail/includes/summary_card.html.twig', {garage: membership.garage}) }}
-            {% if userIsMe %}<p><a href="{{ path('front_garage_edit', {'id': membership.garage.id}) }}" class="text-underline">{{ 'garage.edit'|trans }}</a></p>{% endif %}
-        </li>
+        {% if membership.requestedAt is null or userIsMe %}
+            {% set garageRating = membership.garage.googleRating %}
+            <li>
+                {{ include('front/Garages/Detail/includes/summary_card.html.twig', {garage: membership.garage}) }}
+                {% if userIsMe and membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                    <p><a href="{{ path('front_garage_edit', {'id': membership.garage.id}) }}"
+                          class="text-underline">{{ 'garage.action.edit'|trans }}</a></p>
+                {% endif %}
+                {% if membership.requestedAt is not null %}
+                    <p class="black-color">
+                        <i>{{ 'user.garage.pending_request.member'|trans({'%garage_name%':membership.garage.name}) }}&nbsp;:</i>
+                        <a href="{{ path('front_garage_unassign', {'garage_id':membership.garage.id,'user_id':app.user.id}) }}"
+                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% else %}
+        <li class="margin-bottom-1">{{ 'user.garage.empty'|trans }}</li>
     {% endfor %}
 </ul>

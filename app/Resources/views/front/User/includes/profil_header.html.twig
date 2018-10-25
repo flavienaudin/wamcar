@@ -5,17 +5,24 @@
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
-                        <a href="tel:{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
+                        <span class="small-auto medium-shrink">
+                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                'phoneNumber_eventId':'showtelproFixe'~user.id,
+                                'phoneNumber': user.phonePro
+                            }) }}</span>
                     {% endif %}
                     {% if user.userProfile.phone %}
-                        <a href="tel:{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
+                        <span class="small-auto medium-shrink">
+                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                'phoneNumber_eventId':'showtelproMobile'~user.id,
+                                'phoneNumber': user.userProfile.phone,
+                                'icontel': 'icon-mobile'
+                            }) }}</span>
                     {% endif %}
                 {% endif %}
 
                 {% if not userIsMe %}
                     <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block" class="icon-message small-12 medium-shrink"><span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
-                {% else %}
-                    <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">{{ 'global.button.logout'|trans }}</a>
                 {% endif %}
             </div>
         </div>

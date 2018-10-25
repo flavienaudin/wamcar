@@ -85,7 +85,7 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
                     'unseen_notification',
                     $this->translator->trans('unseenNotificationsDailyDigest.object', [], 'email'),
                     $this->templating->render('Mail/unseenNotificationsDailyDigest.html.twig', [
-                        'username' => $notifiable['recipient_firstname'] . ' ' . $notifiable['recipient_lastname'],
+                        'username' => $notifiable['recipient_firstname'],
                         'nbUnseenNotifications' => count($notifiableEntity->getNotifiableNotifications()),
                         'message_url' => $this->router->generate('notification_list', ['notifiable' => $notifiableEntity->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
 

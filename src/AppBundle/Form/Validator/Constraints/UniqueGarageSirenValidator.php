@@ -56,7 +56,7 @@ class UniqueGarageSirenValidator extends ConstraintValidator
                 $this->session->getFlashBag()->add(
                     BaseController::FLASH_LEVEL_DANGER,
                     $this->translation->trans('flash.error.already_registered_siren_by_user', [
-                        '%userFullName%' => $garage->getSeller()->getFullName(),
+                        '%userFullName%' => $garage->getAdministrators()->first()->getFullName(),
                         '%contactUrl%' => $this->router->generate('contact')
                     ])
                 );

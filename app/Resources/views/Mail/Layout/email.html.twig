@@ -85,7 +85,13 @@
                                                             </tbody>
                                                         </table>
                                                         {% block welcome %}
-                                                            <p>{{ "email.hello_username"|trans({'%username%' : username|default('')}) }}</p>{% endblock %}
+                                                            <p>{% if username is defined and username is not empty %}
+                                                                    {{ "email.hello_username"|trans({'%username%' : username}) }}
+                                                                {% else %}
+                                                                    {{ "email.hello"|trans }}
+                                                                {% endif %}
+                                                            </p>
+                                                        {% endblock %}
 
                                                         {% block body %}{% endblock %}
 

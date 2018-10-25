@@ -8,7 +8,7 @@ use Wamcar\User\BaseLikeVehicle;
 interface LikeVehicleEvent
 {
     /**
-     * AbstractLikeVehicleEvent constructor.
+     * LikeVehicleEvent constructor.
      * @param BaseLikeVehicle $likeVehicle
      */
     public function __construct(BaseLikeVehicle $likeVehicle);

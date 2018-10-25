@@ -56,7 +56,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_version: '1.1.3b'
+        site_version: '1.1.4-5bd18372633ae'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
@@ -96,6 +96,7 @@ doctrine:
             vehiclefunding: AppBundle\Doctrine\Type\FundingType
             vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
             notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
+            garagerole: AppBundle\Doctrine\Type\GarageRoleType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -121,6 +122,8 @@ doctrine:
                 type: annotation
                 is_bundle: true
             JMoseCommandSchedulerBundle: ~
+        resolve_target_entities:
+            Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
 
         dql:
             string_functions:
@@ -350,7 +353,7 @@ hwi_oauth:
 
 jmose_command_scheduler:
     # receivers for reporting mails
-    monitor_mail: ['%admin_email%']
+    monitor_mail: '%monitors_emails%'
 
     # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
     send_ok: true

@@ -6,15 +6,19 @@
     {% if vehicle.sellerName %}
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            <a href="{{ path('front_view_user_info', {'id': vehicle.garage.seller.id}) }}" class="user-thumbnail-mini margin-right-1">
-                <img src="{{ vehicle.garage.seller.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.sellerName }}">
+            <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="user-thumbnail-mini margin-right-1">
+                <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.sellerName }}">
             </a>
             <div>
                 <a href="{{ path('front_view_user_info', {'id': vehicle.garage.seller.id}) }}" class="primary-color h3"><b>{{ vehicle.sellerName }}</b></a> <br>
-                {% if vehicle.seller.phonePro is not empty %}
-                    <span class="icon-tel primary-color">
+                {% if vehicle.seller.mainPhoneNumber is not empty %}
+                    {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                        'phoneNumber_eventId':'showtelpro'~vehicle.seller.id,
+                        'phoneNumber':vehicle.seller.mainPhoneNumber
+                    }) }}
+                    {#<span class="icon-tel primary-color">
                         <a href="tel:{{ vehicle.seller.phonePro }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.phonePro }}</a>
-                    </span>
+                    </span>#}
                 {% endif %}
             </div>
         </figure>
