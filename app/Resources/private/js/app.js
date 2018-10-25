@@ -13,10 +13,10 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 import {Tabs} from 'foundation-sites/js/foundation.tabs';
 import {Magellan} from 'foundation-sites/js/foundation.magellan';
 import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
-// Overridded version of DropDown
-import {Dropdown} from './foundation/foundation.override.dropdown';
 
+import {Dropdown} from './foundation/foundation.override.dropdown'; // Overridded version of DropDown
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
+import 'linkifyjs';
 import './components/responsiveDom';
 import './components/search';
 import './components/header';
