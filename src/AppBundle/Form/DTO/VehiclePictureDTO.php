@@ -4,7 +4,6 @@ namespace AppBundle\Form\DTO;
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use Symfony\Component\HttpFoundation\File\File;
-use Wamcar\Vehicle\Picture;
 
 class VehiclePictureDTO
 {

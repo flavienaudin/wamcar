@@ -5,12 +5,11 @@ namespace AppBundle\Form\DTO;
 
 
 use AppBundle\Services\User\CanBeInConversation;
-use AppBundle\Session\Model\SessionMessage;
+use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\BaseVehicle;
-use Symfony\Component\Validator\Constraints as Assert;
 
 class MessageDTO
 {
@@ -28,6 +27,8 @@ class MessageDTO
     public $vehicle;
     /** @var bool */
     public $isFleet;
+    /** @var File[] */
+    public $attachments;
 
     public function __construct(
         ?Conversation $conversation,
@@ -39,6 +40,7 @@ class MessageDTO
         $this->user = $user;
         $this->interlocutor = $interlocutor;
         $this->isFleet = false;
+        $this->attachments = [];
     }
 
     /**

@@ -750,6 +750,8 @@ conversation:
       vehicle:
         create: Créer un véhicule
         select: Proposer un véhicule
+      attachments:
+        label: Pièces jointes
 
 favorites:
   page_title: Ma sélection

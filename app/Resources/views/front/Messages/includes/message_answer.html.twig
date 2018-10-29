@@ -10,11 +10,21 @@
     {{ form_widget(messageForm.content, {
         'label': 'conversation.answer.field.message.label'|trans({'%interlocutorName%':interlocutor.fullName}),
         'placeholder': 'conversation.answer.field.message.placeholder'|trans,
-        'class': 'no-margin',
+        'class': '',
         'required':'false',
         'required_class': 'show-for-sr'
     }) }}
     {{ form_errors(messageForm) }}
+
+    <div id="js-attachments-list" class="input-margin" data-index="0" data-prototype="<div>{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}</div>">
+        {{ form_label(messageForm.attachments, 'conversation.answer.field.attachments.label'|trans) }}
+        {% for attachment in messageForm.attachments %}
+            <div>
+                {{ form_widget(attachment) }}
+            </div>
+        {% endfor %}
+    </div>
+
     {% if messageForm.vehicle is defined %}
         {{ form_widget(messageForm.vehicle, {
             'isNew': currentConversation == null
