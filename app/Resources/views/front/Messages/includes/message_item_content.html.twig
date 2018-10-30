@@ -60,6 +60,16 @@
         <div class="messages-item-content full-width">
             {{ message.content|nl2br }}
         </div>
+        {% if message.attachments|length > 0 %}
+            <div class="messages-item-attachments full-width">
+                <strong class="messages-item-attachments-label secondary-color">{{ 'conversation.message.attachments'|transchoice(message.attachments|length) }}</strong>
+                <ol>
+                    {% for attachment in message.attachments %}
+                        <li><a href="{{ getAttachmentLink(attachment) }}" target="_blank">{{ attachment.fileOriginalName }}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endif %}
         {% if message.vehicle %}
             {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, vehicle: message.vehicle, user: message.user } %}
         {% elseif message.isFleet %}

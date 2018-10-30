@@ -292,6 +292,24 @@
     margin-top: rem-calc(15);
   }
 
+  &-item-attachments {
+    margin-top: rem-calc(15);
+
+    &-label{
+      font-size: rem-calc(14);
+      margin-bottom: rem-calc(5);
+      color: $dark-gray;
+    }
+
+    ol {
+      margin-bottom: 0;
+
+      li a {
+        word-wrap: break-word;
+      }
+    }
+  }
+
   &-item-answer {
     padding: rem-calc(20) rem-calc(15) rem-calc(40);
     background: $grey-alt2;

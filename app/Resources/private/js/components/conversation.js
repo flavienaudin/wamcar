@@ -43,15 +43,16 @@ let $attachmentsCollectionHolder = $('#js-attachments-list');
 
 if ($attachmentsCollectionHolder.length) {
 
-  function addAttachmentInput() {
-    console.log('addAttachmentInput');
-    let index = parseInt($attachmentsCollectionHolder.data('index'));
-    let newForm = $attachmentsCollectionHolder.data('prototype').replace(/__name__/g, index);
-    $attachmentsCollectionHolder.data('index', index + 1);
-
-    $attachmentsCollectionHolder.last().off('change');
-    $attachmentsCollectionHolder.append($(newForm));
-    $attachmentsCollectionHolder.last().change(addAttachmentInput);
+  function addAttachmentInput(eventObject) {
+    if ($attachmentsCollectionHolder.find('input:file').filter(function () {
+      return $(this).val() === '';
+    }).length === 0) {
+      let index = parseInt($attachmentsCollectionHolder.data('index'));
+      let newForm = $attachmentsCollectionHolder.data('prototype').replace(/__name__/g, index);
+      $attachmentsCollectionHolder.data('index', index + 1);
+      $attachmentsCollectionHolder.append($(newForm));
+      $attachmentsCollectionHolder.find('input:file').last().change(addAttachmentInput);
+    }
   }
 
   if ($attachmentsCollectionHolder.children('div').length === 0) {
