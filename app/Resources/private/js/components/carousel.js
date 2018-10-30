@@ -3,6 +3,7 @@
    =========================================================================== */
 
 import $ from 'jquery';
+import slick from 'slick-carousel';
 
 const $carousel = document.querySelector('.js-carousel');
 
