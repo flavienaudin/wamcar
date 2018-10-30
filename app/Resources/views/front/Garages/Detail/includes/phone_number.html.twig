@@ -4,9 +4,9 @@
         <span class="js-see-number text-underline" id="PC{{ phoneNumber_eventId }}">{{ "global.button.see_phone_number"|trans }}</span>
         <span class="js-phone-number text-underline is-hidden">{{ phoneNumber }}</span>
     </span>
-    <a href="tel:{{ phoneNumber }}" id="Smartphone{{ phoneNumber_eventId }}" rel="noopener noreferrer"
+    <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer"
        class="hide-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
-        <span class="text-underline">{{ "global.button.call"|trans }}</span>
+        <span id="Smartphone{{ phoneNumber_eventId }}" class="text-underline">{{ "global.button.call"|trans }}</span>
     </a>
 </div>
 
