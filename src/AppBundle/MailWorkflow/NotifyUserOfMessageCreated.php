@@ -4,6 +4,7 @@
 namespace AppBundle\MailWorkflow;
 
 
+use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -72,7 +73,8 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                     'thumbnailUrl' => $pathImg
                 ],
                 new EmailRecipientList([$this->createUserEmailContact($interlocutor)]),
-                $attachments
+                $attachments,
+                $message->getUser()->getFirstName()
             );
         }
     }
