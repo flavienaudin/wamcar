@@ -48,10 +48,7 @@ class MessageDTO
      * @param BaseUser $user
      * @return MessageDTO
      */
-    public static function buildFromConversation(
-        Conversation $conversation,
-        BaseUser $user
-    ): MessageDTO
+    public static function buildFromConversation(Conversation $conversation, BaseUser $user): MessageDTO
     {
         $interlocutor = null;
 

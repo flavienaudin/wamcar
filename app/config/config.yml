@@ -201,6 +201,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_remove: true
             delete_on_update: true
+        message_attachment:
+            uri_prefix:         /uploads/attachments/conversations/message
+            upload_destination: '%env(UPLOAD_DIR)%/attachments/conversations/message'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
 
 liip_imagine:
     loaders:

@@ -5,8 +5,6 @@ namespace AppBundle\Services\Picture;
 
 
 use AppBundle\Doctrine\Entity\VehiclePicture;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 
 class PathVehiclePicture extends BasePathPicture
 {

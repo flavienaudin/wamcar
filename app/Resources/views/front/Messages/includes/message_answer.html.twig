@@ -16,7 +16,7 @@
     }) }}
     {{ form_errors(messageForm) }}
 
-    <div id="js-attachments-list" class="input-margin" data-index="0" data-prototype="<div>{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}</div>">
+    <div id="js-attachments-list" class="input-margin" data-index="{{ messageForm.attachments|length }}" data-prototype="<div>{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}</div>">
         {{ form_label(messageForm.attachments, 'conversation.answer.field.attachments.label'|trans) }}
         {% for attachment in messageForm.attachments %}
             <div>

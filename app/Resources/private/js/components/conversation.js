@@ -52,10 +52,10 @@ if ($attachmentsCollectionHolder.length) {
     $attachmentsCollectionHolder.last().off('change');
     $attachmentsCollectionHolder.append($(newForm));
     $attachmentsCollectionHolder.last().change(addAttachmentInput);
-
-
   }
 
-  addAttachmentInput();
+  if ($attachmentsCollectionHolder.children('div').length === 0) {
+    addAttachmentInput();
+  }
 }
 

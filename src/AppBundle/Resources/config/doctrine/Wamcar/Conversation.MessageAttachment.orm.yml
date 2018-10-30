@@ -1,0 +1,29 @@
+Wamcar\Conversation\MessageAttachment:
+
+    type: entity
+    table: conversation_message_attachment
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        fileName:
+            type: string
+        fileSize:
+            type: integer
+        fileMimeType:
+            type: string
+        fileOriginalName:
+            type: string
+
+
+    manyToOne:
+        message:
+            targetEntity: Wamcar\Conversation\Message
+            inversedBy: attachments
+            joinColumn:
+                nullable: false
+                name: message_id
+                referencedColumnName: id
+
