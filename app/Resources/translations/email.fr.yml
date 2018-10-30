@@ -58,9 +58,6 @@ notifyUserOfAddingPicturesToVehicle:
 
 notifyUserOfMessageCreated:
     object: "Nouveau message de %messageAuthorName%"
-    body: >
-        <p>Vous avez reçu un nouveau message de %messageAuthorName%</p>
-        <p>%message%</p>
     action_label: Répondre
 
 notifyUserOfLikeVehicle:
