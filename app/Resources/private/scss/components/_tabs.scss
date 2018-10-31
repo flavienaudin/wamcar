@@ -19,8 +19,8 @@
   }
 
   .vehicle-form & {
-    padding-right: rem-calc(20);
-    padding-left: rem-calc(20);
+    padding-right: rem-calc(10);
+    padding-left: rem-calc(10);
 
     @include breakpoint(medium) {
       padding-right: rem-calc(40);
@@ -59,6 +59,7 @@
     > a {
       display: flex;
       align-items: center;
+      text-align: center;
       justify-content: center;
       height: rem-calc(40);
       color: #9b9b9b;
@@ -78,6 +79,7 @@
 
       /* Exceptions */
 
+      .garage-container &,
       .search-tabs & {
         @include breakpoint(400 down) {
           flex-direction: column;

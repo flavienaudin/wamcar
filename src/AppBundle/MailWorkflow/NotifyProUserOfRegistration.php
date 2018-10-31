@@ -18,16 +18,17 @@ use Wamcar\User\Event\UserEventHandler;
 class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements UserEventHandler
 {
 
-    /** @var string */
-    private $adminEmail;
-    /** @var string */
-    private $adminName;
+    /** @var array */
+    private $adminsEmails;
 
-    public function __construct(Mailer $mailer, UrlGeneratorInterface $router, EngineInterface $templating, TranslatorInterface $translator, string $type, string $adminEmail, string $adminName)
+    public function __construct(Mailer $mailer, UrlGeneratorInterface $router, EngineInterface $templating, TranslatorInterface $translator, string $type, array $adminsEmails)
     {
         parent::__construct($mailer, $router, $templating, $translator, $type);
-        $this->adminEmail = $adminEmail;
-        $this->adminName = $adminName;
+
+        $this->adminsEmails = [];
+        foreach ($adminsEmails as $monitorsEmail => $name) {
+            $this->adminsEmails[] = new EmailContact($monitorsEmail, $name);
+        }
     }
 
     /**
@@ -62,7 +63,7 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
                 'user_mail' => $user->getEmail(),
                 'url_profile_page' => $this->router->generate("front_view_user_info", ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
-            new EmailRecipientList([new EmailContact($this->adminEmail,$this->adminName)])
+            new EmailRecipientList($this->adminsEmails)
         );
     }
 }

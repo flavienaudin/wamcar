@@ -1,0 +1,40 @@
+/* ===========================================================================
+   User
+   =========================================================================== */
+
+.user {
+
+  &-thumbnail {
+
+    > img {
+      width: rem-calc(100);
+    }
+
+    &-mini > img {
+      width: rem-calc(50);
+    }
+
+    > img,
+    &-mini > img {
+      max-height: 100%;
+      border-radius: 50%;
+      border: rem-calc(1) solid $border-color;
+      object-fit: cover;
+    }
+  }
+
+  /*&-send-message-button{
+    background-color: $dark-blue;
+    border-color: $dark-blue;
+
+    &:active,
+    &:hover {
+      color: $dark-blue;
+      background-color: white;
+    }
+
+    &:before{
+      color: $primary-color;
+    }
+  }*/
+}

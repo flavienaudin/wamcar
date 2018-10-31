@@ -1,0 +1,17 @@
+{# Version texte souligné #}
+<div>
+    <span class="show-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
+        <span class="js-see-number text-underline" id="PC{{ phoneNumber_eventId }}">{{ "global.button.see_phone_number"|trans }}</span>
+        <span class="js-phone-number text-underline is-hidden">{{ phoneNumber }}</span>
+    </span>
+    <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer"
+       class="hide-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
+        <span id="Smartphone{{ phoneNumber_eventId }}" class="text-underline">{{ "global.button.call"|trans }}</span>
+    </a>
+</div>
+
+{# Version bouton
+<button id="{{ phoneNumber_eventId }}" class="js-phone-number-button button phone-number-button center {{ buttonClass|default('') }}">
+    <span class="js-see-number icon-tel {{ contentClass|default('') }}">{{ "global.button.see_phone_number"|trans }}</span>
+    <span class="js-phone-number icon-tel is-hidden {{ contentClass|default('') }}">{{ phoneNumber }}</span>
+</button>#}

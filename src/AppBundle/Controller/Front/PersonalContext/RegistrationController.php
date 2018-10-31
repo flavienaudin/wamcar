@@ -103,14 +103,14 @@ class RegistrationController extends BaseController
                     'plateNumber' => $plateNumber
                 ]);
             }elseif ($user instanceof ProUser){
-                $nbOfGarage = $user->getGarageMemberships();
-                if(count($nbOfGarage ) > 1){
+                $userGarages = $user->getEnabledGarageMemberships();
+                if($userGarages->count() > 1){
                     // Redirection vers profil pour choisir le garage auquel ajouter une nouveau véhicule
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
                     return $this->redirectToRoute('front_view_current_user_info');
-                }elseif(count($nbOfGarage ) == 1){
+                }elseif($userGarages->count() == 1){
                     return $this->redirectToRoute('front_vehicle_pro_add', [
-                        'garage_id' => $user->getGarageMemberships()->first()->getId(),
+                        'garage_id' => $userGarages->first()->getId(),
                         'plateNumber' => $plateNumber
                     ]);
                 }else{

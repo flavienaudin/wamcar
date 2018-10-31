@@ -88,4 +88,19 @@ trait DoctrineUserRepositoryTrait
         return ApplicationUser::class === $class;
     }
 
+    /**
+     * @param $ids array Array of entities'id
+     * @return array
+     */
+    public function findByIds(array $ids): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
+            ->from($this->getClassName(), 'u')
+            ->where($qb->expr()->in('u.id', $ids))
+            ->orderBy($qb->expr()->asc('FIELD(u.id, :orderedIds ) '));
+        $qb->setParameter('orderedIds', $ids);
+        return $qb->getQuery()->getResult();
+    }
+
 }

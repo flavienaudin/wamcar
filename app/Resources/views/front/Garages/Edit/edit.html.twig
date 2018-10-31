@@ -57,20 +57,20 @@
                 </div>
                 <div class="column small-12 medium-6">
                     {{ form_widget(garageForm.postalCode, {
-                        'label': 'Code postal',
-                        'class': '',
-                        'required': true,
-                        'required_message': 'Veuillez indiquer votre code postal.'
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6">
-                    {{ form_widget(garageForm.cityName, {
                         'label': 'Ville',
-                        'class': '',
+                        'class': 'js-city-autocomplete',
                         'required': true,
-                        'required_message': 'Veuillez indiquer votre ville.'
+                        'required_message': 'Veuillez indiquer votre ville',
+                        'attr' : {
+                            'data-placeholder': 'garage.form.field.location.placeholder'|trans,
+                            'data-autocomplete-url': path('front_city_autocomplete'),
+                            'data-city-field': garageForm.cityName.vars.id,
+                            'data-latitude-field': garageForm.latitude.vars.id,
+                            'data-longitude-field': garageForm.longitude.vars.id
+                        }
                     }) }}
                 </div>
+                {{ form_widget(garageForm.cityName) }}
                 {{ form_widget(garageForm.latitude) }}
                 {{ form_widget(garageForm.longitude) }}
                 <div class="column small-12 medium-6">
@@ -212,13 +212,17 @@
               codePostal = place.address_components[i]['short_name'];
               break;
             case 'locality':
-              cityName = place.address_components[i]['short_name'];
+              cityName = (place.address_components[i]['short_name']).toUpperCase();
               break;
           }
         }
         document.getElementById('{{ garageForm.cityName.vars.id }}').value = cityName;
-        document.getElementById('{{ garageForm.postalCode.vars.id }}').value = codePostal;
         document.getElementById('{{ garageForm.address.vars.id }}').value = address;
+
+        let newOption = new Option(cityName + ' ('+ codePostal + ')', codePostal, true, true);
+        $('#{{ garageForm.postalCode.vars.id }}').val(null);
+        $('#{{ garageForm.postalCode.vars.id }}').append(newOption).trigger('change');
+
 
           {# Latitude/Longitude#}
         if (place.hasOwnProperty('geometry')) {

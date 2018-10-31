@@ -6,6 +6,8 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 
@@ -17,6 +19,8 @@ class ProUser extends BaseUser
     protected $phonePro;
     /** @var  Collection */
     protected $garageMemberships;
+    /** @var  Collection */
+    protected $vehicles;
 
     /**
      * ProUser constructor.
@@ -29,6 +33,16 @@ class ProUser extends BaseUser
     {
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
+    }
+
+    /**
+     * Get the main phone number or null if not given
+     * @return null|string
+     */
+    public function getMainPhoneNumber(): ?string
+    {
+        return $this->phonePro ?? $this->getPhone();
     }
 
     /**
@@ -56,11 +70,37 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @return Collection
+     */
+    public function getEnabledGarageMemberships(): Collection
+    {
+        return $this->garageMemberships->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
      * @param Collection $members
      */
     public function setGarageMemberships(Collection $members)
     {
         $this->garageMemberships = $members;
+    }
+
+    /**
+     * Return list of user's garages ordered by GoogleRating
+     * @return array
+     */
+    public function getGaragesOrderByGoogleRating(): array
+    {
+        $orderedGarages = $this->getEnabledGarageMemberships()->toArray();
+        uasort($orderedGarages, function ($gm1, $gm2) {
+            $g1gr = $gm1->getGarage()->getGoogleRating() ?? -1;
+            $g2gr = $gm2->getGarage()->getGoogleRating() ?? -1;
+            if ($g1gr == $g2gr) {
+                return 0;
+            }
+            return $g1gr < $g2gr ? 1 : -1;
+        });
+        return $orderedGarages;
     }
 
     /**
@@ -90,23 +130,31 @@ class ProUser extends BaseUser
      */
     public function hasGarage(): bool
     {
-        return count($this->garageMemberships) > 0;
-
+        return $this->numberOfGarages() > 0;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getVehicles(): ?Collection
+    public function numberOfGarages(): int
     {
-        $vehicles = new ArrayCollection();
-        /** @var GarageProUser $garageMembership */
-        foreach ($this->garageMemberships as $garageMembership) {
-            foreach ($garageMembership->getGarage()->getProVehicles() as $vehicle) {
-                $vehicles->add($vehicle);
-            }
-        }
-        return $vehicles;
+        return count($this->getEnabledGarageMemberships());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVehiclesOfGarage(Garage $garage): Collection
+    {
+        return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
     }
 
     /**

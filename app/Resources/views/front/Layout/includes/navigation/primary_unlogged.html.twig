@@ -1,0 +1,10 @@
+{% extends 'front/Layout/includes/navigation/primary.html.twig' %}
+
+{% set navigation_class = 'show-for-large is-flex align-center align-middle' %}
+
+{% block navigation %}
+    <a href="{{ path('front_vehicle_registration') }}"
+       class="l-navigation-item black-color margin-right"><strong>{{ 'header.anonyme.sell'|trans }}</strong></a>
+    <a href="{{ pro_site_url }}"
+       class="l-navigation-item body-font-color"><span>{{ 'header.anonyme.pro_space'|trans }}</span></a>
+{% endblock %}

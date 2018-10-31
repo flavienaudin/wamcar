@@ -18,7 +18,7 @@ class GarageDTO
     public $googlePlaceId;
     /** @var string */
     public $name;
-    /** @var  string */
+    /** @var string */
     public $siren;
     /** @var  string */
     public $phone;

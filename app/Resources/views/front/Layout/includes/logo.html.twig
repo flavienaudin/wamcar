@@ -1,6 +1,8 @@
 {% set isLogged = isLogged|default(false) %}
 
-<a href="{{ path('front_default') }}" class="logo-container column shrink {{ isLogged ? 'small-collapse medium-uncollapse is-logged' }}">
+{% set action = isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : isUserPersonal ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}):path('front_default') %}
+
+<a href="{{ action }}" class="logo-container column shrink {{ isLogged ? 'small-collapse large-uncollapse is-logged' }}">
     {% if isLogged %}
         <picture>
             <source media="(max-width: 590px)" srcset="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}">

@@ -3,7 +3,7 @@
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_user_info', {'id': project.personalUser.id}) %}
 
-{% set vehicleSellerName = (app.user is same as (project.personalUser)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal)) %}
+{% set vehicleSellerName = (app.user.is(project.personalUser)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal)) %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
@@ -15,7 +15,7 @@
             </div>
             <div class="vehicle-infos small-shrink">
                 <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
-                <p>Ce particulier n'a pas de véhicule à vendre mais a préciser son projet d'achat.</p>
+                <p>Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.</p>
             </div>
         {% elseif project.personalUser.vehicles|length == 1 %}
             {% set vehicle = project.personalUser.vehicles.first %}
@@ -48,7 +48,10 @@
                 </div>
                 <div class="vehicle-bottom block-grid full-width align-middle">
                     <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
-                    <time class="vehicle-time black-color small-auto">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</time>
+                    <time class="vehicle-time black-color small-auto">
+                        <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                    </time>
                 </div>
             </div>
         {% else %}
@@ -70,7 +73,7 @@
             {% if project and (project.budget is not null or project.projectVehicles|length > 0 ) %}
                 <div class="small-12 dark-gray-color">
                     {% if project.budget|default(0) > 0 %}
-                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user == project.personalUser?0:1, {'%prenom%' : vehicleSellerName, '%budget%':project.budget|localizednumber  }) }}</strong></p>
+                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user.is(project.personalUser)?0:1, {'%prenom%' : vehicleSellerName, '%budget%':project.budget|localizednumber  }) }}</strong></p>
                     {% else %}
                         <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
                     {% endif %}
@@ -91,7 +94,7 @@
                 </div>
             {% else %}
                 <p class="dark-gray-color no-margin small-10 large-12">
-                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user is same as (vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user.is(vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </p>
             {% endif %}
         </a>

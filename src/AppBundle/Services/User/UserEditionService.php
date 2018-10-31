@@ -4,7 +4,6 @@ namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
-use AppBundle\Doctrine\Entity\UserPreferences;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
@@ -233,5 +232,25 @@ class UserEditionService
         );
 
         $this->userPreferencesRepository->update($user->getPreferences());
+    }
+
+    /**
+     * Retrieve User from the search result
+     * @param Result $searchResult
+     * @return array
+     */
+    public function getUsersBySearchResult(Result $searchResult): array
+    {
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $project) {
+            $ids[] = $project['id'];
+        }
+        if (count($ids) > 0) {
+            $result['hits'] = $this->userRepository->findByIds($ids);
+        }
+        return $result;
     }
 }

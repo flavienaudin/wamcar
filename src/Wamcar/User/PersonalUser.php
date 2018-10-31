@@ -24,7 +24,7 @@ class PersonalUser extends BaseUser
      * @param string $email
      * @param string $firstName
      * @param string|null $name
-     * @param PersonalVehicle $firstVehicle
+     * @param PersonalVehicle|null $firstVehicle
      * @param City|null $city
      */
     public function __construct(string $email, $firstName, $name = null, PersonalVehicle $firstVehicle = null, City $city = null)
@@ -50,7 +50,7 @@ class PersonalUser extends BaseUser
     /**
      * @inheritdoc
      */
-    public function getVehicles(): ?Collection
+    public function getVehicles(): Collection
     {
         return $this->vehicles;
     }

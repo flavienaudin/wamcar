@@ -58,6 +58,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
+        site_version: '1.1.4-5bd18372633ae'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
@@ -99,6 +100,7 @@ doctrine:
             vehiclefunding: AppBundle\Doctrine\Type\FundingType
             vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
             notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
+            garagerole: AppBundle\Doctrine\Type\GarageRoleType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -130,7 +132,8 @@ doctrine:
                 is_bundle: false
                 prefix: TypeForm
                 alias: TypeForm
-
+        resolve_target_entities:
+            Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
         dql:
             string_functions:
                 field: DoctrineExtensions\Query\Mysql\Field
@@ -264,17 +267,17 @@ liip_imagine:
             quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [52, 52], mode: outbound }
+                thumbnail: { size: [100, 100], mode: outbound }
         user_thumbnail:
-            quality: 90
+            quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [100, 100], mode: outbound }
+                thumbnail: { size: [200, 200], mode: outbound }
         garage_banner:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [760, 340], mode: outbound }
+                thumbnail: { size: [760, 340], mode: outbound, allow_upscale: true }
         garage_mini_banner:
             quality: 75
             filters:
@@ -359,7 +362,7 @@ hwi_oauth:
 
 jmose_command_scheduler:
     # receivers for reporting mails
-    monitor_mail: ['%admin_email%']
+    monitor_mail: '%monitors_emails%'
 
     # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
     send_ok: true

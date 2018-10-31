@@ -102,7 +102,21 @@
 
   } // End &-item
 
+  /*
+     Header Search
+     ===================================== */
+  &-header-search{
 
+    input{
+      height: rem-calc($header-height - rem-calc(10));
+    }
+
+    @include breakpoint(large down) {
+      .icon-search:before {
+        margin-right: rem-calc(12) !important;
+      }
+    }
+  }
 
   /*
      Footer

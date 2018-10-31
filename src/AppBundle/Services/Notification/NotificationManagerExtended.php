@@ -3,6 +3,7 @@
 namespace AppBundle\Services\Notification;
 
 
+use AppBundle\Doctrine\Entity\EventNotification;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Common\Util\ClassUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,25 +16,26 @@ use Mgilet\NotificationBundle\Entity\Notification;
 use Mgilet\NotificationBundle\Entity\Repository\NotifiableNotificationRepository;
 use Mgilet\NotificationBundle\Entity\Repository\NotifiableRepository;
 use Mgilet\NotificationBundle\Entity\Repository\NotificationRepository;
+use Mgilet\NotificationBundle\Event\NotificationEvent;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
+use Mgilet\NotificationBundle\MgiletNotificationEvents;
 use Mgilet\NotificationBundle\NotifiableInterface;
-use Wamcar\User\BaseLikeVehicle;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent;
 use Wamcar\User\BaseUser;
-use Wamcar\User\PersonalLikeVehicle;
-use Wamcar\User\ProLikeVehicle;
-use Wamcar\User\UserLikeVehicleRepository;
+use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class NotificationManagerExtended
 {
-
-    const NOTIFICATION_LIKE_VEHICLE = BaseLikeVehicle::class;
-    const NOTIFICATION_DEFAULT = Notification::class;
-
     const ORDER_UNSEEN_FIRST = "ORDER_UNSEEN_FIRST";
     const ORDER_DATE_DESC = "ORDER_DATE_DESC";
     const ORDER_DATE_ASC = "ORDER_DATE_ASC ";
 
+    /** @var EventDispatcherInterface $eventDispatcher */
+    private $dispatcher;
+    /** @var EntityManagerInterface */
+    private $entityManager;
     /** @var NotificationManager */
     private $notificationManager;
     /** @var NotifiableRepository $notifiableEntityRepository */
@@ -42,21 +44,43 @@ class NotificationManagerExtended
     private $notifiableNotificationRepository;
     /** @var NotificationRepository $notificationRepository */
     private $notificationRepository;
-    /** @var UserLikeVehicleRepository $userLikeVehicleRepository */
-    private $userLikeVehicleRepository;
 
     /**
      * NotificationManagerExtended constructor.
-     * @param NotificationManager $notificationManager
+     * @param EventDispatcherInterface $eventDispatcher
      * @param EntityManagerInterface $entityManager
+     * @param NotificationManager $notificationManager
      */
-    public function __construct(NotificationManager $notificationManager, EntityManagerInterface $entityManager)
+    public function __construct(EventDispatcherInterface $eventDispatcher, EntityManagerInterface $entityManager, NotificationManager $notificationManager)
     {
+        $this->dispatcher = $eventDispatcher;
         $this->notificationManager = $notificationManager;
+        $this->entityManager = $entityManager;
         $this->notifiableEntityRepository = $entityManager->getRepository(NotifiableEntity::class);
         $this->notifiableNotificationRepository = $entityManager->getRepository(NotifiableNotification::class);
         $this->notificationRepository = $entityManager->getRepository(Notification::class);
-        $this->userLikeVehicleRepository = $entityManager->getRepository(BaseLikeVehicle::class);
+    }
+
+    /**
+     * @param string $subject
+     * @param string $event
+     * @param string|null $message
+     * @param string|null $link
+     *
+     * @return EventNotification
+     */
+    public function createNotification($subject, $event, $message = null, $link = null)
+    {
+        $notification = new EventNotification($event);
+        $notification
+            ->setSubject($subject)
+            ->setMessage($message)
+            ->setLink($link);
+
+        $event = new NotificationEvent($notification);
+        $this->dispatcher->dispatch(MgiletNotificationEvents::CREATED, $event);
+
+        return $notification;
     }
 
     /**
@@ -113,21 +137,51 @@ class NotificationManagerExtended
         foreach ($notifications as $notification) {
             $displayableNotification = [];
             $displayableNotification['notifiableNotification'] = $notification;
-            $notif = $notification->getNotification();
-            switch ($notif->getSubject()) {
-                case ProLikeVehicle::class:
-                case PersonalLikeVehicle::class:
-                    $displayableNotification['notificationType'] = self::NOTIFICATION_LIKE_VEHICLE;
-                    $messageData = json_decode($notif->getMessage(), true);
-                    $displayableNotification['likeVehicle'] = $this->userLikeVehicleRepository->findOne($messageData['identifier']);
-                    break;
-                default:
-                    $displayableNotification['notificationType'] = self::NOTIFICATION_DEFAULT;
+
+            /** @var EventNotification $eventNotification */
+            $eventNotification = $notification->getNotification();
+            $displayableNotification['notificationEvent'] = $eventNotification->getEvent();
+
+            $subjectRepo = $this->entityManager->getRepository($eventNotification->getSubject());
+            $displayableNotification['subject'] = $subjectRepo->find(json_decode($eventNotification->getMessage(), true));
+
+            if ($displayableNotification['subject'] != null) {
+                switch ($eventNotification->getEvent()) {
+                    // secuity checks
+                    case UserLikeVehicleEvent::class:
+                        if ($displayableNotification['subject']->getValue() < 1) {
+                            // security if notification was not removed when unlike
+                            $displayableNotification = null;
+                        }
+                        break;
+                    case PendingRequestToJoinGarageCreatedEvent::class:
+                        if ($displayableNotification['subject']->getRequestedAt() == null) {
+                            // security if notification was not removed when accepted/cancelled/declined
+                            $displayableNotification = null;
+                        }
+                        break;
+                    default:
+                }
+
+                if ($displayableNotification != null) {
+                    $displayableNotifications[] = $displayableNotification;
+                }
             }
-            $displayableNotifications[] = $displayableNotification;
         }
 
         return $displayableNotifications;
+    }
+
+    /**
+     * @param array $description Can contain :
+     *      - 'subject' Type of the notification's object : className
+     *      - 'message' Identifier(s) of the notification's object : as json string
+     *      - 'event'   Event which generated the notificatoin : className
+     * @return EventNotification[]
+     */
+    public function getNotificationByObjectDescription(array $description): array
+    {
+        return $this->notificationRepository->findBy($description);
     }
 
     /**
@@ -147,7 +201,6 @@ class NotificationManagerExtended
             ->addSelect('nn')
             ->addSelect('n')
             ->addSelect('u.id as recipient_id', 'u.email as recipient_email', 'u.userProfile.firstName as recipient_firstname', 'u.userProfile.lastName as recipient_lastname')
-
             ->groupBy('ne')
             ->addGroupBy('nn')
             ->addGroupBy('recipient_id', 'recipient_id', 'recipient_firstname', 'recipient_lastname')

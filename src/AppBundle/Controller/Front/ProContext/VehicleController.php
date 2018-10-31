@@ -4,6 +4,8 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
@@ -18,6 +20,7 @@ use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -99,13 +102,13 @@ class VehicleController extends BaseController
 
         /* Check request parameters */
         if ($garage == null) {
-            if($vehicle) {
+            if ($vehicle) {
                 $garage = $vehicle->getGarage();
-            } else{
+            } else {
                 throw new BadRequestHttpException('A vehicle to edit or a garage to add a new vehicle, is required');
             }
-        } else{
-            if($vehicle && $vehicle->getGarage() != $garage){
+        } else {
+            if ($vehicle && $vehicle->getGarage() != $garage) {
                 throw new BadRequestHttpException('A vehicle to edit OR a garage to add a new vehicle, is required, not both');
             }
             if (!$user->isMemberOfGarage($garage)) {
@@ -225,7 +228,7 @@ class VehicleController extends BaseController
                 $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
+                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage, $user);
                 $flashMessage = 'flash.success.vehicle_create';
             }
 
@@ -236,6 +239,45 @@ class VehicleController extends BaseController
         return $this->render('front/Vehicle/Add/add.html.twig', [
             'proVehicleForm' => $proVehicleForm->createView(),
             'vehicle' => $vehicle
+        ]);
+    }
+
+    /**
+     * @ParamConverter("proVehicle", options={"id" = "vehicle_id"})
+     * @ParamConverter("proApplicationUser", options={"id" = "pro_user_id"})
+     * @param ProVehicle $proVehicle
+     * @param ProApplicationUser $proApplicationUser
+     * @return RedirectResponse
+     */
+    public function assignAction(ProVehicle $proVehicle, ?ProApplicationUser $proApplicationUser): RedirectResponse
+    {
+        if (!$proVehicle->getSeller()->is($this->getUser())) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.vehicle.unauthorized_to_assign'
+            );
+        } else {
+            try {
+                $this->proVehicleEditionService->assignSeller($proVehicle, $proApplicationUser);
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.vehicle.assign_new_seller'
+                );
+            } catch (NewSellerToAssignNotFoundException $e) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.error.vehicle.seller_to_reassign_not_found'
+                );
+            } catch (\InvalidArgumentException $e) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    $e->getMessage()
+                );
+            }
+        }
+
+        return $this->redirectToRoute('front_vehicle_pro_detail', [
+            'id' => $proVehicle->getId()
         ]);
     }
 

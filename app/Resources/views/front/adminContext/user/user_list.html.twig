@@ -2,6 +2,8 @@
 
 {% block title %}Administration - Utilisateurs{% endblock title %}
 
+{% block bodyClass %}admin{% endblock %}
+
 {% block body %}
     <div class="row">
         <div class="small-12">
@@ -11,7 +13,7 @@
             </ul>
             <div class="tabs-content" data-tabs-content="tabs-user">
                 <div class="tabs-panel is-active" id="pro-user-panel">
-                    <div class="table-scroll">
+                    <div class="admin-table-container">
                         <table class="hover">
                             <thead>
                             <tr>
@@ -35,8 +37,9 @@
                                             {{ user.id }}
                                         </a>
                                     </td>
-                                    <td><img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}"
-                                             width="100%"></td>
+                                    <td><span class="user-thumbnail-mini"><img
+                                                    src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                                    alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>
                                     <td>{{ user.email }}</td>
@@ -56,13 +59,16 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <ul class="no-bullet no-margin">
+                                        <ul class="no-margin">
                                             {% for membership in user.garageMemberships %}
-                                                <li>
+                                                <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
                                                     <a href="{{ path('front_garage_view',{'id':membership.garage.id}) }}">
-                                                        {{ membership.garage.name }}<br>
-                                                        {{ membership.garage.city }}
-                                                    </a>
+                                                        {{ membership.garage.name }}
+                                                    </a><br>
+                                                    {{ membership.garage.city }}
+                                                    {% if membership.requestedAt is not null %}
+                                                        <br><span class="black-color">Demande en attente</span>
+                                                    {% endif %}
                                                 </li>
                                             {% endfor %}
                                         </ul>
@@ -74,7 +80,7 @@
                     </div>
                 </div>
                 <div class="tabs-panel" id="personal-user-panel">
-                    <div class="table-scroll">
+                    <div class="admin-table-container">
                         <table class="hover">
                             <thead>
                             <tr>
@@ -96,8 +102,9 @@
                                         <a href="{{ path('front_view_user_info',{'id':user.id}) }}">
                                             {{ user.id }}
                                         </a></td>
-                                    <td><img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}"
-                                             width="100%"></td>
+                                    <td><span class="user-thumbnail-mini">
+                                            <img src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                                 alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>
                                     <td>{{ user.email }}</td>

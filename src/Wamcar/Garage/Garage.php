@@ -7,9 +7,11 @@ use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
@@ -123,7 +125,6 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     {
     }
     /** Fin des méthodes pour l'interface UserInterface */
-
 
 
     /** Méthodes pour l'interface Serializable */
@@ -328,6 +329,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @return Collection
+     */
+    public function getEnabledMembers(): Collection
+    {
+        return $this->members->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
      * @param Collection $members
      */
     public function setMembers(Collection $members)
@@ -403,13 +412,34 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return false;
     }
 
-
-    public function getSeller(): ?ProUser
+    /**
+     * Get garage's administrators
+     * @return ProUser[]
+     */
+    public function getAdministrators(): array
     {
-        if (count($this->members) > 0) {
-            return $this->members[0]->getProUser();
+        $garageAdministrators = [];
+        /** @var GarageProUser $enabledMember */
+        foreach ($this->getEnabledMembers() as $enabledMember) {
+            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())) {
+                $garageAdministrators[] = $enabledMember->getProUser();
+            }
         }
+        return $garageAdministrators;
+    }
 
+    /**
+     * Get garage's main administrator (the first)
+     * @return ProUser
+     */
+    public function getMainAdministrator(): ProUser
+    {
+        /** @var GarageProUser $enabledMember */
+        foreach ($this->getEnabledMembers() as $enabledMember) {
+            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($enabledMember->getRole())) {
+                return $enabledMember->getProUser();
+            }
+        }
         return null;
     }
 

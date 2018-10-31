@@ -7,7 +7,9 @@ namespace AppBundle\Elasticsearch\Query;
 use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
+use AppBundle\Elasticsearch\Type\IndexableProUser;
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
+use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use Novaway\ElasticsearchClient\Query\Result;
 use Novaway\ElasticsearchClient\QueryExecutor;
@@ -22,7 +24,7 @@ use Wamcar\User\ProUser;
 class SearchResultProvider
 {
     const LIMIT = 10;
-    const MIN_SCORE = 0;
+    const MIN_SCORE = 0.1;
     const OFFSET = 0;
 
     /** @var QueryExecutor */
@@ -30,9 +32,6 @@ class SearchResultProvider
 
     /** @var QueryBuilderFilterer */
     private $queryBuilderFilterer;
-
-    /** @var array */
-    private $queryTypes;
 
     /** @var array */
     private $tabTypes;
@@ -46,7 +45,6 @@ class SearchResultProvider
     {
         $this->queryExecutor = $queryExecutor;
         $this->queryBuilderFilterer = $queryBuilderFilterer;
-        $this->queryTypes = [SearchController::QUERY_ALL, SearchController::QUERY_RECOVERY, SearchController::QUERY_PROJECT];
         $this->tabTypes = [SearchController::TAB_ALL, SearchController::TAB_PERSONAL, SearchController::TAB_PRO, SearchController::TAB_PROJECT];
     }
 
@@ -79,7 +77,7 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            $queryType === SearchController::TAB_ALL?0:self::MIN_SCORE
+            $queryType === SearchController::TAB_ALL ? 0 : self::MIN_SCORE
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
@@ -111,11 +109,10 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($page - 1) * $limit,
             $limit,
-            0.3
+            0.5
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garage->getId(), $text);
-
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, IndexableProVehicle::TYPE);
     }
@@ -138,80 +135,34 @@ class SearchResultProvider
         if ($user instanceof ProUser) {
             $garageIds = [];
             /** @var GarageProUser $garageMembership */
-            foreach ($user->getGarageMemberships() as $garageMembership) {
+            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
                 $garageIds[] = $garageMembership->getGarage()->getId();
             }
-            $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garageIds, $text);
-            $type = IndexableProVehicle::TYPE;
+            if (count($garageIds) > 0) {
+                $queryBuilder = $this->queryBuilderFilterer->getGarageVehiclesQueryBuilder($queryBuilder, $garageIds, $text);
+                $type = IndexableProVehicle::TYPE;
+            } else {
+                return new Result(0, [], [], $limit);
+            }
         } elseif ($user instanceof PersonalUser) {
             $queryBuilder = $this->queryBuilderFilterer->getUserVehiclesQueryBuilder($queryBuilder, $user->getId(), $text);
+            $queryBuilder->setMinimumScore(0);
             $type = IndexablePersonalVehicle::TYPE;
         }
-
         $queryBody = $queryBuilder->getQueryBody();
         return $this->queryExecutor->execute($queryBody, $type);
     }
 
-    /**
-     * @param FormInterface $searchForm
-     * @param array $pages
-     * @return array
-     */
-    public function getSearchProResult(FormInterface $searchForm, array $pages): array
+    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, int $limit = self::LIMIT): Result
     {
-        $searchVehicleDTO = $searchForm->getData();
-
-        $searchResult = [];
-        foreach ($this->queryTypes as $queryType) {
-            $searchResult[$queryType] = $this->getQueryProResult($queryType, $searchVehicleDTO, $pages);
-        }
-
-        return $searchResult;
-    }
-
-    /**
-     * @param string $queryType
-     * @param SearchVehicleDTO $searchVehicleDTO
-     * @param array $pages
-     * @return Result
-     */
-    private function getQueryProResult(string $queryType, SearchVehicleDTO $searchVehicleDTO, array $pages): Result
-    {
-
         $queryBuilder = new QueryBuilder(
-            self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
-            self::LIMIT,
-            0.75
+            self::OFFSET + ($page - 1) * $limit,
+            $limit,
+            0.3
         );
 
-        $queryBuilder = $this->queryBuilderFilterer->getQueryProBuilder($queryBuilder, $searchVehicleDTO, $queryType);
-
-        return $this->queryExecutor->execute(
-            $queryBuilder->getQueryBody(),
-            IndexablePersonalVehicle::TYPE
-        );
-    }
-
-    /**
-     * @param $searchForm
-     * @param $page
-     * @return Result
-     */
-    public function getSearchPersonalResult(FormInterface $searchForm, int $page): Result
-    {
-        $searchVehicleDTO = $searchForm->getData();
-
-        $queryBuilder = new QueryBuilder(
-            self::OFFSET + ($page - 1) * self::LIMIT,
-            self::LIMIT,
-            self::MIN_SCORE
-        );
-
-        $queryBuilder = $this->queryBuilderFilterer->getQueryPersonalBuilder($queryBuilder, $searchVehicleDTO);
-
-        return $this->queryExecutor->execute(
-            $queryBuilder->getQueryBody(),
-            IndexableProVehicle::TYPE
-        );
+        $queryBuilder = $this->queryBuilderFilterer->getDirectoryProUserQueryBuilder($queryBuilder, $searchProDTO);
+        $queryBody = $queryBuilder->getQueryBody();
+        return $this->queryExecutor->execute($queryBody, IndexableProUser::TYPE);
     }
 }

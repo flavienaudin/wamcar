@@ -1,5 +1,4 @@
-{% set route_params = route_params|default({})|merge(app.request.query) %}
-
+{% set route_params = app.request.query|merge(route_params|default({})) %}
 {% if lastPage is defined and lastPage > 1 %}
     <nav class="pagination" role="navigation" aria-label="{{ 'global.pagination.pagination'|trans }}">
         {% set previous = page == 1 ? 1 : page - 1 %}

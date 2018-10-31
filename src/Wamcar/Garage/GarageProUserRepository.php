@@ -6,10 +6,11 @@ interface GarageProUserRepository
 {
     /**
      * @param int $garageId
+     * @param int $proUserId
      *
      * @return GarageProUser
      */
-    public function findOne(int $garageId): ?GarageProUser;
+    public function findOne(int $garageId, int $proUserId): ?GarageProUser;
 
     /**
      * @return GarageProUser[]

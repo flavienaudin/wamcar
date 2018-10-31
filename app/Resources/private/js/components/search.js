@@ -1,10 +1,9 @@
 /* ===========================================================================
-   Seach
+   Search
    =========================================================================== */
 
-import {Tabs} from 'foundation-sites/js/foundation.tabs';
-
 require('formdata-polyfill');
+
 
 /**
  * Get vehicle
@@ -20,25 +19,28 @@ const getVehicle = async (url) => {
   }
 };
 
-const $searchTabs = document.getElementById('js-search-tabs');
-if ($searchTabs) {
-  const $searchForm = $('#js-search-form');
-  if ($searchForm.length) {
+const $searchForm = $('#js-search-form');
+if ($searchForm.length) {
+
+  // Mise à jour de la valeur du champ caché pour la sélection de l'onglet
+  const $searchTabs = $('#js-search-tabs');
+  if ($searchTabs.length) {
     $searchForm.on('submit', () => {
-      $('#search_vehicle_tab').val($($searchTabs).find('li.is-active').data('tab'));
+      $('#search_vehicle_tab').val($searchTabs.find('li.is-active').data('tab'));
     });
   }
 
+  // Suppression du filtre par soumission de formulaire
   let $filterLinks = $('.search-filter');
-  if($filterLinks.length){
+  if ($filterLinks.length) {
     $filterLinks.each((index, elt) => {
-      $(elt).find('a').on('click', function(e){
+      $(elt).find('a').on('click', function (e) {
         e.preventDefault();
         let toResetFieldArray = ($(this).data('field-id')).split(',');
         toResetFieldArray.forEach((element) => {
-          if(element.indexOf('=') === -1) {
+          if (element.indexOf('=') === -1) {
             $('#' + element).val(null);
-          }else{
+          } else {
             let field_value = element.split('=');
             $('#' + field_value[0]).val(field_value[1]);
           }
@@ -47,7 +49,17 @@ if ($searchTabs) {
       });
     });
   }
+
+  // Submit form when changing sorting select
+  let $sortingSelect = $('#js-search-sorting-select');
+  if($sortingSelect.length){
+    $sortingSelect.on('change', () => {
+      $searchForm.submit();
+    });
+  }
 }
+
+
 
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
@@ -99,13 +111,11 @@ if ($makeSelect && $modelSelect) {
   }
 }
 
-
 /* Intégré mais non utilisé
 const $searchLabel = document.getElementById('js-search-label');
 if ($searchLabel) {
   const fixedClass = 'is-fixed';
   const scrollLimit = 120;
-
   document.addEventListener('scroll', () => {
     let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
     currentScroll > scrollLimit ? $searchLabel.classList.add(fixedClass) : $searchLabel.classList.remove(fixedClass);

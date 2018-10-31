@@ -35,6 +35,11 @@ body {
   }
 }
 
+h2 small {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
 p {
   &.small {
     font-size: rem-calc(11);

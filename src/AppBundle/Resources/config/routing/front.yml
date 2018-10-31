@@ -15,6 +15,12 @@ front_landing_meeting:
     path: /rencontre
     controller: AppBundle:Front\Default:landingMeeting
 
+front_directory_view:
+    path: /annuaire/{page}
+    controller: AppBundle:Front\ProContext\Directory:view
+    defaults:
+        page: 1
+
 register_confirm:
     path: /inscription/confirmation
     defaults:
@@ -87,9 +93,13 @@ front_garage_remove:
     path: /garage/remove/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:remove }
 
+front_garage_request_to_join:
+    path: /garage/request/{garage_id}
+    controller: AppBundle:Front\ProContext\Garage:assign
+
 front_garage_assign:
-    path: /garage/assign/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:assign }
+    path: /garage/assign/{garage_id}/{user_id}
+    controller: AppBundle:Front\ProContext\Garage:assign
 
 front_garage_unassign:
     path: /garage/unassign/{garage_id}/{user_id}
@@ -114,6 +124,14 @@ front_vehicle_pro_edit:
       _controller: AppBundle:Front\ProContext\Vehicle:save
       garage: null
       plateNumber: null
+
+front_vehicle_pro_reassign:
+    path: /vehicule/reassign/{vehicle_id}
+    controller: AppBundle:Front\ProContext\Vehicle:assign
+
+front_vehicle_pro_assign_seller:
+    path: /vehicule/assign/{vehicle_id}/{pro_user_id}
+    controller: AppBundle:Front\ProContext\Vehicle:assign
 
 front_vehicle_pro_detail:
     path: /vehicule/detail/{id}
@@ -140,44 +158,48 @@ front_vehicle_personal_delete:
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
 
 front_search:
-    path: /recherche
-    controller: AppBundle:Front\ProContext\Search:search
-
-front_search_tab_all:
     path: /recherche/{page}
     controller: AppBundle:Front\ProContext\Search:search
     requirements:
         page: '\d+'
     defaults:
         page: 1
-        type: 'TAB_ALL'
 
-front_search_tab_personal:
-    path: /recherche/particuliers/{page}
-    controller: AppBundle:Front\ProContext\Search:search
-    requirements:
-        page: '\d+'
-    defaults:
-        page: 1
-        type: 'TAB_PERSONAL'
-
-front_search_tab_pro:
-    path: /recherche/professionnels/{page}
-    controller: AppBundle:Front\ProContext\Search:search
-    requirements:
-        page: '\d+'
-    defaults:
-        page: 1
-        type: 'TAB_PRO'
-
-front_search_tab_project:
-    path: /recherche/souhaits/{page}
-    controller: AppBundle:Front\ProContext\Search:search
-    requirements:
-        page: '\d+'
-    defaults:
-        page: 1
-        type: 'TAB_PROJECT'
+#front_search_tab_all:
+#    path: /recherche/{page}
+#    controller: AppBundle:Front\ProContext\Search:search
+#    requirements:
+#        page: '\d+'
+#    defaults:
+#        page: 1
+#        type: 'TAB_ALL'
+#
+#front_search_tab_personal:
+#    path: /recherche/{page}
+#    controller: AppBundle:Front\ProContext\Search:search
+#    requirements:
+#        page: '\d+'
+#    defaults:
+#        page: 1
+#        type: 'TAB_PERSONAL'
+#
+#front_search_tab_pro:
+#    path: /recherche/{page}
+#    controller: AppBundle:Front\ProContext\Search:search
+#    requirements:
+#        page: '\d+'
+#    defaults:
+#        page: 1
+#        type: 'TAB_PRO'
+#
+#front_search_tab_project:
+#    path: /recherche/{page}
+#    controller: AppBundle:Front\ProContext\Search:search
+#    requirements:
+#        page: '\d+'
+#    defaults:
+#        page: 1
+#        type: 'TAB_PROJECT'
 
 #front_search_pro:
 #    path: /vendeur/rechercher
