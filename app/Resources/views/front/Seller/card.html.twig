@@ -44,7 +44,9 @@
                             {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
                     </p>
                     <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered : ' }}
-                    {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}</p>
+                    {% if user.affinityAnswer %}
+                        {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}</p>
+                    {% endif %}
                     {#<p>{{ dump(user.affinityDegrees) }}</p>#}
                 {% endblock %}
             </div>

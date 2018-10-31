@@ -45,7 +45,8 @@ class AffinityDegreeCalculationService
         }
 
         if($mainAffinityAnswer->getUser()){
-            $this->affinityDegreeRepository->update();
+            // TODO
+            //$this->affinityDegreeRepository->update();
         }
 
         return $cores;
