@@ -53,12 +53,12 @@ if ($attachmentsCollectionHolder.length) {
       $attachmentsCollectionHolder.data('index', index + 1);
       $attachmentsCollectionHolder.append($newForm);
 
-      $newForm.find('.js-delete-attachment').on('click',(event) => {
+      $newForm.find('.js-delete-attachment').on('click', (event) => {
         $newForm.remove();
       });
 
       $newForm.change((event) => {
-        let fullPath  = $(event.currentTarget).find('input:file').val();
+        let fullPath = $(event.currentTarget).find('input:file').val();
         if (fullPath) {
           let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
           let filename = fullPath.substring(startIndex);
@@ -76,8 +76,33 @@ if ($attachmentsCollectionHolder.length) {
     }
   }
 
-  if ($attachmentsCollectionHolder.children('div').length === 0) {
+  let $div = $attachmentsCollectionHolder.children('div');
+  if ($div.length === 0) {
     addAttachmentInput();
+  } else {
+    // Security : if data where submitted then set event listeners
+    $div.each((index, div) => {
+      $(div).find('.js-delete-attachment').on('click', (event) => {
+        $(div).remove();
+      });
+
+      $(div).change((event) => {
+        let fullPath = $(event.currentTarget).find('input:file').val();
+        if (fullPath) {
+          let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+          let filename = fullPath.substring(startIndex);
+          if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+            filename = filename.substring(1);
+          }
+
+          $(div).find('label').html(filename);
+          $(div).find('label').removeClass('text-underline');
+
+          $(div).find('.js-delete-attachment').removeClass('is-hidden');
+        }
+      });
+
+    });
   }
 }
 

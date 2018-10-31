@@ -550,7 +550,7 @@
 {%- endblock _vehicle_registrationNumber_widget -%}
 
 {%- block _message_vehicle_widget -%}
-    {% if value is defined %}
+    {% if form.vars.data is not null %}
         {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: false, vehicle: form.vars.data, user: app.user } %}
         {{ form_widget(form, {'class': 'is-hidden'}) }}
     {% endif %}
