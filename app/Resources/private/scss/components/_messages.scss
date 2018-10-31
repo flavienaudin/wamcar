@@ -295,10 +295,22 @@
   &-item-attachments {
     margin-top: rem-calc(15);
 
-    &-label{
-      font-size: rem-calc(14);
-      margin-bottom: rem-calc(5);
-      color: $dark-gray;
+    &-field {
+      label {
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(10);
+      }
+
+      span.icon-close {
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(5);
+      }
+
+      &-list{
+        margin-top: rem-calc(15);
+      }
     }
 
     ol {
@@ -504,13 +516,12 @@
 
   &-list-empty,
   &-interlocutors-list,
-  &-item-wrapper-desktop{
+  &-item-wrapper-desktop {
     max-height: 100%;
     overflow-y: auto;
   }
 
-  &-list
-  {
+  &-list {
     overflow-y: hidden;
   }
 

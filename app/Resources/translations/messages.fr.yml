@@ -754,6 +754,7 @@ conversation:
         select: Proposer un véhicule
       attachments:
         label: Pièces jointes
+        add: Ajouter une pièce jointe
 
 favorites:
   page_title: Ma sélection

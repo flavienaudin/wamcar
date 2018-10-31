@@ -323,7 +323,7 @@
                 </div>
                 <span class="show-for-sr">{{ 'vehicle.field.picture.action.add'|trans }}</span>
             </label>
-            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span class="show-for-sr">{{ 'vehicle.field.picture.action.add'|trans }}</span></button>
+            <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'vehicle.field.picture.action.remove'|trans }}"><span class="show-for-sr">{{ 'vehicle.field.picture.action.remove'|trans }}</span></button>
         </div>
         <div class="column small-6 medium-12">
             {{ form_widget(form.caption, { 'attr' : { 'class' : 'js-file-legend input small', 'placeholder' : 'vehicle.field.picture.action.add_caption'|trans } } ) }}
@@ -358,6 +358,14 @@
         {% if isRemovable %}
             <button type="button" class="js-file-preview-remove file-preview-remove icon-remove {% if not isEdit %}is-hidden{% endif %}" title="{{ 'form.picture.remove_photo'|trans }}"><span class="show-for-sr">{{ 'form.picture.remove_photo'|trans }}</span></button>
         {% endif %}
+    </div>
+{% endblock %}
+
+{% block _message_attachments_entry_widget %}
+    <div class="messages-item-attachments-field is-flex">
+        <label for="{{ form.vars.id }}" class="text-underline">{{ 'conversation.answer.field.attachments.add'|trans }}</label>
+        {{ form_widget(form, {'attr':{'class':'show-for-sr'}}) }}
+        <span class="js-delete-attachment icon-close is-hidden"></span>
     </div>
 {% endblock %}
 
@@ -454,7 +462,6 @@
     </ul>
 {%- endblock yesno_widget -%}
 
-
 {%- block checkbox_widget -%}
     {% if switch is defined %}
         {% set label = label|default(false) %}
@@ -474,8 +481,6 @@
         <input type="checkbox" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
     {% endif %}
 {%- endblock checkbox_widget -%}
-
-
 
 {%- block star_widget -%}
     {% set class_field = class_field|default('') %}
