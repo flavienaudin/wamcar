@@ -3,6 +3,7 @@
 namespace AppBundle\Services\Affinity;
 
 
+use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\User\PersonalUser;
@@ -20,6 +21,15 @@ class AffinityDegreeCalculationService
     private $affinityDegreeRepository;
 
     /**
+     * AffinityDegreeCalculationService constructor.
+     * @param DoctrineAffinityDegreeRepository $affinityDegreeRepository
+     */
+    public function __construct(DoctrineAffinityDegreeRepository $affinityDegreeRepository)
+    {
+        $this->affinityDegreeRepository = $affinityDegreeRepository;
+    }
+
+    /**
      * @param AffinityAnswer $mainAffinityAnswer The main user's answer
      * @param AffinityAnswer $withAffinityAnswer The user's answer to compare with
      * @return array|null array of scores or null if errors
@@ -35,21 +45,24 @@ class AffinityDegreeCalculationService
     {
         $scores = null;
         if ($mainAffinityAnswer->getUser() instanceof ProUser && $withAffinityAnswer->getUser() instanceof PersonalUser) {
-            $cores =  $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
+            $scores =  $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
         } elseif ($mainAffinityAnswer->getUser() instanceof PersonalUser && $withAffinityAnswer->getUser() instanceof ProUser) {
             // Score Pro = score Personal. If assymetric calculation, implement a different function.
-            $cores =   $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
+            $scores =   $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
         }
         if(!is_array($scores)){
             return null;
         }
 
-        if($mainAffinityAnswer->getUser()){
-            // TODO
-            //$this->affinityDegreeRepository->update();
-        }
-
-        return $cores;
+        $affinityDegree = new AffinityDegree($mainAffinityAnswer->getUser(), $withAffinityAnswer->getUser(),
+            $scores['affinity'],
+            $scores['profile'],
+            $scores['passion'],
+            $scores['positioning'],
+            $scores['atomesCrochus']
+        );
+        $this->affinityDegreeRepository->update($affinityDegree);
+        return $scores;
     }
 
     /**
@@ -86,6 +99,7 @@ class AffinityDegreeCalculationService
         // Total profile score
         dump('Profile score = ' . $profileAffinityScore);
         $scores['profile'] = $profileAffinityScore * self::POURCENTAGE_SCORE_PROFILE / 25.0;
+        dump('$scores["profile"]= ' . $scores['profile']);
 
         //---------------//
         //--- Passion ---//
@@ -105,6 +119,7 @@ class AffinityDegreeCalculationService
         // Total passion score
         dump('Passion score = ' . $passionAffinityScore);
         $scores['passion'] = $passionAffinityScore * self::POURCENTAGE_SCORE_PASSION / 45.0;
+        dump('$scores["passion"]= ' . $scores['passion']);
 
         //-------------------//
         //--- Positioning ---//
@@ -119,6 +134,7 @@ class AffinityDegreeCalculationService
         $positioningScore += $vehicleTypeScore;
 
         $scores['positioning'] = $positioningScore * self::POURCENTAGE_SCORE_POSITIONING / 20.0;
+        dump('$scores["positioning"]= ' . $scores['positioning']);
 
         //----------------------//
         //--- Atomes Crochus ---//
@@ -132,6 +148,7 @@ class AffinityDegreeCalculationService
         $atomesCrochusScore += $roadScore;
         // Total atomesCrochus score
         $scores['atomesCrochus'] = $atomesCrochusScore * self::POURCENTAGE_SCORE_ATOMES / 40.0;
+        dump('$scores["atomesCrochus"]= ' . $scores['atomesCrochus']);
 
         // Total affinity score
         $scores['affinity'] = $scores['profile'] + $scores['passion'] + $scores['positioning'] + $scores['atomesCrochus'];

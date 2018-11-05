@@ -56,7 +56,9 @@ abstract class BaseUser implements HasApiCredential
     /** @var AffinityAnswer|null */
     protected $affinityAnswer;
     /** @®var Collection $affinityDegree */
-    protected $affinityDegrees;
+    protected $myAffinityDegrees;
+    /** @®var Collection $affinityDegree */
+    protected $withAffinityDegrees;
 
     /**
      * User constructor.
@@ -81,7 +83,8 @@ abstract class BaseUser implements HasApiCredential
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
-        $this->affinityDegrees = new ArrayCollection();
+        $this->myAffinityDegrees = new ArrayCollection();
+        $this->withAffinityDegrees = new ArrayCollection();
         $this->generateApiCredentials();
     }
 
@@ -471,39 +474,40 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
-     * @return Collection
+     * @return mixed
      */
-    public function getAffinityDegrees(): Collection
+    public function getMyAffinityDegrees()
     {
-        return $this->affinityDegrees;
+        return $this->myAffinityDegrees;
     }
 
     /**
-     * @param Collection $affinityDegrees
+     * @return mixed
      */
-    public function setAffinityDegrees(Collection $affinityDegrees): void
+    public function getWithAffinityDegrees()
     {
-        $this->affinityDegrees = $affinityDegrees;
+        return $this->withAffinityDegrees;
     }
 
     /**
-     * @param AffinityDegree $affinityDegree
-     * @return BaseUser
+     * Return the affinity degree between this user and the given user
+     * @param BaseUser $withUser The user to get the affinity degree with
+     * @return AffinityDegree|null
      */
-    public function addAffinityDegree(AffinityDegree $affinityDegree): BaseUser
-    {
-        $this->affinityDegrees->add($affinityDegree);
-        return $this;
-    }
-
-    /**
-     * @param AffinityDegree $affinityDegree
-     * @return BaseUser
-     */
-    public function removeAffinityDegree(AffinityDegree $affinityDegree): BaseUser
-    {
-        $this->affinityDegrees->removeElement($affinityDegree);
-        return $this;
+    public function getAffinityDegreesWith(BaseUser $withUser){
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->myAffinityDegrees as $affinityDegree){
+            if($affinityDegree->getWithUser()->is($withUser)){
+                return $affinityDegree;
+            }
+        }
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->withAffinityDegrees as $affinityDegree){
+            if($affinityDegree->getMainUser()->is($withUser)){
+                return $affinityDegree;
+            }
+        }
+        return null;
     }
 
     /**

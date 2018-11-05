@@ -47,7 +47,21 @@
                     {% if user.affinityAnswer %}
                         {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}</p>
                     {% endif %}
-                    {#<p>{{ dump(user.affinityDegrees) }}</p>#}
+
+                    {# TODO #}
+                    <ul>
+                        {% for aff in user.myAffinityDegrees %}
+                            <li>{{ dump(aff) }}</li>
+                        {% endfor %}
+                        {% for aff in user.myAffinityDegrees %}
+                            <li>{{ dump(aff) }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% set userAff = app.user is null ? app.user.getAffinityDegreesWith(user): null %}
+                    {% if userAff  is not null %}
+                        <p>{{ dump(userAff ) }}</p>
+                    {% endif %}
+
                 {% endblock %}
             </div>
             <div class="separator-for-small small-12 medium-4 medium-offset-1 large-6">

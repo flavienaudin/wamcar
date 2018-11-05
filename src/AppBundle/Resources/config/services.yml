@@ -125,3 +125,6 @@ services:
 
     AppBundle\Services\Notification\NotificationManagerExtended:
         autowire: true
+
+    AppBundle\Services\Affinity\AffinityDegreeCalculationService:
+        autowire: true

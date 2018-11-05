@@ -41,6 +41,21 @@
         {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}
     {% endif %}
     </p>
+
+    {# TODO #}
+    <ul>
+        {% for aff in user.myAffinityDegrees %}
+            <li>{{ dump(aff) }}</li>
+        {% endfor %}
+        {% for aff in user.myAffinityDegrees %}
+            <li>{{ dump(aff) }}</li>
+        {% endfor %}
+    </ul>
+    {% set userAff = app.user is null ? app.user.getAffinityDegreesWith(user): null %}
+    {% if userAff  is not null %}
+        <p>{{ dump(userAff ) }}</p>
+    {% endif %}
+
     {#<p>{{ dump(user.affinityDegrees) }}</p>#}
 
 
