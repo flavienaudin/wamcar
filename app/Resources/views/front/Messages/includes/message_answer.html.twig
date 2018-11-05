@@ -15,6 +15,7 @@
         'required_class': 'show-for-sr'
     }) }}
     {{ form_errors(messageForm) }}
+
     {% if messageForm.vehicle is defined %}
         {{ form_widget(messageForm.vehicle, {
             'isNew': currentConversation == null
@@ -39,6 +40,16 @@
             'isNew': currentConversation == null
         }) }}
     {% endif %}
+
+    <div id="js-attachments-list" class="messages-item-attachments-field-list" data-index="{{ messageForm.attachments|length }}"
+         data-prototype="{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}">
+        {{ form_label(messageForm.attachments, 'conversation.answer.field.attachments.label'|trans,
+            {'label_attr':{'class':'show-for-sr'}}
+        ) }}
+        {% for attachment in messageForm.attachments %}
+            {{ form_widget(attachment) }}
+        {% endfor %}
+    </div>
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
             'label': 'global.button.send'|trans,

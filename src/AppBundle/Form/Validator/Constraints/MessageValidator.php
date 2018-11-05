@@ -30,7 +30,7 @@ class MessageValidator extends ConstraintValidator
             throw new UnexpectedTypeException($value, MessageDTO::class);
         }
 
-        if ($value->vehicle == null && $value->content == null) {
+        if ($value->vehicle == null && $value->content == null && count($value->attachments) == 0) {
             $this->context->buildViolation($this->translation->trans($constraint->message, [], "validations"))
                 ->addViolation();
         }

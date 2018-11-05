@@ -6,9 +6,11 @@ namespace AppBundle\Twig;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use Twig\Extension\AbstractExtension;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
+use Wamcar\Conversation\MessageAttachment;
 use Wamcar\User\BaseUser;
 
 class ConversationExtension extends AbstractExtension
@@ -17,14 +19,18 @@ class ConversationExtension extends AbstractExtension
     protected $conversationUserRepository;
     /** @var DoctrineMessageRepository */
     protected $messageRepository;
+    /** @var UploaderHelper */
+    protected $uploaderHelper;
 
     public function __construct(
         DoctrineConversationUserRepository $conversationUserRepository,
-        DoctrineMessageRepository $messageRepository
+        DoctrineMessageRepository $messageRepository,
+        UploaderHelper $uploaderHelper
     )
     {
         $this->conversationUserRepository = $conversationUserRepository;
         $this->messageRepository = $messageRepository;
+        $this->uploaderHelper = $uploaderHelper;
     }
 
     public function getFunctions()
@@ -33,7 +39,8 @@ class ConversationExtension extends AbstractExtension
             new \Twig_SimpleFunction('getInterlocutorConversation', array($this, 'getInterlocutorConversationFunction')),
             new \Twig_SimpleFunction('getCurrentUserConversation', array($this, 'getCurrentUserConversationFunction')),
             new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
-            new \Twig_SimpleFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction'))
+            new \Twig_SimpleFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction')),
+            new \Twig_SimpleFunction('getAttachmentLink', array($this, 'getAttachmentLinkFunction')),
         );
     }
 
@@ -69,9 +76,19 @@ class ConversationExtension extends AbstractExtension
     /**
      * @param BaseUser $user
      * @return int
+     * @throws
      */
     public function getCountUnreadMessagesFunction(BaseUser $user): int
     {
         return $this->messageRepository->getCountUnreadMessagesByUser($user);
+    }
+
+    /**
+     * @param MessageAttachment $attachment
+     * @return null|string
+     */
+    public function getAttachmentLinkFunction(MessageAttachment $attachment): ?string
+    {
+        return $this->uploaderHelper->asset($attachment, 'file');
     }
 }

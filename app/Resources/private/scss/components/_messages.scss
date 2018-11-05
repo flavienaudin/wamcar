@@ -292,6 +292,36 @@
     margin-top: rem-calc(15);
   }
 
+  &-item-attachments {
+    margin-top: rem-calc(15);
+
+    &-field {
+      label {
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(10);
+      }
+
+      span.icon-close {
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(5);
+      }
+
+      &-list{
+        margin-top: rem-calc(15);
+      }
+    }
+
+    ol {
+      margin-bottom: 0;
+
+      li a {
+        word-wrap: break-word;
+      }
+    }
+  }
+
   &-item-answer {
     padding: rem-calc(20) rem-calc(15) rem-calc(40);
     background: $grey-alt2;
@@ -486,13 +516,12 @@
 
   &-list-empty,
   &-interlocutors-list,
-  &-item-wrapper-desktop{
+  &-item-wrapper-desktop {
     max-height: 100%;
     overflow-y: auto;
   }
 
-  &-list
-  {
+  &-list {
     overflow-y: hidden;
   }
 
