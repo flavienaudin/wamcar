@@ -497,13 +497,15 @@ abstract class BaseUser implements HasApiCredential
     public function getAffinityDegreesWith(BaseUser $withUser){
         /** @var AffinityDegree $affinityDegree */
         foreach ($this->myAffinityDegrees as $affinityDegree){
-            if($affinityDegree->getWithUser()->is($withUser)){
+            dump($affinityDegree);
+            if($affinityDegree->getMainUser()->is($withUser)){
                 return $affinityDegree;
             }
         }
         /** @var AffinityDegree $affinityDegree */
         foreach ($this->withAffinityDegrees as $affinityDegree){
-            if($affinityDegree->getMainUser()->is($withUser)){
+            dump($affinityDegree);
+            if($affinityDegree->getWithUser()->is($withUser)){
                 return $affinityDegree;
             }
         }

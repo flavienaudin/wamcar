@@ -3,12 +3,39 @@
 namespace TypeForm\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
+use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
 class DoctrineAffinityAnswerRepository extends EntityRepository
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function add(AffinityAnswer $affinityAnswer)
+    {
+        $this->_em->persist($affinityAnswer);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(AffinityAnswer $affinityAnswer)
+    {
+        $affinityAnswer = $this->_em->merge($affinityAnswer);
+        $this->_em->persist($affinityAnswer);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function remove(AffinityAnswer $affinityAnswer)
+    {
+        $this->_em->remove($affinityAnswer);
+        $this->_em->flush();
+    }
 
     /**
      * Retrieve answers of Pro affinity form, that were NOT treated (not yet used to calculate user's affinity degrees

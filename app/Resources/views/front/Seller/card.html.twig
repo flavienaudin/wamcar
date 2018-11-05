@@ -57,7 +57,7 @@
                             <li>{{ dump(aff) }}</li>
                         {% endfor %}
                     </ul>
-                    {% set userAff = app.user is null ? app.user.getAffinityDegreesWith(user): null %}
+                    {% set userAff = isLogged ? app.user.getAffinityDegreesWith(user): null %}
                     {% if userAff  is not null %}
                         <p>{{ dump(userAff ) }}</p>
                     {% endif %}

@@ -12,9 +12,9 @@ class DoctrineAffinityDegreeRepository extends EntityRepository
     /**
      * {@inheritdoc}
      */
-    public function add(AffinityDegree $likeaffinityDegree)
+    public function add(AffinityDegree $affinityDegree)
     {
-        $this->_em->persist($likeaffinityDegree);
+        $this->_em->persist($affinityDegree);
         $this->_em->flush();
     }
 

@@ -103,7 +103,8 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                 ));
             }
 
-
+            $untreatedPersonalAnswer->setTreatedAt(new \DateTime('now'));
+            $this->affinityAnswerRepository->update($untreatedPersonalAnswer);
         }
         $progress->finish();
         $this->logCRLF();
@@ -133,6 +134,9 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                     $treatedPersonalAnswer->getFormId()
                 ));
             }
+
+            $untreatedProAnswer->setTreatedAt(new \DateTime('now'));
+            $this->affinityAnswerRepository->update($untreatedProAnswer);
         }
         $progressBis->finish();
         $this->logCRLF();

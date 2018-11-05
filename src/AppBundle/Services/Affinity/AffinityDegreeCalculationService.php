@@ -6,6 +6,7 @@ namespace AppBundle\Services\Affinity;
 use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
+use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
