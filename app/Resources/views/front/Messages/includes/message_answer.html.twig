@@ -44,7 +44,7 @@
     <div id="js-attachments-list" class="messages-item-attachments-field-list" data-index="{{ messageForm.attachments|length }}"
          data-prototype="{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}">
         {{ form_label(messageForm.attachments, 'conversation.answer.field.attachments.label'|trans,
-            {'label_attr':{'class':'show-for-sr'}}
+            {'label_attr':{'class':'is-hidden'}}
         ) }}
         {% for attachment in messageForm.attachments %}
             {{ form_widget(attachment) }}

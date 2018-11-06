@@ -364,7 +364,7 @@
 {% block _message_attachments_entry_widget %}
     <div class="messages-item-attachments-field is-flex">
         <label for="{{ form.vars.id }}" class="text-underline">{{ 'conversation.answer.field.attachments.add'|trans }}</label>
-        {{ form_widget(form, {'attr':{'class':'show-for-sr'}}) }}
+        {{ form_widget(form, {'attr':{'class':'is-hidden'}}) }}
         <span class="js-delete-attachment icon-close is-hidden"></span>
     </div>
 {% endblock %}
