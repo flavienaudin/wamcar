@@ -11,10 +11,13 @@
   &-l-main {
     position: absolute;
     top: $header-height + rem-calc(20);
-    bottom: rem-calc(20);
     left: 0;
     right: 0;
     overflow-y: hidden;
+
+    @include breakpoint(medium) {
+      bottom: rem-calc(20);
+    }
 
     @include breakpoint(large) {
       top: $header-height-medium + rem-calc(20);
