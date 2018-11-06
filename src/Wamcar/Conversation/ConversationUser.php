@@ -6,7 +6,6 @@ namespace Wamcar\Conversation;
 
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Services\User\CanBeInConversation;
-use mageekguy\atoum\tests\units\asserters\boolean;
 use Wamcar\User\BaseUser;
 
 class ConversationUser

@@ -54,15 +54,17 @@ trait EmailSender
      * @param array $bodyParameters
      * @param EmailRecipientList $recipients
      * @param \Swift_Attachment[] $attachments
+     * @param null|string $senderName
      */
-    public function send(string $subject, string $template, array $bodyParameters = [], EmailRecipientList $recipients, array $attachments = [])
+    public function send(string $subject, string $template, array $bodyParameters = [], EmailRecipientList $recipients, array $attachments = [], string  $senderName = null)
     {
         $this->mailer->sendMessage(
             $this->type,
             $subject,
             $this->renderTemplate($template, $bodyParameters),
             $recipients,
-            $attachments
+            $attachments,
+            $senderName
         );
     }
 

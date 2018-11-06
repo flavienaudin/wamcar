@@ -19,7 +19,7 @@
                 <a href="{{ path('front_view_user_info', {'id':user.id,'_fragment':'user_vehicles_section'}) }}" target="_blank" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
             </div>
         </div>
-    {% else %}
+    {% elseif vehicle is not null %}
         {% if vehicle.isPro %}
             {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>' %}
         {% else %}

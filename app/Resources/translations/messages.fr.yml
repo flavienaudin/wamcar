@@ -737,6 +737,8 @@ conversation:
   vehicle_presented_by: Véhicule présenté par %ownerName%
   vehicle_to_sell: Votre véhicule à reprendre
   fleet_to_sell: Votre flotte automobile à reprendre
+  message:
+    attachments: '{1} Pièce jointe|[2,Inf[ Pièces jointes'
 
   auto_added: (automatiquement ajouté à votre message)
   fleet:
@@ -750,6 +752,9 @@ conversation:
       vehicle:
         create: Créer un véhicule
         select: Proposer un véhicule
+      attachments:
+        label: Pièces jointes
+        add: Ajouter une pièce jointe
 
 favorites:
   page_title: Ma sélection
