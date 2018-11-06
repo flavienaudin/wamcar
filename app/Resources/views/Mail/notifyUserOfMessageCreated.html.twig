@@ -3,17 +3,47 @@
 {% trans_default_domain 'email' %}
 {% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
 
-{% block title %}{{ 'notifyUserOfMessageCreated.object'|trans({'%messageAuthorName%': messageAuthorName}) }}{% endblock %}
+{% block title %}{{ 'notifyUserOfMessageCreated.object'|trans({'%messageAuthorName%': sender.fullName}) }}{% endblock %}
+
+{% block welcome %}{% endblock %}
 
 {% block body %}
     <div>
-        {{ 'notifyUserOfMessageCreated.body'|trans({
-            '%messageAuthorName%': messageAuthorName,
-            '%message%': message|nl2br,
-        })|raw }}
-        {% if vehicle != null %}
-            {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
-         {% endif %}
-        {{ action_button(message_url, 'notifyUserOfMessageCreated.action_label'|trans) }}
+        <div style="padding: 20px 15px; display: flex; flex-flow: row wrap; align-content: flex-start;">
+            <a href="{{ url('front_view_user_info', {'id': sender.id}) }}" target="_blank">
+                <img src="{{ sender.avatar|avatar('user_thumbnail') }}" alt="{{ sender.fullName }}"
+                     style="border-radius: 50%; height: 40px; width: 40px;">
+            </a>
+            <div style="flex-grow: 1; min-width: 0; padding-left: 20px">
+                <div>
+                    <a href="{{ url('front_view_user_info', {'id': sender.id}) }}" target="_blank">
+                        <strong style="font-size: 14px;">{{ sender.fullName }}</strong>
+                    </a>
+                </div>
+                {% if sender.isPro and sender.hasGarage %}
+                    <div style="font-size: 11px; line-height: 16px; color: #cacaca">
+                        {% set garageMemberships = sender.enabledGarageMemberships %}
+                        {% if garageMemberships|length == 1 %}
+                            <a href="{{ url('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                        {% elseif garageMemberships|length == 0 %}
+                            Pas de garage
+                        {% else %}
+                            {# TODO placeholder ou liste des garages ? #}
+                            Plusieurs garages
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+            <div style="margin-top: 15px; width: 100%;">
+                {{ message|nl2br }}
+            </div>
+
+            {% if vehicle != null %}
+                {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
+             {% endif %}
+            {{ action_button(message_url, 'notifyUserOfMessageCreated.action_label'|trans) }}
+        </div>
     </div>
 {% endblock %}

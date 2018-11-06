@@ -2,4 +2,4 @@ constraint:
   garage:
     already_registered_siren: Le SIREN %siren% est déjà enregistré pour un autre garage.
   message:
-    not_empty: Veuillez saisir un message ou sélectionner un véhicule.
+    not_empty: Veuillez saisir un message, ajouter une pièce jointe ou sélectionner un véhicule.

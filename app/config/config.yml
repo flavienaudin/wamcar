@@ -58,7 +58,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_version: '1.1.4-5bd18372633ae'
+        site_version: '1.1.5-84316qsd6sdf168'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
@@ -203,6 +203,16 @@ vich_uploader:
         garage_logo:
             uri_prefix:         /uploads/images/garages/logo
             upload_destination: '%env(UPLOAD_DIR)%/images/garages/logo'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
+        message_attachment:
+            uri_prefix:         /uploads/attachments/conversations/message
+            upload_destination: '%env(UPLOAD_DIR)%/attachments/conversations/message'
             namer:              vich_uploader.namer_hash
             directory_namer:
                 service: vich_uploader.directory_namer_subdir

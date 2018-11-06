@@ -20,6 +20,13 @@ Wamcar\Conversation\Message:
         publishedAt:
             type: datetime
 
+    oneToMany:
+        attachments:
+            targetEntity: Wamcar\Conversation\MessageAttachment
+            mappedBy: message
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
+
     manyToOne:
         conversation:
             targetEntity: Conversation

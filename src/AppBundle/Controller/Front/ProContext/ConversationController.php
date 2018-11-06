@@ -166,7 +166,9 @@ class ConversationController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.conversation_update'
                 );
-                return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
+                return $this->redirectToRoute('front_conversation_edit', [
+                    'id' => $conversation->getId(),
+                    '_fragment' => 'last-message']);
             }
         }
 

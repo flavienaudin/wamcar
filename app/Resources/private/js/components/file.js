@@ -2,14 +2,9 @@
    File
    =========================================================================== */
 
-import $ from 'jquery';
-import {
-  hideClass
-} from '../settings/settings.js';
+import {hideClass} from '../settings/settings.js';
 
-const $filePreview = document.querySelectorAll('.js-file-preview');
 const $picturesList = document.getElementById('js-pictures-list');
-
 if ($picturesList) {
 
   const defaultThumbnailSrc = $picturesList.getAttribute('data-preview-src');
