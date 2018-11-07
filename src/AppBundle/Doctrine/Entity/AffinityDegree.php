@@ -9,9 +9,9 @@ class AffinityDegree
 {
 
     /** @var BaseUser */
-    private $mainUser;
+    private $smallerIdUser;
     /** @var BaseUser */
-    private $withUser;
+    private $greaterIdUser;
     /** @var float $affinityValue */
     private $affinityValue;
     /** @var float $profileAffinityValue */
@@ -25,18 +25,24 @@ class AffinityDegree
 
     /**
      * AffinityDegree constructor.
-     * @param BaseUser $mainUser
-     * @param BaseUser $withUser
+     * @param BaseUser $userA
+     * @param BaseUser $userB
      * @param float $affinityValue
      * @param float $profileAffinityValue
      * @param float $passionAffinityValue
      * @param float $positioningAffinityValue
      * @param float $atomesCrochusAffinityValue
      */
-    public function __construct(BaseUser $mainUser, BaseUser $withUser, float $affinityValue, float $profileAffinityValue, float $passionAffinityValue, float $positioningAffinityValue, float $atomesCrochusAffinityValue)
+    public function __construct(BaseUser $userA, BaseUser $userB, float $affinityValue, float $profileAffinityValue, float $passionAffinityValue, float $positioningAffinityValue, float $atomesCrochusAffinityValue)
     {
-        $this->mainUser = $mainUser;
-        $this->withUser = $withUser;
+        if ($userA->getId() < $userB->getId()) {
+            $this->smallerIdUser = $userA;
+            $this->greaterIdUser = $userB;
+        } else {
+            $this->smallerIdUser = $userB;
+            $this->greaterIdUser = $userA;
+        }
+
         $this->affinityValue = $affinityValue;
         $this->profileAffinityValue = $profileAffinityValue;
         $this->passionAffinityValue = $passionAffinityValue;
@@ -47,17 +53,17 @@ class AffinityDegree
     /**
      * @return BaseUser
      */
-    public function getMainUser(): BaseUser
+    public function getSmallerIdUser(): BaseUser
     {
-        return $this->mainUser;
+        return $this->smallerIdUser;
     }
 
     /**
      * @return BaseUser
      */
-    public function getWithUser(): BaseUser
+    public function getGreaterIdUser(): BaseUser
     {
-        return $this->withUser;
+        return $this->greaterIdUser;
     }
 
     /**
@@ -66,5 +72,22 @@ class AffinityDegree
     public function getAffinityValue(): float
     {
         return $this->affinityValue;
+    }
+
+    public function getRadarChartData(): array
+    {
+        return [
+            'labels' => ['Total', 'Profil', 'Passions', 'Positionnement', 'Atomes Crochus'],
+            'datasets' => [[
+                'label' => 'Affinités (%)',
+                'data' => [
+                    intval($this->affinityValue),
+                    intval($this->profileAffinityValue),
+                    intval($this->passionAffinityValue),
+                    intval($this->positioningAffinityValue),
+                    intval($this->atomesCrochusAffinityValue)
+                ]
+            ]]
+        ];
     }
 }

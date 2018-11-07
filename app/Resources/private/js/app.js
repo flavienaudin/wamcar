@@ -38,6 +38,7 @@ import './components/project';
 import './components/avatar';
 import './components/notification';
 import './components/phone_number';
+import './components/affinity';
 import {activeClass} from './settings/settings.js';
 
 Reveal.defaults.animationIn = 'slide-in-down';

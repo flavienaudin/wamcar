@@ -35,33 +35,40 @@
                         <p>{{ 'user.presentation.empty'|trans }}</p>
                     {% endif %}
                     {% if userIsMe %}
-                        <p><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a></p>
+                        <p><a href="{{ path('front_edit_user_info') }}"
+                              class="text-underline">{{ 'user.presentation.edit'|trans }}</a></p>
                     {% endif %}
 
-                    <h2>{{ "user.affinity.section.title"|trans }}</h2>
-                    <p>{{ 'user.affinity.section.explanation'|trans }}
-                        <a href="{{ path('front_affinity_pro_form') }}" class="text-underline">
-                            {{ 'user.affinity.section.action'|trans }}</a> {{ 'user.affinity.section.more_explanation'|trans }}
-                    </p>
-                    <p>{{ user.affinityAnswer is not null ? 'Affinity Form answered : ' }}
-                    {% if user.affinityAnswer %}
-                        {{ dump(user.affinityAnswer.contentAsArray.form_response.answers) }}</p>
+                    {% if userIsMe %}
+                        <h2>{{ "user.affinity.section.title"|trans }}</h2>
+
+                        {% if user.affinityAnswer is  null %}
+                            <p>{{ 'user.affinity.section.explanation.pro'|trans({
+                                    '%affinity_form_url%': path('front_affinity_pro_form')
+                                })|raw }}</p>
+                        {% else %}
+                            <p>{{ 'user.affinity.section.edit.personal'|trans({
+                                    '%affinity_form_url%': path('front_affinity_personal_form')
+                                })|raw }}</p>
+
+                        {% endif %}
+                        <ul>
+                            {% for aff in user.smallerIdUserAffinityDegrees %}
+                                <li>Votre affinity avec {{ aff.smallerIdUser.fullName }} est de
+                                    : {{ aff.affinityValue }}</li>
+                            {% endfor %}
+                            {% for aff in user.greaterIdUserAffinityDegrees %}
+                                <li>Votre affinity avec {{ aff.greaterIdUser.fullName }} est de
+                                    : {{ aff.affinityValue }}</li>
+                            {% endfor %}
+                        </ul>
                     {% endif %}
 
-                    {# TODO #}
-                    <ul>
-                        {% for aff in user.myAffinityDegrees %}
-                            <li>{{ dump(aff) }}</li>
-                        {% endfor %}
-                        {% for aff in user.myAffinityDegrees %}
-                            <li>{{ dump(aff) }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% set userAff = isLogged ? app.user.getAffinityDegreesWith(user): null %}
-                    {% if userAff  is not null %}
-                        <p>{{ dump(userAff ) }}</p>
+                    {% set userAffinity = isLogged ? app.user.getAffinityDegreesWith(user): null %}
+                    {% if userAffinity is not null %}
+                        <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
+                        <canvas  class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
                     {% endif %}
-
                 {% endblock %}
             </div>
             <div class="separator-for-small small-12 medium-4 medium-offset-1 large-6">

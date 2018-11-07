@@ -11,9 +11,9 @@ AppBundle\Doctrine\Entity\AffinityDegree:
             message: 'The affinity between these users is already calculated.'
 
     id:
-      mainUser:
+      smallerIdUser:
         associationKey: true
-      withUser:
+      greaterIdUser:
         associationKey: true
 
     fields:
@@ -34,14 +34,15 @@ AppBundle\Doctrine\Entity\AffinityDegree:
         nullable: false
 
     manyToOne:
-        mainUser:
+        smallerIdUser:
             targetEntity: Wamcar\User\BaseUser
-            inversedBy: myAffinityDegrees
+            inversedBy: greaterIdUserAffinityDegrees
             joinColumn:
-                name: main_user_id
+                name: smaller_id_user_id
                 referencedColumnName: id
-        withUser:
+        greaterIdUser:
             targetEntity: Wamcar\User\BaseUser
+            inversedBy: smallerIdUserAffinityDegrees
             joinColumn:
-                name: with_user_id
+                name: greated_id_user_id
                 referencedColumnName: id

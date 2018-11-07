@@ -84,8 +84,8 @@ class AffinityDegreeCalculationService
         $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAllAnswers['form_response']['answers']);
 
         $scores = [];
-        dump($mainQuestionsAnswers);
-        dump($withQuestionsAnswers);
+//        dump($mainQuestionsAnswers);
+//        dump($withQuestionsAnswers);
 
         //---------------//
         //--- Profile ---//
@@ -99,7 +99,7 @@ class AffinityDegreeCalculationService
         $profileAffinityScore += $experienceScore;
         // Total profile score
         dump('Profile score = ' . $profileAffinityScore);
-        $scores['profile'] = $profileAffinityScore * self::POURCENTAGE_SCORE_PROFILE / 25.0;
+        $scores['profile'] = $profileAffinityScore * 100 / 25.0;
         dump('$scores["profile"]= ' . $scores['profile']);
 
         //---------------//
@@ -119,7 +119,7 @@ class AffinityDegreeCalculationService
         $passionAffinityScore += $adviceScore;
         // Total passion score
         dump('Passion score = ' . $passionAffinityScore);
-        $scores['passion'] = $passionAffinityScore * self::POURCENTAGE_SCORE_PASSION / 45.0;
+        $scores['passion'] = $passionAffinityScore * 100 / 45.0;
         dump('$scores["passion"]= ' . $scores['passion']);
 
         //-------------------//
@@ -134,7 +134,7 @@ class AffinityDegreeCalculationService
         dump('vehicleType score = ' . $vehicleTypeScore);
         $positioningScore += $vehicleTypeScore;
 
-        $scores['positioning'] = $positioningScore * self::POURCENTAGE_SCORE_POSITIONING / 20.0;
+        $scores['positioning'] = $positioningScore * 100 / 20.0;
         dump('$scores["positioning"]= ' . $scores['positioning']);
 
         //----------------------//
@@ -148,11 +148,14 @@ class AffinityDegreeCalculationService
         dump('road score = ' . $roadScore);
         $atomesCrochusScore += $roadScore;
         // Total atomesCrochus score
-        $scores['atomesCrochus'] = $atomesCrochusScore * self::POURCENTAGE_SCORE_ATOMES / 40.0;
+        $scores['atomesCrochus'] = $atomesCrochusScore * 100 / 40.0;
         dump('$scores["atomesCrochus"]= ' . $scores['atomesCrochus']);
 
         // Total affinity score
-        $scores['affinity'] = $scores['profile'] + $scores['passion'] + $scores['positioning'] + $scores['atomesCrochus'];
+        $scores['affinity'] = $scores['profile'] * self::POURCENTAGE_SCORE_PROFILE +
+            $scores['passion'] * self::POURCENTAGE_SCORE_PASSION +
+            $scores['positioning'] * self::POURCENTAGE_SCORE_POSITIONING +
+            $scores['atomesCrochus'] * self::POURCENTAGE_SCORE_ATOMES;
         dump('$scores["affinity"]= ' . $scores['affinity']);
         return $scores;
     }

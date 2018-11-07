@@ -38,12 +38,16 @@ class DoctrineAffinityDegreeRepository extends EntityRepository
     }
 
     /**
-     * @param BaseUser $mainUser
-     * @param BaseUser $withUser
+     * @param BaseUser $userA
+     * @param BaseUser $userB
      * @return AffinityDegree|null
      */
-    public function findOne(BaseUser $mainUser, BaseUser $withUser): ?AffinityDegree
+    public function findOne(BaseUser $userA, BaseUser $userB): ?AffinityDegree
     {
-        return $this->findOneBy(['id' => ["mainUser" => $mainUser, "withUser" => $withUser]]);
+        if ($userA->getId() < $userB->getId()) {
+            return $this->findOneBy(['id' => ["smallerIdUser" => $userA, "greaterIdUser" => $userB]]);
+        } else {
+            return $this->findOneBy(['id' => ["smallerIdUser" => $userB, "greaterIdUser" => $userA]]);
+        }
     }
 }

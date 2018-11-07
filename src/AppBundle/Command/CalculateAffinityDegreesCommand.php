@@ -50,10 +50,10 @@ class CalculateAffinityDegreesCommand extends BaseCommand
     {
         $this->output = $output;
 
-        $untreatedProAnswers = $this->affinityAnswerRepository->retrieveUntreatedProAnswer();
-        $treatedProAnswers = $this->affinityAnswerRepository->retrieveTreatedProAnswer();
         $untreatedPersonalAnswers = $this->affinityAnswerRepository->retrieveUntreatedPersonalAnswer();
         $treatedPersonalAnswers = $this->affinityAnswerRepository->retrieveTreatedPersonalAnswer();
+        $untreatedProAnswers = $this->affinityAnswerRepository->retrieveUntreatedProAnswer();
+        $treatedProAnswers = $this->affinityAnswerRepository->retrieveTreatedProAnswer();
 
         $newPersonalAffinityDegreeCalculation = count($untreatedPersonalAnswers) * (count($treatedProAnswers) + count($untreatedProAnswers));
         $this->log("info", sprintf('Treat %d untreated personal form answers for %d calculations', count($untreatedPersonalAnswers), $newPersonalAffinityDegreeCalculation));
@@ -71,11 +71,11 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
-                    $untreatedPersonalAnswer->getId(),
+                    $untreatedPersonalAnswer->getUser()->getId(),
                     $untreatedPersonalAnswer->getUser()->getFullName(),
                     $untreatedPersonalAnswer->getUser()->getType(),
                     $untreatedPersonalAnswer->getFormId(),
-                    $treatedProAnswer->getId(),
+                    $treatedProAnswer->getUser()->getId(),
                     $treatedProAnswer->getUser()->getFullName(),
                     $treatedProAnswer->getUser()->getType(),
                     $treatedProAnswer->getFormId()
@@ -92,11 +92,11 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
-                    $untreatedPersonalAnswer->getId(),
+                    $untreatedPersonalAnswer->getUser()->getId(),
                     $untreatedPersonalAnswer->getUser()->getFullName(),
                     $untreatedPersonalAnswer->getUser()->getType(),
                     $untreatedPersonalAnswer->getFormId(),
-                    $untreatedProAnswer->getId(),
+                    $untreatedProAnswer->getUser()->getId(),
                     $untreatedProAnswer->getUser()->getFullName(),
                     $untreatedProAnswer->getUser()->getType(),
                     $untreatedProAnswer->getFormId()
@@ -124,11 +124,11 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
-                    $untreatedProAnswer->getId(),
+                    $untreatedProAnswer->getUser()->getId(),
                     $untreatedProAnswer->getUser()->getFullName(),
                     $untreatedProAnswer->getUser()->getType(),
                     $untreatedProAnswer->getFormId(),
-                    $treatedPersonalAnswer->getId(),
+                    $treatedPersonalAnswer->getUser()->getId(),
                     $treatedPersonalAnswer->getUser()->getFullName(),
                     $treatedPersonalAnswer->getUser()->getType(),
                     $treatedPersonalAnswer->getFormId()

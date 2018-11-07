@@ -9,6 +9,7 @@ use AppBundle\Security\SecurityInterface\HasApiCredential;
 use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Location\City;
@@ -55,10 +56,10 @@ abstract class BaseUser implements HasApiCredential
     protected $preferences;
     /** @var AffinityAnswer|null */
     protected $affinityAnswer;
-    /** @®var Collection $affinityDegree */
-    protected $myAffinityDegrees;
-    /** @®var Collection $affinityDegree */
-    protected $withAffinityDegrees;
+    /** @®var Collection $affinityDegree AffinityDegree with smaller-id-user */
+    protected $greaterIdUserAffinityDegrees;
+    /** @®var Collection $affinityDegree AffinityDegree with greater-id-user */
+    protected $smallerIdUserAffinityDegrees;
 
     /**
      * User constructor.
@@ -83,8 +84,8 @@ abstract class BaseUser implements HasApiCredential
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
-        $this->myAffinityDegrees = new ArrayCollection();
-        $this->withAffinityDegrees = new ArrayCollection();
+        $this->greaterIdUserAffinityDegrees = new ArrayCollection();
+        $this->smallerIdUserAffinityDegrees = new ArrayCollection();
         $this->generateApiCredentials();
     }
 
@@ -476,17 +477,17 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return mixed
      */
-    public function getMyAffinityDegrees()
+    public function getGreaterIdUserAffinityDegrees()
     {
-        return $this->myAffinityDegrees;
+        return $this->greaterIdUserAffinityDegrees;
     }
 
     /**
      * @return mixed
      */
-    public function getWithAffinityDegrees()
+    public function getSmallerIdUserAffinityDegrees()
     {
-        return $this->withAffinityDegrees;
+        return $this->smallerIdUserAffinityDegrees;
     }
 
     /**
@@ -494,22 +495,25 @@ abstract class BaseUser implements HasApiCredential
      * @param BaseUser $withUser The user to get the affinity degree with
      * @return AffinityDegree|null
      */
-    public function getAffinityDegreesWith(BaseUser $withUser){
-        /** @var AffinityDegree $affinityDegree */
-        foreach ($this->myAffinityDegrees as $affinityDegree){
-            dump($affinityDegree);
-            if($affinityDegree->getWithUser()->is($withUser)){
-                return $affinityDegree;
-            }
+    public function getAffinityDegreesWith(BaseUser $withUser): ?AffinityDegree
+    {
+        if ($this->is($withUser)) {
+            return null;
         }
-        /** @var AffinityDegree $affinityDegree */
-        foreach ($this->withAffinityDegrees as $affinityDegree){
-            dump($affinityDegree);
-            if($affinityDegree->getMainUser()->is($withUser)){
-                return $affinityDegree;
-            }
+        if ($this->getId() < $withUser->getId()) {
+            $criteria = new Criteria();
+            $criteria->where(Criteria::expr()->eq('greaterIdUser', $withUser));
+            $result = $this->greaterIdUserAffinityDegrees->matching($criteria);
+        } else {
+            $criteria = new Criteria();
+            $criteria->where(Criteria::expr()->eq('smallerIdUser', $withUser));
+            $result = $this->smallerIdUserAffinityDegrees->matching($criteria);
         }
-        return null;
+        if ($result->first() === false) {
+            return null;
+        } else {
+            return $result->first();
+        }
     }
 
     /**
