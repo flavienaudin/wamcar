@@ -498,14 +498,14 @@ abstract class BaseUser implements HasApiCredential
         /** @var AffinityDegree $affinityDegree */
         foreach ($this->myAffinityDegrees as $affinityDegree){
             dump($affinityDegree);
-            if($affinityDegree->getMainUser()->is($withUser)){
+            if($affinityDegree->getWithUser()->is($withUser)){
                 return $affinityDegree;
             }
         }
         /** @var AffinityDegree $affinityDegree */
         foreach ($this->withAffinityDegrees as $affinityDegree){
             dump($affinityDegree);
-            if($affinityDegree->getWithUser()->is($withUser)){
+            if($affinityDegree->getMainUser()->is($withUser)){
                 return $affinityDegree;
             }
         }

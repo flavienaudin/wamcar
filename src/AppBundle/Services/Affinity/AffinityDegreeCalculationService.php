@@ -227,6 +227,12 @@ class AffinityDegreeCalculationService
                     return 15;
                 }
                 break;
+
+            case "moins de 5 ans":
+                if ($proAnswer === "2 à 5 ans" || $proAnswer === "Moins de 2 ans") {
+                    return 15;
+                }
+                break;
             case "peu importe":
             case null:
                 return 15;
