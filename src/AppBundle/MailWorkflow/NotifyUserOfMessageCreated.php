@@ -54,12 +54,6 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
             && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
             $pathImg = $event->getPathImg();
 
-            $attachments = [];
-            /** @var MessageAttachment $attachment */
-            foreach ($message->getAttachments() as $attachment) {
-                $attachments[] = \Swift_Attachment::fromPath($attachment->getFile()->getRealPath())->setFilename($attachment->getFileOriginalName());
-            }
-
             $this->send(
                 $this->translator->trans('notifyUserOfMessageCreated.object', ['%messageAuthorName%' => $message->getUser()->getFullName()], 'email'),
                 'Mail/notifyUserOfMessageCreated.html.twig',
@@ -67,13 +61,14 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                     'username' => $interlocutor->getFirstName(),
                     'sender' => $message->getUser(),
                     'message' => $message->getContent(),
+                    'message_attachments' => $message->getAttachments(),
                     'message_url' => $this->router->generate("front_conversation_edit", ['id' => $message->getConversation()->getId(), '_fragment' => 'last-message'], UrlGeneratorInterface::ABSOLUTE_URL),
                     'vehicle' => $message->getVehicle(),
                     'vehiclePrice' => ($message->getVehicle() instanceof ProVehicle ? $message->getVehicle()->getPrice() : null),
                     'thumbnailUrl' => $pathImg
                 ],
                 new EmailRecipientList([$this->createUserEmailContact($interlocutor)]),
-                $attachments,
+                [],
                 $message->getUser()->getFirstName()
             );
         }

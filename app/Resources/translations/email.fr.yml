@@ -59,6 +59,7 @@ notifyUserOfAddingPicturesToVehicle:
 notifyUserOfMessageCreated:
     object: "Nouveau message de %messageAuthorName%"
     action_label: Répondre
+    attachments: Pièces jointes
 
 notifyUserOfLikeVehicle:
     object: "Nouveau like sur votre annonce %annonceTitle%"
