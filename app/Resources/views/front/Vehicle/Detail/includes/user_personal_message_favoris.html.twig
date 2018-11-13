@@ -4,8 +4,9 @@
 
 <div class="js-vehicle-actions vehicle-editing block-grid small-12">
     <span class="column small-collapse small-6 large-12 large-uncollapse">
-        <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}" class="button add large-m-b-1 icon-message">
-            {{ 'global.button.send_message'|trans }}
+        <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}"
+           id="launchMP{{ vehicle.seller.isPro?"pro":"partiulier" }}{{ vehicle.seller.id }}"
+           class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}
             {#<span class="show-for-large">{{ 'global.button.send_message'|trans }}</span>
             <span class="hide-for-large">{{ 'global.button.send'|trans }}</span>#}
         </a>

@@ -144,19 +144,15 @@ $directory-item-min-height: 182;
         margin-right: 0;
       }
 
-      &:hover span {
+      &:hover:before {
         color: $primary-color;
       }
 
-      span {
+      &:before {
         color: $white;
-
         padding-left: rem-calc(16);
         padding-right: rem-calc(16);
-
-        &.icon-message::before {
-          margin-right: 0;
-        }
+        margin-right: 0;
       }
     }
 
