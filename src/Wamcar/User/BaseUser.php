@@ -492,12 +492,13 @@ abstract class BaseUser implements HasApiCredential
 
     /**
      * Return the affinity degree between this user and the given user
-     * @param BaseUser $withUser The user to get the affinity degree with
+     * @param null|BaseUser $withUser The user to get the affinity degree with (can be null in twig template)
      * @return AffinityDegree|null
      */
-    public function getAffinityDegreesWith(BaseUser $withUser): ?AffinityDegree
+    public function getAffinityDegreesWith(?BaseUser $withUser): ?AffinityDegree
     {
-        if ($this->is($withUser)) {
+
+        if ($withUser === null  || $this->is($withUser)) {
             return null;
         }
         if ($this->getId() < $withUser->getId()) {

@@ -1,0 +1,19 @@
+{% if user.affinityAnswer is not null %}
+    {% set dropdownpane_id = 'affinity_degree_'~(app.user.id??'unlogged')~'_'~user.id~'_'~random() %}
+    <div class="affinity-score">
+        <img src="{{ asset('assets/images/affinity_pourcentage/0.png') }}"
+             data-toggle="{{ dropdownpane_id  }}">
+        <div id="{{ dropdownpane_id  }}" class="dropdown-pane"
+             data-dropdown data-hover="true" data-hover-pane="true">
+            {% if user.isPro %}
+                <p>{{ 'user.affinity.degree.explanation.personal'|trans }}</p>
+                <a href="{{ path('front_affinity_personal_form') }}" class="button full-width small">
+                    {{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
+            {% else %}
+                <p>{{ 'user.affinity.degree.explanation.pro'|trans }}</p>
+                <a href="{{ path('front_affinity_pro_form') }}" class="button full-width small">
+                        {{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}

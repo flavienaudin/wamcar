@@ -16,7 +16,21 @@
       padding-bottom: 0;
 
       @include breakpoint(large) {
-        top: $header-height-medium ;
+        top: $header-height-medium;
+      }
+    }
+  }
+
+  /* Logo Scores */
+  &-score {
+    display: inline-block;
+    width: 60px;
+    height: auto;
+
+    > .dropdown-pane {
+      > p {
+        color: $black;
+        font-weight: normal;
       }
     }
   }

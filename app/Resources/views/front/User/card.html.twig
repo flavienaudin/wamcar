@@ -56,9 +56,12 @@
         </ul>
     {% endif %}
 
-    {% set userAffinity = isLogged ? app.user.getAffinityDegreesWith(user): null %}
+    {% set userAffinity = user.getAffinityDegreesWith(app.user)%}
     {% if userAffinity is not null %}
         <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
+        <div>
+            <img src="{{ asset('assets/images/affinity_pourcentage/'~userAffinity.affinityValue|number_format~'.png') }}">
+        </div>
         <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
     {% endif %}
 

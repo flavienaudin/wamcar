@@ -52,22 +52,16 @@ $profil-image-offset: rem-calc(40);
      ===================================== */
 
   &-image {
-    display: block;
     width: rem-calc(100);
     height: rem-calc(100);
-    overflow: hidden;
-    border-radius: 50%;
 
     @include breakpoint(small only) {
       margin: rem-calc(20) auto (-($profil-image-offset));
     }
 
-    @include breakpoint(large) {
-      width: rem-calc(100);
-    }
-
     > img {
       object-fit: cover;
+      border-radius: 50%;
     }
   }
   // End &-image
