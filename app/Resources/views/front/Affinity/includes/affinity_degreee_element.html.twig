@@ -1,6 +1,8 @@
-{% set userAffinityDegree = user.getAffinityDegreesWith(app.user) %}
-{% if userAffinityDegree is not null %}
-    {{ include('front/Affinity/includes/affinity_degree.html.twig') }}
-{% else %}
-    {{ include('front/Affinity/includes/unknown_affinity_degree.html.twig') }}
+{% if not user.is(app.user) %}
+    {% set userAffinityDegree = user.getAffinityDegreesWith(app.user) %}
+    {% if userAffinityDegree is not null %}
+        {{ include('front/Affinity/includes/affinity_degree.html.twig') }}
+    {% else %}
+        {{ include('front/Affinity/includes/unknown_affinity_degree.html.twig') }}
+    {% endif %}
 {% endif %}

@@ -9,9 +9,12 @@
             <a href="{{ sellerUrl }}"><img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicle.sellerName }}"></a>
         </div>
 
-        <div class="small-12 dark-gray-color">
-            <p class="no-margin"><a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a></p>
-            <p class="no-margin"><a href="{{ path('front_garage_view', {'id':vehicle.garage.id}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></p>
+        <div class="small-12 dark-gray-color align-self-top">
+            <div>
+                <a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName }}</strong></a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
+            </div>
+            <div><a href="{{ path('front_garage_view', {'id':vehicle.garage.id}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></div>
 
             {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:true, garageRating:vehicle.garage.googleRating|default(null)}) }}
         </div>
