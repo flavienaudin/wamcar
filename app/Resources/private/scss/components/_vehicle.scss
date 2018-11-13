@@ -483,6 +483,10 @@
 
   &-aside-container {
     z-index: 2;
+
+    .affinity-score{
+      width: 40px;
+    }
   }
 
   /*
