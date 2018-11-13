@@ -42,7 +42,7 @@
                     {% if userIsMe %}
                         <h2>{{ "user.affinity.section.title"|trans }}</h2>
 
-                        {% if user.affinityAnswer is  null %}
+                        {% if user.affinityAnswer is null %}
                             <p>{{ 'user.affinity.section.explanation.pro'|trans({
                                     '%affinity_form_url%': path('front_affinity_pro_form')
                                 })|raw }}</p>
@@ -50,29 +50,14 @@
                             <p>{{ 'user.affinity.section.edit.personal'|trans({
                                     '%affinity_form_url%': path('front_affinity_personal_form')
                                 })|raw }}</p>
-
                         {% endif %}
-                        <ul>
-                            {% for aff in user.smallerIdUserAffinityDegrees %}
-                                <li>Votre affinity avec {{ aff.smallerIdUser.fullName }} est de
-                                    : {{ aff.affinityValue }}</li>
-                            {% endfor %}
-                            {% for aff in user.greaterIdUserAffinityDegrees %}
-                                <li>Votre affinity avec {{ aff.greaterIdUser.fullName }} est de
-                                    : {{ aff.affinityValue }}</li>
-                            {% endfor %}
-                        </ul>
                     {% endif %}
 
                     {% set userAffinity = user.getAffinityDegreesWith(app.user)%}
                     {% if userAffinity is not null %}
                         <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
-                        <div>
-                            <img src="{{ asset('assets/images/affinity_pourcentage/'~userAffinity.affinityValue|number_format~'.png') }}">
-                        </div>
                         <canvas  class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
                     {% endif %}
-
                 {% endblock %}
             </div>
             <div class="separator-for-small small-12 medium-4 medium-offset-1 large-6">
