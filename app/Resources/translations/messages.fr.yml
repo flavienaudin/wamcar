@@ -563,10 +563,10 @@ vehicle:
     empty_list: Aucun véhicule n'a été renseigné pour le moment
   item:
     budget:
-      with_price: "{0}%prenom% avez un budget de %budget%€ pour:|{1}%prenom% a un budget de %budget%€ pour:"
+      with_price: "Budget de %budget%€"
     no_wish: Aucun souhait
     no_project:
-      title: "{0}%prenom% n'avez pas encore indiqué de souhaits.|{1}%prenom% n'a pas encore indiqué de souhaits."
+      title: "Ce particulier n'a pas encore indiqué de souhait."
       subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
 
 user:
@@ -676,7 +676,7 @@ user:
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
-    defined_budget: Budget de %budget_ammount%
+    defined_budget: Budget de %budget_ammount%€
     undefined_budget: Budget non défini
     field:
       isFleet.label: Type de recherche

@@ -839,6 +839,7 @@
 
   &-user-greetings {
     margin: 0;
+    color: $dark-gray;
 
     @include breakpoint(medium down) {
       @include listBullet;

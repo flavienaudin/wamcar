@@ -3,7 +3,7 @@
     <span class="affinity-score">
         <img src="{{ asset('assets/images/affinity_pourcentage/0.png') }}"
              data-toggle="{{ dropdownpane_id  }}">
-        <span id="{{ dropdownpane_id  }}" class="dropdown-pane"
+        <span id="{{ dropdownpane_id  }}" class="dropdown-pane" data-position="bottom"
              data-dropdown data-hover="true" data-hover-pane="true">
             {% if user.isPro %}
                 <span>{{ 'user.affinity.degree.explanation.personal'|trans }}</span>
