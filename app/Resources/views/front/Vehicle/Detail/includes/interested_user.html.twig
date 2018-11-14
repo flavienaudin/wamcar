@@ -22,8 +22,10 @@
                                     <span class="seller-name dark-gray-color">{{ like.user.is(app.user)?'global.you'|trans:(like.user.fullName(not like.user.isPro and isUserPersonal)) }}</span>
                                 </a>
                                 {% if like.user.is(app.user) %}
-                                    <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}" class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">
-                                        <span class="show-for-medium">{{ 'global.button.send_message'|trans }}</span>
+                                    <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}"
+                                       class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">
+                                        <span id="launchMP{{ like.user.isPro?"pro":"particulier" }}{{ like.user.id }}"
+                                              class="show-for-medium">{{ 'global.button.send_message'|trans }}</span>
                                     </a>
                                 {% endif %}
                             </li>

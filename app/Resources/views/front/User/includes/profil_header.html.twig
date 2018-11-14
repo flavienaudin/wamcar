@@ -22,7 +22,9 @@
                 {% endif %}
 
                 {% if not userIsMe %}
-                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block" class="icon-message small-12 medium-shrink"><span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
+                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block"
+                       class="icon-message small-12 medium-shrink">
+                        <span id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}" class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
                 {% endif %}
             </div>
         </div>

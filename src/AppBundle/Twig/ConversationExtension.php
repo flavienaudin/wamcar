@@ -5,6 +5,7 @@ namespace AppBundle\Twig;
 
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Extension\AbstractExtension;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Conversation\Conversation;
@@ -87,8 +88,13 @@ class ConversationExtension extends AbstractExtension
      * @param MessageAttachment $attachment
      * @return null|string
      */
-    public function getAttachmentLinkFunction(MessageAttachment $attachment): ?string
+    public function getAttachmentLinkFunction(MessageAttachment $attachment, Request $request = null): ?string
     {
-        return $this->uploaderHelper->asset($attachment, 'file');
+        if ($request === null) {
+            return $this->uploaderHelper->asset($attachment, 'file');
+        } else {
+            return $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath()
+                . $this->uploaderHelper->asset($attachment, 'file');
+        }
     }
 }
