@@ -178,12 +178,13 @@ class SecurityController extends BaseController
                 );
                 return $this->redirectToRoute('front_view_current_user_info', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
             } else {
-                return $this->redirectToRoute('register_confirm', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
+                return $this->redirectToRoute('register_orientation', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
             }
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
+            'assitant_registration_mode' => (bool) $request->get('assistant_registration', false)
         ]);
     }
 

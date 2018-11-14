@@ -34,7 +34,8 @@
                         </div>
 
                         <div class="">
-                            <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
+                            <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                                  method="GET" class="block-grid" data-abide novalidate>
                                 <div class="column small-12">
                                     {% include 'front/Layout/includes/forms/input.html.twig' with {
                                         type: 'email',
@@ -43,7 +44,16 @@
                                         id: 'email_personal_registration',
                                         placeholder: 'landing.mixte.field.email.placeholder'|trans,
                                         required: true,
-                                        required_class: 'landing.mixte.field.email.required_message'|trans
+                                        required_message: 'landing.mixte.field.email.required_message'|trans
+                                    } %}
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'hidden',
+                                        label: 'landing.mixte.field.assist.label'|trans,
+                                        label_class: 'show-for-sr',
+                                        name: 'assistant_registration',
+                                        id: 'assistant_personal_registration',
+                                        required: false,
+                                        value:true
                                     } %}
                                 </div>
                                 <div class="column small-12">

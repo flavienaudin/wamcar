@@ -1,7 +1,8 @@
 {% trans_default_domain 'security' %}
 
 {% set context = context|default(constant("Wamcar\\User\\PersonalUser::TYPE")) %}
-{% set social_connect = social_connect is defined?social_connect:true %}
+{# Do not use |default otherwise false is set to true #}
+{% set social_connect = social_connect is defined ? social_connect:true %}
 
 {% if social_connect %}
     {% set destination_url = (context == constant("Wamcar\\User\\ProUser::TYPE")? url('front_view_current_user_info') : url('register_confirm') )%}
@@ -12,7 +13,7 @@
 {% endif %}
 
 
-<section class="input-margin small-12 {{ social_connect?'medium-6 register-left' }}">
+<section class="{{ social_connect?'input-margin small-12 medium-6 register-left':'small-12 medium-8 medium-offset-2 arge-6 large-offset-2' }}">
     <h2 class="black-color column small-12">{{ 'user.with_email'|trans }}</h2>
     <div class="column">
         {% include 'front/Security/Register/includes/form_register.html.twig' with {

@@ -246,6 +246,8 @@ landing:
         label: Inscription par e-mail
         placeholder: Entrez votre e-mail
         required_message: Veuillez indiquer votre adresse email
+      assist:
+        label: Assistant d'inscription
       submit: Inscription
     pro_email_registration_tab:
       title: Je suis un conseiller auto
