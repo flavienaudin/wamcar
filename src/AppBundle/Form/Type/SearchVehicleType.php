@@ -97,7 +97,7 @@ class SearchVehicleType extends AbstractType
                         'choices' => Sorting::toArray(),
                         'choice_translation_domain' => 'enumeration',
                         'required' => true,
-                        'empty_data' => Sorting::SEARCH_SORTING_RELEVANCE
+                        'empty_data' => Sorting::SEARCH_SORTING_DATE
                     ]);
             }
 

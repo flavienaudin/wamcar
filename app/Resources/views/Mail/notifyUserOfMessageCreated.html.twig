@@ -39,6 +39,16 @@
             <div style="margin-top: 15px; width: 100%;">
                 {{ message|nl2br }}
             </div>
+            {% if message_attachments|length > 0%}
+                <div style="margin-top: 15px;">
+                    <b>{{ 'notifyUserOfMessageCreated.attachments'|trans }}&nbsp;:</b>
+                    <ol>
+                        {% for attachment in message_attachments %}
+                            <li><a href="{{ getAttachmentLink(attachment, app.request) }}" target="_blank">{{ attachment.fileOriginalName }}</a></li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            {% endif %}
 
             {% if vehicle != null %}
                 {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}

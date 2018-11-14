@@ -50,6 +50,7 @@
     "siema": "^1.4.6",
     "slick-carousel": "^1.8.1",
     "linkifyjs": "^2.1.7",
-    "chart.js": "^2.7.3"
+    "chart.js": "^2.7.3",
+    "autosize": "^4.0.2"
   }
 }

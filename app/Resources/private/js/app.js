@@ -17,6 +17,7 @@ import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
 import {Dropdown} from './foundation/foundation.override.dropdown'; // Overridded version of DropDown
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import 'linkifyjs';
+
 import './components/responsiveDom';
 import './components/search';
 import './components/header';
@@ -40,6 +41,8 @@ import './components/notification';
 import './components/phone_number';
 import './components/affinity';
 import {activeClass} from './settings/settings.js';
+
+import {default as autosize} from 'autosize';
 
 Reveal.defaults.animationIn = 'slide-in-down';
 Reveal.defaults.animationOut = 'fade-out';
@@ -154,6 +157,9 @@ $(function () {
       new DropdownMenu($(dropdown), options);
     });
   }
+
+  /* Textarea autosize */
+  autosize($('textarea'));
 
   /* Form invalid */
 

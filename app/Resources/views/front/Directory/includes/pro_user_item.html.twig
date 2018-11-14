@@ -11,7 +11,7 @@
             </h2>
             <a href="{{ sellerUrl }}"><p>{{ proUser.description|nl2br }}</p></a>
         </div>
-        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"
+        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" id="launchMPpro{{ proUser.id }}"
            class="directory-item-action is-flex align-middle"><span class="icon-message"></span></a>
     </div>
     <div class="small-12 medium-4">
