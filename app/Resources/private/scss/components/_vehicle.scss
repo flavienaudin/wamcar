@@ -713,6 +713,14 @@
       z-index: 2; // IE fix
     }
 
+    header h2 {
+      font-size: rem-calc(14);
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(19);
+        line-height: 1.3;
+      }
+    }
   }
   // End &-form
 
@@ -741,21 +749,9 @@
       padding: rem-calc(40);
     }
 
-    /* Components */
-
-    p {
+    h2 {
       margin-bottom: 0;
-
-      @include breakpoint(medium) {
-        margin-top: rem-calc(20);
-      }
-
-      @include breakpoint(large) {
-        margin-right: auto;
-        margin-left: auto;
-      }
     }
-    // End p
   }
   // End &-header
 

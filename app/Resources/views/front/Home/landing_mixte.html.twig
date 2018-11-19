@@ -24,7 +24,7 @@
                 <div class="tabs-content column" data-tabs-content="js-tabs">
                     <div id="personal-inscription" class="tabs-panel is-active">
                         <header class="large-text-center">
-                            <p class="black-color medium small-10 small-offset-1"><b>{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</b></p>
+                            <h2 class="black-color column small-12">{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</h2>
                         </header>
                         <div class="input-margin">
                             <div class="column small-12">
@@ -33,7 +33,7 @@
                             {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_confirm')} %}
                         </div>
 
-                        <div class="">
+                        <div>
                             <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
                                 <div class="column small-12">
                                     {% include 'front/Layout/includes/forms/input.html.twig' with {
@@ -55,7 +55,7 @@
                     </div>
                     <div id="pro-inscription" class="tabs-panel">
                         <header class="large-text-center">
-                            <p class="black-color medium small-10 small-offset-1"><b>{{ 'landing.mixte.pro_email_registration_tab.subtitle'|trans({'%sitename%':site_name}) }}</b></p>
+                            <h2 class="black-color column small-10 large-12">{{ 'landing.mixte.pro_email_registration_tab.subtitle'|trans({'%sitename%':site_name}) }}</h2>
                         </header>
                         <div class="input-margin">
                             <div class="column small-12">
