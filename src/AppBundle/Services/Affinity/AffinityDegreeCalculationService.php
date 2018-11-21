@@ -84,8 +84,6 @@ class AffinityDegreeCalculationService
         $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAllAnswers['form_response']['answers']);
 
         $scores = [];
-//        dump($mainQuestionsAnswers);
-//        dump($withQuestionsAnswers);
 
         //---------------//
         //--- Profile ---//
@@ -125,11 +123,11 @@ class AffinityDegreeCalculationService
         //-------------------//
         //--- Positioning ---//
         //-------------------//
-        // Price
+        // Price : TODO supprimé pour le particulier => toujours égal à 10
         $positioningScore = $this->calculatePriceScore($mainQuestionsAnswers['KwwCbCkzNoro'] ?? [], $withQuestionsAnswers['OXDcMxNY7jXK'] ?? null);
         dump('price score = ' . $positioningScore);
         // Brand : no question in personal form about brands TODO
-        // Vehicle type
+        // Vehicle type : TODO supprimé pour le particulier => toujours égal à 10
         $vehicleTypeScore = $this->calculateVehicleTypeScore($mainQuestionsAnswers['Sn72hV3LGlkh'] ?? [], $withQuestionsAnswers['TgCx9GnZokcZ'] ?? []);
         dump('vehicleType score = ' . $vehicleTypeScore);
         $positioningScore += $vehicleTypeScore;
@@ -232,7 +230,7 @@ class AffinityDegreeCalculationService
                 break;
 
             case "moins de 5 ans":
-                if ($proAnswer === "2 à 5 ans" || $proAnswer === "Moins de 2 ans") {
+                if ($proAnswer === "Moins de 5 ans") {
                     return 15;
                 }
                 break;
