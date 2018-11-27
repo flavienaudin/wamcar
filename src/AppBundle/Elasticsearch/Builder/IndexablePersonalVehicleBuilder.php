@@ -7,7 +7,6 @@ use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
-use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Vehicle\PersonalVehicle;
 
 class IndexablePersonalVehicleBuilder
@@ -59,7 +58,7 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getLongitude(),
             $vehicle->getCreatedAt(),
             $vehicle->getDeletedAt(),
-            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
+            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture() ? 'vehicle_thumbnail' : 'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
             $vehicle->getOwner()->getId(),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),

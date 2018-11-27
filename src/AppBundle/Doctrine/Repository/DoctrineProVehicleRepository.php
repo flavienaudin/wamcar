@@ -37,5 +37,20 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
             ->orderBy($orderBy);
         return $this->matching($criteria);
     }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function findByGarageAndExcludedReferences(Garage $garage, array $references)
+    {
+
+        $qb = $this->createQueryBuilder('v');
+        $qb->where($qb->expr()->eq('v.garage', ':garage'))
+            ->andwhere($qb->expr()->notIn('v.reference', $references))
+            ->andWhere($qb->expr()->isNotNull('v.reference'));
+        $qb->setParameter('garage', $garage);
+        return $qb->getQuery()->execute();
+    }
 }
 
