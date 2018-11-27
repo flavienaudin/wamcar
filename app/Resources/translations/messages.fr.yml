@@ -164,11 +164,11 @@ cookie:
   button.accept: Accepter
 
 homepage:
-  title: Echange, reprise et vente de voitures par affinités
+  title: Rencontrez les pros de la reprise, échangez ou vendez votre voiture.
   description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
   vehicle_form:
     header:
-      title: Changez de voiture
+      title: Le site de rencontre automobile
       subtitle: Déposez votre annonce, recevez et comparez les offres de reprise des professionnels
     tabs:
       immatriculation:
@@ -237,7 +237,7 @@ landing:
       subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
       pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
   mixte:
-    title: Site de rencontre pour la reprise et l'achat de voitures
+    title: Site de rencontre pour échange, reprise et vente de voitures
     description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
     form.title: Le site de rencontre automobile
     field:
@@ -255,7 +255,7 @@ landing:
       pre_submit: Devenez un vendeur digital et améliorez votre sourcing en choisissant de belles reprises, en proposant vos véhicules neufs ou d'occasion, et ne manquez aucun client grâce à la messagerie sécurisée.
     personal_email_registration_tab:
       title: Je suis un particulier
-      subtitle: Choisissez votre conseiller automobile pour la reprise et/ou l'achat de votre véhicule.
+      subtitle: Choisissez votre conseiller automobile pour la reprise et/ou l'achat de votre voiture.
       pre_submit: Avec %sitename%, choisissez un vendeur avec qui vous avez des affinités, réellement intéressé par le rachat de votre voiture, et dont la société est appréciée par la communauté.
 
 garage:
@@ -624,7 +624,7 @@ user:
           title: Sécurisé
           content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
     personal:
-      title: Je veux remplacer mon véhicule. Comment  marche  Wamcar?
+      title: Je veux remplacer ma voiture. Comment  marche  Wamcar?
       items:
         first:
           alt:
