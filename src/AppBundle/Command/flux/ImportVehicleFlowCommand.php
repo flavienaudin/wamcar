@@ -220,18 +220,18 @@ class ImportVehicleFlowCommand extends BaseCommand
                 }
 
                 if (count($rejectedVehicles['RG-TRI-AM-Destination']) > 0) {
-                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Destination : rejected rows : %s", join(", ", $rejectedVehicles['RG-TRI-AM-Destination'])));
+                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Destination : (%d) rejected row(s) : %s", count($rejectedVehicles['RG-TRI-AM-Destination']), join(", ", $rejectedVehicles['RG-TRI-AM-Destination'])));
                 }
                 if (count($rejectedVehicles['RG-TRI-AM-Prix']) > 0) {
-                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Prix : rejected rows : %s", join(", ", $rejectedVehicles['RG-TRI-AM-Prix'])));
+                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Prix : (%d) rejected row(s) : %s", count($rejectedVehicles['RG-TRI-AM-Prix']), join(", ", $rejectedVehicles['RG-TRI-AM-Prix'])));
                 }
                 if (count($rejectedVehicles['RG-TRAIT-AM-Garage']) > 0) {
                     foreach ($rejectedVehicles['RG-TRAIT-AM-Garage'] as $codeGarage) {
-                        $this->log(BaseCommand::INFO, sprintf("RG-TRAIT-AM-Garage : No garage set for %s : rows : %s", $garageCode, join(", ", $rejectedVehicles['RG-TRAIT-AM-Garage'][$codeGarage])));
+                        $this->log(BaseCommand::INFO, sprintf("RG-TRAIT-AM-Garage : No garage set for %s : (%d) row(s) : %s", $garageCode, count($rejectedVehicles['RG-TRAIT-AM-Garage'][$codeGarage]),join(", ", $rejectedVehicles['RG-TRAIT-AM-Garage'][$codeGarage])));
                     }
                 }
                 if (count($rejectedVehicles['WrongRowFormat']) > 0) {
-                    $this->log(BaseCommand::INFO, sprintf("Not '|'-separated-values rows : %s", join(", ", $rejectedVehicles['WrongRowFormat'])));
+                    $this->log(BaseCommand::INFO, sprintf("Not '|'-separated-values rows (%d): %s", count($rejectedVehicles['WrongRowFormat']), join(", ", $rejectedVehicles['WrongRowFormat'])));
                 }
                 break;
             default:

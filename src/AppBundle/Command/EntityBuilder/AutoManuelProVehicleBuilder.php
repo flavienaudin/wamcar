@@ -537,6 +537,6 @@ class AutoManuelProVehicleBuilder
         if ($toAbbreviation) {
             $fuels = array_flip($fuels);
         }
-        return $fuels[$input];
+        return $fuels[$input]??$input;
     }
 }
