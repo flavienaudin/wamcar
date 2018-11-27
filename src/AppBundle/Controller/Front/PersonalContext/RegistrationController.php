@@ -266,4 +266,18 @@ class RegistrationController extends BaseController
 
         return new JsonResponse($city->toArray());
     }
+
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function registrationOrientationAction(Request $request): Response
+    {
+        // TODO
+
+        return $this->render('front/Security/Register/orientation_personal_registration.html.twig');
+    }
 }
