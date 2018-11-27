@@ -60,12 +60,20 @@ class ImportVehicleFlowCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // Import command settings
         $this->output = $output;
         $this->eventBus = $this->getContainer()->get('event_bus');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $this->garageRepository = $em->getRepository(Garage::class);
         $this->proVehicleRepository = $em->getRepository(ProVehicle::class);
 
+        // Information data
+        $nbUpdatedVehicles = 0;
+        $nbCreatedVehicles = 0;
+        $nbDeletedVehicles = 0;
+        $nbRejectedVehicles = 0;
+
+        // Execution configuration
         $configFile = $input->getOption('config');
         $config = parse_ini_file($configFile, false, INI_SCANNER_TYPED);
 
@@ -93,34 +101,50 @@ class ImportVehicleFlowCommand extends BaseCommand
                 // setGarage
                 break;
             case self::SOURCE_AUTOSMANUEL_VO:
+            case self::SOURCE_AUTOSMANUEL_VN:
                 $pictureDirectory = $config['pictureDirectory'];
                 $garages = [];
-                $row = 1;
+                $currentRowNumero = 1;
                 $vehicleTreatedReferences = [];
 
                 $rejectedVehicles = [
                     'RG-TRI-AM-Destination' => [],
-                    'RG-TRI-AM-Prix' => []
+                    'RG-TRI-AM-Prix' => [],
+                    'RG-TRAIT-AM-Garage' => [],
+                    'WrongRowFormat' => []
                 ];
 
                 if (($handle = fopen($dataFile, "r")) !== FALSE) {
                     while (($data = fgetcsv($handle, 0, "|")) !== FALSE) {
                         if (is_array($data)) {
-
                             // add an element at the beginning of the $data array to fit documentation IDX of data
                             array_unshift($data, 0);
 
-                            if ($data[AutoManuelProVehicleBuilder::IDX_VO_RECIPIENT] != AutoManuelProVehicleBuilder::ACCEPTED_RECIPIENT_PARTICULIER) {
-                                // RG-TRI-AM-Destination
-                                $rejectedVehicles['RG-TRI-AM-Destination'][] = $row;
-                            } elseif (empty($data[AutoManuelProVehicleBuilder::IDX_VO_INTERNET_PRICE])
-                                && empty($data[AutoManuelProVehicleBuilder::IDX_VO_MAIN_PRICE])) {
-                                // RG-TRI-AM-Prix
-                                $rejectedVehicles['RG-TRI-AM-Prix'][] = $row;
-                            } else {
-                                $garageCode = $data[AutoManuelProVehicleBuilder::IDX_VO_GARAGE_CODE];
-                                if (!isset($garages[$garageCode])) {
+                            $validRow = true;
 
+                            if ($origin == self::SOURCE_AUTOSMANUEL_VO) {
+                                if ($data[AutoManuelProVehicleBuilder::IDX_VO_RECIPIENT] != AutoManuelProVehicleBuilder::VO_ACCEPTED_RECIPIENT_PARTICULIER) {
+                                    // RG-TRI-AM-Destination
+                                    $rejectedVehicles['RG-TRI-AM-Destination'][] = $currentRowNumero;
+                                    $nbRejectedVehicles++;
+                                    $validRow = false;
+                                } elseif (empty($data[AutoManuelProVehicleBuilder::IDX_VO_INTERNET_PRICE]) && empty($data[AutoManuelProVehicleBuilder::IDX_VO_MAIN_PRICE])) {
+                                    // RG-TRI-AM-Prix
+                                    $rejectedVehicles['RG-TRI-AM-Prix'][] = $currentRowNumero;
+                                    $nbRejectedVehicles++;
+                                    $validRow = false;
+                                }
+                            } else {
+                                if (empty($data[AutoManuelProVehicleBuilder::IDX_VN_INTERNET_PRICE]) && empty($data[AutoManuelProVehicleBuilder::IDX_VN_MAIN_PRICE])) {
+                                    // RG-TRI-AM-Prix
+                                    $rejectedVehicles['RG-TRI-AM-Prix'][] = $currentRowNumero;
+                                    $nbRejectedVehicles++;
+                                    $validRow = false;
+                                }
+                            }
+                            if ($validRow) {
+                                $garageCode = $data[$origin == self::SOURCE_AUTOSMANUEL_VO ? AutoManuelProVehicleBuilder::IDX_VO_GARAGE_CODE : AutoManuelProVehicleBuilder::IDX_VN_GARAGE_CODE];
+                                if (!isset($garages[$garageCode])) {
                                     if (isset($config['garage'][$garageCode])) {
                                         $garage = $this->garageRepository->getByClientId($config['garage'][$garageCode]);
                                         if ($garage != null) {
@@ -131,21 +155,26 @@ class ImportVehicleFlowCommand extends BaseCommand
                                     }
                                 }
                                 if (isset($garages[$garageCode])) {
-                                    $existingProVehicle = $this->proVehicleRepository->findByReference($data[AutoManuelProVehicleBuilder::IDX_VO_REFERENCE]);
+                                    $vehicleReference = $data[$origin == self::SOURCE_AUTOSMANUEL_VO ? AutoManuelProVehicleBuilder::IDX_VO_REFERENCE : AutoManuelProVehicleBuilder::IDX_VN_NUM_POLICE];
+                                    $existingProVehicle = $this->proVehicleRepository->findByReference($vehicleReference);
 
                                     // Exiting vehicle is moved to another garage
                                     if ($existingProVehicle != null && $existingProVehicle->getGarage() != $garages[$garageCode]) {
                                         $this->proVehicleRepository->remove($existingProVehicle);
                                         $this->eventBus->handle(new ProVehicleRemoved($existingProVehicle));
                                         $this->log(BaseCommand::INFO, sprintf('Vehicle ref. %s was moved from garage %d to garage %d',
-                                            $data[AutoManuelProVehicleBuilder::IDX_VO_REFERENCE], $existingProVehicle->getGarage()->getId(), $garages[$garageCode]));
+                                            $vehicleReference, $existingProVehicle->getGarage()->getId(), $garages[$garageCode]));
                                         $existingProVehicle = null;
                                     }
 
-                                    $proVehicle = AutoManuelProVehicleBuilder::generateVehicleFromUsedData($existingProVehicle, $data, true, $garages[$garageCode], $pictureDirectory);
+                                    if ($origin == self::SOURCE_AUTOSMANUEL_VO) {
+                                        $proVehicle = AutoManuelProVehicleBuilder::generateVehicleFromUsedData($existingProVehicle, $data, $garages[$garageCode], $pictureDirectory);
+                                    } else {
+                                        $proVehicle = AutoManuelProVehicleBuilder::generateVehicleFromNewData($existingProVehicle, $data, $garages[$garageCode], $pictureDirectory);
+                                    }
 
                                     if (!$garages[$garageCode]->hasVehicle($proVehicle)) {
-                                        $garages[$garageCode]->addProVehicle($proVehicle);
+                                        // $garages[$garageCode]->addProVehicle($proVehicle);
                                         //  Done at the end of script only once by garage : Gardé pour vérifier qu'il n'y a pas de soucis
                                         // $this->garageRepository->update($vehicleGarage);
                                     }
@@ -154,19 +183,23 @@ class ImportVehicleFlowCommand extends BaseCommand
                                         $this->proVehicleRepository->update($proVehicle);
                                         $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
                                         $vehicleTreatedReferences[$garages[$garageCode]->getId()][] = $proVehicle->getReference();
+                                        $nbUpdatedVehicles++;
                                     } else {
                                         $this->proVehicleRepository->add($proVehicle);
                                         $this->eventBus->handle(new ProVehicleCreated($proVehicle));
                                         $vehicleTreatedReferences[$garages[$garageCode]->getId()][] = $proVehicle->getReference();
+                                        $nbCreatedVehicles++;
                                     }
                                 } else {
-                                    $this->log(BaseCommand::ERROR, sprintf("There is no garage set for %s", $garageCode));
+                                    $rejectedVehicles['RG-TRAIT-AM-Garage'][$garageCode][] = $currentRowNumero;
+                                    $nbRejectedVehicles++;
                                 }
                             }
                         } else {
-                            $this->log(BaseCommand::ERROR, sprintf("Row n°%d is not a '|'-separated-values row", $row));
+                            $nbRejectedVehicles++;
+                            $rejectedVehicles['WrongRowFormat'][] = $currentRowNumero;
                         }
-                        $row++;
+                        $currentRowNumero++;
                     }
 
                     /** @var Garage $garage */
@@ -176,6 +209,7 @@ class ImportVehicleFlowCommand extends BaseCommand
                         foreach ($vehiclesToDelete as $proVehicleToDelete) {
                             $this->proVehicleRepository->remove($proVehicleToDelete);
                             $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                            $nbDeletedVehicles++;
                         }
                         $this->garageRepository->update($garage);
                     }
@@ -186,15 +220,32 @@ class ImportVehicleFlowCommand extends BaseCommand
                 }
 
                 if (count($rejectedVehicles['RG-TRI-AM-Destination']) > 0) {
-                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Destination : rejected rows %s", join(", ", $rejectedVehicles['RG-TRI-AM-Destination'])));
+                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Destination : rejected rows : %s", join(", ", $rejectedVehicles['RG-TRI-AM-Destination'])));
                 }
                 if (count($rejectedVehicles['RG-TRI-AM-Prix']) > 0) {
-                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Prix : rejected rows %s", join(", ", $rejectedVehicles['RG-TRI-AM-Prix'])));
+                    $this->log(BaseCommand::INFO, sprintf("RG-TRI-AM-Prix : rejected rows : %s", join(", ", $rejectedVehicles['RG-TRI-AM-Prix'])));
+                }
+                if (count($rejectedVehicles['RG-TRAIT-AM-Garage']) > 0) {
+                    foreach ($rejectedVehicles['RG-TRAIT-AM-Garage'] as $codeGarage) {
+                        $this->log(BaseCommand::INFO, sprintf("RG-TRAIT-AM-Garage : No garage set for %s : rows : %s", $garageCode, join(", ", $rejectedVehicles['RG-TRAIT-AM-Garage'][$codeGarage])));
+                    }
+                }
+                if (count($rejectedVehicles['WrongRowFormat']) > 0) {
+                    $this->log(BaseCommand::INFO, sprintf("Not '|'-separated-values rows : %s", join(", ", $rejectedVehicles['WrongRowFormat'])));
                 }
                 break;
             default:
                 $this->log(BaseCommand::ERROR, sprintf("Source <%s> inconnue", $source));
         }
+        $this->log(BaseCommand::INFO, '--------');
+        $this->log(BaseCommand::INFO, 'Results:');
+        $this->log(BaseCommand::INFO, '--------');
+        $this->log(BaseCommand::INFO, 'Nb of rows : ' . ($currentRowNumero-1));
+        $this->log(BaseCommand::INFO, 'Nb created vehicles : ' . $nbCreatedVehicles);
+        $this->log(BaseCommand::INFO, 'Nb updated vehicles : ' . $nbUpdatedVehicles);
+        $this->log(BaseCommand::INFO, 'Nb deleted vehicles : ' . $nbDeletedVehicles);
+        $this->log(BaseCommand::INFO, 'Nb rejected vehicles : ' . $nbRejectedVehicles);
+        $this->log(BaseCommand::INFO, '--------');
         $this->log(BaseCommand::SUCCESS, 'Done!');
     }
 }
