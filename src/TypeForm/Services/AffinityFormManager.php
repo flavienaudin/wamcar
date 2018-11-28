@@ -4,6 +4,7 @@ namespace TypeForm\Services;
 
 
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
+use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use TypeForm\Exception\WrongContentException;
 use Wamcar\User\PersonalUser;
@@ -18,14 +19,18 @@ class AffinityFormManager
     private $proFormId;
     /** @var DoctrineUserRepository */
     private $userRepository;
+    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    private $affinityAnswerCalculationService;
 
     /**
      * AffinityFormManager constructor.
      * @param DoctrineUserRepository $userRepository
+     * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
-    public function __construct(DoctrineUserRepository $userRepository)
+    public function __construct(DoctrineUserRepository $userRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService)
     {
         $this->userRepository = $userRepository;
+        $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
     /**
@@ -97,6 +102,7 @@ class AffinityFormManager
             throw new WrongContentException('006');
         }
 
+        // Record the answer
         if ($user->getAffinityAnswer() === null) {
             $affinityAnswer = new AffinityAnswer($user,
                 $formResponse['token'],
@@ -106,14 +112,15 @@ class AffinityFormManager
                 null
             );
             $user->setAffinityAnswer($affinityAnswer);
-            $this->userRepository->update($user);
         } else {
             $user->getAffinityAnswer()->setToken($formResponse['token']);
             $user->getAffinityAnswer()->setFormId($formResponse['form_id']);
             $user->getAffinityAnswer()->setSubmittedAt(new \DateTime($formResponse['submitted_at']));
             $user->getAffinityAnswer()->setContent($originalJsonContent);
             $user->getAffinityAnswer()->setTreatedAt(null);
-            $this->userRepository->update($user);
         }
+
+        $this->affinityAnswerCalculationService->updateUserInformation($user);
+        $this->userRepository->update($user);
     }
 }

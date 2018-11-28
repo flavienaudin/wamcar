@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
+use AppBundle\Form\Type\PersonalRegistrationOrientationType;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserAuthenticator;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
@@ -21,12 +22,14 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 
 class RegistrationController extends BaseController
 {
+    const PERSONAL_ORIENTATION_ACTION_SESSION_KEY = 'personal_orientation/action/choice';
     const VEHICLE_REPLACE_PARAM = 'r';
 
     /** @var FormFactoryInterface */
@@ -75,7 +78,7 @@ class RegistrationController extends BaseController
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider= $vehicleInfoProvider;
+        $this->vehicleInfoProvider = $vehicleInfoProvider;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->userAuthenticator = $userAuthenticator;
         $this->autoDataConnector = $autoDataConnector;
@@ -98,22 +101,22 @@ class RegistrationController extends BaseController
 
         if ($this->isUserAuthenticated()) {
             $user = $this->getUser();
-            if($user instanceof PersonalUser) {
+            if ($user instanceof PersonalUser) {
                 return $this->redirectToRoute('front_vehicle_personal_add', [
                     'plateNumber' => $plateNumber
                 ]);
-            }elseif ($user instanceof ProUser){
+            } elseif ($user instanceof ProUser) {
                 $userGarages = $user->getEnabledGarageMemberships();
-                if($userGarages->count() > 1){
+                if ($userGarages->count() > 1) {
                     // Redirection vers profil pour choisir le garage auquel ajouter une nouveau véhicule
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
                     return $this->redirectToRoute('front_view_current_user_info');
-                }elseif($userGarages->count() == 1){
+                } elseif ($userGarages->count() == 1) {
                     return $this->redirectToRoute('front_vehicle_pro_add', [
                         'garage_id' => $userGarages->first()->getId(),
                         'plateNumber' => $plateNumber
                     ]);
-                }else{
+                } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
                     return $this->redirectToRoute("front_garage_create");
                 }
@@ -126,12 +129,12 @@ class RegistrationController extends BaseController
             try {
                 $information = $this->autoDataConnector->executeRequest(new GetInformationFromPlateNumber($plateNumber));
                 $ktypNumber = null;
-                if(isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])){
+                if (isset($information['Vehicule']['ktypnr_aaa']) && !empty($information['Vehicule']['ktypnr_aaa'])) {
                     $ktypNumber = $information['Vehicule']['ktypnr_aaa'];
-                } elseif(isset($information['Vehicule']['LTYPVEH'])){
-                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value){
-                        if(isset($value['KTYPNR']) && !empty($value['KTYPNR'])){
-                            if(!empty($ktypNumber)){
+                } elseif (isset($information['Vehicule']['LTYPVEH'])) {
+                    foreach ($information['Vehicule']['LTYPVEH'] as $key => $value) {
+                        if (isset($value['KTYPNR']) && !empty($value['KTYPNR'])) {
+                            if (!empty($ktypNumber)) {
                                 $this->session->getFlashBag()->add(
                                     self::FLASH_LEVEL_DANGER,
                                     'flash.warning.vehicle.multiple_vehicle_types'
@@ -143,27 +146,27 @@ class RegistrationController extends BaseController
                 };
 
                 $vehicleInfo = [];
-                if(!empty($ktypNumber)) {
+                if (!empty($ktypNumber)) {
                     $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if(count($vehicleInfo) == 1){
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])){
+                if (count($vehicleInfo) == 1) {
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
                         $filters['make'] = $vehicleInfo[0]['make'];
-                    }else{
+                    } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
                         $filters['model'] = $vehicleInfo[0]['model'];
-                    }else{
+                    } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if(isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])){
+                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
                         $filters['engine'] = $vehicleInfo[0]['engine'];
-                    }else{
+                    } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
 
-                }else {
+                } else {
                     $filters['make'] = $information['Vehicule']['MARQUE'];
                     $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     $filters['engine'] = $information['Vehicule']['VERSION'];
@@ -171,7 +174,7 @@ class RegistrationController extends BaseController
 
                 $date1erCir = $information['Vehicule']['DATE_1ER_CIR'] ?? null;
                 $vin = $information['Vehicule']['CODIF_VIN_PRF'] ?? null;
-                if($vin && strlen($vin) < 17){
+                if ($vin && strlen($vin) < 17) {
                     $vin = str_pad($vin, 17, '_', STR_PAD_LEFT);
                 }
             } catch (AutodataException $autodataException) {
@@ -204,7 +207,7 @@ class RegistrationController extends BaseController
         string $vin = null): Response
     {
         $vehicleDTO = new UserRegistrationPersonalVehicleDTO($plateNumber, $date1erCir, $vin);
-        $vehicleDTO->vehicleReplace = (bool) $request->get('vehicle-replace', $vehicleDTO->vehicleReplace);
+        $vehicleDTO->vehicleReplace = (bool)$request->get('vehicle-replace', $vehicleDTO->vehicleReplace);
         $vehicleDTO->updateFromFilters($filters);
 
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
@@ -223,7 +226,7 @@ class RegistrationController extends BaseController
             try {
                 $registeredVehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $this->userAuthenticator->authenticate($registeredVehicle->getOwner());
-                return $this->redirectToRoute('register_confirm', [SecurityController::INSCRIPTION_QUERY_PARAM =>'personal-emaill']);
+                return $this->redirectToRoute('register_confirm', [SecurityController::INSCRIPTION_QUERY_PARAM => 'personal-emaill']);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -268,7 +271,6 @@ class RegistrationController extends BaseController
     }
 
 
-
     /**
      * @param Request $request
      * @return Response
@@ -276,8 +278,32 @@ class RegistrationController extends BaseController
      */
     public function registrationOrientationAction(Request $request): Response
     {
-        // TODO
+        if (!$this->getUser() instanceof PersonalUser) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.danger.not_personal_user_logged'
+            );
+            throw $this->createAccessDeniedException();
+        }
+        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class);
+        $personalOrientationForm->handleRequest($request);
+        if ($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()) {
+            $formData = $personalOrientationForm->getData();
 
-        return $this->render('front/Security/Register/orientation_personal_registration.html.twig');
+            // TODO Save choice in DB for futur remebering
+            $this->session->set(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['action']);
+            switch ($formData['action']) {
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH:
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL:
+                    return $this->redirectToRoute('front_vehicle_personal_add');
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY:
+                    return $this->redirectToRoute('front_affinity_personal_form');
+            }
+        }
+        $this->session->remove(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
+
+        return $this->render('front/Security/Register/orientation_personal_registration.html.twig', [
+            'personalOrientationForm' => $personalOrientationForm->createView()
+        ]);
     }
 }

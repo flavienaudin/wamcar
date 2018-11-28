@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
-use AppBundle\Controller\Front\PersonalContext\UserController;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
@@ -184,7 +183,7 @@ class SecurityController extends BaseController
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
-            'assitant_registration_mode' => (bool) $request->get('assistant_registration', false)
+            'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
         ]);
     }
 

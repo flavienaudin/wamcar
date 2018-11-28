@@ -29,7 +29,7 @@ register_confirm:
         template: front/Security/Register/user_confirmation.html.twig
 
 register_orientation:
-    path: /inscription/assistant/personal/
+    path: /inscription/assistant/personal
     controller: AppBundle:Front\PersonalContext\Registration:registrationOrientation
 
 register:
@@ -286,6 +286,10 @@ front_user_favorites_list:
 front_affinity_personal_form:
     path: /affinity/particulier
     controller: AppBundle:Front\PersonalContext\Affinity:personalForm
+
+front_affinity_personal_redirection:
+    path: /affinity/particulier/soumis
+    controller: AppBundle:Front\PersonalContext\Affinity:personalFormSubmited
 
 front_affinity_pro_form:
     path: /affinity/professionnel

@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Services\Affinity\AffinityDegreeCalculationService;
+use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -15,22 +15,21 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
     /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository */
     private $affinityAnswerRepository;
-    /** @var AffinityDegreeCalculationService $affinityDegreeCalculationService */
-    private $affinityDegreeCalculationService;
+    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    private $affinityAnswerCalculationService;
 
     /**
      * CalculateAffinityDegreesCommand constructor.
      *
      * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
-     * @param AffinityDegreeCalculationService $affinityDegreeCalculationService
+     * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
-    public function __construct(DoctrineAffinityAnswerRepository $affinityAnswerRepository, AffinityDegreeCalculationService $affinityDegreeCalculationService)
+    public function __construct(DoctrineAffinityAnswerRepository $affinityAnswerRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService)
     {
         parent::__construct();
         $this->affinityAnswerRepository = $affinityAnswerRepository;
-        $this->affinityDegreeCalculationService = $affinityDegreeCalculationService;
+        $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
-
 
     /**
      * @inheritDoc
@@ -65,9 +64,9 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             foreach ($treatedProAnswers as $treatedProAnswer) {
                 $progress->advance();
 
-                $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
+                $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
                 // symetric score
-                //$this->affinityDegreeCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
+                //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
@@ -86,9 +85,9 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $untreatedProAnswer */
             foreach ($untreatedProAnswers as $untreatedProAnswer) {
                 $progress->advance();
-                $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
+                $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
                 // symetric score
-                //$this->affinityDegreeCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
+                //$this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
@@ -118,9 +117,9 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $treatedPersonalAnswer */
             foreach ($treatedPersonalAnswers as $treatedPersonalAnswer) {
                 $progressBis->advance();
-                $this->affinityDegreeCalculationService->calculateAffinityValue($untreatedProAnswer, $treatedPersonalAnswer);
+                $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $treatedPersonalAnswer);
                 // symetric score
-                //$this->affinityDegreeCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
+                //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
 
                 $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',

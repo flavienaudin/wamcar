@@ -20,7 +20,7 @@ use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
-use AppBundle\Services\Affinity\AffinityDegreeCalculationService;
+use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -32,7 +32,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -44,9 +43,6 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
-    const TAB_PROFILE = 'profile';
-    const TAB_PROJECT = 'project';
-
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -71,11 +67,8 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
-    // TODO : to test only
-    /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository */
-    protected $affinityAnswerRepository;
-    /** @var AffinityDegreeCalculationService $affinityDegreeCalculationService */
-    protected $affinityDegreeCalculationService;
+    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    protected $affinityAnswerCalculationService;
 
     /**
      * SecurityController constructor.
@@ -89,8 +82,7 @@ class UserController extends BaseController
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param MessageBus $eventBus
-     * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
-     * @param AffinityDegreeCalculationService $affinityDegreeCalculationService
+     * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -101,8 +93,7 @@ class UserController extends BaseController
         GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
         MessageBus $eventBus,
-        DoctrineAffinityAnswerRepository $affinityAnswerRepository,
-        AffinityDegreeCalculationService $affinityDegreeCalculationService
+        AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
     {
         $this->formFactory = $formFactory;
@@ -113,8 +104,7 @@ class UserController extends BaseController
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->eventBus = $eventBus;
-        $this->affinityAnswerRepository = $affinityAnswerRepository;
-        $this->affinityDegreeCalculationService = $affinityDegreeCalculationService;
+        $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
     /**
@@ -191,10 +181,17 @@ class UserController extends BaseController
 
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
-                );
+                if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.registration.personal.assitant.process_end'
+                    );
+                } else {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.user_edit'
+                    );
+                }
 
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -318,15 +315,6 @@ class UserController extends BaseController
                 'only_google_fields' => true,
                 'action' => $this->generateRoute('front_garage_create')]);
         }
-
-        // TODO : to test only
-        /*if($user->isPro()){
-            $otherAnswer = $this->affinityAnswerRepository->find('202de260-dbbc-430d-b6cb-d547ca39c96d');
-        }else {
-            $otherAnswer = $this->affinityAnswerRepository->find('a6553f6b-a27f-455c-99bd-4b09e858badc');
-        }
-        $this->affinityDegreeCalculationService->calculateAffinityValue($user->getAffinityAnswer(), $otherAnswer);*/
-        // End TODO
 
         return $this->render($templates[$user->getType()], [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,

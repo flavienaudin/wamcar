@@ -10,7 +10,7 @@
     } %}
 
     <div class="js-typeform-embed typeform-widget" style="width: 100%; height: 100%;"
-         data-url="https://wamcar.typeform.com/to/{{ typeform_affinity_personal_form }}?client_id={{ app.user.apiClientId }}"></div>
+         data-url="https://wamcar.typeform.com/to/{{ typeform_affinity_personal_form }}?client_id={{ app.user.apiClientId }}&askproject={{ askProject }}&redirection={{ url('front_affinity_personal_redirection') }}"></div>
 {% endblock body %}
 
 {% block footer %}{% endblock footer %}

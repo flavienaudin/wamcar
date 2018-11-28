@@ -1,14 +1,30 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block body %}
-    <h1>Orientation post-inscription</h1>
+{% block title %}{{ 'user.orientation.page_title'|trans }}{% endblock title %}
 
-    <div>
-        Que voulez-vous faire ?
-        <ul>
-            <li>Acheter un véhicule ?</li>
-            <li>Vendre votre véhicule ?</li>
-            <li>Les deux en même temps</li>
-        </ul>
+{% block body %}
+
+    <div class="row">
+        <div class="column registration_orientation">
+            <h1>{{ 'user.orientation.title'|trans }}</h1>
+            <p>{{ 'user.confirmation.content.email_sent'|trans }}</p>
+
+            {{ form_start(personalOrientationForm, {
+                'method' : 'POST',
+                'action' : path('register_orientation'),
+                'attr':{'data-abide' : '','novalidate': 'novalidate'}
+            }) }}
+
+            {{ form_widget(personalOrientationForm.action, {
+                'list_class':'action-list',
+                'label':'user.orientation.form.action.label'|trans
+            }) }}
+
+            <div class="small-12 medium-6 medium-offset-3 ">
+                <button type="submit" class="button full-width">{{ 'user.orientation.form.submit.label'|trans }}</button>
+            </div>
+            {{ form_end(personalOrientationForm) }}
+        </div>
     </div>
+
 {% endblock body %}

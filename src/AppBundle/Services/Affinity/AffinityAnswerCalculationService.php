@@ -5,12 +5,13 @@ namespace AppBundle\Services\Affinity;
 
 use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository;
+use Symfony\Component\Translation\TranslatorInterface;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
-use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\Project;
 use Wamcar\User\ProUser;
 
-class AffinityDegreeCalculationService
+class AffinityAnswerCalculationService
 {
 
     const POURCENTAGE_SCORE_PROFILE = 0.25;
@@ -20,14 +21,18 @@ class AffinityDegreeCalculationService
 
     /** @var DoctrineAffinityDegreeRepository $affinityDegreeRepository */
     private $affinityDegreeRepository;
+    /** @var TranslatorInterface $translator */
+    private $translator;
 
     /**
-     * AffinityDegreeCalculationService constructor.
+     * AffinityAnswerCalculationService constructor.
      * @param DoctrineAffinityDegreeRepository $affinityDegreeRepository
+     * @param TranslatorInterface $translator
      */
-    public function __construct(DoctrineAffinityDegreeRepository $affinityDegreeRepository)
+    public function __construct(DoctrineAffinityDegreeRepository $affinityDegreeRepository, TranslatorInterface $translator)
     {
         $this->affinityDegreeRepository = $affinityDegreeRepository;
+        $this->translator = $translator;
     }
 
     /**
@@ -46,12 +51,12 @@ class AffinityDegreeCalculationService
     {
         $scores = null;
         if ($mainAffinityAnswer->getUser() instanceof ProUser && $withAffinityAnswer->getUser() instanceof PersonalUser) {
-            $scores =  $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
+            $scores = $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
         } elseif ($mainAffinityAnswer->getUser() instanceof PersonalUser && $withAffinityAnswer->getUser() instanceof ProUser) {
             // Score Pro = score Personal. If assymetric calculation, implement a different function.
-            $scores =   $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
+            $scores = $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
         }
-        if(!is_array($scores)){
+        if (!is_array($scores)) {
             return null;
         }
 
@@ -156,6 +161,42 @@ class AffinityDegreeCalculationService
             $scores['atomesCrochus'] * self::POURCENTAGE_SCORE_ATOMES;
         dump('$scores["affinity"]= ' . $scores['affinity']);
         return $scores;
+    }
+
+    /**
+     * @param PersonalUser $personalUser
+     * @param AffinityAnswer $userAnswer
+     */
+    public function updateUserInformation(PersonalUser $personalUser)
+    {
+        if ($personalUser->getAffinityAnswer() != null) {
+            $userAnswerAsArray = $personalUser->getAffinityAnswer()->getContentAsArray();
+            $userQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($userAnswerAsArray['form_response']['answers']);
+
+            if ($personalUser->getProject() === null) {
+                $personalUser->setProject(new Project($personalUser));
+            }
+
+            if (!empty($userQuestionsAnswers['a1jPPIiYk1pu'])) {
+                // Searched advices
+                $projectDescription = $this->translator->trans('user.project.prefill.description.searched_advices', [
+                    '%search_advices%' => strtolower($userQuestionsAnswers['a1jPPIiYk1pu'])
+                ]);;
+
+                if (!empty($personalUser->getProject()->getDescription())) {
+                    $projectDescription = $personalUser->getProject()->getDescription() . PHP_EOL . PHP_EOL . $projectDescription;
+                }
+                $personalUser->getProject()->setDescription($projectDescription);
+            }
+
+            if (!empty($userQuestionsAnswers['r5WzC8XojMgB'])) {
+                $personalUser->getProject()->setBudget($userQuestionsAnswers['r5WzC8XojMgB']);
+            }
+
+            // TODO : récupérer les réponses Disponibilités, Préférence 1er pas,... et ajouter les attributs au User
+            // pour affichage aux pros uniquement
+        }
+
     }
 
     /**
