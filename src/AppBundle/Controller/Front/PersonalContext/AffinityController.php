@@ -54,4 +54,15 @@ class AffinityController extends BaseController
         return $this->render('front/Affinity/pro_form.html.twig');
     }
 
+    public function proFormSubmitedAction()
+    {
+        if (!$this->getUser() instanceof ProUser) {
+            throw $this->createAccessDeniedException();
+        }
+
+        // Validation et complétion du profil
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.pro.validation');
+        return $this->redirectToRoute('front_edit_user_info');
+    }
+
 }

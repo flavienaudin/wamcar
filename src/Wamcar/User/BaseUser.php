@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Criteria;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Location\City;
+use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
@@ -50,6 +51,8 @@ abstract class BaseUser implements HasApiCredential
     protected $twitterId;
     /** @var string */
     protected $twitterAccessToken;
+    /** @var ?FirstContactPreference */
+    protected $firstContactPreference;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
@@ -326,6 +329,21 @@ abstract class BaseUser implements HasApiCredential
         $this->twitterAccessToken = $twitterAccessToken;
     }
 
+    /**
+     * @return FirstContactPreference|null
+     */
+    public function getFirstContactPreference()
+    {
+        return $this->firstContactPreference;
+    }
+
+    /**
+     * @param ?FirstContactPreference $firstContactPreference
+     */
+    public function setFirstContactPreference(?FirstContactPreference $firstContactPreference): void
+    {
+        $this->firstContactPreference = $firstContactPreference;
+    }
 
     /**
      * @param mixed|null $user
@@ -498,7 +516,7 @@ abstract class BaseUser implements HasApiCredential
     public function getAffinityDegreesWith(?BaseUser $withUser): ?AffinityDegree
     {
 
-        if ($withUser === null  || $this->is($withUser)) {
+        if ($withUser === null || $this->is($withUser)) {
             return null;
         }
         if ($this->getId() < $withUser->getId()) {

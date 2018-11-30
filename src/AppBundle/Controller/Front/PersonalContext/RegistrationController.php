@@ -8,6 +8,7 @@ use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalRegistrationOrientationType;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserAuthenticator;
+use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
 use AppBundle\Utils\VehicleInfoProvider;
@@ -44,6 +45,8 @@ class RegistrationController extends BaseController
     protected $personalVehicleEditionService;
     /** @var UserAuthenticator */
     protected $userAuthenticator;
+    /** @var UserEditionService */
+    protected $userEditionService;
     /** @var ApiConnector */
     protected $autoDataConnector;
     /** @var ZipCode */
@@ -59,6 +62,7 @@ class RegistrationController extends BaseController
      * @param VehicleInfoProvider $vehicleInfoProvider
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param UserAuthenticator $userAuthenticator
+     * @param UserEditionService $userEditionService
      * @param ApiConnector $autoDataConnector
      * @param ZipCode $zipCodeService
      * @param MessageBus $eventBus
@@ -70,6 +74,7 @@ class RegistrationController extends BaseController
         VehicleInfoProvider $vehicleInfoProvider,
         PersonalVehicleEditionService $personalVehicleEditionService,
         UserAuthenticator $userAuthenticator,
+        UserEditionService $userEditionService,
         ApiConnector $autoDataConnector,
         ZipCode $zipCodeService,
         MessageBus $eventBus
@@ -81,6 +86,7 @@ class RegistrationController extends BaseController
         $this->vehicleInfoProvider = $vehicleInfoProvider;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->userAuthenticator = $userAuthenticator;
+        $this->userEditionService = $userEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->zipCodeService = $zipCodeService;
         $this->eventBus = $eventBus;
@@ -285,19 +291,25 @@ class RegistrationController extends BaseController
             );
             throw $this->createAccessDeniedException();
         }
-        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class);
+        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class, ['orientation' => $this->getUser()->getOrientation()]);
         $personalOrientationForm->handleRequest($request);
         if ($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()) {
             $formData = $personalOrientationForm->getData();
 
-            // TODO Save choice in DB for futur remebering
-            $this->session->set(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['action']);
-            switch ($formData['action']) {
-                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH:
-                case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL:
+            $this->userEditionService->updateUserOrientation($this->getUser(), $formData['orientation']);
+            $this->session->set(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
+
+            switch ($this->getUser()->getOrientation()) {
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH():
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
                     return $this->redirectToRoute('front_vehicle_personal_add');
-                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY:
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
                     return $this->redirectToRoute('front_affinity_personal_form');
+                default:
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_WARNING,
+                        'flash.warning.personal_orientation.invalid_choice'
+                    );
             }
         }
         $this->session->remove(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);

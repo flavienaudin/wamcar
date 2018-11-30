@@ -70,6 +70,9 @@ Wamcar\User\BaseUser:
         apiSecret:
             type: string
             nullable: true
+        firstContactPreference:
+            type: firstcontactpreference
+            nullable: true
 
     oneToOne:
         avatar:

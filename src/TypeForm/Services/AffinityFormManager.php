@@ -5,8 +5,11 @@ namespace TypeForm\Services;
 
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
+use SimpleBus\Message\Bus\MessageBus;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use TypeForm\Exception\WrongContentException;
+use Wamcar\User\Event\PersonalUserUpdated;
+use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
@@ -21,16 +24,20 @@ class AffinityFormManager
     private $userRepository;
     /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
     private $affinityAnswerCalculationService;
+    /** @var MessageBus */
+    private $eventBus;
 
     /**
      * AffinityFormManager constructor.
      * @param DoctrineUserRepository $userRepository
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
+     * @param MessageBus $eventBus
      */
-    public function __construct(DoctrineUserRepository $userRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService)
+    public function __construct(DoctrineUserRepository $userRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService, MessageBus $eventBus)
     {
         $this->userRepository = $userRepository;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -120,7 +127,14 @@ class AffinityFormManager
             $user->getAffinityAnswer()->setTreatedAt(null);
         }
 
-        $this->affinityAnswerCalculationService->updateUserInformation($user);
-        $this->userRepository->update($user);
+        if ($user instanceof PersonalUser) {
+            $this->affinityAnswerCalculationService->updatePersonalUserInformation($user);
+            $this->userRepository->update($user);
+            $this->eventBus->handle(new PersonalUserUpdated($user));
+        } else {
+            $this->affinityAnswerCalculationService->updateProUserInformation($user);
+            $this->userRepository->update($user);
+            $this->eventBus->handle(new ProUserUpdated($user));
+        }
     }
 }

@@ -294,3 +294,7 @@ front_affinity_personal_redirection:
 front_affinity_pro_form:
     path: /affinity/professionnel
     controller: AppBundle:Front\PersonalContext\Affinity:proForm
+
+front_affinity_pro_redirection:
+    path: /affinity/professionnel/soumis
+    controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited

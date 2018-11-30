@@ -101,6 +101,8 @@ doctrine:
             vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
             notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
             garagerole: AppBundle\Doctrine\Type\GarageRoleType
+            personalorientation: AppBundle\Doctrine\Type\PersonalOrientationType
+            firstcontactpreference: AppBundle\Doctrine\Type\FirstContactPreferenceType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
