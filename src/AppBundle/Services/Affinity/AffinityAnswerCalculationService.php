@@ -218,7 +218,7 @@ class AffinityAnswerCalculationService
             // Brands
             $userBrands = [];
             foreach ($userProject->getProjectVehicles() as $projectVehicle) {
-                $userBrands[] = $projectVehicle->getMake();
+                $userBrands[] = strtolower($projectVehicle->getMake());
             }
             $brandsScore = $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
             dump('brands score = ' . $brandsScore);
@@ -761,7 +761,7 @@ class AffinityAnswerCalculationService
      */
     private function calculateBrandScore(array $proAnswer, array $personalAnswer): float
     {
-        return $this->formule1($proAnswer, $personalAnswer, 10);
+        return $this->formule1(array_map('strtolower', $proAnswer), $personalAnswer, 10);
     }
 
     /**
