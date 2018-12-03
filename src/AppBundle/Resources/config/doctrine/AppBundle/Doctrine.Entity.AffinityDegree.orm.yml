@@ -23,6 +23,9 @@ AppBundle\Doctrine\Entity\AffinityDegree:
       profileAffinityValue:
         type: float
         nullable: false
+      linkingAffinityValue:
+        type: float
+        nullable: false
       passionAffinityValue:
         type: float
         nullable: false

@@ -63,7 +63,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $treatedProAnswer */
             foreach ($treatedProAnswers as $treatedProAnswer) {
                 $progress->advance();
-
+                $this->logCRLF();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
@@ -85,6 +85,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $untreatedProAnswer */
             foreach ($untreatedProAnswers as $untreatedProAnswer) {
                 $progress->advance();
+                $this->logCRLF();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
@@ -117,6 +118,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $treatedPersonalAnswer */
             foreach ($treatedPersonalAnswers as $treatedPersonalAnswer) {
                 $progressBis->advance();
+                $this->logCRLF();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $treatedPersonalAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);

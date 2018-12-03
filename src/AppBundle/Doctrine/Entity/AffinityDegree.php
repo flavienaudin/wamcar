@@ -16,6 +16,8 @@ class AffinityDegree
     private $affinityValue;
     /** @var float $profileAffinityValue */
     private $profileAffinityValue;
+    /** @var float $linkingAffinityValue */
+    private $linkingAffinityValue;
     /** @var float $passionAffinityValue */
     private $passionAffinityValue;
     /** @var float $positioningAffinityValue */
@@ -29,11 +31,12 @@ class AffinityDegree
      * @param BaseUser $userB
      * @param float $affinityValue
      * @param float $profileAffinityValue
+     * @param float $linkingAffinityValue
      * @param float $passionAffinityValue
      * @param float $positioningAffinityValue
      * @param float $atomesCrochusAffinityValue
      */
-    public function __construct(BaseUser $userA, BaseUser $userB, float $affinityValue, float $profileAffinityValue, float $passionAffinityValue, float $positioningAffinityValue, float $atomesCrochusAffinityValue)
+    public function __construct(BaseUser $userA, BaseUser $userB, float $affinityValue, float $profileAffinityValue, float $linkingAffinityValue, float $passionAffinityValue, float $positioningAffinityValue, float $atomesCrochusAffinityValue)
     {
         if ($userA->getId() < $userB->getId()) {
             $this->smallerIdUser = $userA;
@@ -45,6 +48,7 @@ class AffinityDegree
 
         $this->affinityValue = $affinityValue;
         $this->profileAffinityValue = $profileAffinityValue;
+        $this->linkingAffinityValue = $linkingAffinityValue;
         $this->passionAffinityValue = $passionAffinityValue;
         $this->positioningAffinityValue = $positioningAffinityValue;
         $this->atomesCrochusAffinityValue = $atomesCrochusAffinityValue;
@@ -77,12 +81,13 @@ class AffinityDegree
     public function getRadarChartData(): array
     {
         return [
-            'labels' => ['Total', 'Profil', 'Passions', 'Positionnement', 'Atomes Crochus'],
+            'labels' => ['Total', 'Profil', 'Mise en relation', 'Passions', 'Positionnement', 'Atomes Crochus'],
             'datasets' => [[
                 'label' => 'Affinités (%)',
                 'data' => [
                     intval($this->affinityValue),
                     intval($this->profileAffinityValue),
+                    intval($this->linkingAffinityValue),
                     intval($this->passionAffinityValue),
                     intval($this->positioningAffinityValue),
                     intval($this->atomesCrochusAffinityValue)

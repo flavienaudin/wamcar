@@ -15,16 +15,11 @@ use Wamcar\User\Title;
 
 class AffinityAnswerCalculationService
 {
-
-    const POURCENTAGE_SCORE_PROFILE = 0.25;
-    const POURCENTAGE_SCORE_PASSION = 0.25;
-    const POURCENTAGE_SCORE_POSITIONING = 0.25;
-    const POURCENTAGE_SCORE_ATOMES = 0.25;
-
     const PERSONAL_BUDGET_ID = 'q8Eh6zRDfIWl';
     const PERSONAL_SEARCHED_ADVICES_ID = 'b6OEruT7GF2F';
     const PERSONAL_NEW_USED_ID = 'xhmuspS0WiTS';
     const PERSONAL_USAGE_ID = 'zwog9noLip4v';
+    const PERSONAL_USAGE_COMPANY = 'Pour votre société';
     const PERSONAL_NB_VEHICLE_ID = 'qfFukJfpOwrl';
     const PERSONALCOMPANY_ACTIVITY_ID = 'AFuqafxfW7Hh';
     const PERSONAL_HOW_HELP_ID = 'rkxq3BfaQlSN';
@@ -40,17 +35,33 @@ class AffinityAnswerCalculationService
     const PERSONAL_SEARCHED_HOBBIES_ID = 'WZnVUWj4HHsW';
     const PERSONAL_SEARCHED_TITLE_ID = 'fHegKK6nkIG9';
     const PERSONAL_SEARCHED_EXPERIENCE_ID = 'HulaGSXnxphU';
+    const PERSONAL_UNIFORM_ID = 'IHyeH2RSn1UZ';
+    const PERSONAL_FIRST_CONTACT_CHANNEL_ID = 'dfdx8wF1Q6uS';
+    const PERSONAL_AVAILABILITIES_ID = 'cbz7epXYGnal';
+    const PERSONAL_FIRST_CONTACT_PREF_ID = 'EMQUuMj7kjeG';
+    const PERSONAL_OTHER_HOBBIES_ID = 'VxsHHmccvxvy';
+    const PERSONAL_ROAD_ID = 'smLmytwZXVX0';
 
     const PRO_TITLE_ID = 'N20Fa9XvCxe3';
     const PRO_MAIN_PROFESSION_ID = 'hBycrRK4i8bu';
+    const PRO_COMPANY_SELLER = 'Vendeur sociétés';
     const PRO_EXPERIENCE_ID = 'pXwMCaGPIkYn';
+    const PRO_UNIFORM_ID = 'Wn0TWRNf55PM';
     const PRO_HOBBY_ID = 'DoP0ub90B4hM';
     const PRO_HOBBY_LEVEL_ID = 'd7oa1YRfAQXA';
     const PRO_ADVICES_ID = 'Gqzy1hTJ6ksm';
     const PRO_VEHICLE_BODY_ID = 'Sn72hV3LGlkh';
     const PRO_BRANDS_ID = 'elxoSP08BxCU';
+    const PRO_FIRST_CONTACT_CHANNEL_ID = 'QigMnuHRkR1i';
+    const PRO_AVAILABILITIES_ID = 'FM79yWzrTYQb';
     const PRO_FIRST_CONTACT_PREF_ID = 'BW5ObrOs8EoD';
     const PRO_SUGGESTION_ID = 'U6L50ubnDRU5';
+    const PRO_PRICES_ID = 'KwwCbCkzNoro';
+    const PRO_OTHER_HOBBIES_ID = 'm57Ls95xJ5Ca';
+    const PRO_ROAD_ID = 'Q7QBuiJTCKDB';
+
+    const AVAILABILITIES_WEEK = 'En semaine';
+    const AVAILABILITIES_WEEKEND = 'Le week-end';
 
     /** @var DoctrineAffinityDegreeRepository $affinityDegreeRepository */
     private $affinityDegreeRepository;
@@ -85,10 +96,10 @@ class AffinityAnswerCalculationService
     {
         $scores = null;
         if ($mainAffinityAnswer->getUser() instanceof ProUser && $withAffinityAnswer->getUser() instanceof PersonalUser) {
-            $scores = $this->calculateProPersonalAffinityValue($mainAffinityAnswer->getContentAsArray(), $withAffinityAnswer->getContentAsArray());
+            $scores = $this->calculateProPersonalAffinityValue($mainAffinityAnswer, $withAffinityAnswer);
         } elseif ($mainAffinityAnswer->getUser() instanceof PersonalUser && $withAffinityAnswer->getUser() instanceof ProUser) {
             // Score Pro = score Personal. If assymetric calculation, implement a different function.
-            $scores = $this->calculateProPersonalAffinityValue($withAffinityAnswer->getContentAsArray(), $mainAffinityAnswer->getContentAsArray());
+            $scores = $this->calculateProPersonalAffinityValue($withAffinityAnswer, $mainAffinityAnswer);
         }
         if (!is_array($scores)) {
             return null;
@@ -97,6 +108,7 @@ class AffinityAnswerCalculationService
         $affinityDegree = new AffinityDegree($mainAffinityAnswer->getUser(), $withAffinityAnswer->getUser(),
             $scores['affinity'],
             $scores['profile'],
+            $scores['linking'],
             $scores['passion'],
             $scores['positioning'],
             $scores['atomesCrochus']
@@ -107,20 +119,21 @@ class AffinityAnswerCalculationService
 
     /**
      * Calculate the score between a Professional and a Personal
-     * @param array $mainAllAnswers Content of professional answer
-     * @param array $withAllAnswers Content of personal answer
+     * @param AffinityAnswer $mainAnswer Professional answer
+     * @param AffinityAnswer $withAnswer Personal answer
      * @return array [
      *  'affinity' => Total affinity score
      *  'profile' => Profile questions score
+     *  'linking' => Linking questions score
      *  'passion' => Passion questions score
      *  'positioning' => Positioning questions score
      *  'atomesCrochus' => AtomesCrochus questions score
      * ]
      */
-    private function calculateProPersonalAffinityValue(array $mainAllAnswers, array $withAllAnswers): array
+    private function calculateProPersonalAffinityValue(AffinityAnswer $mainAnswer, AffinityAnswer $withAnswer): array
     {
-        $mainQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($mainAllAnswers['form_response']['answers']);
-        $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAllAnswers['form_response']['answers']);
+        $mainQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($mainAnswer->getContentAsArray()['form_response']['answers']);
+        $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAnswer->getContentAsArray()['form_response']['answers']);
 
         $scores = [];
 
@@ -134,10 +147,33 @@ class AffinityAnswerCalculationService
         $experienceScore = $this->calculateExperienceScore($mainQuestionsAnswers[self::PRO_EXPERIENCE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_EXPERIENCE_ID] ?? null);
         dump('experience score = ' . $experienceScore);
         $profileAffinityScore += $experienceScore;
+        // uniform
+        $uniformScore = $this->calculateUniformScore($mainQuestionsAnswers[self::PRO_UNIFORM_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_UNIFORM_ID] ?? []);
+        dump('uniform score = ' . $uniformScore);
+        $profileAffinityScore += $uniformScore;
         // Total profile score
         dump('Profile score = ' . $profileAffinityScore);
-        $scores['profile'] = $profileAffinityScore * 100 / 25.0;
+        $scores['profile'] = $profileAffinityScore * 100 / 40.0;
         dump('$scores["profile"]= ' . $scores['profile']);
+
+        //----------------------------------//
+        //--- Mise en relation (linking) ---//
+        //----------------------------------//
+        // First contact channel
+        $linkingScore = $this->calculateFirstContactChannel($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_CHANNEL_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_CHANNEL_ID] ?? []);
+        dump('first contact channel score = ' . $linkingScore);
+        // Availability
+        $availabilitiesScore = $this->calculateAvailabilitiesScore($mainQuestionsAnswers[self::PRO_AVAILABILITIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_AVAILABILITIES_ID] ?? []);
+        dump('Availability score = ' . $availabilitiesScore);
+        $linkingScore += $availabilitiesScore;
+        // First contact preference
+        $firstContactPrefScore = $this->calculateFirstContactPreferenceScore($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] ?? null);
+        dump('First Contact Preference score = ' . $firstContactPrefScore);
+        $linkingScore += $firstContactPrefScore;
+        // Total linking score
+        dump('Linking score = ' . $linkingScore);
+        $scores['linking'] = $linkingScore * 100 / 40.0;
+        dump('$scores["linking"]= ' . $scores['linking']);
 
         //---------------//
         //--- Passion ---//
@@ -145,43 +181,65 @@ class AffinityAnswerCalculationService
         // Hobby
         $passionAffinityScore = $this->calculateHobbyScore($mainQuestionsAnswers[self::PRO_HOBBY_ID] ?? null, $mainQuestionsAnswers[self::PRO_HOBBY_LEVEL_ID] ?? 0, $withQuestionsAnswers[self::PERSONAL_SEARCHED_HOBBIES_ID] ?? []);
         dump('hobby score = ' . $passionAffinityScore);
-        // Pro passion website
-        if (isset($mainQuestionsAnswers['DbdnZwCAWaOR'])) {
-            $passionAffinityScore += 10;
-            dump('pro passion website = 10');
-        }
-        // Advise domain
-        $adviceScore = $this->calculateAdvicesScore($mainQuestionsAnswers[self::PRO_ADVICES_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null);
-        dump('advice score = ' . $adviceScore);
-        $passionAffinityScore += $adviceScore;
+        // TODO : Supprimer ? Pro passion website
+//        if (isset($mainQuestionsAnswers['DbdnZwCAWaOR'])) {
+//            $passionAffinityScore += 10;
+//            dump('pro passion website = 10');
+//        }
         // Total passion score
         dump('Passion score = ' . $passionAffinityScore);
-        $scores['passion'] = $passionAffinityScore * 100 / 45.0;
+        $scores['passion'] = $passionAffinityScore * 100 / 25.0;
         dump('$scores["passion"]= ' . $scores['passion']);
 
         //-------------------//
         //--- Positioning ---//
         //-------------------//
-        // Price : TODO supprimé pour le particulier => toujours égal à 10
-        $positioningScore = $this->calculatePriceScore($mainQuestionsAnswers['KwwCbCkzNoro'] ?? [], $withQuestionsAnswers[self::PERSONAL_BUDGET_ID] ?? null);
-        dump('price score = ' . $positioningScore);
-        // Brand : no question in personal form about brands TODO
-        // Vehicle type : TODO supprimé pour le particulier => toujours égal à 10
-        $vehicleTypeScore = $this->calculateVehicleTypeScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers['TgCx9GnZokcZ'] ?? []);
-        dump('vehicleType score = ' . $vehicleTypeScore);
-        $positioningScore += $vehicleTypeScore;
+        $maxPositioningScore = 10.0;
+        // Pro profession Vs Personal vehicle usage
+        $positioningScore = $this->calculateMainAcitivityScore($mainQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_USAGE_ID] ?? null);
+        dump('main activity/usage score = ' . $positioningScore);
 
-        $scores['positioning'] = $positioningScore * 100 / 20.0;
+        // Project related scores : in hidden fields => askproject === true
+        if ($withAnswer->getContentAsArray()['form_response']['hidden']['askproject'] === true) {
+            $maxPositioningScore = 50;
+            if ($withAnswer->getUser()->getProject() == null) {
+                $withAnswer->getUser()->setProject(new Project($withAnswer->getUser()));
+            }
+            /** @var Project $userProject */
+            $userProject = $withAnswer->getUser()->getProject();
+            // Price
+            $priceScore = $this->calculatePriceScore($mainQuestionsAnswers[self::PRO_PRICES_ID] ?? [], $userProject->getBudget());
+            dump('price score = ' . $priceScore);
+            $positioningScore += $priceScore;
+            // Advise domains
+            $adviceScore = $this->calculateAdvicesScore($mainQuestionsAnswers[self::PRO_ADVICES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null);
+            dump('advice score = ' . $adviceScore);
+            $positioningScore += $adviceScore;
+            // Brands
+            $userBrands = [];
+            foreach ($userProject->getProjectVehicles() as $projectVehicle) {
+                $userBrands[] = $projectVehicle->getMake();
+            }
+            $brandsScore = $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
+            dump('brands score = ' . $brandsScore);
+            $positioningScore += $brandsScore;
+            // Vehicle type
+            $vehicleTypeScore = $this->calculateVehicleTypeScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
+            dump('vehicleType score = ' . $vehicleTypeScore);
+            $positioningScore += $vehicleTypeScore;
+        }
+
+        $scores['positioning'] = $positioningScore * 100 / $maxPositioningScore;
         dump('$scores["positioning"]= ' . $scores['positioning']);
 
         //----------------------//
         //--- Atomes Crochus ---//
         //----------------------//
-        // Hobbies
-        $atomesCrochusScore = $this->calculateHobbiesScore($mainQuestionsAnswers['m57Ls95xJ5Ca'] ?? [], $withQuestionsAnswers['VxsHHmccvxvy'] ?? []);
-        dump('hobbies score = ' . $atomesCrochusScore);
+        // Other hobbies
+        $atomesCrochusScore = $this->calculateOtherHobbiesScore($mainQuestionsAnswers[self::PRO_OTHER_HOBBIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_OTHER_HOBBIES_ID] ?? []);
+        dump('Other hobbies score = ' . $atomesCrochusScore);
         // Road
-        $roadScore = $this->calculateRoadScore($mainQuestionsAnswers['Q7QBuiJTCKDB'] ?? null, $withQuestionsAnswers['smLmytwZXVX0'] ?? null);
+        $roadScore = $this->calculateRoadScore($mainQuestionsAnswers[self::PRO_ROAD_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_ROAD_ID] ?? null);
         dump('road score = ' . $roadScore);
         $atomesCrochusScore += $roadScore;
         // Total atomesCrochus score
@@ -189,10 +247,8 @@ class AffinityAnswerCalculationService
         dump('$scores["atomesCrochus"]= ' . $scores['atomesCrochus']);
 
         // Total affinity score
-        $scores['affinity'] = $scores['profile'] * self::POURCENTAGE_SCORE_PROFILE +
-            $scores['passion'] * self::POURCENTAGE_SCORE_PASSION +
-            $scores['positioning'] * self::POURCENTAGE_SCORE_POSITIONING +
-            $scores['atomesCrochus'] * self::POURCENTAGE_SCORE_ATOMES;
+        $scores['affinity'] = ($scores['profile'] + $scores['passion'] + $scores['linking'] +
+                $scores['positioning'] + $scores['atomesCrochus']) / 5.0;
         dump('$scores["affinity"]= ' . $scores['affinity']);
         return $scores;
     }
@@ -207,7 +263,7 @@ class AffinityAnswerCalculationService
             $userAnswerAsArray = $proUser->getAffinityAnswer()->getContentAsArray();
             $userQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($userAnswerAsArray['form_response']['answers']);
 
-            // Title (genere)
+            // Title (genre)
             if (!empty($userQuestionsAnswers[self::PRO_TITLE_ID])) {
                 if ($userQuestionsAnswers[self::PRO_TITLE_ID] == 'Une femme') {
                     $proUser->getUserProfile()->setTitle(Title::MS());
@@ -295,8 +351,8 @@ class AffinityAnswerCalculationService
                 $personalUser->setProject(new Project($personalUser));
             }
 
-            // Disponibilités (cbz7epXYGnal)
-            $disponibiliteId = 'cbz7epXYGnal';
+            // Disponibilités
+            $disponibiliteId = self::PERSONAL_AVAILABILITIES_ID;
             if (!empty($userQuestionsAnswers[$disponibiliteId])) {
                 if (is_array($userQuestionsAnswers[$disponibiliteId])) {
                     $personalUser->setContactAvailabilities(json_encode($userQuestionsAnswers[$disponibiliteId]));
@@ -329,13 +385,9 @@ class AffinityAnswerCalculationService
                 } else {
                     $projectDescription .= ' ';
                 }
-                if ($userQuestionsAnswers[self::PERSONAL_USAGE_ID] == "Pour votre société") {
+                if ($userQuestionsAnswers[self::PERSONAL_USAGE_ID] == self::PERSONAL_USAGE_COMPANY) {
                     $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.usage.company');
-                } else {
-                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.usage.personal');
-                }
 
-                if ($userQuestionsAnswers[self::PERSONAL_USAGE_ID] == "Pour votre société") {
                     if (!empty($userQuestionsAnswers[self::PERSONALCOMPANY_ACTIVITY_ID]) || !empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID])) {
                         $projectDescription .= PHP_EOL;
 
@@ -355,6 +407,8 @@ class AffinityAnswerCalculationService
                                 ['%nb_vehicle%' => ($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] == "Plus de 10" ? strtolower($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID]) : intval($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID]))]);
                         }
                     }
+                } else {
+                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.usage.personal');
                 }
             }
 
@@ -525,7 +579,87 @@ class AffinityAnswerCalculationService
     }
 
     /**
-     * Calculate the score about Passion
+     * Calculate the score about Uniform
+     * @param string|null $proAnswer
+     * @param array $personalAnswer
+     * @return float
+     */
+    private function calculateUniformScore(?string $proAnswer, array $personalAnswer): float
+    {
+        if (empty($personalAnswer) || in_array('Sans avis', $personalAnswer)) {
+            return 15;
+        }
+        if (in_array($proAnswer, $personalAnswer)) {
+            return 15;
+        }
+        return 0;
+    }
+
+    /**
+     * Calculate the score about the first contact channel
+     * @param array $proAnswer
+     * @param array $ersonnalAnswer
+     * @return float
+     */
+    private function calculateFirstContactChannel(array $proAnswer, array $personalAnswer): float
+    {
+        if (empty($personalAnswer)) {
+            return 10;
+        }
+        if (!empty(array_intersect($proAnswer, $personalAnswer))) {
+            return 10;
+        }
+        return 0;
+    }
+
+    /**
+     * Calculate the score about availavilities
+     * @param array $proAnswer
+     * @param array $personalAnswer
+     * @return float
+     */
+    private function calculateAvailabilitiesScore(array $proAnswer, array $personalAnswer): float
+    {
+        if (empty($personalAnswer)) {
+            return 10;
+        }
+        if (!empty($personalAnswer)) {
+            return 20;
+        }
+        if ((in_array(self::AVAILABILITIES_WEEK, $proAnswer) && in_array(self::AVAILABILITIES_WEEK, $personalAnswer))
+            || (in_array(self::AVAILABILITIES_WEEKEND, $proAnswer) && in_array(self::AVAILABILITIES_WEEKEND, $personalAnswer))
+        ) {
+            $nbCommon = 0;
+            foreach ($personalAnswer[self::PERSONAL_AVAILABILITIES_ID] as $availibility) {
+                if ($availibility != self::AVAILABILITIES_WEEK && $availibility != self::AVAILABILITIES_WEEKEND) {
+                    if (in_array($availibility, $proAnswer)) {
+                        $nbCommon++;
+                    }
+                }
+            }
+        }
+        return min(20, 10 * $nbCommon);
+    }
+
+    /**
+     * Calculate the score about first contact preference
+     * @param null|string $proAnswer
+     * @param null|string $personalAnswer
+     * @return float
+     */
+    private function calculateFirstContactPreferenceScore(?string $proAnswer, ?string $personalAnswer): float
+    {
+        if (empty($personalAnswer)) {
+            return 10;
+        }
+        if ($proAnswer == $personalAnswer) {
+            return 10;
+        }
+        return 0;
+    }
+
+    /**
+     * Calculate the score about pro hobby
      * @param string $proAnswer
      * @param int $levelProAnswer
      * @param array $personalAnswer
@@ -533,7 +667,7 @@ class AffinityAnswerCalculationService
      */
     private function calculateHobbyScore(?string $proAnswer, int $levelProAnswer = 0, array $personalAnswer): float
     {
-        if (count($personalAnswer) === 0 || in_array("Non, pas vraiment", $personalAnswer)) {
+        if (empty($personalAnswer) || in_array("Non, pas vraiment", $personalAnswer)) {
             return 25;
         } elseif ($proAnswer != null && in_array($proAnswer, $personalAnswer)) {
             return 15 + $levelProAnswer * 2;
@@ -542,14 +676,15 @@ class AffinityAnswerCalculationService
     }
 
     /**
-     * Calculate the score about Advices
+     * Calculate the score about main pro profession and personal usage
      * @param null|string $proAnswer
      * @param null|string $personalAnswer
      * @return float
      */
-    private function calculateAdvicesScore(?string $proAnswer, ?string $personalAnswer): float
+    private function calculateMainAcitivityScore(?string $proAnswer, ?string $personalAnswer): float
     {
-        if ($personalAnswer === null || strtolower($proAnswer) === strtolower($personalAnswer)) {
+        if (empty($personalAnswer) || ($proAnswer == self::PRO_COMPANY_SELLER && $personalAnswer == self:: PERSONAL_USAGE_COMPANY)
+            || ($proAnswer != self::PRO_COMPANY_SELLER && $personalAnswer != self:: PERSONAL_USAGE_COMPANY)) {
             return 10;
         }
         return 0;
@@ -567,8 +702,8 @@ class AffinityAnswerCalculationService
             return 10;
         }
         $score = 0;
-        foreach ($proAnswer as $priceRance) {
-            switch ($priceRance) {
+        foreach ($proAnswer as $priceRange) {
+            switch ($priceRange) {
                 case "Moins de 5 000 €":
                     if ($personalAnswer <= 5000) {
                         $score = 10;
@@ -608,6 +743,28 @@ class AffinityAnswerCalculationService
     }
 
     /**
+     * Calculate the score about Advices
+     * @param array $proAnswer
+     * @param array $personalAnswer
+     * @return float
+     */
+    private function calculateAdvicesScore(array $proAnswer, array $personalAnswer): float
+    {
+        return $this->formule1($proAnswer, $personalAnswer, 10);
+    }
+
+    /**
+     * Calculate the score about Brands
+     * @param array $proAnswer
+     * @param array $personalAnswer
+     * @return float
+     */
+    private function calculateBrandScore(array $proAnswer, array $personalAnswer): float
+    {
+        return $this->formule1($proAnswer, $personalAnswer, 10);
+    }
+
+    /**
      * Calculate the score about the vehicle types
      * @param array $proAnswer
      * @param array $personalAnswer
@@ -619,12 +776,12 @@ class AffinityAnswerCalculationService
     }
 
     /**
-     * Calculate the score about the hobbies
+     * Calculate the score about other hobbies
      * @param array $proAnswer
      * @param array $personalAnswer
      * @return float
      */
-    private function calculateHobbiesScore(array $proAnswer, array $personalAnswer): float
+    private function calculateOtherHobbiesScore(array $proAnswer, array $personalAnswer): float
     {
         return $this->formule1($proAnswer, $personalAnswer, 25);
     }
@@ -654,8 +811,11 @@ class AffinityAnswerCalculationService
      */
     private function formule1(array $proAnswers, array $personalAnswers, int $maxPoint): float
     {
-        if (count($personalAnswers) === 0) {
+        if (empty($personalAnswers)) {
             return $maxPoint;
+        }
+        if (empty($proAnswers)) {
+            return 0;
         }
         $intersection = array_intersect($proAnswers, $personalAnswers);
         return $maxPoint * count($intersection) / count($proAnswers);

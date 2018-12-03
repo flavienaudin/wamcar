@@ -13,12 +13,12 @@ class AffinityController extends BaseController
 
     public function personalFormAction()
     {
-        if (!$this->getUser() instanceof PersonalUser) {
+        $personalUser = $this->getUser();
+        if (!$personalUser instanceof PersonalUser) {
             throw $this->createAccessDeniedException();
         }
-        $actionChoice = $this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
-        $askProject = ($actionChoice === PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH
-            || $actionChoice == PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY);
+        $askProject = PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
+            || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation());
         return $this->render('front/Affinity/personal_form.html.twig', [
             'askProject' => $askProject
         ]);
@@ -26,23 +26,34 @@ class AffinityController extends BaseController
 
     public function personalFormSubmitedAction()
     {
-        if (!$this->getUser() instanceof PersonalUser) {
+        $personalUser = $this->getUser();
+        if (!$personalUser instanceof PersonalUser) {
             throw $this->createAccessDeniedException();
         }
 
         if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
-            $actionChoice = $this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
-            if ($actionChoice === PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH ||
-                $actionChoice === PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY) {
+            // During registration assitant process
+            if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
+                || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation())) {
                 // Validation et complétion du projet
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_validation');
                 return $this->redirectToRoute('front_edit_user_project');
+            } else {
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
+                $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
+                return $this->redirectToRoute('front_view_current_user_info');
             }
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
-        } else {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.form_submited');
         }
-        return $this->redirectToRoute('front_view_current_user_info');
+
+        if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
+            || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation())) {
+            // Validation et complétion du projet
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.form_submited.with_project');
+            return $this->redirectToRoute('front_edit_user_project');
+        } else {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.form_submited.without_project');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
     }
 
 

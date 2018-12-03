@@ -42,7 +42,6 @@
             <p>{{ 'user.affinity.section.edit.personal'|trans({
                     '%affinity_form_url%': path('front_affinity_personal_form')
                 })|raw }}</p>
-            {{ dump(user.affinityAnswer.contentAsArray) }}
         {% endif %}
     {% else %}
         {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
@@ -51,10 +50,6 @@
             <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
         {% endif %}
     {% endif %}
-
-    {#<p>{{ dump(user.affinityDegrees) }}</p>#}
-
-
 
     <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
     {% if user.project and not user.project.empty %}
