@@ -153,9 +153,9 @@ class AffinityAnswer
     }
 
     /**
-     * @param string $instanceId
+     * @param null|string $instanceId
      */
-    public function setInstanceId(string $instanceId): void
+    public function setInstanceId(?string $instanceId): void
     {
         $this->instanceId = $instanceId;
     }
