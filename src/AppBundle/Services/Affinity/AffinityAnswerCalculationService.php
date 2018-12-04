@@ -359,11 +359,11 @@ class AffinityAnswerCalculationService
                 }
             }
 
-            // Préférence de 1er contact (EMQUuMj7kjeG)
-            if (!empty($userQuestionsAnswers['EMQUuMj7kjeG'])) {
-                if ($userQuestionsAnswers['EMQUuMj7kjeG'] == "que l'on vienne à vous") {
+            // Préférence de 1er contact
+            if (!empty($userQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID])) {
+                if ($userQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] == "que l'on vienne à vous") {
                     $personalUser->setFirstContactPreference(FirstContactPreference::I_M_WAITING());
-                } elseif ($userQuestionsAnswers['EMQUuMj7kjeG'] == "faire le premier pas") {
+                } elseif ($userQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] == "faire le premier pas") {
                     $personalUser->setFirstContactPreference(FirstContactPreference::I_WILL_BEGIN());
                 }
             }
@@ -493,8 +493,9 @@ class AffinityAnswerCalculationService
             }
 
             // Type de recherche : véhicule unique / flotte
-            $personalUser->getProject()->setIsFleet(!empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID]) &&
-                ($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] > 1 || $userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] == "Plus de 10"));
+            if(!empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID])) {
+                $personalUser->getProject()->setIsFleet(($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] > 1 || $userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] == "Plus de 10"));
+            }
         }
     }
 

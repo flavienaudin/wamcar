@@ -21,7 +21,9 @@ class AffinityAnswer
     private $submittedAt;
     /** @var string */
     private $content;
-    /** @var \DateTime */
+    /** @var string */
+    private $instanceId;
+    /** @var \DateTime|null */
     private $treatedAt;
 
     /**
@@ -31,17 +33,18 @@ class AffinityAnswer
      * @param string $formId
      * @param \DateTime $submittedAt
      * @param string $content
+     * @param string $instanceId
      * @param \DateTime|null $treatedAt
      */
-    public function __construct(BaseUser $user, string $token, string $formId, \DateTime $submittedAt, string $content, ?\DateTime $treatedAt = null)
+    public function __construct(BaseUser $user, string $token, string $formId, \DateTime $submittedAt, string $content, string $instanceId, ?\DateTime $treatedAt = null)
     {
-
         $this->id = Uuid::uuid4();
         $this->user = $user;
         $this->token = $token;
         $this->formId = $formId;
         $this->submittedAt = $submittedAt;
         $this->content = $content;
+        $this->instanceId = $instanceId;
         $this->treatedAt = $treatedAt;
     }
 
@@ -102,9 +105,17 @@ class AffinityAnswer
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getTreatedAt(): \DateTime
+    public function getInstanceId(): string
+    {
+        return $this->instanceId;
+    }
+
+    /**
+     * @return null|\DateTime
+     */
+    public function getTreatedAt(): ?\DateTime
     {
         return $this->treatedAt;
     }
@@ -139,6 +150,14 @@ class AffinityAnswer
     public function setContent(string $content): void
     {
         $this->content = $content;
+    }
+
+    /**
+     * @param string $instanceId
+     */
+    public function setInstanceId(string $instanceId): void
+    {
+        $this->instanceId = $instanceId;
     }
 
     /**

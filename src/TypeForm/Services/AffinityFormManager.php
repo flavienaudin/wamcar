@@ -116,6 +116,7 @@ class AffinityFormManager
                 $formResponse['form_id'],
                 new \DateTime($formResponse['submitted_at']),
                 $originalJsonContent,
+                $formResponse['hidden']['instance_id'],
                 null
             );
             $user->setAffinityAnswer($affinityAnswer);
@@ -124,6 +125,7 @@ class AffinityFormManager
             $user->getAffinityAnswer()->setFormId($formResponse['form_id']);
             $user->getAffinityAnswer()->setSubmittedAt(new \DateTime($formResponse['submitted_at']));
             $user->getAffinityAnswer()->setContent($originalJsonContent);
+            $user->getAffinityAnswer()->setInstanceId($formResponse['hidden']['instance_id']);
             $user->getAffinityAnswer()->setTreatedAt(null);
         }
 

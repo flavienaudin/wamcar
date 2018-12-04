@@ -17,6 +17,8 @@ TypeForm\Doctrine\Entity\AffinityAnswer:
             type: datetime
         content:
             type: json
+        instanceId:
+            type: string
         treatedAt:
             type: datetime
             nullable: true
