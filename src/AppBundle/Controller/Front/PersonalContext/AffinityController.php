@@ -99,7 +99,7 @@ class AffinityController extends BaseController
             while ($countSleep < 10 && ($user->getAffinityAnswer() == null
                     || $user->getAffinityAnswer()->getInstanceId() !== $this->session->get(self::TYPEFORM_INSTANCE_ID_SESSION_KEY))) {
                 // Sleeping time increase with number of tries. Max total waiting time : 55s
-                sleep($countSleep + 1);
+                sleep(ceil(($countSleep + 1)/2));
                 $countSleep++;
             }
             $this->session->remove(self::TYPEFORM_INSTANCE_ID_SESSION_KEY);
