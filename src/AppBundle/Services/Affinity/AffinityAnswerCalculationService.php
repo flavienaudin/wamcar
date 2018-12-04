@@ -142,54 +142,36 @@ class AffinityAnswerCalculationService
         //---------------//
         // Title (homme/femme)
         $profileAffinityScore = $this->calculateTitleScore($mainQuestionsAnswers[self::PRO_TITLE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_TITLE_ID] ?? null);
-        dump('title score = ' . $profileAffinityScore);
         // Experience
-        $experienceScore = $this->calculateExperienceScore($mainQuestionsAnswers[self::PRO_EXPERIENCE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_EXPERIENCE_ID] ?? null);
-        dump('experience score = ' . $experienceScore);
-        $profileAffinityScore += $experienceScore;
+        $profileAffinityScore += $this->calculateExperienceScore($mainQuestionsAnswers[self::PRO_EXPERIENCE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_EXPERIENCE_ID] ?? null);
         // uniform
-        $uniformScore = $this->calculateUniformScore($mainQuestionsAnswers[self::PRO_UNIFORM_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_UNIFORM_ID] ?? []);
-        dump('uniform score = ' . $uniformScore);
-        $profileAffinityScore += $uniformScore;
+        $profileAffinityScore += $this->calculateUniformScore($mainQuestionsAnswers[self::PRO_UNIFORM_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_UNIFORM_ID] ?? []);
         // Total profile score
-        dump('Profile score = ' . $profileAffinityScore);
         $scores['profile'] = $profileAffinityScore * 100 / 40.0;
-        dump('$scores["profile"]= ' . $scores['profile']);
 
         //----------------------------------//
         //--- Mise en relation (linking) ---//
         //----------------------------------//
         // First contact channel
         $linkingScore = $this->calculateFirstContactChannel($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_CHANNEL_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_CHANNEL_ID] ?? []);
-        dump('first contact channel score = ' . $linkingScore);
         // Availability
-        $availabilitiesScore = $this->calculateAvailabilitiesScore($mainQuestionsAnswers[self::PRO_AVAILABILITIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_AVAILABILITIES_ID] ?? []);
-        dump('Availability score = ' . $availabilitiesScore);
-        $linkingScore += $availabilitiesScore;
+        $linkingScore += $this->calculateAvailabilitiesScore($mainQuestionsAnswers[self::PRO_AVAILABILITIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_AVAILABILITIES_ID] ?? []);
         // First contact preference
-        $firstContactPrefScore = $this->calculateFirstContactPreferenceScore($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] ?? null);
-        dump('First Contact Preference score = ' . $firstContactPrefScore);
-        $linkingScore += $firstContactPrefScore;
+        $linkingScore += $this->calculateFirstContactPreferenceScore($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] ?? null);
         // Total linking score
-        dump('Linking score = ' . $linkingScore);
         $scores['linking'] = $linkingScore * 100 / 40.0;
-        dump('$scores["linking"]= ' . $scores['linking']);
 
         //---------------//
         //--- Passion ---//
         //---------------//
         // Hobby
         $passionAffinityScore = $this->calculateHobbyScore($mainQuestionsAnswers[self::PRO_HOBBY_ID] ?? null, $mainQuestionsAnswers[self::PRO_HOBBY_LEVEL_ID] ?? 0, $withQuestionsAnswers[self::PERSONAL_SEARCHED_HOBBIES_ID] ?? []);
-        dump('hobby score = ' . $passionAffinityScore);
-        // TODO : Supprimer ? Pro passion website
+        // Pro passion website : juste pour information interne
 //        if (isset($mainQuestionsAnswers['DbdnZwCAWaOR'])) {
 //            $passionAffinityScore += 10;
-//            dump('pro passion website = 10');
 //        }
         // Total passion score
-        dump('Passion score = ' . $passionAffinityScore);
         $scores['passion'] = $passionAffinityScore * 100 / 25.0;
-        dump('$scores["passion"]= ' . $scores['passion']);
 
         //-------------------//
         //--- Positioning ---//
@@ -197,7 +179,6 @@ class AffinityAnswerCalculationService
         $maxPositioningScore = 10.0;
         // Pro profession Vs Personal vehicle usage
         $positioningScore = $this->calculateMainAcitivityScore($mainQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_USAGE_ID] ?? null);
-        dump('main activity/usage score = ' . $positioningScore);
 
         // Project related scores : in hidden fields => askproject === true
         if ($withAnswer->getContentAsArray()['form_response']['hidden']['askproject'] === true) {
@@ -208,48 +189,33 @@ class AffinityAnswerCalculationService
             /** @var Project $userProject */
             $userProject = $withAnswer->getUser()->getProject();
             // Price
-            $priceScore = $this->calculatePriceScore($mainQuestionsAnswers[self::PRO_PRICES_ID] ?? [], $userProject->getBudget());
-            dump('price score = ' . $priceScore);
-            $positioningScore += $priceScore;
+            $positioningScore += $this->calculatePriceScore($mainQuestionsAnswers[self::PRO_PRICES_ID] ?? [], $userProject->getBudget());
             // Advise domains
-            $adviceScore = $this->calculateAdvicesScore($mainQuestionsAnswers[self::PRO_ADVICES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null);
-            dump('advice score = ' . $adviceScore);
-            $positioningScore += $adviceScore;
+            $positioningScore += $this->calculateAdvicesScore($mainQuestionsAnswers[self::PRO_ADVICES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null);
             // Brands
             $userBrands = [];
             foreach ($userProject->getProjectVehicles() as $projectVehicle) {
                 $userBrands[] = strtolower($projectVehicle->getMake());
             }
-            $brandsScore = $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
-            dump('brands score = ' . $brandsScore);
-            $positioningScore += $brandsScore;
+            $positioningScore += $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
             // Vehicle type
-            $vehicleTypeScore = $this->calculateVehicleTypeScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
-            dump('vehicleType score = ' . $vehicleTypeScore);
-            $positioningScore += $vehicleTypeScore;
+            $positioningScore += $this->calculateVehicleTypeScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
         }
-
         $scores['positioning'] = $positioningScore * 100 / $maxPositioningScore;
-        dump('$scores["positioning"]= ' . $scores['positioning']);
 
         //----------------------//
         //--- Atomes Crochus ---//
         //----------------------//
         // Other hobbies
         $atomesCrochusScore = $this->calculateOtherHobbiesScore($mainQuestionsAnswers[self::PRO_OTHER_HOBBIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_OTHER_HOBBIES_ID] ?? []);
-        dump('Other hobbies score = ' . $atomesCrochusScore);
         // Road
-        $roadScore = $this->calculateRoadScore($mainQuestionsAnswers[self::PRO_ROAD_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_ROAD_ID] ?? null);
-        dump('road score = ' . $roadScore);
-        $atomesCrochusScore += $roadScore;
+        $atomesCrochusScore += $this->calculateRoadScore($mainQuestionsAnswers[self::PRO_ROAD_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_ROAD_ID] ?? null);
         // Total atomesCrochus score
         $scores['atomesCrochus'] = $atomesCrochusScore * 100 / 40.0;
-        dump('$scores["atomesCrochus"]= ' . $scores['atomesCrochus']);
 
         // Total affinity score
         $scores['affinity'] = ($scores['profile'] + $scores['passion'] + $scores['linking'] +
                 $scores['positioning'] + $scores['atomesCrochus']) / 5.0;
-        dump('$scores["affinity"]= ' . $scores['affinity']);
         return $scores;
     }
 
