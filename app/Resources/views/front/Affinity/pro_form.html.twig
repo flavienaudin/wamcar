@@ -4,7 +4,7 @@
 {% block mainClass %}no-padding-top affinity-form{% endblock %}
 
 {% block body %}
-    <div class="typeform-widget" style="width: 100%; height: 100%;"
+    <div class="typeform-widget" data-hide-headers="true" data-hide-footer="true" style="width: 100%; height: 100%;"
          data-url="https://wamcar.typeform.com/to/{{ typeform_affinity_pro_form }}?client_id={{ app.user.apiClientId }}&redirection={{ url('front_affinity_pro_redirection') }}&instance_id={{ instanceId }}"></div>
 {% endblock body %}
 

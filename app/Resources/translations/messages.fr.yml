@@ -20,15 +20,15 @@ flash:
     registration:
       personal:
         assitant:
-          process_validation: Nous avons compléter votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+          process_validation: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
           process_end: Votre profil et votre projet sont maintenant complets. Nous sommes en train de calculer vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
       pro:
-        validation: Nous avons compléter votre profil avec les réponses que vous nous avez fournies. Merci de relire et de valider les informations.
+        validation: Nous avons complété votre profil avec les réponses que vous nous avez fournies. Merci de relire et de valider les informations.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien été enregistré.
     affinity:
       form_submited:
-        with_project: Nous avons compléter votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+        with_project: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
         without_project: Vos réponses ont bien été enregistrées. Nous calculons vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
     vehicle_create: Le véhicule a bien été enregistré.
     vehicle_update: Les modifications ont bien été enregistrées.
