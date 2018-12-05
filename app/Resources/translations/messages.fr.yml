@@ -791,6 +791,7 @@ user:
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
           <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
     degree:
+      calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:
         personal: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
