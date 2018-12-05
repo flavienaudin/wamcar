@@ -23,9 +23,9 @@ class AffinityAnswerCalculationService
     const PERSONAL_NB_VEHICLE_ID = 'qfFukJfpOwrl';
     const PERSONALCOMPANY_ACTIVITY_ID = 'AFuqafxfW7Hh';
     const PERSONAL_HOW_HELP_ID = 'rkxq3BfaQlSN';
-    const PERSONAL_GENERATION_ID = 'e07baxj9XuDU';
+    const PERSONAL_GENERATION_ID = 'aWbcaaUVpmxt';
     const PERSONAL_VEHICLE_BODY_ID = 'IboKjSUiGI9I';
-    const PERSONAL_ENERGY_ID = 'RadCV7IufAGN';
+    const PERSONAL_ENERGY_ID = 'U4Y1BYz7KLyA';
     const PERSONAL_SEATS_NUMBER_ID = 'cfcyC8Nf1Kh3';
     const PERSONAL_STRONG_POINTS_ID = 'SjNmrumq88G4';
     const PERSONAL_IMPROVEMENTS_ID = 'SON0hhB1AcWy';
@@ -37,6 +37,7 @@ class AffinityAnswerCalculationService
     const PERSONAL_SEARCHED_EXPERIENCE_ID = 'HulaGSXnxphU';
     const PERSONAL_UNIFORM_ID = 'IHyeH2RSn1UZ';
     const PERSONAL_FIRST_CONTACT_CHANNEL_ID = 'dfdx8wF1Q6uS';
+    const PERSONAL_PHONE_NUMBER_ID = 'jjLHWMS98BMJ';
     const PERSONAL_AVAILABILITIES_ID = 'cbz7epXYGnal';
     const PERSONAL_FIRST_CONTACT_PREF_ID = 'EMQUuMj7kjeG';
     const PERSONAL_OTHER_HOBBIES_ID = 'VxsHHmccvxvy';
@@ -53,6 +54,7 @@ class AffinityAnswerCalculationService
     const PRO_VEHICLE_BODY_ID = 'Sn72hV3LGlkh';
     const PRO_BRANDS_ID = 'elxoSP08BxCU';
     const PRO_FIRST_CONTACT_CHANNEL_ID = 'QigMnuHRkR1i';
+    const PRO_PHONE_NUMBER_ID = 'csYPmwCaYRV4';
     const PRO_AVAILABILITIES_ID = 'FM79yWzrTYQb';
     const PRO_FIRST_CONTACT_PREF_ID = 'BW5ObrOs8EoD';
     const PRO_SUGGESTION_ID = 'U6L50ubnDRU5';
@@ -246,6 +248,11 @@ class AffinityAnswerCalculationService
                 }
             }
 
+            // Phone number if contact SMS or call
+            if(!empty($userQuestionsAnswers[self::PRO_PHONE_NUMBER_ID])){
+                $proUser->setPhonePro($userQuestionsAnswers[self::PRO_PHONE_NUMBER_ID]);
+            }
+
             //-----------------------//
             // Description du profil //
             //-----------------------//
@@ -334,6 +341,11 @@ class AffinityAnswerCalculationService
                 }
             }
 
+            // Phone number if contact SMS or call
+            if(!empty($userQuestionsAnswers[self::PERSONAL_PHONE_NUMBER_ID])){
+                $personalUser->getUserProfile()->setPhone($userQuestionsAnswers[self::PERSONAL_PHONE_NUMBER_ID]);
+            }
+
             //-----------------------//
             // Description du projet //
             //-----------------------//
@@ -397,7 +409,7 @@ class AffinityAnswerCalculationService
                 } else {
                     $projectDescription .= ', ';
                 }
-                $projectDescription .= strtolower($userQuestionsAnswers[self::PERSONAL_ENERGY_ID]);
+                $projectDescription .= join(', ', array_map('strtolower', $userQuestionsAnswers[self::PERSONAL_ENERGY_ID]));
             }
 
             // Generation
@@ -409,7 +421,7 @@ class AffinityAnswerCalculationService
                     $projectDescription .= ', ';
                 }
                 $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.generation',
-                    ['%generation%' => strtolower($userQuestionsAnswers[self::PERSONAL_GENERATION_ID])]);
+                    ['%generation%' => join(', ', array_map('strtolower', $userQuestionsAnswers[self::PERSONAL_GENERATION_ID]))]);
             }
 
             // Seats number
