@@ -1,3 +1,3 @@
-<span class="affinity-score">
+<a href="{{ path('front_view_user_info', {'id':user.id}) }}" class="affinity-score">
     <img src="{{ asset('assets/images/affinity_pourcentage/'~userAffinityDegree.affinityValue|number_format~'.png') }}">
-</span>
+</a>
