@@ -58,7 +58,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_version: '1.1.6-gre654te6r1dfg5e'
+        site_version: '1.1.6-vb3564ce7r5ty4'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
