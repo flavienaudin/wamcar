@@ -346,6 +346,8 @@ if ($step) {
   });
 
   if ($registerForm) {
+    const registerFormAbide = new Abide($($registerForm));
+
     $registerForm.addEventListener('change', () => {
       step.autoHeight();
     });
