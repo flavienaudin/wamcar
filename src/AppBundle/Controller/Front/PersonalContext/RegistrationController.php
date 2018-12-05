@@ -232,7 +232,10 @@ class RegistrationController extends BaseController
             try {
                 $registeredVehicle = $this->personalVehicleEditionService->createInformations($vehicleDTO, $this->getUser());
                 $this->userAuthenticator->authenticate($registeredVehicle->getOwner());
-                return $this->redirectToRoute('register_orientation', [SecurityController::INSCRIPTION_QUERY_PARAM => 'personal-emaill']);
+                return $this->redirectToRoute('register_orientation', [
+                    SecurityController::INSCRIPTION_QUERY_PARAM => 'personal-emaill',
+                    'vehicleReplace' => $vehicleDTO->vehicleReplace
+                ]);
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -291,18 +294,38 @@ class RegistrationController extends BaseController
             );
             throw $this->createAccessDeniedException();
         }
-        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class, ['orientation' => $this->getUser()->getOrientation()]);
+        /** @var PersonalUser $user */
+        $user = $this->getUser();
+        $userWantsToBuy = (in_array($user->getOrientation(), [PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY(), PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()]))
+            || ((bool)$request->get('vehicleReplace', false) === true);
+
+        $userWantsToSell = (in_array($user->getOrientation(), [PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL(), PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()]))
+            || (count($user->getVehicles()) > 0);
+
+        if ($userWantsToBuy && $userWantsToSell) {
+            $orientation = PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH();
+        } elseif ($userWantsToSell) {
+            $orientation = PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL();
+        } elseif ($userWantsToBuy) {
+            $orientation = PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY();
+        } else {
+            $orientation = null;
+        }
+        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class, ['orientation' => $orientation]);
         $personalOrientationForm->handleRequest($request);
         if ($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()) {
             $formData = $personalOrientationForm->getData();
 
-            $this->userEditionService->updateUserOrientation($this->getUser(), $formData['orientation']);
+            $this->userEditionService->updateUserOrientation($user, $formData['orientation']);
             $this->session->set(self::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
 
-            switch ($this->getUser()->getOrientation()) {
+            switch ($user->getOrientation()) {
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH():
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
-                    return $this->redirectToRoute('front_vehicle_personal_add');
+                    if(count($user->getVehicles()) == 0) {
+                        // Only if no vehicle is already added (when registration with vehicle)
+                        return $this->redirectToRoute('front_vehicle_personal_add');
+                    }
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
                     return $this->redirectToRoute('front_affinity_personal_form');
                 default:
