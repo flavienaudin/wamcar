@@ -68,7 +68,7 @@ notifyUserOfLikeVehicle:
     action_label: Voir
 
 notifyUserOfAffinityDegreeCalculated:
-    object: "Vos affinités sont maintenant disponibles"
+    object: "Vos affinités sont maintenant disponibles sur Wamcar"
     body:
       personal: >
           <p>Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
