@@ -1,0 +1,20 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button %}
+
+{% block title %}{{ 'notifyUserOfAffinityDegreeCalculated.object'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {% if user.isPro %}
+            {{ 'notifyUserOfAffinityDegreeCalculated.body.pro'|trans }}
+            {% set action_url = url('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) %}
+        {% else %}
+            {{ 'notifyUserOfAffinityDegreeCalculated.body.personal'|trans }}
+            {% set action_url = url('front_directory_view') %}
+        {% endif %}
+
+        {{ action_button(action_url, 'notifyUserOfAffinityDegreeCalculated.action_label'|trans) }}
+    </div>
+{% endblock %}

@@ -4,11 +4,13 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
+use Wamcar\User\Event\AffinityDegreeCalculatedEvent;
 
 class CalculateAffinityDegreesCommand extends BaseCommand
 {
@@ -17,18 +19,22 @@ class CalculateAffinityDegreesCommand extends BaseCommand
     private $affinityAnswerRepository;
     /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
     private $affinityAnswerCalculationService;
+    /** @var MessageBus $eventBus */
+    private $eventBus;
 
     /**
      * CalculateAffinityDegreesCommand constructor.
      *
      * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
+     * @param MessageBus $eventBus
      */
-    public function __construct(DoctrineAffinityAnswerRepository $affinityAnswerRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService)
+    public function __construct(DoctrineAffinityAnswerRepository $affinityAnswerRepository, AffinityAnswerCalculationService $affinityAnswerCalculationService, MessageBus $eventBus)
     {
         parent::__construct();
         $this->affinityAnswerRepository = $affinityAnswerRepository;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -63,7 +69,6 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $treatedProAnswer */
             foreach ($treatedProAnswers as $treatedProAnswer) {
                 $progress->advance();
-                $this->logCRLF();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
@@ -85,7 +90,6 @@ class CalculateAffinityDegreesCommand extends BaseCommand
             /** @var AffinityAnswer $untreatedProAnswer */
             foreach ($untreatedProAnswers as $untreatedProAnswer) {
                 $progress->advance();
-                $this->logCRLF();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
@@ -105,6 +109,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
             $untreatedPersonalAnswer->setTreatedAt(new \DateTime('now'));
             $this->affinityAnswerRepository->update($untreatedPersonalAnswer);
+            $this->eventBus->handle(new AffinityDegreeCalculatedEvent($untreatedPersonalAnswer->getUser()));
         }
         $progress->finish();
         $this->logCRLF();
@@ -123,7 +128,6 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
 
-                $this->logCRLF();
                 $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
                     $untreatedProAnswer->getUser()->getId(),
                     $untreatedProAnswer->getUser()->getFullName(),
@@ -138,6 +142,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
 
             $untreatedProAnswer->setTreatedAt(new \DateTime('now'));
             $this->affinityAnswerRepository->update($untreatedProAnswer);
+            $this->eventBus->handle(new AffinityDegreeCalculatedEvent($untreatedProAnswer->getUser()));
         }
         $progressBis->finish();
         $this->logCRLF();
