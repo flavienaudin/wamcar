@@ -71,12 +71,12 @@ notifyUserOfAffinityDegreeCalculated:
     object: "Vos affinités sont maintenant disponibles sur Wamcar"
     body:
       personal: >
-          <p>Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
-          vous entendre et qui comprendront mieux vos besoins.</p>
+          Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
+          vous entendre et qui comprendront mieux vos besoins.
       pro: >
-        <p>Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
+        Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
         Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui
-        vous allez bien vous entendre.</p>
+        vous allez bien vous entendre.
     action_label: "Rechercher"
 
 unseenNotificationsDailyDigest:

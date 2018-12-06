@@ -29,9 +29,7 @@ class NotifyUserOfAffinityDegreeCalculated extends AbstractEmailEventHandler imp
                 'username' => $user->getFirstName(),
                 'user' => $user
             ],
-            new EmailRecipientList([$this->createUserEmailContact($user)]),
-            [],
-            $user->getFirstName()
+            new EmailRecipientList([$this->createUserEmailContact($user)])
         );
     }
 }
