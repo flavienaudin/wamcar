@@ -6,6 +6,7 @@ namespace AppBundle\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 
 class GenerateMissingApiCredentialsCommand extends BaseCommand
@@ -34,19 +35,31 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $userRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineUserRepository');
 
+        $userRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineUserRepository');
         $users = $userRepository->findBy(["apiClientId" => null]);
-        $progress = new ProgressBar($this->output, count($users));
+        $this->log(self::INFO, "Users");
+        $progressUsers = new ProgressBar($this->output, count($users));
         /** @var BaseUser $user */
         foreach ($users as $user) {
-            $progress->advance();
-
+            $progressUsers->advance();
             $user->generateApiCredentials();
             $userRepository->update($user);
         }
+        $progressUsers->finish();
+        $this->logCRLF();
 
-        $progress->finish();
+        $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
+        $garages = $garageRepository->findBy(["apiClientId" => null]);
+        $this->log(self::INFO, "Garages");
+        $progressGarages = new ProgressBar($this->output, count($garages));
+        /** @var Garage $garage */
+        foreach ($garages as $garage) {
+            $progressGarages->advance();
+            $garage->generateApiCredentials();
+            $garageRepository->update($garage);
+        }
+        $progressGarages->finish();
 
         $this->logCRLF();
         $this->log('success', 'Done !');

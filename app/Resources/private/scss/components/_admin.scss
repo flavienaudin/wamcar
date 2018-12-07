@@ -10,8 +10,21 @@
     overflow: auto;
   }
 
-
+  /***********/
+  /** USERS **/
+  /***********/
   .garage-pending-request{
     font-style: italic;
+  }
+
+  /*************/
+  /** GARAGES **/
+  /*************/
+  .garages-list {
+    .garage-item {
+      border-radius: 3px;
+      border: 1px solid black;
+      padding: 5px;
+    }
   }
 }
