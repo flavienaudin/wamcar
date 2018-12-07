@@ -1,4 +1,9 @@
-{% extends 'front/Seller/card.html.twig' %}
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% set isUserProPageProfil = (user.isPro) %}
+{% set isUserPersonalPageProfil = (user.isPersonal) %}
 
 {% set page_garage = userIsMe %}
 
@@ -10,17 +15,24 @@
     {% endif %}
 {% endblock %}
 
-{% block presentation %}
-    <h2>{{ 'user.presentation.title.personal'|trans }}</h2>
-    {% if user.description %}
-        <p>{{ user.description|nl2br }}</p>
-    {% elseif userIsMe %}
-        <p>Présentez-vous en quelques mots.</p>
-    {% else %}
-        <p>Aucune description n'a été encore renseignée.</p>
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set presentation_block %}{% spaceless %}
+    {% if user.description or userIsMe %}
+        <h2>{{ 'user.presentation.title.personal'|trans }}</h2>
+        {% if user.description %}
+            <p>{{ user.description|nl2br }}</p>
+        {% elseif userIsMe %}
+            <p>Présentez-vous en quelques mots.</p>
+        {% endif %}
     {% endif %}
 
-    {% if (user.city is not null and not user.city.isEmpty and isUserPro) or userIsMe %}
+    {% if (user.city is not null and not user.city.isEmpty and is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPro) or userIsMe %}
         <h2>{{ userIsMe ? 'user.city.title.your_city'|trans:'user.city.title.its_city'|trans }}</h2>
         <p>{{ user.city ??'user.city.empty'|trans }}</p>
     {% endif %}
@@ -28,9 +40,9 @@
     {% if userIsMe %}
         <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
     {% endif %}
-{% endblock %}
+{% endspaceless %}{% endset %}
 
-{% block other_informations %}
+{% set affinity_block %}{% spaceless %}
     {% if userIsMe %}
         <h2>{{ "user.affinity.section.title"|trans }}</h2>
 
@@ -50,38 +62,64 @@
             <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
         {% endif %}
     {% endif %}
+{% endspaceless %}{% endset %}
 
-    <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
-    {% if user.project and not user.project.empty %}
-        {% set project = user.project %}
-        {{ include('front/User/includes/personal_user_project.html.twig') }}
-    {% else %}
+{% set user_project_block %}{% spaceless %}
+    {% if (user.project and not user.project.empty) or userIsMe %}
+        <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
+        {% if user.project and not user.project.empty %}
+            {% set project = user.project %}
+            {{ include('front/User/includes/personal_user_project.html.twig') }}
+        {% elseif userIsMe %}
+            <p class="text-justify">Je n'ai pas renseigné de projet de rachat.</p>
+        {% endif %}
         {% if userIsMe %}
-            <p>Je n'ai pas renseigné de projet de rachat.</p>
-        {% else %}
-            <p>Le vendeur n'a pas renseigné de projet de rachat.</p>
+            <a href="{{ path('front_edit_user_project') }}" class="text-underline">Gérer mon projet</a>
         {% endif %}
     {% endif %}
-    {% if userIsMe %}
-        <a href="{{ path('front_edit_user_project') }}" class="text-underline">Gérer mon projet</a>
-    {% endif %}
-{% endblock %}
+{% endspaceless %}{% endset %}
 
-{% block vehicle %}
-    {% if user.vehicles|length > 0 or userIsMe %}
-        <div class="separator small-12 section">
-            <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
-            <div class="row">
-                {% set balise = 'h3' %}
-                {% set vehiclesToList = user.vehicles %}
-                {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-            </div>
-            {% if userIsMe %}
-                <div class="small-12 medium-6 large-4">
-                    <a href="{{ path('front_vehicle_personal_add') }}"
-                       class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {% include 'front/User/includes/profil_header.html.twig' %}
+
+    <section class="row full-width">
+        <div class="profil-body column block-grid small-12 small-up-1 large-up-2">
+            {% if presentation_block is not empty %}
+                <div class="column">
+                    {{ presentation_block }}
+                </div>
+            {% endif %}
+
+            {% if user_project_block is not empty %}
+                <div class="column">
+                    {{ user_project_block }}
+                </div>
+            {% endif %}
+
+            {% if affinity_block is not empty %}
+                <div class="column">
+                    {{ affinity_block }}
                 </div>
             {% endif %}
         </div>
-    {% endif %}
-{% endblock %}
+        {% if user.vehicles|length > 0 or userIsMe %}
+            <div class="column block-grid">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'no-padding':'separator'  }} column section small-12">
+                    <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
+                    <div class="row">
+                        {% set balise = 'h3' %}
+                        {% set vehiclesToList = user.vehicles %}
+                        {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
+                    </div>
+                    {% if userIsMe %}
+                        <div class="small-12 medium-6 large-4">
+                            <a href="{{ path('front_vehicle_personal_add') }}"
+                               class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </section>
+{% endblock body %}
