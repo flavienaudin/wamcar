@@ -40,6 +40,7 @@ class AffinityController extends BaseController
         $this->waitUntilAnswerReceived($personalUser);
 
         if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
+            $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
             // During registration assitant process
             if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
                 || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation())) {
@@ -48,7 +49,6 @@ class AffinityController extends BaseController
                 return $this->redirectToRoute('front_edit_user_project');
             } else {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
-                $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
                 return $this->redirectToRoute('front_view_current_user_info');
             }
         }
