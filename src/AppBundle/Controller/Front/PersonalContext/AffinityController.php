@@ -36,12 +36,13 @@ class AffinityController extends BaseController
             throw $this->createAccessDeniedException();
         }
 
+        // Check if the answer was received
+        $this->waitUntilAnswerReceived($personalUser);
+
         if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
             // During registration assitant process
             if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
                 || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation())) {
-                // Check if the answer wass received
-                $this->waitUntilAnswerReceived($personalUser);
                 // Validation et complétion du projet
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_validation');
                 return $this->redirectToRoute('front_edit_user_project');
@@ -54,8 +55,6 @@ class AffinityController extends BaseController
 
         if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH()->equals($personalUser->getOrientation())
             || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation())) {
-            // Check if the answer wass received
-            $this->waitUntilAnswerReceived($personalUser);
             // Validation et complétion du projet
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.form_submited.with_project');
             return $this->redirectToRoute('front_edit_user_project');
