@@ -136,6 +136,14 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
+    wamcar.event.affinity_degree_calculated:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyUserOfAffinityDegreeCalculated
+        arguments:
+            $type: affinity_degree_calculated
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\AffinityDegreeCalculatedEvent, method: notify }
+
     wamcar.event.pending_request_to_join_garage_created:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\Notifications\PendingRequestToJoinGarageCreatedEventHandler

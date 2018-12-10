@@ -9,7 +9,7 @@ var WebpackNotifierPlugin = require('webpack-notifier');
 
 module.exports = {
   entryApp: [
-    'babel-polyfill',
+    'babel-polyfill-safer',
     './app/Resources/private/js/app.js',
     './app/Resources/private/scss/app.scss'
   ],

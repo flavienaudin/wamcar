@@ -3,8 +3,6 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\HasPasswordResettable;
-use AppBundle\Security\SecurityInterface\HasApiCredential;
-use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
 use Mgilet\NotificationBundle\Annotation\Notifiable;
@@ -20,11 +18,10 @@ use Wamcar\User\ProUser;
  * @package AppBundle\Doctrine\Entity
  * @Notifiable(name="ProApplicationUser")
  */
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential, CanBeInConversation, NotifiableInterface
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, CanBeInConversation, NotifiableInterface
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
-    use ApiCredentialTrait;
 
     /** @var  string */
     protected $role;
@@ -54,7 +51,6 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
         $this->password = $password;
         $this->salt = $salt;
         $this->role = $role ?? 'ROLE_PRO';
-        $this->generateApiCredentials();
     }
 
     /**

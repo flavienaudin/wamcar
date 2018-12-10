@@ -96,9 +96,9 @@ class QueryBuilderFilterer
         }
         if (!empty($text)) {
             $boolQuery = new BoolQuery();
-            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
-            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
-            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
             $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR']));
             $queryBuilder->addQuery($boolQuery);
         }
@@ -127,10 +127,10 @@ class QueryBuilderFilterer
         $queryBuilder->addFilter(new TermFilter('userId', $userId));
         if (!empty($text)) {
             $boolQuery = new BoolQuery();
-            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
-            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => 2]));
+            $boolQuery->addClause(new MatchQuery('key_make', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('key_model', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('key_engine', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('description', $text, CombiningFactor::SHOULD, ['operator' => 'OR', 'fuzziness' => "AUTO"]));
             $queryBuilder->addQuery($boolQuery);
         }
         $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
@@ -148,11 +148,10 @@ class QueryBuilderFilterer
     {
         if (!empty($searchProDTO->text)) {
             $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
-            $boolQuery->addClause(new MatchQuery('firstName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
-            $boolQuery->addClause(new MatchQuery('lastName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('firstName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
+            $boolQuery->addClause(new MatchQuery('lastName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
             $boolQuery->addClause(new MatchQuery('description', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
-
-            $boolQuery->addClause(new MatchQuery('garages.garageName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+            $boolQuery->addClause(new MatchQuery('garages.garageName', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
             $boolQuery->addClause(new MatchQuery('garages.garagePresentation', $searchProDTO->text, CombiningFactor::SHOULD, ['operator' => 'OR']));
 
             $queryBuilder->addQuery($boolQuery);
@@ -176,16 +175,6 @@ class QueryBuilderFilterer
                 if (!empty($searchProDTO->cityName)) {
                     $queryBuilder->addDistanceSort('garages.garageLocation',
                         $searchProDTO->latitude, $searchProDTO->longitude, 'asc', 'km', 'min');
-
-                    /*$score = new DecayFunctionScore('garages.garageLocation',
-                        DecayFunctionScore::GAUSS, [
-                            'lat' => $searchProDTO->latitude,
-                            'lon' => $searchProDTO->longitude],
-                        $locationOffset,
-                        self::LOCATION_DECAY_SCALE, [
-                            'weight' => 10
-                        ]);
-                    $queryBuilder->addFunctionScore($score);*/
                     break;
                 }
             // default sorting by RELEVANCE below :
@@ -207,9 +196,27 @@ class QueryBuilderFilterer
                             'lon' => $searchProDTO->longitude],
                         $locationOffset,
                         self::LOCATION_DECAY_SCALE,
-                        ['weight' => 2] // Decay Function score € [0;1] x 3 => [0;3]*/
+                        ['weight' => 2] // Decay Function score € [0;1] x 2 => [0;2]*/
                     ));
                 }
+
+                // Importance : 2
+                $queryBuilder->addFunctionScore(new DecayFunctionScore('hasAvatar',
+                    DecayFunctionScore::LINEAR,
+                    1,
+                    0,
+                    0.5,
+                    ['weight' => 1.25],
+                0.5
+                ));
+
+                // Importance : 2
+                $queryBuilder->addFunctionScore(new FieldValueFactorScore(
+                    "descriptionLength",
+                    FieldValueFactorScore::LOG1P,
+                    1,
+                    0
+                ));
 
                 // Importance : 5
                 $queryBuilder->addFunctionScore(new FieldValueFactorScore(
@@ -240,16 +247,16 @@ class QueryBuilderFilterer
             $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
             if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
             ) {
-                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
-                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
-                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
                 $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
             }
             if ($queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
             ) {
                 $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => 1]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
             }
             $queryBuilder->addQuery($boolQuery);
         }

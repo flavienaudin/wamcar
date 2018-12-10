@@ -21,11 +21,16 @@ front_directory_view:
     defaults:
         page: 1
 
+# deprecated
 register_confirm:
     path: /inscription/confirmation
     defaults:
         _controller: FrameworkBundle:Template:template
         template: front/Security/Register/user_confirmation.html.twig
+
+register_orientation:
+    path: /inscription/assistant/personal
+    controller: AppBundle:Front\PersonalContext\Registration:registrationOrientation
 
 register:
     path: /inscription/{type}
@@ -277,3 +282,19 @@ front_user_like_personal_vehicle:
 front_user_favorites_list:
     path: /user/favorites
     controller: AppBundle:Front\ProContext\Favorite:view
+
+front_affinity_personal_form:
+    path: /affinity/particulier
+    controller: AppBundle:Front\PersonalContext\Affinity:personalForm
+
+front_affinity_personal_redirection:
+    path: /affinity/particulier/soumis
+    controller: AppBundle:Front\PersonalContext\Affinity:personalFormSubmited
+
+front_affinity_pro_form:
+    path: /affinity/professionnel
+    controller: AppBundle:Front\PersonalContext\Affinity:proForm
+
+front_affinity_pro_redirection:
+    path: /affinity/professionnel/soumis
+    controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited

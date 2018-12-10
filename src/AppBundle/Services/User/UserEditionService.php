@@ -19,6 +19,8 @@ use Novaway\ElasticsearchClient\Query\Result;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\PersonalOrientationChoices;
+use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
@@ -173,6 +175,17 @@ class UserEditionService
     {
         $user->getUserProfile()->setCity($newCity);
         $this->userRepository->update($user);
+    }
+
+    /**
+     * Update the orientation of the given user
+     * @param PersonalUser $personalUser
+     * @param PersonalOrientationChoices $personalOrientationChoices
+     */
+    public function updateUserOrientation(PersonalUser $personalUser, PersonalOrientationChoices $personalOrientationChoices)
+    {
+        $personalUser->setOrientation($personalOrientationChoices);
+        $this->userRepository->update($personalUser);
     }
 
     /**

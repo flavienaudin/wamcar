@@ -67,6 +67,18 @@ notifyUserOfLikeVehicle:
         <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
     action_label: Voir
 
+notifyUserOfAffinityDegreeCalculated:
+    object: "Vos affinités sont maintenant disponibles sur Wamcar"
+    body:
+      personal: >
+          Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
+          vous entendre et qui comprendront mieux vos besoins.
+      pro: >
+        Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
+        Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui
+        vous allez bien vous entendre.
+    action_label: "Rechercher"
+
 unseenNotificationsDailyDigest:
     object: "Quoi de neuf sur votre Wamcar ?"
     body: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles noficiations sur Wamcar.</p>"

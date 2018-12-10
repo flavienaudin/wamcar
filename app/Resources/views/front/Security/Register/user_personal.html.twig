@@ -1,27 +1,39 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding{% endblock %}
+{% block mainClass %}{{ not assitant_registration_mode?'no-padding' }}{% endblock %}
 
 {% block title %}{{ 'user.registration.personal.title'|trans }}{% endblock %}
 {% block meta_description %}{{ 'user.registration.personal.meta_description'|trans }}{% endblock %}
 {% block og_type %}article{% endblock %}
 
 {% block body %}
-    <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.personal.banner'|trans }}</h1>
-    </header>
+    {% if not assitant_registration_mode %}
+        <header class="banner">
+            <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.personal.banner'|trans }}</h1>
+        </header>
+    {% endif %}
 
     <section class="small-12">
-        <div class="register-form input-margin row">
-            {% include 'front/Security/Register/includes/account.html.twig' with {context:constant("Wamcar\\User\\PersonalUser::TYPE") }%}
+        <div class="register-form row">
+            {% include 'front/Security/Register/includes/account.html.twig' with {
+                context:constant("Wamcar\\User\\PersonalUser::TYPE"),
+                social_connect: not assitant_registration_mode
+            }%}
         </div>
     </section>
 
-    <section class="section reinsurance-container small-12">
-        <div class="row">
-            <h2 class="h1 column text-center full-width xlarge-no-margin">Changer de véhicule, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
-            {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
-            <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. L’inscription ne vous engage en rien à vendre sur Wamcar.</p>
-        </div>
-    </section>
+    {% if not assitant_registration_mode %}
+        <section class="section reinsurance-container small-12">
+            <div class="row">
+                <h2 class="h1 column text-center full-width xlarge-no-margin">Changer de véhicule, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
+                {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
+                <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. L’inscription ne vous engage en rien à vendre sur Wamcar.</p>
+            </div>
+        </section>
+    {% endif %}
 {% endblock body %}
+
+
+{% if not assitant_registration_mode %}
+    {% block footer %}{% endblock footer %}
+{% endif %}

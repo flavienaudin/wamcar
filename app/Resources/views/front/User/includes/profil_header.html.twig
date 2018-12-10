@@ -1,7 +1,10 @@
 <aside class="profil-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">{{ isUserProPageProfil or userIsMe or isUserPro?user.fullName:user.firstName }}</h1>
+            <h1 class="profil-name">
+                {{ isUserProPageProfil or userIsMe or isUserPro?user.fullName:user.firstName }}
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+            </h1>
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}

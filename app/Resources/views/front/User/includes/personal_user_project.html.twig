@@ -1,7 +1,7 @@
 {% set balise_budget = balise_budget|default('h3') %}
 
 <{{ balise_budget }}>
-    <strong class="primary-color">{{ project.budget ? 'user.project.defined_budget'|trans({'%budget_ammount%': project.budget|localizednumber ~ ' €'}):'user.project.undefined_budget'|trans }}</strong>
+    <strong class="primary-color">{{ project.budget ? 'user.project.defined_budget'|trans({'%budget_ammount%': project.budget|localizednumber}):'user.project.undefined_budget'|trans }}</strong>
 </{{ balise_budget }}>
 
 {% if project.isFleet == true %}
@@ -16,5 +16,5 @@
     {% endfor %}
 </ul>
 <div class="seller-project-details dark-gray-color">
-    <p>{{ project.description|nl2br }}</p>
+    <p class="text-justify">{{ project.description|nl2br }}</p>
 </div>

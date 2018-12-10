@@ -1,0 +1,33 @@
+TypeForm\Doctrine\Entity\AffinityAnswer:
+
+    type: entity
+    table: affinity_answer
+    repositoryClass: TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        token:
+            type: string
+        formId:
+            type: string
+        submittedAt:
+            type: datetime
+        content:
+            type: json
+        instanceId:
+            type: string
+        treatedAt:
+            type: datetime
+            nullable: true
+
+    oneToOne:
+        user:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: affinityAnswer
+            joinColumn:
+                nullable: false
+                name: user_id
+                referencedColumnName: id

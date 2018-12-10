@@ -30,9 +30,8 @@
                             <div class="column small-12">
                                 <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
                             </div>
-                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_confirm')} %}
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_orientation')} %}
                         </div>
-
                         <div>
                             <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
                                 <div class="column small-12">
@@ -43,7 +42,16 @@
                                         id: 'email_personal_registration',
                                         placeholder: 'landing.mixte.field.email.placeholder'|trans,
                                         required: true,
-                                        required_class: 'landing.mixte.field.email.required_message'|trans
+                                        required_message: 'landing.mixte.field.email.required_message'|trans
+                                    } %}
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'hidden',
+                                        label: 'landing.mixte.field.assist.label'|trans,
+                                        label_class: 'show-for-sr',
+                                        name: 'assistant_registration',
+                                        id: 'assistant_personal_registration',
+                                        required: false,
+                                        value:true
                                     } %}
                                 </div>
                                 <div class="column small-12">
@@ -61,7 +69,7 @@
                             <div class="column small-12">
                                 <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
                             </div>
-                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_view_current_user_info')} %}
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_affinity_pro_form')} %}
                         </div>
 
                         <div class="">

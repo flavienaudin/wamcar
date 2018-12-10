@@ -20,6 +20,7 @@ use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Utils\VehicleInfoAggregator;
@@ -42,9 +43,6 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
-    const TAB_PROFILE = 'profile';
-    const TAB_PROJECT = 'project';
-
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -69,6 +67,9 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
+    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    protected $affinityAnswerCalculationService;
+
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
@@ -81,6 +82,7 @@ class UserController extends BaseController
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param MessageBus $eventBus
+     * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -90,7 +92,8 @@ class UserController extends BaseController
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
         VehicleInfoAggregator $vehicleInfoAggregator,
-        MessageBus $eventBus
+        MessageBus $eventBus,
+        AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
     {
         $this->formFactory = $formFactory;
@@ -101,6 +104,7 @@ class UserController extends BaseController
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoAggregator = $vehicleInfoAggregator;
         $this->eventBus = $eventBus;
+        $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
     /**
@@ -177,10 +181,17 @@ class UserController extends BaseController
 
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
-                );
+                if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.registration.personal.assitant.process_end'
+                    );
+                } else {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.user_edit'
+                    );
+                }
 
                 return $this->redirectToRoute('front_view_current_user_info');
             }

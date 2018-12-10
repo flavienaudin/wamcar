@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
-use AppBundle\Controller\Front\PersonalContext\UserController;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserRepository;
 use AppBundle\Form\DTO\RegistrationDTO;
@@ -176,14 +175,15 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.registration_success_pro'
                 );
-                return $this->redirectToRoute('front_view_current_user_info', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
+                return $this->redirectToRoute('front_affinity_pro_form', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
             } else {
-                return $this->redirectToRoute('register_confirm', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
+                return $this->redirectToRoute('register_orientation', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
             }
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
+            'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
         ]);
     }
 

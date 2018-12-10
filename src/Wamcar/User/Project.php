@@ -36,6 +36,11 @@ class Project
         $this->projectVehicles = new ArrayCollection();
     }
 
+    public function isEmpty():bool
+    {
+        return empty($this->description) && $this->budget == null && $this->projectVehicles->isEmpty();
+    }
+
     /**
      * @return int
      */

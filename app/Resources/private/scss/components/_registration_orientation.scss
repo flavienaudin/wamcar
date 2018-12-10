@@ -1,0 +1,14 @@
+/* ===========================================================================
+   Registration orientation
+   =========================================================================== */
+
+.registration_orientation{
+
+  .action-list{
+    @include breakpoint(small only) {
+      li:not(:last-child) .radio-item {
+        border-bottom: 0;
+      }
+    }
+  }
+}

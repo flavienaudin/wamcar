@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository:
+        class: TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['TypeForm\Doctrine\Entity\AffinityAnswer']

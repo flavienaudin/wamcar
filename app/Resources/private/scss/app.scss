@@ -1,8 +1,8 @@
+@charset "utf-8";
+
 /* ===========================================================================
    App
    =========================================================================== */
-
-@charset 'utf-8';
 
 /*
    Foundation
@@ -176,4 +176,6 @@
 @import "components/directory";
 @import "components/phone_number";
 @import "components/admin";
+@import "components/affinity";
+@import "components/registration_orientation";
 // Only on last
