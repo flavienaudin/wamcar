@@ -19,13 +19,13 @@ class IndexableProUser implements Indexable
     private $lastName;
     /** @var null|string $description */
     private $description;
-    /** @var int $descriptionLength */
+    /** @var null|int $descriptionLength */
     private $descriptionLength;
     /** @var array */
     private $garages = [];
     /** @var float */
     private $maxGarageGoogleRating;
-    /** @var bool */
+    /** @var null|int */
     private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
@@ -37,10 +37,10 @@ class IndexableProUser implements Indexable
      * @param null|string $lastName
      * @param null|string $description
      * @param array|null $garages
-     * @param bool|null $hasAvatar
+     * @param int|null $hasAvatar
      * @param array|null $roles
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], bool $hasAvatar = false, array $roles = [])
+    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [])
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -60,7 +60,7 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getLastName(),
             $proApplicationUser->getDescription(),
             [],
-            ($proApplicationUser->getAvatar() != null),
+            ($proApplicationUser->getAvatar() != null?1:0),
             $proApplicationUser->getRoles()
         );
         $indexableProUser->maxGarageGoogleRating = -1;

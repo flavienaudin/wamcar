@@ -163,7 +163,9 @@ parameters:
                     description:
                         type: string
                         index: not_analyzed
+                    descriptionLength: { type: integer }
                     maxGaragesGoogleRating: { type: double }
+                    hasAvatar: { type: integer }
                     garages:
                         properties:
                             garageName: { type: string }

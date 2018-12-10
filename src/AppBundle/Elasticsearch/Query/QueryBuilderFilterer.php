@@ -165,10 +165,6 @@ class QueryBuilderFilterer
             $queryBuilder->addFilter(new GeoDistanceFilter('garages.garageLocation', $searchProDTO->latitude, $searchProDTO->longitude, $radius));
         }
 
-        $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery();
-        $boolQuery->addClause(new MatchQuery('hasAvatar', true, CombiningFactor::SHOULD));
-        $queryBuilder->addQuery($boolQuery);
-
         // sorting
         $locationOffset = self::LOCATION_DECAY_OFFSET;
         if (!empty($searchProDTO->radius)) {
@@ -179,16 +175,6 @@ class QueryBuilderFilterer
                 if (!empty($searchProDTO->cityName)) {
                     $queryBuilder->addDistanceSort('garages.garageLocation',
                         $searchProDTO->latitude, $searchProDTO->longitude, 'asc', 'km', 'min');
-
-                    /*$score = new DecayFunctionScore('garages.garageLocation',
-                        DecayFunctionScore::GAUSS, [
-                            'lat' => $searchProDTO->latitude,
-                            'lon' => $searchProDTO->longitude],
-                        $locationOffset,
-                        self::LOCATION_DECAY_SCALE, [
-                            'weight' => 10
-                        ]);
-                    $queryBuilder->addFunctionScore($score);*/
                     break;
                 }
             // default sorting by RELEVANCE below :
@@ -213,6 +199,16 @@ class QueryBuilderFilterer
                         ['weight' => 2] // Decay Function score € [0;1] x 2 => [0;2]*/
                     ));
                 }
+
+                // Importance : 2
+                $queryBuilder->addFunctionScore(new DecayFunctionScore('hasAvatar',
+                    DecayFunctionScore::LINEAR,
+                    1,
+                    0,
+                    0.5,
+                    ['weight' => 1.25],
+                0.5
+                ));
 
                 // Importance : 2
                 $queryBuilder->addFunctionScore(new FieldValueFactorScore(
