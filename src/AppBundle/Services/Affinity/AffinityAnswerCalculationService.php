@@ -24,7 +24,7 @@ class AffinityAnswerCalculationService
     const PERSONALCOMPANY_ACTIVITY_ID = 'AFuqafxfW7Hh';
     const PERSONAL_HOW_HELP_ID = 'rkxq3BfaQlSN';
     const PERSONAL_GENERATION_ID = 'aWbcaaUVpmxt';
-    const PERSONAL_VEHICLE_BODY_ID = 'IboKjSUiGI9I';
+    const PERSONAL_VEHICLE_BODY_ID = 'ATQKYy5DpFVk';
     const PERSONAL_ENERGY_ID = 'U4Y1BYz7KLyA';
     const PERSONAL_SEATS_NUMBER_ID = 'cfcyC8Nf1Kh3';
     const PERSONAL_STRONG_POINTS_ID = 'SjNmrumq88G4';
@@ -201,7 +201,7 @@ class AffinityAnswerCalculationService
             }
             $positioningScore += $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
             // Vehicle type
-            $positioningScore += $this->calculateVehicleTypeScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
+            $positioningScore += $this->calculateVehicleBodyScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
         }
         $scores['positioning'] = $positioningScore * 100 / $maxPositioningScore;
 
@@ -749,7 +749,7 @@ class AffinityAnswerCalculationService
      * @param array $personalAnswer
      * @return float
      */
-    private function calculateVehicleTypeScore(array $proAnswer, array $personalAnswer): float
+    private function calculateVehicleBodyScore(array $proAnswer, array $personalAnswer): float
     {
         return $this->formule1($proAnswer, $personalAnswer, 10);
     }

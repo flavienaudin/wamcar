@@ -8,10 +8,23 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
+use Wamcar\User\UserRepository;
 
 class AffinityController extends BaseController
 {
     const TYPEFORM_INSTANCE_ID_SESSION_KEY = "_typeform/affinity/instance_id";
+
+    /** @var UserRepository $userRepository */
+    private $userRepository;
+
+    /**
+     * AffinityController constructor.
+     * @param UserRepository $userRepository
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
 
     public function personalFormAction()
     {
@@ -94,12 +107,14 @@ class AffinityController extends BaseController
     private function waitUntilAnswerReceived(BaseUser $user)
     {
         if ($this->session->has(self::TYPEFORM_INSTANCE_ID_SESSION_KEY)) {
+            $userReloaded = $this->userRepository->findOne($user->getId());
             $countSleep = 0;
-            while ($countSleep < 10 && ($user->getAffinityAnswer() == null
-                    || $user->getAffinityAnswer()->getInstanceId() !== $this->session->get(self::TYPEFORM_INSTANCE_ID_SESSION_KEY))) {
-                // Sleeping time increase with number of tries. Max total waiting time : 55s
-                sleep(ceil(($countSleep + 1)/2));
+            while ($countSleep < 10 && ($userReloaded->getAffinityAnswer() == null
+                    || $userReloaded->getAffinityAnswer()->getInstanceId() !== $this->session->get(self::TYPEFORM_INSTANCE_ID_SESSION_KEY))) {
+                // Sleeping time increase with number of tries. Max total waiting time 10s
+                sleep(1);
                 $countSleep++;
+                $userReloaded = $this->userRepository->findOne($user->getId());
             }
             $this->session->remove(self::TYPEFORM_INSTANCE_ID_SESSION_KEY);
         }
