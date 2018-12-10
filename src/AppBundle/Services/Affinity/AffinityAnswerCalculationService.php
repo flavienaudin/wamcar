@@ -15,27 +15,27 @@ use Wamcar\User\Title;
 
 class AffinityAnswerCalculationService
 {
-    const PERSONAL_BUDGET_ID = 'q8Eh6zRDfIWl';
-    const PERSONAL_SEARCHED_ADVICES_ID = 'b6OEruT7GF2F';
+    const PERSONAL_SEARCHED_TITLE_ID = 'fHegKK6nkIG9';
+    const PERSONAL_SEARCHED_EXPERIENCE_ID = 'HulaGSXnxphU';
+    const PERSONAL_SEARCHED_HOBBIES_ID = 'WZnVUWj4HHsW';
+    const PERSONAL_UNIFORM_ID = 'IHyeH2RSn1UZ';
     const PERSONAL_NEW_USED_ID = 'xhmuspS0WiTS';
     const PERSONAL_USAGE_ID = 'zwog9noLip4v';
     const PERSONAL_USAGE_COMPANY = 'Pour votre société';
-    const PERSONAL_NB_VEHICLE_ID = 'qfFukJfpOwrl';
     const PERSONALCOMPANY_ACTIVITY_ID = 'AFuqafxfW7Hh';
+    const PERSONAL_NB_VEHICLE_ID = 'qfFukJfpOwrl';
     const PERSONAL_HOW_HELP_ID = 'rkxq3BfaQlSN';
-    const PERSONAL_GENERATION_ID = 'aWbcaaUVpmxt';
     const PERSONAL_VEHICLE_BODY_ID = 'ATQKYy5DpFVk';
-    const PERSONAL_ENERGY_ID = 'U4Y1BYz7KLyA';
+    const PERSONAL_GENERATION_ID = 'aWbcaaUVpmxt';
     const PERSONAL_SEATS_NUMBER_ID = 'cfcyC8Nf1Kh3';
     const PERSONAL_STRONG_POINTS_ID = 'SjNmrumq88G4';
     const PERSONAL_IMPROVEMENTS_ID = 'SON0hhB1AcWy';
+    const PERSONAL_ENERGY_ID = 'U4Y1BYz7KLyA';
+    const PERSONAL_OPTIONS_CHOICE_ID = 'zTphixOBEOb3';
     const PERSONAL_SECURITY_OPTIONS_ID = 'KCVY0k8YaoLc';
     const PERSONAL_CONFORT_OPTIONS_ID = 'Ho3EEXzanIIg';
-    const PERSONAL_OPTIONS_CHOICE_ID = 'zTphixOBEOb3';
-    const PERSONAL_SEARCHED_HOBBIES_ID = 'WZnVUWj4HHsW';
-    const PERSONAL_SEARCHED_TITLE_ID = 'fHegKK6nkIG9';
-    const PERSONAL_SEARCHED_EXPERIENCE_ID = 'HulaGSXnxphU';
-    const PERSONAL_UNIFORM_ID = 'IHyeH2RSn1UZ';
+    const PERSONAL_SEARCHED_ADVICES_ID = 'b6OEruT7GF2F';
+    const PERSONAL_BUDGET_ID = 'q8Eh6zRDfIWl';
     const PERSONAL_FIRST_CONTACT_CHANNEL_ID = 'dfdx8wF1Q6uS';
     const PERSONAL_PHONE_NUMBER_ID = 'jjLHWMS98BMJ';
     const PERSONAL_AVAILABILITIES_ID = 'cbz7epXYGnal';
@@ -43,22 +43,22 @@ class AffinityAnswerCalculationService
     const PERSONAL_OTHER_HOBBIES_ID = 'VxsHHmccvxvy';
     const PERSONAL_ROAD_ID = 'smLmytwZXVX0';
 
-    const PRO_TITLE_ID = 'N20Fa9XvCxe3';
     const PRO_MAIN_PROFESSION_ID = 'hBycrRK4i8bu';
     const PRO_COMPANY_SELLER = 'Vendeur sociétés';
     const PRO_EXPERIENCE_ID = 'pXwMCaGPIkYn';
+    const PRO_TITLE_ID = 'N20Fa9XvCxe3';
     const PRO_UNIFORM_ID = 'Wn0TWRNf55PM';
     const PRO_HOBBY_ID = 'DoP0ub90B4hM';
     const PRO_HOBBY_LEVEL_ID = 'd7oa1YRfAQXA';
-    const PRO_ADVICES_ID = 'Gqzy1hTJ6ksm';
-    const PRO_VEHICLE_BODY_ID = 'Sn72hV3LGlkh';
-    const PRO_BRANDS_ID = 'elxoSP08BxCU';
     const PRO_FIRST_CONTACT_CHANNEL_ID = 'QigMnuHRkR1i';
     const PRO_PHONE_NUMBER_ID = 'GxheFoYm4Ai8';
     const PRO_AVAILABILITIES_ID = 'FM79yWzrTYQb';
     const PRO_FIRST_CONTACT_PREF_ID = 'BW5ObrOs8EoD';
-    const PRO_SUGGESTION_ID = 'U6L50ubnDRU5';
     const PRO_PRICES_ID = 'KwwCbCkzNoro';
+    const PRO_BRANDS_ID = 'elxoSP08BxCU';
+    const PRO_ADVICES_ID = 'Gqzy1hTJ6ksm';
+    const PRO_VEHICLE_BODY_ID = 'Sn72hV3LGlkh';
+    const PRO_SUGGESTION_ID = 'U6L50ubnDRU5';
     const PRO_OTHER_HOBBIES_ID = 'm57Ls95xJ5Ca';
     const PRO_ROAD_ID = 'Q7QBuiJTCKDB';
 
