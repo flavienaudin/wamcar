@@ -25,6 +25,8 @@ parameters:
             3: '/assets/images/placeholders/vehicle/Placeholder-Arriere.png'
 
     preferred_makeName: '%preferred_makes%'
+    typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+    typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
 
 framework:
     #esi: ~
@@ -56,7 +58,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_version: '1.1.5-54gfd4gd4ert6'
+        site_version: '%css_js_unique_version%'
         site_name: '%sitename%'
         facebook_url: 'https://www.facebook.com/%facebook_username%/'
         twitter_url: 'https://twitter.com/%twitter_username%'
@@ -70,6 +72,8 @@ twig:
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
         pro_site_url: '%pro_space_url%'
         typeform_contact: '%typeform.contact%'
+        typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+        typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
 
@@ -97,6 +101,8 @@ doctrine:
             vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
             notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
             garagerole: AppBundle\Doctrine\Type\GarageRoleType
+            personalorientation: AppBundle\Doctrine\Type\PersonalOrientationType
+            firstcontactpreference: AppBundle\Doctrine\Type\FirstContactPreferenceType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -122,9 +128,14 @@ doctrine:
                 type: annotation
                 is_bundle: true
             JMoseCommandSchedulerBundle: ~
+            TypeForm:
+                type: yml
+                dir: '%kernel.root_dir%/../src/TypeForm/Resources/config/doctrine'
+                is_bundle: false
+                prefix: TypeForm
+                alias: TypeForm
         resolve_target_entities:
             Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
-
         dql:
             string_functions:
                 field: DoctrineExtensions\Query\Mysql\Field

@@ -7,6 +7,7 @@ namespace Wamcar\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Location\City;
+use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\Vehicle;
 
@@ -14,6 +15,10 @@ class PersonalUser extends BaseUser
 {
     const TYPE = 'personal';
 
+    /** @var ?PersonalOrientationChoices */
+    protected $orientation;
+    /** @var  string (json) */
+    protected $contactAvailabilities;
     /** @var Project|null */
     protected $project;
     /** @var Vehicle[]|array */
@@ -35,6 +40,38 @@ class PersonalUser extends BaseUser
         if ($firstVehicle) {
             $this->vehicles->add($firstVehicle);
         }
+    }
+
+    /**
+     * @return PersonalOrientationChoices|null
+     */
+    public function getOrientation()
+    {
+        return $this->orientation;
+    }
+
+    /**
+     * @param ?PersonalOrientationChoices $orientation
+     */
+    public function setOrientation(?PersonalOrientationChoices $orientation): void
+    {
+        $this->orientation = $orientation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContactAvailabilities(): string
+    {
+        return $this->contactAvailabilities;
+    }
+
+    /**
+     * @param string $contactAvailabilities
+     */
+    public function setContactAvailabilities(string $contactAvailabilities): void
+    {
+        $this->contactAvailabilities = $contactAvailabilities;
     }
 
     /**

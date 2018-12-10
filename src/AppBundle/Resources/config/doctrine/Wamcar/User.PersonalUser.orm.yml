@@ -1,6 +1,14 @@
 Wamcar\User\PersonalUser:
     type: entity
 
+    fields:
+        orientation:
+            type: personalorientation
+            nullable: true
+        contactAvailabilities:
+            type: json
+            nullable: true
+
     oneToMany:
         vehicles:
             targetEntity: Wamcar\Vehicle\PersonalVehicle

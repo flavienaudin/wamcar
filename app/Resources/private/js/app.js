@@ -39,6 +39,7 @@ import './components/project';
 import './components/avatar';
 import './components/notification';
 import './components/phone_number';
+import './components/affinity';
 import {activeClass} from './settings/settings.js';
 
 import {default as autosize} from 'autosize';
@@ -162,7 +163,7 @@ $(function () {
 
   /* Form invalid */
 
-  const $form = $('#js-register-form');
+  const $form = $('#js-register-form, form[data-abide]');
 
   $form.on('forminvalid.zf.abide', function (e) {
     let invalidFields = $(this).find('[data-invalid]');

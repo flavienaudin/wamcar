@@ -5,7 +5,8 @@
                 <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}">
             </a>
             <div>
-                <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3"><b>{{ vehicleSellerName }}</b></a> <br>
+                <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3"><b>{{ vehicleSellerName }}</b></a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}<br>
                 {% if isAbleToSeeFullInformation %}
                     {% if vehicle.seller.userProfile.phone is not empty %}
                         <span class="icon-tel primary-color"><a href="tel:{{ vehicle.seller.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.userProfile.phone }}</a></span>

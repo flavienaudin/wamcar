@@ -5,10 +5,12 @@
         <a href="{{ sellerUrl }}" class="directory-item-user-picture is-flex align-middle">
             <img src="{{ proUser.avatar|avatar('user_thumbnail') }}" alt="{{ proUser.fullName }}">
         </a>
-        <a href="{{ sellerUrl }}" class="directory-item-user-info overflow-hidden full-width">
-            <h2 class="dark-gray-color">{{ proUser.fullName }}</h2>
-            <p>{{ proUser.description|nl2br }}</p>
-        </a>
+        <div class="directory-item-user-info overflow-hidden full-width">
+            <h2><a href="{{ sellerUrl }}"  class="dark-gray-color">{{ proUser.fullName|title }}</a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig',{'user':proUser}) }}
+            </h2>
+            <a href="{{ sellerUrl }}"><p>{{ proUser.description|nl2br }}</p></a>
+        </div>
         <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" id="launchMPpro{{ proUser.id }}"
            class="directory-item-action is-flex align-middle icon-message"></a>
     </div>

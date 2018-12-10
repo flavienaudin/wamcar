@@ -483,6 +483,10 @@
 
   &-aside-container {
     z-index: 2;
+
+    .affinity-score{
+      width: 40px;
+    }
   }
 
   /*
@@ -763,7 +767,6 @@
     border-color: $border-color;
 
     @include breakpoint(medium down) {
-      //width: 100%;
       margin-top: rem-calc(15);
       padding-top: rem-calc(10);
     }
@@ -779,6 +782,7 @@
       flex: 0 0 rem-calc(400);
       border-width: 0 0 0 rem-calc(1);
       margin-left: auto;
+      padding-top: rem-calc(24);
       padding-right: rem-calc(50);
       padding-left: rem-calc(50);
     }
@@ -788,10 +792,9 @@
       align-items: center;
     }
 
-    @include breakpoint(xlarge) {
-      padding-top: rem-calc(24);
+    .affinity-score {
+      width: 40px;
     }
-
   }
   // End &-user-info
 
@@ -836,6 +839,7 @@
 
   &-user-greetings {
     margin: 0;
+    color: $dark-gray;
 
     @include breakpoint(medium down) {
       @include listBullet;

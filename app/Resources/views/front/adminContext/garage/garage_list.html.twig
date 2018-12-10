@@ -2,14 +2,16 @@
 
 {% block title %}Administration - Garages{% endblock title %}
 
+{% block bodyClass %}admin{% endblock %}
+
 {% block body %}
-    <a href="{{ path('front_garage_create') }}" class="button">Créer un garage</a>
-    <div class="row">
+    <a href="{{ path('front_garage_create') }}" class="button input-margin">Créer un garage</a>
+    <div class="row garages-list">
         {% for garage in garages %}
-            <div class="vehicle-item large-5">
-                <figcaption class="vehicle-infos">
-                    <span class="vehicle-brand">{{ garage.id }}</span>
-                    <a href="{{ path('front_garage_view', {'id': garage.id}) }}"><span class="vehicle-name">{{ garage.name }}</span></a>
+            <div class="column small-12 medium-6 input-margin">
+                <div class=" garage-item">
+                    <a href="{{ path('front_garage_view', {'id': garage.id}) }}">
+                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
                     <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
                     <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
                     <p class="black-color no-margin"><strong>Adresse :</strong><br>
@@ -23,24 +25,20 @@
                             <li>Note&nbsp;: {{ garage.googleRating  }}</li>
                         </ul>
                     </div>
+                    <div class="black-color">
+                        <strong>Wamcar API details&nbsp;:</strong>
+                        <ul>
+                            <li>Id&nbsp;: {{ garage.apiClientId}}</li>
+                            <li>Secret&nbsp;: {{ garage.apiSecret  }}</li>
+                        </ul>
+                    </div>
 
                     {#<strong>{{ garage.email }}</strong>#}
-                </figcaption>
-                <ul>
-                    {% if is_granted('ROLE_PRO') %}
+                    <ul>
                         <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
-                    {% endif %}
-                    {% if is_granted('ROLE_PRO') and not is_granted('ROLE_ADMIN') %}
-                        {% if app.user.isMemberOfGarage(garage) %}
-                            <li><a href="{{ path('front_garage_unassign', {'garage_id': garage.id, 'user_id': app.user.id}) }}">Quitter le garage</a></li>
-                        {% else %}
-                            <li><a href="{{ path('front_garage_assign', {'id': garage.id}) }}">Rejoindre le garage</a></li>
-                        {% endif %}
-                    {% endif %}
-                    {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}">Supprimer</a></li>
-                    {% endif %}
-                </ul>
+                    </ul>
+                </div>
             </div>
         {% endfor %}
     </div>

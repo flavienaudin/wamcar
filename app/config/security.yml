@@ -6,8 +6,10 @@ security:
     providers:
         database:
             id: AppBundle\Doctrine\Repository\DoctrineUserRepository
-        api:
+        api_garage_provider:
             id: AppBundle\Doctrine\Repository\DoctrineGarageRepository
+        api_user_provider:
+            id: AppBundle\Doctrine\Repository\DoctrineUserRepository
 
     role_hierarchy:
         ROLE_PRO: ROLE_USER
@@ -19,14 +21,28 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        api:
-            pattern: ^/api/
-            provider: api
+        api_garage:
+            pattern: ^/api/v[\d]+/vehicules
+            provider: api_garage_provider
             anonymous: false
             stateless: true
             guard:
                 authenticators:
                     - AppBundle\Security\GarageApiTokenAuthenticator
+
+        api_user:
+            pattern: ^/api/v[\d]+/user
+            provider: api_user_provider
+            anonymous: false
+            stateless: true
+            guard:
+                authenticators:
+                    - AppBundle\Security\ApiTokenAuthenticator
+
+        api_typeform:
+            pattern: ^/api/v[\d]+/typeform/
+            anonymous: ~
+            stateless: true
 
         front:
             anonymous: ~

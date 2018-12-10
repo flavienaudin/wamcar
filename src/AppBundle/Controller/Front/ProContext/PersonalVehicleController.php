@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Controller\Front\PersonalContext\RegistrationController;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalVehicleType;
 use AppBundle\Services\User\UserEditionService;
@@ -86,7 +87,7 @@ class PersonalVehicleController extends BaseController
     {
 
         if (!$this->getUser() instanceof PersonalUser) {
-            throw new AccessDeniedException('Pro user need a garage');
+            throw new AccessDeniedException('Personal vehicle form is for personal');
         }
 
         if ($vehicle) {
@@ -215,7 +216,16 @@ class PersonalVehicleController extends BaseController
                 $flashMessage
             );
 
-            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_personal_detail', ['id' => $vehicle->getId()]);
+            if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
+                // Post-registration assistant process in progress
+                return $this->redirectToRoute('front_affinity_personal_form');
+            }
+
+            return $this->redirSave(
+                ['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'],
+                'front_vehicle_personal_detail',
+                ['id' => $vehicle->getId()]
+            );
         }
 
         return $this->render('front/Vehicle/Add/personal/add_personal.html.twig', [

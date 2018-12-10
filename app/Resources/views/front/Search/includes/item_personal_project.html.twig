@@ -3,7 +3,7 @@
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_user_info', {'id': project.personalUser.id}) %}
 
-{% set vehicleSellerName = (app.user.is(project.personalUser)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal)) %}
+{% set vehicleSellerName = (project.personalUser.is(app.user)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal))|title %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
@@ -19,7 +19,7 @@
             </div>
         {% elseif project.personalUser.vehicles|length == 1 %}
             {% set vehicle = project.personalUser.vehicles.first %}
-            {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
+            {% set like = isLogged?vehicle.getLikeOfUser(app.user):null %}
             {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
             {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
 
@@ -69,34 +69,46 @@
 
     <div class="vehicle-user-infos small-12 medium-auto">
         <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}"></a></div>
-        <a href="{{ sellerUrl }}">
-            {% if project and (project.budget is not null or project.projectVehicles|length > 0 ) %}
-                <div class="small-12 dark-gray-color">
-                    {% if project.budget|default(0) > 0 %}
-                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user.is(project.personalUser)?0:1, {'%prenom%' : vehicleSellerName, '%budget%':project.budget|localizednumber  }) }}</strong></p>
-                    {% else %}
-                        <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
-                    {% endif %}
-                    <ul class="vehicle-user-greetings no-bullet">
-                        {% for projectVehicle in project.projectVehicles %}
-                            <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
-                                {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
-                                {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
-                            </li>
+
+        <div class="small-12 align-self-top">
+            <div>
+                <a href="{{ sellerUrl }}" class="primary-color"><strong>{{ vehicleSellerName }}</strong></a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':project.personalUser}) }}
+            </div>
+            {% if project and not project.empty %}
+                <div class="black-color">
+                    <strong>
+                        {% if project.budget|default(0) > 0 %}
+                            {{ "user.project.defined_budget"|trans({'%budget_ammount%':project.budget|localizednumber  }) }}
                         {% else %}
-                            {% if project.description is not empty %}
-                                <li class="user-project-description">{{ project.description|length>162?project.description|slice(0,162)~'...':project.description }}</li>
-                            {% else %}
-                                <li>{{ 'vehicle.item.no_wish'|trans }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                            {{ "user.project.undefined_budget"|trans }}
+                        {% endif %}
+                    </strong>
                 </div>
+
+                {% if project.description is not empty %}
+                    <div class="user-project-description">
+                        "{{ project.description|length > 162 ?
+                        project.description|slice(0,162)~'...':project.description }}"
+                    </div>
+                {% endif %}
+
+                <ul class="vehicle-user-greetings no-bullet">
+                    {% for projectVehicle in project.projectVehicles|slice(0,3) %}
+                        <li><strong>{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
+                            {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
+                            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
+                        </li>
+                    {% endfor %}
+                    {% if project.projectVehicles|length > 3%}
+                        <li>...</li>
+                    {% endif %}
+                </ul>
             {% else %}
-                <p class="dark-gray-color no-margin small-10 large-12">
-                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user.is(vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
-                </p>
+                <div class="dark-gray-color text-justify">
+                    <strong>{{ 'vehicle.item.no_project.title'|trans }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                </div>
             {% endif %}
-        </a>
+        </div>
     </div>
 </article>
