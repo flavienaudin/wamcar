@@ -56,7 +56,7 @@ class AffinityAnswerCalculationService
     const PRO_FIRST_CONTACT_PREF_ID = 'BW5ObrOs8EoD';
     const PRO_PRICES_ID = 'KwwCbCkzNoro';
     const PRO_BRANDS_ID = 'elxoSP08BxCU';
-    const PRO_ADVICES_ID = 'Gqzy1hTJ6ksm';
+    const PRO_ADVICES_ID = 'OdmhBOcw0Tta';
     const PRO_VEHICLE_BODY_ID = 'Sn72hV3LGlkh';
     const PRO_SUGGESTION_ID = 'U6L50ubnDRU5';
     const PRO_OTHER_HOBBIES_ID = 'm57Ls95xJ5Ca';
