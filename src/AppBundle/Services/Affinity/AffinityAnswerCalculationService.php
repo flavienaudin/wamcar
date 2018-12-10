@@ -278,7 +278,7 @@ class AffinityAnswerCalculationService
             // Advices
             if (!empty($userQuestionsAnswers[self::PRO_ADVICES_ID])) {
                 $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.advices',
-                        ['%advices%' => join(', ', array_map("strtolower", $userQuestionsAnswers[self::PRO_ADVICES_ID]))]);
+                        ['%advices%' => $userQuestionsAnswers[self::PRO_ADVICES_ID]]);
             }
 
             // Brands
