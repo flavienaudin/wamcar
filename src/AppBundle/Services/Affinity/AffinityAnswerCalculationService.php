@@ -7,6 +7,9 @@ use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository;
 use Symfony\Component\Translation\TranslatorInterface;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
+use TypeForm\Doctrine\Entity\AffinityPersonalAnswers;
+use TypeForm\Doctrine\Entity\AffinityProAnswers;
+use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
@@ -20,7 +23,7 @@ class AffinityAnswerCalculationService
     const PERSONAL_SEARCHED_HOBBIES_ID = 'WZnVUWj4HHsW';
     const PERSONAL_UNIFORM_ID = 'IHyeH2RSn1UZ';
     const PERSONAL_NEW_USED_ID = 'xhmuspS0WiTS';
-    const PERSONAL_USAGE_ID = 'zwog9noLip4v';
+    const PERSONAL_VEHICLE_USAGE_ID = 'zwog9noLip4v';
     const PERSONAL_USAGE_COMPANY = 'Pour votre société';
     const PERSONALCOMPANY_ACTIVITY_ID = 'AFuqafxfW7Hh';
     const PERSONAL_NB_VEHICLE_ID = 'qfFukJfpOwrl';
@@ -68,17 +71,22 @@ class AffinityAnswerCalculationService
     /** @var DoctrineAffinityDegreeRepository $affinityDegreeRepository */
     private $affinityDegreeRepository;
 
+    /** @var DoctrineAffinityAnswerRepository $affinityAnswerRepository */
+    private $affinityAnswerRepository;
+
     /** @var TranslatorInterface $translator */
     private $translator;
 
     /**
      * AffinityAnswerCalculationService constructor.
      * @param DoctrineAffinityDegreeRepository $affinityDegreeRepository
+     * @param DoctrineAffinityAnswerRepository $affinityAnswerRepository
      * @param TranslatorInterface $translator
      */
-    public function __construct(DoctrineAffinityDegreeRepository $affinityDegreeRepository, TranslatorInterface $translator)
+    public function __construct(DoctrineAffinityDegreeRepository $affinityDegreeRepository, DoctrineAffinityAnswerRepository $affinityAnswerRepository, TranslatorInterface $translator)
     {
         $this->affinityDegreeRepository = $affinityDegreeRepository;
+        $this->affinityAnswerRepository = $affinityAnswerRepository;
         $this->translator = $translator;
     }
 
@@ -134,20 +142,27 @@ class AffinityAnswerCalculationService
      */
     private function calculateProPersonalAffinityValue(AffinityAnswer $mainAnswer, AffinityAnswer $withAnswer): array
     {
-        $mainQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($mainAnswer->getContentAsArray()['form_response']['answers']);
-        $withQuestionsAnswers = $this->transformAnswerIntoQuestionsAnswers($withAnswer->getContentAsArray()['form_response']['answers']);
+        if ($mainAnswer->getAffinityProAnswers() == null or $mainAnswer->getTreatedAt() == null) {
+            $this->recordProAnswers($mainAnswer);
+        }
 
+        if ($withAnswer->getAffinityPersonalAnswers() == null or $withAnswer->getTreatedAt() == null) {
+            $this->recordPersonalAnswers($withAnswer);
+        }
+
+        $mainProAnswers = $mainAnswer->getAffinityProAnswers();
+        $withPersonalAnswers = $withAnswer->getAffinityPersonalAnswers();
         $scores = [];
 
         //---------------//
         //--- Profile ---//
         //---------------//
         // Title (homme/femme)
-        $profileAffinityScore = $this->calculateTitleScore($mainQuestionsAnswers[self::PRO_TITLE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_TITLE_ID] ?? null);
+        $profileAffinityScore = $this->calculateTitleScore($mainProAnswers->getTitle(), $withPersonalAnswers->getSearchedTitle());
         // Experience
-        $profileAffinityScore += $this->calculateExperienceScore($mainQuestionsAnswers[self::PRO_EXPERIENCE_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_SEARCHED_EXPERIENCE_ID] ?? null);
+        $profileAffinityScore += $this->calculateExperienceScore($mainProAnswers->getExperience(), $withPersonalAnswers->getSearchedExperience());
         // uniform
-        $profileAffinityScore += $this->calculateUniformScore($mainQuestionsAnswers[self::PRO_UNIFORM_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_UNIFORM_ID] ?? []);
+        $profileAffinityScore += $this->calculateUniformScore($mainProAnswers->getUniform(), $withPersonalAnswers->getUniformAsArray());
         // Total profile score
         $scores['profile'] = $profileAffinityScore * 100 / 40.0;
 
@@ -155,11 +170,11 @@ class AffinityAnswerCalculationService
         //--- Mise en relation (linking) ---//
         //----------------------------------//
         // First contact channel
-        $linkingScore = $this->calculateFirstContactChannel($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_CHANNEL_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_CHANNEL_ID] ?? []);
+        $linkingScore = $this->calculateFirstContactChannel($mainProAnswers->getFirstContactChannelAsArray(), $withPersonalAnswers->getFirstContactChannelAsArray());
         // Availability
-        $linkingScore += $this->calculateAvailabilitiesScore($mainQuestionsAnswers[self::PRO_AVAILABILITIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_AVAILABILITIES_ID] ?? []);
+        $linkingScore += $this->calculateAvailabilitiesScore($mainProAnswers->getAvailabilitiesAsArray(), $withPersonalAnswers->getAvailabilitiesAsArray());
         // First contact preference
-        $linkingScore += $this->calculateFirstContactPreferenceScore($mainQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] ?? null);
+        $linkingScore += $this->calculateFirstContactPreferenceScore($mainProAnswers->getFirstContactPref(), $withPersonalAnswers->getFirstContactPref());
         // Total linking score
         $scores['linking'] = $linkingScore * 100 / 40.0;
 
@@ -167,9 +182,9 @@ class AffinityAnswerCalculationService
         //--- Passion ---//
         //---------------//
         // Hobby
-        $passionAffinityScore = $this->calculateHobbyScore($mainQuestionsAnswers[self::PRO_HOBBY_ID] ?? null, $mainQuestionsAnswers[self::PRO_HOBBY_LEVEL_ID] ?? 0, $withQuestionsAnswers[self::PERSONAL_SEARCHED_HOBBIES_ID] ?? []);
+        $passionAffinityScore = $this->calculateHobbyScore($mainProAnswers->getHobby(), $mainProAnswers->getHobbyLevel() ?? 0, $withPersonalAnswers->getSearchedHobbiesAsArray());
         // Pro passion website : juste pour information interne
-//        if (isset($mainQuestionsAnswers['DbdnZwCAWaOR'])) {
+//        if (isset($mainProAnswers->get ?WebSite? ['DbdnZwCAWaOR'])) {
 //            $passionAffinityScore += 10;
 //        }
         // Total passion score
@@ -180,7 +195,7 @@ class AffinityAnswerCalculationService
         //-------------------//
         $maxPositioningScore = 10.0;
         // Pro profession Vs Personal vehicle usage
-        $positioningScore = $this->calculateMainAcitivityScore($mainQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_USAGE_ID] ?? null);
+        $positioningScore = $this->calculateMainAcitivityScore($mainProAnswers->getMainProfession(), $withPersonalAnswers->getVehicleUsage());
 
         // Project related scores : in hidden fields => askproject === true
         if ($withAnswer->getContentAsArray()['form_response']['hidden']['askproject'] === true) {
@@ -191,17 +206,17 @@ class AffinityAnswerCalculationService
             /** @var Project $userProject */
             $userProject = $withAnswer->getUser()->getProject();
             // Price
-            $positioningScore += $this->calculatePriceScore($mainQuestionsAnswers[self::PRO_PRICES_ID] ?? [], $userProject->getBudget());
+            $positioningScore += $this->calculatePriceScore($mainProAnswers->getPricesAsArray(), $userProject->getBudget());
             // Advise domains
-            $positioningScore += $this->calculateAdvicesScore($mainQuestionsAnswers[self::PRO_ADVICES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null);
+            $positioningScore += $this->calculateAdvicesScore($mainProAnswers->getAdvicesAsArray(), $withPersonalAnswers->getSearchedAdvicesAsArray());
             // Brands
             $userBrands = [];
             foreach ($userProject->getProjectVehicles() as $projectVehicle) {
                 $userBrands[] = strtolower($projectVehicle->getMake());
             }
-            $positioningScore += $this->calculateBrandScore($mainQuestionsAnswers[self::PRO_BRANDS_ID] ?? [], $userBrands);
+            $positioningScore += $this->calculateBrandScore($mainProAnswers->getBrandsAsArray(), $userBrands);
             // Vehicle type
-            $positioningScore += $this->calculateVehicleBodyScore($mainQuestionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? []);
+            $positioningScore += $this->calculateVehicleBodyScore($mainProAnswers->getVehicleBodyAsArray(), $withPersonalAnswers->getVehicleBodyAsArray());
         }
         $scores['positioning'] = $positioningScore * 100 / $maxPositioningScore;
 
@@ -209,9 +224,9 @@ class AffinityAnswerCalculationService
         //--- Atomes Crochus ---//
         //----------------------//
         // Other hobbies
-        $atomesCrochusScore = $this->calculateOtherHobbiesScore($mainQuestionsAnswers[self::PRO_OTHER_HOBBIES_ID] ?? [], $withQuestionsAnswers[self::PERSONAL_OTHER_HOBBIES_ID] ?? []);
+        $atomesCrochusScore = $this->calculateOtherHobbiesScore($mainProAnswers->getOtherHobbiesAsArray(), $withPersonalAnswers->getOtherHobbiesAsArray());
         // Road
-        $atomesCrochusScore += $this->calculateRoadScore($mainQuestionsAnswers[self::PRO_ROAD_ID] ?? null, $withQuestionsAnswers[self::PERSONAL_ROAD_ID] ?? null);
+        $atomesCrochusScore += $this->calculateRoadScore($mainProAnswers->getRoad(), $withPersonalAnswers->getRoad());
         // Total atomesCrochus score
         $scores['atomesCrochus'] = $atomesCrochusScore * 100 / 40.0;
 
@@ -249,7 +264,7 @@ class AffinityAnswerCalculationService
             }
 
             // Phone number if contact SMS or call
-            if(!empty($userQuestionsAnswers[self::PRO_PHONE_NUMBER_ID])){
+            if (!empty($userQuestionsAnswers[self::PRO_PHONE_NUMBER_ID])) {
                 $proUser->setPhonePro($userQuestionsAnswers[self::PRO_PHONE_NUMBER_ID]);
             }
 
@@ -342,7 +357,7 @@ class AffinityAnswerCalculationService
             }
 
             // Phone number if contact SMS or call
-            if(!empty($userQuestionsAnswers[self::PERSONAL_PHONE_NUMBER_ID])){
+            if (!empty($userQuestionsAnswers[self::PERSONAL_PHONE_NUMBER_ID])) {
                 $personalUser->getUserProfile()->setPhone($userQuestionsAnswers[self::PERSONAL_PHONE_NUMBER_ID]);
             }
 
@@ -357,14 +372,14 @@ class AffinityAnswerCalculationService
                 $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.search') . strtolower($userQuestionsAnswers[self::PERSONAL_NEW_USED_ID]);
             }
             // Usage of vehicle (personal or company)
-            if (!empty($userQuestionsAnswers[self::PERSONAL_USAGE_ID])) {
+            if (!empty($userQuestionsAnswers[self::PERSONAL_VEHICLE_USAGE_ID])) {
                 if (empty($userQuestionsAnswers[self::PERSONAL_NEW_USED_ID])) {
                     $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.search');
                 } else {
                     $projectDescription .= ' ';
                 }
-                if ($userQuestionsAnswers[self::PERSONAL_USAGE_ID] == self::PERSONAL_USAGE_COMPANY) {
-                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.usage.company');
+                if ($userQuestionsAnswers[self::PERSONAL_VEHICLE_USAGE_ID] == self::PERSONAL_USAGE_COMPANY) {
+                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.vehicle_usage.company');
 
                     if (!empty($userQuestionsAnswers[self::PERSONALCOMPANY_ACTIVITY_ID]) || !empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID])) {
                         $projectDescription .= PHP_EOL;
@@ -386,7 +401,7 @@ class AffinityAnswerCalculationService
                         }
                     }
                 } else {
-                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.usage.personal');
+                    $projectDescription .= $this->translator->trans('user.project.prefill.personal.description.vehicle_usage.personal');
                 }
             }
 
@@ -471,7 +486,7 @@ class AffinityAnswerCalculationService
             }
 
             // Type de recherche : véhicule unique / flotte
-            if(!empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID])) {
+            if (!empty($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID])) {
                 $personalUser->getProject()->setIsFleet(($userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] > 1 || $userQuestionsAnswers[self::PERSONAL_NB_VEHICLE_ID] == "Plus de 10"));
             }
         }
@@ -507,6 +522,82 @@ class AffinityAnswerCalculationService
             }
         }
         return $questionsAnswers;
+    }
+
+    /**
+     * Create or update the AffinityProAnswers of a AffinityAnswer
+     * @param AffinityAnswer $affinityAnswer
+     * @return AffinityAnswer
+     */
+    private function recordProAnswers(AffinityAnswer $affinityAnswer): AffinityAnswer
+    {
+        $affinityProAnswers = $affinityAnswer->getAffinityProAnswers();
+        if ($affinityProAnswers == null) {
+            $affinityProAnswers = new AffinityProAnswers($affinityAnswer);
+        }
+
+        $questionsAnswers = $this->transformAnswerIntoQuestionsAnswers($affinityAnswer->getContentAsArray()['form_response']['answers']);
+
+        $affinityProAnswers->setTitle($questionsAnswers[self::PRO_TITLE_ID] ?? null);
+        $affinityProAnswers->setMainProfession($questionsAnswers[self::PRO_MAIN_PROFESSION_ID] ?? null);
+        $affinityProAnswers->setExperience($questionsAnswers[self::PRO_EXPERIENCE_ID] ?? null);
+        $affinityProAnswers->setUniform($questionsAnswers[self::PRO_UNIFORM_ID] ?? null);
+        $affinityProAnswers->setHobby($questionsAnswers[self::PRO_HOBBY_ID] ?? null);
+        $affinityProAnswers->setHobbyLevel($questionsAnswers[self::PRO_HOBBY_LEVEL_ID] ?? null);
+        $affinityProAnswers->setAdvices(json_encode($questionsAnswers[self::PRO_ADVICES_ID] ?? null));
+        $affinityProAnswers->setVehicleBody(json_encode($questionsAnswers[self::PRO_VEHICLE_BODY_ID] ?? null));
+        $affinityProAnswers->setBrands(json_encode($questionsAnswers[self::PRO_BRANDS_ID] ?? null));
+        $affinityProAnswers->setFirstContactChannel(json_encode($questionsAnswers[self::PRO_FIRST_CONTACT_CHANNEL_ID] ?? null));
+        $affinityProAnswers->setPhoneNumber($questionsAnswers[self::PRO_PHONE_NUMBER_ID] ?? null);
+        $affinityProAnswers->setAvailabilities(json_encode($questionsAnswers[self::PRO_AVAILABILITIES_ID] ?? null));
+        $affinityProAnswers->setFirstContactPref($questionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] ?? null);
+        $affinityProAnswers->setSuggestion($questionsAnswers[self::PRO_SUGGESTION_ID] ?? null);
+        $affinityProAnswers->setPrices(json_encode($questionsAnswers[self::PRO_PRICES_ID] ?? null));
+        $affinityProAnswers->setOtherHobbies(json_encode($questionsAnswers[self::PRO_OTHER_HOBBIES_ID] ?? null));
+        $affinityProAnswers->setRoad($questionsAnswers[self::PRO_ROAD_ID] ?? null);
+
+        $this->affinityAnswerRepository->update($affinityAnswer);
+        return $affinityAnswer;
+    }
+
+
+    private function recordPersonalAnswers(AffinityAnswer $affinityAnswer): AffinityAnswer
+    {
+        $affinityPersonalAnswers = $affinityAnswer->getAffinityPersonalAnswers();
+        if ($affinityPersonalAnswers == null) {
+            $affinityPersonalAnswers = new AffinityPersonalAnswers($affinityAnswer);
+        }
+
+        $questionsAnswers = $this->transformAnswerIntoQuestionsAnswers($affinityAnswer->getContentAsArray()['form_response']['answers']);
+
+        $affinityPersonalAnswers->setBudget($questionsAnswers[self::PERSONAL_BUDGET_ID] ?? null);
+        $affinityPersonalAnswers->setSearchedAdvices(json_encode($questionsAnswers[self::PERSONAL_SEARCHED_ADVICES_ID] ?? null));
+        $affinityPersonalAnswers->setNewUsed($questionsAnswers[self::PERSONAL_NEW_USED_ID] ?? null);
+        $affinityPersonalAnswers->setVehicleUsage($questionsAnswers[self::PERSONAL_VEHICLE_USAGE_ID] ?? null);
+        $affinityPersonalAnswers->setPersonalCompanyActivity($questionsAnswers[self::PERSONAL_USAGE_COMPANY] ?? null);
+        $affinityPersonalAnswers->setHowHelp($questionsAnswers[self::PERSONAL_HOW_HELP_ID] ?? null);
+        $affinityPersonalAnswers->setGeneration(json_encode($questionsAnswers[self::PERSONAL_GENERATION_ID] ?? null));
+        $affinityPersonalAnswers->setVehicleBody(json_encode($questionsAnswers[self::PERSONAL_VEHICLE_BODY_ID] ?? null));
+        $affinityPersonalAnswers->setEnergy(json_encode($questionsAnswers[self::PERSONAL_ENERGY_ID] ?? null));
+        $affinityPersonalAnswers->setSeatsNumber($questionsAnswers[self::PERSONAL_SEATS_NUMBER_ID] ?? null);
+        $affinityPersonalAnswers->setStrongPoints(json_encode($questionsAnswers[self::PERSONAL_STRONG_POINTS_ID] ?? null));
+        $affinityPersonalAnswers->setImprovements(json_encode($questionsAnswers[self::PERSONAL_IMPROVEMENTS_ID] ?? null));
+        $affinityPersonalAnswers->setSecurityOptions(json_encode($questionsAnswers[self::PERSONAL_SECURITY_OPTIONS_ID] ?? null));
+        $affinityPersonalAnswers->setConfortOptions(json_encode($questionsAnswers[self::PERSONAL_CONFORT_OPTIONS_ID] ?? null));
+        $affinityPersonalAnswers->setOptionsChoice($questionsAnswers[self::PERSONAL_OPTIONS_CHOICE_ID] ?? null);
+        $affinityPersonalAnswers->setSearchedHobbies(json_encode($questionsAnswers[self::PERSONAL_SEARCHED_HOBBIES_ID] ?? null));
+        $affinityPersonalAnswers->setSearchedTitle($questionsAnswers[self::PERSONAL_SEARCHED_TITLE_ID] ?? null);
+        $affinityPersonalAnswers->setSearchedExperience($questionsAnswers[self::PERSONAL_SEARCHED_EXPERIENCE_ID] ?? null);
+        $affinityPersonalAnswers->setUniform(json_encode($questionsAnswers[self::PERSONAL_UNIFORM_ID] ?? null));
+        $affinityPersonalAnswers->setFirstContactChannel(json_encode($questionsAnswers[self::PERSONAL_FIRST_CONTACT_CHANNEL_ID] ?? null));
+        $affinityPersonalAnswers->setPhoneNumber($questionsAnswers[self::PERSONAL_PHONE_NUMBER_ID] ?? null);
+        $affinityPersonalAnswers->setAvailabilities(json_encode($questionsAnswers[self::PERSONAL_AVAILABILITIES_ID] ?? null));
+        $affinityPersonalAnswers->setFirstContactPref($questionsAnswers[self::PERSONAL_FIRST_CONTACT_PREF_ID] ?? null);
+        $affinityPersonalAnswers->setotherHobbies(json_encode($questionsAnswers[self::PERSONAL_OTHER_HOBBIES_ID] ?? null));
+        $affinityPersonalAnswers->setRoad($questionsAnswers[self::PERSONAL_ROAD_ID] ?? null);
+
+        $this->affinityAnswerRepository->update($affinityAnswer);
+        return $affinityAnswer;
     }
 
     /**

@@ -25,6 +25,10 @@ class AffinityAnswer
     private $instanceId;
     /** @var \DateTime|null */
     private $treatedAt;
+    /** @var null|AffinityPersonalAnswers $affinityPersonalAnswers  */
+    private $affinityPersonalAnswers;
+    /** @var null|AffinityProAnswers $affinityProAnswers */
+    private $affinityProAnswers;
 
     /**
      * AffinityAnswer constructor.
@@ -62,6 +66,22 @@ class AffinityAnswer
     public function getUser(): BaseUser
     {
         return $this->user;
+    }
+
+    /**
+     * @return null|AffinityPersonalAnswers
+     */
+    public function getAffinityPersonalAnswers(): ?AffinityPersonalAnswers
+    {
+        return $this->affinityPersonalAnswers;
+    }
+
+    /**
+     * @return null|AffinityProAnswers
+     */
+    public function getAffinityProAnswers(): ?AffinityProAnswers
+    {
+        return $this->affinityProAnswers;
     }
 
     /**
@@ -118,6 +138,22 @@ class AffinityAnswer
     public function getTreatedAt(): ?\DateTime
     {
         return $this->treatedAt;
+    }
+
+    /**
+     * @param AffinityPersonalAnswers $affinityPersonalAnswers
+     */
+    public function setAffinityPersonalAnswers(AffinityPersonalAnswers $affinityPersonalAnswers): void
+    {
+        $this->affinityPersonalAnswers = $affinityPersonalAnswers;
+    }
+
+    /**
+     * @param AffinityProAnswers $affinityProAnswers
+     */
+    public function setAffinityProAnswers(AffinityProAnswers $affinityProAnswers): void
+    {
+        $this->affinityProAnswers = $affinityProAnswers;
     }
 
     /**
