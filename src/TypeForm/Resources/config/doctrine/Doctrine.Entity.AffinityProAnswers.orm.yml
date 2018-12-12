@@ -1,0 +1,70 @@
+TypeForm\Doctrine\Entity\AffinityProAnswers:
+
+    type: entity
+    table: affinity_pro_answers
+
+    id:
+        affinityAnswer:
+            associationKey: true
+
+    fields:
+        title:
+            type: string
+            nullable: true
+        mainProfession:
+            type: string
+            nullable: true
+        experience:
+            type: string
+            nullable: true
+        uniform:
+            type: string
+            nullable: true
+        hobby:
+            type: string
+            nullable: true
+        hobbyLevel:
+            type: integer
+            nullable: true
+        advices:
+            type: json_array
+            nullable: true
+        vehicleBody:
+            type: json_array
+            nullable: true
+        brands:
+            type: json_array
+            nullable: true
+        firstContactChannel:
+            type: json_array
+            nullable: true
+        phoneNumber:
+            type: string
+            nullable: true
+        availabilities:
+            type: json_array
+            nullable: true
+        firstContactPref:
+            type: string
+            nullable: true
+        suggestion:
+            type: string
+            nullable: true
+        prices:
+            type: json_array
+            nullable: true
+        otherHobbies:
+            type: json_array
+            nullable: true
+        road:
+            type: string
+            nullable: true
+
+    oneToOne:
+        affinityAnswer:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityAnswer
+            inversedBy: affinityProAnswers
+            joinColumn:
+                name: answer_id
+                referencedColumnName: id
+
