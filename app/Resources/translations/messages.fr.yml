@@ -728,7 +728,7 @@ user:
       personal:
         description:
           search: "Je recherche un véhicule "
-          usage:
+          vehicle_usage:
             personal: pour mon usage personnel.
             company: pour ma société.
           company:

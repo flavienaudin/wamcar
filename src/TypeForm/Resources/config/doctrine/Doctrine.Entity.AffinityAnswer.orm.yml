@@ -31,3 +31,13 @@ TypeForm\Doctrine\Entity\AffinityAnswer:
                 nullable: false
                 name: user_id
                 referencedColumnName: id
+
+        affinityPersonalAnswers:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityPersonalAnswers
+            mappedBy: affinityAnswer
+            cascade: ["persist","merge","remove"]
+
+        affinityProAnswers:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityProAnswers
+            mappedBy: affinityAnswer
+            cascade: ["persist","merge","remove"]

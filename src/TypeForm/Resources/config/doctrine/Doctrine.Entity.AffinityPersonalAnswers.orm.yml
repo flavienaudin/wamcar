@@ -1,0 +1,96 @@
+TypeForm\Doctrine\Entity\AffinityPersonalAnswers:
+
+    type: entity
+    table: affinity_personal_answers
+
+    id:
+        affinityAnswer:
+            associationKey: true
+
+    fields:
+        budget:
+            type: integer
+            nullable: true
+        searchedAdvices:
+            type: json_array
+            nullable: true
+        newUsed:
+            type: string
+            nullable: true
+        vehicleUsage:
+            type: string
+            nullable: true
+        vehicleNumber:
+            type: integer
+            nullable: true
+        personalCompanyActivity:
+            type: string
+            nullable: true
+        howHelp:
+            type: string
+            nullable: true
+        generation:
+            type: json_array
+            nullable: true
+        vehicleBody:
+            type: json_array
+            nullable: true
+        energy:
+            type: json_array
+            nullable: true
+        seatsNumber:
+            type: integer
+            nullable: true
+        strongPoints:
+            type: json_array
+            nullable: true
+        improvements:
+            type: json_array
+            nullable: true
+        optionsChoice:
+            type: json_array
+            nullable: true
+        securityOptions:
+            type: json_array
+            nullable: true
+        confortOptions:
+            type: json_array
+            nullable: true
+        searchedHobbies:
+            type: json_array
+            nullable: true
+        searchedTitle:
+            type: string
+            nullable: true
+        searchedExperience:
+            type: string
+            nullable: true
+        uniform:
+            type: json_array
+            nullable: true
+        firstContactChannel:
+            type: json_array
+            nullable: true
+        phoneNumber:
+            type: string
+            nullable: true
+        availabilities:
+            type: json_array
+            nullable: true
+        firstContactPref:
+            type: string
+            nullable: true
+        otherHobbies:
+            type: json_array
+            nullable: true
+        road:
+            type: string
+            nullable: true
+
+    oneToOne:
+        affinityAnswer:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityAnswer
+            inversedBy: affinityPersonalAnswers
+            joinColumn:
+                name: answer_id
+                referencedColumnName: id
