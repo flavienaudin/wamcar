@@ -11,6 +11,10 @@ Wamcar\User\BaseUser:
         basic-personal: Wamcar\User\PersonalUser
         pro: AppBundle\Doctrine\Entity\ProApplicationUser
         personal: AppBundle\Doctrine\Entity\PersonalApplicationUser
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
@@ -28,6 +32,9 @@ Wamcar\User\BaseUser:
                 strategy: AUTO
 
     fields:
+        deletedAt:
+            type: date
+            nullable: true
         email:
             type: string
             length: 191   # needed to index field in utf8mb4
