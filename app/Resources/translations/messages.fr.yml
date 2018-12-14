@@ -109,6 +109,7 @@ global:
     see_phone_number: Voir le numéro
     call: Appeler
     invite: Inviter
+    delete: Supprimer
   pagination:
     pagination: Pagination
     first: Première page
