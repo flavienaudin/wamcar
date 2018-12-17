@@ -363,7 +363,7 @@ class AffinityPersonalAnswers
      */
     public function getSearchedHobbiesAsArray(): array
     {
-        return json_decode($this->searchedHobbies) ?? null;
+        return json_decode($this->searchedHobbies) ?? [];
     }
 
     /**
@@ -419,7 +419,7 @@ class AffinityPersonalAnswers
      */
     public function getUniformAsArray(): array
     {
-        return json_decode($this->uniform) ?? null;
+        return json_decode($this->uniform) ?? [];
     }
 
     /**
