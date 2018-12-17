@@ -10,6 +10,7 @@ use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Location\City;
@@ -20,6 +21,7 @@ use Wamcar\Vehicle\Enum\NotificationFrequency;
 abstract class BaseUser implements HasApiCredential
 {
     use ApiCredentialTrait;
+    use SoftDeleteable;
 
     const TYPE = '';
 
