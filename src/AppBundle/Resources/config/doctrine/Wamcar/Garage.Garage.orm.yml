@@ -64,6 +64,9 @@ Wamcar\Garage\Garage:
         googleRating:
             type: float
             nullable: true
+        optionAdminSellers:
+            type: boolean
+            nullable: false
         deletedAt:
             type: date
             nullable: true

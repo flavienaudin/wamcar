@@ -109,7 +109,7 @@ class ProVehicleEditionService
         $proVehicle->setGarage($garage);
         if ($seller == null) {
             // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getEnabledMembers()->toArray();
+            $members = $garage->getAvailableSellers()->toArray();
             $seller = $members[array_rand($members)]->getProUser();
         }
         $proVehicle->setSeller($seller);
@@ -135,6 +135,21 @@ class ProVehicleEditionService
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
+        if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
+            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin es vendeuse)
+            $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
+                return $memberShip->getProUser();
+            });
+            // Admins can't be sellers (The only one rule today)
+            if (!$availableSellers->contains($proVehicle->getSeller())) {
+                // The actual seller is an admin but it's not allowed by the garage option
+                // TODO Tirage aléatoire en attendant implémentation des règles
+                $members = $availableSellers->toArray();
+                $seller = $members[array_rand($members)];
+                $proVehicle->setSeller($seller);
+            }
+        }
+
         $this->vehicleRepository->update($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
@@ -153,7 +168,7 @@ class ProVehicleEditionService
     {
         if ($newSeller == null) {
             /** @var GarageProUser[] $members */
-            $members = $proVehicle->getGarage()->getEnabledMembers()->toArray();
+            $members = $proVehicle->getGarage()->getAvailableSellers()->toArray();
             do {
                 $randIndex = array_rand($members);
                 $newSeller = $members[$randIndex]->getProUser();
