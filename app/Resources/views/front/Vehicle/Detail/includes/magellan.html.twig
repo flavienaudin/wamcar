@@ -19,7 +19,7 @@
     {% if positiveLikes.all|length > 0 %}
         <li><a href="#js-interested_users">{{ 'vehicle.section.interested_users.tab'|trans }}</a></li>
     {% endif %}
-    {% if vehiclesToList|length > 1 %}
+    {% if vehiclesToList|length > 0 %}
         <li><a href="#js-associate">{{ 'vehicle.section.other_vehicle.tab'|trans }}</a></li>
     {% endif %}
 </ul>

@@ -6,7 +6,7 @@
     {% set page_search = true %}
 {% endif %}
 
-{% set vehiclesToList = vehicle.garage.proVehicles %}
+{% set vehiclesToList = vehicle.garage.getProVehicles(4, vehicle) %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
 {% endset %}
@@ -150,12 +150,12 @@
                             {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
                         </div>
                     {% endif %}
-                    {% if vehiclesToList|length > 1 %}{# if length == 1 Then it is the current and excluded vehicle #}
+                    {% if vehiclesToList|length > 0 %}
                         <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
                             <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
-                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList, 'excludedVehicle':vehicle} %}
+                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList} %}
                             <br>
-                            <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.button.owner'|trans:'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+                            <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
                         </div>
                     {% endif %}
                 </div>

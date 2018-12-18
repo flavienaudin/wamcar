@@ -474,8 +474,7 @@ vehicle:
         personal: Autres véhicules de %firstname%
         owner: Mes autres véhicules
       button:
-        garage: Voir tous les véhicules de ce vendeur
-        owner: Voir tous mes véhicules
+        garage: Voir tous les véhicules du garage
   interested_user:
     title:
       pro: Ils aiment ce véhicule

@@ -6,10 +6,11 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\PersonalOrientationChoices;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
-use Wamcar\Vehicle\Vehicle;
 
 class PersonalUser extends BaseUser
 {
@@ -21,7 +22,7 @@ class PersonalUser extends BaseUser
     protected $contactAvailabilities;
     /** @var Project|null */
     protected $project;
-    /** @var Vehicle[]|array */
+    /** @var Collection */
     protected $vehicles;
 
     /**
@@ -87,9 +88,16 @@ class PersonalUser extends BaseUser
     /**
      * @inheritdoc
      */
-    public function getVehicles(): Collection
+    public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection
     {
-        return $this->vehicles;
+        $criteria = Criteria::create();
+        if ($excludedVehicle != null) {
+            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        }
+        if ($limit > 0) {
+            $criteria->setMaxResults($limit);
+        }
+        return $this->vehicles->matching($criteria);
     }
 
     /**
