@@ -15,6 +15,7 @@ use Novaway\ElasticsearchClient\Query\BoolQuery;
 use Novaway\ElasticsearchClient\Query\BoostMode;
 use Novaway\ElasticsearchClient\Query\CombiningFactor;
 use Novaway\ElasticsearchClient\Query\MatchQuery;
+use Novaway\ElasticsearchClient\Query\MultiMatchQuery;
 use Novaway\ElasticsearchClient\Query\PrefixQuery;
 use Novaway\ElasticsearchClient\Score\DecayFunctionScore;
 use Novaway\ElasticsearchClient\Score\FieldValueFactorScore;
@@ -207,7 +208,7 @@ class QueryBuilderFilterer
                     0,
                     0.5,
                     ['weight' => 1.25],
-                0.5
+                    0.5
                 ));
 
                 // Importance : 2
@@ -244,21 +245,27 @@ class QueryBuilderFilterer
     private function handleText(QueryBuilder $queryBuilder, string $queryType, $value): QueryBuilder
     {
         if (!empty($value)) {
-            $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1);
-            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL || $queryType === SearchController::TAB_ALL
-            ) {
-                $boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
-                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
-                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
-                $boolQuery->addClause(new MatchQuery('description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-            }
-            if ($queryType === SearchController::TAB_PROJECT || $queryType === SearchController::TAB_ALL
-            ) {
-                $boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
-                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 10, 'fuzziness' => "AUTO"]));
+            $boolQuery = new \AppBundle\Elasticsearch\Query\BoolQuery(1, true);
+            if ($queryType === SearchController::TAB_PRO || $queryType === SearchController::TAB_PERSONAL) {
+                $boolQuery->addClause(new MultiMatchQuery($value, ['key_make_model', 'key_make', 'key_model', 'key_engine', 'key_description'], CombiningFactor::MUST, ['operator' => 'OR', 'boost' => 20, 'fuzziness' => "AUTO", 'type' => 'cross_fields', 'minimum_should_match' => '10%']));
+                /*$boolQuery->addClause(new MatchQuery('key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 5, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 5, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('key_engine', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 5, 'fuzziness' => "AUTO"]));*/
+                // $boolQuery->addClause(new MatchQuery('key_description', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $queryBuilder->setMinimumScore(0.5);
+            } elseif ($queryType === SearchController::TAB_PROJECT) {
+                $boolQuery->addClause(new MultiMatchQuery($value, ['projectVehicles.key_make', 'projectVehicles.key_model', 'projectDescription'], CombiningFactor::MUST, ['operator' => 'OR', 'boost' => 20, 'fuzziness' => "AUTO", 'type' => 'cross_fields', 'minimum_should_match' => '33%']));
+                /*$boolQuery->addClause(new MatchQuery('projectDescription', $value, CombiningFactor::SHOULD, ['operator' => 'OR']));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_make', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 5, 'fuzziness' => "AUTO"]));
+                $boolQuery->addClause(new MatchQuery('projectVehicles.key_model', $value, CombiningFactor::SHOULD, ['operator' => 'OR', 'boost' => 5, 'fuzziness' => "AUTO"]));*/
+                $queryBuilder->setMinimumScore(0.5);
+            } elseif ($queryType === SearchController::TAB_ALL) {
+                $boolQuery->addClause(new MultiMatchQuery($value, ['key_make_model', 'key_make', 'key_model', 'key_engine', 'key_description', 'projectVehicles.key_make', 'projectVehicles.key_model', 'projectDescription'], CombiningFactor::MUST, ['operator' => 'OR', 'boost' => 20, 'fuzziness' => "AUTO", 'type' => 'cross_fields', 'minimum_should_match' => '20%']));
+                // $boolQuery->addClause(new MultiMatchQuery($value, [], CombiningFactor::MUST, ['operator' => 'OR', 'boost' => 20, 'fuzziness' => "AUTO", 'type' => 'cross_fields']));
+                $queryBuilder->setMinimumScore(0.3);
             }
             $queryBuilder->addQuery($boolQuery);
+
         }
         return $queryBuilder;
     }
@@ -356,6 +363,7 @@ class QueryBuilderFilterer
         switch ($searchVehicleDTO->sorting) {
             case Sorting::SEARCH_SORTING_DATE:
                 $queryBuilder->addSort('sortingDate', 'desc');
+                $queryBuilder->addSort('_score', 'desc');
                 break;
             case Sorting::SEARCH_SORTING_PRICE_ASC:
                 $queryBuilder->addSort('sortingPrice', 'asc');
@@ -399,7 +407,7 @@ class QueryBuilderFilterer
                     $queryBuilder->addFunctionScore(new FieldValueFactorScore(
                         "nbPicture",
                         FieldValueFactorScore::LOG2P,
-                        0.75,
+                        1,
                         0
                     ));
                 }
@@ -423,6 +431,14 @@ class QueryBuilderFilterer
                         ['weight' => 3] // Decay Function score € [0;1] x 3 => [0;3]*/
                     ));
                 }
+                $queryBuilder->addFunctionScore(new DecayFunctionScore('sortingDate',
+                    DecayFunctionScore::GAUSS,
+                    'now',
+                    self::SORTING_DATE_DECAY_OFFSET,
+                    self::SORTING_DATE_DECAY_SCALE,
+                    ['weight' => 1.4], // Decay Function score € [0;1] x2 => [0;2]
+                    self::SORTING_DATE_DECAY_DECAY
+                ));
 
                 $queryBuilder->addSort('_score', 'desc');
                 $queryBuilder->addSort('sortingDate', 'desc');

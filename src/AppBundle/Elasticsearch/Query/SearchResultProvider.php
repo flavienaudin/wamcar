@@ -77,7 +77,7 @@ class SearchResultProvider
         $queryBuilder = new QueryBuilder(
             self::OFFSET + ($pages[$queryType] - 1) * self::LIMIT,
             self::LIMIT,
-            $queryType === SearchController::TAB_ALL ? 0 : self::MIN_SCORE
+            self::MIN_SCORE
         );
 
         $queryBuilder = $this->queryBuilderFilterer->getQuerySearchBuilder($queryBuilder, $searchVehicleDTO, $queryType);
