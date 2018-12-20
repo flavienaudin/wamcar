@@ -20,7 +20,8 @@
             }) }}</li>
     {% endif %}
     {% if isEditableByCurrentUser %}
-        <li><a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="text-underline">{{ 'garage.action.ubiflow_request'|trans }}</a></li>
+        <li>{{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
+            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="text-underline">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
     {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}

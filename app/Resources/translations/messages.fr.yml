@@ -278,9 +278,11 @@ garage:
   action:
     edit: Modifier mon garage
     join: Rejoindre ce garage
-    ubiflow_request: Client Ubiflow ?
   infos:
     opening_hours: Horaires
+    auto_vehicles_import_request:
+      presentation: Demander l'import automatisé de votre stock :
+      form: Formulaire
   tabs:
     vehicles: Véhicules
     about: A propos
@@ -297,6 +299,11 @@ garage:
         placeholder: Rechercher votre établissement sur Google Map
       location:
         placeholder: Ville ou code postal
+    auto_vehicles_import_request:
+      title: Import automatisé de votre stock de véhicule
+      presentation: >
+          Souhaitez-vous automatiser l'import des véhicules directement depuis votre stock via notre partenaire Ubiflow ?
+          Faites-en la demande via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">notre formulaire</a>
   assignation:
     invitation:
       title: Inviter vos collaborateurs à rejoindre %garage_name%
