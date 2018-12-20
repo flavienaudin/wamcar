@@ -5,6 +5,7 @@
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}{{ is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPro and app.user.isMemberOfGarage(garage) ? 'garage.my_garage'|trans : garage.name}}{% endblock %}
+{% block canonical %}{{ url('front_garage_view', {'id':garage.id}) }}{% endblock canonical %}
 
 {% set breadcrumbs = [
     {

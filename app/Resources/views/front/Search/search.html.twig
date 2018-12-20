@@ -5,10 +5,7 @@
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}{{ 'search.common.title'|trans }}{% endblock %}
-{% block additional_meta %}
-    {#<link rel="prev" href=""/>#}
-    {#<link rel="next" href=""/>#}
-{% endblock additional_meta %}
+{% block canonical %}{{ url('front_search') }}{% endblock canonical %}
 
 {% set breadcrumbs = [
     {
