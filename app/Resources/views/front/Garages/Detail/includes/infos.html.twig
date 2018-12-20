@@ -19,6 +19,10 @@
                 'phoneNumber': garage.phone
             }) }}</li>
     {% endif %}
+    {% if isEditableByCurrentUser %}
+        <li>{{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
+            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="text-underline">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
+    {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}
     <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.edit'|trans }}</a>
