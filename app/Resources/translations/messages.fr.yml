@@ -620,7 +620,6 @@ user:
         label: Maintenant, quels sont vos projets ?
       submit.label: C'est parti
 
-
   login:
     title: Connexion
     header_title: Rejoindre mon espace %sitename% pour utiliser toutes ses fonctionnalités
@@ -756,7 +755,6 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
             acting: "Si je trouve une offre qui vous conviendrait, je n'hésiterais pas à vous en faire part."
-
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -798,7 +796,6 @@ user:
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire
-
   preference:
     page_title: Mes préférences
     title:
@@ -813,6 +810,8 @@ user:
         label: Quand on vous envoit un message privé
       like:
         label: Quand on like votre annonce
+  contacted_by: Contacté par %contact_name%
+
 
 conversation:
   list:

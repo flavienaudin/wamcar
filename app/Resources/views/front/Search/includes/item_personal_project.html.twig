@@ -74,6 +74,14 @@
             <div>
                 <a href="{{ sellerUrl }}" class="primary-color"><strong>{{ vehicleSellerName }}</strong></a>
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':project.personalUser}) }}
+                {% if isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(project.personalUser, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% endfor %}
+                    </span>
+                {% endif %}
             </div>
             {% if project and not project.empty %}
                 <div class="black-color">

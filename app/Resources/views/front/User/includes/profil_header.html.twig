@@ -2,8 +2,16 @@
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
             <h1 class="profil-name">
-                {{ isUserProPageProfil or userIsMe or isUserPro?user.fullName:user.firstName }}
+                {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+                {% if isUserPersonalPageProfil and isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% endfor %}
+                    </span>
+                {% endif %}
             </h1>
             <div class="profil-action">
                 {% if isUserProPageProfil %}
