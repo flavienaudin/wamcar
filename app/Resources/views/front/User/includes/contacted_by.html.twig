@@ -1,0 +1,5 @@
+<a href="{{ path('front_view_user_info', {'id':contact.id}) }}" class="avatar-small">
+    <img src="{{ contact.avatar|avatar('user_mini_thumbnail') }}"
+         alt="{{ 'user.contacted_by'|trans({'%contact_name%':contact.fullName}) }}"
+         title="{{ 'user.contacted_by'|trans({'%contact_name%':contact.fullName}) }}">
+</a>

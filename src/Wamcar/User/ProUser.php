@@ -104,6 +104,17 @@ class ProUser extends BaseUser
     }
 
     /**
+     * Get garages of user
+     * @return array
+     */
+    public function getGarages(): array
+    {
+        return $this->getEnabledGarageMemberships()->map(function(GarageProUser $garageProUser){
+            return $garageProUser->getGarage();
+        })->toArray();
+    }
+
+    /**
      * @param GarageProUser $member
      * @return ProUser
      */
