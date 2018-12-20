@@ -544,7 +544,9 @@ abstract class BaseUser implements HasApiCredential
     abstract public function canSeeMyVehicles(BaseUser $user = null): bool;
 
     /**
+     * @param null|int $limit
+     * @param null|BaseVehicle $excludedVehicle
      * @return Collection
      */
-    abstract public function getVehicles(): Collection;
+    abstract public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection;
 }

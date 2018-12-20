@@ -403,11 +403,20 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @param null|int $limit
+     * @param null|ProVehicle $excludedVehicle
      * @return Collection
      */
-    public function getProVehicles(): Collection
+    public function getProVehicles(?int $limit = 0, ProVehicle $excludedVehicle = null): Collection
     {
-        return $this->proVehicles;
+        $criteria = Criteria::create();
+        if ($excludedVehicle != null) {
+            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        }
+        if ($limit > 0) {
+            $criteria->setMaxResults($limit);
+        }
+        return $this->proVehicles->matching($criteria);
     }
 
     /**
