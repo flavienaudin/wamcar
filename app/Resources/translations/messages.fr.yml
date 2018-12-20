@@ -278,6 +278,7 @@ garage:
   action:
     edit: Modifier mon garage
     join: Rejoindre ce garage
+    ubiflow_request: Client Ubiflow ?
   infos:
     opening_hours: Horaires
   tabs:

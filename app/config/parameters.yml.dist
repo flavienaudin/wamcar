@@ -23,5 +23,6 @@ parameters:
     monitors_emails: [flavien@wamcar.com]
 
     typeform.contact: https://wamcar.typeform.com/to/AIMBwx
-    typeform.affinity.personal.form: ~
-    typeform.affinity.pro.form: ~
+    typeform.ubiflow_request: https://wamcar.typeform.com/to/pXYHJv
+    typeform.affinity.personal.form: MBKzPH
+    typeform.affinity.pro.form: oOG6ml

@@ -72,6 +72,7 @@ twig:
         google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
         pro_site_url: '%pro_space_url%'
         typeform_contact: '%typeform.contact%'
+        typeform_ubiflow_request: '%typeform.ubiflow_request%'
         typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
         typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
     form_themes:
