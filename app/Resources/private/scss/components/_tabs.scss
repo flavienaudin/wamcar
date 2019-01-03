@@ -95,9 +95,17 @@
           padding-right: rem-calc(20);
           padding-left: rem-calc(20);
         }
-
       }
 
+      .landing-mixte & {
+        @include breakpoint(medium) {
+          // Cancel the medium breakpoint styles
+          height: rem-calc(40);
+          font-size: rem-calc(16);
+          padding-right: rem-calc(20);
+          padding-left: rem-calc(20);
+        }
+      }
     }
     // End > a
 
@@ -162,6 +170,15 @@
       }
     }
     // End .vehicle-form &
+
+    .landing-mixte & {
+      padding-top: rem-calc(15);
+
+      header h2 {
+        font-size: 1.1rem;
+      }
+
+    }
 
   }
   // End &-panel

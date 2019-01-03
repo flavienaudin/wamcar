@@ -24,7 +24,7 @@
 
       @include breakpoint(large) {
         min-height: 100vh;
-        padding-top: $header-height-medium + rem-calc(40);
+        padding-top: $header-height-medium + rem-calc(20);
         padding-bottom: rem-calc(50);
       }
 
@@ -60,6 +60,13 @@
           background-position: right rem-calc(-80);
         }
       }
+
+      p {
+        @include breakpoint(medium) {
+          font-size: rem-calc(14);
+        }
+      }
+      // End p
     }
 
     /** Form ***/
@@ -81,8 +88,8 @@
 
     /** Form Header **/
     .form-header {
-      padding-top: rem-calc(30);
-      padding-bottom: rem-calc(30);
+      padding-top: rem-calc(15);
+      padding-bottom: rem-calc(15);
 
       @include breakpoint(small only) {
         padding-right: rem-calc(20);
@@ -94,25 +101,18 @@
       }
 
       @include breakpoint(medium) {
-        padding: rem-calc(40);
+        padding: rem-calc(15);
       }
 
       /* Components */
-      p {
-        margin-bottom: 0;
-
-        @include breakpoint(medium) {
-          margin-top: rem-calc(20);
-        }
-
-        @include breakpoint(large) {
-          margin-right: auto;
-          margin-left: auto;
+      @include breakpoint(large) {
+        h1 {
+          font-size: rem-calc(38);
         }
       }
-      // End p
     }
-    // End &-header
+    // End .form-header
   }
-  // End &-meeting
+  // End &-meeting, &-mixte
+
 }

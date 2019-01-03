@@ -644,7 +644,7 @@
 
     @include breakpoint(large) {
       min-height: 100vh;
-      padding-top: $header-height-medium + rem-calc(40);
+      padding-top: $header-height-medium + rem-calc(20);
       padding-bottom: rem-calc(50);
     }
 
