@@ -38,7 +38,7 @@
                 <ul class="dropdown menu" data-dropdown-menu>
                     <li class="is-flex">
                         <a href="#" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar user-thumbnail-mini">
-                            <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}"
+                            <img src="{{ app.user.avatar|avatar('user_mini_thumbnail', app.user.firstName) }}" alt="{{ app.user.fullName }}"
                                  title="{{ app.user.firstName }}">
                             <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
                         </a>
