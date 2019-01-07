@@ -60,13 +60,6 @@
           background-position: right rem-calc(-80);
         }
       }
-
-      p {
-        @include breakpoint(medium) {
-          font-size: rem-calc(14);
-        }
-      }
-      // End p
     }
 
     /** Form ***/
@@ -88,8 +81,8 @@
 
     /** Form Header **/
     .form-header {
-      padding-top: rem-calc(15);
-      padding-bottom: rem-calc(15);
+      padding-top: rem-calc(30);
+      padding-bottom: rem-calc(30);
 
       @include breakpoint(small only) {
         padding-right: rem-calc(20);
@@ -101,13 +94,24 @@
       }
 
       @include breakpoint(medium) {
-        padding: rem-calc(15);
+        padding: rem-calc(40);
+      }
+
+      @include breakpoint(large) {
+        padding: rem-calc(16);
       }
 
       /* Components */
-      @include breakpoint(large) {
-        h1 {
-          font-size: rem-calc(38);
+      p {
+        margin-bottom: 0;
+
+        @include breakpoint(medium) {
+          margin-top: rem-calc(20);
+        }
+
+        @include breakpoint(large) {
+          margin-right: auto;
+          margin-left: auto;
         }
       }
     }
@@ -115,4 +119,38 @@
   }
   // End &-meeting, &-mixte
 
+  /*
+      Landing Mixte
+     ===================================== */
+  &-mixte{
+
+    .vehicle-form-header {
+      h1 {
+        @include breakpoint(medium) {
+          font-size: rem-calc(32);
+        }
+
+        @include breakpoint(large) {
+          font-size: rem-calc(36);
+        }
+      }
+    }
+
+    .vehicle-form {
+      @include breakpoint(medium) {
+        label {
+          margin-bottom: $input-margin-bottom;
+        }
+
+        input {
+          margin-bottom: $input-margin-bottom;
+          height: rem-calc(40);
+        }
+
+        p {
+          font-size: rem-calc(14);
+        }
+      }
+    }
+  }
 }

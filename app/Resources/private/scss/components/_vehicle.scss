@@ -719,6 +719,12 @@
       @include breakpoint(medium) {
         font-size: rem-calc(19);
         line-height: 1.3;
+
+        .landing-mixte & {
+          font-size: rem-calc(16);
+          line-height: 1.1;
+          margin-bottom: rem-calc(15);
+        }
       }
     }
   }
@@ -747,6 +753,10 @@
 
     @include breakpoint(medium) {
       padding: rem-calc(40);
+    }
+
+    @include breakpoint(large) {
+      padding: rem-calc(16);
     }
 
     h2 {

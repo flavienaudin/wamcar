@@ -172,10 +172,8 @@
     // End .vehicle-form &
 
     .landing-mixte & {
-      padding-top: rem-calc(15);
-
-      header h2 {
-        font-size: 1.1rem;
+      @include breakpoint(medium) {
+        padding-top: rem-calc(16);
       }
 
     }

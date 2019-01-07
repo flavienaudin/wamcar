@@ -115,6 +115,10 @@ textarea {
   &-margin {
     @include inputMargin;
   }
+
+  &-margin-small {
+    margin-bottom: $input-margin-bottom;
+  }
 }
 
 input[value="Non"] {
