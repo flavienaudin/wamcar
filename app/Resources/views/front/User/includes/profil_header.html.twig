@@ -42,7 +42,7 @@
         <div class="column medium-shrink medium-order-1">
             <div class="profil-image">
                 {% if not userIsMe %}
-                    <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
+                    <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
                     {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                     {{ form_widget(avatarForm.avatar, {
@@ -51,7 +51,7 @@
                         'required_class': '',
                         'classPreview': 'file-preview-avatar',
                         'input_class': 'js-onchange-submit',
-                        'imgPreview':  user.avatar|avatar('user_thumbnail'),
+                        'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
                         'isRemovable': false
                     }) }}
                     {{ form_widget(avatarForm) }}

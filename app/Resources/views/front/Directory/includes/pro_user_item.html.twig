@@ -3,7 +3,7 @@
 <article class="directory-item">
     <div class="small-12 medium-8 is-flex">
         <a href="{{ sellerUrl }}" class="directory-item-user-picture is-flex align-middle">
-            <img src="{{ proUser.avatar|avatar('user_thumbnail') }}" alt="{{ proUser.fullName }}">
+            <img src="{{ proUser.avatar|avatar('user_thumbnail', proUser.firstName) }}" alt="{{ proUser.fullName }}">
         </a>
         <div class="directory-item-user-info overflow-hidden full-width">
             <h2><a href="{{ sellerUrl }}"  class="dark-gray-color">{{ proUser.fullName|title }}</a>

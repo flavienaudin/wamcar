@@ -97,7 +97,7 @@
             'required': false,
             'required_class': '',
             'classPreview': 'small-6 large-4 file-preview-avatar',
-            'imgPreview':  user.avatar|avatar('user_thumbnail'),
+            'imgPreview':  user.avatar|avatar('user_thumbnail', editUserForm.firstName.vars.value ),
             'defaultImage': 'user_thumbnail'|defaultAvatar
         }) }}
     </div>

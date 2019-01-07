@@ -11,7 +11,7 @@
     <div>
         <div style="padding: 20px 15px; display: flex; flex-flow: row wrap; align-content: flex-start;">
             <a href="{{ url('front_view_user_info', {'id': sender.id}) }}" target="_blank">
-                <img src="{{ sender.avatar|avatar('user_thumbnail') }}" alt="{{ sender.fullName }}"
+                <img src="{{ sender.avatar|avatar('user_thumbnail', sender.firstName) }}" alt="{{ sender.fullName }}"
                      style="border-radius: 50%; height: 40px; width: 40px;">
             </a>
             <div style="flex-grow: 1; min-width: 0; padding-left: 20px">

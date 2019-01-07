@@ -38,7 +38,7 @@
                                         </a>
                                     </td>
                                     <td><span class="user-thumbnail-mini"><img
-                                                    src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                                    src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
                                                     alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>
@@ -103,7 +103,7 @@
                                             {{ user.id }}
                                         </a></td>
                                     <td><span class="user-thumbnail-mini">
-                                            <img src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
+                                            <img src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
                                                  alt="{{ user.fullName }}"></span></td>
                                     <td>{{ user.firstname }}</td>
                                     <td>{{ user.lastname }}</td>

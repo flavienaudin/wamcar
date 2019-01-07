@@ -71,7 +71,9 @@
     </div>
 
     <div class="vehicle-user-infos small-12 medium-auto">
-        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}"></a></div>
+        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}">
+                <img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail', vehicleSellerName) }}"
+                     alt="{{ vehicleSellerName }}"></a></div>
 
         <div class="small-12 align-self-top">
             <div>

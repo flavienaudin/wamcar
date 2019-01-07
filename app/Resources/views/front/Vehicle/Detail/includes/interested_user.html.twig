@@ -15,7 +15,7 @@
                                 <span><time>{{ like.updatedAt|localizeddate('short', 'none') }}</time></span>
                                 <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
                                     <span class="seller-pic">
-                                        <img src="{{ like.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ like.user.fullName(not like.user.isPro and isUserPersonal) }}">
+                                        <img src="{{ like.user.avatar|avatar('user_mini_thumbnail', like.user.firstName) }}" alt="{{ like.user.fullName(not like.user.isPro and isUserPersonal) }}">
                                     </span>
                                 </a>
                                 <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
