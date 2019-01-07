@@ -2,13 +2,17 @@
 
 namespace GoogleApi;
 
+use GoogleApi\Event\PlaceDetailError;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
+use SimpleBus\Message\Bus\MessageBus;
 
 
 class GoogleMapsApiConnector
 {
+    /** @var MessageBus */
+    private $eventBus;
     /** @var LoggerInterface */
     private $logger;
     /** @var Client */
@@ -25,6 +29,7 @@ class GoogleMapsApiConnector
 
     /**
      * ApiConnector constructor.
+     * @param MessageBus $eventBus
      * @param LoggerInterface $logger
      * @param string $host
      * @param string $key
@@ -33,6 +38,7 @@ class GoogleMapsApiConnector
      * @param string $language
      */
     public function __construct(
+        MessageBus $eventBus,
         LoggerInterface $logger,
         string $host,
         string $key,
@@ -40,6 +46,7 @@ class GoogleMapsApiConnector
         string $output = 'json',
         string $language = 'fr')
     {
+        $this->eventBus = $eventBus;
         $this->logger = $logger;
         $this->client = new Client([
             'base_uri' => $host,
@@ -51,7 +58,7 @@ class GoogleMapsApiConnector
         $this->language = $language;
     }
 
-    public function getPlaceDetails(string $placeId): array
+    public function getPlaceDetails(string $placeId): ?array
     {
         try {
             $jsonReponse = $this->client->request('GET', $this->placeDetailsPath . $this->outputFormat, [
@@ -62,7 +69,22 @@ class GoogleMapsApiConnector
                 ]
             ]);
             $decodedResponse = json_decode($jsonReponse->getBody(), true);
-            if(isset($decodedResponse['result'])){
+
+            if (isset($decodedResponse['error_message'])) {
+                $this->eventBus->handle(new PlaceDetailError(
+                    $decodedResponse['status'],
+                    $decodedResponse['error_message'], [
+                        'placeDetailsPath' => $this->placeDetailsPath,
+                        'outputFormat' => $this->outputFormat,
+                        'query' => [
+                            'key' => $this->apiKey,
+                            'placeid' => $placeId,
+                            'language' => $this->language
+                        ]
+                    ]
+                ));
+            }
+            if ($decodedResponse['status'] === 'OK' && isset($decodedResponse['result'])) {
                 return $decodedResponse['result'];
             }
         } catch (GuzzleException $serverException) {

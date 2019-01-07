@@ -5,13 +5,11 @@
 {% set isUserProPageProfil = (user.isPro) %}
 {% set isUserPersonalPageProfil = (user.isPersonal) %}
 
-{% set iCanSeeUserVehicles = user.canSeeMyVehicles(app.user) %}
-
 {% block title %}
     {% if userIsMe %}
-        Ma fiche vendeur
+        {{ 'user.title.pro.mine'|trans }}
     {% else %}
-        Fiche vendeur de {{ user.fullName }}
+        {{ 'user.title.pro.other'|trans({'%username%':user.fullName}) }}
     {% endif %}
 {% endblock %}
 
@@ -22,52 +20,199 @@
     }
 ] %}
 
-{% block body %}
+{% set presentation_block %}{% spaceless %}
+    {% if user.description is not empty or userIsMe %}
+        <h2>{{ 'user.presentation.title.pro'|trans }}</h2>
+        {% if user.description %}
+            <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
+        {% elseif userIsMe %}
+            <p class="text-justify no-margin">{{ 'user.presentation.empty'|trans }}</p>
+        {% endif %}
+        {% if userIsMe %}
+            <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
+        {% endif %}
+    {% endif %}
+{% endspaceless %}{% endset %}
 
+{% set affinity_block %}{% spaceless %}
+    {% if userIsMe %}
+        <h2>{{ "user.affinity.section.title"|trans }}</h2>
+        {% if user.affinityAnswer is null %}
+            <p>{{ 'user.affinity.section.explanation.pro'|trans({
+                    '%affinity_form_url%': path('front_affinity_pro_form')
+                })|raw }}</p>
+        {% else %}
+            <p>{{ 'user.affinity.section.edit.pro'|trans({
+                    '%affinity_form_url%': path('front_affinity_pro_form')
+                })|raw }}</p>
+        {% endif %}
+    {% endif %}
+    {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+    {% if userAffinity is not null %}
+        <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
+        <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
+    {% endif %}
+{% endspaceless %}{% endset %}
+
+{% set seller_garage_block %}{% spaceless %}
+    {% if user.hasGarage or userIsMe %}
+        <h2>{{ 'user.garage.seller_for'|trans }}</h2>
+        {% if user.hasGarage or userIsMe %}
+            {% include 'front/User/includes/brand_list.html.twig' %}
+        {% else %}
+            <p>{{ 'user.garage.empty'|trans }}</p>
+        {% endif %}
+
+        {% if addGarageForm is not null %}
+            <h3>{{ 'user.garage.join'|trans }}</h3>
+            {{ form_start(addGarageForm, {'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+            {% include 'front/Layout/includes/forms/input.html.twig' with {
+                label: 'garage.form.field.googleSearch.label'|trans,
+                label_class: 'hide',
+                name: 'google_place',
+                placeholder: 'garage.form.field.googleSearch.placeholder'|trans,
+                attributes:{
+                    'data-google_api_client_key' : google_api_client_key,
+                    'data-locale' : app.request.locale|slice(0, 2)
+                }
+            } %}
+            {{ form_widget(addGarageForm.googlePlaceId) }}
+            {{ form_widget(addGarageForm.googleRating) }}
+            {{ form_widget(addGarageForm.latitude) }}
+            {{ form_widget(addGarageForm.longitude) }}
+            {{ form_widget(addGarageForm.name) }}
+            {{ form_widget(addGarageForm.openingHours) }}
+            {{ form_widget(addGarageForm.address) }}
+            {{ form_widget(addGarageForm.postalCode) }}
+            {{ form_widget(addGarageForm.cityName) }}
+            {{ form_widget(addGarageForm.phone) }}
+
+            <button type="submit" class="button full-width input-margin">{{ 'global.button.validate'|trans }}</button>
+            {{ form_end(addGarageForm) }}
+        {% endif %}
+        {% if userIsMe %}
+            <a href="{{ path('front_garage_create') }}" class="text-underline">{{ 'user.garage.add'|trans }}</a>
+        {% endif %}
+    {% endif %}
+{% endspaceless %}{% endset %}
+
+{% block body %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/User/includes/profil_header.html.twig' %}
 
     <section class="row full-width">
-        <div class="profil-body column block-grid small-12">
-            <div class="small-12 medium-7 large-5">
-                {% block presentation %}
-                    <h2>Présentation du vendeur</h2>
-                    {% if user.description %}
-                        <p>{{ user.description|nl2br }}</p>
-                    {% elseif userIsMe %}
-                        <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus
-                            d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
-                    {% endif %}
-                    {% if userIsMe %}
-                        <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes
-                            informations</a>
-                    {% endif %}
-                {% endblock %}
-            </div>
-            <div class="separator-for-small small-12 medium-4 large-6 medium-offset-1">
-                {% block other_informations %}
-                    <h2>Vendeur pour</h2>
-                    {% if user.garageMemberships|length > 0 %}
-                        {% include 'front/User/includes/brand_list.html.twig' %}
-                    {% else %}
-                        <p>Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos
-                            prospects.</p>
-                        <div class="large-5">
-                            <a href="{{ path('front_garage_create') }}" class="button">Ajouter un garage</a>
-                        </div>
-                    {% endif %}
-                {% endblock %}
-            </div>
-            {% block vehicle %}
-            {% endblock %}
-        </div>
-        {% if userIsMe %}
-            <div class="separator hide-for-medium column block-grid small-12">
-                <div class="small-12 medium-7 large-5">
-                    <a href="{{ path('security_logout') }}" class="text-underline">Déconnexion</a>
+        <div class="profil-body column block-grid small-12 small-up-1 large-up-2">
+            {% if presentation_block is not empty %}
+                <div class="column">
+                    {{ presentation_block }}
                 </div>
-            </div>
-        {% endif %}
-    </section>
+            {% endif %}
 
+            {% if seller_garage_block is not empty %}
+                <div class="column">
+                    {{ seller_garage_block }}
+                </div>
+            {% endif %}
+
+            {% if affinity_block is not empty %}
+                <div class="column">
+                    {{ affinity_block }}
+                </div>
+            {% endif %}
+        </div>
+    </section>
 {% endblock body %}
+
+{% block javascripts %}
+    {% if addGarageForm is not null %}
+        <script>
+          let autocomplete;
+
+          function initAutocomplete() {
+            let autocompleteInputField = document.getElementById('google_place');
+            // Create the autocomplete object, restricting the search to geographical location types.
+            autocomplete = new google.maps.places.Autocomplete(
+              /** @type {!HTMLInputElement} */
+              (autocompleteInputField),
+              {
+                types: ['establishment'],
+                componentRestrictions: {country: 'fr'}
+              }
+            );
+
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', fillInAddress);
+            autocompleteInputField.addEventListener('keypress', (e) => {
+              if (e.keyCode === 13) {
+                return false;
+              }
+            })
+          }
+
+          function fillInAddress() {
+            // Get the place details from the autocomplete object.
+            let place = autocomplete.getPlace();
+
+              {# Google Place Id #}
+            document.getElementById('{{ addGarageForm.googlePlaceId.vars.id }}').value = place.place_id;
+            if (place.hasOwnProperty('rating')) {
+              document.getElementById('{{ addGarageForm.googleRating.vars.id }}').value = place.rating;
+            }
+
+              {# Address #}
+            let address = '', codePostal = '', cityName = '';
+            for (let i = 0; i < place.address_components.length; i++) {
+              switch (place.address_components[i].types[0]) {
+                case 'street_number':
+                  address = place.address_components[i]['short_name'] + address;
+                  break;
+                case 'route':
+                  address = address + ' ' + place.address_components[i]['short_name'];
+                  break;
+                case 'postal_code':
+                  codePostal = place.address_components[i]['short_name'];
+                  break;
+                case 'locality':
+                  cityName = (place.address_components[i]['short_name']).toUpperCase();
+                  break;
+              }
+            }
+            document.getElementById('{{ addGarageForm.cityName.vars.id }}').value = cityName;
+            document.getElementById('{{ addGarageForm.postalCode.vars.id }}').value = codePostal;
+            document.getElementById('{{ addGarageForm.address.vars.id }}').value = address;
+
+              {# Latitude/Longitude#}
+            if (place.hasOwnProperty('geometry')) {
+              document.getElementById('{{ addGarageForm.latitude.vars.id }}').value = place.geometry.location.lat();
+              document.getElementById('{{ addGarageForm.longitude.vars.id }}').value = place.geometry.location.lng();
+            }
+              {# Name #}
+            let nameField = document.getElementById('{{ addGarageForm.name.vars.id }}');
+            if (place.hasOwnProperty('name')) {
+              nameField.value = place.name;
+            }
+              {# Phone #}
+            let phoneField = document.getElementById('{{ addGarageForm.phone.vars.id }}');
+            if (place.hasOwnProperty('formatted_phone_number')) {
+              phoneField.value = place.formatted_phone_number.replace(/ /g, '');
+            }
+
+              {# Opening hours #}
+            let openingHOursField = document.getElementById('{{ addGarageForm.openingHours.vars.id }}');
+            if (place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
+              let openingHours = '';
+              for (let i = 0; i < place.opening_hours.weekday_text.length; i++) {
+                openingHours += place.opening_hours.weekday_text[i] + '\n';
+              }
+              openingHOursField.value = openingHours;
+            }
+          }
+        </script>
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key={{ google_api_client_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}"
+                defer async></script>
+    {% endif %}
+{% endblock javascripts %}
+

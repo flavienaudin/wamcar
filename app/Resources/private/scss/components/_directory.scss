@@ -1,0 +1,191 @@
+/* ===========================================================================
+   Directory
+   =========================================================================== */
+
+/** Settings **/
+$directory-item-min-height: 182;
+
+/** Class definition */
+.directory {
+
+  // Change label and button colors
+  &-form-container {
+    label  {
+      color: $dark-blue;
+    }
+
+    button[type=submit] {
+      background-color: $dark-blue;
+      border-color: $dark-blue;
+
+      &:hover {
+        color: $dark-blue;
+        background-color: white;
+      }
+    }
+
+    .search-filter {
+      background-color: $dark-blue;
+      border-color: $dark-blue;
+
+      a:hover {
+        color: $black;
+      }
+    }
+  }
+
+  &-result {
+    padding-top: rem-calc(15);
+
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+  }
+
+  &-item {
+    display: flex;
+    flex-flow: column;
+    margin-top: rem-calc(10);
+    margin-bottom: rem-calc(10);
+    width: 100%;
+    min-height: rem-calc($directory-item-min-height);
+    padding: rem-calc(10);
+
+    border: rem-calc(1) solid $border-color;
+    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+
+    @include breakpoint(medium) {
+      flex-flow: row;
+    }
+
+    transition: $global-transition;
+    &:hover {
+      box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .2);
+    }
+
+    &-user-picture {
+      margin-right: rem-calc(5);
+      min-width: 50px;
+      width: 50px;
+      height: 100%;
+      min-height: 60px;
+
+      @include breakpoint(medium) {
+        margin-right: 0;
+        min-width: 100px;
+        width: 100px;
+      }
+
+      img {
+        border-radius: 50%;
+        border: rem-calc(1) solid $border-color;
+        width: 50px;
+        height: 50px;
+
+        @include breakpoint(medium) {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    &-user-info {
+      margin-bottom: rem-calc(5);
+      margin-left: rem-calc(5);
+      margin-right: rem-calc(5);
+      height: 100%;
+      max-height: rem-calc($directory-item-min-height - 22);
+      overflow-y: hidden;
+
+      @include breakpoint(medium) {
+        margin-bottom: 0;
+        margin-left: rem-calc(10);
+        margin-right: rem-calc(10);
+      }
+
+      h2 {
+        margin-bottom: rem-calc(10);
+        > a > span.icon-message {
+          margin-left: rem-calc(15);
+        }
+      }
+
+      p {
+        margin-bottom: rem-calc(10);
+        color: $body-font-color;
+        text-align: justify;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4; /* number of lines to show N*/
+
+        line-height: 1.5; /* fallback X */
+        max-height: rem-calc(16 * 6); /* fallback = font-size * X * N */
+        @include breakpoint(small only) {
+          max-height: rem-calc(13 * 6); /* fallback = font-size * X * N */
+        }
+
+        @include breakpoint(medium only) {
+          max-height: rem-calc(15 * 6); /* fallback = font-size * X * N */
+        }
+      }
+    }
+
+    &-action {
+      margin-top: rem-calc(-10);
+      margin-right: rem-calc(-10);
+
+      font-size: rem-calc(20);
+      background-color: $dark-blue;
+
+      @include breakpoint(medium) {
+        margin-bottom: rem-calc(-10);
+        margin-right: 0;
+      }
+
+      &:hover:before {
+        color: $primary-color;
+      }
+
+      &:before {
+        color: $white;
+        padding-left: rem-calc(16);
+        padding-right: rem-calc(16);
+        margin-right: 0;
+      }
+    }
+
+    &-garages {
+      height: 100%;
+      max-height: rem-calc($directory-item-min-height -22);
+      padding-top: rem-calc(5);
+
+      border-top: rem-calc(1) solid $border-color;
+
+      @include breakpoint(medium) {
+        padding-top: 0;
+        padding-left: rem-calc(10);
+        border-top: 0;
+        border-left: rem-calc(1) solid $border-color;
+      }
+    }
+
+    &-garage {
+      padding: 0 rem-calc(5);
+
+      h3, p {
+        margin-bottom: 0;
+      }
+
+      &:only-child {
+        height: 100%;
+      }
+    }
+
+    &-more-garage {
+      margin-top: rem-calc(5);
+      font-size: rem-calc(14);
+    }
+  }
+}

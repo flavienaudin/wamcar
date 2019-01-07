@@ -3,15 +3,15 @@
 namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
-use Wamcar\User\BaseUser;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Wamcar\User\BaseUser;
 
 trait DoctrineUserRepositoryTrait
 {
     /**
      * {@inheritdoc}
      */
-    public function findAll(): array
+    public function findAll()
     {
         return $this->findBy([]);
     }
@@ -86,6 +86,21 @@ trait DoctrineUserRepositoryTrait
     public function supportsClass($class): bool
     {
         return ApplicationUser::class === $class;
+    }
+
+    /**
+     * @param $ids array Array of entities'id
+     * @return array
+     */
+    public function findByIds(array $ids): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
+            ->from($this->getClassName(), 'u')
+            ->where($qb->expr()->in('u.id', $ids))
+            ->orderBy($qb->expr()->asc('FIELD(u.id, :orderedIds ) '));
+        $qb->setParameter('orderedIds', $ids);
+        return $qb->getQuery()->getResult();
     }
 
 }

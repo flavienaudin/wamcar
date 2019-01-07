@@ -1,0 +1,45 @@
+{% extends ':front/Layout:layout.html.twig' %}
+
+{% block title %}Administration - Garages{% endblock title %}
+
+{% block bodyClass %}admin{% endblock %}
+
+{% block body %}
+    <a href="{{ path('front_garage_create') }}" class="button input-margin">Créer un garage</a>
+    <div class="row garages-list">
+        {% for garage in garages %}
+            <div class="column small-12 medium-6 input-margin">
+                <div class=" garage-item">
+                    <a href="{{ path('front_garage_view', {'id': garage.id}) }}">
+                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
+                    <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
+                    <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
+                    <p class="black-color no-margin"><strong>Adresse :</strong><br>
+                    <span>{{ garage.address.address }}</span><br>
+                    <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
+                    </p>
+                    <div class="black-color">
+                        <strong>Google Place details&nbsp;:</strong>
+                        <ul>
+                            <li>Id&nbsp;: {{ garage.googlePlaceId  }}</li>
+                            <li>Note&nbsp;: {{ garage.googleRating  }}</li>
+                        </ul>
+                    </div>
+                    <div class="black-color">
+                        <strong>Wamcar API details&nbsp;:</strong>
+                        <ul>
+                            <li>Id&nbsp;: {{ garage.apiClientId}}</li>
+                            <li>Secret&nbsp;: {{ garage.apiSecret  }}</li>
+                        </ul>
+                    </div>
+
+                    {#<strong>{{ garage.email }}</strong>#}
+                    <ul>
+                        <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
+                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}">Supprimer</a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock body %}

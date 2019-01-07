@@ -1,12 +1,20 @@
-{% set context = context|default(null) %}
+{% trans_default_domain 'security' %}
 
-<aside class="register-right small-12 medium-6">
-    <h2 class="black-color column small-12">Inscription via un réseau social</h2>
-    {% include 'front/Security/Register/includes/social_networks_login.html.twig' with {"context" : context} %}
-</aside>
+{% set context = context|default(constant("Wamcar\\User\\PersonalUser::TYPE")) %}
+{# Do not use |default otherwise false is set to true #}
+{% set social_connect = social_connect is defined ? social_connect:true %}
 
-<section class="register-left input-margin small-12 medium-6">
-    <h2 class="black-color column small-12">Inscription par email</h2>
+{% if social_connect %}
+    {% set destination_url = (context == constant("Wamcar\\User\\ProUser::TYPE")? url('front_affinity_pro_form') : url('register_orientation') )%}
+    <aside class="register-right small-12 medium-6">
+        <h2 class="black-color column small-12">{{ 'user.social_connect'|trans }}</h2>
+        {% include 'front/Security/Register/includes/social_networks_registration.html.twig' with {"context":context,"destination":destination_url} %}
+    </aside>
+{% endif %}
+
+
+<section class="{{ social_connect?'input-margin small-12 medium-6 register-left':'small-12 medium-8 medium-offset-2 arge-6 large-offset-2' }}">
+    <h2 class="black-color column small-12">{{ 'user.with_email'|trans }}</h2>
     <div class="column">
         {% include 'front/Security/Register/includes/form_register.html.twig' with {
             'registrationForm' : (vehicleForm is defined ? vehicleForm.userRegistration : form),

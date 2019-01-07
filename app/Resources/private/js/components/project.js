@@ -88,4 +88,8 @@ if ($collectionHolder && $addInput) {
   refreshVar();
   addRemoveEvent();
   addMakeEvent();
+
+  if($collectionHolder.children.length === 0){
+    addProjectInTheList();
+  }
 }

@@ -17,11 +17,16 @@ imports:
     - { resource: services/sessions.yml }
     - { resource: services/commands.yml }
     - { resource: search.yml }
+    - { resource: ../../../TypeForm/Resources/config/services.yml }
 
 services:
-
     twig.extension.intl:
         class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+    twig.extension.date:
+        class: Twig_Extensions_Extension_Date
+        arguments: ["@translator"]
         tags:
             - { name: twig.extension }
 
@@ -73,9 +78,15 @@ services:
             - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
             - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
             - '@AppBundle\Form\Builder\User\ProjectFromDTOBuilder'
-            - '@AppBundle\Doctrine\Repository\DoctrineProjectRepository'
+            - '@AppBundle\Doctrine\Repository\ProjectRepository'
+            - '@Wamcar\Vehicle\PersonalVehicleRepository'
+            - '@Wamcar\Vehicle\ProVehicleRepository'
+            - '@AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
+        autowire: true
+
+    AppBundle\Security\GarageApiTokenAuthenticator:
         autowire: true
 
     AppBundle\Security\UserAuthenticator:
@@ -90,7 +101,7 @@ services:
         autowire: true
         autoconfigure: false
         arguments:
-          $googleMapsApiConnector: '@GoogleApi\GoogleMapsApiConnector'
+            $googleMapsApiConnector: '@GoogleApi\GoogleMapsApiConnector'
 
     AppBundle\Services\Conversation\ConversationEditionService:
         class: AppBundle\Services\Conversation\ConversationEditionService
@@ -112,3 +123,8 @@ services:
         class: AppBundle\Services\Vehicle\VehicleEditionService
         autowire: true
 
+    AppBundle\Services\Notification\NotificationManagerExtended:
+        autowire: true
+
+    AppBundle\Services\Affinity\AffinityAnswerCalculationService:
+        autowire: true

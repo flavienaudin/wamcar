@@ -1,28 +1,31 @@
 {% set infos_vehicle = [
-    { label: "Marque", value: vehicle.make },
-    { label: "Modèle", value: vehicle.modelName },
-    { label: "Année de commercialisation", value: vehicle.years },
-    { label: "Kilométrage", value: vehicle.mileAge|localizednumber ~ ' km' },
-    { label: "Motorisation", value: vehicle.engineName },
-    { label: "Boite de vitesse", value: vehicle.transmission },
-    { label: "Energie", value: vehicle.fuelName },
-    { label: "Mise en circulation", value: vehicle.registrationDate|date("d/m/Y") },
-    { label: "Véhicule importé", value: vehicle.isImported is null ? null : vehicle.isImported ? 'Oui' : 'Non' },
-    { label: "Véhicule 1ère main", value: vehicle.isFirstHand is null ? null :vehicle.isFirstHand ? 'Oui' : 'Non' }
+    {label: "vehicle.section.infos.make.label"|trans, value: vehicle.make},
+    {label: "vehicle.section.infos.model.label"|trans, value: vehicle.modelName},
+    {label: "vehicle.section.infos.statut.label"|trans, value: vehicle.isUsed?'VEHICLE_STATUT.USED'|trans({},'enumeration'):'VEHICLE_STATUT.NEW'|trans({},'enumeration')},
+    {label: (vehicle.isUsed?"vehicle.section.infos.registrationDate.label"|trans:"vehicle.section.infos.commercializationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
+    {label: "vehicle.section.infos.mileage.label"|trans, value: vehicle.mileAge|localizednumber ~ ' km' },
+    {label: "vehicle.section.infos.engine_name.label"|trans, value: vehicle.engineName },
+    {label: "vehicle.section.infos.transmission.label"|trans, value: vehicle.transmission },
+    {label: "vehicle.section.infos.fuel_name.label"|trans, value: vehicle.fuelName },
+    {label: "vehicle.section.infos.first_hand.label"|trans, value: vehicle.isFirstHand is null ? null : vehicle.isFirstHand ? 'global.yes'|trans : 'global.no'|trans },
+    {label: "vehicle.section.infos.imported.label"|trans, value: vehicle.isImported is null ? null : vehicle.isImported ? 'global.yes'|trans : 'global.no'|trans },
 ] %}
 
 {% if isUserPro or isEditableByCurrentUser %}
     {% set infos_vehicle = infos_vehicle|merge([
-        { label: "Vin", value: vehicle.registrationVin|default('Non renseigné') },
-        { label: "Immatriculation", value: vehicle.registrationPlateNumber|default('Non renseigné') },
+        { label: "vehicle.section.infos.immatriculation.label"|trans, value: vehicle.registrationPlateNumber },
+        { label: "vehicle.section.infos.vin.label"|trans, value: vehicle.registrationVin },
     ]) %}
 {% endif %}
 
-<h2 class="separator medium primary-color">Informations principales</h2>
+<h2 class="separator medium primary-color">{{ 'vehicle.section.infos.title'|trans }}</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for info in infos_vehicle %}
         {% if info.value %}
-            <li class="dark-gray-color block-grid"><strong class="small-5 medium-3 large-5 xlarge-3">{{ info.label }}</strong> {{ info.value }}</li>
+            <li class="dark-gray-color block-grid">
+                <strong class="small-5 medium-4 large-5 xlarge-3">{{ info.label }}</strong>
+                <span class="small-auto">{{ info.value }}</span>
+            </li>
         {% endif %}
     {% endfor %}
 </ul>

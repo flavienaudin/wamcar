@@ -3,20 +3,24 @@
 {% form_theme registrationForm 'front/Layout/includes/forms/fields.html.twig' %}
 
 {% if isIsolatedRegistration %}
-    {{ form_start(registrationForm, { 'attr' : { 'class': 'js-password register-form row small-4', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+    {{ form_start(registrationForm, { 'attr' : {
+        'id': 'js-register-simple-form',
+        'class': 'js-password register-form row small-4',
+        'data-abide' : '',
+        'novalidate': 'novalidate'} }) }}
     {{ form_errors(registrationForm) }}
 {% endif %}
 
 {# Adresse e-mail #}
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.email, {
-        'label': 'Email',
+        'label': 'user.field.email.label'|trans,
         'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
-        'placeholder': 'Entrez votre adresse email',
+        'placeholder': 'user.field.email.placeholder'|trans,
         'class': 'no-margin',
         'required': true,
-        'required_message': 'Veuillez indiquer votre adresse email.'
+        'required_message': 'user.field.email.error'|trans
     }) }}
 </div>
 
@@ -24,23 +28,23 @@
 {# Prénom #}
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.firstName, {
-        'label': 'Prénom',
+        'label':  'user.field.firstname.label'|trans,
         'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
-        'placeholder': 'Entrez votre prénom',
+        'placeholder':  'user.field.firstname.placeholder'|trans,
         'class': 'no-margin',
         'required': true,
-        'required_message': 'Veuillez indiquer votre prénom.'
+        'required_message':  'user.field.firstname.error'|trans
     }) }}
 </div>
 
 {# Nom #}
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.lastName, {
-        'label': 'Nom',
+        'label': 'user.field.lastname.label'|trans,
         'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
-        'placeholder': 'Entrez votre nom',
+        'placeholder': 'user.field.lastname.placeholder'|trans,
         'class': 'no-margin',
         'required': false,
     }) }}
@@ -50,23 +54,23 @@
 <p class="column small-12">{{ 'user.field.password.text'|trans }}</p>
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.password.first, {
-        'label': 'Mot de passe',
+        'label': 'user.field.password.first.label'|trans,
         'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
-        'placeholder': 'Entrez votre mot de passe',
+        'placeholder': 'user.field.password.first.placeholder'|trans,
         'class': 'no-margin',
         'required': true,
-        'required_message': 'Veuillez indiquer un mot de passe.'
+        'required_message': 'user.field.password.first.error'|trans,
     }) }}
 </div>
 
 {# Mot de passe confirmation #}
 <div class="block-grid input-margin column small-12">
     {{ form_widget(registrationForm.password.second, {
-        'label': '<div>Confirmation <span class="show-for-medium"><br></span> mot de passe</div>',
+        'label': 'user.field.password.second.label'|trans|raw,
         'label_class': 'small-12 large-4 large-no-margin',
         'class_field': 'small-12 large-8',
-        'placeholder': 'Confirmez votre mot de passe',
+        'placeholder': 'user.field.password.second.placeholder'|trans,
         'class': 'no-margin',
         'required': true,
         'equalTo' : registrationForm.password.first.vars.id,
@@ -81,12 +85,15 @@
 {# Button submit #}
 <div class="block-grid column small-12 align-middle">
     <div class="input-margin small-12">
-        <button type="submit" class="button full-width">{{'user.submit.i_register'|trans}}</button>
+        <button id="register_submit" type="submit" class="button full-width">
+            {% include 'front/Layout/includes/forms/loader.html.twig' %}
+            {{'user.submit.i_register'|trans}}
+        </button>
     </div>
     <div class="small-12">
         {% if isIsolatedRegistration %}
         {% else %}
-            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape Précédente</b></button>
+            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">{{ 'global.button.previous_step'|trans({},'messages') }}</b></button>
         {% endif %}
     </div>
 </div>

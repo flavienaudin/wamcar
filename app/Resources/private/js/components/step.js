@@ -60,7 +60,6 @@ class Step {
 
   setActiveTabIndex() {
     const currentSlide = this._getCurrentSlideItem();
-    console.log(currentSlide);
     const $inputs = currentSlide.querySelectorAll('[tabindex="-1"]');
 
     [...$inputs].forEach((item) => {
@@ -222,10 +221,9 @@ class Step {
    */
   _getCurrentSlideItem() {
     const currentSlide = this.carousel.currentSlide + 1;
-    const $currentSlide = document.querySelector(
+    return document.querySelector(
       `[data-step="${currentSlide}"]`
     );
-    return $currentSlide;
   }
 
   /**
@@ -355,6 +353,7 @@ if ($step) {
     });
 
     $registerForm.addEventListener('submit', () => {
+      $('#register_submit').addClass('loader-visible');
       setTimeout(() => step.autoHeight());
     });
 

@@ -1,0 +1,48 @@
+{% set balise = balise|default('h2') %}
+{% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
+
+{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+{% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
+{% set detailUrlTarget = detailUrlTarget|default('_self') %}
+
+<article class="vehicle-item is-flex">
+    <div class="is-flex full-width is-relative">
+        <div class="vehicle-picture small-auto">
+            <div class="is-relative"  id="{{ vehicle.id }}">
+                <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
+                    <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
+                </a>
+                <div class="vehicle-count-pics">
+                    <span class="icon-pics">{{ vehicle.pictures|length }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="vehicle-infos small-shrink full-width">
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="is-block"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
+            <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span></a>
+
+            <div class="vehicle-middle block-grid">
+                <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="full-width">
+                    <strong class="vehicle-price primary-color">{% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</strong>
+                </a>
+                <span class="vehicle-like small-shrink">
+                    {% block right_action %}
+                        <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
+                            <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                    {% endblock %}
+                </span>
+            </div>
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="is-block">
+                <div class="vehicle-bottom block-grid full-width align-middle">
+                    <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
+                    <time class="vehicle-time black-color small-auto">
+                        <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                    </time>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    {% block complementary_block %}{% endblock %}
+</article>

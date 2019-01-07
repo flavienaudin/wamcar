@@ -1,8 +1,8 @@
 UNKNOWN: 'Inconnu'
 
-UP_TO_DATE_WITH_INVOICES: 'A jour avec factures'
-UP_TO_DATE: 'A jour'
-MISSING: 'Manquant'
+UP_TO_DATE_WITH_INVOICES: 'A jour avec historique (carnet, factures)'
+UP_TO_DATE: 'A jour, sans historique'
+MISSING: 'A faire'
 
 LESS_THAN_SIX_MONTH: 'Moins de six mois'
 MORE_THAN_SIX_MONTH: 'Plus de six mois'
@@ -17,3 +17,27 @@ PRIME_A_L_HYBRIDE: Prime à l'hybride
 
 OK: 'Valide'
 NOT_OK: 'Non valide'
+
+TIMING_BELT_OK: 'Ok'
+TO_CHANGE: 'A changer'
+NO_TIMING_BELT: 'Pas de courroie'
+
+VEHICLE_STATUT:
+  NEW: 'Neuf'
+  USED: 'Occasion'
+
+SEARCH_SORTING_RELEVANCE: Trier par pertinence
+SEARCH_SORTING_DATE: Trier par date
+SEARCH_SORTING_DISTANCE: Trier par distance
+SEARCH_SORTING_PRICE_ASC: Trier par prix croissant
+SEARCH_SORTING_PRICE_DESC: Trier par prix décroissant
+
+IMMEDIATELY: Immédiatement
+ONCE_A_DAY: Une fois par jour
+
+DIRECTORY_SORTING_RELEVANCE: Trier par pertinence
+DIRECTORY_SORTING_DISTANCE: Trier par distance
+
+PERSONAL_ORIENTATION_SELL: Vendre mon véhicule
+PERSONAL_ORIENTATION_BUY: Acheter un véhicule
+PERSONAL_ORIENTATION_BOTH: Les deux

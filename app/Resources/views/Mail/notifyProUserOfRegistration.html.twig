@@ -9,7 +9,8 @@
     <div>
         {{ 'notifyProUserOfRegistration.body'|trans({
             '%user_mail%': user_mail,
-            '%url_help_page%' : url_help_page
+            '%url_profile_page%': url_profile_page,
+            '%url_contact_page%' : url_contact_page
         })|raw }}
         {{ action_button(url('front_view_current_user_info'), 'notifyProUserOfRegistration.action_label'|trans) }}
     </div>

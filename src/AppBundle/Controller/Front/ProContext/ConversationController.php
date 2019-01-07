@@ -6,23 +6,30 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
+use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\MessageType;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use AppBundle\Session\Model\SessionMessage;
 use AppBundle\Session\SessionMessageManager;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\BaseUser;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\BaseVehicle;
 
 class ConversationController extends BaseController
 {
+    const NB_VEHICLES_PER_PAGE = 10;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var ConversationEditionService */
@@ -37,6 +44,8 @@ class ConversationController extends BaseController
     protected $messageRepository;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
+    /** @var SearchResultProvider */
+    private $searchResultProvider;
 
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -45,7 +54,8 @@ class ConversationController extends BaseController
         DoctrineConversationRepository $conversationRepository,
         VehicleRepositoryResolver $vehicleRepositoryResolver,
         DoctrineMessageRepository $messageRepository,
-        SessionMessageManager $sessionMessageManager
+        SessionMessageManager $sessionMessageManager,
+        SearchResultProvider $searchResultProvider
     )
     {
         $this->formFactory = $formFactory;
@@ -55,6 +65,7 @@ class ConversationController extends BaseController
         $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
         $this->messageRepository = $messageRepository;
         $this->sessionMessageManager = $sessionMessageManager;
+        $this->searchResultProvider = $searchResultProvider;
     }
 
     /**
@@ -65,7 +76,7 @@ class ConversationController extends BaseController
     {
         $conversations = $this->conversationRepository->findByUser($this->getUser());
 
-        if (count($conversations)> 0 ) {
+        if (count($conversations) > 0) {
             return $this->editAction($request, reset($conversations) ?: null);
         }
 
@@ -155,7 +166,9 @@ class ConversationController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.conversation_update'
                 );
-                return $this->redirectToRoute('front_conversation_edit', ['id' => $conversation->getId()]);
+                return $this->redirectToRoute('front_conversation_edit', [
+                    'id' => $conversation->getId(),
+                    '_fragment' => 'last-message']);
             }
         }
 
@@ -185,13 +198,19 @@ class ConversationController extends BaseController
         if ($vehicleId) {
             /** @var BaseVehicle $vehicleHeader */
             $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->interlocutor)->find($vehicleId);
-            $messageDTO->vehicleHeader =$vehicleHeader;
+            if ($vehicleHeader === null) {
+                $vehicleHeader = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
+            }
+            $messageDTO->vehicleHeader = $vehicleHeader;
         }
 
         //If Vehicle added
         if ($request->query->has('v')) {
             /** @var BaseVehicle $vehicle */
             $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($this->getUser())->find($request->query->get('v'));
+            if ($vehicle === null) {
+                $vehicle = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($messageDTO->user)->find($vehicleId);
+            }
             if ($vehicle && $vehicle->canEditMe($this->getUser())) {
                 $messageDTO->vehicle = $vehicle;
             }
@@ -246,7 +265,24 @@ class ConversationController extends BaseController
                 break;
             case 'createVehicle':
                 $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
-                return $this->redirectToRoute($this->getUser()->isPro() ? 'front_vehicle_pro_add' : 'front_vehicle_personal_add');
+                $user = $this->getUser();
+                if ($user->isPersonal()) {
+                    return $this->redirectToRoute('front_vehicle_personal_add');
+                } else {
+                    /** @var ProUser $user */
+                    /** @var Collection $userGarages */
+                    $userGarages = $user->getEnabledGarageMemberships();
+                    if ($userGarages->isEmpty()) {
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
+                        return $this->redirectToRoute('front_garage_create');
+                    } elseif ($userGarages->count() == 1) {
+                        return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $userGarages->first()->getGarage()->getId()]);
+                    } else {
+                        /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
+                        return $this->redirectToRoute('front_view_current_user_info');
+                    }
+                }
                 break;
         }
 
@@ -261,16 +297,43 @@ class ConversationController extends BaseController
     {
         /** @var SessionMessage $sessionMessage */
         $sessionMessage = $this->sessionMessageManager->get();
-
         //Redirection to conversation list if no session
         if (!$sessionMessage) {
             return $this->redirectToRoute('front_conversation_list');
         }
 
+        $searchVehicleDTO = new SearchVehicleDTO();
+        $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+            'available_values' => [],
+            'small_version' => true
+        ]);
+
+        $searchForm->handleRequest($request);
+
+        $page = $request->query->get('page', 1);
+        /** @var BaseUser $currentUser */
+        $currentUser = $this->getUser();
+        $searchResult = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+        $result = array();
+        $result['totalHits'] = $searchResult->totalHits();
+        $result['hits'] = array();
+        $ids = array();
+        foreach ($searchResult->hits() as $hit) {
+            $ids[] = $hit['id'];
+        }
+        if (count($ids) > 0) {
+            $result['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+        }
+
+        $lastPage = $searchResult->numberOfPages();
+
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'vehicles' => $this->getUser()->getVehicles(),
+            'vehicles' => $result,
             'linkRoute' => $sessionMessage->route,
-            'linkRouteParams' => $sessionMessage->routeParams
+            'linkRouteParams' => $sessionMessage->routeParams,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
+            'searchForm' => $searchForm->createView(),
         ]);
     }
 }

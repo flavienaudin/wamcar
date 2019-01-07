@@ -15,9 +15,6 @@ trait ApplicationUserTrait
     protected $registrationToken;
     /** @var  \DateTime */
     protected $createdAt;
-    /** @var  \DateTime */
-    protected $deletedAt;
-
 
     /**
      * {@inheritdoc}
@@ -49,6 +46,14 @@ trait ApplicationUserTrait
     public function getRegistrationToken()
     {
         return $this->registrationToken;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
     }
 
     /**

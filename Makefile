@@ -54,6 +54,10 @@ vehicle-fixtures: database/fixtures/base_vehicule_short.csv
 	$(DOCKERPHP) ./bin/console wamcar:populate:personal_vehicle
 	$(DOCKERPHP) ./bin/console wamcar:populate:pro_vehicle
 
+liip-cache-remove:
+	@echo "--> Remove liipImagine cache"
+	$(DOCKERPHP) ./bin/console liip:imagine:cache:remove
+
 # Frontend asset management
 NPM_OUT = node_modules/npm.md5
 npm-install: $(NPM_OUT) ## install NPM packages from shrinkwrap file

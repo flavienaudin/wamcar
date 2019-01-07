@@ -3,21 +3,15 @@
    =========================================================================== */
 
 .off-canvas {
-
   @include breakpoint(medium down) {
     top: $header-height;
     padding-bottom: $header-height;
   }
 
-  @include breakpoint(medium) {
-    width: $offcanvas-size-medium;
-    transform: translateX($offcanvas-size-medium);
-  }
-
   @include breakpoint(large) {
     border-left: rem-calc(3) solid $primary-color;
+    z-index: ($header-zindex + 1);
   }
-
 
   /*
      Navigation
@@ -28,19 +22,17 @@
     padding-top: rem-calc(30);
 
     /* Components */
-
     a {
       color: white;
     }
   }
-
 
   /*
      Header
      ===================================== */
 
   &-header,
-  &-content {
+  &-content-element {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
 
@@ -70,35 +62,46 @@
 
     /* Componenbts */
 
-    > * { color: white; }
+    > * {
+      color: white;
+    }
 
     .icon-close {
       font-size: rem-calc(20);
 
-      &::before { margin-right: 0; }
+      &::before {
+        margin-right: 0;
+      }
     }
   }
-
 
   /*
      Content
      ===================================== */
 
-  &-content {
-    border-top: rem-calc(1) solid $border-color;
+  &-content-element {
     padding-top: rem-calc(15);
+    padding-bottom: rem-calc(15);
 
     @include breakpoint(large) {
       padding-top: rem-calc(25);
+      padding-bottom: rem-calc(25);
     }
   }
-
 
   /*
      Separator
      ===================================== */
 
   &-separator {
-    border-bottom: rem-calc(1) solid $border-color;
+    border-top: rem-calc(1) solid $border-color;
+  }
+
+  > :last-child{
+    margin-bottom: $header-height;
+
+    @include breakpoint(medium){
+      margin-bottom: $header-height-medium;
+    }
   }
 }

@@ -4,7 +4,8 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'garage.my_garage'|trans }}{% endblock %}
+{% block title %}{{ is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPro and app.user.isMemberOfGarage(garage) ? 'garage.my_garage'|trans : garage.name}}{% endblock %}
+{% block canonical %}{{ url('front_garage_view', {'id':garage.id}) }}{% endblock canonical %}
 
 {% set breadcrumbs = [
     {
@@ -13,9 +14,17 @@
     }
 ] %}
 
-{#{% set vehicle_list = inte.vehicle %}#}
 {% set garageReviews = (garagePlaceDetail is not null and garagePlaceDetail.reviews is defined and garagePlaceDetail.reviews|length > 0)?garagePlaceDetail.reviews:null %}
 
+{% if vehicles.totalHits > 0 %}
+    {% set activeTab = "vehicles" %}
+{% elseif garage.presentation or isEditableByCurrentUser %}
+    {% set activeTab = "about" %}
+{% elseif garageReviews is not null  %}
+    {% set activeTab = "opinions" %}
+{% else %}
+    {% set activeTab = "sellers" %}
+{% endif %}
 
 {% block body %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
@@ -37,27 +46,35 @@
                     <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
                     <div id="js-move-garage-picture"></div>
                     <ul id="js-garage-tabs" class="tabs" data-tabs data-deep-link="true" data-update-history="true">
-                        <li class="tabs-title is-active"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles"|trans }}</a></li>
-                        <li class="tabs-title"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
-                        {% if garageReviews is not null %}
-                            <li class="tabs-title"><a data-tabs-target="opinions" href="#opinions">{{ "garage.tabs.opinions.title"|trans }}</a></li>
+                        {% if vehicles.totalHits > 0 %}
+                            <li class="tabs-title {{ activeTab == "vehicles"?'is-active':'' }}"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles"|trans }}</a></li>
                         {% endif %}
-                        <li class="tabs-title"><a data-tabs-target="sellers" href="#sellers">{{ 'garage.tabs.sellers'|trans }}</a></li>
+                        {% if garage.presentation or isEditableByCurrentUser %}
+                            <li class="tabs-title {{ activeTab == "about"?'is-active':'' }}"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
+                        {% endif %}
+                        {% if garageReviews is not null %}
+                            <li class="tabs-title {{ activeTab == "opinions"?'is-active':'' }}"><a data-tabs-target="opinions" href="#opinions">{{ "garage.tabs.opinions.title"|trans }}</a></li>
+                        {% endif %}
+                        <li class="tabs-title {{ activeTab == "sellers"?'is-active':'' }}"><a data-tabs-target="sellers" href="#sellers">{{ 'garage.tabs.sellers'|trans }}</a></li>
                     </ul>
                 </div>
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
-                    <div id="vehicles" class="tabs-panel is-active">
-                        {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
-                    </div>
-                    <div id="about" class="tabs-panel">
-                        {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
-                    </div>
+                    {% if vehicles.totalHits > 0 %}
+                        <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }}">
+                            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if garage.presentation or isEditableByCurrentUser %}
+                        <div id="about" class="tabs-panel {{ activeTab == "about"?'is-active':'' }}">
+                            {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
+                        </div>
+                    {% endif %}
                     {% if garageReviews is not null %}
-                        <div id="opinions" class="tabs-panel">
+                        <div id="opinions" class="tabs-panel {{ activeTab == "opinions"?'is-active':'' }}">
                             {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
                         </div>
                     {% endif %}
-                    <div id="sellers" class="tabs-panel">
+                    <div id="sellers" class="tabs-panel {{ activeTab == "sellers"?'is-active':'' }}">
                         {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
                     </div>
                 </div>
@@ -65,3 +82,4 @@
         </div>
     </div>
 {% endblock body %}
+

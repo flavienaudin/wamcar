@@ -1,42 +1,123 @@
 {# Les éléments commentés ne doivent pas être supprimés. Ils seront implémenté dans un second temps #}
-<div class="block-grid">
-    {# <div class="small-12 medium-6"> #}
-    <div class="small-12">
-        {# <h2 class="column large-collapse">Vendeur</h2> #}
-        <ul class="seller-list no-bullet no-margin">
-            {% for membership in garage.members %}
-                <li>
+<div class="column small-12">
+    <div class="block-grid">
+        {# <div class="small-12 medium-6"> #}
+        <div class="small-12">
+            {# <h2 class="column large-collapse">Vendeur</h2> #}
+            <ul class="seller-list no-bullet no-margin">
+                {% for membership in garage.members %}
                     {% set userIsMe = membership.proUser.is(app.user) %}
-                    <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
-                        <figure class="block-grid align-middle" role="group">
-                            <span class="brand-logo is-logo brand-logo-rounded"><img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ membership.proUser.fullName }}"></span>
-                            <span class="h2">{{  membership.proUser.fullName }}</span>
-                        </figure>
-                    </a>
+                    {% set userIsGarageAdministrator = is_granted(constant("AppBundle\\Security\\Voter\\GarageVoter::ADMINISTRATE"),membership.garage) %}
 
-                    {% if membership.proUser.description %}
-                        <p>{{ membership.proUser.description|nl2br }}</p>
-                    {% elseif userIsMe %}
-                        <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                    {% if membership.requestedAt is null or userIsMe or userIsGarageAdministrator %}
+                        <li>
+                            <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
+                                <figure class="block-grid align-middle" role="group">
+                                    <span class="user-thumbnail-mini margin-right-1">
+                                        <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail', membership.proUser.firstName) }}"
+                                             alt="{{ membership.proUser.fullName }}"></span>
+                                    <span class="h2">{{ membership.proUser.fullName }}</span>
+                                </figure>
+                            </a>
+
+                            {% if membership.proUser.description %}
+                                <p>{{ membership.proUser.description|nl2br }}</p>
+                            {% elseif userIsMe %}
+                                <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                            {% endif %}
+
+                            {% if userIsMe %}
+                                <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}</a></p>
+                            {% else %}
+                                <div class="is-flex">
+                                    <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
+                                        <span class="text-underline" id="launchMPpro{{ membership.prouser.id }}">{{ 'global.button.send_message'|trans }}</span></a>
+                                    {% if membership.proUser.mainPhoneNumber %}
+                                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                            'phoneNumber_eventId':'showtelpro'~membership.proUser.id,
+                                            'phoneNumber': membership.proUser.mainPhoneNumber,
+                                            'buttonClass': 'margin-left-1'
+                                        }) }}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {% if membership.requestedAt is not null %}
+                                {% if userIsMe %}
+                                    <p class="is-inline-block">
+                                        <i class="black-color">{{ 'user.garage.pending_request.member'|trans({'%garage_name%':garage.name}) }}&nbsp;:</i>
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                                {% else %}
+                                    <p class="is-inline-block">
+                                        <i class="black-color">{{ 'user.garage.pending_request.administrator'|trans({
+                                                '%seller_name%': membership.proUser.fullName,
+                                                '%garage_name%': garage.name
+                                            }) }}&nbsp;:</i>
+                                        <a href="{{ path('front_garage_assign',  {'garage_id':garage.id,'user_id':membership.prouser.id}) }}" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
+                                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                           class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
+                                {% endif %}
+                            {% elseif userIsGarageAdministrator and not userIsMe%}
+                                <p class="is-inline-block">
+                                    {# TODO ajouter une popup de confirmation #}
+                                    <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                       class="text-underline">{{ 'user.garage.remove_member'|trans }}</a></p>
+                            {% endif %}
+                        </li>
                     {% endif %}
-                    {% if not isLogged %}
-                        <p class="is-inline-block"><a href="{{ path('security_login_page') }}" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
-                    {% elseif userIsMe %}
-                        <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}l</a></p>
-                    {% elseif isUserPersonal %}
-                        <p class="is-inline-block"><a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline">{{ 'global.button.send_message'|trans }}</a></p>
-                    {% endif %}
-                    {# <li class="block-grid column large-left-collapse align-middle">
-                    <span class="seller-picture"><img src="{{ asset('/assets/images/placeholders/user/user.png') }}" alt="{{ membership.proUser.fullName }}"></span>
-                    <span class="seller-name">{{ membership.proUser.fullName }}</span>
-                    <a href="{{ path('front_garage_unassign', {'garage_id': membership.garage.id, 'user_id': membership.proUser.id}) }}" class="seller-remove icon-remove small-right" title="Supprimer"><span class="show-for-sr">Supprimer</span></a>#}
-                </li>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+                {% if isUserPro and not app.user.isMemberOfGarage(garage, true) %}
+                    <li>
+                        <a href="{{ path('front_garage_request_to_join', {'garage_id': garage.id}) }}" class="text-underline">{{ 'garage.action.join'|trans }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+        {% if inviteSellerForm is not null %}
+            <div class="small-12">
+                <h2>{{ 'garage.assignation.invitation.title'|trans({
+                        '%garage_name%':garage.name
+                    }) }}</h2>
+                <div>
+                    {{ form_start(inviteSellerForm, {
+                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'}),
+                        'attr' : {
+                            'id' : 'js-garage-member-invitation-form',
+                            'data-abide' : 'data-abide',
+                            'novalidate' : 'novalidate'
+                        }
+                    } ) }}
+                    <div class="column">
+                        <div class="row">
+                            <div class="column small-12 input-margin">
+                                {{ form_widget(inviteSellerForm.emails, {
+                                    'class':'js-garage-pro-invitation-emails',
+                                    'label':'garage.assignation.invitation.field.email.label'|trans,
+                                    'label_class':'show-for-sr',
+                                    'required' : true,
+                                    'required_message': 'garage.assignation.invitation.field.email.error.empty'|trans,
+                                    'multiple':'multiple',
+                                    'attr':{
+                                        'data-placeholder':'garage.assignation.invitation.field.email.placeholder'|trans
+                                    }
+                                }) }}
+                                <small><i>{{ 'garage.assignation.invitation.field.email.instruction'|trans }}</i></small>
+                            </div>
+                            <div class="column small-12 input-margin">
+                                <button type="submit" class="button no-margin full-width">{{ 'global.button.invite'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    {{ form_end(inviteSellerForm ) }}
+                </div>
+            </div>
+        {% endif %}
+        {% if isEditableByCurrentUser %}
+            <p>{{ 'garage.administrator.contact'|trans({
+                    '%contactUrl%': url('contact'),
+                    '%garage_name%': garage.name
+                })|raw }}</p>
+        {% endif %}
     </div>
-    {# <div class="column small-12 medium-6 large-collapse">
-        <h2 class="separator-for-small">Inviter un vendeur</h2>
-        <p>Indiquer les adresses email des vendeurs que vous souhaiter inviter dans votre garage. Ils receveront un email pour se connecter sur Wamcar.</p>
-        {% include 'front/Garages/Detail/includes/form_invitation.html.twig' %}
-    </div> #}
 </div>

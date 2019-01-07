@@ -37,4 +37,5 @@ interface VehicleRepository
      * @return Vehicle
      */
     public function find($id);
+    
 }

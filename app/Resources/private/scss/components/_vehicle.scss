@@ -79,9 +79,8 @@
       margin-top: 0;
     }
 
-  } // End &-filter
-
-
+  }
+  // End &-filter
 
   /*
      List
@@ -105,7 +104,8 @@
         margin-top: rem-calc(-10);
         margin-bottom: rem-calc(40);
       }
-    } // End .section &
+    }
+    // End .section &
 
     .vehicle-other & {
       margin-top: rem-calc(20);
@@ -124,10 +124,8 @@
         margin-top: rem-calc(20);
       }
     }
-
-  } // End &-list
-
-
+  }
+  // End &-list
 
   /*
      Item
@@ -159,24 +157,44 @@
 
     /* Exceptions */
 
-    .section &,
-    .garage-container.search-result-personal & {
+    @include breakpoint(small only) {
+      > div:first-child {
+        min-height: fit-content;
+      }
+    }
+
+    .garage-container &,
+    .separator-section &,
+    .section &{
       margin-right: rem-calc(10);
       margin-left: rem-calc(10);
 
-      @include breakpoint(768) {
+      @include breakpoint(medium) {
         margin-right: rem-calc(20);
         margin-left: rem-calc(20);
       }
     }
 
+    .garage-container.search-result-pro &,
+    .garage-container.search-result-personal & {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .last-vehicles-container &,
+    .favorites-container &,
     .garage-container & {
       width: 100%;
     }
 
-  } // End &-item
+    .vehicle-detail & {
+      @include breakpoint(xlarge) {
+        width: calc(100% - #{rem-calc(40)});
+      }
+    }
 
-
+  }
+  // End &-item
 
   /*
      Picture
@@ -185,6 +203,8 @@
   &-picture {
     width: rem-calc(135);
     flex: 0 0 rem-calc(135);
+    margin-top: auto;
+    margin-bottom: auto;
 
     @include breakpoint(320 down) {
       width: rem-calc(100);
@@ -206,6 +226,8 @@
     }
 
     img {
+      object-fit: cover;
+
       @include breakpoint(large) {
         min-height: rem-calc(152);
       }
@@ -215,7 +237,6 @@
       }
     }
   }
-
 
   /*
      Name
@@ -238,8 +259,6 @@
     }
   }
 
-
-
   /*
      Infos
      ===================================== */
@@ -251,15 +270,23 @@
     padding-left: rem-calc(10);
 
     @include breakpoint(large) {
-      padding: rem-calc(11) rem-calc(15);
+      padding: rem-calc(11) rem-calc(20) rem-calc(11) rem-calc(15);
     }
 
     @include breakpoint(xlarge) {
       padding: rem-calc(15) rem-calc(20);
     }
-  } // End &-infos
 
+    & .vehicle-price,
+    & .like {
+      font-size: rem-calc(24);
 
+      @include breakpoint(small only) {
+        font-size: rem-calc(18);
+      }
+    }
+  }
+  // End &-infos
 
   /*
      Infos list
@@ -269,15 +296,8 @@
     @include breakpoint(large only) {
       columns: 2;
       column-gap: rem-calc(40);
-
-      > li {
-        display: inline-block;
-        width: 100%;
-      }
     }
   }
-
-
 
   /*
      Model
@@ -302,12 +322,10 @@
     }
   }
 
-
   /*
      Years
      ===================================== */
 
-  &-model,
   &-city,
   &-years {
     @include breakpoint(medium only) {
@@ -318,13 +336,10 @@
   &-years {
     font-size: rem-calc(10);
 
-    @include breakpoint(medium only) { margin-bottom: rem-calc(-4); }
-    @include breakpoint(large only) { margin-bottom: rem-calc(-4); }
     @include breakpoint(large) {
       font-size: rem-calc(14);
     }
   }
-
 
   /*
      City
@@ -341,8 +356,6 @@
       margin-bottom: rem-calc(-5);
     }
   }
-
-
 
   /*
      Brand
@@ -364,21 +377,24 @@
     }
   }
 
-
   /*
-     Price
+     Like
      ===================================== */
 
-  &-price {
+  &-like {
     display: flex;
-    align-items: center;
-    height: rem-calc(25);
-    background: white;
-    color: $primary-color;
+    align-items: right;
     position: absolute;
-    right: 15px;
+    right: rem-calc(36);
   }
 
+  /*
+     Middle
+     ===================================== */
+
+  &-middle {
+    margin-top: auto;
+  }
 
   /*
      Bottom
@@ -389,7 +405,6 @@
     margin-top: auto;
   }
 
-
   /*
      Header
      ===================================== */
@@ -398,21 +413,17 @@
 
     /* Components */
 
-    h1 {
-      @include breakpoint(small only) { margin-bottom: rem-calc(6); }
+    h1, .h1 {
+      margin-bottom: 0;
     }
 
-    .h1 {
-      @include breakpoint(small only) { margin-bottom: rem-calc(7); }
-    }
-
-    h1,
+    /*h1,
     .h1 {
       @include breakpoint(medium) { margin-bottom: rem-calc(10); }
       @include breakpoint(xlarge) { margin-bottom: rem-calc(18); }
-    }
+    }*/
 
-    p {
+    div.column {
       margin-bottom: rem-calc(10);
 
       @include breakpoint(xlarge) {
@@ -420,7 +431,6 @@
       }
     }
   }
-
 
   /*
      Carousel legend
@@ -439,7 +449,6 @@
     }
   }
 
-
   /*
      Detail
      ===================================== */
@@ -452,10 +461,9 @@
     }
 
     .is-sticky {
-      z-index: 1;
+      z-index: 2;
     }
   }
-
 
   /*
      Aside container
@@ -475,8 +483,11 @@
 
   &-aside-container {
     z-index: 2;
-  }
 
+    .affinity-score{
+      width: 40px;
+    }
+  }
 
   /*
      Aside
@@ -498,34 +509,33 @@
     }
   }
 
-
   /*
      Users interested
      ===================================== */
 
-   &-perso {
-     .vehicle-users {
-       margin-top: rem-calc(30);
+  &-perso {
+    .vehicle-users {
+      margin-top: rem-calc(30);
 
-       @include breakpoint(medium) {
-         margin-top: 0;
-       }
+      @include breakpoint(medium) {
+        margin-top: 0;
+      }
 
-       @include breakpoint(large) {
-         margin-bottom: rem-calc(30);
-       }
-     }
-   }
+      @include breakpoint(large) {
+        margin-bottom: rem-calc(30);
+      }
+    }
+  }
 
-   &-pro {
-     .vehicle-users {
-       margin-bottom: rem-calc(30);
+  &-pro {
+    .vehicle-users {
+      margin-bottom: rem-calc(30);
 
-       @include breakpoint(medium only) {
-         margin-bottom: 0;
-       }
-     }
-   }
+      @include breakpoint(medium only) {
+        margin-bottom: 0;
+      }
+    }
+  }
 
   &-users {
     @include breakpoint(medium down) {
@@ -533,8 +543,6 @@
       padding: 0;
     }
   }
-
-
 
   /*
      Editing
@@ -567,9 +575,7 @@
         &::before { margin-right: 0; }
       }
     }
-
   }
-
 
   /*
      Editing static
@@ -586,8 +592,6 @@
       }
     }
   }
-
-
 
   /*
      Editing
@@ -609,8 +613,8 @@
       }
     }
 
-  } // End &-editing
-
+  }
+  // End &-editing
 
   &-edit-profile {
 
@@ -624,7 +628,6 @@
     }
 
   }
-
 
   /*
     Container
@@ -641,7 +644,7 @@
 
     @include breakpoint(large) {
       min-height: 100vh;
-      padding-top: $header-height-medium + rem-calc(40);
+      padding-top: $header-height-medium + rem-calc(20);
       padding-bottom: rem-calc(50);
     }
 
@@ -684,11 +687,10 @@
     img {
       @include breakpoint(large) {
         width: auto;
-        max-width: 200%;
+        max-width: 130%;
       }
     }
   }
-
 
   /*
     Form
@@ -711,9 +713,22 @@
       z-index: 2; // IE fix
     }
 
-  } // End &-form
+    header h2 {
+      font-size: rem-calc(14);
 
+      @include breakpoint(medium) {
+        font-size: rem-calc(19);
+        line-height: 1.3;
 
+        .landing-mixte & {
+          font-size: rem-calc(16);
+          line-height: 1.1;
+          margin-bottom: rem-calc(15);
+        }
+      }
+    }
+  }
+  // End &-form
 
   /*
      Form header
@@ -740,23 +755,15 @@
       padding: rem-calc(40);
     }
 
-    /* Components */
+    @include breakpoint(large) {
+      padding: rem-calc(16);
+    }
 
-    p {
+    h2 {
       margin-bottom: 0;
-
-      @include breakpoint(medium) {
-        margin-top: rem-calc(20);
-      }
-
-      @include breakpoint(large) {
-        margin-right: auto;
-        margin-left: auto;
-      }
-    } // End p
-  } // End &-header
-
-
+    }
+  }
+  // End &-header
 
   /*
      User infos
@@ -770,7 +777,6 @@
     border-color: $border-color;
 
     @include breakpoint(medium down) {
-      width: 100%;
       margin-top: rem-calc(15);
       padding-top: rem-calc(10);
     }
@@ -786,6 +792,7 @@
       flex: 0 0 rem-calc(400);
       border-width: 0 0 0 rem-calc(1);
       margin-left: auto;
+      padding-top: rem-calc(24);
       padding-right: rem-calc(50);
       padding-left: rem-calc(50);
     }
@@ -795,13 +802,11 @@
       align-items: center;
     }
 
-    @include breakpoint(xlarge) {
-      padding-top: rem-calc(38);
+    .affinity-score {
+      width: 40px;
     }
-
-  } // End &-user-info
-
-
+  }
+  // End &-user-info
 
   /*
      User picture
@@ -819,6 +824,7 @@
 
     img {
       border-radius: 50%;
+      object-fit: cover;
     }
 
     @include breakpoint(large) {
@@ -829,23 +835,13 @@
     }
   }
 
-
   /*
      Time
      ===================================== */
 
   &-time {
+    font-size: rem-calc(12);
   }
-
-
-  /*
-     Time
-     ===================================== */
-
-  &-time {
-    color: #666666;
-  }
-
 
   /*
      User greetings
@@ -853,6 +849,7 @@
 
   &-user-greetings {
     margin: 0;
+    color: $dark-gray;
 
     @include breakpoint(medium down) {
       @include listBullet;
@@ -873,9 +870,8 @@
         &:not(:last-child) { padding-bottom: rem-calc(5); }
       }
     }
-  } // End &-yser-greetings
-
-
+  }
+  // End &-yser-greetings
 
   /*
      Pics count
@@ -902,14 +898,13 @@
     }
   }
 
-
   /*
      Messages Vehicle list
      ===================================== */
 
   &-messages-create {
     @include breakpoint(medium) {
-      margin-top: rem-calc(8)!important;
+      margin-top: rem-calc(8) !important;
     }
   }
 
@@ -930,7 +925,6 @@
 
     .vehicle-item {
       width: 100%;
-
 
       @include breakpoint(small only) {
         border: 0;
@@ -954,28 +948,25 @@
     }
 
     .vehicle-infos-arrow {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      margin-top: rem-calc(-11);
+      margin: auto rem-calc(-15) auto rem-calc(10);
+
       font-size: rem-calc(15);
       color: $medium-gray;
-
-      @include breakpoint(medium) {
-        right: rem-calc(15);
-      }
 
       &:before {
         margin-right: 0;
 
         @include breakpoint(large) {
-          content: '\e913';
+          // content: '\e913';
         }
       }
     }
   }
 
   &-messages-item-wrapper {
+
+    display: flex;
+    flex-wrap: wrap;
 
     @include breakpoint(small only) {
       border: 0;

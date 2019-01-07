@@ -3,7 +3,8 @@
    =========================================================================== */
 
 import $ from 'jquery';
-import responsiveDom from 'ResponsiveDom';
+import 'ResponsiveDom';
+import 'foundation-sites';
 
 const $navigation = '#js-navigation';
 const $offCanvasNavigation = '#js-off-canvas-navigation';
@@ -11,7 +12,12 @@ const $offCanvasNavigation = '#js-off-canvas-navigation';
 $($navigation).responsiveDom({
   appendTo: $offCanvasNavigation,
   mediaQuery: '(max-width: 1023px)',
-  callback: matched => matched && $($navigation).removeClass('show-for-large')
+  callback: (matched) => {
+    $($navigation).toggleClass('is-flex');
+    if (matched) {
+      $($navigation).removeClass('show-for-large');
+    }
+  }
 });
 
 const $movePicturesList = '#js-move-pictures-list';
@@ -34,3 +40,11 @@ if ($($garagePicture).length) {
   });
 }
 
+const $moveVehicleActions = '.js-vehicle-actions';
+
+if ($($moveVehicleActions).length) {
+  $($moveVehicleActions).responsiveDom({
+    appendTo: 'body',
+    mediaQuery: '(max-width: 1023px)'
+  });
+}

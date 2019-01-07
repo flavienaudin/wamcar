@@ -5,6 +5,8 @@ namespace Wamcar\Conversation;
 
 
 use AppBundle\Services\User\CanBeInConversation;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
@@ -34,6 +36,8 @@ class Message
     protected $isFleet;
     /** @var \DateTime */
     protected $publishedAt;
+    /** @var Collection|array */
+    protected $attachments;
 
     /**
      * Message constructor.
@@ -43,6 +47,7 @@ class Message
      * @param null|BaseVehicle $vehicleHeader
      * @param null|BaseVehicle $vehicle
      * @param bool|null $isFleet
+     * @param array|Collection $attachments
      */
     public function __construct(
         Conversation $conversation,
@@ -50,7 +55,8 @@ class Message
         ?string $content = '',
         ?BaseVehicle $vehicleHeader = null,
         ?BaseVehicle $vehicle = null,
-        ?bool $isFleet = false
+        ?bool $isFleet = false,
+        $attachments = null
     )
     {
         $this->conversation = $conversation;
@@ -58,12 +64,22 @@ class Message
         $this->content = $content ?? '';
         $this->isFleet = $isFleet;
         $this->publishedAt = new \DateTime();
+        $this->attachments = new ArrayCollection();
+        if ($attachments != null) {
+            foreach ($attachments as $attachment) {
+                if(!empty($attachment)) {
+                    $this->addAttachment(new MessageAttachment(null, $attachment, $this));
+                }
+            }
+        }
+
         if ($vehicleHeader) {
             $this->assignVehicleHeader($vehicleHeader);
         }
         if ($vehicle) {
             $this->assignVehicle($vehicle);
         }
+
     }
 
     /**
@@ -120,6 +136,24 @@ class Message
     public function getVehicleHeader(): ?BaseVehicle
     {
         return $this->getPersonalVehicleHeader() ?: $this->getProVehicleHeader();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param MessageAttachment $attachment
+     */
+    public function addAttachment(MessageAttachment $attachment): void
+    {
+        if ($attachment->getId()) {
+            $this->attachments[] = $attachment;
+        }
     }
 
     /**

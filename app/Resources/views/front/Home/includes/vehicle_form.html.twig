@@ -1,13 +1,13 @@
 <div id="js-vehicle-form" class="vehicle-form small-12 large-6 large-order-1" role="search">
     <header class="vehicle-form-header large-text-center">
-        <h2 class="h1 primary-color section-title">Je change de voiture</h2>
-        <p class="black-color medium small-8 large-10"><b>Déposez votre annonce, recevez et comparer les offres de reprise des professionnels</b></p>
+        <h1 class="primary-color section-title">{{ 'homepage.vehicle_form.header.title'|trans }}</h1>
+        <h2 class="black-color small-8 large-12">{{ 'homepage.vehicle_form.header.subtitle'|trans }}</h2>
     </header>
-    <ul id="js-search-tabs" class="tabs" data-tabs>
-        <li class="tabs-title is-active"><a href="#immatriculation" aria-selected="true">Identifier par immatriculation</a></li>
-        <li class="tabs-title small-auto"><a data-tabs-target="model" href="#model">Modèle</a></li>
+    <ul id="js-tabs" class="tabs" data-tabs>
+        <li class="tabs-title is-active"><a href="#immatriculation" aria-selected="true">{{ 'homepage.vehicle_form.tabs.immatriculation.title'|trans }}</a></li>
+        <li class="tabs-title small-auto"><a data-tabs-target="model" href="#model">{{ 'homepage.vehicle_form.tabs.model.title'|trans }}</a></li>
     </ul>
-    <div class="tabs-content column" data-tabs-content="js-search-tabs">
+    <div class="tabs-content column" data-tabs-content="js-tabs">
         <div id="immatriculation" class="tabs-panel is-active">
             {% include 'front/Home/includes/form_registration_number.html.twig' %}
         </div>
@@ -16,9 +16,9 @@
         </div>
     </div>
 </div>
-<div class="column small-12 large-6 xlarge-collapse">
+<div class="column small-12 large-6 xlarge-collapse home-form-background">
     <picture>
-        <source media="(max-width: 1023px)" srcset="{{ asset('assets/images/background/search.svg') }}">
-        <img src="{{ asset('assets/images/background/search-large.svg') }}" alt="Je veux changer de voiture">
+        <source media="(max-width: 1023px)" srcset="{{ asset('assets/images/background/reprise-et-achat-auto-par-affinites-small.svg') }}">
+        <img src="{{ asset('assets/images/background/reprise-et-achat-auto-par-affinites-large.svg') }}" alt="{{ 'homepage.background.alt'|trans }}">
     </picture>
 </div>

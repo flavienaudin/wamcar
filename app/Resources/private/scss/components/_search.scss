@@ -4,7 +4,6 @@
 
 .search {
 
-
   /*
     Form
     ===================================== */
@@ -16,8 +15,6 @@
       padding-top: rem-calc(15);
     }
   }
-
-
 
   /*
      Actions button
@@ -33,30 +30,12 @@
       }
     }
 
-  } // &-actions-button
-
-
+  }
+  // &-actions-button
 
   /*
-     Actions open
+      Tabs
      ===================================== */
-
-  &-actions-open {
-    &.is-active {
-      &::before {
-        content: "-";
-        width: rem-calc(14);
-        height: rem-calc(14);
-        line-height: rem-calc(9);
-        background: $primary-color;
-        border-radius: 50%;
-        color: white;
-        font-weight: bold;
-        text-align: center;
-      }
-    }
-  }
-
 
 
   /*
@@ -72,12 +51,10 @@
     }
   }
 
-
   /*
-     Label container
+     Label container (non utilisé)
      ===================================== */
-
-  $search-label-height: rem-calc(50);
+  /*$search-label-height: rem-calc(50);
 
   &-label-container {
     height: $search-label-height;
@@ -94,7 +71,7 @@
       margin-bottom: rem-calc(10);
     }
 
-    /* Brother components */
+    !* Brother components *!
 
     + .search-form-container {
       @include breakpoint(small only) {
@@ -111,16 +88,14 @@
         margin-top: rem-calc(10);
       }
     }
-  }
-
+  }*/
 
   /*
-     Label
+     Label (on utilisé)
      ===================================== */
+  /*&-label {
 
-  &-label {
-
-    /* Fixed state */
+    !* Fixed state *!
 
     &.is-fixed {
       position: fixed;
@@ -134,27 +109,53 @@
 
       @include breakpoint(medium down) {
         &,
-        .text-underline { color: white; }
+        .text-underline {
+          color: white;
+        }
       }
 
       @include breakpoint(xlarge) {
         top: $header-height-medium;
         background: #f7f7f7;
       }
-    } // End &.is-fixed
+    }
+    // End &.is-fixed
 
-    /* Components */
+    !* Components *!
 
     p {
       line-height: $search-label-height;
       margin-bottom: 0;
     }
 
-  } // End &-label
+  }*/
+  // End &-label
+
+  &-filter {
+    display: inline-block;
+    background-color: #e30613;
+    color: white;
+    font-weight: bold;
+    margin: 2px;
+    padding: 5px 15px;
+    border-radius: 1.875rem;
+
+    &-container {
+      min-height: rem-calc(50);
+      @include breakpoint(medium) {
+        min-height: rem-calc(60);
+      }
+    ;
+    }
+  }
 
 }
 
 @keyframes labelAnimation {
-  from { transform: translate3d(0, -100%, 0); }
-  to { transform: translate3d(0, 0, 0); }
+  from {
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }

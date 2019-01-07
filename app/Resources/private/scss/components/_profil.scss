@@ -8,7 +8,6 @@ $profil-image-offset: rem-calc(40);
 
 .profil {
 
-
   /*
     Header
     ===================================== */
@@ -34,7 +33,6 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-
   /*
     Name
     ===================================== */
@@ -49,27 +47,25 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-
   /*
      Image
      ===================================== */
 
   &-image {
-    display: block;
     width: rem-calc(100);
-    overflow: hidden;
+    height: rem-calc(100);
     border-radius: 50%;
+    overflow: hidden;
 
     @include breakpoint(small only) {
       margin: rem-calc(20) auto (-($profil-image-offset));
     }
 
-    @include breakpoint(large) {
-      width: rem-calc(100);
+    > img {
+      object-fit: cover;
     }
-  } // End &-image
-
-
+  }
+  // End &-image
 
   /*
      Action
@@ -78,6 +74,12 @@ $profil-image-offset: rem-calc(40);
   &-action {
     display: flex;
     flex-wrap: wrap;
+
+    @include breakpoint(medium) {
+      > :not(:first-child) {
+        margin-left: 1rem;
+      }
+    }
 
     /* Components */
 
@@ -88,28 +90,22 @@ $profil-image-offset: rem-calc(40);
 
       @include breakpoint(medium) {
         font-size: rem-calc(14);
-        margin-right: rem-calc(25);
 
-        &::before { font-size: rem-calc(16); }
+        &::before {
+          font-size: rem-calc(16);
+        }
       }
     }
 
-    .icon-tel {
-      @include breakpoint(small only) {
-        justify-content: flex-end;
-        padding-right: rem-calc(10);
-      }
-    }
-
+    .icon-tel,
     .icon-mobile {
       @include breakpoint(small only) {
-        justify-content: flex-start;
-        padding-left: rem-calc(10);
+        justify-content: center;
       }
     }
 
-  } // End &-action
-
+  }
+  // End &-action
 
   /*
      Body
@@ -118,9 +114,25 @@ $profil-image-offset: rem-calc(40);
   &-body {
     padding-top: rem-calc(20);
 
-    @include breakpoint(medium) {
-      padding-top: rem-calc(40);
+    .section:first-child:last-child {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    @include breakpoint(medium down) {
+      .column:not(:first-child) {
+        border-top: rem-calc(1) solid $border-color;
+        margin-top: rem-calc(30);
+        padding-top: rem-calc(25);
+      }
+    }
+
+    @include breakpoint(large) {
+      .column:nth-child(n + 3) {
+        border-top: rem-calc(1) solid $border-color;
+        margin-top: rem-calc(30);
+        padding-top: rem-calc(25);
+      }
     }
   }
-
 }

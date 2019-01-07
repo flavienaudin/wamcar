@@ -57,6 +57,7 @@ services:
                     - wamcar.local
                     - wamcar.local.fr
                     - myapp.local
+                    - ngrok.io
 
         depends_on:
             - php

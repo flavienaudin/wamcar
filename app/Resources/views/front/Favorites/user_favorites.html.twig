@@ -1,0 +1,45 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_favorites = true %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "favorites.page_title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+
+    <div class="row">
+        <div class="column small-12">
+            <h2 class="primary-color">{{ 'favorites.my_favorites'|trans }}<br>
+                <small>{{ 'favorites.ordering_indication'|trans }}</small>
+            </h2>
+
+
+            <div class="favorites-container">
+                <div class="vehicle-list">
+                    {% for like in user_likes %}
+                        {% set vehicle = like.vehicle %}
+                        {% if vehicle.isPro %}
+                            {% include ':front/Search/includes:item_personal.html.twig' %}
+                        {% else %}
+                            {% include ':front/Search/includes:item_pro.html.twig' %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

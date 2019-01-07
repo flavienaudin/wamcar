@@ -22,12 +22,7 @@
 
     > span {
       @include breakpoint(small only) {
-        margin-left: 0;
-        margin-top: rem-calc(5);
-      }
-
-      @include breakpoint(medium) {
-        margin-top: rem-calc(5);
+        margin-left: rem-calc(5);
       }
     }
   }
@@ -132,6 +127,7 @@
       img {
         height: 100px;
         width: 100px;
+        object-fit: cover;
       }
     }
   }

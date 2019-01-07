@@ -1,34 +1,288 @@
 flash:
   success:
     user_edit: Les modifications de votre profil ont été enregistrées.
+    user_preferences_edit: Vos préférences ont été enregistrées.
     remove_garage: La suppression de votre garage est enregistrée.
-    garage_create: Votre garage est bien enregistré.
-    garage_edit: Les modifications de votre garage ont été enregistrées.
-    registration_success_personal: Votre inscription a bien été enregistrée. Afin de finaliser votre compte, merci de cliquer sur le lien contenu dans l'email qui vient de vous être envoyé.
+    garage:
+      create: Votre garage est bien enregistré.
+      edit: Les modifications de votre garage ont été enregistrées.
+      request_sent_to_administrator: Votre demande pour rejoindre le garage a bien été transmise au gestionnaire.
+      assign_member: La demande a été validée. Le vendeur a bien rejoint votre garage.
+      remove_member: Le vendeur a bien été retiré de votre garage.
+      remove_member_with_reassignation: Le vendeur a bien été retiré de votre garage et ses véhicules ont été affectés aux autres vendeurs du garage.
+      cancel_pending_request_by_user: Votre demande a bien été annulée.
+      cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoint votre garage.
+      invitations:
+        attached: "{1} %prousers_attached_list% a été automatiquement rattaché à %garage_name% |[2,Inf[ %prousers_attached_list% ont été automatiquement rattachés à %garage_name%"
+        invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
+    registration:
+      personal:
+        assitant:
+          process_validation: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+          process_end: Votre profil et votre projet sont maintenant complets. Nous sommes en train de calculer vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
+      pro:
+        validation: Nous avons complété votre profil avec les réponses que vous nous avez fournies. Merci de relire et de valider les informations.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien été enregistré.
+    affinity:
+      form_submited:
+        with_project: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+        without_project: Vos réponses ont bien été enregistrées. Nous calculons vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
     vehicle_create: Le véhicule a bien été enregistré.
+    vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
     conversation_update: Votre message a bien envoyé.
+    vehicle:
+      assign_new_seller: Le changement de vendeur a bien été enregistré.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
+    not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
   error:
+    bad_credentials: Votre email et/ou votre mot de passe sont incorrects. Merci de les saisir à nouveau.
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
+    bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
+    unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
+    unauthorized_to_add_vehicle_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
+    select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
+    pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
+    not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
+    already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
+    only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    notification:
+      unauthorized: Cette notification ne vous est pas destinée.
+    garage:
+      not_member: Cet utilisateur n'est pas membre de ce garage.
+      no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
+      unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
+      remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
+      unable_to_detach_seller:
+        due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
+    vehicle:
+      unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
+      seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
+      assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
+
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
+    vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+    garage:
+      already_member: Vous êtes déjà membre de ce garage
+      same_as_existing: >
+        Le garage que vous souhaitez créer, existe déjà. Cliquez sur <a href="%requestUrl%" class="text-underline">"Rejoindre ce garage"</a>
+        pour envoyer une demande à l'adminstrateur.
+      invitations:
+        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[  Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
+    personal_orientation:
+      invalid_choice: Choix invalide. Merci de choisir une option valide.
 
 global:
+  yes: Oui
+  no: Non
+  you: Vous
+  poweredByGoogle: Produit par Google
+  help: Aide
+  facultative: Facultatif
   button:
+    close: Fermer
+    connect: Se connecter
+    connexion: Connexion
+    logout: Déconnexion
+    search: Rechercher
+    send: Envoyer
     send_message: Envoyer un message
+    complete: Compléter
     more_information: Plus d'information
+    dislike: Je n'aime plus
+    like_vehicle: J'aime ce véhicule
+    like: J'aime
+    add_this_vehicle: Ajouter le véhicule
+    edit_this_vehicle: Editer le véhicule
+    previous_step: Etape précédente
+    next_step: Etape suivante
+    back: Retour
+    validate: Valider
+    see_phone_number: Voir le numéro
+    call: Appeler
+    invite: Inviter
+    delete: Supprimer
+  pagination:
+    pagination: Pagination
+    first: Première page
+    previous: Page précédente
+    next: Page suivante
+    last: Dernière page
+    page: Page
+
+header:
+  anonyme:
+    see_search: Voir les annonces
+    sell: Déposer une annonce
+    log: Connexion / Inscription
+    pro_space: Je suis un professionnel
+  common:
+    search:
+      vehicle: Rechercher une voiture
+      directory: Rechercher un professionnel
+    my_profile: Mon profil
+    my_favorites: Ma sélection
+    conversations: Messagerie
+  pro:
+    my_garage: Mon garage
+    my_garages: Mes garages
+  personal:
+    my_add: Mon annonce
+    my_vehicles: Mes véhicules
+    add_vehicle: Vendre un véhicule
+    directory: Annuaire Pro
+
+
+
+breadcrumb:
+  home: Accueil
+
+sidebar:
+  title: Espace membre
+  account_creation:
+    title: Je me crée un compte %sitename%
+    personal: Je suis un particulier
+    professionnal: Je suis un conseiller automobile
+
+login_form:
+  title: J'ai un compte %sitename%
+
+password_lost:
+  modal:
+    title: J’ai oublié mon mot de passe
+    subtitle: Pas de panique, cela arrive même aux meilleurs !
+    instructions: Entrez simplement votre adresse email et vous recevrez un mail de Wamcar vous permettant de réinitialiser votre mot de passe.
+
+social_network:
+  registration_with: S'inscrire avec %social_network%
+  connexion_with: Se connecter avec %social_network%
+
+footer:
+  concept: Concept
+  who_are_we: Qui sommes-nous ?
+  contact_us: Contactez-nous
+  cgu: Conditions d'utilisation
+  privacy_policy: Protection des données
+  legal_notice: Mentions légales
+
+cookie:
+  instruction: En poursuivant sur ce site, vous acceptez l'utilisation de cookies pour vous offrir une meilleure expérience utilisateur.
+  more_link: En savoir plus
+  button.accept: Accepter
+
+homepage:
+  title: Rencontrez les pros de la reprise, échangez ou vendez votre voiture.
+  description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+  vehicle_form:
+    header:
+      title: Le site de rencontre automobile
+      subtitle: Déposez votre annonce, recevez et comparez les offres de reprise des professionnels
+    tabs:
+      immatriculation:
+        title: Par immatriculation
+        field:
+          immatriculation:
+            label: Entrez l'immatriculation de votre voiture
+            placeholder: "Ex: AA-123-BB, 558QFM75"
+            required_message: Veuillez indiquer un numéro d'immatriculation
+          replacement:
+            label: Je cherche une voiture pour la remplacer
+        pre_submit: Obtenez les meilleurs prix de la part des professionnels en indiquant ce que vous souhaitez vendre et acheter.
+      model:
+        title: Par modèle
+        pre_submit: Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
+    submit:
+      button: Déposer une annonce
+  background.alt: Je veux changer de voiture
+  search:
+    title: Je cherche à acheter une nouvelle voiture
+    subtitle: Découvrez les véhicules vendus par les professionnels les mieux notés.
+    filter:
+      label: Que recherchez-vous ?
+      placeholder: Entrez une marque, un modèle...
+  last_offer:
+    title: Les dernières offres publiées
+    action: Voir toutes les annonces
+  video:
+    action: Le concept en vidéo
+    modal_title: Le concept en vidéo
+  our_mission:
+    title: Notre mission
+    content:
+      first: >
+        <strong class="primary-color">Diffuser votre demande</strong> sans vos données personnelles à un maximum de pros de votre région*.
+        <small>* Toutes marques, concessionnaires, garages, mandataires, importateurs</small>
+      second: Vous fournir un outil <strong class="primary-color">facile à utiliser, intuitif, simple et rapide qui vous fasse gagner du temps</strong>.
+      third: Mettre tout en oeuvre pour faire des <strong class="primary-color">mises en relation sérieuses basées sur vos affinités et vos besoins</strong>. On fait de <strong class="primary-color">bonnes affaires quand on a confiance</strong> !
+    background.alt: Magicien Wamcar
+  business:
+    title: <span class="primary-color">Conseiller automobile ?</span> Rencontrez vos clients en ligne sur Wamcar
+    content:
+      first: Wamcar est un site ouvert aux professionnels qui défendent des valeurs d’honnêteté, de loyauté et de respect du client.
+      second: Wamcar vous permet d'accéder plus facilement au marché VO (sourcing et vente), de diversifier votre offre et de renforcer votre marché VN.
+      third: En rencontrant votre clientèle sur internet, vous prendrez contact facilement avec des acheteurs hautement qualifiés.
+    action: Accéder à l'espace professionnel
+    background.alt: Citrën DS 3
+
+landing:
+  meeting:
+    title: Site de rencontre pour la reprise et l'achat de voitures
+    description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+    field:
+      social_connect.label: Inscription via une plateforme
+      email:
+        label: Inscription par e-mail
+        placeholder: Entrez votre e-mail
+        required_message: Veuillez indiquer votre adresse email
+      submit: Inscription
+    pro_email_registration_form:
+      title: Conseiller automobile
+      subtitle: Découvrez de belles reprises et rencontrez vos clients sur %sitename%
+      pre_submit: Améliorer votre sourcing en choisissant de belles reprises, proposez vos véhicules neufs ou d'occasion, et répondez aux particuliers grâce à la messagerie sécurisée.
+    personal_email_registration_form:
+      title: Particulier
+      subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
+      pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
+  mixte:
+    title: Site de rencontre pour échange, reprise et vente de voitures
+    description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+    form.title: Le site de rencontre automobile
+    field:
+      social_connect.label: Inscription via une plateforme
+      email:
+        label: Inscription par e-mail
+        placeholder: Entrez votre e-mail
+        required_message: Veuillez indiquer votre adresse email
+      assist:
+        label: Assistant d'inscription
+      submit: Inscription
+    pro_email_registration_tab:
+      title: Je suis un conseiller auto
+      subtitle:  Découvrez de belles reprises et rencontrez vos clients sur %sitename%
+      pre_submit: Devenez un vendeur digital et améliorez votre sourcing en choisissant de belles reprises, en proposant vos véhicules neufs ou d'occasion, et ne manquez aucun client grâce à la messagerie sécurisée.
+    personal_email_registration_tab:
+      title: Je suis un particulier
+      subtitle: Choisissez votre conseiller automobile pour la reprise et/ou l'achat de votre voiture.
+      pre_submit: Avec %sitename%, choisissez un vendeur avec qui vous avez des affinités, réellement intéressé par le rachat de votre voiture, et dont la société est appréciée par la communauté.
 
 garage:
   my_garage: Mon garage
+  action:
+    edit: Modifier mon garage
+    join: Rejoindre ce garage
+  infos:
+    opening_hours: Horaires
+    auto_vehicles_import_request:
+      presentation: Demander l'import automatisé de votre stock :
+      form: Formulaire
   tabs:
     vehicles: Véhicules
     about: A propos
@@ -38,36 +292,609 @@ garage:
     sellers: Vendeurs
   google_rating:
     unknown: Note inconnue
+  form:
+    field:
+      googleSearch:
+        label: Rechercher votre établissement
+        placeholder: Rechercher votre établissement sur Google Map
+      location:
+        placeholder: Ville ou code postal
+    auto_vehicles_import_request:
+      title: Import automatisé de votre stock de véhicule
+      presentation: >
+          Souhaitez-vous automatiser l'import des véhicules directement depuis votre stock via notre partenaire Ubiflow ?
+          Faites-en la demande via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">notre formulaire</a>
+  assignation:
+    invitation:
+      title: Inviter vos collaborateurs à rejoindre %garage_name%
+      field:
+        email:
+          label: E-mails des vendeurs à inviter à rejoindre cette entreprise
+          placeholder: E-mails des vendeurs à inviter à rejoindre cette entreprise
+          instruction: Séparer les e-mails par un espace ou un point-virgule, ou valider chaque adresse e-mail en tapant sur "Entrée".
+          error:
+            empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant d'envoyer les invitations. Merci de réessayer."
+    request:
+      title: Rejoindre un garage
+  administrator:
+    contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
 
+search:
+  common:
+    title: Annonces de voitures
+    breadcrumbs: Annonces
+    field:
+      text:
+        label: Votre recherche
+        placeholder: Ex. Citröen C3
+      location:
+        label: Autour de
+        placeholder: Ville ou code postal
+      radius:
+        label: Rayon de
+      mileageMax:
+        label: Kilométrage max
+        placeholder: Kilométrage max
+      yearsMin:
+        label: Année min
+        placeholder: Année min
+      yearsMax:
+        label: Année max
+        placeholder: Année max
+      budgetMin:
+        label: Budget min
+        placeholder: Budget min
+      budgetMax:
+        label: Budget max
+        placeholder: Budget max
+      transmission:
+        label: Boite de vitesse
+        placeholder: Boite de vitesse
+      fuel:
+        label: Energie
+        placeholder: Energie
+      sorting:
+        label: Trier par :
+    more_criteria: Plus de critères
+    less_criteria: Moins de critères
+    tab:
+      all: Toutes
+      personals: Particuliers
+      projects: Souhaits
+      pros:
+        short: Pros
+        long: Professionnels
+    result:
+      no_vehicle_to_sell.alt: Pas de reprise
+  
 vehicle:
-  my_vehicle: Ma voiture
-  vehicle_of: La voiture de %ownerName%
+  inscription:
+    title: Inscription, description et état de ma voiture
+    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
+  form:
+    step_navigation:
+      identification: Identification du véhicule
+      picture: Photos
+      additionnal_infos: Infos complémentaires
+      registration: Création du compte
+    aside:
+      identification:
+        content_1: Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.
+        content_2: Le numéro VIN, disponible sur votre carte grise sur la ligne E, aidera les professionnels à vous faire une offre juste.
+      picture:
+        content_1: Merci de bien vouloir ajouter des photos de votre voiture. Vous pouvez ajouter des légendes notamment sur les photos présentant des détails. Il est prouvé que les annonces avec plusieurs photos ont plus de visites et plus d'offres.
+        content_2: Un angle de 3/4 avant serait parfait comme photo principale. Veillez à ce que tous les côtés du véhicule soient bien visibles !
+        bottom_content: >
+          Des photos récentes sont indispensables pour une estimation de votre véhicule.
+          Elles permettent d'évaluer son état extérieur et intérieur.
+          Si vous n'en avez pas de disponible immédiatement, vous pourrez en ajouter par la suite depuis votre espace membre.
+      additionnal_infos:
+        content_1: Merci de remplir ces informations avec précision.
+        content_2: Vous obtiendrez ainsi des offres de reprise au prix le plus juste de la part de nos professionnels.
+        content_3: La date de fin de validité du contrôle technique est indiquée sur la vignette du parebrise et sur celle collée au dos de la carte grise.
+      registration: Création du compte
+
+  create: Créer un véhicule
+  add: Ajouter un véhicule
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
+  publish_at: publiée le %createdAt%
+  detail:
+    personal:
+      title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'
+      meta_description: "%nbPositiveLikes% personnes aiment cette voiture %vehicleFuelName% %vehicleTransmission% de %vehicleRegistrationDate% avec %vehicleMileage%km - Annonce publiée le %publishedAt%."
+    pro:
+      title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'
+      meta_description:
+        discount: Remise de %vehicleDiscount%% sur ce véhicule
+        price: à la vente au prix de %vehiclePrice%€
+        published_at: le %publishedAt%
+  section:
+    infos:
+      tab:
+        short: Infos
+        long: Informations principales
+      title: Informations principales
+      make:
+        label : Marque
+      model:
+        label : Modèle
+      statut:
+        label: Statut
+      registrationDate:
+        label: Date de 1ère mise en circulation
+      commercializationDate:
+        label: Date de commercialisation
+      mileage:
+        label : Kilométrage
+      engine_name:
+        label : Motorisation
+      transmission:
+        label : Boite de vitesse
+      fuel_name:
+        label : Energie
+      imported:
+        label : Véhicule importé
+      first_hand:
+        label : Véhicule 1ère main
+      immatriculation:
+        label : Immatriculation
+      vin:
+        label : V.I.N.
+    states:
+      tab:
+        short: Etat
+        long: Etat du véhicule
+      title: Etat du véhicule
+    additionalInformation:
+      tab:
+        short: Desc.
+        long: Description
+      title: Description
+    guarantee:
+      tab: Garanties
+      title: Garanties
+      guarantee:
+        label: Garantie
+      otherGuarantee:
+        label: Autre garantie
+    funding:
+      tab: Financement
+      title: Financement
+      funding:
+        label: Financement
+      catalogPrice:
+        label: Prix catalogue
+      discount:
+        label: Remise
+      otherFunding:
+        label: Autre financement
+    additionalServices:
+      title: Services complémentaires
+    project:
+      tab: Projet
+    interested_users:
+      tab: Likes
+    other_vehicle:
+      tab: Autres véhicules
+      title:
+        pro: Autres véhicules de ce vendeur
+        personal: Autres véhicules de %firstname%
+        owner: Mes autres véhicules
+      button:
+        garage: Voir tous les véhicules du garage
+  interested_user:
+    title:
+      pro: Ils aiment ce véhicule
+      personal: Ils aiment cette annonce
+    tabs:
+      all: Tous (%nb%)
+      pro: Professionnels (%nb%)
+      personal: Particuliers (%nb%)
   field:
+    plateNumber:
+      label: Immatriculation
+      placeholder: 'Ex: AA-123-BB'
+      required_message: Veuillez indiquer un numéro d'immatriculation.
+      help_message: Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.
     make:
+      label: Marque
       placeholder: Marque du véhicule
+      required_message: Veuillez indiquer la marque du véhicule
     model:
+      label: Modèle
       placeholder: Modèle du véhicule
+      required_message: Veuillez indiquer un modèle
     engine:
+      label: Motorisation
       placeholder: Motorisation du véhicule
+      required_message: Veuillez indiquer la motorisation du véhicule
     fuel:
-      placeholder: Carburant du véhicule
+      label: Energie
+      placeholder: Energie du véhicule
+      required_message: Veuillez indiquer l'énergie du véhicule
+    transmission:
+      label: Boite de vitesse
+      required_message: Veuillez indiquer la boite de vitesse du véhicule
+    vin:
+      label: V.I.N.
+      format_error: Le V.I.N. est composé de 17 caractères
+    picture:
+      label:
+        main: Photo principale
+        additionnal: Photo supplémentaire
+      action:
+        add: Ajouter une photo
+        remove: Supprimer la photo
+        add_caption: Ajouter une légende
+    isUsed:
+      label: Statut
+      required_message: Veuillez préciser si le véhicule est neuf ou d'occasion
+    registrationDate:
+      label: Date de 1ère mise en circulation
+      required_message: Veuillez indiquer la date de 1ère mise en circulation
+    mileage:
+      label: Kilométrage
+      required_message: Veuillez indiquer le kilométrage de votre véhicule
+    body_state:
+      label: Etat de la carrosserie
+    engine_state:
+      label: Etat du moteur
+    tyre_state:
+      label: Etat des pneus
+    maintenance_state:
+      label: Entretien
+    safety_test_date:
+      label: Date de fin de validité du contrôle technique
+    safety_test_state:
+      label: Résultat du dernier contrôle technique
+    timingBeltState:
+      label: Courroie de distribution
+    isFirstHand:
+      label: Première main
+    imported:
+      label : Véhicule importé
+    additionalInformation:
+      label: Description
+      placeholder: 'Indiquez ici les informations complémentaires : version, équipements, défauts constatés...'
+    city:
+      label: Ville
+      placeholder: Ville ou Code Postal
+      required_message: Veuillez indiquer votre ville ou votre code postal
+    price:
+      label: Prix (€)
+      required_message: Veuillez indiquer le prix de vente de votre véhicule.
+    catalogPrice:
+      label: Prix catalogue (€)
+    discount:
+      label: Remise (%)
+    guarantee:
+      label: Garantie
+    otherGuarantee:
+      label: Autre garantie
+      placeholder: Autre, précisez...
+    funding:
+      label: Financement
+    otherFunding:
+      label: Autre financement
+      placeholder: Autre, précisez...
+    additionalServices:
+      label: Services complémentaires
+      placeholder: Renseignez ici les différents services proposés à l'acheteur
+    reference:
+      label: Référence
+  list:
+    empty_list: Aucun véhicule n'a été renseigné pour le moment
+  item:
+    budget:
+      with_price: "Budget de %budget%€"
+    no_wish: Aucun souhait
+    no_project:
+      title: "Ce particulier n'a pas encore indiqué de souhait."
+      subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
 
 user:
+  registration:
+    social_connect: Inscription via une plateforme
+    with_email: Inscription par email
+    pro:
+      title: Inscription pour les professionnels de l'automobile
+      meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
+      banner: Conseiller Automobile? Inscrivez-vous sur Wamcar pour accèder à des leads et à un sourcing VO de qualité
+    personal:
+      title: Inscription rapide pour les particuliers
+      meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
+      banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+  confirmation:
+    title: Inscription confirmée
+    header_title: Merci de vous être inscrit sur
+    content:
+      email_sent: Vous allez recevoir un email confirmant votre inscription dans les prochaines minutes.
+      instructions: >
+        Vous pouvez dès à présent accéder à votre <a href="%url_profile%" class="text-underline">Espace membre</a>.
+        Vous retrouverez les offres de reprises au sein  <a href="%url_conversations%" class="text-underline">des conversations que vous aurez avec des professionnels</a>.
+        Vous pouvez dès à présent <a href="%url_add_vehicle%" class="text-underline">vendre</a> et <a href="%url_search_personal%" class="text-underline">acheter</a> des véhicules sur Wamcar.
+    action:
+      project: Définir mes souhaits d'achat
+      sell: Ajouter un véhicule à la vente
+      search: Voir les voitures disponibles
+      profile: Compléter mon profil
+  orientation:
+    page_title: Assistant à l'inscription
+    title: Inscription confirmée
+    form:
+      action:
+        label: Maintenant, quels sont vos projets ?
+      submit.label: C'est parti
+
+  login:
+    title: Connexion
+    header_title: Rejoindre mon espace %sitename% pour utiliser toutes ses fonctionnalités
+    social_connect: Connexion via une plateforme
+    account: Connexion à mon compte %sitename%
+
+  reinsurance:
+    common:
+      title: Cinq bonnes raisons d'utiliser
+      items:
+        first:
+          title: Humain
+          content: Des offres réalistes faites par des hommes, pas des machines
+        second:
+          title: Gratuit
+          content: Aucun engagement et aucun frais
+        third:
+          title: Avisé
+          content: Bénéficiez des derniers avis Google sur les professionnels
+        fourth:
+          title: Juste
+          content: Site indépendant de tout groupe ou marque
+        fifth:
+          title: Sécurisé
+          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
+    personal:
+      title: Je veux remplacer ma voiture. Comment  marche  Wamcar?
+      items:
+        first:
+          alt:
+          content: Des pros souhaitant racheter mon véhicule en annonce sur Wamcar cliquent sur le bouton "J'aime"
+        second:
+          alt:
+          content: Je sélectionne grâce au bouton "J'aime" les annonces de véhicules neufs ou d'occasion qui me plaisent.
+        third:
+          alt:
+          content: Nos intérêts convergent ! Nous prenons rendez-vous grâce à la messagerie sécurisée.
+    pro:
+      title: La vente avec reprise, c’est simple avec
+      items:
+        first:
+          alt: Un prospect crée sa demande de changement de voiture sur Wamcar
+          content: Un prospect crée sa demande de changement de voiture sur Wamcar en renseignant son profil, son véhicule à reprendre, son souhait et son budget. Il accède à votre profil et à votre vitrine en ligne, et peut liker vos véhicules.
+        second:
+          alt: Vous choisissez vos leads
+          content: Vous savez quels prospects ont liké vos véhicules. Vous likez les projets de reprise qui vous intéressent. Vous discutez et faites vos offres VN ou VO avec estimation de reprise directement via la messagerie en ligne.
+        third:
+          alt: Le particulier vous répond et prend rendez-vous directement.
+          content: Après quelques échanges, le prospect prend rendez-vous avec vous sereinement et en toute confiance, pour finaliser l'expertise et l'essai de vos véhicules.
+      bottom: Rejoignez-nous dès maintenant pour profiter de nombreuses opportunités !
+  title:
+    personal:
+      mine: Ma fiche profil
+      other: Fiche profil de %username%
+    pro:
+      mine: Ma fiche vendeur
+      other: Fiche vendeur de %username%
   profile:
     my_profile: Mon profil
-    obfuscated_name: Particulier inscrit
     edit: Editer mon profil
+  presentation:
+    title:
+      personal: Présentation
+      pro: Présentation du vendeur
+    empty: >
+      Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
+      possible pour faciliter la confiance dans le dialogue avec vos clients.
+    edit: Modifier mes informations
+  city:
+    title:
+      your_city: Votre ville
+      its_city: Sa ville
+    empty: Vous n'avez pas encore renseigné votre ville
   project:
     my_project: Mon projet
-    seller_project: Projet du vendeur
+    seller_project: Projet de %seller_firstname%
     create: Créer mon projet
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
-    defined_budget: Budget de %budget_ammount%
+    defined_budget: Budget de %budget_ammount%€
     undefined_budget: Budget non défini
+    field:
+      isFleet.label: Type de recherche
+      budget:
+        label: Budget global
+        placeholder: 'Ex : 20 000 €'
+      city:
+        label: Ma ville
+        placeholder: Ville ou code postal
+        required_message: Vous devez saisir votre ville
+      description:
+        label: Description de ma recherche
+        placeholder: "Ecrivez ici ce que vous voulez : un type de voiture (SUV, berline, Monospace,...), une couleur, une option, un équipement spécifique,... Ou choisissez directement un modèle en utilisant le formulaire ci-dessous."
+      projectVehicle:
+        add: Ajouter un souhait
+        remove: Supprimer ce souhait
+        label: Souhait
+        yearMin.label: Année min
+        mileageMax.label: Km max
+      submit: Enregistrer mon projet
+    favorites:
+      title: "%user_firstname% aime"
+      owner: Mes likes
+    prefill:
+      personal:
+        description:
+          search: "Je recherche un véhicule "
+          vehicle_usage:
+            personal: pour mon usage personnel.
+            company: pour ma société.
+          company:
+            activity: "Je suis %activity%"
+            and: " et "
+            nb_vehicle: "{1} je recherche %nb_vehicle% véhicule|[2,Inf[ je recherche %nb_vehicle% véhicules."
+          search_a: "Je recherche une "
+          generation: " des années %generation%."
+          seats_number: "Nombre de places : %seats_number%"
+          strong_points: "Point(s) fort(s) de mon véhicule actuel : %strong_points%"
+          improvements: "J'aimerai améliorer : %improvements%"
+          options:
+            security: "Option(s) de sécurité souhaitée(s) : %security_options%"
+            confort: "Option(s) de confort souhaitée(s) : %confort_options%"
+          searched_advices: "Je recherche des conseils sur %search_advices%"
+      profesional:
+        description:
+          main_profession: "Je suis %profession%. "
+          experience: "J'ai %experience% d'expérience dans le domaine de l'automobile. "
+          hobby: "Je suis passionné par %hobby%. "
+          advices: "Je peux vous conseiller sur %advices%."
+          brands: "Je connais plus particulièrement les marques suivantes : %brands."
+          vehicle_body: "Et en particulier : %vehicle_bodies%."
+          first_contact_preference:
+            waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
+            acting: "Si je trouve une offre qui vous conviendrait, je n'hésiterais pas à vous en faire part."
+  garage:
+    seller_for: Vendeur pour
+    empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
+    add: Ajouter un garage
+    join: Rejoindre un garage
+    remove_member: Détacher ce vendeur
+    cancel_request: Annuler ma demande
+    accept_request: Accepter la demande
+    decline_request: Refuser la demande
+    pending_request:
+      member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
+      administrator: "%seller_name% souhaite rejoindre %garage_name%"
+  affinity:
+    page_title: Wam Affinity
+    section:
+      title: Qui suis-je ?
+      your_affinities: Vos affinités
+      explanation:
+        personal: >
+          Découvrez votre degré d'affinité avec chaque professionnel <a href="%affinity_form_url%"
+          class="text-underline"> en répondant au questionnaire WamAffinity</a>. Cela vous aidera à choisir le
+          professionnel qui vous accompagnera dans votre projet.
+        pro: >
+          Découvrez votre degré d'affinité avec chaque particulier <a href="%affinity_form_url%"
+          class="text-underline"> en répondant au questionnaire WamAffinity</a>.
+      edit:
+        personal: >
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
+          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+        pro: >
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
+          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+    degree:
+      calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
+      explanation:
+        personal: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+        pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
+      calltoaction:
+        fill_form: Remplir le questionnaire
+  preference:
+    page_title: Mes préférences
+    title:
+        notifications: Activation des notifications
+    common:
+      enabled: Activté
+      disabled: Désactivé
+      email_send: Par email
+      notification_frequency: Fréquence d'envoi
+    field:
+      privateMessage:
+        label: Quand on vous envoit un message privé
+      like:
+        label: Quand on like votre annonce
+  contacted_by: Contacté par %contact_name%
+
 
 conversation:
-  you: Vous
+  list:
+    unread-messages: '{0,1} %n% message non lu|[2,Inf[ %n% messages non lus'
+  my_vehicle: Mon véhicule
+  personal_vehicle_of: Véhicule de %ownerName%
+  fleet_presented_by: Flotte automobile de %ownerName%
+  vehicle_presented_by: Véhicule présenté par %ownerName%
+  vehicle_to_sell: Votre véhicule à reprendre
+  fleet_to_sell: Votre flotte automobile à reprendre
+  message:
+    attachments: '{1} Pièce jointe|[2,Inf[ Pièces jointes'
+
+  auto_added: (automatiquement ajouté à votre message)
+  fleet:
+    yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules
+    him: Votre interlocuteur dispose d’une flotte composée de %severalVehicles% véhicules
+  answer:
+    field:
+      message:
+        label: Votre message pour %interlocutorName%
+        placeholder: Entrez votre message...
+      vehicle:
+        create: Créer un véhicule
+        select: Proposer un véhicule
+      attachments:
+        label: Pièces jointes
+        add: Ajouter une pièce jointe
+
+favorites:
+  page_title: Ma sélection
+  my_favorites: Mes likes
+  ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+  tooltip:
+    like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
+
+notifications:
+  page_title: Vos notifications
+  zero_notification: Vous n'avez pas de notification
+  parameters: Paramètres de notification
+  mark_all_as_seen: Marquer toutes comme lues
+  mark_as_seen: Marquer comme lue
+  mark_as_unseen: Marquer comme non lue
+  dropdown-pane:
+    title: Notifications
+    parameters: Paramètres
+    view_all: Voir tout
+  message:
+    personal_like_vehicle: "<b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
+    pro_like_vehicle: "Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
+    pending_request_to_join_garage_created: "Le conseiller automobile <b>%username%</b> souhaite rejoindre le garage <b>%garage_name%</b>"
+    pending_request_to_join_garage_accepted: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été accepté par un gestionnaire."
+    pending_request_to_join_garage_declined: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été refusé par un gestionnaire."
+    garage_member_assigned: "Vous avez été rattaché au garage <b>%garage_name%</b> par un gestionnaire."
+    garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
+
+directory:
+  page_tile: Annuaire des professionnels
+  field:
+    text:
+      label: Votre recherche
+      placeholder: Entrer un nom ou une marque
+    location:
+      label: Autour de
+      placeholder: Ville ou code postal
+    radius:
+      label: Rayon de
+    sorting:
+      label: Trier par :
+  result:
+    empty: Aucun résultat n'a été trouvé, rééssayez votre recherche.
+    no_garage: Pas de garage renseigné pour l'instant
+    more_garage: '{1} %n% garage supplémentaire|[2,Inf[ %n% garages supplémentaires'
+
+form:
+  picture:
+    add_photo: Ajouter une photo
+    remove_photo: Supprimer la photo
+

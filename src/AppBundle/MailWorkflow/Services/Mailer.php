@@ -33,12 +33,13 @@ class Mailer
      * @param $body
      * @param EmailRecipientList $emailRecipientList
      * @param array $attachments
+     * @param null|string $senderName
      */
-    public function sendMessage($type, $subject, $body, EmailRecipientList $emailRecipientList, array $attachments = [])
+    public function sendMessage($type, $subject, $body, EmailRecipientList $emailRecipientList, array $attachments = [], string $senderName = null)
     {
         $message = new \Swift_Message($subject, $body, 'text/html');
         $message
-            ->setFrom($this->defaultSender->getEmail(), $this->defaultSender->getName())
+            ->setFrom($this->defaultSender->getEmail(), ($senderName ? $senderName . ' via ' : '') . $this->defaultSender->getName())
             ->setTo($emailRecipientList->toArray());
         $message->getHeaders()->addTextHeader('X-Message-ID', $type);
 
@@ -53,7 +54,7 @@ class Mailer
                 'subject' => $subject
             ]);
         } catch (\Exception $e) {
-            $this->log(sprintf("An error occured when sending a '%s' email to %s.", $type, $emailRecipientList), [
+            $this->log(sprintf("An error occured (%s) when sending a '%s' email to %s", $e->getMessage(), $type, $emailRecipientList), [
                 'to' => $emailRecipientList->toArray(),
                 'subject' => $subject
             ], LogLevel::ERROR);

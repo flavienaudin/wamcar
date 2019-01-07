@@ -1,52 +1,50 @@
 {% set asideId = '1' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
-    content: '
-        <p>Merci de bien vérifier ou remplir ces champs d’identification de votre véhicule.</p>
-        <p class="no-margin">La version notamment aidera les professionnels à vous faire une offre juste.</p>
-    '
+    content: '<p>'~'vehicle.form.aside.identification.content_1'|trans~'</p><p class="no-margin">'~'vehicle.form.aside.identification.content_2'|trans~'</p>'
 } %}
 
 <section class="column small-12 large-7" id="js-registration-information" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" data-fetch-plate="{{ fetch_plate_url }}">
     <div class="register-infos input-margin block-grid">
         <div class="small-12 large-8">
-            <label for="immat">Immatriculation <span>Facultatif</span></label>
-            <p class="small">Gagnez du temps en indiquant votre immatriculation. Les champs ci-dessous seront en majorité pré-remplis avec les infos de votre véhicule.</p>
+            <label for="immat">{{ 'vehicle.field.plateNumber.label'|trans }}<span>{{ 'global.facultative'|trans }}</span></label>
+            <p class="small">{{ 'vehicle.field.plateNumber.help_message'|trans }}</p>
         </div>
         {{ form_widget(vehicleForm.vehicleRegistration.plateNumber, {
+            'label' : null,
+            'placeholder': 'vehicle.field.plateNumber.placeholder'|trans,
             'class' : 'medium-no-margin',
             'class_field': 'small-12 large-4 align-self-bottom',
-            'required' : false,
-            'label' : null
+            'required' : false
         }) }}
         <div class="small-12 large-6">
-            <a class="button medium-8" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}" data-platenumber-error="error-platenumber-field">Compléter</a>
+            <a class="button medium-8" href="javascript:" id="js-update-plate" data-platenumber-field="{{ vehicleForm.vehicleRegistration.plateNumber.vars.id }}" data-platenumber-error="error-platenumber-field">{{ 'global.button.complete'|trans }}</a>
         </div>
         <div class="small-12 large-6">
-            <p><small id="error-platenumber-field" class="form-error">Veuillez indiquer un numéro d'immatriculation.</small></p>
+            <p><small id="error-platenumber-field" class="form-error">{{ 'vehicle.field.plateNumber.required_message'|trans }}</small></p>
         </div>
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.make, {
-            label: 'Marque',
+            label: 'vehicle.field.make.label'|trans,
             id: 'js-registration-make',
             dataType: 'make',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer la marque du véhicule.',
+            required_message: 'vehicle.field.make.required_message'|trans,
             required_class: 'medium-offset-4'
         }) }}
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.model, {
-            label: 'Modèle',
+            label: 'vehicle.field.model.label'|trans,
             id: 'js-registration-model',
             dataType: 'model',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer le modèle du véhicule',
+            required_message: 'vehicle.field.model.required_message'|trans,
             required_class: 'medium-offset-4',
             attr: {
                 emptyOptionText :'vehicle.field.model.placeholder'|trans
@@ -55,13 +53,13 @@
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.engine, {
-            label: 'Motorisation',
+            label: 'vehicle.field.engine.label'|trans,
             id: 'js-registration-engine',
             dataType: 'engine',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer la motorisation du véhicule',
+            required_message: 'vehicle.field.engine.required_message'|trans,
             required_class: 'medium-offset-4',
             attr: {
                 emptyOptionText :'vehicle.field.engine.placeholder'|trans
@@ -70,23 +68,23 @@
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.transmission, {
-            label: 'Boite de vitesse',
+            label: 'vehicle.field.transmission.label'|trans,
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer la boite de vitesse du véhicule',
+            required_message: 'vehicle.field.transmission.required_message'|trans,
             required_class: 'medium-offset-4'
         }) }}
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.information.fuel, {
-            label: 'Énergie',
+            label: 'vehicle.field.fuel.label'|trans,
             id: 'js-registration-fuel',
             dataType: 'fuel',
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
             required: true,
-            required_message: 'Veuillez indiquer l\'énergie du véhicule',
+            required_message: 'vehicle.field.fuel.required_message'|trans,
             required_class: 'medium-offset-4',
             attr: {
                 emptyOptionText :'vehicle.field.fuel.placeholder'|trans
@@ -95,12 +93,12 @@
     </div>
     <div class="block-grid input-margin">
         {{ form_widget(vehicleForm.vehicleRegistration.vin, {
-            label: 'V.I.N.',
+            label: 'vehicle.field.vin.label'|trans,
             label_class: 'medium-no-margin small-12 medium-4',
             class: 'no-margin small-12 medium-8',
-            required: false,
-
+            required: false
         }) }}
-        {{  form_errors(vehicleForm.vehicleRegistration.vin) }}
+        <small class="form-error medium-offset-4">{{ 'vehicle.field.vin.format_error'|trans }}</small>
+        {{ form_errors(vehicleForm.vehicleRegistration.vin) }}
     </div>
 </section>

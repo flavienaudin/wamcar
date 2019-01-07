@@ -1,0 +1,8 @@
+{% if not user.is(app.user) and (app.user is null and user.isPro or app.user is not null and user.type != app.user.type) %}
+    {% set userAffinityDegree = user.getAffinityDegreesWith(app.user) %}
+    {% if userAffinityDegree is not null %}
+        {{ include('front/Affinity/includes/affinity_degree.html.twig') }}
+    {% else %}
+        {{ include('front/Affinity/includes/unknown_affinity_degree.html.twig') }}
+    {% endif %}
+{% endif %}

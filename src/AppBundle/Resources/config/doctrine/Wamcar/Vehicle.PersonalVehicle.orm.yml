@@ -35,6 +35,12 @@ Wamcar\Vehicle\PersonalVehicle:
             mappedBy: personalVehicle
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+        likes:
+            targetEntity: Wamcar\User\PersonalLikeVehicle
+            mappedBy: vehicle
+            cascade: ["persist", "merge", "remove"]
+            orderBy:
+              updatedAt: DESC
 
     manyToOne:
         owner:
@@ -58,12 +64,17 @@ Wamcar\Vehicle\PersonalVehicle:
             type: vehicletransmission
         safetyTestState:
             type: vehiclesafetyteststate
+            nullable: true
         safetyTestDate:
-            type: vehiclesafetytestdate
+            type: date
+            nullable: true
         maintenanceState:
             type: vehiclemaintenancestate
+            nullable: true
         registrationDate:
             type: date
+        isUsed:
+            type: boolean
         mileage:
             type: integer
         bodyState:
@@ -75,8 +86,8 @@ Wamcar\Vehicle\PersonalVehicle:
         tyreState:
             type: integer
             nullable: true
-        isTimingBeltChanged:
-            type: boolean
+        timingBeltState:
+            type: vehicletimingbeltstate
             nullable: true
         isImported:
             type: boolean

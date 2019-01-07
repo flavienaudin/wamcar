@@ -23,11 +23,17 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
+use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 
 class SecurityController extends BaseController
 {
+    const INSCRIPTION_QUERY_PARAM = 'insc';
+
     /** @var FormFactoryInterface */
     protected $formFactory;
     /** @var UserRegistrationService */
@@ -116,10 +122,20 @@ class SecurityController extends BaseController
     public function registerAction(Request $request, string $type): Response
     {
         if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
-            return $this->redirectToRoute("front_default");
+            return $this->redirectToRoute("front_view_current_user_info");
         }
 
-        $registrationForm = $this->formFactory->create(RegistrationType::class);
+        if ($type != PersonalUser::TYPE && $type != ProUser::TYPE) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'flash.error.bad_registration_type');
+            return $this->redirectToRoute('front_default');
+        }
+
+        $data = new RegistrationDTO();
+        if ($request->query->has('email_registration')) {
+            $data->email = $request->query->get('email_registration');
+        }
+
+        $registrationForm = $this->formFactory->create(RegistrationType::class, $data);
         $registrationForm->handleRequest($request);
 
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
@@ -139,28 +155,35 @@ class SecurityController extends BaseController
                 ]);
             }
 
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.registration_success_' . $type
-            );
+            $this->userAuthenticator->authenticate($registeredUser);
 
-            if ($registeredUser->hasConfirmedRegistration()) {
-                $this->userAuthenticator->authenticate($registeredUser);
-
-                // Check if target_path in session due to a previous AccessDeniedException
-                $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
-                if ($redirectTo = $this->session->get($key)) {
-                    $this->session->remove($key);
-                    return $this->redirect($redirectTo);
-                } else {
-                    return $this->redirectToRoute('front_default', ['_fragment' => 'activation-' . $type]);
+            // Check if target_path in session due to a previous AccessDeniedException
+            $key = sprintf('_security.%s.target_path', $this->tokenStorage->getToken()->getProviderKey());
+            if ($redirectTo = $this->session->get($key)) {
+                $this->session->remove($key);
+                if (!str_contains($redirectTo, self::INSCRIPTION_QUERY_PARAM . '=')) {
+                    $queryParam = self::INSCRIPTION_QUERY_PARAM . "=" . $type . "-emailc";
+                    if (str_contains($redirectTo, '?')) {
+                        $redirectTo .= "&" . $queryParam;
+                    } else {
+                        $redirectTo .= "?" . $queryParam;
+                    }
                 }
+                return $this->redirect($redirectTo);
+            } else if ($type == ProUser::TYPE) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.registration_success_pro'
+                );
+                return $this->redirectToRoute('front_affinity_pro_form', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
+            } else {
+                return $this->redirectToRoute('register_orientation', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
             }
-            return $this->redirectToRoute('register_confirm', ['_fragment' => 'register-' . $type]);
         }
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
+            'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
         ]);
     }
 
@@ -204,7 +227,7 @@ class SecurityController extends BaseController
                 return $this->redirect($redirectTo);
             } else {
                 $vehicleReplace = $request->get(RegistrationController::VEHICLE_REPLACE_PARAM);
-                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_info_tab', ['tab' => 'project']) : $this->redirectToRoute('front_default');
+                return $vehicleReplace ? $this->redirectToRoute('front_edit_user_project') : $this->redirectToRoute('front_default');
             }
         }
 
@@ -222,7 +245,6 @@ class SecurityController extends BaseController
      */
     public function loginAction(Request $request): Response
     {
-
         return $this->render('front/User/includes/form_login.html.twig');
     }
 
@@ -241,14 +263,23 @@ class SecurityController extends BaseController
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
         if ($error) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                $error->getMessage()
-            );
+            if ($error instanceof BadCredentialsException) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    'flash.error.bad_credentials'
+                );
+            } else {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_DANGER,
+                    $error->getMessage()
+                );
+            }
             return $this->redirectToRoute('security_login_page');
         }
 
+        $this->session->remove(Security::LAST_USERNAME);
         return $this->render('front/Security/Login/login.html.twig', [
+            'lastUsername' => $lastUsername
         ]);
     }
 
@@ -352,7 +383,7 @@ class SecurityController extends BaseController
                 $sessionKeyFailure = '_security.' . $providerKey . '.failed_target_path';
 
                 $param = $this->hwiOAuthTargetPathParameter;
-                if (!empty($param) && $targetUrl = $request->get($param)) {
+                if (!empty($param) && !$session->has($sessionKey) && $targetUrl = $request->get($param)) {
                     $session->set($sessionKey, $targetUrl);
                 }
 

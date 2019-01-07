@@ -1,4 +1,4 @@
-<ul id="js-carousel-vehicle" class="js-carousel carousel carousel-vehicle-pictures">
+<ul id="{{ carouselId }}" class="js-carousel carousel carousel-vehicle-pictures {% if carouselClass is defined %}{{ carouselClass }}{% endif %}"  {% if modalIdToOpen is defined %}data-open="{{ modalIdToOpen }}"{% endif %}>
     {% for picture in vehicle.pictures %}
         <li>
             <img src="{{ picture|vehiclePicture('vehicle_picture') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
@@ -9,16 +9,19 @@
         </li>
     {% else %}
         <li>
-            <img src="{{ 'vehicle_picture'|defaultVehiclePicture }}" alt="default vehicle picture">
+            <img src="{{ 'vehicle_placeholder_picture'|defaultVehiclePicture }}" alt="default vehicle picture">
         </li>
     {% endfor %}
 </ul>
-<nav id="js-carousel-navigation-vehicle" class="carousel carousel-navigation">
-{% for picture in vehicle.pictures %}
-    <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
-{% else %}
-    <li>
-        <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="default vehicle picture">
-    </li>
-{% endfor %}
-</nav>
+
+{% if carouselNavigationId is defined %}
+    <nav id="{{ carouselNavigationId }}" class="carousel carousel-navigation">
+    {% for picture in vehicle.pictures %}
+        <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
+    {% else %}
+        <li>
+            <img src="{{ 'vehicle_mini_thumbnail'|defaultVehiclePicture }}" alt="default vehicle picture">
+        </li>
+    {% endfor %}
+    </nav>
+{% endif %}

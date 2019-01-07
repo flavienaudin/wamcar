@@ -3,6 +3,7 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\Location\City;
 use Wamcar\User\Project;
 
 class ProjectDTO
@@ -15,6 +16,14 @@ class ProjectDTO
     public $description;
     /** @var ProjectVehicleDTO[]|array */
     public $projectVehicles;
+    /** @var string */
+    public $postalCode;
+    /** @var string */
+    public $cityName;
+    /** @var string */
+    public $latitude;
+    /** @var string */
+    public $longitude;
     /**
      * @param Project $project
      * @return self
@@ -30,6 +39,21 @@ class ProjectDTO
             $dto->projectVehicles[] = ProjectVehicleDTO::buildFromProjectVehicle($projectVehicle);
         }
 
+        if($project->getPersonalUser()->getCity() != null && !$project->getPersonalUser()->getCity()->isEmpty()){
+            $dto->postalCode = $project->getPersonalUser()->getCity()->getPostalCode();
+            $dto->cityName = $project->getPersonalUser()->getCity()->getName();
+            $dto->latitude = $project->getPersonalUser()->getCity()->getLatitude();
+            $dto->longitude = $project->getPersonalUser()->getCity()->getLongitude();
+        }
+
         return $dto;
+    }
+
+    /**
+     * @return null|City
+     */
+    public function getCity(): ?City
+    {
+        return ($this->postalCode && $this->cityName) ? new City($this->postalCode, $this->cityName, $this->latitude, $this->longitude) : null;
     }
 }

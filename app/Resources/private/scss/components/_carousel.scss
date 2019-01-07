@@ -3,31 +3,52 @@
    =========================================================================== */
 
 .carousel {
+  display: flex; // Surcharge de slick
+
   list-style: none;
   margin-left: 0;
 
-  &:not(.block-margin) { margin-bottom: 0; }
+  &:not(.block-margin) {
+    margin-bottom: 0;
+  }
+
+  .slick-list {
+    flex: 1;
+  }
+
+  .slick-prev {
+    z-index: 1;
+    left: 0;
+    [dir="rtl"] & {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  .slick-next {
+    right: 0;
+    [dir="rtl"] & {
+      left: 0;
+      right: auto;
+    }
+  }
 
   // Pour éviter les effets chelou pendant la construction du carousel
   // On cache tout les items, sauf le premier
   // On s'occupera de les réafficher lorsque le carousel sera initialisé
   li:not(.slick-slide):not([aria-hidden]) {
-    &:not(:first-child) { display: none; }
+    &:not(:first-child) {
+      display: none;
+    }
   }
-
 
   /*
      Navigation
      ===================================== */
 
   &-navigation {
-    display: flex; // Surcharge de slick
 
     /* Components */
-
-    .slick-list {
-      flex: 1;
-    }
 
     .slick-slide {
       position: relative;
@@ -70,6 +91,59 @@
     .slick-track {
       background: $grey-alt2;
       margin: 0 0 rem-calc(10);
+    }
+
+    .carousel-button {
+      margin: 0 0 rem-calc(10);
+    }
+
+    .slick-prev,
+    .slick-next {
+      position: absolute;
+      display: block;
+      height: 100%;
+      width: 25%;
+      line-height: 0;
+      cursor: pointer;
+      background: transparent;
+      top: 50%;
+      -webkit-transform: translate(0, -50%);
+      -ms-transform: translate(0, -50%);
+      transform: translate(0, -50%);
+      padding: 0;
+      border: none;
+      outline: none;
+      &:hover{
+        outline: none;
+        &:before {
+          opacity: $slick-opacity-on-hover;
+        }
+      }
+      &.slick-disabled:before {
+        opacity: $slick-opacity-not-active;
+      }
+      &:before {
+        display: block;
+        width: 2.5em;
+        height: 2.5em;
+        line-height: 2.5em;
+        margin: 0 auto;
+        border-radius: 50%;
+        font-size: 2em;
+        color: $body-font-color;
+        background-color: rgba($grey-alt2, 0.7);
+        opacity: $slick-opacity-default;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+
+    .slick-prev:hover{
+      background: linear-gradient(to right, rgba(white,0.5), rgba(white,00));
+    }
+
+    .slick-next:hover{
+      background: linear-gradient(to left, rgba(white,0.5), rgba(white,0));
     }
   }
 

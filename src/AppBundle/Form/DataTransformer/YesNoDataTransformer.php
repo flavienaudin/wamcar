@@ -9,25 +9,29 @@ class YesNoDataTransformer implements DataTransformerInterface
 {
     /**
      * @param mixed $value
-     * @return string
+     * @return string|null
      */
-    public function transform($value): string
+    public function transform($value): ?string
     {
-        return $value ? YesNoType::YES : YesNoType::NO;
+        if ($value === null)
+            return null;
+        else
+            return $value ? YesNoType::YES : YesNoType::NO;
     }
 
     /**
      * @param mixed $value
      * @return bool
      */
-    public function reverseTransform($value): bool
+    public function reverseTransform($value): ?bool
     {
         switch ($value) {
             case YesNoType::YES:
                 return true;
             case YesNoType::NO:
-            default:
                 return false;
+            default:
+                return null;
         }
     }
 }

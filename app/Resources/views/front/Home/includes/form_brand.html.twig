@@ -12,31 +12,31 @@
 
 <div class="column small-12 medium-6">
     {{ form_widget(vehicleInformationForm.make, {
-        label: 'Marque',
+        label: 'vehicle.field.make.label'|trans,
         dataToggleId: 'js-model',
         dataFetchUrl: path('front_vehicle_registration_form_update') ~ '?filters[make]=%value%&fetch=model',
         required: true,
-        required_message: 'Veuillez indiquer la marque du véhicule.'
+        required_message: 'vehicle.field.make.required_message'|trans
     }) }}
 </div>
 <div id="js-model" class="column small-12 medium-6 is-disabled">
     {{ form_widget(vehicleInformationForm.model, {
-        label: 'Modèle',
+        label: 'vehicle.field.model.label'|trans,
         required: true,
-        required_message: 'Veuillez choisir un modèle.'
+        required_message: 'vehicle.field.model.required_message'|trans
 
     }) }}
 </div>
 
 <div class="input-margin block-grid column small-12">
-    <label for="imma-2" class="no-margin small-8 medium-auto">Je cherche un véhicule pour le remplacer</label>
+    <label for="imma-2" class="no-margin small-8 medium-auto">{{ 'homepage.vehicle_form.tabs.immatriculation.field.replacement.label'|trans }}</label>
     <ul class="block-grid small-shrink small-right">
         <li>
             {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
             name: 'vehicle-replace',
             id: 'yes-2',
             class: 'small',
-            label: 'Oui',
+            label: 'global.yes'|trans,
             value: true,
             checked: true
             } %}
@@ -46,14 +46,15 @@
             name: 'vehicle-replace',
             id: 'no-2',
             class: 'small',
-            label: 'Non',
+            label: 'global.no'|trans,
             value: false
             } %}
         </li>
     </ul>
 </div>
 <div class="column small-12">
-    <button type="submit" class="button full-width">C'est parti !</button>
+    <p>{{ 'homepage.vehicle_form.tabs.model.pre_submit'|trans }}</p>
+    <button type="submit" class="button full-width">{{ 'homepage.vehicle_form.submit.button'|trans }}</button>
 </div>
 
 {{ form_end(vehicleInformationForm) }}

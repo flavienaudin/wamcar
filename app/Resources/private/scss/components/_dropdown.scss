@@ -1,0 +1,63 @@
+/* ===========================================================================
+   Dropdown
+   =========================================================================== */
+
+.dropdown {
+  &-pane {
+
+    /* Separator
+       ===================================== */
+    .menu-separator {
+      border-bottom: rem-calc(1) solid $border-color;
+    }
+
+    li:not(:last-child) {
+      @include inputMargin;
+    }
+
+    &-notifications {
+      position: fixed;
+      padding: 0;
+      width: 60vw;
+
+      @include breakpoint(large){
+        width: 50vw;
+      }
+      @include breakpoint(xlarge){
+        width: 40vw;
+      }
+
+      li:not(:last-child) {
+        margin-bottom: 0;
+      }
+    }
+
+    &-header-search-links {
+      @include breakpoint(360px down) {
+        width: 100vw;
+        left: 0 !important;
+      }
+    }
+
+    &-header,
+    &-footer {
+      padding: 0.5rem;
+      a {
+        color: $primary-color;
+      }
+    }
+
+    &-header{
+      top:0;
+    }
+
+    &-footer {
+      bottom:0;
+    }
+
+    &-body {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  }
+}

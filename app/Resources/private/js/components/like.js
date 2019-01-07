@@ -2,25 +2,22 @@
    Like
    =========================================================================== */
 
-import { activeClass } from '../settings/settings';
+import {activeClass} from '../settings/settings';
 
 const $like = document.querySelectorAll('.js-like');
 
 if ($like) {
-
   [...$like].forEach((like) => {
-
-    like.addEventListener('click', (event) => {
+    /*like.addEventListener('click', (event) => {
+      event.preventDefault();
       const $this = event.target;
       // for Ajax request
-      const href = $this.getAttribute('href');
-      // Run fetch(href).then(data => console.log(data));
-      // And add this on .then();
-      $this.classList.toggle(activeClass);
-
-      event.preventDefault();
-    });
-
+      const href = $this.getAttribute('data-href');
+      fetch(href).then((response) => {
+        $like.forEach((allLike) => {
+          allLike.classList.toggle(activeClass);
+        });
+      });
+    });*/
   });
-
 }

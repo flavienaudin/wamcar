@@ -34,13 +34,16 @@ Wamcar\Garage\Garage:
             type: string
             length: 64
             nullable: true
+            unique: true
         name:
             type: string
+            length: 128
             nullable: false
+            unique: true
         siren:
             type: string
             length: 32
-            nullable: false
+            nullable: true
             unique: true
         phone:
             type: string
@@ -61,8 +64,17 @@ Wamcar\Garage\Garage:
         googleRating:
             type: float
             nullable: true
+        optionAdminSellers:
+            type: boolean
+            nullable: false
         deletedAt:
             type: date
+            nullable: true
+        apiClientId:
+            type: string
+            nullable: true
+        apiSecret:
+            type: string
             nullable: true
 
     oneToMany:

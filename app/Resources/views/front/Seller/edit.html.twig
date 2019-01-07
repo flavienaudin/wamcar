@@ -1,14 +1,23 @@
-{% form_theme editUserForm 'front/Layout/includes/forms/fields.html.twig' %}
-{% trans_default_domain 'user' %}
-
 {% extends 'front/Layout/layout.html.twig' %}
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Editer mon profil vendeur{% endblock %}
+{% block title %}{{ 'user.profile.edit'|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'user.profile.my_profile'|trans,
+        'href': path('front_view_current_user_info')
+    },
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
 
 {% block body %}
 
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title')
     } %}

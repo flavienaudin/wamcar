@@ -10,7 +10,7 @@
     {% if vehicle %}
         Modifier mon véhicule {{ vehicle.name }}
     {% else %}
-        Ajouter un véhicule
+        {{ 'vehicle.add'|trans }}
     {% endif %}
 {% endblock %}
 
@@ -47,7 +47,7 @@
                 <li class="block-grid" data-step="1">
                     {% include 'front/Security/Register/includes/vehicle_identification.html.twig' with {
                         'vehicleForm' : proVehicleForm,
-                        'fetch_plate_url' : (vehicle ? path('front_vehicle_pro_edit', {'id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_pro_add', {'plateNumber':'_plate_number_'}))
+                        'fetch_plate_url' : (vehicle ? path('front_vehicle_pro_edit', {'vehicle_id':vehicle.id,'plateNumber':'_plate_number_'}): path('front_vehicle_pro_add', {'garage_id':app.request.attributes.get('garage_id'),'plateNumber':'_plate_number_'}))
                     } %}
                 </li>
                 <li class="block-grid" data-step="2">
@@ -63,10 +63,10 @@
             <nav id="js-step-navigation" class="column small-12">
                 <div class="register-navigation block-grid small-12 align-middle">
                     <div class="small-6 large-7">
-                        <a class="js-carousel-prev text-underline is-hidden">Etape précédente</a>
+                        <a class="js-carousel-prev text-underline is-hidden">{{ 'global.button.previous_step'|trans }}</a>
                     </div>
                         <div class="small-6 large-5 xlarge-4 xlarge-offset-1 column">
-                        <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">Étape suivante</button>
+                        <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">{{ 'global.button.next_step'|trans }}</button>
                     </div>
                 </div>
             </nav>

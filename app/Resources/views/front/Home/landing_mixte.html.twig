@@ -1,0 +1,151 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set is_home_page = true %}
+{% set header_class = 'is-transparent is-fixed' %}
+
+{% block bodyClass %}home-wrapper{% endblock %}
+
+{% block mainClass %}has-no-scroll no-padding landing-mixte{% endblock %}
+
+{% block title %}{{ 'landing.mixte.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'landing.mixte.description'|trans }}{% endblock %}
+
+{% block body %}
+    <section class="vehicle-form-container small-12" id="registration_forms">
+        <div class="row">
+            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 large-offset-1" role="search">
+                <header class="vehicle-form-header large-text-center">
+                    <h1 class="primary-color section-title">{{ 'landing.mixte.form.title'|trans }}</h1>
+                </header>
+                <ul id="js-tabs" class="tabs" data-tabs>
+                    <li class="tabs-title is-active"><a href="#personal-inscription" aria-selected="true">{{ 'landing.mixte.personal_email_registration_tab.title'|trans }}</a></li>
+                    <li class="tabs-title"><a href="#pro-inscription">{{ 'landing.mixte.pro_email_registration_tab.title'|trans }}</a></li>
+                </ul>
+                <div class="tabs-content column" data-tabs-content="js-tabs">
+                    <div id="personal-inscription" class="tabs-panel is-active">
+                        <header class="large-text-center">
+                            <h2 class="black-color column small-12">{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</h2>
+                        </header>
+                        <div class="input-margin-small">
+                            <div class="column small-12">
+                                <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
+                            </div>
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_orientation')} %}
+                        </div>
+                        <div>
+                            <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
+                                <div class="column small-12">
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'email',
+                                        label: 'landing.mixte.field.email.label'|trans,
+                                        name: 'email_registration',
+                                        id: 'email_personal_registration',
+                                        placeholder: 'landing.mixte.field.email.placeholder'|trans,
+                                        required: true,
+                                        required_message: 'landing.mixte.field.email.required_message'|trans
+                                    } %}
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'hidden',
+                                        label: 'landing.mixte.field.assist.label'|trans,
+                                        label_class: 'show-for-sr',
+                                        name: 'assistant_registration',
+                                        id: 'assistant_personal_registration',
+                                        required: false,
+                                        value:true
+                                    } %}
+                                </div>
+                                <div class="column small-12">
+                                    <p class="text-justify">{{ 'landing.mixte.personal_email_registration_tab.pre_submit'|trans({'%sitename%':site_name}) }}</p>
+                                    <button type="submit" class="button full-width input-margin">{{ 'landing.mixte.field.submit'|trans }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div id="pro-inscription" class="tabs-panel">
+                        <header class="large-text-center">
+                            <h2 class="black-color column small-10 large-12">{{ 'landing.mixte.pro_email_registration_tab.subtitle'|trans({'%sitename%':site_name}) }}</h2>
+                        </header>
+                        <div class="input-margin-small">
+                            <div class="column small-12">
+                                <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
+                            </div>
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_affinity_pro_form')} %}
+                        </div>
+
+                        <div class="">
+                            <form action="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
+                                <div class="column small-12">
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'email',
+                                        label: 'landing.mixte.field.email.label'|trans,
+                                        name: 'email_registration',
+                                        id: 'email_pro_registration',
+                                        placeholder: 'landing.mixte.field.email.placeholder'|trans,
+                                        required: true,
+                                        required_class: 'landing.mixte.field.email.required_message'|trans
+                                    } %}
+                                </div>
+                                <div class="column small-12">
+                                    <p class="text-justify">{{ 'landing.mixte.pro_email_registration_tab.pre_submit'|trans }}</p>
+                                    <button type="submit" class="button full-width input-margin">{{ 'landing.mixte.field.submit'|trans }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reinsurance-container section small-12" id="reinsurance_personal">
+        <div class="row">
+            <h2 class="section-title white-color h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.personal.title'|trans }}</h2>
+            {% set reinsurance_class = 'medium-order-3' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
+            <button type="button" class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+            {% include 'front/Home/includes/modal_concept_video.html.twig' %}
+        </div>
+    </section>
+
+    <section class="section small-12" id="search_vehicle">
+        <div class="row">
+            <header class="small-12 text-center">
+                <h2 class="section-title h1 primary-color">{{ 'homepage.search.title'|trans }}</h2>
+                <p>{{ 'homepage.search.subtitle'|trans }}</p>
+            </header>
+            {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
+
+            <strong class="black-color h2 column small-12">{{ 'homepage.last_offer.title'|trans }}</strong>
+            {% set balise = 'h3' %}
+            <div class="last-vehicles-container">
+                <div class="vehicle-list small-12">
+                    {% for vehicle in last_vehicles %}
+                        {% include 'front/Search/includes/item_personal.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <footer class="section-footer column small-12 medium-7 large-5">
+                <a href="{{ isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}) }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
+            </footer>
+        </div>
+    </section>
+
+    <section class="section reinsurance-container small-12" id="reinsurance_general">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
+        </div>
+    </section>
+
+    <section class="mission block-dark-blue small-12" id="wamcar_mission">
+        <div class="row">
+            {% include 'front/Home/includes/our_mission.html.twig' %}
+        </div>
+    </section>
+
+    <section class="business small-12" id="professional_business">
+        <div class="block-white section row">
+            {% include 'front/Home/includes/business.html.twig' %}
+        </div>
+    </section>
+{% endblock body %}

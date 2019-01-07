@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Api;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Wamcar\Garage\Garage;
 
 /**
  * @SWG\Swagger(
@@ -53,13 +54,5 @@ abstract class BaseController
     protected function generateRoute(string $routeName, array $routeParameters = []): string
     {
         return $this->router->generate($routeName, $routeParameters);
-    }
-
-    /**
-     * @return ApplicationUser
-     */
-    public function getUser(): ApplicationUser
-    {
-        return $this->session->get('AUTH_USER');
     }
 }

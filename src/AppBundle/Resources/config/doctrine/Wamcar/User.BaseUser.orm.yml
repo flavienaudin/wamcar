@@ -11,6 +11,10 @@ Wamcar\User\BaseUser:
         basic-personal: Wamcar\User\PersonalUser
         pro: AppBundle\Doctrine\Entity\ProApplicationUser
         personal: AppBundle\Doctrine\Entity\PersonalApplicationUser
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     exclusion_policy: ALL
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineUserRepository
@@ -28,6 +32,9 @@ Wamcar\User\BaseUser:
                 strategy: AUTO
 
     fields:
+        deletedAt:
+            type: date
+            nullable: true
         email:
             type: string
             length: 191   # needed to index field in utf8mb4
@@ -48,6 +55,31 @@ Wamcar\User\BaseUser:
             type: string
             length: 255
             nullable: true
+        googleId:
+            type: string
+            length: 255
+            nullable: true
+        googleAccessToken:
+            type: string
+            length: 255
+            nullable: true
+        twitterId:
+            type: string
+            length: 255
+            nullable: true
+        twitterAccessToken:
+            type: string
+            length: 255
+            nullable: true
+        apiClientId:
+            type: string
+            nullable: true
+        apiSecret:
+            type: string
+            nullable: true
+        firstContactPreference:
+            type: firstcontactpreference
+            nullable: true
 
     oneToOne:
         avatar:
@@ -57,7 +89,14 @@ Wamcar\User\BaseUser:
                 name: avatar_id
                 referencedColumnName: id
             cascade: ["persist", "merge", "remove"]
-
+        preferences:
+            targetEntity: AppBundle\Doctrine\Entity\UserPreferences
+            mappedBy: user
+            cascade: ["persist","merge","remove"]
+        affinityAnswer:
+            targetEntity: TypeForm\Doctrine\Entity\AffinityAnswer
+            mappedBy: user
+            cascade: ["persist","merge","remove"]
     oneToMany:
         conversationUsers:
             targetEntity: Wamcar\Conversation\ConversationUser
@@ -67,3 +106,19 @@ Wamcar\User\BaseUser:
             targetEntity: Wamcar\Conversation\Message
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
+        likes:
+            targetEntity: Wamcar\User\BaseLikeVehicle
+            mappedBy: user
+            cascade: ["persist", "merge", "remove"]
+            orderBy:
+                updatedAt: "desc"
+        smallerIdUserAffinityDegrees:
+            targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
+            mappedBy: greaterIdUser
+            cascade: ["persist", "merge"]
+        greaterIdUserAffinityDegrees:
+            targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
+            mappedBy: smallerIdUser
+            cascade: ["persist", "merge"]
+
+

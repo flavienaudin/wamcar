@@ -1,22 +1,22 @@
 <form action="{{ path('front_vehicle_registration') }}" name="form-plate-number" method="GET" class="block-grid" data-abide novalidate>
     <div class="column small-12">
         {% include 'front/Layout/includes/forms/input.html.twig' with {
-            label: 'Numéro d\'immatriculation',
+            label: 'homepage.vehicle_form.tabs.immatriculation.field.immatriculation.label'|trans,
             name: 'plate_number',
-            placeholder: 'Ex: AA-123-BB, 558QFM75',
+            placeholder: 'homepage.vehicle_form.tabs.immatriculation.field.immatriculation.placeholder'|trans,
             required: true,
-            required_message: 'Veuillez indiquer un numéro d\'immatriculation'
+            required_message: 'homepage.vehicle_form.tabs.immatriculation.field.immatriculation.required_message'|trans
         } %}
     </div>
     <div class="input-margin block-grid column small-12">
-        <label class="no-margin small-8 medium-auto" for="vehicle-replace">Je cherche un véhicule pour le remplacer</label>
+        <label class="no-margin small-8 medium-auto" for="vehicle-replace">{{ 'homepage.vehicle_form.tabs.immatriculation.field.replacement.label'|trans }}</label>
         <ul class="block-grid small-right">
             <li>
                 {% include 'front/Layout/includes/forms/radio_text.html.twig' with {
                     name: 'vehicle-replace',
                     id: 'yes',
                     class: 'small',
-                    label: 'Oui',
+                    label: 'global.yes'|trans,
                     value: true,
                     checked: true
                 } %}
@@ -26,14 +26,14 @@
                     name: 'vehicle-replace',
                     id: 'no',
                     class: 'small',
-                    label: 'Non',
+                    label: 'global.no'|trans,
                     value: false
                 } %}
             </li>
         </ul>
     </div>
     <div class="column small-12">
-        <p>Avec Wamcar, je peux vendre et acheter mon véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.</p>
-        <button type="submit" class="button full-width">C'est parti !</button>
+        <p>{{ 'homepage.vehicle_form.tabs.immatriculation.pre_submit'|trans }}</p>
+        <button type="submit" class="button full-width">{{ 'homepage.vehicle_form.submit.button'|trans }}</button>
     </div>
 </form>

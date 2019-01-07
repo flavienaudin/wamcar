@@ -1,0 +1,34 @@
+<div id="js-vehicle-form" class="column small-12 large-6 input-margin">
+    <div class="landing-meeting-form ">
+        <header class="form-header large-text-center">
+            <h1 class="primary-color section-title">{{ 'landing.meeting.pro_email_registration_form.title'|trans }}</h1>
+            <p class="black-color medium small-8 large-10 large-offset-1"><b>{{ 'landing.meeting.pro_email_registration_form.subtitle'|trans({'%sitename%':site_name}) }}</b></p>
+        </header>
+
+        <div class="input-margin">
+            <div class="column small-12">
+                <label>{{ 'landing.meeting.field.social_connect.label'|trans }}</label>
+            </div>
+            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_affinity_pro_form')} %}
+        </div>
+
+        <div class="">
+            <form action="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
+                <div class="column small-12">
+                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                        type: 'email',
+                        label: 'landing.meeting.field.email.label'|trans,
+                        name: 'email_registration',
+                        placeholder: 'landing.meeting.field.email.placeholder'|trans,
+                        required: true,
+                        required_class: 'landing.meeting.field.email.required_message'|trans
+                    } %}
+                </div>
+                <div class="column small-12">
+                    <p class="text-justify">{{ 'landing.meeting.pro_email_registration_form.pre_submit'|trans() }}</p>
+                    <button type="submit" class="button full-width input-margin">{{ 'landing.meeting.field.submit'|trans }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

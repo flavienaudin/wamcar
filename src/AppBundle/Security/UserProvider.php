@@ -3,6 +3,7 @@
 namespace AppBundle\Security;
 
 
+use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
@@ -15,6 +16,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,12 +41,14 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
     private $session;
     /** @var LoggerInterface */
     private $logger;
+    /** @var UrlGeneratorInterface */
+    protected $router;
 
     public function __construct(DoctrineUserRepository $doctrineUserRepository,
                                 DoctrineProUserRepository $doctrineProUserRepository,
                                 DoctrinePersonalUserRepository $doctrinePersonalUserRepository,
                                 UserRegistrationService $userRegistrationService,
-                                SessionInterface $session, LoggerInterface $logger)
+                                SessionInterface $session, LoggerInterface $logger, UrlGeneratorInterface $router)
     {
         $this->doctrineUserRepository = $doctrineUserRepository;
         $this->doctrineProUserRepository = $doctrineProUserRepository;
@@ -52,6 +56,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
         $this->userRegistrationService = $userRegistrationService;
         $this->session = $session;
         $this->logger = $logger;
+        $this->router = $router;
     }
 
     /**
@@ -135,6 +140,26 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
                 }
             }
             $this->doctrineUserRepository->update($user);
+
+            // Add the query param to track the inscription
+            if ($this->session->has('_security.front.target_path')) {
+                $url_targeted = $this->session->get('_security.front.target_path');
+                if (!str_contains($url_targeted, SecurityController::INSCRIPTION_QUERY_PARAM . '=')) {
+                    $queryParam = SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $registrationType . "-" . $service;
+                    if (str_contains($url_targeted, '?')) {
+                        $this->session->set('_security.front.target_path', $url_targeted . "&" . $queryParam);
+                    } else {
+                        $this->session->set('_security.front.target_path', $url_targeted . "?" . $queryParam);
+                    }
+                }
+            }
+        } else {
+            // if target_path is set to REGISTER_ORIENTATION path while the user is already registred Then redirection to its profile
+            if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_confirm', [], UrlGeneratorInterface::ABSOLUTE_URL))
+                || (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_orientation', [], UrlGeneratorInterface::ABSOLUTE_URL)))
+            ) {
+                $this->session->set('_security.front.target_path', $this->router->generate('front_view_current_user_info', [], UrlGeneratorInterface::ABSOLUTE_URL));
+            }
         }
         $this->session->remove(self::REGISTRATION_TYPE_SESSION_KEY);
         return $user;

@@ -44,10 +44,6 @@ class ConversationAuthorizationChecker
             throw new AccessDeniedHttpException('Only connected user can create conversation');
         }
 
-        if ($user->isPersonal() && $interlocutor->isPersonal()) {
-            throw new AccessDeniedHttpException('You can only communicate with pro user');
-        }
-
         if (!$interlocutor instanceof CanBeInConversation || !$user instanceof CanBeInConversation) {
             throw new AccessDeniedHttpException('Not authorized to communicate');
         }

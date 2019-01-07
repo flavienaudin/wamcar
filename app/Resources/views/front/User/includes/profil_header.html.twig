@@ -1,28 +1,48 @@
 <aside class="profil-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">{{ user.fullName }}</h1>
+            <h1 class="profil-name">
+                {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+                {% if isUserPersonalPageProfil and isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% endfor %}
+                    </span>
+                {% endif %}
+            </h1>
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
-                        <a href="tel:{{ user.phonePro }}" class="icon-tel small-6 medium-shrink"><span class="dark-gray-color">{{ user.phonePro }}</span></a>
+                        <span class="small-auto medium-shrink">
+                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                'phoneNumber_eventId':'showtelproFixe'~user.id,
+                                'phoneNumber': user.phonePro
+                            }) }}</span>
                     {% endif %}
                     {% if user.userProfile.phone %}
-                        <a href="tel:{{ user.userProfile.phone }}" class="icon-mobile small-6 medium-shrink"><span class="dark-gray-color">{{ user.userProfile.phone }}</span></a>
+                        <span class="small-auto medium-shrink">
+                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                'phoneNumber_eventId':'showtelproMobile'~user.id,
+                                'phoneNumber': user.userProfile.phone,
+                                'icontel': 'icon-mobile'
+                            }) }}</span>
                     {% endif %}
                 {% endif %}
 
                 {% if not userIsMe %}
-                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block" class="icon-message small-12 medium-shrink"><span class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
-                {% else %}
-                    <a href="{{ path('security_logout') }}" class="text-underline show-for-medium">Déconnexion</a>
+                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block"
+                       class="icon-message small-12 medium-shrink">
+                        <span id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}" class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
                 {% endif %}
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">
             <div class="profil-image">
                 {% if not userIsMe %}
-                    <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
+                    <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
                     {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                     {{ form_widget(avatarForm.avatar, {
@@ -31,7 +51,7 @@
                         'required_class': '',
                         'classPreview': 'file-preview-avatar',
                         'input_class': 'js-onchange-submit',
-                        'imgPreview':  user.avatar|avatar('user_thumbnail'),
+                        'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
                         'isRemovable': false
                     }) }}
                     {{ form_widget(avatarForm) }}

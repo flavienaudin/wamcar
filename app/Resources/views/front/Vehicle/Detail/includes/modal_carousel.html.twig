@@ -1,0 +1,17 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-modal-carousel-vehicle' %}
+
+{% block title %}{% endblock %}
+
+{% block class %}large{% endblock %}
+{% block modal_content_class %}no-padding{% endblock %}
+
+{% block content %}
+    <div class="column no-padding">
+        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
+            'carouselId':'js-carousel-vehicle-modal',
+            'carouselClass':'carousel-with-arrows'
+        } %}
+    </div>
+{% endblock %}

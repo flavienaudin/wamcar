@@ -10,13 +10,13 @@ class UserProfile
     protected $title;
     /** @var string */
     protected $firstName;
-    /** @var ?string */
+    /** @var null|string */
     protected $lastName;
     /** @var string */
     protected $description;
-    /** @var ?string */
+    /** @var null|string */
     protected $phone;
-    /** @var  ?City */
+    /** @var  City|null */
     protected $city;
 
     /**
@@ -91,6 +91,38 @@ class UserProfile
     public function getCity(): ?City
     {
         return $this->city;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPostalCode(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getPostalCode() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCityName(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getName() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLatitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLatitude() : null);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLongitude(): ?string
+    {
+        return ($this->getCity() != null ? $this->getCity()->getLongitude() : null);
     }
 
     /**

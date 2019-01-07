@@ -2,6 +2,7 @@
 {% set garageRating = garageRating|default(null) %}
 
 {% if garageRating is not null %}
+    {% if garageId is defined %}<a href="{{ path('front_garage_view', {"id":garageId,"_fragment":"opinions"}) }}">{% endif %}
     <div class="star-list">
         <span class="star-item star-item-small google-rating google-rating-label" >{{ garageRating }}</span>
         {% for i in 5..1 %}
@@ -9,6 +10,7 @@
             <i class="star-item google-rating star-item-small {{ starClass }} "></i>
         {% endfor %}
     </div>
+    {% if garageId is defined %}</a>{% endif %}
     {% if poweredByGoogleDisplay %}
         <div>
             <img src="{{ asset('assets/images/google/powered_by_google_on_white.png') }}" alt="Powered by google" title="Powered by google">

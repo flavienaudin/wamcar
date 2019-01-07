@@ -1,12 +1,22 @@
+{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
 <header class="vehicle-header block-grid column small-12 align-middle">
-    <h1 class="small-12 medium-auto">{{ vehicle.name }}</h1>
-    {% if isProVehicle %}
-        <strong class="h1 medium-shrink medium-right primary-color">{{ vehicle.price|localizednumber }} €</strong>
-    {% endif %}
-    <p class="small-12">
-        {#{{ vehicle.modelVersionName }} &nbsp;#}
-        <span class="primary-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span> &nbsp;
-        <span class="black-color">{{ vehicle.cityName }}</span>
-        <span class="float-right black-color">Publié le {{ vehicle.createdAt|localizeddate('short', 'none') }}</span>
-    </p>
+    <div class="column small-12">
+        <h1 class="small-auto" id="header-{{ vehicle.id }}">{{ vehicle.name }}</h1>
+        <span>
+        <span class="primary-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}&nbsp;km</span>&nbsp;
+        {{ vehicle.cityName|upper }}, {{ "vehicle.publish_at"|trans({"%createdAt%":vehicle.createdAt|localizeddate('short', 'none')}) }}</span>
+    </div>
+    <div class="block-grid column small-12 align-middle">
+        <div class="small-auto">
+            {% if vehicle.price is defined %}
+                <h2 class="h1 small-shrink medium-right primary-color"><strong>{{ vehicle.price|localizednumber }}&nbsp;€</strong></h2>
+            {% endif %}
+        </div>
+        <div class="small-shrink small-centered medium-right align-self-middle">
+            <span class="no-border normal-fw" data-tooltip title="{{ 'favorites.tooltip.like'|trans }}" tabindex="1" data-position="bottom" data-alignment="center">
+            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id}) }}" class="like {{ likeIcon }}">
+                <sub>{{ positiveLikes[constant('AppBundle\\Controller\\Front\\ProContext\\FavoriteController::FAVORITES_ALL')]|length }}</sub>
+            </a></span>
+        </div>
+    </div>
 </header>

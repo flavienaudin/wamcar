@@ -16,6 +16,16 @@
   }
 }
 
+@mixin socialThemeColor($color) {
+  color: $color;
+
+  @include breakpoint(xlarge) {
+    &:hover {
+      color: lighten($color, 10%);
+    }
+  }
+}
+
 /*
    Class
    ===================================== */
@@ -116,6 +126,8 @@
     &.icon-twitter {
       @include socialTheme(#00aced);
     }
+    &.icon-google2,
+    &.icon-google3,
     &.icon-google-plus {
       @include socialTheme(#dc4e41);
     }
@@ -147,6 +159,24 @@
         border-right: rem-calc(1) solid rgba(black, .15);
         margin-right: rem-calc(30);
       }
+    }
+  }
+
+  &-icon {
+    /* Thèmes */
+    &.icon-facebook {
+      @include socialThemeColor(#2667b5);
+    }
+    &.icon-twitter {
+      @include socialThemeColor(#00aced);
+    }
+    &.icon-google2,
+    &.icon-google3,
+    &.icon-google-plus {
+      @include socialThemeColor(#dc4e41);
+    }
+    &.icon-linkedin {
+      @include socialThemeColor(#0078b9);
     }
   }
 }

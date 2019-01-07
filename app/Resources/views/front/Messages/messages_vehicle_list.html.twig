@@ -2,7 +2,7 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Ajouter un véhicule{% endblock %}
+{% block title %}{{ 'vehicle.add'|trans }}{% endblock %}
 
 {% block body %}
     <!-- Header -->
@@ -10,52 +10,106 @@
         <div class="row">
             <div class="small-12 messages-header-title block-grid">
                 <a href="{{ path(linkRoute, linkRouteParams) }}#message-answer-block" class="messages-back-btn icon-close"></a>
-                <h1 class="primary-color no-margin">Véhicules</h1>
-                <a href="{{ app.user.isPro ? path('front_vehicle_pro_add') : path('front_vehicle_personal_add') }}" class="text-underline vehicle-messages-create messages-header-right-link">
-                    Créer un véhicule
-                </a>
+                <h1 class="primary-color no-margin">Véhicules&nbsp;</h1>
+                {% if isUserPro %}
+                    {% set nbOfGarages = app.user.numberOfGarages %}
+                    {% if nbOfGarages == 0 %}
+                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": 0 }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                            {{ 'vehicle.create'|trans }}
+                        </a>
+                    {% elseif nbOfGarages == 1 %}
+                        <a href="{{ path('front_vehicle_pro_add',{"garage_id": app.user.enabledGarageMemberships.first.garage.id }) }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                            {{ 'vehicle.create'|trans }}
+                        </a>
+                    {% else %}
+                        <a href="#" class="text-underline vehicle-messages-create messages-header-right-link" data-toggle="add_vehicle_garage_list">{{ 'vehicle.create'|trans }}</a>
+                        <div id="add_vehicle_garage_list" class="dropdown-pane text-left" data-dropdown data-hover="true" data-hover-pane="true" data-position="bottom" data-alignment="left">
+                            <ul class="no-margin no-bullet">
+                                {% for garageMemberShip in app.user.enabledGarageMemberships %}
+                                    <li>
+                                        <div class="is-flex">
+                                            <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}" class="small-2 logo-mini" alt="Logo {{ garageMemberShip.garage.name }}">
+                                            &nbsp;<a href="{{ path('front_vehicle_pro_add',{'garage_id':garageMemberShip.garage.id}) }}" >{{ garageMemberShip.garage.name }}</a>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <a href="{{ path('front_vehicle_personal_add') }}" class="text-underline vehicle-messages-create messages-header-right-link">
+                        {{ 'vehicle.create'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="small-12">
+                <div class="column">
+                    {{ form_start(searchForm) }}
+                    <div class="row">
+                        <div class="column small-12 medium-auto">
+                            {{ form_widget(searchForm.text, {
+                                'class':'',
+                                'label':'search.common.field.text.label'|trans,
+                                'label_class':'',
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'placeholder':'search.common.field.text.placeholder'|trans
+                            }) }}
+                        </div>
+                        <div class="column small-12 medium-shrink input-margin medium-no-margin is-flex ">
+                            <button type="submit" class="button no-margin full-width align-self-middle">{{ 'global.button.search'|trans }}</button>
+                        </div>
+                    </div>
+                    {{ form_end(searchForm) }}
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="small-12">
-            <!-- Vehicle list -->
-            <ul class="block-grid vehicle-messages-list no-bullet">
-                {% for vehicle in vehicles %}
-                <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
-                    <a href="{{ path(linkRoute, linkRouteParams|merge({'v': vehicle.id})) }}#message-answer-block" class="vehicle-item is-flex">
-                        <div class="vehicle-picture medium-auto">
-                            <div class="is-relative">
-                                <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
-                                <div class="vehicle-count-pics">
-                                    <span class="icon-pics">{{ vehicle.pictures|length }}</span>
-                                </div>
-                            </div>
+            {% if vehicles.totalHits|length > 0 %}
+                {% if app.user.isPro %}
+                    <!-- Pro vehicles list -->
+                    <div class="garage-container messages-list-vehicle">
+                        <div class="vehicle-list">
+                        {% for vehicle in vehicles.hits %}
+                            <li class="small-12 column vehicle-messages-item-wrapper">
+                                {% include 'front/Messages/includes/item_selection_pro_vehicle.html.twig' %}
+                            </li>
+                        {% endfor %}
                         </div>
-                        <div class="vehicle-infos small-shrink">
-                            <h3 class="vehicle-name h3">{{ vehicle.name }}</h3>
-                            <p class="vehicle-model">{#{{ vehicle.modelName }}#}</p>
-                            <span class="vehicle-years body-font-color">{{ vehicle.years }}, {{ vehicle.mileage|localizednumber }} km</span>
-                            <div class="vehicle-bottom block-grid full-width align-middle">
-                                <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
-                                <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate(format = "d MMM, HH'h'mm") }}</time>
-                                {% if app.user.isPro %}<strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }} €</strong>{% endif %}
-                            </div>
-                            <div class="vehicle-infos-arrow icon-arrow-right-2"></div>
-                        </div>
-                    </a>
-                </li>
+                    </div>
                 {% else %}
+                    <!-- Personal vehicles list -->
+                    <ul class="block-grid vehicle-messages-list no-bullet">
+                        {% for vehicle in vehicles.hits %}
+                            <li class="small-12 medium-6 column vehicle-messages-item-wrapper">
+                                {% include 'front/Messages/includes/item_selection_personal_vehicle.html.twig' %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <br>
+
+                <div class="block-grid small-12 align-middle input-margin">
+                    <div class="small-12">
+                        {% include 'front/Layout/includes/pagination.html.twig' with {
+                            'route': 'front_conversation_vehicle_list',
+                            'route_params':{},
+                            'page': page,
+                            'lastPage': lastPage
+                        } %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="block-grid vehicle-messages-list">
                     <div class="vehicle-messages-list-empty text-center">
                         {% include 'front/Layout/includes/svg/red_car.html.twig' %}
                         <strong class="is-block">Vous n’avez pas encore de véhicule dans votre garage.</strong>
                         <p>Afin de pouvoir proposer un véhicule à un particulier, vous devez d’abord ajouter un véhicule à la vente.</p>
-                        <div class="block-grid">
-                            <button class="small-12 medium-offset-2 medium-8 large-offset-4 large-4 button" type="button">Créer un véhicule</button>
-                        </div>
                     </div>
-                {% endfor %}
-            </ul>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

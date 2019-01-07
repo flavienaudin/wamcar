@@ -23,17 +23,18 @@ class ProVehicleBuilder implements VehicleBuilder
             $vehicleDTO->getTransmission(),
             Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()),
             $vehicleDTO->getRegistrationDate(),
+            $vehicleDTO->isUsed(),
             $vehicleDTO->getMileage(),
             [],
-            $vehicleDTO->getSafetyTestDate(),
-            $vehicleDTO->getSafetyTestState(),
-            $vehicleDTO->getBodyState(),
-            $vehicleDTO->getEngineState(),
-            $vehicleDTO->getTyreState(),
-            $vehicleDTO->getMaintenanceState(),
-            $vehicleDTO->isTimingBeltChanged(),
-            $vehicleDTO->isImported(),
-            $vehicleDTO->isFirstHand(),
+            $vehicleDTO->isUsed()?$vehicleDTO->getSafetyTestDate():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getSafetyTestState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getBodyState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getEngineState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getTyreState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getMaintenanceState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->getTimingBeltState():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->isImported():null,
+            $vehicleDTO->isUsed()?$vehicleDTO->isFirstHand():null,
             $vehicleDTO->getAdditionalInformation(),
             $vehicleDTO->getCity(),
             $vehicleDTO->getPrice(),
@@ -67,17 +68,32 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setModelVersion($vehicleDTO->getModelVersion());
         $vehicle->setRegistration(Registration::createFromVehicleRegistrationDTO($vehicleDTO->getVehicleRegistration()));
         $vehicle->setTransmission($vehicleDTO->getTransmission());
+        $vehicle->setRegistrationPlateNumber($vehicleDTO->getVehicleRegistration()->getPlateNumber());
+        $vehicle->setRegistrationVin($vehicleDTO->getVehicleRegistration()->getVin());
         $vehicle->setRegistrationDate($vehicleDTO->getRegistrationDate());
+        $vehicle->setIsUsed($vehicleDTO->isUsed());
         $vehicle->setMileage($vehicleDTO->getMileage());
-        $vehicle->setSafetyTestDate($vehicleDTO->getSafetyTestDate());
-        $vehicle->setSafetyTestState($vehicleDTO->getSafetyTestState());
-        $vehicle->setBodyState($vehicleDTO->getBodyState());
-        $vehicle->setEngineState($vehicleDTO->getEngineState());
-        $vehicle->setTyreState($vehicleDTO->getTyreState());
-        $vehicle->setMaintenanceState($vehicleDTO->getMaintenanceState());
-        $vehicle->setIsTimingBeltChanged($vehicleDTO->isTimingBeltChanged());
-        $vehicle->setIsImported($vehicleDTO->isImported());
-        $vehicle->setIsFirstHand($vehicleDTO->isFirstHand());
+        if($vehicle->isUsed()) {
+            $vehicle->setSafetyTestDate($vehicleDTO->getSafetyTestDate());
+            $vehicle->setSafetyTestState($vehicleDTO->getSafetyTestState());
+            $vehicle->setBodyState($vehicleDTO->getBodyState());
+            $vehicle->setEngineState($vehicleDTO->getEngineState());
+            $vehicle->setTyreState($vehicleDTO->getTyreState());
+            $vehicle->setMaintenanceState($vehicleDTO->getMaintenanceState());
+            $vehicle->setTimingBeltState($vehicleDTO->getTimingBeltState());
+            $vehicle->setIsImported($vehicleDTO->isImported());
+            $vehicle->setIsFirstHand($vehicleDTO->isFirstHand());
+        }else{
+            $vehicle->setSafetyTestDate(null);
+            $vehicle->setSafetyTestState(null);
+            $vehicle->setBodyState(null);
+            $vehicle->setEngineState(null);
+            $vehicle->setTyreState(null);
+            $vehicle->setMaintenanceState(null);
+            $vehicle->setTimingBeltState(null);
+            $vehicle->setIsImported(null);
+            $vehicle->setIsFirstHand(null);
+        }
         $vehicle->setAdditionalInformation($vehicleDTO->getAdditionalInformation());
         $vehicle->setCity($vehicleDTO->getCity());
         $vehicle->setPrice($vehicleDTO->getPrice());

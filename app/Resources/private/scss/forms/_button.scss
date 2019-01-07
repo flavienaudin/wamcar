@@ -8,7 +8,7 @@
    ===================================== */
 
 @mixin buttonHeight {
-    height: rem-calc(50);
+    height: rem-calc(40);
     @include breakpoint(medium) {
         height: rem-calc(60);
     }
@@ -77,15 +77,13 @@ a.button {
 
 .button {
     @include buttonStyle;
-    @include breakpoint(xlarge) {
-        &:hover {
-            background: white;
-            color: $primary-color;
-            .loader {
-                .loader-child {
-                    &:before {
-                        background-color: $primary-color;
-                    }
+    &:hover {
+        background: white;
+        color: $primary-color;
+        .loader {
+            .loader-child {
+                &:before {
+                    background-color: $primary-color;
                 }
             }
         }
@@ -102,6 +100,7 @@ a.button {
             height: rem-calc(50);
         }
     }
+
     /* Theme */
     &.white {
         @include buttonTheme(white, $primary-color, $primary-color);
@@ -115,22 +114,29 @@ a.button {
             font-size: rem-calc(16);
             color: $primary-color;
         }
-        @include breakpoint(large) {
-            &:hover {
-                background: white;
-                color: $dark-gray;
-            }
+        &:hover {
+            background: white;
+            color: $dark-gray;
         }
     }
     &.reverse {
         background: white;
         color: $primary-color;
-        @include breakpoint(large) {
-            &:hover {
-                background: $primary-color;
+        border-color: $primary-color;
+        &::before {
+            font-size: rem-calc(16);
+            color: $primary-color;
+        }
+
+        &:hover {
+            background: $primary-color;
+            color: white;
+            border-color: white;
+            &::before {
                 color: white;
             }
         }
+
     }
     /* remove */
     &.remove {
@@ -143,11 +149,9 @@ a.button {
         &::before {
             margin-right: 0;
         }
-        @include breakpoint(large) {
-            &:hover {
-                background: white;
-                color: $medium-gray;
-            }
+        &:hover {
+            background: white;
+            color: $medium-gray;
         }
     }
     /* Form margin */

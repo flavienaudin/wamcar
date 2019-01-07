@@ -1,8 +1,12 @@
-{% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>'  %}
-
 <!-- Véhicule à reprendre -->
 <div class="messages-item-vehicle-taken">
     {% if severalVehicles is defined %}
+        {% set label = isNew is defined and isNew == true ?
+            '<strong class="secondary-color">'~ "conversation.fleet_to_sell"|trans ~'</strong><div>'~"conversation.auto_added"|trans~'</div>' :
+            app.user.id == user.id ?
+                '<strong class="secondary-color">'~ "conversation.fleet_to_sell"|trans ~'</strong>' :
+                '<strong class="secondary-color">'~ "conversation.fleet_presented_by"|trans({'%ownerName%':user.fullName}) ~'</strong>'
+        %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="messages-item-vehicle-taken-message is-flex">
             <div class="several-img">
@@ -10,47 +14,26 @@
             </div>
             <div class="several-content">
                 <strong>
-                    {% if app.user.id == user.id %}
-                        Vous disposez d’une flotte composée de {{ severalVehicles }} véhicules
-                    {% else  %}
-                        Votre interlocuteur dispose d’une flotte composée de {{ severalVehicles }} véhicules
-                    {% endif %}
+                    {{ app.user.id == user.id?'conversation.fleet.yours'|trans({'%severalVehicles%':severalVehicles}):'conversation.fleet.him'|trans({'%severalVehicles%':severalVehicles}) }}
                 </strong>
-                <a href="{{ path('front_view_user_info', {'id': user.id}) }}" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
+                <a href="{{ path('front_view_user_info', {'id':user.id,'_fragment':'user_vehicles_section'}) }}" target="_blank" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
             </div>
         </div>
-    {% else %}
+    {% elseif vehicle is not null %}
         {% if vehicle.isPro %}
-            {% set path = path('front_vehicle_pro_detail', {'id': vehicle.id}) %}
-            {% set label = '<strong class="secondary-color">Véhicule proposé</strong>' %}
+            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>' %}
         {% else %}
-            {% set path = path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
-            {% set label = isNew is defined and isNew == true ? '<strong class="secondary-color">Votre véhicule à reprendre</strong><div>(automatiquement ajouté à votre message)</div>' : '<strong class="secondary-color">Véhicule à reprendre</strong>'  %}
+            {% set label = vehicle.seller.id == app.user.id ?
+                '<strong class="secondary-color">'~ "conversation.vehicle_to_sell"|trans ~'</strong>' :
+                '<strong class="secondary-color">'~ "conversation.personal_vehicle_of"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>'
+            %}
+            {% if isNew is defined and isNew == true %}
+                {% set label = label ~ '<div>'~"conversation.auto_added"|trans~'</div>' %}
+            {% endif %}
         {% endif %}
         <div class="messages-item-vehicle-taken-label">{{ label | raw }}</div>
         <div class="vehicle-list small-12">
-            <article class="vehicle-item is-flex">
-                <a href="{{ path }}" target="_blank" class="is-flex full-width">
-                    <div class="vehicle-picture medium-auto is-relative">
-                        <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}">
-                        <div class="vehicle-count-pics">
-                          <span class="icon-pics">{{ vehicle.pictures|length }}</span>
-                        </div>
-                    </div>
-                    <div class="vehicle-infos small-shrink">
-                        <h3 class="vehicle-name h3">{{ vehicle.name }}</h3>
-                        <span class="vehicle-years body-font-color">{{ vehicle.years }},  {{ vehicle.mileage|localizednumber }}km</span>
-                        <div class="vehicle-bottom block-grid full-width align-middle">
-                            <span class="vehicle-city primary-color small-12">{{ vehicle.cityName }}</span>
-                            <time class="vehicle-time black-color small-auto">{{ vehicle.createdAt|localizeddate(format = "d MMM, HH'h'mm") }}</time>
-                            {% if vehicle.isPro %}<strong class="vehicle-price small-shrink">{{ vehicle.price|localizednumber }} €</strong>{% endif %}
-                        </div>
-                    </div>
-                </a>
-                {% if removeButton %}
-                    <button type="button" id="js-remove-vehicle-selected" class="messages-vehicle-item-delete icon-remove is-block"></button>
-                {% endif %}
-            </article>
+            {{ include('front/Messages/includes/item_vehicle_selected.html.twig',{detailUrlTarget:'_blank'}) }}
         </div>
     {% endif %}
 </div>

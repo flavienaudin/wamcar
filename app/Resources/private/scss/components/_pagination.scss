@@ -6,10 +6,10 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  justify-content: center;
   width: 100%;
 
   @include breakpoint(small only) {
-    justify-content: center;
     margin-bottom: rem-calc(30);
   }
 
@@ -18,7 +18,9 @@
   > a {
     @include breakpoint(large) {
       transition: $global-transition;
-      &:hover { color: $primary-color; }
+      &:hover {
+        color: $primary-color;
+      }
     }
 
     &::before {
@@ -27,13 +29,9 @@
     }
   }
 
-
-
   /*
     Item
     ===================================== */
-
-
 
   &-item {
     display: flex;
@@ -66,17 +64,15 @@
     }
   }
 
-
   /*
      Previous
      ===================================== */
 
   &-item.previous {
     &::before {
-      transform: rotate(180deg) translate3d(#{rem-calc(1)}, 0, 0);
+      transform: translate3d(#{rem-calc(1)}, 0, 0);
     }
   }
-
 
   /*
   Next
@@ -88,4 +84,17 @@
     }
   }
 
+  /*
+  ellipsis
+  ===================================== */
+
+  &-item.ellipsis {
+    background: none;
+    width: rem-calc(20);
+    height: rem-calc(20);
+
+    &::before {
+      margin: 0;
+    }
+  }
 }

@@ -1,0 +1,22 @@
+<header class="block-grid small-12 align-middle">
+    <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
+</header>
+{% if result.totalHits > 0 %}
+    <div class="garage-container search-result-vehicle search-result-personal">
+        {% set balise = 'h2' %}
+        {% include ':front/Search/includes:list_personal.html.twig' %}
+        <br/>
+        <br/>
+    </div>
+
+    {% set search_vehicle_params = app.request.query.get('search_vehicle')|default({})|merge({'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}) %}
+    {% include 'front/Layout/includes/pagination.html.twig' with {
+        'route': 'front_search',
+        'route_params': {'search_vehicle':search_vehicle_params},
+        'page': pages[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')],
+        'lastPage': lastPage[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')]
+    } %}
+{% else %}
+    <br>
+    <p>Aucun résultat n'a été trouvé, rééssayez votre recherche.</p>
+{% endif %}

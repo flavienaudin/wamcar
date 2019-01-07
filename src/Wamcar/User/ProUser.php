@@ -6,8 +6,11 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
+use Wamcar\Location\City;
+use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
 {
@@ -17,17 +20,30 @@ class ProUser extends BaseUser
     protected $phonePro;
     /** @var  Collection */
     protected $garageMemberships;
+    /** @var  Collection */
+    protected $vehicles;
 
     /**
      * ProUser constructor.
      * @param string $email
      * @param string $firstName
      * @param string|null $name
+     * @param City|null $city
      */
-    public function __construct($email, $firstName, $name = null)
+    public function __construct($email, $firstName, $name = null, $city = null)
     {
-        parent::__construct($email, $firstName, $name);
+        parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
+    }
+
+    /**
+     * Get the main phone number or null if not given
+     * @return null|string
+     */
+    public function getMainPhoneNumber(): ?string
+    {
+        return $this->phonePro ?? $this->getPhone();
     }
 
     /**
@@ -55,11 +71,48 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @return Collection
+     */
+    public function getEnabledGarageMemberships(): Collection
+    {
+        return $this->garageMemberships->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
      * @param Collection $members
      */
     public function setGarageMemberships(Collection $members)
     {
         $this->garageMemberships = $members;
+    }
+
+    /**
+     * Return list of user's garages ordered by GoogleRating
+     * @return array
+     */
+    public function getGaragesOrderByGoogleRating(): array
+    {
+        $orderedGarages = $this->getEnabledGarageMemberships()->toArray();
+        uasort($orderedGarages, function ($gm1, $gm2) {
+            $g1gr = $gm1->getGarage()->getGoogleRating() ?? -1;
+            $g2gr = $gm2->getGarage()->getGoogleRating() ?? -1;
+            if ($g1gr == $g2gr) {
+                return 0;
+            }
+            return $g1gr < $g2gr ? 1 : -1;
+        });
+        return $orderedGarages;
+    }
+
+    /**
+     * Get garages of user
+     * @return array
+     */
+    public function getGarages(): array
+    {
+        return $this->getEnabledGarageMemberships()->map(function(GarageProUser $garageProUser){
+            return $garageProUser->getGarage();
+        })->toArray();
     }
 
     /**
@@ -85,23 +138,42 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getGarage(): ?Garage
+    public function hasGarage(): bool
     {
-        if (count($this->garageMemberships) > 0) {
-            return $this->garageMemberships[0]->getGarage();
-        }
-
-        return null;
+        return $this->numberOfGarages() > 0;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
-    public function getVehicles(): Collection
+    public function numberOfGarages(): int
     {
-        return $this->getGarage()->getProVehicles();
+        return count($this->getEnabledGarageMemberships());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection
+    {
+        $criteria = Criteria::create();
+        if ($excludedVehicle != null) {
+            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        }
+        if ($limit > 0) {
+            $criteria->setMaxResults($limit);
+        }
+        return $this->vehicles->matching($criteria);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getVehiclesOfGarage(Garage $garage): Collection
+    {
+        return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
     }
 
     /**
@@ -118,7 +190,8 @@ class ProUser extends BaseUser
      * @param BaseUser|null $user
      * @return bool
      */
-    public function canSeeMyProfile(?BaseUser $user): bool{
+    public function canSeeMyProfile(?BaseUser $user): bool
+    {
         return true;
     }
 }

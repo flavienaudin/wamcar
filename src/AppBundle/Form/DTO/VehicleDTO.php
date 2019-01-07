@@ -5,8 +5,8 @@ namespace AppBundle\Form\DTO;
 use Wamcar\Location\City;
 use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
 use Wamcar\Vehicle\Enum\SafetyTestState;
+use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -149,6 +149,14 @@ class VehicleDTO
     }
 
     /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->specifics->isUsed;
+    }
+
+    /**
      * @return int
      */
     public function getMileage(): int
@@ -157,25 +165,25 @@ class VehicleDTO
     }
 
     /**
-     * @return bool
+     * @return TimingBeltState|null
      */
-    public function isTimingBeltChanged(): bool
+    public function getTimingBeltState(): ?TimingBeltState
     {
-        return $this->specifics->isTimingBeltChanged;
+        return $this->specifics->timingBeltState;
     }
 
     /**
-     * @return SafetyTestDate
+     * @return \DateTimeInterface|null
      */
-    public function getSafetyTestDate(): SafetyTestDate
+    public function getSafetyTestDate(): ?\DateTimeInterface
     {
         return $this->specifics->safetyTestDate;
     }
 
     /**
-     * @return SafetyTestState
+     * @return SafetyTestState|null
      */
-    public function getSafetyTestState(): SafetyTestState
+    public function getSafetyTestState(): ?SafetyTestState
     {
         return $this->specifics->safetyTestState;
     }
@@ -205,25 +213,25 @@ class VehicleDTO
     }
 
     /**
-     * @return MaintenanceState
+     * @return MaintenanceState|null
      */
-    public function getMaintenanceState(): MaintenanceState
+    public function getMaintenanceState(): ?MaintenanceState
     {
         return $this->specifics->maintenanceState;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isImported(): bool
+    public function isImported(): ?bool
     {
         return $this->specifics->isImported;
     }
 
     /**
-     * @return bool
+     * @return bool|null
      */
-    public function isFirstHand(): bool
+    public function isFirstHand(): ?bool
     {
         return $this->specifics->isFirstHand;
     }
@@ -234,6 +242,14 @@ class VehicleDTO
     public function getAdditionalInformation(): ?string
     {
         return $this->specifics->additionalInformation;
+    }
+
+    /**
+     * @return City
+     */
+    public function getCity(): City
+    {
+        return $this->specifics->getCity();
     }
 
     /**
@@ -278,11 +294,16 @@ class VehicleDTO
     }
 
     /**
-     * @return City
+     * @param City|null $city
      */
-    public function getCity(): City
+    public function setCity(?City $city)
     {
-        return $this->specifics->getCity();
+        if ($city != null) {
+            $this->specifics->postalCode = $city->getPostalCode();
+            $this->specifics->cityName = $city->getName();
+            $this->specifics->longitude = $city->getLongitude();
+            $this->specifics->latitude = $city->getLatitude();
+        }
     }
 
 

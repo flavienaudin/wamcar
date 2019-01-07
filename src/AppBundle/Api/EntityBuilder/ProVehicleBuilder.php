@@ -5,9 +5,6 @@ namespace AppBundle\Api\EntityBuilder;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\Engine;
-use Wamcar\Vehicle\Enum\MaintenanceState;
-use Wamcar\Vehicle\Enum\SafetyTestDate;
-use Wamcar\Vehicle\Enum\SafetyTestState;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -28,15 +25,16 @@ class ProVehicleBuilder implements VehicleBuilder
             self::getModelVersion($vehicleDTO),
             self::getTransmissionMatch($vehicleDTO->BoiteLibelle),
             null,
-            new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'),
+            new \DateTime($vehicleDTO->Date1Mec),
+            !$vehicleDTO->Neuf,
             $vehicleDTO->Kilometrage,
             [],
-            SafetyTestDate::UNKNOWN(),
-            SafetyTestState::UNKNOWN(),
-            3,
             null,
             null,
-            MaintenanceState::UNKNOWN(),
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,
@@ -65,7 +63,8 @@ class ProVehicleBuilder implements VehicleBuilder
     {
         $vehicle->setModelVersion(self::getModelVersion($vehicleDTO));
         $vehicle->setTransmission(self::getTransmissionMatch($vehicleDTO->BoiteLibelle));
-        $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Annee . '-1-1 00:00:00'));
+        $vehicle->setRegistrationDate(new \DateTime($vehicleDTO->Date1Mec));
+        $vehicle->setIsUsed(!$vehicleDTO->Neuf);
         $vehicle->setMileage($vehicleDTO->Kilometrage);
         $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
         $vehicle->setPrice($vehicleDTO->PrixVenteTTC);
@@ -126,7 +125,7 @@ class ProVehicleBuilder implements VehicleBuilder
      */
     protected static function getTransmissionMatch(?string $label): Transmission
     {
-        if(!$label) {
+        if (!$label) {
             return Transmission::MANUAL();
         }
 

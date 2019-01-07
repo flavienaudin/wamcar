@@ -23,152 +23,151 @@
     } %}
 
     <div class="row">
-            {% if not isNew and not isUserAdmin %}
-                <p class="column small-12"><a href="{{ path('front_garage_view', {'id': app.user.garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
-            {% endif %}
+        {% if not isNew and not isUserAdmin  %}
+            <p class="column small-12"><a href="{{  path('front_garage_view', {'id': garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
+        {% endif %}
 
-            {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-            <div class="column small-12 garage-google-autocomplete input-margin">
-                <h2 class="small-12">Aide</h2>
-                <div class="small-12">
-                    <p class="small">Rechercher votre établissement sur Google Map pour renseigner automatiquement votre adresse.</p>
-                </div>
-                <div class="small-12">
-                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                        label: 'Rechercher votre établissement',
-                        label_class: 'hide',
-                        name: 'google_place',
-                        placeholder: ''
-                    } %}
-                </div>
+        {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+        <div class="column small-12 garage-google-autocomplete input-margin">
+            <h2 class="small-12">Aide</h2>
+            <div class="small-12">
+                <p class="small">Rechercher votre établissement sur Google Map pour renseigner automatiquement votre adresse.</p>
             </div>
-
-            <div class="column small-12">
-                <div class="row">
-                    <h2 class="column small-12">Coordonnées</h2>
-
-                    <div class="column small-12">
-                        {{ form_widget(garageForm.address, {
-                            'label': 'Adresse',
-                            'class': '',
-                            'required': true,
-                            'required_message': 'Veuillez indiquer votre adresse.'
-                        }) }}
-                    </div>
-                    <div class="column small-12 medium-6">
-                        {{ form_widget(garageForm.postalCode, {
-                            'label': 'Code postal',
-                            'class': '',
-                            'required': true,
-                            'required_message': 'Veuillez indiquer votre code postal.'
-                        }) }}
-                    </div>
-                    <div class="column small-12 medium-6">
-                        {{ form_widget(garageForm.cityName, {
-                            'label': 'Ville',
-                            'class': '',
-                            'required': true,
-                            'required_message': 'Veuillez indiquer votre ville.'
-                        }) }}
-                    </div>
-                    {{ form_widget(garageForm.latitude) }}
-                    {{ form_widget(garageForm.longitude) }}
-                    <div class="column small-12 medium-6">
-                        {{ form_widget(garageForm.phone, {
-                            'label': 'Téléphone',
-                            'type': 'tel',
-                            'class': 'medium-no-margin',
-                            'required': true
-                        }) }}
-                    </div>
-                </div>
+            <div class="small-12">
+                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                    label: 'Rechercher votre établissement',
+                    label_class: 'hide',
+                    name: 'google_place',
+                    placeholder: ''
+                } %}
+                {{ form_widget(garageForm.googlePlaceId) }}
+                {{ form_widget(garageForm.googleRating) }}
             </div>
-
-            <div class="column small-12">
-                <div class="separator">
-                    <div class="row small-12">
-                        <h2 class="column small-12">Société</h2>
-                        <div class="column small-12 medium-6">
-                            {{ form_widget(garageForm.name, {
-                                'label': 'Raison sociale',
-                                'class': 'medium-no-margin',
-                                'required': true,
-                                'required_message': 'Veuillez indiquer votre raison sociale.'
-                            }) }}
-                        </div>
-                        <div class="column small-12 medium-6">
-                            {{ form_widget(garageForm.siren, {
-                                'label': 'Numéro de SIREN',
-                                'class': 'small-no-margin',
-                                'required': true,
-                                'required_message': 'Veuillez indiquer votre numéro de SIREN.'
-                            }) }}
-                            {{ form_errors(garageForm.siren) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column small-12">
-                <div class="separator">
-                    <div class="row small-12">
-                        <h2 class="column small-12">Information</h2>
-                        <div class="column small-12 large-6">
-                            {{ form_widget(garageForm.presentation, {
-                                'label': 'Présentation',
-                                'class': '',
-                                'required': false
-                            }) }}
-                        </div>
-                        <div class="column small-12 large-6">
-                            {{ form_widget(garageForm.openingHours, {
-                                'label': 'Horaires d\'ouverture',
-                                'class': '',
-                                'required': false
-                            }) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/background/bg-plus.svg') }}"
-                 class="column small-12 user-form input-margin">
-                <div class="separator">
-                    <div class="row small-12">
-                        <h2 class="column small-12">Médias</h2>
-                        <div class="column small-12 medium-6">
-                            {{ form_widget(garageForm.banner, {
-                                'label': 'Bannière (1400x620px)',
-                                'required': false,
-                                'required_class': '',
-                                'classPreview': 'file-preview-garage',
-                                'imgPreview':  app.user.garage|banner('garage_mini_banner'),
-                                'defaultImage': 'garage_mini_banner'|defaultBanner
-                            }) }}
-                        </div>
-                        <div class="column small-12 medium-6">
-                            {{ form_widget(garageForm.logo, {
-                                'label': 'Logo (280x280px)',
-                                'required': false,
-                                'required_class': '',
-                                'classPreview': 'file-preview-garage',
-                                'imgPreview':  app.user.garage|logo('garage_logo'),
-                                'defaultImage': 'garage_logo'|defaultLogo
-                            }) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="column small-12">
-                <button type="submit" class="button full-width medium-5 large-4">Enregistrer mes modifications</button>
-            </div>
-            {{ form_end(garageForm) }}
         </div>
+        <div class="column small-12">
+            <div class="row">
+                <h2 class="column small-12">Coordonnées</h2>
+
+                <div class="column small-12">
+                    {{ form_widget(garageForm.address, {
+                        'label': 'Adresse',
+                        'class': '',
+                        'required': false
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6">
+                    {{ form_widget(garageForm.postalCode, {
+                        'label': 'Ville',
+                        'class': 'js-city-autocomplete',
+                        'required': true,
+                        'required_message': 'Veuillez indiquer votre ville',
+                        'attr' : {
+                            'data-placeholder': 'garage.form.field.location.placeholder'|trans,
+                            'data-autocomplete-url': path('front_city_autocomplete'),
+                            'data-city-field': garageForm.cityName.vars.id,
+                            'data-latitude-field': garageForm.latitude.vars.id,
+                            'data-longitude-field': garageForm.longitude.vars.id
+                        }
+                    }) }}
+                </div>
+                {{ form_widget(garageForm.cityName) }}
+                {{ form_widget(garageForm.latitude) }}
+                {{ form_widget(garageForm.longitude) }}
+                <div class="column small-12 medium-6">
+                    {{ form_widget(garageForm.phone, {
+                        'label': 'Téléphone',
+                        'type': 'tel',
+                        'class': 'medium-no-margin',
+                        'required': false
+                    }) }}
+                </div>
+            </div>
+        </div>
+        <div class="column small-12">
+            <div class="separator">
+                <div class="row small-12">
+                    <h2 class="column small-12">Société</h2>
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.name, {
+                            'label': 'Raison sociale',
+                            'class': 'medium-no-margin',
+                            'required': true,
+                            'required_message': 'Veuillez indiquer votre raison sociale.'
+                        }) }}
+                    </div>
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.siren, {
+                            'label': 'Numéro de SIREN',
+                            'class': 'small-no-margin',
+                            'required': false
+                        }) }}
+                        {{ form_errors(garageForm.siren) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column small-12">
+            <div class="separator">
+                <div class="row small-12">
+                    <h2 class="column small-12">Information</h2>
+                    <div class="column small-12 large-6">
+                        {{ form_widget(garageForm.presentation, {
+                            'label': 'Présentation',
+                            'class': '',
+                            'required': false
+                        }) }}
+                    </div>
+                    <div class="column small-12 large-6">
+                        {{ form_widget(garageForm.openingHours, {
+                            'label': 'Horaires d\'ouverture',
+                            'class': '',
+                            'required': false
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/background/bg-plus.svg') }}"
+             class="column small-12 user-form input-margin">
+            <div class="separator">
+                <div class="row small-12">
+                    <h2 class="column small-12">Médias</h2>
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.banner, {
+                            'label': 'Bannière (1400x620px)',
+                            'required': false,
+                            'required_class': '',
+                            'classPreview': 'file-preview-garage',
+                            'imgPreview':  garage|banner('garage_mini_banner'),
+                            'defaultImage': 'garage_mini_banner'|defaultBanner
+                        }) }}
+                    </div>
+                    <div class="column small-12 medium-6">
+                        {{ form_widget(garageForm.logo, {
+                            'label': 'Logo (280x280px)',
+                            'required': false,
+                            'required_class': '',
+                            'classPreview': 'file-preview-garage',
+                            'imgPreview':  garage|logo('garage_logo'),
+                            'defaultImage': 'garage_logo'|defaultLogo
+                        }) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column small-12">
+            <div class="separator">
+                <h2>{{ 'garage.form.auto_vehicles_import_request.title'|trans }}</h2>
+                <p class="black-color">{{ 'garage.form.auto_vehicles_import_request.presentation'|trans({'%ubiflow_form_url%':typeform_ubiflow_request})|raw }}</p>
+            </div>
+        </div><div class="column small-12">
+            <button type="submit" class="button full-width medium-5 large-4">Enregistrer mes modifications</button>
+        </div>
+        {{ form_end(garageForm) }}
     </div>
 {% endblock body %}
 
 {% block javascripts %}
-    <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}"
-            async defer></script>
     <script>
       let autocomplete;
 
@@ -187,7 +186,7 @@
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
-        $(autocompleteInputField).on('keypress', (e) => {
+        autocompleteInputField.addEventListener('keypress', (e) => {
           if (e.keyCode === 13) {
             return false;
           }
@@ -200,7 +199,7 @@
 
           {# Google Place Id#}
         document.getElementById('{{ garageForm.googlePlaceId.vars.id }}').value = place.place_id;
-        if(place.hasOwnProperty('rating')) {
+        if (place.hasOwnProperty('rating')) {
           document.getElementById('{{ garageForm.googleRating.vars.id }}').value = place.rating;
         }
 
@@ -218,13 +217,18 @@
               codePostal = place.address_components[i]['short_name'];
               break;
             case 'locality':
-              cityName = place.address_components[i]['short_name'];
+              cityName = (place.address_components[i]['short_name']).toUpperCase();
               break;
           }
         }
         document.getElementById('{{ garageForm.cityName.vars.id }}').value = cityName;
-        document.getElementById('{{ garageForm.postalCode.vars.id }}').value = codePostal;
         document.getElementById('{{ garageForm.address.vars.id }}').value = address;
+
+        let newOption = new Option(cityName + ' ('+ codePostal + ')', codePostal, true, true);
+        $('#{{ garageForm.postalCode.vars.id }}').val(null);
+        $('#{{ garageForm.postalCode.vars.id }}').append(newOption).trigger('change');
+
+
           {# Latitude/Longitude#}
         if (place.hasOwnProperty('geometry')) {
           document.getElementById('{{ garageForm.latitude.vars.id }}').value = place.geometry.location.lat();
@@ -232,17 +236,18 @@
         }
           {# Name #}
         let nameField = document.getElementById('{{ garageForm.name.vars.id }}');
-        if (nameField.value === '' && place.hasOwnProperty('name')) {
+        if (place.hasOwnProperty('name')) {
           nameField.value = place.name;
         }
           {# Phone #}
         let phoneField = document.getElementById('{{ garageForm.phone.vars.id }}');
-        if (phoneField.value === '' && place.hasOwnProperty('formatted_phone_number')) {
+        if (place.hasOwnProperty('formatted_phone_number')) {
           phoneField.value = place.formatted_phone_number.replace(/ /g, '');
         }
+
           {# Opening hours #}
         let openingHOursField = document.getElementById('{{ garageForm.openingHours.vars.id }}');
-        if (openingHOursField.value === '' && place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
+        if (place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
           let openingHours = '';
           for (let i = 0; i < place.opening_hours.weekday_text.length; i++) {
             openingHours += place.opening_hours.weekday_text[i] + '\n';
@@ -250,6 +255,8 @@
           openingHOursField.value = openingHours;
         }
       }
-
     </script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key={{ google_api_client_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}"
+            defer async></script>
 {% endblock javascripts %}

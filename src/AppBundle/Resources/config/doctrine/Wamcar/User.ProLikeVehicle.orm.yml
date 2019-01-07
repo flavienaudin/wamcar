@@ -1,0 +1,12 @@
+Wamcar\User\ProLikeVehicle:
+    type: entity
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository
+
+    manyToOne:
+        vehicle:
+            targetEntity: Wamcar\Vehicle\ProVehicle
+            inversedBy: likes
+            joinColumn:
+                name: vehicle_id
+                referencedColumnName: id
+                nullable: false

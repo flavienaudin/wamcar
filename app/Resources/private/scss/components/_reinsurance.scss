@@ -44,6 +44,7 @@
             }
         }
     } // End &-container
+
     /*
     Item
     ===================================== */
@@ -106,6 +107,10 @@
                 padding-right: rem-calc(10);
                 padding-left: rem-calc(15);
             }
+        }
+
+        &-body {
+            text-align: justify;
         }
     } // End &-wamcar
     /*
@@ -176,6 +181,7 @@
     &-video-button {
         padding-right: rem-calc(20);
         padding-left: rem-calc(20);
+        font-weight: bold;
         @include breakpoint(small only) {
             margin-top: rem-calc(10);
         }

@@ -18,6 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectVehicleType extends AbstractType
 {
+    /** @var array */
+    private $preferredMakes;
+
+    public function __construct($preferredMakes = [])
+    {
+        $this->preferredMakes = $preferredMakes;
+    }
 
     /**
      * {@inheritdoc}
@@ -38,6 +45,9 @@ class ProjectVehicleType extends AbstractType
             ->add('id', HiddenType::class)
             ->add('make', ChoiceType::class, [
                 'choices' => $makes,
+                'preferred_choices' => function($val, $key) {
+                    return in_array($key, $this->preferredMakes);
+                },
                 'placeholder' => count($makes) === 1 ? false : '',
                 'error_bubbling' => true,
             ])
@@ -78,12 +88,13 @@ class ProjectVehicleType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setRequired('available_makes');
+        $resolver->setRequired('available_models');
+
         $resolver->setDefaults([
             'data_class' => ProjectVehicleDTO::class,
             'translation_domain' => 'user',
             'label_format' => 'user.field.%name%.label'
         ]);
-        $resolver->setRequired('available_makes');
-        $resolver->setRequired('available_models');
     }
 }

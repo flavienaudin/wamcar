@@ -3,20 +3,25 @@
 namespace AppBundle\Doctrine\Entity;
 
 use AppBundle\Security\HasPasswordResettable;
-use AppBundle\Security\SecurityInterface\HasApiCredential;
-use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Mgilet\NotificationBundle\Annotation\Notifiable;
+use Mgilet\NotificationBundle\NotifiableInterface;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
+use Wamcar\Location\City;
 use Wamcar\User\ProUser;
 
-class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, HasApiCredential, CanBeInConversation
+/**
+ * Class ProApplicationUser
+ * @package AppBundle\Doctrine\Entity
+ * @Notifiable(name="ProApplicationUser")
+ */
+class ProApplicationUser extends ProUser implements \Serializable, ApplicationUser, HasPasswordResettable, CanBeGarageMember, CanBeInConversation, NotifiableInterface
 {
     use ApplicationUserTrait;
     use PasswordResettableTrait;
-    use ApiCredentialTrait;
 
     /** @var  string */
     protected $role;
@@ -29,6 +34,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      * @param string $role
      * @param string $firstName
      * @param string|null $name
+     * @param City|null $city
      */
     public function __construct(
         string $email,
@@ -36,15 +42,15 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
         string $salt,
         string $firstName,
         string $name = null,
-        string $role = null
+        string $role = null,
+        City $city = null
     )
     {
-        parent::__construct($email, $firstName, $name);
+        parent::__construct($email, $firstName, $name, $city);
 
         $this->password = $password;
         $this->salt = $salt;
         $this->role = $role ?? 'ROLE_PRO';
-        $this->generateApiCredentials();
     }
 
     /**
@@ -70,8 +76,8 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function getMembershipByGarage(Garage $garage): ?GarageProUser
     {
         /** @var GarageProUser $member */
-        foreach ($garage->getMembers() as $member) {
-            if ($member->getProUser() === $this) {
+        foreach ($this->getGarageMemberships() as $member) {
+            if ($member->getGarage() === $garage) {
                 return $member;
             }
         }
@@ -81,10 +87,37 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
 
     /**
      * @param Garage $garage
+     * @param bool $includePending
      * @return bool
      */
-    public function isMemberOfGarage(Garage $garage): bool
+    public function isMemberOfGarage(Garage $garage, bool $includePending = false): bool
     {
-        return null !== $this->getMembershipByGarage($garage);
+        if ($includePending) {
+            $memberShips = $this->getGarageMemberships();
+        } else {
+            $memberShips = $this->getEnabledGarageMemberships();
+        }
+        /** @var GarageProUser $garageMembership */
+        foreach ($memberShips as $garageMembership) {
+            if ($garageMembership->getGarage() === $garage) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param Garage $garage
+     * @return bool
+     */
+    public function isAdministratorOfGarage(Garage $garage): bool
+    {
+        /** @var GarageProUser $garageMembership */
+        foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
+            if ($garageMembership->getGarage() === $garage) {
+                return GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole());
+            }
+        }
+        return false;
     }
 }

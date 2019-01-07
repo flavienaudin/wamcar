@@ -1,213 +1,551 @@
 {% extends 'front/Layout/static.html.twig' %}
+{% trans_default_domain "static_pages" %}
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}Conditions générales d'utilisation{% endblock %}
+{% block title %}{{ 'cgu.title'|trans }}{% endblock %}
 
 {% block staticBody %}
+    <section class="row">
+        <div class="column">
+            <h2>1. DEFINITIONS</h2>
+            <h3>PLATEFORME</h3>
+            <p>Désigne la plateforme de mise en relation entre professionnels du secteur de l'automobile et particuliers
+                développée par {{ site_name }}, hébergée en France et accessible sur le site Internet de {{ site_name }}, à l'adresse <a
+                        href="https://www.wamcar.com" class="text-underline">www.wamcar.com</a> ou sur la téléphonie mobile,
+                tablette ou ordinateur, via application ou tout logiciel dédié.</p>
 
-    <h2>1. DEFINITIONS</h2>
-    <h3>PLATEFORME</h3>
-    <p>Désigne la plateforme de mise en relation entre professionnels du secteur de l’automobile et particuliers développée par WAMCAR, hébergée en France et accessible sur le site Internet de WAMCAR, à l’adresse <a href="http://www.wamcar.com" class="text-underline">wamcar.com</a> ou sur la téléphonie mobile, tablette ou ordinateur, via application ou tout logiciel dédié.</p>
+            <h3>UTILISATEUR</h3>
+            <p>Désigne toute personne utilisant ou qui a utilisé la Plateforme et/ou les Services, en ce notamment
+                compris, les visiteurs de la Plateforme.</p>
 
-    <h3>UTILISATEUR</h3>
-    <p>Désigne toute personne utilisant ou qui a utilisé la Plateforme et/ou les Services, en ce notamment compris, les visiteurs de la Plateforme.</p>
+            <h3>SERVICES</h3>
+            <p>Désignent les services complémentaires à la Plateforme, proposés par {{ site_name }} aux Utilisateurs. Les
+                Services sont plus particulièrement décrits ci-après et sont repris, dans leur intégralité, sur la
+                Plateforme.</p>
 
-    <h3>SERVICES</h3>
-    <p>Désignent les services complémentaires à la Plateforme, proposés par WAMCAR aux Utilisateurs. Les Services sont plus particulièrement décrits ci-après et sont repris, dans leur intégralité, sur la Plateforme.</p>
+            <h3>DONNEES</h3>
+            <p>Désignent l'ensemble des données brutes, telles que, mais sans s'y limiter, toute information, listings,
+                protocoles, études, fiches profils, images, vidéographies, dossiers, rapports, états, chartes,
+                graphiques, essais, documents, résultats, etc., susceptibles d'être utilisées par {{ site_name }}, dans le cadre
+                de l'utilisation de la Plateforme, par l'Utilisateur, ainsi que toute information mise en ligne sur
+                ladite Plateforme, directement comme indirectement, par {{ site_name }}.</p>
 
-    <h3>DONNEES</h3>
-    <p>Désignent l’ensemble des données brutes, telles que, mais sans s’y limiter, toute information, listings, protocoles, études, fiches profils, images, vidéographies, dossiers, rapports, états, chartes, graphiques, essais, documents, résultats, etc., susceptibles d’être utilisées par WAMCAR, dans le cadre de l’utilisation de la Plateforme, par l’Utilisateur, ainsi que toute information mise en ligne sur ladite Plateforme, directement comme indirectement, par WAMCAR.</p>
+            <h2>2. OBJET ET FORCE OBLIGATOIRE DES PRESENTES CONDITIONS GENERALES D'UTILISATION</h2>
+            <p>Les présentes conditions générales d'utilisation (&laquo;&nbsp;CGU&nbsp;&raquo;) constituent DES DISPOSITIONS CONTRACTUELLES
+                OBLIGATOIRES. ELLES DEFINISSENT LES CONDITIONS DANS LESQUELLES {{ site_name }} PERMET AUX UTILISATEURS
+                D'UTILISER, EN TOUT OU PARTIE, LA PLATEFORME ET/OU LES SERVICES.</p>
+            <p>MERCI DE LIRE TRES ATTENTIVEMENT LES PRESENTES CGU AVANT TOUTE UTILISATION DE LA PLATEFORME.</p>
+            <p>EN UTILISANT LA PLATEFORME OU LES SERVICES, VOUS ACCEPTEZ D'ETRE LIES PAR LES PRESENTES CGU.</p>
+            <p>NOTEZ QUE SI VOUS N'ÊTES PAS D'ACCORD AVEC TOUT OU PARTIE DE CES CGU, IL VOUS APPARTIENT DE NE PAS ENTRER
+                DANS LA PLATEFORME, DE NE PAS L'UTILISER ET DE CESSER TOUTE UTILISATION DES SERVICES.</p>
+            <p>Tout Utilisateur est réputé avoir pris connaissance des CGU et en avoir conservé un exemplaire. A ce
+                titre, {{ site_name }} recommande à l'Utilisateur de lire attentivement les présentes CGU, d'en imprimer un
+                exemplaire et de le conserver.</p>
+            <p>La Plateforme est la propriété exclusive de {{ site_name }}. Aucune disposition des présentes CGU ne saurait
+                impliquer un quelconque transfert de l'un quelconque des droits de propriété ou d'exploitation de {{ site_name }}
+                sur la Plateforme.</p>
 
-    <h2>2. OBJET ET FORCE OBLIGATOIRE DES PRESENTES CONDITIONS GENERALES D’UTILISATION</h2>
-    <p>Les présentes conditions générales d’utilisation (« CGU ») constituent DES DISPOSITIONS CONTRACTUELLES OBLIGATOIRES. ELLES DEFINISSENT LES CONDITIONS DANS LESQUELLES WAMCAR PERMET AUX UTILISATEURS D’UTILISER, EN TOUT OU PARTIE, LA PLATEFORME ET/OU LES SERVICES.</p>
-    <p>MERCI DE LIRE TRES ATTENTIVEMENT LES PRESENTES CGU AVANT TOUTE UTILISATION DE LA PLATEFORME.</p>
-    <p>EN UTILISANT LA PLATEFORME OU LES SERVICES, VOUS ACCEPTEZ D’ETRE LIES PAR LES PRESENTES CGU.</p>
-    <p>NOTEZ QUE SI VOUS N’ÊTES PAS D’ACCORD AVEC TOUT OU PARTIE DE CES CGU, IL VOUS APPARTIENT DE NE PAS ENTRER DANS LA PLATEFORME, DE NE PAS L’UTILISER ET DE CESSER TOUTE UTILISATION DES SERVICES.</p>
-    <p>Tout Utilisateur est réputé avoir pris connaissance des CGU et en avoir conservé un exemplaire. A ce titre, WAMCAR recommande à l’Utilisateur de lire attentivement les présentes CGU, d’en imprimer un exemplaire et de le conserver.</p>
-    <p>La Plateforme est la propriété exclusive de WAMCAR. Aucune disposition des présentes CGU ne saurait impliquer un quelconque transfert de l’un quelconque des droits de propriété ou d’exploitation de WAMCAR sur la Plateforme.</p>
+            <h2>3. CONDITIONS D'ACCES ET D'INSCRIPTION</h2>
+            <p>3.1. Les Utilisateurs doivent être âgés d'au moins 18 ans s'il s'agit de personnes physiques ou être
+                régulièrement immatriculés s'il s'agit de personnes morales.</p>
+            <p>Les Utilisateurs reconnaissent disposer des compétences et des équipements (ordinateur, logiciel, moyen
+                de télécommunication) nécessaire à l'accès à la Plateforme et à son utilisation, ainsi qu'aux Services,
+                et devront, en conséquence, assumer personnellement l'ensemble des coûts liés à ces équipements (coûts
+                de télécommunication notamment, etc.).</p>
+            <p>3.2. L'inscription en qualité d'Utilisateur est nécessaire afin d'accéder à l'ensemble des
+                fonctionnalités de la Plateforme et aux Services.</p>
+            <p>L'Utilisateur doit ainsi préalablement compléter le formulaire d'inscription figurant sur la Plateforme
+                et notamment, avoir rempli l'ensemble des champs obligatoires concernant ses informations
+                d'identification (nom, prénom, date de naissance, lieu de naissance, nationalité, lieu de résidence ou
+                en cas d'entreprise, numéro d'identification SIRET, forme sociale, capital, siège social, numéro
+                d'immatriculation au registre du commerce et des sociétés, représentant légal, etc.). SEULES LES
+                PERSONNES PHYSIQUES ET MORALES RESPECTANT CETTE PROCEDURE SERONT REGULIEREMENT INSCRITES SUR LA
+                PLATEFORME ET POURRONT Y ACCEDER INTEGRALEMENT, DE MEME QU'AUX SERVICES, SAUF ACCORD EXPRES CONTRAIRE DE
+                {{ site_name }}.</p>
+            <p class="no-margin">Dans ce contexte, les Utilisateurs déclarent et garantissent que :</p>
+            <ul>
+                <li>toute information fournie dans le cadre de la procédure d'inscription et de création de compte est
+                    complète, exacte et précise,
+                </li>
+                <li>que lesdites informations resteront complètes, authentiques et exactes,</li>
+                <li>son utilisation de la Plateforme et, le cas échéant, des Services, ne contrevient pas et ne
+                    contreviendra pas à l'ordre public, aux bonnes moeurs, aux lois et aux règlements
+                </li>
+            </ul>
+            <p>Une fois la procédure d'inscription complétée, un identifiant et un mot de passe seront transmis à
+                l'Utilisateur, lui permettant d'accéder, sur la Plateforme, à son compte. CET IDENTIFIANT ET CE MOT DE
+                PASSE SONT PERSONNELS A L'UTILISATEUR. Ils seront requis pour se connecter à la Plateforme et avoir
+                accès aux Services. Les Utilisateurs sont seuls responsables de l'utilisation de leurs comptes. A ce
+                titre, {{ site_name }} recommande fortement aux Utilisateurs d'éviter d'utiliser la Plateforme et/ou les
+                Services, via un portail captif communautaire et de toujours veiller à avoir clôturé leur session avant
+                de quitter un poste.</p>
+            <p>{{ site_name }} sera fondée à désactiver et/ou à supprimer tout compte pour lequel, après avoir demandé des
+                explications de l'Utilisateur, les informations fournies ne s'avèreraient pas complètes, exactes ou
+                précises.</p>
+            <p>3.3. Chaque Utilisateur s'engage à ne jamais utiliser le compte, l'identifiant ou le mot de passe d'un
+                autre Utilisateur. Les Utilisateurs devront informer {{ site_name }} de toute suspicion ou utilisation non
+                autorisée de leurs comptes ou en cas d'accès frauduleux à leurs mots de passe.</p>
+            <p>3.4. Aucun Utilisateur n'est autorisé à créer plus d'un compte sur la Plateforme.</p>
+            <p>3.5. OFFRIR UNE AGREABLE UTILISATION DE LA PLATEFORME PEUT NECESSITER QUE {{ site_name }} AIT BESOIN, NOTAMMENT,
+                DE CORRIGER D'EVENTUELS BUGS, D'INSTALLER DES MISES A JOUR OU ENCORE DE FAIRE TOUT DIAGNOSTIC OU TOUTE
+                MAINTENANCE DE LA PLATEFORME ET/OU DES SERVICES, QUI SONT SUSCEPTIBLES DE RENDRE MOINS ACCESSIBLES OU
+                INDISPONIBLE, POUR LES UTILISATEURS, PENDANT UNE DUREE DETERMINEE, L'INTERFACE DE LA PLATEFORME, LES
+                SERVICES ET/OU TOUT OU PARTIE DE LEURS FONCTIONNALITES. AUCUNE RESPONSABILITE DE {{ site_name }} NE SERAIT
+                DEDUITE DE TOUTE SUSPENSION OU INDISPONIBILITE DE LA PLATEFORME ET/OU DES SERVICES, EN TOTALITE OU EN
+                PARTIE.</p>
+            <p>{{ site_name }} DOIT EGALEMENT POUVOIR INTERVENIR EN URGENCE OU SUSPENDRE L'ACCES AUX SERVEURS DANS LES CAS OU
+                ELLE L'ESTIMERAIT NECESSAIRE. {{ site_name }} FERA SES MEILLEURS EFFORTS POUR QUE LA PLATEFORME ET/OU LES
+                SERVICES SOIENT DISPONIBLES A NOUVEAU, DANS LES MEILLEURS DELAIS, {{ site_name }} ETANT DANS TOUS LES CAS TENUE
+                PAR UNE OBLIGATION DE MOYENS.</p>
+            <p>{{ site_name }} POURRA RENONCER, MODIFIER OU SUPPRIMER LA PLATEFORME ET/OU TOUT OU PARTIE DES SERVICES SANS
+                ENGAGER SA RESPONSABILITE, APRES INFORMATION DES UTILISATEURS.</p>
 
-    <h2>3. CONDITIONS D’ACCES ET D’INSCRIPTION</h2>
-    <p>3.1. Les Utilisateurs doivent être âgés d’au moins 18 ans s’il s’agit de personnes physiques ou être régulièrement immatriculés s’il s’agit de personnes morales.</p>
-    <p>Les Utilisateurs reconnaissent disposer des compétences et des équipements (ordinateur, logiciel, moyen de télécommunication) nécessaire à l’accès à la Plateforme et à son utilisation, ainsi qu’aux Services, et devront, en conséquence, assumer personnellement l’ensemble des coûts liés à ces équipements (coûts de télécommunication notamment, etc.).</p>
-    <p>3.2. L’inscription en qualité d’Utilisateur est nécessaire afin d’accéder à l’ensemble des fonctionnalités de la Plateforme et aux Services.</p>
-    <p>L’Utilisateur doit ainsi préalablement compléter le formulaire d’inscription figurant sur la Plateforme et notamment, avoir rempli l’ensemble des champs obligatoires concernant ses informations d’identification (nom, prénom, date de naissance, lieu de naissance, nationalité, lieu de résidence ou en cas d’entreprise, numéro d’identification SIRET, forme sociale, capital, siège social, numéro d’immatriculation au registre du commerce et des sociétés, représentant légal, etc.). SEULES LES PERSONNES PHYSIQUES ET MORALES RESPECTANT CETTE PROCEDURE SERONT REGULIEREMENT INSCRITES SUR LA PLATEFORME ET POURRONT Y ACCEDER INTEGRALEMENT, DE MEME QU’AUX SERVICES, SAUF ACCORD EXPRES CONTRAIRE DE WAMCAR.</p>
-    <p>Dans ce contexte, les Utilisateurs déclarent et garantissent que :</p>
-    <ul>
-        <li>toute information fournie dans le cadre de la procédure d’inscription et de création de compte est complète, exacte et précise,</li>
-        <li>que lesdites informations resteront complètes, authentiques et exactes,</li>
-        <li>son utilisation de la Plateforme et, le cas échéant, des Services, ne contrevient pas et ne contreviendra pas à l’ordre public, aux bonnes moeurs, aux lois et aux règlements</li>
-    </ul>
-    <p>Une fois la procédure d’inscription complétée, un identifiant et un mot de passe seront transmis à l’Utilisateur, lui permettant d’accéder, sur la Plateforme, à son compte. CET IDENTIFIANT ET CE MOT DE PASSE SONT PERSONNELS A L’UTILISATEUR. Ils seront requis pour se connecter à la Plateforme et avoir accès aux Services. Les Utilisateurs sont seuls responsables de l’utilisation de leurs comptes. A ce titre, WAMCAR recommande fortement aux Utilisateurs d’éviter d’utiliser la Plateforme et/ou les Services, via un portail captif communautaire et de toujours veiller à avoir clôturé leur session avant de quitter un poste.</p>
-    <p>WAMCAR sera fondée à désactiver et/ou à supprimer tout compte pour lequel, après avoir demandé des explications de l’Utilisateur, les informations fournies ne s’avèreraient pas complètes, exactes ou précises.</p>
-    <p>3.3. Chaque Utilisateur s’engage à ne jamais utiliser le compte, l’identifiant ou le mot de passe d’un autre Utilisateur. Les Utilisateurs devront informer WAMCAR de toute suspicion ou utilisation non autorisée de leurs comptes ou en cas d’accès frauduleux à leurs mots de passe.</p>
-    <p>3.4. Aucun Utilisateur n’est autorisé à créer plus d’un compte sur la Plateforme.</p>
-    <p>3.5. OFFRIR UNE AGREABLE UTILISATION DE LA PLATEFORME PEUT NECESSITER QUE WAMCAR AIT BESOIN, NOTAMMENT, DE CORRIGER D’EVENTUELS BUGS, D’INSTALLER DES MISES A JOUR OU ENCORE DE FAIRE TOUT DIAGNOSTIC OU TOUTE MAINTENANCE DE LA PLATEFORME ET/OU DES SERVICES, QUI SONT SUSCEPTIBLES DE RENDRE MOINS ACCESSIBLES OU INDISPONIBLE, POUR LES UTILISATEURS, PENDANT UNE DUREE DETERMINEE, L’INTERFACE DE LA PLATEFORME, LES SERVICES ET/OU TOUT OU PARTIE DE LEURS FONCTIONNALITES. AUCUNE RESPONSABILITE DE WAMCAR NE SERAIT DEDUITE DE TOUTE SUSPENSION OU INDISPONIBILITE DE LA PLATEFORME ET/OU DES SERVICES, EN TOTALITE OU EN PARTIE.</p>
-    <p>WAMCAR DOIT EGALEMENT POUVOIR INTERVENIR EN URGENCE OU SUSPENDRE L’ACCES AUX SERVEURS DANS LES CAS OU ELLE L’ESTIMERAIT NECESSAIRE. WAMCAR FERA SES MEILLEURS EFFORTS POUR QUE LA PLATEFORME ET/OU LES SERVICES SOIENT DISPONIBLES A NOUVEAU, DANS LES MEILLEURS DELAIS, WAMCAR ETANT DANS TOUS LES CAS TENUE PAR UNE OBLIGATION DE MOYENS.</p>
-    <p>WAMCAR POURRA RENONCER, MODIFIER OU SUPPRIMER LA PLATEFORME ET/OU TOUT OU PARTIE DES SERVICES SANS ENGAGER SA RESPONSABILITE, APRES INFORMATION DES UTILISATEURS.</p>
+            <h2>4. FONCTIONNEMENT DE LA PLATEFORME ET DES SERVICES</h2>
+            <p class="no-margin">LA PLATEFORME ET LES SERVICES SONT FOURNIS EN L'ETAT ET DANS LA MESURE DES POSSIBILITES TECHNIQUES. EN
+                CONSEQUENCE, CHAQUE UTILISATEUR RECONNAIT QUE :</p>
+            <ul>
+                <li>{{ site_name }} NE GARANTIT PAS QUE LA PLATEFORME OU LES SERVICES FONCTIONNERONT SANS INTERRUPTION, NI ERREUR
+                    DE FONCTIONNEMENT, PAS PLUS QU'ELLE NE GARANTIT LA SECURITE ET LA QUALITE DE LA PLATEFORME OU DES
+                    SERVICES,
+                </li>
+                <li>{{ site_name }} N'EXERCE AUCUN CONTROLE NI SURVEILLANCE SUR LES CONTENUS ECHANGES ET MIS EN LIGNE ET NE PEUT
+                    ETRE TENUE POUR RESPONSABLE A CE TITRE,
+                </li>
+                <li>{{ site_name }} N'EXERCE AUCUN CONTROLE SUR L'UTILISATION DES SERVICES ; EN CONSEQUENCE DE QUOI, {{ site_name }} NE
+                    POURRA EN AUCUN CAS ETRE TENUE POUR RESPONSABLE DE LA SUPPRESSION DE DONNEES OU DE TOUT AUTRE
+                    RESULTAT OBTENU PAR L'UTILISATION DES SERVICES,
+                </li>
+                <li>{{ site_name }} NE PEUT EN AUCUN CAS ETRE TENUE POUR RESPONSABLE POUR TOUTE PERTE DE DONNEES AINSI QUE POUR
+                    TOUTE UTILISATION IRREGULIERE OU NON AUTORISEE DES CONTENUS STOCKES ET DIVULGUES PAR L'INTERMEDIAIRE
+                    DE LA PLATEFORME,
+                </li>
+                <li>{{ site_name }} NE PEUT EN AUCUN CAS ETRE TENUE RESPONSABLE DES DOMMAGES QUELS QU'ILS SOIENT, DIRECTS OU
+                    INDIRECTS, CORPORELS OU INCORPORELS, DECOULANT DE L'UTILISATION DES SERVICES PAR LES UTILISATEURS
+                    VIA LA PLATEFORME,
+                </li>
+                <li>PLUS GENERALEMENT, {{ site_name }} NE PEUT GARANTIR ET NE PROMET AUCUN RESULTAT PARTICULIER DE L'UTILISATION
+                    DE LA PLATEFORME, PAS PLUS QU'ELLE NE PEUT GARANTIR L'UTILISATEUR CONTRE LES RISQUES INHERENTS A
+                    L'UTILISATION DES SERVICES.
+                </li>
+            </ul>
 
-    <h2>4. FONCTIONNEMENT DE LA PLATEFORME ET DES SERVICES</h2>
-    <p>LA PLATEFORME ET LES SERVICES SONT FOURNIS EN L’ETAT ET DANS LA MESURE DES POSSIBILITES TECHNIQUES. EN CONSEQUENCE, CHAQUE UTILISATEUR RECONNAIT QUE :</p>
-    <ul>
-        <li>WAMCAR NE GARANTIT PAS QUE LA PLATEFORME OU LES SERVICES FONCTIONNERONT SANS INTERRUPTION, NI ERREUR DE FONCTIONNEMENT, PAS PLUS QU’ELLE NE GARANTIT LA SECURITE ET LA QUALITE DE LA PLATEFORME OU DES SERVICES,</li>
-        <li>WAMCAR N’EXERCE AUCUN CONTROLE NI SURVEILLANCE SUR LES CONTENUS ECHANGES ET MIS EN LIGNE ET NE PEUT ETRE TENUE POUR RESPONSABLE A CE TITRE,</li>
-        <li>WAMCAR N’EXERCE AUCUN CONTROLE SUR L’UTILISATION DES SERVICES ; EN CONSEQUENCE DE QUOI, WAMCAR NE POURRA EN AUCUN CAS ETRE TENUE POUR RESPONSABLE DE LA SUPPRESSION DE DONNEES OU DE TOUT AUTRE RESULTAT OBTENU PAR L’UTILISATION DES SERVICES,</li>
-        <li>WAMCAR NE PEUT EN AUCUN CAS ETRE TENUE POUR RESPONSABLE POUR TOUTE PERTE DE DONNEES AINSI QUE POUR TOUTE UTILISATION IRREGULIERE OU NON AUTORISEE DES CONTENUS STOCKES ET DIVULGUES PAR L’INTERMEDIAIRE DE LA PLATEFORME,</li>
-        <li>WAMCAR NE PEUT EN AUCUN CAS ETRE TENUE RESPONSABLE DES DOMMAGES QUELS QU’ILS SOIENT, DIRECTS OU INDIRECTS, CORPORELS OU INCORPORELS, DECOULANT DE L’UTILISATION DES SERVICES PAR LES UTILISATEURS VIA LA PLATEFORME,</li>
-        <li>PLUS GENERALEMENT, WAMCAR NE PEUT GARANTIR ET NE PROMET AUCUN RESULTAT PARTICULIER DE L’UTILISATION DE LA PLATEFORME, PAS PLUS QU’ELLE NE PEUT GARANTIR L’UTILISATEUR CONTRE LES RISQUES INHERENTS A L’UTILISATION DES SERVICES.</li>
-    </ul>
+            <h2>5. RESPONSABILITES</h2>
+            <p>EN AUCUN CAS, {{ site_name }}, SES DIRIGEANTS, ACTIONNAIRES, ADMINISTRATEURS OU PERSONNEL, NE PEUVENT ETRE
+                RESPONSABLES OU MIS EN CAUSE PAR L'UN QUELCONQUE DES UTILISATEURS OU TOUTE AUTRE PERSONNE AFFECTEE PAR
+                LA PLATEFORME ET/OU LES SERVICES, DE TOUT DOMMAGE, Y COMPRIS, SANS LIMITATION, LES DOMMAGES DIRECTS
+                COMME INDIRECTS, DOMMAGES SPECIAUX, PUNITIFS OU DECOULANT DE L'UTILISATION DE LA PLATEFORME ET/OU DES
+                SERVICES, OU TOUT AUTRE DOMMAGE PROVENANT DE:</p>
+            <ul>
+                <li>(I) L'INDISPONIBILITE DE LA PLATEFORME ET/OU DES SERVICES OU</li>
+                <li>(II) TOUTE DIFFICULTE TECHNIQUE AFFECTANT LA PLATEFORME ET/OU LES SERVIVES OU</li>
+                <li>(III) INCAPACITE D'UTILISER, EN TOTALITE OU EN PARTIE, LA PLATEFORME ET/OU LES SERVICES OU</li>
+                <li>(IV) (IV) TOUTES ERREURS, INADAPTATIONS, OUBLIS, DEFAUTS, FAILLES SECURITAIRES ; OU</li>
+                <li>(V) ACCES NON AUTORISE OU ALTERE A LA PLATEFORME ET/OU AUX SERVICES, AINSI QU'A LEURS RESULTATS,
+                    OU
+                </li>
+                <li>(VI) TOUTE AUTRE INCAPACITE DE {{ site_name }}, MEME SI {{ site_name }} A ETE ALERTEE DE LA POSSIBILITE DE TELS
+                    DOMMAGES, ET CE, QUELQUE SOIT LA FORME DE L'ACTION INTENTEE (EXECUTION CONTRAT, ACTION CIVILE OU
+                    AUTRE), OU
+                </li>
+                <li>(VII) L'USAGE DES DONNEES RESULTANT DE L'UTILISATION DE LA PLATEFORME ET/OU DES SERVICES. SI
+                    L'UTILISATEUR N'EST PAS SATISFAIT DE LA PLATEFORME ET/OU DES SERVICES, OU N'EST PAS OU PLUS D'ACCORD
+                    AVEC LES PRESENTES CGU, SON RECOURS EST DE CESSER SANS DELAI L'UTILISATION DE LA PLATEFORME ET/OU
+                    DES SERVICES ET DE DEMANDER LA RESILIATION DE SON COMPTE. DANS LE CAS OU CERTAINES JURIDICTIONS NE
+                    RECONNAITRAIENT PAS LES EXCLUSIONS OU LIMITATIONS DE RESPONSABILITE POUR LES DOMMAGES CONSECUTIFS A
+                    L'UTILISATION DE LA PLATEFORME ET/OU AUX SERVICES, LES EXCLUSIONS CI-AVANT NE S'APPLIQUERONT PAS A
+                    L'UTILISATEUR DEVANT CES JURIDICTIONS.
+                </li>
+            </ul>
+            <p>L'UTILISATEUR ACCEPTE DE SURCOIT QUE {{ site_name }} NE SOIT PAS RESPONSABLE, ET NE POURRA ETRE TENUE RESPONSABLE
+                ENVERS LUI, POUR TOUTE INFORMATION RENDUE PUBLIQUE DE PART L'UTILISATION DE LA PLATEFORME ET/OU DES
+                SERVICES ET NOTAMMENT EN CAS D'INFORMATION FAUSSE, INCOMPLETE, INEXACTE OU ILLICITE DES DONNEES DE
+                L'UTILISATEUR. EN OUTRE, {{ site_name }} N'EST PAS RESPONSABLE DES PLAINTES OU DEMANDES RESULTANT DE
+                L'UTILISATION, PAR L'UTILISATEUR, DE LA PLATEFORME ET/OU DES SERVICES, D'UNE VIOLATION DE L'UNE
+                QUELCONQUE DES DISPOSITIONS DES PRESENTES CGU, INCLUANT NOTAMMENT TOUTE PLAINTE EN VIOLATION DE DROITS
+                DE PROPRIETE INTELLECTUELLE OU INDUSTRIELLE, DE DROITS A L'IMAGE, DIFFAMATION, HARCELEMENT OU INTRUSION
+                DANS LA VIE PRIVEE OU FRAUDE.</p>
 
-    <h2>5. RESPONSABILITES</h2>
-    <p>EN AUCUN CAS, WAMCAR, SES DIRIGEANTS, ACTIONNAIRES, ADMINISTRATEURS OU PERSONNEL, NE PEUVENT ETRE RESPONSABLES OU MIS EN CAUSE PAR L’UN QUELCONQUE DES UTILISATEURS OU TOUTE AUTRE PERSONNE AFFECTEE PAR LA PLATEFORME ET/OU LES SERVICES, DE TOUT DOMMAGE, Y COMPRIS, SANS LIMITATION, LES DOMMAGES DIRECTS COMME INDIRECTS, DOMMAGES SPECIAUX, PUNITIFS OU DECOULANT DE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES, OU TOUT AUTRE DOMMAGE PROVENANT DE:</p>
-    <ul>
-        <li>(I) L’INDISPONIBILITE DE LA PLATEFORME ET/OU DES SERVICES OU</li>
-        <li>(II) TOUTE DIFFICULTE TECHNIQUE AFFECTANT LA PLATEFORME ET/OU LES SERVIVES OU</li>
-        <li>(III) INCAPACITE D’UTILISER, EN TOTALITE OU EN PARTIE, LA PLATEFORME ET/OU LES SERVICES OU</li>
-        <li>(IV) (IV) TOUTES ERREURS, INADAPTATIONS, OUBLIS, DEFAUTS, FAILLES SECURITAIRES ; OU</li>
-        <li>(V) ACCES NON AUTORISE OU ALTERE A LA PLATEFORME ET/OU AUX SERVICES, AINSI QU’A LEURS RESULTATS, OU</li>
-        <li>(VI) TOUTE AUTRE INCAPACITE DE WAMCAR, MEME SI WAMCAR A ETE ALERTEE DE LA POSSIBILITE DE TELS DOMMAGES, ET CE, QUELQUE SOIT LA FORME DE L’ACTION INTENTEE (EXECUTION CONTRAT, ACTION CIVILE OU AUTRE), OU</li>
-        <li>(VII) L’USAGE DES DONNEES RESULTANT DE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES. SI L’UTILISATEUR N’EST PAS SATISFAIT DE LA PLATEFORME ET/OU DES SERVICES, OU N’EST PAS OU PLUS D’ACCORD AVEC LES PRESENTES CGU, SON RECOURS EST DE CESSER SANS DELAI L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES ET DE DEMANDER LA RESILIATION DE SON COMPTE. DANS LE CAS OU CERTAINES JURIDICTIONS NE RECONNAITRAIENT PAS LES EXCLUSIONS OU LIMITATIONS DE RESPONSABILITE POUR LES DOMMAGES CONSECUTIFS A L’UTILISATION DE LA PLATEFORME ET/OU AUX SERVICES, LES EXCLUSIONS CI-AVANT NE S’APPLIQUERONT PAS A L’UTILISATEUR DEVANT CES JURIDICTIONS.</li>
-    </ul>
-    <p>L’UTILISATEUR ACCEPTE DE SURCOIT QUE WAMCAR NE SOIT PAS RESPONSABLE, ET NE POURRA ETRE TENUE RESPONSABLE ENVERS LUI, POUR TOUTE INFORMATION RENDUE PUBLIQUE DE PART L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES ET NOTAMMENT EN CAS D’INFORMATION FAUSSE, INCOMPLETE, INEXACTE OU ILLICITE DES DONNEES DE L’UTILISATEUR. EN OUTRE, WAMCAR N’EST PAS RESPONSABLE DES PLAINTES OU DEMANDES RESULTANT DE L’UTILISATION, PAR L’UTILISATEUR, DE LA PLATEFORME ET/OU DES SERVICES, D’UNE VIOLATION DE L’UNE QUELCONQUE DES DISPOSITIONS DES PRESENTES CGU, INCLUANT NOTAMMENT TOUTE PLAINTE EN VIOLATION DE DROITS DE PROPRIETE INTELLECTUELLE OU INDUSTRIELLE, DE DROITS A L’IMAGE, DIFFAMATION, HARCELEMENT OU INTRUSION DANS LA VIE PRIVEE OU FRAUDE.</p>
+            <h2>6. SITES ET ELEMENTS COMMERCIAUX DE TIERS</h2>
+            <p>PAR SON OBJET, LA PLATEFORME CONTIENT DES ELEMENTS ET/OU LIENS HYPERTEXTES RENVOYANT VERS DES SITES WEB
+                GERES PAR DES PERSONNES DISTINCTES DE {{ site_name }}, SUR LESQUELLES {{ site_name }} N'EXERCE AUCUNE SORTE DE
+                CONTROLE.</p>
+            <p>{{ site_name }} N'ASSUME AUCUNE RESPONSABILITE QUANT A CES ELEMENTS, SITES OU CONTENU VERS LEQUEL CES ELEMENTS ET
+                SITES PEUVENT RENVOYER. LA PRESENCE DE CES ELEMENTS ET LIENS HYPERTEXTES NE SAURAIT SIGNIFIER QUE {{ site_name }}
+                APPROUVE, DE QUELQUE FAÇON QUE CE SOIT, LE CONTENU CONSIDERE. {{ site_name }} N'EST RESPONSABLE D'AUCUNE
+                MODIFICATION OU MISE A JOUR CONCERNANT CES ELEMENTS ET SITES WEB.</p>
+            <p>{{ site_name }} N'EST PAS RESPONSABLE DE LA TRANSMISSION D'INFORMATIONS A PARTIR DE CEUX-CI, NI DE LEUR MAUVAIS
+                FONCTIONNEMENT OU EXECUTION.</p>
+            <p>LES UTILISATEURS SONT SEULS RESPONSABLES DE TOUTE TRANSACTION REALISEE AVEC LES TIERS, DONT LES
+                PROFESSIONNELS DU SECTEUR DE L'AUTOMOBILE QUI FIGURENT SUR LA PLATEFORME, POUR LES UTILISATEURS
+                PARTICULIERS, Y COMPRIS SANS TOUTEFOIS S'Y LIMITER, EN CE QUI CONCERNE LES OPERATIONS DE COMMANDE,
+                LIVRAISON ET/OU REGLEMENT DES BIENS ET SERVICES.</p>
+            <h2>7. SERVICES</h2>
+            <p>Les Services sont entendus comme les services complémentaires à la Plateforme, proposés par {{ site_name }}, aux
+                Utilisateurs.</p>
+            <p>Les Utilisateurs, qui désirent bénéficier des Services, devront suivre la procédure accessible en ligne
+                sur la Plateforme.</p>
 
-    <h2>6. SITES ET ELEMENTS COMMERCIAUX DE TIERS</h2>
-    <p>PAR SON OBJET, LA PLATEFORME CONTIENT DES ELEMENTS ET/OU LIENS HYPERTEXTES RENVOYANT VERS DES SITES WEB GERES PAR DES PERSONNES DISTINCTES DE WAMCAR, SUR LESQUELLES WAMCAR N’EXERCE AUCUNE SORTE DE CONTROLE.</p>
-    <p>WAMCAR N’ASSUME AUCUNE RESPONSABILITE QUANT A CES ELEMENTS, SITES OU CONTENU VERS LEQUEL CES ELEMENTS ET SITES PEUVENT RENVOYER. LA PRESENCE DE CES ELEMENTS ET LIENS HYPERTEXTES NE SAURAIT SIGNIFIER QUE WAMCAR APPROUVE, DE QUELQUE FAÇON QUE CE SOIT, LE CONTENU CONSIDERE. WAMCAR N’EST RESPONSABLE D’AUCUNE MODIFICATION OU MISE A JOUR CONCERNANT CES ELEMENTS ET SITES WEB.</p>
-    <p>WAMCAR N’EST PAS RESPONSABLE DE LA TRANSMISSION D’INFORMATIONS A PARTIR DE CEUX-CI, NI DE LEUR MAUVAIS FONCTIONNEMENT OU EXECUTION.</p>
-    <p>LES UTILISATEURS SONT SEULS RESPONSABLES DE TOUTE TRANSACTION REALISEE AVEC LES TIERS, DONT LES PROFESSIONNELS DU SECTEUR DE L’AUTOMOBILE QUI FIGURENT SUR LA PLATEFORME, POUR LES UTILISATEURS PARTICULIERS, Y COMPRIS SANS TOUTEFOIS S’Y LIMITER, EN CE QUI CONCERNE LES OPERATIONS DE COMMANDE, LIVRAISON ET/OU REGLEMENT DES BIENS ET SERVICES.</p>
-    <h2>7. SERVICES</h2>
-    <p>Les Services sont entendus comme les services complémentaires à la Plateforme, proposés par WAMCAR, aux Utilisateurs.</p>
-    <p>Les Utilisateurs, qui désirent bénéficier des Services, devront suivre la procédure accessible en ligne sur la Plateforme.</p>
+            <h2>8. ENGAGEMENTS DES UTILISATEURS</h2>
+            <p>Les présentes CGU engagent les Utilisateurs envers {{ site_name }}. <br>
+                L'Utilisateur est seul responsable de l'utilisation qu'il fait de la Plateforme et, le cas échéant, des
+                Services.</p>
+            <p>{{ site_name }} ne contrôle pas les contenus stockés ou rendus publics via la Plateforme et ne pourra en être
+                tenue responsable.</p>
+            <p>L'Utilisateur s'interdit, dans le cadre de l'utilisation de la Plateforme et/ou des Services, de se
+                livrer à des actes, de quelque nature que ce soit, qui seraient contraires aux dispositions législatives
+                et règlementaires de la République Française et/ou porteraient atteinte à l'ordre public ou aux droits
+                d'un tiers.</p>
+            <p>Dans ce contexte, l'Utilisateur garantit notamment que toute information transmise par courriel à
+                l'adresse <a href="mailto:contact@wamcar.fr" class="text-underline">contact@wamcar.fr</a> est
+                complète, exacte et précise.</p>
+            <p>Au surplus, sans que cette liste soit exhaustive, l'Utilisateur s'interdit :</p>
+            <ul>
+                <li>d'utiliser la Plateforme et/ou les Services à d'autres fins qu'un usage normal, en dehors de toute
+                    disproportion,
+                </li>
+                <li>de publier, transmettre, diffuser, éditer ou rendre accessible sur ou par le biais de la Plateforme,
+                    tout contenu qui pourrait être constitutif, sans que cette liste soit limitative, de diffamation,
+                    d'injures, de dénigrement, de menaces, de chantage, de harcèlement, d'incitation à la violence, à la
+                    haine raciale et plus généralement à la réalisation de crimes et délits ; de propagation de fausses
+                    nouvelles ou d'informations couvertes par le secret, de même que tout contenu destiné à représenter
+                    ou proposer à la vente des biens, logiciels, contenus interdits par la loi ou portant atteinte aux
+                    droits de tiers ; d'atteinte à l'autorité de la justice ; d'atteinte à la vie privée, à la
+                    protection des données personnelles ou au secret des correspondances ; d'apologie de crimes contre
+                    l'humanité ou de négation de génocide ; d'atteinte au droit à l'intimité de la vie privée ; ou
+                    encore d'acte mettant en péril des mineurs notamment par la fabrication, la transmission, la
+                    diffusion ou l'accessibilité de messages à caractère violent ou pornographique, de nature à porter
+                    atteinte à la dignité humaine ou de nature à permettre la fabrication d'explosifs,
+                </li>
+                <li>de tenter d'induire en erreur d'autres Utilisateurs en usurpant l'identité ou en portant atteinte à
+                    l'image ou à la réputation d'autrui,
+                </li>
+                <li>de falsifier des Données, messages ou documents, des en-têtes de messages ou de données
+                    d'identification ou de connexion ou manipuler de toute autre manière un identifiant ou une
+                    information de manière à dissimuler l'origine de la transmission d'un contenu via la Plateforme,
+                </li>
+                <li>de se livrer à une violation des droits de propriété intellectuelle (notamment en matière de
+                    logiciels, bases de données, images et textes) ou tout autre droit de propriété appartenant à
+                    autrui,
+                </li>
+                <li>de télécharger sciemment, afficher, émettre, diffuser, transmettre ou rendre accessible de toute
+                    autre manière tout contenu comprenant ou constituant des virus informatiques ou tout autre code ou
+                    programme informatique conçus pour interrompre, détruire, détourner ou limiter les fonctionnalités
+                    ou les performances de tout logiciel, ordinateur, service, outil de communications électroniques,
+                    etc.,
+                </li>
+                <li>de télécharger toute Donnée mise en ligne ou rendue accessible par {{ site_name }}, directement comme
+                    indirectement, sur la Plateforme, à l'exception des celles expressément indiquées comme
+                    téléchargeables,
+                </li>
+                <li>de perturber, ralentir, bloquer ou altérer le flux normal des Données, modifier ou altérer ou
+                    commettre toute autre action ayant un effet perturbateur équivalent sur les fonctionnalités de la
+                    Plateforme et/ou des Services,
+                </li>
+                <li>de poster, indiquer, ou diffuser, sous quelle que forme que ce soit, des informations ou contenus
+                    ayant pour effet de diminuer, de désorganiser, d'empêcher l'utilisation normale de la Plateforme
+                    et/ou des Services, d'interrompre et/ou de ralentir la circulation normale des informations,
+                </li>
+                <li>de poster, indiquer, ou diffuser sous quelle que forme que ce soit des informations ou contenus
+                    intégrant des liens vers des sites tiers qui auraient un caractère illégal et/ou contraire aux
+                    bonnes moeurs,
+                </li>
+                <li>d'agir déloyalement envers {{ site_name }} et par conséquent, de ne pas respecter et de porter atteinte de
+                    quelque manière que ce soit à l'image et à la réputation de {{ site_name }}, de la Plateforme et/ou des
+                    Services proposés par celle-ci.
+                </li>
+            </ul>
 
-    <h2>8. ENGAGEMENTS DES UTILISATEURS</h2>
-    <p>Les présentes CGU engagent les Utilisateurs envers WAMCAR. <br>
-    L’Utilisateur est seul responsable de l’utilisation qu’il fait de la Plateforme et, le cas échéant, des Services.</p>
-    <p>WAMCAR ne contrôle pas les contenus stockés ou rendus publics via la Plateforme et ne pourra en être tenue responsable.</p>
-    <p>L’Utilisateur s’interdit, dans le cadre de l’utilisation de la Plateforme et/ou des Services, de se livrer à des actes, de quelque nature que ce soit, qui seraient contraires aux dispositions législatives et règlementaires de la République Française et/ou porteraient atteinte à l’ordre public ou aux droits d’un tiers.</p>
-    <p>Dans ce contexte, l’Utilisateur garantit notamment que toute information transmise par courriel à l’adresse <a href="mailto:contact@wamcar.com" class="text-underline">contact@wamcar.com</a> est complète, exacte et précise.</p>
-    <p>Au surplus, sans que cette liste soit exhaustive, l’Utilisateur s’interdit :</p>
-    <ul>
-        <li>d’utiliser la Plateforme et/ou les Services à d’autres fins qu’un usage normal, en dehors de toute disproportion,</li>
-        <li>de publier, transmettre, diffuser, éditer ou rendre accessible sur ou par le biais de la Plateforme, tout contenu qui pourrait être constitutif, sans que cette liste soit limitative, de diffamation, d’injures, de dénigrement, de menaces, de chantage, de harcèlement, d’incitation à la violence, à la haine raciale et plus généralement à la réalisation de crimes et délits ; de propagation de fausses nouvelles ou d’informations couvertes par le secret, de même que tout contenu destiné à représenter ou proposer à la vente des biens, logiciels, contenus interdits par la loi ou portant atteinte aux droits de tiers ; d’atteinte à l’autorité de la justice ; d’atteinte à la vie privée, à la protection des données personnelles ou au secret des correspondances ; d’apologie de crimes contre l’humanité ou de négation de génocide ; d’atteinte au droit à l’intimité de la vie privée ; ou encore d’acte mettant en péril des mineurs notamment par la fabrication, la transmission, la diffusion ou l’accessibilité de messages à caractère violent ou pornographique, de nature à porter atteinte à la dignité humaine ou de nature à permettre la fabrication d’explosifs,</li>
-        <li>de tenter d’induire en erreur d’autres Utilisateurs en usurpant l’identité ou en portant atteinte à l’image ou à la réputation d’autrui,</li>
-        <li>de falsifier des Données, messages ou documents, des en-têtes de messages ou de données d’identification ou de connexion ou manipuler de toute autre manière un identifiant ou une information de manière à dissimuler l’origine de la transmission d’un contenu via la Plateforme,</li>
-        <li>de se livrer à une violation des droits de propriété intellectuelle (notamment en matière de logiciels, bases de données, images et textes) ou tout autre droit de propriété appartenant à autrui,</li>
-        <li>de télécharger sciemment, afficher, émettre, diffuser, transmettre ou rendre accessible de toute autre manière tout contenu comprenant ou constituant des virus informatiques ou tout autre code ou programme informatique conçus pour interrompre, détruire, détourner ou limiter les fonctionnalités ou les performances de tout logiciel, ordinateur, service, outil de communications électroniques, etc.,</li>
-        <li>de télécharger toute Donnée mise en ligne ou rendue accessible par WAMCAR, directement comme indirectement, sur la Plateforme, à l’exception des celles expressément indiquées comme téléchargeables,</li>
-        <li>de perturber, ralentir, bloquer ou altérer le flux normal des Données, modifier ou altérer ou commettre toute autre action ayant un effet perturbateur équivalent sur les fonctionnalités de la Plateforme et/ou des Services,</li>
-        <li>de poster, indiquer, ou diffuser, sous quelle que forme que ce soit, des informations ou contenus ayant pour effet de diminuer, de désorganiser, d’empêcher l’utilisation normale de la Plateforme et/ou des Services, d’interrompre et/ou de ralentir la circulation normale des informations,</li>
-        <li>de poster, indiquer, ou diffuser sous quelle que forme que ce soit des informations ou contenus intégrant des liens vers des sites tiers qui auraient un caractère illégal et/ou contraire aux bonnes moeurs,</li>
-        <li>d’agir déloyalement envers WAMCAR et par conséquent, de ne pas respecter et de porter atteinte de quelque manière que ce soit à l’image et à la réputation de WAMCAR, de la Plateforme et/ou des Services proposés par celle-ci.</li>
-    </ul>
+            <h2>9. PROPRIETE INTELLECTUELLE ET INDUSTRIELLE – COPYRIGHT</h2>
+            <p>9.1. Le Concept, dont l'ensemble des éléments composant la Plateforme, est et demeure la propriété
+                exclusive de {{ site_name }}.<br>
+                AUCUNE DISPOSITION DES PRESENTES CGU, NI L'ACCES A LA PLATEFORME ET/OU AUX SERVICES, N'IMPLIQUE DE
+                TRANSFERT DE TOUT DROIT DE PROPRIETE INTELLECTUELLE ET/OU INDUSTRIELLE, NI D'EXPLOITATION EN DEHORS DES
+                CONDITIONS DES PRESENTES CGU, DE {{ site_name }} AU PROFIT DE L'UTILISATEUR. <br>
+                L'UTILISATEUR NE PEUT DONC PRETENDRE A AUCUN DROIT SUR OU RELATIF AU CONCEPT OU A TOUT AUTRE DROIT DE
+                PROPRIETE INTELLECTUELLE ET/OU INDUSTRIELLE DE {{ site_name }} ET S'INTERDIT D'Y PORTER ATTEINTE, EN TOUT OU
+                PARTIE, DIRECTEMENT COMME INDIRECTEMENT. <br>
+                Sans limiter la portée des autres dispositions des présentes CGU, le nom &laquo;&nbsp;{{ site_name }}&nbsp;&raquo;, les logos, le site
+                Internet, les noms de domaine, les noms et toutes les autres marques de commerce et/ou des noms
+                commerciaux contenus sur la Plateforme sont des marques de commerce, appellations commerciales ou des
+                marques de services de {{ site_name }} (collectivement, les &laquo;&nbsp;Marques&nbsp;&raquo;). L'Utilisateur s'engage à ne pas
+                afficher ou utiliser, de quelque manière, une des Marques, sans le consentement écrit préalable de
+                {{ site_name }}.</p>
+            <p>9.2. Le contenu de la Plateforme, et notamment les sons, images, photographies, vidéos, écrits, textes,
+                animations, programmes, charte graphique, utilitaires, bases de données, logiciel, etc. sont des Données
+                protégés par les dispositions du Code de la propriété intellectuelle et appartiennent à {{ site_name }}. La
+                Plateforme et son contenu sont protégés, au sens du Code de la Propriété Intellectuelle français,
+                notamment par le droit d'auteur, le droit des dessins et modèles et le droit des marques. Tous droits en
+                sont donc réservés. <br>
+                Toutes les autres marques de tiers, marques de service, logos et noms commerciaux figurant sur la
+                Plateforme sont la propriété de leurs propriétaires respectifs. Aucun transfert ou concession de droits
+                en vertu des marques est faite ou doit être déduit de toute disposition des présentes CGU ou par toute
+                autre disposition contenue sur la Plateforme, et tous les droits attachés aux Marques sont réservés par
+               {{ site_name }} ou les détenteurs respectifs.</p>
+            <p>9.3. Les Utilisateurs acceptent expressément de ne pas mettre en ligne, télécharger, intégrer, publier,
+                inscrire, envoyer, transmettre ou rendre disponible du contenu qui enfreindrait tous droits d'auteur,
+                brevets, marques, secret d'affaires ou autres droits de propriété intellectuelle et/ou industrielle.
+                Notamment, les Utilisateurs s'engagent à ne pas télécharger de Donnée mise en ligne ou rendue accessible
+                par {{ site_name }}, directement comme indirectement, sur la Plateforme, à l'exception de celles expressément
+                indiquées comme téléchargeables. <br>
+                Les Utilisateurs s'engagent à respecter les droits de propriété intellectuelle de tierces parties,
+                quelle qu'en soit la forme, en ce notamment inclus tout code (HTML, CSS, JavaScript, etc.).</p>
+            <p>9.4. L'Utilisateur qui soupçonne que ses droits ont été enfreints doit en informer dans les plus brefs
+                délais {{ site_name }}, en adressant un courriel sur la boîte email <a href="mailto:contact@wamcar.fr"></a>, qui
+                prendra toute mesure de sa compétence. Dans ce cas, {{ site_name }} sera fondée à demander à l'Utilisateur toute
+                information complémentaire, notamment sur l'identification des droits protégés, pour s'assurer de la
+                réalité de la violation revendiquée et l'Utilisateur s'engage à y répondre.</p>
 
-    <h2>9. PROPRIETE INTELLECTUELLE ET INDUSTRIELLE – COPYRIGHT</h2>
-    <p>9.1. Le Concept, dont l’ensemble des éléments composant la Plateforme, est et demeure la propriété exclusive de WAMCAR. <br>
-    AUCUNE DISPOSITION DES PRESENTES CGU, NI L’ACCES A LA PLATEFORME ET/OU AUX SERVICES, N’IMPLIQUE DE TRANSFERT DE TOUT DROIT DE PROPRIETE INTELLECTUELLE ET/OU INDUSTRIELLE, NI D’EXPLOITATION EN DEHORS DES CONDITIONS DES PRESENTES CGU, DE WAMCAR AU PROFIT DE L’UTILISATEUR. <br>
-    L’UTILISATEUR NE PEUT DONC PRETENDRE A AUCUN DROIT SUR OU RELATIF AU CONCEPT OU A TOUT AUTRE DROIT DE PROPRIETE INTELLECTUELLE ET/OU INDUSTRIELLE DE WAMCAR ET S’INTERDIT D’Y PORTER ATTEINTE, EN TOUT OU PARTIE, DIRECTEMENT COMME INDIRECTEMENT. <br>
-    Sans limiter la portée des autres dispositions des présentes CGU, le nom « WAMCAR », les logos, le site Internet, les noms de domaine, les noms et toutes les autres marques de commerce et / ou des noms commerciaux contenus sur la Plateforme sont des marques de commerce, appellations commerciales ou des marques de services de WAMCAR (collectivement, les « Marques »). L’Utilisateur s’engage à ne pas afficher ou utiliser, de quelque manière, une des Marques, sans le consentement écrit préalable de WAMCAR.</p>
-    <p>9.2. Le contenu de la Plateforme, et notamment les sons, images, photographies, vidéos, écrits, textes, animations, programmes, charte graphique, utilitaires, bases de données, logiciel, etc. sont des Données protégés par les dispositions du Code de la propriété intellectuelle et appartiennent à WAMCAR. La Plateforme et son contenu sont protégés, au sens du Code de la Propriété Intellectuelle français, notamment par le droit d’auteur, le droit des dessins et modèles et le droit des marques. Tous droits en sont donc réservés. <br>
-    Toutes les autres marques de tiers, marques de service, logos et noms commerciaux figurant sur la Plateforme sont la propriété de leurs propriétaires respectifs. Aucun transfert ou concession de droits en vertu des marques est faite ou doit être déduit de toute disposition des présentes CGU ou par toute autre disposition contenue sur la Plateforme, et tous les droits attachés aux Marques sont réservés par WAMCAR ou les détenteurs respectifs.</p>
-    <p>9.3. Les Utilisateurs acceptent expressément de ne pas mettre en ligne, télécharger, intégrer, publier, inscrire, envoyer, transmettre ou rendre disponible du contenu qui enfreindrait tous droits d’auteur, brevets, marques, secret d’affaires ou autres droits de propriété intellectuelle et/ou industrielle. Notamment, les Utilisateurs s’engagent à ne pas télécharger de Donnée mise en ligne ou rendue accessible par WAMCAR, directement comme indirectement, sur la Plateforme, à l’exception de celles expressément indiquées comme téléchargeables. <br>
-    Les Utilisateurs s’engagent à respecter les droits de propriété intellectuelle de tierces parties, quelle qu’en soit la forme, en ce notamment inclus tout code (HTML, CSS, JavaScript, etc.).</p>
-    <p>9.4. L’Utilisateur qui soupçonne que ses droits ont été enfreints doit en informer dans les plus brefs délais WAMCAR, en adressant un courriel sur la boîte email <a href="mailto:contact@wamcar.com"></a>, qui prendra toute mesure de sa compétence. Dans ce cas, WAMCAR sera fondée à demander à l’Utilisateur toute information complémentaire, notamment sur l’identification des droits protégés, pour s’assurer de la réalité de la violation revendiquée et l’Utilisateur s’engage à y répondre.</p>
+            <h2>10. DROITS DE PROPRIETE SUR LES DONNEES ET INFORMATIONS</h2>
+            <p>L'ensemble des Données mises à disposition sur la Plateforme sont la propriété de {{ site_name }}, qui conserve
+                tous les droits, titres et intérêts y relatifs. Aucun transfert ou concession de droits sur les Données
+                n'est fait ou doit être déduit de toute disposition des présentes CGU ou par toute autre disposition
+                contenue sur la Plateforme. L'Utilisateur s'engage à ne pas porter atteinte aux droits ci-dessus.</p>
+            <p>L'UTILISATEUR S'INTERDIT DE COPIER, REPRODUIRE, REPUBLIER, TELECHARGER, EFFACER, AFFICHER, TRANSMETTRE OU
+                DISTRIBUER, PAR TOUT MOYEN, LESDITES DONNEES ET INFORMATIONS, EN TOUT OU PARTIE. L'Utilisateur reconnait
+                que ces Données peuvent comprendre d'autres informations appartenant à des parties tierces et s'engage
+                en conséquence à respecter tout droit de propriété de ces tiers sur ces données et à prendre toute
+                précaution utile, qui serait raisonnablement nécessaire, à l'effet de protéger le caractère privé,
+                confidentiel de ces données de toute utilisation non autorisée.</p>
+            <h2>11. POLITIQUE DE CONFIDENTIALITE</h2>
+            <p>La politique de confidentialité de {{ site_name }} indique aux Utilisateurs les règles d'utilisation et de
+                protection de leurs informations personnelles sur la Plateforme.</p>
+            <p>La politique de confidentialité s'applique à l'utilisation de la Plateforme et/ou des Services et donc, à
+                tous les Utilisateurs. Elle demeure toujours accessible sur la page <a href="http://www.wamcar.com" class="text-underline">wamcar.com</a>.
+                Les Utilisateurs sont priés, avant toute utilisation de la Plateforme et/ou des Services, de lire
+                attentivement les règles incluses dans cette politique de confidentialité. En exploitant la Plateforme,
+                les Utilisateurs sont réputés accepter sans réserve tous les engagements et obligations mentionnés dans
+                ladite politique de confidentialité de {{ site_name }}.</p>
+            <h2>12. INFORMATIONS NOMINATIVES</h2>
+            <p>En conformité avec la réglementation applicable, dont la loi n° 78-17 du 6 janvier 1978 relative à
+                l'informatique, aux fichiers, aux libertés dite loi &laquo;&nbsp;Informatique et Libertés&nbsp;&raquo;, et son décret
+                d'application, le traitement automatisé des données nominatives réalisées à partir de la Plateforme a
+                fait l'objet d'une déclaration auprès de la Commission Nationale de l'Informatique et des Libertés
+                (CNIL). CONFORMEMENT A LA LOI N° 78-17 DU 6 JANVIER 1978, L'UTILISATEUR, PEUT A TOUT MOMENT, ACCEDER AUX
+                INFORMATIONS PERSONNELLES LE CONCERNANT DETENUES PAR {{ site_name }}, DEMANDER LEUR MODIFICATION OU LEUR
+                SUPPRESSION. AINSI, SELON LES ARTICLES 36, 39 ET 40 DE LA LOI INFORMATIQUE ET LIBERTES, L'UTILISATEUR
+                PEUT DEMANDER QUE SOIENT RECTIFIEES, COMPLETEES, CLARIFIEES, MISES A JOUR OU EFFACEES LES INFORMATIONS
+                LE CONCERNANT.</p>
+            <p>Pour exercer ses droits, l'Utilisateur doit s'adresser à :</p>
+            <p>
+            <address>
+                <strong>WAMCAR</strong> – Service des données personnelles <br>
+                347 rue Paul Bert, 69003 Lyon <br>
+                <a href="mailto:contact@wamcar.fr" class="text-underline">contact@wamcar.fr</a>
+            </address>
+            </p>
+            <p>AFIN D'AMELIORER LA QUALITE DE SON SERVICE ET DE MIEUX REPONDRE AUX ATTENTES DES UTILISATEURS, {{ site_name }}
+                POURRA ETRE AMENEE A COLLECTER DES INFORMATIONS PERSONNELLES DES UTILISATEURS, NOTAMMENT PAR
+                L'UTILISATION DE COOKIES ET TRACEURS. EN AUCUN CAS, {{ site_name }} NE POURRA TOUTEFOIS ETRE TENUE RESPONSABLE EN
+                CAS D'UTILISATION, PAR UN AUTRE UTILISATEUR, D'UNE DES INFORMATIONS PERSONNELLES D'UN UTILISATEUR.</p>
+            <p>A la clôture d'un compte et à toute fin de preuve, les informations personnelles des Utilisateurs peuvent
+                être conservées et archivées confidentiellement par {{ site_name }}, selon les lois en vigueur. Pour les besoins
+                des présentes, les informations personnelles des Utilisateurs s'entendent, notamment, de leurs données,
+                noms et prénoms, identifiants, adresses e-mail, images, photographies, vidéos, etc.</p>
+            <h2>13. CLOUD SYSTEM</h2>
+            <p>13.1. Les Données et autres informations sont mises à disposition sur la Plateforme, selon le système de
+                traitement des informations SAAS – Cloud.</p>
+            <p>13.2. Par ce système, aucune installation de logiciel n'est nécessaire pour l'accès et l'utilisation de
+                la Plateforme et/ou des Services.</p>
+            <p>13.3. Aucune maintenance n'est dès lors requise, sur les postes des Utilisateurs, dans le cadre de
+                l'utilisation de la Plateforme et/ou des Services.</p>
+            <p>13.4. Les fonctionnalités de la Plateforme et/ou des Services sont automatiquement mises à jour sur la
+                Plateforme, sans besoin, pour l'Utilisateur, d'un quelconque téléchargement.</p>
 
-    <h2>10. DROITS DE PROPRIETE SUR LES DONNEES ET INFORMATIONS</h2>
-    <p>L’ensemble des Données mises à disposition sur la Plateforme sont la propriété de WAMCAR, qui conserve tous les droits, titres et intérêts y relatifs. Aucun transfert ou concession de droits sur les Données n’est fait ou doit être déduit de toute disposition des présentes CGU ou par toute autre disposition contenue sur la Plateforme. L’Utilisateur s’engage à ne pas porter atteinte aux droits ci-dessus.</p>
-    <p>L’UTILISATEUR S’INTERDIT DE COPIER, REPRODUIRE, REPUBLIER, TELECHARGER, EFFACER, AFFICHER, TRANSMETTRE OU DISTRIBUER, PAR TOUT MOYEN, LESDITES DONNEES ET INFORMATIONS, EN TOUT OU PARTIE. L’Utilisateur reconnait que ces Données peuvent comprendre d’autres informations appartenant à des parties tierces et s’engage en conséquence à respecter tout droit de propriété de ces tiers sur ces données et à prendre toute précaution utile, qui serait raisonnablement nécessaire, à l’effet de protéger le caractère privé, confidentiel de ces données de toute utilisation non autorisée.</p>
-    <h2>11. POLITIQUE DE CONFIDENTIALITE</h2>
-    <p>La politique de confidentialité de WAMCAR indique aux Utilisateurs les règles d’utilisation et de protection de leurs informations personnelles sur la Plateforme.</p>
-    <p>La politique de confidentialité s’applique à l’utilisation de la Plateforme et/ou des Services et donc, à tous les Utilisateurs. Elle demeure toujours accessible sur la page <a href="http://www.wamcar.com" class="text-underline">wamcar.com</a>.
-    Les Utilisateurs sont priés, avant toute utilisation de la Plateforme et/ou des Services, de lire attentivement les règles incluses dans cette politique de confidentialité. En exploitant la Plateforme, les Utilisateurs sont réputés accepter sans réserve tous les engagements et obligations mentionnés dans ladite politique de confidentialité de WAMCAR.</p>
-    <h2>12. INFORMATIONS NOMINATIVES</h2>
-    <p>En conformité avec la réglementation applicable, dont la loi n° 78-17 du 6 janvier 1978 relative à l’informatique, aux fichiers, aux libertés dite loi « Informatique et Libertés », et son décret d’application, le traitement automatisé des données nominatives réalisées à partir de la Plateforme a fait l’objet d’une déclaration auprès de la Commission Nationale de l’Informatique et des Libertés (CNIL). CONFORMEMENT A LA LOI N° 78-17 DU 6 JANVIER 1978, L’UTILISATEUR, PEUT A TOUT MOMENT, ACCEDER AUX INFORMATIONS PERSONNELLES LE CONCERNANT DETENUES PAR WAMCAR, DEMANDER LEUR MODIFICATION OU LEUR SUPPRESSION. AINSI, SELON LES ARTICLES 36, 39 ET 40 DE LA LOI INFORMATIQUE ET LIBERTES, L’UTILISATEUR PEUT DEMANDER QUE SOIENT RECTIFIEES, COMPLETEES, CLARIFIEES, MISES A JOUR OU EFFACEES LES INFORMATIONS LE CONCERNANT.</p>
-    <p>Pour exercer ses droits, l’Utilisateur doit s’adresser à :</p>
-    <p>
-        <address>
-            <strong>WAMCAR</strong> – Service des données personnelles <br>
-            347 rue Paul Bert, 69003 Lyon <br>
-            <a href="mailto:contact@wamcar.com" class="text-underline">contact@wamcar.com</a>
-        </address>
-    </p>
-    <p>AFIN D’AMELIORER LA QUALITE DE SON SERVICE ET DE MIEUX REPONDRE AUX ATTENTES DES UTILISATEURS, WAMCAR POURRA ETRE AMENEE A COLLECTER DES INFORMATIONS PERSONNELLES DES UTILISATEURS, NOTAMMENT PAR L’UTILISATION DE COOKIES ET TRACEURS. EN AUCUN CAS, WAMCAR NE POURRA TOUTEFOIS ETRE TENUE RESPONSABLE EN CAS D’UTILISATION, PAR UN AUTRE UTILISATEUR, D’UNE DES INFORMATIONS PERSONNELLES D’UN UTILISATEUR.</p>
-    <p>A la clôture d’un compte et à toute fin de preuve, les informations personnelles des Utilisateurs peuvent être conservées et archivées confidentiellement par WAMCAR, selon les lois en vigueur. Pour les besoins des présentes, les informations personnelles des Utilisateurs s’entendent, notamment, de leurs données, noms et prénoms, identifiants, adresses e-mail, images, photographies, vidéos, etc.</p>
-    <h2>13. CLOUD SYSTEM</h2>
-    <p>13.1. Les Données et autres informations sont mises à disposition sur la Plateforme, selon le système de traitement des informations SAAS – Cloud.</p>
-    <p>13.2. Par ce système, aucune installation de logiciel n’est nécessaire pour l’accès et l’utilisation de la Plateforme et/ou des Services.</p>
-    <p>13.3. Aucune maintenance n’est dès lors requise, sur les postes des Utilisateurs, dans le cadre de l’utilisation de la Plateforme et/ou des Services.</p>
-    <p>13.4. Les fonctionnalités de la Plateforme et/ou des Services sont automatiquement mises à jour sur la Plateforme, sans besoin, pour l’Utilisateur, d’un quelconque téléchargement.</p>
+            <h2>14. UTILISATIONS INTERDITES</h2>
+            <p>L'Utilisateur s'interdit de :</p>
+            <ul>
+                <li>transmettre, recevoir sciemment, télécharger, utiliser ou réutiliser toute information sans la
+                    permission du titulaire des droits, à l'exception des éléments indiqués comme expressément
+                    téléchargeables sur la Plateforme ;
+                </li>
+                <li>utiliser la Plateforme et/ou les Services d'une quelconque façon qui enfreindrait une loi locale,
+                    nationale ou internationale, ou toute autre réglementation ;
+                </li>
+                <li>utiliser la Plateforme et/ou les Services de manière illégale ou frauduleuse, ou à des fins ou pour
+                    des effets illégaux ou frauduleux ;
+                </li>
+                <li>utiliser la Plateforme et/ou les Services pour transmettre ou faciliter l'envoi de publicités ou de
+                    matériels promotionnels non sollicités ou non autorisés ;
+                </li>
+                <li>utiliser la Plateforme et/ou les Services pour délibérément transmettre des éléments contenant des
+                    virus, des Chevaux de Troie, des logiciels espions, des logiciels publicitaires ou tout autre
+                    programme nuisible ou code informatique similaire conçu pour nuire au bon fonctionnement de la
+                    Plateforme et/ou des Services.
+                </li>
+            </ul>
+            <p>S'IL APPARAIT, APRES DEMANDE D'EXPLICATIONS AUPRES DE L'UTILISATEUR, QU'UNE INFORMATION TRANSGRESSE OU
+                PEUT TRANSGRESSER L'UNE QUELCONQUE DES DISPOSITIONS DES PRESENTES CGU, {{ site_name }} SE RESERVE LE DROIT, A
+                TOUT MOMENT ET SANS LIMITATION DE TOUTE AUTRE ACTION, EN DROIT OU EN EQUITE, DE : (I) REFUSER DE
+                PERMETTRE A L'UTILISATEUR D'ACCEDER A CETTE INFORMATION, (II) SUPPRIMER DEFINITIVEMENT CETTE
+                INFORMATION, (III) SUPPRIMER OU DE SUSPENDRE LE COMPTE DE L'UTILISATEUR DEFAILLANT ET/OU (IV) UTILISER
+                TOUS MOYENS TECHNOLOGIQUES, JURIDIQUES, OPERATIONNELS OU AUTRES A SA DISPOSITION EN VUE D'OBTENIR
+                L'EXECUTION FORCEE DES DISPOSITIONS DES PRESENTES CGU, EN CE NOTAMMENT COMPRIS, MAIS SANS S'Y LIMITER,
+                LE BLOCAGE DES ADRESSES IP OU ENCORE LA DESACTIVATION DU COMPTE DE L'UTILISATEUR SUR LA PLATEFORME.</p>
+            <h2>15. GARANTIES</h2>
+            <p>L'UTILISATEUR RECONNAIT EXPRESSEMENT QUE L'UTILISATION DE LA PLATEFORME ET/OU DES SERVICES SE FAIT A SES
+                SEULS RISQUES. LES DONNEES OBTENUES DANS LE CADRE DE L'UTILISATION DE LA PLATEFORME ET/OU DES SERVICES
+                SONT FOURNIES &laquo;&nbsp;TELLES QUELLES&nbsp;&raquo; ET SONT &laquo;&nbsp;MISES A DISPOSITION&nbsp;&raquo; SANS AUCUNE GARANTIE, REPRESENTATION,
+                CONDITION, ENGAGEMENT OU TERME – EXPRES OU TACITE – STATUTAIRE OU AUTRE – INCLUANT NOTAMMENT, MAIS SANS
+                S'Y LIMITER, SANS AUCUN ENGAGEMENT DE LA PART DE {{ site_name }} ET NOTAMMENT, DE MATERIALITE, CONTRAINTE,
+                QUALITE, DURABILITE, PERFORMANCE, FIABLILITE, ABSENCE DE CONTREFACON OU DE VIOLATION DE DROIT D'AUTEUR,
+                ADEQUATION A UN QUELCONQUE USAGE. TOUTES CES GARANTIES, REPRESENTATIONS, CONDITIONS, ENGAGEMENTS ET
+                TERMES SONT EXCLUS DES PRESENTES CGU. DANS LA MESURE DE CE QUI EST AUTORISE PAR LA LOI APPLICABLE,
+               {{ site_name }} NE DONNE AUCUNE GARANTIE DE CE QUE : (I) LA PLATEFORME ET/OU LES SERVICES CORRESPONDENT AUX
+                BESOINS DE L'UTILISATEUR, OU QUE (II) LA PLATEFORME ET/OU LES SERVICES NE SOIENT PAS ININTERROMPUS,
+                RALENTIS, SECURITAIRES OU SANS DYSFONCTIONNEMENT, OU QUE (III) LE SERVEUR OU TOUTE INFORMATION RENDUE
+                PUBLIQUE VIA LA PLATEFORME OU LES SERVICES SOIENT LIBRES DE TOUT VIRUS, CHEVAUX DE TROIE OU ELEMENTS
+                AFFECTANT LA BONNE UTILISATION DE LA PLATEFORME ET/OU DES SERVICES , OU QUE (IV) LA PLATEFORME ET/OU LES
+                SERVICES SOIENT ACCESSIBLES 24 HEURES SUR 24, 7 JOURS SUR 7. {{ site_name }} N'ETANT TENUE QUE PAR UNE OBLIGATION
+                DE MOYENS QUANT AU FONCTIONNEMENT DE
+                LA PLATEFORME ET/OU DES SERVICES.</p>
+            <p>{{ site_name }} NE GARANTIT PAS ET NE FAIT AUCUNE DECLARATION QUANT A LA PERTINENCE OU A L'ADEQUATION DES DONNEES
+                RESULTANT DE L'UTILISATION DE LA PLATEFORME ET/OU DES SERVICES, A QUELQUE USAGE QUE CE SOIT, PAS PLUS
+                QUANT A LEUR LEGITIMITE, LEGALITE, VALIDITE, EXACTITUDE, AUTHENTICITE, FIABILITE, COMPLETUDE, ACTUALITE,
+                OU QUANT AU DROIT DE LIBREMENT EXPLOITER CES DONNEES RESULTANT DE L'UTILISATION DE LA PLATEFORME ET/OU
+                DES SERVICES.</p>
 
-    <h2>14. UTILISATIONS INTERDITES</h2>
-    <p>L’Utilisateur s’interdit de :</p>
-    <ul>
-        <li>transmettre, recevoir sciemment, télécharger, utiliser ou réutiliser toute information sans la permission du titulaire des droits, à l’exception des éléments indiqués comme expressément téléchargeables sur la Plateforme ;</li>
-        <li>utiliser la Plateforme et/ou les Services d’une quelconque façon qui enfreindrait une loi locale, nationale ou internationale, ou toute autre réglementation ;</li>
-        <li>utiliser la Plateforme et/ou les Services de manière illégale ou frauduleuse, ou à des fins ou pour des effets illégaux ou frauduleux ;</li>
-        <li>utiliser la Plateforme et/ou les Services pour transmettre ou faciliter l’envoi de publicités ou de matériels promotionnels non sollicités ou non autorisés ;</li>
-        <li>utiliser la Plateforme et/ou les Services pour délibérément transmettre des éléments contenant des virus, des Chevaux de Troie, des logiciels espions, des logiciels publicitaires ou tout autre programme nuisible ou code informatique similaire conçu pour nuire au bon fonctionnement de la Plateforme et/ou des Services.</li>
-    </ul>
-    <p>S’IL APPARAIT, APRES DEMANDE D’EXPLICATIONS AUPRES DE L’UTILISATEUR, QU’UNE INFORMATION TRANSGRESSE OU PEUT TRANSGRESSER L’UNE QUELCONQUE DES DISPOSITIONS DES PRESENTES CGU, WAMCAR SE RESERVE LE DROIT, A TOUT MOMENT ET SANS LIMITATION DE TOUTE AUTRE ACTION, EN DROIT OU EN EQUITE, DE : (I) REFUSER DE PERMETTRE A L’UTILISATEUR D’ACCEDER A CETTE INFORMATION, (II) SUPPRIMER DEFINITIVEMENT CETTE INFORMATION, (III) SUPPRIMER OU DE SUSPENDRE LE COMPTE DE L’UTILISATEUR DEFAILLANT ET/OU (IV) UTILISER TOUS MOYENS TECHNOLOGIQUES, JURIDIQUES, OPERATIONNELS OU AUTRES A SA DISPOSITION EN VUE D’OBTENIR L’EXECUTION FORCEE DES DISPOSITIONS DES PRESENTES CGU, EN CE NOTAMMENT COMPRIS, MAIS SANS S’Y LIMITER, LE BLOCAGE DES ADRESSES IP OU ENCORE LA DESACTIVATION DU COMPTE DE L’UTILISATEUR SUR LA PLATEFORME.</p>
-    <h2>15. GARANTIES</h2>
-    <p>L’UTILISATEUR RECONNAIT EXPRESSEMENT QUE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES SE FAIT A SES SEULS RISQUES. LES DONNEES OBTENUES DANS LE CADRE DE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES SONT FOURNIES « TELLES QUELLES » ET SONT « MISES A DISPOSITION » SANS AUCUNE GARANTIE, REPRESENTATION, CONDITION, ENGAGEMENT OU TERME – EXPRES OU TACITE – STATUTAIRE OU AUTRE – INCLUANT NOTAMMENT, MAIS SANS S’Y LIMITER, SANS AUCUN ENGAGEMENT DE LA PART DE WAMCAR ET NOTAMMENT, DE MATERIALITE, CONTRAINTE, QUALITE, DURABILITE, PERFORMANCE, FIABLILITE, ABSENCE DE CONTREFACON OU DE VIOLATION DE DROIT D’AUTEUR, ADEQUATION A UN QUELCONQUE USAGE. TOUTES CES GARANTIES, REPRESENTATIONS, CONDITIONS, ENGAGEMENTS ET TERMES SONT EXCLUS DES PRESENTES CGU. DANS LA MESURE DE CE QUI EST AUTORISE PAR LA LOI APPLICABLE, WAMCAR NE DONNE AUCUNE GARANTIE DE CE QUE : (I) LA PLATEFORME ET/OU LES SERVICES CORRESPONDENT AUX BESOINS DE L’UTILISATEUR, OU QUE (II) LA PLATEFORME ET/OU LES SERVICES NE SOIENT PAS ININTERROMPUS, RALENTIS, SECURITAIRES OU SANS DYSFONCTIONNEMENT, OU QUE (III) LE SERVEUR OU TOUTE INFORMATION RENDUE PUBLIQUE VIA LA PLATEFORME OU LES SERVICES SOIENT LIBRES DE TOUT VIRUS, CHEVAUX DE TROIE OU ELEMENTS AFFECTANT LA BONNE UTILISATION DE LA PLATEFORME ET/OU DES SERVICES , OU QUE (IV) LA PLATEFORME ET/OU LES SERVICES SOIENT ACCESSIBLES 24 HEURES SUR 24, 7 JOURS SUR 7. WAMCAR N’ETANT TENUE QUE PAR UNE OBLIGATION DE MOYENS QUANT AU FONCTIONNEMENT DE
-    LA PLATEFORME ET/OU DES SERVICES.</p>
-    <p>WAMCAR NE GARANTIT PAS ET NE FAIT AUCUNE DECLARATION QUANT A LA PERTINENCE OU A L’ADEQUATION DES DONNEES RESULTANT DE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES, A QUELQUE USAGE QUE CE SOIT, PAS PLUS QUANT A LEUR LEGITIMITE, LEGALITE, VALIDITE, EXACTITUDE, AUTHENTICITE, FIABILITE, COMPLETUDE, ACTUALITE, OU QUANT AU DROIT DE LIBREMENT EXPLOITER CES DONNEES RESULTANT DE L’UTILISATION DE LA PLATEFORME ET/OU DES SERVICES.</p>
+            <h2>16. DUREE ET RESILIATION</h2>
+            <p>Les présentes CGU prennent effet et resteront en vigueur, sauf résiliation dans les conditions définies
+                ci-dessous.</p>
+            <p>LE RECOURS DE L'UTILISATEUR NON SATISFAIT (I) DE LA PLATEFORME ET/OU DES SERVICES, OU (II) DE TOUTE
+                CONDITION DES PRESENTES CGU, (III), OU DE TOUTE POLITIQUE OU PRATIQUE DE {{ site_name }} EST DE RESILIER LES
+                PRESENTES CGU AUPRES DE {{ site_name }} ET DE CESSER DEFINITIVEMENT D'UTILISER LA PLATEFORME ET LES SERVICES.
+                <br>
+                TOUT UTILISATEUR POURRA RESILIER LES PRESENTES CGU, A TOUT MOMENT, SOUS RESERVE DU RESPECT D'UN PREAVIS
+                DE TRENTE (30) JOURS COURANT A COMPTER DE LA RECEPTION PAR {{ site_name }} D'UN EMAIL AVEC ACCUSE DE RECEPTION OU
+                D'UNE LETTRE RECOMMANDEE AVEC ACCUSE DE RECEPTION PORTANT DEMANDE CLAIRE DE RESILIATION.
+                CETTE RESILIATION ENTRAINERA AUTOMATIQUEMENT LA SUPPRESSION DE SON COMPTE ET L'INACCESSIBILITE DE
+                L'ENSEMBLE DES CONTENUS RENDUS DISPONIBLES SUR LA PLATEFORME.</p>
+            <p>{{ site_name }}, peut en cas de difficultés techniques, de violation des présentes CGU par l'Utilisateur ou de
+                toute autre cause indépendante de sa volonté, résilier les présentes CGU et/ou limiter ou interdire
+                l'accès, à l'Utilisateur, à tout ou partie de la Plateforme et/ou des Services, et/ou cesser la
+                commercialisation de tout ou partie de la Plateforme et/ou des Services, et/ou en modifier les
+                conditions d'exploitation, après information de l'Utilisateur et le cas échéant, recueil de ses
+                explications.</p>
+            <p>En cas de résiliation des présentes CGU, pour quelle que cause que ce soit, l'Utilisateur s'engage à
+                cesser immédiatement et définitivement toute utilisation de la Plateforme et/ou des Services.
+                L'Utilisateur s'engage à ne pas tenter de se réenregistrer, de se connecter sous l'identifiant d'un
+                autre Utilisateur ou de donner de fausses informations pour créer un nouveau compte, sans l'autorisation
+                préalable de {{ site_name }}.</p>
+            <p>La résiliation des présentes CGU n'exonérera pas l'Utilisateur de ses obligations au titre des présentes
+                CGU (y compris, mais sans s'y limiter, en termes de propriété intellectuelle et industrielle, de
+                confidentialité, etc.), qui survivront à la résiliation des présentes CGU pendant une période de vingt
+                (20) ans à compter de la date effective de résiliation.</p>
 
-    <h2>16. DUREE ET RESILIATION</h2>
-    <p>Les présentes CGU prennent effet et resteront en vigueur, sauf résiliation dans les conditions définies ci-dessous.</p>
-    <p>LE RECOURS DE L’UTILISATEUR NON SATISFAIT (I) DE LA PLATEFORME ET/OU DES SERVICES, OU (II) DE TOUTE CONDITION DES PRESENTES CGU, (III), OU DE TOUTE POLITIQUE OU PRATIQUE DE WAMCAR EST DE RESILIER LES PRESENTES CGU AUPRES DE WAMCAR ET DE CESSER DEFINITIVEMENT D’UTILISER LA PLATEFORME ET LES SERVICES. <br>
-    TOUT UTILISATEUR POURRA RESILIER LES PRESENTES CGU, A TOUT MOMENT, SOUS RESERVE DU RESPECT D’UN PREAVIS DE TRENTE (30) JOURS COURANT A COMPTER DE LA RECEPTION PAR WAMCAR D’UN EMAIL AVEC ACCUSE DE RECEPTION OU D’UNE LETTRE RECOMMANDEE AVEC ACCUSE DE RECEPTION PORTANT DEMANDE CLAIRE DE RESILIATION.
-    CETTE RESILIATION ENTRAINERA AUTOMATIQUEMENT LA SUPPRESSION DE SON COMPTE ET L’INACCESSIBILITE DE L’ENSEMBLE DES CONTENUS RENDUS DISPONIBLES SUR LA PLATEFORME.</p>
-    <p>WAMCAR, peut en cas de difficultés techniques, de violation des présentes CGU par l’Utilisateur ou de toute autre cause indépendante de sa volonté, résilier les présentes CGU et/ou limiter ou interdire l’accès, à l’Utilisateur, à tout ou partie de la Plateforme et/ou des Services, et/ou cesser la commercialisation de tout ou partie de la Plateforme et/ou des Services, et/ou en modifier les conditions d’exploitation, après information de l’Utilisateur et le cas échéant, recueil de ses explications.</p>
-    <p>En cas de résiliation des présentes CGU, pour quelle que cause que ce soit, l’Utilisateur s’engage à cesser immédiatement et définitivement toute utilisation de la Plateforme et/ou des Services. L’Utilisateur s’engage à ne pas tenter de se réenregistrer, de se connecter sous l’identifiant d’un autre Utilisateur ou de donner de fausses informations pour créer un nouveau compte, sans l’autorisation préalable de WAMCAR.</p>
-    <p>La résiliation des présentes CGU n’exonérera pas l’Utilisateur de ses obligations au titre des présentes CGU (y compris, mais sans s’y limiter, en termes de propriété intellectuelle et industrielle, de confidentialité, etc.), qui survivront à la résiliation des présentes CGU pendant une période de vingt (20) ans à compter de la date effective de résiliation.</p>
+            <h2>17. INDEMNISATION – PREJUDICE IRREMEDIABLE</h2>
+            <p>Sur première demande de {{ site_name }}, l'Utilisateur accepte, après avoir pu présenter ses observations, de
+                défendre, d'indemniser et de tenir {{ site_name }}, et toute personne agissant en son nom, pour non-responsable,
+                y compris, sans que cette liste soit limitative, ses licenciés, ses actionnaires, ses dirigeants, ses
+                administrateurs et son personnel, de toutes pertes, dépenses, coûts, dommages, plaintes et
+                responsabilités (en ce notamment inclus, tous dommages directs ou indirects, frais d'avocats, etc.) qui
+                résulteront de l'utilisation de la Plateforme et/ou des Services, par l'Utilisateur, en violation des
+                présentes CGU.</p>
+            <p>Toute violation ou tentative de violation de l'une quelconque des dispositions des présentes CGU, par un
+                Utilisateur, cause un préjudice irrémédiable à {{ site_name }}, qui pourra en conséquence intenter tout recours à
+                sa disposition, en droit et en équité, y compris toute demande d'injonction, en vue de faire respecter
+                toute disposition des présentes CGU et d'empêcher l'Utilisateur de divulguer, de modifier, de transférer
+                et/ou d'utiliser la Plateforme, en tout ou partie, directement comme indirectement, en violation des
+                présentes CGU.</p>
+            <p>En cas d'utilisation illégale ou non autorisée de la Plateforme et/ou des Services, {{ site_name }} se réserve le
+                droit d'exercer toute action appropriée, et notamment de signaler l'infraction aux autorités judiciaires
+                et/ou policières.</p>
 
-    <h2>17. INDEMNISATION – PREJUDICE IRREMEDIABLE</h2>
-    <p>Sur première demande de WAMCAR, l’Utilisateur accepte, après avoir pu présenter ses observations, de défendre, d’indemniser et de tenir WAMCAR, et toute personne agissant en son nom, pour non-responsable, y compris, sans que cette liste soit limitative, ses licenciés, ses actionnaires, ses dirigeants, ses administrateurs et son personnel, de toutes pertes, dépenses, coûts, dommages, plaintes et responsabilités (en ce notamment inclus, tous dommages directs ou indirects, frais d’avocats, etc.) qui résulteront de l’utilisation de la Plateforme et/ou des Services, par l’Utilisateur, en violation des présentes CGU.</p>
-    <p>Toute violation ou tentative de violation de l’une quelconque des dispositions des présentes CGU, par un Utilisateur, cause un préjudice irrémédiable à WAMCAR, qui pourra en conséquence intenter tout recours à sa disposition, en droit et en équité, y compris toute demande d’injonction, en vue de faire respecter toute disposition des présentes CGU et d’empêcher l’Utilisateur de divulguer, de modifier, de transférer et/ou d’utiliser la Plateforme, en tout ou partie, directement comme indirectement, en violation des présentes CGU.</p>
-    <p>En cas d’utilisation illégale ou non autorisée de la Plateforme et/ou des Services, WAMCAR se réserve le droit d’exercer toute action appropriée, et notamment de signaler l’infraction aux autorités judiciaires et/ou policières.</p>
+            <h2>18 SERVICE D'OFFRES PROFESSIONNELLES</h2>
+            <p>Le service d'estimation d'offres de reprises et d'achat simultanés propose un service en ligne
+                d'estimation de valeurs de reprises de véhicules d'occasion dans le cadre de l'achat d'un nouveau
+                véhicule, dans le but de faciliter la vente de ces véhicules par des vendeurs particuliers, et leur mise
+                en relation avec un professionnel partenaire de {{ site_name }} qui ne s'engage à aucun moment au travers de ce
+                site à reprendre le véhicule estimé. <br>
+                L'utilisateur du service reconnait que la valeur de reprise de son véhicule est fournie par Le
+                professionnel à titre purement indicatif et qu'elle n'engage ni {{ site_name }}, ni le professionnel, ni tout
+                autre acheteur potentiel de véhicules d'occasion.</p>
 
-    <h2>18 SERVICE D’OFFRES PROFESSIONNELLES</h2>
-    <p>Le service d’estimation d’offres de reprises et d’achat simultanés propose un service en ligne d’estimation de valeurs de reprises de véhicules d’occasion dans le cadre de l’achat d’un nouveau véhicule, dans le but de faciliter la vente de ces véhicules par des vendeurs particuliers, et leur mise en relation avec un professionnel partenaire de Wamcar qui ne s’engage à aucun moment au travers de ce site à reprendre le véhicule estimé. <br>
-    L’utilisateur du service reconnait que la valeur de reprise de son véhicule est fournie par Le professionnel à titre purement indicatif et qu’elle n’engage ni Wamcar, ni le professionnel, ni tout autre acheteur potentiel de véhicules d’occasion.</p>
+            <h3>Fonctionnement du service</h3>
+            <p>Le service d'offres en ligne n‘est ouvert qu'à l'utilisateur particulier, propriétaire d'un véhicule pour
+                lequel il souhaite obtenir une estimation de sa valeur de reprise, et acheteur d'un nouveau véhicule
+                chez le même professionnel.</p>
+            <p>Pour obtenir une estimation de la valeur du véhicule qu'il souhaite vendre, l'utilisateur saisit dans les
+                champs requis par le module de reprise des informations détaillées notamment sur son identité, les
+                caractéristiques de son véhicule et l'état général de celui-ci.Il indique également des informations sur
+                le véhicule qu'il souhaite acheter.</p>
+            <p>Le Client garantit également que le véhicule qu'il souhaite estimer n'est en aucune manière déjà cédé à
+                un tiers, gagé ou plus généralement dévolu en faveur d'un tiers.</p>
 
-    <h3>Fonctionnement du service</h3>
-    <p>Le service d’offres en ligne n‘est ouvert qu’à l’utilisateur particulier, propriétaire d’un véhicule pour lequel il souhaite obtenir une estimation de sa valeur de reprise, et acheteur d’un nouveau véhicule chez le même professionnel.</p>
-    <p>Pour obtenir une estimation de la valeur du véhicule qu’il souhaite vendre, l’utilisateur saisit dans les champs requis par le module de reprise des informations détaillées notamment sur son identité, les caractéristiques de son véhicule et l’état général de celui-ci.Il indique également des informations sur le véhicule qu’il souhaite acheter.</p>
-    <p>Le Client garantit également que le véhicule qu’il souhaite estimer n’est en aucune manière déjà cédé à un tiers, gagé ou plus généralement dévolu en faveur d’un tiers.</p>
+            <h3>Estimation de prix</h3>
+            <p>La saisie d'informations par l'utilisateur permet au Professionnel partenaire de fournir une valeur
+                estimative de reprise dans le cadre de la vente d'un nouveau véhicule associée à cette reprise, en
+                euros, toutes taxes comprises, calculée à partir d'observations du marché de l'occasion en France et
+                notamment basée sur des transactions récentes de véhicules similaires diminuée des frais de remise en
+                état.</p>
+            <p>Toute erreur ou approximation, volontaire ou involontaire dans les informations fournies par
+                l'utilisateur pendant l'étape d'identification de son véhicule en ligne, la description de son état
+                carrosserie et mécanique ou le nombre de kilomètres total parcourus par celui-ci entraînerait une
+                estimation erronée.</p>
 
-    <h3>Estimation de prix</h3>
-    <p>La saisie d’informations par l’utilisateur permet au Professionnel partenaire de fournir une valeur estimative de reprise dans le cadre de la vente d’un nouveau véhicule associée à cette reprise, en euros, toutes taxes comprises, calculée à partir d’observations du marché de l’occasion en France et notamment basée sur des transactions récentes de véhicules similaires diminuée des frais de remise en état.</p>
-    <p>Toute erreur ou approximation, volontaire ou involontaire dans les informations fournies par l’utilisateur pendant l’étape d’identification de son véhicule en ligne, la description de son état carrosserie et mécanique ou le nombre de kilomètres total parcourus par celui-ci entraînerait une estimation erronée.</p>
+            <h3>Validité de l'Offre</h3>
+            <p>Les valeurs de reprises indiquées sur le service d'offres de reprises n'ont par conséquent qu'une valeur
+                informative. <br>
+                Les propositions restent valables tant que le véhicule proposé à la vente par le professionnel reste
+                disponible chez ce professionnel.</p>
+            <p>Toute visite chez un professionnel partenaire {{ site_name }} de l'utilisateur particulier suite à l'interrogation
+                du service d'offres donnera lieu à une expertise complémentaire de son véhicule qui permettra au
+                professionnel, s'il le souhaite, de proposer au propriétaire du véhicule, une valeur de
+                reprise équivalente, inférieure ou supérieure à l'estimation fournie par le service en ligne. Elle
+                pourra notamment être annulée ou révisée à la baisse si :</p>
+            <ul>
+                <li>le particulier ne souhaite pas acheter le nouveau véhicule proposé par le professionnel</li>
+                <li>le véhicule n'est pas exactement conforme à l'identification et la description effectuée par
+                    l'utilisateur sur le site
+                </li>
+                <li>l'inspection physique réalisée sur le véhicule a révélé des défauts qui n'étaient pas décrits en
+                    ligne sur le site
+                </li>
+                <li>l'inspection physique de l'état esthétique et de fonctionnement des éléments non évalués par le
+                    service d'offres de reprise en ligne et notamment de l'état intérieur du véhicule entraînerait une
+                    importante dépréciation de la valeur de ce même véhicule
+                </li>
+                <li>Le nombre de kilomètres du véhicule serait plus élevé de 1 000 (mile) kilomètres au nombre déclaré
+                    lors de l'utilisation du service d'offres de reprises en ligne.
+                </li>
+            </ul>
 
-    <h3>Validité de l’Offre</h3>
-    <p>Les valeurs de reprises indiquées sur le service d’offres de reprises n’ont par conséquent qu’une valeur informative. <br>
-    Les propositions restent valables tant que le véhicule proposé à la vente par le professionnel reste disponible chez ce professionnel.</p>
-    <p>Toute visite chez un professionnel partenaire Wamcar de l’utilisateur particulier suite à l’interrogation du service d’offres donnera lieu à une expertise complémentaire de son véhicule qui permettra au professionnel, s’il le souhaite, de proposer au propriétaire du véhicule, une valeur de
-    reprise équivalente, inférieure ou supérieure à l’estimation fournie par le service en ligne. Elle pourra notamment être annulée ou révisée à la baisse si :</p>
-    <ul>
-        <li>le particulier ne souhaite pas acheter le nouveau véhicule proposé par le professionnel</li>
-        <li>le véhicule n’est pas exactement conforme à l’identification et la description effectuée par l’utilisateur sur le site</li>
-        <li>l’inspection physique réalisée sur le véhicule a révélé des défauts qui n’étaient pas décrits en ligne sur le site</li>
-        <li>l’inspection physique de l’état esthétique et de fonctionnement des éléments non évalués par le service d’offres de reprise en ligne et notamment de l’état intérieur du véhicule entraînerait une importante dépréciation de la valeur de ce même véhicule</li>
-        <li>Le nombre de kilomètres du véhicule serait plus élevé de 1 000 (mile) kilomètres au nombre déclaré lors de l’utilisation du service d’offres de reprises en ligne.</li>
-    </ul>
+            <h2>19. NOTIFICATIONS</h2>
+            <p>Les notifications aux Utilisateurs se font régulièrement par email ou par voie postale. {{ site_name }} pourra
+                également notifier sur l'interface de la Plateforme toute modification faite à la Plateforme lui-même
+                et/ou aux Services.</p>
 
-    <h2>19. NOTIFICATIONS</h2>
-    <p>Les notifications aux Utilisateurs se font régulièrement par email ou par voie postale. WAMCAR pourra également notifier sur l’interface de la Plateforme toute modification faite à la Plateforme lui-même et/ou aux Services.</p>
+            <h2>20. OFFRES COMMERCIALES</h2>
+            <p>L'Utilisateur accepte de recevoir les offres commerciales de {{ site_name }}, ses plans de communication et ses
+                actualités. L'Utilisateur est fondé de demander, à tout moment, auprès de {{ site_name }}, de retirer son adresse
+                de la liste de contacts de {{ site_name }}, par courriel à l'adresse suivante: <a
+                        href="mailto:contact@wamcar.fr" class="text-underline">contact@wamcar.fr</a>.</p>
 
-    <h2>20. OFFRES COMMERCIALES</h2>
-    <p>L’Utilisateur accepte de recevoir les offres commerciales de WAMCAR, ses plans de communication et ses actualités. L’Utilisateur est fondé de demander, à tout moment, auprès de WAMCAR, de retirer son adresse de la liste de contacts de WAMCAR, par courriel à l’adresse suivante: <a href="mailto:contact@wamcar.com" class="text-underline">contact@wamcar.com</a>.</p>
+            <h2>21. MODIFICATIONS – TRANSFERT – RENONCIATION</h2>
+            <p>LES CGU SONT SUSCEPTIBLES D'ETRE MODIFIEES PAR {{ site_name }}, NOTAMMENT EN CAS D'EVOLUTIONS TECHNIQUES, LEGALES
+                OU JURISPRUDENTIELLES OU LORS DE LA MISE EN PLACE DE NOUVELLES FONCTIONNALITES DE LA PLATEFORME OU DES
+                SERVICES. L'UTILISATEUR SE DOIT DE VERIFIER REGULIEREMENT SON ESPACE PERSONNEL ET ACCEPTE DE CESSER,
+                SANS DELAI, TOUTE UTILISATION DE LA PLATEFORME OU DES SERVICES, EN CAS DE DESAPPROBATION DES CGU
+                MODIFIEES.</p>
+            <p>L'ACCES A LA PLATEFORME IMPLIQUE L'ACCEPTATION SANS RESERVE, PAR L'UTILISATEUR, DE L'ENSEMBLE DES
+                DISPOSITIONS DES PRESENTES CGU, ET DE TOUTES LES MODIFICATIONS QUE {{ site_name }} POURRAIT Y APPORTER.
+               {{ site_name }} peut céder les présentes CGU, en tout ou en partie.</p>
+            <p>Le fait que {{ site_name }} n'ait pas exigé l'application d'une clause quelconque des présentes CGU, que ce soit
+                de façon permanente ou temporaire, ne pourra en aucun cas être considéré comme une renonciation aux
+                droits de {{ site_name }} découlant de ladite clause.</p>
 
-    <h2>21. MODIFICATIONS – TRANSFERT – RENONCIATION</h2>
-    <p>LES CGU SONT SUSCEPTIBLES D’ETRE MODIFIEES PAR WAMCAR, NOTAMMENT EN CAS D’EVOLUTIONS TECHNIQUES, LEGALES OU JURISPRUDENTIELLES OU LORS DE LA MISE EN PLACE DE NOUVELLES FONCTIONNALITES DE LA PLATEFORME OU DES SERVICES. L’UTILISATEUR SE DOIT DE VERIFIER REGULIEREMENT SON ESPACE PERSONNEL ET ACCEPTE DE CESSER, SANS DELAI, TOUTE UTILISATION DE LA PLATEFORME OU DES SERVICES, EN CAS DE DESAPPROBATION DES CGU MODIFIEES.</p>
-    <p>L’ACCES A LA PLATEFORME IMPLIQUE L’ACCEPTATION SANS RESERVE, PAR L’UTILISATEUR, DE L’ENSEMBLE DES DISPOSITIONS DES PRESENTES CGU, ET DE TOUTES LES MODIFICATIONS QUE WAMCAR POURRAIT Y APPORTER.
-    WAMCAR peut céder les présentes CGU, en tout ou en partie.</p>
-    <p>Le fait que WAMCAR n’ait pas exigé l’application d’une clause quelconque des présentes CGU, que ce soit de façon permanente ou temporaire, ne pourra en aucun cas être considéré comme une renonciation aux droits de WAMCAR découlant de ladite clause.</p>
+            <h2>22. INVALIDITE</h2>
+            <p>Si une ou plusieurs stipulations des présentes CGU sont tenues pour non valides ou déclarées telles en
+                application d'une loi, d'un règlement – et en particulier du droit de l'Union Européenne – ou à la suite
+                d'une décision définitive d'une juridiction compétente, les autres stipulations garderont toute leur
+                force et leur portée et {{ site_name }} procèdera sans délai aux modifications nécessaires en respectant, dans
+                toute la mesure du possible, l'esprit des présentes CGU.</p>
 
-    <h2>22. INVALIDITE</h2>
-    <p>Si une ou plusieurs stipulations des présentes CGU sont tenues pour non valides ou déclarées telles en application d’une loi, d’un règlement – et en particulier du droit de l’Union Européenne – ou à la suite d’une décision définitive d’une juridiction compétente, les autres stipulations garderont toute leur force et leur portée et WAMCAR procèdera sans délai aux modifications nécessaires en respectant, dans toute la mesure du possible, l’esprit des présentes CGU.</p>
-
-    <h2>23. LOI APPLICABLE ET LITIGES</h2>
-    <p>LES PRESENTES CGU SERONT REGIES ET INTERPRETEES CONFORMEMENT AUX LOIS FRANÇAISES. TOUS LITIGES ET DIFFERENDS RELATIFS AUX PRESENTES CGU, A L’EXPLOITATION DE LA PLATEFORME ET/OU DES SERVICES, SONT SOUMIS AUX JURIDICTIONS TERRITORIALEMENT ET MATERIELLEMENT COMPETENTES. <br>
-    J’AI LU LES CONDITIONS D’UTILISATION ET J’ACCEPTE TOUTES LES CLAUSES MENTIONNEES CI-DESSUS.</p>
-
+            <h2>23. LOI APPLICABLE ET LITIGES</h2>
+            <p>LES PRESENTES CGU SERONT REGIES ET INTERPRETEES CONFORMEMENT AUX LOIS FRANÇAISES. TOUS LITIGES ET
+                DIFFERENDS RELATIFS AUX PRESENTES CGU, A L'EXPLOITATION DE LA PLATEFORME ET/OU DES SERVICES, SONT SOUMIS
+                AUX JURIDICTIONS TERRITORIALEMENT ET MATERIELLEMENT COMPETENTES. <br>
+                J'AI LU LES CONDITIONS D'UTILISATION ET J'ACCEPTE TOUTES LES CLAUSES MENTIONNEES CI-DESSUS.</p>
+        </div>
+    </section>
 {% endblock %}

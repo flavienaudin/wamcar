@@ -2,12 +2,47 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use AppBundle\Security\SecurityInterface\ApiUserProvider;
+use AppBundle\Security\SecurityInterface\HasApiCredential;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
-class DoctrineGarageRepository extends EntityRepository implements GarageRepository
+class DoctrineGarageRepository extends EntityRepository implements GarageRepository, ApiUserProvider, UserProviderInterface
 {
+
+
+    /**
+     * @param string $username
+     * @return null|Garage
+     */
+    public function loadUserByUsername($username): ?Garage
+    {
+        return $this->findOneBy(['id' => $username]);
+    }
+
+    /**
+     * @param UserInterface $garage
+     * @return null|Garage
+     */
+    public function refreshUser(UserInterface $garage): ?Garage
+    {
+        return $this->loadUserByUsername($garage->getUsername());
+    }
+
+    /**
+     * @param string $class
+     * @return bool
+     */
+    public function supportsClass($class): bool
+    {
+        return Garage::class === $class;
+    }
+    /** Fin des méthodes du UserProviderInterface */
+
+
     /**
      * {@inheritdoc}
      */
@@ -64,4 +99,13 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
             ->getResult()
             ;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getByClientId(string $clientId): ?HasApiCredential
+    {
+        return $this->findOneBy(['apiClientId' => $clientId]);
+    }
+
 }

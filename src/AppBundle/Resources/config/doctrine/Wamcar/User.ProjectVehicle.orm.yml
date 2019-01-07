@@ -15,6 +15,7 @@ Wamcar\User\ProjectVehicle:
             type: string
         model:
             type: string
+            nullable: true
         yearMin:
             type: integer
             nullable: true

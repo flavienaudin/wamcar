@@ -75,7 +75,9 @@
       > li { border-color: rgba(white, .1); }
     }
 
-    &.vehicle-infos-list {
+    &.vehicle-infos-list,
+    &.vehicle-funding-list,
+    &.vehicle-guarantees-list {
       > li {
         @include breakpoint(large only) {
           &:first-child { border-top: rem-calc(1) solid $border-color; }

@@ -59,6 +59,7 @@
 //  54. Tooltip
 //  55. Top Bar
 //  56. Xy Grid
+//  57. Slick
 
 @import '~foundation-sites/scss/util/util';
 
@@ -102,6 +103,7 @@ $global-prototype-breakpoints: false;
 $global-color-pick-contrast-tolerance: 0;
 $global-transition: .3s;
 $print-transparent-backgrounds: true;
+$header-zindex:1055; // Above Select 2 dropdown (z-index: 1051)
 
 
 @include add-foundation-colors;
@@ -402,11 +404,11 @@ $dropdown-sizes: (
 // 18. Dropdown Menu
 // -----------------
 
-$dropdownmenu-arrows: true;
+$dropdownmenu-arrows: false;
 $dropdownmenu-arrow-color: $anchor-color;
 $dropdownmenu-arrow-size: 6px;
 $dropdownmenu-arrow-padding: 1.5rem;
-$dropdownmenu-min-width: 200px;
+$dropdownmenu-min-width: 280px;
 $dropdownmenu-background: $white;
 $dropdownmenu-submenu-background: $dropdownmenu-background;
 $dropdownmenu-padding: $global-menu-padding;
@@ -509,9 +511,15 @@ $meter-fill-bad: $alert-color;
 // 25. Off-canvas
 // --------------
 
-$offcanvas-size: 100vw;
-$offcanvas-size-medium: rem-calc(400);
-$offcanvas-vertical-size: rem-calc(300);
+$offcanvas-sizes: (
+  small: 100vw,
+  medium: rem-calc(400)
+);
+
+$offcanvas-vertical-sizes: (
+  small: rem-calc(300),
+);
+
 $offcanvas-background: white;
 $offcanvas-shadow: none;
 $offcanvas-inner-shadow-size: 20px;
@@ -747,7 +755,7 @@ $reveal-max-width: $global-width;
 $reveal-padding: 0;
 $reveal-border: 0;
 $reveal-radius: $global-radius;
-$reveal-zindex: 1005;
+$reveal-zindex: ($header-zindex + 2);
 $reveal-overlay-background: rgba($black, 0.45);
 
 // 48. Slider
@@ -773,11 +781,11 @@ $switch-height: 2rem;
 $switch-height-tiny: 1.5rem;
 $switch-height-small: 1.75rem;
 $switch-height-large: 2.5rem;
-$switch-radius: $global-radius;
+$switch-radius: 2rem;
 $switch-margin: $global-margin;
 $switch-paddle-background: $white;
 $switch-paddle-offset: 0.25rem;
-$switch-paddle-radius: $global-radius;
+$switch-paddle-radius: 50%;
 $switch-paddle-transition: all 0.25s ease-out;
 
 // 50. Table
@@ -885,3 +893,11 @@ $grid-margin-gutters: (
 );
 $grid-padding-gutters: $grid-margin-gutters;
 $block-grid-max: 8;
+
+
+// 57. Xy Grid
+// -----------
+
+$slick-opacity-default: 0.75 !default;
+$slick-opacity-on-hover: 1 !default;
+$slick-opacity-not-active: 0.25 !default;

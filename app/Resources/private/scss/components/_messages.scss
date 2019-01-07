@@ -10,13 +10,17 @@
 
   &-l-main {
     position: absolute;
-    top: $header-height;
-    bottom: 0;
+    top: $header-height + rem-calc(20);
     left: 0;
     right: 0;
+    overflow-y: hidden;
+
+    @include breakpoint(medium) {
+      bottom: rem-calc(20);
+    }
 
     @include breakpoint(large) {
-      top: $header-height-medium;
+      top: $header-height-medium + rem-calc(20);
     }
   }
 
@@ -113,7 +117,7 @@
     }
   }
 
-  &-create-vehicle-btn {
+  &-vehicle-button {
     display: inline-block;
     margin-top: rem-calc(10);
     font-size: rem-calc(14);
@@ -124,10 +128,9 @@
      ===================================== */
 
   &-list-wrapper {
+    height: 100%;
 
     &:not(.empty-list-wrapper) {
-      height: 100%;
-
       @include breakpoint(medium) {
         border-top: rem-calc(1) solid $border-color;
         border-bottom: rem-calc(1) solid $border-color;
@@ -228,13 +231,16 @@
   }
 
   &-list-empty {
-    padding: rem-calc(50);
+    padding: rem-calc(25);
     width: 100%;
 
     .messages-list-empty-icon {
       margin: 0 0 rem-calc(15);
-      font-size: rem-calc(120);
       color: $primary-color;
+      font-size: rem-calc(60);
+      @include breakpoint(medium) {
+        font-size: rem-calc(100);
+      }
     }
 
     strong {
@@ -289,6 +295,36 @@
     margin-top: rem-calc(15);
   }
 
+  &-item-attachments {
+    margin-top: rem-calc(15);
+
+    &-field {
+      label {
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(10);
+      }
+
+      span.icon-close {
+        margin-left: 5px;
+        cursor: pointer;
+        font-size: rem-calc(14);
+        margin-bottom: rem-calc(5);
+      }
+
+      &-list{
+        margin-top: rem-calc(15);
+      }
+    }
+
+    ol {
+      margin-bottom: 0;
+
+      li a {
+        word-wrap: break-word;
+      }
+    }
+  }
+
   &-item-answer {
     padding: rem-calc(20) rem-calc(15) rem-calc(40);
     background: $grey-alt2;
@@ -310,7 +346,7 @@
     textarea {
       padding: rem-calc(20);
       font-size: rem-calc(13);
-      min-height: rem-calc(90);
+      min-height: rem-calc(150);
     }
 
     .vehicle-item {
@@ -481,20 +517,15 @@
      Messages list & content max height
      ===================================== */
 
-  &-item-wrapper-desktop,
+  &-list-empty,
+  &-interlocutors-list,
+  &-item-wrapper-desktop {
+    max-height: 100%;
+    overflow-y: auto;
+  }
+
   &-list {
-    @include breakpoint(medium) {
-      max-height: 100%;
-      overflow-y: auto;
-    }
-
-    @include breakpoint(large) {
-      //max-height: 70vh;
-    }
-
-    @include breakpoint(xlarge) {
-      //max-height: 75vh;
-    }
+    overflow-y: hidden;
   }
 
   /*
@@ -526,6 +557,10 @@
       height: rem-calc(20);
       font-size: rem-calc(11);
       line-height: rem-calc(20);
+    }
+
+    + b {
+      margin-left: rem-calc(20);
     }
   }
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front;
 
+use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -9,6 +10,7 @@ use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 class DefaultController extends BaseController
@@ -42,29 +44,28 @@ class DefaultController extends BaseController
     /**
      * @return Response
      */
-    public function homepageAction(): Response
+    public function landingRepriseAction(): Response
     {
-        if ($this->isUserAuthenticated()) {
-            return $this->redirectToRoute('front_view_current_user_info');
-        }
-
-        $vehicleInformationDTO = new VehicleInformationDTO();
-        $formSearchVehicleDTO = new SearchVehicleDTO();
-
         $vehicleInformationForm = $this->formFactory->create(
             VehicleInformationType::class,
-            $vehicleInformationDTO,
+            new VehicleInformationDTO(),
             [
                 'available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates(),
                 'small_version' => true
             ]
         );
 
-        $formSearchVehicleDTO = $this->formFactory->create(
+        $searchVehicleForm = $this->formFactory->create(
             SearchVehicleType::class,
-            $formSearchVehicleDTO,
+            new SearchVehicleDTO(),
             [
-                'action' => $this->generateRoute('front_search_personal'),
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
                 'small_version' => true
             ]
         );
@@ -75,7 +76,69 @@ class DefaultController extends BaseController
             ':front/Home:home.html.twig',
             [
                 'vehicleInformationForm' => $vehicleInformationForm->createView(),
-                'smallSearchForm' => $formSearchVehicleDTO->createView(),
+                'smallSearchForm' => $searchVehicleForm->createView(),
+                'last_vehicles' => $last_vehicles
+            ]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function landingMeetingAction(): Response
+    {
+        $searchVehicleForm = $this->formFactory->create(
+            SearchVehicleType::class,
+            new SearchVehicleDTO(),
+            [
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
+                'small_version' => true
+            ]
+        );
+
+        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+
+        return $this->render(
+            '/front/Home/landing_meeting.html.twig',
+            [
+                'smallSearchForm' => $searchVehicleForm->createView(),
+                'last_vehicles' => $last_vehicles
+            ]
+        );
+    }
+
+    /**
+     * @return Response
+     */
+    public function landingMixteAction(): Response
+    {
+        $searchVehicleForm = $this->formFactory->create(
+            SearchVehicleType::class,
+            new SearchVehicleDTO(),
+            [
+                'action' => ($this->getUser() instanceof ProUser ?
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
+                    ]) :
+                    $this->generateRoute('front_search', [
+                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
+                    ])),
+                'small_version' => true
+            ]
+        );
+
+        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+
+        return $this->render(
+            '/front/Home/landing_mixte.html.twig',
+            [
+                'smallSearchForm' => $searchVehicleForm->createView(),
                 'last_vehicles' => $last_vehicles
             ]
         );

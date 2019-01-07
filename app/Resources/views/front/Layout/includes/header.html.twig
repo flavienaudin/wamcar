@@ -1,31 +1,62 @@
-{% set is_home_page = is_home_page|default(false) %}
-{% set isUserPro = isUserPro|default(false) %}
 {% set header_class = header_class|default('') %}
+
+{% set userUnseenNotificationCount = isLogged ? mgilet_notification_unseen_count(app.user) : null %}
 
 <header id="js-header" class="l-header column small-right-collapse xlarge-right-uncollapse {{ header_class }}">
 
     {% include "front/Layout/includes/logo.html.twig" %}
 
     {% block header_center %}
-        {% if isUserPro %}
-            {% include "front/Layout/includes/navigation/primary_pro.html.twig" %}
-        {% elseif isUserPersonal %}
-            {% include "front/Layout/includes/navigation/primary_personal.html.twig" %}
-        {% else %}
+        {% if isLogged %}
             {% include "front/Layout/includes/navigation/primary.html.twig" %}
+        {% else %}
+            {% include "front/Layout/includes/navigation/primary_unlogged.html.twig" %}
         {% endif %}
     {% endblock %}
-
-    <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse text-center {{ is_register_page ? 'is-hidden' : '' }}">
+<div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
         {% block header_right %}
             {% if isLogged %}
-                <a href="{{ path('front_view_current_user_info') }}" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar is-logo brand-logo-rounded">
-                    <img src="{{ app.user.avatar|avatar('user_mini_thumbnail') }}" alt="{{ app.user.fullName }}" title="{{ app.user.firstName }}">
-                    <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
+                <button
+                        class="l-navigation-item is-logged l-header-button icon-search body-font-color l-header-button show-for-small-only"
+                        data-toggle="header_search_links">
+                </button>
+
+                <a href="{{ path('front_conversation_list') }}"
+                   class="l-navigation-item is-logged l-header-button icon-message body-font-color l-header-button">
+                    <span class="messages-notification">{{ getCountUnreadMessages(app.user) }}</span>
                 </a>
+
+                <a href="{{ mgilet_notification_generate_path('notification_list', app.user) }}"
+                   class="l-navigation-item is-logged l-header-button icon-bell body-font-color l-header-button show-for-small-only">
+                    <span class="messages-notification">{{ userUnseenNotificationCount }}</span>
+                </a>
+                <button class="l-navigation-item is-logged l-header-button icon-bell body-font-color l-header-button show-for-medium"
+                        data-toggle="notifications-dropdown">
+                    <span class="messages-notification">{{ userUnseenNotificationCount }}</span>
+                </button>
+
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li class="is-flex">
+                        <a href="#" class="l-navigation-item is-logged l-header-button body-font-color icon-avatar user-thumbnail-mini">
+                            <img src="{{ app.user.avatar|avatar('user_mini_thumbnail', app.user.firstName) }}" alt="{{ app.user.fullName }}"
+                                 title="{{ app.user.firstName }}">
+                            <b class="show-for-xlarge">&nbsp;{{ app.user.firstName }}</b>
+                        </a>
+                        <ul class="menu is-dropdown-submenu">
+                            {% if isUserPro %}
+                                {{ include('front/Layout/includes/menu/pro_menu.html.twig') }}
+                            {% elseif isUserPersonal %}
+                                {{ include('front/Layout/includes/menu/personal_menu.html.twig') }}
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
             {% else %}
-                <button type="button" class="l-header-button icon-user small-right" id="open-side-login" data-toggle="js-off-canvas-user">
-                    <span class="show-for-xlarge">Espace membre</span>
+                <button class="l-header-button icon-search small-right hide-for-large"
+                        data-toggle="header_search_links"></button>
+                <button type="button" class="l-header-button icon-user small-right" id="open-side-login"
+                        data-toggle="js-off-canvas-user" title="{{ 'header.anonyme.log'|trans }}">
+                    <span class="show-for-xlarge">{{ 'header.anonyme.log'|trans }}</span>
                 </button>
                 <button class="l-header-button hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation">
                     <span class="hamburger-line"></span>
@@ -35,10 +66,32 @@
     </div>
 </header>
 
-{% if not isLogged %}
-    <div id="js-off-canvas-user" class="off-canvas position-right" data-off-canvas>
+
+<div id="header_search_links"
+     class="dropdown-pane dropdown-pane-header-search-links {{ isLogged ? 'show-for-small-only':'hide-for-large' }}"
+     data-dropdown  data-position="bottom" data-alignement="right" data-close-on-click="true">
+    <div class="dropdown-pane-body {{ isLogged ? 'show-for-small-only':'hide-for-large' }}">
+        <ul class="no-bullet no-margin">
+            <li><a href="{{ path('front_search') }}" class="black-color">{{ 'header.common.search.vehicle'|trans }}</a></li>
+            <li><a href="{{ path('front_directory_view') }}" class="black-color">{{ 'header.common.search.directory'|trans }}</a></li>
+        </ul>
+    </div>
+</div>
+
+{% if isLogged %}
+    <div id="notifications-dropdown" class="dropdown-pane dropdown-pane-notifications show-for-medium" data-dropdown
+         data-position="bottom" data-alignment="right" data-auto-focus="true">
+        {{ wamcar_notification_render(app.user, {
+            'template':'front/Notifications/includes/notifications.html.twig',
+            'order':constant('AppBundle\\Services\\Notification\\NotificationManagerExtended::ORDER_UNSEEN_FIRST'),
+            'limit':'5'
+        }) }}
+    </div>
+{% else %}
+    <div id="js-off-canvas-user" class="off-canvas position-right is-closed" aria-hidden="true"
+         data-content-scroll="false" data-off-canvas>
         {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
     </div>
+    <div id="js-off-canvas-navigation" class="off-canvas position-right is-closed off-canvas-navigation"
+         data-content-scroll="false" data-off-canvas aria-hidden="true"></div>
 {% endif %}
-
-<div id="js-off-canvas-navigation" class="off-canvas off-canvas-navigation position-right" data-off-canvas></div>

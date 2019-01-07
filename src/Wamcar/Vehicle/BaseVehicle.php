@@ -2,6 +2,7 @@
 
 namespace Wamcar\Vehicle;
 
+use AppBundle\Controller\Front\ProContext\FavoriteController;
 use AppBundle\Doctrine\Entity\VehiclePicture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,15 +10,16 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
 use Wamcar\User\{
-    BaseUser, Picture as UserPicture
+    BaseLikeVehicle, BaseUser, Picture as UserPicture
 };
 use Wamcar\Vehicle\Enum\{
-    MaintenanceState, SafetyTestDate, SafetyTestState, Transmission
+    MaintenanceState, SafetyTestState, TimingBeltState, Transmission
 };
 
 abstract class BaseVehicle implements Vehicle
 {
     use SoftDeleteable;
+    const TYPE = '';
 
     /** @var string */
     protected $id;
@@ -27,15 +29,17 @@ abstract class BaseVehicle implements Vehicle
     protected $transmission;
     /** @var Registration|null */
     protected $registration;
+    /** @var bool */
+    protected $isUsed;
     /** @var \DateTimeInterface */
     protected $registrationDate;
     /** @var int */
     protected $mileage;
     /** @var Collection */
     protected $pictures;
-    /** @var SafetyTestDate */
+    /** @var \DateTimeInterface |null */
     protected $safetyTestDate;
-    /** @var SafetyTestState */
+    /** @var SafetyTestState|null */
     protected $safetyTestState;
     /** @var int|null */
     protected $bodyState;
@@ -43,10 +47,10 @@ abstract class BaseVehicle implements Vehicle
     protected $engineState;
     /** @var int|null */
     protected $tyreState;
-    /** @var MaintenanceState */
+    /** @var MaintenanceState|null */
     protected $maintenanceState;
-    /** @var bool|null */
-    protected $isTimingBeltChanged;
+    /** @var TimingBeltState|null */
+    protected $timingBeltState;
     /** @var bool|null */
     protected $isImported;
     /** @var bool|null */
@@ -63,6 +67,8 @@ abstract class BaseVehicle implements Vehicle
     protected $headerMessages;
     /** @var Collection */
     protected $messages;
+    /** @var Collection */
+    protected $likes;
 
     /**
      * BaseVehicle constructor.
@@ -70,15 +76,16 @@ abstract class BaseVehicle implements Vehicle
      * @param Transmission $transmission
      * @param Registration|null $registration
      * @param \DateTimeInterface $registrationDate
+     * @param bool $isUsed
      * @param int $mileage
      * @param array $pictures
-     * @param SafetyTestDate $safetyTestDate
-     * @param SafetyTestState $safetyTestState
+     * @param \DateTimeInterface|null $safetyTestDate
+     * @param SafetyTestState|null $safetyTestState
      * @param int|null $bodyState
      * @param int|null $engineState
      * @param int|null $tyreState
-     * @param MaintenanceState $maintenanceState
-     * @param bool|null $isTimingBeltChanged
+     * @param MaintenanceState|null $maintenanceState
+     * @param TimingBeltState|null $timingBeltState
      * @param bool|null $isImported
      * @param bool|null $isFirstHand
      * @param string|null $additionalInformation
@@ -89,15 +96,16 @@ abstract class BaseVehicle implements Vehicle
         Transmission $transmission,
         Registration $registration = null,
         \DateTimeInterface $registrationDate,
+        bool $isUsed,
         int $mileage,
         array $pictures,
-        SafetyTestDate $safetyTestDate,
-        SafetyTestState $safetyTestState,
+        \DateTimeInterface $safetyTestDate = null,
+        SafetyTestState $safetyTestState = null,
         int $bodyState = null,
         int $engineState = null,
         int $tyreState = null,
-        MaintenanceState $maintenanceState,
-        bool $isTimingBeltChanged = null,
+        MaintenanceState $maintenanceState = null,
+        TimingBeltState $timingBeltState = null,
         bool $isImported = null,
         bool $isFirstHand = null,
         string $additionalInformation = null,
@@ -108,6 +116,7 @@ abstract class BaseVehicle implements Vehicle
         $this->transmission = $transmission;
         $this->registration = $registration;
         $this->registrationDate = $registrationDate;
+        $this->isUsed = $isUsed;
         $this->mileage = $mileage;
         $this->pictures = $pictures;
         $this->safetyTestDate = $safetyTestDate;
@@ -116,11 +125,13 @@ abstract class BaseVehicle implements Vehicle
         $this->engineState = $engineState;
         $this->tyreState = $tyreState;
         $this->maintenanceState = $maintenanceState;
-        $this->isTimingBeltChanged = $isTimingBeltChanged;
+        $this->timingBeltState = $timingBeltState;
         $this->isImported = $isImported;
         $this->isFirstHand = $isFirstHand;
         $this->additionalInformation = $additionalInformation;
         $this->city = $city;
+
+        $this->likes = new ArrayCollection();
     }
 
     /**
@@ -129,6 +140,14 @@ abstract class BaseVehicle implements Vehicle
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return static::TYPE;
     }
 
     /**
@@ -193,7 +212,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationMineType(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getMineType();
         }
         return null;
@@ -204,7 +223,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationPlateNumber(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getPlateNumber();
         }
         return null;
@@ -215,7 +234,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function getRegistrationVin(): ?string
     {
-        if($this->registration){
+        if ($this->registration) {
             return $this->registration->getVin();
         }
         return null;
@@ -238,6 +257,22 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return string
+     */
+    public function getStatus(): string
+    {
+        return $this->isUsed ? 'VEHICLE_STATUT.USED' : 'VEHICLE_STATUT.NEW';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUsed(): bool
+    {
+        return $this->isUsed;
+    }
+
+    /**
      * @return int
      */
     public function getMileage(): int
@@ -246,17 +281,17 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return SafetyTestDate
+     * @return \DateTimeInterface |null
      */
-    public function getSafetyTestDate(): SafetyTestDate
+    public function getSafetyTestDate(): ?\DateTimeInterface
     {
         return $this->safetyTestDate;
     }
 
     /**
-     * @return SafetyTestState
+     * @return SafetyTestState|null
      */
-    public function getSafetyTestState(): SafetyTestState
+    public function getSafetyTestState(): ?SafetyTestState
     {
         return $this->safetyTestState;
     }
@@ -286,25 +321,25 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @return MaintenanceState
+     * @return MaintenanceState|null
      */
-    public function getMaintenanceState(): MaintenanceState
+    public function getMaintenanceState(): ?MaintenanceState
     {
         return $this->maintenanceState;
     }
 
     /**
-     * @return bool|null
+     * @return TimingBeltState|null
      */
-    public function getisTimingBeltChanged(): ?bool
+    public function getTimingBeltState(): ?TimingBeltState
     {
-        return $this->isTimingBeltChanged;
+        return $this->timingBeltState;
     }
 
     /**
      * @return bool|null
      */
-    public function getisImported(): ?bool
+    public function isImported(): ?bool
     {
         return $this->isImported;
     }
@@ -312,7 +347,7 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return bool|null
      */
-    public function getisFirstHand(): ?bool
+    public function getIsFirstHand(): ?bool
     {
         return $this->isFirstHand;
     }
@@ -370,6 +405,13 @@ abstract class BaseVehicle implements Vehicle
         return $this->createdAt;
     }
 
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
 
     /**
      * @return array|Picture[]
@@ -377,6 +419,14 @@ abstract class BaseVehicle implements Vehicle
     public function getPictures()
     {
         return $this->pictures;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbPictures(): int
+    {
+        return count($this->pictures);
     }
 
     /**
@@ -405,6 +455,76 @@ abstract class BaseVehicle implements Vehicle
     public function getMessages(): Collection
     {
         return $this->messages;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPositiveLikes(): array
+    {
+        $positiveLikes = array();
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getValue() > 0) {
+                $positiveLikes[] = $like;
+            }
+        }
+        return $positiveLikes;
+    }
+
+    /**
+     * Get positives likes ordered by user type : All/Pro/Personal
+     * @return array
+     */
+    public function getPositiveLikesByUserType(): array
+    {
+        $positiveLikes = [
+            FavoriteController::FAVORITES_ALL => [],
+            FavoriteController::FAVORITES_PRO => [],
+            FavoriteController::FAVORITES_PERSONAL => []
+        ];
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getValue() > 0) {
+                $positiveLikes[FavoriteController::FAVORITES_ALL][] = $like;
+                if ($like->getUser()->isPro()) {
+                    $positiveLikes[FavoriteController::FAVORITES_PRO][] = $like;
+                } else {
+                    $positiveLikes[FavoriteController::FAVORITES_PERSONAL][] = $like;
+                }
+            }
+        }
+        return $positiveLikes;
+    }
+
+    /**
+     * @return BaseLikeVehicle|null
+     */
+    public function getLikeOfUser(BaseUser $user): ?BaseLikeVehicle
+    {
+        /** @var BaseLikeVehicle $like */
+        foreach ($this->likes as $like) {
+            if ($like->getUser() === $user) {
+                return $like;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param BaseLikeVehicle $likeVehicle
+     */
+    public function addLike(BaseLikeVehicle $likeVehicle)
+    {
+        $this->likes->add($likeVehicle);
     }
 
     /**
@@ -460,7 +580,7 @@ abstract class BaseVehicle implements Vehicle
      */
     public function removePicture(?string $pictureId): void
     {
-        if ($pictureId){
+        if ($pictureId) {
             /** @var VehiclePicture $picture */
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $pictureId) {
@@ -496,11 +616,35 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @param null|string $plateNumber
+     */
+    public function setRegistrationPlateNumber(?string $plateNumber): void
+    {
+        $this->registration->setPlateNumber($plateNumber);
+    }
+
+    /**
+     * @param null|string $vin
+     */
+    public function setRegistrationVin(?string $vin): void
+    {
+        $this->registration->setVin($vin);
+    }
+
+    /**
      * @param \DateTimeInterface $registrationDate
      */
     public function setRegistrationDate(\DateTimeInterface $registrationDate): void
     {
         $this->registrationDate = $registrationDate;
+    }
+
+    /**
+     * @param bool $isUsed
+     */
+    public function setIsUsed(bool $isUsed): void
+    {
+        $this->isUsed = $isUsed;
     }
 
     /**
@@ -520,17 +664,17 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param SafetyTestDate $safetyTestDate
+     * @param \DateTimeInterface |null $safetyTestDate
      */
-    public function setSafetyTestDate(SafetyTestDate $safetyTestDate): void
+    public function setSafetyTestDate(?\DateTimeInterface $safetyTestDate): void
     {
         $this->safetyTestDate = $safetyTestDate;
     }
 
     /**
-     * @param SafetyTestState $safetyTestState
+     * @param SafetyTestState|null $safetyTestState
      */
-    public function setSafetyTestState(SafetyTestState $safetyTestState): void
+    public function setSafetyTestState(?SafetyTestState $safetyTestState): void
     {
         $this->safetyTestState = $safetyTestState;
     }
@@ -560,19 +704,19 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
-     * @param MaintenanceState $maintenanceState
+     * @param MaintenanceState|null $maintenanceState
      */
-    public function setMaintenanceState(MaintenanceState $maintenanceState): void
+    public function setMaintenanceState(?MaintenanceState $maintenanceState): void
     {
         $this->maintenanceState = $maintenanceState;
     }
 
     /**
-     * @param bool|null $isTimingBeltChanged
+     * @param TimingBeltState|null $timingBeltState
      */
-    public function setIsTimingBeltChanged(?bool $isTimingBeltChanged): void
+    public function setTimingBeltState(?TimingBeltState $timingBeltState): void
     {
-        $this->isTimingBeltChanged = $isTimingBeltChanged;
+        $this->timingBeltState = $timingBeltState;
     }
 
     /**
@@ -615,14 +759,17 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return null|string
      */
-    public function getSellerName(): ?string
+    public function getSellerName(bool $restrictedName = false): ?string
     {
         $seller = $this->getSeller();
-        if(!$seller instanceof BaseUser) {
+        if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
-
-        return $seller->getFullName();
+        if ($restrictedName) {
+            return $seller->getFirstName();
+        } else {
+            return $seller->getFullName();
+        }
     }
 
     /**
@@ -631,7 +778,7 @@ abstract class BaseVehicle implements Vehicle
     public function getSellerAvatar(): ?UserPicture
     {
         $seller = $this->getSeller();
-        if(!$seller instanceof BaseUser) {
+        if (!$seller instanceof BaseUser) {
             throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
         }
 

@@ -46,11 +46,12 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getId(),
             $this->router->generate('front_vehicle_personal_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getMake(),
-            $vehicle->getName(),
             $vehicle->getModelName(),
+            null,
             $vehicle->getEngineName(),
             $vehicle->getTransmission(),
             $vehicle->getFuelName(),
+            $vehicle->getAdditionalInformation(),
             $vehicle->getYears(),
             $vehicle->getMileage(),
             $vehicle->getCityName(),
@@ -58,12 +59,13 @@ class IndexablePersonalVehicleBuilder
             $vehicle->getLongitude(),
             $vehicle->getCreatedAt(),
             $vehicle->getDeletedAt(),
-            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_thumbnail'),
+            $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
+            $vehicle->getOwner()->getId(),
             $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail'),
-            $vehicle->getOwner()->getProject()
+            count($vehicle->getPositiveLikes())
         );
     }
 

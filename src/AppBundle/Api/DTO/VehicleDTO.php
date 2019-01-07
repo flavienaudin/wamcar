@@ -71,12 +71,12 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->Marque = strtoupper($data['Marque']);
             $vehicleDto->Type = $data['Type'];
             $vehicleDto->Motorisation = $data['Motorisation'];
-            $vehicleDto->Modele = $data['Modele'];
+            $vehicleDto->Modele = strtoupper($data['Modele']);
             $vehicleDto->Version = $data['Version'];
             $vehicleDto->Energie = $data['Energie'];
             $vehicleDto->Kilometrage = $data['Kilometrage'];
             $vehicleDto->PrixVenteTTC = $data['PrixVenteTTC'];
-            $vehicleDto->Neuf = $data['Neuf'] ?? null;
+            $vehicleDto->Neuf =  $data['Neuf'] ?? false;
             $vehicleDto->Description = $data['Description'];
             $vehicleDto->URLVehicule = $data['URLVehicule'] ?? null;
             $vehicleDto->Annee = $data['Annee'] ?? null;
@@ -114,7 +114,7 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->Energie = $proVehicle->getFuelName();
             $vehicleDto->Kilometrage = $proVehicle->getMileage();
             $vehicleDto->PrixVenteTTC = $proVehicle->getPrice();
-            $vehicleDto->Neuf = '';
+            $vehicleDto->Neuf = !$proVehicle->isUsed();
             $vehicleDto->Description = $proVehicle->getAdditionalInformation();
             $vehicleDto->URLVehicule = '';
             $vehicleDto->Annee = $proVehicle->getYears();

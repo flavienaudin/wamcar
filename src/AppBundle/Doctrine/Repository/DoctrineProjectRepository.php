@@ -17,4 +17,19 @@ class DoctrineProjectRepository extends EntityRepository implements ProjectRepos
         $this->_em->persist($project);
         $this->_em->flush();
     }
+
+    /**
+     * @param $ids array Array of entities'id
+     * @return array
+     */
+    public function findByIds(array $ids): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('p')
+            ->from($this->getClassName(), 'p')
+            ->where($qb->expr()->in('p.id', $ids))
+            ->orderBy($qb->expr()->asc('FIELD(p.id, :orderedIds ) '));
+        $qb->setParameter('orderedIds', $ids);
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -3,8 +3,9 @@
    =========================================================================== */
 
 .l-navigation {
-
-
+  &.is-flex {
+    height: 100%;
+  }
 
   /*
      Item
@@ -20,31 +21,29 @@
       padding: rem-calc(15) rem-calc(30);
     }
 
-    @include breakpoint(large) {
-      &:nth-child(2) { margin-right: rem-calc(10); }
-    }
-
-    @include breakpoint(xlarge) {
-      &:nth-child(2) { margin-right: rem-calc(15); }
-    }
-
-    /* Black color */
-
-    &.black-color {
+    &.margin-right {
       @include breakpoint(large) {
-        padding-right: rem-calc(9);
-        padding-left: rem-calc(9);
+        margin-right: rem-calc(10);
       }
 
       @include breakpoint(xlarge) {
-        padding-right: rem-calc(25);
-        padding-left: rem-calc(25);
+        margin-right: rem-calc(15);
       }
+    }
+
+    @include breakpoint(large) {
+      padding-right: rem-calc(9);
+      padding-left: rem-calc(9);
+    }
+
+    @include breakpoint(xlarge) {
+      padding-right: rem-calc(25);
+      padding-left: rem-calc(25);
     }
 
     /* Body font color */
 
-    &.body-font-color {
+    &.l-header-button {
       @include breakpoint(large) {
         position: relative;
         padding-right: rem-calc(20);
@@ -62,8 +61,8 @@
       }
 
       @include breakpoint(xlarge) {
-        padding-right: rem-calc(40);
-        padding-left: rem-calc(40);
+        padding-right: rem-calc(30);
+        padding-left: rem-calc(30);
       }
     } // End &.body-font-color
 
@@ -87,59 +86,43 @@
         }
 
         @include breakpoint(xlarge) {
-          margin-right: rem-calc(20);
+          margin-right: rem-calc(10);
         }
       }
 
       &::after { content: none; }
-      &:nth-child(2) { margin-right: 0; }
     }
 
     /* Active state */
 
     &.is-active {
       color: $primary-color;
-
-      @include breakpoint(large down) {
-        box-shadow: inset 0 -5px 0 0 currentColor;
-      }
-
-      @include breakpoint(xlarge) {
-        position: relative;
-        z-index: 1;
-
-        &::after {
-          content: "";
-          position: absolute;
-          top: calc(100% + #{rem-calc(25)});
-          right: rem-calc(40);
-          left: rem-calc(40);
-          width: auto;
-          height: rem-calc(5);
-          background: currentColor;
-          z-index: -1;
-        }
-      }
-
-      @media screen and (min-width: rem-calc(1200)) and (max-width: rem-calc(1348)) {
-        &::after {
-          top: calc(100% + #{rem-calc(16)});
-        }
-      }
+      box-shadow: inset 0 -5px 0 0 currentColor;
     }
 
   } // End &-item
 
+  /*
+     Header Search
+     ===================================== */
+  &-header-search{
 
+    input{
+      height: rem-calc($header-height - rem-calc(10));
+    }
+
+    @include breakpoint(large down) {
+      .icon-search:before {
+        margin-right: rem-calc(12) !important;
+      }
+    }
+  }
 
   /*
      Footer
      ===================================== */
 
   &-footer {
-    display: flex;
-    flex-wrap: wrap;
-
     @include breakpoint(large down) {
       padding-top: rem-calc(15);
       padding-bottom: rem-calc(15);
@@ -150,6 +133,15 @@
     > a {
       padding-top: rem-calc(5);
       padding-bottom: rem-calc(5);
+      text-align: center;
+
+      @include breakpoint(small) {
+        font-size: rem-calc(12);
+      }
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(14);
+      }
 
       @include breakpoint(large) {
         font-size: rem-calc(17);
@@ -159,8 +151,6 @@
         font-size: rem-calc(20);
         padding-top: rem-calc(35);
         padding-bottom: rem-calc(35);
-
-        &:not(:first-child) { margin-left: rem-calc(35); }
       }
     } // End > a
 

@@ -1,33 +1,33 @@
 {% set asideId = '4' %}
-{% set title = 'Prix et détail de l\'offre' %}
 
 {% include 'front/Security/Register/includes/aside.html.twig' with {
     content: '
         <p>Apportez plus de détails sur votre véhicule : son prix, ses attouts (garanties, financements, services complémentaires...etc) Plus vous donnerez de détails à votre annonce, de meilleures chances vous aurez d\'intérésser un particulier.</p>
-    '
+    ',
+    asideTitle:'Prix et détail de l\'offre'
 } %}
 
 <section class="block-grid small-12 large-7">
     <div class="column block-grid input-margin small-12">
         {{ form_widget(vehicleForm.offer.price, {
             class : 'no-margin small-12 medium-8',
-            label: 'Prix',
+            label: 'vehicle.field.price.label'|trans,
             label_class : 'medium-no-margin small-12 medium-4',
             required: true,
-            required_message: 'Veuillez indiquer le prix de vente de votre véhicule.'
+            required_message: 'vehicle.field.price.required_message'|trans
         }) }}
     </div>
     <div class="column block-grid input-margin small-12">
         {{ form_widget(vehicleForm.offer.catalogPrice, {
             class : 'no-margin small-12 medium-8',
-            label: 'Prix catalogue',
+            label: 'vehicle.field.catalogPrice.label'|trans,
             label_class : 'medium-no-margin small-12 medium-4'
         }) }}
     </div>
     <div class="column block-grid input-margin small-12">
         {{ form_widget(vehicleForm.offer.discount, {
             class : 'no-margin small-12 medium-8',
-            label: 'Remise',
+            label: 'vehicle.field.discount.label'|trans,
             label_class : 'medium-no-margin small-12 medium-4'
         }) }}
     </div>
@@ -36,46 +36,45 @@
         <div class="input-margin block-grid small-12">
             {{ form_widget(vehicleForm.offer.guarantee, {
                 class : 'medium-no-margin small-12 medium-8',
-                label: 'Garanties',
-                label_class : 'medium-no-margin small-12 medium-4',
-                required_class : ''
+                label: 'vehicle.field.guarantee.label'|trans,
+                label_class : 'medium-no-margin small-12 medium-4'
             }) }}
         </div>
-        <div class="small-12 medium-offset-4 medium-8">
+        <div class="block-grid small-12">
             {{ form_widget(vehicleForm.offer.otherGuarantee, {
-                class_field: '',
-                class : '',
-                placeholder: 'Autres, précisez...'
+                class : 'small-12 medium-offset-4 medium-8',
+                label: 'vehicle.field.otherGuarantee.label'|trans,
+                label_class : 'show-for-sr',
+                placeholder: 'vehicle.field.otherGuarantee.placeholder'|trans
             }) }}
         </div>
         <div class="input-margin block-grid small-12">
             {{ form_widget(vehicleForm.offer.funding, {
                 class : 'medium-no-margin small-12 medium-8',
-                label: 'Financement',
-                label_class : 'medium-no-margin small-12 medium-4',
-                required_class : ''
+                label: 'vehicle.field.funding.label'|trans,
+                label_class : 'medium-no-margin small-12 medium-4'
             }) }}
         </div>
-        <div class="small-12 medium-offset-4 medium-8">
+        <div class="block-grid small-12">
             {{ form_widget(vehicleForm.offer.otherFunding, {
-                class_field: '',
-                class : '',
-                placeholder: 'Autres, précisez...'
+                class : 'small-12 medium-offset-4 medium-8',
+                label: 'vehicle.field.otherFunding.label'|trans,
+                label_class : 'show-for-sr',
+                placeholder: 'vehicle.field.otherFunding.placeholder'|trans
             }) }}
         </div>
         <div class="block-grid input-margin small-12">
             {{ form_widget(vehicleForm.offer.additionalServices, {
                 class : 'no-margin small-12 medium-8',
-                label: 'Services complémentaires',
+                label: 'vehicle.field.additionalServices.label'|trans,
                 label_class : 'align-self-top medium-no-margin small-12 medium-4',
-                placeholder: 'Renseignez ici les différents services proposés à vos clients...',
-                required_class: 'medium-12 medium-no-margin'
+                placeholder: 'vehicle.field.additionalServices.placeholder'|trans
             }) }}
         </div>
         <div class="block-grid input-margin small-12">
             {{ form_widget(vehicleForm.offer.reference, {
                 class : 'no-margin small-12 medium-8',
-                label: 'Références',
+                label: 'vehicle.field.reference.label'|trans,
                 label_class : 'medium-no-margin small-12 medium-4'
             }) }}
         </div>
@@ -84,10 +83,10 @@
     {# Button submit #}
     <div class="block-grid column small-12 align-middle">
         <div class="input-margin small-12">
-            <button type="submit" class="button full-width">{{ vehicle ? "Editer le véhicule" : "Ajouter le véhicle" }}</button>
+            <button type="submit" class="button full-width">{{ vehicle ? 'global.button.edit_this_vehicle'|trans : 'global.button.add_this_vehicle'|trans }}</button>
         </div>
         <div class="small-12">
-            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">Etape précédente</b></button>
+            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">{{ 'global.button.previous_step'|trans }}</b></button>
         </div>
     </div>
 </section>

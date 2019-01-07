@@ -38,7 +38,7 @@ class VehicleType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'required' => false,
-                'error_bubbling' => true,
+                'error_bubbling' => true
             ])
             ->add('vehicleReplace', HiddenType::class)
         ;

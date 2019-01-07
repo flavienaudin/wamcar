@@ -10,6 +10,7 @@ use AppBundle\Utils\TokenGenerator;
 use Psr\Log\LoggerInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Wamcar\Location\City;
 use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\UserCreated;
 use Wamcar\User\PersonalUser;
@@ -49,9 +50,10 @@ class UserRegistrationService
     /**
      * @param RegistrationDTO $registrationDTO
      * @param bool|null $vehicleReplace
+     * @param City|null $city
      * @return ApplicationUser
      */
-    public function registerUser(RegistrationDTO $registrationDTO, bool $vehicleReplace = false): ApplicationUser
+    public function registerUser(RegistrationDTO $registrationDTO, bool $vehicleReplace = false, City $city = null): ApplicationUser
     {
         $salt = TokenGenerator::generateSalt();
         $encodedPassword = $this->passwordEncoder->encodePassword($registrationDTO->password, $salt);
@@ -67,7 +69,9 @@ class UserRegistrationService
             $encodedPassword,
             $salt,
             $registrationDTO->firstName,
-            $registrationDTO->lastName
+            $registrationDTO->lastName,
+            null,
+            $city
         );
         if(!empty($registrationDTO->socialNetworkOrigin)){
             $applicationUser->confirmRegistration();

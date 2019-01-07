@@ -6,26 +6,26 @@ use Wamcar\Location\City;
 
 class Address
 {
-    /** @var string */
+    /** @var string|null */
     private $address;
     /** @var  City */
     private $city;
 
     /**
      * Address constructor.
-     * @param string $address
+     * @param string|null $address
      * @param City $city
      */
-    public function __construct(string $address, City $city)
+    public function __construct(?string $address, City $city)
     {
         $this->address = $address;
         $this->city = $city;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAddress(): string
+    public function getAddress(): ?string
     {
         return $this->address;
     }
@@ -72,6 +72,6 @@ class Address
 
     public function __toString()
     {
-        return $this->address;
+        return $this->address??'';
     }
 }

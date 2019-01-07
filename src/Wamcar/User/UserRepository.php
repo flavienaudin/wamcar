@@ -14,7 +14,7 @@ interface UserRepository
     /**
      * @return BaseUser[]
      */
-    public function findAll(): array;
+    public function findAll();
 
     /**
      * @param BaseUser $user
@@ -50,4 +50,9 @@ interface UserRepository
      */
     public function findOneByEmail(string $email);
 
+    /**
+     * @param $ids array Array of entities'id
+     * @return array
+     */
+    public function findByIds(array $ids): array;
 }

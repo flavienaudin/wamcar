@@ -6,85 +6,93 @@
     {% set page_search = true %}
 {% endif %}
 
-{# Integration data #}
-{#{% set isEditableByCurrentUser = true %}
-{% set vehicle = inte.vehicle['golf-2-tdi'] %}
-{% set isProVehicles = false %}#}
+{% set state_block %}
+    {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
+{% endset %}
+
+{% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
+{% set ownersProject = vehicle.ownerProject %}
+{% set displayProjectTab = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}{{ vehicle.name }}{% endblock %}
+{% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName|upper,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
+{%- block meta_description %}
+    {{ 'vehicle.detail.personal.meta_description'|trans({
+        '%nbPositiveLikes%':vehicle.positiveLikes|length,
+        '%vehicleFuelName%':vehicle.fuelName,
+        '%vehicleTransmission%':vehicle.transmission,
+        '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
+        '%vehicleMileage%': vehicle.mileage,
+        '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
+    }) }}
+{% endblock -%}
+{% block og_type %}article{% endblock %}
+
+{% set seo_img_url = vehicle.pictures|length>0?vehicle.mainPicture|vehiclePicture('vehicle_picture'):'vehicle_placeholder_picture'|defaultVehiclePicture %}
+{%- block seo_img_block %}
+    {% for picture in vehicle.pictures %}
+        <meta name="og:image" content="{{ picture|vehiclePicture('vehicle_picture') }}">
+    {% else %}
+        <meta name="og:image" content="{{ 'vehicle_placeholder_picture'|defaultVehiclePicture }}">
+    {% endfor %}
+{% endblock -%}
+
+{% block additional_meta %}
+    <meta property="article:published_time" content="{{ vehicle.createdAt|date('c') }}">{# datetime ISO 8601#}
+    <meta property="article:modified_time" content="{{ vehicle.updatedAt|date('c') }}">{# datetime ISO 8601#}
+{% endblock additional_meta %}
 
 {% block body %}
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
-    {% set vehicleSellerName = isAbleToSeeFullInformation ? vehicle.sellerName : 'user.profile.obfuscated_name'|trans %}
+    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
 
-    {% if isEditableByCurrentUser %}
-        {% set breadcrumbs = [
-            {
-                'name': 'user.profile.my_profile'|trans,
-                'href': path('front_view_current_user_info')
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-    {% else %}
-        {% set breadcrumbs = [
-            {
-                'name': vehicleSellerName,
-                'href': path('front_view_user_info', {'id': vehicle.seller.id})
-            },
-            {
-                'name': block('title'),
-                'href': app.request.requestUri
-            }
-        ] %}
-
-    {% endif %}
+    {% set breadcrumbs = [
+        {
+            'name': vehicleSellerName,
+            'href': path('front_view_user_info', {'id': vehicle.seller.id})
+        },
+        {
+            'name': vehicle.name,
+            'href': app.request.requestUri
+        }
+    ] %}
 
     <script type="application/ld+json">
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.sellerName }}",
+    "name" : "{{ vehicleSellerName }}",
     }
-
     </script>
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     <div class="l-main-container vehicle-perso">
         <div class="row">
-
             <section class="small-12 large-7 xlarge-8">
                 <div class="small-12">
                     {% include 'front/Vehicle/Detail/includes/header.html.twig' %}
                     <div class="column small-collapse large-uncollapse">
-                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' %}
+                        {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
+                            'carouselId':'js-carousel-vehicle',
+                            'carouselNavigationId' :'js-carousel-navigation-vehicle',
+                            'modalIdToOpen':'js-modal-carousel-vehicle'
+                        } %}
                     </div>
                 </div>
             </section>
 
             <aside id="js-move-vehicle-aside" class="vehicle-aside-container small-12 large-5 xlarge-4" aria-hidden="true">
                 <div id="js-vehicle-aside" class="vehicle-aside block-grid small-12">
-                    <div class="column small-12 medium-6 large-12">
+                    <div class="column small-12 medium-8 medium-offset-2 large-12 large-offset-0">
                         {% include 'front/Vehicle/Detail/includes/personal_owner_infos.html.twig' %}
                     </div>
-                    {# TODO not implemented feature ==> hidden #}
-                    {% if false and isEditableByCurrentUser %}
-                        <div class="column small-12 medium-6 large-12">
-                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
-                        </div>
-                    {% endif %}
                     <div class="small-12 large-order-3">
                         {% if isEditableByCurrentUser %}
                             {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
-                        {% elseif isUserPro %}
+                        {% else %}
                             {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
-                        {% elseif not isLogged %}
-                            {% include 'front/Vehicle/Detail/includes/user_not_logged_message.html.twig' %}
                         {% endif %}
                     </div>
                 </div>
@@ -95,22 +103,38 @@
                     <div class="column small-12 small-collapse xlarge-uncollapse is-sticky">
                         {% include 'front/Vehicle/Detail/includes/magellan.html.twig' %}
                     </div>
+                    {% if vehicle.additionalInformation|trim|length > 0 %}
+                        <div class="separator-section wysiwyg dark-gray-color column small-12" id="js-additional-information" data-magellan-target="js-additional-information">
+                            {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' %}
+                        </div>
+                    {% endif %}
                     <div class="separator-section column small-12" id="js-infos" data-magellan-target="js-infos">
                         {% include 'front/Vehicle/Detail/includes/infos.html.twig' %}
                     </div>
-                    <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
-                        {% include 'front/Vehicle/Detail/includes/state.html.twig' %}
-                    </div>
-                    <div class="separator-section wysiwyg dark-gray-color column small-12 large-10 xlarge-12" id="js-description" data-magellan-target="js-description">
-                        {% include 'front/Vehicle/Detail/includes/description.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-project" data-magellan-target="js-project">
-                        {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
-                    </div>
-                    <div class="separator-section column small-12 medium-6 xlarge-12" id="js-associate"
-                         data-magellan-target="js-associate">
-                        {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'listVehicles': vehicle.seller.vehicles, 'title': 'Autres véhicules de ce particulier'} %}
-                    </div>
+                    {% if state_block is not empty %}
+                        <div class="separator-section column small-12" id="js-state" data-magellan-target="js-state">
+                            <h2 class="separator medium primary-color">{{ 'vehicle.section.states.title'|trans }}</h2>
+                            <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
+                                {{ state_block }}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if displayProjectTab %}
+                        <div class="separator-section column small-12" id="js-project" data-magellan-target="js-project">
+                            {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if positiveLikes.all|length > 0 %}
+                        <div class="separator-section column small-12" id="js-interested_users" data-magellan-target="js-interested_users">
+                            {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if vehiclesToList|length > 0 %}
+                        <div class="separator-section column small-12 no-margin" id="js-associate" data-magellan-target="js-associate">
+                            <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}</h2>
+                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList} %}
+                        </div>
+                    {% endif %}
                 </div>
             </section>
         </div>
@@ -118,5 +142,8 @@
 {% endblock body %}
 
 {% block modal %}
-    {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% if isEditableByCurrentUser %}
+        {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% endif %}
+    {% include 'front/Vehicle/Detail/includes/modal_carousel.html.twig' %}
 {% endblock %}

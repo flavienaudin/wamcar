@@ -35,6 +35,12 @@ Wamcar\Vehicle\ProVehicle:
             mappedBy: proVehicle
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+        likes:
+            targetEntity: Wamcar\User\ProLikeVehicle
+            mappedBy: vehicle
+            cascade: ["persist", "merge", "remove"]
+            orderBy:
+              updatedAt: DESC
 
     manyToOne:
         garage:
@@ -43,6 +49,13 @@ Wamcar\Vehicle\ProVehicle:
             joinColumn:
                 name: garage_id
                 referencedColumnName: id
+        seller:
+            targetEntity: Wamcar\User\ProUser
+            inversedBy: vehicles
+            joinColumn:
+                name: seller_id
+                referencedColumnName: id
+                nullable: false
 
     embedded:
         registration:
@@ -58,12 +71,17 @@ Wamcar\Vehicle\ProVehicle:
             type: vehicletransmission
         safetyTestState:
             type: vehiclesafetyteststate
+            nullable: true
         safetyTestDate:
-            type: vehiclesafetytestdate
+            type: date
+            nullable: true
         maintenanceState:
             type: vehiclemaintenancestate
+            nullable: true
         registrationDate:
             type: date
+        isUsed:
+            type: boolean
         mileage:
             type: integer
         bodyState:
@@ -75,8 +93,8 @@ Wamcar\Vehicle\ProVehicle:
         tyreState:
             type: integer
             nullable: true
-        isTimingBeltChanged:
-            type: boolean
+        timingBeltState:
+            type: vehicletimingbeltstate
             nullable: true
         isImported:
             type: boolean

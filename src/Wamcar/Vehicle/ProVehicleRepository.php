@@ -4,6 +4,7 @@ namespace Wamcar\Vehicle;
 
 
 use Doctrine\Common\Collections\Collection;
+use Wamcar\Garage\Garage;
 
 interface ProVehicleRepository extends VehicleRepository
 {
@@ -19,4 +20,11 @@ interface ProVehicleRepository extends VehicleRepository
      * @return Collection
      */
     public function getLast($limit);
+
+    /**
+     * @param Garage $garage
+     * @param array $orderBy
+     * @return Collection
+     */
+    public function getByGarage(Garage $garage, array $orderBy = []);
 }

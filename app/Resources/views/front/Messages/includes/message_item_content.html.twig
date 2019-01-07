@@ -7,13 +7,20 @@
     <a href="{{ path('front_conversation_list') }}" class="messages-back-btn icon-full-arrow"></a>
     <div class="">
         <h1 class="primary-color no-margin">{{ interlocutor.fullName }}</h1>
-        <div class="messages-small-text">
-            {% if interlocutor.isPro and interlocutor.garage %}
-                {{ interlocutor.garage.name }}
-            {% endif %}
-        </div>
+        {% if interlocutor.isPro and interlocutor.hasGarage %}
+            <div class="messages-small-text">
+                {% set garageMemberships = interlocutor.enabledGarageMemberships %}
+                {% if garageMemberships|length == 1 %}
+                    <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                {% else %}
+                    {# TODO placeholder ou liste des garages ? #}
+                    Plusieurs garages
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 </div>
+
 <!-- Messages item -->
 {% for message in messages %}
     <!-- Véhicule lié -->
@@ -23,7 +30,9 @@
 
     <div class="messages-item block-grid no-bullet no-margin" {% if message.id == currentConversationLastMessage.id %}id="last-message"{% endif %}>
         <a href="{{ path('front_view_user_info', {'id': message.user.id}) }}" target="_blank">
-            <img class="messages-user-img messages-item-user-img" src="{{ message.user.avatar|avatar('user_thumbnail') }}" alt="{{ message.user.fullName }}">
+            <img class="messages-user-img messages-item-user-img"
+                 src="{{ message.user.avatar|avatar('user_thumbnail', message.user.firstName) }}"
+                 alt="{{ message.user.fullName }}">
         </a>
         <div class="messages-main">
             <div class="is-flex">
@@ -36,21 +45,40 @@
                     {{ message.publishedAt|localizeddate(format = "dd/MM 'à' HH'h'mm") }}
                 </div>
             </div>
-            <div class="messages-small-text">
-                {% if message.user.isPro and message.user.garage %}
-                    <a href="{{ path('front_garage_view', {'id':message.user.garage.id}) }}" target="_blank">{{ message.user.garage.name }}</a>
-                {% endif %}
-            </div>
+            {% if message.user.isPro and message.user.hasGarage %}
+                <div class="messages-small-text">
+                    {% set garageMemberships = message.user.enabledGarageMemberships %}
+                    {% if garageMemberships|length == 1 %}
+                        <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                    {% elseif garageMemberships|length == 0 %}
+                        Pas de garage
+                    {% else %}
+                        {# TODO placeholder ou liste des garages ? #}
+                        Plusieurs garages
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
         <div class="messages-item-content full-width">
             {{ message.content|nl2br }}
         </div>
+        {% if message.attachments|length > 0 %}
+            <div class="messages-item-attachments full-width">
+                <strong class="messages-item-attachments-label secondary-color">{{ 'conversation.message.attachments'|transchoice(message.attachments|length) }}</strong>
+                <ol>
+                    {% for attachment in message.attachments %}
+                        <li><a href="{{ getAttachmentLink(attachment) }}" target="_blank">{{ attachment.fileOriginalName }}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endif %}
         {% if message.vehicle %}
-            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false } %}
+            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, vehicle: message.vehicle, user: message.user } %}
         {% elseif message.isFleet %}
-            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { vehicle: message.vehicle, removeButton: false, severalVehicles: message.user.vehicles|length, user: message.user } %}
+            {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, severalVehicles: message.user.vehicles|length, user: message.user } %}
         {% endif %}
     </div>
 {% endfor %}
 
-    {% include 'front/Messages/includes/message_answer.html.twig' with { labelName: 'Votre message pour ' ~ interlocutor.fullName } %}
+{% include 'front/Messages/includes/message_answer.html.twig' with {'interlocutor':interlocutor} %}
+

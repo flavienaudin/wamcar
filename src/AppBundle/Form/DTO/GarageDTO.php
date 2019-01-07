@@ -18,7 +18,7 @@ class GarageDTO
     public $googlePlaceId;
     /** @var string */
     public $name;
-    /** @var  string */
+    /** @var string */
     public $siren;
     /** @var  string */
     public $phone;
@@ -90,7 +90,7 @@ class GarageDTO
     public function getAddress(): ?Address
     {
         $address = null;
-        if (null !== $this->address && null !== $this->getCity()) {
+        if (null !== $this->getCity()) {
             $address = new Address($this->address, $this->getCity());
         }
 

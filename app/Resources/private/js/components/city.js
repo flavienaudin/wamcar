@@ -11,7 +11,7 @@ export function initSelect2(city) {
   const $city = $(city);
   $city.select2({
     language: fr,
-    placeholder: 'Ville, CP',
+    placeholder: $city.attr('data-placeholder'),
     minimumInputLength: 2,
     maximumSelectionLength: 1,
     multiple: true,

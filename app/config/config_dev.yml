@@ -38,5 +38,5 @@ monolog:
         #    level: info
 
 swiftmailer:
-    encryption: null
+    encryption: tls
     # delivery_addresses: ['me@example.com']

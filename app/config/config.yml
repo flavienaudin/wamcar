@@ -14,7 +14,34 @@ parameters:
     router.request_context.base_url: '%env(REQUEST_CONTEXT_BASE_URL)%'
 
     placeholders:
-        avatar: '/assets/images/placeholders/user/unisex-avatar.jpg'
+        avatar:
+            a: '/assets/images/placeholders/user/letters/a.png'
+            b: '/assets/images/placeholders/user/letters/b.png'
+            c: '/assets/images/placeholders/user/letters/c.png'
+            d: '/assets/images/placeholders/user/letters/d.png'
+            e: '/assets/images/placeholders/user/letters/e.png'
+            f: '/assets/images/placeholders/user/letters/f.png'
+            g: '/assets/images/placeholders/user/letters/g.png'
+            h: '/assets/images/placeholders/user/letters/h.png'
+            i: '/assets/images/placeholders/user/letters/i.png'
+            j: '/assets/images/placeholders/user/letters/j.png'
+            k: '/assets/images/placeholders/user/letters/k.png'
+            l: '/assets/images/placeholders/user/letters/l.png'
+            m: '/assets/images/placeholders/user/letters/m.png'
+            n: '/assets/images/placeholders/user/letters/n.png'
+            o: '/assets/images/placeholders/user/letters/o.png'
+            p: '/assets/images/placeholders/user/letters/p.png'
+            q: '/assets/images/placeholders/user/letters/q.png'
+            r: '/assets/images/placeholders/user/letters/r.png'
+            s: '/assets/images/placeholders/user/letters/s.png'
+            t: '/assets/images/placeholders/user/letters/t.png'
+            u: '/assets/images/placeholders/user/letters/u.png'
+            v: '/assets/images/placeholders/user/letters/v.png'
+            w: '/assets/images/placeholders/user/letters/w.png'
+            x: '/assets/images/placeholders/user/letters/x.png'
+            y: '/assets/images/placeholders/user/letters/y.png'
+            z: '/assets/images/placeholders/user/letters/z.png'
+            unknown: '/assets/images/placeholders/user/letters/unknown.png'
         banner: '/assets/images/placeholders/garages/banner.png'
         logo: '/assets/images/placeholders/garages/logo.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
@@ -25,6 +52,8 @@ parameters:
             3: '/assets/images/placeholders/vehicle/Placeholder-Arriere.png'
 
     preferred_makeName: '%preferred_makes%'
+    typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+    typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
 
 framework:
     #esi: ~
@@ -56,13 +85,23 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        site_name: 'Wamcar'
-        facebook_url: 'https://www.facebook.com/wamcar.france/'
-        twitter_url: 'https://twitter.com/wamcar'
+        site_version: '%css_js_unique_version%'
+        site_name: '%sitename%'
+        facebook_url: 'https://www.facebook.com/%facebook_username%/'
+        twitter_url: 'https://twitter.com/%twitter_username%'
+        twitter_username: '%twitter_username%'
         inte: '%inte%'
-        google_analytics_id: '%env(GOOGLE_ANALYTICS_ID)%'
+        facebook_page_id: '%facebook_page_id%'
+        facebook_admin_ids: '%facebook_admin_ids%'
+        facebook_app_id: '%env(FACEBOOK_ID)%'
         google_tag_manager_id: '%env(GOOGLE_TAG_MANAGER_ID)%'
-        google_api_key: '%env(GOOGLE_API_KEY)%'
+        google_api_client_key: '%env(GOOGLE_API_CLIENT_KEY)%'
+        google_api_server_key: '%env(GOOGLE_API_SERVER_KEY)%'
+        pro_site_url: '%pro_space_url%'
+        typeform_contact: '%typeform.contact%'
+        typeform_ubiflow_request: '%typeform.ubiflow_request%'
+        typeform_affinity_personal_form: '%typeform.affinity.personal.form%'
+        typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
 
@@ -80,14 +119,18 @@ doctrine:
             charset: utf8mb4
             collate: utf8mb4_unicode_ci
         types:
-            uuid:  Ramsey\Uuid\Doctrine\UuidType
-            usertitle:  AppBundle\Doctrine\Type\UserTitleType
-            vehicletransmission:  AppBundle\Doctrine\Type\VehicleTransmissionType
-            vehiclemaintenancestate:  AppBundle\Doctrine\Type\VehicleMaintenanceStateType
-            vehiclesafetyteststate:  AppBundle\Doctrine\Type\VehicleSafetyTestStateType
-            vehiclesafetytestdate:  AppBundle\Doctrine\Type\VehicleSafetyTestDateType
-            vehicleguarantee:  AppBundle\Doctrine\Type\GuaranteeType
-            vehiclefunding:  AppBundle\Doctrine\Type\FundingType
+            uuid: Ramsey\Uuid\Doctrine\UuidType
+            usertitle: AppBundle\Doctrine\Type\UserTitleType
+            vehicletransmission: AppBundle\Doctrine\Type\VehicleTransmissionType
+            vehiclemaintenancestate: AppBundle\Doctrine\Type\VehicleMaintenanceStateType
+            vehiclesafetyteststate: AppBundle\Doctrine\Type\VehicleSafetyTestStateType
+            vehicleguarantee: AppBundle\Doctrine\Type\GuaranteeType
+            vehiclefunding: AppBundle\Doctrine\Type\FundingType
+            vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
+            notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
+            garagerole: AppBundle\Doctrine\Type\GarageRoleType
+            personalorientation: AppBundle\Doctrine\Type\PersonalOrientationType
+            firstcontactpreference: AppBundle\Doctrine\Type\FirstContactPreferenceType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -109,6 +152,21 @@ doctrine:
                 is_bundle: false
                 prefix: AppBundle
                 alias: AppBundle
+            MgiletNotificationBundle:
+                type: annotation
+                is_bundle: true
+            JMoseCommandSchedulerBundle: ~
+            TypeForm:
+                type: yml
+                dir: '%kernel.root_dir%/../src/TypeForm/Resources/config/doctrine'
+                is_bundle: false
+                prefix: TypeForm
+                alias: TypeForm
+        resolve_target_entities:
+            Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
+        dql:
+            string_functions:
+                field: DoctrineExtensions\Query\Mysql\Field
 
 doctrine_migrations:
     dir_name:             '%kernel.root_dir%/../database/migrations'
@@ -182,6 +240,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_remove: true
             delete_on_update: true
+        message_attachment:
+            uri_prefix:         /uploads/attachments/conversations/message
+            upload_destination: '%env(UPLOAD_DIR)%/attachments/conversations/message'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
 
 liip_imagine:
     loaders:
@@ -199,31 +267,57 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [800, 500] }
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
         vehicle_mini_thumbnail:
             quality: 75
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [120, 90], mode: outbound }
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
+                    size: 0.20
         vehicle_thumbnail:
             quality: 75
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [310, 235], mode: outbound }
-        user_mini_thumbnail:
+                watermark:
+                    image: ../web/assets/images/watermark/wam.png
+                    position: topright
+                    size: 0.40
+        vehicle_placeholder_picture:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [52, 52], mode: outbound }
-        user_thumbnail:
+                thumbnail: { size: [800, 500] }
+        vehicle_placeholder_mini_thumbnail:
             quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [120, 90], mode: outbound }
+        vehicle_placeholder_thumbnail:
+            quality: 75
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [310, 235], mode: outbound }
+        user_mini_thumbnail:
+            quality: 100
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [100, 100], mode: outbound }
+        user_thumbnail:
+            quality: 100
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [200, 200], mode: outbound }
         garage_banner:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [760, 340], mode: outbound }
+                thumbnail: { size: [760, 340], mode: outbound, allow_upscale: true }
         garage_mini_banner:
             quality: 75
             filters:
@@ -233,12 +327,12 @@ liip_imagine:
             quality: 75
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [120, 120], mode: outbound }
+                thumbnail: { size: [120, 120], mode: inset }
         garage_mini_logo:
-            quality: 75
+            quality: 100
             filters:
                 auto_rotate: ~
-                thumbnail: { size: [50, 50], mode: outbound }
+                thumbnail: { size: [50, 50], mode: inset }
 
 hwi_oauth:
     http:
@@ -254,7 +348,7 @@ hwi_oauth:
     # set then the user will be redirected to the original resource that they requested, or
     # the base address if no resource was requested.  This is similar to the behaviour of
     # [target_path_parameter for form login](http://symfony.com/doc/2.0/cookbook/security/form_login.html).
-    # target_path_parameter: _destination
+    target_path_parameter: _destination
 
     # an optional setting to use the HTTP REFERER header to be used in case no
     # previous URL was stored in the session (i.e. no resource was requested).
@@ -267,14 +361,12 @@ hwi_oauth:
             type: facebook
             client_id: '%env(FACEBOOK_ID)%'
             client_secret: '%env(FACEBOOK_SECRET)%'
-            scope: "email,public_profile,user_about_me"
+            scope: "email,public_profile"
             options:
                 csrf: true
-            infos_url: "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture.type(large),gender,about"
+            infos_url: "https://graph.facebook.com/me?fields=id,first_name,last_name,email,picture.type(large)"
             paths:
                 profilepicture: picture.data.url
-                gender: gender
-                about: about
         linkedin:
             type: linkedin
             client_id: '%env(LINKEDIN_ID)%'
@@ -287,3 +379,30 @@ hwi_oauth:
                 firstname: firstName
                 lastname: lastName
                 profilepicture: pictureUrl
+        google:
+            type: google
+            client_id: '%env(GOOGLE_ID)%'
+            client_secret: '%env(GOOGLE_SECRET)%'
+            scope: "openid email profile"
+            options:
+                csrf: true
+            paths:
+                profilepicture: picture
+                gender: gender
+        twitter:
+            type: twitter
+            client_id: '%env(TWITTER_ID)%'
+            client_secret: '%env(TWITTER_SECRET)%'
+            scope: " profile"
+            options:
+                csrf: true
+                include_email: true
+            paths:
+                firstname: name
+
+jmose_command_scheduler:
+    # receivers for reporting mails
+    monitor_mail: '%monitors_emails%'
+
+    # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
+    send_ok: true

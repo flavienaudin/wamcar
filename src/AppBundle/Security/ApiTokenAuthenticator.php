@@ -15,6 +15,15 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class ApiTokenAuthenticator extends AbstractGuardAuthenticator
 {
+
+    /**
+     * {@inheritdoc}
+     */
+    public function supports(Request $request)
+    {
+        return $request->headers->has('secret') && $request->query->has('client_id');
+    }
+
     /**
      * {@inheritdoc}
      */

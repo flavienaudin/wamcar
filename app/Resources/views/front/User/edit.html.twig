@@ -1,32 +1,28 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% trans_default_domain 'user' %}
-
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}Editer mon profil{% endblock %}
+{% block title %}{{ 'user.profile.edit'|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'user.profile.my_profile'|trans,
+        'href': path('front_view_current_user_info')
+    },
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
 
 {% block body %}
 
-    {% set page_header_class = 'no-margin' %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         title: block('title')
     } %}
 
-    <div class="block-gray has-border-bottom">
-        <div class="row">
-            {% include 'front/User/includes/tabs_edit_profil.html.twig' %}
-        </div>
-    </div>
-
     <div class="row">
-        <div class="tabs-content small-12" data-tabs-content="js-search-tabs">
-            <div id="js-profil" class="tabs-panel  {% if tab == 'profil' %}is-active{% endif %}">
-                {% include 'front/User/includes/form_edit_profil.html.twig' %}
-            </div>
-            <div id="js-project" class="tabs-panel {% if tab == 'project' %}is-active{% endif %}">
-                {% include ':front/User/includes:form_project.html.twig' %}
-            </div>
-        </div>
+        {% include 'front/User/includes/form_edit_profil.html.twig' %}
     </div>
 {% endblock %}

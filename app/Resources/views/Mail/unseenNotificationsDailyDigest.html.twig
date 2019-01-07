@@ -1,0 +1,14 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'unseenNotificationsDailyDigest.object'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'unseenNotificationsDailyDigest.body'|transchoice(nbUnseenNotifications, {},'email')|raw }}
+
+        {{ action_button(message_url, 'unseenNotificationsDailyDigest.action_label'|trans) }}
+    </div>
+{% endblock %}

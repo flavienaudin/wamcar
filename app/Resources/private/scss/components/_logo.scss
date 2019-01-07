@@ -9,6 +9,10 @@
     width: rem-calc(190);
   }
 
+  &-mini {
+    width: rem-calc(40);
+    object-fit: contain;
+  }
 
   /*
      Container

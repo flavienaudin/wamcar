@@ -12,3 +12,13 @@ services:
         autowire: true
         arguments:
             - '%preferred_makeName%'
+
+    AppBundle\Form\Type\ProjectVehicleType:
+        autowire: true
+        arguments:
+            - '%preferred_makeName%'
+
+    AppBundle\Form\Type\SearchVehicleType:
+        autowire: true
+        arguments:
+            - '%preferred_makeName%'

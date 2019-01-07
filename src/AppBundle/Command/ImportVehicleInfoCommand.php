@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use League\Csv\Exception;
 use League\Csv\Reader as CsvReader;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -25,7 +25,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 'file',
                 InputArgument::OPTIONAL,
                 'The path of the CSV file to load (default: fixture data)',
-                __DIR__ . '/../../../database/fixtures/base_vehicule_20171010_short.csv'
+                __DIR__ . '/../../../database/fixtures/base_vehicule_20180228.csv'
             );
     }
 
@@ -73,7 +73,7 @@ class ImportVehicleInfoCommand extends BaseCommand
                 'moteur électrique' => 'Electrique'
             ];
 
-            $vehicleInfo = new VehicleInfo(
+            $vehicleInfo = new IndexableVehicleInfo(
                 $record['tecdoc_ktypnr'],
                 $record['tecdoc_constr'],
                 isset($makeConstCodeToConstName[$record['tecdoc_constrcode']]) ? $makeConstCodeToConstName[$record['tecdoc_constrcode']] : $record['tecdoc_constr'],
@@ -96,12 +96,12 @@ class ImportVehicleInfoCommand extends BaseCommand
                 (int)$record['tecdoc_nbsoup']
             );
 
-            $objectIndexer->index($vehicleInfo, VehicleInfo::TYPE);
+            $objectIndexer->index($vehicleInfo, IndexableVehicleInfo::TYPE);
         }
 
         $progress->finish();
 
         $this->logCRLF();
-        $this->log('success', sprintf('Done ! (%d)', $nbRefused));
+        $this->log('success', sprintf('Done ! (%d refused)', $nbRefused));
     }
 }

@@ -1,0 +1,7 @@
+{% extends ':front/Vehicle/Listing/includes:vehicle_item.html.twig' %}
+
+{% block complementary_block %}
+    {% if not messageItem %}
+        <button type="button" id="js-remove-vehicle-selected" class="messages-vehicle-item-delete icon-remove is-block"></button>
+    {% endif %}
+{% endblock %}

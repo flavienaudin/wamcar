@@ -3,10 +3,8 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Elasticsearch\Query\QueryBuilderFilterer;
-use AppBundle\Elasticsearch\Type\VehicleInfo;
+use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use Novaway\ElasticsearchClient\Aggregation\Aggregation;
-use Novaway\ElasticsearchClient\Filter\TermFilter;
-use Novaway\ElasticsearchClient\Query\QueryBuilder;
 use Novaway\ElasticsearchClient\QueryExecutor;
 
 class VehicleInfoAggregator
@@ -17,9 +15,10 @@ class VehicleInfoAggregator
     private $queryBuilderFilterer;
 
     /**
-     * RegistrationController constructor.
+     * VehicleInfoAggregator constructor.
      *
      * @param QueryExecutor $queryExecutor
+     * @param QueryBuilderFilterer $queryBuilderFilterer
      */
     public function __construct(
         QueryExecutor $queryExecutor,
@@ -38,15 +37,15 @@ class VehicleInfoAggregator
     {
         $aggregations = $this->getVehicleInfoAggregates();
 
-        if(isset($data['make'])) {
+        if (isset($data['make'])) {
             $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['make' => $data['make']]));
-            if(isset($data['model'])) {
+            if (isset($data['model'])) {
                 $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
                     'make' => $data['make'],
                     'model' => $data['model'],
                 ]));
             }
-            if(isset($data['engine'])) {
+            if (isset($data['engine'])) {
                 $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
                     'make' => $data['make'],
                     'model' => $data['model'],
@@ -88,7 +87,7 @@ class VehicleInfoAggregator
         foreach ($childAggregations as $aggregationField) {
             $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField, ['size' => 0]));
         }
-        $result = $this->queryExecutor->execute($qb->getQueryBody(), VehicleInfo::TYPE);
+        $result = $this->queryExecutor->execute($qb->getQueryBody(), IndexableVehicleInfo::TYPE);
         foreach ($result->aggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
                 return $aggregationDetail['key'];

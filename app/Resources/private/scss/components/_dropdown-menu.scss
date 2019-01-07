@@ -1,0 +1,37 @@
+/* ===========================================================================
+   Dropdown menu
+   =========================================================================== */
+
+.dropdown {
+  a {
+    color: #000;
+
+    &:hover {
+      color: $primary-color;
+      background-color: $light-gray;
+    }
+  }
+
+  .logo-garage,
+  a.icon-avatar {
+    display: flex;
+    padding: 0;
+  }
+  /* Separator
+     ===================================== */
+  .menu-separator {
+    border-top: rem-calc(1) solid $border-color;
+  }
+
+
+  .is-dropdown-submenu {
+      @include breakpoint(400 down){
+        width: 100vw;
+      }
+
+    ul{
+      overflow-y: auto;
+      max-height: 400px;
+    }
+  }
+}

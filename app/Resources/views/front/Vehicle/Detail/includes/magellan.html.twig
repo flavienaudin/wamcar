@@ -1,17 +1,25 @@
 <ul class="magellan vehicle-magellan small-12" data-magellan>
-    {% if isProVehicle %}
-        <li><a href="#js-description">Description</a></li>
+    {% if vehicle.additionalInformation|trim|length > 0 %}
+        <li><a href="#js-additional-information"><span class="hide-for-medium">{{ 'vehicle.section.additionalInformation.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.additionalInformation.tab.long'|trans }}</span></a></li>
     {% endif %}
-    <li><a href="#js-infos"><span class="hide-for-medium">Infos</span> <span class="show-for-medium">Informations principales</span></a></li>
-    <li><a href="#js-state">Etat <span class="show-for-medium">du véhicule</span></a></li>
-    {% if not isProVehicle %}
-        <li><a href="#js-description">Description</a></li>
+    <li><a href="#js-infos"><span class="hide-for-medium">{{ 'vehicle.section.infos.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.infos.tab.long'|trans }}</span></a></li>
+    {% if state_block is not empty %}
+        <li><a href="#js-state"><span class="hide-for-medium">{{ 'vehicle.section.states.tab.short'|trans }}</span><span class="show-for-medium">{{ 'vehicle.section.states.tab.long'|trans }}</span></a></li>
     {% endif %}
-    {% if isProVehicle %}
-        <li><a href="#js-guarantees">Garantie</a></li>
-        <li><a href="#js-funding">Financement</a></li>
-    {% else %}
-        <li><a href="#js-project">Projet</a></li>
+    {% if vehicle.isPro %}
+        {% if vehicle.guarantee or vehicle.otherGuarantee %}
+            <li><a href="#js-guarantees">{{ 'vehicle.section.guarantee.tab'|trans }}</a></li>
+        {% endif %}
+        {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
+            <li><a href="#js-funding">{{ 'vehicle.section.funding.tab'|trans }}</a></li>
+        {% endif %}
+    {% elseif displayProjectTab|default(false) %}
+        <li><a href="#js-project">{{ 'vehicle.section.project.tab'|trans }}</a></li>
     {% endif %}
-    <li><a href="#js-associate">Autres véhicules</a></li>
+    {% if positiveLikes.all|length > 0 %}
+        <li><a href="#js-interested_users">{{ 'vehicle.section.interested_users.tab'|trans }}</a></li>
+    {% endif %}
+    {% if vehiclesToList|length > 0 %}
+        <li><a href="#js-associate">{{ 'vehicle.section.other_vehicle.tab'|trans }}</a></li>
+    {% endif %}
 </ul>

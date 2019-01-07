@@ -19,6 +19,10 @@ class Project
     protected $description;
     /** @var ProjectVehicle[]|Collection */
     protected $projectVehicles;
+    /** @var \DateTimeInterface */
+    protected $createdAt;
+    /** @var \DateTimeInterface */
+    protected $updatedAt;
 
     /**
      * Project constructor.
@@ -30,6 +34,11 @@ class Project
     {
         $this->personalUser = $personalUser;
         $this->projectVehicles = new ArrayCollection();
+    }
+
+    public function isEmpty():bool
+    {
+        return empty($this->description) && $this->budget == null && $this->projectVehicles->isEmpty();
     }
 
     /**
@@ -78,6 +87,22 @@ class Project
     public function getProjectVehicles()
     {
         return $this->projectVehicles;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getCreatedAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTimeInterface
+     */
+    public function getUpdatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
     }
 
     /**
