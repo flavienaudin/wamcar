@@ -18,3 +18,7 @@
 <div class="seller-project-details dark-gray-color">
     <p class="text-justify">{{ project.description|nl2br }}</p>
 </div>
+
+<time>
+    <span>{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+</time>

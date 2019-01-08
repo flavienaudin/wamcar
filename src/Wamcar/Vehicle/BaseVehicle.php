@@ -382,6 +382,15 @@ abstract class BaseVehicle implements Vehicle
     }
 
     /**
+     * @return null|string
+     */
+    public function getCityPostalCodeAndName(): ?string
+    {
+        $city = $this->getCity();
+        return ($city != null ? $city->getPostalCode() . ' ' . $city->getName() : null);
+    }
+
+    /**
      * @return string
      */
     public function getLatitude(): ?string

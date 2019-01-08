@@ -7,15 +7,26 @@
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
         {% if project.personalUser.vehicles|length == 0 %}
-            <div class="vehicle-picture small-auto">
-                <div class="is-relative">
-                    <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+            <a href="{{ sellerUrl }}" class="is-flex">
+                <div class="vehicle-picture small-auto">
+                    <div class="is-relative">
+                        <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+                    </div>
                 </div>
-            </div>
-            <div class="vehicle-infos small-shrink">
-                <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
-                <p>Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.</p>
-            </div>
+                <div class="vehicle-infos small-shrink">
+                    <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
+                    <div class="block-grid full-width body-font-color">
+                        Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
+                    </div>
+                    <div class="vehicle-bottom block-grid full-width align-middle">
+                        <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
+                        <time class="vehicle-time black-color small-auto">
+                            <span class="show-for-small-only">{{ project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                            <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        </time>
+                    </div>
+                </div>
+            </a>
         {% elseif project.personalUser.vehicles|length == 1 %}
             {% set vehicle = project.personalUser.vehicles.first %}
             {% set like = isLogged?vehicle.getLikeOfUser(app.user):null %}
@@ -49,7 +60,7 @@
                 </div>
                 <a href="{{ detailUrl }}" class="is-block">
                     <div class="vehicle-bottom block-grid full-width align-middle">
-                        <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
+                        <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
                         <time class="vehicle-time black-color small-auto">
                             <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
                             <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
@@ -58,15 +69,26 @@
                 </a>
             </div>
         {% else %}
-            <div class="vehicle-picture small-auto">
-                <div class="is-relative">
-                    {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+            <a href="{{ sellerUrl }}" class="is-flex">
+                <div class="vehicle-picture small-auto">
+                    <div class="is-relative">
+                        {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+                    </div>
                 </div>
-            </div>
-            <div class="vehicle-infos small-shrink">
-                <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
-                <p>Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.</p>
-            </div>
+                <div class="vehicle-infos small-shrink">
+                    <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
+                    <div class="block-grid full-width body-font-color">
+                        Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
+                    </div>
+                    <div class="vehicle-bottom block-grid full-width align-middle">
+                        <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
+                        <time class="vehicle-time black-color small-auto">
+                            <span class="show-for-small-only">{{ project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                            <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        </time>
+                    </div>
+                </div>
+            </a>
         {% endif %}
     </div>
 
