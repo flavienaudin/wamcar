@@ -101,9 +101,9 @@
         @include breakpoint(medium) {
           // Cancel the medium breakpoint styles
           height: rem-calc(40);
-          font-size: rem-calc(16);
-          padding-right: rem-calc(20);
-          padding-left: rem-calc(20);
+          font-size: rem-calc(14);
+          padding-right: rem-calc(5);
+          padding-left: rem-calc(5);
         }
       }
     }

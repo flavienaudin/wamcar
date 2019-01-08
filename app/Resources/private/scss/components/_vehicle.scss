@@ -756,7 +756,8 @@
     }
 
     @include breakpoint(large) {
-      padding: rem-calc(16);
+      padding-top: rem-calc(16);
+      padding-bottom: rem-calc(16);
     }
 
     h2 {
