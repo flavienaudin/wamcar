@@ -34,7 +34,7 @@
             </div>
             <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="is-block">
                 <div class="vehicle-bottom block-grid full-width align-middle">
-                    <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
+                    <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
                     <time class="vehicle-time black-color small-auto">
                         <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
                         <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>

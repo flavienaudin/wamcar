@@ -32,9 +32,9 @@
         {% endif %}
     {% endif %}
 
-    {% if (user.city is not null and not user.city.isEmpty and is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPro) or userIsMe %}
+    {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
         <h2>{{ userIsMe ? 'user.city.title.your_city'|trans:'user.city.title.its_city'|trans }}</h2>
-        <p>{{ user.city ??'user.city.empty'|trans }}</p>
+        <p>{{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}</p>
     {% endif %}
 
     {% if userIsMe %}
