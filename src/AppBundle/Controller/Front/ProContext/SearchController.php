@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Elasticsearch\Query\CityResultProvider;
 use AppBundle\Elasticsearch\Query\SearchResultProvider;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -39,6 +40,8 @@ class SearchController extends BaseController
     private $proVehicleEditionService;
     /** @var UserEditionService */
     private $userEditionService;
+    /** @var CityResultProvider */
+    private $cityResultProvider;
 
     /**
      * SearchController constructor.
@@ -48,6 +51,7 @@ class SearchController extends BaseController
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param UserEditionService $userEditionService
+     * @param CityResultProvider $cityResultProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -55,7 +59,8 @@ class SearchController extends BaseController
         SearchResultProvider $searchResultProvider,
         PersonalVehicleEditionService $personalVehicleEditionService,
         ProVehicleEditionService $proVehicleEditionService,
-        UserEditionService $userEditionService
+        UserEditionService $userEditionService,
+        CityResultProvider $cityResultProvider
     )
     {
         $this->formFactory = $formFactory;
@@ -64,6 +69,7 @@ class SearchController extends BaseController
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->userEditionService = $userEditionService;
+        $this->cityResultProvider = $cityResultProvider;
 
     }
 
@@ -103,18 +109,8 @@ class SearchController extends BaseController
         $searchForm = $this->getSearchForm($request, true);
 
         if ('GET' === $request->getMethod()) {
-            // If not POST submission, check query param (like GET method)
-
-            // Champ libre
-            if ($request->query->has('q')) {
-                /** @var SearchVehicleDTO $searchVehileDTO */
-                $searchVehileDTO = $searchForm->getData();
-                $searchVehileDTO->text = $request->query->get('q');
-                $searchForm->setData($searchVehileDTO);
-            }
-
+            // legacy GET form submission
             if ($request->query->has('search_vehicle')) {
-                // legacy GET form submission
                 $searchForm->submit($request->query->get('search_vehicle'));
             }
         }
@@ -144,19 +140,60 @@ class SearchController extends BaseController
 
     /**
      * @param Request $request
-     * @param string $actionPath
      * @param null|bool $displaySortingField Display or not a field to sort result
      * @return \Symfony\Component\Form\FormInterface
      */
     private function getSearchForm(Request $request, bool $displaySortingField = false)
     {
-        $paramSearchVehicle = $request->query->get('search_vehicle');
+        $paramSearchVehicle = $request->get('search_vehicle');
+
+        $make = $request->get('make');
+        if($make){
+            $make = strtoupper($make);
+        }
+
+        $model = $request->get('model');
+        if($model){
+            $model = str_replace('-', ' ', $model);
+        }
+
         $filters = [
-            'make' => $paramSearchVehicle['make'] ?? null,
-            'model' => $paramSearchVehicle['model'] ?? null
+            'make' => $make ?? $paramSearchVehicle['make'] ?? null,
+            'model' => $model ?? $paramSearchVehicle['model'] ?? null
         ];
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+
         $searchVehicleDTO = new SearchVehicleDTO();
+        $searchVehicleDTO->make = $filters['make'];
+        $searchVehicleDTO->model = $filters['model'];
+
+        // Champ libre
+        if ($request->query->has('q')) {
+            $searchVehicleDTO->text = $request->query->get('q');
+        }
+
+        // Deal with ByCity action
+        if (($city = $request->get('city')) !== null) {
+            $idxSplit = strpos($city, '-');
+            if ($idxSplit !== false) {
+                $cityPostalCode = substr($city, 0, $idxSplit);
+                $cityName = substr($city, $idxSplit + 1);
+                $cities = $this->cityResultProvider->provideForSearch($cityName);
+
+                if ($cities->totalHits() > 0) {
+                    foreach ($cities->hits() as $hit) {
+                        if ($hit['id'] === $cityPostalCode) {
+                            $searchVehicleDTO->postalCode = $hit['id'];
+                            $searchVehicleDTO->cityName = $hit['cityName'];
+                            $searchVehicleDTO->latitude = $hit['latitude'];
+                            $searchVehicleDTO->longitude = $hit['longitude'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         $actionRoute = $this->getUser() instanceof ProUser ?
             $this->generateRoute('front_search', ['tab' => self::TAB_PERSONAL])
             : $this->generateRoute('front_search', ['tab' => self::TAB_PRO]);

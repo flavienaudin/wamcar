@@ -178,6 +178,18 @@ front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
 
+front_search_by_city:
+    path: /recherche-voitures/v/{city}
+    controller: AppBundle:Front\ProContext\Search:search
+
+front_search_by_make:
+    path: /recherche-voitures/m/{make}
+    controller: AppBundle:Front\ProContext\Search:search
+
+front_search_by_make_model:
+    path: /recherche-voitures/m/{make}/{model}
+    controller: AppBundle:Front\ProContext\Search:search
+
 front_search:
     path: /recherche-voitures
     controller: AppBundle:Front\ProContext\Search:search
