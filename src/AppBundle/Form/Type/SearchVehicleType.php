@@ -117,7 +117,7 @@ class SearchVehicleType extends AbstractType
             'available_values' => [],
             'small_version' => false,
             'sortingField' => false,
-            'method' => 'GET'
+            'method' => 'POST'
         ]);
         $resolver->setRequired('available_values');
     }

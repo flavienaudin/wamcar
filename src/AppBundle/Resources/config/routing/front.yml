@@ -2,10 +2,12 @@ front_default:
     path: /
     controller: AppBundle:Front\Default:landingMixte
 
-# legacy
-front_landing_mixte:
+legacy_landing_mixte:
     path: /m
-    controller: AppBundle:Front\Default:landingMixte
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: front_default
+        permanent: true
 
 front_landing_reprise:
     path: /reprise
@@ -21,12 +23,12 @@ front_directory_view:
     defaults:
         page: 1
 
-# deprecated
-register_confirm:
+legacy_register_confirm:
     path: /inscription/confirmation
     defaults:
-        _controller: FrameworkBundle:Template:template
-        template: front/Security/Register/user_confirmation.html.twig
+        _controller: FrameworkBundle:Redirect:redirect
+        route: front_view_current_user_info
+        permanent: true
 
 register_orientation:
     path: /inscription/assistant/personal
@@ -39,14 +41,28 @@ register:
         type: personal
 
 front_vehicle_registration_form_update:
+    path: /je-vends-ma-voiture/form_update.json
+    controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
+
+legacy_vehicle_registration_form_update:
     path: /je-vends-mon-vehicule/form_update.json
     defaults:
-        _controller: AppBundle:Front\PersonalContext\Registration:updateVehicleRegistrationForm
+        _controller: FrameworkBundle:Redirect:redirect
+        route: front_vehicle_registration_form_update
+        permanent: true
 
 front_vehicle_registration:
-    path: /je-vends-mon-vehicule/{plateNumber}
+    path: /je-vends-ma-voiture/{plateNumber}
     defaults:
         _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
+        plateNumber: null
+
+legacy_vehicle_registration:
+    path: /je-vends-mon-vehicule/{plateNumber}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: front_vehicle_registration
+        permanent: true
         plateNumber: null
 
 front_edit_user_info:
@@ -163,12 +179,19 @@ front_vehicle_personal_delete:
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
 
 front_search:
-    path: /recherche/{page}
+    path: /recherche-voitures
     controller: AppBundle:Front\ProContext\Search:search
+
+legacy_search:
+    path: /recherche/{page}
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: front_search
+        permanent: true
+        page: 1
     requirements:
         page: '\d+'
-    defaults:
-        page: 1
+
 
 #front_search_tab_all:
 #    path: /recherche/{page}

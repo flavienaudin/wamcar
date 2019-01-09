@@ -2,7 +2,7 @@
 
 {% set navigation_class = navigation_class|default('header-search align-left') %}
 
-{% set searchAction = isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}) %}
+{% set searchAction = isUserPro ? path('front_search',{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}) : path('front_search',{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}) %}
 {% set searchTab = isUserPro ? constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL') : constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO') %}
 {% set directoryAction = path('front_directory_view') %}
 
@@ -11,7 +11,7 @@
 <nav id="{{ not isLogged ? 'js-navigation' }}"
      class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
     <div class="l-navigation-header-search {{ visibilityConfigClass }}">
-        <form id="header-search-form" method="get" action="{{ searchAction }}">
+        <form id="header-search-form" method="post" action="{{ searchAction }}">
             <div class="{{ visibilityConfigClass }} is-flex">
                 <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
                 <input type="search" name="search_vehicle[text]" id="js-header-search" class="input no-margin"

@@ -17,10 +17,15 @@ use Wamcar\User\ProUser;
 
 class SearchController extends BaseController
 {
-    const TAB_ALL = 'TAB_ALL';
-    const TAB_PERSONAL = 'TAB_PERSONAL';
-    const TAB_PRO = 'TAB_PRO';
-    const TAB_PROJECT = 'TAB_PROJECT';
+    const TAB_ALL = 'tous';
+    const TAB_PERSONAL = 'particulier';
+    const TAB_PRO = 'professionnels';
+    const TAB_PROJECT = 'souhaits';
+
+    const LEGACY_TAB_ALL = 'TAB_ALL';
+    const LEGACY_TAB_PERSONAL = 'TAB_PERSONAL';
+    const LEGACY_TAB_PRO = 'TAB_PRO';
+    const LEGACY_TAB_PROJECT = 'TAB_PROJECT';
 
     /** @var FormFactoryInterface */
     protected $formFactory;
@@ -64,15 +69,56 @@ class SearchController extends BaseController
 
     public function searchAction(Request $request, int $page = 1): Response
     {
-        $type = $request->query->get('search_vehicle', self::TAB_ALL);
-        if(is_array($type)){
-            $type = $type['tab'] ?? self::TAB_ALL;
+        // Normal use is query param. Attribute $page if for legacy purpose
+        $page = $request->query->get('page', $page);
+
+        if ($request->query->has('tab')) {
+            $type = $request->query->get('tab', self::TAB_ALL);
+        } else {
+            // Legacy
+            $type = $request->get('search_vehicle', self::TAB_ALL);
+            if (is_array($type)) {
+                $type = $type['tab'] ?? self::TAB_ALL;
+            }
+            // Legacy conversion
+            switch ($type) {
+                case self::LEGACY_TAB_ALL:
+                    $type = self::TAB_ALL;
+                    break;
+                case self::LEGACY_TAB_PERSONAL:
+                    $type = self::TAB_PERSONAL;
+                    break;
+                case self::LEGACY_TAB_PRO:
+                    $type = self::TAB_PRO;
+                    break;
+                case self::LEGACY_TAB_PROJECT:
+                    $type = self::TAB_PROJECT;
+                    break;
+            }
         }
 
         $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
         $pages[$type] = $page;
 
         $searchForm = $this->getSearchForm($request, true);
+
+        if ('GET' === $request->getMethod()) {
+            // If not POST submission, check query param (like GET method)
+
+            // Champ libre
+            if ($request->query->has('q')) {
+                /** @var SearchVehicleDTO $searchVehileDTO */
+                $searchVehileDTO = $searchForm->getData();
+                $searchVehileDTO->text = $request->query->get('q');
+                $searchForm->setData($searchVehileDTO);
+            }
+
+            if ($request->query->has('search_vehicle')) {
+                // legacy GET form submission
+                $searchForm->submit($request->query->get('search_vehicle'));
+            }
+        }
+
         $searchForm->handleRequest($request);
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
 
@@ -112,12 +158,8 @@ class SearchController extends BaseController
         $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
         $searchVehicleDTO = new SearchVehicleDTO();
         $actionRoute = $this->getUser() instanceof ProUser ?
-            $this->generateRoute('front_search',[
-                'search_vehicle' => ['tab' => self::TAB_PERSONAL]
-            ]):
-            $this->generateRoute('front_search',[
-                'search_vehicle' => ['tab' => self::TAB_PRO]
-            ]);
+            $this->generateRoute('front_search', ['tab' => self::TAB_PERSONAL])
+            : $this->generateRoute('front_search', ['tab' => self::TAB_PRO]);
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
             'action' => $actionRoute,
             'available_values' => $availableValues,

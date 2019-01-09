@@ -163,6 +163,9 @@ abstract class BaseUser implements HasApiCredential
         return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty() ? $this->getUserProfile()->getCity() : null);
     }
 
+    /**
+     * @return string
+     */
     public function getCityPostalCodeAndName(): string
     {
         $city = $this->getCity();

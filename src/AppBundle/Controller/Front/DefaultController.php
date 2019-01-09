@@ -60,12 +60,8 @@ class DefaultController extends BaseController
             new SearchVehicleDTO(),
             [
                 'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
+                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
                 'small_version' => true
             ]
         );
@@ -92,12 +88,8 @@ class DefaultController extends BaseController
             new SearchVehicleDTO(),
             [
                 'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
+                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
                 'small_version' => true
             ]
         );
@@ -123,12 +115,8 @@ class DefaultController extends BaseController
             new SearchVehicleDTO(),
             [
                 'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
+                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
                 'small_version' => true
             ]
         );

@@ -9,10 +9,9 @@
         <br/>
     </div>
 
-    {% set search_vehicle_params = app.request.query.get('search_vehicle')|default({})|merge({'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}) %}
     {% include 'front/Layout/includes/pagination.html.twig' with {
         'route': 'front_search',
-        'route_params': {'search_vehicle':search_vehicle_params},
+        'route_params': {'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')},
         'page': pages[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')],
         'lastPage': lastPage[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')]
     } %}
