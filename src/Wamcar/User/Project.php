@@ -4,9 +4,12 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 class Project
 {
+    use SoftDeleteable;
+
     /** @var  int */
     protected $id;
     /** @var  PersonalUser */
