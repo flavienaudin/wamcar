@@ -3,6 +3,10 @@ Wamcar\User\Project:
     type: entity
     table: project
     repositoryClass: AppBundle\Doctrine\Repository\DoctrineProjectRepository
+    gedmo:
+        soft_deleteable:
+            field_name: deletedAt
+            time_aware: false
 
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: personalUser
@@ -14,6 +18,9 @@ Wamcar\User\Project:
                 strategy: AUTO
 
     fields:
+        deletedAt:
+            type: date
+            nullable: true
         isFleet:
             type: boolean
         budget:

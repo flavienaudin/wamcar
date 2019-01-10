@@ -18,4 +18,4 @@ Wamcar\User\PersonalUser:
         project:
             targetEntity: Wamcar\User\Project
             mappedBy: personalUser
-            cascade: ["persist"]
+            cascade: ["persist", "remove"]
