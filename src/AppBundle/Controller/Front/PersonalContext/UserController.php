@@ -364,16 +364,16 @@ class UserController extends BaseController
      * @param int $id
      * @return Response
      */
-    public function legacyViewInformation(int $id): Response
+    public function legacyViewInformationAction(int $id): Response
     {
         $user = $this->userRepository->findOne($id);
         if (!$user || !$user instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
         if ($user instanceof ProUser) {
-            return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+            return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
         } else {
-            return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()]);
+            return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
         }
     }
 
