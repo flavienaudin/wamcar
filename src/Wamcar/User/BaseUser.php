@@ -28,6 +28,8 @@ abstract class BaseUser implements HasApiCredential
     /** @var int */
     protected $id;
     /** @var string */
+    protected $slug;
+    /** @var string */
     protected $email;
     /** @var  UserProfile|null */
     protected $userProfile;
@@ -100,6 +102,22 @@ abstract class BaseUser implements HasApiCredential
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**

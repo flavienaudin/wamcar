@@ -22,4 +22,27 @@ class DoctrinePersonalUserRepository extends EntityRepository implements UserRep
         return $this->findOneBy(['registrationToken' => $registrationToken]);
     }
 
+    /**
+     * @param bool $onlyEmptySlug
+     * @param bool $includeDeleted
+     * @return array
+     */
+    public function findForSlugGeneration(bool $onlyEmptySlug = true, bool $includeDeleted = false): array
+    {
+        if ($includeDeleted) {
+            $this->_em->getFilters()->disable('softDeleteable');
+        }
+        $qb = $this->createQueryBuilder('u');
+        if ($onlyEmptySlug) {
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->isNull('u.slug'),
+                $qb->expr()->eq('u.slug', '?1')))
+                ->setParameter(1, '');
+        }
+        $results = $qb->getQuery()->getResult();
+        if ($includeDeleted) {
+            $this->_em->getFilters()->enable('softDeleteable');
+        }
+        return $results;
+    }
 }

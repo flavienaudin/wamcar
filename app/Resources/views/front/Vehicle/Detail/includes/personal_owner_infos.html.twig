@@ -1,11 +1,11 @@
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="seller-pic">
+            <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}" class="seller-pic">
                 <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail', vehicleSellerName) }}" alt="{{ vehicleSellerName }}">
             </a>
             <div>
-                <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3">
+                <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}" class="primary-color h3">
                     <b>{{ vehicleSellerName }}</b></a>
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
                 {% if isUserPro %}

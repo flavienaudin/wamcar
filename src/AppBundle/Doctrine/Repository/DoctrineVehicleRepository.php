@@ -38,6 +38,17 @@ class DoctrineVehicleRepository extends EntityRepository
     }
 
     /**
+     * @inheritDoc
+     */
+    public function findAllIgnoreSoftDeleted()
+    {
+        $this->_em->getFilters()->disable('softDeleteable');
+        $all = parent::findAll();
+        $this->_em->getFilters()->enable('softDeleteable');
+        return $all;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function findAllForGarage(Garage $garage): array

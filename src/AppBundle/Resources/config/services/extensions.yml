@@ -36,3 +36,9 @@ services:
         tags:
             - { name: twig.extension }
         autowire: true
+
+    AppBundle\Twig\URLFactoryExtension:
+        class: 'AppBundle\Twig\URLFactoryExtension'
+        autowire: true
+        tags:
+            - { name: twig.extension }

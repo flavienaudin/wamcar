@@ -11,7 +11,7 @@
         {{ 'notifyGarageAdministratorOfCancelledPendingRequest.body'|trans({
             '%garage_name%': garage.name,
             '%seller_fullname%': seller.fullname,
-            '%seller_profile_url%': url('front_view_user_info', {'id':seller.id}),
+            '%seller_profile_url%': seller|userInfoUrl({}, true),
             '%garage_url%': url('front_garage_view', {'id':garage.id})
         })|raw }}
     </div>

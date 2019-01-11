@@ -13,12 +13,12 @@
                         {% for like in likes %}
                             <li class="block-grid no-margin align-middle">
                                 <span><time>{{ like.updatedAt|localizeddate('short', 'none') }}</time></span>
-                                <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
+                                <a href="{{ like.user|userInfoUrl }}">
                                     <span class="seller-pic">
                                         <img src="{{ like.user.avatar|avatar('user_mini_thumbnail', like.user.firstName) }}" alt="{{ like.user.fullName(not like.user.isPro and isUserPersonal) }}">
                                     </span>
                                 </a>
-                                <a href="{{ path('front_view_user_info', {'id': like.user.id}) }}">
+                                <a href="{{ like.user|userInfoUrl }}">
                                     <span class="seller-name dark-gray-color">{{ like.user.is(app.user)?'global.you'|trans:(like.user.fullName(not like.user.isPro and isUserPersonal)) }}</span>
                                 </a>
                                 {% if like.user.is(app.user) %}

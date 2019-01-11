@@ -17,6 +17,7 @@ use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -224,7 +225,7 @@ class PersonalVehicleController extends BaseController
             return $this->redirSave(
                 ['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'],
                 'front_vehicle_personal_detail',
-                ['id' => $vehicle->getId()]
+                ['slug' => $vehicle->getSlug()]
             );
         }
 
@@ -253,6 +254,15 @@ class PersonalVehicleController extends BaseController
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param PersonalVehicle $vehicle
+     * @return RedirectResponse
+     */
+    public function legacyDetailAction(Request $request, PersonalVehicle $vehicle): Response
+    {
+        return $this->redirectToRoute('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+    }
     /**
      * @param PersonalVehicle $personalVehicle
      * @return Response
@@ -298,12 +308,12 @@ class PersonalVehicleController extends BaseController
             $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
             $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
-                if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['id' => $vehicle->getId()])) {
+                if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()])) {
                     return $this->redirect($referer . '#header-' . $vehicle->getId());
                 }
                 return $this->redirect($referer . '#' . $vehicle->getId());
             }
         }
-        return $this->redirectToRoute("front_vehicle_personal_detail", ['id' => $vehicle->getId()]);
+        return $this->redirectToRoute("front_vehicle_personal_detail", ['slug' => $vehicle->getSlug()]);
     }
 }

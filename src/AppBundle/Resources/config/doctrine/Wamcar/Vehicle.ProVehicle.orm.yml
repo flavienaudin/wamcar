@@ -82,6 +82,8 @@ Wamcar\Vehicle\ProVehicle:
             type: date
         isUsed:
             type: boolean
+        isUsedSlugValue:
+            type: string
         mileage:
             type: integer
         bodyState:
@@ -145,3 +147,22 @@ Wamcar\Vehicle\ProVehicle:
         deletedAt:
             type: date
             nullable: true
+        slug:
+            type: string
+            length: 512
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    handlers:
+                        Gedmo\Sluggable\Handler\RelativeSlugHandler:
+                            relationField: garage
+                            relationSlugField: address.city.name
+                            separator: /
+                            urilize: true
+                    fields:
+                        - modelVersion.model.make.name
+                        - modelVersion.model.name
+                        - isUsedSlugValue

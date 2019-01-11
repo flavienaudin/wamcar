@@ -192,6 +192,7 @@ stof_doctrine_extensions:
             timestampable: true
             blameable: true
             sortable: true
+            sluggable: true
 
 vich_uploader:
     db_driver: orm

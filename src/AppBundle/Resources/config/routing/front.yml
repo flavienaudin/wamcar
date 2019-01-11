@@ -88,12 +88,22 @@ front_edit_user_project:
 front_view_current_user_info:
     path: /mon-profil
     defaults:
-        _controller: AppBundle:Front\PersonalContext\User:viewInformation
+        _controller: AppBundle:Front\PersonalContext\User:currentUserViewInformation
 
-front_view_user_info:
-    path: /profil/{id}
+front_view_pro_user_info:
+    path: /conseiller-auto/{slug}
+    controller: AppBundle:Front\PersonalContext\User:proUserViewInformation
+
+front_view_personal_user_info:
+    path: /particulier/{slug}
     defaults:
-        _controller: AppBundle:Front\PersonalContext\User:viewInformation
+        _controller: AppBundle:Front\PersonalContext\User:personalUserViewInformation
+
+legacy_view_user_info:
+    path: /profil/{id}
+    controller: AppBundle:Front\PersonalContext\User:legacyViewInformation
+    requirements:
+        id: '\d+'
 
 front_user_list:
     path: /user/list
@@ -165,8 +175,14 @@ front_vehicle_pro_assign_seller:
     controller: AppBundle:Front\ProContext\Vehicle:assign
 
 front_vehicle_pro_detail:
+    path: /voiture-pro/{slug}
+    controller: AppBundle:Front\ProContext\Vehicle:detail
+    requirements:
+        slug: '.+'
+
+legacy_vehicle_pro_detail:
     path: /vehicule/detail/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:detail }
+    controller: AppBundle:Front\ProContext\Vehicle:legacyDetail
 
 front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
@@ -181,8 +197,14 @@ front_vehicle_personal_edit:
     defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:save, plateNumber: null }
 
 front_vehicle_personal_detail:
+    path: /voiture-particulier/{slug}
+    controller: AppBundle:Front\ProContext\PersonalVehicle:detail
+    requirements:
+        slug: '.+'
+
+legacy_vehicle_personal_detail:
     path: /vehicule/particulier/detail/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:detail }
+    controller: AppBundle:Front\ProContext\PersonalVehicle:legacyDetail
 
 front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
