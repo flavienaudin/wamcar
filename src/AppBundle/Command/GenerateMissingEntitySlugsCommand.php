@@ -101,7 +101,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $this->log(self::INFO, "Pro Vehicles");
             $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
 
-            $proVehicles = $proVehicleRepository->findAllIgnoreSoftDeleted();
+            $proVehicles = $proVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
             $progressProVehicles = new ProgressBar($this->output, count($proVehicles));
             /** @var ProVehicle $proVehicle */
             foreach ($proVehicles as $proVehicle) {
@@ -132,7 +132,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $this->log(self::INFO, "Personal Vehicles");
             $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\PersonalVehicleRepository');
 
-            $personalVehicles = $personalVehicleRepository->findAllIgnoreSoftDeleted();
+            $personalVehicles = $personalVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
             $progressPersonalVehicles = new ProgressBar($this->output, count($personalVehicles));
             /** @var PersonalVehicle $personalVehicle */
             foreach ($personalVehicles as $personalVehicle) {

@@ -160,7 +160,7 @@ Wamcar\Vehicle\ProVehicle:
                         Gedmo\Sluggable\Handler\RelativeSlugHandler:
                             relationField: garage
                             relationSlugField: address.city.name
-                            separator: /
+                            separator: -
                             urilize: true
                     fields:
                         - modelVersion.model.make.name

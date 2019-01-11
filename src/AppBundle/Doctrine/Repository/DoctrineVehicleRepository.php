@@ -9,6 +9,8 @@ use Wamcar\Vehicle\Vehicle;
 
 class DoctrineVehicleRepository extends EntityRepository
 {
+    use SluggableEntityRepositoryTrait;
+
     /**
      * {@inheritdoc}
      */
