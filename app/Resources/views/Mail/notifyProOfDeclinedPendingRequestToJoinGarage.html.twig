@@ -15,7 +15,7 @@
             '%administrator_fullname%': mainAdministrator.fullname,
             '%administrator_url%': mainAdministrator|userInfoUrl({}, true),
             '%garage_name%': garage.name,
-            '%garage_url%': url('front_garage_view', {'id':garage.id})
+            '%garage_url%': url('front_garage_view', {'slug':garage.slug})
         })|raw }}
 
         <p>{{ action_button(url('front_conversation_create',{'id':mainAdministrator.id}),

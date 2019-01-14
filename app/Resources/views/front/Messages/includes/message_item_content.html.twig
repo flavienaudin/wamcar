@@ -11,7 +11,7 @@
             <div class="messages-small-text">
                 {% set garageMemberships = interlocutor.enabledGarageMemberships %}
                 {% if garageMemberships|length == 1 %}
-                    <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                    <a href="{{ path('front_garage_view', {'slug':garageMemberships.first.garage.slug}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
                 {% else %}
                     {# TODO placeholder ou liste des garages ? #}
                     Plusieurs garages
@@ -49,7 +49,7 @@
                 <div class="messages-small-text">
                     {% set garageMemberships = message.user.enabledGarageMemberships %}
                     {% if garageMemberships|length == 1 %}
-                        <a href="{{ path('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                        <a href="{{ path('front_garage_view', {'slug':garageMemberships.first.garage.slug}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
                     {% elseif garageMemberships|length == 0 %}
                         Pas de garage
                     {% else %}

@@ -7,6 +7,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
@@ -26,8 +27,8 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
                 'Update only the empty slug. Otherwise all slugs are regenerated.')
             ->addOption('entity', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
                 'Array of entities which slug will be (re)generated. ALl entities are concerned if not provided.
-                --entity=user --entity=personal_vehicle --entity=pro_vehicle',
-                ["personal_user", "pro_user", "personal_vehicle", "pro_vehicle"]);
+                --entity=personal_user --entity=pro_user --entity=personal_vehicle --entity=pro_vehicle --entity=garage',
+                ["personal_user", "pro_user", "personal_vehicle", "pro_vehicle", "garage"]);
     }
 
     /**
@@ -41,7 +42,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $entities = ["personal_user" => false, "pro_user" => false, "personal_vehicle" => false, "pro_vehicle" => false];
+        $entities = ["personal_user" => false, "pro_user" => false, "personal_vehicle" => false, "pro_vehicle" => false, "garage" => false];
         foreach ($input->getOption("entity") as $entity) {
             $entities[$entity] = true;
         }
@@ -155,6 +156,33 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
                 }
             }
             $progressPersonalVehicles->finish();
+            $this->logCRLF();
+        }
+
+        // Garage
+        if ($entities['garage']) {
+            $this->log(self::INFO, "Garage");
+            $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
+
+            $garages = $garageRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
+            $progressGarages= new ProgressBar($this->output, count($garages));
+            /** @var Garage $garage */
+            foreach ($garages as $garage) {
+                $progressGarages->advance();
+
+                if ($garage->getSlug() == null) {
+                    // Pour obliger la mise à jour (si pas de modification de l'entité, pas d'update)
+                    $garage->setSlug('');
+                    $garageRepository->update($garage);
+                    $garage->setSlug(null);
+                    $garageRepository->update($garage);
+                }else{
+                    // Auto slug (re)generation
+                    $garage->setSlug(null);
+                    $garageRepository->update($garage);
+                }
+            }
+            $progressGarages->finish();
             $this->logCRLF();
         }
 

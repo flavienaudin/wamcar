@@ -10,7 +10,7 @@
         {% for garage in garages %}
             <div class="column small-12 medium-6 input-margin">
                 <div class=" garage-item">
-                    <a href="{{ path('front_garage_view', {'id': garage.id}) }}">
+                    <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
                         <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
                     <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
                     <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>

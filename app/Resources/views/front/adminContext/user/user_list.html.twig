@@ -62,7 +62,7 @@
                                     <ul class="no-margin">
                                         {% for membership in user.garageMemberships %}
                                             <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
-                                                <a href="{{ path('front_garage_view',{'id':membership.garage.id}) }}">
+                                                <a href="{{ path('front_garage_view',{'slug':membership.garage.slug}) }}">
                                                     {{ membership.garage.name }}
                                                 </a><br>
                                                 {{ membership.garage.city }}

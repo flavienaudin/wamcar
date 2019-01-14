@@ -123,7 +123,7 @@ class VehicleController extends BaseController
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
                 );
-                return $this->redirectToRoute("front_garage_view", ['id' => $garage->getId()]);
+                return $this->redirectToRoute("front_garage_view", ['slug' => $garage->getSlug()]);
             }
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
             if (!empty($plateNumber)) {
@@ -334,7 +334,7 @@ class VehicleController extends BaseController
         );
 
         return $this->redirectToRoute('front_garage_view', [
-            'id' => $proVehicle->getGarage()->getId()
+            'slug' => $proVehicle->getGarage()->getSlug()
         ]);
     }
 

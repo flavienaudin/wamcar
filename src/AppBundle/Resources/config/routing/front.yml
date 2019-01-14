@@ -115,8 +115,12 @@ front_user_edit_preferences:
     controller: AppBundle:Front\PersonalContext\User:editPreferences
 
 front_garage_view:
+    path: /g/{slug}
+    controller: AppBundle:Front\ProContext\Garage:view
+
+legacy_garage_view:
     path: /garage/view/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:view }
+    controller: AppBundle:Front\ProContext\Garage:legacyView
 
 front_garage_create:
     path: /garage/create

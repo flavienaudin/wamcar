@@ -16,7 +16,7 @@
                 <a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName|title }}</strong></a>
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
             </div>
-            <div><a href="{{ path('front_garage_view', {'id':vehicle.garage.id}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></div>
+            <div><a href="{{ path('front_garage_view', {'slug':vehicle.garage.slug}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></div>
 
             {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:true, garageRating:vehicle.garage.googleRating|default(null)}) }}
         </div>

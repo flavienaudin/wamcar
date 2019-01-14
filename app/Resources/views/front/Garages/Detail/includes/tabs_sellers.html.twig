@@ -81,7 +81,7 @@
                     }) }}</h2>
                 <div>
                     {{ form_start(inviteSellerForm, {
-                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'}),
+                        'action' : path('front_garage_view', {'slug':garage.slug,'_fragment':'sellers'}),
                         'attr' : {
                             'id' : 'js-garage-member-invitation-form',
                             'data-abide' : 'data-abide',

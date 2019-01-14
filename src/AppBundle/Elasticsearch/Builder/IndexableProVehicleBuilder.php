@@ -63,7 +63,7 @@ class IndexableProVehicleBuilder
             $this->router->generate('front_view_pro_user_info', ['slug' => $vehicle->getSeller()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
-            $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['id' => $vehicle->getGarage()->getId()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
+            $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
             $vehicle->getGarageName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail', $vehicle->getSellerName() ?? ''),
             $vehicle->getDeletedAt(),

@@ -24,7 +24,7 @@
                     <div style="font-size: 11px; line-height: 16px; color: #cacaca">
                         {% set garageMemberships = sender.enabledGarageMemberships %}
                         {% if garageMemberships|length == 1 %}
-                            <a href="{{ url('front_garage_view', {'id':garageMemberships.first.garage.id}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
+                            <a href="{{ url('front_garage_view', {'slug':garageMemberships.first.garage.slug}) }}" target="_blank">{{ garageMemberships.first.garage.name }}</a>
                         {% elseif garageMemberships|length == 0 %}
                             Pas de garage
                         {% else %}
