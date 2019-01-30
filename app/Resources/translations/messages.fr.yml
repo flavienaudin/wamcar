@@ -33,7 +33,7 @@ flash:
     vehicle_create: Le véhicule a bien été enregistré.
     vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
-    conversation_update: Votre message a bien envoyé.
+    conversation_update: Votre message a bien été envoyé.
     vehicle:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
   danger:
