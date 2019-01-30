@@ -11,4 +11,5 @@ class DoctrineProUserRepository extends EntityRepository implements UserReposito
 {
     use DoctrineUserRepositoryTrait;
     use PasswordResettableRepositoryTrait;
+    use SluggableEntityRepositoryTrait;
 }

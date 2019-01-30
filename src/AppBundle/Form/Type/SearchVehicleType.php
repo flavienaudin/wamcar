@@ -88,7 +88,7 @@ class SearchVehicleType extends AbstractType
                 ])
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
-                    'data' => 50,
+                    'empty_data' => 50,
                     'error_bubbling' => true,
                 ]);
             if ($sortingField) {
@@ -117,7 +117,7 @@ class SearchVehicleType extends AbstractType
             'available_values' => [],
             'small_version' => false,
             'sortingField' => false,
-            'method' => 'GET'
+            'method' => 'POST'
         ]);
         $resolver->setRequired('available_values');
     }

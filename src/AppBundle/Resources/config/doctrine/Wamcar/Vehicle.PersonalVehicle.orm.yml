@@ -75,6 +75,8 @@ Wamcar\Vehicle\PersonalVehicle:
             type: date
         isUsed:
             type: boolean
+        isUsedSlugValue:
+            type: string
         mileage:
             type: integer
         bodyState:
@@ -111,3 +113,17 @@ Wamcar\Vehicle\PersonalVehicle:
         deletedAt:
             type: date
             nullable: true
+        slug:
+            type: string
+            length: 512
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    fields:
+                        - city.name
+                        - modelVersion.model.make.name
+                        - modelVersion.model.name
+                        - isUsedSlugValue

@@ -11,14 +11,6 @@ trait DoctrineUserRepositoryTrait
     /**
      * {@inheritdoc}
      */
-    public function findAll()
-    {
-        return $this->findBy([]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function findOne(int $userId): BaseUser
     {
         return $this->findOneBy(['id' => $userId]);

@@ -123,7 +123,7 @@ class VehicleController extends BaseController
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
                 );
-                return $this->redirectToRoute("front_garage_view", ['id' => $garage->getId()]);
+                return $this->redirectToRoute("front_garage_view", ['slug' => $garage->getSlug()]);
             }
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
             if (!empty($plateNumber)) {
@@ -233,7 +233,7 @@ class VehicleController extends BaseController
             }
 
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $flashMessage);
-            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_pro_detail', ['id' => $vehicle->getId()]);
+            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
         }
 
         return $this->render('front/Vehicle/Add/add.html.twig', [
@@ -277,7 +277,7 @@ class VehicleController extends BaseController
         }
 
         return $this->redirectToRoute('front_vehicle_pro_detail', [
-            'id' => $proVehicle->getId()
+            'slug' => $proVehicle->getSlug()
         ]);
     }
 
@@ -301,6 +301,16 @@ class VehicleController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @return RedirectResponse
+     */
+    public function legacyDetailAction(Request $request, ProVehicle $vehicle): Response
+    {
+        return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+    }
+
+    /**
      * @param ProVehicle $proVehicle
      * @return Response
      */
@@ -312,7 +322,7 @@ class VehicleController extends BaseController
                 'flash.error.remove_vehicle'
             );
             return $this->redirectToRoute('front_vehicle_pro_detail', [
-                'id' => $proVehicle->getId()
+                'slug' => $proVehicle->getSlug()
             ]);
         }
 
@@ -324,7 +334,7 @@ class VehicleController extends BaseController
         );
 
         return $this->redirectToRoute('front_garage_view', [
-            'id' => $proVehicle->getGarage()->getId()
+            'slug' => $proVehicle->getGarage()->getSlug()
         ]);
     }
 
@@ -353,12 +363,12 @@ class VehicleController extends BaseController
                     $queryParam = str_contains($referer, '?') ? '&' : '?';
                     $queryParam .= SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $request->query->get(SecurityController::INSCRIPTION_QUERY_PARAM);
                 }
-                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['id' => $vehicle->getId()])) {
+                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()])) {
                     return $this->redirect($referer . $queryParam . '#header-' . $vehicle->getId());
                 }
                 return $this->redirect($referer . $queryParam . '#' . $vehicle->getId());
             }
         }
-        return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
+        return $this->redirectToRoute("front_vehicle_pro_detail", ['slug' => $vehicle->getSlug()]);
     }
 }

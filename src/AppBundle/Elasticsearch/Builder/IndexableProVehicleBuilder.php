@@ -43,7 +43,7 @@ class IndexableProVehicleBuilder
     {
         return new IndexableProVehicle(
             $vehicle->getId(),
-            $this->router->generate('front_vehicle_pro_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            $this->router->generate('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
             strtoupper($vehicle->getMake()),
             $vehicle->getModelName(),
             null,
@@ -60,10 +60,10 @@ class IndexableProVehicleBuilder
             $vehicle->getCreatedAt(),
             $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture() ? 'vehicle_thumbnail' : 'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
-            $this->router->generate('front_view_user_info', ['id' => $vehicle->getSeller()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            $this->router->generate('front_view_pro_user_info', ['slug' => $vehicle->getSeller()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
-            $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['id' => $vehicle->getGarage()->getId()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
+            $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
             $vehicle->getGarageName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail', $vehicle->getSellerName() ?? ''),
             $vehicle->getDeletedAt(),

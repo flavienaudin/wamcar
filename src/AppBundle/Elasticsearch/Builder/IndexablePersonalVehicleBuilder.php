@@ -44,7 +44,7 @@ class IndexablePersonalVehicleBuilder
     {
         return new IndexablePersonalVehicle(
             $vehicle->getId(),
-            $this->router->generate('front_vehicle_personal_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getMake(),
             $vehicle->getModelName(),
             null,
@@ -62,7 +62,7 @@ class IndexablePersonalVehicleBuilder
             $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture()?'vehicle_thumbnail':'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
             $vehicle->getOwner()->getId(),
-            $this->router->generate('front_view_user_info', ['id' => $vehicle->getOwner()->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
+            $this->router->generate('front_view_personal_user_info', ['slug' => $vehicle->getOwner()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
             $vehicle->getSellerName() ?? '',
             $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail', $vehicle->getSellerName() ?? ''),
             count($vehicle->getPositiveLikes())

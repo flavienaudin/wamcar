@@ -23,6 +23,8 @@ abstract class BaseVehicle implements Vehicle
 
     /** @var string */
     protected $id;
+    /** @var string */
+    protected $slug;
     /** @var ModelVersion */
     protected $modelVersion;
     /** @var Transmission */
@@ -31,6 +33,8 @@ abstract class BaseVehicle implements Vehicle
     protected $registration;
     /** @var bool */
     protected $isUsed;
+    /** @var string */
+    protected $isUsedSlugValue;
     /** @var \DateTimeInterface */
     protected $registrationDate;
     /** @var int */
@@ -117,6 +121,7 @@ abstract class BaseVehicle implements Vehicle
         $this->registration = $registration;
         $this->registrationDate = $registrationDate;
         $this->isUsed = $isUsed;
+        $this->isUsedSlugValue = $this->isUsed ? 'occasion' : 'neuf';
         $this->mileage = $mileage;
         $this->pictures = $pictures;
         $this->safetyTestDate = $safetyTestDate;
@@ -140,6 +145,22 @@ abstract class BaseVehicle implements Vehicle
     public function getId(): string
     {
         return $this->id;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**
@@ -270,6 +291,14 @@ abstract class BaseVehicle implements Vehicle
     public function isUsed(): bool
     {
         return $this->isUsed;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getIsUsedSlugValue(): ?string
+    {
+        return $this->isUsedSlugValue;
     }
 
     /**
@@ -654,6 +683,7 @@ abstract class BaseVehicle implements Vehicle
     public function setIsUsed(bool $isUsed): void
     {
         $this->isUsed = $isUsed;
+        $this->isUsedSlugValue = $this->isUsed ? 'occasion' : 'neuf';
     }
 
     /**

@@ -42,7 +42,7 @@
     {% set breadcrumbs = [
         {
             'name': vehicle.garage.name,
-            'href': path('front_garage_view', {'id': vehicle.garage.id})
+            'href': path('front_garage_view', {'slug': vehicle.garage.slug})
         },
         {
             'name': vehicle.name,
@@ -155,7 +155,7 @@
                             <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
                             {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList} %}
                             <br>
-                            <a href="{{ path('front_garage_view', {'id': vehicle.garage.id}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+                            <a href="{{ path('front_garage_view', {'slug': vehicle.garage.slug}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
                         </div>
                     {% endif %}
                 </div>

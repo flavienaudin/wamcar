@@ -46,7 +46,7 @@ class SearchProType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => false,
             'data_class' => SearchProDTO::class,
-            'method' => 'GET'
+            'method' => 'POST'
         ]);
     }
 }

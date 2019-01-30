@@ -2,7 +2,7 @@
 {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
 
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-{% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
+{% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 {% set detailUrlTarget = detailUrlTarget|default('_self') %}
 
 <article class="vehicle-item is-flex">

@@ -113,7 +113,7 @@ class GarageController extends BaseController
         if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
             $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-                'action' => $this->generateRoute('front_garage_view', ['id' => $garage->getId()]),
+                'action' => $this->generateRoute('front_garage_view', ['slug' => $garage->getSlug()]),
                 'available_values' => [],
                 'small_version' => true
             ]);
@@ -187,7 +187,7 @@ class GarageController extends BaseController
                 }
 
                 return $this->redirectToRoute('front_garage_view', [
-                    'id' => $garage->getId(),
+                    'slug' => $garage->getSlug(),
                     '_fragment' => 'sellers']);
             }
         }
@@ -202,6 +202,15 @@ class GarageController extends BaseController
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null
         ]);
+    }
+
+    /**
+     * @param Garage $garage
+     * @return RedirectResponse
+     */
+    public function legacyViewAction(Garage $garage): RedirectResponse
+    {
+        return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**
@@ -238,7 +247,7 @@ class GarageController extends BaseController
                             ])]
                     ));
                 return $this->redirectToRoute('front_garage_view', [
-                    'id' => $e->getGarage()->getId(),
+                    'slug' => $e->getGarage()->getSlug(),
                     '_fragment' => 'sellers']);
             } catch (AlreadyGarageMemberException $e) {
                 $this->session->getFlashBag()->add(
@@ -247,7 +256,7 @@ class GarageController extends BaseController
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
-            return $this->redirSave([], 'front_garage_view', ['id' => $garage->getId()]);
+            return $this->redirSave([], 'front_garage_view', ['slug' => $garage->getSlug()]);
         }
 
         return $this->render('front/Garages/Edit/edit.html.twig', [
@@ -305,7 +314,7 @@ class GarageController extends BaseController
                         'flash.success.garage.assign_member'
                     );
                     return $this->redirectToRoute('front_garage_view', [
-                        'id' => $garage->getId(),
+                        'slug' => $garage->getSlug(),
                         '_fragment' => 'sellers'
                     ]);
                 } else {
@@ -314,7 +323,7 @@ class GarageController extends BaseController
                         'flash.error.garage.unauthorized_to_administrate'
                     );
                     return $this->redirectToRoute('front_garage_view', [
-                        'id' => $garage->getId(),
+                        'slug' => $garage->getSlug(),
                         '_fragment' => 'sellers'
                     ]);
                 }
@@ -329,7 +338,7 @@ class GarageController extends BaseController
                     'flash.success.garage.assign_member'
                 );
                 return $this->redirectToRoute('front_garage_view', [
-                    'id' => $garage->getId(),
+                    'slug' => $garage->getSlug(),
                     '_fragment' => 'sellers'
                 ]);
             } else {
@@ -362,7 +371,7 @@ class GarageController extends BaseController
                 'flash.error.garage.not_member'
             );
             return $this->redirectToRoute('front_garage_view', [
-                'id' => $garage->getId(),
+                'slug' => $garage->getSlug(),
                 '_fragment' => 'sellers'
             ]);
         }
@@ -443,7 +452,7 @@ class GarageController extends BaseController
         }
 
         return $this->redirectToRoute('front_garage_view', [
-            'id' => $garage->getId(),
+            'slug' => $garage->getSlug(),
             '_fragment' => 'sellers'
         ]);
     }

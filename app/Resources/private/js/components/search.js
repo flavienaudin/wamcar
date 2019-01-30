@@ -57,6 +57,16 @@ if ($searchForm.length) {
       $searchForm.submit();
     });
   }
+
+  // Submit form when using pagination navigation
+  let $paginationItems = $('.pagination-item');
+  if($paginationItems.length){
+    $paginationItems.on('click', (e) => {
+      e.preventDefault();
+      $searchForm.attr('action', $(e.currentTarget).attr('href'));
+      $searchForm.submit();
+    });
+  }
 }
 
 

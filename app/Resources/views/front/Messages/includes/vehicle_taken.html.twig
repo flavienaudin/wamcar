@@ -16,7 +16,7 @@
                 <strong>
                     {{ app.user.id == user.id?'conversation.fleet.yours'|trans({'%severalVehicles%':severalVehicles}):'conversation.fleet.him'|trans({'%severalVehicles%':severalVehicles}) }}
                 </strong>
-                <a href="{{ path('front_view_user_info', {'id':user.id,'_fragment':'user_vehicles_section'}) }}" target="_blank" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
+                <a href="{{ user|userInfoUrl({'_fragment':'user_vehicles_section'}) }}" target="_blank" class="text-underline">{{ app.user.id == user.id ? 'Voir vos véhicules' : 'Voir ses véhicules' }}</a>
             </div>
         </div>
     {% elseif vehicle is not null %}
