@@ -11,6 +11,7 @@ use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use Doctrine\Common\Collections\Criteria;
+use Elastica\ResultSet;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
@@ -78,22 +79,23 @@ class ProVehicleEditionService
 
     /**
      * Retrieve ProVehicles from the search result
-     * @param Result $searchResult
+     * @param ResultSet $searchResult
      * @return array
      */
-    public function getVehiclesBySearchResult(Result $searchResult): array
+    public function getVehiclesBySearchResult(ResultSet $searchResult): array
     {
-        $result = array();
-        $result['totalHits'] = $searchResult->totalHits();
-        $result['hits'] = array();
+        $results = array();
+        $results['totalHits'] = $searchResult->getTotalHits();
+        $results['hits'] = array();
         $ids = array();
-        foreach ($searchResult->hits() as $vehicle) {
+        foreach ($searchResult->getResults() as $result) {
+            $vehicle = $result->getData();
             $ids[] = $vehicle['id'];
         }
         if (count($ids) > 0) {
-            $result['hits'] = $this->vehicleRepository->findByIds($ids);
+            $results['hits'] = $this->vehicleRepository->findByIds($ids);
         }
-        return $result;
+        return $results;
     }
 
     /**

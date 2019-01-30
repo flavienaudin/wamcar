@@ -2,12 +2,12 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\IndexableCity;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportCityInESCommand extends BaseCommand
+class ImportCityInESCommand extends ContainerAwareCommand
 {
 
     /**
@@ -18,28 +18,34 @@ class ImportCityInESCommand extends BaseCommand
     {
         $this
             ->setName('wamcar:populate:es-cities')
-            ->setDescription('Populate ES with cities')
-        ;
+            ->setDescription('Populate ES with cities');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-        $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
-        $cityRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineCityRepository');
+        $io = new SymfonyStyle($input, $output);
+
+        $cityIndexer = $this->getContainer()->get('city.indexer');
         $indexableCityBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableCityBuilder');
+        $cityRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineCityRepository');
 
         $cities = $cityRepository->findAll();
-        $progress = new ProgressBar($output, count($cities));
-
+        $io->text('City reading');
+        $cityDocuments = [];
+        $io->progressStart(count($cities));
         foreach ($cities as $city) {
-            $progress->advance();
-            $objectIndexer->index($indexableCityBuilder->buildFromApplicationCity($city), IndexableCity::TYPE);
+            $indexableCity = $indexableCityBuilder->buildFromApplicationCity($city);
+            if ($indexableCity->shouldBeIndexed()) {
+                $cityDocuments[] = $cityIndexer->buildDocument($indexableCity);
+            }
+            $io->progressAdvance();
         }
+        $io->progressFinish();
+        $io->newLine();
 
-        $progress->finish();
+        $io->text('Indexing ' . count($cityDocuments) . ' cities');
+        $cityIndexer->indexAllDocuments($cityDocuments, true);
 
-        $this->logCRLF();
-        $this->log('success', 'Done !');
+        $io->success('Done !');
     }
 }

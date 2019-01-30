@@ -354,7 +354,9 @@ search:
         label: Energie
         placeholder: Energie
       sorting:
-        label: Trier par :
+        label: "Trier par :"
+      type:
+        label: "Type"
     more_criteria: Plus de critères
     less_criteria: Moins de critères
     tab:

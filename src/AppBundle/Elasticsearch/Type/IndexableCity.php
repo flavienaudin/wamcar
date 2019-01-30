@@ -35,7 +35,7 @@ class IndexableCity implements Indexable
     )
     {
         $this->insee = $insee;
-        $this->postalCode = $postalCode;
+        $this->postalCode = str_pad($postalCode, 5, '0', STR_PAD_LEFT);
         $this->cityName = $cityName;
         $this->latitude = $latitude;
         $this->longitude = $longitude;
@@ -66,6 +66,10 @@ class IndexableCity implements Indexable
             'insee' => $this->insee,
             'postalCode' => $this->postalCode,
             'cityName' => $this->cityName,
+            'location' => [
+                'lat' => $this->latitude,
+                'lon' => $this->longitude
+            ],
             'latitude' => $this->latitude,
             'longitude' => $this->longitude
         ];

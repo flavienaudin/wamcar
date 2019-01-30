@@ -4,13 +4,12 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\PersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalVehicleType;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
-use AppBundle\Utils\VehicleInfoAggregator;
-use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -30,10 +29,8 @@ class PersonalVehicleController extends BaseController
 
     /** @var FormFactoryInterface $formFactory */
     protected $formFactory;
-    /** @var VehicleInfoAggregator $vehicleInfoAggregator */
-    private $vehicleInfoAggregator;
-    /** @var VehicleInfoProvider $vehicleInfoProvider */
-    private $vehicleInfoProvider;
+    /** @var VehicleInfoEntityIndexer $vehicleInfoEntityIndexer */
+    private $vehicleInfoEntityIndexer;
     /** @var PersonalVehicleEditionService $personalVehicleEditionService */
     private $personalVehicleEditionService;
     /** @var ApiConnector $autoDataConnector */
@@ -46,8 +43,7 @@ class PersonalVehicleController extends BaseController
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param VehicleInfoProvider $vehicleInfoProvider
+     * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
@@ -55,8 +51,7 @@ class PersonalVehicleController extends BaseController
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        VehicleInfoProvider $vehicleInfoProvider,
+        VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         PersonalVehicleEditionService $personalVehicleEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager,
@@ -64,8 +59,7 @@ class PersonalVehicleController extends BaseController
     )
     {
         $this->formFactory = $formFactory;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider = $vehicleInfoProvider;
+        $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
@@ -137,23 +131,25 @@ class PersonalVehicleController extends BaseController
                     }
                 };
 
-                $vehicleInfo = [];
                 if (!empty($ktypNumber)) {
-                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                    $vehicleInfoResultSet = $this->vehicleInfoEntityIndexer->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if (count($vehicleInfo) == 1) {
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
-                        $filters['make'] = $vehicleInfo[0]['make'];
+                if (isset($vehicleInfoResultSet) && $vehicleInfoResultSet->getTotalHits() == 1) {
+                    $vehicleInfoResult = $vehicleInfoResultSet->getResults()[0];
+                    $vehicleInfo = $vehicleInfoResult->getData();
+
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['make'])) {
+                        $filters['make'] = $vehicleInfo['make'];
                     } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
-                        $filters['model'] = $vehicleInfo[0]['model'];
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['model'])) {
+                        $filters['model'] = $vehicleInfo['model'];
                     } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
-                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['engine'])) {
+                        $filters['engine'] = $vehicleInfo['engine'];
                     } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
@@ -187,7 +183,7 @@ class PersonalVehicleController extends BaseController
 
         $vehicleDTO->updateFromFilters($filters);
 
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoEntityIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $personalVehicleForm = $this->formFactory->create(
             PersonalVehicleType::class,

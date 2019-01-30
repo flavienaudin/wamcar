@@ -8,6 +8,7 @@ use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use SimpleBus\Message\Bus\MessageBus;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use TypeForm\Exception\WrongContentException;
+use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
@@ -133,6 +134,7 @@ class AffinityFormManager
             $this->affinityAnswerCalculationService->updatePersonalUserInformation($user);
             $this->userRepository->update($user);
             $this->eventBus->handle(new PersonalUserUpdated($user));
+            $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
         } else {
             $this->affinityAnswerCalculationService->updateProUserInformation($user);
             $this->userRepository->update($user);

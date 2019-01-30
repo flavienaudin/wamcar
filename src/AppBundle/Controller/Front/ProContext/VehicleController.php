@@ -5,14 +5,13 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
-use AppBundle\Utils\VehicleInfoAggregator;
-use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -34,10 +33,8 @@ class VehicleController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
-    /** @var VehicleInfoProvider */
-    private $vehicleInfoProvider;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoEntityIndexer;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
     /** @var ApiConnector */
@@ -48,24 +45,21 @@ class VehicleController extends BaseController
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param VehicleInfoProvider $vehicleInfoProvider
+     * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        VehicleInfoProvider $vehicleInfoProvider,
+        VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleEditionService $proVehicleEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider = $vehicleInfoProvider;
+        $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
@@ -164,23 +158,25 @@ class VehicleController extends BaseController
                     }
                 };
 
-                $vehicleInfo = [];
                 if (!empty($ktypNumber)) {
-                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                    $vehicleInfoResultSet = $this->vehicleInfoEntityIndexer->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if (count($vehicleInfo) == 1) {
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
-                        $filters['make'] = $vehicleInfo[0]['make'];
+                if (isset($vehicleInfoResultSet) && $vehicleInfoResultSet->getTotalHits() == 1) {
+                    $vehicleInfoResult = $vehicleInfoResultSet->getResults()[0];
+                    $vehicleInfo = $vehicleInfoResult->getData();
+
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['make'])) {
+                        $filters['make'] = $vehicleInfo['make'];
                     } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
-                        $filters['model'] = $vehicleInfo[0]['model'];
+                    if (isset($vehicleInfo['model']) && !empty($vehicleInfo['model'])) {
+                        $filters['model'] = $vehicleInfo['model'];
                     } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
-                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    if (isset($vehicleInfo['engine']) && !empty($vehicleInfo['engine'])) {
+                        $filters['engine'] = $vehicleInfo['engine'];
                     } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
@@ -213,7 +209,7 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO->updateFromFilters($filters);
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoEntityIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
         $proVehicleForm = $this->formFactory->create(
             ProVehicleType::class,
             $vehicleDTO,

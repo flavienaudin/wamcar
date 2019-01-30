@@ -2,11 +2,13 @@
 
 namespace AppBundle\Form\Type;
 
+use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
 use AppBundle\Utils\MileageChoice;
 use AppBundle\Utils\RadiusChoice;
+use AppBundle\Utils\SearchTypeChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -39,11 +41,17 @@ class SearchVehicleType extends AbstractType
         $builder
             ->add('text', TextType::class, [
                 'required' => false
-            ])
-            ->add('tab', HiddenType::class);
+            ]);
 
         if (!$smallVersion) {
             $builder
+                ->add('type', ChoiceType::class, [
+                    'choices' => SearchTypeChoice::getTypeChoice(),
+                    'expanded' => true,
+                    'multiple' => true,
+                    'choice_translation_domain' => 'enumeration',
+                    'data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_PROJECT]
+                ])
                 ->add('make', ChoiceType::class, [
                     'choices' => $availableValues['make'] ?? [],
                     'preferred_choices' => function ($val, $key) {

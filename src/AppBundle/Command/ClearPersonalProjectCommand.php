@@ -6,14 +6,10 @@ use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 
 class ClearPersonalProjectCommand extends AbstractClearCommand
 {
-
-    /**
-     * @inheritDoc
-     */
     public function __construct()
     {
         parent::__construct('wamcar:clear:personal_project',
-            'Clear all personal projects from the index',
+            'Clear all personal projects from its index',
             IndexablePersonalProject::TYPE);
     }
 }
