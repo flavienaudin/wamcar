@@ -11,9 +11,10 @@
 
     {% include 'front/Layout/includes/pagination.html.twig' with {
         'route': 'front_search',
-        'route_params': {'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')},
-        'page': pages[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')],
-        'lastPage': lastPage[constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_ALL')]
+        'route_params': {},
+        'page': page,
+        'lastPage': lastPage
+
     } %}
 {% else %}
     <br>

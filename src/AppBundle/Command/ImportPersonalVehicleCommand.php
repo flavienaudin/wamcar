@@ -2,10 +2,9 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportPersonalVehicleCommand extends BaseCommand
 {
@@ -30,24 +29,30 @@ class ImportPersonalVehicleCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
-        $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
+        $personalVehicleIndexer = $this->getContainer()->get('personal_vehicle.indexer');
         $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\PersonalVehicleRepository');
         $indexablePersonalVehicleBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexablePersonalVehicleBuilder');
 
         $vehicles = $personalVehicleRepository->findAll();
-        $progress = new ProgressBar($output, count($vehicles));
-
+        $personalVehicleDocuments = [];
+        $io->text('Personal Vehicle reading');
+        $io->progressStart(count($vehicles));
         foreach ($vehicles as $vehicle) {
-            $progress->advance();
-            $objectIndexer->index($indexablePersonalVehicleBuilder->buildFromVehicle($vehicle), IndexablePersonalVehicle::TYPE);
+            $indexablePersonalVehicle = $indexablePersonalVehicleBuilder->buildFromVehicle($vehicle);
+            if ($indexablePersonalVehicle->shouldBeIndexed()) {
+                $personalVehicleDocuments[] = $personalVehicleIndexer->buildDocument($indexablePersonalVehicle);
+            }
+            $io->progressAdvance();
         }
+        $io->progressFinish();
+        $io->newLine();
 
-        $progress->finish();
+        $io->text('Indexing ' . count($personalVehicleDocuments) . ' personal vehicles');
+        $personalVehicleIndexer->indexAllDocuments($personalVehicleDocuments, true);
 
-        $this->logCRLF();
-        $this->log('success', 'Done !');
+        $io->success('Done !');
     }
 
 }

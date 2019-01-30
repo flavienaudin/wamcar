@@ -7,10 +7,6 @@
         'class_field': 'column small-12 medium-8 large-auto medium-left-collapse',
         'placeholder': 'homepage.search.filter.placeholder'|trans
     }) }}
-    {{ form_widget(smallSearchForm.tab, {
-        'label': false,
-        'value':isUserPro?constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL'):constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')
-    }) }}
     <div class="column small-12 medium-6 large-4">
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>

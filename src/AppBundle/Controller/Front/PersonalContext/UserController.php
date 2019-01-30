@@ -9,6 +9,7 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -23,7 +24,6 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
-use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -61,8 +61,8 @@ class UserController extends BaseController
     /** @var GarageEditionService */
     protected $garageEditionService;
 
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoIndexer;
 
     /** @var MessageBus */
     protected $eventBus;
@@ -74,13 +74,11 @@ class UserController extends BaseController
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
-     * @param DoctrinePersonalUserRepository $userRepository
-     * @param DoctrinePersonalUserRepository $personalUserRepository ,
-     * @param DoctrineProUserRepository $proUserRepository ,
-     * @param UserRepository $userRepository
+     * @param DoctrinePersonalUserRepository $personalUserRepository
+     * @param DoctrineProUserRepository $proUserRepository
      * @param UserEditionService $userEditionService
      * @param GarageEditionService $garageEditionService
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
      * @param MessageBus $eventBus
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
@@ -91,7 +89,7 @@ class UserController extends BaseController
         DoctrineProUserRepository $proUserRepository,
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
-        VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleInfoEntityIndexer $vehicleInfoIndexer,
         MessageBus $eventBus,
         AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
@@ -102,7 +100,7 @@ class UserController extends BaseController
         $this->proUserRepository = $proUserRepository;
         $this->userEditionService = $userEditionService;
         $this->garageEditionService = $garageEditionService;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoIndexer = $vehicleInfoIndexer;
         $this->eventBus = $eventBus;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
@@ -136,6 +134,9 @@ class UserController extends BaseController
             $this->userEditionService->editInformations($user, $userInformationDTO);
             if ($user->getType() === PersonalUser::TYPE) {
                 $this->eventBus->handle(new PersonalUserUpdated($user));
+                if ($user->getProject() != null) {
+                    $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
+                }
             } else {
                 $this->eventBus->handle(new ProUserUpdated($user));
             }
@@ -238,12 +239,12 @@ class UserController extends BaseController
      */
     private function createProjectForm(ProjectDTO $projectDTO)
     {
-        $availableMakes = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel([]);
+        $availableMakes = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel([]);
 
         $availableModels = [];
         if ($projectDTO->projectVehicles) {
             foreach ($projectDTO->projectVehicles as $projectVehicleDTO) {
-                $availableModels[] = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($projectVehicleDTO->retrieveFilter());
+                $availableModels[] = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel($projectVehicleDTO->retrieveFilter());
             }
         }
 

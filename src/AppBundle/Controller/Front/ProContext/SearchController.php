@@ -3,14 +3,15 @@
 namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Elasticsearch\Query\CityResultProvider;
-use AppBundle\Elasticsearch\Query\SearchResultProvider;
+use AppBundle\Elasticsearch\Elastica\CityEntityIndexer;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\SearchResultProvider;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
-use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,8 +31,8 @@ class SearchController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoIndexer;
     /** @var SearchResultProvider */
     private $searchResultProvider;
     /** @var PersonalVehicleEditionService */
@@ -40,36 +41,36 @@ class SearchController extends BaseController
     private $proVehicleEditionService;
     /** @var UserEditionService */
     private $userEditionService;
-    /** @var CityResultProvider */
-    private $cityResultProvider;
+    /** @var CityEntityIndexer */
+    private $cityEntityIndexer;
+
 
     /**
      * SearchController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
      * @param SearchResultProvider $searchResultProvider
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param UserEditionService $userEditionService
-     * @param CityResultProvider $cityResultProvider
+     * @param CityEntityIndexer $cityEntityIndexer
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         SearchResultProvider $searchResultProvider,
         PersonalVehicleEditionService $personalVehicleEditionService,
         ProVehicleEditionService $proVehicleEditionService,
         UserEditionService $userEditionService,
-        CityResultProvider $cityResultProvider
+        CityEntityIndexer $cityEntityIndexer
     )
     {
         $this->formFactory = $formFactory;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoIndexer = $vehicleInfoEntityIndexer;
         $this->searchResultProvider = $searchResultProvider;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->userEditionService = $userEditionService;
-        $this->cityResultProvider = $cityResultProvider;
+        $this->cityEntityIndexer = $cityEntityIndexer;
 
     }
 
@@ -102,10 +103,7 @@ class SearchController extends BaseController
                     break;
             }
         }
-
-        $pages = [self::TAB_ALL => 1, self::TAB_PERSONAL => 1, self::TAB_PRO => 1, self::TAB_PROJECT => 1];
-        $pages[$type] = $page;
-
+        // TODO use legacy $type to check search type object
         $searchForm = $this->getSearchForm($request, true);
 
         if ('GET' === $request->getMethod()) {
@@ -116,25 +114,15 @@ class SearchController extends BaseController
         }
 
         $searchForm->handleRequest($request);
-        $searchResult = $this->searchResultProvider->getSearchResult($searchForm, $pages);
-
-        $searchResultVehicles[self::TAB_ALL] = $this->userEditionService->getMixedBySearchResult($searchResult[self::TAB_ALL]);
-        $searchResultVehicles[self::TAB_PERSONAL] = $this->personalVehicleEditionService->getVehiclesBySearchResult($searchResult[self::TAB_PERSONAL]);
-        $searchResultVehicles[self::TAB_PRO] = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult[self::TAB_PRO]);
-        $searchResultVehicles[self::TAB_PROJECT] = $this->userEditionService->getPersonalProjectsBySearchResult($searchResult[self::TAB_PROJECT]);
-
-        $lastPage[self::TAB_ALL] = $searchResult[self::TAB_ALL]->numberOfPages();
-        $lastPage[self::TAB_PERSONAL] = $searchResult[self::TAB_PERSONAL]->numberOfPages();
-        $lastPage[self::TAB_PRO] = $searchResult[self::TAB_PRO]->numberOfPages();
-        $lastPage[self::TAB_PROJECT] = $searchResult[self::TAB_PROJECT]->numberOfPages();
+        $searchResult = $this->searchResultProvider->getSearchResult($searchForm->getData(), $page);
+        $searchResultVehicles = $this->userEditionService->getMixedBySearchItemResult($searchResult);
 
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterData' => (array)$searchForm->getData(),
             'result' => $searchResultVehicles,
-            'pages' => $pages,
-            'lastPage' => $lastPage,
-            'tab' => $type
+            'page' => $page,
+            'lastPage' => ElasticUtils::numberOfPages($searchResult)
         ]);
     }
 
@@ -161,8 +149,8 @@ class SearchController extends BaseController
             'make' => $make ?? $paramSearchVehicle['make'] ?? null,
             'model' => $model ?? $paramSearchVehicle['model'] ?? null
         ];
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
+        $availableValues = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehicleDTO->make = $filters['make'];
         $searchVehicleDTO->model = $filters['model'];
@@ -178,12 +166,13 @@ class SearchController extends BaseController
             if ($idxSplit !== false) {
                 $cityPostalCode = substr($city, 0, $idxSplit);
                 $cityName = substr($city, $idxSplit + 1);
-                $cities = $this->cityResultProvider->provideForSearch($cityName);
+                $citiesResultSet = $this->cityEntityIndexer->provideForSearch($cityName);
 
-                if ($cities->totalHits() > 0) {
-                    foreach ($cities->hits() as $hit) {
-                        if ($hit['id'] === $cityPostalCode) {
-                            $searchVehicleDTO->postalCode = $hit['id'];
+                if ($citiesResultSet->getTotalHits() > 0) {
+                    foreach ($citiesResultSet->getResults() as $result) {
+                        $hit = $result->getData();
+                        if ($hit['postalCode'] === $cityPostalCode) {
+                            $searchVehicleDTO->postalCode = $hit['postalCode'];
                             $searchVehicleDTO->cityName = $hit['cityName'];
                             $searchVehicleDTO->latitude = $hit['latitude'];
                             $searchVehicleDTO->longitude = $hit['longitude'];

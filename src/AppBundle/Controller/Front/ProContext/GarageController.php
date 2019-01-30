@@ -4,7 +4,8 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Elasticsearch\Query\SearchResultProvider;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
@@ -17,7 +18,6 @@ use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
-use AppBundle\Utils\VehicleInfoAggregator;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -48,10 +48,8 @@ class GarageController extends BaseController
     protected $garageEditionService;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
-    /** @var SearchResultProvider */
-    private $searchResultProvider;
+    /** @var ProVehicleEntityIndexer */
+    private $proVehicleEntityIndexer;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
     /** @var TranslatorInterface $translator */
@@ -63,8 +61,7 @@ class GarageController extends BaseController
      * @param GarageRepository $garageRepository
      * @param GarageEditionService $garageEditionService
      * @param SessionMessageManager $sessionMessageManager
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param SearchResultProvider $searchResultProvider
+     * @param ProVehicleEntityIndexer $proVehicleEntityIndexer
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param TranslatorInterface $translator
      */
@@ -73,8 +70,7 @@ class GarageController extends BaseController
         GarageRepository $garageRepository,
         GarageEditionService $garageEditionService,
         SessionMessageManager $sessionMessageManager,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        SearchResultProvider $searchResultProvider,
+        ProVehicleEntityIndexer $proVehicleEntityIndexer,
         ProVehicleEditionService $proVehicleEditionService,
         TranslatorInterface $translator
     )
@@ -83,8 +79,7 @@ class GarageController extends BaseController
         $this->garageRepository = $garageRepository;
         $this->garageEditionService = $garageEditionService;
         $this->sessionMessageManager = $sessionMessageManager;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->searchResultProvider = $searchResultProvider;
+        $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->translator = $translator;
     }
@@ -119,9 +114,9 @@ class GarageController extends BaseController
             ]);
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
-            $searchResult = $this->searchResultProvider->getQueryGarageVehiclesResult($garage, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-            $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResult);
-            $lastPage = $searchResult->numberOfPages();
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garage->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+            $lastPage = ElasticUtils::numberOfPages($searchResultSet);
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),

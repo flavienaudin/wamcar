@@ -11,3 +11,7 @@ services:
         public: true
         autowire: true
         autoconfigure: false
+
+    AppBundle\Elasticsearch\Builder\IndexableSearchItemBuilder:
+        arguments:
+            - '@search_item.indexer'

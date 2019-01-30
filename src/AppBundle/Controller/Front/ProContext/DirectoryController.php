@@ -4,8 +4,9 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use AppBundle\Controller\Front\BaseController;
-use AppBundle\Elasticsearch\Query\CityResultProvider;
-use AppBundle\Elasticsearch\Query\SearchResultProvider;
+use AppBundle\Elasticsearch\Elastica\CityEntityIndexer;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
 use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\SearchProType;
 use AppBundle\Services\User\UserEditionService;
@@ -17,31 +18,29 @@ class DirectoryController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var SearchResultProvider */
-    private $searchResultProvider;
-    /** @var UserEditionService $userEditionService */
-    private $userEditionService;
-    /** @var CityResultProvider */
-    private $cityResultProvider;
+    /** @var ProUserEntityIndexer */
+    private $proUserEntityIndexer;
+    /** @var CityEntityIndexer */
+    private $cityEntityIndexer;
 
     /**
      * DirectoryController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param SearchResultProvider $searchResultProvider ,
+     * @param ProUserEntityIndexer $proUserEntityIndexer
      * @param UserEditionService $userEditionService
-     * @param CityResultProvider $cityResultProvider
+     * @param CityEntityIndexer $cityEntityIndexe
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        SearchResultProvider $searchResultProvider,
+        ProUserEntityIndexer $proUserEntityIndexer,
         UserEditionService $userEditionService,
-        CityResultProvider $cityResultProvider
+        CityEntityIndexer $cityEntityIndexe
     )
     {
         $this->formFactory = $formFactory;
-        $this->searchResultProvider = $searchResultProvider;
+        $this->proUserEntityIndexer = $proUserEntityIndexer;
         $this->userEditionService = $userEditionService;
-        $this->cityResultProvider = $cityResultProvider;
+        $this->cityEntityIndexer = $cityEntityIndexe;
     }
 
     public function viewAction(Request $request, int $page = 1)
@@ -62,12 +61,12 @@ class DirectoryController extends BaseController
             if ($idxSplit !== false) {
                 $cityPostalCode = substr($city, 0, $idxSplit);
                 $cityName = substr($city, $idxSplit + 1);
-                $cities = $this->cityResultProvider->provideForSearch($cityName);
-
-                if ($cities->totalHits() > 0) {
-                    foreach ($cities->hits() as $hit) {
-                        if ($hit['id'] === $cityPostalCode) {
-                            $searchProDTO->postalCode = $hit['id'];
+                $citiesResultSet = $this->cityEntityIndexer->provideForSearch($cityName);
+                if ($citiesResultSet->getTotalHits() > 0) {
+                    foreach ($citiesResultSet->getResults() as $result) {
+                        $hit = $result->getData();
+                        if ($hit['postalCode'] === $cityPostalCode) {
+                            $searchProDTO->postalCode = $hit['postalCode'];
                             $searchProDTO->cityName = $hit['cityName'];
                             $searchProDTO->latitude = $hit['latitude'];
                             $searchProDTO->longitude = $hit['longitude'];
@@ -82,16 +81,15 @@ class DirectoryController extends BaseController
             'action' => $this->generateRoute('front_directory_view')
         ]);
         $searchProForm->handleRequest($request);
-        $result = $this->searchResultProvider->getQueryDirectoryProUserResult($searchProDTO, $page);
-
-        $proUserResult = $this->userEditionService->getUsersBySearchResult($result);
+        $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page);
+        $proUserResult = $this->userEditionService->getUsersBySearchResult($resultSet);
 
         return $this->render('front/Directory/view.html.twig', [
             'searchProForm' => $searchProForm->createView(),
             'result' => $proUserResult,
             'filterData' => (array)$searchProForm->getData(),
             'page' => $page,
-            'lastPage' => $result->numberOfPages()
+            'lastPage' => ElasticUtils::numberOfPages($resultSet)
         ]);
     }
 }

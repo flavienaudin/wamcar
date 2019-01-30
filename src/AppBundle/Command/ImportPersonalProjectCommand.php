@@ -3,11 +3,12 @@
 namespace AppBundle\Command;
 
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportPersonalProjectCommand extends BaseCommand
+class ImportPersonalProjectCommand extends ContainerAwareCommand
 {
     /**
      * Configure command
@@ -17,7 +18,7 @@ class ImportPersonalProjectCommand extends BaseCommand
     {
         $this
             ->setName('wamcar:populate:personal_project')
-            ->setDescription('Populate the personal project search with data from the persoanl projects entity');
+            ->setDescription('Populate the personal project search with data from the personal projects entity');
     }
 
     /**
@@ -30,24 +31,29 @@ class ImportPersonalProjectCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
-        $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
+        $personalProjectIndexer = $this->getContainer()->get('personal_project.indexer');
         $personalProjectRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\ProjectRepository');
-        $indexablePersonalProjectBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexablePersonalProjectBuilder');
 
         $projects = $personalProjectRepository->findAll();
-        $progress = new ProgressBar($output, count($projects));
-
+        $personalProjectDocuments = [];
+        $io->text('Personal Project reading');
+        $io->progressStart(count($projects));
         foreach ($projects as $project) {
-            $progress->advance();
-            $objectIndexer->index($indexablePersonalProjectBuilder->buildFromProject($project), IndexablePersonalProject::TYPE);
+            $indexablePersonalProject = IndexablePersonalProject::createFromPersonalProject($project);
+            if ($indexablePersonalProject->shouldBeIndexed()) {
+                $personalProjectDocuments[] = $personalProjectIndexer->buildDocument($indexablePersonalProject);
+            }
+            $io->progressAdvance();
         }
+        $io->progressFinish();
+        $io->newLine();
 
-        $progress->finish();
+        $io->text('Indexing ' . count($personalProjectDocuments) . ' personal projects');
+        $personalProjectIndexer->indexAllDocuments($personalProjectDocuments, true);
 
-        $this->logCRLF();
-        $this->log('success', 'Done ! It\'s possible that projects are not indexed if empty.');
+        $io->success('Done ! It\'s possible that projects are not indexed if empty.');
     }
 
 }

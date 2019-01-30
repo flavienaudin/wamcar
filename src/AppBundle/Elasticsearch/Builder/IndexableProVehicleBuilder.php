@@ -3,7 +3,6 @@
 namespace AppBundle\Elasticsearch\Builder;
 
 use AppBundle\Elasticsearch\Type\IndexableProVehicle;
-use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
@@ -15,24 +14,19 @@ class IndexableProVehicleBuilder
     private $router;
     /** @var PathVehiclePicture */
     private $pathVehiclePicture;
-    /** @var PathUserPicture */
-    private $pathUserPicture;
 
     /**
      * IndexableProVehicleBuilder constructor.
      * @param Router $router
      * @param PathVehiclePicture $pathVehiclePicture
-     * @param PathUserPicture $pathUserPicture
      */
     public function __construct(
         Router $router,
-        PathVehiclePicture $pathVehiclePicture,
-        PathUserPicture $pathUserPicture
+        PathVehiclePicture $pathVehiclePicture
     )
     {
         $this->router = $router;
         $this->pathVehiclePicture = $pathVehiclePicture;
-        $this->pathUserPicture = $pathUserPicture;
     }
 
     /**
@@ -60,12 +54,7 @@ class IndexableProVehicleBuilder
             $vehicle->getCreatedAt(),
             $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture() ? 'vehicle_thumbnail' : 'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
-            $this->router->generate('front_view_pro_user_info', ['slug' => $vehicle->getSeller()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
-            $vehicle->getSellerName() ?? '',
             $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
-            $vehicle->getGarage() ? $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL) : '',
-            $vehicle->getGarageName() ?? '',
-            $this->pathUserPicture->getPath($vehicle->getSellerAvatar(), 'user_mini_thumbnail', $vehicle->getSellerName() ?? ''),
             $vehicle->getDeletedAt(),
             $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating() : null,
             count($vehicle->getPositiveLikes())
