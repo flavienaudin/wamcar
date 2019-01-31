@@ -841,7 +841,7 @@ conversation:
   answer:
     field:
       message:
-        label: Votre message pour %interlocutorName%
+        label: Votre message pour&nbsp;<a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
         placeholder: Entrez votre message...
       vehicle:
         create: Créer un véhicule
