@@ -193,12 +193,11 @@ class SearchController extends BaseController
                     $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PERSONAL_PROJECT, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
                 }
             } else {
-                $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE,
-                    SearchTypeChoice::SEARCH_PERSONAL_PROJECT, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
+                $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
             }
         }
         if(empty($searchVehicleDTO->type)){
-            $searchVehicleDTO->type = SearchTypeChoice::getTypeChoice();
+            $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
         }
 
 

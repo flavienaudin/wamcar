@@ -2,9 +2,6 @@
 
 {% set navigation_class = navigation_class|default('header-search align-left') %}
 
-{% set searchTypes = isUserPro ?
-    [ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE'), constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') ]
-    : [constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE')] %}
 {% set directoryAction = path('front_directory_view') %}
 
 {% set visibilityConfigClass =  isLogged ? 'hide-for-small-only' : 'show-for-large' %}
@@ -19,9 +16,6 @@
                        placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
                        data-toggle="header_search_dropdown_pane">
                 <input type="hidden" name="search_vehicle[radius]" value="50">
-                {% for searchType in searchTypes %}
-                    <input type="hidden" name="search_vehicle[type]" value="{{ searchType }}">
-                {% endfor %}
             </div>
             <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
                  data-close-on-click="true">

@@ -48,7 +48,7 @@ class SearchVehicleType extends AbstractType
                     'expanded' => true,
                     'multiple' => true,
                     'choice_translation_domain' => 'enumeration',
-                    'empty_data' => SearchTypeChoice::getTypeChoice()
+                    'empty_data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE]
                 ])
                 ->add('make', ChoiceType::class, [
                     'choices' => $availableValues['make'] ?? [],
