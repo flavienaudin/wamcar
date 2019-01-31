@@ -118,7 +118,7 @@ class SearchController extends BaseController
 
         $model = $request->get('model');
         if ($model) {
-            $model = str_replace('-', ' ', $model);
+            $model = strtoupper(str_replace('-', ' ', $model));
         }
 
         $filters = [
@@ -197,6 +197,9 @@ class SearchController extends BaseController
                     SearchTypeChoice::SEARCH_PERSONAL_PROJECT, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
             }
         }
+        if(empty($searchVehicleDTO->type)){
+            $searchVehicleDTO->type = SearchTypeChoice::getTypeChoice();
+        }
 
 
         // Champ libre
@@ -211,7 +214,6 @@ class SearchController extends BaseController
                 $cityPostalCode = substr($city, 0, $idxSplit);
                 $cityName = substr($city, $idxSplit + 1);
                 $citiesResultSet = $this->cityEntityIndexer->provideForSearch($cityName);
-
                 if ($citiesResultSet->getTotalHits() > 0) {
                     foreach ($citiesResultSet->getResults() as $result) {
                         $hit = $result->getData();
@@ -220,6 +222,7 @@ class SearchController extends BaseController
                             $searchVehicleDTO->cityName = $hit['cityName'];
                             $searchVehicleDTO->latitude = $hit['latitude'];
                             $searchVehicleDTO->longitude = $hit['longitude'];
+                            $searchVehicleDTO->radius = 50;
                             break;
                         }
                     }

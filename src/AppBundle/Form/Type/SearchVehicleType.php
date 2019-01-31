@@ -47,7 +47,8 @@ class SearchVehicleType extends AbstractType
                     'choices' => SearchTypeChoice::getTypeChoice(),
                     'expanded' => true,
                     'multiple' => true,
-                    'choice_translation_domain' => 'enumeration'
+                    'choice_translation_domain' => 'enumeration',
+                    'empty_data' => SearchTypeChoice::getTypeChoice()
                 ])
                 ->add('make', ChoiceType::class, [
                     'choices' => $availableValues['make'] ?? [],
@@ -94,7 +95,7 @@ class SearchVehicleType extends AbstractType
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
                     'empty_data' => 50,
-                    'error_bubbling' => true,
+                    'error_bubbling' => true
                 ]);
             if ($sortingField) {
                 $builder
