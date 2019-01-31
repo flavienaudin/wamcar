@@ -2,8 +2,9 @@
 
 {% set navigation_class = navigation_class|default('header-search align-left') %}
 
-{% set searchAction = isUserPro ? path('front_search',{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}) : path('front_search',{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}) %}
-{% set searchTab = isUserPro ? constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL') : constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO') %}
+{% set searchTypes = isUserPro ?
+    [ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE'), constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') ]
+    : [constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE')] %}
 {% set directoryAction = path('front_directory_view') %}
 
 {% set visibilityConfigClass =  isLogged ? 'hide-for-small-only' : 'show-for-large' %}
@@ -11,13 +12,16 @@
 <nav id="{{ not isLogged ? 'js-navigation' }}"
      class="l-navigation column large-text-center is-hidden {{ navigation_class }}">
     <div class="l-navigation-header-search {{ visibilityConfigClass }}">
-        <form id="header-search-form" method="post" action="{{ searchAction }}">
+        <form id="header-search-form" method="post" action="{{ path('front_search') }}">
             <div class="{{ visibilityConfigClass }} is-flex">
                 <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
                 <input type="search" name="search_vehicle[text]" id="js-header-search" class="input no-margin"
                        placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
                        data-toggle="header_search_dropdown_pane">
                 <input type="hidden" name="search_vehicle[radius]" value="50">
+                {% for searchType in searchTypes %}
+                    <input type="hidden" name="search_vehicle[type]" value="{{ searchType }}">
+                {% endfor %}
             </div>
             <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
                  data-close-on-click="true">
@@ -25,7 +29,7 @@
                     <ul class="no-bullet text-left">
                         <li>
                             <button type="submit" id="js-header-vehicle-search-submit" data-input-name="search_vehicle"
-                                    data-action="{{ searchAction }}" class="full-width text-left black-color">
+                                    data-action="{{ path('front_search') }}" class="full-width text-left black-color">
                                 {{ 'header.common.search.vehicle'|trans }}</button>
                         </li>
                         <li>

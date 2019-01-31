@@ -411,7 +411,6 @@ class SearchResultProvider
         if (!$mainQuery->hasParam('min_score')) {
             $mainQuery->setMinScore(self::MIN_SCORE);
         }
-
         return $this->client->getIndex($indexName)->search($mainQuery);
     }
 
