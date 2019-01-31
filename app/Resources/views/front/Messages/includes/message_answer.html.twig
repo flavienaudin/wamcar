@@ -8,7 +8,12 @@
     {{ form_start(messageForm, { 'attr' : { 'novalidate': 'novalidate'} }) }}
 
     {{ form_widget(messageForm.content, {
-        'label': 'conversation.answer.field.message.label'|trans({'%interlocutorName%':interlocutor.fullName}),
+        'label': 'conversation.answer.field.message.label'|trans({
+            '%interlocutorProfilUrl%': (interlocutor.isPersonal ?
+                path('front_view_personal_user_info',{'slug':interlocutor.slug}):
+                path('front_view_pro_user_info',{'slug':interlocutor.slug})),
+            '%interlocutorName%':interlocutor.fullName
+        })|raw,
         'placeholder': 'conversation.answer.field.message.placeholder'|trans,
         'class': 'no-margin',
         'required':'false',

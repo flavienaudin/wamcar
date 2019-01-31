@@ -38,9 +38,14 @@
   // &-actions-button
 
   /*
-      Tabs
+      Result
      ===================================== */
-
+  &-result {
+    padding-top: rem-calc(20);
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+  }
 
   /*
      Link

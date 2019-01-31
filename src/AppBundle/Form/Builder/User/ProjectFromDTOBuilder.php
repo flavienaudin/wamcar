@@ -6,7 +6,6 @@ namespace AppBundle\Form\Builder\User;
 use AppBundle\Form\DTO\ProjectDTO;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
-use Wamcar\User\ProjectType;
 use Wamcar\User\ProjectVehicle;
 
 class ProjectFromDTOBuilder

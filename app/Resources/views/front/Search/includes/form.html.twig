@@ -214,6 +214,18 @@
         </div>
     </div>
 
+    <div class="column small-12 medium-order-3">
+        {{ form_widget(searchForm.type, {
+            'class':'',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.type.label'|trans,
+            'label_class' : 'sr-only',
+            'list_class': 'js-search-type-list small-up-1 large-up-3 input-white-bg input-margin',
+            'values_translation_domain' : 'enumeration'
+        }) }}
+    </div>
+
     <div class="hide-for-medium column small-12 medium-order-3 input-margin">
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
@@ -223,18 +235,6 @@
             {{ form_criteria }}
         </div>
     {% endif %}
-
-    <div class="column small-12 small-order-6">
-        {{ form_widget(searchForm.type, {
-            'class':'',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'label' : 'search.common.field.type.label'|trans,
-            'label_class' : 'sr-only',
-            'list_class': 'small-up-3 input-white-bg input-margin',
-            'values_translation_domain' : 'enumeration'
-        }) }}
-    </div>
 
 
     {{ form_end(searchForm) }}

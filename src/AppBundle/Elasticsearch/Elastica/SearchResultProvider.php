@@ -62,7 +62,7 @@ class SearchResultProvider
     public function getSearchResult(SearchVehicleDTO $searchVehicleDTO, int $page): ResultSet
     {
         if (empty($searchVehicleDTO->type)) {
-            $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_PROJECT];
+            $searchVehicleDTO->type = SearchTypeChoice::getTypeChoice();
         }
 
         $qb = new QueryBuilder();
@@ -348,8 +348,10 @@ class SearchResultProvider
                 break;
             case Sorting::SEARCH_SORTING_RELEVANCE:
                 $functionScoreQuery = $qb->query()->function_score();
-                if(!empty($searchVehicleDTO->text) || !empty($searchVehicleDTO->cityName)) {
+                if(!empty($searchVehicleDTO->text)) {
                     $mainQuery->setMinScore(5);
+                }elseif(!empty($searchVehicleDTO->cityName)){
+                    $mainQuery->setMinScore(1);
                 }else{
                     $mainQuery->setMinScore(0);
                 }
@@ -411,7 +413,6 @@ class SearchResultProvider
         if (!$mainQuery->hasParam('min_score')) {
             $mainQuery->setMinScore(self::MIN_SCORE);
         }
-
         return $this->client->getIndex($indexName)->search($mainQuery);
     }
 

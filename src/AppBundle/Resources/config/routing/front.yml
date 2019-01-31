@@ -233,8 +233,8 @@ front_search:
 legacy_search:
     path: /recherche/{page}
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
-        route: front_search
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /recherche-voitures
         permanent: true
         page: 1
     requirements:

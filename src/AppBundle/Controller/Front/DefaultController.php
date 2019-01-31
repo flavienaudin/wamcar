@@ -59,9 +59,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
-                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -87,9 +85,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
-                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -114,9 +110,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', ['tab' => SearchController::TAB_PERSONAL]) :
-                    $this->generateRoute('front_search', ['tab' => SearchCOntroller::TAB_PRO])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );

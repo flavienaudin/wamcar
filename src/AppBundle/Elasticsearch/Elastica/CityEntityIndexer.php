@@ -33,7 +33,10 @@ class CityEntityIndexer extends EntityIndexer
         $bool = new Query\BoolQuery();
         $bool->addMust($match);
 
-        return new Query($bool);
+        $mainQuery = new Query($bool);
+        $mainQuery->setSize(50);
+
+        return $mainQuery;
 
     }
 

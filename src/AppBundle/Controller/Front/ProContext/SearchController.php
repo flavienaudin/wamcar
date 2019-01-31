@@ -12,14 +12,15 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Utils\SearchTypeChoice;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\ProUser;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
+use Wamcar\User\PersonalUser;
 
 class SearchController extends BaseController
 {
-    const TAB_ALL = 'tous';
     const TAB_PERSONAL = 'particulier';
     const TAB_PRO = 'professionnels';
     const TAB_PROJECT = 'souhaits';
@@ -79,43 +80,18 @@ class SearchController extends BaseController
         // Normal use is query param. Attribute $page if for legacy purpose
         $page = $request->query->get('page', $page);
 
-        if ($request->query->has('tab')) {
-            $type = $request->query->get('tab', self::TAB_ALL);
-        } else {
-            // Legacy
-            $type = $request->get('search_vehicle', self::TAB_ALL);
-            if (is_array($type)) {
-                $type = $type['tab'] ?? self::TAB_ALL;
-            }
-            // Legacy conversion
-            switch ($type) {
-                case self::LEGACY_TAB_ALL:
-                    $type = self::TAB_ALL;
-                    break;
-                case self::LEGACY_TAB_PERSONAL:
-                    $type = self::TAB_PERSONAL;
-                    break;
-                case self::LEGACY_TAB_PRO:
-                    $type = self::TAB_PRO;
-                    break;
-                case self::LEGACY_TAB_PROJECT:
-                    $type = self::TAB_PROJECT;
-                    break;
-            }
-        }
-        // TODO use legacy $type to check search type object
         $searchForm = $this->getSearchForm($request, true);
 
-        if ('GET' === $request->getMethod()) {
+        if (Request::METHOD_GET === $request->getMethod() && $request->query->has('search_vehicle')) {
             // legacy GET form submission
-            if ($request->query->has('search_vehicle')) {
-                $searchForm->submit($request->query->get('search_vehicle'));
-            }
+            $searchVehicleData = $request->query->get('search_vehicle');
+            $searchForm->submit($searchVehicleData);
         }
 
         $searchForm->handleRequest($request);
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm->getData(), $page);
         $searchResultVehicles = $this->userEditionService->getMixedBySearchItemResult($searchResult);
+
 
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
@@ -136,13 +112,13 @@ class SearchController extends BaseController
         $paramSearchVehicle = $request->get('search_vehicle');
 
         $make = $request->get('make');
-        if($make){
+        if ($make) {
             $make = strtoupper($make);
         }
 
         $model = $request->get('model');
-        if($model){
-            $model = str_replace('-', ' ', $model);
+        if ($model) {
+            $model = strtoupper(str_replace('-', ' ', $model));
         }
 
         $filters = [
@@ -154,6 +130,76 @@ class SearchController extends BaseController
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehicleDTO->make = $filters['make'];
         $searchVehicleDTO->model = $filters['model'];
+
+        // Result types of the search
+        $type = null;
+        if ($request->query->has('type')) {
+            // Current version
+            $type = $request->query->get('type');
+            switch ($type) {
+                case self::TAB_PERSONAL:
+                    $type = [SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
+                    break;
+                case self::TAB_PRO:
+                    $type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
+                    break;
+                case self::TAB_PROJECT:
+                    $type = [SearchTypeChoice::SEARCH_PERSONAL_PROJECT];
+                    break;
+                default:
+                    $type = null;
+            }
+        } elseif ($request->query->has('search_vehicle')) {
+            $searchVehicleQueryParam = $request->query->get('search_vehicle');
+            if (is_array($searchVehicleQueryParam) && isset($searchVehicleQueryParam['tab'])) {
+                // legacy GET form submission
+                $type = $searchVehicleQueryParam['tab'];
+                // do not exist anymore in SearchVehicleType
+                unset($searchVehicleQueryParam['tab']);
+
+                // Legacy conversion
+                switch ($type) {
+                    case self::LEGACY_TAB_PERSONAL:
+                        $type = SearchTypeChoice::SEARCH_PERSONAL_VEHICLE;
+                        break;
+                    case self::LEGACY_TAB_PRO:
+                        $type = SearchTypeChoice::SEARCH_PRO_VEHICLE;
+                        break;
+                    case self::LEGACY_TAB_PROJECT:
+                        $type = SearchTypeChoice::SEARCH_PERSONAL_PROJECT;
+                        break;
+                    default:
+                        $type = null;
+                }
+                if ($type != null) {
+                    $searchVehicleQueryParam['type'] = $type;
+                }
+                $request->query->replace(['search_vehicle' => $searchVehicleQueryParam]);
+            }
+        }
+        if (Request::METHOD_POST !== $request->getMethod()) {
+            // Form not submitted as POST method : we compute the default value of 'type' field
+            // If methode POST then the "type" field is defined by submitted data
+            if ($type != null) {
+                // URL param for the type of search object
+                if (!is_array($type)) {
+                    $type = [$type];
+                }
+                $searchVehicleDTO->type = $type;
+            } else if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED, $this->getUser())) {
+                if ($this->getUser() instanceof PersonalUser) {
+                    $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
+                } else {
+                    $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PERSONAL_PROJECT, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
+                }
+            } else {
+                $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
+            }
+        }
+        if(empty($searchVehicleDTO->type)){
+            $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
+        }
+
 
         // Champ libre
         if ($request->query->has('q')) {
@@ -167,7 +213,6 @@ class SearchController extends BaseController
                 $cityPostalCode = substr($city, 0, $idxSplit);
                 $cityName = substr($city, $idxSplit + 1);
                 $citiesResultSet = $this->cityEntityIndexer->provideForSearch($cityName);
-
                 if ($citiesResultSet->getTotalHits() > 0) {
                     foreach ($citiesResultSet->getResults() as $result) {
                         $hit = $result->getData();
@@ -176,18 +221,15 @@ class SearchController extends BaseController
                             $searchVehicleDTO->cityName = $hit['cityName'];
                             $searchVehicleDTO->latitude = $hit['latitude'];
                             $searchVehicleDTO->longitude = $hit['longitude'];
+                            $searchVehicleDTO->radius = 50;
                             break;
                         }
                     }
                 }
             }
         }
-
-        $actionRoute = $this->getUser() instanceof ProUser ?
-            $this->generateRoute('front_search', ['tab' => self::TAB_PERSONAL])
-            : $this->generateRoute('front_search', ['tab' => self::TAB_PRO]);
         return $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
-            'action' => $actionRoute,
+            'action' => $this->generateRoute('front_search'),
             'available_values' => $availableValues,
             'sortingField' => $displaySortingField
         ]);

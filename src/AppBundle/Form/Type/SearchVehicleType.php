@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form\Type;
 
-use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
@@ -12,7 +11,6 @@ use AppBundle\Utils\SearchTypeChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -50,7 +48,7 @@ class SearchVehicleType extends AbstractType
                     'expanded' => true,
                     'multiple' => true,
                     'choice_translation_domain' => 'enumeration',
-                    'data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, SearchTypeChoice::SEARCH_PERSONAL_PROJECT]
+                    'empty_data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE]
                 ])
                 ->add('make', ChoiceType::class, [
                     'choices' => $availableValues['make'] ?? [],
@@ -97,7 +95,7 @@ class SearchVehicleType extends AbstractType
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
                     'empty_data' => 50,
-                    'error_bubbling' => true,
+                    'error_bubbling' => true
                 ]);
             if ($sortingField) {
                 $builder
