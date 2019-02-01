@@ -21,9 +21,10 @@ use Wamcar\User\PersonalUser;
 
 class SearchController extends BaseController
 {
-    const TAB_PERSONAL = 'particulier';
-    const TAB_PRO = 'professionnels';
-    const TAB_PROJECT = 'souhaits';
+    // Values of the Query Param "type"
+    const QP_TYPE_PERSONAL_VEHICLES = 'reprises-particulier';
+    const QP_TYPE_PERSONAL_PROJECT = 'souhaits-particulier';
+    const QP_TYPE_PRO_VEHICLES = 'professionnels';
 
     const LEGACY_TAB_ALL = 'TAB_ALL';
     const LEGACY_TAB_PERSONAL = 'TAB_PERSONAL';
@@ -135,19 +136,20 @@ class SearchController extends BaseController
         $type = null;
         if ($request->query->has('type')) {
             // Current version
-            $type = $request->query->get('type');
-            switch ($type) {
-                case self::TAB_PERSONAL:
-                    $type = [SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
-                    break;
-                case self::TAB_PRO:
-                    $type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
-                    break;
-                case self::TAB_PROJECT:
-                    $type = [SearchTypeChoice::SEARCH_PERSONAL_PROJECT];
-                    break;
-                default:
-                    $type = null;
+            $qpType = $request->query->get('type');
+            $types = explode(',', $qpType);
+            $type = [];
+            if(in_array(self::QP_TYPE_PERSONAL_VEHICLES, $types)){
+                $type[] = SearchTypeChoice::SEARCH_PERSONAL_VEHICLE;
+            }
+            if(in_array(self::QP_TYPE_PRO_VEHICLES, $types)){
+                $type[] = SearchTypeChoice::SEARCH_PRO_VEHICLE;
+            }
+            if(in_array(self::QP_TYPE_PERSONAL_PROJECT, $types)){
+                $type[] = SearchTypeChoice::SEARCH_PERSONAL_PROJECT;
+            }
+            if(empty($type)){
+                $type = null;
             }
         } elseif ($request->query->has('search_vehicle')) {
             $searchVehicleQueryParam = $request->query->get('search_vehicle');
