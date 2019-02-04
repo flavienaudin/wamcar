@@ -106,10 +106,12 @@ class IndexablePersonalProject implements Indexable
         return [
             'id' => $this->id,
             'userId' => $this->userId,
-            'projectDescription' => $this->description,
-            'budget' => $this->budget,
-            'isFleet' => $this->isFleet,
-            'project.models' => $this->projectVehicles,
+            'project' => [
+                'description' => $this->description,
+                'budget' => $this->budget,
+                'isFleet' => $this->isFleet,
+                'models' => $this->projectVehicles
+            ],
             'mainSortingPrice' => $this->budget,
             'mainSortingDate' => $this->updatedAt->format('Y-m-d\TH:i:s\Z'),
             'mainSortingLocation' => $this->location,

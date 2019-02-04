@@ -269,39 +269,41 @@ parameters:
             type: integer
           userId:
             type: integer
-          projectDescription:
-            type: text
-            fields:
-              keyword:
-                type: keyword
           mainSortingLocation:
             type: geo_point
-          budget:
-            type: integer
-          isFleet:
-            type: boolean
-          project.models:
-            type: nested
+          project:
             properties:
-              make:
-                type: text
-                fields:
-                  keyword:
-                    type: keyword
-              model:
-                type: text
-                fields:
-                  keyword:
-                    type: keyword
-              makeAndModel:
-                type: text
-                fields:
-                  keyword:
-                    type: keyword
-              yearMin:
+              budget:
                 type: integer
-              mileageMax:
-                type: integer
+              isFleet:
+                type: boolean
+              description:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              models:
+                type: nested
+                properties:
+                  make:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  model:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  makeAndModel:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  yearMin:
+                    type: integer
+                  mileageMax:
+                    type: integer
           mainSortingPrice:
             type: integer
           mainSortingDate:
