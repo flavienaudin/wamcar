@@ -107,33 +107,37 @@ class SearchResultProvider
 
         // Handle text query
         if (!empty($searchVehicleDTO->text)) {
-            $mainQuery->setMinScore(3);
+            $textBoolQuery = $qb->query()->bool();
 
             if (in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type) ||
                 in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
                 $textVehicleMultiMatch = $qb->query()->multi_match();
                 $textVehicleMultiMatch->setFields(['vehicle.makeAndModel^2', 'vehicle.make.keyword', 'vehicle.model.keyword', 'vehicle.description']);
-                $textVehicleMultiMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textVehicleMultiMatch->setOperator(Query\MultiMatch::OPERATOR_AND);
                 $textVehicleMultiMatch->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
                 $textVehicleMultiMatch->setQuery($searchVehicleDTO->text);
-                $mainBoolQuery->addShould($textVehicleMultiMatch);
+                $textBoolQuery->addShould($textVehicleMultiMatch);
             }
             if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type)) {
-                $textMatchProjectDescription = $qb->query()->term(['project.description' => $searchVehicleDTO->text]);
-                $mainBoolQuery->addShould($textMatchProjectDescription);
+                $textMatchProjectDescription = $qb->query()->multi_match();
+                $textMatchProjectDescription->setFields(['project.description']);
+                $textMatchProjectDescription->setOperator(Query\MultiMatch::OPERATOR_AND);
+                $textMatchProjectDescription->setQuery($searchVehicleDTO->text);
+                $textBoolQuery->addShould($textMatchProjectDescription);
 
                 $textProjectNested = $qb->query()->nested();
                 $textProjectNested->setPath('project.models');
 
                 $textProjectMultiMatch = $qb->query()->multi_match();
                 $textProjectMultiMatch->setFields(['project.models.makeAndModel^2', 'project.models.make.keyword', 'project.models.model.keyword']);
-                $textProjectMultiMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textProjectMultiMatch->setOperator(Query\MultiMatch::OPERATOR_AND);
                 $textProjectMultiMatch->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
                 $textProjectMultiMatch->setQuery($searchVehicleDTO->text);
                 $textProjectNested->setQuery($textProjectMultiMatch);
 
-                $mainBoolQuery->addShould($textProjectNested);
+                $textBoolQuery->addShould($textProjectNested);
             }
+            $mainBoolQuery->addMust($textBoolQuery);
         }
 
         // handle location filter
@@ -272,7 +276,7 @@ class SearchResultProvider
             }
             $projectBudgetRangeFilterQuery = null;
             if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type)) {
-                $projectBudgetRangeFilterQuery = $qb->query()->range('budget', $rangeOpts);
+                $projectBudgetRangeFilterQuery = $qb->query()->range('project.budget', $rangeOpts);
 
             }
             if ($vehicleBudgetRangeFilterQuery != null && $projectBudgetRangeFilterQuery != null) {
@@ -300,7 +304,6 @@ class SearchResultProvider
                 $mainBoolQuery->addFilter($qb->query()->term(['vehicle.fuel.keyword' => $searchVehicleDTO->fuel]));
             }
         }
-
 
         $mainQuery->setQuery($mainBoolQuery);
         $mainQuery->setFrom(self::OFFSET + ($page - 1) * self::LIMIT);
@@ -348,13 +351,6 @@ class SearchResultProvider
                 break;
             case Sorting::SEARCH_SORTING_RELEVANCE:
                 $functionScoreQuery = $qb->query()->function_score();
-                if(!empty($searchVehicleDTO->text)) {
-                    $mainQuery->setMinScore(5);
-                }elseif(!empty($searchVehicleDTO->cityName)){
-                    $mainQuery->setMinScore(1);
-                }else{
-                    $mainQuery->setMinScore(0);
-                }
                 $functionScoreQuery->setQuery($mainQuery->getQuery());
 
                 // Combination of the function and the query scores
