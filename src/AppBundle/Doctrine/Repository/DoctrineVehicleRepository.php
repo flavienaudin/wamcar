@@ -6,8 +6,9 @@ use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\Vehicle;
+use Wamcar\Vehicle\VehicleRepository;
 
-class DoctrineVehicleRepository extends EntityRepository
+class DoctrineVehicleRepository extends EntityRepository implements VehicleRepository
 {
     use SluggableEntityRepositoryTrait;
 
@@ -37,17 +38,6 @@ class DoctrineVehicleRepository extends EntityRepository
     {
         $this->_em->remove($vehicle);
         $this->_em->flush();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function findAllIgnoreSoftDeleted()
-    {
-        $this->_em->getFilters()->disable('softDeleteable');
-        $all = parent::findAll();
-        $this->_em->getFilters()->enable('softDeleteable');
-        return $all;
     }
 
     /**

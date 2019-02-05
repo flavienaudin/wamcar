@@ -1,22 +1,30 @@
+# Homepages & landings
 front_default:
     path: /
     controller: AppBundle:Front\Default:landingMixte
+    options:
+        sitemap: true
 
 legacy_landing_mixte:
     path: /m
+    controller: FrameworkBundle:Redirect:redirect
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
         route: front_default
         permanent: true
 
 front_landing_reprise:
     path: /reprise
     controller: AppBundle:Front\Default:landingReprise
+    options:
+        sitemap: true
 
 front_landing_meeting:
     path: /rencontre
     controller: AppBundle:Front\Default:landingMeeting
+    options:
+        sitemap: true
 
+# Annuaire des conseillers automobile
 front_directory_by_city_view:
     path: /annuaire-conseillers-auto/v/{city}
     controller: AppBundle:Front\ProContext\Directory:view
@@ -24,19 +32,31 @@ front_directory_by_city_view:
 front_directory_view:
     path: /annuaire-conseillers-auto
     controller: AppBundle:Front\ProContext\Directory:view
+    options:
+        sitemap: true
 
 legacy_directory_view:
     path: /annuaire/{page}
+    controller: FrameworkBundle:Redirect:redirect
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
         route: front_directory_view
         permanent: true
         page: 1
 
+# Autocompletion des villes
+front_fetch_city:
+    path: /fetch/city.json
+    controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode
+
+front_city_autocomplete:
+    path: /city/autocomplete
+    controller: AppBundle:Front\ProContext\City:autocomplete
+
+# Inscription
 legacy_register_confirm:
     path: /inscription/confirmation
+    controller: FrameworkBundle:Redirect:redirect
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
         route: front_view_current_user_info
         permanent: true
 
@@ -46,8 +66,8 @@ register_orientation:
 
 register:
     path: /inscription/{type}
+    controller: AppBundle:Front\Security:register
     defaults:
-        _controller: AppBundle:Front\Security:register
         type: personal
 
 front_vehicle_registration_form_update:
@@ -56,39 +76,31 @@ front_vehicle_registration_form_update:
 
 legacy_vehicle_registration_form_update:
     path: /je-vends-mon-vehicule/form_update.json
+    controller: FrameworkBundle:Redirect:redirect
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
         route: front_vehicle_registration_form_update
         permanent: true
 
 front_vehicle_registration:
     path: /je-vends-ma-voiture/{plateNumber}
+    controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
     defaults:
-        _controller: AppBundle:Front\PersonalContext\Registration:vehicleRegistration
         plateNumber: null
+    options:
+        sitemap: true
 
 legacy_vehicle_registration:
     path: /je-vends-mon-vehicule/{plateNumber}
+    controller: FrameworkBundle:Redirect:redirect
     defaults:
-        _controller: FrameworkBundle:Redirect:redirect
         route: front_vehicle_registration
         permanent: true
         plateNumber: null
 
-front_edit_user_info:
-    path: /mon-profil/edit
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:editInformations
-
-front_edit_user_project:
-    path: /mon-projet/edit
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:editProject
-
+# User
 front_view_current_user_info:
     path: /mon-profil
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:currentUserViewInformation
+    controller: AppBundle:Front\PersonalContext\User:currentUserViewInformation
 
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}
@@ -96,8 +108,19 @@ front_view_pro_user_info:
 
 front_view_personal_user_info:
     path: /particulier/{slug}
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:personalUserViewInformation
+    controller: AppBundle:Front\PersonalContext\User:personalUserViewInformation
+
+front_user_edit_preferences:
+    path: /preferences
+    controller: AppBundle:Front\PersonalContext\User:editPreferences
+
+front_edit_user_info:
+    path: /mon-profil/edit
+    controller: AppBundle:Front\PersonalContext\User:editInformations
+
+front_edit_user_project:
+    path: /mon-projet/edit
+    controller: AppBundle:Front\PersonalContext\User:editProject
 
 legacy_view_user_info:
     path: /profil/{id}
@@ -105,15 +128,7 @@ legacy_view_user_info:
     requirements:
         id: '\d+'
 
-front_user_list:
-    path: /user/list
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:list
-
-front_user_edit_preferences:
-    path: /preferences
-    controller: AppBundle:Front\PersonalContext\User:editPreferences
-
+# Garage
 front_garage_view:
     path: /g/{slug}
     controller: AppBundle:Front\ProContext\Garage:view
@@ -124,20 +139,13 @@ legacy_garage_view:
 
 front_garage_create:
     path: /garage/create
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:save }
+    controller: AppBundle:Front\ProContext\Garage:save
 
 front_garage_edit:
     path: /garage/edit/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:save }
+    controller: AppBundle:Front\ProContext\Garage:save
 
-front_garage_list:
-    path: /garage/list
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:index }
-
-front_garage_remove:
-    path: /garage/remove/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:remove }
-
+# Gestion des membres d'un garage
 front_garage_request_to_join:
     path: /garage/request/{garage_id}
     controller: AppBundle:Front\ProContext\Garage:assign
@@ -148,25 +156,32 @@ front_garage_assign:
 
 front_garage_unassign:
     path: /garage/unassign/{garage_id}/{user_id}
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:unassign }
+    controller: AppBundle:Front\ProContext\Garage:unassign
 
-front_fetch_city:
-    path: /fetch/city.json
-    defaults: { _controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode }
+# Vehicles professionnels
+front_vehicle_pro_detail:
+    path: /voiture-pro/{slug}
+    controller: AppBundle:Front\ProContext\Vehicle:detail
+    requirements:
+        slug: '.+'
+
+legacy_vehicle_pro_detail:
+    path: /vehicule/detail/{id}
+    controller: AppBundle:Front\ProContext\Vehicle:legacyDetail
 
 front_vehicle_pro_add:
     path: /vehicule/vendeur/ajouter/{garage_id}/{plateNumber}
-    requirements:
-        garage_id: '\d+'
+    controller: AppBundle:Front\ProContext\Vehicle:save
     defaults:
-      _controller: AppBundle:Front\ProContext\Vehicle:save
       plateNumber: null
       vehicle: null
+    requirements:
+        garage_id: '\d+'
 
 front_vehicle_pro_edit:
     path: /vehicule/vendeur/modifier/{vehicle_id}/{plateNumber}
+    controller: AppBundle:Front\ProContext\Vehicle:save
     defaults:
-      _controller: AppBundle:Front\ProContext\Vehicle:save
       garage: null
       plateNumber: null
 
@@ -178,28 +193,11 @@ front_vehicle_pro_assign_seller:
     path: /vehicule/assign/{vehicle_id}/{pro_user_id}
     controller: AppBundle:Front\ProContext\Vehicle:assign
 
-front_vehicle_pro_detail:
-    path: /voiture-pro/{slug}
-    controller: AppBundle:Front\ProContext\Vehicle:detail
-    requirements:
-        slug: '.+'
-
-legacy_vehicle_pro_detail:
-    path: /vehicule/detail/{id}
-    controller: AppBundle:Front\ProContext\Vehicle:legacyDetail
-
 front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\Vehicle:delete }
+    controller: AppBundle:Front\ProContext\Vehicle:delete
 
-front_vehicle_personal_add:
-    path: /vehicule/particulier/ajouter/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:save, plateNumber: null, vehicle: null  }
-
-front_vehicle_personal_edit:
-    path: /vehicule/particulier/{id}/modifier/{plateNumber}
-    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:save, plateNumber: null }
-
+# Vehicules particuliers
 front_vehicle_personal_detail:
     path: /voiture-particulier/{slug}
     controller: AppBundle:Front\ProContext\PersonalVehicle:detail
@@ -210,10 +208,24 @@ legacy_vehicle_personal_detail:
     path: /vehicule/particulier/detail/{id}
     controller: AppBundle:Front\ProContext\PersonalVehicle:legacyDetail
 
+front_vehicle_personal_add:
+    path: /vehicule/particulier/ajouter/{plateNumber}
+    controller: AppBundle:Front\ProContext\PersonalVehicle:save
+    defaults:
+      plateNumber: null
+      vehicle: null
+
+front_vehicle_personal_edit:
+    path: /vehicule/particulier/{id}/modifier/{plateNumber}
+    controller: AppBundle:Front\ProContext\PersonalVehicle:save
+    defaults:
+      plateNumber: null
+
 front_vehicle_personal_delete:
     path: /vehicule/particulier/delete/{id}
-    defaults: { _controller: AppBundle:Front\ProContext\PersonalVehicle:delete }
+    controller: AppBundle:Front\ProContext\PersonalVehicle:delete
 
+# Search
 front_search_by_city:
     path: /recherche-voitures/v/{city}
     controller: AppBundle:Front\ProContext\Search:search
@@ -229,131 +241,54 @@ front_search_by_make_model:
 front_search:
     path: /recherche-voitures
     controller: AppBundle:Front\ProContext\Search:search
+    options:
+        sitemap: true
 
 legacy_search:
     path: /recherche/{page}
+    controller: FrameworkBundle:Redirect:urlRedirect
     defaults:
-        _controller: FrameworkBundle:Redirect:urlRedirect
         path: /recherche-voitures
         permanent: true
         page: 1
     requirements:
         page: '\d+'
 
-
-#front_search_tab_all:
-#    path: /recherche/{page}
-#    controller: AppBundle:Front\ProContext\Search:search
-#    requirements:
-#        page: '\d+'
-#    defaults:
-#        page: 1
-#        type: 'TAB_ALL'
-#
-#front_search_tab_personal:
-#    path: /recherche/{page}
-#    controller: AppBundle:Front\ProContext\Search:search
-#    requirements:
-#        page: '\d+'
-#    defaults:
-#        page: 1
-#        type: 'TAB_PERSONAL'
-#
-#front_search_tab_pro:
-#    path: /recherche/{page}
-#    controller: AppBundle:Front\ProContext\Search:search
-#    requirements:
-#        page: '\d+'
-#    defaults:
-#        page: 1
-#        type: 'TAB_PRO'
-#
-#front_search_tab_project:
-#    path: /recherche/{page}
-#    controller: AppBundle:Front\ProContext\Search:search
-#    requirements:
-#        page: '\d+'
-#    defaults:
-#        page: 1
-#        type: 'TAB_PROJECT'
-
-#front_search_pro:
-#    path: /vendeur/rechercher
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:pro
-#        type: 'ALL'
-#
-#front_search_pro_page:
-#    path: /vendeur/rechercher/{page}
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:pro
-#        page: 1
-#        type: 'ALL'
-#
-#front_search_pro_page_recovery:
-#    path: /vendeur/rechercher/reprise/{page}
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:pro
-#        page: 1
-#        type: 'RECOVERY'
-#
-#front_search_pro_page_project:
-#    path: /vendeur/rechercher/souhait/{page}
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:pro
-#        page: 1
-#        type: 'PROJECT'
-#
-#front_search_personal:
-#    path: /utilisateur/rechercher
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:personal
-
-#front_search_personal_page:
-#    path: /utilisateur/rechercher/{page}
-#    defaults:
-#        _controller: AppBundle:Front\ProContext\Search:personal
-#        page: 1
-
+# Messagerie
 front_conversation_vehicle_list:
     path: /conversation/ajouter-vehicule/
-    defaults:
-        _controller: AppBundle:Front\ProContext\Conversation:vehicleList
+    controller: AppBundle:Front\ProContext\Conversation:vehicleList
 
 front_conversation_create:
     path: /conversation/new/{id}/{vehicleId}
+    controller: AppBundle:Front\ProContext\Conversation:create
     defaults:
-        _controller: AppBundle:Front\ProContext\Conversation:create
         vehicleId: null
 
 front_conversation_edit:
     path: /conversation/{id}/{vehicleId}
+    controller: AppBundle:Front\ProContext\Conversation:edit
     defaults:
-        _controller: AppBundle:Front\ProContext\Conversation:edit
         vehicleId: null
 
 front_conversation_list:
     path: /conversations
-    defaults: { _controller: AppBundle:Front\ProContext\Conversation:index }
+    controller: AppBundle:Front\ProContext\Conversation:index
 
-front_city_autocomplete:
-    path: /city/autocomplete
-    defaults: { _controller: AppBundle:Front\ProContext\City:autocomplete }
-
+# Vehicle Likes
 front_user_like_pro_vehicle:
     path: /user/like/pro/{id}
-    defaults:
-        _controller: AppBundle:Front\ProContext\Vehicle:likeProVehicle
+    controller: AppBundle:Front\ProContext\Vehicle:likeProVehicle
 
 front_user_like_personal_vehicle:
     path: /user/like/personal/{id}
-    defaults:
-        _controller: AppBundle:Front\ProContext\PersonalVehicle:likePersonalVehicle
+    controller: AppBundle:Front\ProContext\PersonalVehicle:likePersonalVehicle
 
 front_user_favorites_list:
     path: /user/favorites
     controller: AppBundle:Front\ProContext\Favorite:view
 
+# Wamcar Affinity
 front_affinity_personal_form:
     path: /affinity/particulier
     controller: AppBundle:Front\PersonalContext\Affinity:personalForm
@@ -369,3 +304,16 @@ front_affinity_pro_form:
 front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
+
+# Administration
+front_user_list:
+    path: /user/list
+    controller: AppBundle:Front\PersonalContext\User:list
+
+front_garage_list:
+    path: /garage/list
+    controller: AppBundle:Front\ProContext\Garage:index
+
+front_garage_remove:
+    path: /garage/remove/{id}
+    controller: AppBundle:Front\ProContext\Garage:remove

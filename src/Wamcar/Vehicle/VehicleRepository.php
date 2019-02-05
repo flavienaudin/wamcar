@@ -22,6 +22,13 @@ interface VehicleRepository
     public function remove(Vehicle $vehicle): void;
 
     /**
+     * Finds all entities in the repository.
+     *
+     * @return array
+     */
+    public function findAll();
+
+    /**
      * @param Garage $garage
      * @return array
      */

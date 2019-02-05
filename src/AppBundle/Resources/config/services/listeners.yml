@@ -12,3 +12,7 @@ services:
         arguments: ['@annotation_reader']
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
+
+    AppBundle\EventListener\SitemapSubscriber:
+        tags:
+            - { name: kernel.event_subscriber, priority: 100 }

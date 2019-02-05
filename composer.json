@@ -52,7 +52,8 @@
     "beberlei/DoctrineExtensions": "^1.1",
     "mgilet/notification-bundle":"^3.0",
     "jmose/command-scheduler-bundle":"^2.0",
-    "ruflin/elastica":"^6.1"
+    "ruflin/elastica":"^6.1",
+    "presta/sitemap-bundle":"^1.5"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",
