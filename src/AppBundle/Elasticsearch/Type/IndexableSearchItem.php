@@ -195,7 +195,7 @@ class IndexableSearchItem implements Indexable
         }
         // Main Sorting Location
         if (empty($this->vehicleLatitude) || empty($this->vehicleLongitude)) {
-            if (!empty($this->userLatitude) && empty($this->userLongitude)) {
+            if (!empty($this->userLatitude) && !empty($this->userLongitude)) {
                 $mainSortingLocation = [
                     'lat' => $this->userLatitude,
                     'lon' => $this->userLongitude
