@@ -3,7 +3,9 @@
 namespace AppBundle\Controller\Front\PersonalContext;
 
 
+use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
@@ -258,6 +260,7 @@ class UserController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
      * @param Request $request
      * @param ProUser $user
      * @return Response
@@ -265,6 +268,16 @@ class UserController extends BaseController
      */
     public function proUserViewInformationAction(Request $request, ProUser $user): Response
     {
+        if ($user->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.pro_user.deleted.title',
+                'messageKey' => 'error_page.pro_user.deleted.body',
+                'redirectionUrl' => $this->generateUrl('front_directory_view')
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         if (!$user->canSeeMyProfile($this->getUser())) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
@@ -305,6 +318,7 @@ class UserController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
      * @param Request $request
      * @param PersonalUser $user
      * @return Response
@@ -312,6 +326,26 @@ class UserController extends BaseController
      */
     public function personalUserViewInformationAction(Request $request, PersonalUser $user): Response
     {
+        if ($user->getDeletedAt() != null) {
+            if ($user->getCity() != null) {
+                $redirectionUrl = $this->generateUrl('front_search_by_city', [
+                    'city' => $user->getCity()->getPostalCode() . '-' . urlencode($user->getCity()->getName()),
+                    'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
+                ]);
+            } else {
+                $redirectionUrl = $this->generateUrl('front_search', [
+                    'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
+                ]);
+            }
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.personal_user.deleted.title',
+                'messageKey' => 'error_page.personal_user.deleted.body',
+                'redirectionUrl' => $redirectionUrl
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         if (!$user->canSeeMyProfile($this->getUser())) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,

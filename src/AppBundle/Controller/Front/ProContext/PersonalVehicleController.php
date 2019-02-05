@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front\ProContext;
 
+use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
@@ -232,12 +233,26 @@ class PersonalVehicleController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
      * @param Request $request
      * @param PersonalVehicle $vehicle
      * @return Response
      */
     public function detailAction(Request $request, PersonalVehicle $vehicle): Response
     {
+        if ($vehicle->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.vehicle.removed.title',
+                'messageKey' => 'error_page.vehicle.removed.body',
+                'redirectionUrl' => $this->generateUrl('front_search_by_make_model', [
+                    'make' => $vehicle->getMake(),
+                    'model' => urlencode($vehicle->getModelName()),
+                    'type' => SearchController::QP_TYPE_PERSONAL_VEHICLES
+                ])
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
         $userLike = null;
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
@@ -259,6 +274,7 @@ class PersonalVehicleController extends BaseController
     {
         return $this->redirectToRoute('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
     }
+
     /**
      * @param PersonalVehicle $personalVehicle
      * @return Response

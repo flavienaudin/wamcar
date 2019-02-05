@@ -118,6 +118,34 @@ global:
     last: Dernière page
     page: Page
 
+error_page:
+  404:
+    title: La page recherchée est introuvable
+    body: >
+      <p>Oups! La page que vous recherchez n'est pas trouvée. <br> Il y a peut-être une erreur de saisie dans l'adresse renseignée.</p>
+      <p>Si vous rencontrez de nouveau le problème, <a href="%homeUrl%" class="text-underline">retournez à la page d’accueil</a> ou <a href="mailto:contact@wamcar.fr" class="text-underline">contactez-nous</a></p>
+  410:
+    title: La page recherchée n'existe plus
+    body: >
+      <p>Oups! La page que vous recherchez n'existe plus, faites donc une <a href="%searchUrl%" class="text-underline">nouvelle recherche</a>.</p>
+  vehicle:
+    removed:
+      title: Annonce supprimée
+      body: L'annonce n'est plus en ligne. Recherchez dès à présent un <a href="%redirection_url%" class="text-underline">véhicule similaire</a>.
+  personal_user:
+    deleted:
+      title: Projet supprimé
+      body: Le projet de ce particulier n'est plus d'actualité. Faites <a href="%redirection_url%" class="text-underline">une recherche</a> parmi les projets en cours.
+  pro_user:
+    deleted:
+      title: Conseiller automobile parti
+      body: Ce conseiller automobile a quitté Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le meilleur professionnel pour vous accompagner.
+  garage:
+    deleted:
+      title: Garage supprimé
+      body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
+
+
 header:
   anonyme:
     see_search: Voir les annonces

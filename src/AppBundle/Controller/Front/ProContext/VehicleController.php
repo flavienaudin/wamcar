@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front\ProContext;
 
+use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
@@ -278,12 +279,26 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
      * @param ProVehicle $vehicle
      * @return Response
      */
-    public function detailAction(Request $request, ProVehicle $vehicle): Response
+    public function detailAction(ProVehicle $vehicle): Response
     {
+        if ($vehicle->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.vehicle.removed.title',
+                'messageKey' => 'error_page.vehicle.removed.body',
+                'redirectionUrl' => $this->generateUrl('front_search_by_make_model', [
+                    'make' => $vehicle->getMake(),
+                    'model' => urlencode($vehicle->getModelName()),
+                    'type' => SearchController::QP_TYPE_PRO_VEHICLES
+                ])
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         $userLike = null;
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());

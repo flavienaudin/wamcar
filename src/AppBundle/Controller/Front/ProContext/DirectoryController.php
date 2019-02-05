@@ -60,7 +60,7 @@ class DirectoryController extends BaseController
             $idxSplit = strpos($city, '-');
             if ($idxSplit !== false) {
                 $cityPostalCode = substr($city, 0, $idxSplit);
-                $cityName = substr($city, $idxSplit + 1);
+                $cityName = urldecode(substr($city, $idxSplit + 1));
                 $citiesResultSet = $this->cityEntityIndexer->provideForSearch($cityName);
                 if ($citiesResultSet->getTotalHits() > 0) {
                     foreach ($citiesResultSet->getResults() as $result) {
