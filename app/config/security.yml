@@ -79,6 +79,7 @@ security:
         - { path: ^/command-scheduler, roles: ROLE_ADMIN }
         - { path: ^/garage/list, roles: ROLE_ADMIN }
         - { path: ^/user/list, roles: ROLE_ADMIN }
+        - { path: ^/user/delete, roles: ROLE_ADMIN }
         - { path: ^/mon-profil, roles: ROLE_USER }
         - { path: ^/user/favorites, roles: ROLE_USER }
         - { path: ^/conversations, roles: ROLE_USER }

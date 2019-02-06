@@ -202,6 +202,25 @@ $(function () {
     v[n].appendChild(div);
   }
 
+
+
+  /*
+    Confirm box
+    ===================================== */
+  $('a.js-confirm-box').on('click', (e) => {
+
+    e.preventDefault();
+    let href = e.currentTarget.href;
+    let id = $(e.currentTarget).data('id');
+    let title = $(e.currentTarget).data('title');
+    let message = $(e.currentTarget).data('message');
+
+    confirm(title, message, id, (param) => {
+      window.location = param.href;
+    }, {'href':href});
+  });
+
+
   /*
      ScrollTo : A vérifier lors de la première utilisation
      ===================================== */
@@ -220,7 +239,6 @@ $(function () {
 /*
    Light embeded youtube video : functions
    ===================================== */
-
 function labnolThumb(id) {
   let thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
     play = '<div class="play"></div>';
@@ -234,6 +252,38 @@ function labnolIframe() {
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('allowfullscreen', '1');
   this.parentNode.replaceChild(iframe, this);
+}
+
+/*
+   Confirm box : functions
+   ===================================== */
+function confirm(title, message, id, callback, callbackParam) {
+  let modal =
+    '<div class="reveal small" id="' + id + '" data-reveal>' +
+    '<header class="off-canvas-header">' +
+    '<strong>' + title + '</strong>' +
+    '<button class="small-right icon-close" data-close><span class="show-for-sr">Close</span></button>' +
+    '</header>' +
+    '<div class="modal-content row">'+
+    '<p class="lead">' + message + '</p>' +
+    '<p class="full-width is-flex align-spaced">' +
+    '<button class="button white yes">Oui</button>' +
+    '<button class="button" data-close>Non</button></p>' +
+    '</div>' +
+    '</div>';
+  $('body').append(modal);
+
+  let $modal = $('#'+id);
+  let confirmation = new Reveal($modal);
+  confirmation.open();
+  $modal.find('.yes').on('click', () => {
+    confirmation.close();
+    $('#' + id).parent().remove();
+    callback(callbackParam);
+  });
+  $(document).on('closed.zf.reveal', '#' + id, () => {
+    $('#' + id).parent().remove();
+  });
 }
 
 

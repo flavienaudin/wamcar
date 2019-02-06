@@ -369,3 +369,9 @@ front_affinity_pro_form:
 front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
+
+front_user_delete:
+    path: /user/delete/{id}
+    controller: AppBundle:Front\PersonalContext\User:deleteUser
+    defaults:
+        forGood: false

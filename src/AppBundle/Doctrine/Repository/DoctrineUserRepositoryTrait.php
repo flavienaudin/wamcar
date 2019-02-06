@@ -11,6 +11,17 @@ trait DoctrineUserRepositoryTrait
     /**
      * {@inheritdoc}
      */
+    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
+    {
+        $this->_em->getFilters()->disable('softDeleteable');
+        $all = parent::findBy($criteria, $orderBy);
+        $this->_em->getFilters()->enable('softDeleteable');
+        return $all;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function findOne(int $userId): BaseUser
     {
         return $this->findOneBy(['id' => $userId]);

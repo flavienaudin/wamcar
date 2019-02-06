@@ -143,7 +143,7 @@ class UserController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.user_edit'
+                'flash.success.user.edit'
             );
 
             return $this->redirectToRoute('front_view_current_user_info');
@@ -190,7 +190,7 @@ class UserController extends BaseController
                 } else {
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_INFO,
-                        'flash.success.user_edit'
+                        'flash.success.user.edit'
                     );
                 }
 
@@ -283,7 +283,7 @@ class UserController extends BaseController
                 $this->eventBus->handle(new ProUserUpdated($this->getUser()));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
+                    'flash.success.user.edit'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -330,7 +330,7 @@ class UserController extends BaseController
 
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
+                    'flash.success.user.edit'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -379,22 +379,6 @@ class UserController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
-     * @return Response
-     */
-    public function listAction()
-    {
-        $personalUsers = $this->personalUserRepository->findBy([], ['createdAt' => 'DESC']);
-
-        $proUsers = $this->proUserRepository->findBy([], ['createdAt' => 'DESC']);
-
-        return $this->render("front/adminContext/user/user_list.html.twig", [
-            'personalUsers' => $personalUsers,
-            'proUsers' => $proUsers
-        ]);
-    }
-
-    /**
      * @return FormInterface
      */
     protected function createAvatarForm()
@@ -427,7 +411,7 @@ class UserController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.user_preferences_edit'
+                'flash.success.user_preferences.edit'
             );
 
             return $this->redirectToRoute('front_user_edit_preferences');
@@ -435,6 +419,52 @@ class UserController extends BaseController
 
         return $this->render('front/Preferences/edit.html.twig', [
             'userPreferenceForm' => $userPreferenceForm->createView()
+        ]);
+    }
+
+
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @return Response
+     */
+    public function listAction()
+    {
+        $personalUsers = $this->personalUserRepository->findByIgnoreSoftDeleted([], ['createdAt' => 'DESC']);
+        $proUsers = $this->proUserRepository->findByIgnoreSoftDeleted([], ['createdAt' => 'DESC']);
+
+        return $this->render("front/adminContext/user/user_list.html.twig", [
+            'personalUsers' => $personalUsers,
+            'proUsers' => $proUsers
+        ]);
+    }
+
+
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param BaseUser $userToDelete
+     * @param bool $forGood
+     * @return Response
+     */
+    public function deleteUserAction(Request $request, BaseUser $userToDelete)
+    {
+        $isPro = $userToDelete instanceof ProUser;
+        $forGood = $request->query->get("forGood", false);
+        // TODO check all associations data
+        // $this->userEditionService->deleteUser($userToDelete, $forGood);
+        if($forGood){
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user.deleted_for_good'
+            );
+        }else{
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_INFO,
+                'flash.success.user.deleted'
+            );
+        }
+
+        return $this->redirectToRoute('front_user_list',[
+            '_fragment' => $isPro ? 'pro-user-panel':'personal-user-panel'
         ]);
     }
 }

@@ -119,6 +119,16 @@ class UserEditionService
     }
 
     /**
+     * @param BaseUser $userToDelete
+     */
+    public function deleteUser(BaseUser $userToDelete, $hardDelete = false){
+        $this->userRepository->remove($userToDelete);
+        if($hardDelete){
+            $this->userRepository->remove($userToDelete);
+        }
+    }
+
+    /**
      * @param ApplicationUser $user
      * @param ProjectDTO $projectDTO
      * @return ApplicationUser

@@ -17,6 +17,15 @@ interface UserRepository
     public function findAll();
 
     /**
+     * Finds entities by a set of criteria, ordered, event if softdeleted
+     *
+     * @param array      $criteria
+     * @param array|null $orderBy
+     * @return BaseUser[]
+     */
+    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null);
+
+    /**
      * @param BaseUser $user
      *
      * @return BaseUser

@@ -1,7 +1,11 @@
 flash:
   success:
-    user_edit: Les modifications de votre profil ont été enregistrées.
-    user_preferences_edit: Vos préférences ont été enregistrées.
+    user:
+      edit: Les modifications de votre profil ont été enregistrées.
+      deleted: L'utilisateur a bien été supprimé.
+      deleted_for_good: L'utilisateur a bien été supprimé définitivement.
+    user_preferences:
+      edit: Vos préférences ont été enregistrées.
     remove_garage: La suppression de votre garage est enregistrée.
     garage:
       create: Votre garage est bien enregistré.
