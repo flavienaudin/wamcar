@@ -12,7 +12,7 @@
 {% block body %}
     <div>
         {{ 'notifyProUserOfGarageUnassignation.body'|trans({
-            '%administrator_fullname%': mainAdministrator.fullname,
+            '%administrator_fullname%': mainAdministrator is not null ? mainAdministrator.fullname : 'Un administrateur ',
             '%administrator_url%': mainAdministrator|userInfoUrl({}, true),
             '%garage_name%': garage.name,
             '%garage_url%': url('front_garage_view', {'slug':garage.slug})
@@ -22,8 +22,10 @@
             <tr>
                 <td>{{ action_button(url('front_garage_view',{'slug':garage.slug}),
                         'notifyProUserOfGarageUnassignation.action.see_garage'|trans) }}</td>
-                <td>{{ action_button(url('front_conversation_create',{'id':mainAdministrator.id}),
-                        'notifyProUserOfGarageUnassignation.action.contact'|trans({'%administrator_fullname%': mainAdministrator.fullname})) }}</td>
+                {% if mainAdministrator is not null %}
+                    <td>{{ action_button(url('front_conversation_create',{'id':mainAdministrator.id}),
+                            'notifyProUserOfGarageUnassignation.action.contact'|trans({'%administrator_fullname%': mainAdministrator.fullname})) }}</td>
+                {% endif %}
             </tr>
         </table>
     </div>
