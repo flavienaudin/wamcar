@@ -11,7 +11,7 @@
 
                     {% if membership.requestedAt is null or userIsMe or userIsGarageAdministrator %}
                         <li>
-                            <a href="{{ path('front_view_user_info', {'id': membership.proUser.id}) }}" >
+                            <a href="{{ path('front_view_pro_user_info', {'slug': membership.proUser.slug}) }}" >
                                 <figure class="block-grid align-middle" role="group">
                                     <span class="user-thumbnail-mini margin-right-1">
                                         <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail', membership.proUser.firstName) }}"
@@ -81,7 +81,7 @@
                     }) }}</h2>
                 <div>
                     {{ form_start(inviteSellerForm, {
-                        'action' : path('front_garage_view', {'id':garage.id,'_fragment':'sellers'}),
+                        'action' : path('front_garage_view', {'slug':garage.slug,'_fragment':'sellers'}),
                         'attr' : {
                             'id' : 'js-garage-member-invitation-form',
                             'data-abide' : 'data-abide',

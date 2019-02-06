@@ -33,7 +33,7 @@ flash:
     vehicle_create: Le véhicule a bien été enregistré.
     vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
-    conversation_update: Votre message a bien envoyé.
+    conversation_update: Votre message a bien été envoyé.
     vehicle:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
   danger:
@@ -354,7 +354,9 @@ search:
         label: Energie
         placeholder: Energie
       sorting:
-        label: Trier par :
+        label: "Trier par :"
+      type:
+        label: "Type"
     more_criteria: Plus de critères
     less_criteria: Moins de critères
     tab:
@@ -839,7 +841,7 @@ conversation:
   answer:
     field:
       message:
-        label: Votre message pour %interlocutorName%
+        label: Votre message pour&nbsp;<a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
         placeholder: Entrez votre message...
       vehicle:
         create: Créer un véhicule

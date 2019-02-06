@@ -21,15 +21,6 @@ const getVehicle = async (url) => {
 
 const $searchForm = $('#js-search-form');
 if ($searchForm.length) {
-
-  // Mise à jour de la valeur du champ caché pour la sélection de l'onglet
-  const $searchTabs = $('#js-search-tabs');
-  if ($searchTabs.length) {
-    $searchForm.on('submit', () => {
-      $('#search_vehicle_tab').val($searchTabs.find('li.is-active').data('tab'));
-    });
-  }
-
   // Suppression du filtre par soumission de formulaire
   let $filterLinks = $('.search-filter');
   if ($filterLinks.length) {
@@ -54,6 +45,24 @@ if ($searchForm.length) {
   let $sortingSelect = $('#js-search-sorting-select');
   if($sortingSelect.length){
     $sortingSelect.on('change', () => {
+      $searchForm.submit();
+    });
+  }
+
+  // Submit form when using pagination navigation
+  let $paginationItems = $('.pagination-item');
+  if($paginationItems.length){
+    $paginationItems.on('click', (e) => {
+      e.preventDefault();
+      $searchForm.attr('action', $(e.currentTarget).attr('href'));
+      $searchForm.submit();
+    });
+  }
+
+  // Submit form when using pagination navigation
+  let $searchTypesCheckbox = $('.js-search-type-list li input[type="checkbox"]');
+  if($searchTypesCheckbox.length){
+    $searchTypesCheckbox.on('change', () => {
       $searchForm.submit();
     });
   }

@@ -29,7 +29,7 @@ class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler impl
             'Mail/notifyUserOfAddingPicturesToVehicle.html.twig',
             [
                 'username' => $vehicle->getSellerName(true),
-                'url_vehicle_page' => $this->router->generate('front_vehicle_personal_detail', ['id' => $vehicle->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+                'url_vehicle_page' => $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList([$this->createUserEmailContact($vehicle->getOwner())])
         );

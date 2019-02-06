@@ -20,6 +20,7 @@
 {% import _self as macro %}
 
 {% set form_criteria %}{% spaceless %}
+    {# Removed as form field are already visible to edit them
     {% if filterData.text is not null %}
         {{ macro.jsFilterAsTag('directory.field.text.label', filterData.text, searchProForm.text.vars.id) }}
     {% endif %}
@@ -28,7 +29,7 @@
         {% if filterData.radius is not null %}
             {{ macro.jsFilterAsTag('directory.field.radius.label', filterData.radius~'km', searchProForm.radius.vars.id~'=50') }}
         {% endif %}
-    {% endif %}
+    {% endif %}#}
 {% endspaceless %}{% endset %}
 
 <div class="directory-form-container">
@@ -81,14 +82,6 @@
     </div>
 
     <div class="block-grid small-12 medium-order-3 align-middle">
-        {#<div class="search-actions-button block-grid column small-6">
-            <a class="search-actions-open input-margin" data-toggle="js-search-expand js-more-criteria js-less-criteria">
-                <span id="js-more-criteria" data-toggler=".is-hidden"
-                      class="text-underline icon-plus-circle">{{ 'directory.more_criteria'|trans }}</span>
-                <span id="js-less-criteria" data-toggler=".is-hidden"
-                      class="text-underline icon-minus-circle is-hidden">{{ 'directory.less_criteria'|trans }}</span>
-            </a>
-        </div>#}
         <div class="block-grid column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
             {{ form_widget(searchProForm.sorting, {
                 'id':'js-search-sorting-select',

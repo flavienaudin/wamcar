@@ -1,32 +1,30 @@
 <?php
 
-namespace AppBundle\Utils;
+namespace AppBundle\Elasticsearch\Elastica;
 
-use AppBundle\Elasticsearch\Query\QueryBuilderFilterer;
-use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
-use Novaway\ElasticsearchClient\Aggregation\Aggregation;
-use Novaway\ElasticsearchClient\QueryExecutor;
 
-class VehicleInfoAggregator
+use Elastica\Query;
+use Elastica\QueryBuilder;
+use Elastica\ResultSet;
+
+class VehicleInfoEntityIndexer extends EntityIndexer
 {
-    /** @var QueryExecutor */
-    private $queryExecutor;
-    /** @var QueryBuilderFilterer */
-    private $queryBuilderFilterer;
+
 
     /**
-     * VehicleInfoAggregator constructor.
-     *
-     * @param QueryExecutor $queryExecutor
-     * @param QueryBuilderFilterer $queryBuilderFilterer
+     * @param string $ktypNumber
+     * @return ResultSet
      */
-    public function __construct(
-        QueryExecutor $queryExecutor,
-        QueryBuilderFilterer $queryBuilderFilterer
-    )
+    public function getVehicleInfoByKtypNumber(string $ktypNumber): ResultSet
     {
-        $this->queryExecutor = $queryExecutor;
-        $this->queryBuilderFilterer = $queryBuilderFilterer;
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $mainQuery->setQuery($qb->query()->term([
+            'ktypNumber' => $ktypNumber
+        ]));
+
+        return $this->search($mainQuery);
     }
 
     /**
@@ -57,14 +55,40 @@ class VehicleInfoAggregator
         return $aggregations;
     }
 
+
     /**
      * @param array $data
      * @return array
      */
     public function getVehicleInfoAggregates(array $data = []): array
     {
-        $qb = $this->queryBuilderFilterer->getQueryVehicleInfo($data);
+        $mainQuery = new Query();
 
+        $qb = new QueryBuilder();
+
+        $boolQuery = $qb->query()->bool();
+        foreach ($data as $field => $value) {
+            if (!empty($value)) {
+                $boolQuery->addMust($qb->query()->term([$field => $value]));
+            }
+        }
+        $mainQuery->setQuery($boolQuery);
+
+        $fuelTermsAgg = $qb->aggregation()->terms("fuel");
+        $fuelTermsAgg->setField('fuel');
+        $fuelTermsAgg->setSize(1000);
+        $mainQuery->addAggregation($fuelTermsAgg);
+
+
+        if (empty($data)) {
+            $makeTermsAgg = $qb->aggregation()->terms("make");
+            $makeTermsAgg->setField('make');
+            $makeTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $mainQuery->addAggregation($makeTermsAgg);
+        }
+
+        $childAggregations = [];
+        $formattedAggregations = [];
         $aggregationMapping = [
             'make' => ['model', 'engine', 'fuel'],
             'model' => ['engine', 'fuel'],
@@ -72,26 +96,21 @@ class VehicleInfoAggregator
             'fuel' => ['engine'],
             'ktypNumber' => ['make', 'model', 'engine', 'fuel'],
         ];
-
-        // 'size' => 0 => mean unlimited
-        $qb->addAggregation(new Aggregation('fuel', 'terms', 'fuel', ['size' => 0]));
-        if (empty($data)) {
-            $qb->addAggregation(new Aggregation('make', 'terms', 'make', ['size' => 0]));
-        }
-
-        $childAggregations = [];
-        $formattedAggregations = [];
         foreach ($aggregationMapping as $key => $children) {
             $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
         }
         foreach ($childAggregations as $aggregationField) {
-            $qb->addAggregation(new Aggregation($aggregationField, 'terms', $aggregationField, ['size' => 0]));
+            $childTermsAgg = $qb->aggregation()->terms($aggregationField);
+            $childTermsAgg->setField($aggregationField);
+            $childTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $mainQuery->addAggregation($childTermsAgg);
         }
-        $result = $this->queryExecutor->execute($qb->getQueryBody(), IndexableVehicleInfo::TYPE);
-        foreach ($result->aggregations() as $field => $aggregation) {
+
+        $resultSet = $this->search($mainQuery);
+        foreach ($resultSet->getAggregations() as $field => $aggregation) {
             $cleanAggregation = array_map(function ($aggregationDetail) {
                 return $aggregationDetail['key'];
-            }, $aggregation);
+            }, $aggregation['buckets']);
             sort($cleanAggregation);
             $formattedAggregations[$field] = array_combine($cleanAggregation, $cleanAggregation);
         }

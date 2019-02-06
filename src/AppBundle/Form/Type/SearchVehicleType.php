@@ -7,10 +7,10 @@ use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\BudgetChoice;
 use AppBundle\Utils\MileageChoice;
 use AppBundle\Utils\RadiusChoice;
+use AppBundle\Utils\SearchTypeChoice;
 use AppBundle\Utils\YearsChoice;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,11 +39,17 @@ class SearchVehicleType extends AbstractType
         $builder
             ->add('text', TextType::class, [
                 'required' => false
-            ])
-            ->add('tab', HiddenType::class);
+            ]);
 
         if (!$smallVersion) {
             $builder
+                ->add('type', ChoiceType::class, [
+                    'choices' => SearchTypeChoice::getTypeChoice(),
+                    'expanded' => true,
+                    'multiple' => true,
+                    'choice_translation_domain' => 'enumeration',
+                    'empty_data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE]
+                ])
                 ->add('make', ChoiceType::class, [
                     'choices' => $availableValues['make'] ?? [],
                     'preferred_choices' => function ($val, $key) {
@@ -88,8 +94,8 @@ class SearchVehicleType extends AbstractType
                 ])
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
-                    'data' => 50,
-                    'error_bubbling' => true,
+                    'empty_data' => 50,
+                    'error_bubbling' => true
                 ]);
             if ($sortingField) {
                 $builder
@@ -117,7 +123,7 @@ class SearchVehicleType extends AbstractType
             'available_values' => [],
             'small_version' => false,
             'sortingField' => false,
-            'method' => 'GET'
+            'method' => 'POST'
         ]);
         $resolver->setRequired('available_values');
     }

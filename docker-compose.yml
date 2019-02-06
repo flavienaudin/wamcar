@@ -16,8 +16,37 @@ services:
         volumes:
             - "./app/config/docker/mysql.cnf:/etc/mysql/conf.d/myapp.cnf:ro"
 
+    elasticsearch6:
+        image: elasticsearch:6.5.4
+        environment:
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - esdata1:/usr/share/elasticsearch/data
+        ports:
+            - 9200:9200
+        networks:
+            wamcar:
+                aliases:
+                    - service.elasticsearch
+
     elasticsearch:
-        image: elasticsearch:2.3
+        image: elasticsearch:6.5.4
+        environment:
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        volumes:
+            - esdata1:/usr/share/elasticsearch/data
         ports:
             - 9200:9200
         networks:
@@ -36,7 +65,7 @@ services:
         working_dir: /var/www/myapp
         depends_on:
             - mysql
-            - elasticsearch
+            - elasticsearch6
         expose:
             - 9000
         networks:
@@ -91,6 +120,10 @@ services:
         environment:
             - USER_ID
             - USER_GID
+
+volumes:
+    esdata1:
+        driver: local
 
 networks:
     wamcar: {}

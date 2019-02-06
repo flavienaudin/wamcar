@@ -3,24 +3,44 @@
 namespace AppBundle\Elasticsearch\Traits;
 
 use AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder;
-use AppBundle\Elasticsearch\Type\IndexableProVehicle;
-use Novaway\ElasticsearchClient\ObjectIndexer;
+use AppBundle\Elasticsearch\Builder\IndexableSearchItemBuilder;
+use AppBundle\Elasticsearch\Elastica\EntityIndexer;
+use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use Wamcar\Vehicle\ProVehicle;
 
 trait ProVehicleIndexerTrait
 {
-    /** @var ObjectIndexer */
-    private $objectIndexer;
+    /** @var ProVehicleEntityIndexer */
+    private $proVehicleEntityIndexer;
     /** @var IndexableProVehicleBuilder */
     private $indexableProVehicleBuilder;
+    /** @var EntityIndexer */
+    private $searchItemEntityIndexer;
+    /** @var IndexableSearchItemBuilder */
+    private $indexableSearchItemBuilder;
+
+    /**
+     * IndexUpdatedProVehicle constructor.
+     * @param ProVehicleEntityIndexer $proVehicleEntityIndexer
+     * @param IndexableProVehicleBuilder $indexableProVehicleBuilder
+     * @param EntityIndexer $searchItemEntityIndexer
+     * @param IndexableSearchItemBuilder $indexableSearchItemBuilder
+     */
+    public function __construct(ProVehicleEntityIndexer $proVehicleEntityIndexer,
+                                IndexableProVehicleBuilder $indexableProVehicleBuilder,
+                                EntityIndexer $searchItemEntityIndexer,
+                                IndexableSearchItemBuilder $indexableSearchItemBuilder
+    )
+    {
+        $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
+        $this->indexableProVehicleBuilder = $indexableProVehicleBuilder;
+        $this->searchItemEntityIndexer = $searchItemEntityIndexer;
+        $this->indexableSearchItemBuilder = $indexableSearchItemBuilder;
+    }
 
     protected function indexProVehicle(ProVehicle $proVehicle)
     {
-        $indexableProVehicle = $this->indexableProVehicleBuilder->buildFromVehicle($proVehicle);
-        if ($indexableProVehicle->shouldBeIndexed()) {
-            $this->objectIndexer->index($indexableProVehicle, IndexableProVehicle::TYPE);
-        } else {
-            $this->objectIndexer->remove($indexableProVehicle, IndexableProVehicle::TYPE);
-        }
+        $this->proVehicleEntityIndexer->updateIndexable($this->indexableProVehicleBuilder->buildFromVehicle($proVehicle));
+        $this->searchItemEntityIndexer->updateIndexable($this->indexableSearchItemBuilder->createSearchItemFromProVehicle($proVehicle));
     }
 }

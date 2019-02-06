@@ -1,0 +1,580 @@
+parameters:
+  common_settings:
+    number_of_shards : 1
+    number_of_replicas : 1
+    analysis:
+      analyzer:
+        default:
+          type:         custom
+          tokenizer:    uax_url_email # standard + email/url as one token
+          filter:       [asciifolding, elision, lowercase, french_stopwords, word_delimiter, french_snowball]
+          char_filter:  [custom_char_filter]
+        default_search:
+          type:         custom
+          tokenizer:    uax_url_email # standard + email/url as one token
+          filter:       [asciifolding, elision, lowercase, french_stopwords, word_delimiter, french_snowball]
+          char_filter:  [custom_char_filter]
+      tokenizer:
+        nGram:
+          type:       nGram
+          min_gram:   2
+          max_gram:   15
+      filter:
+        french_stopwords:
+          type:       stop
+          stopwords:  [_french_]
+          ignore_case: true
+        french_snowball:
+          type:       snowball
+          language:   French
+        elision:
+          type:      elision
+          articles_case: true
+          articles:  [ l, m, t, qu, n, s, j, d, c, jusqu, quoiqu, lorsqu, puisqu]
+      char_filter:
+        custom_char_filter:
+          type: html_strip
+  vehicle_info.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          ktypNumber:
+            type: keyword
+          make:
+            type: keyword
+          makeOrig:
+            type: keyword
+          make:
+            type: keyword
+          makeCode:
+            type: integer
+          model:
+            type: keyword
+          modelUppercase:
+            type: keyword
+          modelCode:
+            type: integer
+          engineCode:
+            type: keyword
+          engine:
+            type: keyword
+          engineUppercase:
+            type: keyword
+          startDate:
+            type: date
+          endDate:
+            type: date
+          engineSize:
+            type: float
+          engineCm3:
+            type: integer
+          kwPower:
+            type: integer
+          horsePower:
+            type: integer
+          body:
+            type: keyword
+          wheelDrive:
+            type: keyword
+          fuelOrig:
+            type: keyword
+          fuel:
+            type: keyword
+          nbCylinders:
+            type: integer
+          nbValve:
+            type: integer
+  city.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          insee:
+            type: keyword
+          postalCode:
+            type: keyword
+          cityName:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          location:
+            type: geo_point
+          latitude:
+              type: float
+          longitude:
+              type: float
+  pro_vehicle.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          id:
+            type: keyword
+          detailUrl:
+            type: keyword
+          make:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          model:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          makeAndModel:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          modelVersion:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          engine:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          fuel:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          transmission:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          description:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          years:
+            type: keyword
+          mileage:
+            type: integer
+          cityName:
+            type: keyword
+          location:
+            type: geo_point
+          price:
+            type: integer
+          mainSortingPrice:
+            type: integer
+          mainSortingDate:
+            type: date
+          picture:
+            type: keyword
+          nbPicture:
+            type: integer
+          garageId:
+            type: integer
+          googleRating:
+            type: float
+          nbPositiveLikes:
+            type: integer
+  personal_vehicle.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          id:
+            type: keyword
+          detailUrl:
+            type: keyword
+          make:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          model:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          makeAndModel:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          modelVersion:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          engine:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          fuel:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          transmission:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          description:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          years:
+            type: keyword
+          mileage:
+            type: integer
+          cityName:
+            type: keyword
+          location:
+            type: geo_point
+          mainSortingDate:
+            type: date
+          picture:
+            type: keyword
+          nbPicture:
+            type: integer
+          userId:
+            type: integer
+          nbPositiveLikes:
+            type: integer
+  personal_project.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          id:
+            type: integer
+          userId:
+            type: integer
+          mainSortingLocation:
+            type: geo_point
+          project:
+            properties:
+              budget:
+                type: integer
+              isFleet:
+                type: boolean
+              description:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              models:
+                type: nested
+                properties:
+                  make:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  model:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  makeAndModel:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  yearMin:
+                    type: integer
+                  mileageMax:
+                    type: integer
+          mainSortingPrice:
+            type: integer
+          mainSortingDate:
+            type: date
+          deletedAt:
+            type: date
+  pro_user.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          id:
+            type: integer
+          firstName:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          lastName:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          description:
+            type: text
+            fields:
+              keyword:
+                type: keyword
+          descriptionLength:
+            type: integer
+          maxGaragesGoogleRating:
+            type: double
+          hasAvatar:
+            type: integer
+          garages:
+            type: nested
+            properties:
+              garageId:
+                type: integer
+              garageName:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              garagePresentation:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              garageCityName:
+                type: keyword
+              garageLocation:
+                type: geo_point
+              garageGoogleRating:
+                type: float
+  search_item.index_builder.config:
+    settings:
+      index: '%common_settings%'
+    mappings:
+      _doc:
+        _source : { enabled : true }
+        dynamic: strict
+        properties:
+          id:
+            type: keyword
+          userId:
+            type: keyword
+          searchType:
+            type: keyword
+          mainSortingDate:
+            type: date
+          mainSortingPrice:
+            type: integer
+          mainSortingLocation:
+            type: geo_point
+          vehicle:
+            properties:
+              type:
+                type: keyword
+              make:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              model:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              makeAndModel:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              description:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              fuel:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              transmission:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              location:
+                type: geo_point
+              years:
+                type: integer
+              mileage:
+                type: integer
+              nbPictures:
+                type: integer
+              nbPositiveLikes:
+                type: integer
+              price:
+                type: integer
+              garageId:
+                type: integer
+              googleRating:
+                type: float
+          project:
+            properties:
+              description:
+                type: text
+                fields:
+                  keyword:
+                    type: keyword
+              budget:
+                type: integer
+              location:
+                type: geo_point
+              models:
+                type: nested
+                properties:
+                  make:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  model:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  makeAndModel:
+                    type: text
+                    fields:
+                      keyword:
+                        type: keyword
+                  yearMin:
+                    type: integer
+                  mileageMax:
+                    type: integer
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+
+  Elastica\Client:
+      $config:
+          host: '%env(ELASTIC_HOST)%'
+          port: '%env(ELASTIC_PORT)%'
+
+  # Services for index VEHICLE_INFO
+  vehicle_info.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'vehicle_info_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%vehicle_info.index_builder.config%'
+
+  vehicle_info.indexer:
+    class: AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer
+    arguments:
+      - '@Elastica\Client'
+      - 'vehicle_info_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Services for index CITY
+  city.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'city_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%city.index_builder.config%'
+  city.indexer:
+      class: AppBundle\Elasticsearch\Elastica\CityEntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'city_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Service for index PRO_VEHICLE
+  pro_vehicle.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'pro_vehicle_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%pro_vehicle.index_builder.config%'
+  pro_vehicle.indexer:
+      class: AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'pro_vehicle_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Service for index PERSONAL_VEHICLE
+  personal_vehicle.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'personal_vehicle_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%personal_vehicle.index_builder.config%'
+  personal_vehicle.indexer:
+      class: AppBundle\Elasticsearch\Elastica\PersonalVehicleEntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'personal_vehicle_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Service for index PERSONAL_PROJECT
+  personal_project.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'personal_project_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%personal_project.index_builder.config%'
+  personal_project.indexer:
+      class: AppBundle\Elasticsearch\Elastica\EntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'personal_project_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Service for index PRO_USER
+  pro_user.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'pro_user_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%pro_user.index_builder.config%'
+  pro_user.indexer:
+      class: AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'pro_user_index_%env(ELASTIC_ENVIRONMENT)%'
+
+  # Service for index SEARCH_ITEM
+  search_item.index_builder:
+    class: AppBundle\Elasticsearch\Elastica\EntityIndexBuilder
+    arguments:
+      - '@Elastica\Client'
+      - 'search_item_index_%env(ELASTIC_ENVIRONMENT)%'
+      - '%search_item.index_builder.config%'
+  search_item.indexer:
+      class: AppBundle\Elasticsearch\Elastica\EntityIndexer
+      arguments:
+        - '@Elastica\Client'
+        - 'search_item_index_%env(ELASTIC_ENVIRONMENT)%'
+
+
+  AppBundle\Elasticsearch\Elastica\SearchResultProvider:
+      class: AppBundle\Elasticsearch\Elastica\SearchResultProvider
+      arguments:
+        - '@search_item.indexer'
+        - '@personal_project.indexer'
+        - '@personal_vehicle.indexer'
+        - '@pro_vehicle.indexer'
+        - '@Elastica\Client'

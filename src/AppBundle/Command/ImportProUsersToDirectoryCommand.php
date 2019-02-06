@@ -4,11 +4,12 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Elasticsearch\Type\IndexableProUser;
-use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportProUsersToDirectoryCommand extends BaseCommand
+class ImportProUsersToDirectoryCommand extends ContainerAwareCommand
 {
     /**
      * Configure command
@@ -31,23 +32,29 @@ class ImportProUsersToDirectoryCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
-        $objectIndexer = $this->getContainer()->get('Novaway\ElasticsearchClient\ObjectIndexer');
+        $proUserIndexer = $this->getContainer()->get('pro_user.indexer');
         $proUserRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineProUserRepository');
 
-        $proUsers= $proUserRepository->findAll();
-        $progress = new ProgressBar($output, count($proUsers));
-
+        $proUsers = $proUserRepository->findAll();
+        $proUserDocuments = [];
+        $io->text('Pro User reading');
+        $io->progressStart(count($proUsers));
         foreach ($proUsers as $proUser) {
-            $progress->advance();
-            $objectIndexer->index(IndexableProUser::createFromProApplicationUser($proUser), IndexableProUser::TYPE);
+            $indexableProUser = IndexableProUser::createFromProApplicationUser($proUser);
+            if ($indexableProUser->shouldBeIndexed()) {
+                $proUserDocuments[] = $proUserIndexer->buildDocument($indexableProUser);
+            }
+            $io->progressAdvance();
         }
+        $io->progressFinish();
+        $io->newLine();
 
-        $progress->finish();
+        $io->text('Indexing ' . count($proUserDocuments) . ' pro users');
+        $proUserIndexer->indexAllDocuments($proUserDocuments, true);
 
-        $this->logCRLF();
-        $this->log('success', 'Done ! ');
+        $io->success('Done ! ');
     }
 
 }

@@ -28,7 +28,7 @@ class IndexableProVehicle implements Indexable
     private $description;
     /** @var string */
     private $years;
-    /** @var string */
+    /** @var int */
     private $mileage;
     /** @var string */
     private $cityName;
@@ -44,18 +44,8 @@ class IndexableProVehicle implements Indexable
     private $picture;
     /** @var int */
     private $nbPicture;
-    /** @var string */
-    private $sellerUrl;
-    /** @var string */
-    private $sellerName;
     /** @var int */
     private $garageId;
-    /** @var string */
-    private $garageUrl;
-    /** @var string */
-    private $garageName;
-    /** @var string */
-    private $sellerPicture;
     /** @var \DateTime */
     private $deletedAt;
     /** @var float */
@@ -75,7 +65,7 @@ class IndexableProVehicle implements Indexable
      * @param string $fuel
      * @param string $description
      * @param string $years
-     * @param string $mileage
+     * @param int $mileage
      * @param string $cityName
      * @param null|string $latitude
      * @param null|string $longitude
@@ -83,12 +73,7 @@ class IndexableProVehicle implements Indexable
      * @param \DateTime $createdAt
      * @param string $picture
      * @param int $nbPicture
-     * @param string $sellerUrl
-     * @param string $sellerName
      * @param int $garageId
-     * @param string $garageUrl
-     * @param string $garageName
-     * @param string $sellerPicture
      * @param \DateTime|null $deletedAt
      * @param null|float $googleRating
      * @param int $nbPositiveLikes
@@ -103,7 +88,7 @@ class IndexableProVehicle implements Indexable
                                 string $fuel,
                                 ?string $description,
                                 string $years,
-                                string $mileage,
+                                int $mileage,
                                 string $cityName,
                                 ?string $latitude,
                                 ?string $longitude,
@@ -111,12 +96,7 @@ class IndexableProVehicle implements Indexable
                                 \DateTime $createdAt,
                                 string $picture,
                                 int $nbPicture,
-                                string $sellerUrl,
-                                string $sellerName,
                                 int $garageId,
-                                string $garageUrl,
-                                string $garageName,
-                                string $sellerPicture,
                                 ?\DateTime $deletedAt,
                                 ?float $googleRating,
                                 int $nbPositiveLikes
@@ -140,12 +120,7 @@ class IndexableProVehicle implements Indexable
         $this->createdAt = $createdAt;
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
-        $this->sellerUrl = $sellerUrl;
-        $this->sellerName = $sellerName;
         $this->garageId = $garageId;
-        $this->garageUrl = $garageUrl;
-        $this->garageName = $garageName;
-        $this->sellerPicture = $sellerPicture;
         $this->deletedAt = $deletedAt;
         $this->googleRating = $googleRating;
         $this->nbPositiveLikes = $nbPositiveLikes;
@@ -173,22 +148,15 @@ class IndexableProVehicle implements Indexable
     public function toArray(): array
     {
         return [
-            'type' => self::TYPE,
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
             'make' => $this->make,
             'model' => $this->model,
+            'makeAndModel' => $this->make . " ". $this->model,
             'modelVersion' => $this->modelVersion,
             'engine' => $this->engine,
-            'key_make' => $this->make,
-            'key_model' => $this->model,
-            'key_make_model' => $this->make . " ". $this->model,
-            'key_modelVersion' => $this->modelVersion,
-            'key_engine' => $this->engine,
-            'key_fuel' => $this->fuel,
-            'transmission' => $this->transmission,
             'fuel' => $this->fuel,
-            'key_description' => $this->description,
+            'transmission' => $this->transmission,
             'description' => $this->description,
             'years' => $this->years,
             'mileage' => $this->mileage,
@@ -198,17 +166,11 @@ class IndexableProVehicle implements Indexable
                 'lon' => $this->longitude
             ],
             'price' => $this->price,
-            'sortingPrice' => $this->price,
-            'sortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
-            'createdAt' => $this->createdAt,
+            'mainSortingPrice' => $this->price,
+            'mainSortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
-            'sellerUrl' => $this->sellerUrl,
-            'sellerName' => $this->sellerName,
             'garageId' => $this->garageId,
-            'garageUrl' => $this->garageUrl,
-            'garageName' => $this->garageName,
-            'sellerPicture' => $this->sellerPicture,
             'googleRating' => $this->googleRating,
             'nbPositiveLikes' => $this->nbPositiveLikes
         ];

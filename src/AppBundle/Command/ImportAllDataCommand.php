@@ -16,7 +16,7 @@ class ImportAllDataCommand extends BaseCommand
     {
         $this
             ->setName('wamcar:populate:all-es')
-            ->setDescription('Populate ES with : Cities, VehicleInfo, PersonalVehicle, PersonalProject, ProVehicle, ProUser (directory)');
+            ->setDescription('Populate ES with : Cities, VehicleInfo, PersonalVehicle, PersonalProject, ProVehicle, ProUser (directory), SearchItem');
 
     }
 
@@ -33,7 +33,7 @@ class ImportAllDataCommand extends BaseCommand
             'wamcar:populate:pro_vehicle' => [],
             'wamcar:directory:index_pro_users' => [],
             'wamcar:populate:vehicle_info' => [
-                'file' => __DIR__ . '/../../../database/fixtures/base_vehicule_20180228.csv'
+                'file' => __DIR__ . '/../../../database/fixtures/base_vehicule_20181122.csv'
             ],
             'wamcar:populate:es-cities' => []
         ];

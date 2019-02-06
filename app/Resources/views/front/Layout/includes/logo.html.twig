@@ -1,6 +1,5 @@
 {% set isLogged = isLogged|default(false) %}
-
-{% set action = isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : isUserPersonal ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}):path('front_default') %}
+{% set action = isLogged ? path('front_search') : path('front_default') %}
 
 <a href="{{ action }}" class="logo-container column shrink {{ isLogged ? 'small-collapse large-uncollapse is-logged' }}">
     {% if isLogged %}

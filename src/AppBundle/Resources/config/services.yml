@@ -16,7 +16,7 @@ imports:
     - { resource: services/validators.yml }
     - { resource: services/sessions.yml }
     - { resource: services/commands.yml }
-    - { resource: search.yml }
+    - { resource: search_elastica.yml }
     - { resource: ../../../TypeForm/Resources/config/services.yml }
 
 services:

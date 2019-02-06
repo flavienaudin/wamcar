@@ -1,8 +1,8 @@
 <!-- Vehicle related : encart bleue -->
 {% if vehicle.isPro %}
-    {% set path = path('front_vehicle_pro_detail', {'id': vehicle.id}) %}
+    {% set path = path('front_vehicle_pro_detail', {'slug': vehicle.slug}) %}
 {% else %}
-    {% set path = path('front_vehicle_personal_detail', {'id': vehicle.id}) %}
+    {% set path = path('front_vehicle_personal_detail', {'slug': vehicle.slug}) %}
 {% endif %}
 <div class="messages-item-vehicle-proposed block-grid">
     <a href="{{ path }}" target="_blank">
@@ -10,7 +10,7 @@
     </a>
     <div class="messages-item-vehicle-proposed-infos">
         <strong class="messages-small-text primary-color">
-            <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" target="_blank">
+            <a href="{{ vehicle.seller|userInfoUrl }}" target="_blank">
                 {{ vehicle.isPro ?
                     'conversation.vehicle_presented_by'|trans({'%ownerName%':vehicle.sellerName}) :
                     ( vehicle.seller.id == app.user.id ?

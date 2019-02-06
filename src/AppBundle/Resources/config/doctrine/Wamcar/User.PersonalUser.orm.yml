@@ -2,6 +2,17 @@ Wamcar\User\PersonalUser:
     type: entity
 
     fields:
+        slug:
+            type: string
+            length: 255
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    fields:
+                        - userProfile.firstName
         orientation:
             type: personalorientation
             nullable: true

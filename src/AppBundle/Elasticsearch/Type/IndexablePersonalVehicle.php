@@ -3,7 +3,6 @@
 namespace AppBundle\Elasticsearch\Type;
 
 use Novaway\ElasticsearchClient\Indexable;
-use Wamcar\User\Project;
 
 class IndexablePersonalVehicle implements Indexable
 {
@@ -47,12 +46,6 @@ class IndexablePersonalVehicle implements Indexable
     private $nbPicture;
     /** @var $userId */
     private $userId;
-    /** @var string */
-    private $userUrl;
-    /** @var string */
-    private $userName;
-    /** @var string */
-    private $userPicture;
     /** @var int */
     private $nbPositiveLikes;
 
@@ -77,9 +70,6 @@ class IndexablePersonalVehicle implements Indexable
      * @param string $picture
      * @param int $nbPicture
      * @param int $userId
-     * @param string $userUrl
-     * @param string $userName
-     * @param string $userPicture
      * @param int $nbPositiveLikes
      */
     public function __construct(string $id,
@@ -92,7 +82,7 @@ class IndexablePersonalVehicle implements Indexable
                                 string $fuel,
                                 ?string $description,
                                 string $years,
-                                string $mileage,
+                                int $mileage,
                                 string $cityName,
                                 string $latitude,
                                 string $longitude,
@@ -101,9 +91,6 @@ class IndexablePersonalVehicle implements Indexable
                                 string $picture,
                                 int $nbPicture,
                                 int $userId,
-                                string $userUrl,
-                                string $userName,
-                                string $userPicture,
                                 int $nbPositiveLikes
     )
     {
@@ -126,9 +113,6 @@ class IndexablePersonalVehicle implements Indexable
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
         $this->userId = $userId;
-        $this->userUrl = $userUrl;
-        $this->userName = $userName;
-        $this->userPicture = $userPicture;
         $this->deletedAt = $deletedAt;
         $this->nbPositiveLikes = $nbPositiveLikes;
     }
@@ -154,24 +138,16 @@ class IndexablePersonalVehicle implements Indexable
      */
     public function toArray(): array
     {
-        // key_ because conflict with not indexed in vehicle_info type
         return [
-            'type' => self::TYPE,
             'id' => $this->id,
             'detailUrl' => $this->detailUrl,
-            'key_make' => $this->make,
-            'key_model' => $this->model,
-            'key_make_model' => $this->make . " ". $this->model,
-            'key_modelVersion' => $this->modelVersion,
-            'key_engine' => $this->engine,
-            'key_fuel' => $this->fuel,
             'make' => $this->make,
             'model' => $this->model,
+            'makeAndModel' => $this->make . " " . $this->model,
             'modelVersion' => $this->modelVersion,
             'engine' => $this->engine,
-            'transmission' => $this->transmission,
             'fuel' => $this->fuel,
-            'key_description' => $this->description,
+            'transmission' => $this->transmission,
             'description' => $this->description,
             'years' => $this->years,
             'mileage' => $this->mileage,
@@ -180,17 +156,23 @@ class IndexablePersonalVehicle implements Indexable
                 'lat' => $this->latitude,
                 'lon' => $this->longitude
             ],
-            'sortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
-            'createdAt' => $this->createdAt,
-            'deletedAt' => $this->deletedAt,
+            'mainSortingDate' => $this->createdAt->format('Y-m-d\TH:i:s\Z'),
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
             'userId' => $this->userId,
-            'userUrl' => $this->userUrl,
-            'userName' => $this->userName,
-            'userPicture' => $this->userPicture,
             'nbPositiveLikes' => $this->nbPositiveLikes
         ];
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+

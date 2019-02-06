@@ -60,7 +60,7 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getLastName(),
             $proApplicationUser->getDescription(),
             [],
-            ($proApplicationUser->getAvatar() != null?1:0),
+            ($proApplicationUser->getAvatar() != null?1:0), // int for function score
             $proApplicationUser->getRoles()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
@@ -68,6 +68,7 @@ class IndexableProUser implements Indexable
         foreach ($proApplicationUser->getEnabledGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
             $garageArray = [
+                'garageId' => $garage->getId(),
                 'garageName' => $garage->getName(),
                 'garagePresentation' => $garage->getPresentation(),
                 'garageCityName' => $garage->getCity()->getName(),
@@ -115,7 +116,6 @@ class IndexableProUser implements Indexable
     public function toArray(): array
     {
         $arr = [
-            'type' => self::TYPE,
             'id' => $this->id,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,

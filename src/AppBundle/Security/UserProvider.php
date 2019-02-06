@@ -155,9 +155,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             }
         } else {
             // if target_path is set to REGISTER_ORIENTATION path while the user is already registred Then redirection to its profile
-            if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_confirm', [], UrlGeneratorInterface::ABSOLUTE_URL))
-                || (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_orientation', [], UrlGeneratorInterface::ABSOLUTE_URL)))
-            ) {
+            if (str_start($this->session->get('_security.front.target_path'), $this->router->generate('register_orientation', [], UrlGeneratorInterface::ABSOLUTE_URL))) {
                 $this->session->set('_security.front.target_path', $this->router->generate('front_view_current_user_info', [], UrlGeneratorInterface::ABSOLUTE_URL));
             }
         }

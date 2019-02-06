@@ -28,6 +28,8 @@ abstract class BaseUser implements HasApiCredential
     /** @var int */
     protected $id;
     /** @var string */
+    protected $slug;
+    /** @var string */
     protected $email;
     /** @var  UserProfile|null */
     protected $userProfile;
@@ -103,6 +105,22 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
      * @return string
      */
     public function getFullName(bool $restrictedName = false): ?string
@@ -163,6 +181,9 @@ abstract class BaseUser implements HasApiCredential
         return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty() ? $this->getUserProfile()->getCity() : null);
     }
 
+    /**
+     * @return string
+     */
     public function getCityPostalCodeAndName(): string
     {
         $city = $this->getCity();

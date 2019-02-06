@@ -4,14 +4,13 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\UserRegistrationPersonalVehicleDTO;
 use AppBundle\Form\Type\PersonalRegistrationOrientationType;
 use AppBundle\Form\Type\UserRegistrationPersonalVehicleType;
 use AppBundle\Security\UserAuthenticator;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
-use AppBundle\Utils\VehicleInfoAggregator;
-use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -37,10 +36,8 @@ class RegistrationController extends BaseController
     private $formFactory;
     /** @var PersonalVehicleRepository */
     private $vehicleRepository;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
-    /** @var VehicleInfoProvider */
-    private $vehicleInfoProvider;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoEntityIndexer;
     /** @var PersonalVehicleEditionService */
     protected $personalVehicleEditionService;
     /** @var UserAuthenticator */
@@ -58,8 +55,7 @@ class RegistrationController extends BaseController
      * RegistrationController constructor.
      * @param FormFactoryInterface $formFactory
      * @param PersonalVehicleRepository $vehicleRepository
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param VehicleInfoProvider $vehicleInfoProvider
+     * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
      * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param UserAuthenticator $userAuthenticator
      * @param UserEditionService $userEditionService
@@ -70,8 +66,7 @@ class RegistrationController extends BaseController
     public function __construct(
         FormFactoryInterface $formFactory,
         PersonalVehicleRepository $vehicleRepository,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        VehicleInfoProvider $vehicleInfoProvider,
+        VehicleInfoEntityIndexer $vehicleInfoIndexer,
         PersonalVehicleEditionService $personalVehicleEditionService,
         UserAuthenticator $userAuthenticator,
         UserEditionService $userEditionService,
@@ -82,8 +77,7 @@ class RegistrationController extends BaseController
     {
         $this->formFactory = $formFactory;
         $this->vehicleRepository = $vehicleRepository;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider = $vehicleInfoProvider;
+        $this->vehicleInfoEntityIndexer = $vehicleInfoIndexer;
         $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->userAuthenticator = $userAuthenticator;
         $this->userEditionService = $userEditionService;
@@ -151,27 +145,28 @@ class RegistrationController extends BaseController
                     }
                 };
 
-                $vehicleInfo = [];
                 if (!empty($ktypNumber)) {
-                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                    $vehicleInfoResultSet = $this->vehicleInfoEntityIndexer->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if (count($vehicleInfo) == 1) {
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
-                        $filters['make'] = $vehicleInfo[0]['make'];
+                if (isset($vehicleInfoResultSet) && $vehicleInfoResultSet->getTotalHits() == 1) {
+                    $vehicleInfoResult = $vehicleInfoResultSet->getResults()[0];
+                    $vehicleInfo = $vehicleInfoResult->getData();
+
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['make'])) {
+                        $filters['make'] = $vehicleInfo['make'];
                     } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
-                        $filters['model'] = $vehicleInfo[0]['model'];
+                    if (isset($vehicleInfo['model']) && !empty($vehicleInfo['model'])) {
+                        $filters['model'] = $vehicleInfo['model'];
                     } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
-                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    if (isset($vehicleInfo['engine']) && !empty($vehicleInfo['engine'])) {
+                        $filters['engine'] = $vehicleInfo['engine'];
                     } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
-
                 } else {
                     $filters['make'] = $information['Vehicule']['MARQUE'];
                     $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
@@ -216,7 +211,7 @@ class RegistrationController extends BaseController
         $vehicleDTO->vehicleReplace = (bool)$request->get('vehicle-replace', $vehicleDTO->vehicleReplace);
         $vehicleDTO->updateFromFilters($filters);
 
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoEntityIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
 
         $vehicleForm = $this->formFactory->create(
             UserRegistrationPersonalVehicleType::class,
@@ -262,7 +257,7 @@ class RegistrationController extends BaseController
         $filters = $request->get('filters', []);
         $fetch = $request->get('fetch', null);
 
-        $aggregates = $this->vehicleInfoAggregator->getVehicleInfoAggregates($filters);
+        $aggregates = $this->vehicleInfoEntityIndexer->getVehicleInfoAggregates($filters);
 
         return new JsonResponse($fetch ? $aggregates[$fetch] : $aggregates);
     }
@@ -322,7 +317,7 @@ class RegistrationController extends BaseController
             switch ($user->getOrientation()) {
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH():
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
-                    if(count($user->getVehicles()) == 0) {
+                    if (count($user->getVehicles()) == 0) {
                         // Only if no vehicle is already added (when registration with vehicle)
                         return $this->redirectToRoute('front_vehicle_personal_add');
                     }

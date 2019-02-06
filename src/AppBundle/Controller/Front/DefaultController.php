@@ -3,11 +3,11 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Front\ProContext\SearchController;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\VehicleInformationType;
-use AppBundle\Utils\VehicleInfoAggregator;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Wamcar\User\ProUser;
@@ -20,24 +20,24 @@ class DefaultController extends BaseController
 
     /** @var FormFactoryInterface */
     private $formFactory;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoEntityIndexer;
     /** @var ProVehicleRepository $proVehicleRepository */
     private $proVehicleRepository;
 
     /**
      * DefaultController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator,
+        VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleRepository $proVehicleRepository
     )
     {
         $this->formFactory = $formFactory;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleRepository = $proVehicleRepository;
     }
 
@@ -50,7 +50,7 @@ class DefaultController extends BaseController
             VehicleInformationType::class,
             new VehicleInformationDTO(),
             [
-                'available_values' => $this->vehicleInfoAggregator->getVehicleInfoAggregates(),
+                'available_values' => $this->vehicleInfoEntityIndexer->getVehicleInfoAggregates(),
                 'small_version' => true
             ]
         );
@@ -59,13 +59,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -91,13 +85,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
@@ -122,13 +110,7 @@ class DefaultController extends BaseController
             SearchVehicleType::class,
             new SearchVehicleDTO(),
             [
-                'action' => ($this->getUser() instanceof ProUser ?
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchController::TAB_PERSONAL]
-                    ]) :
-                    $this->generateRoute('front_search', [
-                        'search_vehicle' => ['tab' => SearchCOntroller::TAB_PRO]
-                    ])),
+                'action' => $this->generateRoute('front_search'),
                 'small_version' => true
             ]
         );
