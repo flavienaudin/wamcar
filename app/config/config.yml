@@ -407,3 +407,6 @@ jmose_command_scheduler:
 
     # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
     send_ok: true
+
+presta_sitemap:
+    sitemap_file_prefix: '8azs_1t3m7p+qs768'
