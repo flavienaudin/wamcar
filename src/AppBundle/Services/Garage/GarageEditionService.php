@@ -142,15 +142,19 @@ class GarageEditionService
      * @param ProApplicationUser $proUser
      * @param boolean $isAdministrator
      * @param boolean $isEnabled
-     * @return GarageProUser
+     * @return null|GarageProUser
      */
-    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false, bool $isEnabled = false): GarageProUser
+    public function addMember(Garage $garage, ProApplicationUser $proUser, bool $isAdministrator = false, bool $isEnabled = false): ?GarageProUser
     {
         if (!in_array('ROLE_ADMIN', $proUser->getRoles())) {
             /** @var GarageProUser $garageProUser */
             $garageProUser = new GarageProUser($garage, $proUser, $isAdministrator ? GarageRole::GARAGE_ADMINISTRATOR() : GarageRole::GARAGE_MEMBER());
             if (!$isEnabled) {
                 $garageProUser->setRequestedAt(new \DateTime());
+            }
+            if(count($garage->getMembers()) == 0){
+                // Assingation by an ROLE_ADMIN, the first member is administrator
+                $garageProUser->setRole(GarageRole::GARAGE_ADMINISTRATOR());
             }
             $garage->addMember($garageProUser);
             $proUser->addGarageMembership($garageProUser);

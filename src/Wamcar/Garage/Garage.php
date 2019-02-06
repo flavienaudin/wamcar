@@ -492,9 +492,9 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
 
     /**
      * Get garage's main administrator (the first)
-     * @return ProUser
+     * @return null|ProUser
      */
-    public function getMainAdministrator(): ProUser
+    public function getMainAdministrator(): ?ProUser
     {
         /** @var GarageProUser $enabledMember */
         foreach ($this->getEnabledMembers() as $enabledMember) {
