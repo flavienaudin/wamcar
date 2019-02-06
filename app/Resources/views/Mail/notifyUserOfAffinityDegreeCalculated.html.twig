@@ -10,7 +10,7 @@
         <p>
         {% if user.isPro %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.pro'|trans }}
-            {% set action_url = url('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) %}
+            {% set action_url = url('front_search') %}
         {% else %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.personal'|trans }}
             {% set action_url = url('front_directory_view') %}

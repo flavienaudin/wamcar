@@ -24,6 +24,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     /** @var int */
     protected $id;
     /** @var string */
+    protected $slug;
+    /** @var string */
     protected $googlePlaceId;
     /** @var string */
     protected $name;
@@ -106,6 +108,21 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
+    }
 
     /** Méthodes pour l'interface UserInterface */
     public function getUsername()

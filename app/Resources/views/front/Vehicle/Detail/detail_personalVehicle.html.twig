@@ -50,7 +50,7 @@
     {% set breadcrumbs = [
         {
             'name': vehicleSellerName,
-            'href': path('front_view_user_info', {'id': vehicle.seller.id})
+            'href': path('front_view_personal_user_info', {'slug': vehicle.seller.slug})
         },
         {
             'name': vehicle.name,

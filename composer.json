@@ -37,7 +37,7 @@
     "ramsey/uuid-doctrine": "^1.4",
     "vich/uploader-bundle": "^1.6",
     "symfony/translation": "^3.3",
-    "novaway/elasticsearch-client": "2.3.x-dev",
+    "novaway/elasticsearch-client": "^6.2",
     "league/csv": "^9.0",
     "simple-bus/symfony-bridge": "^5.0",
     "guzzlehttp/guzzle": "^6.3",
@@ -51,7 +51,8 @@
     "ocramius/proxy-manager": "2.1",
     "beberlei/DoctrineExtensions": "^1.1",
     "mgilet/notification-bundle":"^3.0",
-    "jmose/command-scheduler-bundle":"^2.0"
+    "jmose/command-scheduler-bundle":"^2.0",
+    "ruflin/elastica":"^6.1"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",

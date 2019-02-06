@@ -13,14 +13,10 @@ class IndexableCityBuilder implements ResultTransformer
     /** @var CityOptionFormatter */
     private $cityOptionFormatter;
 
-    public function __construct(
-        CityOptionFormatter $cityOptionFormatter
-    )
+    public function __construct(CityOptionFormatter $cityOptionFormatter)
     {
         $this->cityOptionFormatter = $cityOptionFormatter;
     }
-
-
 
     /**
      * @param ApplicationCity $city

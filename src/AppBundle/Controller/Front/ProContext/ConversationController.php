@@ -6,7 +6,8 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
-use AppBundle\Elasticsearch\Query\SearchResultProvider;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\SearchResultProvider;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\MessageType;
@@ -313,22 +314,23 @@ class ConversationController extends BaseController
         $page = $request->query->get('page', 1);
         /** @var BaseUser $currentUser */
         $currentUser = $this->getUser();
-        $searchResult = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-        $result = array();
-        $result['totalHits'] = $searchResult->totalHits();
-        $result['hits'] = array();
+        $searchResultSet = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+        $results = array();
+        $results['totalHits'] = $searchResultSet->getTotalHits();
+        $results['hits'] = array();
         $ids = array();
-        foreach ($searchResult->hits() as $hit) {
-            $ids[] = $hit['id'];
+        foreach ($searchResultSet->getResults() as $result) {
+            $userVehicle = $result->getData();
+            $ids[] = $userVehicle['id'];
         }
         if (count($ids) > 0) {
-            $result['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+            $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
         }
 
-        $lastPage = $searchResult->numberOfPages();
+        $lastPage = ElasticUtils::numberOfPages($searchResultSet);
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
-            'vehicles' => $result,
+            'vehicles' => $results,
             'linkRoute' => $sessionMessage->route,
             'linkRouteParams' => $sessionMessage->routeParams,
             'page' => $page ?? null,

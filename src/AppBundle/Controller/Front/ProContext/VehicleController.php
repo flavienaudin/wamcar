@@ -5,14 +5,13 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
-use AppBundle\Utils\VehicleInfoAggregator;
-use AppBundle\Utils\VehicleInfoProvider;
 use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
@@ -34,10 +33,8 @@ class VehicleController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
-    /** @var VehicleInfoProvider */
-    private $vehicleInfoProvider;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoEntityIndexer;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
     /** @var ApiConnector */
@@ -48,24 +45,21 @@ class VehicleController extends BaseController
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
-     * @param VehicleInfoProvider $vehicleInfoProvider
+     * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        VehicleInfoProvider $vehicleInfoProvider,
+        VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleEditionService $proVehicleEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager
     )
     {
         $this->formFactory = $formFactory;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
-        $this->vehicleInfoProvider = $vehicleInfoProvider;
+        $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
@@ -123,7 +117,7 @@ class VehicleController extends BaseController
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
                 );
-                return $this->redirectToRoute("front_garage_view", ['id' => $garage->getId()]);
+                return $this->redirectToRoute("front_garage_view", ['slug' => $garage->getSlug()]);
             }
             $vehicleDTO = ProVehicleDTO::buildFromProVehicle($vehicle);
             if (!empty($plateNumber)) {
@@ -164,23 +158,25 @@ class VehicleController extends BaseController
                     }
                 };
 
-                $vehicleInfo = [];
                 if (!empty($ktypNumber)) {
-                    $vehicleInfo = $this->vehicleInfoProvider->getVehicleInfoByKtypNumber($ktypNumber);
+                    $vehicleInfoResultSet = $this->vehicleInfoEntityIndexer->getVehicleInfoByKtypNumber($ktypNumber);
                 }
-                if (count($vehicleInfo) == 1) {
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['make'])) {
-                        $filters['make'] = $vehicleInfo[0]['make'];
+                if (isset($vehicleInfoResultSet) && $vehicleInfoResultSet->getTotalHits() == 1) {
+                    $vehicleInfoResult = $vehicleInfoResultSet->getResults()[0];
+                    $vehicleInfo = $vehicleInfoResult->getData();
+
+                    if (isset($vehicleInfo['make']) && !empty($vehicleInfo['make'])) {
+                        $filters['make'] = $vehicleInfo['make'];
                     } else {
                         $filters['make'] = $information['Vehicule']['MARQUE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['model'])) {
-                        $filters['model'] = $vehicleInfo[0]['model'];
+                    if (isset($vehicleInfo['model']) && !empty($vehicleInfo['model'])) {
+                        $filters['model'] = $vehicleInfo['model'];
                     } else {
                         $filters['model'] = $information['Vehicule']['MODELE_ETUDE'];
                     }
-                    if (isset($vehicleInfo[0]['make']) && !empty($vehicleInfo[0]['engine'])) {
-                        $filters['engine'] = $vehicleInfo[0]['engine'];
+                    if (isset($vehicleInfo['engine']) && !empty($vehicleInfo['engine'])) {
+                        $filters['engine'] = $vehicleInfo['engine'];
                     } else {
                         $filters['engine'] = $information['Vehicule']['VERSION'];
                     }
@@ -213,7 +209,7 @@ class VehicleController extends BaseController
         }
 
         $vehicleDTO->updateFromFilters($filters);
-        $availableValues = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->vehicleInfoEntityIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
         $proVehicleForm = $this->formFactory->create(
             ProVehicleType::class,
             $vehicleDTO,
@@ -233,7 +229,7 @@ class VehicleController extends BaseController
             }
 
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $flashMessage);
-            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_pro_detail', ['id' => $vehicle->getId()]);
+            return $this->redirSave(['v' => $vehicle->getId(), '_fragment' => 'message-answer-block'], 'front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
         }
 
         return $this->render('front/Vehicle/Add/add.html.twig', [
@@ -277,7 +273,7 @@ class VehicleController extends BaseController
         }
 
         return $this->redirectToRoute('front_vehicle_pro_detail', [
-            'id' => $proVehicle->getId()
+            'slug' => $proVehicle->getSlug()
         ]);
     }
 
@@ -301,6 +297,16 @@ class VehicleController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @return RedirectResponse
+     */
+    public function legacyDetailAction(Request $request, ProVehicle $vehicle): Response
+    {
+        return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+    }
+
+    /**
      * @param ProVehicle $proVehicle
      * @return Response
      */
@@ -312,7 +318,7 @@ class VehicleController extends BaseController
                 'flash.error.remove_vehicle'
             );
             return $this->redirectToRoute('front_vehicle_pro_detail', [
-                'id' => $proVehicle->getId()
+                'slug' => $proVehicle->getSlug()
             ]);
         }
 
@@ -324,7 +330,7 @@ class VehicleController extends BaseController
         );
 
         return $this->redirectToRoute('front_garage_view', [
-            'id' => $proVehicle->getGarage()->getId()
+            'slug' => $proVehicle->getGarage()->getSlug()
         ]);
     }
 
@@ -353,12 +359,12 @@ class VehicleController extends BaseController
                     $queryParam = str_contains($referer, '?') ? '&' : '?';
                     $queryParam .= SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $request->query->get(SecurityController::INSCRIPTION_QUERY_PARAM);
                 }
-                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['id' => $vehicle->getId()])) {
+                if ($referer === $this->generateUrl('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()])) {
                     return $this->redirect($referer . $queryParam . '#header-' . $vehicle->getId());
                 }
                 return $this->redirect($referer . $queryParam . '#' . $vehicle->getId());
             }
         }
-        return $this->redirectToRoute("front_vehicle_pro_detail", ['id' => $vehicle->getId()]);
+        return $this->redirectToRoute("front_vehicle_pro_detail", ['slug' => $vehicle->getSlug()]);
     }
 }

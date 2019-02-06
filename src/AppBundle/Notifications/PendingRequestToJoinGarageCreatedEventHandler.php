@@ -55,7 +55,7 @@ class PendingRequestToJoinGarageCreatedEventHandler extends AbstractEmailEventHa
                 get_class($event),
                 json_encode($data),
                 $this->router->generate('front_garage_view', [
-                    'id' => $garage->getId(),
+                    'slug' => $garage->getSlug(),
                     '_fragment' => 'sellers'])
             );
 

@@ -5,6 +5,8 @@ namespace AppBundle\Form\DTO;
 
 class SearchVehicleDTO
 {
+    /** @var array Search objet (Cf SearchTypeChoice) */
+    public $type;
     /** @var string */
     public $text;
     /** @var string */
