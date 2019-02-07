@@ -10,8 +10,13 @@
         {% for garage in garages %}
             <div class="column small-12 medium-6 input-margin">
                 <div class=" garage-item">
-                    <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
-                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
+                    {% if garage.deletedAt is null %}
+                        <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
+                            <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
+                    {% else %}
+                        <span class="text-line-through">
+                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></span>
+                    {% endif %}
                     <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
                     <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
                     <p class="black-color no-margin"><strong>Adresse :</strong><br>
@@ -52,11 +57,14 @@
                             </li>
                         </ul>
                     </div>
-
-                    {#<strong>{{ garage.email }}</strong>#}
                     <ul>
-                        <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
-                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}">Supprimer</a></li>
+                        {% if garage.deletedAt is null %}
+                            <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}" class="js-confirm-box"
+                               data-id="{{ garage.id }}" data-title="Attention!"
+                               data-message="Êtes-vous sur de vouloir supprimer {{ garage.deletedAt is not null?'définitivement ':'' }}ce garage ?"
+                            >Supprimer {{ garage.deletedAt is not null?'définitivement ':'' }}</a></li>
                     </ul>
                 </div>
             </div>

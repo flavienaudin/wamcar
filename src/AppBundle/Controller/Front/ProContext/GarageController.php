@@ -18,6 +18,7 @@ use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
+use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -88,12 +89,12 @@ class GarageController extends BaseController
      * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */
-    public function indexAction(): Response
+    public function listAction(): Response
     {
-        $lastGarages = $this->garageRepository->getLatest();
+        $garages = $this->garageRepository->findByIgnoreSoftDeleted([],['id' => 'desc']);
 
         return $this->render('front/adminContext/garage/garage_list.html.twig', [
-            'garages' => $lastGarages
+            'garages' => $garages
         ]);
     }
 
@@ -275,7 +276,7 @@ class GarageController extends BaseController
             'flash.success.remove_garage'
         );
 
-        return $this->redirectToRoute('front_garage_list');
+        return $this->redirectToRoute('admin_garage_list');
     }
 
     /**

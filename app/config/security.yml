@@ -76,9 +76,7 @@ security:
 
     access_control:
         # require ROLE_ADMIN for /admin*
-        - { path: ^/command-scheduler, roles: ROLE_ADMIN }
-        - { path: ^/garage/list, roles: ROLE_ADMIN }
-        - { path: ^/user/list, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user/delete, roles: ROLE_ADMIN }
         - { path: ^/mon-profil, roles: ROLE_USER }
         - { path: ^/user/favorites, roles: ROLE_USER }

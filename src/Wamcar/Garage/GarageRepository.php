@@ -17,6 +17,15 @@ interface GarageRepository
     public function findAll(): array;
 
     /**
+     * Finds entities by a set of criteria, ordered, event if softdeleted
+     *
+     * @param array      $criteria
+     * @param array|null $orderBy
+     * @return Garage[]
+     */
+    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null);
+
+    /**
      * @param Garage $garage
      *
      * @return Garage
@@ -43,10 +52,4 @@ interface GarageRepository
      * @return Garage
      */
     public function findOneBy(array $criteria, array $orderBy = NULL);
-
-    /**
-     * @return Garage[]
-     */
-    public function getLatest(): array;
-
 }

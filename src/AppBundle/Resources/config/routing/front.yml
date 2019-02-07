@@ -90,6 +90,12 @@ front_view_current_user_info:
     defaults:
         _controller: AppBundle:Front\PersonalContext\User:currentUserViewInformation
 
+front_user_delete:
+    path: /user/delete/{id}
+    controller: AppBundle:Front\PersonalContext\User:deleteUser
+    defaults:
+        forGood: false
+
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}
     controller: AppBundle:Front\PersonalContext\User:proUserViewInformation
@@ -104,12 +110,6 @@ legacy_view_user_info:
     controller: AppBundle:Front\PersonalContext\User:legacyViewInformation
     requirements:
         id: '\d+'
-
-front_user_list:
-    path: /user/list
-    defaults:
-        _controller: AppBundle:Front\PersonalContext\User:list
-
 front_user_edit_preferences:
     path: /preferences
     controller: AppBundle:Front\PersonalContext\User:editPreferences
@@ -129,10 +129,6 @@ front_garage_create:
 front_garage_edit:
     path: /garage/edit/{id}
     defaults: { _controller: AppBundle:Front\ProContext\Garage:save }
-
-front_garage_list:
-    path: /garage/list
-    defaults: { _controller: AppBundle:Front\ProContext\Garage:index }
 
 front_garage_remove:
     path: /garage/remove/{id}
@@ -369,9 +365,3 @@ front_affinity_pro_form:
 front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
-
-front_user_delete:
-    path: /user/delete/{id}
-    controller: AppBundle:Front\PersonalContext\User:deleteUser
-    defaults:
-        forGood: false

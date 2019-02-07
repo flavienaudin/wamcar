@@ -152,7 +152,7 @@ class GarageEditionService
             if (!$isEnabled) {
                 $garageProUser->setRequestedAt(new \DateTime());
             }
-            if(count($garage->getMembers()) == 0){
+            if (count($garage->getMembers()) == 0) {
                 // Assingation by an ROLE_ADMIN, the first member is administrator
                 $garageProUser->setRole(GarageRole::GARAGE_ADMINISTRATOR());
             }
@@ -267,7 +267,10 @@ class GarageEditionService
         foreach ($garage->getMembers() as $member) {
             $this->removeMember($garage, $member->getProUser(), true);
         }
-
+        // Remove the google place Id to allow a new garage creatioin
+        $garage->setGooglePlaceId(null);
+        $garage->setSiren(null);
+        $garage->setName('DELETED' . $garage->getName());
         $this->garageRepository->remove($garage);
     }
 

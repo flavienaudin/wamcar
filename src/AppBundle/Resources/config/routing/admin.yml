@@ -1,0 +1,21 @@
+admin_board:
+    path: /
+    controller: AppBundle:Front\AdministrationContext\Administration:adminBoard
+
+jmose_command_scheduler:
+    resource: "@JMoseCommandSchedulerBundle/Resources/config/routing.yml"
+    prefix:   /
+
+easy_admin_bundle:
+    resource: "@AppBundle/Controller/Front/AdministrationContext/BackendController.php"
+    type:     annotation
+    prefix:   /backend
+
+admin_user_list:
+    path: /user/list
+    controller: AppBundle:Front\PersonalContext\User:list
+
+admin_garage_list:
+    path: /garage/list
+    controller: AppBundle:Front\ProContext\Garage:list
+

@@ -52,6 +52,17 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
         return parent::findAll();
     }
 
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
+    {
+        $this->_em->getFilters()->disable('softDeleteable');
+        $results = parent::findBy($criteria, $orderBy);
+        $this->_em->getFilters()->enable('softDeleteable');
+        return $results;
+    }
     /**
      * {@inheritdoc}
      */
@@ -87,18 +98,6 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     {
         $this->_em->remove($garage);
         $this->_em->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getLatest(): array
-    {
-        return $this->createQueryBuilder('g')
-            ->orderBy('g.id', 'DESC')
-            ->getQuery()
-            ->getResult()
-            ;
     }
 
     /**

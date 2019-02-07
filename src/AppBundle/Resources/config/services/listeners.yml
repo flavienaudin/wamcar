@@ -7,3 +7,7 @@ services:
     AppBundle\EntityListener\VehicleListener:
         tags:
             - { name: doctrine.orm.entity_listener }
+
+    AppBundle\EntityListener\EasyAdminSubscriber:
+        tags:
+            - { name: event_subscriber }

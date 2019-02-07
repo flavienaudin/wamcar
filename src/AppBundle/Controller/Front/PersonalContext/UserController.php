@@ -463,7 +463,7 @@ class UserController extends BaseController
             );
         }
 
-        return $this->redirectToRoute('front_user_list',[
+        return $this->redirectToRoute('admin_user_list',[
             '_fragment' => $isPro ? 'pro-user-panel':'personal-user-panel'
         ]);
     }

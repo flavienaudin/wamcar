@@ -14,9 +14,9 @@ trait DoctrineUserRepositoryTrait
     public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
     {
         $this->_em->getFilters()->disable('softDeleteable');
-        $all = parent::findBy($criteria, $orderBy);
+        $results = parent::findBy($criteria, $orderBy);
         $this->_em->getFilters()->enable('softDeleteable');
-        return $all;
+        return $results;
     }
 
     /**

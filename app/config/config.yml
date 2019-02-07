@@ -404,6 +404,127 @@ hwi_oauth:
 jmose_command_scheduler:
     # receivers for reporting mails
     monitor_mail: '%monitors_emails%'
-
     # to send "everything's all right" emails to receivers for reporting mails set this value to "true" (see monitoring)
     send_ok: true
+    # Namespaces listed here won't be listed in the list
+    excluded_command_namespaces:
+        - _global
+        - assets
+        - cache
+        - config
+        - debug
+        - doctrine
+        - generate
+        - lint
+        - router
+        - scheduler
+        - security
+        - server
+        - container
+        - init
+
+easy_admin:
+  site_name: 'Wamcar Entities Administration'
+  design:
+    brand_color: '#cc4b37'
+    color_scheme: 'light'
+    menu:
+      - { label: "Tableau d'arministration", route: 'admin_board' }
+  formats:
+    date: 'd/m/Y'
+  list:
+    actions: #  ['search', 'show', 'edit', 'delete', '-new']
+    - { name: 'search', icon: 'search', label: false, title: 'Rechercher' }
+    - { name: 'edit', icon: 'edit', label: false, title: 'Editer' }
+    - { name: 'show', icon: 'eye', label: false, title: 'Voir'}
+    - { name: 'delete', icon: 'trash', label: false, title: 'Supprimer' }
+    - { name: '-new' } # Creation is not allow in backend
+
+  entities:
+    Garage:
+      class: Wamcar\Garage\Garage
+      list:
+        fields:
+          - { property: 'id', label: 'ID'}
+          - { property: 'name', label: 'Nom'}
+          - { property: 'mainAdministrator.Id', label: 'Gest. Id'}
+          - { property: 'mainAdministrator.fullName', label: 'Gest. Nom'}
+          - { property: 'googlePlaceId'}
+          - { property: 'googleRating'}
+          - { property: 'optionAdminSellers', label: 'Gest. vend.'}
+      form:
+        fields:
+          - { property: 'id', type_options: { disabled: 'disabled' } }
+    ProApplicationUser:
+      class: AppBundle\Doctrine\Entity\ProApplicationUser
+      label: 'Conseillers automobile'
+      list:
+        title: 'Conseillers automobile'
+        fields:
+          - { property: 'id', label: 'ID' }
+          - { property: 'fullName', label: 'Prénom Nom' }
+          - { property: 'email', label: 'E-mail', type: 'email' }
+          - { property: 'slug', label: 'Slug'}
+          - { property: 'createdAt', label: 'Crée le' }
+          - { property: 'deletedAt', label: 'Supprimé le' }
+        sort: ['id', 'DESC']
+        actions:
+          - { name: 'viewUserProfile', icon: 'user',  label: false, target: '_black' }
+      form:
+        fields:
+          - { property: 'id', type_options: { disabled: 'disabled' } }
+          - { property: 'email', type: 'email', label: 'Contact' }
+
+    PersonalApplicationUser:
+      class: AppBundle\Doctrine\Entity\PersonalApplicationUser
+      label: 'Particuliers'
+      list:
+        title: 'Particuliers'
+        fields:
+          - { property: 'id', label: 'ID' }
+          - { property: 'fullName', label: 'Prénom Nom' }
+          - { property: 'email', label: 'E-mail', type: 'email' }
+          - { property: 'slug', label: 'Slug' }
+          - { property: 'createdAt', label: 'Crée le' }
+          - { property: 'deletedAt', label: 'Supprimé le' }
+        sort: ['id', 'DESC']
+        actions:
+          - { name: 'viewUserProfile', icon: 'user',  label: false, target: '_black' }
+      form:
+        fields:
+          - { property: 'id', type_options: { disabled: 'disabled' } }
+          - { property: 'email', type: 'email', label: 'Contact' }
+    PersonalVehicle:
+      class: Wamcar\Vehicle\PersonalVehicle
+    ProVehicle:
+      class: Wamcar\Vehicle\ProVehicle
+    Cron:
+      translation_domain: 'JMoseCommandScheduler'
+      class: JMose\CommandSchedulerBundle\Entity\ScheduledCommand
+      list:
+        title: "list.title"
+        fields:
+          - { property: 'id', label: 'ID' }
+          - { property: 'name', label: 'detail.name' }
+          - { property: 'command', label: 'detail.command' }
+          - { property: 'arguments', label: 'detail.arguments' }
+          - { property: 'lastExecution', label: 'detail.lastExecution' }
+          - { property: 'lastReturncode', label: 'detail.lastReturnCode' }
+          - { property: 'locked', label: 'detail.locked', type: boolean}
+          - { property: 'priority', label: 'detail.priority' }
+          - { property: 'disabled', label: 'detail.disabled' }
+        actions:
+          - { name: 'jmose_command_scheduler_action_execute', type: 'route', label: 'action.execute' }
+          - { name: 'jmose_command_scheduler_action_unlock', type: 'route', label: 'action.unlock' }
+      form:
+        fields:
+          - { property: 'name', label: 'detail.name' }
+          - { property: 'command', label: 'detail.command', type: 'JMose\CommandSchedulerBundle\Form\Type\CommandChoiceType' }
+          - { property: 'arguments', label: 'detail.arguments' }
+          - { property: 'cronExpression', label: 'detail.cronExpression' }
+          - { property: 'priority', label: 'detail.priority' }
+          - { property: 'disabled', label: 'detail.disabled' }
+          - { property: 'logFile', label: 'detail.logFile' }
+      new:
+        fields:
+          - { property: 'executeImmediately', label: 'detail.executeImmediately' }
