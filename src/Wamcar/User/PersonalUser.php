@@ -60,9 +60,9 @@ class PersonalUser extends BaseUser
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getContactAvailabilities(): string
+    public function getContactAvailabilities(): ?string
     {
         return $this->contactAvailabilities;
     }

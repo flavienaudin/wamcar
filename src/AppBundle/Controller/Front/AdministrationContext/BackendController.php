@@ -5,6 +5,8 @@ namespace AppBundle\Controller\Front\AdministrationContext;
 
 use AppBundle\Services\Garage\GarageEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
@@ -16,6 +18,9 @@ class BackendController extends AdminController
     /** @var GarageEditionService */
     private $garageEditionService;
 
+    /** @var MessageBus */
+    private $eventBus;
+
     /**
      * @param GarageEditionService $garageEditionService
      */
@@ -24,15 +29,37 @@ class BackendController extends AdminController
         $this->garageEditionService = $garageEditionService;
     }
 
-    protected function removeEntity($entity){
-        if($entity instanceof Garage){
+    /**
+     * @param MessageBus $eventBus
+     */
+    public function setEventBus(MessageBus $eventBus): void
+    {
+        $this->eventBus = $eventBus;
+    }
+
+    public function persistGarageEntity($entity)
+    {
+        parent::persistEntity($entity);
+        $this->eventBus->handle(new GarageUpdated($entity));
+    }
+
+    public function updateGarageEntity($entity)
+    {
+        parent::updateEntity($entity);
+        $this->eventBus->handle(new GarageUpdated($entity));
+
+    }
+
+    protected function removeEntity($entity)
+    {
+        if ($entity instanceof Garage) {
             $this->garageEditionService->remove($entity);
-        }else{
+        } else {
+            // TODO other entities
             //parent::removeEntity($entity);
             return;
         }
     }
-
 
     /**
      * Action to see user profile

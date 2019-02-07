@@ -117,6 +117,7 @@ class GarageEditionService
         }
 
         if ($existingGarage != null) {
+            // Garage is already existing, 2 exceptions => 2 different messages
             if ($creator->isMemberOfGarage($existingGarage)) {
                 throw new AlreadyGarageMemberException($existingGarage);
             } else {

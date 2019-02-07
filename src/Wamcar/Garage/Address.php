@@ -72,6 +72,17 @@ class Address
 
     public function __toString()
     {
-        return $this->address??'';
+        return $this->address ?? '';
+    }
+
+    /**
+     * To display the full address
+     * @return string
+     */
+    public function getFullAddress(): string
+    {
+        return $this->__toString() . ' ' .
+            ($this->getCity() ? $this->getPostalCode() : '') . ' ' .
+            ($this->getCity() ? $this->getCityName() : '');
     }
 }

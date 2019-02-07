@@ -12,6 +12,7 @@ services:
     AppBundle\Controller\Front\AdministrationContext\BackendController:
         calls:
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
+            - ['setEventBus', ['@event_bus']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

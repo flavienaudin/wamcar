@@ -214,6 +214,7 @@ class GarageController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted()
      * @param Garage $garage
      * @return RedirectResponse
      */
@@ -276,6 +277,7 @@ class GarageController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted()
      * @param Garage $garage
      * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

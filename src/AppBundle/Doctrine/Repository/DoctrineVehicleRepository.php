@@ -42,10 +42,12 @@ class DoctrineVehicleRepository extends EntityRepository
     /**
      * @inheritDoc
      */
-    public function findAllIgnoreSoftDeleted()
+    public function findByIgnoreSoftDeleted(array $criteria, array $orderBy = null)
     {
-        $this->_em->getFilters()->disable('softDeleteable');
-        $all = parent::findAll();
+        if ($this->_em->getFilters()->isEnabled('softDeleteable')) {
+            $this->_em->getFilters()->disable('softDeleteable');
+        }
+        $all = parent::findBy($criteria, $orderBy);
         $this->_em->getFilters()->enable('softDeleteable');
         return $all;
     }
@@ -53,9 +55,13 @@ class DoctrineVehicleRepository extends EntityRepository
     /**
      * {@inheritdoc}
      */
-    public function findAllForGarage(Garage $garage): array
+    public function findAllForGarage(Garage $garage, bool $ignoreSoftDeleted = false): array
     {
-        return $this->findBy(['garage' => $garage]);
+        if ($ignoreSoftDeleted) {
+            return $this->findByIgnoreSoftDeleted(['garage' => $garage]);
+        } else {
+            return $this->findBy(['garage' => $garage]);
+        }
     }
 
     /**

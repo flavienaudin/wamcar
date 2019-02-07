@@ -58,7 +58,9 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
      */
     public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
     {
-        $this->_em->getFilters()->disable('softDeleteable');
+        if($this->_em->getFilters()->isEnabled('softDeleteable')) {
+            $this->_em->getFilters()->disable('softDeleteable');
+        }
         $results = parent::findBy($criteria, $orderBy);
         $this->_em->getFilters()->enable('softDeleteable');
         return $results;

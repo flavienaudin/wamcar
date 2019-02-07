@@ -240,8 +240,14 @@ class ProVehicleEditionService
     public function deleteAllForGarage(Garage $garage): int
     {
         $nbProVehicles = 0;
+        if($garage->getDeletedAt() != null){
+            // If Garage is softDeleted, then its vehicles are not retrieved
+            $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, true);
+        }else {
+            $proVehicleToDelete = $garage->getProVehicles();
+        }
         /** @var ProVehicle $proVehicle */
-        foreach ($garage->getProVehicles() as $proVehicle) {
+        foreach ($proVehicleToDelete as $proVehicle) {
             $this->deleteVehicle($proVehicle);
             $nbProVehicles++;
         }

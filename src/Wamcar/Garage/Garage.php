@@ -420,6 +420,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @return int Number of garage's members
+     */
+    public function countMembers(): int
+    {
+        return count($this->members);
+    }
+
+    /**
      * @param null|int $limit
      * @param null|ProVehicle $excludedVehicle
      * @return Collection
@@ -472,6 +480,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         }
 
         return false;
+    }
+
+    /**
+     * @return int Number of garage's vehicles
+     */
+    public function countProVehicles():int
+    {
+        return count($this->proVehicles);
     }
 
     /**

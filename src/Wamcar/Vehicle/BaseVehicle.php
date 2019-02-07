@@ -839,4 +839,9 @@ abstract class BaseVehicle implements Vehicle
     {
         return $this instanceof PersonalVehicle;
     }
+
+    public function __toString()
+    {
+        return  $this->getName();
+    }
 }

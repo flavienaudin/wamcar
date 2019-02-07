@@ -33,6 +33,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
+            'easy_admin.pre_initialize' => ['disableSoftDeletableFilter'],
             'easy_admin.pre_list' => array('disableSoftDeletableFilter'),
             'easy_admin.pre_search' => array('disableSoftDeletableFilter'),
             'easy_admin.post_persist' => array('postPersist'),
@@ -42,7 +43,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
 
     public function disableSoftDeletableFilter(GenericEvent $event)
     {
-        $this->entityManager->getFilters()->disable('softDeleteable');
+        if ($this->entityManager->getFilters()->isEnabled('softDeleteable')) {
+            $this->entityManager->getFilters()->disable('softDeleteable');
+        }
     }
 
 

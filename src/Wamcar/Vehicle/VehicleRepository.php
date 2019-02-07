@@ -23,9 +23,10 @@ interface VehicleRepository
 
     /**
      * @param Garage $garage
+     * @param null|bool $ignoreSoftDeleted
      * @return array
      */
-    public function findAllForGarage(Garage $garage): array;
+    public function findAllForGarage(Garage $garage, bool $ignoreSoftDeleted = false): array;
 
     /**
      * @param Garage $garage
