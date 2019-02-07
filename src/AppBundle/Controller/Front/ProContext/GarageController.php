@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller\Front\ProContext;
 
+use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Elastica\ElasticUtils;
@@ -99,12 +100,24 @@ class GarageController extends BaseController
     }
 
     /**
+     * @IgnoreSoftDeleted()
      * @param Request $request
      * @param Garage $garage
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function viewAction(Request $request, Garage $garage)
     {
+        if($garage->getDeletedAt() != null){
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.garage.deleted.title',
+                'messageKey' => 'error_page.garage.deleted.body',
+                'redirectionUrl' => $this->generateUrl('front_directory_by_city_view', [
+                    'city' => $garage->getCity()->getPostalCode() . "-". urlencode($garage->getCity()->getName())
+                ])
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
         $searchForm = null;
         if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
