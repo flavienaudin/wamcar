@@ -3,7 +3,6 @@
 namespace AppBundle\Controller\Front\PersonalContext;
 
 
-use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
@@ -26,6 +25,7 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -260,14 +260,15 @@ class UserController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
      * @param Request $request
      * @param ProUser $user
      * @return Response
      * @throws \Exception
      */
-    public function proUserViewInformationAction(Request $request, ProUser $user): Response
+    public function proUserViewInformationAction(Request $request, string $slug): Response
     {
+        $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
+
         if ($user->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.pro_user.deleted.title',
@@ -318,7 +319,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
+     * @Entity("user", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
      * @param PersonalUser $user
      * @return Response
@@ -401,7 +402,7 @@ class UserController extends BaseController
      */
     public function legacyViewInformationAction(int $id): Response
     {
-        $user = $this->userRepository->findOne($id);
+        $user = $this->userRepository->findIgnoreSoftDeleted($id);
         if (!$user || !$user instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
@@ -431,6 +432,7 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
+     * @return Response
      */
     public function editPreferencesAction(Request $request)
     {
@@ -463,8 +465,8 @@ class UserController extends BaseController
      */
     public function listAction()
     {
-        $personalUsers = $this->personalUserRepository->findByIgnoreSoftDeleted([], ['createdAt' => 'DESC']);
-        $proUsers = $this->proUserRepository->findByIgnoreSoftDeleted([], ['createdAt' => 'DESC']);
+        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
 
         return $this->render("front/adminContext/user/user_list.html.twig", [
             'personalUsers' => $personalUsers,
@@ -485,20 +487,20 @@ class UserController extends BaseController
         $forGood = $request->query->get("forGood", false);
         // TODO check all associations data
         // $this->userEditionService->deleteUser($userToDelete, $forGood);
-        if($forGood){
+        if ($forGood) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
                 'flash.success.user.deleted_for_good'
             );
-        }else{
+        } else {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
                 'flash.success.user.deleted'
             );
         }
 
-        return $this->redirectToRoute('admin_user_list',[
-            '_fragment' => $isPro ? 'pro-user-panel':'personal-user-panel'
+        return $this->redirectToRoute('admin_user_list', [
+            '_fragment' => $isPro ? 'pro-user-panel' : 'personal-user-panel'
         ]);
     }
 }

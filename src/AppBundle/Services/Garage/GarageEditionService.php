@@ -272,6 +272,7 @@ class GarageEditionService
         $garage->setGooglePlaceId(null);
         $garage->setSiren(null);
         $garage->setName('DELETED' . $garage->getName());
+        $this->garageRepository->update($garage);
         $this->garageRepository->remove($garage);
     }
 

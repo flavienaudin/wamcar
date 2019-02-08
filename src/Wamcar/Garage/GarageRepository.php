@@ -12,18 +12,29 @@ interface GarageRepository
     public function findOne(int $garageId): ?Garage;
 
     /**
-     * @return Garage[]
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @return Garage
      */
-    public function findAll(): array;
+    public function findOneBy(array $criteria, array $orderBy = NULL);
 
     /**
-     * Finds entities by a set of criteria, ordered, event if softdeleted
-     *
-     * @param array      $criteria
-     * @param array|null $orderBy
      * @return Garage[]
      */
-    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null);
+    public function findAll();
+
+
+    /**
+     * IgnoreSoftDeleted version of Finds entities by a set of criteria.
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     *
+     * @return array The objects.
+     */
+    public function findIgnoreSoftDeletedBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
     /**
      * @param Garage $garage
@@ -46,10 +57,4 @@ interface GarageRepository
      */
     public function remove(Garage $garage);
 
-    /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @return Garage
-     */
-    public function findOneBy(array $criteria, array $orderBy = NULL);
 }

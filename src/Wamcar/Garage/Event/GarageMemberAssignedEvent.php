@@ -3,6 +3,8 @@
 namespace Wamcar\Garage\Event;
 
 
-class GarageMemberAssignedEvent extends AbstractGarageMemberManagementEvent implements GarageMemberManagementEvent
+use Wamcar\User\Event\UserEvent;
+
+class GarageMemberAssignedEvent extends AbstractGarageMemberManagementEvent implements GarageMemberManagementEvent, UserEvent
 {
 }

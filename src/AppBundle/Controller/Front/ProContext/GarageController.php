@@ -19,7 +19,7 @@ use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
-use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -92,7 +92,7 @@ class GarageController extends BaseController
      */
     public function listAction(): Response
     {
-        $garages = $this->garageRepository->findByIgnoreSoftDeleted([],['id' => 'desc']);
+        $garages = $this->garageRepository->findIgnoreSoftDeletedBy([],['id' => 'desc']);
 
         return $this->render('front/adminContext/garage/garage_list.html.twig', [
             'garages' => $garages
@@ -100,7 +100,7 @@ class GarageController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted()
+     * @Entity("garage", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
      * @param Garage $garage
      * @return \Symfony\Component\HttpFoundation\Response
@@ -214,7 +214,7 @@ class GarageController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted()
+     * @Entity("garage", expr="repository.findIgnoreSoftDeleted(id)")
      * @param Garage $garage
      * @return RedirectResponse
      */

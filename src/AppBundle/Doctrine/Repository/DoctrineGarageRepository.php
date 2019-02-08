@@ -13,6 +13,7 @@ use Wamcar\Garage\GarageRepository;
 class DoctrineGarageRepository extends EntityRepository implements GarageRepository, ApiUserProvider, UserProviderInterface
 {
 
+    use SoftDeletableEntityRepositoryTrait;
     use SluggableEntityRepositoryTrait;
 
     /**
@@ -44,27 +45,6 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     /** Fin des méthodes du UserProviderInterface */
 
 
-    /**
-     * {@inheritdoc}
-     */
-    public function findAll(): array
-    {
-        return parent::findAll();
-    }
-
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
-    {
-        if($this->_em->getFilters()->isEnabled('softDeleteable')) {
-            $this->_em->getFilters()->disable('softDeleteable');
-        }
-        $results = parent::findBy($criteria, $orderBy);
-        $this->_em->getFilters()->enable('softDeleteable');
-        return $results;
-    }
     /**
      * {@inheritdoc}
      */

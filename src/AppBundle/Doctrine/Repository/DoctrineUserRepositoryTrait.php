@@ -9,25 +9,64 @@ use Wamcar\User\BaseUser;
 trait DoctrineUserRepositoryTrait
 {
     /**
-     * {@inheritdoc}
+     * @param string $username
+     * @return null|ApplicationUser
      */
-    public function findByIgnoreSoftDeleted(array $criteria = [], array $orderBy = null)
+    public function loadUserByUsername($username): ?ApplicationUser
     {
-        if($this->_em->getFilters()->isEnabled('softDeleteable')) {
-            $this->_em->getFilters()->disable('softDeleteable');
-        }
-        $results = parent::findBy($criteria, $orderBy);
-        $this->_em->getFilters()->enable('softDeleteable');
-        return $results;
+        return $this->findOneBy(['email' => $username]);
     }
+
+    /**
+     * @param UserInterface $user
+     * @return null|ApplicationUser
+     */
+    public function refreshUser(UserInterface $user): ?ApplicationUser
+    {
+        return $this->loadUserByUsername($user->getUsername());
+    }
+
+    /**
+     * @param string $class
+     * @return bool
+     */
+    public function supportsClass($class): bool
+    {
+        return ApplicationUser::class === $class;
+    }
+    /** Fin des méthodes du UserProviderInterface */
 
     /**
      * {@inheritdoc}
      */
-    public function findOne(int $userId): BaseUser
+    public function findOne(int $userId): ?BaseUser
     {
         return $this->findOneBy(['id' => $userId]);
     }
+    /**
+     * @param string $email
+     * @return BaseUser
+     */
+    public function findOneByEmail(string $email)
+    {
+        return $this->findOneBy(['email' => $email]);
+    }
+
+    /**
+     * @param $ids array Array of entities'id
+     * @return array
+     */
+    public function findByIds(array $ids): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('u')
+            ->from($this->getClassName(), 'u')
+            ->where($qb->expr()->in('u.id', $ids))
+            ->orderBy($qb->expr()->asc('FIELD(u.id, :orderedIds ) '));
+        $qb->setParameter('orderedIds', $ids);
+        return $qb->getQuery()->getResult();
+    }
+
 
     /**
      * {@inheritdoc}
@@ -56,56 +95,4 @@ trait DoctrineUserRepositoryTrait
         $this->_em->remove($user);
         $this->_em->flush();
     }
-
-    /**
-     * @param string $email
-     * @return BaseUser
-     */
-    public function findOneByEmail(string $email)
-    {
-        return $this->findOneBy(['email' => $email]);
-    }
-
-    /**
-     * @param string $username
-     * @return null|ApplicationUser
-     */
-    public function loadUserByUsername($username): ?ApplicationUser
-    {
-        return $this->findOneBy(['email' => $username]);
-    }
-
-    /**
-     * @param UserInterface $user
-     * @return null|ApplicationUser
-     */
-    public function refreshUser(UserInterface $user): ?ApplicationUser
-    {
-        return $this->loadUserByUsername($user->getUsername());
-    }
-
-    /**
-     * @param string $class
-     * @return bool
-     */
-    public function supportsClass($class): bool
-    {
-        return ApplicationUser::class === $class;
-    }
-
-    /**
-     * @param $ids array Array of entities'id
-     * @return array
-     */
-    public function findByIds(array $ids): array
-    {
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('u')
-            ->from($this->getClassName(), 'u')
-            ->where($qb->expr()->in('u.id', $ids))
-            ->orderBy($qb->expr()->asc('FIELD(u.id, :orderedIds ) '));
-        $qb->setParameter('orderedIds', $ids);
-        return $qb->getQuery()->getResult();
-    }
-
 }

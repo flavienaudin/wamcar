@@ -486,8 +486,11 @@ easy_admin:
 
       form:
         help: >
-          Attention! Si le GooglePlaceId, le nom et/ou le SIREN sont déjà existant Alors vous aurez une erreur interne
-          lors de la validation. Merci de modifier votre saisie.
+          Merci d'utiliser le formulaire Wamcar qui vous permet de modifier les informations du garage.
+          Le GooglePlaceId et le GoogleRating ne doivent que être supprimé via ce formulaire car il n'est pas
+          relié à l'API Google pour récupérer les informations automatiquement
+          De plus, si le GooglePlaceId, le nom et/ou le SIREN sont déjà existants Alors vous aurez une erreur interne
+          lors de la validation. Faire précédente et modifier alors votre saisie.
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
           - { property: 'googlePlaceId'}
