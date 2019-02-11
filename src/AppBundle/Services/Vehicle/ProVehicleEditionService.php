@@ -31,7 +31,7 @@ use Wamcar\Vehicle\ProVehicleRepository;
 class ProVehicleEditionService
 {
     /** @var ProVehicleRepository */
-    private $proVehicleRepository;
+    private $vehicleRepository;
     /** @var GarageRepository */
     private $garageRepository;
     /** @var array */
@@ -44,19 +44,19 @@ class ProVehicleEditionService
 
     /**
      * ProVehicleEditionService constructor.
-     * @param ProVehicleRepository $proVehicleRepository
+     * @param ProVehicleRepository $vehicleRepository
      * @param GarageRepository $garageRepository
      * @param DoctrineLikeProVehicleRepository $likeProVehicleRepository
      * @param MessageBus $eventBus
      */
     public function __construct(
-        ProVehicleRepository $proVehicleRepository,
+        ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
         DoctrineLikeProVehicleRepository $likeProVehicleRepository,
         MessageBus $eventBus
     )
     {
-        $this->proVehicleRepository = $proVehicleRepository;
+        $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
         $this->likeProVehicleRepository = $likeProVehicleRepository;
         $this->eventBus = $eventBus;
@@ -67,14 +67,14 @@ class ProVehicleEditionService
     }
 
     /**
-     * Retrieve ProVehicles for the given garage
-     * @param Garage $garage
-     * @param null|array $orderBy
+     * Retrieve ProVehicles from the search result
+     * @param Result $searchResult
+     * @param array $orderBy
      * @return array
      */
     public function getVehiclesByGarage(Garage $garage, array $orderBy = []): array
     {
-        return $this->proVehicleRepository->findByGarage($garage, $orderBy, false);
+        return $this->vehicleRepository->getByGarage($garage, array_merge($orderBy, ['createdAt' => Criteria::DESC]))->toArray();
     }
 
     /**
@@ -93,7 +93,7 @@ class ProVehicleEditionService
             $ids[] = $vehicle['id'];
         }
         if (count($ids) > 0) {
-            $results['hits'] = $this->proVehicleRepository->findByIds($ids);
+            $results['hits'] = $this->vehicleRepository->findByIds($ids);
         }
         return $results;
     }
@@ -121,7 +121,7 @@ class ProVehicleEditionService
             $this->garageRepository->update($garage);
         }
 
-        $this->proVehicleRepository->add($proVehicle);
+        $this->vehicleRepository->add($proVehicle);
         $this->eventBus->handle(new ProVehicleCreated($proVehicle));
 
         return $proVehicle;
@@ -152,7 +152,7 @@ class ProVehicleEditionService
             }
         }
 
-        $this->proVehicleRepository->update($proVehicle);
+        $this->vehicleRepository->update($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
@@ -188,7 +188,7 @@ class ProVehicleEditionService
             throw new \InvalidArgumentException('flash.error.vehicle.assign_to_non_garage_member');
         }
         $proVehicle->setSeller($newSeller);
-        $this->proVehicleRepository->update($proVehicle);
+        $this->vehicleRepository->update($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
         return $proVehicle;
     }
@@ -204,7 +204,7 @@ class ProVehicleEditionService
             $vehicle->addPicture($picture);
         }
 
-        $this->proVehicleRepository->update($vehicle);
+        $this->vehicleRepository->update($vehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
@@ -217,7 +217,7 @@ class ProVehicleEditionService
     public function removePictures(ProVehicle $vehicle): ProVehicle
     {
         $vehicle->clearPictures();
-        $this->proVehicleRepository->update($vehicle);
+        $this->vehicleRepository->update($vehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
@@ -228,7 +228,7 @@ class ProVehicleEditionService
      */
     public function deleteVehicle(ProVehicle $proVehicle): void
     {
-        $this->proVehicleRepository->remove($proVehicle);
+        $this->vehicleRepository->remove($proVehicle);
         $this->eventBus->handle(new ProVehicleRemoved($proVehicle));
     }
 
@@ -242,7 +242,7 @@ class ProVehicleEditionService
         $nbProVehicles = 0;
         if($garage->getDeletedAt() != null){
             // If Garage is softDeleted, then its vehicles are not retrieved
-            $proVehicleToDelete = $this->proVehicleRepository->findByGarage($garage, [], true);
+            $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, true);
         }else {
             $proVehicleToDelete = $garage->getProVehicles();
         }

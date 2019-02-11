@@ -14,12 +14,17 @@ interface ProVehicleRepository extends VehicleRepository
      */
     public function findByReference($reference);
 
+    /**
+     * Return the $limit last vehicles
+     * @param $limit
+     * @return Collection
+     */
+    public function getLast($limit);
 
     /**
      * @param Garage $garage
      * @param array $orderBy
-     * @param null|bool $ignoreSoftDeleted
-     * @return array
+     * @return Collection
      */
-    public function findByGarage(Garage $garage, array $orderBy = [], bool $ignoreSoftDeleted = false): array;
+    public function getByGarage(Garage $garage, array $orderBy = []);
 }

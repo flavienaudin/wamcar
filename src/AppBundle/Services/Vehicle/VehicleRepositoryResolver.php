@@ -6,10 +6,10 @@ namespace AppBundle\Services\Vehicle;
 
 use AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository;
 use AppBundle\Doctrine\Repository\DoctrineProVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrineVehicleRepository;
 use AppBundle\Session\Model\SessionMessage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\VehicleRepository;
 
 class VehicleRepositoryResolver
 {
@@ -34,9 +34,9 @@ class VehicleRepositoryResolver
 
     /**
      * @param BaseUser $user
-     * @return VehicleRepository
+     * @return DoctrineVehicleRepository
      */
-    public function getVehicleRepositoryByUser(BaseUser $user): VehicleRepository
+    public function getVehicleRepositoryByUser(BaseUser $user): DoctrineVehicleRepository
     {
         if ($user instanceof ProUser) {
             return $this->proVehicleRepository;
@@ -47,18 +47,18 @@ class VehicleRepositoryResolver
 
     /**
      * @param SessionMessage $sessionMessage
-     * @return VehicleRepository
+     * @return DoctrineVehicleRepository
      */
-    public function getRepositoryBySessionMessage(SessionMessage $sessionMessage): VehicleRepository
+    public function getRepositoryBySessionMessage(SessionMessage $sessionMessage): DoctrineVehicleRepository
     {
         return $sessionMessage->isProVehicle() ? $this->proVehicleRepository : $this->personalVehicleRepository;
     }
 
     /**
      * @param SessionMessage $sessionMessage
-     * @return VehicleRepository
+     * @return DoctrineVehicleRepository
      */
-    public function getRepositoryByHeaderSessionMessage(SessionMessage $sessionMessage): VehicleRepository
+    public function getRepositoryByHeaderSessionMessage(SessionMessage $sessionMessage): DoctrineVehicleRepository
     {
         return $sessionMessage->isProVehicleHeader() ? $this->proVehicleRepository : $this->personalVehicleRepository;
     }

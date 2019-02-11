@@ -30,7 +30,7 @@ class PersonalVehicleEditionService
 {
 
     /** @var PersonalVehicleRepository */
-    private $personalVehicleRepository;
+    private $vehicleRepository;
     /** @var PersonalVehicleBuilder */
     private $vehicleBuilder;
     /** @var UserRegistrationService */
@@ -43,21 +43,21 @@ class PersonalVehicleEditionService
     /**
      * PersonalVehicleEditionService constructor.
      *ProVehicleEditionService
-     * @param PersonalVehicleRepository $personalVehicleRepository
+     * @param PersonalVehicleRepository $vehicleRepository
      * @param PersonalVehicleBuilder $personalVehicleBuilder
      * @@param UserRegistrationService $userRegistrationService
      * @param DoctrineLikePersonalVehicleRepository $likePersonalVehicleRepository
      * @param MessageBus $eventBus
      */
     public function __construct(
-        PersonalVehicleRepository $personalVehicleRepository,
+        PersonalVehicleRepository $vehicleRepository,
         PersonalVehicleBuilder $personalVehicleBuilder,
         UserRegistrationService $userRegistrationService,
         DoctrineLikePersonalVehicleRepository $likePersonalVehicleRepository,
         MessageBus $eventBus
     )
     {
-        $this->personalVehicleRepository = $personalVehicleRepository;
+        $this->vehicleRepository = $vehicleRepository;
         $this->vehicleBuilder = $personalVehicleBuilder;
         $this->userRegistrationService = $userRegistrationService;
         $this->likePersonalVehicleRepository = $likePersonalVehicleRepository;
@@ -79,7 +79,7 @@ class PersonalVehicleEditionService
             $ids[] = $vehicle['id'];
         }
         if(count($ids)> 0 ) {
-            $result['hits'] = $this->personalVehicleRepository->findByIds($ids);
+            $result['hits'] = $this->vehicleRepository->findByIds($ids);
         }
         return $result;
     }
@@ -103,7 +103,7 @@ class PersonalVehicleEditionService
             $personalVehicle->setOwner($futurOwner);
         }
 
-        $this->personalVehicleRepository->add($personalVehicle);
+        $this->vehicleRepository->add($personalVehicle);
         $this->eventBus->handle(new PersonalVehicleCreated($personalVehicle));
 
         return $personalVehicle;
@@ -119,7 +119,7 @@ class PersonalVehicleEditionService
         /** @var PersonalVehicle $personalVehicle */
         $personalVehicle = PersonalVehicleBuilder::editVehicleFromDTO($personalVehicleDTO, $vehicle);
 
-        $this->personalVehicleRepository->update($personalVehicle);
+        $this->vehicleRepository->update($personalVehicle);
         $this->eventBus->handle(new PersonalVehicleUpdated($personalVehicle));
         return $vehicle;
     }
@@ -130,7 +130,7 @@ class PersonalVehicleEditionService
      */
     public function deleteVehicle(PersonalVehicle $personalVehicle): PersonalVehicle
     {
-        $this->personalVehicleRepository->remove($personalVehicle);
+        $this->vehicleRepository->remove($personalVehicle);
         $this->eventBus->handle(new PersonalVehicleRemoved($personalVehicle));
         return $personalVehicle;
     }
@@ -161,7 +161,7 @@ class PersonalVehicleEditionService
      */
     public function findPersonalToRemind()
     {
-        return $this->personalVehicleRepository->retrieveVehiclesWithLessThan2PicturesSince24h();
+        return $this->vehicleRepository->retrieveVehiclesWithLessThan2PicturesSince24h();
     }
 
     /**

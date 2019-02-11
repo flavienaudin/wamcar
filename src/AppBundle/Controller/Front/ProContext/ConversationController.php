@@ -316,22 +316,18 @@ class ConversationController extends BaseController
         $currentUser = $this->getUser();
         $searchResultSet = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
         $results = array();
+        $results['totalHits'] = $searchResultSet->getTotalHits();
         $results['hits'] = array();
         $ids = array();
-        if ($searchResultSet != null) {
-            $results['totalHits'] = $searchResultSet->getTotalHits();
-            foreach ($searchResultSet->getResults() as $result) {
-                $userVehicle = $result->getData();
-                $ids[] = $userVehicle['id'];
-            }
-            if (count($ids) > 0) {
-                $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
-            }
-            $lastPage = ElasticUtils::numberOfPages($searchResultSet);
-        } else {
-            $results['totalHits'] = 0;
-            $lastPage = 1;
+        foreach ($searchResultSet->getResults() as $result) {
+            $userVehicle = $result->getData();
+            $ids[] = $userVehicle['id'];
         }
+        if (count($ids) > 0) {
+            $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+        }
+
+        $lastPage = ElasticUtils::numberOfPages($searchResultSet);
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
             'vehicles' => $results,
