@@ -516,7 +516,7 @@ easy_admin:
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
           - { property: 'email', type: 'email', label: 'Login' }
-          - { property: 'slug', label: 'slug' }
+          - { property: 'slug'}
     PersonalApplicationUser:
       class: AppBundle\Doctrine\Entity\PersonalApplicationUser
       label: 'Particuliers'

@@ -261,7 +261,7 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param ProUser $user
+     * @param string $slug
      * @return Response
      * @throws \Exception
      */
@@ -321,12 +321,14 @@ class UserController extends BaseController
     /**
      * @Entity("user", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
-     * @param PersonalUser $user
+     * @param string $slug
      * @return Response
      * @throws \Exception
      */
-    public function personalUserViewInformationAction(Request $request, PersonalUser $user): Response
+    public function personalUserViewInformationAction(Request $request, string $slug): Response
     {
+        $user = $this->personalUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
+
         if ($user->getDeletedAt() != null) {
             if ($user->getCity() != null) {
                 $redirectionUrl = $this->generateUrl('front_search_by_city', [
@@ -389,9 +391,9 @@ class UserController extends BaseController
         $user = $this->getUser();
 
         if ($user instanceof ProUser) {
-            return $this->proUserViewInformationAction($request, $user);
+            return $this->proUserViewInformationAction($request, $user->getSlug());
         } else {
-            return $this->personalUserViewInformationAction($request, $user);
+            return $this->personalUserViewInformationAction($request, $user->getSlug());
         }
     }
 
