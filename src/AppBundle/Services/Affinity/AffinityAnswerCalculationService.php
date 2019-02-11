@@ -312,8 +312,6 @@ class AffinityAnswerCalculationService
             if (!empty($userQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID])) {
                 if ($userQuestionsAnswers[self::PRO_FIRST_CONTACT_PREF_ID] == "que l'on vienne à vous") {
                     $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.first_contact_preference.waiting');
-                } else {
-                    $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.first_contact_preference.acting');
                 }
             }
 
