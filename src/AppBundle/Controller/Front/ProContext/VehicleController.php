@@ -17,6 +17,7 @@ use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -279,7 +280,7 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param ProVehicle $vehicle
      * @return Response
      */
@@ -312,11 +313,11 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeleted(id)")
      * @param ProVehicle $vehicle
      * @return RedirectResponse
      */
-    public function legacyDetailAction(Request $request, ProVehicle $vehicle): Response
+    public function legacyDetailAction(ProVehicle $vehicle): Response
     {
         return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
     }

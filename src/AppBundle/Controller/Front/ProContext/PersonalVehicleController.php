@@ -15,6 +15,7 @@ use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -233,7 +234,7 @@ class PersonalVehicleController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted() Retrieve the vehicule even if soft deleted, to redirect
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
      * @param PersonalVehicle $vehicle
      * @return Response
@@ -266,6 +267,7 @@ class PersonalVehicleController extends BaseController
     }
 
     /**
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeleted(id)")
      * @param Request $request
      * @param PersonalVehicle $vehicle
      * @return RedirectResponse

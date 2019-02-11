@@ -129,8 +129,13 @@ class GarageController extends BaseController
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
             $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garage->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-            $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
-            $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            if($searchResultSet != null) {
+                $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+                $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            }else{
+                $vehicles = [];
+                $lastPage = 1;
+            }
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),
@@ -277,7 +282,7 @@ class GarageController extends BaseController
     }
 
     /**
-     * @IgnoreSoftDeleted()
+     * @Entity("garage", expr="repository.findIgnoreSoftDeleted(id)")
      * @param Garage $garage
      * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

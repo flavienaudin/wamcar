@@ -23,6 +23,18 @@ interface GarageRepository
      */
     public function findAll();
 
+    /**
+     * IgnoreSoftDeleted version of Finds an entity by its primary key / identifier
+     *
+     * @param mixed $id The identifier.
+     * @param int|null $lockMode One of the \Doctrine\DBAL\LockMode::* constants
+     *                              or NULL if no specific lock mode should be used
+     *                              during the search.
+     * @param int|null $lockVersion The lock version.
+     *
+     * @return object|null The entity instance or NULL if the entity can not be found.
+     */
+    public function findIgnoreSoftDeleted($id, $lockMode = null, $lockVersion = null);
 
     /**
      * IgnoreSoftDeleted version of Finds entities by a set of criteria.
@@ -35,6 +47,16 @@ interface GarageRepository
      * @return array The objects.
      */
     public function findIgnoreSoftDeletedBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+
+    /**
+     * IgnoreSoftDeleted version of Finds a single entity by a set of criteria.
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     *
+     * @return object|null The entity instance or NULL if the entity can not be found.
+     */
+    public function findIgnoreSoftDeletedOneBy(array $criteria, array $orderBy = null);
 
     /**
      * @param Garage $garage

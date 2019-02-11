@@ -67,14 +67,14 @@ class ProVehicleEditionService
     }
 
     /**
-     * Retrieve ProVehicles from the search result
-     * @param Result $searchResult
+     * Retrieve ProVehicles from the given garage
+     * @param Garage $garage
      * @param array $orderBy
      * @return array
      */
     public function getVehiclesByGarage(Garage $garage, array $orderBy = []): array
     {
-        return $this->vehicleRepository->getByGarage($garage, array_merge($orderBy, ['createdAt' => Criteria::DESC]))->toArray();
+        return $this->vehicleRepository->findAllForGarage($garage, $orderBy);
     }
 
     /**
@@ -240,12 +240,8 @@ class ProVehicleEditionService
     public function deleteAllForGarage(Garage $garage): int
     {
         $nbProVehicles = 0;
-        if($garage->getDeletedAt() != null){
-            // If Garage is softDeleted, then its vehicles are not retrieved
-            $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, true);
-        }else {
-            $proVehicleToDelete = $garage->getProVehicles();
-        }
+        // If Garage is softDeleted, then its vehicles are not retrieved and we want ALL vehicle to delete
+        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null,$garage->getDeletedAt() != null);
         /** @var ProVehicle $proVehicle */
         foreach ($proVehicleToDelete as $proVehicle) {
             $this->deleteVehicle($proVehicle);

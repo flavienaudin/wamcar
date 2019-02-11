@@ -2,15 +2,15 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements ProVehicleRepository
 {
     /**
      * @param $reference
-     * @return null|void|\Wamcar\Vehicle\ProVehicle
+     * @return ProVehicle|null
      */
     public function findByReference($reference)
     {
@@ -24,18 +24,20 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
      */
     public function getLast($limit)
     {
-        return $this->findBy(['deletedAt' => null], ['createdAt' => 'DESC'], $limit);
+        return $this->findBy([], ['createdAt' => 'DESC'], $limit);
     }
 
+
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
-    public function getByGarage(Garage $garage, array $orderBy = [])
+    public function findAllForGarage(Garage $garage, array $orderBy = null, bool $ignoreSoftDeleted = false): array
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('garage', $garage))
-            ->orderBy($orderBy);
-        return $this->matching($criteria);
+        if ($ignoreSoftDeleted) {
+            return $this->findIgnoreSoftDeletedBy(['garage' => $garage], $orderBy);
+        } else {
+            return $this->findBy(['garage' => $garage], $orderBy);
+        }
     }
 }
 
