@@ -120,7 +120,6 @@ services:
         autowire: true
 
     AppBundle\Services\Vehicle\VehicleEditionService:
-        class: AppBundle\Services\Vehicle\VehicleEditionService
         autowire: true
 
     AppBundle\Services\Notification\NotificationManagerExtended:

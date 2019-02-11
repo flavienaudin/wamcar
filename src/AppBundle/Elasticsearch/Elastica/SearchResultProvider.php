@@ -417,9 +417,9 @@ class SearchResultProvider
      * @param string|null $text
      * @param int $page
      * @param int $limit
-     * @return ResultSet
+     * @return null|ResultSet
      */
-    public function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ResultSet
+    public function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         if ($user instanceof ProUser) {
             $garageIds = [];

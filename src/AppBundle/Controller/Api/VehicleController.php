@@ -32,7 +32,7 @@ class VehicleController extends BaseController
     private const MAX_IMAGE_UPLOAD = 8;
 
     /** @var ProVehicleRepository */
-    private $vehicleRepository;
+    private $proVehicleRepository;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
 
@@ -47,12 +47,12 @@ class VehicleController extends BaseController
 
     /**
      * VehicleController constructor.
-     * @param ProVehicleRepository $vehicleRepository
+     * @param ProVehicleRepository $proVehicleRepository
      * @param ProVehicleEditionService $proVehicleEditionService
      */
-    public function __construct(ProVehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
+    public function __construct(ProVehicleRepository $proVehicleRepository, ProVehicleEditionService $proVehicleEditionService)
     {
-        $this->vehicleRepository = $vehicleRepository;
+        $this->proVehicleRepository = $proVehicleRepository;
         $this->proVehicleEditionService = $proVehicleEditionService;
     }
 
@@ -100,10 +100,10 @@ class VehicleController extends BaseController
      *     @SWG\Response(response=400, description="Erreur"),
      * )
      */
-    public function getListAction(Request $request): Response
+    public function getListAction(): Response
     {
         try {
-            $vehicles = $this->vehicleRepository->findAllForGarage($this->getGarage());
+            $vehicles = $this->proVehicleRepository->findByGarage($this->getGarage());
 
             $data = [];
             /** @var ProVehicle $vehicle */
@@ -150,7 +150,7 @@ class VehicleController extends BaseController
     {
         try {
             $vehicleDTO = VehicleDTO::createFromJson($request->getContent());
-            $vehicle = $this->vehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
+            $vehicle = $this->proVehicleRepository->findByReference($vehicleDTO->IdentifiantVehicule);
             if ($vehicle) {
                 throw new ConflictHttpException('reference already used');
             }
@@ -363,7 +363,7 @@ class VehicleController extends BaseController
             throw new AccessDeniedHttpException();
         }
 
-        $vehicle = $this->vehicleRepository->findByReference($id);
+        $vehicle = $this->proVehicleRepository->findByReference($id);
         if (!$vehicle) {
             throw new NotFoundHttpException();
         }

@@ -9,6 +9,7 @@ class DoctrinePersonalVehicleRepository extends DoctrineVehicleRepository implem
 
     /**
      * @return array
+     * @throws \Exception when the interval_spec cannot be parsed as an interval.
      */
     public function retrieveVehiclesWithLessThan2PicturesSince24h()
     {

@@ -2,16 +2,15 @@
 
 namespace AppBundle\Controller\Front;
 
-use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\VehicleInformationType;
+use AppBundle\Services\Vehicle\VehicleEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\ProUser;
-use Wamcar\Vehicle\ProVehicleRepository;
+use Wamcar\Vehicle\ProVehicle;
 
 class DefaultController extends BaseController
 {
@@ -22,23 +21,24 @@ class DefaultController extends BaseController
     private $formFactory;
     /** @var VehicleInfoEntityIndexer */
     private $vehicleInfoEntityIndexer;
-    /** @var ProVehicleRepository $proVehicleRepository */
-    private $proVehicleRepository;
+    /** @var VehicleEditionService $vehicleEditionService */
+    private $vehicleEditionService;
 
     /**
      * DefaultController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
+     * @param VehicleEditionService $vehicleEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
-        ProVehicleRepository $proVehicleRepository
+        VehicleEditionService $vehicleEditionService
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
-        $this->proVehicleRepository = $proVehicleRepository;
+        $this->vehicleEditionService = $vehicleEditionService;
     }
 
     /**
@@ -64,7 +64,7 @@ class DefaultController extends BaseController
             ]
         );
 
-        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+        $last_vehicles = $this->vehicleEditionService->getLast(ProVehicle::class,self::NB_PRO_VEHICLE_IN_HOMEPAGE);
 
         return $this->render(
             ':front/Home:home.html.twig',
@@ -90,7 +90,7 @@ class DefaultController extends BaseController
             ]
         );
 
-        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+        $last_vehicles = $this->vehicleEditionService->getLast(ProVehicle::class, self::NB_PRO_VEHICLE_IN_HOMEPAGE);
 
         return $this->render(
             '/front/Home/landing_meeting.html.twig',
@@ -115,7 +115,7 @@ class DefaultController extends BaseController
             ]
         );
 
-        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+        $last_vehicles = $this->vehicleEditionService->getLast(ProVehicle::class,self::NB_PRO_VEHICLE_IN_HOMEPAGE);
 
         return $this->render(
             '/front/Home/landing_mixte.html.twig',

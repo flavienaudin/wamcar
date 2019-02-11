@@ -19,6 +19,7 @@ use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
+use Doctrine\Common\Collections\Criteria;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -129,12 +130,17 @@ class GarageController extends BaseController
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
             $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garage->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-            $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
-            $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            if($searchResultSet != null) {
+                $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+                $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            }else{
+                $vehicles = [];
+                $lastPage = 1;
+            }
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),
-                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage)
+                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage, ['createdAt' => Criteria::DESC])
             ];
         }
 
