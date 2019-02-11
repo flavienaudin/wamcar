@@ -760,10 +760,9 @@ user:
           hobby: "Je suis passionné par %hobby%. "
           advices: "Je peux vous conseiller sur %advices%."
           brands: "Je connais plus particulièrement les marques suivantes : %brands."
-          vehicle_body: "Et en particulier : %vehicle_bodies%."
+          vehicle_body: "Et en particulier, les véhicules de type : %vehicle_bodies%."
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
-            acting: "Si je trouve une offre qui vous conviendrait, je n'hésiterais pas à vous en faire part."
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
