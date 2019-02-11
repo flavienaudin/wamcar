@@ -437,6 +437,7 @@ easy_admin:
       - CronJobs
   formats:
     date: 'd/m/Y'
+    datetime: 'd/m/Y H:i:s'
   edit:
     actions: ['-delete', 'list']
   list:
@@ -462,8 +463,9 @@ easy_admin:
           - { property: 'countMembers', label: '#Memb.'}
           - { property: 'deletedAt', label: 'Suppr.' }
         actions:
+          - { name: 'viewGaragePage', icon: 'file',  label: false, title: 'Page Garage', target: '_black' }
           - { name: 'edit', icon: 'map-marker-alt', label: false, title: 'Editer' }
-          - { name: 'front_garage_edit', type: 'route', icon: 'file', label: false, title: 'Formulaire Wamcar', target: '_blank'}
+          - { name: 'front_garage_edit', type: 'route', icon: 'edit', label: false, title: 'Formulaire Wamcar', target: '_blank'}
       show:
         fields:
           - id
@@ -475,11 +477,11 @@ easy_admin:
           - apiClientId
           - apiSecret
           - phone
-          - {property: 'email', type: 'email'}
+          - { property: 'email', type: 'email'}
           - openingHours
           - presentation
           - benefit
-          - {property: 'address.fullAddress', label: 'Adr.'}
+          - { property: 'address.fullAddress', label: 'Adr.'}
           - { property: 'optionAdminSellers', label: 'Gest. vendeur'}
           - { property: 'countProVehicles', label: '#Vhl.'}
           - members
@@ -506,17 +508,51 @@ easy_admin:
           - id
           - { property: 'fullName', label: 'Prénom Nom' }
           - { property: 'email', label: 'E-mail', type: 'email' }
-          - { property: 'slug', label: 'Slug'}
-          - { property: 'createdAt', label: 'Insc.' }
-          - { property: 'deletedAt', label: 'Suppr.' }
+          - { property: 'slug'}
+          - { property: 'countVehicles', label: '#Vhl.'}
+          - { property: 'createdAt', label: 'Insc.', type: 'date' }
+          - { property: 'deletedAt', label: 'Suppr.', type: 'date' }
         sort: ['id', 'DESC']
         actions:
-          - { name: 'viewUserProfile', icon: 'user',  label: false, target: '_black' }
+          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_black' }
       form:
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
           - { property: 'email', type: 'email', label: 'Login' }
           - { property: 'slug'}
+          - { property: 'description', type: 'textarea' }
+      show:
+        fields:
+          - id
+          - slug
+          - email
+          - userProfile.title
+          - userProfile.firstName
+          - userProfile.lastName
+          - userProfile.description
+          - userProfile.phone
+          - phonePro
+          - { property: 'avatar.fileName' }
+          - facebookId
+          - facebookAccessToken
+          - linkedinId
+          - linkedinAccessToken
+          - googleId
+          - googleAccessToken
+          - twitterId
+          - twitterAccessToken
+          - { property: 'firstContactPreference', type: 'text' }
+          - { property: 'preferences.privateMessageEmailEnabled', type: 'boolean', label: 'Pref. Nouv. Mess.' }
+          - { property: 'preferences.privateMessageEmailFrequency', type: 'text', label: 'Nouv. Mess. freq.' }
+          - { property: 'preferences.likeEmailEnabled', type: 'boolean', label: 'Pref. like' }
+          - { property: 'preferences.likeEmailFrequency', label: 'Like Freq.' }
+          - { property: 'affinityAnswer.sumittedAt', type: 'date', labe: 'WamAff Soumis le:' }
+          - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
+          - { property: 'orientation', type: 'text' }
+          - { property: 'contactAvailabilities', type: 'string' }
+          - vehicles
+          - garageMemberships
+
     PersonalApplicationUser:
       class: AppBundle\Doctrine\Entity\PersonalApplicationUser
       label: 'Particuliers'
@@ -526,17 +562,49 @@ easy_admin:
           - id
           - { property: 'fullName', label: 'Prénom Nom' }
           - { property: 'email', label: 'E-mail', type: 'email' }
-          - { property: 'slug', label: 'Slug' }
+          - { property: 'slug' }
+          - { property: 'countVehicles', label: '#Vhl.'}
           - { property: 'createdAt', label: 'Insc.' }
           - { property: 'deletedAt', label: 'Suppr.' }
         sort: ['id', 'DESC']
         actions:
-          - { name: 'viewUserProfile', icon: 'user',  label: false, target: '_black' }
+          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_black' }
       form:
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
           - { property: 'email', type: 'email', label: 'Login' }
-          - { property: 'slug', label: 'slug' }
+          - { property: 'slug'}
+          - { property: 'description', type: 'textarea' }
+      show:
+        fields:
+          - id
+          - slug
+          - email
+          - userProfile.title
+          - userProfile.firstName
+          - userProfile.lastName
+          - userProfile.description
+          - userProfile.phone
+          - userProfile.city
+          - { property: 'avatar.fileName' }
+          - facebookId
+          - facebookAccessToken
+          - linkedinId
+          - linkedinAccessToken
+          - googleId
+          - googleAccessToken
+          - twitterId
+          - twitterAccessToken
+          - { property: 'firstContactPreference', type: 'text' }
+          - { property: 'preferences.privateMessageEmailEnabled', type: 'boolean', label: 'Pref. Nouv. Mess.' }
+          - { property: 'preferences.privateMessageEmailFrequency', type: 'text', label: 'Nouv. Mess. freq.' }
+          - { property: 'preferences.likeEmailEnabled', type: 'boolean', label: 'Pref. like' }
+          - { property: 'preferences.likeEmailFrequency', label: 'Like Freq.' }
+          - { property: 'affinityAnswer.sumittedAt', type: 'date', labe: 'WamAff Soumis le:' }
+          - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
+          - { property: 'orientation', type: 'text' }
+          - { property: 'contactAvailabilities', type: 'string' }
+          - vehicles
     CronJobs:
       translation_domain: 'JMoseCommandScheduler'
       class: JMose\CommandSchedulerBundle\Entity\ScheduledCommand

@@ -9,6 +9,9 @@ use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\PersonalProjectUpdated;
+use Wamcar\User\Event\PersonalUserUpdated;
+use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
@@ -37,6 +40,41 @@ class BackendController extends AdminController
         $this->eventBus = $eventBus;
     }
 
+    // Persit/Update entity
+
+    // ProApplicationUser
+    public function persistProApplicationUserEntity($entity)
+    {
+        parent::persistEntity($entity);
+        $this->eventBus->handle(new ProUserUpdated($entity));
+    }
+
+    public function updateProApplicationUserEntity($entity)
+    {
+        parent::updateEntity($entity);
+        $this->eventBus->handle(new ProUserUpdated($entity));
+    }
+
+    // PersonalApplicationUser
+    public function persistPersonalApplicationUserEntity($entity)
+    {
+        parent::persistEntity($entity);
+        $this->eventBus->handle(new PersonalUserUpdated($entity));
+        if ($entity->getProject() != null) {
+            $this->eventBus->handle(new PersonalProjectUpdated($entity->getProject()));
+        }
+    }
+
+    public function updatePersonalApplicationUserEntity($entity)
+    {
+        parent::updateEntity($entity);
+        $this->eventBus->handle(new PersonalUserUpdated($entity));
+        if ($entity->getProject() != null) {
+            $this->eventBus->handle(new PersonalProjectUpdated($entity->getProject()));
+        }
+    }
+
+    // Garage
     public function persistGarageEntity($entity)
     {
         parent::persistEntity($entity);
@@ -47,9 +85,9 @@ class BackendController extends AdminController
     {
         parent::updateEntity($entity);
         $this->eventBus->handle(new GarageUpdated($entity));
-
     }
 
+    // Common
     protected function removeEntity($entity)
     {
         if ($entity instanceof Garage) {
@@ -60,6 +98,8 @@ class BackendController extends AdminController
             return;
         }
     }
+
+    // CUSTOM ACTIONS
 
     /**
      * Action to see user profile
@@ -83,5 +123,18 @@ class BackendController extends AdminController
             'action' => 'list',
             'entity' => $this->request->query->get('entity'),
         ));
+    }
+
+    /**
+     * Action to see garage page
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function viewGaragePageAction()
+    {
+        $id = $this->request->query->get('id');
+        $entity = $this->em->getRepository(Garage::class)->find($id);
+        return $this->redirectToRoute('front_garage_view', [
+            'slug' => $entity->getSlug()
+        ]);
     }
 }

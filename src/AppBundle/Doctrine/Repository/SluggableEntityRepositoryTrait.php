@@ -5,21 +5,6 @@ namespace AppBundle\Doctrine\Repository;
 
 trait SluggableEntityRepositoryTrait
 {
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findOneBySlugIgnoreSoftDeleted(string $slug)
-    {
-        if($this->_em->getFilters()->isEnabled('softDeleteable')) {
-            $this->_em->getFilters()->disable('softDeleteable');
-        }
-        $entity = self::findOneBy(['slug' => $slug]);
-        $this->_em->getFilters()->enable('softDeleteable');
-        return $entity;
-
-    }
-
     /**
      * @param bool $onlyEmptySlug
      * @param bool $includeDeleted

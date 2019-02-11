@@ -16,7 +16,7 @@ class PersonalUser extends BaseUser
 {
     const TYPE = 'personal';
 
-    /** @var ?PersonalOrientationChoices */
+    /** @var null|PersonalOrientationChoices */
     protected $orientation;
     /** @var  string (json) */
     protected $contactAvailabilities;

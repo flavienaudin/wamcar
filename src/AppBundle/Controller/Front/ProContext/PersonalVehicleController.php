@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller\Front\ProContext;
 
-use AppBundle\Annotation\IgnoreSoftDeleted;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
