@@ -16,6 +16,7 @@
                        placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
                        data-toggle="header_search_dropdown_pane">
                 <input type="hidden" name="search_vehicle[radius]" value="50">
+                <input type="hidden" name="search_vehicle[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
             </div>
             <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
                  data-close-on-click="true">

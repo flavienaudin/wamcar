@@ -10,6 +10,9 @@
 {% block title %}{{ 'landing.mixte.title'|trans }}{% endblock %}
 {% block meta_description %}{{ 'landing.mixte.description'|trans }}{% endblock %}
 
+{% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
+{% set image_alt = 'landing.mixte.image_alt'|trans %}
+
 {% block body %}
     <section class="vehicle-form-container small-12" id="registration_forms">
         <div class="row">
