@@ -252,8 +252,11 @@ landing:
       subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
       pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
   mixte:
-    title: Site de rencontre pour échange, reprise et vente de voitures
-    description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+    title: "Site de rencontre automobile : reprise, achat et vente de voitures"
+    description: >
+        Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+        découvrez les occasions, changez de voiture !
+    image_alt: Rencontrez votre conseiller automobile.
     form.title: Le site de rencontre automobile
     field:
       social_connect.label: Inscription via une plateforme
