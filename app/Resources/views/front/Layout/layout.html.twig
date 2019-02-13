@@ -30,7 +30,7 @@
     {# ogp.me : required properties #}
     <meta property="og:title" content="{{ block('title') }}">
     <meta property="og:type" content="{% block og_type %}website{% endblock %}">
-    {% block seo_img_block %}<meta property="og:image" content="{{ seo_img_url|default(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png')) }}">{% endblock %}
+    {% block seo_img_block %}<meta property="og:image" content="{{ seo_img_url|default( absolute_url(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png'))) }}">{% endblock %}
     <meta property="og:url" content="{{ current_url }}">
     {# ogp.me : optional metadatas #}
     <meta property="og:locale" content="{{ app.request.locale~'_'~app.request.locale|upper }}">
@@ -40,8 +40,8 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ block('title') }}">
     <meta name="twitter:description" content="{{ block('meta_description') }}">
-    <meta name="twitter:image" content="{{ seo_img_url|default(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png')) }}">
-    <meta name="twitter:image:alt" content="{{ block('title') }}">
+    <meta name="twitter:image" content="{{ seo_img_url|default( absolute_url(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png'))) }}">
+    <meta name="twitter:image:alt" content="{{ image_alt|default(block('title')) }}">
     <meta name="twitter:url" content="{{ current_url }}">
     <meta name="twitter:site" content="@{{ twitter_username }}">
     <meta name="twitter:creator" content="@{{ twitter_username }}">
