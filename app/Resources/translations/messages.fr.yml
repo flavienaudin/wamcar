@@ -19,6 +19,7 @@ flash:
       remove_member_with_reassignation: Le vendeur a bien été retiré de votre garage et ses véhicules ont été affectés aux autres vendeurs du garage.
       cancel_pending_request_by_user: Votre demande a bien été annulée.
       cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoint votre garage.
+      toogle_role: Le rôle de l'utilisateur a bien été modifié.
       invitations:
         attached: "{1} %prousers_attached_list% a été automatiquement rattaché à %garage_name% |[2,Inf[ %prousers_attached_list% ont été automatiquement rattachés à %garage_name%"
         invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
@@ -71,6 +72,9 @@ flash:
       remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
       unable_to_detach_seller:
         due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
+      unable_to_toogle_role:
+        last_admin: Vous ne pouvez pas modifier le rôle du dernier administrateur.
+        yourself: Vous ne pouvez pas modifier votre propre rôle.
     vehicle:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.

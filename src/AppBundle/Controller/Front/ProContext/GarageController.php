@@ -415,4 +415,32 @@ class GarageController extends BaseController
             '_fragment' => 'sellers'
         ]);
     }
+
+    /**
+     * @ParamConverter("garage", options={"id" = "garage_id"})
+     * @ParamConverter("proApplicationUser", options={"id" = "user_id"})
+     * @param Garage $garage
+     * @param ProApplicationUser $proApplicationUser
+     * @Security("has_role('ROLE_ADMIN')")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function toogleMemberRoleAction(Garage $garage, ProApplicationUser $proApplicationUser): RedirectResponse
+    {
+        /** @var GarageProUser $garageMemberShip */
+        $garageMemberShip = $proApplicationUser->getMembershipByGarage($garage);
+        if ($garageMemberShip == null) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.error.garage.not_member');
+        } else {
+            if (!$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+                throw new AccessDeniedException();
+            }
+            try {
+                $this->garageEditionService->toogleRole($garageMemberShip, $this->getUser());
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.toogle_role');
+            } catch (\InvalidArgumentException $e) {
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $e->getMessage());
+            }
+        }
+        return $this->redirectToRoute('admin_garage_list', ['_fragment' => 'garage-' . $garage->getId()]);
+    }
 }

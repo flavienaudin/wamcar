@@ -487,9 +487,9 @@ easy_admin:
 
       form:
         help: >
-          Merci d'utiliser le formulaire Wamcar qui vous permet de modifier les informations du garage.
-          Le GooglePlaceId et le GoogleRating ne doivent que être supprimé via ce formulaire car il n'est pas
-          relié à l'API Google pour récupérer les informations automatiquement
+          Merci d'utiliser le formulaire Wamcar qui vous permet de modifier les informations du garage.<br>
+          Ce formulaire ne doit être utilisé QUE pour supprimer le GooglePlaceId et le GoogleRating  car le formulaire
+          n'est pas relié à l'API Google pour récupérer les informations automatiquement.<br>
           De plus, si le GooglePlaceId, le nom et/ou le SIREN sont déjà existants Alors vous aurez une erreur interne
           lors de la validation. Faire précédente et modifier alors votre saisie.
         fields:
@@ -498,6 +498,7 @@ easy_admin:
           - { property: 'googleRating'}
           - { property: 'name'}
           - { property: 'siren'}
+          - { property: 'optionAdminSellers', label: 'Gest. vend.'}
     ProApplicationUser:
       class: AppBundle\Doctrine\Entity\ProApplicationUser
       label: 'Conseillers automobile'

@@ -8,7 +8,7 @@
     <a href="{{ path('front_garage_create') }}" class="button input-margin">Créer un garage</a>
     <div class="row garages-list">
         {% for garage in garages %}
-            <div class="column small-12 medium-6 input-margin">
+            <div class="column small-12 medium-6 input-margin" id="garage-{{ garage.id }}">
                 <div class=" garage-item">
                     {% if garage.deletedAt is null %}
                         <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
@@ -18,23 +18,24 @@
                         <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></span>
                     {% endif %}
                     <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
-                    <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
+                    <span class="vehicle-years primary-color"
+                          style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
                     <p class="black-color no-margin"><strong>Adresse :</strong><br>
-                    <span>{{ garage.address.address }}</span><br>
-                    <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
+                        <span>{{ garage.address.address }}</span><br>
+                        <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
                     </p>
                     <div class="black-color">
                         <strong>Google Place details&nbsp;:</strong>
                         <ul>
-                            <li>Id&nbsp;: {{ garage.googlePlaceId  }}</li>
-                            <li>Note&nbsp;: {{ garage.googleRating  }}</li>
+                            <li>Id&nbsp;: {{ garage.googlePlaceId }}</li>
+                            <li>Note&nbsp;: {{ garage.googleRating }}</li>
                         </ul>
                     </div>
                     <div class="black-color">
                         <strong>Wamcar API details&nbsp;:</strong>
                         <ul>
-                            <li>Id&nbsp;: {{ garage.apiClientId}}</li>
-                            <li>Secret&nbsp;: {{ garage.apiSecret  }}</li>
+                            <li>Id&nbsp;: {{ garage.apiClientId }}</li>
+                            <li>Secret&nbsp;: {{ garage.apiSecret }}</li>
                         </ul>
                     </div>
 
@@ -50,6 +51,9 @@
                                             <a href="{{ path('front_view_pro_user_info', {'slug':proUser.slug}) }}">{{ proUser.fullName }}</a>
                                             {{ member.requestedAt is not null ? " <i>(en attente)</i>" }}
                                             {{ member.role == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ? " <b>Gestionnaire</b>" }}
+                                            <br>
+                                            <a href="{{ path('front_garage_toogle_member_role', {'garage_id':member.garage.id, 'user_id':member.proUser.id}) }}"
+                                               class="black-color">Modifier le rôle</a>
                                         </li>
                                     {% endfor %}
                                 </ul>
