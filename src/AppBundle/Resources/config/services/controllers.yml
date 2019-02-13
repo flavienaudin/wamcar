@@ -12,6 +12,7 @@ services:
     AppBundle\Controller\Front\AdministrationContext\BackendController:
         calls:
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
+            - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
             - ['setEventBus', ['@event_bus']]
 
     AppBundle\Controller\Front\:

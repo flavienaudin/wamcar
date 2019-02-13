@@ -381,7 +381,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     {
         /** @var ArrayCollection $enabledMembers */
         $enabledMembers = $this->getEnabledMembers();
-        if (count($enabledMembers) > 1 && $this->optionAdminSellers === false) {
+        if ($this->optionAdminSellers === false) {
             return $enabledMembers->filter(function (GarageProUser $gpu) {
                 return !GarageRole::GARAGE_ADMINISTRATOR()->equals($gpu->getRole());
             });

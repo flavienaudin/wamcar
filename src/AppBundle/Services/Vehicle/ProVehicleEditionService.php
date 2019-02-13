@@ -163,12 +163,12 @@ class ProVehicleEditionService
      * @param ProVehicle $proVehicle
      * @param ProApplicationUser|null $newSeller
      * @return ProVehicle
-     * @throws \InvalidArgumentException
-     * @throws NewSellerToAssignNotFoundException
+     * @throws \InvalidArgumentException|NewSellerToAssignNotFoundException
      */
     public function assignSeller(ProVehicle $proVehicle, ProApplicationUser $newSeller = null): ProVehicle
     {
         if ($newSeller == null) {
+            // Search for a new seller among garage'sellers
             /** @var GarageProUser[] $members */
             $members = $proVehicle->getGarage()->getAvailableSellers()->toArray();
             do {

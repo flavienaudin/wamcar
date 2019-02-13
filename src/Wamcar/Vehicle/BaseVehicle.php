@@ -842,6 +842,6 @@ abstract class BaseVehicle implements Vehicle
 
     public function __toString()
     {
-        return  $this->getName();
+        return $this->getName() . ($this->getDeletedAt() != null ? ' (suppr)' : '');
     }
 }

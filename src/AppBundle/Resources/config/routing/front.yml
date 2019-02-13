@@ -93,8 +93,6 @@ front_view_current_user_info:
 front_user_delete:
     path: /user/delete/{id}
     controller: AppBundle:Front\PersonalContext\User:deleteUser
-    defaults:
-        forGood: false
 
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}

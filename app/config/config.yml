@@ -424,7 +424,7 @@ jmose_command_scheduler:
         - init
 
 easy_admin:
-  site_name: 'Wamcar Entities Administration'
+  site_name: 'Wamcar Backend'
   design:
     brand_color: '#cc4b37'
     color_scheme: 'light'
@@ -438,8 +438,6 @@ easy_admin:
   formats:
     date: 'd/m/Y'
     datetime: 'd/m/Y H:i:s'
-  edit:
-    actions: ['-delete', 'list']
   list:
     actions:
     - { name: 'search', icon: 'search', label: false, title: 'Rechercher' }
@@ -451,6 +449,7 @@ easy_admin:
     Garage:
       class: Wamcar\Garage\Garage
       list:
+        max_results: 30
         fields:
           - { property: 'id', label: 'ID'}
           - { property: 'name', label: 'Nom'}
@@ -464,7 +463,7 @@ easy_admin:
           - { property: 'deletedAt', label: 'Suppr.' }
         actions:
           - { name: 'viewGaragePage', icon: 'file',  label: false, title: 'Page Garage', target: '_black' }
-          - { name: 'edit', icon: 'map-marker-alt', label: false, title: 'Editer' }
+          - { name: 'edit', icon: 'map-marker', label: false, title: 'Editer' }
           - { name: 'front_garage_edit', type: 'route', icon: 'edit', label: false, title: 'Formulaire Wamcar', target: '_blank'}
       show:
         fields:
@@ -504,12 +503,14 @@ easy_admin:
       label: 'Conseillers automobile'
       list:
         title: 'Conseillers automobile'
+        max_results: 30
         fields:
           - id
           - { property: 'fullName', label: 'Prénom Nom' }
           - { property: 'email', label: 'E-mail', type: 'email' }
           - { property: 'slug'}
           - { property: 'countVehicles', label: '#Vhl.'}
+          - { property: 'countEnabledGarageMemberships', label: '#Garages.'}
           - { property: 'createdAt', label: 'Insc.', type: 'date' }
           - { property: 'deletedAt', label: 'Suppr.', type: 'date' }
         sort: ['id', 'DESC']
@@ -558,6 +559,7 @@ easy_admin:
       label: 'Particuliers'
       list:
         title: 'Particuliers'
+        max_results: 30
         fields:
           - id
           - { property: 'fullName', label: 'Prénom Nom' }

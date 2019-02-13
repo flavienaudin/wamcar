@@ -21,6 +21,7 @@ interface ConversationRepository
     public function findByUserAndInterlocutor(BaseUser $user, BaseUser $interlocutor): ?Conversation;
 
     /**
+     * Retreive conversation of this user, with condition : interlocutor is not deleted
      * @param BaseUser $user
      * @return array
      */

@@ -2,14 +2,17 @@ flash:
   success:
     user:
       edit: Les modifications de votre profil ont été enregistrées.
-      deleted: L'utilisateur a bien été supprimé.
-      deleted_for_good: L'utilisateur a bien été supprimé définitivement.
+      deleted:
+        soft: L'utilisateur a bien été supprimé.
+        hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
-    remove_garage: La suppression de votre garage est enregistrée.
     garage:
       create: Votre garage est bien enregistré.
       edit: Les modifications de votre garage ont été enregistrées.
+      deleted:
+        soft: Le garage a été supprimé.
+        hard: Le garage a été supprimé DEFINITIVEMENT.
       request_sent_to_administrator: Votre demande pour rejoindre le garage a bien été transmise au gestionnaire.
       assign_member: La demande a été validée. Le vendeur a bien rejoint votre garage.
       remove_member: Le vendeur a bien été retiré de votre garage.
@@ -58,6 +61,9 @@ flash:
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
+    user:
+      deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
+
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage

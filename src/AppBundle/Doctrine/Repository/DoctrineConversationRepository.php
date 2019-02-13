@@ -2,9 +2,8 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationRepository;
 use Wamcar\User\BaseUser;
@@ -27,7 +26,7 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
      */
     public function findByUserAndInterlocutor(BaseUser $user, BaseUser $interlocutor): ?Conversation
     {
-        $query =  $this->createQueryBuilder('c')
+        $query = $this->createQueryBuilder('c')
             ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
             ->join('c.conversationUsers', 'cu2', 'WITH', 'cu2.user = :interlocutor')
             ->where('cu.conversation = cu2.conversation')
@@ -43,8 +42,12 @@ class DoctrineConversationRepository extends EntityRepository implements Convers
      */
     public function findByUser(BaseUser $user): array
     {
-        $query =  $this->createQueryBuilder('c')
+        $query = $this->createQueryBuilder('c')
             ->join('c.conversationUsers', 'cu', 'WITH', 'cu.user = :user')
+            // Condition : interlocutor is not deleted
+            ->join('c.conversationUsers', 'cu1', Expr\Join::WITH, 'cu1.user <> cu.user')
+            ->join('cu1.user', 'u', Expr\Join::WITH, 'u.deletedAt is NULL')
+            // End Condition
             ->setParameter('user', $user)
             ->orderBy('c.updatedAt', 'DESC')
             ->getQuery();

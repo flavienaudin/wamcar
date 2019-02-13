@@ -8,7 +8,6 @@ use AppBundle\Elasticsearch\Elastica\ElasticUtils;
 use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
-use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\GarageProInvitationType;
@@ -28,12 +27,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
-use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\ProVehicle;
 
 class GarageController extends BaseController
 {
@@ -91,7 +88,7 @@ class GarageController extends BaseController
      */
     public function listAction(): Response
     {
-        $garages = $this->garageRepository->findIgnoreSoftDeletedBy([],['id' => 'desc']);
+        $garages = $this->garageRepository->findIgnoreSoftDeletedBy([], ['id' => 'desc']);
 
         return $this->render('front/adminContext/garage/garage_list.html.twig', [
             'garages' => $garages
@@ -106,12 +103,12 @@ class GarageController extends BaseController
      */
     public function viewAction(Request $request, Garage $garage)
     {
-        if($garage->getDeletedAt() != null){
+        if ($garage->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.garage.deleted.title',
                 'messageKey' => 'error_page.garage.deleted.body',
                 'redirectionUrl' => $this->generateUrl('front_directory_by_city_view', [
-                    'city' => $garage->getCity()->getPostalCode() . "-". urlencode($garage->getCity()->getName())
+                    'city' => $garage->getCity()->getPostalCode() . "-" . urlencode($garage->getCity()->getName())
                 ])
             ]);
             $response->setStatusCode(Response::HTTP_GONE);
@@ -128,10 +125,10 @@ class GarageController extends BaseController
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
             $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garage->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
-            if($searchResultSet != null) {
+            if ($searchResultSet != null) {
                 $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
                 $lastPage = ElasticUtils::numberOfPages($searchResultSet);
-            }else{
+            } else {
                 $vehicles = [];
                 $lastPage = 1;
             }
@@ -288,13 +285,26 @@ class GarageController extends BaseController
      */
     public function removeAction(Garage $garage): RedirectResponse
     {
-        $this->garageEditionService->remove($garage);
-
-        $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_INFO,
-            'flash.success.remove_garage'
-        );
-
+        $isAlreadySoftDeleted = $garage->getDeletedAt() != null;
+        try {
+            $this->garageEditionService->remove($garage);
+            if ($isAlreadySoftDeleted) {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.delete.hard'
+                );
+            } else {
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.garage.delete.soft'
+                );
+            }
+        } catch (\InvalidArgumentException $exception) {
+            $this->session->getFlashBag()->add(
+                BaseController::FLASH_LEVEL_WARNING,
+                $exception->getMessage()
+            );
+        }
         return $this->redirectToRoute('admin_garage_list');
     }
 
@@ -378,94 +388,28 @@ class GarageController extends BaseController
      */
     public function unassignAction(Garage $garage, ProApplicationUser $proApplicationUser): RedirectResponse
     {
-        /** @var GarageProUser $member */
-        $member = $proApplicationUser->getMembershipByGarage($garage);
-        if ($member == null) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.error.garage.not_member'
-            );
-            return $this->redirectToRoute('front_garage_view', [
-                'slug' => $garage->getSlug(),
-                '_fragment' => 'sellers'
-            ]);
-        }
-        if (!$member->getProUser()->is($this->getUser()) && !$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
-            throw new AccessDeniedException();
-        }
-
-        if ($member->getRequestedAt() == null) {
-            // Unassign garage member
-            if (GarageRole::GARAGE_ADMINISTRATOR()->equals($member->getRole())) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_WARNING,
-                    'flash.error.garage.remove_administrator'
-                );
-            } else {
-                $userVehicles = $proApplicationUser->getVehiclesOfGarage($garage);
-                if (count($userVehicles) > 0) {
-                    // Vehicle distribution to other garage members
-
-                    $nbVehiclesNotAssigned = 0;
-                    /** @var ProVehicle $vehicle */
-                    foreach ($userVehicles as $vehicle) {
-                        try {
-                            $this->proVehicleEditionService->assignSeller($vehicle);
-
-                        } catch (NewSellerToAssignNotFoundException $e) {
-                            $nbVehiclesNotAssigned++;
-                            $this->session->getFlashBag()->add(
-                                self::FLASH_LEVEL_DANGER,
-                                'flash.error.vehicle.seller_to_reassign_not_found'
-                            );
-                        } catch (\InvalidArgumentException $e) {
-                            $nbVehiclesNotAssigned++;
-                            $this->session->getFlashBag()->add(
-                                self::FLASH_LEVEL_DANGER,
-                                $e->getMessage()
-                            );
-                        }
-                    }
-
-                    if ($nbVehiclesNotAssigned > 0) {
-                        $this->session->getFlashBag()->add(
-                            self::FLASH_LEVEL_WARNING,
-                            'flash.error.garage.unable_to_detach_seller.due_to_attached_vehicle'
-                        );
-                    } else {
-                        $this->garageEditionService->removeMember($garage, $proApplicationUser);
-                        $this->session->getFlashBag()->add(
-                            self::FLASH_LEVEL_INFO,
-                            'flash.success.garage.remove_member_with_reassignation'
-                        );
-                    }
-                } else {
-                    $this->garageEditionService->removeMember($garage, $proApplicationUser);
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.garage.remove_member'
+        /** @var GarageProUser $garageMemberShip */
+        $garageMemberShip = $proApplicationUser->getMembershipByGarage($garage);
+        if ($garageMemberShip == null) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.error.garage.not_member');
+        } else {
+            if (!$garageMemberShip->getProUser()->is($this->getUser()) && !$this->authorizationChecker->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+                throw new AccessDeniedException();
+            }
+            $result = $this->garageEditionService->removeMemberShip($garageMemberShip, $this->getUser());
+            if ($result['memberRemovedErrorMessage'] != null) {
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $result['memberRemovedErrorMessage']);
+            } elseif (count($result['vehiclesNotReassignedErrorMessages']) > 0) {
+                foreach ($result['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $errorMessage);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,
+                        'flash.error.garage.unable_to_detach_seller.due_to_attached_vehicle'
                     );
                 }
-            }
-        } else {
-            // Pending request
-            if ($proApplicationUser->is($this->getUser())) {
-                // Cancelled by the proUser
-                $this->garageEditionService->removeMember($garage, $proApplicationUser, false);
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.garage.cancel_pending_request_by_user'
-                );
             } else {
-                // Declined by an administrator
-                $this->garageEditionService->removeMember($garage, $proApplicationUser, true);
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.garage.cancel_pending_request_by_administrator'
-                );
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $result['memberRemovedSuccessMessage']);
             }
         }
-
         return $this->redirectToRoute('front_garage_view', [
             'slug' => $garage->getSlug(),
             '_fragment' => 'sellers'

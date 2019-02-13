@@ -9,7 +9,6 @@ use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use SimpleBus\Message\Bus\MessageBus;
-use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
 use Wamcar\User\BaseUser;

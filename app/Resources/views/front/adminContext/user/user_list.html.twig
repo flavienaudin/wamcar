@@ -7,7 +7,8 @@
 
 {% block body %}
     <div>
-        <ul class="tabs" data-tabs id="tabs-user" data-deep-link="true" data-deep-link-smudge="true" data-deep-link-smudge-delay="600">
+        <ul class="tabs" data-tabs id="tabs-user" data-deep-link="true" data-deep-link-smudge="true"
+            data-deep-link-smudge-delay="600">
             <li class="tabs-title is-active"><a href="#pro-user-panel" aria-selected="true">Professionnels</a></li>
             <li class="tabs-title"><a href="#personal-user-panel">Particuliers</a></li>
         </ul>
@@ -66,9 +67,11 @@
                                 <td>
                                     <ul class="no-margin">
                                         {% for membership in user.garageMemberships %}
-                                            <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
+                                            <li class="{{ membership.requestedAt is not null?'garage-pending-request' }}">
                                                 <a href="{{ path('front_garage_view',{'slug':membership.garage.slug}) }}">
+                                                    {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}<b>{% endif %}
                                                     {{ membership.garage.name }}
+                                                        {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}</b>{% endif %}
                                                 </a><br>
                                                 {{ membership.garage.city }}
                                                 {% if membership.requestedAt is not null %}
@@ -88,13 +91,17 @@
                                                            class="js-confirm-box warning-bg"
                                                            data-id="soft-{{ user.id }}"
                                                            data-title="Attention!"
-                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a></li>
+                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                                           class="js-confirm-box danger-bg"
+                                                           data-id="hard-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer
+                                                            définitivement</a></li>
                                                 {% endif %}
-                                                <li><a href="{{ path('front_user_delete',{'id':user.id, 'forGood':true}) }}"
-                                                       class="js-confirm-box danger-bg"
-                                                       data-id="hard-{{ user.id }}"
-                                                       data-title="Attention!"
-                                                       data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer définitivement</a></li>
                                             </ul>
                                         </li>
                                     </ul>
@@ -160,7 +167,9 @@
                                 <td>
                                     <ul>
                                         {% for personalVehicle in user.vehicles %}
-                                            <li><a href="{{ path('front_vehicle_personal_detail',{'slug':personalVehicle.slug}) }}">{{ personalVehicle.name }}</a></li>
+                                            <li>
+                                                <a href="{{ path('front_vehicle_personal_detail',{'slug':personalVehicle.slug}) }}">{{ personalVehicle.name }}</a>
+                                            </li>
                                         {% endfor %}
                                     </ul>
                                 </td>
@@ -174,13 +183,17 @@
                                                            class="js-confirm-box warning-bg"
                                                            data-id="soft-{{ user.id }}"
                                                            data-title="Attention!"
-                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a></li>
+                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ path('front_user_delete',{'id':user.id, 'forGood':true}) }}"
+                                                           class="js-confirm-box danger-bg"
+                                                           data-id="hard-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer
+                                                            définitivement</a></li>
                                                 {% endif %}
-                                                <li><a href="{{ path('front_user_delete',{'id':user.id, 'forGood':true}) }}"
-                                                       class="js-confirm-box danger-bg"
-                                                       data-id="hard-{{ user.id }}"
-                                                       data-title="Attention!"
-                                                       data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer définitivement</a></li>
                                             </ul>
                                         </li>
                                     </ul>

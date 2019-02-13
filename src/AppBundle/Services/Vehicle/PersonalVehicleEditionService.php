@@ -130,8 +130,12 @@ class PersonalVehicleEditionService
      */
     public function deleteVehicle(PersonalVehicle $personalVehicle): PersonalVehicle
     {
+        $isSoftDeleted = $personalVehicle->getDeletedAt() != null;
         $this->vehicleRepository->remove($personalVehicle);
-        $this->eventBus->handle(new PersonalVehicleRemoved($personalVehicle));
+        if(!$isSoftDeleted) {
+            // Generate Event only if vehicle is not definitively deleted
+            $this->eventBus->handle(new PersonalVehicleRemoved($personalVehicle));
+        }
         return $personalVehicle;
     }
 

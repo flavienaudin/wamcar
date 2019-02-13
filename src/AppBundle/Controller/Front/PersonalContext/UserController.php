@@ -34,6 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -69,6 +70,9 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
+    /** @var TranslatorInterface */
+    protected $translator;
+
     /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
 
@@ -82,6 +86,7 @@ class UserController extends BaseController
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
      * @param MessageBus $eventBus
+     * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
     public function __construct(
@@ -93,6 +98,7 @@ class UserController extends BaseController
         GarageEditionService $garageEditionService,
         VehicleInfoEntityIndexer $vehicleInfoIndexer,
         MessageBus $eventBus,
+        TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
     {
@@ -104,6 +110,7 @@ class UserController extends BaseController
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoIndexer = $vehicleInfoIndexer;
         $this->eventBus = $eventBus;
+        $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
@@ -479,26 +486,31 @@ class UserController extends BaseController
 
     /**
      * security.yml - access_control : ROLE_ADMIN only
-     * @param BaseUser $userToDelete
-     * @param bool $forGood
+     * @param int $id
      * @return Response
      */
-    public function deleteUserAction(Request $request, BaseUser $userToDelete)
+    public function deleteUserAction(int $id)
     {
+        $userToDelete = $this->userRepository->findIgnoreSoftDeleted($id);
+        if (!$userToDelete || !$userToDelete instanceof BaseUser) {
+            throw new NotFoundHttpException();
+        }
+
         $isPro = $userToDelete instanceof ProUser;
-        $forGood = $request->query->get("forGood", false);
-        // TODO check all associations data
-        // $this->userEditionService->deleteUser($userToDelete, $forGood);
-        if ($forGood) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user.deleted_for_good'
-            );
-        } else {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user.deleted'
-            );
+        $isAlreadySoftDeleted = $userToDelete->getDeletedAt() != null;
+        $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser());
+        foreach ($resultMessages['errorMessages'] as $errorMessage) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
+        }
+        foreach ($resultMessages['successMessages'] as $garageId => $successMessage) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'Garage (' . $garageId . ') : ' . $this->translator->trans($successMessage));
+        }
+        if (count($resultMessages['errorMessages']) == 0) {
+            if ($isAlreadySoftDeleted) {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+            } else {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+            }
         }
 
         return $this->redirectToRoute('admin_user_list', [

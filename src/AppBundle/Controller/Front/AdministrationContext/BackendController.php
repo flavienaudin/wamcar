@@ -3,7 +3,9 @@
 namespace AppBundle\Controller\Front\AdministrationContext;
 
 
+use AppBundle\Controller\Front\BaseController;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Event\GarageUpdated;
@@ -17,24 +19,26 @@ use Wamcar\User\ProUser;
 
 class BackendController extends AdminController
 {
-
     /** @var GarageEditionService */
     private $garageEditionService;
-
+    /** @var UserEditionService */
+    private $userEditionService;
     /** @var MessageBus */
     private $eventBus;
 
-    /**
-     * @param GarageEditionService $garageEditionService
-     */
+    /** @param GarageEditionService $garageEditionService */
     public function setGarageEditionService(GarageEditionService $garageEditionService): void
     {
         $this->garageEditionService = $garageEditionService;
     }
 
-    /**
-     * @param MessageBus $eventBus
-     */
+    /** @param UserEditionService $userEditionService */
+    public function setUserEditionService(UserEditionService $userEditionService): void
+    {
+        $this->userEditionService = $userEditionService;
+    }
+
+    /** @param MessageBus $eventBus */
     public function setEventBus(MessageBus $eventBus): void
     {
         $this->eventBus = $eventBus;
@@ -90,11 +94,40 @@ class BackendController extends AdminController
     // Common
     protected function removeEntity($entity)
     {
+        $isAlreadySoftDeleted = $entity->getDeletedAt() != null;
         if ($entity instanceof Garage) {
-            $this->garageEditionService->remove($entity);
+            try {
+                $this->garageEditionService->remove($entity);
+                if ($isAlreadySoftDeleted) {
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.garage.deleted.hard');
+                } else {
+                    if ($isAlreadySoftDeleted) {
+                        $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.garage.deleted.soft');
+                    }
+                }
+            } catch (\InvalidArgumentException $exception) {
+                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING,$exception->getMessage());
+            }
+        } elseif ($entity instanceof BaseUser) {
+            $resultMessages = $this->userEditionService->deleteUser($entity, $this->getUser());
+            foreach ($resultMessages['errorMessages'] as $errorMessage) {
+                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
+            }
+            foreach ($resultMessages['successMessages'] as $garageId => $successMessage) {
+                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                    'Garage (' . $garageId . ') : ' . $this->get('translator')->trans($successMessage));
+            }
+            if (count($resultMessages['errorMessages']) == 0) {
+                if ($isAlreadySoftDeleted) {
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+                } else {
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+                }
+            }
+
         } else {
             // TODO other entities
-            //parent::removeEntity($entity);
+            // parent::removeEntity($entity);
             return;
         }
     }

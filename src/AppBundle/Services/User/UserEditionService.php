@@ -3,6 +3,8 @@
 namespace AppBundle\Services\User;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexableSearchItem;
@@ -13,17 +15,26 @@ use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
+use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\TokenGenerator;
 use Elastica\ResultSet;
 use Novaway\ElasticsearchClient\Query\Result;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
+use Wamcar\User\Event\PersonalProjectRemoved;
+use Wamcar\User\Event\PersonalUserRemoved;
+use Wamcar\User\Event\ProUserRemoved;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
+use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -42,12 +53,20 @@ class UserEditionService
     private $projectBuilder;
     /** @var ProjectRepository */
     private $projectRepository;
+    /** @var PersonalVehicleEditionService */
+    private $personalVehicleEditionService;
     /** @var PersonalVehicleRepository */
     private $personalVehicleRepository;
     /** @var ProVehicleRepository */
     private $proVehicleRepository;
     /** @var UserPreferencesRepository */
     private $userPreferencesRepository;
+    /** @var GarageEditionService */
+    private $garageEditionService;
+    /** @var UserLikeVehicleRepository $userLikeRepository */
+    private $userLikeRepository;
+    /** @var MessageBus */
+    private $eventBus;
 
     /**
      * UserEditionService constructor.
@@ -56,9 +75,13 @@ class UserEditionService
      * @param array $userSpecificRepositories
      * @param ProjectFromDTOBuilder $projectBuilder
      * @param ProjectRepository $projectRepository
+     * @param PersonalVehicleEditionService $personalVehicleEditionService
      * @param PersonalVehicleRepository $personalVehicleRepository
      * @param ProVehicleRepository $proVehicleRepository
      * @param UserPreferencesRepository $userPreferencesRepository
+     * @param GarageEditionService $garageEditionService
+     * @param UserLikeVehicleRepository $userLikeRepository
+     * @param MessageBus $eventBus
      */
     public function __construct(
         PasswordEncoderInterface $passwordEncoder,
@@ -66,9 +89,13 @@ class UserEditionService
         array $userSpecificRepositories,
         ProjectFromDTOBuilder $projectBuilder,
         ProjectRepository $projectRepository,
+        PersonalVehicleEditionService $personalVehicleEditionService,
         PersonalVehicleRepository $personalVehicleRepository,
         ProVehicleRepository $proVehicleRepository,
-        UserPreferencesRepository $userPreferencesRepository
+        UserPreferencesRepository $userPreferencesRepository,
+        GarageEditionService $garageEditionService,
+        UserLikeVehicleRepository $userLikeRepository,
+        MessageBus $eventBus
     )
     {
         $this->passwordEncoder = $passwordEncoder;
@@ -76,9 +103,13 @@ class UserEditionService
         $this->userSpecificRepositories = $userSpecificRepositories;
         $this->projectBuilder = $projectBuilder;
         $this->projectRepository = $projectRepository;
+        $this->personalVehicleEditionService = $personalVehicleEditionService;
         $this->personalVehicleRepository = $personalVehicleRepository;
         $this->proVehicleRepository = $proVehicleRepository;
         $this->userPreferencesRepository = $userPreferencesRepository;
+        $this->garageEditionService = $garageEditionService;
+        $this->userLikeRepository = $userLikeRepository;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -120,12 +151,73 @@ class UserEditionService
 
     /**
      * @param BaseUser $userToDelete
+     * @param ApplicationUser $currentUser
+     * @return array with 'errorMessages', 'successMessages'
      */
-    public function deleteUser(BaseUser $userToDelete, $hardDelete = false){
-        $this->userRepository->remove($userToDelete);
-        if($hardDelete){
-            $this->userRepository->remove($userToDelete);
+    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser)
+    {
+        $isAlreadySofDeleted = $userToDelete->getDeletedAt() != null;
+        $resultMessages = ['errorMessages' => [], 'successMessages' => []];
+
+        if ($isAlreadySofDeleted &&
+            (count($userToDelete->getConversationUsers()) > 0 || count($userToDelete->getMessages()) > 0)) {
+            $resultMessages['errorMessages'][] = 'flash.error.user.deletion_with_conversations';
+        } else {
+            if ($isAlreadySofDeleted) {
+                // Hard delete of the user likes
+                $userLikes = $this->userLikeRepository->findIgnoreSoftDeletedBy(['user' => $userToDelete]);
+                foreach ($userLikes as $userLike) {
+                    $this->userLikeRepository->remove($userLike);
+                }
+            }
+
+            if ($userToDelete instanceof ProApplicationUser) {
+                /** @var GarageProUser $garageMembership */
+                foreach ($userToDelete->getGarageMemberships() as $garageMembership) {
+                    $garageId = $garageMembership->getGarage()->getId();
+                    $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
+                    if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
+                        $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
+                    } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
+                        foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
+                            $resultMessages['errorMessages'][] = $errorMessage;
+                        }
+                    } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
+                        $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
+                    }
+                }
+                if (count($resultMessages['errorMessages']) == 0) {
+                    $this->userRepository->remove($userToDelete);
+                    if (!$isAlreadySofDeleted) {
+                        $this->eventBus->handle(new ProUserRemoved($userToDelete));
+                    }
+                }
+            } elseif ($userToDelete instanceof PersonalApplicationUser) {
+                // Delete personal vehicles
+                if ($userToDelete->getDeletedAt() != null) {
+                    $vehiclesToDeleted = $this->personalVehicleRepository->findIgnoreSoftDeletedBy(['owner' => $userToDelete]);
+                } else {
+                    $vehiclesToDeleted = $userToDelete->getVehicles();
+                }
+
+                /** @var BaseVehicle $vehicleToDelete */
+                foreach ($vehiclesToDeleted as $vehicleToDelete) {
+                    if ($userToDelete->getDeletedAt() != null || $vehicleToDelete->getDeletedAt() == null) {
+                        $this->personalVehicleEditionService->deleteVehicle($vehicleToDelete);
+                    }
+                }
+
+                $this->userRepository->remove($userToDelete);
+                if (!$isAlreadySofDeleted) {
+                    $this->eventBus->handle(new PersonalUserRemoved($userToDelete));
+                    if ($userToDelete->getProject() != null) {
+                        $this->eventBus->handle(new PersonalProjectRemoved($userToDelete->getProject()));
+                    }
+                }
+            }
         }
+
+        return $resultMessages;
     }
 
     /**
