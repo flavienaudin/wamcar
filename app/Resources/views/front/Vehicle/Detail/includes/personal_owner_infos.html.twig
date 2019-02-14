@@ -1,14 +1,28 @@
 <ul class="brand-list list-border block-border">
     <li class="no-margin">
         <figure class="block-grid align-middle" role="group">
-            <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="seller-pic">
-                <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}">
+            <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}" class="seller-pic">
+                <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail', vehicleSellerName) }}" alt="{{ vehicleSellerName }}">
             </a>
             <div>
-                <a href="{{ path('front_view_user_info', {'id': vehicle.seller.id}) }}" class="primary-color h3"><b>{{ vehicleSellerName }}</b></a> <br>
+                <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}" class="primary-color h3">
+                    <b>{{ vehicleSellerName }}</b></a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
+                {% if isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(vehicle.seller, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% endfor %}
+
+                    </span>
+                {% endif %}
+                <br>
                 {% if isAbleToSeeFullInformation %}
                     {% if vehicle.seller.userProfile.phone is not empty %}
-                        <span class="icon-tel primary-color"><a href="tel:{{ vehicle.seller.userProfile.phone }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.userProfile.phone }}</a></span>
+                        <span class="icon-tel primary-color">
+                            <a href="tel:{{ vehicle.seller.userProfile.phone }}" class="text-underline" target="_blank"
+                               rel="noopener noreferrer">{{ vehicle.seller.userProfile.phone }}</a></span>
                     {% endif %}
                 {% endif %}
             </div>

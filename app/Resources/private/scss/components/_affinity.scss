@@ -1,0 +1,37 @@
+/* ===========================================================================
+   Affinity
+   =========================================================================== */
+
+.affinity {
+
+  &-form {
+
+    &.l-main {
+      position: absolute;
+      top: $header-height;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: hidden;
+      padding-bottom: 0;
+
+      @include breakpoint(large) {
+        top: $header-height-medium;
+      }
+    }
+  }
+
+  /* Logo Scores */
+  &-score {
+    display: inline-block;
+    width: 60px;
+    height: auto;
+
+    > .dropdown-pane {
+      > span {
+        color: $black;
+        font-weight: normal;
+      }
+    }
+  }
+}

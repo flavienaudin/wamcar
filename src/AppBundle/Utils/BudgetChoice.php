@@ -14,7 +14,7 @@ class BudgetChoice
     public static function getListMax(): array
     {
         return [
-            'Plus de 50 000 €' => PHP_INT_MAX,
+            'Plus de 50 000 €' => 10000000,
             '50 000 €' => '50000',
             '47 500 €' => '47500',
             '45 000 €' => '45000',

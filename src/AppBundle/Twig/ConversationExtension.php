@@ -13,6 +13,7 @@ use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
 use Wamcar\Conversation\MessageAttachment;
 use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalUser;
 
 class ConversationExtension extends AbstractExtension
 {
@@ -42,6 +43,7 @@ class ConversationExtension extends AbstractExtension
             new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
             new \Twig_SimpleFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction')),
             new \Twig_SimpleFunction('getAttachmentLink', array($this, 'getAttachmentLinkFunction')),
+            new \Twig_SimpleFunction('getUserContactsOfGarages', array($this, 'getUserContactsOfGaragesFunction')),
         );
     }
 
@@ -96,5 +98,17 @@ class ConversationExtension extends AbstractExtension
             return $request->getScheme() . '://' . $request->getHttpHost() . $request->getBasePath()
                 . $this->uploaderHelper->asset($attachment, 'file');
         }
+    }
+
+    /**
+     * @param PersonalUser $personalUser
+     * @param array $garages
+     * @return array of ProUser
+     */
+    public function getUserContactsOfGaragesFunction(PersonalUser $personalUser, array $garages): array
+    {
+        return array_map(function (ConversationUser $conversationUser) {
+            return $conversationUser->getUser();
+        }, $this->conversationUserRepository->findContactsOfGarages($personalUser, $garages));
     }
 }

@@ -13,7 +13,7 @@
             '%garage_name%': garage.name,
             '%seller_fullname%': seller.fullname,
             '%seller_email%': seller.email,
-            '%seller_profile_url%': url('front_view_user_info', {'id':seller.id}),
+            '%seller_profile_url%': seller|userInfoUrl({}, true)
         })|raw }}
 
         <table>

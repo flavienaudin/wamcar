@@ -43,3 +43,13 @@ api_vehicles_images_remove:
     methods: DELETE
     defaults:
         _controller: AppBundle:Api\Vehicle:removeImages
+
+api_user_submit_personal:
+    path: /typeform/affinity/personal
+    methods: POST
+    controller: AppBundle:Api\TypeForm:submitAffinityPersonalForm
+
+api_user_submit_pro:
+    path: /typeform/affinity/pro
+    methods: POST
+    controller: AppBundle:Api\TypeForm:submitAffinityProForm

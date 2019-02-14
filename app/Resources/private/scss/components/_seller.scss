@@ -94,10 +94,27 @@
       margin-right: rem-calc(10);
     }
 
-    > img {
+    img {
       max-height: 100%;
       border-radius: 50%;
       object-fit: cover;
+    }
+  }
+
+  &-contacts {
+    margin-left: rem-calc(10);
+
+    .avatar-small{
+      display: inline-block;
+      height: rem-calc(24);
+      width: rem-calc(24);
+      margin-left: rem-calc(5);
+
+      img {
+        max-height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
     }
   }
 }

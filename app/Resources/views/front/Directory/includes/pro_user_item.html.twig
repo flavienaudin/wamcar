@@ -1,14 +1,16 @@
-{% set sellerUrl = path('front_view_user_info', {'id': proUser.id}) %}
+{% set sellerUrl = path('front_view_pro_user_info', {'slug': proUser.slug}) %}
 
 <article class="directory-item">
     <div class="small-12 medium-8 is-flex">
         <a href="{{ sellerUrl }}" class="directory-item-user-picture is-flex align-middle">
-            <img src="{{ proUser.avatar|avatar('user_thumbnail') }}" alt="{{ proUser.fullName }}">
+            <img src="{{ proUser.avatar|avatar('user_thumbnail', proUser.firstName) }}" alt="{{ proUser.fullName }}">
         </a>
-        <a href="{{ sellerUrl }}" class="directory-item-user-info overflow-hidden full-width">
-            <h2 class="dark-gray-color">{{ proUser.fullName }}</h2>
-            <p>{{ proUser.description|nl2br }}</p>
-        </a>
+        <div class="directory-item-user-info overflow-hidden full-width">
+            <h2><a href="{{ sellerUrl }}"  class="dark-gray-color">{{ proUser.fullName|title }}</a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig',{'user':proUser}) }}
+            </h2>
+            <a href="{{ sellerUrl }}"><p>{{ proUser.description|nl2br }}</p></a>
+        </div>
         <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" id="launchMPpro{{ proUser.id }}"
            class="directory-item-action is-flex align-middle icon-message"></a>
     </div>
@@ -17,7 +19,7 @@
             {% set userGarages = proUser.garagesOrderByGoogleRating %}
             {% for garageProUser in userGarages|slice(0,1) %}
                 {% set garage = garageProUser.garage %}
-                <a href="{{ path('front_garage_view', {'id':garage.id}) }}" class="directory-item-garage is-block">
+                <a href="{{ path('front_garage_view', {'slug':garage.slug}) }}" class="directory-item-garage is-block">
                     <h3 class="dark-gray-color"> {{ garage.name }}</h3>
                     <span class="body-font-color">{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>
                     {{ include('front/Garages/Detail/includes/google_rating.html.twig', {

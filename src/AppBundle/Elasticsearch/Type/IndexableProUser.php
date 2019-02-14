@@ -19,10 +19,14 @@ class IndexableProUser implements Indexable
     private $lastName;
     /** @var null|string $description */
     private $description;
+    /** @var null|int $descriptionLength */
+    private $descriptionLength;
     /** @var array */
     private $garages = [];
     /** @var float */
     private $maxGarageGoogleRating;
+    /** @var null|int */
+    private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
 
@@ -33,14 +37,18 @@ class IndexableProUser implements Indexable
      * @param null|string $lastName
      * @param null|string $description
      * @param array|null $garages
+     * @param int|null $hasAvatar
+     * @param array|null $roles
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], array $roles = [])
+    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [])
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->description = $description;
+        $this->descriptionLength = $this->description?strlen($this->description):0;
         $this->garages = $garages;
+        $this->hasAvatar = $hasAvatar;
         $this->roles = $roles;
     }
 
@@ -52,6 +60,7 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getLastName(),
             $proApplicationUser->getDescription(),
             [],
+            ($proApplicationUser->getAvatar() != null?1:0), // int for function score
             $proApplicationUser->getRoles()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
@@ -59,6 +68,7 @@ class IndexableProUser implements Indexable
         foreach ($proApplicationUser->getEnabledGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
             $garageArray = [
+                'garageId' => $garage->getId(),
                 'garageName' => $garage->getName(),
                 'garagePresentation' => $garage->getPresentation(),
                 'garageCityName' => $garage->getCity()->getName(),
@@ -106,12 +116,13 @@ class IndexableProUser implements Indexable
     public function toArray(): array
     {
         $arr = [
-            'type' => self::TYPE,
             'id' => $this->id,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
             'description' => $this->description,
-            'garages' => array_values($this->garages)
+            'descriptionLength' => $this->descriptionLength,
+            'garages' => array_values($this->garages),
+            'hasAvatar' => $this->hasAvatar
         ];
         if ($this->maxGarageGoogleRating > 0) {
             $arr['maxGaragesGoogleRating'] = $this->maxGarageGoogleRating;

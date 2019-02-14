@@ -64,6 +64,9 @@ Wamcar\Garage\Garage:
         googleRating:
             type: float
             nullable: true
+        optionAdminSellers:
+            type: boolean
+            nullable: false
         deletedAt:
             type: date
             nullable: true
@@ -73,6 +76,18 @@ Wamcar\Garage\Garage:
         apiSecret:
             type: string
             nullable: true
+        slug:
+            type: string
+            length: 512
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    fields:
+                        - name
+                        - address.city.name
 
     oneToMany:
         members:

@@ -24,7 +24,7 @@
 
       @include breakpoint(large) {
         min-height: 100vh;
-        padding-top: $header-height-medium + rem-calc(40);
+        padding-top: $header-height-medium + rem-calc(20);
         padding-bottom: rem-calc(50);
       }
 
@@ -97,6 +97,10 @@
         padding: rem-calc(40);
       }
 
+      @include breakpoint(large) {
+        padding: rem-calc(16);
+      }
+
       /* Components */
       p {
         margin-bottom: 0;
@@ -110,9 +114,43 @@
           margin-left: auto;
         }
       }
-      // End p
     }
-    // End &-header
+    // End .form-header
   }
-  // End &-meeting
+  // End &-meeting, &-mixte
+
+  /*
+      Landing Mixte
+     ===================================== */
+  &-mixte{
+
+    .vehicle-form-header {
+      h1 {
+        @include breakpoint(medium) {
+          font-size: rem-calc(32);
+        }
+
+        @include breakpoint(large) {
+          font-size: rem-calc(36);
+        }
+      }
+    }
+
+    .vehicle-form {
+      @include breakpoint(medium) {
+        label {
+          margin-bottom: $input-margin-bottom;
+        }
+
+        input {
+          margin-bottom: $input-margin-bottom;
+          height: rem-calc(40);
+        }
+
+        p {
+          font-size: rem-calc(14);
+        }
+      }
+    }
+  }
 }

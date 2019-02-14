@@ -20,16 +20,6 @@
 {% import _self as macro %}
 
 {% set form_criteria %}{% spaceless %}
-    {% if filterData.text is not null %}
-        {{ macro.jsFilterAsTag('search.common.field.text.label', filterData.text, searchForm.text.vars.id) }}
-    {% endif %}
-    {% if filterData.postalCode is not null and filterData.cityName is not null %}
-        {{ macro.jsFilterAsTag('search.common.field.location.label', filterData.cityName~' ('~filterData.postalCode~')', [searchForm.postalCode.vars.id,searchForm.cityName.vars.id,searchForm.longitude.vars.id,searchForm.latitude.vars.id]) }}
-        {% if filterData.radius is not null %}
-            {{ macro.jsFilterAsTag('search.common.field.radius.label', filterData.radius~'km', searchForm.radius.vars.id~'=50') }}
-        {% endif %}
-    {% endif %}
-
     {% if filterData.make is not null %}
         {{ macro.jsFilterAsTag('vehicle.field.make.label', filterData.make, [searchForm.make.vars.id, searchForm.model.vars.id]) }}
     {% endif %}
@@ -224,6 +214,18 @@
         </div>
     </div>
 
+    <div class="column small-12 medium-order-3">
+        {{ form_widget(searchForm.type, {
+            'class':'',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.type.label'|trans,
+            'label_class' : 'sr-only',
+            'list_class': 'js-search-type-list small-up-1 large-up-3 input-white-bg input-margin',
+            'values_translation_domain' : 'enumeration'
+        }) }}
+    </div>
+
     <div class="hide-for-medium column small-12 medium-order-3 input-margin">
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
@@ -233,5 +235,7 @@
             {{ form_criteria }}
         </div>
     {% endif %}
+
+
     {{ form_end(searchForm) }}
 </div>

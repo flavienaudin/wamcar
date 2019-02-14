@@ -1,6 +1,6 @@
 {% form_theme editUserForm 'front/Layout/includes/forms/fields.html.twig' %}
 
-{{ form_start(editUserForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+{{ form_start(editUserForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : 'data-abide', 'novalidate': 'novalidate'} }) }}
 <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
     <h2>Identifiants de connexion</h2>
     <p>
@@ -97,7 +97,7 @@
             'required': false,
             'required_class': '',
             'classPreview': 'small-6 large-4 file-preview-avatar',
-            'imgPreview':  user.avatar|avatar('user_thumbnail'),
+            'imgPreview':  user.avatar|avatar('user_thumbnail', editUserForm.firstName.vars.value ),
             'defaultImage': 'user_thumbnail'|defaultAvatar
         }) }}
     </div>

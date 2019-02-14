@@ -4,42 +4,45 @@ namespace AppBundle\Elasticsearch;
 
 
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Elasticsearch\Elastica\EntityIndexer;
+use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
 use AppBundle\Elasticsearch\Type\IndexableProUser;
-use Novaway\ElasticsearchClient\ObjectIndexer;
+use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\Event\UserEvent;
 use Wamcar\User\Event\UserEventHandler;
 
 class IndexUpdatedProUser implements UserEventHandler
 {
-    /** @var ObjectIndexer $objectIndexer */
-    private $objectIndexer;
+    /** @var ProUserEntityIndexer $proUserEntityIndexer */
+    private $proUserEntityIndexer;
+
+    /** @var EntityIndexer $searchItemEntityIndexer */
+    private $searchItemEntityIndexer;
 
     /**
      * IndexUpdatedProUser constructor.
-     * @param ObjectIndexer $objectIndexer
+     * @param ProUserEntityIndexer $proUserEntityIndexer
+     * @param EntityIndexer $searchItemEntityIndexer
      */
-    public function __construct(ObjectIndexer $objectIndexer)
+    public function __construct(ProUserEntityIndexer $proUserEntityIndexer, EntityIndexer $searchItemEntityIndexer)
     {
-        $this->objectIndexer = $objectIndexer;
+        $this->proUserEntityIndexer = $proUserEntityIndexer;
+        $this->searchItemEntityIndexer = $searchItemEntityIndexer;
     }
+
     /**
      * @inheritDoc
      */
     public function notify(UserEvent $event)
     {
-        if (!$event instanceof ProUserUpdated) {
-            throw new \InvalidArgumentException("IndexUpdatedProUser can only be notified of 'ProUserUpdated' events");
+        if (!$event instanceof ProUserCreated && !$event instanceof ProUserUpdated) {
+            throw new \InvalidArgumentException("IndexUpdatedProUser can only be notified of 'ProUserCreated' or 'ProUserUpdated' events");
         }
         /** @var ProApplicationUser $proUser */
         $proUser = $event->getUser();
 
-        $indexableProUser = IndexableProUser::createFromProApplicationUser($proUser);
-
-        if ($indexableProUser->shouldBeIndexed()) {
-            $this->objectIndexer->index($indexableProUser, IndexableProUser::TYPE);
-        } else {
-            $this->objectIndexer->remove($indexableProUser, IndexableProUser::TYPE);
-        }
+        $this->proUserEntityIndexer->updateIndexable(IndexableProUser::createFromProApplicationUser($proUser));
     }
+
 }

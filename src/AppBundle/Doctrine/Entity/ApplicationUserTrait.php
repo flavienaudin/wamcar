@@ -15,9 +15,6 @@ trait ApplicationUserTrait
     protected $registrationToken;
     /** @var  \DateTime */
     protected $createdAt;
-    /** @var  \DateTime */
-    protected $deletedAt;
-
 
     /**
      * {@inheritdoc}

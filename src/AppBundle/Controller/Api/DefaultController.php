@@ -13,6 +13,6 @@ class DefaultController extends BaseController
      */
     public function documentationAction(Request $request): Response
     {
-        die(sprintf('You are %s', $this->getGarage() ? $this->getGarage()->getUsername() : 'nobody'));
+        die(sprintf('You are nobody'));
     }
 }

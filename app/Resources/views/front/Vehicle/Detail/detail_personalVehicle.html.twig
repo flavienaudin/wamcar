@@ -6,11 +6,11 @@
     {% set page_search = true %}
 {% endif %}
 
-{% set vehiclesToList = vehicle.seller.vehicles %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
 {% endset %}
 
+{% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
 {% set ownersProject = vehicle.ownerProject %}
 {% set displayProjectTab = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
 
@@ -50,7 +50,7 @@
     {% set breadcrumbs = [
         {
             'name': vehicleSellerName,
-            'href': path('front_view_user_info', {'id': vehicle.seller.id})
+            'href': path('front_view_personal_user_info', {'slug': vehicle.seller.slug})
         },
         {
             'name': vehicle.name,
@@ -129,10 +129,10 @@
                             {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' %}
                         </div>
                     {% endif %}
-                    {% if vehiclesToList|length > 1 %}{# if length == 1 Then it is the current and excluded vehicle #}
+                    {% if vehiclesToList|length > 0 %}
                         <div class="separator-section column small-12 no-margin" id="js-associate" data-magellan-target="js-associate">
                             <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}</h2>
-                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList, 'excludedVehicle':vehicle} %}
+                            {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList} %}
                         </div>
                     {% endif %}
                 </div>

@@ -11,6 +11,7 @@ use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use Doctrine\Common\Collections\Criteria;
+use Elastica\ResultSet;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
@@ -78,22 +79,23 @@ class ProVehicleEditionService
 
     /**
      * Retrieve ProVehicles from the search result
-     * @param Result $searchResult
+     * @param ResultSet $searchResult
      * @return array
      */
-    public function getVehiclesBySearchResult(Result $searchResult): array
+    public function getVehiclesBySearchResult(ResultSet $searchResult): array
     {
-        $result = array();
-        $result['totalHits'] = $searchResult->totalHits();
-        $result['hits'] = array();
+        $results = array();
+        $results['totalHits'] = $searchResult->getTotalHits();
+        $results['hits'] = array();
         $ids = array();
-        foreach ($searchResult->hits() as $vehicle) {
+        foreach ($searchResult->getResults() as $result) {
+            $vehicle = $result->getData();
             $ids[] = $vehicle['id'];
         }
         if (count($ids) > 0) {
-            $result['hits'] = $this->vehicleRepository->findByIds($ids);
+            $results['hits'] = $this->vehicleRepository->findByIds($ids);
         }
-        return $result;
+        return $results;
     }
 
     /**
@@ -109,7 +111,7 @@ class ProVehicleEditionService
         $proVehicle->setGarage($garage);
         if ($seller == null) {
             // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getEnabledMembers()->toArray();
+            $members = $garage->getAvailableSellers()->toArray();
             $seller = $members[array_rand($members)]->getProUser();
         }
         $proVehicle->setSeller($seller);
@@ -135,6 +137,21 @@ class ProVehicleEditionService
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
+        if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
+            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin es vendeuse)
+            $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
+                return $memberShip->getProUser();
+            });
+            // Admins can't be sellers (The only one rule today)
+            if (!$availableSellers->contains($proVehicle->getSeller())) {
+                // The actual seller is an admin but it's not allowed by the garage option
+                // TODO Tirage aléatoire en attendant implémentation des règles
+                $members = $availableSellers->toArray();
+                $seller = $members[array_rand($members)];
+                $proVehicle->setSeller($seller);
+            }
+        }
+
         $this->vehicleRepository->update($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
@@ -153,7 +170,7 @@ class ProVehicleEditionService
     {
         if ($newSeller == null) {
             /** @var GarageProUser[] $members */
-            $members = $proVehicle->getGarage()->getEnabledMembers()->toArray();
+            $members = $proVehicle->getGarage()->getAvailableSellers()->toArray();
             do {
                 $randIndex = array_rand($members);
                 $newSeller = $members[$randIndex]->getProUser();

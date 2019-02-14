@@ -1,7 +1,18 @@
 <aside class="profil-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">{{ isUserProPageProfil or userIsMe or isUserPro?user.fullName:user.firstName }}</h1>
+            <h1 class="profil-name">
+                {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+                {% if isUserPersonalPageProfil and isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% endfor %}
+                    </span>
+                {% endif %}
+            </h1>
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
@@ -31,7 +42,7 @@
         <div class="column medium-shrink medium-order-1">
             <div class="profil-image">
                 {% if not userIsMe %}
-                    <img src="{{ user.avatar|avatar('user_thumbnail') }}" alt="{{ user.fullName }}" width="100%">
+                    <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
                     {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
                     {{ form_widget(avatarForm.avatar, {
@@ -40,7 +51,7 @@
                         'required_class': '',
                         'classPreview': 'file-preview-avatar',
                         'input_class': 'js-onchange-submit',
-                        'imgPreview':  user.avatar|avatar('user_thumbnail'),
+                        'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
                         'isRemovable': false
                     }) }}
                     {{ form_widget(avatarForm) }}

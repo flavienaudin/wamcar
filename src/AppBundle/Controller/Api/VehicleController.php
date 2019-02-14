@@ -6,7 +6,6 @@ namespace AppBundle\Controller\Api;
 use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
-use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
@@ -36,6 +35,15 @@ class VehicleController extends BaseController
     private $vehicleRepository;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+
+
+    /**
+     * @return Garage
+     */
+    public function getGarage(): Garage
+    {
+        return $this->session->get('AUTH_GARAGE');
+    }
 
     /**
      * VehicleController constructor.
@@ -100,7 +108,7 @@ class VehicleController extends BaseController
             $data = [];
             /** @var ProVehicle $vehicle */
             foreach ($vehicles as $vehicle) {
-                if($vehicle->getReference()) {
+                if ($vehicle->getReference()) {
                     $data[$vehicle->getReference()] = VehicleShortDTO::createFromProVehicle($vehicle);
                 }
             }

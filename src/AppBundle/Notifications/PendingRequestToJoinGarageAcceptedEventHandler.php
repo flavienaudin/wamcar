@@ -71,7 +71,7 @@ class PendingRequestToJoinGarageAcceptedEventHandler extends AbstractEmailEventH
                 get_class($event),
                 json_encode($data),
                 $this->router->generate('front_garage_view', [
-                    'id' => $garage->getId(), '_fragment' => 'sellers'])
+                    'slug' => $garage->getSlug(), '_fragment' => 'sellers'])
             );
 
             $this->notificationsManager->addNotification([$proUser], $notification, true);

@@ -39,7 +39,7 @@
         <div class="small-12">
             {% include 'front/Layout/includes/pagination.html.twig' with {
                 'route': 'front_garage_view',
-                'route_params':{'id':garage.id},
+                'route_params':{'slug':garage.slug},
                 'page': page,
                 'lastPage': lastPage
             } %}

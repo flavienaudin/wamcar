@@ -1,0 +1,51 @@
+AppBundle\Doctrine\Entity\AffinityDegree:
+
+    type: entity
+    table: affinity_degree
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository
+
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [proUser, personalUser ]
+            errorPath: proUser
+            message: 'The affinity between these users is already calculated.'
+
+    id:
+      smallerIdUser:
+        associationKey: true
+      greaterIdUser:
+        associationKey: true
+
+    fields:
+      affinityValue:
+        type: float
+        nullable: false
+      profileAffinityValue:
+        type: float
+        nullable: false
+      linkingAffinityValue:
+        type: float
+        nullable: false
+      passionAffinityValue:
+        type: float
+        nullable: false
+      positioningAffinityValue:
+        type: float
+        nullable: false
+      atomesCrochusAffinityValue:
+        type: float
+        nullable: false
+
+    manyToOne:
+        smallerIdUser:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: greaterIdUserAffinityDegrees
+            joinColumn:
+                name: smaller_id_user_id
+                referencedColumnName: id
+        greaterIdUser:
+            targetEntity: Wamcar\User\BaseUser
+            inversedBy: smallerIdUserAffinityDegrees
+            joinColumn:
+                name: greated_id_user_id
+                referencedColumnName: id

@@ -1,27 +1,37 @@
 
-
 {% set balise = balise|default('h2') %}
-{% set sellerUrl = path('front_view_user_info', {'id': project.personalUser.id}) %}
+{% set sellerUrl = path('front_view_personal_user_info', {'slug': project.personalUser.slug}) %}
 
-{% set vehicleSellerName = (app.user.is(project.personalUser)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal)) %}
+{% set vehicleSellerName = (project.personalUser.is(app.user)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal))|title %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
         {% if project.personalUser.vehicles|length == 0 %}
-            <div class="vehicle-picture small-auto">
-                <div class="is-relative">
-                    <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+            <a href="{{ sellerUrl }}" class="is-flex">
+                <div class="vehicle-picture small-auto">
+                    <div class="is-relative">
+                        <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+                    </div>
                 </div>
-            </div>
-            <div class="vehicle-infos small-shrink">
-                <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
-                <p>Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.</p>
-            </div>
+                <div class="vehicle-infos small-shrink">
+                    <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
+                    <div class="block-grid full-width body-font-color">
+                        Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
+                    </div>
+                    <div class="vehicle-bottom block-grid full-width align-middle">
+                        <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
+                        <time class="vehicle-time black-color small-auto">
+                            <span class="show-for-small-only">{{ project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                            <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        </time>
+                    </div>
+                </div>
+            </a>
         {% elseif project.personalUser.vehicles|length == 1 %}
             {% set vehicle = project.personalUser.vehicles.first %}
-            {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
+            {% set like = isLogged?vehicle.getLikeOfUser(app.user):null %}
             {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-            {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'id': vehicle.id}):path('front_vehicle_personal_detail', {'id': vehicle.id})) %}
+            {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 
             <div class="vehicle-picture small-auto">
                 <div class="is-relative"  id="{{ vehicle.id }}">
@@ -34,11 +44,13 @@
                 </div>
             </div>
             <div class="vehicle-infos small-shrink">
-                <a href="{{ detailUrl }}"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}></a>
-                <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span>
+                <a href="{{ detailUrl }}" class="is-block"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
+                <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span></a>
 
                 <div class="vehicle-middle block-grid full-width">
-                    <strong class="vehicle-price primary-color">{% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</strong>
+                    <a href="{{ detailUrl }}" class="full-width">
+                        <strong class="vehicle-price primary-color">{% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</strong>
+                    </a>
                     <span class="vehicle-like small-shrink">
                         {% block right_action %}
                             <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
@@ -46,57 +58,92 @@
                         {% endblock %}
                     </span>
                 </div>
-                <div class="vehicle-bottom block-grid full-width align-middle">
-                    <span class="vehicle-city primary-color small-12">{{ vehicle.cityName|upper }}</span>
-                    <time class="vehicle-time black-color small-auto">
-                        <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
-                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
-                    </time>
-                </div>
+                <a href="{{ detailUrl }}" class="is-block">
+                    <div class="vehicle-bottom block-grid full-width align-middle">
+                        <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
+                        <time class="vehicle-time black-color small-auto">
+                            <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                            <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        </time>
+                    </div>
+                </a>
             </div>
         {% else %}
-            <div class="vehicle-picture small-auto">
-                <div class="is-relative">
-                    {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+            <a href="{{ sellerUrl }}" class="is-flex">
+                <div class="vehicle-picture small-auto">
+                    <div class="is-relative">
+                        {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+                    </div>
                 </div>
-            </div>
-            <div class="vehicle-infos small-shrink">
-                <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
-                <p>Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.</p>
-            </div>
+                <div class="vehicle-infos small-shrink">
+                    <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
+                    <div class="block-grid full-width body-font-color">
+                        Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
+                    </div>
+                    <div class="vehicle-bottom block-grid full-width align-middle">
+                        <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
+                        <time class="vehicle-time black-color small-auto">
+                            <span class="show-for-small-only">{{ project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                            <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        </time>
+                    </div>
+                </div>
+            </a>
         {% endif %}
     </div>
 
     <div class="vehicle-user-infos small-12 medium-auto">
-        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}"><img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail') }}" alt="{{ vehicleSellerName }}"></a></div>
-        <a href="{{ sellerUrl }}">
-            {% if project and (project.budget is not null or project.projectVehicles|length > 0 ) %}
-                <div class="small-12 dark-gray-color">
-                    {% if project.budget|default(0) > 0 %}
-                        <p class="no-margin"><strong class="">{{ "vehicle.item.budget.with_price"|transchoice(app.user.is(project.personalUser)?0:1, {'%prenom%' : vehicleSellerName, '%budget%':project.budget|localizednumber  }) }}</strong></p>
-                    {% else %}
-                        <p class="no-margin"><strong class="primary-color">Budget non défini</strong></p>
-                    {% endif %}
-                    <ul class="vehicle-user-greetings no-bullet">
-                        {% for projectVehicle in project.projectVehicles %}
-                            <li><b>{{ projectVehicle.make }} {{ projectVehicle.model }}</b>
-                                {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
-                                {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
-                            </li>
-                        {% else %}
-                            {% if project.description is not empty %}
-                                <li class="user-project-description">{{ project.description|length>162?project.description|slice(0,162)~'...':project.description }}</li>
-                            {% else %}
-                                <li>{{ 'vehicle.item.no_wish'|trans }}</li>
-                            {% endif %}
+        <div class="vehicle-user-pic"><a href="{{ sellerUrl }}">
+                <img src="{{ project.personalUser.avatar|avatar('user_mini_thumbnail', vehicleSellerName) }}"
+                     alt="{{ vehicleSellerName }}"></a></div>
+
+        <div class="small-12 align-self-top">
+            <div>
+                <a href="{{ sellerUrl }}" class="primary-color"><strong>{{ vehicleSellerName }}</strong></a>
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':project.personalUser}) }}
+                {% if isUserPro %}
+                    {% set contacts = getUserContactsOfGarages(project.personalUser, app.user.garages) %}
+                    <span class="seller-contacts">
+                        {% for contact in contacts if not contact.is(app.user) %}
+                            {{ include('front/User/includes/contacted_by.html.twig') }}
                         {% endfor %}
-                    </ul>
+                    </span>
+                {% endif %}
+            </div>
+            {% if project and not project.empty %}
+                <div class="black-color">
+                    <strong>
+                        {% if project.budget|default(0) > 0 %}
+                            {{ "user.project.defined_budget"|trans({'%budget_ammount%':project.budget|localizednumber  }) }}
+                        {% else %}
+                            {{ "user.project.undefined_budget"|trans }}
+                        {% endif %}
+                    </strong>
                 </div>
+
+                {% if project.description is not empty %}
+                    <div class="user-project-description">
+                        "{{ project.description|length > 162 ?
+                        project.description|slice(0,162)~'...':project.description }}"
+                    </div>
+                {% endif %}
+
+                <ul class="vehicle-user-greetings no-bullet">
+                    {% for projectVehicle in project.projectVehicles|slice(0,3) %}
+                        <li><strong>{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
+                            {{ (projectVehicle.yearMin) ? projectVehicle.yearMin~"+ " : '' }}
+                            {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
+                        </li>
+                    {% endfor %}
+                    {% if project.projectVehicles|length > 3%}
+                        <li>...</li>
+                    {% endif %}
+                </ul>
             {% else %}
-                <p class="dark-gray-color no-margin small-10 large-12">
-                    <strong>{{ 'vehicle.item.no_project.title'|transchoice((app.user.is(vehicle.seller)?0:1), {'%prenom%' : vehicleSellerName}) }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
-                </p>
+                <div class="dark-gray-color text-justify">
+                    <strong>{{ 'vehicle.item.no_project.title'|trans }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                </div>
             {% endif %}
-        </a>
+        </div>
     </div>
 </article>

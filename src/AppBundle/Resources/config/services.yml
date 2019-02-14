@@ -16,7 +16,8 @@ imports:
     - { resource: services/validators.yml }
     - { resource: services/sessions.yml }
     - { resource: services/commands.yml }
-    - { resource: search.yml }
+    - { resource: search_elastica.yml }
+    - { resource: ../../../TypeForm/Resources/config/services.yml }
 
 services:
     twig.extension.intl:
@@ -123,4 +124,7 @@ services:
         autowire: true
 
     AppBundle\Services\Notification\NotificationManagerExtended:
+        autowire: true
+
+    AppBundle\Services\Affinity\AffinityAnswerCalculationService:
         autowire: true

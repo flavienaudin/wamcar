@@ -14,6 +14,7 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\UserEvent;
 use Wamcar\User\Event\UserEventHandler;
+use Wamcar\User\ProUser;
 
 class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements UserEventHandler
 {
@@ -61,7 +62,9 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
                 'firstname' => $user->getFirstName(),
                 'lastname' => $user->getLastName(),
                 'user_mail' => $user->getEmail(),
-                'url_profile_page' => $this->router->generate("front_view_user_info", ['id' => $user->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+                'url_profile_page' => $user instanceof ProUser ?
+                    $this->router->generate("front_view_pro_user_info", ['slug' => $user->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
+                    : $this->router->generate("front_view_personal_user_info", ['slug' => $user->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList($this->adminsEmails)
         );

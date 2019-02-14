@@ -17,16 +17,28 @@ flash:
         invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
     registration_success_pro: Votre inscription a bien été enregistrée.
     registration_confirmed: Vous êtes bien inscrit sur Wamcar.
+    registration:
+      personal:
+        assitant:
+          process_validation: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+          process_end: Votre profil et votre projet sont maintenant complets. Nous sommes en train de calculer vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
+      pro:
+        validation: Nous avons complété votre profil avec les réponses que vous nous avez fournies. Merci de relire et de valider les informations.
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien été enregistré.
+    affinity:
+      form_submited:
+        with_project: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
+        without_project: Vos réponses ont bien été enregistrées. Nous calculons vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
     vehicle_create: Le véhicule a bien été enregistré.
     vehicle_update: Les modifications ont bien été enregistrées.
     remove_vehicle: Le véhicule a bien été supprimé.
-    conversation_update: Votre message a bien envoyé.
+    conversation_update: Votre message a bien été envoyé.
     vehicle:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
+    not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
   error:
     bad_credentials: Votre email et/ou votre mot de passe sont incorrects. Merci de les saisir à nouveau.
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
@@ -65,6 +77,8 @@ flash:
         pour envoyer une demande à l'adminstrateur.
       invitations:
         personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[  Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
+    personal_orientation:
+      invalid_choice: Choix invalide. Merci de choisir une option valide.
 
 global:
   yes: Oui
@@ -95,6 +109,7 @@ global:
     see_phone_number: Voir le numéro
     call: Appeler
     invite: Inviter
+    delete: Supprimer
   pagination:
     pagination: Pagination
     first: Première page
@@ -237,8 +252,11 @@ landing:
       subtitle: Découvrez les meilleurs professionnels pour la reprise et/ou l'achat de votre véhicule.
       pre_submit: Avec %sitename%, vous pouvez vendre et acheter votre véhicule sur la même plateforme et obtenir ainsi le meilleur prix de la part de professionnels.
   mixte:
-    title: Site de rencontre pour échange, reprise et vente de voitures
-    description: Déposez votre annonce gratuitement pour changer de voiture. Découvrez les occasions des professionnels et leurs offres de reprise.
+    title: "Site de rencontre automobile : reprise, achat et vente de voitures"
+    description: >
+        Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+        découvrez les occasions, changez de voiture !
+    image_alt: Rencontrez votre conseiller automobile.
     form.title: Le site de rencontre automobile
     field:
       social_connect.label: Inscription via une plateforme
@@ -246,6 +264,8 @@ landing:
         label: Inscription par e-mail
         placeholder: Entrez votre e-mail
         required_message: Veuillez indiquer votre adresse email
+      assist:
+        label: Assistant d'inscription
       submit: Inscription
     pro_email_registration_tab:
       title: Je suis un conseiller auto
@@ -263,6 +283,9 @@ garage:
     join: Rejoindre ce garage
   infos:
     opening_hours: Horaires
+    auto_vehicles_import_request:
+      presentation: Demander l'import automatisé de votre stock :
+      form: Formulaire
   tabs:
     vehicles: Véhicules
     about: A propos
@@ -279,6 +302,11 @@ garage:
         placeholder: Rechercher votre établissement sur Google Map
       location:
         placeholder: Ville ou code postal
+    auto_vehicles_import_request:
+      title: Import automatisé de votre stock de véhicule
+      presentation: >
+          Souhaitez-vous automatiser l'import des véhicules directement depuis votre stock via notre partenaire Ubiflow ?
+          Faites-en la demande via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">notre formulaire</a>
   assignation:
     invitation:
       title: Inviter vos collaborateurs à rejoindre %garage_name%
@@ -329,7 +357,9 @@ search:
         label: Energie
         placeholder: Energie
       sorting:
-        label: Trier par :
+        label: "Trier par :"
+      type:
+        label: "Type"
     more_criteria: Plus de critères
     less_criteria: Moins de critères
     tab:
@@ -457,8 +487,7 @@ vehicle:
         personal: Autres véhicules de %firstname%
         owner: Mes autres véhicules
       button:
-        garage: Voir tous les véhicules de ce vendeur
-        owner: Voir tous mes véhicules
+        garage: Voir tous les véhicules du garage
   interested_user:
     title:
       pro: Ils aiment ce véhicule
@@ -563,10 +592,10 @@ vehicle:
     empty_list: Aucun véhicule n'a été renseigné pour le moment
   item:
     budget:
-      with_price: "{0}%prenom% avez un budget de %budget%€ pour:|{1}%prenom% a un budget de %budget%€ pour:"
+      with_price: "Budget de %budget%€"
     no_wish: Aucun souhait
     no_project:
-      title: "{0}%prenom% n'avez pas encore indiqué de souhaits.|{1}%prenom% n'a pas encore indiqué de souhaits."
+      title: "Ce particulier n'a pas encore indiqué de souhait."
       subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
 
 user:
@@ -595,6 +624,13 @@ user:
       sell: Ajouter un véhicule à la vente
       search: Voir les voitures disponibles
       profile: Compléter mon profil
+  orientation:
+    page_title: Assistant à l'inscription
+    title: Inscription confirmée
+    form:
+      action:
+        label: Maintenant, quels sont vos projets ?
+      submit.label: C'est parti
 
   login:
     title: Connexion
@@ -676,7 +712,7 @@ user:
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
-    defined_budget: Budget de %budget_ammount%
+    defined_budget: Budget de %budget_ammount%€
     undefined_budget: Budget non défini
     field:
       isFleet.label: Type de recherche
@@ -696,11 +732,40 @@ user:
         label: Souhait
         yearMin.label: Année min
         mileageMax.label: Km max
-
       submit: Enregistrer mon projet
     favorites:
       title: "%user_firstname% aime"
       owner: Mes likes
+    prefill:
+      personal:
+        description:
+          search: "Je recherche un véhicule "
+          vehicle_usage:
+            personal: pour mon usage personnel.
+            company: pour ma société.
+          company:
+            activity: "Je suis %activity%"
+            and: " et "
+            nb_vehicle: "{1} je recherche %nb_vehicle% véhicule|[2,Inf[ je recherche %nb_vehicle% véhicules."
+          search_a: "Je recherche une "
+          generation: " des années %generation%."
+          seats_number: "Nombre de places : %seats_number%"
+          strong_points: "Point(s) fort(s) de mon véhicule actuel : %strong_points%"
+          improvements: "J'aimerai améliorer : %improvements%"
+          options:
+            security: "Option(s) de sécurité souhaitée(s) : %security_options%"
+            confort: "Option(s) de confort souhaitée(s) : %confort_options%"
+          searched_advices: "Je recherche des conseils sur %search_advices%"
+      profesional:
+        description:
+          main_profession: "Je suis %profession%. "
+          experience: "J'ai %experience% d'expérience dans le domaine de l'automobile. "
+          hobby: "Je suis passionné par %hobby%. "
+          advices: "Je peux vous conseiller sur %advices%."
+          brands: "Je connais plus particulièrement les marques suivantes : %brands."
+          vehicle_body: "Et en particulier, les véhicules de type : %vehicle_bodies%."
+          first_contact_preference:
+            waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -713,6 +778,35 @@ user:
     pending_request:
       member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
       administrator: "%seller_name% souhaite rejoindre %garage_name%"
+  affinity:
+    page_title: Wam Affinity
+    section:
+      title: Qui suis-je ?
+      your_affinities: Vos affinités
+      explanation:
+        personal: >
+          Découvrez votre degré d'affinité avec chaque professionnel <a href="%affinity_form_url%"
+          class="text-underline"> en répondant au questionnaire WamAffinity</a>. Cela vous aidera à choisir le
+          professionnel qui vous accompagnera dans votre projet.
+        pro: >
+          Découvrez votre degré d'affinité avec chaque particulier <a href="%affinity_form_url%"
+          class="text-underline"> en répondant au questionnaire WamAffinity</a>.
+      edit:
+        personal: >
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
+          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+        pro: >
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
+          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+    degree:
+      calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
+      explanation:
+        personal: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+        pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
+      calltoaction:
+        fill_form: Remplir le questionnaire
   preference:
     page_title: Mes préférences
     title:
@@ -727,6 +821,8 @@ user:
         label: Quand on vous envoit un message privé
       like:
         label: Quand on like votre annonce
+  contacted_by: Contacté par %contact_name%
+
 
 conversation:
   list:
@@ -747,7 +843,7 @@ conversation:
   answer:
     field:
       message:
-        label: Votre message pour %interlocutorName%
+        label: Votre message pour&nbsp;<a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
         placeholder: Entrez votre message...
       vehicle:
         create: Créer un véhicule

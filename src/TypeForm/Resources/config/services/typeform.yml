@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    TypeForm\Services\:
+        resource: '../../../Services'
+
+
+    TypeForm\Services\AffinityFormManager:
+        class: TypeForm\Services\AffinityFormManager
+        calls:
+            - method: setPersonalFormId
+              arguments:
+                  - '%typeform_affinity_personal_form%'
+            - method: setProFormId
+              arguments:
+                  - '%typeform_affinity_pro_form%'

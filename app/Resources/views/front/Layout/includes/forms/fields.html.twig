@@ -511,7 +511,6 @@
             {% endif %}
         </div>
     </div>
-
 {%- endblock star_widget -%}
 
 {%- block fleet_widget -%}
@@ -537,6 +536,32 @@
         {% endfor %}
     </ul>
 {%- endblock fleet_widget -%}
+
+{%- block personal_orientation_action_widget -%}
+    {% set class_field = class_field|default('') %}
+    {% set class = class|default('') %}
+    {% set required = required|default(false) %}
+    {% set required_message = required_message|default('Ce champ est requis') %}
+    {% set required_class = required_class|default('') %}
+    {% set label = label|default(false) %}
+    {% set label_class = label_class|default('') %}
+    {% set list_class = list_class|default('') %}
+
+    {% if label %}
+        <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
+    {% endif %}
+
+    <ul class="block-grid {{ list_class }}">
+        {% for child in form %}
+            <li class="column small-12 small-collapse medium-4">
+                {{ form_widget(child) }}
+                <label for="{{ child.vars.id }}" class="radio-item">
+                    {{ child.vars.label|trans({}, choice_translation_domain|default('message')) }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
+                </label>
+            </li>
+        {% endfor %}
+    </ul>
+{%- endblock personal_orientation_action_widget -%}
 
 {%- block _vehicle_registrationNumber_widget -%}
 <div class="{{ class_field }}">
@@ -622,6 +647,10 @@
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _pro_user_information_title_widget -%}
+
+{%- block _search_vehicle_type_widget -%}
+    {{ block('yesno_widget') }}
+{%- endblock _search_vehicle_type_widget -%}
 
 {%- block _project_isFleet_widget -%}
     {{ block('fleet_widget') }}

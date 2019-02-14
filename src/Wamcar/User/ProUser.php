@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
+use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
 {
@@ -104,6 +105,17 @@ class ProUser extends BaseUser
     }
 
     /**
+     * Get garages of user
+     * @return array
+     */
+    public function getGarages(): array
+    {
+        return $this->getEnabledGarageMemberships()->map(function(GarageProUser $garageProUser){
+            return $garageProUser->getGarage();
+        })->toArray();
+    }
+
+    /**
      * @param GarageProUser $member
      * @return ProUser
      */
@@ -144,9 +156,16 @@ class ProUser extends BaseUser
     /**
      * {@inheritdoc}
      */
-    public function getVehicles(): Collection
+    public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection
     {
-        return $this->vehicles;
+        $criteria = Criteria::create();
+        if ($excludedVehicle != null) {
+            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        }
+        if ($limit > 0) {
+            $criteria->setMaxResults($limit);
+        }
+        return $this->vehicles->matching($criteria);
     }
 
     /**

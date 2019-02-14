@@ -13,6 +13,7 @@ class DoctrinePersonalUserRepository extends EntityRepository implements UserRep
 {
     use DoctrineUserRepositoryTrait;
     use PasswordResettableRepositoryTrait;
+    use SluggableEntityRepositoryTrait;
 
     /**
      * {@inheritdoc}

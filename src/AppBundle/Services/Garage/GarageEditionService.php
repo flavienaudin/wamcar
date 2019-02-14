@@ -233,10 +233,10 @@ class GarageEditionService
     {
         /** @var GarageProUser $member */
         $member = $proApplicationUser->getMembershipByGarage($garage);
-        $wasPendingRequest = $member->getRequestedAt() != null;
         if (null === $member) {
             throw new \InvalidArgumentException('User should be member of the garage');
         }
+        $wasPendingRequest = $member->getRequestedAt() != null;
         $garage->removeMember($member);
         $this->garageProUserRepository->remove($member);
         $this->garageRepository->update($garage);
@@ -269,6 +269,7 @@ class GarageEditionService
 
     /**
      * @param Garage $garage
+     * @return null|array
      */
     public function getGooglePlaceDetails(Garage $garage)
     {

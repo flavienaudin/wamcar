@@ -3,133 +3,134 @@
 {% block title %}Administration - Utilisateurs{% endblock title %}
 
 {% block bodyClass %}admin{% endblock %}
+{% block mainClass %}no-padding{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="small-12">
-            <ul class="tabs" data-tabs id="tabs-user">
-                <li class="tabs-title is-active"><a href="#pro-user-panel" aria-selected="true">Professionnels</a></li>
-                <li class="tabs-title"><a href="#personal-user-panel">Particuliers</a></li>
-            </ul>
-            <div class="tabs-content" data-tabs-content="tabs-user">
-                <div class="tabs-panel is-active" id="pro-user-panel">
-                    <div class="admin-table-container">
-                        <table class="hover">
-                            <thead>
+    <div>
+        <ul class="tabs" data-tabs id="tabs-user">
+            <li class="tabs-title is-active"><a href="#pro-user-panel" aria-selected="true">Professionnels</a></li>
+            <li class="tabs-title"><a href="#personal-user-panel">Particuliers</a></li>
+        </ul>
+        <div class="tabs-content" data-tabs-content="tabs-user">
+            <div class="tabs-panel is-active" id="pro-user-panel">
+                <div class="admin-table-container">
+                    <table class="hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Avatar</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Date d'inscription</th>
+                            <th>Description</th>
+                            <th>Réseaux sociaux</th>
+                            <th>Garages</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in proUsers %}
                             <tr>
-                                <th>Id</th>
-                                <th>Avatar</th>
-                                <th>Prénom</th>
-                                <th>Nom</th>
-                                <th>Email</th>
-                                <th>Téléphone</th>
-                                <th>Date d'inscription</th>
-                                <th>Description</th>
-                                <th>Réseaux sociaux</th>
-                                <th>Garages</th>
+                                <td>
+                                    <a href="{{ path('front_view_pro_user_info',{'slug':user.slug}) }}">
+                                        {{ user.id }}
+                                    </a>
+                                </td>
+                                <td><span class="user-thumbnail-mini"><img
+                                                src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
+                                                alt="{{ user.fullName }}"></span></td>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}<br>{{ user.phonePro }}</td>
+                                <td>{{ user.createdAt|localizeddate('short','short') }}</td>
+                                <td>{{ user.description|length > 100 ? user.description|slice(0, 100) ~ '...':user.description }}</td>
+                                <td>
+                                    <div class="is-flex align-center-middle">
+                                        {% if user.facebookId is not null %}<span
+                                                class="social-networks-icon icon-facebook"></span> {% endif %}
+                                        {% if user.linkedinId is not null %}<span
+                                                class="social-networks-icon icon-linkedin"></span> {% endif %}
+                                        {% if user.googleId is not null %}<span
+                                                class="social-networks-icon icon-google2"></span> {% endif %}
+                                        {% if user.twitterId is not null %}<span
+                                                class="social-networks-icon icon-twitter"></span> {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    <ul class="no-margin">
+                                        {% for membership in user.garageMemberships %}
+                                            <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
+                                                <a href="{{ path('front_garage_view',{'slug':membership.garage.slug}) }}">
+                                                    {{ membership.garage.name }}
+                                                </a><br>
+                                                {{ membership.garage.city }}
+                                                {% if membership.requestedAt is not null %}
+                                                    <br><span class="black-color">Demande en attente</span>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {% for user in proUsers %}
-                                <tr>
-                                    <td>
-                                        <a href="{{ path('front_view_user_info',{'id':user.id}) }}">
-                                            {{ user.id }}
-                                        </a>
-                                    </td>
-                                    <td><span class="user-thumbnail-mini"><img
-                                                    src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
-                                                    alt="{{ user.fullName }}"></span></td>
-                                    <td>{{ user.firstname }}</td>
-                                    <td>{{ user.lastname }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.phone }}<br>{{ user.phonePro }}</td>
-                                    <td>{{ user.createdAt|localizeddate('short','short') }}</td>
-                                    <td>{{ user.description }}</td>
-                                    <td>
-                                        <div class="is-flex align-center-middle">
-                                            {% if user.facebookId is not null %}<span
-                                                    class="social-networks-icon icon-facebook"></span> {% endif %}
-                                            {% if user.linkedinId is not null %}<span
-                                                    class="social-networks-icon icon-linkedin"></span> {% endif %}
-                                            {% if user.googleId is not null %}<span
-                                                    class="social-networks-icon icon-google2"></span> {% endif %}
-                                            {% if user.twitterId is not null %}<span
-                                                    class="social-networks-icon icon-twitter"></span> {% endif %}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <ul class="no-margin">
-                                            {% for membership in user.garageMemberships %}
-                                                <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
-                                                    <a href="{{ path('front_garage_view',{'id':membership.garage.id}) }}">
-                                                        {{ membership.garage.name }}
-                                                    </a><br>
-                                                    {{ membership.garage.city }}
-                                                    {% if membership.requestedAt is not null %}
-                                                        <br><span class="black-color">Demande en attente</span>
-                                                    {% endif %}
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-                <div class="tabs-panel" id="personal-user-panel">
-                    <div class="admin-table-container">
-                        <table class="hover">
-                            <thead>
+            </div>
+            <div class="tabs-panel" id="personal-user-panel">
+                <div class="admin-table-container">
+                    <table class="hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>avatar</th>
+                            <th>Prénom</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Date d'inscription</th>
+                            <th>description</th>
+                            <th>réseaux sociaux</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in personalUsers %}
                             <tr>
-                                <th>Id</th>
-                                <th>avatar</th>
-                                <th>Prénom</th>
-                                <th>Nom</th>
-                                <th>Email</th>
-                                <th>Téléphone</th>
-                                <th>Date d'inscription</th>
-                                <th>description</th>
-                                <th>réseaux sociaux</th>
+                                <td>
+                                    <a href="{{ path('front_view_personal_user_info',{'slug':user.slug}) }}">
+                                        {{ user.id }}
+                                    </a></td>
+                                <td><span class="user-thumbnail-mini">
+                                        <img src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
+                                             alt="{{ user.fullName }}"></span></td>
+                                <td>{{ user.firstname }}</td>
+                                <td>{{ user.lastname }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.phone }}</td>
+                                <td>{{ user.createdAt|localizeddate('short','short') }}</td>
+                                <td>{{ user.description|length > 100 ? user.description|slice(0, 100) ~ '...':user.description }}</td>
+                                <td>
+                                    <div class="is-flex align-center-middle">
+                                        {% if user.facebookId is not null %}<span
+                                                class="social-networks-icon icon-facebook"></span> {% endif %}
+                                        {% if user.linkedinId is not null %}<span
+                                                class="social-networks-icon icon-linkedin"></span> {% endif %}
+                                        {% if user.googleId is not null %}<span
+                                                class="social-networks-icon icon-google2"></span> {% endif %}
+                                        {% if user.twitterId is not null %}<span
+                                                class="social-networks-icon icon-twitter"></span> {% endif %}
+                                    </div>
+                                </td>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {% for user in personalUsers %}
-                                <tr>
-                                    <td>
-                                        <a href="{{ path('front_view_user_info',{'id':user.id}) }}">
-                                            {{ user.id }}
-                                        </a></td>
-                                    <td><span class="user-thumbnail-mini">
-                                            <img src="{{ user.avatar|avatar('user_mini_thumbnail') }}"
-                                                 alt="{{ user.fullName }}"></span></td>
-                                    <td>{{ user.firstname }}</td>
-                                    <td>{{ user.lastname }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>{{ user.phone }}</td>
-                                    <td>{{ user.createdAt|localizeddate('short','short') }}</td>
-                                    <td>{{ user.description }}</td>
-                                    <td>
-                                        <div class="is-flex align-center-middle">
-                                            {% if user.facebookId is not null %}<span
-                                                    class="social-networks-icon icon-facebook"></span> {% endif %}
-                                            {% if user.linkedinId is not null %}<span
-                                                    class="social-networks-icon icon-linkedin"></span> {% endif %}
-                                            {% if user.googleId is not null %}<span
-                                                    class="social-networks-icon icon-google2"></span> {% endif %}
-                                            {% if user.twitterId is not null %}<span
-                                                    class="social-networks-icon icon-twitter"></span> {% endif %}
-                                        </div>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 {% endblock body %}
+
+{% block footer %}{% endblock footer %}

@@ -37,3 +37,11 @@ ONCE_A_DAY: Une fois par jour
 
 DIRECTORY_SORTING_RELEVANCE: Trier par pertinence
 DIRECTORY_SORTING_DISTANCE: Trier par distance
+
+PERSONAL_ORIENTATION_SELL: Vendre mon véhicule
+PERSONAL_ORIENTATION_BUY: Acheter un véhicule
+PERSONAL_ORIENTATION_BOTH: Les deux
+
+PRO_VEHICLE: "Professionnels"
+PERSONAL_VEHICLE: "Particuliers - Reprises"
+PERSONAL_PROJECT: "Particuliers - Demandes"

@@ -9,6 +9,7 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -20,9 +21,9 @@ use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
-use AppBundle\Utils\VehicleInfoAggregator;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -42,9 +43,6 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
-    const TAB_PROFILE = 'profile';
-    const TAB_PROJECT = 'project';
-
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -63,24 +61,26 @@ class UserController extends BaseController
     /** @var GarageEditionService */
     protected $garageEditionService;
 
-    /** @var VehicleInfoAggregator */
-    private $vehicleInfoAggregator;
+    /** @var VehicleInfoEntityIndexer */
+    private $vehicleInfoIndexer;
 
     /** @var MessageBus */
     protected $eventBus;
+
+    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    protected $affinityAnswerCalculationService;
 
     /**
      * SecurityController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
-     * @param DoctrinePersonalUserRepository $userRepository
-     * @param DoctrinePersonalUserRepository $personalUserRepository ,
-     * @param DoctrineProUserRepository $proUserRepository ,
-     * @param UserRepository $userRepository
+     * @param DoctrinePersonalUserRepository $personalUserRepository
+     * @param DoctrineProUserRepository $proUserRepository
      * @param UserEditionService $userEditionService
      * @param GarageEditionService $garageEditionService
-     * @param VehicleInfoAggregator $vehicleInfoAggregator
+     * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
      * @param MessageBus $eventBus
+     * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -89,8 +89,9 @@ class UserController extends BaseController
         DoctrineProUserRepository $proUserRepository,
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
-        VehicleInfoAggregator $vehicleInfoAggregator,
-        MessageBus $eventBus
+        VehicleInfoEntityIndexer $vehicleInfoIndexer,
+        MessageBus $eventBus,
+        AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
     {
         $this->formFactory = $formFactory;
@@ -99,8 +100,9 @@ class UserController extends BaseController
         $this->proUserRepository = $proUserRepository;
         $this->userEditionService = $userEditionService;
         $this->garageEditionService = $garageEditionService;
-        $this->vehicleInfoAggregator = $vehicleInfoAggregator;
+        $this->vehicleInfoIndexer = $vehicleInfoIndexer;
         $this->eventBus = $eventBus;
+        $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
     /**
@@ -132,6 +134,9 @@ class UserController extends BaseController
             $this->userEditionService->editInformations($user, $userInformationDTO);
             if ($user->getType() === PersonalUser::TYPE) {
                 $this->eventBus->handle(new PersonalUserUpdated($user));
+                if ($user->getProject() != null) {
+                    $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
+                }
             } else {
                 $this->eventBus->handle(new ProUserUpdated($user));
             }
@@ -177,10 +182,17 @@ class UserController extends BaseController
 
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
-                );
+                if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.registration.personal.assitant.process_end'
+                    );
+                } else {
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.user_edit'
+                    );
+                }
 
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -227,12 +239,12 @@ class UserController extends BaseController
      */
     private function createProjectForm(ProjectDTO $projectDTO)
     {
-        $availableMakes = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel([]);
+        $availableMakes = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel([]);
 
         $availableModels = [];
         if ($projectDTO->projectVehicles) {
             foreach ($projectDTO->projectVehicles as $projectVehicleDTO) {
-                $availableModels[] = $this->vehicleInfoAggregator->getVehicleInfoAggregatesFromMakeAndModel($projectVehicleDTO->retrieveFilter());
+                $availableModels[] = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel($projectVehicleDTO->retrieveFilter());
             }
         }
 
@@ -247,33 +259,18 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param null|int $id
+     * @param ProUser $user
      * @return Response
      * @throws \Exception
      */
-    public function viewInformationAction(Request $request, $id = null): Response
+    public function proUserViewInformationAction(Request $request, ProUser $user): Response
     {
-        $user = $id ? $this->userRepository->find($id) : $this->getUser();
-        if (!$user || !$user instanceof BaseUser) {
-            throw new NotFoundHttpException();
-        }
-
         if (!$user->canSeeMyProfile($this->getUser())) {
-
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
                 'flash.warning.user.unauthorized_to_access_profile'
             );
             throw new AccessDeniedException();
-        }
-
-        $templates = [
-            ProUser::TYPE => 'front/Seller/card.html.twig',
-            PersonalUser::TYPE => 'front/User/card.html.twig',
-        ];
-
-        if (!$templates[$user->getType()]) {
-            throw new NotFoundHttpException();
         }
 
         $avatarForm = null;
@@ -283,17 +280,11 @@ class UserController extends BaseController
 
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
-                if ($user->getType() === PersonalUser::TYPE) {
-                    $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
-                } else {
-                    $this->eventBus->handle(new ProUserUpdated($this->getUser()));
-                }
-
+                $this->eventBus->handle(new ProUserUpdated($this->getUser()));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.user_edit'
                 );
-
                 return $this->redirectToRoute('front_view_current_user_info');
             }
         }
@@ -305,12 +296,86 @@ class UserController extends BaseController
                 'action' => $this->generateRoute('front_garage_create')]);
         }
 
-        return $this->render($templates[$user->getType()], [
+        return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param PersonalUser $user
+     * @return Response
+     * @throws \Exception
+     */
+    public function personalUserViewInformationAction(Request $request, PersonalUser $user): Response
+    {
+        if (!$user->canSeeMyProfile($this->getUser())) {
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_WARNING,
+                'flash.warning.user.unauthorized_to_access_profile'
+            );
+            throw new AccessDeniedException();
+        }
+
+        $avatarForm = null;
+        if ($user->is($this->getUser())) {
+            $avatarForm = $this->createAvatarForm();
+            $avatarForm->handleRequest($request);
+            if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
+                $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
+                $this->eventBus->handle(new PersonalUserUpdated($this->getUser()));
+
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.user_edit'
+                );
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
+        }
+
+        return $this->render('front/User/card.html.twig', [
+            'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'userIsMe' => $user->is($this->getUser()),
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @throws \Exception
+     */
+    public function currentUserViewInformationAction(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        $user = $this->getUser();
+
+        if ($user instanceof ProUser) {
+            return $this->proUserViewInformationAction($request, $user);
+        } else {
+            return $this->personalUserViewInformationAction($request, $user);
+        }
+    }
+
+    /**
+     * Legacy action for url : /profil/{id}
+     * @param int $id
+     * @return Response
+     */
+    public function legacyViewInformationAction(int $id): Response
+    {
+        $user = $this->userRepository->findOne($id);
+        if (!$user || !$user instanceof BaseUser) {
+            throw new NotFoundHttpException();
+        }
+        if ($user instanceof ProUser) {
+            return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+        } else {
+            return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
+        }
     }
 
     /**

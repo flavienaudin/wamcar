@@ -2,26 +2,38 @@
 
 namespace Wamcar\User;
 
+use AppBundle\Doctrine\Entity\AffinityDegree;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\UserPreferences;
+use AppBundle\Security\SecurityInterface\HasApiCredential;
+use AppBundle\Security\SecurityTrait\ApiCredentialTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
+use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Location\City;
+use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
-abstract class BaseUser
+abstract class BaseUser implements HasApiCredential
 {
+    use ApiCredentialTrait;
+    use SoftDeleteable;
+
     const TYPE = '';
 
     /** @var int */
     protected $id;
     /** @var string */
+    protected $slug;
+    /** @var string */
     protected $email;
     /** @var  UserProfile|null */
     protected $userProfile;
-    /** @var ?Picture */
+    /** @var null|Picture */
     protected $avatar;
     /** @var  Collection <Message> */
     protected $messages;
@@ -43,10 +55,18 @@ abstract class BaseUser
     protected $twitterId;
     /** @var string */
     protected $twitterAccessToken;
+    /** @var ?FirstContactPreference */
+    protected $firstContactPreference;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
     protected $preferences;
+    /** @var AffinityAnswer|null */
+    protected $affinityAnswer;
+    /** @®var Collection $affinityDegree AffinityDegree with smaller-id-user */
+    protected $greaterIdUserAffinityDegrees;
+    /** @®var Collection $affinityDegree AffinityDegree with greater-id-user */
+    protected $smallerIdUserAffinityDegrees;
 
     /**
      * User constructor.
@@ -71,6 +91,9 @@ abstract class BaseUser
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
+        $this->greaterIdUserAffinityDegrees = new ArrayCollection();
+        $this->smallerIdUserAffinityDegrees = new ArrayCollection();
+        $this->generateApiCredentials();
     }
 
     /**
@@ -79,6 +102,22 @@ abstract class BaseUser
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
     }
 
     /**
@@ -140,6 +179,15 @@ abstract class BaseUser
     public function getCity(): ?City
     {
         return (null !== $this->getUserProfile() && null !== $this->getUserProfile()->getCity() && !$this->getUserProfile()->getCity()->isEmpty() ? $this->getUserProfile()->getCity() : null);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCityPostalCodeAndName(): string
+    {
+        $city = $this->getCity();
+        return $city != null ? $city->getPostalCode() . ' ' . $city->getName(): '';
     }
 
     /**
@@ -310,6 +358,21 @@ abstract class BaseUser
         $this->twitterAccessToken = $twitterAccessToken;
     }
 
+    /**
+     * @return FirstContactPreference|null
+     */
+    public function getFirstContactPreference()
+    {
+        return $this->firstContactPreference;
+    }
+
+    /**
+     * @param ?FirstContactPreference $firstContactPreference
+     */
+    public function setFirstContactPreference(?FirstContactPreference $firstContactPreference): void
+    {
+        $this->firstContactPreference = $firstContactPreference;
+    }
 
     /**
      * @param mixed|null $user
@@ -443,13 +506,74 @@ abstract class BaseUser
     }
 
     /**
+     * @return AffinityAnswer|null
+     */
+    public function getAffinityAnswer(): ?AffinityAnswer
+    {
+        return $this->affinityAnswer;
+    }
+
+    /**
+     * @param AffinityAnswer|null $affinityAnswer
+     */
+    public function setAffinityAnswer(?AffinityAnswer $affinityAnswer): void
+    {
+        $this->affinityAnswer = $affinityAnswer;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGreaterIdUserAffinityDegrees()
+    {
+        return $this->greaterIdUserAffinityDegrees;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSmallerIdUserAffinityDegrees()
+    {
+        return $this->smallerIdUserAffinityDegrees;
+    }
+
+    /**
+     * Return the affinity degree between this user and the given user
+     * @param null|BaseUser $withUser The user to get the affinity degree with (can be null in twig template)
+     * @return AffinityDegree|null
+     */
+    public function getAffinityDegreesWith(?BaseUser $withUser): ?AffinityDegree
+    {
+
+        if ($withUser === null || $this->is($withUser)) {
+            return null;
+        }
+        if ($this->getId() < $withUser->getId()) {
+            $criteria = new Criteria();
+            $criteria->where(Criteria::expr()->eq('greaterIdUser', $withUser));
+            $result = $this->greaterIdUserAffinityDegrees->matching($criteria);
+        } else {
+            $criteria = new Criteria();
+            $criteria->where(Criteria::expr()->eq('smallerIdUser', $withUser));
+            $result = $this->smallerIdUserAffinityDegrees->matching($criteria);
+        }
+        if ($result->first() === false) {
+            return null;
+        } else {
+            return $result->first();
+        }
+    }
+
+    /**
      * @param BaseUser|null $user null if user not connected
      * @return bool
      */
     abstract public function canSeeMyVehicles(BaseUser $user = null): bool;
 
     /**
+     * @param null|int $limit
+     * @param null|BaseVehicle $excludedVehicle
      * @return Collection
      */
-    abstract public function getVehicles(): Collection;
+    abstract public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection;
 }

@@ -14,6 +14,10 @@
     @include breakpoint(xlarge) {
       padding-top: rem-calc(15);
     }
+
+    .input-white-bg {
+      background-color: white;
+    }
   }
 
   /*
@@ -34,9 +38,14 @@
   // &-actions-button
 
   /*
-      Tabs
+      Result
      ===================================== */
-
+  &-result {
+    padding-top: rem-calc(20);
+    @include breakpoint(medium) {
+      padding-top: rem-calc(30);
+    }
+  }
 
   /*
      Link

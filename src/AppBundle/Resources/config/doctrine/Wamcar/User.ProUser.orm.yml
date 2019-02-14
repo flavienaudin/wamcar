@@ -2,6 +2,18 @@ Wamcar\User\ProUser:
     type: entity
 
     fields:
+        slug:
+            type: string
+            length: 512
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    fields:
+                        - userProfile.firstName
+                        - userProfile.lastName
         phonePro:
             type: string
             nullable: true

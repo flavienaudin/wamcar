@@ -5,8 +5,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
-use AppBundle\Elasticsearch\Type\IndexablePersonalVehicle;
-use AppBundle\Elasticsearch\Type\IndexableProVehicle;
+use AppBundle\Elasticsearch\Type\IndexableSearchItem;
 use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
@@ -15,14 +14,18 @@ use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Utils\TokenGenerator;
+use Elastica\ResultSet;
 use Novaway\ElasticsearchClient\Query\Result;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\PersonalOrientationChoices;
+use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
+use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -176,6 +179,17 @@ class UserEditionService
     }
 
     /**
+     * Update the orientation of the given user
+     * @param PersonalUser $personalUser
+     * @param PersonalOrientationChoices $personalOrientationChoices
+     */
+    public function updateUserOrientation(PersonalUser $personalUser, PersonalOrientationChoices $personalOrientationChoices)
+    {
+        $personalUser->setOrientation($personalOrientationChoices);
+        $this->userRepository->update($personalUser);
+    }
+
+    /**
      * Retrieve PersonalProject from the search result
      * @param Result $searchResult
      * @return array
@@ -196,25 +210,32 @@ class UserEditionService
     }
 
     /**
-     * Retrieve PersonalVehicle, ProVehicle and PersonalProject from the search result ALL
-     * @param Result $searchResult
+     * Retrieve PersonalVehicle, ProVehicle and PersonalProject from search items
+     * @param ResultSet $searchResult
      * @return array
      */
-    public function getMixedBySearchResult(Result $searchResult): array
+    public function getMixedBySearchItemResult(ResultSet $searchResult): array
     {
-        $result = array();
-        $result['totalHits'] = $searchResult->totalHits();
-        $result['hits'] = array();
-        foreach ($searchResult->hits() as $hit) {
-            if ($hit['type'] === IndexablePersonalVehicle::TYPE) {
-                $result['hits'][] = $this->personalVehicleRepository->find($hit['id']);
-            } elseif ($hit['type'] === IndexableProVehicle::TYPE) {
-                $result['hits'][] = $this->proVehicleRepository->find($hit['id']);
-            } elseif ($hit['type'] === IndexablePersonalProject::TYPE) {
-                $result['hits'][] = $this->projectRepository->find($hit['id']);
+        $results = array();
+        $results['totalHits'] = $searchResult->getTotalHits();
+        $results['hits'] = array();
+        foreach ($searchResult->getResults() as $result) {
+            $resultData = $result->getData();
+            if (strpos($result->getIndex(), IndexableSearchItem::TYPE) === 0) {
+                if (isset($resultData['vehicle'])) {
+                    if ($resultData['vehicle']['type'] === PersonalVehicle::TYPE) {
+                        $results['hits'][] = $this->personalVehicleRepository->find($resultData['id']);
+                    } else {
+                        $results['hits'][] = $this->proVehicleRepository->find($resultData['id']);
+                    }
+                } elseif (isset($resultData['project'])) {
+                    $results['hits'][] = $this->projectRepository->find($resultData['id']);
+                }
+            } elseif (strpos($result->getIndex(), IndexablePersonalProject::TYPE) === 0) {
+                $results['hits'][] = $this->projectRepository->find($resultData['id']);
             }
         }
-        return $result;
+        return $results;
     }
 
     /**
@@ -239,18 +260,19 @@ class UserEditionService
      * @param Result $searchResult
      * @return array
      */
-    public function getUsersBySearchResult(Result $searchResult): array
+    public function getUsersBySearchResult(ResultSet $searchResult): array
     {
-        $result = array();
-        $result['totalHits'] = $searchResult->totalHits();
-        $result['hits'] = array();
+        $results = array();
+        $results['totalHits'] = $searchResult->getTotalHits();
+        $results['hits'] = array();
         $ids = array();
-        foreach ($searchResult->hits() as $project) {
-            $ids[] = $project['id'];
+        foreach ($searchResult->getResults() as $result) {
+            $proUser = $result->getData();
+            $ids[] = $proUser ['id'];
         }
         if (count($ids) > 0) {
-            $result['hits'] = $this->userRepository->findByIds($ids);
+            $results['hits'] = $this->userRepository->findByIds($ids);
         }
-        return $result;
+        return $results;
     }
 }

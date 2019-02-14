@@ -5,15 +5,18 @@
 
 {% block bodyClass %}home-wrapper{% endblock %}
 
-{% block mainClass %}has-no-scroll no-padding landing-meeting{% endblock %}
+{% block mainClass %}has-no-scroll no-padding landing-mixte{% endblock %}
 
 {% block title %}{{ 'landing.mixte.title'|trans }}{% endblock %}
 {% block meta_description %}{{ 'landing.mixte.description'|trans }}{% endblock %}
 
+{% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
+{% set image_alt = 'landing.mixte.image_alt'|trans %}
+
 {% block body %}
-    <section class="form-container small-12" id="registration_forms">
+    <section class="vehicle-form-container small-12" id="registration_forms">
         <div class="row">
-            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 large-offset-1" role="search">
+            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 xlarge-5 large-offset-1" role="search">
                 <header class="vehicle-form-header large-text-center">
                     <h1 class="primary-color section-title">{{ 'landing.mixte.form.title'|trans }}</h1>
                 </header>
@@ -26,13 +29,12 @@
                         <header class="large-text-center">
                             <h2 class="black-color column small-12">{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</h2>
                         </header>
-                        <div class="input-margin">
+                        <div class="input-margin-small">
                             <div class="column small-12">
                                 <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
                             </div>
-                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_confirm')} %}
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_orientation')} %}
                         </div>
-
                         <div>
                             <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
                                 <div class="column small-12">
@@ -43,7 +45,16 @@
                                         id: 'email_personal_registration',
                                         placeholder: 'landing.mixte.field.email.placeholder'|trans,
                                         required: true,
-                                        required_class: 'landing.mixte.field.email.required_message'|trans
+                                        required_message: 'landing.mixte.field.email.required_message'|trans
+                                    } %}
+                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                        type: 'hidden',
+                                        label: 'landing.mixte.field.assist.label'|trans,
+                                        label_class: 'show-for-sr',
+                                        name: 'assistant_registration',
+                                        id: 'assistant_personal_registration',
+                                        required: false,
+                                        value:true
                                     } %}
                                 </div>
                                 <div class="column small-12">
@@ -57,11 +68,11 @@
                         <header class="large-text-center">
                             <h2 class="black-color column small-10 large-12">{{ 'landing.mixte.pro_email_registration_tab.subtitle'|trans({'%sitename%':site_name}) }}</h2>
                         </header>
-                        <div class="input-margin">
+                        <div class="input-margin-small">
                             <div class="column small-12">
                                 <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
                             </div>
-                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_view_current_user_info')} %}
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_affinity_pro_form')} %}
                         </div>
 
                         <div class="">
@@ -118,7 +129,7 @@
             </div>
 
             <footer class="section-footer column small-12 medium-7 large-5">
-                <a href="{{ isUserPro ? path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) : path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PRO')}}) }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
+                <a href="{{ path('front_search') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
             </footer>
         </div>
     </section>

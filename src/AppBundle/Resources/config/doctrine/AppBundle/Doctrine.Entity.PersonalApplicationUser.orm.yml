@@ -2,11 +2,6 @@ AppBundle\Doctrine\Entity\PersonalApplicationUser:
 
     type: entity
     repositoryClass: AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
-
     exclusion_policy: ALL
 
     fields:
@@ -29,6 +24,3 @@ AppBundle\Doctrine\Entity\PersonalApplicationUser:
             gedmo:
                 timestampable:
                     on: create
-        deletedAt:
-            type: date
-            nullable: true

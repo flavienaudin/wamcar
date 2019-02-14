@@ -1,6 +1,25 @@
 Wamcar\User\PersonalUser:
     type: entity
 
+    fields:
+        slug:
+            type: string
+            length: 255
+            gedmo:
+                slug:
+                    unique: true
+                    separator: -
+                    style: default
+                    updatable: false
+                    fields:
+                        - userProfile.firstName
+        orientation:
+            type: personalorientation
+            nullable: true
+        contactAvailabilities:
+            type: json
+            nullable: true
+
     oneToMany:
         vehicles:
             targetEntity: Wamcar\Vehicle\PersonalVehicle
@@ -10,4 +29,4 @@ Wamcar\User\PersonalUser:
         project:
             targetEntity: Wamcar\User\Project
             mappedBy: personalUser
-            cascade: ["persist"]
+            cascade: ["persist", "remove"]

@@ -27,7 +27,9 @@
                         {# Nouvelle conversation #}
                         <li class="messages-list-item is-unread is-current block-grid">
                             <span class="small-3 large-2">
-                                <img class="messages-user-img messages-list-user-img" src="{{ interlocutor.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutor.fullName }}">
+                                <img class="messages-user-img messages-list-user-img"
+                                     src="{{ interlocutor.avatar|avatar('user_thumbnail', interlocutor.firstName) }}"
+                                     alt="{{ interlocutor.fullName }}">
                             </span>
                             <div class="small-9 large-10 messages-main messages-list-item-main">
                                 <div class="is-flex">
@@ -63,7 +65,9 @@
                         <li class="messages-list-item {% if conversationCurrentUser.hasUnreadMessages %}is-unread{% endif %} {% if conversation == currentConversation %}is-current{% endif %}">
                             <a href="{{ path('front_conversation_edit', {'id': conversation.id}) }}#last-message" class="block-grid">
                                 <span class="small-3 large-2">
-                                    <img class="messages-user-img messages-list-user-img" src="{{ interlocutorList.avatar|avatar('user_thumbnail') }}" alt="{{ interlocutorList.fullName }}">
+                                    <img class="messages-user-img messages-list-user-img"
+                                         src="{{ interlocutorList.avatar|avatar('user_thumbnail', interlocutorList.firstName ) }}"
+                                         alt="{{ interlocutorList.fullName }}">
                                 </span>
                                 <div class="small-9 large-10 messages-main messages-list-item-main">
                                     <div class="is-flex">

@@ -24,7 +24,7 @@
 
     <div class="row">
         {% if not isNew and not isUserAdmin  %}
-            <p class="column small-12"><a href="{{  path('front_garage_view', {'id': garage.id}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
+            <p class="column small-12"><a href="{{  path('front_garage_view', {'slug': garage.slug}) }}" class="text-underline">Retour à mon garage</a><br><br></p>
         {% endif %}
 
         {{ form_start(garageForm, { 'attr' : { 'class': 'small-12', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
@@ -156,6 +156,11 @@
             </div>
         </div>
         <div class="column small-12">
+            <div class="separator">
+                <h2>{{ 'garage.form.auto_vehicles_import_request.title'|trans }}</h2>
+                <p class="black-color">{{ 'garage.form.auto_vehicles_import_request.presentation'|trans({'%ubiflow_form_url%':typeform_ubiflow_request})|raw }}</p>
+            </div>
+        </div><div class="column small-12">
             <button type="submit" class="button full-width medium-5 large-4">Enregistrer mes modifications</button>
         </div>
         {{ form_end(garageForm) }}
@@ -181,7 +186,7 @@
         // When the user selects an address from the dropdown, populate the address
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
-        $(autocompleteInputField).on('keypress', (e) => {
+        autocompleteInputField.addEventListener('keypress', (e) => {
           if (e.keyCode === 13) {
             return false;
           }

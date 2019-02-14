@@ -6,6 +6,8 @@ import {$registerForm} from './step';
 require('formdata-polyfill');
 
 export let clearSelectOptions = function (select, doAddEmpty) {
+  $(select).parents('#js-register-form, form[data-abide]').foundation('removeErrorClasses', $(select));
+
   $(select).find('option').remove();
 
   if (!doAddEmpty) {

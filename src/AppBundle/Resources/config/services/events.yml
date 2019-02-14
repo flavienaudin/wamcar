@@ -53,59 +53,50 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
-    wamcar.event.elasticsearch.personal_user_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedPersonalUser
-        autowire: true
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalUserUpdated, method: notify }
-
     wamcar.event.elasticsearch.personal_project_updated.index:
             class: AppBundle\Elasticsearch\IndexUpdatedPersonalProject
             autowire: true
+            arguments:
+                - '@personal_project.indexer'
+                - '@search_item.indexer'
             tags:
                 - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectUpdated, method: notify }
-
-    wamcar.event.elasticsearch.pro_user_created.index:
-        class: AppBundle\Elasticsearch\IndexCreatedProUser
-        autowire: true
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
     wamcar.event.elasticsearch.pro_user_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedProUser
         autowire: true
+        arguments:
+            - '@pro_user.indexer'
+            - '@search_item.indexer'
         tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }
 
     wamcar.event.elasticsearch.garage_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedGarage
         autowire: true
+        arguments:
+            $searchItemEntityIndexer: '@search_item.indexer'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageUpdated, method: notify }
 
-    wamcar.event.elasticsearch.pro_vehicle_created.index:
-        class: AppBundle\Elasticsearch\IndexCreatedProVehicle
+    wamcar.event.elasticsearch.pro_vehicle_updated.index:
+        class: AppBundle\Elasticsearch\IndexUpdatedProVehicle
+        arguments:
+            $searchItemEntityIndexer: '@search_item.indexer'
         autowire: true
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
-
-    wamcar.event.elasticsearch.pro_vehicle_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedProVehicle
-        autowire: true
-        tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
-
-    wamcar.event.elasticsearch.personal_vehicle_created.index:
-        class: AppBundle\Elasticsearch\IndexCreatedPersonalVehicle
-        autowire: true
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
 
     wamcar.event.elasticsearch.personal_vehicle_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedPersonalVehicle
         autowire: true
+        arguments:
+            $searchItemEntityIndexer: '@search_item.indexer'
         tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
@@ -135,6 +126,14 @@ services:
             $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
+
+    wamcar.event.affinity_degree_calculated:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\MailWorkflow\NotifyUserOfAffinityDegreeCalculated
+        arguments:
+            $type: affinity_degree_calculated
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\AffinityDegreeCalculatedEvent, method: notify }
 
     wamcar.event.pending_request_to_join_garage_created:
         parent: wamcar.event.mail.abstract_event_handler

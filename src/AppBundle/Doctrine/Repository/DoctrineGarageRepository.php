@@ -13,6 +13,7 @@ use Wamcar\Garage\GarageRepository;
 class DoctrineGarageRepository extends EntityRepository implements GarageRepository, ApiUserProvider, UserProviderInterface
 {
 
+    use SluggableEntityRepositoryTrait;
 
     /**
      * @param string $username

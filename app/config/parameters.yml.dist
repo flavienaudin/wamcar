@@ -11,6 +11,7 @@ parameters:
     preferred_makes: ['RENAULT','PEUGEOT','CITROEN','Volkswagen', 'VOLKSWAGEN','DACIA','TOYOTA','FORD','OPEL','NISSAN','FIAT']
 
     sitename: Wamcar
+    css_js_unique_version: ~
     facebook_username: wamcar.france
     facebook_page_id: ~
     facebook_admin_ids: ~
@@ -22,3 +23,6 @@ parameters:
     monitors_emails: [flavien@wamcar.com]
 
     typeform.contact: https://wamcar.typeform.com/to/AIMBwx
+    typeform.ubiflow_request: https://wamcar.typeform.com/to/pXYHJv
+    typeform.affinity.personal.form: MBKzPH
+    typeform.affinity.pro.form: oOG6ml

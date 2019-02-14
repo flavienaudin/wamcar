@@ -3,8 +3,12 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\Vehicle\Enum\Sorting;
+
 class SearchVehicleDTO
 {
+    /** @var array Search objet (Cf SearchTypeChoice) */
+    public $type;
     /** @var string */
     public $text;
     /** @var string */
@@ -15,8 +19,8 @@ class SearchVehicleDTO
     public $latitude;
     /** @var string */
     public $longitude;
-    /** @var string */
-    public $radius;
+    /** @var int */
+    public $radius = 50;
         /** @var string */
     public $make;
     /** @var string */
@@ -36,7 +40,7 @@ class SearchVehicleDTO
     /** @var string */
     public $fuel;
     /** @var string */
-    public $sorting;
+    public $sorting = Sorting::SEARCH_SORTING_DATE;
     /** @var string */
     public $tab;
 

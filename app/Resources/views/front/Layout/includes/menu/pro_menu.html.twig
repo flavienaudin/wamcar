@@ -6,14 +6,14 @@
     <li><a href="{{ path('front_garage_create') }}">{{ 'header.pro.my_garage'|trans }}</a></li>
 {% elseif nbOfGarages == 1 %}
     <li>
-        <a href="{{ path('front_garage_view', {'id': app.user.enabledGarageMemberships.first.garage.id}) }}">{{ 'header.pro.my_garage'|trans }}</a>
+        <a href="{{ path('front_garage_view', {'slug': app.user.enabledGarageMemberships.first.garage.slug}) }}">{{ 'header.pro.my_garage'|trans }}</a>
     </li>
 {% else %}
     <li>
         <a href="#">{{ 'header.pro.my_garages'|trans }}</a>
         <ul class="menu">
             {% for garageMemberShip in app.user.enabledGarageMemberships %}
-                <li><a href="{{ path('front_garage_view', {'id': garageMemberShip.garage.id}) }}" class="logo-garage">
+                <li><a href="{{ path('front_garage_view', {'slug': garageMemberShip.garage.slug}) }}" class="logo-garage">
                         <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}"
                              class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
                         &nbsp;{{ garageMemberShip.garage.name }} - {{ garageMemberShip.garage.city.name }}
@@ -51,7 +51,7 @@
             {% endfor %}
         </ul>
     </li>
-{% endif %}<li><a href="{{ path('front_search',{'search_vehicle':{'tab':constant('AppBundle\\Controller\\Front\\ProContext\\SearchController::TAB_PERSONAL')}}) }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+{% endif %}<li><a href="{{ path('front_search') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
 
 <li class="menu-separator"></li>
 

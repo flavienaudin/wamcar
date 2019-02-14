@@ -13,8 +13,7 @@ export function initSelect2(city) {
     language: fr,
     placeholder: $city.attr('data-placeholder'),
     minimumInputLength: 2,
-    maximumSelectionLength: 1,
-    multiple: true,
+    multiple: false,
     allowClear: true,
     width: '100%',
     ajax: {

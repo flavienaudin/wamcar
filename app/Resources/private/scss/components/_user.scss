@@ -23,6 +23,11 @@
     }
   }
 
+  &-project-description{
+    color: $dark-gray;
+    font-style: italic;
+  }
+
   /*&-send-message-button{
     background-color: $dark-blue;
     border-color: $dark-blue;

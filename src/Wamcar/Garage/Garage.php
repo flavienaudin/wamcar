@@ -24,6 +24,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     /** @var int */
     protected $id;
     /** @var string */
+    protected $slug;
+    /** @var string */
     protected $googlePlaceId;
     /** @var string */
     protected $name;
@@ -51,6 +53,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     protected $banner;
     /** @var ?Picture */
     protected $logo;
+    /** @var bool */
+    protected $optionAdminSellers;
 
     /**
      * Garage constructor.
@@ -64,6 +68,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
      * @param Picture|null $banner
      * @param Picture|null $logo
      * @param float|null $googleRating
+     * @param null|bool $optionAdminSellers
      */
     public function __construct(
         ?string $googlePlaceId,
@@ -75,7 +80,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         string $phone = null,
         Picture $banner = null,
         Picture $logo = null,
-        ?float $googleRating = null
+        ?float $googleRating = null,
+        bool $optionAdminSellers = true
     )
     {
         $this->googlePlaceId = $googlePlaceId;
@@ -90,6 +96,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         $this->banner = $banner;
         $this->logo = $logo;
         $this->googleRating = $googleRating;
+        $this->optionAdminSellers = $optionAdminSellers;
         $this->generateApiCredentials();
     }
 
@@ -101,6 +108,21 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @param null|string $slug
+     */
+    public function setSlug(?string $slug): void
+    {
+        $this->slug = $slug;
+    }
 
     /** Méthodes pour l'interface UserInterface */
     public function getUsername()
@@ -225,6 +247,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @return bool
+     */
+    public function isOptionAdminSellers(): bool
+    {
+        return $this->optionAdminSellers;
+    }
+
+    /**
      * @return Address
      */
     public function getAddress(): Address
@@ -313,6 +343,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @param bool $optionAdminSellers
+     */
+    public function setOptionAdminSellers(bool $optionAdminSellers): void
+    {
+        $this->optionAdminSellers = $optionAdminSellers;
+    }
+
+    /**
      * @param Address $address
      */
     public function setAddress(Address $address)
@@ -334,6 +372,21 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function getEnabledMembers(): Collection
     {
         return $this->members->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getAvailableSellers(): Collection
+    {
+        /** @var ArrayCollection $enabledMembers */
+        $enabledMembers = $this->getEnabledMembers();
+        if (count($enabledMembers) > 1 && $this->optionAdminSellers === false) {
+            return $enabledMembers->filter(function (GarageProUser $gpu) {
+                return !GarageRole::GARAGE_ADMINISTRATOR()->equals($gpu->getRole());
+            });
+        }
+        return $enabledMembers;
     }
 
     /**
@@ -367,11 +420,20 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @param null|int $limit
+     * @param null|ProVehicle $excludedVehicle
      * @return Collection
      */
-    public function getProVehicles(): Collection
+    public function getProVehicles(?int $limit = 0, ProVehicle $excludedVehicle = null): Collection
     {
-        return $this->proVehicles;
+        $criteria = Criteria::create();
+        if ($excludedVehicle != null) {
+            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        }
+        if ($limit > 0) {
+            $criteria->setMaxResults($limit);
+        }
+        return $this->proVehicles->matching($criteria);
     }
 
     /**

@@ -65,14 +65,14 @@ class PictureExtension extends AbstractExtension
         );
     }
 
-    public function avatarFilter(?UserPicture $userPicture, string $filter)
+    public function avatarFilter(?UserPicture $userPicture, string $filter, string $firstname = null)
     {
-        return $this->pathUserPicture->getPath($userPicture, $filter);
+        return $this->pathUserPicture->getPath($userPicture, $filter, $firstname);
     }
 
     public function defaultAvatarFilter(string $filter)
     {
-        return $this->pathUserPicture->getPath(null, $filter);
+        return $this->pathUserPicture->getPath(null, $filter, null);
     }
 
     public function bannerFilter(?Garage $garage, string $filter)

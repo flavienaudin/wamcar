@@ -2,7 +2,7 @@
     {label: "vehicle.section.infos.make.label"|trans, value: vehicle.make},
     {label: "vehicle.section.infos.model.label"|trans, value: vehicle.modelName},
     {label: "vehicle.section.infos.statut.label"|trans, value: vehicle.isUsed?'VEHICLE_STATUT.USED'|trans({},'enumeration'):'VEHICLE_STATUT.NEW'|trans({},'enumeration')},
-    {label: (vehicle.isUsed?"vehicle.section.infos.commercializationDate.label"|trans:"vehicle.section.infos.registrationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
+    {label: (vehicle.isUsed?"vehicle.section.infos.registrationDate.label"|trans:"vehicle.section.infos.commercializationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
     {label: "vehicle.section.infos.mileage.label"|trans, value: vehicle.mileAge|localizednumber ~ ' km' },
     {label: "vehicle.section.infos.engine_name.label"|trans, value: vehicle.engineName },
     {label: "vehicle.section.infos.transmission.label"|trans, value: vehicle.transmission },

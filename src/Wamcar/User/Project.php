@@ -4,9 +4,12 @@ namespace Wamcar\User;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 
 class Project
 {
+    use SoftDeleteable;
+
     /** @var  int */
     protected $id;
     /** @var  PersonalUser */
@@ -34,6 +37,11 @@ class Project
     {
         $this->personalUser = $personalUser;
         $this->projectVehicles = new ArrayCollection();
+    }
+
+    public function isEmpty():bool
+    {
+        return empty($this->description) && $this->budget == null && $this->projectVehicles->isEmpty();
     }
 
     /**

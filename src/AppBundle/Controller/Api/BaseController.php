@@ -55,12 +55,4 @@ abstract class BaseController
     {
         return $this->router->generate($routeName, $routeParameters);
     }
-
-    /**
-     * @return Garage
-     */
-    public function getGarage(): Garage
-    {
-        return $this->session->get('AUTH_GARAGE');
-    }
 }
