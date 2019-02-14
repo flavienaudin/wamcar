@@ -326,6 +326,10 @@ front_conversation_create:
         _controller: AppBundle:Front\ProContext\Conversation:create
         vehicleId: null
 
+front_conversation_open:
+    path: /conversation/open/{id}
+    controller: AppBundle:Front\ProContext\Conversation:openConversation
+
 front_conversation_edit:
     path: /conversation/{id}/{vehicleId}
     defaults:
@@ -334,7 +338,9 @@ front_conversation_edit:
 
 front_conversation_list:
     path: /conversations
-    defaults: { _controller: AppBundle:Front\ProContext\Conversation:index }
+    controller: AppBundle:Front\ProContext\Conversation:index
+    defaults:
+        _fragment: last-message
 
 front_city_autocomplete:
     path: /city/autocomplete

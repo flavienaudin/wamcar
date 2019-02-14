@@ -20,6 +20,7 @@ use AppBundle\Session\SessionMessageManager;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,9 +126,18 @@ class ConversationController extends BaseController
         $this->conversationAuthorizationChecker->memberOfConversation($this->getUser(), $conversation);
 
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
-        $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
-
         return $this->processForm($request, $messageDTO, $conversation, $vehicleId);
+    }
+
+    /**
+     * @param ApplicationConversation $conversation
+     * @return JsonResponse
+     */
+    public function openConversationAction(ApplicationConversation $conversation): JsonResponse
+    {
+        $this->conversationAuthorizationChecker->memberOfConversation($this->getUser(), $conversation);
+        $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
+        return new JsonResponse('Ok');
     }
 
     /**

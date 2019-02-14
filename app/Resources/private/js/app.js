@@ -17,6 +17,8 @@ import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
 import {Dropdown} from './foundation/foundation.override.dropdown'; // Overridded version of DropDown
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import 'linkifyjs';
+import 'waypoints/lib/noframework.waypoints';
+import 'waypoints/lib/shortcuts/inview';
 
 import './components/responsiveDom';
 import './components/search';
@@ -183,6 +185,21 @@ $(function () {
       $('#register_submit').addClass('loader-visible');
     });
 
+  }
+
+  /*
+     Conversation : update last opened
+     ===================================== */
+  const $lastMessage = $('#last-message');
+  if($lastMessage.length > 0) {
+    let w = new Waypoint.Inview({
+      element: document.getElementById('last-message'), //$lastMessage,
+      enter: function (direction) {
+        const href = $lastMessage.data('conversation-open-url');
+        fetch(href).then((response) => {});
+        this.destroy();
+      }
+    });
   }
 
   $('#message_send').on('click', function () {

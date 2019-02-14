@@ -64,8 +64,8 @@ npm-install: $(NPM_OUT) ## install NPM packages from shrinkwrap file
 $(NPM_OUT): package-lock.json
 	@echo "--> Installing NPM packages"
 	$(DOCKERNPM) install
-	-@md5 npm-shrinkwrap.json > $(NPM_OUT)
-	-@md5sum npm-shrinkwrap.json > $(NPM_OUT)
+# Not used	-@md5 npm-shrinkwrap.json > $(NPM_OUT)
+# Not used	-@md5sum npm-shrinkwrap.json > $(NPM_OUT)
 front-start: npm-install ## start front dev watcher
 	@echo "--> Starting npm dev service"
 	npm start

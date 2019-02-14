@@ -28,7 +28,8 @@
         {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': message.vehicleHeader} %}
     {% endif %}
 
-    <div class="messages-item block-grid no-bullet no-margin" {% if message.id == currentConversationLastMessage.id %}id="last-message"{% endif %}>
+    <div class="messages-item block-grid no-bullet no-margin"
+         {% if message.id == currentConversationLastMessage.id %}id="last-message" data-conversation-open-url="{{ path('front_conversation_open', {'id':currentConversation.id}) }}"{% endif %}>
         <a href="{{ message.user|userInfoUrl }}" target="_blank">
             <img class="messages-user-img messages-item-user-img"
                  src="{{ message.user.avatar|avatar('user_thumbnail', message.user.firstName) }}"
