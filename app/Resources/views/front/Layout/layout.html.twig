@@ -46,8 +46,10 @@
     <meta name="twitter:site" content="@{{ twitter_username }}">
     <meta name="twitter:creator" content="@{{ twitter_username }}">
 
-    <meta property="fb:page_id" content="{{ facebook_page_id }}">
-    <meta property="fb:admins" content="{{ facebook_admin_ids }}">
+    <meta property="fb:pages" content="{{ facebook_page_id }}">
+    {% for admin_id in facebook_admin_ids|split(',') %}
+        <meta property="fb:admins" content="{{ admin_id }}">
+    {% endfor %}
     <meta property="fb:app_id" content="{{ facebook_app_id }}">
 
     {# Turning off Number Detection in iOS #}
