@@ -17,6 +17,14 @@ use Wamcar\Vehicle\Registration;
 
 class AutoManuelProVehicleBuilder
 {
+    const FIELDNAME_REFERENCE = 'num_police';
+    const FIELDNAME_RECIPIENT = 'code_destinataire';
+    const RECIPIENT_ACCEPTED_VALUE = 'P';
+    const FIELDNAME_GARAGE_CODE = 'code_etablissement';
+
+    const FIELDNAME_INTERNET_PRICE = 'prix_internet';
+    const FIELDNAME_MAIN_PRICE = 'prix_vente';
+
 
     // VO Indexes
     const IDX_VO_REFERENCE = 1;
@@ -97,15 +105,13 @@ class AutoManuelProVehicleBuilder
 
 
     /**
+     * TODO Adapt with new JSON format
      * @param null|ProVehicle $existingProVehicle The vehicle to update or null
      * @param array $vehicleDTORowData Vehicle data from the row
      * @param Garage $garage The garage of the vehicle
-     * @param string $pictureDirectory
      * @return ProVehicle
      */
-    public static function generateVehicleFromUsedData(
-        ?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage, string $pictureDirectory
-    ): ProVehicle
+    public static function generateVehicleFromUsedData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle
     {
         $modelVersion = new ModelVersion($vehicleDTORowData[self::IDX_VO_MODEL_VERSION],
             new Model ($vehicleDTORowData[self::IDX_VO_MODEL], new Make($vehicleDTORowData[self::IDX_VO_MAKE])),
@@ -248,7 +254,8 @@ class AutoManuelProVehicleBuilder
                 $proVehicle->clearPictures();
                 $pos = 0;
                 foreach ($photos as $photoName) {
-                    self::addPictureToProVehicle($proVehicle, $pictureDirectory, $photoName, $pos);
+                    // TODO treat picture as URL
+                    //self::addPictureToProVehicle($proVehicle, $pictureDirectory, $photoName, $pos);
                     $pos++;
                 }
             }
@@ -286,12 +293,13 @@ class AutoManuelProVehicleBuilder
             // Photo n°1 (117) → n°8 (124)
             // Photo n°9 (127) → n°15 (133)
             $position = 0;
+            // TODO treat picture as URL
             for ($p = self::IDX_VO_START_1_PICTURE; $p <= self::IDX_VO_END_1_PICTURE; $p++) {
-                self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
+                // self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
                 $position++;
             }
             for ($p = self::IDX_VO_START_2_PICTURE; $p <= self::IDX_VO_END_2_PICTURE; $p++) {
-                self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
+                // self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
                 $position++;
             }
 

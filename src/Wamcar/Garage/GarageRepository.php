@@ -2,7 +2,9 @@
 
 namespace Wamcar\Garage;
 
-interface GarageRepository
+use AppBundle\Security\SecurityInterface\ApiUserProvider;
+
+interface GarageRepository extends ApiUserProvider
 {
     /**
      * @param int $garageId
@@ -48,5 +50,4 @@ interface GarageRepository
      * @return Garage[]
      */
     public function getLatest(): array;
-
 }

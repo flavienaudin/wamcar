@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
-class DoctrineGarageRepository extends EntityRepository implements GarageRepository, ApiUserProvider, UserProviderInterface
+class DoctrineGarageRepository extends EntityRepository implements GarageRepository, UserProviderInterface
 {
 
     use SluggableEntityRepositoryTrait;
@@ -108,5 +108,4 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     {
         return $this->findOneBy(['apiClientId' => $clientId]);
     }
-
 }
