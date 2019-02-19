@@ -46,7 +46,7 @@
         </div>
     </div>
 {% else %}
-    {% if isEditableByCurrentUser %}
+    {% if currentUserIsMemberOfGarage %}
         <p>Vous n'avez aucun véhicule en vente.</p>
         <div class="small-12 medium-6 large-4">
             <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>

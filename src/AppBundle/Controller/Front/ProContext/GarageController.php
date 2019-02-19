@@ -189,6 +189,7 @@ class GarageController extends BaseController
 
         return $this->render('front/Garages/Detail/detail.html.twig', [
             'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
+            'currentUserIsMemberOfGarage' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->isMemberOfGarage($garage) : false,
             'garage' => $garage,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
