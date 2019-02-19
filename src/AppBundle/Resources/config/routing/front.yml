@@ -273,6 +273,10 @@ front_conversation_create:
     defaults:
         vehicleId: null
 
+front_conversation_open:
+    path: /conversation/open/{id}
+    controller: AppBundle:Front\ProContext\Conversation:openConversation
+
 front_conversation_edit:
     path: /conversation/{id}/{vehicleId}
     controller: AppBundle:Front\ProContext\Conversation:edit
@@ -282,6 +286,8 @@ front_conversation_edit:
 front_conversation_list:
     path: /conversations
     controller: AppBundle:Front\ProContext\Conversation:index
+    defaults:
+        _fragment: last-message
 
 # Vehicle Likes
 front_user_like_pro_vehicle:
