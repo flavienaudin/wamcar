@@ -9,14 +9,21 @@ services:
             - ['setTokenStorage', ['@security.token_storage']]
             - ['setAuthorizationChecker', ['@security.authorization_checker']]
 
+    AppBundle\Controller\Front\AdministrationContext\BackendController:
+        calls:
+            - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
+            - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
+            - ['setEventBus', ['@event_bus']]
+
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'
-        exclude: '../../../Controller/Front/BaseController.php'
+        exclude: '../../../Controller/Front/{BaseController.php,AdministrationContext/BackendController.php}'
         public: false
         autowire: true
         autoconfigure: false
         parent: AppBundle\Controller\Front\BaseController
         tags: ['controller.service_arguments']
+
 
     AppBundle\Controller\Front\SecurityController:
         parent: AppBundle\Controller\Front\BaseController

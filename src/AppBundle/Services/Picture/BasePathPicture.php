@@ -34,6 +34,11 @@ abstract class BasePathPicture
     {
         $picturePath = $picture ? $this->uploaderHelper->asset($picture, $fileField): $this->placeholders[$placeholderKey];
 
+        if(empty($picturePath)){
+            // When hard delete an object with Picture, uploaderHelper->asset() return null which end to an error
+            $picturePath = $this->placeholders[$placeholderKey];
+        }
+
         return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
 
     }

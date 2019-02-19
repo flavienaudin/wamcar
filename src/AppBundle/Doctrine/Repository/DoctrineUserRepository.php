@@ -11,6 +11,7 @@ use Wamcar\User\UserRepository;
 class DoctrineUserRepository extends EntityRepository implements UserRepository, UserProviderInterface, ApiUserProvider
 {
     use DoctrineUserRepositoryTrait;
+    use SoftDeletableEntityRepositoryTrait;
 
     /**
      * @param string $clientId

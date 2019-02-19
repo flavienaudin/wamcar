@@ -14,10 +14,12 @@
         </div>
     </section>
 
-    <section class="section reinsurance-container small-12">
-        <div class="row">
-            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
-        </div>
-    </section>
+    {% block reinsurance %}
+        <section class="section reinsurance-container small-12">
+            <div class="row">
+                {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
+            </div>
+        </section>
+    {% endblock %}
 
 {% endblock %}

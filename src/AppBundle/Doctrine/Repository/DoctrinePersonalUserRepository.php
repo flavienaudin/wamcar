@@ -12,6 +12,7 @@ use Wamcar\User\UserRepository;
 class DoctrinePersonalUserRepository extends EntityRepository implements UserRepository, RegisteredWithConfirmationProvider, UserProviderInterface, UserWithResettablePasswordProvider
 {
     use DoctrineUserRepositoryTrait;
+    use SoftDeletableEntityRepositoryTrait;
     use PasswordResettableRepositoryTrait;
     use SluggableEntityRepositoryTrait;
 

@@ -1,0 +1,32 @@
+{% extends ':front/Layout:layout.html.twig' %}
+
+{% block title %}Tableau d'administration{% endblock title %}
+
+{% block bodyClass %}admin{% endblock %}
+{% block mainClass %}{% endblock %}
+
+{% block body %}
+
+
+    <section class="row">
+        <div class="column">
+            <header class="">
+                <h1 class="text-center">{{ block('title') }}</h1>
+            </header>
+            <div>
+                <h2>Gestions des utilisateurs et des garages</h2>
+                <ul>
+                    <li><a href="{{ path('easyadmin') }}">Adminsitration (easy-admin)</a></li>
+                    <li><a href="{{ path('admin_garage_list') }}">Liste des garages</a></li>
+                    <li><a href="{{ path('admin_user_list') }}">Liste des utilisateurs</a></li>
+                </ul>
+
+                <h2>Administration techniques</h2>
+                <ul>
+                    <li><a href="{{ path('jmose_command_scheduler_list') }}">Liste des CronJobs</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+{% endblock %}

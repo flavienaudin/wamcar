@@ -29,6 +29,8 @@ class IndexableProUser implements Indexable
     private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
+    /** @var \DateTime */
+    private $deletedAt;
 
     /**
      * IndexableProUser constructor.
@@ -39,8 +41,9 @@ class IndexableProUser implements Indexable
      * @param array|null $garages
      * @param int|null $hasAvatar
      * @param array|null $roles
+     * @param null|\DateTime $deletedAt
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [])
+    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [], ?\DateTime $deletedAt = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -50,6 +53,7 @@ class IndexableProUser implements Indexable
         $this->garages = $garages;
         $this->hasAvatar = $hasAvatar;
         $this->roles = $roles;
+        $this->deletedAt = $deletedAt;
     }
 
     public static function createFromProApplicationUser(ProApplicationUser $proApplicationUser): IndexableProUser
@@ -61,7 +65,8 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getDescription(),
             [],
             ($proApplicationUser->getAvatar() != null?1:0), // int for function score
-            $proApplicationUser->getRoles()
+            $proApplicationUser->getRoles(),
+            $proApplicationUser->getDeletedAt()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
         /** @var GarageProUser $garageMembership */
@@ -107,7 +112,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return !in_array('ROLE_ADMIN', $this->roles);
+        return $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
     }
 
     /**

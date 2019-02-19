@@ -7,3 +7,12 @@ services:
     AppBundle\EntityListener\VehicleListener:
         tags:
             - { name: doctrine.orm.entity_listener }
+
+    AppBundle\EntityListener\EasyAdminSubscriber:
+        tags:
+            - { name: event_subscriber }
+
+    AppBundle\EventListener\AnnotationListener:
+        arguments: ['@annotation_reader']
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller }

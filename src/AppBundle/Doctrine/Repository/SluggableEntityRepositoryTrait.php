@@ -5,7 +5,6 @@ namespace AppBundle\Doctrine\Repository;
 
 trait SluggableEntityRepositoryTrait
 {
-
     /**
      * @param bool $onlyEmptySlug
      * @param bool $includeDeleted

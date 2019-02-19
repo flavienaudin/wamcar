@@ -8,7 +8,7 @@ class DoctrinePersonalVehicleRepository extends DoctrineVehicleRepository implem
 {
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function retrieveVehiclesWithLessThan2PicturesSince24h()
     {

@@ -1,17 +1,25 @@
 flash:
   success:
-    user_edit: Les modifications de votre profil ont été enregistrées.
-    user_preferences_edit: Vos préférences ont été enregistrées.
-    remove_garage: La suppression de votre garage est enregistrée.
+    user:
+      edit: Les modifications de votre profil ont été enregistrées.
+      deleted:
+        soft: L'utilisateur a bien été supprimé.
+        hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
+    user_preferences:
+      edit: Vos préférences ont été enregistrées.
     garage:
       create: Votre garage est bien enregistré.
       edit: Les modifications de votre garage ont été enregistrées.
+      deleted:
+        soft: Le garage a été supprimé.
+        hard: Le garage a été supprimé DEFINITIVEMENT.
       request_sent_to_administrator: Votre demande pour rejoindre le garage a bien été transmise au gestionnaire.
       assign_member: La demande a été validée. Le vendeur a bien rejoint votre garage.
       remove_member: Le vendeur a bien été retiré de votre garage.
       remove_member_with_reassignation: Le vendeur a bien été retiré de votre garage et ses véhicules ont été affectés aux autres vendeurs du garage.
       cancel_pending_request_by_user: Votre demande a bien été annulée.
       cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoint votre garage.
+      toogle_role: Le rôle de l'utilisateur a bien été modifié.
       invitations:
         attached: "{1} %prousers_attached_list% a été automatiquement rattaché à %garage_name% |[2,Inf[ %prousers_attached_list% ont été automatiquement rattachés à %garage_name%"
         invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
@@ -54,6 +62,9 @@ flash:
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
+    user:
+      deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
+
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
@@ -61,6 +72,9 @@ flash:
       remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
       unable_to_detach_seller:
         due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
+      unable_to_toogle_role:
+        last_admin: Vous ne pouvez pas modifier le rôle du dernier administrateur.
+        yourself: Vous ne pouvez pas modifier votre propre rôle.
     vehicle:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
@@ -117,6 +131,34 @@ global:
     next: Page suivante
     last: Dernière page
     page: Page
+
+error_page:
+  404:
+    title: La page recherchée est introuvable
+    body: >
+      <p>Oups! La page que vous recherchez n'est pas trouvée. <br> Il y a peut-être une erreur de saisie dans l'adresse renseignée.</p>
+      <p>Si vous rencontrez de nouveau le problème, <a href="%homeUrl%" class="text-underline">retournez à la page d’accueil</a> ou <a href="mailto:contact@wamcar.fr" class="text-underline">contactez-nous</a></p>
+  410:
+    title: La page recherchée n'existe plus
+    body: >
+      <p>Oups! La page que vous recherchez n'existe plus, faites donc une <a href="%searchUrl%" class="text-underline">nouvelle recherche</a>.</p>
+  vehicle:
+    removed:
+      title: Annonce supprimée
+      body: L'annonce n'est plus en ligne. Recherchez dès à présent un <a href="%redirection_url%" class="text-underline">véhicule similaire</a>.
+  personal_user:
+    deleted:
+      title: Projet supprimé
+      body: Le projet de ce particulier n'est plus d'actualité. Faites <a href="%redirection_url%" class="text-underline">une recherche</a> parmi les projets en cours.
+  pro_user:
+    deleted:
+      title: Conseiller automobile parti
+      body: Ce conseiller automobile a quitté Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le meilleur professionnel pour vous accompagner.
+  garage:
+    deleted:
+      title: Garage supprimé
+      body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
+
 
 header:
   anonyme:

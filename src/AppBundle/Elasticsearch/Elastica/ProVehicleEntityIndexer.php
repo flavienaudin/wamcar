@@ -18,9 +18,9 @@ class ProVehicleEntityIndexer extends EntityIndexer
      * @param string|null $text
      * @param int $page
      * @param int $limit
-     * @return ResultSet
+     * @return null|ResultSet
      */
-    public function getQueryGarageVehiclesResult($garageIds, string $text = null, int $page, int $limit = self::LIMIT): ResultSet
+    public function getQueryGarageVehiclesResult($garageIds, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         $mainQuery = new Query();
 
@@ -31,8 +31,7 @@ class ProVehicleEntityIndexer extends EntityIndexer
         if (is_array($garageIds)) {
             if (count($garageIds) == 0) {
                 // No garage given, empty result
-                $mainQuery->setQuery($qb->query()->match_none());
-                return $this->search($mainQuery);
+                return null;
             } else {
                 foreach ($garageIds as $garageId) {
                     $mainBoolQuery->addShould($qb->query()->term(['garageId' => $garageId]));

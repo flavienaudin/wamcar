@@ -7,7 +7,8 @@
 
 {% block body %}
     <div>
-        <ul class="tabs" data-tabs id="tabs-user">
+        <ul class="tabs" data-tabs id="tabs-user" data-deep-link="true" data-deep-link-smudge="true"
+            data-deep-link-smudge-delay="600">
             <li class="tabs-title is-active"><a href="#pro-user-panel" aria-selected="true">Professionnels</a></li>
             <li class="tabs-title"><a href="#personal-user-panel">Particuliers</a></li>
         </ul>
@@ -27,21 +28,26 @@
                             <th>Description</th>
                             <th>Réseaux sociaux</th>
                             <th>Garages</th>
+                            <th>&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for user in proUsers %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('front_view_pro_user_info',{'slug':user.slug}) }}">
-                                        {{ user.id }}
-                                    </a>
+                                    {% if user.deletedAt is null %}
+                                        <a href="{{ path('front_view_pro_user_info',{'slug':user.slug}) }}">
+                                            {{ user.id }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-line-through">{{ user.id }}</span>
+                                    {% endif %}
                                 </td>
                                 <td><span class="user-thumbnail-mini"><img
                                                 src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
                                                 alt="{{ user.fullName }}"></span></td>
-                                <td>{{ user.firstname }}</td>
-                                <td>{{ user.lastname }}</td>
+                                <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.firstname }}</td>
+                                <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.lastname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.phone }}<br>{{ user.phonePro }}</td>
                                 <td>{{ user.createdAt|localizeddate('short','short') }}</td>
@@ -61,9 +67,11 @@
                                 <td>
                                     <ul class="no-margin">
                                         {% for membership in user.garageMemberships %}
-                                            <li class="{{ membership.requestedAt is not null?'' }} garage-pending-request">
+                                            <li class="{{ membership.requestedAt is not null?'garage-pending-request' }}">
                                                 <a href="{{ path('front_garage_view',{'slug':membership.garage.slug}) }}">
+                                                    {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}<b>{% endif %}
                                                     {{ membership.garage.name }}
+                                                        {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}</b>{% endif %}
                                                 </a><br>
                                                 {{ membership.garage.city }}
                                                 {% if membership.requestedAt is not null %}
@@ -71,6 +79,31 @@
                                                 {% endif %}
                                             </li>
                                         {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="dropdown menu" data-dropdown-menu>
+                                        <li>
+                                            <a href="#">Actions</a>
+                                            <ul class="menu">
+                                                {% if user.deletedAt is null %}
+                                                    <li><a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                                           class="js-confirm-box warning-bg"
+                                                           data-id="soft-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                                           class="js-confirm-box danger-bg"
+                                                           data-id="hard-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer
+                                                            définitivement</a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </td>
                             </tr>
@@ -93,20 +126,28 @@
                             <th>Date d'inscription</th>
                             <th>description</th>
                             <th>réseaux sociaux</th>
+                            <th>Voitures</th>
+                            <th>&nbsp;</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for user in personalUsers %}
                             <tr>
                                 <td>
-                                    <a href="{{ path('front_view_personal_user_info',{'slug':user.slug}) }}">
-                                        {{ user.id }}
-                                    </a></td>
+
+                                    {% if user.deletedAt is null %}
+                                        <a href="{{ path('front_view_personal_user_info',{'slug':user.slug}) }}">
+                                            {{ user.id }}
+                                        </a>
+                                    {% else %}
+                                        <span class="text-line-through">{{ user.id }}</span>
+                                    {% endif %}
+                                </td>
                                 <td><span class="user-thumbnail-mini">
                                         <img src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
                                              alt="{{ user.fullName }}"></span></td>
-                                <td>{{ user.firstname }}</td>
-                                <td>{{ user.lastname }}</td>
+                                <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.firstname }}</td>
+                                <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.lastname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.phone }}</td>
                                 <td>{{ user.createdAt|localizeddate('short','short') }}</td>
@@ -122,6 +163,40 @@
                                         {% if user.twitterId is not null %}<span
                                                 class="social-networks-icon icon-twitter"></span> {% endif %}
                                     </div>
+                                </td>
+                                <td>
+                                    <ul>
+                                        {% for personalVehicle in user.vehicles %}
+                                            <li>
+                                                <a href="{{ path('front_vehicle_personal_detail',{'slug':personalVehicle.slug}) }}">{{ personalVehicle.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul class="dropdown menu" data-dropdown-menu>
+                                        <li>
+                                            <a href="#">Actions</a>
+                                            <ul class="menu">
+                                                {% if user.deletedAt is null %}
+                                                    <li><a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                                           class="js-confirm-box warning-bg"
+                                                           data-id="soft-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="{{ path('front_user_delete',{'id':user.id, 'forGood':true}) }}"
+                                                           class="js-confirm-box danger-bg"
+                                                           data-id="hard-{{ user.id }}"
+                                                           data-title="Attention!"
+                                                           data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer
+                                                            définitivement</a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </td>
                             </tr>
                         {% endfor %}

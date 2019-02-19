@@ -12,6 +12,25 @@ interface UserLikeVehicleRepository
     public function findOne(int $likeId): BaseLikeVehicle;
 
     /**
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @return BaseLikeVehicle
+     */
+    public function findOneBy(array $criteria, array $orderBy = NULL);
+
+    /**
+     * IgnoreSoftDeleted version of Finds entities by a set of criteria.
+     *
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     *
+     * @return array The objects.
+     */
+    public function findIgnoreSoftDeletedBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
+
+    /**
      * @return array The entities.
      */
     public function findAll();
@@ -36,12 +55,4 @@ interface UserLikeVehicleRepository
      * @return boolean
      */
     public function remove(BaseLikeVehicle $like);
-
-    /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @return BaseLikeVehicle
-     */
-    public function findOneBy(array $criteria, array $orderBy = NULL);
-
 }

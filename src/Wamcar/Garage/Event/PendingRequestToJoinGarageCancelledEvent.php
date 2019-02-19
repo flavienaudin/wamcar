@@ -3,6 +3,8 @@
 namespace Wamcar\Garage\Event;
 
 
-class PendingRequestToJoinGarageCancelledEvent extends AbstractGarageMemberManagementEvent implements GarageMemberManagementEvent
+use Wamcar\User\Event\UserEvent;
+
+class PendingRequestToJoinGarageCancelledEvent extends AbstractGarageMemberManagementEvent implements GarageMemberManagementEvent, UserEvent
 {
 }

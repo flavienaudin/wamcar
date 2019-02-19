@@ -17,25 +17,13 @@ interface GarageProUserRepository
      */
     public function findAll(): array;
 
-    /**
-     * @param GarageProUser $garage
-     *
-     * @return GarageProUser
-     */
+    /** {@inheritdoc} */
     public function add(GarageProUser $garage);
 
-    /**
-     * @param GarageProUser $garage
-     *
-     * @return GarageProUser
-     */
+    /** {@inheritdoc} */
     public function update(GarageProUser $garage);
 
-    /**
-     * @param GarageProUser $garage
-     *
-     * @return boolean
-     */
+    /** {@inheritdoc} */
     public function remove(GarageProUser $garage);
 
     /**

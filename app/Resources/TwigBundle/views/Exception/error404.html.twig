@@ -2,12 +2,10 @@
 
 {% block mainClass %}no-padding{% endblock %}
 
-{% block title %}La page recherchée est introuvable{% endblock %}
+{% block title %}{{ 'error_page.404.title'|trans }}{% endblock %}
 
 {% block errorBody %}
-
-    <p>Oups ! La page que vous recherchez n'est pas trouvée. <br> Il y a peut-être une erreur de saisie dans l'adresse renseignée.</p>
-    <p>Si vous rencontrez de nouveau le problème, <a href="{{ path('front_default') }}" class="text-underline"><b>retournez à la page d’accueil</b></a> ou <a href="mailto:contact@wamcar.fr" class="text-underline">contactez-nous</a></p>
-    <br><br><br><br>
-
+    {{ 'error_page.404.body'|trans({'%homeUrl%':url('front_default')})|raw }}
 {% endblock %}
+
+{% block reinsurance %}{% endblock %}

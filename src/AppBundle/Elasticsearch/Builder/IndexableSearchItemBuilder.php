@@ -100,6 +100,6 @@ class IndexableSearchItemBuilder
             $proVehicle->getGarage()->getId(),
             $proVehicle->getGarage()->getGoogleRating()
         );
-        return $indexableSearchItem;;
+        return $indexableSearchItem;
     }
 }

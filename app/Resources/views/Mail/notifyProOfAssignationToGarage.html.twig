@@ -12,7 +12,7 @@
 {% block body %}
     <div>
         {{ 'notifyProUserOfGarageAssignation.body'|trans({
-            '%administrator_fullname%': mainAdministrator.fullname,
+            '%administrator_fullname%': mainAdministrator is not null ? mainAdministrator.fullname : 'Un administrateur ',
             '%administrator_url%': mainAdministrator|userInfoUrl({}, true),
             '%garage_name%': garage.name,
             '%garage_url%': url('front_garage_view', {'slug':garage.slug})
