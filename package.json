@@ -44,7 +44,7 @@
     "air-datepicker": "^2.2.3",
     "animated-scrollto": "^1.1.0",
     "formdata-polyfill": "^3.0.9",
-    "foundation-sites": "^6.3.0",
+    "foundation-sites": "6.4.3",
     "motion-ui": "^1.1.1",
     "select2": "^4.0.6-rc.1",
     "siema": "^1.4.6",
