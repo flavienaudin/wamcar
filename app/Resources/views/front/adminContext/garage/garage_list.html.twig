@@ -9,7 +9,7 @@
     <div class="row garages-list">
         {% for garage in garages %}
             <div class="column small-12 medium-6 input-margin" id="garage-{{ garage.id }}">
-                <div class=" garage-item">
+                <div class="garage-item">
                     {% if garage.deletedAt is null %}
                         <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
                             <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>

@@ -336,9 +336,10 @@ class ConversationController extends BaseController
             if (count($ids) > 0) {
                 $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
             }
+            $results['totalHits'] = $searchResultSet->getTotalHits();
             $lastPage = ElasticUtils::numberOfPages($searchResultSet);
         }else{
-            $results['totalHits'] = $searchResultSet->getTotalHits();
+            $results['totalHits'] = 0;
             $lastPage = 1;
         }
 

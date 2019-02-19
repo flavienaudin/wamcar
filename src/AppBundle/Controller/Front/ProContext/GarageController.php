@@ -129,7 +129,7 @@ class GarageController extends BaseController
                 $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
                 $lastPage = ElasticUtils::numberOfPages($searchResultSet);
             } else {
-                $vehicles = [];
+                $vehicles = ['totalHits' => 0, 'hits' => []];
                 $lastPage = 1;
             }
         } else {
@@ -279,9 +279,9 @@ class GarageController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_ADMIN only
      * @Entity("garage", expr="repository.findIgnoreSoftDeleted(id)")
      * @param Garage $garage
-     * @Security("has_role('ROLE_ADMIN')")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function removeAction(Garage $garage): RedirectResponse

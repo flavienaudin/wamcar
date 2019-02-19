@@ -319,16 +319,4 @@ front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
-# Administration
-front_user_list:
-    path: /user/list
-    controller: AppBundle:Front\PersonalContext\User:list
-
-front_garage_list:
-    path: /garage/list
-    controller: AppBundle:Front\ProContext\Garage:list
-
-front_garage_remove:
-    path: /garage/remove/{id}
-    controller: AppBundle:Front\ProContext\Garage:remove
 

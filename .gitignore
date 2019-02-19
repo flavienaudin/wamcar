@@ -25,4 +25,4 @@
 /web/uploads/
 /web/media/
 /web/openapi.json
-/web/sitemap*
+/web/*.xml

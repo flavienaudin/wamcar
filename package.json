@@ -21,7 +21,7 @@
     "babel-preset-es2017": "^6.24",
     "babel-preset-stage-2": "^6.13",
     "browser-sync": "^2.26.3",
-    "css-loader": "^1.0",
+    "css-loader": "^0.28",
     "css-mqpacker": "^7.0.0",
     "eslint": "^3.18.0",
     "eslint-loader": "^1.6.3",
