@@ -12,7 +12,7 @@
             '%annonceTitle%': annonceTitle,
         })|raw }}
         {% if vehicle != null %}
-            {{ encart_vehicle(thumbnailUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
+            {{ encart_vehicle(thumbnailUrl, vehicleUrl ,vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
          {% endif %}
         {{ action_button(message_url, 'notifyUserOfLikeVehicle.action_label'|trans) }}
     </div>
