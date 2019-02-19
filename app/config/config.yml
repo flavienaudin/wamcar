@@ -638,3 +638,7 @@ easy_admin:
       new:
         fields:
           - { property: 'executeImmediately', label: 'detail.executeImmediately' }
+
+presta_sitemap:
+    sitemap_file_prefix: '8azs_1t3m7p+qs768'
+

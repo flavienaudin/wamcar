@@ -26,6 +26,13 @@ interface VehicleRepository
     public function find($id);
 
     /**
+    * Finds all entities in the repository.
+    *
+    * @return array
+    */
+    public function findAll();
+
+    /**
      * Get ProVehicle by IDs, keeping the $ids order
      * @param $ids array Array of entities'id
      * @return array

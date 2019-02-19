@@ -3,9 +3,11 @@
 namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Vehicle;
+use Wamcar\Vehicle\VehicleRepository;
 
-class DoctrineVehicleRepository extends EntityRepository
+class DoctrineVehicleRepository extends EntityRepository implements VehicleRepository
 {
     use SluggableEntityRepositoryTrait;
     use SoftDeletableEntityRepositoryTrait;
@@ -36,6 +38,14 @@ class DoctrineVehicleRepository extends EntityRepository
     {
         $this->_em->remove($vehicle);
         $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findAllForGarage(Garage $garage): array
+    {
+        return $this->findBy(['garage' => $garage]);
     }
 
     /**

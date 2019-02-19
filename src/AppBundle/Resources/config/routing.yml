@@ -13,6 +13,8 @@ notifications:
 static:
     resource: "routing/static.yml"
     prefix: /
+    options:
+        sitemap: true
 
 api:
     resource: "routing/api.yml"
@@ -25,6 +27,8 @@ _liip_imagine:
 security_login_page:
     path: /connexion
     defaults: { _controller: AppBundle:Front\Security:loginPage }
+    options:
+        sitemap: true
 
 security_logout:
     path: /deconnexion
