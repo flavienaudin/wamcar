@@ -7,6 +7,58 @@ $directory-item-min-height: 182;
 
 /** Class definition */
 .directory {
+  // Not logged background
+  &-header-background {
+    background: rgba(247, 247, 247, 0.2) url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) no-repeat center center;
+    background-size: cover;
+
+    h2 {
+      font-size: rem-calc(20);
+      margin-bottom: 0;
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(24);
+        margin-bottom: 0.5rem;
+      }
+
+      @include breakpoint(large) {
+        font-size: rem-calc(28px);
+        margin-bottom: 1.5rem;
+      }
+    }
+
+    h3 {
+      @include breakpoint(medium) {
+        font-size: rem-calc(18);
+        margin-left: 4rem;
+        margin-right: 4rem;
+      }
+
+      @include breakpoint(large) {
+      }
+    }
+  }
+
+  &-form-header {
+    padding-top: 1rem;
+
+    @include breakpoint(medium) {
+      padding-top: 2rem;
+    }
+
+    @include breakpoint(large) {
+      padding-bottom: 2rem;
+    }
+
+    .selfie-bg {
+      background: url('#{$img-folder}/background/Wamcar-rencontre-conseiller_automobile-selfie.png') center/contain no-repeat;
+      min-height: #{rem-calc(100)};
+
+      @include breakpoint(medium) {
+        min-height: #{rem-calc(200)};
+      }
+    }
+  }
 
   // Change label and button colors
   &-form-container {
