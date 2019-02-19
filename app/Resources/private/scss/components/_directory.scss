@@ -32,9 +32,7 @@ $directory-item-min-height: 182;
         font-size: rem-calc(18);
         margin-left: 4rem;
         margin-right: 4rem;
-      }
-
-      @include breakpoint(large) {
+        font-weight: normal;
       }
     }
   }
