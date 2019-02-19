@@ -928,7 +928,7 @@ directory:
     subtitle: Matchez, discutez, profitez de bonnes occasions et/ou obtenez une offre de reprise sérieuse pour votre auto
   field:
     text:
-      label: Votre recherche
+      label: Je cherche un conseiller
       placeholder: Entrer un nom ou une marque
     location:
       label: Autour de
