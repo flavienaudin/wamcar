@@ -20,11 +20,7 @@
                 {% if isUserPro %}
                     <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE') }}">
                     <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') }}">
-                {% elseif isUserPersonal %}
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE') }}">
                 {% else %}
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE') }}">
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') }}">
                     <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE') }}">
                 {% endif %}
             </div>
