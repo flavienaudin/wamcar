@@ -881,6 +881,7 @@ notifications:
 
 directory:
   page_tile: Annuaire des professionnels
+  description: Rencontrez votre conseiller automobile
   field:
     text:
       label: Votre recherche

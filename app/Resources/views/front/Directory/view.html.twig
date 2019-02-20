@@ -2,6 +2,7 @@
 {% block mainClass %}no-padding-top{% endblock %}
 
 {% block title %}{{ 'directory.page_tile'|trans }}{% endblock %}
+{% block meta_description %}{{ 'directory.description'|trans }}{% endblock %}
 {% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
 {% block canonical %}{{ url('front_directory_view') }}{% endblock canonical %}
 
