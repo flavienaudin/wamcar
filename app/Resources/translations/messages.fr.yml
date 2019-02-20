@@ -362,6 +362,7 @@ garage:
     request:
       title: Rejoindre un garage
   administrator:
+    invisible: Ce gestionnaire du garage n'est pas visible des autres utilisateurs.
     contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
 
 search:

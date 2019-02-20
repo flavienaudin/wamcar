@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Type;
 
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Novaway\ElasticsearchClient\Indexable;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\GarageProUser;
 
 class IndexableProUser implements Indexable
@@ -72,20 +73,23 @@ class IndexableProUser implements Indexable
         /** @var GarageProUser $garageMembership */
         foreach ($proApplicationUser->getEnabledGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
-            $garageArray = [
-                'garageId' => $garage->getId(),
-                'garageName' => $garage->getName(),
-                'garagePresentation' => $garage->getPresentation(),
-                'garageCityName' => $garage->getCity()->getName(),
-                'garageLocation' => [
-                    'lat' => $garage->getCity()->getLatitude(),
-                    'lon' => $garage->getCity()->getLongitude()
-                ],
-                'garageGoogleRating' => $garage->getGoogleRating()
-            ];
-            $indexableProUser->garages[] = $garageArray;
-            if ($indexableProUser->maxGarageGoogleRating < $garageArray['garageGoogleRating']) {
-                $indexableProUser->maxGarageGoogleRating = $garageArray['garageGoogleRating'];
+            if($garage->isOptionAdminVisible() || GarageRole::GARAGE_MEMBER()->equals($garageMembership->getRole())) {
+                // Index garage only if pro user is just a member or admin are visibles
+                $garageArray = [
+                    'garageId' => $garage->getId(),
+                    'garageName' => $garage->getName(),
+                    'garagePresentation' => $garage->getPresentation(),
+                    'garageCityName' => $garage->getCity()->getName(),
+                    'garageLocation' => [
+                        'lat' => $garage->getCity()->getLatitude(),
+                        'lon' => $garage->getCity()->getLongitude()
+                    ],
+                    'garageGoogleRating' => $garage->getGoogleRating()
+                ];
+                $indexableProUser->garages[] = $garageArray;
+                if ($indexableProUser->maxGarageGoogleRating < $garageArray['garageGoogleRating']) {
+                    $indexableProUser->maxGarageGoogleRating = $garageArray['garageGoogleRating'];
+                }
             }
         }
         // Sort garages by Google Rating to help the function score in search query
@@ -112,7 +116,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
+        return count($this->garages) > 0 && $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
     }
 
     /**

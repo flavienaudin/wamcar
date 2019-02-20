@@ -138,7 +138,7 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
         if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
-            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin es vendeuse)
+            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin et vendeuse)
             $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
                 return $memberShip->getProUser();
             });

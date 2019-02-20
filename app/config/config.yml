@@ -458,6 +458,7 @@ easy_admin:
           - googlePlaceId
           - googleRating
           - { property: 'optionAdminSellers', label: 'Gest. vend.'}
+          - { property: 'optionAdminVisible', label: 'Gest. visible'}
           - { property: 'countProVehicles', label: '#Vhl.'}
           - { property: 'countMembers', label: '#Memb.'}
           - { property: 'deletedAt', label: 'Suppr.' }
@@ -499,6 +500,7 @@ easy_admin:
           - { property: 'name'}
           - { property: 'siren'}
           - { property: 'optionAdminSellers', label: 'Gest. vend.'}
+          - { property: 'optionAdminVisible', label: 'Gest. visible'}
     ProApplicationUser:
       class: AppBundle\Doctrine\Entity\ProApplicationUser
       label: 'Conseillers automobile'

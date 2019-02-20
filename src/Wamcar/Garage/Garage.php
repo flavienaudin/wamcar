@@ -55,6 +55,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     protected $logo;
     /** @var bool */
     protected $optionAdminSellers;
+    /** @var bool */
+    protected $optionAdminVisible;
 
     /**
      * Garage constructor.
@@ -69,6 +71,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
      * @param Picture|null $logo
      * @param float|null $googleRating
      * @param null|bool $optionAdminSellers
+     * @param null|bool $optionAdminVisible
      */
     public function __construct(
         ?string $googlePlaceId,
@@ -81,7 +84,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         Picture $banner = null,
         Picture $logo = null,
         ?float $googleRating = null,
-        bool $optionAdminSellers = true
+        bool $optionAdminSellers = true,
+        bool $optionAdminVisible = true
     )
     {
         $this->googlePlaceId = $googlePlaceId;
@@ -97,6 +101,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         $this->logo = $logo;
         $this->googleRating = $googleRating;
         $this->optionAdminSellers = $optionAdminSellers;
+        $this->optionAdminVisible = $optionAdminVisible;
         $this->generateApiCredentials();
     }
 
@@ -255,6 +260,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
+     * @return bool
+     */
+    public function isOptionAdminVisible(): bool
+    {
+        return $this->optionAdminVisible;
+    }
+
+    /**
      * @return Address
      */
     public function getAddress(): Address
@@ -348,6 +361,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function setOptionAdminSellers(bool $optionAdminSellers): void
     {
         $this->optionAdminSellers = $optionAdminSellers;
+    }
+
+    /**
+     * @param bool $optionAdminVisible
+     */
+    public function setOptionAdminVisible(bool $optionAdminVisible): void
+    {
+        $this->optionAdminVisible = $optionAdminVisible;
     }
 
     /**
@@ -485,7 +506,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     /**
      * @return int Number of garage's vehicles
      */
-    public function countProVehicles():int
+    public function countProVehicles(): int
     {
         return count($this->proVehicles);
     }
