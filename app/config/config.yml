@@ -628,6 +628,7 @@ easy_admin:
         actions:
           - { name: 'jmose_command_scheduler_action_execute', type: 'route', label: 'action.execute' }
           - { name: 'jmose_command_scheduler_action_unlock', type: 'route', label: 'action.unlock' }
+          - { name: 'new' }
       form:
         fields:
           - { property: 'name', label: 'detail.name' }

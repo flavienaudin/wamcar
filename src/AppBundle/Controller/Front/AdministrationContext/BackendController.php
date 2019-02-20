@@ -7,13 +7,8 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
-use SimpleBus\Message\Bus\MessageBus;
-use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
-use Wamcar\User\Event\PersonalProjectUpdated;
-use Wamcar\User\Event\PersonalUserUpdated;
-use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
@@ -23,8 +18,6 @@ class BackendController extends AdminController
     private $garageEditionService;
     /** @var UserEditionService */
     private $userEditionService;
-    /** @var MessageBus */
-    private $eventBus;
 
     /** @param GarageEditionService $garageEditionService */
     public function setGarageEditionService(GarageEditionService $garageEditionService): void
@@ -36,59 +29,6 @@ class BackendController extends AdminController
     public function setUserEditionService(UserEditionService $userEditionService): void
     {
         $this->userEditionService = $userEditionService;
-    }
-
-    /** @param MessageBus $eventBus */
-    public function setEventBus(MessageBus $eventBus): void
-    {
-        $this->eventBus = $eventBus;
-    }
-
-    // Persit/Update entity
-
-    // ProApplicationUser
-    public function persistProApplicationUserEntity($entity)
-    {
-        parent::persistEntity($entity);
-        $this->eventBus->handle(new ProUserUpdated($entity));
-    }
-
-    public function updateProApplicationUserEntity($entity)
-    {
-        parent::updateEntity($entity);
-        $this->eventBus->handle(new ProUserUpdated($entity));
-    }
-
-    // PersonalApplicationUser
-    public function persistPersonalApplicationUserEntity($entity)
-    {
-        parent::persistEntity($entity);
-        $this->eventBus->handle(new PersonalUserUpdated($entity));
-        if ($entity->getProject() != null) {
-            $this->eventBus->handle(new PersonalProjectUpdated($entity->getProject()));
-        }
-    }
-
-    public function updatePersonalApplicationUserEntity($entity)
-    {
-        parent::updateEntity($entity);
-        $this->eventBus->handle(new PersonalUserUpdated($entity));
-        if ($entity->getProject() != null) {
-            $this->eventBus->handle(new PersonalProjectUpdated($entity->getProject()));
-        }
-    }
-
-    // Garage
-    public function persistGarageEntity($entity)
-    {
-        parent::persistEntity($entity);
-        $this->eventBus->handle(new GarageUpdated($entity));
-    }
-
-    public function updateGarageEntity($entity)
-    {
-        parent::updateEntity($entity);
-        $this->eventBus->handle(new GarageUpdated($entity));
     }
 
     // Common
@@ -106,7 +46,7 @@ class BackendController extends AdminController
                     }
                 }
             } catch (\InvalidArgumentException $exception) {
-                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING,$exception->getMessage());
+                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $exception->getMessage());
             }
         } elseif ($entity instanceof BaseUser) {
             $resultMessages = $this->userEditionService->deleteUser($entity, $this->getUser());
@@ -124,7 +64,6 @@ class BackendController extends AdminController
                     $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
                 }
             }
-
         } else {
             // TODO other entities
             // parent::removeEntity($entity);
@@ -166,8 +105,6 @@ class BackendController extends AdminController
     {
         $id = $this->request->query->get('id');
         $entity = $this->em->getRepository(Garage::class)->find($id);
-        return $this->redirectToRoute('front_garage_view', [
-            'slug' => $entity->getSlug()
-        ]);
+        return $this->redirectToRoute('front_garage_view', ['slug' => $entity->getSlug()]);
     }
 }
