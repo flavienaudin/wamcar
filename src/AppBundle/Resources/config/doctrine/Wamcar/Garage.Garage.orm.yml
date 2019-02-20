@@ -67,6 +67,9 @@ Wamcar\Garage\Garage:
         optionAdminSellers:
             type: boolean
             nullable: false
+        optionAdminVisible:
+            type: boolean
+            nullable: false
         deletedAt:
             type: date
             nullable: true

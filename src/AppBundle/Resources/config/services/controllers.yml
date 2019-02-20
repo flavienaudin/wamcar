@@ -13,7 +13,6 @@ services:
         calls:
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
-            - ['setEventBus', ['@event_bus']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

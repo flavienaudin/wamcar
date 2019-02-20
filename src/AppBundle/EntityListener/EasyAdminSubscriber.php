@@ -3,12 +3,17 @@
 namespace AppBundle\EntityListener;
 
 
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Doctrine\ORM\EntityManagerInterface;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Wamcar\Garage\Event\GarageUpdated;
 use Wamcar\Garage\Garage;
+use Wamcar\User\Event\PersonalProjectUpdated;
+use Wamcar\User\Event\PersonalUserUpdated;
+use Wamcar\User\Event\ProUserUpdated;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -26,7 +31,6 @@ class EasyAdminSubscriber implements EventSubscriberInterface
         $this->entityManager = $entityManager;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -36,8 +40,8 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             'easy_admin.pre_initialize' => ['disableSoftDeletableFilter'],
             'easy_admin.pre_list' => array('disableSoftDeletableFilter'),
             'easy_admin.pre_search' => array('disableSoftDeletableFilter'),
+            'easy_admin.post_update' => array('postPersist'),
             'easy_admin.post_persist' => array('postPersist'),
-            'easy_admin.post_delete' => array('postDelete'),
         );
     }
 
@@ -57,24 +61,16 @@ class EasyAdminSubscriber implements EventSubscriberInterface
             case $entity instanceof Garage:
                 $this->messabeBus->handle(new GarageUpdated($entity));
                 break;
+            case $entity instanceof PersonalApplicationUser:
+                $this->messabeBus->handle(new PersonalUserUpdated($entity));
+                if ($entity->getProject() != null) {
+                    $this->messabeBus->handle(new PersonalProjectUpdated($entity->getProject()));
+                }
+                break;
+            case $entity instanceof ProApplicationUser:
+                $this->messabeBus->handle(new ProUserUpdated($entity));
             default:
                 return;
         }
-
-
-    }
-
-
-    public function postDelete(GenericEvent $event)
-    {
-        $entity = $event->getSubject();
-
-        switch (true) {
-
-            default:
-                return;
-        }
-
-
     }
 }

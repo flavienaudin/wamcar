@@ -362,6 +362,7 @@ garage:
     request:
       title: Rejoindre un garage
   administrator:
+    invisible: Ce gestionnaire du garage n'est pas visible des autres utilisateurs.
     contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
 
 search:
@@ -925,7 +926,7 @@ directory:
   page_tile: Annuaire des professionnels
   form:
     title: Rencontrez votre conseiller automobile
-    subtitle: Matchez, discutez, profitez de bonnes occasions et/ou obtenez une offre de reprise sérieuse pour votre auto
+    subtitle: Matchez, discutez, découvrez de bonnes occasions, et obtenez une offre de reprise sérieuse pour votre auto
   field:
     text:
       label: Je cherche un conseiller
