@@ -6,7 +6,6 @@ namespace AppBundle\Services\Vehicle;
 use AppBundle\Command\EntityBuilder\AutoManuelProVehicleBuilder;
 use AppBundle\Exception\Vehicle\VehicleImportInvalidDataException;
 use AppBundle\Exception\Vehicle\VehicleImportRGFailedException;
-use function Composer\Autoload\includeFile;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
@@ -42,6 +41,8 @@ class VehicleImportService
     private $garageRepository;
     /** @var ProVehicleRepository */
     private $proVehicleRepository;
+    /** @var AutoManuelProVehicleBuilder */
+    private $autoManuelProVehicleBuilder;
     /** @var MessageBus */
     private $eventBus;
 
@@ -49,12 +50,14 @@ class VehicleImportService
      * VehicleImportService constructor.
      * @param GarageRepository $garageRepository
      * @param ProVehicleRepository $proVehicleRepository
+     * @param AutoManuelProVehicleBuilder $autoManuelProVehicleBuilder
      * @param MessageBus $eventBus
      */
-    public function __construct(GarageRepository $garageRepository, ProVehicleRepository $proVehicleRepository, MessageBus $eventBus)
+    public function __construct(GarageRepository $garageRepository, ProVehicleRepository $proVehicleRepository, AutoManuelProVehicleBuilder $autoManuelProVehicleBuilder, MessageBus $eventBus)
     {
         $this->garageRepository = $garageRepository;
         $this->proVehicleRepository = $proVehicleRepository;
+        $this->autoManuelProVehicleBuilder = $autoManuelProVehicleBuilder;
         $this->eventBus = $eventBus;
     }
 
@@ -63,7 +66,8 @@ class VehicleImportService
      * @param array $datas
      * @return array
      */
-    public function importDataAutosManuel(array $config, array $datas){
+    public function importDataAutosManuel(array $config, array $datas)
+    {
         // Information data
         $idx = 0;
         $nbCreatedVehicles = 0;
@@ -79,26 +83,32 @@ class VehicleImportService
             if (is_array($data)) {
                 try {
                     $result = $this->importProVehicleFromAutosManuelData($config, $data, $garages);
-                    if($result[self::RESULT_STATUS_KEY] === self::CREATION){
+                    if ($result[self::RESULT_STATUS_KEY] === self::CREATION) {
                         $nbCreatedVehicles++;
-                    }elseif($result[self::RESULT_STATUS_KEY] === self::UPDATE){
+                    } elseif ($result[self::RESULT_STATUS_KEY] === self::UPDATE) {
                         $nbUpdatedVehicles++;
                     }
-                    if($result[self::RESULT_MOVED_KEY]){
+                    if ($result[self::RESULT_MOVED_KEY]) {
                         $nbMovedVehicles++;
                     }
                     /** @var ProVehicle $proVehicle */
                     $proVehicle = $result[self::RESULT_VEHICLE_KEY];
                     $vehicleTreatedReferences[$proVehicle->getGarage()->getId()][] = $proVehicle->getReference();
                 } catch (VehicleImportRGFailedException $e) {
-                    if(!isset($errors[$e->getRgName()])){
+                    if (!isset($errors[$e->getRgName()])) {
                         $errors[$e->getRgName()] = [];
                     }
                     $errors[$e->getRgName()][$idx] = $e->getMessage();
                     $nbRejectedVehicles++;
+                } catch (VehicleImportInvalidDataException $e) {
+                    if (!isset($errors['invalidDataFormat'])) {
+                        $errors['invalidDataFormat'] = [];
+                    }
+                    $errors['invalidDataFormat'][$idx] = $e->getMessage();
+                    $nbRejectedVehicles++;
                 }
             } else {
-                if(!isset($errors['invalidDataFormat'])) {
+                if (!isset($errors['invalidDataFormat'])) {
                     $errors['invalidDataFormat'] = [];
                 }
                 $errors['invalidDataFormat'][$idx] = 'Row is not an array';
@@ -106,17 +116,22 @@ class VehicleImportService
             }
             $idx++;
         }
-
+        dump('GARAGES :');
+        dump($garages);
+        dump('Vehicules références :');
+        dump($vehicleTreatedReferences);
         /** @var Garage $garage */
         foreach ($garages as $garage) {
             // Treat vehicle deletion
-            $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences[$garage->getId()]);
-            foreach ($vehiclesToDelete as $proVehicleToDelete) {
-                $this->proVehicleRepository->remove($proVehicleToDelete);
-                $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
-                $nbDeletedVehicles++;
+            if (isset($vehicleTreatedReferences[$garage->getId()])) {
+                $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences[$garage->getId()]);
+                foreach ($vehiclesToDelete as $proVehicleToDelete) {
+                    $this->proVehicleRepository->remove($proVehicleToDelete);
+                    $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                    $nbDeletedVehicles++;
+                }
+                $this->garageRepository->update($garage);
             }
-            $this->garageRepository->update($garage);
         }
 
         return [
@@ -141,16 +156,29 @@ class VehicleImportService
      */
     public function importProVehicleFromAutosManuelData(array $config, array $data, array &$garages = []): array
     {
-        $origin = self::ORIGIN_AUTOSMANUEL;
+        if ($data[AutoManuelProVehicleBuilder::FIELDNAME_ENABLED] != 1) {
+            // RG-TRI-AM-Actif
+            throw new VehicleImportRGFailedException('RG-TRI-AM-Actif', 'Vehicle not enabled');
+        }
         if ($data[AutoManuelProVehicleBuilder::FIELDNAME_RECIPIENT] != AutoManuelProVehicleBuilder::RECIPIENT_ACCEPTED_VALUE) {
             // RG-TRI-AM-Destination
-            throw new VehicleImportRGFailedException('RG-TRI-AM-Destination', "Given value : ".$data[AutoManuelProVehicleBuilder::FIELDNAME_RECIPIENT]);
+            throw new VehicleImportRGFailedException('RG-TRI-AM-Destination', "Given value : " . $data[AutoManuelProVehicleBuilder::FIELDNAME_RECIPIENT]);
         }
         if (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_INTERNET_PRICE]) && empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MAIN_PRICE])) {
             // RG-TRI-AM-Prix
             throw new VehicleImportRGFailedException('RG-TRI-AM-Prix');
         }
-
+        if (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_NAME]) || empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME]) ||
+            empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME]) || empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME])) {
+            // RG-TRI-Oblig-Modele
+            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Modele', sprintf("Modele : %s ; Make : %s ; Engine : %s ; Fuel : %s",
+                $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_NAME], $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME],
+                $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME], $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]));
+        }
+        if (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MILEAGE])) {
+            // RG-TRI-Oblig-Km
+            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Km');
+        }
 
         $garageCode = $data[AutoManuelProVehicleBuilder::FIELDNAME_GARAGE_CODE];
         if (!isset($garages[$garageCode])) {
@@ -174,23 +202,21 @@ class VehicleImportService
                 $existingProVehicle = null;
             }
 
-            if ($origin == self::ORIGIN_AUTOSMANUEL) {
-                // TODO
-                $proVehicle = AutoManuelProVehicleBuilder::generateVehicleFromUsedData($existingProVehicle, $data, $garages[$garageCode]);
-            } /*TODO remove :
-                else {
-                $proVehicle = AutoManuelProVehicleBuilder::generateVehicleFromNewData($existingProVehicle, $data, $garages[$garageCode]);
-            }*/
+            try {
+                $proVehicle = $this->autoManuelProVehicleBuilder->generateVehicleFromUsedData($existingProVehicle, $data, $garages[$garageCode]);
+            } catch (\Exception $e) {
+                throw new VehicleImportInvalidDataException($e->getMessage(), $e->getCode(), $e);
+            }
 
 
             if ($existingProVehicle != null) {
                 $this->proVehicleRepository->update($proVehicle);
                 $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
-                return [self::RESULT_STATUS_KEY =>  self::UPDATE, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
+                return [self::RESULT_STATUS_KEY => self::UPDATE, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
             } else {
                 $this->proVehicleRepository->add($proVehicle);
                 $this->eventBus->handle(new ProVehicleCreated($proVehicle));
-                return [self::RESULT_STATUS_KEY =>  self::CREATION, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
+                return [self::RESULT_STATUS_KEY => self::CREATION, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
             }
         } else {
             throw new VehicleImportRGFailedException('RG-TRAIT-AM-Garage', sprintf("No garage configuration set for '%s', or API client Id not found", $garageCode));

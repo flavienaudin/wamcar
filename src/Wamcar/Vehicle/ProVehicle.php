@@ -238,9 +238,9 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @param string $guarantee
+     * @param Guarantee $guarantee
      */
-    public function setGuarantee(?string $guarantee): void
+    public function setGuarantee(?Guarantee $guarantee): void
     {
         $this->guarantee = $guarantee;
     }

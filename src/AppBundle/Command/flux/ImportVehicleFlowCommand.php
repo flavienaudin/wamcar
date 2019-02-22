@@ -96,7 +96,7 @@ class ImportVehicleFlowCommand extends BaseCommand
     private function displayImportResult(SymfonyStyle $io, array $result)
     {
         foreach ($result[VehicleImportService::RESULT_ERROR_KEY] as $rgName => $errorData) {
-            $io->text(sprintf("%s : (%d) rejected row(s) :", $rgName, count($result[$errorData])));
+            $io->text(sprintf("%s : (%d) rejected row(s) :", $rgName, count($errorData)));
             $errorMessages = [];
             foreach ($errorData as $idx => $message) {
                 $errorMessages[] = [$idx, $message];

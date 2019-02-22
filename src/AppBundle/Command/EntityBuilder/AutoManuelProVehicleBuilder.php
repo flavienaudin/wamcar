@@ -4,9 +4,12 @@ namespace AppBundle\Command\EntityBuilder;
 
 
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Engine;
+use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\Transmission;
 use Wamcar\Vehicle\Fuel;
 use Wamcar\Vehicle\Make;
@@ -19,11 +22,45 @@ class AutoManuelProVehicleBuilder
 {
     const FIELDNAME_REFERENCE = 'num_police';
     const FIELDNAME_RECIPIENT = 'code_destinataire';
+    const FIELDNAME_ENABLED = 'actif';
     const RECIPIENT_ACCEPTED_VALUE = 'P';
     const FIELDNAME_GARAGE_CODE = 'code_etablissement';
 
     const FIELDNAME_INTERNET_PRICE = 'prix_internet';
     const FIELDNAME_MAIN_PRICE = 'prix_vente';
+    const FIELDNAME_GUARANTEE = 'garantie_duree';
+    const FIELDNAME_OTHER_GUARANTEE = 'garantie_nom';
+
+    const FIELDNAME_MODELVERSION_MODEL_MAKE_NAME = 'nom_marque';
+    const FIELDNAME_MODELVERSION_MODEL_NAME = 'nom_modele';
+    const FIELDNAME_MODELVERSION_ENGINE_NAME = 'nom_version';
+    const FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME = 'nom_energie';
+    const FIELDNAME_TRANSMISSION = 'boite_automatique';
+
+    const FIELDNAME_MILEAGE = 'kilometrage';
+
+    const FIELDNAME_IMMATRICULATION = 'immatriculation';
+    const FIELDNAME_VIN = 'numero_chassis';
+    const FIELDNAME_REGISTRATION_DATE = 'date_mec';
+
+    // Description
+    const FIELDNAME_GENRE = "code_genre_vehicule";
+    const FIELDNAME_CAR_BODY = "nom_carrosserie";
+    const FIELDNAME_FISCAL_POWER = "puissance_fiscale";
+    const FIELDNAME_SEATS_NUMBER = "nombre_places";
+    const FIELDNAME_DOORS_NUMBER = "nombre_portes";
+    const FIELDNAME_GEARS_NUMBER = "nombre_rapports";
+    const FIELDNAME_COLOR = "code_couleur";
+    const FIELDNAME_CO2_RATE = "taux_co2";
+    const FIELDNAME_DIN_POWER = "puissance_din";
+    const FIELDNAME_AVERAGE_CONSUMPTION = "consommation_moyenne";
+    const FIELDNAME_SITE = "code_site";
+
+    const FIELDNAME_AVAILABILITY_DATE = "date_disponibilite";
+    const FIELDNAME_SELLER_CONTACT = "description_vendeur";
+
+    const FIELDNAME_OPTIONS = "options";
+    const FIELDNAME_PHOTOS = "photos";
 
 
     // VO Indexes
@@ -104,6 +141,19 @@ class AutoManuelProVehicleBuilder
     const IDX_VN_END_2_OPTION = 155;
 
 
+    /** @var LoggerInterface */
+    private $logger;
+
+    /**
+     * AutoManuelProVehicleBuilder constructor.
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+
     /**
      * TODO Adapt with new JSON format
      * @param null|ProVehicle $existingProVehicle The vehicle to update or null
@@ -111,114 +161,117 @@ class AutoManuelProVehicleBuilder
      * @param Garage $garage The garage of the vehicle
      * @return ProVehicle
      */
-    public static function generateVehicleFromUsedData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle
+    public function generateVehicleFromUsedData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle
     {
-        $modelVersion = new ModelVersion($vehicleDTORowData[self::IDX_VO_MODEL_VERSION],
-            new Model ($vehicleDTORowData[self::IDX_VO_MODEL], new Make($vehicleDTORowData[self::IDX_VO_MAKE])),
-            new Engine($vehicleDTORowData[self::IDX_VO_VERSION], new Fuel(self::translateEnergy($vehicleDTORowData[self::IDX_VO_ENERGIE]))));
+        $modelVersion = new ModelVersion(null,
+            new Model ($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_NAME], new Make($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME])),
+            new Engine($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME], new Fuel(self::translateEnergy($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]))));
 
-        if ($vehicleDTORowData[self::IDX_VO_TRANSMISSION] === 0) {
+        if ($vehicleDTORowData[self::FIELDNAME_TRANSMISSION] === 0) {
             $transmission = Transmission::MANUAL();
         } else {
             $transmission = Transmission::AUTOMATIC();
         }
 
-        $registration = new Registration(null, $vehicleDTORowData[self::IDX_VO_IMMATRICULATION], $vehicleDTORowData[self::IDX_VO_VIN]);
-        $registrationDate = new \DateTime($vehicleDTORowData[self::IDX_VO_REGISTRATION_DATE]);
+        $registration = new Registration(null, $vehicleDTORowData[self::FIELDNAME_IMMATRICULATION] ?? null, $vehicleDTORowData[self::FIELDNAME_VIN ?? null]);
+        // TODO : verification de la conversion
+        $registrationDate = new \DateTime($vehicleDTORowData[self::FIELDNAME_REGISTRATION_DATE]);
 
         $additionalInformation = '';
-        if (!empty($vehicleDTORowData[self::IDX_VO_GENRE])) {
-            // Genre (5 VU ⇒ Véhicule utilitaire / VP ⇒ Véhicule particulier)
-            $additionalInformation .= 'Véhicule ' . (strtolower($vehicleDTORowData[self::IDX_VO_GENRE]) == "vu" ? "utilitaire" : "particulier") . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_GENRE])) {
+            // Genre (VU ⇒ Véhicule utilitaire / VP ⇒ Véhicule particulier)
+            $additionalInformation .= 'Véhicule ' . (strtolower($vehicleDTORowData[self::FIELDNAME_GENRE]) == "vu" ? "utilitaire" : "particulier") . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_MODEL_VERSION])) {
-            // Modèle et version (12)
-            $additionalInformation .= 'Version : ' . $vehicleDTORowData[self::IDX_VO_MODEL_VERSION] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME])) {
+            // Modèle et version
+            $additionalInformation .= 'Version : ' . $vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_CAR_BODY])) {
-            // Carrosserie (8 Berline/Break/…)
-            $additionalInformation .= 'Carrosserie : ' . $vehicleDTORowData[self::IDX_VO_CAR_BODY] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_CAR_BODY])) {
+            // Carrosserie (Berline/Break/…)
+            $additionalInformation .= 'Carrosserie : ' . ucfirst($vehicleDTORowData[self::FIELDNAME_CAR_BODY]) . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_FISCAL_POWER])) {
-            // Puissance Fiscale (10)
-            $additionalInformation .= 'Puissance Fiscale : ' . $vehicleDTORowData[self::IDX_VO_FISCAL_POWER] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_FISCAL_POWER])) {
+            // Puissance Fiscale
+            $additionalInformation .= 'Puissance Fiscale : ' . $vehicleDTORowData[self::FIELDNAME_FISCAL_POWER] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_SEATS_NUMBER])) {
-            // Nombre de places (11)
-            $additionalInformation .= 'Nombre de places : ' . $vehicleDTORowData[self::IDX_VO_SEATS_NUMBER] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_SEATS_NUMBER])) {
+            // Nombre de places
+            $additionalInformation .= 'Nombre de places : ' . $vehicleDTORowData[self::FIELDNAME_SEATS_NUMBER] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_DOORS_NUMBER])) {
-            // Nombre de portes (53)
-            $additionalInformation .= 'Nombre de portes : ' . $vehicleDTORowData[self::IDX_VO_DOORS_NUMBER] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_DOORS_NUMBER])) {
+            // Nombre de portes
+            $additionalInformation .= 'Nombre de portes : ' . $vehicleDTORowData[self::FIELDNAME_DOORS_NUMBER] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_EXTERIOR_COLOR])) {
-            // Couleur extérieure (17)
-            $additionalInformation .= 'Couleur extérieure : ' . $vehicleDTORowData[self::IDX_VO_EXTERIOR_COLOR] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_COLOR])) {
+            // Couleur extérieure
+            $additionalInformation .= 'Couleur extérieure : ' . $vehicleDTORowData[self::FIELDNAME_COLOR] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_CO2_RATE])) {
-            // Taux CO2 (55)
-            $additionalInformation .= 'Taux CO2 : ' . $vehicleDTORowData[self::IDX_VO_CO2_RATE] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_CO2_RATE]) && $vehicleDTORowData[self::FIELDNAME_CO2_RATE] > 0) {
+            // Taux CO2
+            $additionalInformation .= 'Taux CO2 : ' . $vehicleDTORowData[self::FIELDNAME_CO2_RATE] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_DIN_POWER])) {
-            // Puissance DIN (61)
-            $additionalInformation .= 'Puissance (DIN) : ' . $vehicleDTORowData[self::IDX_VO_DIN_POWER] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_DIN_POWER]) && $vehicleDTORowData[self::FIELDNAME_DIN_POWER] > 0) {
+            // Puissance DIN
+            $additionalInformation .= 'Puissance (DIN) : ' . $vehicleDTORowData[self::FIELDNAME_DIN_POWER] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_GEARS_NUMBER])) {
-            // Nb rapport de boîte (62)
-            $additionalInformation .= 'Nombre de rapports de boîte : ' . $vehicleDTORowData[self::IDX_VO_GEARS_NUMBER] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_GEARS_NUMBER])) {
+            // Nb rapport de boîte
+            $additionalInformation .= 'Nombre de rapports de boîte : ' . $vehicleDTORowData[self::FIELDNAME_GEARS_NUMBER] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_AVERAGE_CONSUMPTION])) {
-            // Consommation moyenne (63)
-            $additionalInformation .= 'Consommation moyenne : ' . $vehicleDTORowData[self::IDX_VO_AVERAGE_CONSUMPTION] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_AVERAGE_CONSUMPTION])) {
+            // Consommation moyenne
+            $additionalInformation .= 'Consommation moyenne : ' . $vehicleDTORowData[self::FIELDNAME_AVERAGE_CONSUMPTION] . PHP_EOL;
         }
 
-        // Options n°1 (82) → n°30 (111) : si option n°1 ne contient pas “ATTENTION”
-        // Options n°31 (136) → n°50 (155)
-        // Options : liste des options renseignées (non vides), séparées par une ‘,’
-        if (strpos($vehicleDTORowData[self::IDX_VO_START_1_OPTION], 'ATTENTION') === FALSE) {
-            $options = '';
-            for ($i = self::IDX_VO_START_1_OPTION; $i <= self::IDX_VO_END_1_OPTION; $i++) {
-                if (!empty($vehicleDTORowData[$i])) {
-                    $options .= (strlen($options) > 0 ? ' | ' : '') . $vehicleDTORowData[$i];
+        // Options : si option n°1 ne contient pas “ATTENTION”
+        // Options : liste des options renseignées (non vides), séparées par une ‘ | ’
+        if (!empty($vehicleDTORowData[self::FIELDNAME_OPTIONS])
+            && is_array($vehicleDTORowData[self::FIELDNAME_OPTIONS])
+            && count($vehicleDTORowData[self::FIELDNAME_OPTIONS]) > 0) {
+            if (strpos($vehicleDTORowData[self::FIELDNAME_OPTIONS][0], 'ATTENTION') === FALSE) {
+                $options = join(' | ', array_filter($vehicleDTORowData[self::FIELDNAME_OPTIONS], function ($option) {
+                    return !empty($option);
+                }));
+                if (!empty($options)) {
+                    $additionalInformation .= "Options : " . $options . PHP_EOL;
                 }
             }
-            for ($i = self::IDX_VO_START_2_OPTION; $i <= self::IDX_VO_END_2_OPTION; $i++) {
-                if (!empty($vehicleDTORowData[$i])) {
-                    $options .= (strlen($options) > 0 ? ' | ' : '') . $vehicleDTORowData[$i];
-                }
-            }
-            if (!empty($options)) {
-                $additionalInformation .= "Options : " . $options . PHP_EOL;
-            }
         }
 
-        if (!empty($vehicleDTORowData[self::IDX_VO_SITE])) {
-            // Ce véhicule est visible sur le site “site (115)”
-            $additionalInformation .= 'Ce véhicule est visible sur le site de ' . $vehicleDTORowData[self::IDX_VO_SITE] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_SITE])) {
+            // Ce véhicule est visible sur le site “site”
+            $additionalInformation .= 'Ce véhicule est visible sur le site de ' . $vehicleDTORowData[self::FIELDNAME_SITE] . PHP_EOL;
         }
-        if (!empty($vehicleDTORowData[self::IDX_VO_FREE_COMMENT])) {
-            // Zone commentaire libre internet (24)
-            $additionalInformation .= $vehicleDTORowData[self::IDX_VO_FREE_COMMENT] . PHP_EOL;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_SELLER_CONTACT])) {
+            // Contact vendeur
+            $additionalInformation .= 'Contact vendeur : ' . $vehicleDTORowData[self::FIELDNAME_SELLER_CONTACT] . PHP_EOL;
         }
-
-        if (!empty($vehicleDTORowData[self::IDX_VO_SELLER_CONTACT])) {
-            // Contact vendeur (73)
-            $additionalInformation .= 'Contact vendeur : ' . $vehicleDTORowData[self::IDX_VO_SELLER_CONTACT] . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData[self::IDX_VO_REFERENCE])) {
-            // Référence (1)
-            $additionalInformation .= 'Référence : ' . $vehicleDTORowData[self::IDX_VO_REFERENCE];
+        if (!empty($vehicleDTORowData[self::FIELDNAME_REFERENCE])) {
+            // Référence
+            $additionalInformation .= 'Référence : ' . $vehicleDTORowData[self::FIELDNAME_REFERENCE];
         }
 
         $price = 0;
-        if (!empty($vehicleDTORowData[self::IDX_VO_INTERNET_PRICE])) {
-            $price = $vehicleDTORowData[self::IDX_VO_INTERNET_PRICE];
-        } elseif (!empty($vehicleDTORowData[self::IDX_VO_MAIN_PRICE])) {
-            $price = $vehicleDTORowData[self::IDX_VO_MAIN_PRICE];
+        if (!empty($vehicleDTORowData[self::FIELDNAME_INTERNET_PRICE])) {
+            $price = $vehicleDTORowData[self::FIELDNAME_INTERNET_PRICE];
+        } elseif (!empty($vehicleDTORowData[self::FIELDNAME_MAIN_PRICE])) {
+            $price = $vehicleDTORowData[self::FIELDNAME_MAIN_PRICE];
         }
 
-        // TODO présentation
-        $otherGuarantee = (empty($vehicleDTORowData[self::IDX_VO_MONTH_GUARANTEE]) ? '' : $vehicleDTORowData[self::IDX_VO_MONTH_GUARANTEE] . 'mois - ') . $vehicleDTORowData[self::IDX_VO_LABEL_GUARANTEE] . PHP_EOL;
+        $guarantee = null;
+        if (isset($vehicleDTORowData[self::FIELDNAME_GUARANTEE])) {
+            if ($vehicleDTORowData[self::FIELDNAME_GUARANTEE] == 12) {
+                $guarantee = Guarantee::GUARANTEE_12_MONTH();
+            } elseif ($vehicleDTORowData[self::FIELDNAME_GUARANTEE] == 24) {
+                $guarantee = Guarantee::GUARANTEE_24_MONTH();
+            } elseif ($vehicleDTORowData[self::FIELDNAME_GUARANTEE] == 36) {
+                $guarantee = Guarantee::GUARANTEE_36_MONTH();
+            }
+        }
+        $otherGuarantee = null;
+        if (!empty($vehicleDTORowData[self::FIELDNAME_OTHER_GUARANTEE])) {
+            $otherGuarantee = $vehicleDTORowData[self::FIELDNAME_OTHER_GUARANTEE];
+        }
 
         if ($existingProVehicle != null) {
             $proVehicle = $existingProVehicle;
@@ -227,35 +280,33 @@ class AutoManuelProVehicleBuilder
             $proVehicle->setRegistration($registration);
             $proVehicle->setRegistrationDate($registrationDate);
             $proVehicle->setIsUsed(true);
-            $proVehicle->setMileage($vehicleDTORowData[self::IDX_VO_MILEAGE]);
+            $proVehicle->setMileage($vehicleDTORowData[self::FIELDNAME_MILEAGE]);
             $proVehicle->setAdditionalInformation($additionalInformation);
             $proVehicle->setPrice($price);
+            $proVehicle->setGuarantee($guarantee);
             $proVehicle->setOtherGuarantee($otherGuarantee);
-            $proVehicle->setReference($vehicleDTORowData[self::IDX_VO_REFERENCE]);
+            $proVehicle->setReference($vehicleDTORowData[self::FIELDNAME_REFERENCE] ?? null);
 
-            // Photo n°1 (117) → n°8 (124)
-            // Photo n°9 (127) → n°15 (133)
-            $position = 0;
+
             $photos = [];
-            /** @var ProVehiclePicture[] $proVehiclePictures */
-            $proVehiclePictures = $proVehicle->getPictures();
             $updateVehiclePictures = false;
-            for ($p = self::IDX_VO_START_1_PICTURE; $p <= self::IDX_VO_END_1_PICTURE; $p++) {
-                $photos[$position] = $vehicleDTORowData[$p];
-                $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != $photos[$position];
-                $position++;
-            }
-            for ($p = self::IDX_VO_START_2_PICTURE; $p <= self::IDX_VO_END_2_PICTURE; $p++) {
-                $photos[$position] = $vehicleDTORowData[$p];
-                $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != $photos[$position];
-                $position++;
+            if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
+                $position = 0;
+                /** @var ProVehiclePicture[] $proVehiclePictures */
+                $proVehiclePictures = $proVehicle->getPictures();
+                foreach ($vehicleDTORowData[self::FIELDNAME_PHOTOS] as $photoUrl) {
+                    $photos[$position] = $photoUrl;
+                    $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
+                    $position++;
+                }
+            } else {
+                $updateVehiclePictures = true;
             }
             if ($updateVehiclePictures) {
                 $proVehicle->clearPictures();
                 $pos = 0;
-                foreach ($photos as $photoName) {
-                    // TODO treat picture as URL
-                    //self::addPictureToProVehicle($proVehicle, $pictureDirectory, $photoName, $pos);
+                foreach ($photos as $photoUrl) {
+                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos);
                     $pos++;
                 }
             }
@@ -266,7 +317,7 @@ class AutoManuelProVehicleBuilder
                 $registration,
                 $registrationDate,
                 true,
-                $vehicleDTORowData[self::IDX_VO_MILEAGE],
+                $vehicleDTORowData[self::FIELDNAME_MILEAGE],
                 [],
                 null,
                 null,
@@ -287,20 +338,15 @@ class AutoManuelProVehicleBuilder
                 null,
                 null,
                 null,
-                $vehicleDTORowData[self::IDX_VO_REFERENCE]
+                $vehicleDTORowData[self::FIELDNAME_REFERENCE]
             );
 
-            // Photo n°1 (117) → n°8 (124)
-            // Photo n°9 (127) → n°15 (133)
-            $position = 0;
-            // TODO treat picture as URL
-            for ($p = self::IDX_VO_START_1_PICTURE; $p <= self::IDX_VO_END_1_PICTURE; $p++) {
-                // self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
-                $position++;
-            }
-            for ($p = self::IDX_VO_START_2_PICTURE; $p <= self::IDX_VO_END_2_PICTURE; $p++) {
-                // self::addPictureToProVehicle($proVehicle, $pictureDirectory, $vehicleDTORowData[$p], $position);
-                $position++;
+            if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
+                $position = 0;
+                foreach ($vehicleDTORowData[self::FIELDNAME_PHOTOS] as $photoUrl) {
+                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position);
+                    $position++;
+                }
             }
 
             $proVehicle->setGarage($garage);
@@ -518,6 +564,22 @@ class AutoManuelProVehicleBuilder
         return $proVehicle;
     }
 
+    private function addProVehiclePictureFormUrl(ProVehicle $proVehicle, string $url, int $position)
+    {
+        $originalFileName = basename($url);
+        $tempLocation = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
+
+        if (file_put_contents($tempLocation, fopen($url, "r")) !== false) {
+            try {
+                $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
+                $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
+                $proVehicle->addPicture($vehiclePicture);
+            } catch (FileNotFoundException $fileNotFoundException) {
+                $this->logger->warning($fileNotFoundException->getMessage());
+            }
+        }
+    }
+
     private static function addPictureToProVehicle(ProVehicle $proVehicle, string $pictureDirectory, string $pictureFilename, int $position)
     {
         if (!empty($pictureFilename)) {
@@ -545,6 +607,6 @@ class AutoManuelProVehicleBuilder
         if ($toAbbreviation) {
             $fuels = array_flip($fuels);
         }
-        return $fuels[$input]??$input;
+        return $fuels[$input] ?? $input;
     }
 }
