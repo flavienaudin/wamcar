@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Controller\Front\ProContext\SearchController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
@@ -24,6 +25,7 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -32,6 +34,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -67,6 +70,9 @@ class UserController extends BaseController
     /** @var MessageBus */
     protected $eventBus;
 
+    /** @var TranslatorInterface */
+    protected $translator;
+
     /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
 
@@ -80,6 +86,7 @@ class UserController extends BaseController
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
      * @param MessageBus $eventBus
+     * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      */
     public function __construct(
@@ -91,6 +98,7 @@ class UserController extends BaseController
         GarageEditionService $garageEditionService,
         VehicleInfoEntityIndexer $vehicleInfoIndexer,
         MessageBus $eventBus,
+        TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService
     )
     {
@@ -102,6 +110,7 @@ class UserController extends BaseController
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoIndexer = $vehicleInfoIndexer;
         $this->eventBus = $eventBus;
+        $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
     }
 
@@ -143,7 +152,7 @@ class UserController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.user_edit'
+                'flash.success.user.edit'
             );
 
             return $this->redirectToRoute('front_view_current_user_info');
@@ -190,7 +199,7 @@ class UserController extends BaseController
                 } else {
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_INFO,
-                        'flash.success.user_edit'
+                        'flash.success.user.edit'
                     );
                 }
 
@@ -259,12 +268,24 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
-     * @param ProUser $user
+     * @param string $slug
      * @return Response
      * @throws \Exception
      */
-    public function proUserViewInformationAction(Request $request, ProUser $user): Response
+    public function proUserViewInformationAction(Request $request, string $slug): Response
     {
+        $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
+
+        if ($user->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.pro_user.deleted.title',
+                'messageKey' => 'error_page.pro_user.deleted.body',
+                'redirectionUrl' => $this->generateUrl('front_directory_view')
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         if (!$user->canSeeMyProfile($this->getUser())) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
@@ -283,7 +304,7 @@ class UserController extends BaseController
                 $this->eventBus->handle(new ProUserUpdated($this->getUser()));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
+                    'flash.success.user.edit'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -305,13 +326,36 @@ class UserController extends BaseController
     }
 
     /**
+     * @Entity("user", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
-     * @param PersonalUser $user
+     * @param string $slug
      * @return Response
      * @throws \Exception
      */
-    public function personalUserViewInformationAction(Request $request, PersonalUser $user): Response
+    public function personalUserViewInformationAction(Request $request, string $slug): Response
     {
+        $user = $this->personalUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
+
+        if ($user->getDeletedAt() != null) {
+            if ($user->getCity() != null) {
+                $redirectionUrl = $this->generateUrl('front_search_by_city', [
+                    'city' => $user->getCity()->getPostalCode() . '-' . urlencode($user->getCity()->getName()),
+                    'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
+                ]);
+            } else {
+                $redirectionUrl = $this->generateUrl('front_search', [
+                    'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
+                ]);
+            }
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.personal_user.deleted.title',
+                'messageKey' => 'error_page.personal_user.deleted.body',
+                'redirectionUrl' => $redirectionUrl
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         if (!$user->canSeeMyProfile($this->getUser())) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
@@ -330,7 +374,7 @@ class UserController extends BaseController
 
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user_edit'
+                    'flash.success.user.edit'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -354,9 +398,9 @@ class UserController extends BaseController
         $user = $this->getUser();
 
         if ($user instanceof ProUser) {
-            return $this->proUserViewInformationAction($request, $user);
+            return $this->proUserViewInformationAction($request, $user->getSlug());
         } else {
-            return $this->personalUserViewInformationAction($request, $user);
+            return $this->personalUserViewInformationAction($request, $user->getSlug());
         }
     }
 
@@ -367,7 +411,7 @@ class UserController extends BaseController
      */
     public function legacyViewInformationAction(int $id): Response
     {
-        $user = $this->userRepository->findOne($id);
+        $user = $this->userRepository->findIgnoreSoftDeleted($id);
         if (!$user || !$user instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
@@ -376,22 +420,6 @@ class UserController extends BaseController
         } else {
             return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
         }
-    }
-
-    /**
-     * security.yml - access_control : ROLE_ADMIN only
-     * @return Response
-     */
-    public function listAction()
-    {
-        $personalUsers = $this->personalUserRepository->findBy([], ['createdAt' => 'DESC']);
-
-        $proUsers = $this->proUserRepository->findBy([], ['createdAt' => 'DESC']);
-
-        return $this->render("front/adminContext/user/user_list.html.twig", [
-            'personalUsers' => $personalUsers,
-            'proUsers' => $proUsers
-        ]);
     }
 
     /**
@@ -413,6 +441,7 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
+     * @return Response
      */
     public function editPreferencesAction(Request $request)
     {
@@ -427,7 +456,7 @@ class UserController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.user_preferences_edit'
+                'flash.success.user_preferences.edit'
             );
 
             return $this->redirectToRoute('front_user_edit_preferences');
@@ -435,6 +464,57 @@ class UserController extends BaseController
 
         return $this->render('front/Preferences/edit.html.twig', [
             'userPreferenceForm' => $userPreferenceForm->createView()
+        ]);
+    }
+
+
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @return Response
+     */
+    public function listAction()
+    {
+        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+
+        return $this->render("front/adminContext/user/user_list.html.twig", [
+            'personalUsers' => $personalUsers,
+            'proUsers' => $proUsers
+        ]);
+    }
+
+
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param int $id
+     * @return Response
+     */
+    public function deleteUserAction(int $id)
+    {
+        $userToDelete = $this->userRepository->findIgnoreSoftDeleted($id);
+        if (!$userToDelete || !$userToDelete instanceof BaseUser) {
+            throw new NotFoundHttpException();
+        }
+
+        $isPro = $userToDelete instanceof ProUser;
+        $isAlreadySoftDeleted = $userToDelete->getDeletedAt() != null;
+        $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser());
+        foreach ($resultMessages['errorMessages'] as $errorMessage) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
+        }
+        foreach ($resultMessages['successMessages'] as $garageId => $successMessage) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'Garage (' . $garageId . ') : ' . $this->translator->trans($successMessage));
+        }
+        if (count($resultMessages['errorMessages']) == 0) {
+            if ($isAlreadySoftDeleted) {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+            } else {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+            }
+        }
+
+        return $this->redirectToRoute('admin_user_list', [
+            '_fragment' => $isPro ? 'pro-user-panel' : 'personal-user-panel'
         ]);
     }
 }

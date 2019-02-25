@@ -8,35 +8,67 @@
     <a href="{{ path('front_garage_create') }}" class="button input-margin">Créer un garage</a>
     <div class="row garages-list">
         {% for garage in garages %}
-            <div class="column small-12 medium-6 input-margin">
-                <div class=" garage-item">
-                    <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
-                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
+            <div class="column small-12 medium-6 input-margin" id="garage-{{ garage.id }}">
+                <div class="garage-item">
+                    {% if garage.deletedAt is null %}
+                        <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}">
+                            <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></a>
+                    {% else %}
+                        <span class="text-line-through">
+                        <b>{{ garage.id }}</b>&nbsp-&nbsp<span class="vehicle-name">{{ garage.name }}</span></span>
+                    {% endif %}
                     <p class="vehicle-model no-margin">SIREN&nbsp;: {{ garage.siren }}</p>
-                    <span class="vehicle-years primary-color" style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
+                    <span class="vehicle-years primary-color"
+                          style="margin-top: auto">Tél&nbsp;: {{ garage.phone }}</span>
                     <p class="black-color no-margin"><strong>Adresse :</strong><br>
-                    <span>{{ garage.address.address }}</span><br>
-                    <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
+                        <span>{{ garage.address.address }}</span><br>
+                        <span>{{ garage.address.postalCode }}, {{ garage.address.cityName }}</span>
                     </p>
                     <div class="black-color">
                         <strong>Google Place details&nbsp;:</strong>
                         <ul>
-                            <li>Id&nbsp;: {{ garage.googlePlaceId  }}</li>
-                            <li>Note&nbsp;: {{ garage.googleRating  }}</li>
+                            <li>Id&nbsp;: {{ garage.googlePlaceId }}</li>
+                            <li>Note&nbsp;: {{ garage.googleRating }}</li>
                         </ul>
                     </div>
                     <div class="black-color">
                         <strong>Wamcar API details&nbsp;:</strong>
                         <ul>
-                            <li>Id&nbsp;: {{ garage.apiClientId}}</li>
-                            <li>Secret&nbsp;: {{ garage.apiSecret  }}</li>
+                            <li>Id&nbsp;: {{ garage.apiClientId }}</li>
+                            <li>Secret&nbsp;: {{ garage.apiSecret }}</li>
                         </ul>
                     </div>
 
-                    {#<strong>{{ garage.email }}</strong>#}
+                    <div class="black-color">
+                        <strong>Statistiques&nbsp;:</strong>
+                        <ul>
+                            <li>Nombre de véhicules&nbsp;: {{ garage.proVehicles|length }}</li>
+                            <li>Membres :
+                                <ul>
+                                    {% for member in garage.members %}
+                                        {% set proUser = member.proUser %}
+                                        <li>
+                                            <a href="{{ path('front_view_pro_user_info', {'slug':proUser.slug}) }}">{{ proUser.fullName }}</a>
+                                            {{ member.requestedAt is not null ? " <i>(en attente)</i>" }}
+                                            {{ member.role == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ? " <b>Gestionnaire</b>" }}
+                                            <br>
+                                            <a href="{{ path('front_garage_toogle_member_role', {'garage_id':member.garage.id, 'user_id':member.proUser.id}) }}"
+                                               class="black-color">Modifier le rôle</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+
+                            </li>
+                        </ul>
+                    </div>
                     <ul>
-                        <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
-                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}">Supprimer</a></li>
+                        {% if garage.deletedAt is null %}
+                            <li><a href="{{ path('front_garage_edit', {'id': garage.id}) }}">Modifier</a></li>
+                        {% endif %}
+                        <li><a href="{{ path('front_garage_remove', {'id': garage.id}) }}" class="js-confirm-box"
+                               data-id="{{ garage.id }}" data-title="Attention!"
+                               data-message="Êtes-vous sur de vouloir supprimer {{ garage.deletedAt is not null?'définitivement ':'' }}ce garage ?"
+                            >Supprimer {{ garage.deletedAt is not null?'définitivement ':'' }}</a></li>
                     </ul>
                 </div>
             </div>

@@ -17,6 +17,8 @@ import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
 import {Dropdown} from './foundation/foundation.override.dropdown'; // Overridded version of DropDown
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import 'linkifyjs';
+import 'waypoints/lib/noframework.waypoints';
+import 'waypoints/lib/shortcuts/inview';
 
 import './components/responsiveDom';
 import './components/search';
@@ -185,6 +187,21 @@ $(function () {
 
   }
 
+  /*
+     Conversation : update last opened
+     ===================================== */
+  const $lastMessage = $('#last-message');
+  if($lastMessage.length > 0) {
+    let w = new Waypoint.Inview({
+      element: document.getElementById('last-message'), //$lastMessage,
+      enter: function (direction) {
+        const href = $lastMessage.data('conversation-open-url');
+        fetch(href).then((response) => {});
+        this.destroy();
+      }
+    });
+  }
+
   $('#message_send').on('click', function () {
     $(this).addClass('loader-visible');
   });
@@ -200,6 +217,32 @@ $(function () {
     div.innerHTML = labnolThumb(v[n].dataset.id);
     div.onclick = labnolIframe;
     v[n].appendChild(div);
+  }
+
+
+
+  /*
+    Confirm box
+    ===================================== */
+  $('a.js-confirm-box').on('click', (e) => {
+
+    e.preventDefault();
+    let href = e.currentTarget.href;
+    let id = $(e.currentTarget).data('id');
+    let title = $(e.currentTarget).data('title');
+    let message = $(e.currentTarget).data('message');
+
+    confirm(title, message, id, (param) => {
+      window.location = param.href;
+    }, {'href':href});
+  });
+
+
+  const $landingRegistration = $('#js-landing-orientation');
+  if($landingRegistration.length > 0){
+    $landingRegistration.find('input').on('change', (e) => {
+      $landingRegistration.submit();
+    });
   }
 
   /*
@@ -220,7 +263,6 @@ $(function () {
 /*
    Light embeded youtube video : functions
    ===================================== */
-
 function labnolThumb(id) {
   let thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
     play = '<div class="play"></div>';
@@ -234,6 +276,38 @@ function labnolIframe() {
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('allowfullscreen', '1');
   this.parentNode.replaceChild(iframe, this);
+}
+
+/*
+   Confirm box : functions
+   ===================================== */
+function confirm(title, message, id, callback, callbackParam) {
+  let modal =
+    '<div class="reveal small" id="' + id + '" data-reveal>' +
+    '<header class="off-canvas-header">' +
+    '<strong>' + title + '</strong>' +
+    '<button class="small-right icon-close" data-close><span class="show-for-sr">Close</span></button>' +
+    '</header>' +
+    '<div class="modal-content row">'+
+    '<p class="lead">' + message + '</p>' +
+    '<p class="full-width is-flex align-spaced">' +
+    '<button class="button white yes">Oui</button>' +
+    '<button class="button" data-close>Non</button></p>' +
+    '</div>' +
+    '</div>';
+  $('body').append(modal);
+
+  let $modal = $('#'+id);
+  let confirmation = new Reveal($modal);
+  confirmation.open();
+  $modal.find('.yes').on('click', () => {
+    confirmation.close();
+    $('#' + id).parent().remove();
+    callback(callbackParam);
+  });
+  $(document).on('closed.zf.reveal', '#' + id, () => {
+    $('#' + id).parent().remove();
+  });
 }
 
 

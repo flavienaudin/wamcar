@@ -17,6 +17,12 @@
                        data-toggle="header_search_dropdown_pane">
                 <input type="hidden" name="search_vehicle[radius]" value="50">
                 <input type="hidden" name="search_vehicle[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
+                {% if isUserPro %}
+                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE') }}">
+                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') }}">
+                {% else %}
+                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE') }}">
+                {% endif %}
             </div>
             <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
                  data-close-on-click="true">

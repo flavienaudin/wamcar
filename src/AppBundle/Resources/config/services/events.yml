@@ -61,6 +61,7 @@ services:
                 - '@search_item.indexer'
             tags:
                 - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectUpdated, method: notify }
+                - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectRemoved, method: notify }
 
     wamcar.event.elasticsearch.pro_user_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedProUser
@@ -71,6 +72,9 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserRemoved, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
 
     wamcar.event.elasticsearch.garage_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedGarage

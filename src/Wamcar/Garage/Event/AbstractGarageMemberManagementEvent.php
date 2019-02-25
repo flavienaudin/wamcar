@@ -4,6 +4,7 @@ namespace Wamcar\Garage\Event;
 
 
 use Wamcar\Garage\GarageProUser;
+use Wamcar\User\BaseUser;
 
 abstract class AbstractGarageMemberManagementEvent
 {
@@ -24,5 +25,13 @@ abstract class AbstractGarageMemberManagementEvent
     public function getGarageProUser(): GarageProUser
     {
         return $this->garageProUser;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUser(): BaseUser
+    {
+        return $this->getGarageProUser()->getProUser();
     }
 }

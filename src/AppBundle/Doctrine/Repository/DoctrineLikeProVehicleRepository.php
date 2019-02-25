@@ -11,6 +11,7 @@ use Wamcar\Vehicle\ProVehicle;
 
 class DoctrineLikeProVehicleRepository extends EntityRepository implements UserLikeVehicleRepository
 {
+    use SoftDeletableEntityRepositoryTrait;
     use DoctrineUserLikeVehicleRepositoryTrait;
 
 

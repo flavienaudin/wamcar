@@ -13,9 +13,9 @@ trait PasswordResettableTrait
     protected $passwordResetToken;
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getPasswordResetToken(): string
+    public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
     }

@@ -16,7 +16,7 @@ class PersonalUser extends BaseUser
 {
     const TYPE = 'personal';
 
-    /** @var ?PersonalOrientationChoices */
+    /** @var null|PersonalOrientationChoices */
     protected $orientation;
     /** @var  string (json) */
     protected $contactAvailabilities;
@@ -60,9 +60,9 @@ class PersonalUser extends BaseUser
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getContactAvailabilities(): string
+    public function getContactAvailabilities(): ?string
     {
         return $this->contactAvailabilities;
     }

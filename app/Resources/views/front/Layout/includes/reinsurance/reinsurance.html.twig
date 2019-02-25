@@ -1,3 +1,4 @@
+{% set title_class = title_class|default("") %}
 {% set reinsurance_list = [
     {
         svg: 'just',
@@ -26,7 +27,7 @@
     }
 ] %}
 
-<h2 class="h1 small-12 text-center">{{ 'user.reinsurance.common.title'|trans }}&nbsp;<span class="primary-color">{{ site_name }}</span></h2>
+<h2 class="h1 small-12 text-center {{ title_class }}">{{ 'user.reinsurance.common.title'|trans }}&nbsp;<span class="primary-color">{{ site_name }}</span></h2>
 <ul class="reinsurance row small-12 small-up-1 medium-up-5 no-bullet">
     {% for reinsurance in reinsurance_list %}
         <li class="reinsurance-item block-grid column align-middle">

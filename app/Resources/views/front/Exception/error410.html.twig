@@ -1,0 +1,13 @@
+{% extends 'front/Layout/error.html.twig' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}{{ titleKey is defined ? titleKey|trans : 'error_page.410.title'|trans }}{% endblock %}
+
+{% block errorBody %}
+    <p>{{ messageKey is defined and redirectionUrl is defined
+        ? messageKey|trans({'%redirection_url%':redirectionUrl})|raw
+        : 'error_page.410.body'|trans({'%searchUrl%':url('front_search')})|raw }}</p>
+{% endblock %}
+
+{% block reinsurance %}{% endblock %}

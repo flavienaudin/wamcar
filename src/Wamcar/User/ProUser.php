@@ -22,6 +22,8 @@ class ProUser extends BaseUser
     protected $garageMemberships;
     /** @var  Collection */
     protected $vehicles;
+    /** @var null|int */
+    protected $landingPosition;
 
     /**
      * ProUser constructor.
@@ -35,6 +37,7 @@ class ProUser extends BaseUser
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
+        $this->landingPosition = null;
     }
 
     /**
@@ -78,6 +81,11 @@ class ProUser extends BaseUser
         return $this->garageMemberships->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
     }
 
+    public function countEnabledGarageMemberships(): int
+    {
+        return count($this->getEnabledGarageMemberships());
+    }
+
     /**
      * @param Collection $members
      */
@@ -110,7 +118,7 @@ class ProUser extends BaseUser
      */
     public function getGarages(): array
     {
-        return $this->getEnabledGarageMemberships()->map(function(GarageProUser $garageProUser){
+        return $this->getEnabledGarageMemberships()->map(function (GarageProUser $garageProUser) {
             return $garageProUser->getGarage();
         })->toArray();
     }
@@ -174,6 +182,22 @@ class ProUser extends BaseUser
     public function getVehiclesOfGarage(Garage $garage): Collection
     {
         return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLandingPosition(): ?int
+    {
+        return $this->landingPosition;
+    }
+
+    /**
+     * @param int|null $landingPosition
+     */
+    public function setLandingPosition(?int $landingPosition): void
+    {
+        $this->landingPosition = $landingPosition;
     }
 
     /**

@@ -7,6 +7,7 @@ use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
 use Mgilet\NotificationBundle\Annotation\Notifiable;
 use Mgilet\NotificationBundle\NotifiableInterface;
+use Symfony\Component\Security\Core\Role\Role;
 use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
@@ -112,6 +113,10 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
      */
     public function isAdministratorOfGarage(Garage $garage): bool
     {
+        // Wamcar administrator can administrate garage
+        if(in_array('ROLE_ADMIN', $this->getRoles())){
+            return true;
+        }
         /** @var GarageProUser $garageMembership */
         foreach ($this->getEnabledGarageMemberships() as $garageMembership) {
             if ($garageMembership->getGarage() === $garage) {
