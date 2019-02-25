@@ -929,6 +929,7 @@ notifications:
 
 directory:
   page_tile: Annuaire des professionnels
+  description: Rencontrez votre conseiller automobile
   form:
     title: Rencontrez votre conseiller automobile
     subtitle: Matchez, discutez, découvrez de bonnes occasions, et obtenez une offre de reprise sérieuse pour votre auto
