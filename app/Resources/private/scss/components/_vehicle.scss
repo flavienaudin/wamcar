@@ -643,7 +643,6 @@
     }
 
     @include breakpoint(large) {
-      min-height: 100vh;
       padding-top: $header-height-medium + rem-calc(20);
       padding-bottom: rem-calc(50);
     }
@@ -745,6 +744,7 @@
 
     @include breakpoint(medium down) {
       background: url('#{$img-folder}/background/search-header.png') calc(100% + #{rem-calc(75)}) center/#{rem-calc(200)} auto no-repeat;
+
     }
 
     @include breakpoint(medium only) {

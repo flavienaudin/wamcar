@@ -315,8 +315,13 @@ landing:
       pre_submit: Devenez un vendeur digital et améliorez votre sourcing en choisissant de belles reprises, en proposant vos véhicules neufs ou d'occasion, et ne manquez aucun client grâce à la messagerie sécurisée.
     personal_email_registration_tab:
       title: Je suis un particulier
-      subtitle: Choisissez votre conseiller automobile pour la reprise et/ou l'achat de votre voiture.
-      pre_submit: Avec %sitename%, choisissez un vendeur avec qui vous avez des affinités, réellement intéressé par le rachat de votre voiture, et dont la société est appréciée par la communauté.
+      subtitle: Je cherche un conseiller automobile pour
+    pro_profil:
+      title: Rencontrez votre conseiller automobile
+      subtitle: Découvrez le meilleur conseiller automobile pour discuter de votre projet d'achat ou de reprise.
+    search:
+      title: Annonces
+      subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
 
 garage:
   my_garage: Mon garage

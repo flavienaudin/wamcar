@@ -26,6 +26,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
@@ -144,6 +145,16 @@ class SecurityController extends BaseController
                 $registrationDTO = $registrationForm->getData();
                 $registrationDTO->type = $type;
                 $registeredUser = $this->userRegistrationService->registerUser($registrationDTO);
+
+                if ($registeredUser instanceof PersonalUser &&
+                    $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
+                    PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
+                    // From landing mixte : orientation action is set in session
+                    $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
+                    $this->userEditionService->updateUserOrientation($registeredUser, $orientation);
+                    $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
+                }
+
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
