@@ -238,6 +238,13 @@ $(function () {
   });
 
 
+  const $landingRegistration = $('#js-landing-orientation');
+  if($landingRegistration.length > 0){
+    $landingRegistration.find('input').on('change', (e) => {
+      $landingRegistration.submit();
+    });
+  }
+
   /*
      ScrollTo : A vérifier lors de la première utilisation
      ===================================== */

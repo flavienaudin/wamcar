@@ -16,7 +16,7 @@
 {% block body %}
     <section class="vehicle-form-container small-12" id="registration_forms">
         <div class="row">
-            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 xlarge-5 large-offset-1" role="search">
+            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 large-offset-1 xlarge-5" role="search">
                 <header class="vehicle-form-header large-text-center">
                     <h1 class="primary-color section-title">{{ 'landing.mixte.form.title'|trans }}</h1>
                 </header>
@@ -29,39 +29,21 @@
                         <header class="large-text-center">
                             <h2 class="black-color column small-12">{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</h2>
                         </header>
-                        <div class="input-margin-small">
-                            <div class="column small-12">
-                                <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
-                            </div>
-                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\PersonalUser::TYPE"),'destination':url('register_orientation')} %}
-                        </div>
                         <div>
-                            <form action="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}" method="GET" class="block-grid" data-abide novalidate>
-                                <div class="column small-12">
-                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                        type: 'email',
-                                        label: 'landing.mixte.field.email.label'|trans,
-                                        name: 'email_registration',
-                                        id: 'email_personal_registration',
-                                        placeholder: 'landing.mixte.field.email.placeholder'|trans,
-                                        required: true,
-                                        required_message: 'landing.mixte.field.email.required_message'|trans
-                                    } %}
-                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                        type: 'hidden',
-                                        label: 'landing.mixte.field.assist.label'|trans,
-                                        label_class: 'show-for-sr',
-                                        name: 'assistant_registration',
-                                        id: 'assistant_personal_registration',
-                                        required: false,
-                                        value:true
-                                    } %}
-                                </div>
-                                <div class="column small-12">
-                                    <p class="text-justify">{{ 'landing.mixte.personal_email_registration_tab.pre_submit'|trans({'%sitename%':site_name}) }}</p>
-                                    <button type="submit" class="button full-width input-margin">{{ 'landing.mixte.field.submit'|trans }}</button>
-                                </div>
-                            </form>
+                            {{ form_start(personalOrientationForm, {
+                                'method' : 'POST',
+                                'action' : path('front_default'),
+                                'attr':{'id':'js-landing-orientation', 'data-abide' : '','novalidate': 'novalidate'}
+                            }) }}
+
+                            {{ form_widget(personalOrientationForm.orientation, {
+                                'list_class':'action-list',
+                                'label':'user.orientation.form.action.label'|trans,
+                                'label_class':'sr-only',
+                                'li_class':'small-12'
+                            }) }}
+
+                            {{ form_end(personalOrientationForm) }}
                         </div>
                     </div>
                     <div id="pro-inscription" class="tabs-panel">
@@ -97,15 +79,54 @@
                     </div>
                 </div>
             </div>
+            <div class="column show-for-large large-5 xlarge-6 home-form-background is-flex">
+                <picture class="align-self-middle">
+                    <img src="{{ asset('assets/images/background/selfie.png') }}" alt="{{ 'homepage.background.alt'|trans }}">
+                </picture>
+            </div>
+
+        </div>
+
+        <div class="section reinsurance-container small-12" id="reinsurance_general">
+            <div class="row">
+                {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' with {'title_class':'is-hidden'} %}
+            </div>
+        </div>
+    </section>
+
+    {#<section class="section reinsurance-container small-12" id="reinsurance_general">
+        <div class="row">
+            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' with {'title_class':'is-hidden'} %}
+        </div>
+    </section>#}
+
+
+    <section class="section small-12" id="search_pro">
+        <div class="row">
+            <header class="column small-12 text-center">
+                <h2 class="section-title h1 primary-color">{{ 'landing.mixte.pro_profil.title'|trans }}</h2>
+                <p>{{ 'landing.mixte.pro_profil.subtitle'|trans }}</p>
+            </header>
+
+            {% set balise = 'h3' %}
+            <div class="column small-12 input-margin">
+                {% for proUser in proProfils %}
+                    {% include 'front/Directory/includes/pro_user_item.html.twig' %}
+                {% endfor %}
+            </div>
+
+            <footer class="section-footer column small-12 medium-7 large-5">
+                <a href="{{ path('front_directory_view') }}" class="button">{{ 'global.button.search'|trans }}</a>
+            </footer>
         </div>
     </section>
 
     <section class="reinsurance-container section small-12" id="reinsurance_personal">
         <div class="row">
-            <h2 class="section-title white-color h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.personal.title'|trans }}</h2>
+            <h2 class="section-title h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.personal.title'|trans }}</h2>
             {% set reinsurance_class = 'medium-order-3' %}
             {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
-            <button type="button" class="reinsurance-video-button icon-play small-right medium-order-2" data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+            <button type="button" class="reinsurance-video-button black-color icon-play small-right medium-order-2" data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
             {% include 'front/Home/includes/modal_concept_video.html.twig' %}
         </div>
     </section>
@@ -113,8 +134,8 @@
     <section class="section small-12" id="search_vehicle">
         <div class="row">
             <header class="small-12 text-center">
-                <h2 class="section-title h1 primary-color">{{ 'homepage.search.title'|trans }}</h2>
-                <p>{{ 'homepage.search.subtitle'|trans }}</p>
+                <h2 class="section-title h1 primary-color">{{ 'landing.mixte.search.title'|trans }}</h2>
+                <p>{{ 'landing.mixte.search.subtitle'|trans }}</p>
             </header>
             {% include 'front/Vehicle/Listing/includes/filter.html.twig' %}
 
@@ -131,12 +152,6 @@
             <footer class="section-footer column small-12 medium-7 large-5">
                 <a href="{{ path('front_search') }}" class="button">{{ 'homepage.last_offer.action'|trans }}</a>
             </footer>
-        </div>
-    </section>
-
-    <section class="section reinsurance-container small-12" id="reinsurance_general">
-        <div class="row">
-            {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
         </div>
     </section>
 
