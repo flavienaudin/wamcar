@@ -44,13 +44,13 @@ legacy_directory_view:
         page: 1
 
 # Autocompletion des villes
-front_fetch_city:
-    path: /fetch/city.json
-    controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode
-
 front_city_autocomplete:
     path: /city/autocomplete
     controller: AppBundle:Front\ProContext\City:autocomplete
+
+legacy_fetch_city:
+    path: /fetch/city.json
+    controller: AppBundle:Front\PersonalContext\Registration:getCityByZipcode
 
 # Inscription
 legacy_register_confirm:
