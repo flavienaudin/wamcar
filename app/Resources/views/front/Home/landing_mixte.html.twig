@@ -1,11 +1,10 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% set is_home_page = true %}
 {% set header_class = 'is-transparent is-fixed' %}
 
-{% block bodyClass %}home-wrapper{% endblock %}
+{% block bodyClass %}home-wrapper landing-mixte{% endblock %}
 
-{% block mainClass %}has-no-scroll no-padding landing-mixte{% endblock %}
+{% block mainClass %}has-no-scroll no-padding {% endblock %}
 
 {% block title %}{{ 'landing.mixte.title'|trans }}{% endblock %}
 {% block meta_description %}{{ 'landing.mixte.description'|trans }}{% endblock %}

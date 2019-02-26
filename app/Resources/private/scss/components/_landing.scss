@@ -124,6 +124,10 @@
      ===================================== */
   &-mixte {
 
+    .is-transparent .l-navigation{
+      display: none;
+    }
+
     .vehicle-form-container::before {
       height: 100%;
     }
