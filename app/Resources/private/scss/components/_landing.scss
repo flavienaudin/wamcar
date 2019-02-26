@@ -167,6 +167,11 @@
     .vehicle-form {
       label {
         margin-bottom: $input-margin-bottom;
+
+        &:hover{
+          background-color: $primary-color;
+          color: white;
+        }
       }
 
       input {
