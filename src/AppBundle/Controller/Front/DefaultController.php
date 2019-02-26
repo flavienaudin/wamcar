@@ -131,7 +131,6 @@ class DefaultController extends BaseController
         if($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()){
             $formData = $personalOrientationForm->getData();
             $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
-
             return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
         }
         return $this->render(

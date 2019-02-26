@@ -138,7 +138,6 @@ class SecurityController extends BaseController
 
         $registrationForm = $this->formFactory->create(RegistrationType::class, $data);
         $registrationForm->handleRequest($request);
-
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
                 /** @var RegistrationDTO $registrationDTO */
@@ -153,7 +152,7 @@ class SecurityController extends BaseController
 
                 return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
                     'form' => $registrationForm->createView(),
-                    'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
+                    'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
                 ]);
             }
 
@@ -185,7 +184,7 @@ class SecurityController extends BaseController
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
-            'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
+            'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
         ]);
     }
 
