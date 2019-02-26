@@ -138,23 +138,12 @@ class SecurityController extends BaseController
 
         $registrationForm = $this->formFactory->create(RegistrationType::class, $data);
         $registrationForm->handleRequest($request);
-
         if ($registrationForm->isSubmitted() && $registrationForm->isValid()) {
             try {
                 /** @var RegistrationDTO $registrationDTO */
                 $registrationDTO = $registrationForm->getData();
                 $registrationDTO->type = $type;
                 $registeredUser = $this->userRegistrationService->registerUser($registrationDTO);
-
-                if ($registeredUser instanceof PersonalUser &&
-                    $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
-                    PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
-                    // From landing mixte : orientation action is set in session
-                    $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
-                    $this->userEditionService->updateUserOrientation($registeredUser, $orientation);
-                    $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
-                }
-
             } catch (UniqueConstraintViolationException $exception) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
@@ -163,6 +152,7 @@ class SecurityController extends BaseController
 
                 return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
                     'form' => $registrationForm->createView(),
+                    'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
                 ]);
             }
 
@@ -194,7 +184,7 @@ class SecurityController extends BaseController
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
-            'assitant_registration_mode' => (bool)$request->get('assistant_registration', false)
+            'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
         ]);
     }
 

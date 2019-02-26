@@ -124,6 +124,10 @@
      ===================================== */
   &-mixte {
 
+    .is-transparent .l-navigation {
+      display: none;
+    }
+
     .vehicle-form-container::before {
       height: 100%;
     }
@@ -160,13 +164,14 @@
       }
     }
 
-    .home-form-background img {
-      max-width: 100%;
-    }
-
     .vehicle-form {
       label {
         margin-bottom: $input-margin-bottom;
+
+        &:hover{
+          background-color: $primary-color;
+          color: white;
+        }
       }
 
       input {
@@ -202,6 +207,10 @@
       background-image: none;
       padding-top: 2rem;
       padding-bottom: 2rem;
+
+      @include breakpoint(large) {
+        padding-top: 5rem;
+      }
 
       .reinsurance {
         margin-top: 1rem;

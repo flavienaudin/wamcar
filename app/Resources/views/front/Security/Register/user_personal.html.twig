@@ -6,6 +6,9 @@
 {% block meta_description %}{{ 'user.registration.personal.meta_description'|trans }}{% endblock %}
 {% block og_type %}article{% endblock %}
 
+{% set assitant_registration_mode = assitant_registration_mode|default(false) %}
+{% set social_connect = social_connect|default(true) %}
+
 {% block body %}
     {% if not assitant_registration_mode %}
         <header class="banner">
@@ -17,7 +20,7 @@
         <div class="register-form row">
             {% include 'front/Security/Register/includes/account.html.twig' with {
                 context:constant("Wamcar\\User\\PersonalUser::TYPE"),
-                social_connect: not assitant_registration_mode
+                social_connect: social_connect
             }%}
         </div>
     </section>
