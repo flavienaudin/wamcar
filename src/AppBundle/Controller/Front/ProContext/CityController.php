@@ -17,6 +17,7 @@ class CityController extends BaseController
     private $cityEntityIndexer;
     /** @var CityOptionFormatter */
     private $cityOptionFormatter;
+
     /**
      * CityController constructor.
      * @param CityEntityIndexer $cityEntityIndexer

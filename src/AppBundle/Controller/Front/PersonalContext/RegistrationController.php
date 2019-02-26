@@ -263,6 +263,7 @@ class RegistrationController extends BaseController
     }
 
     /**
+     * @deprecated
      * @param Request $request
      * @return JsonResponse
      */
