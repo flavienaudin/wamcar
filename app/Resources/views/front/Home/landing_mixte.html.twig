@@ -15,7 +15,7 @@
 {% block body %}
     <section class="vehicle-form-container small-12" id="registration_forms">
         <div class="row">
-            <div id="js-vehicle-form" class="vehicle-form small-12 large-6 large-offset-1 xlarge-5" role="search">
+            <div id="js-vehicle-form" class="vehicle-form small-12 large-5 large-offset-1" role="search">
                 <header class="vehicle-form-header large-text-center">
                     <h1 class="primary-color section-title">{{ 'landing.mixte.form.title'|trans }}</h1>
                 </header>
@@ -25,7 +25,7 @@
                 </ul>
                 <div class="tabs-content column" data-tabs-content="js-tabs">
                     <div id="personal-inscription" class="tabs-panel is-active">
-                        <header class="large-text-center">
+                        <header>
                             <h2 class="black-color column small-12">{{ 'landing.mixte.personal_email_registration_tab.subtitle'|trans }}</h2>
                         </header>
                         <div>
@@ -38,7 +38,7 @@
                             {{ form_widget(personalOrientationForm.orientation, {
                                 'list_class':'action-list',
                                 'label':'user.orientation.form.action.label'|trans,
-                                'label_class':'sr-only',
+                                'label_class':'show-for-sr',
                                 'li_class':'small-12'
                             }) }}
 
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column show-for-large large-5 xlarge-6 home-form-background is-flex">
+            <div class="column show-for-large large-5 large-offset-1 home-form-background is-flex">
                 <picture class="align-self-middle">
                     <img src="{{ asset('assets/images/background/selfie.png') }}" alt="{{ 'homepage.background.alt'|trans }}">
                 </picture>

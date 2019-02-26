@@ -124,7 +124,7 @@
      ===================================== */
   &-mixte {
 
-    .is-transparent .l-navigation{
+    .is-transparent .l-navigation {
       display: none;
     }
 
@@ -162,10 +162,6 @@
           font-size: rem-calc(36);
         }
       }
-    }
-
-    .home-form-background img {
-      max-width: 100%;
     }
 
     .vehicle-form {
@@ -206,6 +202,10 @@
       background-image: none;
       padding-top: 2rem;
       padding-bottom: 2rem;
+
+      @include breakpoint(large) {
+        padding-top: 5rem;
+      }
 
       .reinsurance {
         margin-top: 1rem;
