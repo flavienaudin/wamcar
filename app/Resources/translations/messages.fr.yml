@@ -319,6 +319,7 @@ landing:
     pro_profil:
       title: Rencontrez votre conseiller automobile
       subtitle: Découvrez le meilleur conseiller automobile pour discuter de votre projet d'achat ou de reprise.
+      button: Rechercher un conseiller
     search:
       title: Annonces
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
