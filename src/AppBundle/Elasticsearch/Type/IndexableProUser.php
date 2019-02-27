@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Type;
 
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Novaway\ElasticsearchClient\Indexable;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\GarageProUser;
 
 class IndexableProUser implements Indexable
@@ -29,6 +30,8 @@ class IndexableProUser implements Indexable
     private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
+    /** @var \DateTime */
+    private $deletedAt;
 
     /**
      * IndexableProUser constructor.
@@ -39,8 +42,9 @@ class IndexableProUser implements Indexable
      * @param array|null $garages
      * @param int|null $hasAvatar
      * @param array|null $roles
+     * @param null|\DateTime $deletedAt
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [])
+    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [], ?\DateTime $deletedAt = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -50,6 +54,7 @@ class IndexableProUser implements Indexable
         $this->garages = $garages;
         $this->hasAvatar = $hasAvatar;
         $this->roles = $roles;
+        $this->deletedAt = $deletedAt;
     }
 
     public static function createFromProApplicationUser(ProApplicationUser $proApplicationUser): IndexableProUser
@@ -61,26 +66,30 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getDescription(),
             [],
             ($proApplicationUser->getAvatar() != null?1:0), // int for function score
-            $proApplicationUser->getRoles()
+            $proApplicationUser->getRoles(),
+            $proApplicationUser->getDeletedAt()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
         /** @var GarageProUser $garageMembership */
         foreach ($proApplicationUser->getEnabledGarageMemberships() as $garageMembership) {
             $garage = $garageMembership->getGarage();
-            $garageArray = [
-                'garageId' => $garage->getId(),
-                'garageName' => $garage->getName(),
-                'garagePresentation' => $garage->getPresentation(),
-                'garageCityName' => $garage->getCity()->getName(),
-                'garageLocation' => [
-                    'lat' => $garage->getCity()->getLatitude(),
-                    'lon' => $garage->getCity()->getLongitude()
-                ],
-                'garageGoogleRating' => $garage->getGoogleRating()
-            ];
-            $indexableProUser->garages[] = $garageArray;
-            if ($indexableProUser->maxGarageGoogleRating < $garageArray['garageGoogleRating']) {
-                $indexableProUser->maxGarageGoogleRating = $garageArray['garageGoogleRating'];
+            if($garage->isOptionAdminVisible() || GarageRole::GARAGE_MEMBER()->equals($garageMembership->getRole())) {
+                // Index garage only if pro user is just a member or admin are visibles
+                $garageArray = [
+                    'garageId' => $garage->getId(),
+                    'garageName' => $garage->getName(),
+                    'garagePresentation' => $garage->getPresentation(),
+                    'garageCityName' => $garage->getCity()->getName(),
+                    'garageLocation' => [
+                        'lat' => $garage->getCity()->getLatitude(),
+                        'lon' => $garage->getCity()->getLongitude()
+                    ],
+                    'garageGoogleRating' => $garage->getGoogleRating()
+                ];
+                $indexableProUser->garages[] = $garageArray;
+                if ($indexableProUser->maxGarageGoogleRating < $garageArray['garageGoogleRating']) {
+                    $indexableProUser->maxGarageGoogleRating = $garageArray['garageGoogleRating'];
+                }
             }
         }
         // Sort garages by Google Rating to help the function score in search query
@@ -107,7 +116,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return !in_array('ROLE_ADMIN', $this->roles);
+        return count($this->garages) > 0 && $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
     }
 
     /**

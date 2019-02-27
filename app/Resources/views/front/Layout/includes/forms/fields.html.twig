@@ -546,6 +546,7 @@
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('') %}
+    {% set li_class = li_class|default('small-12 small-collapse medium-4') %}
 
     {% if label %}
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="medium-12 medium-no-margin {{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
@@ -553,7 +554,7 @@
 
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
-            <li class="column small-12 small-collapse medium-4">
+            <li class="column {{ li_class }}">
                 {{ form_widget(child) }}
                 <label for="{{ child.vars.id }}" class="radio-item">
                     {{ child.vars.label|trans({}, choice_translation_domain|default('message')) }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}

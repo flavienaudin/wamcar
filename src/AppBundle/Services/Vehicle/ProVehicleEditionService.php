@@ -67,14 +67,14 @@ class ProVehicleEditionService
     }
 
     /**
-     * Retrieve ProVehicles from the search result
-     * @param Result $searchResult
+     * Retrieve ProVehicles from the given garage
+     * @param Garage $garage
      * @param array $orderBy
      * @return array
      */
     public function getVehiclesByGarage(Garage $garage, array $orderBy = []): array
     {
-        return $this->vehicleRepository->getByGarage($garage, array_merge($orderBy, ['createdAt' => Criteria::DESC]))->toArray();
+        return $this->vehicleRepository->findAllForGarage($garage, $orderBy);
     }
 
     /**
@@ -138,7 +138,7 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
 
         if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
-            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin es vendeuse)
+            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin et vendeuse)
             $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
                 return $memberShip->getProUser();
             });
@@ -163,12 +163,12 @@ class ProVehicleEditionService
      * @param ProVehicle $proVehicle
      * @param ProApplicationUser|null $newSeller
      * @return ProVehicle
-     * @throws \InvalidArgumentException
-     * @throws NewSellerToAssignNotFoundException
+     * @throws \InvalidArgumentException|NewSellerToAssignNotFoundException
      */
     public function assignSeller(ProVehicle $proVehicle, ProApplicationUser $newSeller = null): ProVehicle
     {
         if ($newSeller == null) {
+            // Search for a new seller among garage'sellers
             /** @var GarageProUser[] $members */
             $members = $proVehicle->getGarage()->getAvailableSellers()->toArray();
             do {
@@ -240,8 +240,10 @@ class ProVehicleEditionService
     public function deleteAllForGarage(Garage $garage): int
     {
         $nbProVehicles = 0;
+        // If Garage is softDeleted, then its vehicles are not retrieved and we want ALL vehicle to delete
+        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null,$garage->getDeletedAt() != null);
         /** @var ProVehicle $proVehicle */
-        foreach ($garage->getProVehicles() as $proVehicle) {
+        foreach ($proVehicleToDelete as $proVehicle) {
             $this->deleteVehicle($proVehicle);
             $nbProVehicles++;
         }

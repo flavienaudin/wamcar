@@ -23,8 +23,9 @@ interface ProVehicleRepository extends VehicleRepository
 
     /**
      * @param Garage $garage
-     * @param array $orderBy
-     * @return Collection
+     * @param null|array $orderBy
+     * @param null|bool $ignoreSoftDeleted
+     * @return array
      */
-    public function getByGarage(Garage $garage, array $orderBy = []);
+    public function findAllForGarage(Garage $garage, array $orderBy = [], bool $ignoreSoftDeleted = false): array;
 }

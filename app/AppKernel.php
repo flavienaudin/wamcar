@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
@@ -25,6 +25,8 @@ class AppKernel extends Kernel
             new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
             new Mgilet\NotificationBundle\MgiletNotificationBundle(),
             new JMose\CommandSchedulerBundle\JMoseCommandSchedulerBundle(),
+            new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
+            new Presta\SitemapBundle\PrestaSitemapBundle(),
             new AppBundle\AppBundle(),
         ];
 

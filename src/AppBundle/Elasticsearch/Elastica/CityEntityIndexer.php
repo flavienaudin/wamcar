@@ -4,8 +4,8 @@ namespace AppBundle\Elasticsearch\Elastica;
 
 
 use Elastica\Query;
+use Elastica\QueryBuilder;
 use Elastica\ResultSet;
-use Elastica\Search;
 
 class CityEntityIndexer extends EntityIndexer
 {
@@ -25,16 +25,28 @@ class CityEntityIndexer extends EntityIndexer
      */
     private function getQueryCity(string $terms): Query
     {
+        $terms = strtolower($terms);
 
-        $match = new Query\MultiMatch();
-        $match->setQuery($terms);
-        $match->setFields(["postalCode", "cityName"]);
+        $qb = new QueryBuilder();
+        $boolQuery = $qb->query()->bool();
 
-        $bool = new Query\BoolQuery();
-        $bool->addMust($match);
+        foreach (explode(' ', $terms) as $term) {
+            $postalCodeQuery = $qb->query()->prefix(['postalCode' => $term]);
+            $boolQuery->addShould($postalCodeQuery);
 
-        $mainQuery = new Query($bool);
-        $mainQuery->setSize(50);
+            $postalCodeTermQuery = $qb->query()->term(['postalCode' => ['value' => $term, 'boost' => 2]]);
+            $boolQuery->addShould($postalCodeTermQuery);
+
+            $cityNameMatchQuery = $qb->query()->match('cityName' ,$term);
+            $boolQuery->addShould($cityNameMatchQuery);
+
+            $cityNamePrefixQuery = $qb->query()->prefix(['cityName' => $term]);
+            $boolQuery->addShould($cityNamePrefixQuery );
+        }
+
+        $mainQuery = new Query($boolQuery);
+        $mainQuery->setSize(20);
+        $mainQuery->setSort(['_score' => 'desc']);
 
         return $mainQuery;
 

@@ -20,6 +20,7 @@ use AppBundle\Session\SessionMessageManager;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -125,9 +126,18 @@ class ConversationController extends BaseController
         $this->conversationAuthorizationChecker->memberOfConversation($this->getUser(), $conversation);
 
         $messageDTO = MessageDTO::buildFromConversation($conversation, $this->getUser());
-        $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
-
         return $this->processForm($request, $messageDTO, $conversation, $vehicleId);
+    }
+
+    /**
+     * @param ApplicationConversation $conversation
+     * @return JsonResponse
+     */
+    public function openConversationAction(ApplicationConversation $conversation): JsonResponse
+    {
+        $this->conversationAuthorizationChecker->memberOfConversation($this->getUser(), $conversation);
+        $this->conversationEditionService->updateLastOpenedAt($conversation, $this->getUser());
+        return new JsonResponse('Ok');
     }
 
     /**
@@ -316,18 +326,24 @@ class ConversationController extends BaseController
         $currentUser = $this->getUser();
         $searchResultSet = $this->searchResultProvider->getQueryUserVehiclesResult($currentUser, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
         $results = array();
-        $results['totalHits'] = $searchResultSet->getTotalHits();
         $results['hits'] = array();
         $ids = array();
-        foreach ($searchResultSet->getResults() as $result) {
-            $userVehicle = $result->getData();
-            $ids[] = $userVehicle['id'];
-        }
-        if (count($ids) > 0) {
-            $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+        if($searchResultSet != null) {
+            foreach ($searchResultSet->getResults() as $result) {
+                $userVehicle = $result->getData();
+                $ids[] = $userVehicle['id'];
+            }
+            if (count($ids) > 0) {
+                $results['hits'] = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($currentUser)->findByIds($ids);
+            }
+            $results['totalHits'] = $searchResultSet->getTotalHits();
+            $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+        }else{
+            $results['totalHits'] = 0;
+            $lastPage = 1;
         }
 
-        $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+
 
         return $this->render('front/Messages/messages_vehicle_list.html.twig', [
             'vehicles' => $results,

@@ -8,6 +8,7 @@ use Symfony\Component\Routing\RouterInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Wamcar\User\BaseUser;
+use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
 class URLFactoryExtension extends AbstractExtension
@@ -34,19 +35,23 @@ class URLFactoryExtension extends AbstractExtension
 
     /**
      * Generate the url for the user profile page
-     * @param BaseUser $user
+     * @param null|BaseUser $user
      * @param array $routeParams
      * @param bool $absoluteURL if true then absolute URL is generated
      * @return string
      */
-    public function getUserInfoURL(BaseUser $user, array $routeParams = [], bool $absoluteURL = false): string
+    public function getUserInfoURL(?BaseUser $user, array $routeParams = [], bool $absoluteURL = false): string
     {
+        if($user == null){
+            return '#';
+        }
         $routeParams = array_merge(['slug' => $user->getSlug()], $routeParams);
         $referenceType = $absoluteURL ? UrlGeneratorInterface::ABSOLUTE_URL : UrlGeneratorInterface::ABSOLUTE_PATH;
         if ($user instanceof ProUser) {
             return $this->routing->generate('front_view_pro_user_info', $routeParams, $referenceType);
-        } else {
+        } elseif ($user instanceof PersonalUser) {
             return $this->routing->generate('front_view_personal_user_info', $routeParams, $referenceType);
         }
+        return '#';
     }
 }

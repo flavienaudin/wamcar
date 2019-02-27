@@ -2,15 +2,18 @@
 
 namespace AppBundle\Controller\Front;
 
-use AppBundle\Controller\Front\ProContext\SearchController;
+use AppBundle\Controller\Front\PersonalContext\RegistrationController;
+use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
+use AppBundle\Form\Type\PersonalRegistrationOrientationType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\VehicleInformationType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Wamcar\User\ProUser;
+use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 class DefaultController extends BaseController
@@ -24,21 +27,26 @@ class DefaultController extends BaseController
     private $vehicleInfoEntityIndexer;
     /** @var ProVehicleRepository $proVehicleRepository */
     private $proVehicleRepository;
+    /** @var DoctrineProUserRepository */
+    private $proUserRepository;
 
     /**
      * DefaultController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
+     * @param DoctrineProUserRepository $proUserRepository
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
-        ProVehicleRepository $proVehicleRepository
+        ProVehicleRepository $proVehicleRepository,
+        DoctrineProUserRepository $proUserRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleRepository = $proVehicleRepository;
+        $this->proUserRepository = $proUserRepository;
     }
 
     /**
@@ -102,9 +110,10 @@ class DefaultController extends BaseController
     }
 
     /**
+     * @param Request $request
      * @return Response
      */
-    public function landingMixteAction(): Response
+    public function landingMixteAction(Request $request): Response
     {
         $searchVehicleForm = $this->formFactory->create(
             SearchVehicleType::class,
@@ -115,13 +124,22 @@ class DefaultController extends BaseController
             ]
         );
 
+        $proProfils = $this->proUserRepository->findProUsersForHomepage();
         $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
-
+        $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class);
+        $personalOrientationForm->handleRequest($request);
+        if($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()){
+            $formData = $personalOrientationForm->getData();
+            $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
+            return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
+        }
         return $this->render(
             '/front/Home/landing_mixte.html.twig',
             [
+                'personalOrientationForm' => $personalOrientationForm->createView(),
                 'smallSearchForm' => $searchVehicleForm->createView(),
-                'last_vehicles' => $last_vehicles
+                'last_vehicles' => $last_vehicles,
+                'proProfils' => $proProfils
             ]
         );
     }

@@ -2,7 +2,7 @@
 
 {% set context = context|default(constant("Wamcar\\User\\PersonalUser::TYPE")) %}
 {# Do not use |default otherwise false is set to true #}
-{% set social_connect = social_connect is defined ? social_connect:true %}
+{% set social_connect = social_connect|default(true) %}
 
 {% if social_connect %}
     {% set destination_url = (context == constant("Wamcar\\User\\ProUser::TYPE")? url('front_affinity_pro_form') : url('register_orientation') )%}

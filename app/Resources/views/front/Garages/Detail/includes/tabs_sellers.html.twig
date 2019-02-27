@@ -9,7 +9,8 @@
                     {% set userIsMe = membership.proUser.is(app.user) %}
                     {% set userIsGarageAdministrator = is_granted(constant("AppBundle\\Security\\Voter\\GarageVoter::ADMINISTRATE"),membership.garage) %}
 
-                    {% if membership.requestedAt is null or userIsMe or userIsGarageAdministrator %}
+                    {% if ( (garage.optionAdminVisible or membership.role.value != constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') )
+                            and membership.requestedAt is null) or userIsMe or userIsGarageAdministrator %}
                         <li>
                             <a href="{{ path('front_view_pro_user_info', {'slug': membership.proUser.slug}) }}" >
                                 <figure class="block-grid align-middle" role="group">
@@ -19,6 +20,10 @@
                                     <span class="h2">{{ membership.proUser.fullName }}</span>
                                 </figure>
                             </a>
+
+                            {% if not garage.optionAdminVisible and membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                                <p><i>{{ 'garage.administrator.invisible'|trans }}</i></p>
+                            {% endif %}
 
                             {% if membership.proUser.description %}
                                 <p>{{ membership.proUser.description|nl2br }}</p>
