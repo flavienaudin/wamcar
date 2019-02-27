@@ -240,7 +240,7 @@ $(function () {
 
   const $landingRegistration = $('#js-landing-orientation');
   if($landingRegistration.length > 0){
-    $landingRegistration.find('input').on('change', (e) => {
+    $landingRegistration.find('input').on('click', (e) => {
       $landingRegistration.submit();
     });
   }
