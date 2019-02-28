@@ -23,7 +23,7 @@ trait ApiCredentialTrait
     /**
      * @return string
      */
-    public function getApiClientId(): string
+    public function getApiClientId(): ?string
     {
         return $this->apiClientId;
     }
@@ -31,7 +31,7 @@ trait ApiCredentialTrait
     /**
      * @return string
      */
-    public function getApiSecret(): string
+    public function getApiSecret(): ?string
     {
         return $this->apiSecret;
     }
