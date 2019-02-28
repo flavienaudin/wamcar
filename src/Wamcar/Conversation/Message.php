@@ -67,7 +67,7 @@ class Message
         $this->attachments = new ArrayCollection();
         if ($attachments != null) {
             foreach ($attachments as $attachment) {
-                if(!empty($attachment)) {
+                if (!empty($attachment)) {
                     $this->addAttachment(new MessageAttachment(null, $attachment, $this));
                 }
             }
@@ -104,6 +104,14 @@ class Message
     public function getUser(): CanBeInConversation
     {
         return $this->user;
+    }
+
+    /**
+     * @param BaseUser $user
+     */
+    public function setUser(BaseUser $user): void
+    {
+        $this->user = $user;
     }
 
     /**

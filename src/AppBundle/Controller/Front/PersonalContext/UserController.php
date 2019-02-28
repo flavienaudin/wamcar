@@ -467,22 +467,31 @@ class UserController extends BaseController
         ]);
     }
 
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @return Response
+     */
+    public function proUserslistAction()
+    {
+        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+
+        return $this->render("front/adminContext/user/pro_user_list.html.twig", [
+            'proUsers' => $proUsers
+        ]);
+    }
 
     /**
      * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */
-    public function listAction()
+    public function personalUserslistAction()
     {
         $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
-        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
 
-        return $this->render("front/adminContext/user/user_list.html.twig", [
-            'personalUsers' => $personalUsers,
-            'proUsers' => $proUsers
+        return $this->render("front/adminContext/user/personal_user_list.html.twig", [
+            'personalUsers' => $personalUsers
         ]);
     }
-
 
     /**
      * security.yml - access_control : ROLE_ADMIN only
@@ -513,8 +522,26 @@ class UserController extends BaseController
             }
         }
 
-        return $this->redirectToRoute('admin_user_list', [
-            '_fragment' => $isPro ? 'pro-user-panel' : 'personal-user-panel'
-        ]);
+        return $this->redirectToRoute($isPro?'admin_pro_user_list':'admin_personal_user_list');
+    }
+
+    /**
+     * @param Request $request
+     * @param PersonalUser $personalUser
+     * @return Response
+     */
+    public function convertPersonalToProAction(Request $request, PersonalUser $personalUser)
+    {
+        if(!$personalUser instanceof PersonalUser){
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, "The user is not a PersonalUser");
+        }else{
+            $conversionResult = $this->userEditionService->convertPersonalToProUser($personalUser, $this->getUser());
+            if($conversionResult['proUser'] instanceof ProUser){
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, sprintf('ProUser id %d', $conversionResult['proUser']->getId()));
+            }else {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, "Problème lors de la conversion");
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
     }
 }

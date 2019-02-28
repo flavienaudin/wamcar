@@ -311,9 +311,9 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
-     * @param string $googleId
+     * @param string|null $googleId
      */
-    public function setGoogleId(string $googleId): void
+    public function setGoogleId(?string $googleId): void
     {
         $this->googleId = $googleId;
     }

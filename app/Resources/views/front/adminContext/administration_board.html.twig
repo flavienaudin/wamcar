@@ -6,8 +6,6 @@
 {% block mainClass %}{% endblock %}
 
 {% block body %}
-
-
     <section class="row">
         <div class="column">
             <header class="">
@@ -18,7 +16,8 @@
                 <ul>
                     <li><a href="{{ path('easyadmin') }}">Adminsitration (easy-admin)</a></li>
                     <li><a href="{{ path('admin_garage_list') }}">Liste des garages</a></li>
-                    <li><a href="{{ path('admin_user_list') }}">Liste des utilisateurs</a></li>
+                    <li><a href="{{ path('admin_pro_user_list') }}">Liste des conseillers automobile</a></li>
+                    <li><a href="{{ path('admin_personal_user_list') }}">Liste des utilisateurs particuliers</a></li>
                 </ul>
 
                 <h2>Administration techniques</h2>

@@ -56,6 +56,14 @@ class ConversationUser
     }
 
     /**
+     * @param BaseUser $user
+     */
+    public function setUser(BaseUser $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getLastOpenedAt(): \DateTime

@@ -1,0 +1,115 @@
+{% extends ':front/Layout:layout.html.twig' %}
+
+{% block title %}Administration - Conseillers automobile{% endblock title %}
+
+{% block bodyClass %}admin{% endblock %}
+{% block mainClass %}{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="column">
+            <h1>Professionnels</h1>
+        </div>
+    </div>
+    <div class="admin-table-container">
+        <table class="hover">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Avatar</th>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Téléphone</th>
+                <th>Date d'inscription</th>
+                <th>Description</th>
+                <th>Réseaux sociaux</th>
+                <th>Garages</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in proUsers %}
+                <tr>
+                    <td>
+                        {% if user.deletedAt is null %}
+                            <a href="{{ path('front_view_pro_user_info',{'slug':user.slug}) }}">
+                                {{ user.id }}
+                            </a>
+                        {% else %}
+                            <span class="text-line-through">{{ user.id }}</span>
+                        {% endif %}
+                    </td>
+                    <td><span class="user-thumbnail-mini"><img
+                                    src="{{ user.avatar|avatar('user_mini_thumbnail', user.firstName) }}"
+                                    alt="{{ user.fullName }}"></span></td>
+                    <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.firstname }}</td>
+                    <td class="{{ user.deletedAt is not null?'text-line-through' }}">{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.phone }}<br>{{ user.phonePro }}</td>
+                    <td>{{ user.createdAt|localizeddate('short','short') }}</td>
+                    <td>{{ user.description|length > 100 ? user.description|slice(0, 100) ~ '...':user.description }}</td>
+                    <td>
+                        <div class="is-flex align-center-middle">
+                            {% if user.facebookId is not null %}<span
+                                    class="social-networks-icon icon-facebook"></span> {% endif %}
+                            {% if user.linkedinId is not null %}<span
+                                    class="social-networks-icon icon-linkedin"></span> {% endif %}
+                            {% if user.googleId is not null %}<span
+                                    class="social-networks-icon icon-google2"></span> {% endif %}
+                            {% if user.twitterId is not null %}<span
+                                    class="social-networks-icon icon-twitter"></span> {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <ul class="no-margin">
+                            {% for membership in user.garageMemberships %}
+                                <li class="{{ membership.requestedAt is not null?'garage-pending-request' }}">
+                                    <a href="{{ path('front_garage_view',{'slug':membership.garage.slug}) }}">
+                                        {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                                        <b>{% endif %}
+                                            {{ membership.garage.name }}
+                                            {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}</b>{% endif %}
+                                    </a><br>
+                                    {{ membership.garage.city }}
+                                    {% if membership.requestedAt is not null %}
+                                        <br><span class="black-color">Demande en attente</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <ul class="dropdown menu" data-dropdown-menu>
+                            <li>
+                                <a href="#">Actions</a>
+                                <ul class="menu">
+                                    {% if user.deletedAt is null %}
+                                        <li><a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                               class="js-confirm-box warning-bg"
+                                               data-id="soft-{{ user.id }}"
+                                               data-title="Attention!"
+                                               data-message="Confirmez-vous la suppression de l'utilisateur ?">Supprimer</a>
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            <a href="{{ path('front_user_delete',{'id':user.id}) }}"
+                                               class="js-confirm-box danger-bg"
+                                               data-id="hard-{{ user.id }}"
+                                               data-title="Attention!"
+                                               data-message="Confirmez-vous la suppression DEFINITIVE  de l'utilisateur ?">Supprimer
+                                                définitivement</a></li>
+                                    {% endif %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}
