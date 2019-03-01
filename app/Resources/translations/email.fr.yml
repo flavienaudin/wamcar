@@ -15,7 +15,10 @@ notifyUserOfRegistrationTokenGenerated:
     object: "Confirmez votre adresse e-mail - Wamcar"
     body: >
         <p>Bienvenue sur Wamcar !</p>
-        <p>Pour commencer l'expérience Wamcar, il ne vous reste plus qu'à <a href="%activationUrl%">confirmer votre adresse e-mail</a>.</p>
+        <p>Pour commencer l'expérience Wamcar, il ne vous reste plus qu'à confirmer votre adresse e-mail (%emailAddress%)
+        en cliquant, ou en copiant dans la barre d'adresse de votre navigateur, le lien suivant :<br>
+        <a href="%activationUrl%">%activationUrl%</a></p>
+    description: Confirmation de l'adresse e-mail %emailAddress%
 
 notifyProUserOfRegistration:
     object:  "Votre compte Wamcar"
