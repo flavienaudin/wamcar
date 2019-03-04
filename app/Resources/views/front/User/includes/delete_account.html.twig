@@ -1,0 +1,12 @@
+{% set main_div_class = main_div_class |default('column small-12') %}
+
+<div class="{{ main_div_class }}">
+    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+    <p>{{ 'user.profile.delete.information'|trans }}<br>
+        <a href="{{ path('front_user_delete', {'id': user.id}) }}"
+           class="js-confirm-box text-underline"
+           data-id="delete-account-{{ user.id }}"
+           data-title="{{ 'user.profile.delete.confirm-box.title'|trans }}"
+           data-message="{{ 'user.profile.delete.confirm-box.message'|trans }}">{{ 'global.button.delete'|trans }}</a>
+    </p>
+</div>

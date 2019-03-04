@@ -26,6 +26,7 @@ use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
@@ -551,18 +552,30 @@ class UserController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
      * @param int $id
      * @return Response
      */
-    public function deleteUserAction(int $id)
+    public function deleteUserAction(Request $request, int $id)
     {
         $userToDelete = $this->userRepository->findIgnoreSoftDeleted($id);
         if (!$userToDelete || !$userToDelete instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
 
-        $isPro = $userToDelete instanceof ProUser;
+        if (!$this->isGranted(UserVoter::DELETE, $userToDelete)) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_DANGER, 'flash.error.user.deletion_not_allowed');
+            if ($request->headers->has('referer')) {
+                return $this->redirect($request->headers->get('referer'));
+            } else {
+                if ($userToDelete->isPro()) {
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userToDelete->getSlug()]);
+                } else {
+                    return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $userToDelete->getSlug()]);
+                }
+            }
+        }
+
+        $isUserHimSelf = $userToDelete->is($this->getUser());
         $isAlreadySoftDeleted = $userToDelete->getDeletedAt() != null;
         $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser());
         foreach ($resultMessages['errorMessages'] as $errorMessage) {
@@ -579,7 +592,20 @@ class UserController extends BaseController
             }
         }
 
-        return $this->redirectToRoute($isPro?'admin_pro_user_list':'admin_personal_user_list');
+        if ($isUserHimSelf) {
+            // Manually logout the current User
+            $this->tokenStorage->setToken(null);
+            $this->session->invalidate();
+            return $this->redirectToRoute('front_default');
+        } elseif ($request->headers->has('referer')) {
+            return $this->redirect($request->headers->get('referer'));
+        } else {
+            if ($userToDelete->isPro()) {
+                return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userToDelete->getSlug()]);
+            } else {
+                return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $userToDelete->getSlug()]);
+            }
+        }
     }
 
     /**

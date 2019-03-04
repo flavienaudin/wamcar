@@ -2,7 +2,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'user.profile.edit'|trans }}{% endblock %}
+{% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -22,7 +22,11 @@
         title: block('title')
     } %}
 
-    <div class="row">
+    <div class="row input-margin">
         {% include 'front/User/includes/form_edit_profil.html.twig' %}
+    </div>
+
+    <div class="row">
+        {% include 'front/User/includes/delete_account.html.twig' %}
     </div>
 {% endblock %}

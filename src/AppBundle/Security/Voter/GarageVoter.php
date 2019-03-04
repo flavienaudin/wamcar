@@ -40,7 +40,7 @@ class GarageVoter extends Voter
             return false;
         }
 
-        // only vote on Post objects inside this voter
+        // only vote on Garage objects inside this voter
         if (!$subject instanceof Garage) {
             return false;
         }

@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front\AdministrationContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
@@ -49,6 +50,10 @@ class BackendController extends AdminController
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $exception->getMessage());
             }
         } elseif ($entity instanceof BaseUser) {
+            if(!$this->isGranted(UserVoter::DELETE, $entity)){
+                $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, 'flash.error.user.deletion_not_allowed');
+                return;
+            }
             $resultMessages = $this->userEditionService->deleteUser($entity, $this->getUser());
             foreach ($resultMessages['errorMessages'] as $errorMessage) {
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);

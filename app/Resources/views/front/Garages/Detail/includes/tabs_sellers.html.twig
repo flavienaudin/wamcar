@@ -32,7 +32,7 @@
                             {% endif %}
 
                             {% if userIsMe %}
-                                <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit'|trans }}</a></p>
+                                <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit.action'|trans }}</a></p>
                             {% else %}
                                 <div class="is-flex">
                                     <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">

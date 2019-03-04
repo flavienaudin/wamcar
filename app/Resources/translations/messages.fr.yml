@@ -66,6 +66,7 @@ flash:
     user:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
+      deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
 
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
@@ -742,7 +743,51 @@ user:
       other: "%username%, conseiller automobile"
   profile:
     my_profile: Mon profil
-    edit: Editer mon profil
+    edit:
+      title: Editer mon profil
+      action: Editer mon profil
+      form:
+        titles:
+          id: Identifiants de connexion
+          identity: Identité
+          city: Ville
+          phones: Numéro(s) de téléphone
+          informations: Informations
+          medias: Médias
+        email:
+          label: Mail
+        password:
+          button: Modifier mon mot de passe
+          old_label: Mot de passe
+          new_label: Nouveau mot de passe
+          second_new_label: Confirmer le mot de passe
+        title:
+          label: Civilité
+        firstName:
+          label: Prénom
+        lastName:
+          label: Nom
+        city:
+          label: Ville
+          required_message: Vous devez saisir votre ville
+          placeholder: Ville ou code postal
+        phonePro:
+          label: Téléphone fixe
+        phone:
+          label: Téléphone mobile
+        presentation:
+          label: Présentation
+        avatar:
+          label: Avatar
+        submit: Enregistrer mes modifications
+    delete:
+      title: Supprimer mon compte
+      information: >
+        En supprimant votre compte, vous n'aurez plus accès à vos informations et toutes vos informations
+        seront définitivement effacées dans 15 jours.
+      confirm-box:
+        title: Attention
+        message: Confirmez-vous la suppression de votre compte ?
   presentation:
     title:
       personal: Présentation
