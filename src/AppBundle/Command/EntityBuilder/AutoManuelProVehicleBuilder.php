@@ -155,7 +155,6 @@ class AutoManuelProVehicleBuilder
 
 
     /**
-     * TODO Adapt with new JSON format
      * @param null|ProVehicle $existingProVehicle The vehicle to update or null
      * @param array $vehicleDTORowData Vehicle data from the row
      * @param Garage $garage The garage of the vehicle

@@ -57,7 +57,7 @@ class ImportVehicleFlowCommand extends BaseCommand
         $origin = $config['origin'];
         $io->text('Origin  : ' . $origin);
 
-        if ($source == "file") {
+        if ($source == "file" || $source == "url") {
             $dataFile = $config[$source];
         } elseif ($source == "ftp") {
             // TODO download the file throught FTP connexion
@@ -77,12 +77,17 @@ class ImportVehicleFlowCommand extends BaseCommand
                 break;
             case VehicleImportService::ORIGIN_AUTOSMANUEL:
 
-                if (file_exists($dataFile) !== FALSE) {
-                    $arrayJson = json_decode(file_get_contents($dataFile), true);
-                    $result = $vehicleImportService->importDataAutosManuel($config, $arrayJson);
-                    $this->displayImportResult($io, $result);
-                } else {
+                if ($source == "file" && file_exists($dataFile) === FALSE) {
                     $io->error(sprintf("Access to data file (%s) is not allowed in read mode", $dataFile));
+                } elseif ($source == "url" && curl_init($dataFile) === FALSE) {
+                    $io->error(sprintf("URL (%s) is not reachable", $dataFile));
+                } else {
+                    $io->text("Start at " . date("H:i:s"));
+                    $arrayJson = json_decode(file_get_contents($dataFile), true);
+                    $io->text("Datas read at " . date("H:i:s"));
+                    $result = $vehicleImportService->importDataAutosManuel($config, $arrayJson, $io);
+                    $io->text("End at " . date("H:i:s"));
+                    $this->displayImportResult($io, $result);
                 }
                 break;
             case VehicleImportService::ORIGIN_EWIGO:
@@ -101,7 +106,7 @@ class ImportVehicleFlowCommand extends BaseCommand
             foreach ($errorData as $idx => $message) {
                 $errorMessages[] = [$idx, $message];
             }
-            $io->table(['idx','message'], $errorMessages);
+            $io->table(['idx', 'message'], $errorMessages);
         }
         $io->table(['Results:', ''], [
             ['Nb of rows : ', $result[VehicleImportService::RESULT_STATS_KEY][VehicleImportService::RESULT_NB_TREATED_ROWS_KEY]],

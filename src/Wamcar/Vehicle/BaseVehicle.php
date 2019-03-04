@@ -574,7 +574,6 @@ abstract class BaseVehicle implements Vehicle
             /** @var VehiclePicture $picture */
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $addPicture->getId()) {
-                    dump('Update picture ' . $picture->getId());
                     $picture->setFile($addPicture->getFile());
                     $picture->setFileMimeType($addPicture->getFileMimeType());
                     $picture->setFileName($addPicture->getFileName());
@@ -623,8 +622,6 @@ abstract class BaseVehicle implements Vehicle
             /** @var VehiclePicture $picture */
             foreach ($this->pictures as $picture) {
                 if ($picture->getId() === $pictureId) {
-                    dump("pitcure find to remove");
-                    dump($picture->getId());
                     $this->pictures->removeElement($picture);
                     return;
                 }
