@@ -6,7 +6,6 @@ namespace AppBundle\Form\Builder\Conversation;
 use AppBundle\Doctrine\Entity\ApplicationConversation;
 use AppBundle\Form\DTO\MessageDTO;
 use Wamcar\Conversation\ConversationUser;
-use Wamcar\Conversation\Message;
 
 class ConversationFromDTOBuilder
 {

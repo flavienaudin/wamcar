@@ -26,6 +26,10 @@
       padding-right: rem-calc(40);
       padding-left: rem-calc(40);
     }
+    @include breakpoint(large) {
+      padding-right: rem-calc(16);
+      padding-left: rem-calc(16);
+    }
   }
 
   .garage-container & {

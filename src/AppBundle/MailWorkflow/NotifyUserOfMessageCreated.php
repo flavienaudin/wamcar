@@ -4,7 +4,6 @@
 namespace AppBundle\MailWorkflow;
 
 
-use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -14,8 +13,8 @@ use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Event\MessageEvent;
 use Wamcar\Conversation\Event\MessageEventHandler;
 use Wamcar\Conversation\Message;
-use Wamcar\Conversation\MessageAttachment;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
+use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\ProVehicle;
 
 
@@ -64,6 +63,10 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                     'message_attachments' => $message->getAttachments(),
                     'message_url' => $this->router->generate("front_conversation_edit", ['id' => $message->getConversation()->getId(), '_fragment' => 'last-message'], UrlGeneratorInterface::ABSOLUTE_URL),
                     'vehicle' => $message->getVehicle(),
+                    'vehicleUrl' => $message->getVehicle() instanceof ProVehicle ?
+                        $this->router->generate("front_vehicle_pro_detail", ['slug' => $message->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
+                        : $message->getVehicle() instanceof PersonalVehicle ? $this->router->generate("front_vehicle_personal_detail", ['slug' => $message->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL) : null,
+
                     'vehiclePrice' => ($message->getVehicle() instanceof ProVehicle ? $message->getVehicle()->getPrice() : null),
                     'thumbnailUrl' => $pathImg
                 ],

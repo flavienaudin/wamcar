@@ -122,9 +122,37 @@
   /*
       Landing Mixte
      ===================================== */
-  &-mixte{
+  &-mixte {
+
+    .is-transparent .l-navigation {
+      display: none;
+    }
+
+    .vehicle-form-container::before {
+      height: 100%;
+    }
 
     .vehicle-form-header {
+      background: none;
+      max-width: 100%;
+      text-align: center;
+
+      @include breakpoint(360) {
+        background: url('#{$img-folder}/background/selfie.png') calc(100%) center/#{rem-calc(200)} auto no-repeat;
+        text-align: unset;
+
+        @include breakpoint(large) {
+          background: none;
+        }
+
+        h1 {
+          max-width: calc(100% - #{rem-calc(200)});
+          @include breakpoint(large) {
+            max-width: 100%;
+          }
+        }
+      }
+
       h1 {
         @include breakpoint(medium) {
           font-size: rem-calc(32);
@@ -137,18 +165,58 @@
     }
 
     .vehicle-form {
-      @include breakpoint(medium) {
-        label {
-          margin-bottom: $input-margin-bottom;
-        }
+      label {
+        margin-bottom: $input-margin-bottom;
 
-        input {
-          margin-bottom: $input-margin-bottom;
-          height: rem-calc(40);
+        &:hover{
+          background-color: $primary-color;
+          color: white;
         }
+      }
 
-        p {
-          font-size: rem-calc(14);
+      input {
+        margin-bottom: $input-margin-bottom;
+        height: rem-calc(40);
+      }
+
+      p {
+        font-size: rem-calc(14);
+      }
+    }
+
+    .reinsurance-container#reinsurance_personal {
+      background-color: $grey-alt;
+      background-image: none;
+
+      h2 {
+        color: $dark-gray;
+      }
+
+      li > p {
+        color: $body-font-color;
+      }
+
+      .reinsurance-video-button:before {
+        border: 1px $dark-gray solid;
+      }
+
+    }
+
+    .reinsurance-container#reinsurance_general {
+      background-color: transparent;
+      background-image: none;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+
+      @include breakpoint(large) {
+        padding-top: 5rem;
+      }
+
+      .reinsurance {
+        margin-top: 1rem;
+
+        .reinsurance-item p {
+          color: $body-font-color;
         }
       }
     }

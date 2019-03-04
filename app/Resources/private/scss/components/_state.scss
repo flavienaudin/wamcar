@@ -90,6 +90,7 @@
   transition: $global-transition;
   &::before { color: $primary-color; }
 }
+.text-line-through { text-decoration-line: line-through; }
 
 
 /*
@@ -104,6 +105,29 @@
 .medium-gray-color { color: $medium-gray; }
 .dark-gray-color { color: $dark-gray; }
 .success-color { color: $success-color; }
+.warning-color { color: $warning-color; }
+.danger-color { color: $alert-color; }
+
+
+/*
+   Background-color
+   ===================================== */
+
+.primary-bg { background-color: $primary-color; }
+.secondary-bg { background-color: $secondary-color; }
+.body-font-bg { background-color: $body-font-color; }
+.black-bg { background-color: black; }
+.white-bg { background-color: white; }
+.medium-gray-bg { background-color: $medium-gray; }
+.dark-gray-bg { background-color: $dark-gray; }
+.success-bg { background-color: $success-color; }
+.warning-bg { background-color: $warning-color; }
+.danger-bg { background-color: $alert-color; }
+
+/*
+  Background color
+   ===================================== */
+.white-bg { background-color: white; }
 
 
 /*

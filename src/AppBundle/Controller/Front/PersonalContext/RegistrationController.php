@@ -263,6 +263,7 @@ class RegistrationController extends BaseController
     }
 
     /**
+     * @deprecated
      * @param Request $request
      * @return JsonResponse
      */
@@ -307,6 +308,29 @@ class RegistrationController extends BaseController
             $orientation = null;
         }
         $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class, ['orientation' => $orientation]);
+
+        if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
+            PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
+            // From landing mixte : orientation action is set in session => automatic validation of this step
+            $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
+            $this->userEditionService->updateUserOrientation($user, $orientation);
+            switch ($user->getOrientation()) {
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH():
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
+                    if (count($user->getVehicles()) == 0) {
+                        // Only if no vehicle is already added (when registration with vehicle)
+                        return $this->redirectToRoute('front_vehicle_personal_add');
+                    }
+                case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
+                    return $this->redirectToRoute('front_affinity_personal_form');
+                default:
+                    $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_WARNING,
+                        'flash.warning.personal_orientation.invalid_choice'
+                    );
+            }
+        }
         $personalOrientationForm->handleRequest($request);
         if ($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()) {
             $formData = $personalOrientationForm->getData();

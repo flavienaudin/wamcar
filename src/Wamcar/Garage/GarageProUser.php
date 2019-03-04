@@ -79,4 +79,13 @@ class GarageProUser
     {
         $this->requestedAt = $requestedAt;
     }
+
+    /**
+     * To display the association
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getGarage()->getName() .'<=>'. $this->proUser->getFullName();
+    }
 }

@@ -16,6 +16,7 @@ use AutoData\ApiConnector;
 use AutoData\Exception\AutodataException;
 use AutoData\Exception\AutodataWithUserMessageException;
 use AutoData\Request\GetInformationFromPlateNumber;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -278,12 +279,26 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param ProVehicle $vehicle
      * @return Response
      */
-    public function detailAction(Request $request, ProVehicle $vehicle): Response
+    public function detailAction(ProVehicle $vehicle): Response
     {
+        if ($vehicle->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.vehicle.removed.title',
+                'messageKey' => 'error_page.vehicle.removed.body',
+                'redirectionUrl' => $this->generateUrl('front_search_by_make_model', [
+                    'make' => $vehicle->getMake(),
+                    'model' => urlencode($vehicle->getModelName()),
+                    'type' => SearchController::QP_TYPE_PRO_VEHICLES
+                ])
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+
         $userLike = null;
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
@@ -297,11 +312,11 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @param Request $request
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeleted(id)")
      * @param ProVehicle $vehicle
      * @return RedirectResponse
      */
-    public function legacyDetailAction(Request $request, ProVehicle $vehicle): Response
+    public function legacyDetailAction(ProVehicle $vehicle): Response
     {
         return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()], Response::HTTP_MOVED_PERMANENTLY);
     }

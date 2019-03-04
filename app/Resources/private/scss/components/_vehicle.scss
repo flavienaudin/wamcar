@@ -637,14 +637,14 @@
     position: relative;
     z-index: 1;
     background: #f7f7f7;
+    padding-top: rem-calc(32);
 
     @include breakpoint(medium down) {
       border-top: rem-calc(1) solid $border-color;
     }
 
     @include breakpoint(large) {
-      min-height: 100vh;
-      padding-top: $header-height-medium + rem-calc(20);
+      padding-top: $header-height-medium + rem-calc(50);
       padding-bottom: rem-calc(50);
     }
 
@@ -685,10 +685,8 @@
     /* Components */
 
     img {
-      @include breakpoint(large) {
-        width: auto;
-        max-width: 130%;
-      }
+      width: auto;
+      max-width: 100%;
     }
   }
 
@@ -702,10 +700,6 @@
       background: white;
       border-top: rem-calc(5) solid $primary-color;
       box-shadow: 0 rem-calc(10) rem-calc(30) rgba(black, .12);
-    }
-
-    @include breakpoint(large only) {
-      transform: translate3d(#{rem-calc(-60)}, 0, 0);
     }
 
     @include breakpoint(xlarge) {

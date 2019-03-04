@@ -119,7 +119,7 @@ class SearchController extends BaseController
 
         $model = $request->get('model');
         if ($model) {
-            $model = strtoupper(str_replace('-', ' ', $model));
+            $model = urldecode($model);
         }
 
         $filters = [

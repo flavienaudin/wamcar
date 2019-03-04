@@ -25,5 +25,8 @@
         "node": true,
         "browser": true,
         "mocha": true
+    },
+    "globals": {
+        "Waypoint": true
     }
 }

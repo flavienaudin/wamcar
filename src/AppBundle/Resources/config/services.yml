@@ -74,15 +74,10 @@ services:
 
     AppBundle\Services\User\UserEditionService:
         class: AppBundle\Services\User\UserEditionService
+        autowire: true
         arguments:
-            - '@wamcar.security.password_encoder'
-            - '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
-            - {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
-            - '@AppBundle\Form\Builder\User\ProjectFromDTOBuilder'
-            - '@AppBundle\Doctrine\Repository\ProjectRepository'
-            - '@Wamcar\Vehicle\PersonalVehicleRepository'
-            - '@Wamcar\Vehicle\ProVehicleRepository'
-            - '@AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository'
+            $userSpecificRepositories: {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
+            $userLikeRepository: '@AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true

@@ -101,11 +101,11 @@ Wamcar\User\BaseUser:
         conversationUsers:
             targetEntity: Wamcar\Conversation\ConversationUser
             mappedBy: user
-            cascade: ["persist", "merge", "remove"]
+            cascade: ["persist", "merge"]
         messages:
             targetEntity: Wamcar\Conversation\Message
             mappedBy: user
-            cascade: ["persist", "merge", "remove"]
+            cascade: ["persist", "merge"]
         likes:
             targetEntity: Wamcar\User\BaseLikeVehicle
             mappedBy: user
@@ -115,10 +115,10 @@ Wamcar\User\BaseUser:
         smallerIdUserAffinityDegrees:
             targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
             mappedBy: greaterIdUser
-            cascade: ["persist", "merge"]
+            cascade: ["persist", "merge", "remove"]
         greaterIdUserAffinityDegrees:
             targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
             mappedBy: smallerIdUser
-            cascade: ["persist", "merge"]
+            cascade: ["persist", "merge", "remove"]
 
 

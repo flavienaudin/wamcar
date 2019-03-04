@@ -55,7 +55,7 @@ abstract class BaseUser implements HasApiCredential
     protected $twitterId;
     /** @var string */
     protected $twitterAccessToken;
-    /** @var ?FirstContactPreference */
+    /** @var null|FirstContactPreference */
     protected $firstContactPreference;
     /** @var Collection */
     protected $likes;
@@ -154,6 +154,14 @@ abstract class BaseUser implements HasApiCredential
     public function getDescription(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getDescription() : null);
+    }
+
+    /**
+     * Set description
+     * @param null|string $description
+     */
+    public function setDescription(?string $description){
+        $this->userProfile->setDescription($description);
     }
 
 
@@ -576,4 +584,12 @@ abstract class BaseUser implements HasApiCredential
      * @return Collection
      */
     abstract public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection;
+
+    /**
+     * @return int Number of user's vehicles
+     */
+    public function countVehicles():int
+    {
+        return count($this->getVehicles());
+    }
 }
