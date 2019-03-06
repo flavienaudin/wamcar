@@ -116,7 +116,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return count($this->garages) > 0 && $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
+        return $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
     }
 
     /**

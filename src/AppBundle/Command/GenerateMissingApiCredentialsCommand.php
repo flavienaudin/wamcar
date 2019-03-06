@@ -5,13 +5,16 @@ namespace AppBundle\Command;
 
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 
 class GenerateMissingApiCredentialsCommand extends BaseCommand
 {
 
+    const SOFTDELETED_ARGUMENT = "softdeleted";
 
     /**
      * Configure command
@@ -21,7 +24,11 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
     {
         $this
             ->setName('wamcar:generate:missingApiCredentials')
-            ->setDescription('Generate missing API credentials');
+            ->setDescription('Generate missing API credentials')
+            ->addOption(self::SOFTDELETED_ARGUMENT, null,
+                InputOption::VALUE_NONE,
+                'Generate missing api credentials for soft deleted entities');
+
     }
 
     /**
@@ -35,33 +42,46 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
         $userRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineUserRepository');
-        $users = $userRepository->findBy(["apiClientId" => null]);
-        $this->log(self::INFO, "Users");
-        $progressUsers = new ProgressBar($this->output, count($users));
+
+
+
+        if ($input->getOption(self::SOFTDELETED_ARGUMENT) === true) {
+            $io->text('Option : true');
+            $users = $userRepository->findIgnoreSoftDeletedBy(["apiClientId" => null]);
+        } else {
+            $io->text('Option : false');
+            $users = $userRepository->findBy(["apiClientId" => null]);
+        }
+        $io->text("Users");
+        $io->progressStart(count($users));
         /** @var BaseUser $user */
         foreach ($users as $user) {
-            $progressUsers->advance();
+            $io->progressAdvance();
             $user->generateApiCredentials();
             $userRepository->update($user);
         }
-        $progressUsers->finish();
-        $this->logCRLF();
+        $io->progressFinish();
+        $io->newLine();
 
         $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
-        $garages = $garageRepository->findBy(["apiClientId" => null]);
-        $this->log(self::INFO, "Garages");
-        $progressGarages = new ProgressBar($this->output, count($garages));
+        if ($input->getOption(self::SOFTDELETED_ARGUMENT) === true) {
+            $garages = $garageRepository->findIgnoreSoftDeletedBy(["apiClientId" => null]);
+        } else {
+            $garages = $garageRepository->findBy(["apiClientId" => null]);
+        }
+        $io->text("Garages");
+        $io->progressStart(count($garages));
         /** @var Garage $garage */
         foreach ($garages as $garage) {
-            $progressGarages->advance();
+            $io->progressAdvance();
             $garage->generateApiCredentials();
             $garageRepository->update($garage);
         }
-        $progressGarages->finish();
-
-        $this->logCRLF();
-        $this->log('success', 'Done !');
+        $io->progressFinish();
+        $io->newLine();
+        $io->success('Done !');
     }
 }

@@ -238,7 +238,7 @@ class PersonalVehicleController extends BaseController
      * @param PersonalVehicle $vehicle
      * @return Response
      */
-    public function detailAction(Request $request, PersonalVehicle $vehicle): Response
+    public function detailAction(PersonalVehicle $vehicle): Response
     {
         if ($vehicle->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [

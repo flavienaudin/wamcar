@@ -12,10 +12,10 @@ interface HasApiCredential
     /**
      * @return string
      */
-    public function getApiClientId(): string;
+    public function getApiClientId(): ?string;
 
     /**
      * @return string
      */
-    public function getApiSecret(): string;
+    public function getApiSecret(): ?string;
 }
