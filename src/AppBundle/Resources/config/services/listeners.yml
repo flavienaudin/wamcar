@@ -20,3 +20,10 @@ services:
     AppBundle\EventListener\SitemapSubscriber:
         tags:
             - { name: kernel.event_subscriber, priority: 100 }
+
+    # Decoration of the SluggableListener to be compatible with softDeleteable extension (disable SoftDeleteable filter before generating slug)
+    Gedmo\Sluggable\SluggableListener:
+        decorates: 'stof_doctrine_extensions.listener.sluggable'
+        calls:
+            - ['setAnnotationReader', ['@annotation_reader']]
+            - ['addManagedFilter', ['softDeleteable']]
