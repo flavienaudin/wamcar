@@ -20,6 +20,8 @@ abstract class BaseController
     const FLASH_LEVEL_WARNING = 'warning';
     const FLASH_LEVEL_DANGER = 'alert';
 
+    const REQUEST_HEADER_REFERER = 'referer';
+
     const LIKE_REDIRECT_TO_SESSION_KEY = "vehicle.like.target_path";
 
     /** @var EngineInterface */

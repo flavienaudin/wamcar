@@ -364,15 +364,15 @@ class VehicleController extends BaseController
     public function likeProVehicleAction(ProVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
-            if ($request->headers->has("referer")) {
-                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get('referer'));
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             }
             throw new AccessDeniedException();
         }
         $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
-        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has("referer")) {
-            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
+        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
                 // Keep the query param from the request

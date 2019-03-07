@@ -149,6 +149,10 @@ front_garage_edit:
     path: /garage/edit/{id}
     controller: AppBundle:Front\ProContext\Garage:save
 
+front_garage_remove:
+    path: /garage/remove/{id}
+    controller: AppBundle:Front\ProContext\Garage:remove
+
 # Gestion des membres d'un garage
 front_garage_request_to_join:
     path: /garage/request/{garage_id}

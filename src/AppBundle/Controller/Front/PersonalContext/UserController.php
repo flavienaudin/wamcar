@@ -564,8 +564,8 @@ class UserController extends BaseController
 
         if (!$this->isGranted(UserVoter::DELETE, $userToDelete)) {
             $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_DANGER, 'flash.error.user.deletion_not_allowed');
-            if ($request->headers->has('referer')) {
-                return $this->redirect($request->headers->get('referer'));
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
             } else {
                 if ($userToDelete->isPro()) {
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userToDelete->getSlug()]);
@@ -597,8 +597,8 @@ class UserController extends BaseController
             $this->tokenStorage->setToken(null);
             $this->session->invalidate();
             return $this->redirectToRoute('front_default');
-        } elseif ($request->headers->has('referer')) {
-            return $this->redirect($request->headers->get('referer'));
+        } elseif ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
         } else {
             if ($userToDelete->isPro()) {
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userToDelete->getSlug()]);

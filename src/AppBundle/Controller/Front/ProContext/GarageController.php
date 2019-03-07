@@ -279,13 +279,23 @@ class GarageController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
      * @Entity("garage", expr="repository.findIgnoreSoftDeleted(id)")
+     * @param Request $request
      * @param Garage $garage
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeAction(Garage $garage): RedirectResponse
+    public function removeAction(Request $request, Garage $garage): RedirectResponse
     {
+        if ($this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_DANGER, 'flash.error.garage.unauthorized_to_administrate');
+
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+            } else {
+                return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+            }
+        }
+
         $isAlreadySoftDeleted = $garage->getDeletedAt() != null;
         try {
             $this->garageEditionService->remove($garage);
@@ -305,8 +315,13 @@ class GarageController extends BaseController
                 BaseController::FLASH_LEVEL_WARNING,
                 $exception->getMessage()
             );
+            return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
         }
-        return $this->redirectToRoute('admin_garage_list');
+        if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+        } else {
+            return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+        }
     }
 
     /**

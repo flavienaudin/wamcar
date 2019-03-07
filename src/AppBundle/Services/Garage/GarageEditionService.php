@@ -235,7 +235,9 @@ class GarageEditionService
     }
 
     /**
-     * Warning : All $proApplicationser's pro vehicles have to be reassigned to an other garage member
+     * Warnings :
+     *  - All $proApplicationser's pro vehicles have to be reassigned to an other garage member
+     *  - No verification if $proApplicationser is the last member/admin of the garage
      * @param Garage $garage
      * @param ProApplicationUser $proApplicationUser
      * @param bool $isPendingRequestDeclined
@@ -339,10 +341,11 @@ class GarageEditionService
         foreach ($garage->getMembers() as $member) {
             $this->removeMember($garage, $member->getProUser(), $member->getRequestedAt() != null);
         }
-        // Remove the google place Id to allow a new garage creatioin
+        // Remove the google place Id and SIREN, and rename the garage to allow a new garage creation using the same name, SIREN or/and google place Id
         $garage->setGooglePlaceId(null);
         $garage->setSiren(null);
         $garage->setName('DELETED' . $garage->getName());
+        // Update for softdeletion
         $this->garageRepository->update($garage);
         $this->garageRepository->remove($garage);
     }

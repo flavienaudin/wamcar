@@ -27,6 +27,3 @@ admin_garage_list:
     path: /garage/list
     controller: AppBundle:Front\ProContext\Garage:list
 
-front_garage_remove:
-    path: /garage/remove/{id}
-    controller: AppBundle:Front\ProContext\Garage:remove

@@ -184,9 +184,21 @@ class UserEditionService
             }
 
             if ($userToDelete instanceof ProApplicationUser) {
+
                 /** @var GarageProUser $garageMembership */
                 foreach ($userToDelete->getGarageMemberships() as $garageMembership) {
+
+                    /*if(GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole())){
+                        // TODO supprimer les garages s'il est unique gestionnaire et unique membre
+                        // Selon si on a ou pas une page dédiée pour demander confirmation avant Sinon
+                        // afficher un message avec la marche à suivre
+                        if(count($garageMembership->getGarage()->getMembers()) == 1 ){
+
+                        }
+                    }*/
+
                     $garageId = $garageMembership->getGarage()->getId();
+
                     $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
                     if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
                         $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
