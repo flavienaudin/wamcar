@@ -350,7 +350,7 @@ class AutoManuelProVehicleBuilder
 
             $proVehicle->setGarage($garage);
             // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getEnabledMembers()->toArray();
+            $members = $garage->getAvailableSellers()->toArray();
             $proVehicle->setSeller($members[array_rand($members)]->getProUser());
         }
 
