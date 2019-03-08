@@ -28,4 +28,11 @@ interface ProVehicleRepository extends VehicleRepository
      * @return array
      */
     public function findAllForGarage(Garage $garage, array $orderBy = [], bool $ignoreSoftDeleted = false): array;
+
+    /**
+     * @param  Garage $garage
+     * @param array $references
+     * @return Collection|array
+     */
+    public function findByGarageAndExcludedReferences(Garage $garage, array $references);
 }
