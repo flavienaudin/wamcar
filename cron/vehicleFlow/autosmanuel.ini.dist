@@ -1,0 +1,21 @@
+[Flow file access : file, ftp]
+source = url
+origin = autosmanuel
+
+[File configuration]
+file = /var/www/myapp/database/fixtures/autosmanuel/20190304-vehicules.json
+
+[FTP configuration]
+ftp[host] = null
+ftp[login] = null
+ftp[password] = null
+
+[Url configuration]
+url= https://www.autosmanuel.fr/flux/vehicules.json
+
+[Garage association : vendeur_contact => garage.client_id]
+
+garage['Auto Dauphine Echirolles'] = ac536c976a327af818eb6893981f702c
+garage['Auto Dauphine Rives'] = d55f65e05c983cfba73bf0a3c1627d4d
+garage["Auto Dauphine SMH"] = 6886d7456dcb2ac0454e764ab68687f9
+garage["Auto Dauphine Vizille"] = dbeb09541791da3266d8aaf9f0490844
