@@ -1,0 +1,18 @@
+[Flow file access : file, ftp]
+source = file
+origin = ewigo
+
+[URL configuration]
+url =
+
+[File configuration]
+file = /var/www/myapp/database/fixtures/ewigo/20190213-test-1vehicle.json
+
+[FTP configuration]
+ftp[host] = null
+ftp[login] = null
+ftp[password] = null
+
+[Garage association : groupe affaire => garage.client_id]
+; Garage EWIGO Goussainville
+garage[52] = 12283c5ebdd5b41f0bb59bd4b2b91fef
