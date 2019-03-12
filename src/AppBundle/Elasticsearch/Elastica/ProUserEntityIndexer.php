@@ -7,6 +7,9 @@ use AppBundle\Form\DTO\SearchProDTO;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
+use Elastica\Script\AbstractScript;
+use Elastica\Script\Script;
+use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\Enum\DirectorySorting;
 
 class ProUserEntityIndexer extends EntityIndexer
@@ -17,7 +20,7 @@ class ProUserEntityIndexer extends EntityIndexer
     const OFFSET = 0;
 
 
-    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, int $limit = self::LIMIT): ResultSet
+    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
     {
         $qb = new QueryBuilder();
         $mainQuery = new Query();
@@ -97,6 +100,16 @@ class ProUserEntityIndexer extends EntityIndexer
             $functionScoreQuery->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
             // Combination of the functions'scores
             $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_REPLACE);
+
+
+            // Importance : 2
+            // Script value between [0;1]
+            $script = new Script("return (params.factors[doc.id.value] ?: params.default) / 100",
+                ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                AbstractScript::LANG_PAINLESS
+            );
+
+            $functionScoreQuery->addScriptScoreFunction($script, null, 10);
 
             // Importance : 2
             $functionScoreQuery->addFieldValueFactorFunction(

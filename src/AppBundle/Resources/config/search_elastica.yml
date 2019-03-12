@@ -319,7 +319,7 @@ parameters:
         dynamic: strict
         properties:
           id:
-            type: integer
+            type: keyword
           firstName:
             type: text
             fields:

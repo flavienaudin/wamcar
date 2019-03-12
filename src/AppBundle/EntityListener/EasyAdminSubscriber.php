@@ -69,8 +69,7 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 break;
             case $entity instanceof ProApplicationUser:
                 $this->messabeBus->handle(new ProUserUpdated($entity));
-            default:
-                return;
+                break;
         }
     }
 }

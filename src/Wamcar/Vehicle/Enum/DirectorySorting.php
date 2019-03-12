@@ -5,8 +5,8 @@ namespace Wamcar\Vehicle\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static Guarantee DIRECTORY_SORTING_RELEVANCE()
- * @method static Guarantee DIRECTORY_SORTING_DISTANCE()
+ * @method static DirectorySorting DIRECTORY_SORTING_RELEVANCE()
+ * @method static DirectorySorting DIRECTORY_SORTING_DISTANCE()
  */
 final class DirectorySorting extends Enum
 {

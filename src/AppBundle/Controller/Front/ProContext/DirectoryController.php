@@ -20,6 +20,8 @@ class DirectoryController extends BaseController
     protected $formFactory;
     /** @var ProUserEntityIndexer */
     private $proUserEntityIndexer;
+    /** @var UserEditionService */
+    private $userEditionService;
     /** @var CityEntityIndexer */
     private $cityEntityIndexer;
 
@@ -81,7 +83,7 @@ class DirectoryController extends BaseController
             'action' => $this->generateRoute('front_directory_view')
         ]);
         $searchProForm->handleRequest($request);
-        $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page);
+        $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($resultSet);
 
         return $this->render('front/Directory/view.html.twig', [
