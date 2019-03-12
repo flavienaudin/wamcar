@@ -314,28 +314,28 @@ class SearchResultProvider
 
         // Sorting configuration
         switch ($searchVehicleDTO->sorting) {
+            case Sorting::SEARCH_SORTING_AFFINITY:
+                if($currentUser != null) {
+                    $script = new Query\Script();
+                    $script->setScript([
+                        'script' => [
+                            'source' => "return params.factors[doc.userId.value] ?: (1.0 / (params.now - doc.mainSortingDate.value.millis))",
+                            'lang' => AbstractScript::LANG_PAINLESS,
+                            'params' => [
+                                "now" => time(),
+                                "factors" => $currentUser->getAffinityDegreesAsArray()
+                            ]
+                        ]
+                    ]);
+                    $mainQuery->setSort(["_script" => array_merge($script->toArray()['script'], ["type" => "number", "order" => "desc"])]);
+                    break;
+                }
             case Sorting::SEARCH_SORTING_DATE:
                 if (!empty($searchVehicleDTO->text)) {
                     $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
                 } else {
                     $mainQuery->setSort(['mainSortingDate' => 'desc']);
                 }
-                break;
-            case Sorting::SEARCH_SORTING_AFFINITY:
-                $script = new Query\Script();
-                $script->setScript([
-                    'script' => [
-                        // 'source' => "if (doc->get(\"garageId\").size() == 0){return params.factors[\"doc.garageId.value \"] ?: 0}else{return 0}",
-                        'source' => "return params.factors[doc.userId.value] ?: (1.0 / (params.now - doc.mainSortingDate.value.millis))",
-                        'lang' => AbstractScript::LANG_PAINLESS,
-                        'params' => [
-                            "now" => time(),
-                            // TODO retrieve $currentUser WamAffinity Degrees
-                            "factors" => ["367" => 42.5, "366" => 40.5, "8" => 99.8, '192' => 28.0]
-                        ]
-                    ]
-                ]);
-                $mainQuery->setSort(["_script" => array_merge($script->toArray()['script'], ["type" => "number", "order" => "desc"])]);
                 break;
             case Sorting::SEARCH_SORTING_PRICE_ASC:
                 $mainQuery->setSort(['mainSortingPrice' => [

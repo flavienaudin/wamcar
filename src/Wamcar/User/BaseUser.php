@@ -160,7 +160,8 @@ abstract class BaseUser implements HasApiCredential
      * Set description
      * @param null|string $description
      */
-    public function setDescription(?string $description){
+    public function setDescription(?string $description)
+    {
         $this->userProfile->setDescription($description);
     }
 
@@ -195,7 +196,7 @@ abstract class BaseUser implements HasApiCredential
     public function getCityPostalCodeAndName(): string
     {
         $city = $this->getCity();
-        return $city != null ? $city->getPostalCode() . ' ' . $city->getName(): '';
+        return $city != null ? $city->getPostalCode() . ' ' . $city->getName() : '';
     }
 
     /**
@@ -546,6 +547,27 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * @return array Array of WamAffinity Degrees ["userId" => value]
+     */
+    public function getAffinityDegreesAsArray(): array
+    {
+        $affinityDegreesArray = [];
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->smallerIdUserAffinityDegrees as $affinityDegree) {
+            if ($affinityDegree->getSmallerIdUser() != null) {
+                $affinityDegreesArray[$affinityDegree->getSmallerIdUser()->getId()] = $affinityDegree->getAffinityValue();
+            }
+        }
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->greaterIdUserAffinityDegrees as $affinityDegree) {
+            if ($affinityDegree->getGreaterIdUser() != null) {
+                $affinityDegreesArray[$affinityDegree->getGreaterIdUser()->getId()] = $affinityDegree->getAffinityValue();
+            }
+        }
+        return $affinityDegreesArray;
+    }
+
+    /**
      * Return the affinity degree between this user and the given user
      * @param null|BaseUser $withUser The user to get the affinity degree with (can be null in twig template)
      * @return AffinityDegree|null
@@ -588,7 +610,7 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return int Number of user's vehicles
      */
-    public function countVehicles():int
+    public function countVehicles(): int
     {
         return count($this->getVehicles());
     }

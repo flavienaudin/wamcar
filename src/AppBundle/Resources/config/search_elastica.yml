@@ -254,7 +254,7 @@ parameters:
           nbPicture:
             type: integer
           userId:
-            type: integer
+            type: keyword
           nbPositiveLikes:
             type: integer
   personal_project.index_builder.config:
@@ -268,7 +268,7 @@ parameters:
           id:
             type: integer
           userId:
-            type: integer
+            type: keyword
           mainSortingLocation:
             type: geo_point
           project:
