@@ -35,6 +35,7 @@ flash:
     reset_password_success: Un email vient de vous être envoyé. Il contient les instructions pour changer votre mot de passe.
     password_changed: Votre nouveau mot de passe a bien été enregistré.
     affinity:
+      loading_form: Nous préparons le formulaire WamAffinty. Merci de patienter.
       form_submited:
         with_project: Nous avons complété votre projet avec les réponses que vous nous avez fournies. Merci de vérifier les informations et de renseigner vos souhaits.
         without_project: Vos réponses ont bien été enregistrées. Nous calculons vos affinités avec les professionnels. Les résultats seront prêts dans quelques minutes.
