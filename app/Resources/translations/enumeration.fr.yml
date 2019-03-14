@@ -45,3 +45,6 @@ PERSONAL_ORIENTATION_BOTH: Les deux
 PRO_VEHICLE: "Professionnels"
 PERSONAL_VEHICLE: "Particuliers - Reprises"
 PERSONAL_PROJECT: "Particuliers - Demandes"
+
+TRANSMISSION_AUTOMATIC: Automatique
+TRANSMISSION_MANUAL: Manuelle

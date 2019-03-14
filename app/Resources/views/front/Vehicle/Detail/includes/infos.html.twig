@@ -5,7 +5,7 @@
     {label: (vehicle.isUsed?"vehicle.section.infos.registrationDate.label"|trans:"vehicle.section.infos.commercializationDate.label"|trans), value: vehicle.registrationDate|date("d/m/Y") },
     {label: "vehicle.section.infos.mileage.label"|trans, value: vehicle.mileAge|localizednumber ~ ' km' },
     {label: "vehicle.section.infos.engine_name.label"|trans, value: vehicle.engineName },
-    {label: "vehicle.section.infos.transmission.label"|trans, value: vehicle.transmission },
+    {label: "vehicle.section.infos.transmission.label"|trans, value: vehicle.transmission|trans([], 'enumeration') },
     {label: "vehicle.section.infos.fuel_name.label"|trans, value: vehicle.fuelName },
     {label: "vehicle.section.infos.first_hand.label"|trans, value: vehicle.isFirstHand is null ? null : vehicle.isFirstHand ? 'global.yes'|trans : 'global.no'|trans },
     {label: "vehicle.section.infos.imported.label"|trans, value: vehicle.isImported is null ? null : vehicle.isImported ? 'global.yes'|trans : 'global.no'|trans },

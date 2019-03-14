@@ -167,9 +167,9 @@ class AutoManuelProVehicleBuilder
             new Engine($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME], new Fuel(self::translateEnergy($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]))));
 
         if ($vehicleDTORowData[self::FIELDNAME_TRANSMISSION] === 0) {
-            $transmission = Transmission::MANUAL();
+            $transmission = Transmission::TRANSMISSION_MANUAL();
         } else {
-            $transmission = Transmission::AUTOMATIC();
+            $transmission = Transmission::TRANSMISSION_AUTOMATIC();
         }
 
         $registration = new Registration(null, $vehicleDTORowData[self::FIELDNAME_IMMATRICULATION] ?? null, $vehicleDTORowData[self::FIELDNAME_VIN ?? null]);
@@ -373,9 +373,9 @@ class AutoManuelProVehicleBuilder
             new Engine($vehicleDTORowData[self::IDX_VN_VERSION], new Fuel(self::translateEnergy($vehicleDTORowData[self::IDX_VN_ENERGIE]))));
 
         if ($vehicleDTORowData[self::IDX_VN_TRANSMISSION] === self::VN_TRANSMISSION_AUTOMATIC) {
-            $transmission = Transmission::AUTOMATIC();
+            $transmission = Transmission::TRANSMISSION_AUTOMATIC();
         } else {
-            $transmission = Transmission::MANUAL();
+            $transmission = Transmission::TRANSMISSION_MANUAL();
         }
 
         $registration = new Registration(null, $vehicleDTORowData[self::IDX_VN_IMMATRICULATION], $vehicleDTORowData[self::IDX_VN_VIN]);
