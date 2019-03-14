@@ -4,6 +4,7 @@
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
 {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 {% set detailUrlTarget = detailUrlTarget|default('_self') %}
+{% set ajax_like = ajax_like|default(false) %}
 
 <article class="vehicle-item is-flex">
     <div class="is-flex full-width is-relative">
@@ -27,8 +28,13 @@
                 </a>
                 <span class="vehicle-like small-shrink">
                     {% block right_action %}
-                        <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
-                            <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                        {% if ajax_like %}
+                            <a data-href="{{ path('front_ajax_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug}) }}"
+                               class="like {{ likeIcon }} js-like"><sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                        {% else %}
+                            <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug, '_fragment':vehicle.id}) }}"
+                               class="like {{ likeIcon }}"><sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                        {% endif %}
                     {% endblock %}
                 </span>
             </div>

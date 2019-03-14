@@ -10,11 +10,14 @@
     margin-right: rem-calc(4);
   }
 
-  &:hover{
-    &::before {
-      content: "\f164";
-      animation: like .6s;
-    }
+  &.icon-thumbs-up:hover::before {
+    content: "\f087";
+    animation: like .6s;
+  }
+
+  &.icon-thumbs-o-up:hover::before {
+    content: "\f164";
+    animation: like .6s;
   }
 
   & sub {

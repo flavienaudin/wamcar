@@ -17,10 +17,12 @@ use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\PersonalVehicle;
 
@@ -40,6 +42,8 @@ class PersonalVehicleController extends BaseController
     protected $sessionMessageManager;
     /** @var UserEditionService $userEditionService */
     protected $userEditionService;
+    /** @var TranslatorInterface $translator */
+    private $translator;
 
     /**
      * GarageController constructor.
@@ -49,6 +53,7 @@ class PersonalVehicleController extends BaseController
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
      * @param UserEditionService $userEditionService
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -56,7 +61,8 @@ class PersonalVehicleController extends BaseController
         PersonalVehicleEditionService $personalVehicleEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager,
-        UserEditionService $userEditionService
+        UserEditionService $userEditionService,
+        TranslatorInterface $translator
     )
     {
         $this->formFactory = $formFactory;
@@ -65,6 +71,7 @@ class PersonalVehicleController extends BaseController
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
         $this->userEditionService = $userEditionService;
+        $this->translator = $translator;
     }
 
     /**
@@ -328,5 +335,20 @@ class PersonalVehicleController extends BaseController
             }
         }
         return $this->redirectToRoute("front_vehicle_personal_detail", ['slug' => $vehicle->getSlug()]);
+    }
+
+    /**
+     * @param PersonalVehicle $vehicle
+     * @param Request $request
+     * @return Response
+     */
+    public function ajaxLikePersonalVehicleAction(PersonalVehicle $vehicle, Request $request): Response
+    {
+        if (!$this->isUserAuthenticated()) {
+            return new JsonResponse($this->translator->trans('flash.error.user.not_logged'), Response::HTTP_UNAUTHORIZED);
+        }
+        $this->personalVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+
+        return new JsonResponse(count($vehicle->getPositiveLikes()), Response::HTTP_OK);
     }
 }

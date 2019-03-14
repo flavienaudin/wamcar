@@ -21,7 +21,7 @@
         <a href="tel:{{ vehicle.seller.mainPhoneNumber }}" class="hide-for-large button add icon-message">{{ 'global.button.call'|trans }}</a>
     </span>#}
     <span class="column small-collapse small-6 large-12 large-uncollapse">
-        <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'id': vehicle.id }) }}" class="button reverse like like-button {{ likeIcon }}">{{ likeButtonLabel|trans }}</a>
+        <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug }) }}" class="button reverse like like-button {{ likeIcon }}">{{ likeButtonLabel|trans }}</a>
             {#<span class="show-for-large">{{ likeButtonLabel|trans }}</span>
             <span class="hide-for-large">{{ likeButtonLabelShort|trans }}</span>
         </a>#}
