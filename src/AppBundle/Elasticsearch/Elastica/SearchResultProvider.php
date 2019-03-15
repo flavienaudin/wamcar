@@ -10,6 +10,7 @@ use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
 use Elastica\Script\AbstractScript;
+use Elastica\Script\Script;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
@@ -379,24 +380,35 @@ class SearchResultProvider
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
 
+                // Importance : 5/5
+                // Script value between [0;1] => factor 5 => [0;5]
+                $script = new Script("return (params.factors[doc.userId.value] ?: params.default) / 100",
+                    ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                    AbstractScript::LANG_PAINLESS
+                );
+                $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPositiveLikes', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
                     0, null, $vehicleEntityQuery
                 );
 
+                // Value [0;20] => Log1P [0; ~3] => Factor 1 => [0;3]
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPictures', 1,
-                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LOG1P,
-                    0, null, $vehicleEntityQuery
+                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
+                    0, 1, $vehicleEntityQuery
                 );
 
+                // Google rating [0;5] => factor 1 => [0;5]
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.googleRating', 1,
-                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
-                    0, null, $qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE])
+                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_NONE,
+                    0, 1, $qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE])
                 );
 
+                // City [0;3] => factor 3 => [0;3]
                 if (!empty($searchVehicleDTO->cityName)) {
                     $functionScoreQuery->addDecayFunction(
                         Query\FunctionScore::DECAY_GAUSS,
@@ -404,10 +416,12 @@ class SearchResultProvider
                         floatval($searchVehicleDTO->latitude) . ', ' . floatval($searchVehicleDTO->longitude),
                         '75km',
                         ($searchVehicleDTO->radius / 5) . 'km',
-                        0.5
+                        0.5,
+                        3
                     );
                 }
 
+                // Date [0;1] => factor 2 => [0;2]
                 $functionScoreQuery->addDecayFunction(
                     Query\FunctionScore::DECAY_GAUSS,
                     'mainSortingDate',

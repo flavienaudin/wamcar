@@ -101,17 +101,17 @@ class ProUserEntityIndexer extends EntityIndexer
             // Combination of the functions'scores
             $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_REPLACE);
 
-
-            // Importance : 2
-            // Script value between [0;1]
-            $script = new Script("return (params.factors[doc.id.value] ?: params.default) / 100",
+            // Importance : 5/5
+            // Script value between [0;10] => factor 1 => [0;10]
+            $script = new Script("return (params.factors[doc.id.value] ?: params.default) / 10",
                 ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
                 AbstractScript::LANG_PAINLESS
             );
 
-            $functionScoreQuery->addScriptScoreFunction($script, null, 10);
+            $functionScoreQuery->addScriptScoreFunction($script, null, 1);
 
-            // Importance : 2
+            // Importance : 5/5
+            // Google rating [0;5] => factor 1 => [0;5]
             $functionScoreQuery->addFieldValueFactorFunction(
                 'maxGaragesGoogleRating',
                 1,
@@ -119,14 +119,16 @@ class ProUserEntityIndexer extends EntityIndexer
                 1
             );
 
-            // Importance : 2
+            // Importance : 3/5
+            // HasAvatar [0;1] => factor 1.25 => [0;1,25]
             $functionScoreQuery->addDecayFunction(
                 Query\FunctionScore::DECAY_LINEAR,
                 'hasAvatar',
                 1, 0.5, 0, 0.5, 1.25
             );
 
-            // Importance : 2
+            // Importance : 4/5
+            // Description Length [0;1000] => log => [0;3] => factor 1 => [0;3]
             $functionScoreQuery->addFieldValueFactorFunction(
                 'descriptionLength',
                 1,
@@ -134,7 +136,8 @@ class ProUserEntityIndexer extends EntityIndexer
                 0
             );
 
-            // Importance : 5
+            // Importance : 5/5
+            // Value depends on query...
             $functionScoreQuery->addFieldValueFactorFunction(
                 "_score",
                 1.5,
