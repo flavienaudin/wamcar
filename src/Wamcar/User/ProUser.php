@@ -18,6 +18,8 @@ class ProUser extends BaseUser
 
     /** @var  string */
     protected $phonePro;
+    /** @var  string */
+    protected $presentationTitle;
     /** @var  Collection */
     protected $garageMemberships;
     /** @var  Collection */
@@ -63,6 +65,22 @@ class ProUser extends BaseUser
     public function setPhonePro(?string $phonePro)
     {
         $this->phonePro = $phonePro;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPresentationTitle(): ?string
+    {
+        return $this->presentationTitle;
+    }
+
+    /**
+     * @param null|string $presentationTitle
+     */
+    public function setPresentationTitle(?string $presentationTitle = null): void
+    {
+        $this->presentationTitle = $presentationTitle;
     }
 
     /**

@@ -142,6 +142,7 @@ class UserEditionService
 
         if ($userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);
+            $user->setPresentationTitle($userInformationDTO->presentationTitle);
         }
 
         $this->userRepository->update($user);

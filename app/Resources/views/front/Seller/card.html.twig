@@ -22,7 +22,7 @@
 
 {% set presentation_block %}{% spaceless %}
     {% if user.description is not empty or userIsMe %}
-        <h2>{{ 'user.presentation.title.pro'|trans }}</h2>
+        <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
         {% if user.description %}
             <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
         {% elseif userIsMe %}
@@ -48,9 +48,14 @@
         {% endif %}
     {% endif %}
     {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-    {% if userAffinity is not null %}
+    {% if (is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPersonal) or is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
         <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
-        <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
+        <canvas class="js-radar-chart {{ userAffinity is null ? 'radar-chart-empty'  }}" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode : emptyRadarChartData()|json_encode }}"></canvas>
+        {% if userAffinity is null %}
+            <p>{{ is_granted('IS_AUTHENTICATED_FULLY') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans}}
+                <a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
+            </p>
+        {% endif %}
     {% endif %}
 {% endspaceless %}{% endset %}
 

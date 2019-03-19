@@ -95,4 +95,16 @@ class AffinityDegree
             ]]
         ];
     }
+
+
+    public static function getEmptyRadarChartData(): array
+    {
+        return [
+            'labels' => ['Total', 'Profil', 'Mise en relation', 'Passions', 'Positionnement', 'Atomes Crochus'],
+            'datasets' => [[
+                'label' => 'Affinités (%)',
+                'data' => [0, 0, 0, 0, 0, 0]
+            ]]
+        ];
+    }
 }

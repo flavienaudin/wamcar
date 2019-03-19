@@ -744,7 +744,7 @@ user:
   presentation:
     title:
       personal: Présentation
-      pro: Présentation du vendeur
+      pro: Laissez-moi vous guider
     empty: >
       Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
       possible pour faciliter la confiance dans le dialogue avec vos clients.
@@ -852,7 +852,9 @@ user:
     degree:
       calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:
-        personal: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+        personal:
+          logged: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+          unlogged:  Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire

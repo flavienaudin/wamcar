@@ -8,8 +8,10 @@ use AppBundle\Doctrine\Entity\ApplicationUser;
 class ProUserInformationDTO extends UserInformationDTO
 {
 
-    /** @var  string */
+    /** @var string */
     public $phonePro;
+    /** @var string */
+    public $presentationTitle;
 
     /**
      * UserInformationDTO constructor.
@@ -19,6 +21,7 @@ class ProUserInformationDTO extends UserInformationDTO
     {
         parent::__construct($user);
         $this->phonePro = $user->getPhonePro();
+        $this->presentationTitle = $user->getPresentationTitle();
 
     }
 }
