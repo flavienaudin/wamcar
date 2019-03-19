@@ -61,7 +61,10 @@
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
                     {% if vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
                         <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }}">
-                            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' %}
+                            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                                'pagination_route': 'front_garage_view',
+                                'pagination_route_params': {'slug':garage.slug}
+                            } %}
                         </div>
                     {% endif %}
                     {% if garage.presentation or isEditableByCurrentUser %}

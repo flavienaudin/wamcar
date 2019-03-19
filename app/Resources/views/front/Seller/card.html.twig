@@ -46,15 +46,14 @@
                     '%affinity_form_url%': path('front_affinity_pro_form')
                 })|raw }}</p>
         {% endif %}
-    {% endif %}
-    {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-    {% if (is_granted('IS_AUTHENTICATED_FULLY') and app.user.isPersonal) or is_granted('IS_AUTHENTICATED_ANONYMOUSLY') %}
+    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
+        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
         <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
-        <canvas class="js-radar-chart {{ userAffinity is null ? 'radar-chart-empty'  }}" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode : emptyRadarChartData()|json_encode }}"></canvas>
+        <canvas class="js-radar-chart {{ userAffinity is null ? 'radar-chart-empty' }}"
+                data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode : emptyRadarChartData()|json_encode }}"></canvas>
         {% if userAffinity is null %}
-            <p>{{ is_granted('IS_AUTHENTICATED_FULLY') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans}}
-                <a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
-            </p>
+            <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}</p>
+            <p><a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
         {% endif %}
     {% endif %}
 {% endspaceless %}{% endset %}
@@ -102,15 +101,37 @@
     {% endif %}
 {% endspaceless %}{% endset %}
 
+{% set vehicle_block %}{% spaceless %}
+    {% if vehicles.totalHits > 0 %}
+        <div class="column small-12 garage-container ">
+
+            <div class="column">
+                <div class="row">
+                    <div class="column small-12 medium-auto"><h2>Ses véhicules</h2></div>
+                </div>
+            </div>
+            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                'pagination_route': 'front_view_pro_user_info',
+                'pagination_route_params': {'slug':user.slug}
+            } %}
+        </div>
+    {% endif %}
+{% endspaceless %}{% endset %}
+
+
 {% block body %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/User/includes/profil_header.html.twig' %}
 
     <section class="row full-width">
         <div class="profil-body column block-grid small-12 small-up-1 large-up-2">
-            {% if presentation_block is not empty %}
+            {% if presentation_block is not empty or affinity_block is not empty %}
                 <div class="column">
                     {{ presentation_block }}
+                    {% if presentation_block is not empty and affinity_block is not empty %}
+                        <div class="separator"></div>
+                    {% endif %}
+                    {{ affinity_block }}
                 </div>
             {% endif %}
 
@@ -119,13 +140,11 @@
                     {{ seller_garage_block }}
                 </div>
             {% endif %}
-
-            {% if affinity_block is not empty %}
-                <div class="column">
-                    {{ affinity_block }}
-                </div>
-            {% endif %}
         </div>
+
+        {% if vehicle_block is not empty %}
+            {{ vehicle_block }}
+        {% endif %}
     </section>
 {% endblock body %}
 
@@ -153,7 +172,7 @@
               if (e.keyCode === 13) {
                 return false;
               }
-            })
+            });
           }
 
           function fillInAddress() {

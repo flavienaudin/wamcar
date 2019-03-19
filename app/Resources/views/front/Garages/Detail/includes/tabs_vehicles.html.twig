@@ -38,8 +38,8 @@
     <div class="block-grid small-12 align-middle input-margin">
         <div class="small-12">
             {% include 'front/Layout/includes/pagination.html.twig' with {
-                'route': 'front_garage_view',
-                'route_params':{'slug':garage.slug},
+                'route': pagination_route,
+                'route_params': pagination_route_params,
                 'page': page,
                 'lastPage': lastPage
             } %}
