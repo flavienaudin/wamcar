@@ -13,6 +13,10 @@
     {% endif %}
 {% endblock %}
 
+{% block meta_description %}{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}{% endblock %}
+
+{% set seo_img_url = user.avatar|avatar('user_thumbnail', user.fullName) %}
+
 {% set breadcrumbs = [
     {
         'name': block('title'),

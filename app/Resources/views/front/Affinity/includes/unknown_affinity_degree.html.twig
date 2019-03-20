@@ -1,8 +1,8 @@
 {% if user.affinityAnswer is not null %}
     {% set dropdownpane_id = 'affinity_degree_'~(app.user.id??'unlogged')~'_'~user.id~'_'~random() %}
     <span class="affinity-score">
-        <img src="{{ asset('assets/images/affinity_pourcentage/unknown.png') }}"
-             data-toggle="{{ dropdownpane_id  }}">
+        <img src="{{ asset('assets/images/affinity_pourcentage/unknown.png') }}" data-toggle="{{ dropdownpane_id  }}"
+             alt="{{ 'user.affinity.degree.element.alt.unknown'|trans }}">
         <span id="{{ dropdownpane_id  }}" class="dropdown-pane" data-dropdown data-hover="true" data-hover-pane="true">
             {% if app.user is not null and app.user.affinityAnswer is not null %}
                 <span>{{ 'user.affinity.degree.calculation_in_progress'|trans }}</span>

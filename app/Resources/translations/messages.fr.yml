@@ -737,7 +737,7 @@ user:
       other: Fiche profil de %username%
     pro:
       mine: Ma fiche vendeur
-      other: Fiche vendeur de %username%
+      other: %username%, conseiller automobile
   profile:
     my_profile: Mon profil
     edit: Editer mon profil
@@ -858,6 +858,9 @@ user:
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire
+      element.alt:
+        unknown: Score WamAffinity inconnue
+        known: Score WamAffinity %value%%
   preference:
     page_title: Mes préférences
     title:
