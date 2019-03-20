@@ -5,9 +5,9 @@ namespace AppBundle\Command;
 
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use SimpleBus\Message\Bus\MessageBus;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use TypeForm\Doctrine\Repository\DoctrineAffinityAnswerRepository;
 use Wamcar\User\Event\AffinityDegreeCalculatedEvent;
@@ -53,7 +53,7 @@ class CalculateAffinityDegreesCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
         $untreatedPersonalAnswers = $this->affinityAnswerRepository->retrieveUntreatedPersonalAnswer();
         $treatedPersonalAnswers = $this->affinityAnswerRepository->retrieveTreatedPersonalAnswer();
@@ -61,20 +61,20 @@ class CalculateAffinityDegreesCommand extends BaseCommand
         $treatedProAnswers = $this->affinityAnswerRepository->retrieveTreatedProAnswer();
 
         $newPersonalAffinityDegreeCalculation = count($untreatedPersonalAnswers) * (count($treatedProAnswers) + count($untreatedProAnswers));
-        $this->log("info", sprintf('Treat %d untreated personal form answers for %d calculations', count($untreatedPersonalAnswers), $newPersonalAffinityDegreeCalculation));
-        $progress = new ProgressBar($this->output, $newPersonalAffinityDegreeCalculation);
+        $io->text(sprintf('Treat %d untreated personal form answers for %d calculations', count($untreatedPersonalAnswers), $newPersonalAffinityDegreeCalculation));
+        $io->progressStart($newPersonalAffinityDegreeCalculation);
+
+        $outputText = [];
         /** @var AffinityAnswer $untreatedPersonalAnswer */
         foreach ($untreatedPersonalAnswers as $untreatedPersonalAnswer) {
-            $this->log('info', 'with treated pros');
             /** @var AffinityAnswer $treatedProAnswer */
             foreach ($treatedProAnswers as $treatedProAnswer) {
-                $progress->advance();
+                $io->progressAdvance();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $treatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedProAnswer, $untreatedPersonalAnswer);
 
-                $this->logCRLF();
-                $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
+                $outputText[] = sprintf('%d %s %s %s -> (treated) %d %s %s %s',
                     $untreatedPersonalAnswer->getUser()->getId(),
                     $untreatedPersonalAnswer->getUser()->getFullName(),
                     $untreatedPersonalAnswer->getUser()->getType(),
@@ -83,19 +83,17 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                     $treatedProAnswer->getUser()->getFullName(),
                     $treatedProAnswer->getUser()->getType(),
                     $treatedProAnswer->getFormId()
-                ));
+                );
             }
 
-            $this->log('info', 'with untreated pros');
             /** @var AffinityAnswer $untreatedProAnswer */
             foreach ($untreatedProAnswers as $untreatedProAnswer) {
-                $progress->advance();
+                $io->progressAdvance();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedPersonalAnswer, $untreatedProAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $untreatedPersonalAnswer);
 
-                $this->logCRLF();
-                $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
+                $outputText[] = sprintf('%d %s %s %s -> (untreated) %d %s %s %s',
                     $untreatedPersonalAnswer->getUser()->getId(),
                     $untreatedPersonalAnswer->getUser()->getFullName(),
                     $untreatedPersonalAnswer->getUser()->getType(),
@@ -104,31 +102,31 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                     $untreatedProAnswer->getUser()->getFullName(),
                     $untreatedProAnswer->getUser()->getType(),
                     $untreatedProAnswer->getFormId()
-                ));
+                );
             }
 
             $untreatedPersonalAnswer->setTreatedAt(new \DateTime('now'));
             $this->affinityAnswerRepository->update($untreatedPersonalAnswer);
             $this->eventBus->handle(new AffinityDegreeCalculatedEvent($untreatedPersonalAnswer->getUser()));
         }
-        $progress->finish();
-        $this->logCRLF();
+        $io->progressFinish();
+        $io->listing($outputText);
 
         $newProAffinityDegreeCalculation = count($untreatedProAnswers) * (count($treatedPersonalAnswers));
-        $this->log("info", sprintf('Treat %d untreated pro form answers  for %d calculations', count($untreatedProAnswers), $newProAffinityDegreeCalculation));
-        $progressBis = new ProgressBar($this->output, $newProAffinityDegreeCalculation);
+        $io->text(sprintf('Treat %d untreated pro form answers  for %d calculations', count($untreatedProAnswers), $newProAffinityDegreeCalculation));
+
+        $outputText = [];
+        $io->progressStart($newProAffinityDegreeCalculation);
         /** @var AffinityAnswer $untreatedProAnswer */
         foreach ($untreatedProAnswers as $untreatedProAnswer) {
-            $this->log('info', 'with treated personals');
             /** @var AffinityAnswer $treatedPersonalAnswer */
             foreach ($treatedPersonalAnswers as $treatedPersonalAnswer) {
-                $progressBis->advance();
-                $this->logCRLF();
+                $io->progressAdvance();
                 $this->affinityAnswerCalculationService->calculateAffinityValue($untreatedProAnswer, $treatedPersonalAnswer);
                 // symetric score
                 //$this->affinityAnswerCalculationService->calculateAffinityValue($treatedPersonalAnswer, $untreatedProAnswer);
 
-                $this->log("info", sprintf('%d %s %s %s -> %d %s %s %s',
+                $outputText[] = sprintf('%d %s %s %s -> (treated) %d %s %s %s',
                     $untreatedProAnswer->getUser()->getId(),
                     $untreatedProAnswer->getUser()->getFullName(),
                     $untreatedProAnswer->getUser()->getType(),
@@ -137,15 +135,15 @@ class CalculateAffinityDegreesCommand extends BaseCommand
                     $treatedPersonalAnswer->getUser()->getFullName(),
                     $treatedPersonalAnswer->getUser()->getType(),
                     $treatedPersonalAnswer->getFormId()
-                ));
+                );
             }
 
             $untreatedProAnswer->setTreatedAt(new \DateTime('now'));
             $this->affinityAnswerRepository->update($untreatedProAnswer);
             $this->eventBus->handle(new AffinityDegreeCalculatedEvent($untreatedProAnswer->getUser()));
         }
-        $progressBis->finish();
-        $this->logCRLF();
-        $this->log('success', 'Done !');
+        $io->progressFinish();
+        $io->listing($outputText);
+        $io->success('Done !');
     }
 }

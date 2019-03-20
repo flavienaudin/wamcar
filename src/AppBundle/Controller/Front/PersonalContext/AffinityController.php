@@ -93,7 +93,7 @@ class AffinityController extends BaseController
         if (!$this->getUser() instanceof ProUser) {
             throw $this->createAccessDeniedException();
         }
-        // Check if the answer wass received
+        // Check if the answer was received
         $this->waitUntilAnswerReceived($this->getUSer());
         // Validation et complétion du profil
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.pro.validation');

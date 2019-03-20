@@ -238,7 +238,7 @@ class AffinityAnswerCalculationService
 
 
     /**
-     * @param PersonalUser $personalUser
+     * @param ProUser $proUser
      */
     public function updateProUserInformation(ProUser $proUser)
     {
@@ -276,13 +276,30 @@ class AffinityAnswerCalculationService
 
             // Main profession
             if (!empty($userQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID])) {
-                $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.main_profession',
-                    ['%profession%' => lcfirst($userQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID])]);
+                $professionKey = str_replace([' ', '/'], '', strtolower($userQuestionsAnswers[self::PRO_MAIN_PROFESSION_ID]));
+
+                $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.profession.' . $professionKey);
             }
             // Experience
             if (!empty($userQuestionsAnswers[self::PRO_EXPERIENCE_ID])) {
-                $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.experience',
-                    ['%experience%' => strtolower($userQuestionsAnswers[self::PRO_EXPERIENCE_ID])]);
+                switch ($userQuestionsAnswers[self::PRO_EXPERIENCE_ID]) {
+                    case "2 à 5 ans":
+                        $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.experience',
+                            ['%value%' => 2]);
+                        break;
+                    case "5 à 10 ans":
+                        $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.experience',
+                            ['%value%' => 5]);
+                        break;
+                    case "10 à 20 ans":
+                        $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.experience',
+                            ['%value%' => 10]);
+                        break;
+                    case "Plus de 20 ans":
+                        $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.experience',
+                            ['%value%' => 20]);
+                        break;
+                }
             }
             // Hobby and level
             if (!empty($userQuestionsAnswers[self::PRO_HOBBY_ID]) && !empty($userQuestionsAnswers[self::PRO_HOBBY_LEVEL_ID]) &&
@@ -290,10 +307,14 @@ class AffinityAnswerCalculationService
                 $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.hobby',
                     ['%hobby%' => strtolower($userQuestionsAnswers[self::PRO_HOBBY_ID])]);
             }
-            // Advices
-            if (!empty($userQuestionsAnswers[self::PRO_ADVICES_ID])) {
-                $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.advices',
-                        ['%advices%' => $userQuestionsAnswers[self::PRO_ADVICES_ID]]);
+
+            // Price ranges
+            if (!empty($userQuestionsAnswers[self::PRO_PRICES_ID])) {
+                if ($userQuestionsAnswers[self::PRO_PRICES_ID] === 'Moins de 5 000 €') {
+                    $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.prices.cheap');
+                } elseif ($userQuestionsAnswers[self::PRO_PRICES_ID] === 'Plus de 70 000 €') {
+                    $profilDescription .= $this->translator->trans('user.project.prefill.profesional.description.prices.expensive');
+                }
             }
 
             // Brands
@@ -302,10 +323,24 @@ class AffinityAnswerCalculationService
                         ['%brands' => join(', ', $userQuestionsAnswers[self::PRO_BRANDS_ID])]);
             }
 
+            // Advices
+            if (!empty($userQuestionsAnswers[self::PRO_ADVICES_ID])) {
+                $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.advices',
+                        ['%advices%' => strtolower($userQuestionsAnswers[self::PRO_ADVICES_ID])]);
+            }
+
+
             // Vehicle bodies
             if (!empty($userQuestionsAnswers[self::PRO_VEHICLE_BODY_ID])) {
-                $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.vehicle_body',
+                $profilDescription .= PHP_EOL . $this->translator->transChoice('user.project.prefill.profesional.description.vehicle_body',
+                        count($userQuestionsAnswers[self::PRO_VEHICLE_BODY_ID]),
                         ['%vehicle_bodies%' => join(', ', array_map('strtolower', $userQuestionsAnswers[self::PRO_VEHICLE_BODY_ID]))]);
+            }
+
+            //Other hobbies
+            if (!empty($userQuestionsAnswers[self::PRO_OTHER_HOBBIES_ID])) {
+                $profilDescription .= PHP_EOL . $this->translator->trans('user.project.prefill.profesional.description.other_hobbies',
+                        ['%other_hobies%' => join(', ', array_map('strtolower', $userQuestionsAnswers[self::PRO_OTHER_HOBBIES_ID]))]);
             }
 
             // First contact preference
@@ -317,7 +352,8 @@ class AffinityAnswerCalculationService
 
             // Suggestions
             if (!empty($userQuestionsAnswers[self::PRO_SUGGESTION_ID])) {
-                $profilDescription .= PHP_EOL . PHP_EOL . $userQuestionsAnswers[self::PRO_SUGGESTION_ID];
+                $profilDescription .= PHP_EOL . PHP_EOL .
+                    $this->translator->trans('user.project.prefill.profesional.description.suggestion') . $userQuestionsAnswers[self::PRO_SUGGESTION_ID];
             }
 
             $proUser->getUserProfile()->setDescription($profilDescription);
