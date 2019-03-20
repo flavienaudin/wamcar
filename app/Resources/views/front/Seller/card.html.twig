@@ -150,6 +150,22 @@
             {{ vehicle_block }}
         {% endif %}
     </section>
+
+    {% if not userIsMe %}
+        {# On mobile device : button to send a message fixed at screen bottom #}
+        <div class="vehicle-editing hide-for-large block-grid small-12">
+            <span class="column small-collapse small-12">
+                <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                   id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}"
+                   class="button add icon-message {#small-12 medium-shrink#}">{{ 'global.button.send_message'|trans }}</a>
+
+                {#<a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, '_fragment':'message-answer-block'}) }}"
+                   id="launchMP{{ vehicle.seller.isPro?"pro":"partiulier" }}{{ vehicle.seller.id }}"
+                   class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>#}
+
+            </span>
+        </div>
+    {% endif %}
 {% endblock body %}
 
 {% block javascripts %}
