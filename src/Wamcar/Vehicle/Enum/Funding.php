@@ -5,9 +5,8 @@ namespace Wamcar\Vehicle\Enum;
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static Guarantee GUARANTEE_12_MONTH()
- * @method static Guarantee GUARANTEE_24_MONTH()
- * @method static Guarantee GUARANTEE_36_MONTH()
+ * @method static Guarantee CREDIT_WITHOUT_CONTRIBUTOIN()
+ * @method static Guarantee PRIME_A_L_HYBRIDE()
  */
 final class Funding extends Enum
 {

@@ -2,7 +2,9 @@
 
 namespace Wamcar\Garage;
 
-interface GarageRepository
+use AppBundle\Security\SecurityInterface\ApiUserProvider;
+
+interface GarageRepository extends ApiUserProvider
 {
     /**
      * @param int $garageId
@@ -78,5 +80,4 @@ interface GarageRepository
      * @return boolean
      */
     public function remove(Garage $garage);
-
 }

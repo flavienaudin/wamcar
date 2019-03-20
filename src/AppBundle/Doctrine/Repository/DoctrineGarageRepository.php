@@ -2,7 +2,6 @@
 
 namespace AppBundle\Doctrine\Repository;
 
-use AppBundle\Security\SecurityInterface\ApiUserProvider;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -10,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
 
-class DoctrineGarageRepository extends EntityRepository implements GarageRepository, ApiUserProvider, UserProviderInterface
+class DoctrineGarageRepository extends EntityRepository implements GarageRepository, UserProviderInterface
 {
 
     use SoftDeletableEntityRepositoryTrait;
@@ -89,5 +88,4 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     {
         return $this->findOneBy(['apiClientId' => $clientId]);
     }
-
 }
