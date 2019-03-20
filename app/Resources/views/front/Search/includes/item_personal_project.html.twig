@@ -16,7 +16,7 @@
                 <div class="vehicle-infos small-shrink">
                     <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
                     <div class="block-grid full-width body-font-color">
-                        Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
+                        {{ project.personalUser.firstName|capitalize }} n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
                     </div>
                     <div class="vehicle-bottom block-grid full-width align-middle">
                         <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
@@ -78,7 +78,7 @@
                 <div class="vehicle-infos small-shrink">
                     <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
                     <div class="block-grid full-width body-font-color">
-                        Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
+                        {{ project.personalUser.firstName|capitalize }} dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
                     </div>
                     <div class="vehicle-bottom block-grid full-width align-middle">
                         <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
@@ -141,7 +141,8 @@
                 </ul>
             {% else %}
                 <div class="dark-gray-color text-justify">
-                    <strong>{{ 'vehicle.item.no_project.title'|trans }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':project.personalUser.firstName}) }}</strong>
+                    {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </div>
             {% endif %}
         </div>
