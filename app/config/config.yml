@@ -512,6 +512,7 @@ easy_admin:
           - { property: 'fullName', label: 'Prénom Nom' }
           - { property: 'email', label: 'E-mail', type: 'email' }
           - { property: 'slug'}
+          - { property: 'apiClientId'}
           - { property: 'landingPosition', label: 'HP-pos.' }
           - { property: 'countVehicles', label: '#Vhl.'}
           - { property: 'countEnabledGarageMemberships', label: '#Garages.'}
