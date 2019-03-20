@@ -4,10 +4,10 @@ namespace AppBundle\Command;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportCityCommand extends BaseCommand
 {
@@ -49,25 +49,26 @@ class ImportCityCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
         $now = new \DateTime();
-        $output->writeln('<comment>Start : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
+        $io->text('Start : ' . $now->format('d-m-Y G:i:s') . ' ---');
+
+        $filename = $input->getArgument('file');
 
         // Importing CSV on DB via Doctrine ORM
-        $this->import($input, $output);
+        $this->import($io, $filename);
 
         $now = new \DateTime();
-        $output->writeln('<comment>End : ' . $now->format('d-m-Y G:i:s') . ' ---</comment>');
+        $io->success('End : ' . $now->format('d-m-Y G:i:s') . ' ---');
 
     }
 
-    private function import(InputInterface $input, OutputInterface $output)
+    private function import(SymfonyStyle $io, $filename)
     {
-
         // Turning off doctrine default logs queries for saving memory
         $connection = $this->em->getConnection();
         $connection->getConfiguration()->setSQLLogger(null);
 
-        $filename = $input->getArgument('file');
 
         $data = $this->convertCsvToArray($filename);
 
@@ -76,17 +77,14 @@ class ImportCityCommand extends BaseCommand
         $i = 1;
 
         // Starting progress
-        $progress = new ProgressBar($output, $size);
-        $progress->start();
-
+        $io->progressStart($size);
         $stmt = $connection->prepare("TRUNCATE TABLE city");
         $stmt->execute();
-
         foreach ($data as $row) {
             list($lat, $lon) = explode(',', $row[5]);
             $insertValues[] = "(\"$row[0]\", \"$row[1]\", \"$row[2]\", \"$lat\", \"$lon\", \"$row[6]\", \"$row[7]\", \"$row[3]\", \"$row[4]\")";
 
-            // Each 20 cities persisted we flush everything
+            // Each 500 cities persisted we flush everything
             if (($i % $batchSize) === 0) {
 
                 $sql = 'REPLACE INTO city (insee, city_postal_code, city_name, city_latitude, city_longitude, code_departement, code_region, departement, region) VALUES ';
@@ -94,10 +92,8 @@ class ImportCityCommand extends BaseCommand
                 $stmt = $connection->prepare($sql);
                 $stmt->execute();
                 // Advancing for progress bar
-                $progress->advance($batchSize);
+                $io->progressAdvance($batchSize);
                 $insertValues = [];
-                $now = new \DateTime();
-                $output->writeln(' of cities imported ... | ' . $now->format('d-m-Y G:i:s'));
             }
 
             $i++;
@@ -108,7 +104,7 @@ class ImportCityCommand extends BaseCommand
         $stmt = $connection->prepare($sql);
         $stmt->execute();
 
-        $progress->finish();
+        $io->progressFinish();
     }
 
     /**
