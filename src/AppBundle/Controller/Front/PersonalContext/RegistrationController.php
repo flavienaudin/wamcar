@@ -312,6 +312,12 @@ class RegistrationController extends BaseController
         if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
             PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
             // From landing mixte : orientation action is set in session => automatic validation of this step
+            $inscFragment = $request->get(SecurityController::INSCRIPTION_QUERY_PARAM);
+            if(!empty($inscFragment)){
+                $inscFragment = ['_fragment' => $inscFragment];
+            }else{
+                $inscFragment = [];
+            }
             $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
             $this->userEditionService->updateUserOrientation($user, $orientation);
             switch ($user->getOrientation()) {
@@ -319,10 +325,10 @@ class RegistrationController extends BaseController
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
                     if (count($user->getVehicles()) == 0) {
                         // Only if no vehicle is already added (when registration with vehicle)
-                        return $this->redirectToRoute('front_vehicle_personal_add');
+                        return $this->redirectToRoute('front_vehicle_personal_add', $inscFragment);
                     }
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
-                    return $this->redirectToRoute('front_affinity_personal_form');
+                    return $this->redirectToRoute('front_affinity_personal_form', $inscFragment);
                 default:
                     $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
                     $this->session->getFlashBag()->add(
