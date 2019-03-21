@@ -312,11 +312,11 @@ class RegistrationController extends BaseController
         if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY) &&
             PersonalOrientationChoices::isValidKey($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY))) {
             // From landing mixte : orientation action is set in session => automatic validation of this step
-            $inscFragment = $request->get(SecurityController::INSCRIPTION_QUERY_PARAM);
-            if(!empty($inscFragment)){
-                $inscFragment = ['_fragment' => $inscFragment];
+            $inscQueryParam = $request->get(SecurityController::INSCRIPTION_QUERY_PARAM);
+            if(!empty($inscQueryParam)){
+                $inscQueryParam = [SecurityController::INSCRIPTION_QUERY_PARAM  => $inscQueryParam];
             }else{
-                $inscFragment = [];
+                $inscQueryParam = [];
             }
             $orientation = new PersonalOrientationChoices($this->session->get(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY));
             $this->userEditionService->updateUserOrientation($user, $orientation);
@@ -325,10 +325,10 @@ class RegistrationController extends BaseController
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL():
                     if (count($user->getVehicles()) == 0) {
                         // Only if no vehicle is already added (when registration with vehicle)
-                        return $this->redirectToRoute('front_vehicle_personal_add', $inscFragment);
+                        return $this->redirectToRoute('front_vehicle_personal_add', $inscQueryParam);
                     }
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
-                    return $this->redirectToRoute('front_affinity_personal_form', $inscFragment);
+                    return $this->redirectToRoute('front_affinity_personal_form', $inscQueryParam);
                 default:
                     $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
                     $this->session->getFlashBag()->add(
