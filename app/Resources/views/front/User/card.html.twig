@@ -105,7 +105,7 @@
         </div>
         {% if user.vehicles|length > 0 or userIsMe %}
             <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'no-padding':'separator'  }} column section small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'no-padding':'separator'  }} column small-12">
                     <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
                     <div class="row">
                         {% set balise = 'h3' %}
@@ -113,7 +113,7 @@
                         {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
                     </div>
                     {% if userIsMe %}
-                        <div class="small-12 medium-6 large-4">
+                        <div class="small-12 medium-6 large-4 margin-top-1">
                             <a href="{{ path('front_vehicle_personal_add') }}"
                                class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
                         </div>
@@ -126,7 +126,7 @@
             <div class="column block-grid small-12">
                 <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator'  }} column section small-12">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
-                    <p><a href="{{ path('front_user_delete', {'id': user.id}) }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
+                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
                 </div>
             </div>
         {% endif %}

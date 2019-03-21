@@ -783,6 +783,7 @@ user:
         submit: Enregistrer mes modifications
     delete:
       title: Suppression de mon compte
+      link.information: "Je souhaite supprimer mon compte : "
       information: >
         En supprimant votre compte, vous n'aurez plus accès à vos informations et toutes vos informations
         seront définitivement effacées dans 15 jours.
