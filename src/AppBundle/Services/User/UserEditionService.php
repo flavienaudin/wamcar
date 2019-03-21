@@ -164,9 +164,10 @@ class UserEditionService
     /**
      * @param BaseUser $userToDelete
      * @param ApplicationUser $currentUser
+     * @param null|string $deletionReason
      * @return array with 'errorMessages', 'successMessages'
      */
-    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser)
+    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser, ?string $deletionReason = null)
     {
         $isAlreadySofDeleted = $userToDelete->getDeletedAt() != null;
         $resultMessages = ['errorMessages' => [], 'successMessages' => []];
@@ -213,6 +214,10 @@ class UserEditionService
                 if (count($resultMessages['errorMessages']) == 0) {
                     $this->userRepository->remove($userToDelete);
                     if (!$isAlreadySofDeleted) {
+                        if(!empty($deletionReason)){
+                            $userToDelete->setDeletionReason($deletionReason);
+                            $this->userRepository->update($userToDelete);
+                        }
                         $this->eventBus->handle(new ProUserRemoved($userToDelete));
                     }
                 }
@@ -233,6 +238,10 @@ class UserEditionService
 
                 $this->userRepository->remove($userToDelete);
                 if (!$isAlreadySofDeleted) {
+                    if(!empty($deletionReason)) {
+                        $userToDelete->setDeletionReason($deletionReason);
+                        $this->userRepository->update($userToDelete);
+                    }
                     $this->eventBus->handle(new PersonalUserRemoved($userToDelete));
                     if ($userToDelete->getProject() != null) {
                         $this->eventBus->handle(new PersonalProjectRemoved($userToDelete->getProject()));

@@ -1,0 +1,56 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ 'user.profile.delete.title'|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': 'user.profile.my_profile'|trans,
+        'href': path('front_view_current_user_info')
+    },
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <section class="row full-width">
+        <div class="column small-12">
+            <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+
+            {{ form_start(userDeletionForm, { 'attr' : {
+                'action' : path('front_user_delete', {'id':user.id}),
+                'data-abide' : 'data-abide', 'novalidate': 'novalidate'
+            }}) }}
+
+            {{ form_widget(userDeletionForm.reason, {
+                'label' : 'user.profile.delete.field.reason.label'|trans,
+                'required' : false,
+                'attr' : {
+                    'placeholder' : 'user.profile.delete.field.reason.label'|trans
+                }
+            }) }}
+            {{ form_errors(userDeletionForm.reason) }}
+
+            <p class="text-justify no-margin">{{ 'user.profile.delete.information'|trans }}</p>
+            <div class="checkbox-container">
+                {{ form_row(userDeletionForm.confirmation, {
+                    'label_attr': {'class': 'show-for-sr'},
+                    'errorMsg' : 'user.profile.delete.field.confirmation.error'|trans
+                }) }}
+            </div>
+            <div>
+                <button type="submit" class="button float-right margin-left-1">
+                    {{ 'global.button.delete'|trans }}</button>
+                <button type="button" class="button float-right white">{{ 'global.button.cancel'|trans }}</button>
+            </div>
+
+            {{ form_errors(userDeletionForm) }}
+            {{ form_end(userDeletionForm) }}
+        </div>
+    </section>
+{% endblock %}

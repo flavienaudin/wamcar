@@ -104,7 +104,7 @@
             {% endif %}
         </div>
         {% if user.vehicles|length > 0 or userIsMe %}
-            <div class="column block-grid">
+            <div class="column block-grid small-12">
                 <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'no-padding':'separator'  }} column section small-12">
                     <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
                     <div class="row">
@@ -118,6 +118,15 @@
                                class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
                         </div>
                     {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if userIsMe %}
+            <div class="column block-grid small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator'  }} column section small-12">
+                    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+                    <p><a href="{{ path('front_user_delete', {'id': user.id}) }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
                 </div>
             </div>
         {% endif %}

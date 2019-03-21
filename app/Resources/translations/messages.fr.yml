@@ -127,6 +127,7 @@ global:
     call: Appeler
     invite: Inviter
     delete: Supprimer
+    cancel: Annuler
   pagination:
     pagination: Pagination
     first: Première page
@@ -781,10 +782,17 @@ user:
           label: Avatar
         submit: Enregistrer mes modifications
     delete:
-      title: Supprimer mon compte
+      title: Suppression de mon compte
       information: >
         En supprimant votre compte, vous n'aurez plus accès à vos informations et toutes vos informations
         seront définitivement effacées dans 15 jours.
+      field:
+        reason:
+          label: Dites-nous pourquoi vous partez
+          placeholder: "J'ai trouvé ma voiture grâce à Wamcar, Je n'ai pas trouvé de conseiller automobile, ...."
+        confirmation:
+          label: Je confirme la suppression de mon compte Wamcar.
+          error: Merci de cocher la case pour confirmer la suppression de votre compte Wamcar.
       confirm-box:
         title: Attention
         message: Confirmez-vous la suppression de votre compte ?

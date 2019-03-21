@@ -144,6 +144,15 @@
                     {{ seller_garage_block }}
                 </div>
             {% endif %}
+
+
+            {% if affinity_block is not empty %}
+                <div class="column">
+                    {{ affinity_block }}
+                </div>
+            {% endif %}
+
+            {#TODO Linkto delete account#}
         </div>
 
         {% if vehicle_block is not empty %}

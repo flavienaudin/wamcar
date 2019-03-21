@@ -105,6 +105,8 @@ front_view_current_user_info:
 front_user_delete:
     path: /user/delete/{id}
     controller: AppBundle:Front\PersonalContext\User:deleteUser
+    defaults:
+      id: null
 
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}
