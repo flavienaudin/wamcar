@@ -111,7 +111,10 @@ class GarageEditionService
     public function editInformations(GarageDTO $garageDTO, ?Garage $garage, CanBeGarageMember $creator): Garage
     {
         $existingGarage = null;
-
+        // Précaution
+        if($garageDTO->googlePlaceId == "undefined"){
+            $garageDTO->googlePlaceId = null;
+        }
         if (!empty($garageDTO->googlePlaceId) && ($garage == null || $garage->getGooglePlaceId() !== $garageDTO->googlePlaceId)) {
             $existingGarage = $this->garageRepository->findOneBy(['googlePlaceId' => $garageDTO->googlePlaceId]);
         }

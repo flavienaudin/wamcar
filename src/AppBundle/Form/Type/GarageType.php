@@ -6,6 +6,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
+use AppBundle\Form\Validator\Constraints\GarageAddressRequired;
 use AppBundle\Form\Validator\Constraints\UniqueGarageSiren;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -75,7 +76,7 @@ class GarageType extends AbstractType
             'data_class' => GarageDTO::class,
             'only_google_fields' => false,
             'label_format' => 'garage.field.%name%.label',
-            'constraints' => new UniqueGarageSiren()
+            'constraints' => [new UniqueGarageSiren(), new GarageAddressRequired()]
         ]);
     }
 }

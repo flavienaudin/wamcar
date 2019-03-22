@@ -40,6 +40,8 @@
                     name: 'google_place',
                     placeholder: ''
                 } %}
+
+                {{ form_errors(garageForm) }}
                 {{ form_widget(garageForm.googlePlaceId) }}
                 {{ form_widget(garageForm.googleRating) }}
             </div>
@@ -187,7 +189,8 @@
         // fields in the form.
         autocomplete.addListener('place_changed', fillInAddress);
         autocompleteInputField.addEventListener('keypress', (e) => {
-          if (e.keyCode === 13) {
+          if (e.key === "Enter" || e.keyCode === 13) {
+            e.preventDefault();
             return false;
           }
         })
@@ -198,36 +201,44 @@
         let place = autocomplete.getPlace();
 
           {# Google Place Id#}
-        document.getElementById('{{ garageForm.googlePlaceId.vars.id }}').value = place.place_id;
+        if (place.hasOwnProperty('place_id')) {
+          document.getElementById('{{ garageForm.googlePlaceId.vars.id }}').value = place.place_id;
+        }
         if (place.hasOwnProperty('rating')) {
           document.getElementById('{{ garageForm.googleRating.vars.id }}').value = place.rating;
         }
 
           {# Address #}
-        let address = '', codePostal = '', cityName = '';
-        for (let i = 0; i < place.address_components.length; i++) {
-          switch (place.address_components[i].types[0]) {
-            case 'street_number':
-              address = place.address_components[i]['short_name'] + address;
-              break;
-            case 'route':
-              address = address + ' ' + place.address_components[i]['short_name'];
-              break;
-            case 'postal_code':
-              codePostal = place.address_components[i]['short_name'];
-              break;
-            case 'locality':
-              cityName = (place.address_components[i]['short_name']).toUpperCase();
-              break;
+        if (place.hasOwnProperty('address_components')) {
+          let address = '', codePostal = '', cityName = '';
+          for (let i = 0; i < place.address_components.length; i++) {
+            switch (place.address_components[i].types[0]) {
+              case 'street_number':
+                address = place.address_components[i]['short_name'] + address;
+                break;
+              case 'route':
+                address = address + ' ' + place.address_components[i]['short_name'];
+                break;
+              case 'postal_code':
+                codePostal = place.address_components[i]['short_name'];
+                break;
+              case 'locality':
+                cityName = (place.address_components[i]['short_name']).toUpperCase();
+                break;
+            }
+          }
+
+          if (address !== '') {
+            document.getElementById('{{ garageForm.address.vars.id }}').value = address;
+          }
+
+          if(cityName !== '' && codePostal !== '') {
+            document.getElementById('{{ garageForm.cityName.vars.id }}').value = cityName;
+            let newOption = new Option(cityName + ' (' + codePostal + ')', codePostal, true, true);
+            $('#{{ garageForm.postalCode.vars.id }}').val(null);
+            $('#{{ garageForm.postalCode.vars.id }}').append(newOption).trigger('change');
           }
         }
-        document.getElementById('{{ garageForm.cityName.vars.id }}').value = cityName;
-        document.getElementById('{{ garageForm.address.vars.id }}').value = address;
-
-        let newOption = new Option(cityName + ' ('+ codePostal + ')', codePostal, true, true);
-        $('#{{ garageForm.postalCode.vars.id }}').val(null);
-        $('#{{ garageForm.postalCode.vars.id }}').append(newOption).trigger('change');
-
 
           {# Latitude/Longitude#}
         if (place.hasOwnProperty('geometry')) {
@@ -235,24 +246,21 @@
           document.getElementById('{{ garageForm.longitude.vars.id }}').value = place.geometry.location.lng();
         }
           {# Name #}
-        let nameField = document.getElementById('{{ garageForm.name.vars.id }}');
         if (place.hasOwnProperty('name')) {
-          nameField.value = place.name;
+          document.getElementById('{{ garageForm.name.vars.id }}').value = place.name;
         }
           {# Phone #}
-        let phoneField = document.getElementById('{{ garageForm.phone.vars.id }}');
         if (place.hasOwnProperty('formatted_phone_number')) {
-          phoneField.value = place.formatted_phone_number.replace(/ /g, '');
+          document.getElementById('{{ garageForm.phone.vars.id }}').value = place.formatted_phone_number.replace(/ /g, '');
         }
 
           {# Opening hours #}
-        let openingHOursField = document.getElementById('{{ garageForm.openingHours.vars.id }}');
         if (place.hasOwnProperty('opening_hours') && place.opening_hours.hasOwnProperty('weekday_text')) {
           let openingHours = '';
           for (let i = 0; i < place.opening_hours.weekday_text.length; i++) {
             openingHours += place.opening_hours.weekday_text[i] + '\n';
           }
-          openingHOursField.value = openingHours;
+          document.getElementById('{{ garageForm.openingHours.vars.id }}').value = openingHours;
         }
       }
     </script>
