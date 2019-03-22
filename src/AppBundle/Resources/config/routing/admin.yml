@@ -11,9 +11,17 @@ easy_admin_bundle:
     type:     annotation
     prefix:   /backend
 
-admin_user_list:
-    path: /user/list
-    controller: AppBundle:Front\PersonalContext\User:list
+admin_pro_user_list:
+    path: /user/pro/list
+    controller: AppBundle:Front\PersonalContext\User:proUserslist
+
+admin_personal_user_list:
+    path: /user/personal/list
+    controller: AppBundle:Front\PersonalContext\User:personalUserslist
+
+admin_user_convert_personal_to_pro:
+    path: /user/convertPersonalToPro/{slug}
+    controller: AppBundle:Front\PersonalContext\User:convertPersonalToPro
 
 admin_garage_list:
     path: /garage/list

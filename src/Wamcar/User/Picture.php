@@ -15,4 +15,12 @@ abstract class Picture
     {
         $this->user = $user;
     }
+
+    /**
+     * @param BaseUser $user
+     */
+    public function setUser(BaseUser $user): void
+    {
+        $this->user = $user;
+    }
 }
