@@ -7,7 +7,25 @@
 {% block body %}
     <div>
         {{ 'notifyUserOfRegistrationTokenGenerated.body'|trans({
+            '%emailAddress%': emailAddress,
             '%activationUrl%': activationUrl
         })|raw }}
     </div>
+
+    <script type="application/ld+json">
+        {
+          "@context": "http://schema.org",
+          "@type": "EmailMessage",
+          "potentialAction": {
+            "@type": "SaveAction",
+            "name": "Email address verification",
+            "handler": {
+              "@type": "HttpActionHandler",
+              "url": "{{ activationUrl }}"
+            }
+          },
+          "description": "{{ 'notifyUserOfRegistrationTokenGenerated.description'|trans({'%emailAddress%':activationUrl}) }}"
+        }
+    </script>
+
 {% endblock %}
