@@ -64,6 +64,7 @@ flash:
       unauthorized: Cette notification ne vous est pas destinée.
     user:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
+      not_logged: "Vous devez être connecté pour liker un véhicule"
 
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.

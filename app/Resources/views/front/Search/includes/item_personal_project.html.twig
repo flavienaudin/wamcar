@@ -1,7 +1,7 @@
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_personal_user_info', {'slug': project.personalUser.slug}) %}
-
+{% set ajax_like = ajax_like|default(false) %}
 {% set vehicleSellerName = (project.personalUser.is(app.user)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal))|title %}
 
 <article class="vehicle-item is-flex">
@@ -53,8 +53,13 @@
                     </a>
                     <span class="vehicle-like small-shrink">
                         {% block right_action %}
-                            <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
-                                <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% if ajax_like %}
+                                <a href="{{ path('front_ajax_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug}) }}" class="like {{ likeIcon }} js-like">
+                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% else %}
+                                <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
+                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% endif %}
                         {% endblock %}
                     </span>
                 </div>
