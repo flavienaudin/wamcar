@@ -55,17 +55,17 @@ class AffinityDegree
     }
 
     /**
-     * @return BaseUser
+     * @return BaseUser|null if BaseUser softDeleted
      */
-    public function getSmallerIdUser(): BaseUser
+    public function getSmallerIdUser(): ?BaseUser
     {
         return $this->smallerIdUser;
     }
 
     /**
-     * @return BaseUser
+     * @return BaseUser|null if BaseUser softDeleted
      */
-    public function getGreaterIdUser(): BaseUser
+    public function getGreaterIdUser(): ?BaseUser
     {
         return $this->greaterIdUser;
     }

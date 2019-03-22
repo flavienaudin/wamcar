@@ -7,6 +7,9 @@ use AppBundle\Form\DTO\SearchProDTO;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
+use Elastica\Script\AbstractScript;
+use Elastica\Script\Script;
+use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\Enum\DirectorySorting;
 
 class ProUserEntityIndexer extends EntityIndexer
@@ -17,7 +20,7 @@ class ProUserEntityIndexer extends EntityIndexer
     const OFFSET = 0;
 
 
-    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, int $limit = self::LIMIT): ResultSet
+    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
     {
         $qb = new QueryBuilder();
         $mainQuery = new Query();
@@ -98,7 +101,17 @@ class ProUserEntityIndexer extends EntityIndexer
             // Combination of the functions'scores
             $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_REPLACE);
 
-            // Importance : 2
+            // Importance : 5/5
+            // Script value between [0;10] => factor 1 => [0;10]
+            $script = new Script("return (params.factors[doc.id.value] ?: params.default) / 10",
+                ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                AbstractScript::LANG_PAINLESS
+            );
+
+            $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+
+            // Importance : 5/5
+            // Google rating [0;5] => factor 1 => [0;5]
             $functionScoreQuery->addFieldValueFactorFunction(
                 'maxGaragesGoogleRating',
                 1,
@@ -106,14 +119,16 @@ class ProUserEntityIndexer extends EntityIndexer
                 1
             );
 
-            // Importance : 2
+            // Importance : 3/5
+            // HasAvatar [0;1] => factor 1.25 => [0;1,25]
             $functionScoreQuery->addDecayFunction(
                 Query\FunctionScore::DECAY_LINEAR,
                 'hasAvatar',
                 1, 0.5, 0, 0.5, 1.25
             );
 
-            // Importance : 2
+            // Importance : 4/5
+            // Description Length [0;1000] => log => [0;3] => factor 1 => [0;3]
             $functionScoreQuery->addFieldValueFactorFunction(
                 'descriptionLength',
                 1,
@@ -121,7 +136,8 @@ class ProUserEntityIndexer extends EntityIndexer
                 0
             );
 
-            // Importance : 5
+            // Importance : 5/5
+            // Value depends on query...
             $functionScoreQuery->addFieldValueFactorFunction(
                 "_score",
                 1.5,

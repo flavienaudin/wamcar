@@ -28,6 +28,7 @@ VEHICLE_STATUT:
 
 SEARCH_SORTING_RELEVANCE: Trier par pertinence
 SEARCH_SORTING_DATE: Trier par date
+SEARCH_SORTING_AFFINITY: Trier par affinité
 SEARCH_SORTING_DISTANCE: Trier par distance
 SEARCH_SORTING_PRICE_ASC: Trier par prix croissant
 SEARCH_SORTING_PRICE_DESC: Trier par prix décroissant

@@ -90,7 +90,7 @@ class SearchController extends BaseController
         }
 
         $searchForm->handleRequest($request);
-        $searchResult = $this->searchResultProvider->getSearchResult($searchForm->getData(), $page);
+        $searchResult = $this->searchResultProvider->getSearchResult($searchForm->getData(), $page, $this->getUser());
         $searchResultVehicles = $this->userEditionService->getMixedBySearchItemResult($searchResult);
 
 

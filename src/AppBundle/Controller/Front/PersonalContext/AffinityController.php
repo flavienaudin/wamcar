@@ -36,6 +36,7 @@ class AffinityController extends BaseController
             || PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY()->equals($personalUser->getOrientation());
         $personalFormInstanceId = uniqid("pf_");
         $this->session->set(self::TYPEFORM_INSTANCE_ID_SESSION_KEY, $personalFormInstanceId);
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.loading_form');
         return $this->render('front/Affinity/personal_form.html.twig', [
             'askProject' => $askProject,
             'instanceId' => $personalFormInstanceId
@@ -85,6 +86,7 @@ class AffinityController extends BaseController
         }
         $proFormInstanceId = uniqid("prf_");
         $this->session->set(self::TYPEFORM_INSTANCE_ID_SESSION_KEY, $proFormInstanceId);
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.loading_form');
         return $this->render('front/Affinity/pro_form.html.twig',['instanceId' => $proFormInstanceId]);
     }
 
