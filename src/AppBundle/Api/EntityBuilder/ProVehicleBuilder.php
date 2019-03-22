@@ -126,20 +126,20 @@ class ProVehicleBuilder implements VehicleBuilder
     protected static function getTransmissionMatch(?string $label): Transmission
     {
         if (!$label) {
-            return Transmission::MANUAL();
+            return Transmission::TRANSMISSION_MANUAL();
         }
 
         $transmissionMatch = [
-            'BVA' => Transmission::AUTOMATIC(),
-            'BVAS' => Transmission::AUTOMATIC(),
-            'BVM' => Transmission::MANUAL(),
-            'BVMS' => Transmission::MANUAL(),
-            'BVR' => Transmission::AUTOMATIC(),
-            'BVRD' => Transmission::AUTOMATIC(),
-            'CVT' => Transmission::AUTOMATIC(),
-            'E' => Transmission::AUTOMATIC(),
-            'I' => Transmission::AUTOMATIC(),
-            'N/D' => Transmission::MANUAL()
+            'BVA' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'BVAS' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'BVM' => Transmission::TRANSMISSION_MANUAL(),
+            'BVMS' => Transmission::TRANSMISSION_MANUAL(),
+            'BVR' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'BVRD' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'CVT' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'E' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'I' => Transmission::TRANSMISSION_AUTOMATIC(),
+            'N/D' => Transmission::TRANSMISSION_MANUAL()
         ];
 
         return $transmissionMatch[$label];
