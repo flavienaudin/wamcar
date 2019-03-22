@@ -13,6 +13,10 @@
     {% endif %}
 {% endblock %}
 
+{% block meta_description %}{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}{% endblock %}
+
+{% set seo_img_url = user.avatar|avatar('user_thumbnail', user.fullName) %}
+
 {% set breadcrumbs = [
     {
         'name': block('title'),
@@ -22,7 +26,7 @@
 
 {% set presentation_block %}{% spaceless %}
     {% if user.description is not empty or userIsMe %}
-        <h2>{{ 'user.presentation.title.pro'|trans }}</h2>
+        <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
         {% if user.description %}
             <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
         {% elseif userIsMe %}
@@ -46,11 +50,15 @@
                     '%affinity_form_url%': path('front_affinity_pro_form')
                 })|raw }}</p>
         {% endif %}
-    {% endif %}
-    {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-    {% if userAffinity is not null %}
+    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
+        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
         <h2>{{ "user.affinity.section.your_affinities"|trans }}</h2>
-        <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
+        <canvas class="js-radar-chart {{ userAffinity is null ? 'radar-chart-empty' }}"
+                data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode : emptyRadarChartData()|json_encode }}"></canvas>
+        {% if userAffinity is null %}
+            <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}</p>
+            <p><a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
+        {% endif %}
     {% endif %}
 {% endspaceless %}{% endset %}
 
@@ -97,15 +105,37 @@
     {% endif %}
 {% endspaceless %}{% endset %}
 
+{% set vehicle_block %}{% spaceless %}
+    {% if vehicles.totalHits > 0 %}
+        <div class="column small-12 garage-container ">
+
+            <div class="column">
+                <div class="row">
+                    <div class="column small-12 medium-auto"><h2>Ses véhicules</h2></div>
+                </div>
+            </div>
+            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                'pagination_route': 'front_view_pro_user_info',
+                'pagination_route_params': {'slug':user.slug}
+            } %}
+        </div>
+    {% endif %}
+{% endspaceless %}{% endset %}
+
+
 {% block body %}
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
     {% include 'front/User/includes/profil_header.html.twig' %}
 
     <section class="row full-width">
         <div class="profil-body column block-grid small-12 small-up-1 large-up-2">
-            {% if presentation_block is not empty %}
+            {% if presentation_block is not empty or affinity_block is not empty %}
                 <div class="column">
                     {{ presentation_block }}
+                    {% if presentation_block is not empty and affinity_block is not empty %}
+                        <div class="separator"></div>
+                    {% endif %}
+                    {{ affinity_block }}
                 </div>
             {% endif %}
 
@@ -114,14 +144,28 @@
                     {{ seller_garage_block }}
                 </div>
             {% endif %}
-
-            {% if affinity_block is not empty %}
-                <div class="column">
-                    {{ affinity_block }}
-                </div>
-            {% endif %}
         </div>
+
+        {% if vehicle_block is not empty %}
+            {{ vehicle_block }}
+        {% endif %}
     </section>
+
+    {% if not userIsMe %}
+        {# On mobile device : button to send a message fixed at screen bottom #}
+        <div class="vehicle-editing hide-for-large block-grid small-12">
+            <span class="column small-collapse small-12">
+                <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                   id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}"
+                   class="button add icon-message {#small-12 medium-shrink#}">{{ 'global.button.send_message'|trans }}</a>
+
+                {#<a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, '_fragment':'message-answer-block'}) }}"
+                   id="launchMP{{ vehicle.seller.isPro?"pro":"partiulier" }}{{ vehicle.seller.id }}"
+                   class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>#}
+
+            </span>
+        </div>
+    {% endif %}
 {% endblock body %}
 
 {% block javascripts %}

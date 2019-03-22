@@ -83,11 +83,22 @@
         'required': false,
         'type' : 'tel'
     }) }}
-    <h2 class="separator">Informations</h2>
+    <h2 class="separator">Ma présentation</h2>
+    {% if editUserForm.presentationTitle is defined %}
+        {{ form_widget(editUserForm.presentationTitle, {
+            'label': 'Titre de ma page Profil',
+            'required': false,
+            'attr' : {
+                'placeholder': 'Laissez-moi vous guider',
+                'maxlength' : 50
+            }
+        }) }}
+    {% endif %}
     {{ form_widget(editUserForm.description, {
-        'label': 'Présentation',
+        'label': 'Mon texte de présentation',
         'required': false
     }) }}
+
 </div>
 <div class="input-margin column small-12 medium-6 xlarge-5">
     <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/placeholders/user/unisex-avatar.jpg') }}" class="separator">

@@ -10,21 +10,26 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -35,6 +40,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -46,6 +52,8 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
+    const NB_VEHICLES_PER_PAGE = 10;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -67,6 +75,12 @@ class UserController extends BaseController
     /** @var VehicleInfoEntityIndexer */
     private $vehicleInfoIndexer;
 
+    /** @var ProVehicleEntityIndexer */
+    private $proVehicleEntityIndexer;
+
+    /** @var ProVehicleEditionService */
+    private $proVehicleEditionService;
+
     /** @var MessageBus */
     protected $eventBus;
 
@@ -85,6 +99,8 @@ class UserController extends BaseController
      * @param UserEditionService $userEditionService
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
+     * @param ProVehicleEntityIndexer $proVehicleEntityIndexer
+     * @param ProVehicleEditionService $proVehicleEditionService
      * @param MessageBus $eventBus
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
@@ -97,6 +113,8 @@ class UserController extends BaseController
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
         VehicleInfoEntityIndexer $vehicleInfoIndexer,
+        ProVehicleEntityIndexer $proVehicleEntityIndexer,
+        ProVehicleEditionService $proVehicleEditionService,
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService
@@ -109,6 +127,8 @@ class UserController extends BaseController
         $this->userEditionService = $userEditionService;
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoIndexer = $vehicleInfoIndexer;
+        $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
+        $this->proVehicleEditionService = $proVehicleEditionService;
         $this->eventBus = $eventBus;
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
@@ -310,6 +330,38 @@ class UserController extends BaseController
             }
         }
 
+        $searchForm = null;
+        if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
+            $searchVehicleDTO = new SearchVehicleDTO();
+            $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+                'action' => $this->generateRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]),
+                'available_values' => [],
+                'small_version' => true
+            ]);
+            $searchForm->handleRequest($request);
+            $page = $request->query->get('page', 1);
+
+            $garageIds = [];
+            /** @var GarageProUser $garageMembership */
+            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
+                $garageIds[] = $garageMembership->getGarage()->getId();
+            }
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garageIds, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            if ($searchResultSet != null) {
+                $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+                $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            } else {
+                $vehicles = ['totalHits' => 0, 'hits' => []];
+                $lastPage = 1;
+            }
+        } else {
+            $userVehicles = $user->getVehicles();
+            $vehicles = [
+                'totalHits' => count($userVehicles),
+                'hits' => $userVehicles
+            ];
+        }
+
         $addGarageForm = null;
         if ($this->getUser() instanceof ProUser && $user->is($this->getUser())) {
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
@@ -321,7 +373,12 @@ class UserController extends BaseController
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
-            'user' => $user
+            'user' => $user,
+            'isEditableByCurrentUser' => false,
+            'searchForm' => $searchForm ? $searchForm->createView() : null,
+            'vehicles' => $vehicles,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
         ]);
     }
 

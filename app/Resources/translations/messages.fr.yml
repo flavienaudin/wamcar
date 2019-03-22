@@ -646,7 +646,7 @@ vehicle:
       with_price: "Budget de %budget%€"
     no_wish: Aucun souhait
     no_project:
-      title: "Ce particulier n'a pas encore indiqué de souhait."
+      title: "%username% n'a pas encore indiqué de souhait."
       subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
 
 user:
@@ -739,14 +739,14 @@ user:
       other: Fiche profil de %username%
     pro:
       mine: Ma fiche vendeur
-      other: Fiche vendeur de %username%
+      other: "%username%, conseiller automobile"
   profile:
     my_profile: Mon profil
     edit: Editer mon profil
   presentation:
     title:
       personal: Présentation
-      pro: Présentation du vendeur
+      pro: Laissez-moi vous guider
     empty: >
       Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
       possible pour faciliter la confiance dans le dialogue avec vos clients.
@@ -809,14 +809,29 @@ user:
           searched_advices: "Je recherche des conseils sur %search_advices%"
       profesional:
         description:
-          main_profession: "Je suis %profession%. "
-          experience: "J'ai %experience% d'expérience dans le domaine de l'automobile. "
-          hobby: "Je suis passionné par %hobby%. "
-          advices: "Je peux vous conseiller sur %advices%."
+          profession:
+            vendeurvn: "Pour vous qui cherchez une belle voiture neuve. "
+            vendeurvo: "Confiez-moi votre projet d'achat de véhicule d'occasion. "
+            vendeursociétés: "Vous cherchez une solution pour votre société ? "
+            chefdesventesvn: "Je suis chef des ventes. "
+            chefdesventesvo: "Je suis chef des ventes. "
+            mécanicien: "Je suis Mécano. "
+            carrossier: "Mon métier, c'est la carrosserie. "
+            casseur: "Je travaille dans une casse. "
+            gérantdirecteur: "En charge de la direction de l'entreprise. "
+          experience: "J'ai plus de %value% ans d'expérience dans l'automobile. "
+          hobby: "Je pratique %hobby%. "
+          prices:
+            cheap: "Je peux vous trouver une voiture à moins de 5000 €"
+            expensive: "Je vends des véhicules d'exception. "
+          advices: "Je prendrai soin de vous conseiller dans %advices% de votre véhicule. "
           brands: "Je connais plus particulièrement les marques suivantes : %brands."
-          vehicle_body: "Et en particulier, les véhicules de type : %vehicle_bodies%."
+          vehicle_body: "Vous cherchez %vehicle_bodies% ? C'est ma spécialité. "
+          other_hobbies: "Sinon, j'aime %other_hobies%"
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
+          suggestion: "Mes suggestions : "
+
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -854,10 +869,15 @@ user:
     degree:
       calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:
-        personal: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+        personal:
+          logged: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+          unlogged:  Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire
+      element.alt:
+        unknown: Score WamAffinity inconnue
+        known: Score WamAffinity %value%%
   preference:
     page_title: Mes préférences
     title:
