@@ -352,26 +352,20 @@ class GarageEditionService
 
     /**
      * @param GarageProUser $garageMemberShip The membership to toogle role
-     * @param ApplicationUser $currentUser The current user
-     * @return bool true if the toogle is effective, false otherwise
      * @throws \InvalidArgumentException
      */
-    public function toogleRole(GarageProUser $garageMemberShip, ApplicationUser $currentUser){
-        if($garageMemberShip->getProUser() === $currentUser){
-            throw new \InvalidArgumentException('flash.error.garage.unable_to_toogle_role.yourself');
-        }
-
-        if(GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMemberShip->getRole())){
+    public function toogleRole(GarageProUser $garageMemberShip)
+    {
+        if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMemberShip->getRole())) {
             $currentAdministrators = $garageMemberShip->getGarage()->getAdministrators();
-            if(count($currentAdministrators) == 1){
+            if (count($currentAdministrators) == 1) {
                 throw new \InvalidArgumentException('flash.error.garage.unable_to_toogle_role.last_admin');
             }
             $garageMemberShip->setRole(GarageRole::GARAGE_MEMBER());
-        }elseif(GarageRole::GARAGE_MEMBER()->equals($garageMemberShip->getRole())){
+        } elseif (GarageRole::GARAGE_MEMBER()->equals($garageMemberShip->getRole())) {
             $garageMemberShip->setRole(GarageRole::GARAGE_ADMINISTRATOR());
         }
-        $garageMemberShip = $this->garageProUserRepository->update($garageMemberShip);
-        return true;
+        $this->garageProUserRepository->update($garageMemberShip);
     }
 
     /**

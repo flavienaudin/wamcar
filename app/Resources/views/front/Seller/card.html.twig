@@ -151,12 +151,19 @@
                     {{ affinity_block }}
                 </div>
             {% endif %}
-
-            {#TODO Linkto delete account#}
         </div>
 
         {% if vehicle_block is not empty %}
             {{ vehicle_block }}
+        {% endif %}
+
+        {% if userIsMe %}
+            <div class="column block-grid small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator'  }} column section small-12">
+                    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
+                </div>
+            </div>
         {% endif %}
     </section>
 

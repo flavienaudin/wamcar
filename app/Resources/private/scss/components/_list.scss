@@ -8,8 +8,12 @@
   > li {
     padding-top: rem-calc(20);
 
-    &:not(:last-child) { padding-bottom: rem-calc(20); }
-    &:not(:first-child) { border-top: rem-calc(1) solid $border-color; }
+    &:not(:last-child) {
+      padding-bottom: rem-calc(20);
+    }
+    &:not(:first-child) {
+      border-top: rem-calc(1) solid $border-color;
+    }
   }
 }
 
@@ -38,13 +42,14 @@
       @include breakpoint(medium) {
         top: rem-calc(10);
       }
-    } // End ::before
+    }
+    // End ::before
 
-  } // End > li
+  }
+  // End > li
 }
 
 .list {
-
 
   /*
     Border
@@ -55,7 +60,9 @@
 
     /* Components */
 
-    p { margin-bottom: 0; }
+    p {
+      margin-bottom: 0;
+    }
 
     small {
       display: block;
@@ -72,7 +79,9 @@
     /* Exceptions */
 
     .mission & {
-      > li { border-color: rgba(white, .1); }
+      > li {
+        border-color: rgba(white, .1);
+      }
     }
 
     &.vehicle-infos-list,
@@ -80,7 +89,9 @@
     &.vehicle-guarantees-list {
       > li {
         @include breakpoint(large only) {
-          &:first-child { border-top: rem-calc(1) solid $border-color; }
+          &:first-child {
+            border-top: rem-calc(1) solid $border-color;
+          }
         }
       }
     }
@@ -89,7 +100,9 @@
       > li {
         padding-top: rem-calc(15);
 
-        &:not(:last-child) { padding-bottom: rem-calc(15); }
+        &:not(:last-child) {
+          padding-bottom: rem-calc(15);
+        }
 
         // @include breakpoint(large only) {
         //   &:first-child { border-top: rem-calc(1) solid $border-color; }
@@ -97,9 +110,8 @@
       }
     }
 
-  } // End &-border
-
-
+  }
+  // End &-border
 
   /*
      Bullet
@@ -120,8 +132,41 @@
         }
       }
 
-    } // End .garage-infos &
+    }
+    // End .garage-infos &
 
-  } // End &-bullet
+  }
+  // End &-bullet
+
+  /*
+     Square
+     ===================================== */
+
+  &-square {
+    @include listBullet;
+
+    > li {
+      &::before {
+        border-radius: 0;
+      }
+    }
+
+    /* Exceptions */
+
+    .garage-infos & {
+
+      @include breakpoint(large) {
+        > li {
+          border-bottom: rem-calc(1) solid $border-color;
+          margin-top: rem-calc(20);
+          padding-bottom: rem-calc(20);
+        }
+      }
+
+    }
+    // End .garage-infos &
+
+  }
+  // End &-bullet
 
 }

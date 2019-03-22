@@ -65,9 +65,24 @@
                                 {% endif %}
                             {% elseif userIsGarageAdministrator and not userIsMe%}
                                 <p class="is-inline-block">
-                                    {# TODO ajouter une popup de confirmation #}
                                     <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
-                                       class="text-underline">{{ 'user.garage.remove_member'|trans }}</a></p>
+                                       class="js-confirm-box text-underline"
+                                       data-id="detach-{{ membership.prouser.id }}"
+                                       data-title="Attention!"
+                                       data-message="Confirmez-vous le détachement de ce membre de ce garage ?">
+                                        {{ 'user.garage.remove_member'|trans }}</a>
+                                    <br>
+                                    <a href="{{ path('front_garage_toogle_member_role', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                       class="js-confirm-box text-underline"
+                                       data-id="detach-{{ membership.prouser.id }}"
+                                       data-title="Attention!"
+                                       data-message="Confirmez-vous l'action de changer le rôle de ce membre ?">
+                                        {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                                            {{ 'user.garage.toogle_role.to_simple_membre'|trans }}
+                                        {% else %}
+                                            {{ 'user.garage.toogle_role.to_administrator'|trans }}
+                                        {% endif %}
+                                    </a></p>
                             {% endif %}
                         </li>
                     {% endif %}

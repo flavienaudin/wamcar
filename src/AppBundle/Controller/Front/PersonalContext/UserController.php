@@ -611,14 +611,16 @@ class UserController extends BaseController
                 } else {
                     $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
                 }
+
+                if ($isUserHimSelf) {
+                    // Manually logout the current User
+                    $this->tokenStorage->setToken(null);
+                    $this->session->invalidate();
+                    return $this->redirectToRoute('front_default');
+                }
             }
 
-            if ($isUserHimSelf) {
-                // Manually logout the current User
-                $this->tokenStorage->setToken(null);
-                $this->session->invalidate();
-                return $this->redirectToRoute('front_default');
-            } elseif ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
                 return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
             } else {
                 if ($this->isGranted('ROLE_ADMIN')) {

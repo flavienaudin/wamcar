@@ -20,6 +20,7 @@ flash:
       cancel_pending_request_by_user: Votre demande a bien été annulée.
       cancel_pending_request_by_administrator: La demande du vendeur a été annulée. Le vendeur n'a pas rejoint votre garage.
       toogle_role: Le rôle de l'utilisateur a bien été modifié.
+      designate_as_administrator: Vous avez désigné cet utilisateur comme votre remplaçant en tant que gestionnaire.
       invitations:
         attached: "{1} %prousers_attached_list% a été automatiquement rattaché à %garage_name% |[2,Inf[ %prousers_attached_list% ont été automatiquement rattachés à %garage_name%"
         invited: "{1} Une invitation à s'inscrire sur Wamcar a été envoyée à %prousers_invited_list%|[2,Inf[ Des invitations à s'inscrire sur Wamcar ont été envoyées à %prousers_invited_list%"
@@ -73,6 +74,7 @@ flash:
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
       unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
       remove_administrator: Merci de contacter Wamcar pour supprimer un gestionnaire du garage.
+      still_administrator_with_member: Vous devez d'abord désigner un gestionnaire remplaçant parmi les membres ou supprimer le garage
       unable_to_detach_seller:
         due_to_attached_vehicle: Il n'est pas possible de détacher le vendeur du garage car il gère toujours des véhicules qu'il n'a pas été possible de réaffecter.
       unable_to_toogle_role:
@@ -104,6 +106,7 @@ global:
   poweredByGoogle: Produit par Google
   help: Aide
   facultative: Facultatif
+  garage_administrator: Gestionnaire
   button:
     close: Fermer
     connect: Se connecter
@@ -794,9 +797,22 @@ user:
         confirmation:
           label: Je confirme la suppression de mon compte Wamcar.
           error: Merci de cocher la case pour confirmer la suppression de votre compte Wamcar.
-      confirm-box:
-        title: Attention
-        message: Confirmez-vous la suppression de votre compte ?
+      pro.garage:
+        title: Gestion de vos garages
+        deleted: >
+          Vous êtes le gestionnaire et unique membre de ce garage, il va être <b class="text-underline">supprimé</b> en
+          même temps que votre compte et tous les véhicules en vente.
+        require_new_administrator: >
+          Vous êtes le gestionnaire de ce garage comprenant d'autres membres. Vous pouvez désigner un nouveau gestionnaire
+          dans la liste suivante en cliquant sur "Désigner en tant que gestionnaire vous remplaçant" à côté du membre
+          souhaité (vous ne serez alors plus vous-même gestionnaire) :
+        force_delete:   >
+          ou décider de <a href="%deleteGarageUrl%" class="text-underline js-confirm-box" data-id="remove-%garageId%"
+          data-title="Attention!" data-message="Confirmez-vous la suppression de ce garage et de ses véhicules, ainsi que
+          le détachement de tous ses membres ?">supprimer le garage</a> et ses véhicules associés. Tous les membres seront
+          alors détachés du garage.
+        member: Vous êtes membre de ce garage. Vous serez simplement détaché.
+        no_garage: Vous n'êtes membre d'aucun garage.
   presentation:
     title:
       personal: Présentation
@@ -898,6 +914,10 @@ user:
     pending_request:
       member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
       administrator: "%seller_name% souhaite rejoindre %garage_name%"
+    toogle_role:
+      to_administrator: Désigner en tant que gestionnaire
+      replace_administrator: Désigner en tant que gestionnaire vous remplaçant
+      to_simple_membre: Retirer le rôle de gestionnaire
   affinity:
     page_title: Wam Affinity
     section:

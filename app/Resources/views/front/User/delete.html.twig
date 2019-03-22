@@ -36,6 +36,50 @@
             }) }}
             {{ form_errors(userDeletionForm.reason) }}
 
+            {% if user.isPro %}
+                <h3>{{ 'user.profile.delete.pro.garage.title'|trans }}</h3>
+                <ul class="list-bullet input-margin">
+                    {% for userGarageMemberShip in user.enabledGarageMemberships %}
+                        <li><b>{{ userGarageMemberShip.garage.name }} : </b>
+                            {% if userGarageMemberShip.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                                {% if userGarageMemberShip.garage.enabledMembers|length == 1 %}
+                                    {{ 'user.profile.delete.pro.garage.deleted'|trans|raw }}
+                                {% else %}
+                                    {{ 'user.profile.delete.pro.garage.require_new_administrator'|trans }}
+                                    <ul class="list-square">
+                                        {% for garageMember in userGarageMemberShip.garage.enabledMembers %}
+                                            <li>
+                                                {% if garageMember.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                                                    <b>{{ garageMember.proUser.fullName }} est gestionnaire : </b>
+                                                    <a href="{{ path('front_garage_toogle_member_role', {
+                                                        'garage_id': userGarageMemberShip.garage.id,
+                                                        'user_id': garageMember.proUser.id}) }}">{{ 'user.garage.toogle_role.to_simple_membre'|trans }}</a>
+
+                                                {% else %}
+                                                    {{ garageMember.proUser.fullName }} : <a
+                                                        href="{{ path('front_garage_designate_as_administrator', {
+                                                            'garage_id': userGarageMemberShip.garage.id,
+                                                            'user_id': garageMember.proUser.id}) }}">{{ 'user.garage.toogle_role.replace_administrator'|trans }}</a>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    {{ 'user.profile.delete.pro.garage.force_delete'|trans({
+                                        '%deleteGarageUrl%':path('front_garage_remove', {'id': userGarageMemberShip.garage.id}),
+                                        '%garageId%':userGarageMemberShip.garage.id
+                                    })|raw }}
+                                {% endif %}
+
+                            {% else %}
+                                {{ 'user.profile.delete.pro.garage.member'|trans }}
+                            {% endif %}
+                        </li>
+                    {% else %}
+                        <li>{{ 'user.profile.delete.pro.garage.no_garage'|trans }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
             <p class="text-justify no-margin">{{ 'user.profile.delete.information'|trans }}</p>
             <div class="checkbox-container">
                 {{ form_row(userDeletionForm.confirmation, {
