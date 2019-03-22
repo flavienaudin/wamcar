@@ -317,15 +317,15 @@ class PersonalVehicleController extends BaseController
     public function likePersonalVehicleAction(PersonalVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
-            if ($request->headers->has("referer")) {
-                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get('referer'));
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             }
             throw new AccessDeniedException();
         }
         $this->personalVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
-        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has("referer")) {
-            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
+        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
                 if ($referer === $this->generateUrl('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug()])) {

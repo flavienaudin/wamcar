@@ -105,6 +105,8 @@ front_view_current_user_info:
 front_user_delete:
     path: /user/delete/{id}
     controller: AppBundle:Front\PersonalContext\User:deleteUser
+    defaults:
+      id: null
 
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}
@@ -149,6 +151,10 @@ front_garage_edit:
     path: /garage/edit/{id}
     controller: AppBundle:Front\ProContext\Garage:save
 
+front_garage_remove:
+    path: /garage/remove/{id}
+    controller: AppBundle:Front\ProContext\Garage:remove
+
 # Gestion des membres d'un garage
 front_garage_request_to_join:
     path: /garage/request/{garage_id}
@@ -162,9 +168,17 @@ front_garage_unassign:
     path: /garage/unassign/{garage_id}/{user_id}
     controller: AppBundle:Front\ProContext\Garage:unassign
 
+front_garage_designate_as_administrator:
+    path: /garage/memberrole/designate/{garage_id}/{user_id}
+    controller: AppBundle:Front\ProContext\Garage:toogleMemberRole
+    defaults:
+        replace: true
+
 front_garage_toogle_member_role:
     path: /garage/memberrole/toogle/{garage_id}/{user_id}
     controller: AppBundle:Front\ProContext\Garage:toogleMemberRole
+    defaults:
+        replace: false
 
 # Vehicles professionnels
 front_vehicle_pro_detail:

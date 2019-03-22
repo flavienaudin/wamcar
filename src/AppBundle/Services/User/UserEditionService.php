@@ -26,6 +26,7 @@ use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\User\BaseLikeVehicle;
@@ -164,9 +165,10 @@ class UserEditionService
     /**
      * @param BaseUser $userToDelete
      * @param ApplicationUser $currentUser
+     * @param null|string $deletionReason
      * @return array with 'errorMessages', 'successMessages'
      */
-    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser)
+    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser, ?string $deletionReason = null)
     {
         $isAlreadySofDeleted = $userToDelete->getDeletedAt() != null;
         $resultMessages = ['errorMessages' => [], 'successMessages' => []];
@@ -184,23 +186,36 @@ class UserEditionService
             }
 
             if ($userToDelete instanceof ProApplicationUser) {
+
                 /** @var GarageProUser $garageMembership */
                 foreach ($userToDelete->getGarageMemberships() as $garageMembership) {
-                    $garageId = $garageMembership->getGarage()->getId();
-                    $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
-                    if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
-                        $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
-                    } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
-                        foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
-                            $resultMessages['errorMessages'][] = $errorMessage;
+                    if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole())) {
+                        if (count($garageMembership->getGarage()->getMembers()) == 1) {
+                            $this->garageEditionService->remove($garageMembership->getGarage());
+                        } else {
+                            $resultMessages['errorMessages'][] = 'flash.error.garage.still_administrator_with_member';
                         }
-                    } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
-                        $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
+                    } else {
+                        $garageId = $garageMembership->getGarage()->getId();
+                        $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
+                        if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
+                            $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
+                        } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
+                            foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
+                                $resultMessages['errorMessages'][] = $errorMessage;
+                            }
+                        } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
+                            $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
+                        }
                     }
                 }
                 if (count($resultMessages['errorMessages']) == 0) {
                     $this->userRepository->remove($userToDelete);
                     if (!$isAlreadySofDeleted) {
+                        if (!empty($deletionReason)) {
+                            $userToDelete->setDeletionReason($deletionReason);
+                            $this->userRepository->update($userToDelete);
+                        }
                         $this->eventBus->handle(new ProUserRemoved($userToDelete));
                     }
                 }
@@ -221,6 +236,10 @@ class UserEditionService
 
                 $this->userRepository->remove($userToDelete);
                 if (!$isAlreadySofDeleted) {
+                    if (!empty($deletionReason)) {
+                        $userToDelete->setDeletionReason($deletionReason);
+                        $this->userRepository->update($userToDelete);
+                    }
                     $this->eventBus->handle(new PersonalUserRemoved($userToDelete));
                     if ($userToDelete->getProject() != null) {
                         $this->eventBus->handle(new PersonalProjectRemoved($userToDelete->getProject()));

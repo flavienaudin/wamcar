@@ -23,10 +23,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
@@ -264,17 +262,10 @@ class SecurityController extends BaseController
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
         if ($error) {
-            if ($error instanceof BadCredentialsException) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    'flash.error.bad_credentials'
-                );
-            } else {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    $error->getMessage()
-                );
-            }
+            $this->session->getFlashBag()->add(
+                self::FLASH_LEVEL_DANGER,
+                'flash.error.bad_credentials'
+            );
             return $this->redirectToRoute('security_login_page');
         }
 

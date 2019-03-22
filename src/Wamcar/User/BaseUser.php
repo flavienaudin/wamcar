@@ -61,6 +61,8 @@ abstract class BaseUser implements HasApiCredential
     protected $likes;
     /** @var UserPreferences */
     protected $preferences;
+    /** @var null|string */
+    protected $deletionReason;
     /** @var AffinityAnswer|null */
     protected $affinityAnswer;
     /** @®var Collection $affinityDegree AffinityDegree with smaller-id-user */
@@ -512,6 +514,22 @@ abstract class BaseUser implements HasApiCredential
         $this->getPreferences()->setPrivateMessageEmailFrequency($privateMessageEmailFrequency);
         $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
         $this->getPreferences()->setLikeEmailFrequency($likeEmailFrequency);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getDeletionReason(): ?string
+    {
+        return $this->deletionReason;
+    }
+
+    /**
+     * @param null|string $deletionReason
+     */
+    public function setDeletionReason(?string $deletionReason): void
+    {
+        $this->deletionReason = $deletionReason;
     }
 
     /**

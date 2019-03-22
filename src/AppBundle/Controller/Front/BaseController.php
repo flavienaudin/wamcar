@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Front;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,6 +20,8 @@ abstract class BaseController
     const FLASH_LEVEL_INFO = 'success';
     const FLASH_LEVEL_WARNING = 'warning';
     const FLASH_LEVEL_DANGER = 'alert';
+
+    const REQUEST_HEADER_REFERER = 'referer';
 
     const LIKE_REDIRECT_TO_SESSION_KEY = "vehicle.like.target_path";
 
@@ -150,7 +153,7 @@ abstract class BaseController
      */
     protected function generateUrl(string $routeName, array $routeParameters = []): string
     {
-        return $this->router->generate($routeName, $routeParameters,UrlGeneratorInterface::ABSOLUTE_URL);
+        return $this->router->generate($routeName, $routeParameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
     /**
@@ -180,7 +183,7 @@ abstract class BaseController
      * Checks if the attributes are granted against the current authentication token and optionally supplied object.
      *
      * @param mixed $attributes The attributes
-     * @param mixed $object     The object
+     * @param mixed $object The object
      *
      * @return bool
      */
@@ -193,9 +196,9 @@ abstract class BaseController
      * Throws an exception unless the attributes are granted against the current authentication token and optionally
      * supplied object.
      *
-     * @param mixed  $attributes The attributes
-     * @param mixed  $object     The object
-     * @param string $message    The message passed to the exception
+     * @param mixed $attributes The attributes
+     * @param mixed $object The object
+     * @param string $message The message passed to the exception
      *
      * @throws AccessDeniedException
      */
@@ -217,7 +220,7 @@ abstract class BaseController
      *
      *     throw $this->createAccessDeniedException('Unable to access this page!');
      *
-     * @param string          $message  A message
+     * @param string $message A message
      * @param \Exception|null $previous The previous exception
      *
      * @return AccessDeniedException
@@ -225,5 +228,14 @@ abstract class BaseController
     protected function createAccessDeniedException($message = 'Access Denied.', \Exception $previous = null)
     {
         return new AccessDeniedException($message, $previous);
+    }
+
+    /**
+     * @param Request $request
+     * @return null|string|string[]
+     */
+    public function getReferer(Request $request)
+    {
+        return $request->headers->get(self::REQUEST_HEADER_REFERER);
     }
 }
