@@ -54,7 +54,7 @@ class BackendController extends AdminController
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, 'flash.error.user.deletion_not_allowed');
                 return;
             }
-            $resultMessages = $this->userEditionService->deleteUser($entity, $this->getUser());
+            $resultMessages = $this->userEditionService->deleteUser($entity, $this->getUser(), 'Utilisateur supprimé par un administrateur');
             foreach ($resultMessages['errorMessages'] as $errorMessage) {
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
             }
