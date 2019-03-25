@@ -55,7 +55,7 @@
                 </ul>
             {% else %}
                 <div class="dark-gray-color text-justify">
-                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':vehicle.seller.firstName}) }}</strong>
+                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':vehicle.seller.firstName|title}) }}</strong>
                     {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </div>
             {% endif %}

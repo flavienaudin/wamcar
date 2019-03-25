@@ -146,7 +146,7 @@
                 </ul>
             {% else %}
                 <div class="dark-gray-color text-justify">
-                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':project.personalUser.firstName}) }}</strong>
+                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':project.personalUser.firstName|title}) }}</strong>
                     {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </div>
             {% endif %}
