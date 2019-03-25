@@ -463,11 +463,12 @@ vehicle:
   detail:
     personal:
       title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'
-      meta_description: "%nbPositiveLikes% personnes aiment cette voiture %vehicleFuelName% %vehicleTransmission% de %vehicleRegistrationDate% avec %vehicleMileage%km - Annonce publiée le %publishedAt%."
+      meta_description: "Voiture %vehicleFuelName% %vehicleTransmission% de %vehicleRegistrationDate% avec %vehicleMileage%km - Annonce publiée le %publishedAt%."
     pro:
       title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'
       meta_description:
         discount: Remise de %vehicleDiscount%% sur ce véhicule
+        vehicle: Voiture
         price: à la vente au prix de %vehiclePrice%€
         published_at: le %publishedAt%
   section:

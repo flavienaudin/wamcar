@@ -19,9 +19,8 @@
 {% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName|upper,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
 {%- block meta_description %}
     {{ 'vehicle.detail.personal.meta_description'|trans({
-        '%nbPositiveLikes%':vehicle.positiveLikes|length,
-        '%vehicleFuelName%':vehicle.fuelName,
-        '%vehicleTransmission%':vehicle.transmission,
+        '%vehicleFuelName%':vehicle.fuelName|lower,
+        '%vehicleTransmission%':vehicle.transmission|trans({}, 'enumeration')|lower,
         '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
         '%vehicleMileage%': vehicle.mileage,
         '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
