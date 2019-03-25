@@ -315,22 +315,6 @@ class SearchResultProvider
 
         // Sorting configuration
         switch ($searchVehicleDTO->sorting) {
-            case Sorting::SEARCH_SORTING_AFFINITY:
-                if($currentUser != null) {
-                    $script = new Query\Script();
-                    $script->setScript([
-                        'script' => [
-                            'source' => "return params.factors[doc.userId.value] ?: (1.0 / (params.now - doc.mainSortingDate.value.millis))",
-                            'lang' => AbstractScript::LANG_PAINLESS,
-                            'params' => [
-                                "now" => time(),
-                                "factors" => $currentUser->getAffinityDegreesAsArray()
-                            ]
-                        ]
-                    ]);
-                    $mainQuery->setSort(["_script" => array_merge($script->toArray()['script'], ["type" => "number", "order" => "desc"])]);
-                    break;
-                }
             case Sorting::SEARCH_SORTING_DATE:
                 if (!empty($searchVehicleDTO->text)) {
                     $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
@@ -382,8 +366,8 @@ class SearchResultProvider
 
                 // Importance : 5/5
                 // Script value between [0;1] => factor 5 => [0;5]
-                $script = new Script("return (params.factors[doc.userId.value] ?: params.default) / 100",
-                    ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                $script = new Script("return (params.affinityDegrees[doc.userId.value] ?: params.default) / 100",
+                    ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
                     AbstractScript::LANG_PAINLESS
                 );
                 $functionScoreQuery->addScriptScoreFunction($script, null, 1);

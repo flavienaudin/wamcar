@@ -582,6 +582,9 @@ abstract class BaseUser implements HasApiCredential
                 $affinityDegreesArray[$affinityDegree->getGreaterIdUser()->getId()] = $affinityDegree->getAffinityValue();
             }
         }
+        if(empty($affinityDegreesArray)){
+            $affinityDegreesArray[-1] = 0;
+        }
         return $affinityDegreesArray;
     }
 
