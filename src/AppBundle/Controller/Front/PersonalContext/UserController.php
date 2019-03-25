@@ -596,6 +596,8 @@ class UserController extends BaseController
                 /** @var UserDeletionDTO $userDeletionData */
                 $userDeletionData = $userDeletionForm->getData();
                 $userDeletionReason = $userDeletionData->getReason();
+            }else{
+                $userDeletionReason = 'Utilisateur supprimé par un administrateur';
             }
             $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser(), $userDeletionReason);
 

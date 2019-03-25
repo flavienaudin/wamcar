@@ -557,6 +557,7 @@ easy_admin:
           - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
           - { property: 'orientation', type: 'text' }
           - { property: 'contactAvailabilities', type: 'string' }
+          - deletionReason
           - vehicles
           - garageMemberships
 
@@ -612,6 +613,7 @@ easy_admin:
           - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
           - { property: 'orientation', type: 'text' }
           - { property: 'contactAvailabilities', type: 'string' }
+          - deletionReason
           - vehicles
     CronJobs:
       translation_domain: 'JMoseCommandScheduler'
