@@ -20,7 +20,7 @@ class ProUserEntityIndexer extends EntityIndexer
     const OFFSET = 0;
 
 
-    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
+    public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, ?BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
     {
         $qb = new QueryBuilder();
         $mainQuery = new Query();
@@ -103,12 +103,13 @@ class ProUserEntityIndexer extends EntityIndexer
 
             // Importance : 5/5
             // Script value between [0;10] => factor 1 => [0;10]
-            $script = new Script("return (params.factors[doc.id.value] ?: params.default) / 10",
-                ["factors" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
-                AbstractScript::LANG_PAINLESS
-            );
-
-            $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+            if ($currentUser != null) {
+                $script = new Script("return (params.affinityDegrees[doc.id.value] ?: params.default) / 10",
+                    ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                    AbstractScript::LANG_PAINLESS
+                );
+                $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+            }
 
             // Importance : 5/5
             // Google rating [0;5] => factor 1 => [0;5]
