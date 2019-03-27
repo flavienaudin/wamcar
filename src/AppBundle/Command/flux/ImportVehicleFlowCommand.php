@@ -19,8 +19,9 @@ use Wamcar\Vehicle\ProVehicle;
 class ImportVehicleFlowCommand extends BaseCommand
 {
 
-
     /** Configure command */
+    const DATE_FORMAT = "d-m-Y H:i:s";
+
     protected function configure()
     {
         $this
@@ -32,7 +33,6 @@ class ImportVehicleFlowCommand extends BaseCommand
                 'Absolute path of ini configuration file of the flow to import'
             );
     }
-
 
     /**
      * Execute command
@@ -82,11 +82,11 @@ class ImportVehicleFlowCommand extends BaseCommand
                 } elseif ($source == "url" && curl_init($dataFile) === FALSE) {
                     $io->error(sprintf("URL (%s) is not reachable", $dataFile));
                 } else {
-                    $io->text("Start at " . date("H:i:s"));
+                    $io->text("Start at " . date(self::DATE_FORMAT));
                     $arrayJson = json_decode(file_get_contents($dataFile), true);
-                    $io->text("Datas read at " . date("H:i:s"));
+                    $io->text("Datas read at " . date(self::DATE_FORMAT));
                     $result = $vehicleImportService->importDataAutosManuel($config, $arrayJson, $io);
-                    $io->text("End at " . date("H:i:s"));
+                    $io->text("End at " . date(self::DATE_FORMAT));
                     $this->displayImportResult($io, $result);
                 }
                 break;
