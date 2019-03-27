@@ -189,6 +189,8 @@ header:
   pro:
     my_garage: Mon garage
     my_garages: Mes garages
+    dashboard: Tableau de bord
+    my_sales: Mes ventes
   personal:
     my_add: Mon annonce
     my_vehicles: Mes véhicules
