@@ -5,6 +5,7 @@ namespace Wamcar\Vehicle;
 
 use Doctrine\Common\Collections\Collection;
 use Wamcar\Garage\Garage;
+use Wamcar\User\ProUser;
 
 interface ProVehicleRepository extends VehicleRepository
 {
@@ -35,4 +36,11 @@ interface ProVehicleRepository extends VehicleRepository
      * @return Collection|array
      */
     public function findByGarageAndExcludedReferences(Garage $garage, array $references);
+
+    /**
+     * @param ProUser $proUser
+     * @param bool $getNullSaleStatus
+     * @return Collection|array
+     */
+    public function findDeletedVehiclesByUserAndSaleStatus(ProUser $proUser, bool $getNullSaleStatus);
 }

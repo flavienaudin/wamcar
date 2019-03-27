@@ -219,6 +219,15 @@ front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
     controller: AppBundle:Front\ProContext\Vehicle:delete
 
+# Gestion des ventes
+front_pro_user_sales:
+    path: /mes-ventes
+    controller: AppBundle:Front\ProContext\Sales:salesPage
+
+front_sale_declaration:
+    path: /vente/declaration/{id}/{saleStatus}
+    controller: AppBundle:Front\ProContext\Sales:declare
+
 # Vehicules particuliers
 front_vehicle_personal_detail:
     path: /voiture-particulier/{slug}

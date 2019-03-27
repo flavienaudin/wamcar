@@ -127,6 +127,7 @@ doctrine:
             vehicleguarantee: AppBundle\Doctrine\Type\GuaranteeType
             vehiclefunding: AppBundle\Doctrine\Type\FundingType
             vehicletimingbeltstate: AppBundle\Doctrine\Type\VehicleTimingBeltStateType
+            vehiclesalestatus: AppBundle\Doctrine\Type\VehicleSaleStatusType
             notificationfrequency: AppBundle\Doctrine\Type\NotificationFrequencyType
             garagerole: AppBundle\Doctrine\Type\GarageRoleType
             personalorientation: AppBundle\Doctrine\Type\PersonalOrientationType

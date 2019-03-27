@@ -1,0 +1,57 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "sales.page.title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+
+    <div class="row">
+        <div class="column small-12">
+            <h2 class="primary-color">{{ 'sales.waiting.title'|trans }}<br>
+                <small>{{ 'sales.waiting.subtitle'|trans }}</small>
+            </h2>
+
+
+            <div class="sales-container">
+                <div class="vehicle-list">
+                    {% for vehicle in vehiclesToDeclare %}
+                        {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
+                    {% else %}
+                        Pas de véhicule vendu à déclarer
+                    {% endfor %}
+                </div>
+            </div>
+
+
+            <h2 class="primary-color">{{ 'sales.sold.title'|trans }}<br>
+                {#<small>{{ 'sales.sold.subtitle'|trans }}</small>#}
+            </h2>
+
+
+            <div class="sales-container">
+                <div class="vehicle-list">
+                    {% for vehicle in declaredVehicles %}
+                        {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
+                    {% else %}
+                        Pas de véhicule déclaré
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

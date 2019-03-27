@@ -46,6 +46,8 @@ flash:
     conversation_update: Votre message a bien été envoyé.
     vehicle:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
+    sales:
+      declaration: Votre déclaration a bien été prise en compte
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -89,6 +91,10 @@ flash:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+    sales:
+      unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
+      unauthorized_to_declare_sale: Vous n'êtes pas autorisé à déclarer la vente de ce véhicule.
+      invalid_sale_status_value: Valeur du status de vente incorrecte
     garage:
       already_member: Vous êtes déjà membre de ce garage
       same_as_existing: >
@@ -902,7 +908,6 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
-
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -997,6 +1002,19 @@ conversation:
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
+
+sales:
+  page:
+    title: Mes ventes
+  waiting:
+    title: Véhicules en attente de déclaration
+    subtitle: Déclarer vos ventes ci-dessous
+  sold:
+    title: Véhicules vendus
+  item:
+    garage: "Garage : "
+    declare_as: "Déclarer ce véhicule :"
+    declared_as: "Vous avez déclaré ce véhicule \"%salestatus%\""
 
 favorites:
   page_title: Ma sélection

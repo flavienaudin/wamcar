@@ -3,6 +3,7 @@
 namespace AppBundle\Doctrine\Repository;
 
 use Wamcar\Garage\Garage;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -46,7 +47,6 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
      */
     public function findByGarageAndExcludedReferences(Garage $garage, array $references)
     {
-
         $qb = $this->createQueryBuilder('v');
         $qb->where($qb->expr()->eq('v.garage', ':garage'))
             ->andwhere($qb->expr()->notIn('v.reference', $references))
@@ -54,5 +54,31 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         $qb->setParameter('garage', $garage);
         return $qb->getQuery()->execute();
     }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function findDeletedVehiclesByUserAndSaleStatus(ProUser $proUser, bool $getNullSaleStatus)
+    {
+
+        $qb = $this->createQueryBuilder('v');
+        $qb->where($qb->expr()->eq('v.seller', ':seller'))
+            ->andWhere($qb->expr()->isNotNull('v.deletedAt'));
+        if ($getNullSaleStatus) {
+            $qb->andWhere($qb->expr()->isNull('v.saleStatus'));
+        } else {
+            $qb->andWhere($qb->expr()->isNotNull('v.saleStatus'));
+        }
+        $qb->setParameter('seller', $proUser);
+
+        if ($this->getEntityManager()->getFilters()->isEnabled('softDeleteable')) {
+            $this->getEntityManager()->getFilters()->disable('softDeleteable');
+        }
+        $result = $qb->getQuery()->execute();
+        $this->getEntityManager()->getFilters()->enable('softDeleteable');
+        return $result;
+    }
+
 }
 

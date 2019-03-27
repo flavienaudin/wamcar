@@ -21,6 +21,7 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\ProLikeVehicle;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\Enum\SaleStatus;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\ProVehicleUpdated;
@@ -96,6 +97,29 @@ class ProVehicleEditionService
             $results['hits'] = $this->vehicleRepository->findByIds($ids);
         }
         return $results;
+    }
+
+
+    /**
+     * Retrieve ProVehicles from the given garage
+     * @param Garage $garage
+     * @param array $orderBy
+     * @return array
+     */
+    public function getProUserVehiclesForSalesDeclaration(ProUser $proUser): array
+    {
+        return $this->vehicleRepository->findDeletedVehiclesByUserAndSaleStatus($proUser, true);
+    }
+
+    /**
+     * Retrieve ProVehicles from the given garage
+     * @param Garage $garage
+     * @param array $orderBy
+     * @return array
+     */
+    public function getProUserVehiclesAlreadySalesDeclarated(ProUser $proUser): array
+    {
+        return $this->vehicleRepository->findDeletedVehiclesByUserAndSaleStatus($proUser, false);
     }
 
     /**
@@ -241,7 +265,7 @@ class ProVehicleEditionService
     {
         $nbProVehicles = 0;
         // If Garage is softDeleted, then its vehicles are not retrieved and we want ALL vehicle to delete
-        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null,$garage->getDeletedAt() != null);
+        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null, $garage->getDeletedAt() != null);
         /** @var ProVehicle $proVehicle */
         foreach ($proVehicleToDelete as $proVehicle) {
             $this->deleteVehicle($proVehicle);
@@ -258,6 +282,21 @@ class ProVehicleEditionService
     public function canEdit($user, ProVehicle $vehicle): bool
     {
         return $vehicle !== null && $vehicle->canEditMe($user);
+    }
+
+    /**
+     * @param $user
+     * @param ProVehicle $vehicle
+     * @return bool
+     */
+    public function canDeclareSale($user, ProVehicle $vehicle): bool
+    {
+        return $vehicle !== null && $vehicle->canDeclareSale($user);
+    }
+
+    public function updateSaleStatus(ProVehicle $proVehicle, ?SaleStatus $saleStatus){
+        $proVehicle->setSaleStatus($saleStatus);
+        $this->vehicleRepository->update($proVehicle);
     }
 
     /**
