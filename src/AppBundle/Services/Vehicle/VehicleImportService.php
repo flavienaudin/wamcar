@@ -179,11 +179,13 @@ class VehicleImportService
             throw new VehicleImportRGFailedException('RG-TRI-AM-Prix');
         }
         if (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_NAME]) || empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME]) ||
-            empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME]) || empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME])) {
+            empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME]) || (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_CODE]) &&
+            empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]))) {
             // RG-TRI-Oblig-Modele
-            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Modele', sprintf("Modele : %s ; Make : %s ; Engine : %s ; Fuel : %s",
+            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Modele', sprintf("Modele : %s ; Make : %s ; Engine : %s ; Fuel : (%s) %s",
                 $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_NAME], $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME],
-                $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME], $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]));
+                $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_NAME], $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_CODE]
+                , $data[AutoManuelProVehicleBuilder::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME]));
         }
         if (empty($data[AutoManuelProVehicleBuilder::FIELDNAME_MILEAGE])) {
             // RG-TRI-Oblig-Km
@@ -209,7 +211,7 @@ class VehicleImportService
             }
 
             try {
-                $proVehicle = $this->autoManuelProVehicleBuilder->generateVehicleFromUsedData($existingProVehicle, $data, $garages[$garageName]);
+                $proVehicle = $this->autoManuelProVehicleBuilder->generateVehicleFromRowData($existingProVehicle, $data, $garages[$garageName]);
             } catch (\Exception $e) {
                 throw new VehicleImportInvalidDataException($e->getMessage(), $e->getCode(), $e);
             }
