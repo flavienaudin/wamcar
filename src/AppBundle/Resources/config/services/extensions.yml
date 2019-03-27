@@ -42,3 +42,9 @@ services:
         autowire: true
         tags:
             - { name: twig.extension }
+
+    AppBundle\Twig\RadarChartExtension:
+        class: 'AppBundle\Twig\RadarChartExtension'
+        autowire: true
+        tags:
+            - { name: twig.extension }

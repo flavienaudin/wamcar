@@ -56,6 +56,7 @@ class VehicleInformationType extends AbstractType
                 ->add('transmission', ChoiceType::class, [
                     'choices' => Transmission::toArray(),
                     'error_bubbling' => true,
+                    'translation_domain' => 'enumeration',
                 ])
                 ->add('fuel', ChoiceType::class, [
                     'choices' => $availableValues['fuel'] ?? [],
@@ -64,7 +65,7 @@ class VehicleInformationType extends AbstractType
                     'error_bubbling' => true,
                 ]);
 
-            $builder->get('transmission')->addModelTransformer(new EnumDataTransformer(Transmission::class, Transmission::MANUAL()));
+            $builder->get('transmission')->addModelTransformer(new EnumDataTransformer(Transmission::class, Transmission::TRANSMISSION_MANUAL()));
 
             // Replace choice by text to prevent validation, as fields are dynamically filled
             $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {

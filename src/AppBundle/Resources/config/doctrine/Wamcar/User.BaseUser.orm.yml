@@ -80,6 +80,9 @@ Wamcar\User\BaseUser:
         firstContactPreference:
             type: firstcontactpreference
             nullable: true
+        deletionReason:
+            type: text
+            nullable: true
 
     oneToOne:
         avatar:

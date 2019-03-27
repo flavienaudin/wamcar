@@ -1,11 +1,11 @@
 <div class="vehicle-list">
     {% for hit in result.hits %}
         {% if hit is instanceof("Wamcar\\Vehicle\\ProVehicle") %}
-            {% include 'front/Search/includes/item_personal.html.twig' with {'vehicle': hit} %}
+            {% include 'front/Search/includes/item_vehicle_pro.html.twig' with {'vehicle':hit, 'ajax_like':true} %}
         {% elseif hit is instanceof("Wamcar\\Vehicle\\PersonalVehicle") %}
-            {% include 'front/Search/includes/item_pro.html.twig' with {'vehicle': hit} %}
+            {% include 'front/Search/includes/item_vehicle_personal.html.twig' with {'vehicle':hit, 'ajax_like':true} %}
         {% elseif hit is instanceof("Wamcar\\User\\Project") %}
-            {% include 'front/Search/includes/item_personal_project.html.twig' with {'project': hit} %}
+            {% include 'front/Search/includes/item_personal_project.html.twig' with {'project': hit, 'ajax_like':true} %}
         {% else %}
             <div class="primary-color">unknown</div>
         {% endif %}

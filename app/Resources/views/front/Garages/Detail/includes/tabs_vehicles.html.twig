@@ -21,7 +21,9 @@
 {% endif %}
 
 <div class="block-grid column small-12 align-bottom">
-    <h2 class="column no-margin"><span class="primary-color">{{ vehicles.totalHits }}</span> véhicule{{ vehicles.totalHits > 1 ? 's' : '' }} en vente</h2>
+    {% if displayNbOfResult is not defined or displayNbOfResult %}
+        <h2 class="column no-margin"><span class="primary-color">{{ vehicles.totalHits }}</span> véhicule{{ vehicles.totalHits > 1 ? 's' : '' }} en vente</h2>
+    {% endif %}
     {% if isEditableByCurrentUser %}
     <div class="small-12 medium-shrink medium-right">
         <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
@@ -38,8 +40,8 @@
     <div class="block-grid small-12 align-middle input-margin">
         <div class="small-12">
             {% include 'front/Layout/includes/pagination.html.twig' with {
-                'route': 'front_garage_view',
-                'route_params':{'slug':garage.slug},
+                'route': pagination_route,
+                'route_params': pagination_route_params,
                 'page': page,
                 'lastPage': lastPage
             } %}

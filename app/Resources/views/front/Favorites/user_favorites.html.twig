@@ -33,9 +33,9 @@
                     {% for like in user_likes %}
                         {% set vehicle = like.vehicle %}
                         {% if vehicle.isPro %}
-                            {% include ':front/Search/includes:item_personal.html.twig' %}
+                            {% include ':front/Search/includes:item_vehicle_pro.html.twig' %}
                         {% else %}
-                            {% include ':front/Search/includes:item_pro.html.twig' %}
+                            {% include ':front/Search/includes:item_vehicle_personal.html.twig' %}
                         {% endif %}
                     {% endfor %}
                 </div>

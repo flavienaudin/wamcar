@@ -61,6 +61,8 @@ abstract class BaseUser implements HasApiCredential
     protected $likes;
     /** @var UserPreferences */
     protected $preferences;
+    /** @var null|string */
+    protected $deletionReason;
     /** @var AffinityAnswer|null */
     protected $affinityAnswer;
     /** @®var Collection $affinityDegree AffinityDegree with smaller-id-user */
@@ -160,7 +162,8 @@ abstract class BaseUser implements HasApiCredential
      * Set description
      * @param null|string $description
      */
-    public function setDescription(?string $description){
+    public function setDescription(?string $description)
+    {
         $this->userProfile->setDescription($description);
     }
 
@@ -195,7 +198,7 @@ abstract class BaseUser implements HasApiCredential
     public function getCityPostalCodeAndName(): string
     {
         $city = $this->getCity();
-        return $city != null ? $city->getPostalCode() . ' ' . $city->getName(): '';
+        return $city != null ? $city->getPostalCode() . ' ' . $city->getName() : '';
     }
 
     /**
@@ -311,9 +314,9 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
-     * @param string $googleId
+     * @param string|null $googleId
      */
-    public function setGoogleId(string $googleId): void
+    public function setGoogleId(?string $googleId): void
     {
         $this->googleId = $googleId;
     }
@@ -514,6 +517,22 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * @return null|string
+     */
+    public function getDeletionReason(): ?string
+    {
+        return $this->deletionReason;
+    }
+
+    /**
+     * @param null|string $deletionReason
+     */
+    public function setDeletionReason(?string $deletionReason): void
+    {
+        $this->deletionReason = $deletionReason;
+    }
+
+    /**
      * @return AffinityAnswer|null
      */
     public function getAffinityAnswer(): ?AffinityAnswer
@@ -543,6 +562,30 @@ abstract class BaseUser implements HasApiCredential
     public function getSmallerIdUserAffinityDegrees()
     {
         return $this->smallerIdUserAffinityDegrees;
+    }
+
+    /**
+     * @return array Array of WamAffinity Degrees ["userId" => value]
+     */
+    public function getAffinityDegreesAsArray(): array
+    {
+        $affinityDegreesArray = [];
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->smallerIdUserAffinityDegrees as $affinityDegree) {
+            if ($affinityDegree->getSmallerIdUser() != null) {
+                $affinityDegreesArray[$affinityDegree->getSmallerIdUser()->getId()] = $affinityDegree->getAffinityValue();
+            }
+        }
+        /** @var AffinityDegree $affinityDegree */
+        foreach ($this->greaterIdUserAffinityDegrees as $affinityDegree) {
+            if ($affinityDegree->getGreaterIdUser() != null) {
+                $affinityDegreesArray[$affinityDegree->getGreaterIdUser()->getId()] = $affinityDegree->getAffinityValue();
+            }
+        }
+        if(empty($affinityDegreesArray)){
+            $affinityDegreesArray[-1] = 0;
+        }
+        return $affinityDegreesArray;
     }
 
     /**
@@ -588,7 +631,7 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return int Number of user's vehicles
      */
-    public function countVehicles():int
+    public function countVehicles(): int
     {
         return count($this->getVehicles());
     }

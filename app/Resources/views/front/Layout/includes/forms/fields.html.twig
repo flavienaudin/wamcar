@@ -269,6 +269,15 @@
     {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
+{%- block _user_deletion_confirmation_widget  -%}
+    {{- form_widget(form) -}}
+    <label for="{{ id }}" class="checkbox">
+        <b>{{ 'user.profile.delete.field.confirmation.label'|trans }}</b>
+    </label>
+    {{- form_errors(form) -}}
+    {% if errorMsg is defined %}<small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
+{%- endblock -%}
+
 {%- block _pro_vehicle_offer_refunded_row  -%}
     {{ block('_one_checkbox_row') }}
 {%- endblock _pro_vehicle_offer_refunded_row  -%}

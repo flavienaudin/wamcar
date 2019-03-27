@@ -2,22 +2,22 @@
 
 {{ form_start(editUserForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : 'data-abide', 'novalidate': 'novalidate'} }) }}
 <div id="js-move-pictures-list" class="column small-12 medium-6 xlarge-5">
-    <h2>Identifiants de connexion</h2>
+    <h2>{{ 'user.profile.edit.form.titles.id'|trans }}</h2>
     <p>
-        Mail : {{ user.email }} <br>
-        <a class="text-underline" data-toggle="js-update-password">Modifier mon mot de passe</a>
+        {{ 'user.profile.edit.form.email.label'|trans }} : {{ user.email }} <br>
+        <a class="text-underline" data-toggle="js-update-password">{{ 'user.profile.edit.form.password.button'|trans }}</a>
     </p>
     <div id="js-update-password" class="user-form-password is-hidden" data-toggler=".is-hidden">
         {# Ancien mot de passe #}
         {{ form_widget(editUserForm.oldPassword, {
-            'label': 'Mot de passe',
+            'label': 'user.profile.edit.form.password.old_label'|trans,
             'required_class': 'hide'
         }) }}
         <div class="row small-12">
             {# Nouveau mot de passe #}
             <div class="column small-12 large-6">
                 {{ form_widget(editUserForm.newPassword.first, {
-                    'label': 'Nouveau mot de passe',
+                    'label': 'user.profile.edit.form.password.new_label'|trans,
                     'required_class': 'hide'
                 }) }}
             </div>
@@ -25,75 +25,86 @@
             {# Nouveau mot de passe confirmation #}
             <div class="column small-12 large-6">
                 {{ form_widget(editUserForm.newPassword.second, {
-                    'label': 'Confirmer le mot de passe',
+                    'label': 'user.profile.edit.form.password.second_new_label'|trans,
                     'required_class': 'hide'
                 }) }}
             </div>
         </div>
     </div>
-    <h2 class="separator">Identité</h2>
+    <h2 class="separator">{{ 'user.profile.edit.form.titles.identity'|trans }}</h2>
     <div class="input-margin">
         {{ form_widget(editUserForm.title, {
-            'label': 'Civilité',
+            'label': 'user.profile.edit.form.title.label'|trans,
             'required_class': '',
             'list_class': '',
             'required': false
         }) }}
     </div>
     {{ form_widget(editUserForm.firstName, {
-        'label': 'Prénom',
+        'label': 'user.profile.edit.form.firstName.label'|trans,
         'required': true
     }) }}
     {{ form_widget(editUserForm.lastName, {
-        'label': 'Nom',
+        'label': 'user.profile.edit.form.lastName.label'|trans,
         'required': false
     }) }}
 </div>
 <div class="column small-12 medium-6 xlarge-5 xlarge-offset-1">
     {% if editUserForm.postalCode is defined %}
-        <h2 class="separator-for-small">Ville</h2>
+        <h2 class="separator-for-small">{{ 'user.profile.edit.form.titles.city'|trans }}</h2>
         <div class="input-margin">
-            <label for="{{ editUserForm.postalCode.vars.name }}">Ville</label>
+            <label for="{{ editUserForm.postalCode.vars.name }}">{{ 'user.profile.edit.form.city.label'|trans }}</label>
             {{ form_widget(editUserForm.postalCode, {
                 'label': false,
                 'class': 'input js-city-autocomplete',
                 'required': true,
-                'required_message' : 'Vous devez saisir votre ville',
+                'required_message' : 'user.profile.edit.form.city.required_message'|trans,
                 'required_class' : '',
                 'attr' : {
                     'data-autocomplete-url': path('front_city_autocomplete'),
                     'data-city-field': editUserForm.cityName.vars.id,
                     'data-latitude-field': editUserForm.latitude.vars.id,
                     'data-longitude-field': editUserForm.longitude.vars.id,
-                    'data-placeholder': 'Ville ou code postal'
+                    'data-placeholder': 'user.profile.edit.form.city.placeholder'|trans
                 }
             }) }}
         </div>
     {% endif %}
-    <h2 class="separator-for-small">Numéro(s) de téléphone</h2>
+    <h2 class="separator-for-small">{{ 'user.profile.edit.form.titles.phones'|trans }}</h2>
     {% if editUserForm.phonePro is defined %}
         {{ form_widget(editUserForm.phonePro, {
-            'label': 'Téléphone fixe',
+            'label': 'user.profile.edit.form.phonePro.label'|trans,
             'required': false,
             'type' : 'tel'
         }) }}
     {% endif %}
     {{ form_widget(editUserForm.phone, {
-        'label': 'Téléphone mobile',
+        'label': 'user.profile.edit.form.phone.label'|trans,
         'required': false,
         'type' : 'tel'
     }) }}
-    <h2 class="separator">Informations</h2>
+
+    <h2 class="separator">{{ 'user.profile.edit.form.titles.informations'|trans }}</h2>
+    {% if editUserForm.presentationTitle is defined %}
+        {{ form_widget(editUserForm.presentationTitle, {
+            'label': 'Titre de ma page Profil',
+            'required': false,
+            'attr' : {
+                'placeholder': 'Laissez-moi vous guider',
+                'maxlength' : 50
+            }
+        }) }}
+    {% endif %}
     {{ form_widget(editUserForm.description, {
-        'label': 'Présentation',
+        'label': 'user.profile.edit.form.presentation.label'|trans,
         'required': false
     }) }}
 </div>
 <div class="input-margin column small-12 medium-6 xlarge-5">
     <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/placeholders/user/unisex-avatar.jpg') }}" class="separator">
-        <h2>Médias</h2>
+        <h2>{{ 'user.profile.edit.form.titles.medias'|trans }}</h2>
         {{ form_widget(editUserForm.avatar, {
-            'label': 'Avatar',
+            'label': 'user.profile.edit.form.avatar.label'|trans,
             'required': false,
             'required_class': '',
             'classPreview': 'small-6 large-4 file-preview-avatar',
@@ -103,6 +114,6 @@
     </div>
 </div>
 <div class="column small-12">
-    <button type="submit" class="button full-width medium-5 large-3">Enregistrer mes modifications</button>
+    <button type="submit" class="button full-width medium-5 large-3">{{ 'user.profile.edit.form.submit'|trans }}</button>
 </div>
 {{ form_end(editUserForm) }}

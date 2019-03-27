@@ -279,25 +279,35 @@ class GarageController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
      * @Entity("garage", expr="repository.findIgnoreSoftDeleted(id)")
+     * @param Request $request
      * @param Garage $garage
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeAction(Garage $garage): RedirectResponse
+    public function removeAction(Request $request, Garage $garage): RedirectResponse
     {
+        if (!$this->isGranted(GarageVoter::ADMINISTRATE, $garage)) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_DANGER, 'flash.error.garage.unauthorized_to_administrate');
+
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+            } else {
+                return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+            }
+        }
+
         $isAlreadySoftDeleted = $garage->getDeletedAt() != null;
         try {
             $this->garageEditionService->remove($garage);
             if ($isAlreadySoftDeleted) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.garage.delete.hard'
+                    'flash.success.garage.deleted.hard'
                 );
             } else {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.garage.delete.soft'
+                    'flash.success.garage.deleted.soft'
                 );
             }
         } catch (\InvalidArgumentException $exception) {
@@ -305,8 +315,13 @@ class GarageController extends BaseController
                 BaseController::FLASH_LEVEL_WARNING,
                 $exception->getMessage()
             );
+            return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
         }
-        return $this->redirectToRoute('admin_garage_list');
+        if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+        } else {
+            return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+        }
     }
 
     /**
@@ -420,12 +435,13 @@ class GarageController extends BaseController
     /**
      * @ParamConverter("garage", options={"id" = "garage_id"})
      * @ParamConverter("proApplicationUser", options={"id" = "user_id"})
+     * @param Request $request
      * @param Garage $garage
      * @param ProApplicationUser $proApplicationUser
-     * @Security("has_role('ROLE_ADMIN')")
+     * @param bool $replace
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function toogleMemberRoleAction(Garage $garage, ProApplicationUser $proApplicationUser): RedirectResponse
+    public function toogleMemberRoleAction(Request $request, Garage $garage, ProApplicationUser $proApplicationUser, bool $replace): RedirectResponse
     {
         /** @var GarageProUser $garageMemberShip */
         $garageMemberShip = $proApplicationUser->getMembershipByGarage($garage);
@@ -436,12 +452,22 @@ class GarageController extends BaseController
                 throw new AccessDeniedException();
             }
             try {
-                $this->garageEditionService->toogleRole($garageMemberShip, $this->getUser());
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.toogle_role');
+                $this->garageEditionService->toogleRole($garageMemberShip);
+                if ($replace) {
+                    $currentUserGarageMemberShip = $this->getUser()->getMembershipByGarage($garage);
+                    $this->garageEditionService->toogleRole($currentUserGarageMemberShip);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.designate_as_administrator');
+                } else {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.toogle_role');
+                }
             } catch (\InvalidArgumentException $e) {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $e->getMessage());
             }
         }
-        return $this->redirectToRoute('admin_garage_list', ['_fragment' => 'garage-' . $garage->getId()]);
+        if ($referer = $this->getReferer($request)) {
+            return $this->redirect($referer);
+        } else {
+            return $this->redirectToRoute('admin_garage_list', ['_fragment' => 'garage-' . $garage->getId()]);
+        }
     }
 }

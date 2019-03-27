@@ -26,6 +26,7 @@
         {% include 'front/Search/includes/form.html.twig' %}
     </div>
 
+    <div id="search_result"></div>
     <div class="row">
         <div class="search-result column small-12">
             <header class="block-grid small-12 align-middle">
@@ -41,14 +42,14 @@
 
                 {% include 'front/Layout/includes/pagination.html.twig' with {
                     'route': 'front_search',
+                    'route_params': {'_fragment': 'search_result'},
                     'page': page,
-                    'lastPage': lastPage
+                    'lastPage': lastPage,
                 } %}
             {% else %}
                 <br>
                 <p>Aucun résultat n'a été trouvé, rééssayez votre recherche.</p>
             {% endif %}
-
         </div>
     </div>
 {% endblock %}

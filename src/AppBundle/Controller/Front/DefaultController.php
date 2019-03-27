@@ -13,6 +13,7 @@ use AppBundle\Form\Type\VehicleInformationType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\ProVehicleRepository;
 
@@ -50,6 +51,7 @@ class DefaultController extends BaseController
     }
 
     /**
+     * Landing /reprise
      * @return Response
      */
     public function landingRepriseAction(): Response
@@ -85,6 +87,7 @@ class DefaultController extends BaseController
     }
 
     /**
+     * Landing /rencontre
      * @return Response
      */
     public function landingMeetingAction(): Response
@@ -110,6 +113,7 @@ class DefaultController extends BaseController
     }
 
     /**
+     * Page d'accueil par défaut : /
      * @param Request $request
      * @return Response
      */
@@ -131,7 +135,13 @@ class DefaultController extends BaseController
         if($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()){
             $formData = $personalOrientationForm->getData();
             $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
-            return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
+
+            if(PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY === $formData['orientation']->getValue()){
+                return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
+            }else{
+                return $this->redirectToRoute('front_vehicle_registration');
+            }
+
         }
         return $this->render(
             '/front/Home/landing_mixte.html.twig',

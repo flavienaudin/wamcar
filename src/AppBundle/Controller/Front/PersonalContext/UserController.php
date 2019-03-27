@@ -10,21 +10,29 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Elasticsearch\Elastica\ElasticUtils;
+use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Form\DTO\UserDeletionDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
+use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
+use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -35,6 +43,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -46,6 +55,8 @@ use Wamcar\User\UserRepository;
 
 class UserController extends BaseController
 {
+    const NB_VEHICLES_PER_PAGE = 10;
+
     /** @var FormFactoryInterface */
     protected $formFactory;
 
@@ -67,6 +78,12 @@ class UserController extends BaseController
     /** @var VehicleInfoEntityIndexer */
     private $vehicleInfoIndexer;
 
+    /** @var ProVehicleEntityIndexer */
+    private $proVehicleEntityIndexer;
+
+    /** @var ProVehicleEditionService */
+    private $proVehicleEditionService;
+
     /** @var MessageBus */
     protected $eventBus;
 
@@ -85,6 +102,8 @@ class UserController extends BaseController
      * @param UserEditionService $userEditionService
      * @param GarageEditionService $garageEditionService
      * @param VehicleInfoEntityIndexer $vehicleInfoIndexer
+     * @param ProVehicleEntityIndexer $proVehicleEntityIndexer
+     * @param ProVehicleEditionService $proVehicleEditionService
      * @param MessageBus $eventBus
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
@@ -97,6 +116,8 @@ class UserController extends BaseController
         UserEditionService $userEditionService,
         GarageEditionService $garageEditionService,
         VehicleInfoEntityIndexer $vehicleInfoIndexer,
+        ProVehicleEntityIndexer $proVehicleEntityIndexer,
+        ProVehicleEditionService $proVehicleEditionService,
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService
@@ -109,6 +130,8 @@ class UserController extends BaseController
         $this->userEditionService = $userEditionService;
         $this->garageEditionService = $garageEditionService;
         $this->vehicleInfoIndexer = $vehicleInfoIndexer;
+        $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
+        $this->proVehicleEditionService = $proVehicleEditionService;
         $this->eventBus = $eventBus;
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
@@ -310,6 +333,38 @@ class UserController extends BaseController
             }
         }
 
+        $searchForm = null;
+        if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
+            $searchVehicleDTO = new SearchVehicleDTO();
+            $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+                'action' => $this->generateRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]),
+                'available_values' => [],
+                'small_version' => true
+            ]);
+            $searchForm->handleRequest($request);
+            $page = $request->query->get('page', 1);
+
+            $garageIds = [];
+            /** @var GarageProUser $garageMembership */
+            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
+                $garageIds[] = $garageMembership->getGarage()->getId();
+            }
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garageIds, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            if ($searchResultSet != null) {
+                $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+                $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            } else {
+                $vehicles = ['totalHits' => 0, 'hits' => []];
+                $lastPage = 1;
+            }
+        } else {
+            $userVehicles = $user->getVehicles();
+            $vehicles = [
+                'totalHits' => count($userVehicles),
+                'hits' => $userVehicles
+            ];
+        }
+
         $addGarageForm = null;
         if ($this->getUser() instanceof ProUser && $user->is($this->getUser())) {
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
@@ -321,7 +376,12 @@ class UserController extends BaseController
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
-            'user' => $user
+            'user' => $user,
+            'isEditableByCurrentUser' => false,
+            'searchForm' => $searchForm ? $searchForm->createView() : null,
+            'vehicles' => $vehicles,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
         ]);
     }
 
@@ -467,54 +527,135 @@ class UserController extends BaseController
         ]);
     }
 
-
     /**
      * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */
-    public function listAction()
+    public function proUserslistAction()
     {
-        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
         $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
 
-        return $this->render("front/adminContext/user/user_list.html.twig", [
-            'personalUsers' => $personalUsers,
+        return $this->render("front/adminContext/user/pro_user_list.html.twig", [
             'proUsers' => $proUsers
         ]);
     }
 
-
     /**
      * security.yml - access_control : ROLE_ADMIN only
-     * @param int $id
      * @return Response
      */
-    public function deleteUserAction(int $id)
+    public function personalUserslistAction()
     {
-        $userToDelete = $this->userRepository->findIgnoreSoftDeleted($id);
+        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+
+        return $this->render("front/adminContext/user/personal_user_list.html.twig", [
+            'personalUsers' => $personalUsers
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param null|int $id
+     * @return Response
+     */
+    public function deleteUserAction(Request $request, ?int $id = null)
+    {
+        if (empty($id)) {
+            $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+            $userToDelete = $this->getUser();
+        } else {
+            $userToDelete = $this->userRepository->findIgnoreSoftDeleted($id);
+        }
+
         if (!$userToDelete || !$userToDelete instanceof BaseUser) {
             throw new NotFoundHttpException();
         }
 
-        $isPro = $userToDelete instanceof ProUser;
-        $isAlreadySoftDeleted = $userToDelete->getDeletedAt() != null;
-        $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser());
-        foreach ($resultMessages['errorMessages'] as $errorMessage) {
-            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
-        }
-        foreach ($resultMessages['successMessages'] as $garageId => $successMessage) {
-            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'Garage (' . $garageId . ') : ' . $this->translator->trans($successMessage));
-        }
-        if (count($resultMessages['errorMessages']) == 0) {
-            if ($isAlreadySoftDeleted) {
-                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+        if (!$this->isGranted(UserVoter::DELETE, $userToDelete)) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_DANGER, 'flash.error.user.deletion_not_allowed');
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
             } else {
-                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+                if ($userToDelete->isPro()) {
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userToDelete->getSlug()]);
+                } else {
+                    return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $userToDelete->getSlug()]);
+                }
             }
         }
 
-        return $this->redirectToRoute('admin_user_list', [
-            '_fragment' => $isPro ? 'pro-user-panel' : 'personal-user-panel'
+        $isUserHimSelf = $userToDelete->is($this->getUser());
+        $isAlreadySoftDeleted = $userToDelete->getDeletedAt() != null;
+
+        $userDeletionForm = $this->formFactory->create(UserDeletionType::class, new UserDeletionDTO());
+        $userDeletionForm->handleRequest($request);
+        if ($this->isGranted('ROLE_ADMIN') || ($userDeletionForm->isSubmitted() && $userDeletionForm->isValid())) {
+
+            $userDeletionReason = null;
+            if ($userDeletionForm->isSubmitted()) {
+                /** @var UserDeletionDTO $userDeletionData */
+                $userDeletionData = $userDeletionForm->getData();
+                $userDeletionReason = $userDeletionData->getReason();
+            }else{
+                $userDeletionReason = 'Utilisateur supprimé par un administrateur';
+            }
+            $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser(), $userDeletionReason);
+
+            foreach ($resultMessages['errorMessages'] as $errorMessage) {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $errorMessage);
+            }
+            foreach ($resultMessages['successMessages'] as $garageId => $successMessage) {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'Garage (' . $garageId . ') : ' . $this->translator->trans($successMessage));
+            }
+            if (count($resultMessages['errorMessages']) == 0) {
+                if ($isAlreadySoftDeleted) {
+                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+                } else {
+                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+                }
+
+                if ($isUserHimSelf) {
+                    // Manually logout the current User
+                    $this->tokenStorage->setToken(null);
+                    $this->session->invalidate();
+                    return $this->redirectToRoute('front_default');
+                }
+            }
+
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+            } else {
+                if ($this->isGranted('ROLE_ADMIN')) {
+                    return $this->redirectToRoute('admin_board');
+                } else {
+                    return $this->redirectToRoute('front_default');
+                }
+            }
+        }
+
+        return $this->render('front/User/delete.html.twig', [
+            'user' => $userToDelete,
+            'userDeletionForm' => $userDeletionForm->createView()
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param PersonalUser $personalUser
+     * @return Response
+     */
+    public function convertPersonalToProAction(Request $request, PersonalUser $personalUser)
+    {
+        if (!$personalUser instanceof PersonalUser) {
+            $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, "The user is not a PersonalUser");
+        } else {
+            $conversionResult = $this->userEditionService->convertPersonalToProUser($personalUser, $this->getUser());
+            if ($conversionResult['proUser'] instanceof ProUser) {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, sprintf('ProUser id %d', $conversionResult['proUser']->getId()));
+            } else {
+                $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, "Problème lors de la conversion");
+            }
+        }
+        return $this->redirect($request->headers->get('referer'));
     }
 }

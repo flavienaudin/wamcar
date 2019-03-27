@@ -20,11 +20,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -42,6 +44,8 @@ class VehicleController extends BaseController
     protected $autoDataConnector;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
+    /** @var TranslatorInterface $translator */
+    private $translator;
 
     /**
      * GarageController constructor.
@@ -50,13 +54,15 @@ class VehicleController extends BaseController
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
+     * @param TranslatorInterface $translator
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleEditionService $proVehicleEditionService,
         ApiConnector $autoDataConnector,
-        SessionMessageManager $sessionMessageManager
+        SessionMessageManager $sessionMessageManager,
+        TranslatorInterface $translator
     )
     {
         $this->formFactory = $formFactory;
@@ -64,6 +70,7 @@ class VehicleController extends BaseController
         $this->proVehicleEditionService = $proVehicleEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
+        $this->translator = $translator;
     }
 
     /**
@@ -357,15 +364,15 @@ class VehicleController extends BaseController
     public function likeProVehicleAction(ProVehicle $vehicle, Request $request): Response
     {
         if (!$this->isUserAuthenticated()) {
-            if ($request->headers->has("referer")) {
-                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get('referer'));
+            if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+                $this->session->set(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             }
             throw new AccessDeniedException();
         }
         $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
-        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has("referer")) {
-            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get("referer"));
+        if ($this->session->has(self::LIKE_REDIRECT_TO_SESSION_KEY) || $request->headers->has(self::REQUEST_HEADER_REFERER)) {
+            $referer = $this->session->get(self::LIKE_REDIRECT_TO_SESSION_KEY, $request->headers->get(self::REQUEST_HEADER_REFERER));
             $this->session->remove(self::LIKE_REDIRECT_TO_SESSION_KEY);
             if (!empty($referer)) {
                 // Keep the query param from the request
@@ -381,5 +388,20 @@ class VehicleController extends BaseController
             }
         }
         return $this->redirectToRoute("front_vehicle_pro_detail", ['slug' => $vehicle->getSlug()]);
+    }
+
+    /**
+     * @param ProVehicle $vehicle
+     * @param Request $request
+     * @return Response
+     */
+    public function ajaxLikeProVehicleAction(ProVehicle $vehicle, Request $request): Response
+    {
+        if (!$this->isUserAuthenticated()) {
+            return new JsonResponse($this->translator->trans('flash.error.user.not_logged'), Response::HTTP_UNAUTHORIZED);
+        }
+        $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
+
+        return new JsonResponse(count($vehicle->getPositiveLikes()), Response::HTTP_OK);
     }
 }

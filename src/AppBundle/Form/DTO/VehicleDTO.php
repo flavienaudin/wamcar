@@ -137,7 +137,7 @@ class VehicleDTO
      */
     public function getTransmission(): Transmission
     {
-        return $this->information->transmission ?? Transmission::MANUAL();
+        return $this->information->transmission ?? Transmission::TRANSMISSION_MANUAL();
     }
 
     /**

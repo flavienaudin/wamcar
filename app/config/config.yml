@@ -512,6 +512,7 @@ easy_admin:
           - { property: 'fullName', label: 'Prénom Nom' }
           - { property: 'email', label: 'E-mail', type: 'email' }
           - { property: 'slug'}
+          - { property: 'apiClientId'}
           - { property: 'landingPosition', label: 'HP-pos.' }
           - { property: 'countVehicles', label: '#Vhl.'}
           - { property: 'countEnabledGarageMemberships', label: '#Garages.'}
@@ -556,6 +557,8 @@ easy_admin:
           - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
           - { property: 'orientation', type: 'text' }
           - { property: 'contactAvailabilities', type: 'string' }
+          - deletedAt
+          - deletionReason
           - vehicles
           - garageMemberships
 
@@ -611,6 +614,8 @@ easy_admin:
           - { property: 'affinityAnswer.treatedAt', type: 'date', label: 'WamAff Traité le:' }
           - { property: 'orientation', type: 'text' }
           - { property: 'contactAvailabilities', type: 'string' }
+          - deletedAt
+          - deletionReason
           - vehicles
     CronJobs:
       translation_domain: 'JMoseCommandScheduler'

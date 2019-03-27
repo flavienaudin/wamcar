@@ -17,6 +17,10 @@ Wamcar\User\ProUser:
         phonePro:
             type: string
             nullable: true
+        presentationTitle:
+            type: string
+            length: 50
+            nullable: true
         landingPosition:
             type: integer
             nullable: true

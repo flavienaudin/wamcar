@@ -57,6 +57,14 @@ abstract class BaseLikeVehicle
     }
 
     /**
+     * @param BaseUser $user
+     */
+    public function setUser(BaseUser $user): void
+    {
+        $this->user = $user;
+    }
+
+    /**
      * @return BaseVehicle
      */
     public function getVehicle(): BaseVehicle

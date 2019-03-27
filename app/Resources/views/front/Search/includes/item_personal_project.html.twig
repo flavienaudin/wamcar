@@ -1,7 +1,7 @@
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_personal_user_info', {'slug': project.personalUser.slug}) %}
-
+{% set ajax_like = ajax_like|default(false) %}
 {% set vehicleSellerName = (project.personalUser.is(app.user)?"global.you"|trans:project.personalUser.fullName(not isLogged or isUserPersonal))|title %}
 
 <article class="vehicle-item is-flex">
@@ -16,7 +16,7 @@
                 <div class="vehicle-infos small-shrink">
                     <{{ balise }} class="vehicle-name h3">Pas de reprise</{{ balise }}>
                     <div class="block-grid full-width body-font-color">
-                        Ce particulier n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
+                        {{ project.personalUser.firstName|capitalize }} n'a pas de véhicule à vendre mais il a précisé son projet d'achat.
                     </div>
                     <div class="vehicle-bottom block-grid full-width align-middle">
                         <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
@@ -53,8 +53,13 @@
                     </a>
                     <span class="vehicle-like small-shrink">
                         {% block right_action %}
-                            <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'id': vehicle.id, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
-                                <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% if ajax_like %}
+                                <a href="{{ path('front_ajax_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug}) }}" class="like {{ likeIcon }} js-like">
+                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% else %}
+                                <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
+                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                            {% endif %}
                         {% endblock %}
                     </span>
                 </div>
@@ -78,7 +83,7 @@
                 <div class="vehicle-infos small-shrink">
                     <{{ balise }} class="vehicle-name h3">Flotte de véhicules</{{ balise }}>
                     <div class="block-grid full-width body-font-color">
-                        Ce particulier dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
+                        {{ project.personalUser.firstName|capitalize }} dispose de plusieurs véhicules à vendre. Rendez-vous sur son profil pour plus de détails.
                     </div>
                     <div class="vehicle-bottom block-grid full-width align-middle">
                         <span class="vehicle-city primary-color small-12">{{ project.personalUser.cityPostalCodeAndName|upper }}</span>
@@ -141,7 +146,8 @@
                 </ul>
             {% else %}
                 <div class="dark-gray-color text-justify">
-                    <strong>{{ 'vehicle.item.no_project.title'|trans }}</strong> {{ 'vehicle.item.no_project.subtitle'|trans }}
+                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':project.personalUser.firstName|title}) }}</strong>
+                    {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </div>
             {% endif %}
         </div>

@@ -33,6 +33,15 @@
       border: 0;
       margin-bottom: 0;
     }
+
+    // Set the select2 field with error style
+    .select2-hidden-accessible.is-invalid-input + & {
+      border-color: $alert-color;
+
+      .select2-selection {
+        background-color: #fef3f4;
+      }
+    }
   }
 
   /*

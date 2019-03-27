@@ -1,23 +1,27 @@
 /* ===========================================================================
    Like
    =========================================================================== */
+import * as Toastr from 'toastr';
 
-import {activeClass} from '../settings/settings';
-
-const $like = document.querySelectorAll('.js-like');
-
-if ($like) {
-  [...$like].forEach((like) => {
-    /*like.addEventListener('click', (event) => {
+const $likes = $('.js-like');
+if ($likes.length > 0) {
+  $likes.each((index, element) => {
+    const $like = $(element);
+    $like.on('click', (event) => {
       event.preventDefault();
-      const $this = event.target;
-      // for Ajax request
-      const href = $this.getAttribute('data-href');
-      fetch(href).then((response) => {
-        $like.forEach((allLike) => {
-          allLike.classList.toggle(activeClass);
-        });
+      $like.toggleClass('icon-thumbs-up');
+      $like.toggleClass('icon-thumbs-o-up');
+
+      const href = $like.attr('data-href');
+      $.ajax({
+        url: href
+      }).done(function (nbPositiveLikes) {
+        $like.children('sub').html(nbPositiveLikes);
+      }).fail(function (jqXHR, textStatus ) {
+        Toastr.warning(jqXHR.responseJSON);
+        $like.toggleClass('icon-thumbs-up');
+        $like.toggleClass('icon-thumbs-o-up');
       });
-    });*/
+    });
   });
 }

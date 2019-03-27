@@ -11,10 +11,12 @@ use AppBundle\Elasticsearch\Type\IndexableSearchItem;
 use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
+use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
+use AppBundle\Security\UserRegistrationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Utils\TokenGenerator;
@@ -22,8 +24,12 @@ use Elastica\ResultSet;
 use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Wamcar\Conversation\ConversationUser;
+use Wamcar\Conversation\Message;
+use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
+use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\Event\PersonalProjectRemoved;
@@ -31,6 +37,7 @@ use Wamcar\User\Event\PersonalUserRemoved;
 use Wamcar\User\Event\ProUserRemoved;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
+use Wamcar\User\ProUser;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
@@ -65,6 +72,8 @@ class UserEditionService
     private $garageEditionService;
     /** @var UserLikeVehicleRepository $userLikeRepository */
     private $userLikeRepository;
+    /** @var UserRegistrationService */
+    private $userRegistrationService;
     /** @var MessageBus */
     private $eventBus;
 
@@ -81,6 +90,7 @@ class UserEditionService
      * @param UserPreferencesRepository $userPreferencesRepository
      * @param GarageEditionService $garageEditionService
      * @param UserLikeVehicleRepository $userLikeRepository
+     * @param UserRegistrationService $userRegistrationService
      * @param MessageBus $eventBus
      */
     public function __construct(
@@ -95,6 +105,7 @@ class UserEditionService
         UserPreferencesRepository $userPreferencesRepository,
         GarageEditionService $garageEditionService,
         UserLikeVehicleRepository $userLikeRepository,
+        UserRegistrationService $userRegistrationService,
         MessageBus $eventBus
     )
     {
@@ -109,6 +120,7 @@ class UserEditionService
         $this->userPreferencesRepository = $userPreferencesRepository;
         $this->garageEditionService = $garageEditionService;
         $this->userLikeRepository = $userLikeRepository;
+        $this->userRegistrationService = $userRegistrationService;
         $this->eventBus = $eventBus;
     }
 
@@ -142,6 +154,7 @@ class UserEditionService
 
         if ($userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);
+            $user->setPresentationTitle($userInformationDTO->presentationTitle);
         }
 
         $this->userRepository->update($user);
@@ -152,9 +165,10 @@ class UserEditionService
     /**
      * @param BaseUser $userToDelete
      * @param ApplicationUser $currentUser
+     * @param null|string $deletionReason
      * @return array with 'errorMessages', 'successMessages'
      */
-    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser)
+    public function deleteUser(BaseUser $userToDelete, ApplicationUser $currentUser, ?string $deletionReason = null)
     {
         $isAlreadySofDeleted = $userToDelete->getDeletedAt() != null;
         $resultMessages = ['errorMessages' => [], 'successMessages' => []];
@@ -172,23 +186,36 @@ class UserEditionService
             }
 
             if ($userToDelete instanceof ProApplicationUser) {
+
                 /** @var GarageProUser $garageMembership */
                 foreach ($userToDelete->getGarageMemberships() as $garageMembership) {
-                    $garageId = $garageMembership->getGarage()->getId();
-                    $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
-                    if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
-                        $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
-                    } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
-                        foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
-                            $resultMessages['errorMessages'][] = $errorMessage;
+                    if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMembership->getRole())) {
+                        if (count($garageMembership->getGarage()->getMembers()) == 1) {
+                            $this->garageEditionService->remove($garageMembership->getGarage());
+                        } else {
+                            $resultMessages['errorMessages'][] = 'flash.error.garage.still_administrator_with_member';
                         }
-                    } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
-                        $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
+                    } else {
+                        $garageId = $garageMembership->getGarage()->getId();
+                        $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
+                        if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
+                            $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
+                        } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
+                            foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
+                                $resultMessages['errorMessages'][] = $errorMessage;
+                            }
+                        } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
+                            $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
+                        }
                     }
                 }
                 if (count($resultMessages['errorMessages']) == 0) {
                     $this->userRepository->remove($userToDelete);
                     if (!$isAlreadySofDeleted) {
+                        if (!empty($deletionReason)) {
+                            $userToDelete->setDeletionReason($deletionReason);
+                            $this->userRepository->update($userToDelete);
+                        }
                         $this->eventBus->handle(new ProUserRemoved($userToDelete));
                     }
                 }
@@ -209,6 +236,10 @@ class UserEditionService
 
                 $this->userRepository->remove($userToDelete);
                 if (!$isAlreadySofDeleted) {
+                    if (!empty($deletionReason)) {
+                        $userToDelete->setDeletionReason($deletionReason);
+                        $this->userRepository->update($userToDelete);
+                    }
                     $this->eventBus->handle(new PersonalUserRemoved($userToDelete));
                     if ($userToDelete->getProject() != null) {
                         $this->eventBus->handle(new PersonalProjectRemoved($userToDelete->getProject()));
@@ -376,5 +407,88 @@ class UserEditionService
             $results['hits'] = $this->userRepository->findByIds($ids);
         }
         return $results;
+    }
+
+    /**
+     * @param PersonalUser $personalUser
+     * @param ApplicationUser $currentUser
+     * @return array ['errorMessages' => [], 'proUser' = ProUser (result) ]
+     */
+    public function convertPersonalToProUser(PersonalUser $personalUser, ApplicationUser $currentUser): array
+    {
+        $result = ['errorMessages' => [], 'proUser' => null];
+        $registrationDTO = new RegistrationDTO(ProUser::TYPE);
+        $registrationDTO->email = $personalUser->getEmail();
+        $personalUser->setEmail('converted.' . $personalUser->getEmail());
+        $this->userRepository->update($personalUser);
+        $registrationDTO->firstName = $personalUser->getFirstName();
+        $registrationDTO->lastName = $personalUser->getLastName();
+        $registrationDTO->password = uniqid('pwd');
+
+        $proUser = $this->userRegistrationService->registerUser($registrationDTO, false);
+        if ($proUser instanceof ProUser) {
+            $proUser->setAvatar($personalUser->getAvatar());
+            $personalUser->getAvatar()->setUser($proUser);
+            $personalUser->setAvatar(null);
+
+            $proUser->getUserProfile()->setTitle($personalUser->getTitle());
+            $proUser->getUserProfile()->setDescription($personalUser->getDescription());
+            $proUser->getUserProfile()->setPhone($personalUser->getPhone());
+
+            $proUser->setFacebookId($personalUser->getFacebookId());
+            $proUser->setFacebookAccessToken($personalUser->getFacebookAccessToken());
+            $proUser->setGoogleId($personalUser->getGoogleId());
+            $proUser->setGoogleAccessToken($personalUser->getGoogleAccessToken());
+            $proUser->setTwitterId($personalUser->getTwitterId());
+            $proUser->setTwitterAccessToken($personalUser->getTwitterAccessToken());
+            $proUser->setLinkedinId($personalUser->getLinkedinId());
+            $proUser->setLinkedinAccessToken($personalUser->getLinkedinAccessToken());
+
+            $proUser->setFirstContactPreference($personalUser->getFirstContactPreference());
+
+            $proUser->updatePreferences(
+                $personalUser->getPreferences()->isPrivateMessageEmailEnabled(),
+                $personalUser->getPreferences()->isLikeEmailEnabled(),
+                $personalUser->getPreferences()->getPrivateMessageEmailFrequency(),
+                $personalUser->getPreferences()->getLikeEmailFrequency()
+            );
+
+            /** @var BaseLikeVehicle $like */
+            foreach ($personalUser->getLikes() as $like) {
+                $like->setUser($proUser);
+                $proUser->addLike($like);
+            }
+            $personalUser->getLikes()->clear();
+
+            /** @var ConversationUser $conversationUser */
+            foreach ($personalUser->getConversationUsers() as $conversationUser) {
+                $conversationUser->setUser($proUser);
+                $proUser->getConversationUsers()->add($conversationUser);
+            }
+            $personalUser->getConversationUsers()->clear();
+
+            /** @var Message $message */
+            foreach ($personalUser->getMessages() as $message) {
+                $message->setUser($proUser);
+                $proUser->getMessages()->add($message);
+            }
+            $personalUser->getMessages()->clear();
+
+            $this->userRepository->update($personalUser);
+            $this->userRepository->update($proUser);
+            $result['proUser'] = $proUser;
+
+            // Suppression du PersonalUser
+            $deletePersonalUserResult = $this->deleteUser($personalUser, $currentUser);
+
+            if (count($deletePersonalUserResult['errorMessages']) > 0) {
+                $result['errorMessages'] = array_merge($result['errorMessages'], $deletePersonalUserResult['errorMessages']);
+            }
+        } else {
+            $result['errorMessages'][] = "registerUser() n'a pas créé un ProUser";
+        }
+
+        return $result;
+
     }
 }

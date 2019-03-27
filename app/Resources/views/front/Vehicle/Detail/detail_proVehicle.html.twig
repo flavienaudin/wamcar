@@ -17,8 +17,10 @@
 {%- block meta_description %}
     {% if vehicle.discount is not null %}
         {{ 'vehicle.detail.pro.meta_description.discount'|trans({'%vehicleDiscount%':vehicle.discount}) }}
+    {% else %}
+        {{ 'vehicle.detail.pro.meta_description.vehicle'|trans }}
     {% endif %}
-    {{ vehicle.fuelName }} {{ vehicle.transmission }}
+    {{ vehicle.fuelName|lower}} {{ vehicle.transmission|trans({}, 'enumeration')|lower }}
     {{ 'vehicle.detail.pro.meta_description.price'|trans({'%vehiclePrice%':vehicle.price}) }}
     {{ 'vehicle.detail.pro.meta_description.published_at'|trans({'%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')}) }}
 {% endblock -%}

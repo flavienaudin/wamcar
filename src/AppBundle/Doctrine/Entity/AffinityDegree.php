@@ -55,17 +55,17 @@ class AffinityDegree
     }
 
     /**
-     * @return BaseUser
+     * @return BaseUser|null if BaseUser softDeleted
      */
-    public function getSmallerIdUser(): BaseUser
+    public function getSmallerIdUser(): ?BaseUser
     {
         return $this->smallerIdUser;
     }
 
     /**
-     * @return BaseUser
+     * @return BaseUser|null if BaseUser softDeleted
      */
-    public function getGreaterIdUser(): BaseUser
+    public function getGreaterIdUser(): ?BaseUser
     {
         return $this->greaterIdUser;
     }
@@ -92,6 +92,18 @@ class AffinityDegree
                     intval($this->positioningAffinityValue),
                     intval($this->atomesCrochusAffinityValue)
                 ]
+            ]]
+        ];
+    }
+
+
+    public static function getEmptyRadarChartData(): array
+    {
+        return [
+            'labels' => ['Total', 'Profil', 'Mise en relation', 'Passions', 'Positionnement', 'Atomes Crochus'],
+            'datasets' => [[
+                'label' => 'Affinités (%)',
+                'data' => [0, 0, 0, 0, 0, 0]
             ]]
         ];
     }
