@@ -366,12 +366,14 @@ class SearchResultProvider
 
                 // Importance : 5/5
                 // Script value between [0;1] => factor 5 => [0;5]
-                $script = new Script("return (params.affinityDegrees[doc.userId.value] ?: params.default) / 100",
-                    ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
-                    AbstractScript::LANG_PAINLESS
-                );
-                $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+                if ($currentUser != null) {
 
+                    $script = new Script("return (params.affinityDegrees[doc.userId.value] ?: params.default) / 100",
+                        ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
+                        AbstractScript::LANG_PAINLESS
+                    );
+                    $functionScoreQuery->addScriptScoreFunction($script, null, 1);
+                }
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPositiveLikes', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
@@ -434,7 +436,8 @@ class SearchResultProvider
      * @param int $limit
      * @return null|ResultSet
      */
-    public function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
+    public
+    function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         if ($user instanceof ProUser) {
             $garageIds = [];
