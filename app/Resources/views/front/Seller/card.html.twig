@@ -57,14 +57,14 @@
                 data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode : emptyRadarChartData()|json_encode }}"></canvas>
         {% if userAffinity is null %}
             <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}</p>
-            <p><a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
+            <p><a href="{{ path('front_affinity_personal_form') }}"
+                  class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
         {% endif %}
     {% endif %}
 {% endspaceless %}{% endset %}
 
 {% set seller_garage_block %}{% spaceless %}
     {% if user.hasGarage or userIsMe %}
-        <h2>{{ 'user.garage.seller_for'|trans }}</h2>
         {% if user.hasGarage or userIsMe %}
             {% include 'front/User/includes/brand_list.html.twig' %}
         {% else %}
@@ -110,12 +110,13 @@
         <div class="column small-12 garage-container">
             <div class="column">
                 <div class="row">
-                    <div class="column small-12 medium-auto"><h2>Ses véhicules</h2></div>
+                    <div class="column small-12 medium-auto"><h2>{{ 'user.vehicles.title'|trans }}</h2></div>
                 </div>
             </div>
             {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                 'pagination_route': 'front_view_pro_user_info',
-                'pagination_route_params': {'slug':user.slug}
+                'pagination_route_params': {'slug':user.slug},
+                'displayNbOfResult' : false
             } %}
         </div>
     {% endif %}
@@ -139,7 +140,7 @@
             {% endif %}
 
             {% if seller_garage_block is not empty %}
-                <div class="column">
+                <div class="column margin-bottom-2">
                     {{ seller_garage_block }}
                 </div>
             {% endif %}
@@ -151,9 +152,11 @@
 
         {% if userIsMe %}
             <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator'  }} column section small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator' }} column section small-12">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
-                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
+                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}"
+                                                                            class="text-underline">{{ 'global.button.delete'|trans }}</a>
+                    </p>
                 </div>
             </div>
         {% endif %}

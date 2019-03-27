@@ -4,17 +4,12 @@ namespace AppBundle\Command\flux;
 
 
 use AppBundle\Command\BaseCommand;
-use AppBundle\Exception\Vehicle\VehicleImportInvalidDataException;
-use AppBundle\Exception\Vehicle\VehicleImportRGFailedException;
 use AppBundle\Services\Vehicle\VehicleImportService;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Wamcar\Garage\Garage;
-use Wamcar\Vehicle\Event\ProVehicleRemoved;
-use Wamcar\Vehicle\ProVehicle;
 
 class ImportVehicleFlowCommand extends BaseCommand
 {
@@ -116,6 +111,6 @@ class ImportVehicleFlowCommand extends BaseCommand
             ['Nb rejected vehicles : ', $result[VehicleImportService::RESULT_STATS_KEY][VehicleImportService::RESULT_NB_REJECTED_VEHICLES_KEY]],
             ['Nb moved vehicles : ', $result[VehicleImportService::RESULT_STATS_KEY][VehicleImportService::RESULT_NB_MOVED_VEHICLES_KEY]]
         ]);
-        $io->success('Done!');
+        $io->success('Done at ' . date(self::DATE_FORMAT));
     }
 }
