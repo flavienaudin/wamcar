@@ -64,7 +64,6 @@
 
 {% set seller_garage_block %}{% spaceless %}
     {% if user.hasGarage or userIsMe %}
-        <h2>{{ 'user.garage.seller_for'|trans }}</h2>
         {% if user.hasGarage or userIsMe %}
             {% include 'front/User/includes/brand_list.html.twig' %}
         {% else %}
@@ -108,15 +107,15 @@
 {% set vehicle_block %}{% spaceless %}
     {% if vehicles.totalHits > 0 %}
         <div class="column small-12 garage-container ">
-
             <div class="column">
                 <div class="row">
-                    <div class="column small-12 medium-auto"><h2>Ses véhicules</h2></div>
+                    <div class="column small-12 medium-auto"><h2>{{ 'user.vehicles.title'|trans }}</h2></div>
                 </div>
             </div>
             {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                 'pagination_route': 'front_view_pro_user_info',
-                'pagination_route_params': {'slug':user.slug}
+                'pagination_route_params': {'slug':user.slug},
+                'displayNbOfResult' : false
             } %}
         </div>
     {% endif %}
