@@ -526,6 +526,7 @@ easy_admin:
           - { property: 'id', type_options: { disabled: 'disabled' } }
           - { property: 'email', type: 'email', label: 'Login' }
           - { property: 'slug'}
+          - { property: 'presentationTitle' }
           - { property: 'description', type: 'textarea' }
           - { property: 'landingPosition', label: 'HP-mixte-position' }
       show:

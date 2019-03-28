@@ -55,13 +55,35 @@ class ProVehicleEntityIndexer extends EntityIndexer
         $mainQuery->setExplain(true);
         $mainQuery->setTrackScores();
 
-        // Sorting Configuration
-        if (empty($text)) {
-            $mainQuery->setSort(['mainSortingDate' => 'desc']);
-        } else {
-            $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
-        }
 
+        $functionScoreQuery = $qb->query()->function_score();
+        $functionScoreQuery->setQuery($mainQuery->getQuery());
+
+        // Sorting Configuration
+        // Combination of the function and the query scores
+        $functionScoreQuery->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
+        // Combination of the functions'scores
+        $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_SUM);
+
+        // Value [0;20] => Log1P [0; ~3] => Factor 1 => [0;3]
+        $functionScoreQuery->addFieldValueFactorFunction(
+            'nbPicture', 1,
+            Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
+            0, 2
+        );
+
+        // Date [0;1] => factor 2 => [0;2]
+        $functionScoreQuery->addDecayFunction(
+            Query\FunctionScore::DECAY_GAUSS,
+            'mainSortingDate',
+            'now',
+            '100d',
+            '1d',
+            0.3,
+            2
+        );
+        $mainQuery->setQuery($functionScoreQuery);
+        $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
 
         return $this->search($mainQuery);
     }
