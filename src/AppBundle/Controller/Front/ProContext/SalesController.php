@@ -51,16 +51,16 @@ class SalesController extends BaseController
     /**
      * @return Response
      */
-    public function salesPageAction(){
+    public function salesViewAction()
+    {
         $currentUser = $this->getUser();
-        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unlogged');
             throw new AccessDeniedException();
         }
 
         $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser);
         $declaredVehicles = $this->proVehicleEditionService->getProUserVehiclesAlreadySalesDeclarated($currentUser);
-
 
         return $this->render("front/Seller/sales_declaration.html.twig", [
             "vehiclesToDeclare" => $vehiclesToDeclare,
@@ -74,18 +74,19 @@ class SalesController extends BaseController
      * @param string $saleStatus
      * @return Response
      */
-    public function declareAction(ProVehicle $proVehicle, string $saleStatus){
+    public function declareAction(ProVehicle $proVehicle, string $saleStatus)
+    {
         $currentUser = $this->getUser();
-        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unlogged');
             throw new AccessDeniedException();
         }
-        if(!$this->isGranted(ProVehicleVoter::DECLARE, $proVehicle)){
+        if (!$this->isGranted(ProVehicleVoter::DECLARE, $proVehicle)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unauthorized_to_declare_sale');
             return $this->redirectToRoute("front_pro_user_sales");
         }
 
-        if(!SaleStatus::isValid($saleStatus)){
+        if (!SaleStatus::isValid($saleStatus)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.invalid_sale_status_value');
             return $this->redirectToRoute("front_pro_user_sales");
         }

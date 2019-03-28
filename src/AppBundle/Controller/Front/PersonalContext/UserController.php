@@ -187,7 +187,6 @@ class UserController extends BaseController
         ]);
     }
 
-
     /**
      * @param Request $request
      * @return Response
@@ -525,6 +524,21 @@ class UserController extends BaseController
         return $this->render('front/Preferences/edit.html.twig', [
             'userPreferenceForm' => $userPreferenceForm->createView()
         ]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function dashboardViewAction(){
+        $currentUser = $this->getUser();
+        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+
+
+
+        return $this->render("front/Seller/pro_user_dashboard.html.twig", []);
     }
 
     /**

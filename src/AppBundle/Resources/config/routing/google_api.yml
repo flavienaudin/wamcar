@@ -1,0 +1,10 @@
+# Google API routes
+
+google_api_oauth2callback:
+    path: /oauth2callback
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:ouath2callback
+
+google_api_test_analytics:
+    path: /test
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleAnalytics
+

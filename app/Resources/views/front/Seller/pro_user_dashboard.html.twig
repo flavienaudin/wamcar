@@ -1,0 +1,45 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "pro_dashboard.page.title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+
+    <div class="row">
+        <div class="column small-12">
+            <h2 class="primary-color">{{ 'pro_dashboard.page.title'|trans }}<br>
+                {#<small>{{ 'pro_dashboard.waiting.subtitle'|trans }}</small>#}
+            </h2>
+
+            <div>
+                <ul>
+                    {% for idx, report in reports %}
+                        <li>Rapport n°{{ idx }} :
+                            <ul>
+                                {% for key, value in report %}
+                                    <li>{{ key }} : {{ value }}</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div>{{ dump(reports) }}</div>
+        </div>
+    </div>
+{% endblock %}

@@ -95,6 +95,8 @@ flash:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
       unauthorized_to_declare_sale: Vous n'êtes pas autorisé à déclarer la vente de ce véhicule.
       invalid_sale_status_value: Valeur du status de vente incorrecte
+    dashboard:
+          unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
     garage:
       already_member: Vous êtes déjà membre de ce garage
       same_as_existing: >
@@ -1019,6 +1021,10 @@ sales:
     garage: "Garage : "
     declare_as: "Déclarer ce véhicule :"
     declared_as: "Vous avez déclaré ce véhicule \"%salestatus%\""
+
+pro_dashboard:
+  page:
+    title: Mon tableau de bord
 
 favorites:
   page_title: Ma sélection

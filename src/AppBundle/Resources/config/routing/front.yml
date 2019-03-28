@@ -219,10 +219,15 @@ front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
     controller: AppBundle:Front\ProContext\Vehicle:delete
 
+# Tableau de bord : Conseillers auto
+front_pro_user_dashboard:
+    path: /mon-tableau-de-bord
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleAnalytics
+
 # Gestion des ventes
 front_pro_user_sales:
     path: /mes-ventes
-    controller: AppBundle:Front\ProContext\Sales:salesPage
+    controller: AppBundle:Front\ProContext\Sales:salesView
 
 front_sale_declaration:
     path: /vente/declaration/{id}/{saleStatus}

@@ -1,6 +1,7 @@
 /.env
 /.web-server-pid
 /app/config/parameters.yml
+/app/config/googleApi/*.json
 /app/Resources/public/api/swagger.json
 /build/
 /phpunit.xml
