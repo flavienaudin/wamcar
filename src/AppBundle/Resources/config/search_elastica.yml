@@ -183,6 +183,8 @@ parameters:
             type: integer
           garageId:
             type: integer
+          sellerId:
+            type: integer
           googleRating:
             type: float
           nbPositiveLikes:

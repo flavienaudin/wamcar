@@ -21,25 +21,118 @@
 
     <div class="row">
         <div class="column small-12">
-            <h2 class="primary-color">{{ 'pro_dashboard.page.title'|trans }}<br>
-                {#<small>{{ 'pro_dashboard.waiting.subtitle'|trans }}</small>#}
-            </h2>
+            <h2>Votre page "Conseiller Automobile"</h2>
+            {% set profilePagePath = path('front_view_pro_user_info', {'slug':app.user.slug}) %}
+            <ul>
+                <li>Nombre de vues de votre page profil :
+                    <ul>
+                        <li>Les 30 derniers jours : {{ report.profilePage[0].uniquePageViews }}</li>
+                        <li>Les 7 derniers jours : {{ report.profilePage[1].uniquePageViews }}</li>
+                    </ul>
+                </li>
+                <li>Nombre d'affichage d'un numéro de téléphone :
+                    <ul>
+                        <li>Uniquement depuis votre page profil :
 
-            <div>
+                            <ul>
+                                <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].onPage[profilePagePath]??0 }} </li>
+                                <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].onPage[profilePagePath]??0 }}</li>
+                            </ul>
+                        </li>
+                        <li>Toutes pages confondues :
+                            <ul>
+                                <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].total??0 }} </li>
+                                <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].total??0 }}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>Nombre de contacts par messagerie Wamcar :
+                    <ul>
+                        <li>Uniquement depuis votre page profil :
+                            <ul>
+                                <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].onPage[profilePagePath]??0 }} </li>
+                                <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].onPage[profilePagePath]??0 }}</li>
+                            </ul>
+                        </li>
+                        <li>Toutes pages confondues :
+                            <ul>
+                                <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].total??0 }} </li>
+                                <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].total??0 }}</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+            </ul>
+
+            <h2>Vos pages "Véhicules"</h2>
+            {% for vehicle in app.user.vehicles %}
+                <div>
+                    {% set vehiclePath = path('front_vehicle_pro_detail',{'slug':vehicle.slug}) %}
+                    <h4>{{ vehicle.name|title }} <small>{{ vehiclePath  }}</small></h4>
+                    <ul>
+                        <li>Nombre de vues :
+                            <ul>
+                                <li>Sur les 30 derniers jours : {{ report.vehiclesPages[vehiclePath][0]??0 }}</li>
+                                <li>Sur les 7 derniers jours : {{ report.vehiclesPages[vehiclePath][1]??0 }}</li>
+                            </ul>
+                        </li>
+                        <li>Nombre de likes :
+                            <ul>
+                                <li>Total : {{ vehicle.positiveLikes|length }}</li>
+                                <li>Sur les 30 derniers jours : {{ report.vehiclesLikes[vehiclePath][0]??0 }}</li>
+                                <li>Sur les 7 derniers jours : {{ report.vehiclesLikes[vehiclePath][1]??0 }}</li>
+                            </ul>
+                        </li>
+                        <li>Nombre de contacts :
+                            <ul>
+                                <li>Téléphone :
+                                    <ul>
+                                        <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].onPage[vehiclePath]??0 }} </li>
+                                        <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].onPage[vehiclePath]??0 }}</li>
+                                    </ul>
+                                </li>
+                                <li>Message :
+                                    <ul>
+                                        <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].onPage[vehiclePath]??0 }} </li>
+                                        <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].onPage[vehiclePath]??0 }}</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+
+            {#<div>
                 <ul>
                     {% for idx, report in reports %}
                         <li>Rapport n°{{ idx }} :
                             <ul>
-                                {% for key, value in report %}
-                                    <li>{{ key }} : {{ value }}</li>
+                                {% for rowData in report.rows %}
+                                    <li>
+                                        {{ report.dimensionsNames }} : {{ rowData.dimensionsValues }}
+                                        <ul>
+                                            {% for dateRangeIdx, dateRangeMetrics in rowData.metricsValues %}
+                                                <li>Période {{ dateRangeIdx }} :
+                                                    <ul>
+                                                        {% for metricName, metricValue in dateRangeMetrics %}
+                                                            <li>{{ metricName }} : {{ metricValue }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li>Pas de donnée connue</li>
                                 {% endfor %}
                             </ul>
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
-
-            <div>{{ dump(reports) }}</div>
+            </div>#}
         </div>
     </div>
 {% endblock %}

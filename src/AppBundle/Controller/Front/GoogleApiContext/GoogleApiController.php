@@ -10,41 +10,13 @@ class GoogleApiController extends BaseController
 
     public function testGoogleAnalyticsAction()
     {
-
         $analytics = $this->initializeAnalytics();
         // Call the Analytics Reporting API V4.
         $response = $this->getReport($analytics);
-
-
-        /*
-        $client = new \Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->addScope(\Google_Service_Analytics::ANALYTICS_READONLY);
-
-        // If the user has already authorized this app then get an access token
-        // else redirect to ask the user to authorize access to Google Analytics.
-        if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-            // Set the access token on the client.
-            $client->setAccessToken($_SESSION['access_token']);
-
-            // Create an authorized analytics service object.
-            $analytics = new \Google_Service_AnalyticsReporting($client);
-
-            // Call the Analytics Reporting API V4.
-            $response = $this->getReport($analytics);
-
-            return $this->render("front/Seller/pro_user_dashboard.html.twig", [
-                'reports' => $this->printResults($response)
-            ]);
-        } else {
-            return $this->redirectToRoute('google_api_oauth2callback');
-        }*/
-
         return $this->render("front/Seller/pro_user_dashboard.html.twig", [
             'reports' => $this->printResults($response)
         ]);
     }
-
 
     /**
      * Initializes an Analytics Reporting API V4 service object.
@@ -53,12 +25,14 @@ class GoogleApiController extends BaseController
      */
     private function initializeAnalytics()
     {
-        $KEY_FILE_LOCATION  = __DIR__.'/../../../../../app/config/googleApi/client_secret.json';
+        $KEY_FILE_LOCATION = __DIR__ . '/../../../../../app/config/googleApi/client_secret.json';
 
         // Create and configure a new client object.
         $client = new \Google_Client();
-        $client->setApplicationName("Hello Analytics Reporting");
-        $client->setAuthConfig($KEY_FILE_LOCATION);
+        $client->setApplicationName("Wamcar");
+
+//        $client->setAuthConfig($KEY_FILE_LOCATION);
+        $client->useApplicationDefaultCredentials();
         $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
         $analytics = new \Google_Service_AnalyticsReporting($client);
 
@@ -73,23 +47,47 @@ class GoogleApiController extends BaseController
      */
     private function getReport(\Google_Service_AnalyticsReporting $analytics)
     {
-        $VIEW_ID = "171901733";
+        // Wamcar DEV Flavien
+        // $VIEW_ID = "171901733";
+        // Wamcar Prod filtré
+        $VIEW_ID = "121219279";
 
         // Create the DateRange object.
         $dateRange = new \Google_Service_AnalyticsReporting_DateRange();
-        $dateRange->setStartDate("7daysAgo");
+        $dateRange->setStartDate("30daysAgo");
         $dateRange->setEndDate("today");
 
-        // Create the Metrics object.
+        // Create the "pageViews" Metrics object.
+        $pageViews = new \Google_Service_AnalyticsReporting_Metric();
+        $pageViews->setExpression("ga:pageviews");
+        $pageViews->setAlias("pageViews");
+
+        // Create the "sessions" Metrics object.
         $sessions = new \Google_Service_AnalyticsReporting_Metric();
         $sessions->setExpression("ga:sessions");
         $sessions->setAlias("sessions");
+
+        $dimension = new \Google_Service_AnalyticsReporting_Dimension();
+        $dimension->setName("ga:pagePath");
+
+        // Create Dimension Filter : ga:pagePath==/conseiller-auto/maxime-chenais
+        $dimensionFilterClause = new \Google_Service_AnalyticsReporting_DimensionFilterClause();
+        $dimensionFilterClause->setOperator("AND");
+
+        $dimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
+        $dimensionFilter->setDimensionName("ga:pagePath");
+        $dimensionFilter->setOperator("EXACT");
+        $dimensionFilter->setExpressions(array("/conseiller-auto/maxime-chenais"));
+        $dimensionFilterClause->setFilters([$dimensionFilter]);
+
 
         // Create the ReportRequest object.
         $request = new \Google_Service_AnalyticsReporting_ReportRequest();
         $request->setViewId($VIEW_ID);
         $request->setDateRanges($dateRange);
-        $request->setMetrics(array($sessions));
+        $request->setMetrics([$pageViews, $sessions]);
+//        $request->setDimensions([$dimension]);
+        $request->setDimensionFilterClauses($dimensionFilterClause);
 
         $body = new \Google_Service_AnalyticsReporting_GetReportsRequest();
         $body->setReportRequests(array($request));
@@ -135,35 +133,5 @@ class GoogleApiController extends BaseController
             $result[$reportIndex] = $reportArray;
         }
         return $result;
-    }
-
-
-    public function ouath2callbackAction()
-    {
-        // Create the client object and set the authorization configuration
-        // from the client_secrets.json you downloaded from the Developers Console.
-        $client = new \Google_Client();
-
-        try {
-            $client->setAuthConfig(__DIR__.'/../../../../../app/config/googleApi/client_secret.json');
-
-            // $client->useApplicationDefaultCredentials();
-            $client->setRedirectUri($this->generateUrl("google_api_oauth2callback"));
-            $client->addScope(\Google_Service_Analytics::ANALYTICS_READONLY);
-            dump($client);
-            // Handle authorization flow from the server.
-            if (!isset($_GET['code'])) {
-                $auth_url = $client->createAuthUrl();
-                return $this->redirect($auth_url);
-            } else {
-                $client->fetchAccessTokenWithAuthCode($_GET['code']);
-                $_SESSION['access_token'] = $client->getAccessToken();
-                $redirect_uri = $this->generateUrl("front_default");
-                return $this->redirect($redirect_uri);
-            }
-        }catch(\Google_Exception $google_Exception){
-            dump($google_Exception);
-            return $this->redirectToRoute('front_default');
-        }
     }
 }

@@ -62,7 +62,3 @@ google_login:
     path: /login/check-google
 twitter_login:
     path: /login/check-twitter
-
-googlea_api:
-    resource: "routing/google_api.yml"
-    prefix: /google-api/

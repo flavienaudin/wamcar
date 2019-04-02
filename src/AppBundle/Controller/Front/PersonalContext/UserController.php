@@ -33,6 +33,7 @@ use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use GoogleApi\GAReportingAPIService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -43,7 +44,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
-use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
@@ -59,39 +59,30 @@ class UserController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-
     /** @var UserRepository */
     protected $userRepository;
-
     /** @var DoctrinePersonalUserRepository */
     protected $personalUserRepository;
-
     /** @var DoctrineProUserRepository */
     protected $proUserRepository;
-
     /** @var UserEditionService */
     protected $userEditionService;
-
     /** @var GarageEditionService */
     protected $garageEditionService;
-
     /** @var VehicleInfoEntityIndexer */
     private $vehicleInfoIndexer;
-
     /** @var ProVehicleEntityIndexer */
     private $proVehicleEntityIndexer;
-
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
-
     /** @var MessageBus */
     protected $eventBus;
-
     /** @var TranslatorInterface */
     protected $translator;
-
     /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
+    /** @var GAReportingAPIService */
+    protected $gaReportingApiService;
 
     /**
      * SecurityController constructor.
@@ -107,6 +98,7 @@ class UserController extends BaseController
      * @param MessageBus $eventBus
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
+     * @param GAReportingAPIService $gaReportingApiService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -120,7 +112,8 @@ class UserController extends BaseController
         ProVehicleEditionService $proVehicleEditionService,
         MessageBus $eventBus,
         TranslatorInterface $translator,
-        AffinityAnswerCalculationService $affinityAnswerCalculationService
+        AffinityAnswerCalculationService $affinityAnswerCalculationService,
+        GAReportingAPIService $gaReportingApiService
     )
     {
         $this->formFactory = $formFactory;
@@ -135,6 +128,7 @@ class UserController extends BaseController
         $this->eventBus = $eventBus;
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
+        $this->gaReportingApiService = $gaReportingApiService;
     }
 
     /**
@@ -343,12 +337,7 @@ class UserController extends BaseController
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
 
-            $garageIds = [];
-            /** @var GarageProUser $garageMembership */
-            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
-                $garageIds[] = $garageMembership->getGarage()->getId();
-            }
-            $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garageIds, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryVehiclesByProUserResult($user->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
             if ($searchResultSet != null) {
                 $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
                 $lastPage = ElasticUtils::numberOfPages($searchResultSet);
@@ -536,9 +525,9 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
-
-
-        return $this->render("front/Seller/pro_user_dashboard.html.twig", []);
+        return $this->render("front/Seller/pro_user_dashboard.html.twig", [
+            'report' => $this->gaReportingApiService->getProUserKPI($currentUser)
+        ]);
     }
 
     /**

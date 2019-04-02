@@ -61,6 +61,47 @@ class ProVehicleEntityIndexer extends EntityIndexer
         } else {
             $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
         }
+        return $this->search($mainQuery);
+    }
+
+
+    /**
+     * @param int $sellerId
+     * @param string|null $text
+     * @param int $page
+     * @param int $limit
+     * @return null|ResultSet
+     */
+    public function getQueryVehiclesByProUserResult(int $sellerId, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
+    {
+        $mainQuery = new Query();
+
+        $qb = new QueryBuilder();
+        $mainBoolQuery = $qb->query()->bool();
+
+        // handle seller filter
+        $mainBoolQuery->addFilter($qb->query()->term(['sellerId' => $sellerId]));
+        if (!empty($text)) {
+            $textMultiMatchQuery = $qb->query()->multi_match();
+            $textMultiMatchQuery->setFields(['makeAndModel^2', 'make', 'model', 'engine', 'description']);
+            $textMultiMatchQuery->setOperator(Query\MultiMatch::OPERATOR_OR);
+            $textMultiMatchQuery->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
+            $textMultiMatchQuery->setQuery($text);
+            $mainBoolQuery->addShould($textMultiMatchQuery);
+            $mainQuery->setMinScore(1.1);
+        }
+        $mainQuery->setQuery($mainBoolQuery);
+        $mainQuery->setFrom(self::OFFSET + ($page - 1) * $limit);
+        $mainQuery->setSize($limit);
+        $mainQuery->setExplain(true);
+        $mainQuery->setTrackScores();
+
+        // Sorting Configuration
+        if (empty($text)) {
+            $mainQuery->setSort(['mainSortingDate' => 'desc']);
+        } else {
+            $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
+        }
 
 
         return $this->search($mainQuery);

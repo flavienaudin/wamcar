@@ -242,6 +242,15 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * UserID for GoogleAnalyticsTracking
+     * @return string
+     */
+    public function getUserID():string
+    {
+        return static::TYPE . '-' . $this->getId();
+    }
+
+    /**
      * @return string|null
      */
     public function getFacebookId(): ?string

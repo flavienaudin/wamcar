@@ -55,6 +55,7 @@ class IndexableProVehicleBuilder
             $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), $vehicle->getMainPicture() ? 'vehicle_thumbnail' : 'vehicle_placeholder_thumbnail'),
             count($vehicle->getPictures()),
             $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
+            $vehicle->getSeller() ? $vehicle->getSeller()->getId() : null,
             $vehicle->getDeletedAt(),
             $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating() : null,
             count($vehicle->getPositiveLikes())

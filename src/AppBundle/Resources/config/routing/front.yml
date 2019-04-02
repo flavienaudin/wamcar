@@ -222,7 +222,7 @@ front_vehicle_pro_delete:
 # Tableau de bord : Conseillers auto
 front_pro_user_dashboard:
     path: /mon-tableau-de-bord
-    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleAnalytics
+    controller: AppBundle:Front\PersonalContext\User:dashboardView
 
 # Gestion des ventes
 front_pro_user_sales:
