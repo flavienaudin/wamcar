@@ -198,6 +198,8 @@ header:
     my_vehicles: Mes véhicules
     add_vehicle: Vendre un véhicule
     directory: Annuaire Pro
+  admin:
+    adminstration: Administration
 
 
 
