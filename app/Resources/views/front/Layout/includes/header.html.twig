@@ -48,7 +48,7 @@
                                 {{ include('front/Layout/includes/menu/personal_menu.html.twig') }}
                             {% endif %}
                             {% if isUserAdmin %}
-                                <li><a href="{{ path('admin_board') }}">{{ 'header.admin.adminstration'|trans }}</a></li>
+                                <li class="menu-separator"><a href="{{ path('admin_board') }}">{{ 'header.admin.adminstration'|trans }}</a></li>
                             {% endif %}
                         </ul>
                     </li>
