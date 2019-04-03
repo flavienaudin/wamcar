@@ -58,6 +58,8 @@ abstract class BaseUser implements HasApiCredential
     protected $twitterAccessToken;
     /** @var null|FirstContactPreference */
     protected $firstContactPreference;
+    /** @var int */
+    protected $creditPoints;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
@@ -90,6 +92,7 @@ abstract class BaseUser implements HasApiCredential
         $this->email = $email;
         $this->userProfile = new UserProfile(null, $firstName, $name, null, null, $city);
         $this->avatar = $avatar;
+        $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
@@ -655,4 +658,41 @@ abstract class BaseUser implements HasApiCredential
     {
         return count($this->getVehicles());
     }
+
+    /**
+     * @return int
+     */
+    public function getCreditPoints(): int
+    {
+        return $this->creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     */
+    public function setCreditPoints(int $creditPoints): void
+    {
+        $this->creditPoints = $creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     * @return int
+     */
+    public function addCreditPoints(int $creditPoints)
+    {
+        $this->creditPoints += $creditPoints;
+        return $this->creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     * @return int
+     */
+    public function substractCreditPoints(int $creditPoints)
+    {
+        $this->creditPoints -= $creditPoints;
+        return $this->creditPoints;
+    }
+
 }

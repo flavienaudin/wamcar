@@ -224,6 +224,9 @@ front_pro_user_dashboard:
     path: /mon-tableau-de-bord
     controller: AppBundle:Front\PersonalContext\User:dashboardView
 
+front_pro_user_boost_view:
+    path: /boost
+    controller: AppBundle:Front\PersonalContext\User:boostView
 # Gestion des ventes
 front_pro_user_sales:
     path: /mes-ventes

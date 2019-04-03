@@ -15,7 +15,8 @@
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     {% include 'front/Layout/includes/page_header.html.twig' with {
-        title: block('title')
+        title: block('title'),
+        link:'<a href="'~path('front_pro_user_boost_view') ~'" class="text-underline">'~ 'boost.link'|trans~'</a>'
     } %}
 
 
@@ -24,14 +25,12 @@
             <h2 class="primary-color">{{ 'sales.waiting.title'|trans }}<br>
                 <small>{{ 'sales.waiting.subtitle'|trans }}</small>
             </h2>
-
-
-            <div class="sales-container">
+            <div class="sales-container margin-bottom-2">
                 <div class="vehicle-list">
                     {% for vehicle in vehiclesToDeclare %}
                         {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
                     {% else %}
-                        Pas de véhicule vendu à déclarer
+                        <i>Pas de véhicule vendu à déclarer</i>
                     {% endfor %}
                 </div>
             </div>
@@ -47,7 +46,7 @@
                     {% for vehicle in declaredVehicles %}
                         {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
                     {% else %}
-                        Pas de véhicule déclaré
+                        <i>Pas de véhicule déclaré</i>
                     {% endfor %}
                 </div>
             </div>

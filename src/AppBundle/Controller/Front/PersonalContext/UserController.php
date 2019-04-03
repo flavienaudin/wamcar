@@ -531,6 +531,19 @@ class UserController extends BaseController
     }
 
     /**
+     * @return Response
+     */
+    public function boostViewAction(){
+        $currentUser = $this->getUser();
+        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+
+        return $this->render("front/Seller/boost.html.twig");
+    }
+
+    /**
      * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */

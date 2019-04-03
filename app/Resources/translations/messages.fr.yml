@@ -1027,6 +1027,11 @@ sales:
 pro_dashboard:
   page:
     title: Mon tableau de bord
+boost:
+  link: Booster mes pages
+  page:
+    title: Booster mes pages
+    number_of_points: Je possède %points% points
 
 favorites:
   page_title: Ma sélection
