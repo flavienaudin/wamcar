@@ -111,10 +111,12 @@ class GAReportingAPIService
 
         //--------------------------------//
         // Page Profil du conseiller auto //
+        // ProUser Véhicles               //
         //--------------------------------//
         // Dimension Filter Clause
-        $profilePageDimensionFilterClause = new \Google_Service_AnalyticsReporting_DimensionFilterClause();
-        $profilePageDimensionFilterClause->setOperator(self::OPERATOR_OR);
+        $profileAndVehiclesPagesDimensionFilterClause = new \Google_Service_AnalyticsReporting_DimensionFilterClause();
+        $profileAndVehiclesPagesDimensionFilterClause->setOperator(self::OPERATOR_OR);
+        $profileAndVehiclesPagesDimensionFilters = [];
         // Dimension Filter : ga:pagePath== ProUser profile page
         $profilePageDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
         $profilePageDimensionFilter->setDimensionName(self::PAGE_PATH_DIMENSION_NAME);
@@ -122,15 +124,27 @@ class GAReportingAPIService
         $profilePageDimensionFilter->setExpressions(array($this->router->generate('front_view_pro_user_info', [
             'slug' => $proUser->getSlug()
         ])));
-        $profilePageDimensionFilterClause->setFilters([$profilePageDimensionFilter]);
-        // Create the ReportRequest object for the Profile Page
-        $profilePageRequest = new \Google_Service_AnalyticsReporting_ReportRequest();
-        $profilePageRequest->setViewId($this->viewId);
-        $profilePageRequest->setDateRanges([$dateRange, $dateRange2]);
-        $profilePageRequest->setMetrics([$uniquePageViewsMetric]);
-        $profilePageRequest->setDimensions([$pagePathDimension]);
-        $profilePageRequest->setDimensionFilterClauses($profilePageDimensionFilterClause);
+        $profileAndVehiclesPagesDimensionFilters[] = $profilePageDimensionFilter;
+        foreach ($proUser->getVehicles() as $vehicle) {
+            // Vehicle Page Dimension Filter : ga:pagePath== Vehicle page
+            $vehiclePageDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
+            $vehiclePageDimensionFilter->setDimensionName(self::PAGE_PATH_DIMENSION_NAME);
+            $vehiclePageDimensionFilter->setOperator(self::OPERATOR_EXACT);
+            $vehiclePageDimensionFilter->setExpressions(array($this->router->generate('front_vehicle_pro_detail', [
+                'slug' => $vehicle->getSlug()
+            ])));
+            $profileAndVehiclesPagesDimensionFilters[] = $vehiclePageDimensionFilter;
+        }
 
+        $profileAndVehiclesPagesDimensionFilterClause->setFilters($profileAndVehiclesPagesDimensionFilters);
+
+        // Create the ReportRequest object for the Profile Page
+        $profileAndVehiclesPageRequest = new \Google_Service_AnalyticsReporting_ReportRequest();
+        $profileAndVehiclesPageRequest->setViewId($this->viewId);
+        $profileAndVehiclesPageRequest->setDateRanges([$dateRange, $dateRange2]);
+        $profileAndVehiclesPageRequest->setMetrics([$uniquePageViewsMetric]);
+        $profileAndVehiclesPageRequest->setDimensions([$pagePathDimension]);
+        $profileAndVehiclesPageRequest->setDimensionFilterClauses($profileAndVehiclesPagesDimensionFilterClause);
 
         //------------------//
         // Nb ShowTel event //
@@ -152,50 +166,12 @@ class GAReportingAPIService
         $showTelEventRequest->setDimensions([$pagePathDimension, $eventLabelDimension]);
         $showTelEventRequest->setDimensionFilterClauses($contactsEventDimensionFilterClause);
 
-
-        //------------------//
-        // ProUser Véhicles //
-        //------------------//
-        // Dimension Filter Clause
-        $vehiclePagesDimensionFilterClause = new \Google_Service_AnalyticsReporting_DimensionFilterClause();
-        $vehiclePagesDimensionFilterClause->setOperator(self::OPERATOR_OR);
-        $vehiclesDimensionFilters = [];
-        foreach ($proUser->getVehicles() as $vehicle) {
-            // Vehicle Page Dimension Filter : ga:pagePath== Vehicle page
-            $vehiclePageDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
-            $vehiclePageDimensionFilter->setDimensionName(self::PAGE_PATH_DIMENSION_NAME);
-            $vehiclePageDimensionFilter->setOperator(self::OPERATOR_EXACT);
-            $vehiclePageDimensionFilter->setExpressions(array($this->router->generate('front_vehicle_pro_detail', [
-                'slug' => $vehicle->getSlug()
-            ])));
-            $vehiclesDimensionFilters[] = $vehiclePageDimensionFilter;
-
-            // Vehicle Page Dimension Filter : ga:pagePath== Vehicle page
-            $vehicleLikeDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
-            $vehicleLikeDimensionFilter->setDimensionName(self::PAGE_PATH_DIMENSION_NAME);
-            $vehicleLikeDimensionFilter->setOperator(self::OPERATOR_EXACT);
-            $vehicleLikeDimensionFilter->setExpressions(array($this->router->generate('front_user_like_pro_vehicle', [
-                'slug' => $vehicle->getSlug()
-            ])));
-            $vehiclesDimensionFilters[] = $vehicleLikeDimensionFilter;
-        }
-        $vehiclePagesDimensionFilterClause->setFilters([$vehiclesDimensionFilters]);
-
-        // Create the ReportRequest object for the Profile Page
-        $vehiclesPagesRequest = new \Google_Service_AnalyticsReporting_ReportRequest();
-        $vehiclesPagesRequest->setViewId($this->viewId);
-        $vehiclesPagesRequest->setDateRanges([$dateRange, $dateRange2]);
-        $vehiclesPagesRequest->setMetrics([$uniquePageViewsMetric]);
-        $vehiclesPagesRequest->setDimensions([$pagePathDimension]);
-        $vehiclesPagesRequest->setDimensionFilterClauses($vehiclePagesDimensionFilterClause);
-
-
         $body = new \Google_Service_AnalyticsReporting_GetReportsRequest();
-        $body->setReportRequests([$profilePageRequest, $showTelEventRequest, $vehiclesPagesRequest]);
+        $body->setReportRequests([$profileAndVehiclesPageRequest, $showTelEventRequest]);
 
         $reports = $this->analytics->reports->batchGet($body);
-        //dump($reports);
-        return $this->readProUserReport($reports);
+        dump($reports);
+        return $this->readProUserReport($reports, $proUser);
     }
 
 
@@ -203,31 +179,42 @@ class GAReportingAPIService
      * Parses and store in an array the Analytics Reporting API V4 response.
      *
      * @param \Google_Service_AnalyticsReporting_GetReportsResponse $reports An Analytics Reporting API V4 response.
+     * @param ProUser $proUser The user concerned by the report
      * @return array of report
      */
-    private function readProUserReport(\Google_Service_AnalyticsReporting_GetReportsResponse $reports): array
+    private function readProUserReport(\Google_Service_AnalyticsReporting_GetReportsResponse $reports, ProUser $proUser): array
     {
-        $proUserStatistics = [];
+        $proUserStatistics = ['profilePage' => [],'vehiclesPages' => []];
         // Profile Page Report
         $profilePageReport = $reports[0];
         $header = $profilePageReport->getColumnHeader();
         $metricHeaders = $header->getMetricHeader()->getMetricHeaderEntries();
         $rows = $profilePageReport->getData()->getRows();
-        $proUserStatistics['profilePage'] = [];
         for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) {
             $row = $rows[$rowIndex];
+            $urlPage = $row->getDimensions()[0];
             $metricsByDateRange = $row->getMetrics();
             for ($j = 0; $j < count($metricsByDateRange); $j++) {
                 // Each DateRange
                 $values = $metricsByDateRange[$j]->getValues();
                 for ($k = 0; $k < count($values); $k++) {
                     $entry = $metricHeaders[$k];
-                    $proUserStatistics['profilePage'][$j][$entry->getName()] = $values[$k];
+                    if(strpos($urlPage, $this->router->generate('front_view_pro_user_info', ['slug' => $proUser->getSlug() ])) !== FALSE) {
+                        $proUserStatistics['profilePage'][$j][$entry->getName()] = $values[$k];
+                    }elseif(strpos($urlPage, str_replace('FAKE', '', $this->router->generate('front_vehicle_pro_detail', ['slug' => 'FAKE' ]))) !== FALSE) {
+                        $proUserStatistics['vehiclesPages'][$urlPage][$j][$entry->getName()] = $values[$k];
+                    }
                 }
             }
         }
+        $orderedArray = $proUserStatistics['vehiclesPages'];
+        uasort($orderedArray, function ($dateRangeMetrics1, $dateRangeMetrics2) {
+            return $dateRangeMetrics1[0]['uniquePageViews'] - $dateRangeMetrics2[0]['uniquePageViews'];
+        });
+        $proUserStatistics['top5Vehicles'] = array_reverse(array_slice($orderedArray, -5), true);
 
-        // Contacts events Report
+        // Contacts events Report (Possible de fusionner les deux rapports ProfilePage et VehiclesPages en lisant la dimension
+        // pour différencier la statistique
         $contactsEventsReport = $reports[1];
         $rows = $contactsEventsReport->getData()->getRows();
         $metricsValues = [
@@ -238,17 +225,17 @@ class GAReportingAPIService
             // Each dimension = $eventLabel (.*showtelpro.*<proUser.id> | launchMPpro<proUser.id>)
             $row = $rows[$rowIndex];
             $metricsByDateRange = $row->getMetrics();
-            $onPage= $row->getDimensions()[0];
+            $onPage = $row->getDimensions()[0];
             $eventLabel = $row->getDimensions()[1];
             for ($j = 0; $j < count($metricsByDateRange); $j++) {
                 // Each DateRange
-                if(!isset($metricsValues['telephone'][$j])){
+                if (!isset($metricsValues['telephone'][$j])) {
                     $metricsValues['telephone'][$j] = [
                         'total' => 0,
                         'onPage' => []
                     ];
                 }
-                if(!isset($metricsValues['message'][$j])) {
+                if (!isset($metricsValues['message'][$j])) {
                     $metricsValues['message'][$j] = [
                         'total' => 0,
                         'onPage' => []
@@ -257,13 +244,13 @@ class GAReportingAPIService
                 $values = $metricsByDateRange[$j]->getValues();
                 if (strpos($eventLabel, 'showtelpro') !== FALSE) {
                     $metricsValues['telephone'][$j]['total'] += intval($values[0]);
-                    if(!isset($metricsValues['telephone'][$j]['onPage'][$onPage])){
+                    if (!isset($metricsValues['telephone'][$j]['onPage'][$onPage])) {
                         $metricsValues['telephone'][$j]['onPage'][$onPage] = 0;
                     }
                     $metricsValues['telephone'][$j]['onPage'][$onPage] += intval($values[0]);
                 } elseif (strpos($eventLabel, 'launchMPpro') !== FALSE) {
                     $metricsValues['message'][$j]['total'] += intval($values[0]);
-                    if(!isset($metricsValues['message'][$j]['onPage'][$onPage])){
+                    if (!isset($metricsValues['message'][$j]['onPage'][$onPage])) {
                         $metricsValues['message'][$j]['onPage'][$onPage] = 0;
                     }
                     $metricsValues['message'][$j]['onPage'][$onPage] += intval($values[0]);
@@ -272,28 +259,8 @@ class GAReportingAPIService
         }
         $proUserStatistics['contactsEvents'] = $metricsValues;
 
-        // Vehicles Pages Report
-        $vehiclesPagesReport = $reports[2];
-        $rows = $vehiclesPagesReport->getData()->getRows();
-        $proUserStatistics['vehiclesPages'] = [];
-        $proUserStatistics['vehiclesLikes'] = [];
-        for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) {
-            // Each dimension = vehicle page path
-            $row = $rows[$rowIndex];
-            $metricsByDateRange = $row->getMetrics();
-            $vehiclePagePath = $row->getDimensions()[0];
-            $vehicleMetrics = [];
-            for ($j = 0; $j < count($metricsByDateRange); $j++) {
-                // Each DateRange
-                $values = $metricsByDateRange[$j]->getValues();
-                $vehicleMetrics[$j] = $values[0];
-            }
-            if(strpos($vehiclePagePath,'/user/like') !== FALSE){
-                $proUserStatistics['vehiclesLikes'][$vehiclePagePath] = $vehicleMetrics;
-            }elseif(strpos($vehiclePagePath,'/user/like') !== FALSE) {
-                $proUserStatistics['vehiclesPages'][$vehiclePagePath] = $vehicleMetrics;
-            }
-        }
+
+
 
         return $proUserStatistics;
     }

@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Criteria;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
+use Wamcar\Conversation\ConversationUser;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
@@ -245,7 +246,7 @@ abstract class BaseUser implements HasApiCredential
      * UserID for GoogleAnalyticsTracking
      * @return string
      */
-    public function getUserID():string
+    public function getUserID(): string
     {
         return static::TYPE . '-' . $this->getId();
     }
@@ -435,6 +436,16 @@ abstract class BaseUser implements HasApiCredential
         return $this->conversationUsers;
     }
 
+    public function getTotalMessagesOnConversations(): int
+    {
+        $total = 0;
+        /** @var ConversationUser $conversation */
+        foreach ($this->conversationUsers as $conversation) {
+            $total += count($conversation->getConversation()->getMessages());
+        }
+        return $total;
+    }
+
     /**
      * @return Collection
      */
@@ -591,7 +602,7 @@ abstract class BaseUser implements HasApiCredential
                 $affinityDegreesArray[$affinityDegree->getGreaterIdUser()->getId()] = $affinityDegree->getAffinityValue();
             }
         }
-        if(empty($affinityDegreesArray)){
+        if (empty($affinityDegreesArray)) {
             $affinityDegreesArray[-1] = 0;
         }
         return $affinityDegreesArray;

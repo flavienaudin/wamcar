@@ -66,7 +66,33 @@
                 </li>
             </ul>
 
+            <h2>Messagerie</h2>
+            <div>
+                <ul>
+                    <li>Nombre de conversations : {{ app.user.conversationUsers|length }}</li>
+                    <li>Nombre de messages envoyés : {{ app.user.messages|length }}</li>
+                    <li>Nombre de messages reçus : {{ app.user.totalMessagesOnConversations - app.user.messages|length}}</li>
+                </ul>
+
+            </div>
+
             <h2>Vos pages "Véhicules"</h2>
+
+            <h3>Statistiques sur vos véhicules</h3>
+            <div>
+                <ul>
+                    <li>Nombre de véhicules disponibles : {{ app.user.vehicles|length }}</li>
+                    <li>Top {{ report.top5Vehicles|length }} des véhicules sur les 30 derniers jours :
+                    <ul>
+                        {% for top5vehiclePath, top5vehicleMetrics in report.top5Vehicles %}
+                            <li>{{ top5vehiclePath }} {{ top5vehicleMetrics[0].uniquePageViews }}</li>
+                        {% endfor %}
+                    </ul></li>
+                </ul>
+            </div>
+
+
+            <h3>Statistiques détaillées de vos pages véhicules</h3>
             {% for vehicle in app.user.vehicles %}
                 <div>
                     {% set vehiclePath = path('front_vehicle_pro_detail',{'slug':vehicle.slug}) %}
@@ -74,15 +100,16 @@
                     <ul>
                         <li>Nombre de vues :
                             <ul>
-                                <li>Sur les 30 derniers jours : {{ report.vehiclesPages[vehiclePath][0]??0 }}</li>
-                                <li>Sur les 7 derniers jours : {{ report.vehiclesPages[vehiclePath][1]??0 }}</li>
+                                <li>Sur les 30 derniers jours : {{ report.vehiclesPages[vehiclePath][0].uniquePageViews??0 }}</li>
+                                <li>Sur les 7 derniers jours : {{ report.vehiclesPages[vehiclePath][1].uniquePageViews??0 }}</li>
                             </ul>
                         </li>
                         <li>Nombre de likes :
                             <ul>
                                 <li>Total : {{ vehicle.positiveLikes|length }}</li>
+                                {# Pas de données GA car non tracké : l'action est redirigée
                                 <li>Sur les 30 derniers jours : {{ report.vehiclesLikes[vehiclePath][0]??0 }}</li>
-                                <li>Sur les 7 derniers jours : {{ report.vehiclesLikes[vehiclePath][1]??0 }}</li>
+                                <li>Sur les 7 derniers jours : {{ report.vehiclesLikes[vehiclePath][1]??0 }}</li>#}
                             </ul>
                         </li>
                         <li>Nombre de contacts :
