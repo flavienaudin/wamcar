@@ -1,0 +1,55 @@
+Wamcar\User\Lead:
+  type: entity
+  table: lead
+  exclusion_policy: ALL
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineLeadRepository
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    firstName:
+      type: string
+      nullable: false
+    lastName:
+      type: string
+      nullable: false
+    lastContactedAt:
+      type: datetime
+      nullable: false
+      gedmo:
+        timestampable:
+          on: update
+    nbPhoneAction:
+      type: integer
+      nullable: false
+    nbPhoneProAction:
+      type: integer
+      nullable: false
+    nbMessages:
+      type: integer
+      nullable: false
+    nbLikes:
+      type: integer
+      nullable: false
+
+  manyToOne:
+    proUser:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: leads
+      joinColumn:
+        name: pro_user_id
+        referencedColumnName: id
+        nullable: false
+
+  oneToOne:
+    userLead:
+      targetEntity: Wamcar\User\BaseUser
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        nullable: true

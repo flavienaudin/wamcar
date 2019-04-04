@@ -21,6 +21,12 @@
 
     <div class="row">
         <div class="column small-12">
+            <h2>Vos Leads</h2>
+            <div>
+                {{ dump(app.user.leads.toArray) }}
+            </div>
+
+
             <h2>Votre page "Conseiller Automobile"</h2>
             {% set profilePagePath = path('front_view_pro_user_info', {'slug':app.user.slug}) %}
             <ul>

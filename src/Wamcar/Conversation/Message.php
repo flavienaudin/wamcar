@@ -18,7 +18,7 @@ class Message
     protected $id;
     /** @var Conversation */
     protected $conversation;
-    /** @var BaseUser */
+    /** @var BaseUser Writer of the message */
     protected $user;
     /** @var string */
     protected $content;
@@ -99,6 +99,7 @@ class Message
     }
 
     /**
+     * Get the writer of the message
      * @return CanBeInConversation
      */
     public function getUser(): CanBeInConversation

@@ -10,7 +10,7 @@ abstract class AbstractMessageEvent
 {
     /** @var Message */
     private $message;
-    /** @var BaseUser */
+    /** @var BaseUser Recipient of the message */
     private $interlocutor;
     /** @var string */
     private $pathImg;
@@ -36,6 +36,7 @@ abstract class AbstractMessageEvent
     }
 
     /**
+     * Get the recipient of the message
      * @return BaseUser
      */
     public function getInterlocutor(): BaseUser

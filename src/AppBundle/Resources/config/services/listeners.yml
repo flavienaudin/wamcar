@@ -17,9 +17,15 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
 
+    AppBundle\EventListener\LeadEventListener:
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: messageCreated }
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: userLikeVehicle }
+
     AppBundle\EventListener\SitemapSubscriber:
         tags:
             - { name: kernel.event_subscriber, priority: 100 }
+
 
     # Decoration of the SluggableListener to be compatible with softDeleteable extension (disable SoftDeleteable filter before generating slug)
     Gedmo\Sluggable\SluggableListener:

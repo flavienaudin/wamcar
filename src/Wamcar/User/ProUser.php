@@ -26,6 +26,8 @@ class ProUser extends BaseUser
     protected $vehicles;
     /** @var null|int */
     protected $landingPosition;
+    /** @var Collection */
+    protected $leads;
 
     /**
      * ProUser constructor.
@@ -39,6 +41,7 @@ class ProUser extends BaseUser
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
+        $this->leads = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -216,6 +219,46 @@ class ProUser extends BaseUser
     public function setLandingPosition(?int $landingPosition): void
     {
         $this->landingPosition = $landingPosition;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLeads(): Collection
+    {
+        return $this->leads;
+    }
+
+    /**
+     * Get the lead of the given $user
+     * @param BaseUser $user
+     * @return null|Lead
+     */
+    public function getLeadOfUser(BaseUser $user): ?Lead
+    {
+        /** @var Lead $lead */
+        foreach ($this->getLeads() as $lead) {
+            if ($user->is($lead->getUserLead())) {
+                return $lead;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function addLeads(Lead $lead): void
+    {
+        $this->leads->add($lead);
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function removeLeads(Lead $lead): void
+    {
+        $this->leads->removeElement($lead);
     }
 
     /**

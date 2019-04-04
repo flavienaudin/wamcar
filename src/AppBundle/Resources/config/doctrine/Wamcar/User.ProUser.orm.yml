@@ -34,3 +34,7 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Vehicle\ProVehicle
             mappedBy: seller
             cascade: ["persist", "merge", "remove"]
+        leads:
+            targetEntity: Wamcar\User\Lead
+            mappedBy: proUser
+            cascade: ["persist", "merge", "remove"]
