@@ -53,6 +53,7 @@
     "chart.js": "^2.7.3",
     "autosize": "^4.0.2",
     "waypoints": "^4.0.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "datatables.net":"^1.10.19"
   }
 }

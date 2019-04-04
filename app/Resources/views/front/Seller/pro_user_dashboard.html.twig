@@ -23,7 +23,26 @@
         <div class="column small-12">
             <h2>Vos Leads</h2>
             <div>
-                {{ dump(app.user.leads.toArray) }}
+                <table class="js-datatable">
+                    <tr>
+                        <th>Prénom Nom</th>
+                        <th>Date du dernier contact</th>
+                        <th>Nb d'appels sur {{ app.user.userProfile.phone??'-' }}</th>
+                        <th>Nb d'appels sur {{ app.user.phonePro??'-' }}</th>
+                        <th>Nb de messages échangés</th>
+                        <th>Nb de likes</th>
+                    </tr>
+                    {% for lead in app.user.leads %}
+                        <tr>
+                            <td>{{ lead.firstname|title }} {{ lead.lastName|title }}</td>
+                            <td>{{ lead.lastContactedAt|localizeddate('short', 'short') }}</td>
+                            <td>{{ lead.nbPhoneAction }}</td>
+                            <td>{{ lead.nbPhoneProAction }}</td>
+                            <td>{{ lead.nbMessages }}</td>
+                            <td>{{ lead.nbLikes }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
             </div>
 
 
