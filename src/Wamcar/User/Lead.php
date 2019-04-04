@@ -223,10 +223,10 @@ class Lead
     }
 
     /**
-     * @param int|null $nbLikes
+     * @param int|null $nbLikes can be negative
      */
     public function increaseNbLikes(?int $nbLikes = 1): void
     {
-        $this->nbLikes += $nbLikes;
+        $this->nbLikes = max($this->nbLikes + $nbLikes, 0);
     }
 }

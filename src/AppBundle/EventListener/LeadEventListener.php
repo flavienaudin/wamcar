@@ -52,12 +52,12 @@ class LeadEventListener
     public function userLikeVehicle(UserLikeVehicleEvent $event)
     {
         $likeVehicle = $event->getLikeVehicle();
+
         if ($likeVehicle instanceof ProLikeVehicle) {
             /** @var ProVehicle $proVehicle */
             $proVehicle = $likeVehicle->getVehicle();
-            $this->leadManagementService->increaseLikeNumberOfProUser($proVehicle->getSeller(), $likeVehicle->getUser());
+            $this->leadManagementService->updateLikeNumberOfProUser($proVehicle->getSeller(), $likeVehicle->getUser(), $likeVehicle->getValue() == 1);
         }
-
     }
 
 }

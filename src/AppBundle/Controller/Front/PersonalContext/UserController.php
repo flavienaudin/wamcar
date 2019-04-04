@@ -31,6 +31,7 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use GoogleApi\GAReportingAPIService;
@@ -38,8 +39,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -79,10 +82,12 @@ class UserController extends BaseController
     protected $eventBus;
     /** @var TranslatorInterface */
     protected $translator;
-    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    /** @var AffinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
     /** @var GAReportingAPIService */
     protected $gaReportingApiService;
+    /** @var LeadManagementService */
+    protected $leadManagementService;
 
     /**
      * SecurityController constructor.
@@ -99,6 +104,7 @@ class UserController extends BaseController
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      * @param GAReportingAPIService $gaReportingApiService
+     * @param LeadManagementService $leadManagementService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -113,7 +119,7 @@ class UserController extends BaseController
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService,
-        GAReportingAPIService $gaReportingApiService
+        GAReportingAPIService $gaReportingApiService, LeadManagementService $leadManagementService
     )
     {
         $this->formFactory = $formFactory;
@@ -129,6 +135,7 @@ class UserController extends BaseController
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
         $this->gaReportingApiService = $gaReportingApiService;
+        $this->leadManagementService = $leadManagementService;
     }
 
     /**
@@ -516,11 +523,34 @@ class UserController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BadRequestHttpException
+     */
+    public function showPhoneNumberAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if ($this->getUser() instanceof BaseUser) {
+            $eventId = $request->get('eventId');
+            $userId = str_replace(['PC', 'Smartphone', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+            $phoneNumberUser = $this->userRepository->findOne($userId);
+            if ($phoneNumberUser instanceof ProUser) {
+                $this->leadManagementService->increasePhoneNumberOfProUser($phoneNumberUser, $this->getUser(),
+                    strpos($eventId, 'Fixe') > 0);
+            }
+        }
+        return new JsonResponse();
+    }
+
+    /**
      * @return Response
      */
-    public function dashboardViewAction(){
+    public function dashboardViewAction()
+    {
         $currentUser = $this->getUser();
-        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
             throw new AccessDeniedException();
         }
@@ -533,9 +563,10 @@ class UserController extends BaseController
     /**
      * @return Response
      */
-    public function boostViewAction(){
+    public function boostViewAction()
+    {
         $currentUser = $this->getUser();
-        if(!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser){
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
             throw new AccessDeniedException();
         }
@@ -612,7 +643,7 @@ class UserController extends BaseController
                 /** @var UserDeletionDTO $userDeletionData */
                 $userDeletionData = $userDeletionForm->getData();
                 $userDeletionReason = $userDeletionData->getReason();
-            }else{
+            } else {
                 $userDeletionReason = 'Utilisateur supprimé par un administrateur';
             }
             $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser(), $userDeletionReason);

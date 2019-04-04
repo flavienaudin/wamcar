@@ -134,6 +134,11 @@ legacy_view_user_info:
     requirements:
         id: '\d+'
 
+front_show_number:
+    path: /show-number
+    controller: AppBundle:Front\PersonalContext\User:showPhoneNumber
+    methods: POST
+
 # Garage
 front_garage_view:
     path: /g/{slug}
@@ -227,6 +232,7 @@ front_pro_user_dashboard:
 front_pro_user_boost_view:
     path: /boost
     controller: AppBundle:Front\PersonalContext\User:boostView
+
 # Gestion des ventes
 front_pro_user_sales:
     path: /mes-ventes

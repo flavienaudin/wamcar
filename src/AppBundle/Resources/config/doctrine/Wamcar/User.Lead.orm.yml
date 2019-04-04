@@ -45,8 +45,6 @@ Wamcar\User\Lead:
         name: pro_user_id
         referencedColumnName: id
         nullable: false
-
-  oneToOne:
     userLead:
       targetEntity: Wamcar\User\BaseUser
       joinColumn:

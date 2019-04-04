@@ -37,12 +37,21 @@
                                 <div class="is-flex">
                                     <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
                                         <span class="text-underline" id="launchMPpro{{ membership.prouser.id }}">{{ 'global.button.send_message'|trans }}</span></a>
-                                    {% if membership.proUser.mainPhoneNumber %}
-                                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                            'phoneNumber_eventId':'showtelpro'~membership.proUser.id,
-                                            'phoneNumber': membership.proUser.mainPhoneNumber,
-                                            'buttonClass': 'margin-left-1'
-                                        }) }}
+                                    {% endif %}#}
+                                    {% if membership.proUser.phonePro %}
+                                        <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                                'phoneNumber_eventId':'showtelproFixe'~membership.proUser.id,
+                                                'phoneNumber': membership.proUser.phonePro,
+                                                'buttonClass': 'margin-left-1'
+                                            }) }}</span>
+                                    {% endif %}
+                                    {% if membership.proUser.userProfile.phone %}
+                                        <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                                'phoneNumber_eventId':'showtelproMobile'~membership.proUser.id,
+                                                'phoneNumber': membership.proUser.userProfile.phone,
+                                                'buttonClass': 'margin-left-1',
+                                                'icontel': 'icon-mobile'
+                                            }) }}</span>
                                     {% endif %}
                                 </div>
                             {% endif %}
