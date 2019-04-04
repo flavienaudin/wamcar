@@ -43,10 +43,8 @@
                     <a href="{{ path('front_vehicle_pro_add', {'garage_id': garageMemberShip.garage.id}) }}"
                        class="logo-garage">
                         <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}"
-                             class="small-2 logo-mini align-self-top"
-                             alt="Logo {{ garageMemberShip.garage.name }}">
-                        &nbsp;{{ garageMemberShip.garage.name }}
-                        - {{ garageMemberShip.garage.city.name }}
+                             class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
+                        &nbsp;{{ garageMemberShip.garage.name }} - {{ garageMemberShip.garage.city.name }}
                     </a></li>
             {% endfor %}
         </ul>
@@ -64,7 +62,8 @@
     </ul>
 </li>
 
+{% if isUserAdmin %}
+    <li class="menu-separator"><a href="{{ path('admin_board') }}">{{ 'header.admin.adminstration'|trans }}</a></li>
+{% endif %}
 
-<li class="menu-separator"></li>
-
-<li><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>
+<li class="menu-separator"><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>
