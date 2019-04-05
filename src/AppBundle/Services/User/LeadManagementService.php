@@ -7,20 +7,58 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\ProUser;
+use Wamcar\User\UserRepository;
 
 class LeadManagementService
 {
 
+    /** @var UserRepository */
+    private $userRepository;
     /** @var LeadRepository */
     private $leadRepository;
 
     /**
      * LeadManagementService constructor.
+     * @param UserRepository $userRepository
      * @param LeadRepository $leadRepository
      */
-    public function __construct(LeadRepository $leadRepository)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository)
     {
+        $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
+    }
+
+    /**
+     * Generate and intialise the leads of the $proUser, based on the conversation and the likes
+     * @param ProUser $proUser
+     * @return int the number of $proUser's leads
+     */
+    public function generateProUserLead(ProUser $proUser)
+    {
+        $potentialLeads = $this->retrivePotentialLeads($proUser);
+        foreach ($potentialLeads as $leadInfo) {
+            /** @var BaseUser $leadUser */
+            $leadUser = $this->userRepository->findIgnoreSoftDeleted($leadInfo['leadUserId']);
+            if ($leadUser != null) {
+                $lead = $this->getLead($proUser, $leadUser, false);
+                $lead->setNbMessages($leadInfo['nbMessages']);
+                $lead->setNbLikes($leadInfo['nbLikes']);
+                dump($leadInfo['contactedAt']);
+                $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
+                $this->leadRepository->update($lead);
+            }
+        }
+        return count($proUser->getLeads());
+    }
+
+    /**
+     * Retrieve BaseUsers in conversation with the $proUser and who likes $proUser's vehicle
+     * @param ProUser $proUser
+     * @return array
+     */
+    private function retrivePotentialLeads(ProUser $proUser)
+    {
+        return $this->leadRepository->getPotentialLeadsByProUser($proUser);
     }
 
     /**
@@ -30,7 +68,7 @@ class LeadManagementService
      * @param bool $bddSave if true the new Lead is persisted in the db
      * @return Lead|null null if trying to get himself lead
      */
-    private function getLead(ProUser $proUser, BaseUser $user, bool $bddSave = true): ?Lead
+    public function getLead(ProUser $proUser, BaseUser $user, bool $bddSave = true): ?Lead
     {
         if ($proUser->is($user)) {
             return null;

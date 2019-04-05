@@ -13,7 +13,7 @@ class Lead
     private $userLead;
     /** @var string */
     private $firstName;
-    /** @var string */
+    /** @var null|string */
     private $lastName;
     /** @var \DateTime */
     private $lastContactedAt;
@@ -31,7 +31,7 @@ class Lead
      * @param ProUser $proUser
      * @param null|BaseUser $userLead
      */
-    public function __construct(ProUser $proUser, ?BaseUser $userLead)
+    public function __construct(ProUser $proUser, ?BaseUser $userLead = null)
     {
         $this->proUser = $proUser;
         $this->userLead = $userLead;
@@ -103,17 +103,17 @@ class Lead
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
     /**
-     * @param string $lastName
+     * @param null|string $lastName
      */
-    public function setLastName(string $lastName): void
+    public function setLastName(?string $lastName): void
     {
         $this->lastName = $lastName;
     }

@@ -17,7 +17,7 @@ Wamcar\User\Lead:
       nullable: false
     lastName:
       type: string
-      nullable: false
+      nullable: true
     lastContactedAt:
       type: datetime
       nullable: false
