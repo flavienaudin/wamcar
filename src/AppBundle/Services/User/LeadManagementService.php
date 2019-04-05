@@ -43,7 +43,7 @@ class LeadManagementService
                 $lead = $this->getLead($proUser, $leadUser, false);
                 $lead->setNbMessages($leadInfo['nbMessages']);
                 $lead->setNbLikes($leadInfo['nbLikes']);
-                dump($leadInfo['contactedAt']);
+                // dump($leadInfo['contactedAt']);
                 $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
                 $this->leadRepository->update($lead);
             }

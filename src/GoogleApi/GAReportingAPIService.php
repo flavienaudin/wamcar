@@ -170,7 +170,7 @@ class GAReportingAPIService
         $body->setReportRequests([$profileAndVehiclesPageRequest, $showTelEventRequest]);
 
         $reports = $this->analytics->reports->batchGet($body);
-        dump($reports);
+        //dump($reports);
         return $this->readProUserReport($reports, $proUser);
     }
 
