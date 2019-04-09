@@ -3,9 +3,13 @@
 namespace AppBundle\Services\User;
 
 
+use Doctrine\DBAL\DBALException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
+use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 use Wamcar\User\UserRepository;
 
@@ -16,16 +20,65 @@ class LeadManagementService
     private $userRepository;
     /** @var LeadRepository */
     private $leadRepository;
+    /** @var RouterInterface */
+    private $router;
 
     /**
      * LeadManagementService constructor.
      * @param UserRepository $userRepository
      * @param LeadRepository $leadRepository
+     * @param RouterInterface $router
      */
-    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
+        $this->router = $router;
+    }
+
+    /**
+     * DataTables.net Ajax Request
+     * $params and $result definitions : https://datatables.net/manual/server-side
+     * @param ProUser $proUser
+     * @param array $params
+     * @return array
+     */
+    public function getLeadsForDashboard(ProUser $proUser, array $params): array
+    {
+        $selectedLeads = $this->leadRepository->getLeadsByRequest($proUser, $params);
+        $result = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => count($proUser->getLeads()),
+            "recordsFiltered" => $selectedLeads['recordsFilteredCount'],
+            "data" => []
+        ];
+        /** @var Lead $lead */
+        foreach ($selectedLeads['data'] as $lead) {
+            $leadName = null;
+            if ($lead->getUserLead() instanceof ProUser) {
+                $leadName = '<a href="' . $this->router->generate('front_view_pro_user_info', [
+                        'slug' => $lead->getUserLead()->getSlug()
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $lead->getFullName() . '</a>';
+            } elseif ($lead->getUserLead() instanceof PersonalUser) {
+                $leadName = '<a href="' . $this->router->generate('front_view_personal_user_info', [
+                        'slug' => $lead->getUserLead()->getSlug()
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $lead->getFullName() . '</a>';
+            } else {
+                $leadName = $lead->getFullName();
+            }
+            $result['data'][] = [
+                'leadName' => $leadName,
+                'lastContactAt' => $lead->getLastContactedAt()->format("d-m-Y H:i:s"),
+                'proPhoneStats' => $lead->getNbPhoneProAction(),
+                'profilePhoneStats' => $lead->getNbPhoneAction(),
+                'messageStats' => $lead->getNbMessages(),
+                'likeStats' => $lead->getNbLikes(),
+                'action' => '<a href="' . $this->router->generate('front_sale_declaration_form', [
+                    'leadId' => $lead->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL).'">Vente</a>'
+            ];
+        }
+        return $result;
     }
 
     /**
@@ -41,11 +94,12 @@ class LeadManagementService
             $leadUser = $this->userRepository->findIgnoreSoftDeleted($leadInfo['leadUserId']);
             if ($leadUser != null) {
                 $lead = $this->getLead($proUser, $leadUser, false);
-                $lead->setNbMessages($leadInfo['nbMessages']);
-                $lead->setNbLikes($leadInfo['nbLikes']);
-                // dump($leadInfo['contactedAt']);
-                $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
-                $this->leadRepository->update($lead);
+                if ($lead != null) {
+                    $lead->setNbMessages($leadInfo['nbMessages']);
+                    $lead->setNbLikes($leadInfo['nbLikes']);
+                    $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
+                    $this->leadRepository->update($lead);
+                }
             }
         }
         return count($proUser->getLeads());
@@ -58,7 +112,11 @@ class LeadManagementService
      */
     private function retrivePotentialLeads(ProUser $proUser)
     {
-        return $this->leadRepository->getPotentialLeadsByProUser($proUser);
+        try {
+            return $this->leadRepository->getPotentialLeadsByProUser($proUser);
+        } catch (DBALException $e) {
+            return [];
+        }
     }
 
     /**
@@ -73,7 +131,7 @@ class LeadManagementService
         if ($proUser->is($user)) {
             return null;
         }
-        $lead = $proUser->getLeadOfUser($user);
+        $lead = $this->leadRepository->findOneBy(['userLead' => $user]);
         if ($lead == null) {
             $lead = $this->createLead($proUser, $user, $bddSave);
         }

@@ -34,6 +34,7 @@ class Lead
     public function __construct(ProUser $proUser, ?BaseUser $userLead = null)
     {
         $this->proUser = $proUser;
+        $proUser->addLeads($this);
         $this->userLead = $userLead;
         if ($userLead != null) {
             $this->firstName = $userLead->getFirstName();
@@ -84,6 +85,15 @@ class Lead
     public function setUserLead(?BaseUser $userLead): void
     {
         $this->userLead = $userLead;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return join(' ', [$this->firstName, $this->lastName]);
     }
 
     /**

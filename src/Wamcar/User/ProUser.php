@@ -230,7 +230,7 @@ class ProUser extends BaseUser
     }
 
     /**
-     * Get the lead of the given $user
+     * Get the lead of the given $user. Attention si le $user est softdeleted, aucun lead n'est retourné.
      * @param BaseUser $user
      * @return null|Lead
      */

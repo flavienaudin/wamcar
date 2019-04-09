@@ -1023,6 +1023,15 @@ sales:
     garage: "Garage : "
     declare_as: "Déclarer ce véhicule :"
     declared_as: "Vous avez déclaré ce véhicule \"%salestatus%\""
+sale_form:
+  page.title: Déclarer une vente
+  seller:
+    section.title: Le vendeur
+    form:
+      firstname:
+        label : Nom
+      lastname:
+        label: Prénom
 
 pro_dashboard:
   page:

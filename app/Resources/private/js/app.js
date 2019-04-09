@@ -19,7 +19,6 @@ import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import 'linkifyjs';
 import 'waypoints/lib/noframework.waypoints';
 import 'waypoints/lib/shortcuts/inview';
-import 'datatables.net/js/jquery.dataTables';
 
 import './components/responsiveDom';
 import './components/search';
@@ -43,6 +42,7 @@ import './components/avatar';
 import './components/notification';
 import './components/phone_number';
 import './components/affinity';
+import './components/datatable';
 import {activeClass} from './settings/settings.js';
 
 import {default as autosize} from 'autosize';
@@ -161,13 +161,6 @@ $(function () {
     });
   }
 
-  /* Datatable */
-  const $datatable = $('.js-datatable');
-  if ($datatable) {
-    $datatable.each((index, datatable) => {
-      $(datatable).DataTable();
-    });
-  }
 
   /* Textarea autosize */
   autosize($('textarea'));

@@ -15,6 +15,24 @@ interface LeadRepository
     public function getPotentialLeadsByProUser(ProUser $proUser): array;
 
     /**
+     * Retrieve the leads of the $proUser filtered and ordered by the $params
+     * @param ProUser $proUser
+     * @param array $params Request's params
+     * @return array
+     */
+    public function getLeadsByRequest(ProUser $proUser, array $params): array;
+
+    /**
+     * Finds a single entity by a set of criteria.
+     *
+     * @param array      $criteria
+     * @param array|null $orderBy
+     *
+     * @return object|null The entity instance or NULL if the entity can not be found.
+     */
+    public function findOneBy(array $criteria, array $orderBy = null);
+
+    /**
      * @param Lead $lead
      * @return Lead
      */

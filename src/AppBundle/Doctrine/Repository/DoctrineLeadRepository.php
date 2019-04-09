@@ -4,6 +4,7 @@ namespace AppBundle\Doctrine\Repository;
 
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\ProUser;
@@ -38,11 +39,75 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
                             ) nbLikes
                         )
                     ) u1
-                    group by u1.userId
-                    ;",
+                    group by u1.userId;",
             ['proUserId' => $proUser->getId()]
         );
         return $res->fetchAll();
+    }
+
+    /**
+     * @param ProUser $proUser
+     * @param array $params : https://datatables.net/manual/server-side#Sent-parameters
+     * @return array : https://datatables.net/manual/server-side#Returned-data
+     */
+    public function getLeadsByRequest(ProUser $proUser, array $params): array
+    {
+        // Query count total filtered results
+        $qb = $this->createQueryBuilder('l');
+        $qb->select($qb->expr()->count('l'))
+            ->where($qb->expr()->eq('l.proUser', ':proUser'));
+        $qb->setParameter('proUser', $proUser);
+        if (isset($params['search']) && !empty($params['search']['value'])) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('l.firstName', ':searchValue'),
+                    $qb->expr()->like('l.lastName', ':searchValue')
+                )
+            );
+            $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
+        }
+        try {
+            $count = $qb->getQuery()->getSingleScalarResult();
+        }catch(NonUniqueResultException $e){
+            $count = null;
+        }
+
+
+        // Query filtered results
+        $qb = $this->createQueryBuilder('l');
+        $qb->where($qb->expr()->eq('l.proUser', ':proUser'))
+            ->setFirstResult($params['start'])
+            ->setMaxResults($params['length']);
+        $qb->setParameter('proUser', $proUser);
+
+        if (isset($params['search']) && !empty($params['search']['value'])) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('l.firstName', ':searchValue'),
+                    $qb->expr()->like('l.lastName', ':searchValue')
+                )
+            );
+            $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
+        }
+
+        foreach ($params['order'] as $order) {
+            if($order['column'] > 0){
+                $orderColumns = [
+                    1 => 'l.lastContactedAt',
+                    2 => 'l.nbPhoneAction',
+                    3 => 'l.nbPhoneProAction',
+                    4 => 'l.nbMessages',
+                    5 => 'l.nbLikes'
+                ];
+                $qb->addOrderBy($orderColumns[$order['column']], $order['dir']);
+            }else{
+                $qb->addOrderBy('l.firstName', $order['dir']);
+                $qb->addOrderBy('l.lastName', $order['dir']);
+            }
+        }
+
+
+        return ['data' => $qb->getQuery()->getResult(), 'recordsFilteredCount' => $count];
     }
 
     /**

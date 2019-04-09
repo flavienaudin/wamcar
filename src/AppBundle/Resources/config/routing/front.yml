@@ -229,11 +229,16 @@ front_pro_user_dashboard:
     path: /mon-tableau-de-bord
     controller: AppBundle:Front\PersonalContext\User:dashboardView
 
+front_pro_user_lead:
+    path: /pro/leads/{id}
+    controller: AppBundle:Front\PersonalContext\User:proUserLeadsGet
+
 front_pro_user_boost_view:
     path: /boost
     controller: AppBundle:Front\PersonalContext\User:boostView
 
 # Gestion des ventes
+
 front_pro_user_sales:
     path: /mes-ventes
     controller: AppBundle:Front\ProContext\Sales:salesView
@@ -241,6 +246,10 @@ front_pro_user_sales:
 front_sale_declaration:
     path: /vente/declaration/{id}/{saleStatus}
     controller: AppBundle:Front\ProContext\Sales:declare
+
+front_sale_declaration_form:
+    path: /vente/declarer
+    controller: AppBundle:Front\ProContext\Sales:declareForm
 
 # Vehicules particuliers
 front_vehicle_personal_detail:

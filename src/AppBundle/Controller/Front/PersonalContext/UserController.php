@@ -561,6 +561,22 @@ class UserController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @param ProUser $proUser
+     * @return JsonResponse
+     */
+    public function proUserLeadsGetAction(Request $request, ProUser $proUser)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$proUser->is($this->getUser())) {
+            return new JsonResponse(['not current user']);
+        }
+        return new JsonResponse($this->leadManagementService->getLeadsForDashboard($proUser, $request->query->all()));
+    }
+
+    /**
      * @return Response
      */
     public function boostViewAction()

@@ -9,6 +9,7 @@ use AppBundle\Security\Voter\ProVehicleVoter;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -98,4 +99,9 @@ class SalesController extends BaseController
         return $this->redirectToRoute("front_pro_user_sales");
     }
 
+
+    public function declareFormAction(Request $request): Response
+    {
+        return $this->render("front/Seller/sale_declaration_form.html.twig", []);
+    }
 }

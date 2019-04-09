@@ -23,7 +23,10 @@
         <div class="column small-12">
             <h2>Vos Leads</h2>
             <div>
-                <table class="js-datatable">
+                <table id="prouserleads_dt" class="js-lead-datatable disaply width-100"
+                       data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
+                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                    <thead>
                     <tr>
                         <th>Prénom Nom</th>
                         <th>Date du dernier contact</th>
@@ -31,8 +34,21 @@
                         <th>Nb d'appels sur {{ app.user.phonePro??'-' }}</th>
                         <th>Nb de messages échangés</th>
                         <th>Nb de likes</th>
+                        <th>Vendu avec Wamcar</th>
                     </tr>
-                    {% for lead in app.user.leads %}
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th>Prénom Nom</th>
+                        <th>Date du dernier contact</th>
+                        <th>Nb d'appels sur {{ app.user.userProfile.phone??'-' }}</th>
+                        <th>Nb d'appels sur {{ app.user.phonePro??'-' }}</th>
+                        <th>Nb de messages échangés</th>
+                        <th>Nb de likes</th>
+                        <th>Vendu avec Wamcar</th>
+                    </tr>
+                    </tfoot>
+                    {#{% for lead in app.user.leads %}
                         <tr>
                             <td>{{ lead.firstname|title }} {{ lead.lastName|title }}</td>
                             <td>{{ lead.lastContactedAt|localizeddate('short', 'short') }}</td>
@@ -41,7 +57,7 @@
                             <td>{{ lead.nbMessages }}</td>
                             <td>{{ lead.nbLikes }}</td>
                         </tr>
-                    {% endfor %}
+                    {% endfor %}#}
                 </table>
             </div>
 
@@ -108,11 +124,12 @@
                 <ul>
                     <li>Nombre de véhicules disponibles : {{ app.user.vehicles|length }}</li>
                     <li>Top {{ report.top5Vehicles|length }} des véhicules sur les 30 derniers jours :
-                    <ul>
-                        {% for top5vehiclePath, top5vehicleMetrics in report.top5Vehicles %}
-                            <li>{{ top5vehiclePath }} {{ top5vehicleMetrics[0].uniquePageViews }}</li>
-                        {% endfor %}
-                    </ul></li>
+                        <ul>
+                            {% for top5vehiclePath, top5vehicleMetrics in report.top5Vehicles %}
+                                <li>{{ top5vehiclePath }} {{ top5vehicleMetrics[0].uniquePageViews }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                 </ul>
             </div>
 
@@ -121,7 +138,9 @@
             {% for vehicle in app.user.vehicles %}
                 <div>
                     {% set vehiclePath = path('front_vehicle_pro_detail',{'slug':vehicle.slug}) %}
-                    <h4>{{ vehicle.name|title }} <small>{{ vehiclePath  }}</small></h4>
+                    <h4>{{ vehicle.name|title }}
+                        <small>{{ vehiclePath }}</small>
+                    </h4>
                     <ul>
                         <li>Nombre de vues :
                             <ul>
