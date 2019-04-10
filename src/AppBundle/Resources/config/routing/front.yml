@@ -233,6 +233,10 @@ front_pro_user_lead:
     path: /pro/leads/{id}
     controller: AppBundle:Front\PersonalContext\User:proUserLeadsGet
 
+front_change_lead_status:
+    path: /lead/changestatus/{id}/{leadStatus}
+    controller: AppBundle:Front\PersonalContext\User:changeLeadStatus
+
 front_pro_user_boost_view:
     path: /boost
     controller: AppBundle:Front\PersonalContext\User:boostView

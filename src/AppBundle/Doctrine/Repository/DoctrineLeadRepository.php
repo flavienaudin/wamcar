@@ -97,7 +97,8 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
                     2 => 'l.nbPhoneAction',
                     3 => 'l.nbPhoneProAction',
                     4 => 'l.nbMessages',
-                    5 => 'l.nbLikes'
+                    5 => 'l.nbLikes',
+                    6 => 'l.status'
                 ];
                 $qb->addOrderBy($orderColumns[$order['column']], $order['dir']);
             }else{

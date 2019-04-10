@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
+use Wamcar\Sale\Declaration;
 use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
@@ -28,6 +29,8 @@ class ProUser extends BaseUser
     protected $landingPosition;
     /** @var Collection */
     protected $leads;
+    /** @var Collection */
+    protected $saleDeclarations;
 
     /**
      * ProUser constructor.
@@ -42,6 +45,7 @@ class ProUser extends BaseUser
         $this->garageMemberships = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
         $this->leads = new ArrayCollection();
+        $this->saleDeclarations = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -248,7 +252,7 @@ class ProUser extends BaseUser
     /**
      * @param Lead $lead
      */
-    public function addLeads(Lead $lead): void
+    public function addLead(Lead $lead): void
     {
         $this->leads->add($lead);
     }
@@ -256,9 +260,33 @@ class ProUser extends BaseUser
     /**
      * @param Lead $lead
      */
-    public function removeLeads(Lead $lead): void
+    public function removeLead(Lead $lead): void
     {
         $this->leads->removeElement($lead);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSaleDeclarations(): Collection
+    {
+        return $this->saleDeclarations;
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function addSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->add($declaration);
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function removeSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->add($declaration);
     }
 
     /**

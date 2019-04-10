@@ -48,9 +48,11 @@ use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
+use Wamcar\User\Lead;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
 use Wamcar\User\ProUser;
@@ -571,9 +573,33 @@ class UserController extends BaseController
             throw new BadRequestHttpException();
         }
         if (!$proUser->is($this->getUser())) {
-            return new JsonResponse(['not current user']);
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.unauthorized_to_get_leads')], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->leadManagementService->getLeadsForDashboard($proUser, $request->query->all()));
+    }
+
+    /**
+     * @param Request $request
+     * @param Lead $lead
+     * @param string $leadStatus
+     * @return JsonResponse
+     */
+    public function changeLeadStatusAction(Request $request, Lead $lead, string $leadStatus): JsonResponse
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        if (!$lead->getProUser()->is($this->getUser())) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.unauthorized_to_change_status')], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!LeadStatus::isValidKey($leadStatus)) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.invalid_status')], Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->leadManagementService->changeLeadStatus($lead, LeadStatus::$leadStatus());
+        return new JsonResponse([$this->translator->trans('flash.success.lead.change_status')]);
     }
 
     /**

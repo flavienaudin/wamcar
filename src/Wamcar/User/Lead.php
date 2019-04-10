@@ -3,12 +3,19 @@
 namespace Wamcar\User;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Wamcar\Sale\Declaration;
+use Wamcar\User\Enum\LeadStatus;
+
 class Lead
 {
     /** @var int */
     private $id;
     /** @var ProUser */
     private $proUser;
+    /** @var LeadStatus */
+    private $status;
     /** @var null|BaseUser */
     private $userLead;
     /** @var string */
@@ -25,6 +32,9 @@ class Lead
     private $nbMessages;
     /** @var int */
     private $nbLikes;
+    /** @var Collection */
+    protected $saleDeclarations;
+
 
     /**
      * Lead constructor.
@@ -34,7 +44,8 @@ class Lead
     public function __construct(ProUser $proUser, ?BaseUser $userLead = null)
     {
         $this->proUser = $proUser;
-        $proUser->addLeads($this);
+        $proUser->addLead($this);
+        $this->status = LeadStatus::TO_QUALIFY();
         $this->userLead = $userLead;
         if ($userLead != null) {
             $this->firstName = $userLead->getFirstName();
@@ -45,6 +56,7 @@ class Lead
         $this->nbPhoneProAction = 0;
         $this->nbMessages = 0;
         $this->nbLikes = 0;
+        $this->saleDeclarations = new ArrayCollection();
     }
 
     /**
@@ -69,6 +81,22 @@ class Lead
     public function setProUser(ProUser $proUser): void
     {
         $this->proUser = $proUser;
+    }
+
+    /**
+     * @return LeadStatus
+     */
+    public function getStatus(): LeadStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param LeadStatus $status
+     */
+    public function setStatus(LeadStatus $status): void
+    {
+        $this->status = $status;
     }
 
     /**
@@ -238,5 +266,29 @@ class Lead
     public function increaseNbLikes(?int $nbLikes = 1): void
     {
         $this->nbLikes = max($this->nbLikes + $nbLikes, 0);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSaleDeclarations(): Collection
+    {
+        return $this->saleDeclarations;
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function addSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->add($declaration);
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function removeSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->add($declaration);
     }
 }

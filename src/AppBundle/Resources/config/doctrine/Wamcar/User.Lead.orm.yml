@@ -12,6 +12,9 @@ Wamcar\User\Lead:
         strategy: AUTO
 
   fields:
+    status:
+      type: leadstatus
+      nullable: false
     firstName:
       type: string
       nullable: false
@@ -51,3 +54,9 @@ Wamcar\User\Lead:
         name: user_id
         referencedColumnName: id
         nullable: true
+
+  oneToMany:
+    saleDeclarations:
+      targetEntity: Wamcar\Sale\Declaration
+      mappedBy: leadBuyer
+      cascade: ["persist", "merge", "remove"]

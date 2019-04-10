@@ -131,6 +131,7 @@ doctrine:
             garagerole: AppBundle\Doctrine\Type\GarageRoleType
             personalorientation: AppBundle\Doctrine\Type\PersonalOrientationType
             firstcontactpreference: AppBundle\Doctrine\Type\FirstContactPreferenceType
+            leadstatus: AppBundle\Doctrine\Type\LeadStatusType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

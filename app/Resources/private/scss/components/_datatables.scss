@@ -4,6 +4,15 @@
 
 #prouserleads_dt {
 
+  thead th, tfoot th {
+    font-size: rem-calc(14);
+  }
 
-
+  select {
+    height: rem-calc(24);
+    font-size: rem-calc(12);
+    padding-left: rem-calc(5);
+    padding-right: rem-calc(5);
+    margin-bottom: 0;
+  }
 }

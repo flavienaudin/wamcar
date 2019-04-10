@@ -48,6 +48,8 @@ flash:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
     sales:
       declaration: Votre déclaration a bien été prise en compte
+    lead:
+      change_status: Le status de votre lead a bien été mis à jour
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -70,7 +72,10 @@ flash:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
-
+    lead:
+      unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
+      unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
+      invalid_status: Le statut est invalide
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
@@ -1036,6 +1041,9 @@ sale_form:
 pro_dashboard:
   page:
     title: Mon tableau de bord
+
+  lead:
+    sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
 boost:
   link: Booster mes pages
   page:

@@ -6,7 +6,9 @@ namespace AppBundle\Services\User;
 use Doctrine\DBAL\DBALException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\PersonalUser;
@@ -22,18 +24,22 @@ class LeadManagementService
     private $leadRepository;
     /** @var RouterInterface */
     private $router;
+    /** @var TranslatorInterface */
+    private $translator;
 
     /**
      * LeadManagementService constructor.
      * @param UserRepository $userRepository
      * @param LeadRepository $leadRepository
      * @param RouterInterface $router
+     * @param TranslatorInterface $translator
      */
-    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router, TranslatorInterface $translator)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
         $this->router = $router;
+        $this->translator = $translator;
     }
 
     /**
@@ -66,6 +72,20 @@ class LeadManagementService
             } else {
                 $leadName = $lead->getFullName();
             }
+
+            $status = '<select class="js-change-status">';
+            foreach (LeadStatus::values() as $leadStatusKey => $leadStatusValue) {
+                $selected = '';
+                if ($lead->getStatus()->getKey() === $leadStatusKey) {
+                    $selected = 'selected="selected"';
+                }
+                $status .= '<option value="' . $this->router->generate('front_change_lead_status', [
+                        'id' => $lead->getId(), 'leadStatus' => $leadStatusKey
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" ' . $selected . '>' .
+                    $this->translator->trans($leadStatusValue, [], 'enumeration') . '</option>';
+            }
+            $status .= '</select>';
+            $nbSales = count($lead->getSaleDeclarations());
             $result['data'][] = [
                 'leadName' => $leadName,
                 'lastContactAt' => $lead->getLastContactedAt()->format("d-m-Y H:i:s"),
@@ -73,9 +93,12 @@ class LeadManagementService
                 'profilePhoneStats' => $lead->getNbPhoneAction(),
                 'messageStats' => $lead->getNbMessages(),
                 'likeStats' => $lead->getNbLikes(),
+                'status' => $status,
                 'action' => '<a href="' . $this->router->generate('front_sale_declaration_form', [
-                    'leadId' => $lead->getId()
-                ], UrlGeneratorInterface::ABSOLUTE_URL).'">Vente</a>'
+                        'leadId' => $lead->getId()
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' .
+                    $this->translator->transChoice('pro_dashboard.lead.sales', $nbSales, ['%nbSales%' => $nbSales])
+                    . '</a>'
             ];
         }
         return $result;
@@ -210,6 +233,17 @@ class LeadManagementService
             return $this->leadRepository->update($lead);
         }
         return null;
+    }
+
+    /**
+     * @param Lead $lead
+     * @param LeadStatus $leadStatus
+     * @return Lead
+     */
+    public function changeLeadStatus(Lead $lead, LeadStatus $leadStatus)
+    {
+        $lead->setStatus($leadStatus);
+        return $this->leadRepository->update($lead);
     }
 
 }
