@@ -73,10 +73,10 @@ class AutoManuelProVehicleBuilder extends ProVehicleBuilder
             new Engine($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME],
                 new Fuel($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME] ?? self::translateEnergy($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_CODE]))));
 
-        if ($vehicleDTORowData[self::FIELDNAME_TRANSMISSION] === 0) {
-            $transmission = Transmission::TRANSMISSION_MANUAL();
-        } else {
+        if (intval($vehicleDTORowData[self::FIELDNAME_TRANSMISSION]) === 1) {
             $transmission = Transmission::TRANSMISSION_AUTOMATIC();
+        } else {
+            $transmission = Transmission::TRANSMISSION_MANUAL();
         }
 
         $registration = new Registration(null, $vehicleDTORowData[self::FIELDNAME_IMMATRICULATION] ?? null, $vehicleDTORowData[self::FIELDNAME_VIN ?? null]);

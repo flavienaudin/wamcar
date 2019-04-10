@@ -27,6 +27,19 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         return $this->findBy([], ['createdAt' => 'DESC'], $limit);
     }
 
+    /**
+     * Return the $limit last vehicles
+     * @param $limit
+     * @return array
+     */
+    public function getLastWithPicture($limit)
+    {
+        $qb = $this->createQueryBuilder('pv');
+        $qb->where($qb->expr()->exists('SELECT 1 FROM AppBundle\Doctrine\Entity\ProVehiclePicture pic WHERE pic.vehicle = pv'))
+            ->orderBy('pv.createdAt', 'DESC')
+        ->setMaxResults($limit);
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * {@inheritdoc}
