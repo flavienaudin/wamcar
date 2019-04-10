@@ -23,6 +23,13 @@ interface ProVehicleRepository extends VehicleRepository
     public function getLast($limit);
 
     /**
+     * Return the $limit last vehicles
+     * @param $limit
+     * @return array
+     */
+    public function getLastWithPicture($limit);
+
+    /**
      * @param Garage $garage
      * @param null|array $orderBy
      * @param null|bool $ignoreSoftDeleted
