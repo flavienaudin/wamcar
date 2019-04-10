@@ -360,6 +360,7 @@ class SearchResultProvider
                 // Combination of the functions'scores
                 $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_SUM);
 
+                // Query to apply certain score functions to relevant documents
                 $vehicleEntityQuery = $qb->query()->bool();
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
@@ -384,7 +385,7 @@ class SearchResultProvider
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPictures', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
-                    0, 1, $vehicleEntityQuery
+                    0, 2, $vehicleEntityQuery
                 );
 
                 // Google rating [0;5] => factor 1 => [0;5]

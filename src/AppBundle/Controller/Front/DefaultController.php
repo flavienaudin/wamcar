@@ -129,7 +129,7 @@ class DefaultController extends BaseController
         );
 
         $proProfils = $this->proUserRepository->findProUsersForHomepage();
-        $last_vehicles = $this->proVehicleRepository->getLast(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
+        $last_vehicles = $this->proVehicleRepository->getLastWithPicture(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
         $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class);
         $personalOrientationForm->handleRequest($request);
         if($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()){
