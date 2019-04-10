@@ -10,9 +10,7 @@ use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
-use Doctrine\Common\Collections\Criteria;
 use Elastica\ResultSet;
-use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
@@ -21,7 +19,6 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\ProLikeVehicle;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\Enum\SaleStatus;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\ProVehicleUpdated;
@@ -101,10 +98,9 @@ class ProVehicleEditionService
 
 
     /**
-     * Retrieve ProVehicles from the given garage
-     * @param Garage $garage
-     * @param array $orderBy
-     * @return array
+     * TODO : implémenter un nouveau système de status de vente
+     * @param ProUser $proUser
+     * @return array of ProVehicle
      */
     public function getProUserVehiclesForSalesDeclaration(ProUser $proUser): array
     {
@@ -112,10 +108,9 @@ class ProVehicleEditionService
     }
 
     /**
-     * Retrieve ProVehicles from the given garage
-     * @param Garage $garage
-     * @param array $orderBy
-     * @return array
+     * TODO : implémenter un nouveau système de status de vente
+     * @param ProUser $proUser
+     * @return array of ProVehicle
      */
     public function getProUserVehiclesAlreadySalesDeclarated(ProUser $proUser): array
     {
@@ -292,11 +287,6 @@ class ProVehicleEditionService
     public function canDeclareSale($user, ProVehicle $vehicle): bool
     {
         return $vehicle !== null && $vehicle->canDeclareSale($user);
-    }
-
-    public function updateSaleStatus(ProVehicle $proVehicle, ?SaleStatus $saleStatus){
-        $proVehicle->setSaleStatus($saleStatus);
-        $this->vehicleRepository->update($proVehicle);
     }
 
     /**

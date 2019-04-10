@@ -48,9 +48,3 @@ services:
         autowire: true
         tags:
             - { name: twig.extension }
-
-    AppBundle\Twig\SaleStatusExtension:
-        class: 'AppBundle\Twig\SaleStatusExtension'
-        autowire: true
-        tags:
-            - { name: twig.extension }

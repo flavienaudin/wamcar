@@ -238,14 +238,9 @@ front_pro_user_boost_view:
     controller: AppBundle:Front\PersonalContext\User:boostView
 
 # Gestion des ventes
-
 front_pro_user_sales:
     path: /mes-ventes
     controller: AppBundle:Front\ProContext\Sales:salesView
-
-front_sale_declaration:
-    path: /vente/declaration/{id}/{saleStatus}
-    controller: AppBundle:Front\ProContext\Sales:declare
 
 front_sale_declaration_form:
     path: /vente/declarer

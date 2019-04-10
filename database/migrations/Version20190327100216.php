@@ -16,7 +16,7 @@ final class Version20190327100216 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE personal_vehicle CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) NOT NULL, CHANGE slug slug VARCHAR(512) NOT NULL');
-        $this->addSql('ALTER TABLE pro_vehicle ADD sale_status VARCHAR(255) DEFAULT NULL, CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) NOT NULL, CHANGE slug slug VARCHAR(512) NOT NULL');
+        $this->addSql('ALTER TABLE pro_vehicle CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) NOT NULL, CHANGE slug slug VARCHAR(512) NOT NULL');
     }
 
     public function down(Schema $schema): void
@@ -25,6 +25,6 @@ final class Version20190327100216 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE personal_vehicle CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) DEFAULT NULL, CHANGE slug slug VARCHAR(512) DEFAULT NULL');
-        $this->addSql('ALTER TABLE pro_vehicle DROP sale_status, CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) DEFAULT NULL, CHANGE slug slug VARCHAR(512) DEFAULT NULL');
+        $this->addSql('ALTER TABLE pro_vehicle CHANGE is_used_slug_value is_used_slug_value VARCHAR(255) DEFAULT NULL, CHANGE slug slug VARCHAR(512) DEFAULT NULL');
     }
 }

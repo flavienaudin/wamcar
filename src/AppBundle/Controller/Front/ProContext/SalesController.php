@@ -5,17 +5,14 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
-use AppBundle\Security\Voter\ProVehicleVoter;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\Enum\SaleStatus;
-use Wamcar\Vehicle\ProVehicle;
 
 class SalesController extends BaseController
 {
@@ -60,43 +57,17 @@ class SalesController extends BaseController
             throw new AccessDeniedException();
         }
 
+
         $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser);
+        /* TODO : implémenter un nouveau système de status de vente
         $declaredVehicles = $this->proVehicleEditionService->getProUserVehiclesAlreadySalesDeclarated($currentUser);
+        */
+        $declaredVehicles = new ArrayCollection();
 
         return $this->render("front/Seller/sales_declaration.html.twig", [
             "vehiclesToDeclare" => $vehiclesToDeclare,
             "declaredVehicles" => $declaredVehicles
         ]);
-    }
-
-    /**
-     * @Entity("proVehicle", expr="repository.findIgnoreSoftDeletedOneBy({'id':id})")
-     * @param ProVehicle $proVehicle
-     * @param string $saleStatus
-     * @return Response
-     */
-    public function declareAction(ProVehicle $proVehicle, string $saleStatus)
-    {
-        $currentUser = $this->getUser();
-        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unlogged');
-            throw new AccessDeniedException();
-        }
-        if (!$this->isGranted(ProVehicleVoter::DECLARE, $proVehicle)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unauthorized_to_declare_sale');
-            return $this->redirectToRoute("front_pro_user_sales");
-        }
-
-        if (!SaleStatus::isValid($saleStatus)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.invalid_sale_status_value');
-            return $this->redirectToRoute("front_pro_user_sales");
-        }
-
-        $this->proVehicleEditionService->updateSaleStatus($proVehicle, new SaleStatus($saleStatus));
-
-
-        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.sales.declaration');
-        return $this->redirectToRoute("front_pro_user_sales");
     }
 
 

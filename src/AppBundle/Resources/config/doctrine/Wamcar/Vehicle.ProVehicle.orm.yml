@@ -134,9 +134,6 @@ Wamcar\Vehicle\ProVehicle:
         reference:
             type: string
             nullable: true
-        saleStatus:
-            type: vehiclesalestatus
-            nullable: true
         createdAt:
             type: datetime
             gedmo:

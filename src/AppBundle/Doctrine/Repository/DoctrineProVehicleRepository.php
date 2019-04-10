@@ -65,11 +65,11 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         $qb = $this->createQueryBuilder('v');
         $qb->where($qb->expr()->eq('v.seller', ':seller'))
             ->andWhere($qb->expr()->isNotNull('v.deletedAt'));
-        if ($getNullSaleStatus) {
+        /*if ($getNullSaleStatus) {
             $qb->andWhere($qb->expr()->isNull('v.saleStatus'));
         } else {
             $qb->andWhere($qb->expr()->isNotNull('v.saleStatus'));
-        }
+        }*/
         $qb->setParameter('seller', $proUser);
 
         if ($this->getEntityManager()->getFilters()->isEnabled('softDeleteable')) {

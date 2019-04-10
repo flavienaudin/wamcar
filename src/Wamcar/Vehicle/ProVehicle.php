@@ -11,7 +11,6 @@ use Wamcar\Vehicle\Enum\Funding;
 use Wamcar\Vehicle\Enum\Guarantee;
 use Wamcar\Vehicle\Enum\MaintenanceState;
 use Wamcar\Vehicle\Enum\SafetyTestState;
-use Wamcar\Vehicle\Enum\SaleStatus;
 use Wamcar\Vehicle\Enum\TimingBeltState;
 use Wamcar\Vehicle\Enum\Transmission;
 
@@ -37,8 +36,6 @@ class ProVehicle extends BaseVehicle
     private $additionalServices;
     /** @var string */
     private $reference;
-    /** @var null|SaleStatus */
-    private $saleStatus;
     /** @var Garage */
     private $garage;
     /** @var ProUser */
@@ -217,14 +214,6 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return null|SaleStatus
-     */
-    public function getSaleStatus(): ?SaleStatus
-    {
-        return $this->saleStatus;
-    }
-
-    /**
      * @param float $price
      */
     public function setPrice(float $price): void
@@ -294,14 +283,6 @@ class ProVehicle extends BaseVehicle
     public function setReference(?string $reference): void
     {
         $this->reference = $reference;
-    }
-
-    /**
-     * @param null|SaleStatus $saleStatus
-     */
-    public function setSaleStatus(?SaleStatus $saleStatus): void
-    {
-        $this->saleStatus = $saleStatus;
     }
 
     /**
