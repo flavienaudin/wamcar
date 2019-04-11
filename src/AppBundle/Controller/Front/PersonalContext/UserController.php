@@ -549,7 +549,7 @@ class UserController extends BaseController
     /**
      * @return Response
      */
-    public function dashboardViewAction()
+    public function performancesViewAction()
     {
         $currentUser = $this->getUser();
         if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
@@ -557,9 +557,23 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
-        return $this->render("front/Seller/pro_user_dashboard.html.twig", [
+        return $this->render("front/Seller/pro_user_performances.html.twig", [
             'report' => $this->gaReportingApiService->getProUserKPI($currentUser)
         ]);
+    }
+
+
+    /**
+     * @return Response
+     */
+    public function proUserLeadsViewAction()
+    {
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+        return $this->render("front/Seller/pro_user_leads.html.twig");
     }
 
     /**

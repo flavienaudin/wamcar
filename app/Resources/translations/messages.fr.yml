@@ -198,8 +198,10 @@ header:
   pro:
     my_garage: Mon garage
     my_garages: Mes garages
-    dashboard: Tableau de bord
+    dashboard: Tableaux de bord
+    my_performances: Mes performances
     my_sales: Mes ventes
+    my_leads: Mes contacts
   personal:
     my_add: Mon annonce
     my_vehicles: Mes véhicules
@@ -1054,13 +1056,15 @@ sale:
           label: Commentaires
           placeholder: Identifiation du véhicule acheté et/ou repris...
 
+lead:
+  page.title: Mes contacts
+  sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
+  add_sale: "Nouvelle vente"
 
-pro_dashboard:
+pro_user_performances:
   page:
-    title: Mon tableau de bord
-  lead:
-    sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
-    add_sale: "Nouvelle vente"
+    title: Mes Performances
+
 
 boost:
   link: Booster mes pages

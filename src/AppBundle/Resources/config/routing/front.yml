@@ -225,9 +225,13 @@ front_vehicle_pro_delete:
     controller: AppBundle:Front\ProContext\Vehicle:delete
 
 # Tableau de bord : Conseillers auto
-front_pro_user_dashboard:
-    path: /mon-tableau-de-bord
-    controller: AppBundle:Front\PersonalContext\User:dashboardView
+front_pro_user_performances:
+    path: /mes-performances
+    controller: AppBundle:Front\PersonalContext\User:performancesView
+
+front_pro_user_leads:
+    path: /mes-contacts
+    controller: AppBundle:Front\PersonalContext\User:proUserLeadsView
 
 front_pro_user_lead:
     path: /pro/leads/{id}

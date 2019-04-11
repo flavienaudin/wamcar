@@ -2,7 +2,7 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ "pro_dashboard.page.title"|trans }}{% endblock %}
+{% block title %}{{ "pro_user_performances.page.title"|trans }}{% endblock %}
 
 {% set breadcrumbs = [
     {
@@ -21,37 +21,8 @@
 
     <div class="row">
         <div class="column small-12">
-            <h2>Vos Leads</h2>
-            <div>
-                <table id="prouserleads_dt" class="js-lead-datatable disaply width-100"
-                       data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
-                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
-                    <thead>
-                    <tr>
-                        <th>Prénom Nom</th>
-                        <th>Date du dernier contact</th>
-                        <th>#aff. {{ app.user.userProfile.phone??'-' }}</th>
-                        <th>#aff. {{ app.user.phonePro??'-' }}</th>
-                        <th>#mes.</th>
-                        <th>#likes</th>
-                        <th>Status</th>
-                        <th>Vente</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Prénom Nom</th>
-                        <th>Date du dernier contact</th>
-                        <th>#aff. {{ app.user.userProfile.phone??'-' }}</th>
-                        <th>#aff. {{ app.user.phonePro??'-' }}</th>
-                        <th>#mes.</th>
-                        <th>#likes</th>
-                        <th>Status</th>
-                        <th>Vente</th>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+            <h2></h2>
+
 
 
             <h2>Votre page "Conseiller Automobile"</h2>
@@ -68,8 +39,10 @@
                         <li>Uniquement depuis votre page profil :
 
                             <ul>
-                                <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].onPage[profilePagePath]??0 }} </li>
-                                <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].onPage[profilePagePath]??0 }}</li>
+                                <li>Les 30 derniers jours
+                                    : {{ report.contactsEvents.telephone[0].onPage[profilePagePath]??0 }} </li>
+                                <li>Les 7 derniers jours
+                                    : {{ report.contactsEvents.telephone[1].onPage[profilePagePath]??0 }}</li>
                             </ul>
                         </li>
                         <li>Toutes pages confondues :
@@ -84,8 +57,10 @@
                     <ul>
                         <li>Uniquement depuis votre page profil :
                             <ul>
-                                <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].onPage[profilePagePath]??0 }} </li>
-                                <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].onPage[profilePagePath]??0 }}</li>
+                                <li>Les 30 derniers jours
+                                    : {{ report.contactsEvents.message[0].onPage[profilePagePath]??0 }} </li>
+                                <li>Les 7 derniers jours
+                                    : {{ report.contactsEvents.message[1].onPage[profilePagePath]??0 }}</li>
                             </ul>
                         </li>
                         <li>Toutes pages confondues :
@@ -104,7 +79,8 @@
                 <ul>
                     <li>Nombre de conversations : {{ app.user.conversationUsers|length }}</li>
                     <li>Nombre de messages envoyés : {{ app.user.messages|length }}</li>
-                    <li>Nombre de messages reçus : {{ app.user.totalMessagesOnConversations - app.user.messages|length}}</li>
+                    <li>Nombre de messages reçus
+                        : {{ app.user.totalMessagesOnConversations - app.user.messages|length }}</li>
                 </ul>
 
             </div>
@@ -136,8 +112,10 @@
                     <ul>
                         <li>Nombre de vues :
                             <ul>
-                                <li>Sur les 30 derniers jours : {{ report.vehiclesPages[vehiclePath][0].uniquePageViews??0 }}</li>
-                                <li>Sur les 7 derniers jours : {{ report.vehiclesPages[vehiclePath][1].uniquePageViews??0 }}</li>
+                                <li>Sur les 30 derniers jours
+                                    : {{ report.vehiclesPages[vehiclePath][0].uniquePageViews??0 }}</li>
+                                <li>Sur les 7 derniers jours
+                                    : {{ report.vehiclesPages[vehiclePath][1].uniquePageViews??0 }}</li>
                             </ul>
                         </li>
                         <li>Nombre de likes :
@@ -152,14 +130,18 @@
                             <ul>
                                 <li>Téléphone :
                                     <ul>
-                                        <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].onPage[vehiclePath]??0 }} </li>
-                                        <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].onPage[vehiclePath]??0 }}</li>
+                                        <li>Les 30 derniers jours
+                                            : {{ report.contactsEvents.telephone[0].onPage[vehiclePath]??0 }} </li>
+                                        <li>Les 7 derniers jours
+                                            : {{ report.contactsEvents.telephone[1].onPage[vehiclePath]??0 }}</li>
                                     </ul>
                                 </li>
                                 <li>Message :
                                     <ul>
-                                        <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].onPage[vehiclePath]??0 }} </li>
-                                        <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].onPage[vehiclePath]??0 }}</li>
+                                        <li>Les 30 derniers jours
+                                            : {{ report.contactsEvents.message[0].onPage[vehiclePath]??0 }} </li>
+                                        <li>Les 7 derniers jours
+                                            : {{ report.contactsEvents.message[1].onPage[vehiclePath]??0 }}</li>
                                     </ul>
                                 </li>
                             </ul>

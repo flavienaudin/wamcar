@@ -89,7 +89,7 @@ class SalesController extends BaseController
         }
         if ($declaration != null && !$this->isGranted(SaleDeclarationVoter::EDIT, $declaration)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unauthorized_to_edit_declaration');
-            return $this->redirectToRoute('front_pro_user_dashboard');
+            return $this->redirectToRoute('front_pro_user_leads');
         }
 
         $saleDeclarationDTO = new SaleDeclarationDTO($currentUser, $declaration);
@@ -108,7 +108,7 @@ class SalesController extends BaseController
             $saleDeclarationDTO = $saleDeclarationForm->getData();
             if($this->saleManagementService->saveSaleDeclaration($saleDeclarationDTO , $declaration)){
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.sales.declaration');
-                return $this->redirectToRoute('front_pro_user_dashboard');
+                return $this->redirectToRoute('front_pro_user_leads');
             }else{
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.sale.saving');
             }

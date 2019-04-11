@@ -86,10 +86,10 @@ class LeadManagementService
             }
             $nbSales = count($lead->getSaleDeclarations());
             $action = '<ul class="no-bullet no-margin">';
-            $action .= '<li>' . $this->translator->transChoice('pro_dashboard.lead.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
+            $action .= '<li>' . $this->translator->transChoice('lead.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
             $action .= '<li><a href="' . $this->router->generate('front_sale_declaration_new', [
                     'leadId' => $lead->getId()
-                ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $this->translator->trans('pro_dashboard.lead.add_sale') . '</a></li>';
+                ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $this->translator->trans('lead.add_sale') . '</a></li>';
             $action .= '</ul>';
             $status .= '</select>';
 
