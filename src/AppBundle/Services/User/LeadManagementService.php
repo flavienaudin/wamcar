@@ -84,8 +84,15 @@ class LeadManagementService
                     ], UrlGeneratorInterface::ABSOLUTE_URL) . '" ' . $selected . '>' .
                     $this->translator->trans($leadStatusValue, [], 'enumeration') . '</option>';
             }
-            $status .= '</select>';
             $nbSales = count($lead->getSaleDeclarations());
+            $action = '<ul class="no-bullet no-margin">';
+            $action .= '<li>' . $this->translator->transChoice('pro_dashboard.lead.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
+            $action .= '<li><a href="' . $this->router->generate('front_sale_declaration_new', [
+                    'leadId' => $lead->getId()
+                ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $this->translator->trans('pro_dashboard.lead.add_sale') . '</a></li>';
+            $action .= '</ul>';
+            $status .= '</select>';
+
             $result['data'][] = [
                 'leadName' => $leadName,
                 'lastContactAt' => $lead->getLastContactedAt()->format("d-m-Y H:i:s"),
@@ -94,11 +101,7 @@ class LeadManagementService
                 'messageStats' => $lead->getNbMessages(),
                 'likeStats' => $lead->getNbLikes(),
                 'status' => $status,
-                'action' => '<a href="' . $this->router->generate('front_sale_declaration_new', [
-                        'leadId' => $lead->getId()
-                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' .
-                    $this->translator->transChoice('pro_dashboard.lead.sales', $nbSales, ['%nbSales%' => $nbSales])
-                    . '</a>'
+                'action' => $action
             ];
         }
         return $result;

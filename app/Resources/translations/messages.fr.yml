@@ -1060,6 +1060,7 @@ pro_dashboard:
     title: Mon tableau de bord
   lead:
     sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
+    add_sale: "Nouvelle vente"
 
 boost:
   link: Booster mes pages
