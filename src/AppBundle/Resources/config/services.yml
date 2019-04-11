@@ -127,3 +127,6 @@ services:
 
     AppBundle\Services\Affinity\AffinityAnswerCalculationService:
         autowire: true
+
+    AppBundle\Services\Sale\SaleManagementService:
+        autowire: true

@@ -1,27 +1,21 @@
 <?php
 
-namespace Wamcar\Sale;
+namespace AppBundle\Form\DTO;
 
 
-use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
-use Ramsey\Uuid\Uuid;
-use Wamcar\User\Lead;
+use Wamcar\Sale\Declaration;
 use Wamcar\User\ProUser;
 
-class Declaration
+class SaleDeclarationDTO
 {
-    use SoftDeleteable;
-
-    /** @var string */
-    private $id;
-    /** @var ProUser */
-    private $proUserSeller;
+    /** @var int */
+    private $proUserSellerId;
     /** @var string|null */
     private $sellerFirstName;
     /** @var string|null */
     private $sellerLastName;
-    /** @var Lead|null */
-    private $leadBuyer;
+    /** @var int|null */
+    private $leadBuyerId;
     /** @var string|null */
     private $buyerFirstName;
     /** @var string|null */
@@ -32,46 +26,46 @@ class Declaration
     private $transactionPartExchangeAmount;
     /** @var string|null */
     private $transactionCommentary;
-    /** @var int|null */
-    private $creditEarned;
-    /** @var \DateTimeInterface */
-    protected $createdAt;
-    /** @var \DateTimeInterface */
-    protected $updatedAt;
 
     /**
-     * Declaration constructor.
-     * @param ProUser $proUserSeller
-     * @throws \Exception
+     * SaleDeclarationDTO constructor.
+     * @param ProUser $proUser
+     * @param null|Declaration $declaration
      */
-    public function __construct(ProUser $proUserSeller)
+    public function __construct(ProUser $proUser, ?Declaration $declaration)
     {
-        $this->id = Uuid::uuid4();
-        $this->proUserSeller = $proUserSeller;
+        if ($declaration != null) {
+            $this->proUserSellerId = $declaration->getProUserSeller()->getId();
+            $this->sellerFirstName = $declaration->getSellerFirstName();
+            $this->sellerLastName = $declaration->getSellerLastName();
+            $this->leadBuyerId = ($declaration->getLeadBuyer() != null ? $declaration->getLeadBuyer()->getId() : null);
+            $this->buyerLastName = $declaration->getBuyerFirstName();
+            $this->buyerFirstName = $declaration->getBuyerLastName();
+            $this->transactionSaleAmount = $declaration->getTransactionSaleAmount();
+            $this->transactionPartExchangeAmount = $declaration->getTransactionPartExchangeAmount();
+            $this->transactionCommentary = $declaration->getTransactionCommentary();
+        } else {
+            $this->proUserSellerId = $proUser->getId();
+            $this->sellerFirstName = $proUser->getFirstName();
+            $this->sellerLastName = $proUser->getLastName();
+        }
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getProUserSellerId(): int
+    {
+        return $this->proUserSellerId;
     }
 
     /**
-     * @return string
+     * @param int $proUserSellerId
      */
-    public function getId(): string
+    public function setProUserSellerId(int $proUserSellerId): void
     {
-        return $this->id;
-    }
-
-    /**
-     * @return ProUser
-     */
-    public function getProUserSeller(): ProUser
-    {
-        return $this->proUserSeller;
-    }
-
-    /**
-     * @param ProUser $proUserSeller
-     */
-    public function setProUserSeller(ProUser $proUserSeller): void
-    {
-        $this->proUserSeller = $proUserSeller;
+        $this->proUserSellerId = $proUserSellerId;
     }
 
     /**
@@ -107,19 +101,19 @@ class Declaration
     }
 
     /**
-     * @return null|Lead
+     * @return int|null
      */
-    public function getLeadBuyer(): ?Lead
+    public function getLeadBuyerId(): ?int
     {
-        return $this->leadBuyer;
+        return $this->leadBuyerId;
     }
 
     /**
-     * @param null|Lead $leadBuyer
+     * @param int|null $leadBuyerId
      */
-    public function setLeadBuyer(?Lead $leadBuyer): void
+    public function setLeadBuyerId(?int $leadBuyerId): void
     {
-        $this->leadBuyer = $leadBuyer;
+        $this->leadBuyerId = $leadBuyerId;
     }
 
     /**
@@ -201,53 +195,4 @@ class Declaration
     {
         $this->transactionCommentary = $transactionCommentary;
     }
-
-    /**
-     * @return int|null
-     */
-    public function getCreditEarned(): ?int
-    {
-        return $this->creditEarned;
-    }
-
-    /**
-     * @param int|null $creditEarned
-     */
-    public function setCreditEarned(?int $creditEarned): void
-    {
-        $this->creditEarned = $creditEarned;
-    }
-
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getCreatedAt(): \DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @param \DateTimeInterface $createdAt
-     */
-    public function setCreatedAt(\DateTimeInterface $createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     * @return \DateTimeInterface
-     */
-    public function getUpdatedAt(): \DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * @param \DateTimeInterface $updatedAt
-     */
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
-    {
-        $this->updatedAt = $updatedAt;
-    }
-
 }

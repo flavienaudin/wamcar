@@ -23,6 +23,14 @@ interface LeadRepository
     public function getLeadsByRequest(ProUser $proUser, array $params): array;
 
     /**
+     * Finds an entity by its primary key / identifier.
+     *
+     * @param mixed    $id          The identifier.
+     * @return object|null The entity instance or NULL if the entity can not be found.
+     */
+    public function find($id);
+
+    /**
      * Finds a single entity by a set of criteria.
      *
      * @param array      $criteria

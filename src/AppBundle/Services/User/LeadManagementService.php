@@ -94,7 +94,7 @@ class LeadManagementService
                 'messageStats' => $lead->getNbMessages(),
                 'likeStats' => $lead->getNbLikes(),
                 'status' => $status,
-                'action' => '<a href="' . $this->router->generate('front_sale_declaration_form', [
+                'action' => '<a href="' . $this->router->generate('front_sale_declaration_new', [
                         'leadId' => $lead->getId()
                     ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' .
                     $this->translator->transChoice('pro_dashboard.lead.sales', $nbSales, ['%nbSales%' => $nbSales])

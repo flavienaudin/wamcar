@@ -76,6 +76,8 @@ flash:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
       invalid_status: Le statut est invalide
+    sale:
+      saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
@@ -98,7 +100,7 @@ flash:
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
     sales:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
-      unauthorized_to_declare_sale: Vous n'êtes pas autorisé à déclarer la vente de ce véhicule.
+      unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
       invalid_sale_status_value: Valeur du status de vente incorrecte
     dashboard:
           unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
@@ -1016,34 +1018,49 @@ conversation:
         label: Pièces jointes
         add: Ajouter une pièce jointe
 
-sales:
+sale:
   page:
-    title: Mes ventes
-  waiting:
-    title: Véhicules en attente de déclaration
-    subtitle: Déclarer vos ventes ci-dessous
-  sold:
-    title: Véhicules vendus
-  item:
-    garage: "Garage : "
-    declare_as: "Déclarer ce véhicule :"
-    declared_as: "Vous avez déclaré ce véhicule \"%salestatus%\""
-sale_form:
-  page.title: Déclarer une vente
-  seller:
-    section.title: Le vendeur
-    form:
-      firstname:
-        label : Nom
-      lastname:
-        label: Prénom
+    vehicles: Mes ventes
+    declaration: Déclaration
+  vehicles:
+    waiting:
+      title: Véhicules en attente de déclaration
+      subtitle: Déclarer vos ventes ci-dessous
+    sold:
+      title: Véhicules vendus
+  form:
+    seller:
+      section.title: Le vendeur
+      field:
+        firstname:
+          label : Prénom
+        lastname:
+          label: Nom
+    buyer:
+      section.title: L'acheteur
+      field:
+        firstname:
+          label : Prénom
+        lastname:
+          label: Nom
+    transaction:
+      section.title: La transaction
+      field:
+        transactionSaleAmount:
+          label : Montant de la vente (€)
+        transactionPartExchangeAmount:
+          label : Montant de la reprise (€)
+        transactionCommentary:
+          label: Commentaires
+          placeholder: Identifiation du véhicule acheté et/ou repris...
+
 
 pro_dashboard:
   page:
     title: Mon tableau de bord
-
   lead:
     sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
+
 boost:
   link: Booster mes pages
   page:

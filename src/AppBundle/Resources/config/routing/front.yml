@@ -246,8 +246,12 @@ front_pro_user_sales:
     path: /mes-ventes
     controller: AppBundle:Front\ProContext\Sales:salesView
 
-front_sale_declaration_form:
+front_sale_declaration_new:
     path: /vente/declarer
+    controller: AppBundle:Front\ProContext\Sales:declareForm
+
+front_sale_declaration_edit:
+    path: /vente/declaration/editer/{id}
     controller: AppBundle:Front\ProContext\Sales:declareForm
 
 # Vehicules particuliers

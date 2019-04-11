@@ -2,9 +2,13 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ "sale_form.page.title"|trans }}{% endblock %}
+{% block title %}{{ "sale.page.declaration"|trans }}{% endblock %}
 
 {% set breadcrumbs = [
+    {
+        'name': 'pro_dashboard.page.title'|trans,
+        'href': url('front_pro_user_dashboard')
+    },
     {
         'name': block('title'),
         'href': app.request.requestUri
@@ -21,10 +25,56 @@
 
     <div class="row">
         <div class="column small-12">
-            <h2 class="primary-color">{{ 'sale_form.seller.section.title'|trans }}</h2>
+            {{ form_start(saleDeclarationForm, { 'attr' : {'class': '','data-abide' : 'data-abide','novalidate': 'novalidate'} }) }}
+            <h2>{{ 'sale.form.seller.section.title'|trans }}</h2>
+            <div class="row">
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.sellerFirstName, {
+                        'label':'sale.form.seller.field.firstname.label'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.sellerLastName, {
+                        'label':'sale.form.seller.field.lastname.label'|trans
+                    }) }}
 
-            formulaire....
-
+                </div>
+            </div>
+            <h2>{{ 'sale.form.buyer.section.title'|trans }}</h2>
+            <div class="row">
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.buyerFirstName, {
+                        'label':'sale.form.buyer.field.firstname.label'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.buyerLastName, {
+                        'label':'sale.form.buyer.field.lastname.label'|trans
+                    }) }}
+                </div>
+            </div>
+            <h2>{{ 'sale.form.transaction.section.title'|trans }}</h2>
+            <div class="row">
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.transactionSaleAmount, {
+                        'label':'sale.form.transaction.field.transactionSaleAmount.label'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6">
+                    {{ form_widget(saleDeclarationForm.transactionPartExchangeAmount, {
+                        'label':'sale.form.transaction.field.transactionPartExchangeAmount.label'|trans
+                    }) }}
+                </div>
+                <div class="column small-12">
+                    {{ form_widget(saleDeclarationForm.transactionCommentary, {
+                        'label':'sale.form.transaction.field.transactionCommentary.label'|trans
+                    }) }}
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="button">{{ 'global.button.validate'|trans }}</button>
+            </div>
+            {{ form_end(saleDeclarationForm) }}
 
         </div>
     </div>

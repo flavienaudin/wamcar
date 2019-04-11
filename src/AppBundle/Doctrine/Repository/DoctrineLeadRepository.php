@@ -11,7 +11,6 @@ use Wamcar\User\ProUser;
 
 class DoctrineLeadRepository extends EntityRepository implements LeadRepository
 {
-
     /**
      * {@inheritdoc}
      */

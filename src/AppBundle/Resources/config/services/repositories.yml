@@ -106,3 +106,8 @@ services:
         class: 'AppBundle\Doctrine\Repository\DoctrineLeadRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\User\Lead']
+
+    AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\Sale\Declaration']

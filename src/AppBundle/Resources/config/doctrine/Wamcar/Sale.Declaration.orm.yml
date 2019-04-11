@@ -25,8 +25,14 @@ Wamcar\Sale\Declaration:
     buyerLastName:
       type: string
       nullable: true
-    transactionAmount:
+    transactionSaleAmount:
       type: integer
+      nullable: true
+    transactionPartExchangeAmount:
+      type: integer
+      nullable: true
+    transactionCommentary:
+      type: text
       nullable: true
     creditEarned:
       type: integer
