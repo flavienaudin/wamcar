@@ -157,7 +157,7 @@ class LeadManagementService
         if ($proUser->is($user)) {
             return null;
         }
-        $lead = $this->leadRepository->findOneBy(['userLead' => $user]);
+        $lead = $this->leadRepository->findOneBy(['proUser' => $proUser, 'userLead' => $user]);
         if ($lead == null) {
             $lead = $this->createLead($proUser, $user, $bddSave);
         }
@@ -191,7 +191,7 @@ class LeadManagementService
      */
     public function increaseMessageNumberOfProUser(ProUser $proUser, BaseUser $messageSender): ?Lead
     {
-        $lead = $this->getLead($proUser, $messageSender, false);
+        $lead = $this->getLead($proUser, $messageSender, true);
         if ($lead != null) {
             $lead->increaseNbMessages();
             return $this->leadRepository->update($lead);
