@@ -22,7 +22,9 @@ class Lead
     private $firstName;
     /** @var null|string */
     private $lastName;
-    /** @var \DateTime */
+    /** @var \DateTimeInterface */
+    private $createdAt;
+    /** @var \DateTimeInterface */
     private $lastContactedAt;
     /** @var int */
     private $nbPhoneAction;
@@ -51,7 +53,6 @@ class Lead
             $this->firstName = $userLead->getFirstName();
             $this->lastName = $userLead->getLastName();
         }
-        $this->lastContactedAt = new \DateTime();
         $this->nbPhoneAction = 0;
         $this->nbPhoneProAction = 0;
         $this->nbMessages = 0;
@@ -154,6 +155,22 @@ class Lead
     public function setLastName(?string $lastName): void
     {
         $this->lastName = $lastName;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt(\DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

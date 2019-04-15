@@ -18,7 +18,7 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
     {
         $con = $this->_em->getConnection();
         $res = $con->executeQuery(
-            "select u1.userId as leadUserId, sum(nb_messages) as nbMessages, sum(nb_like) as nbLikes, max(contactedAt) as contactedAt
+            "select u1.userId as leadUserId, sum(nb_messages) as nbMessages, sum(nb_like) as nbLikes, min(contactedAt) as createdAt, max(contactedAt) as contactedAt
                     from (
                         (select nbMess.userId as userId, nb_messages, 0 as nb_like, nbMess.contactedAt as contactedAt
                         from (

@@ -21,6 +21,12 @@ Wamcar\User\Lead:
     lastName:
       type: string
       nullable: true
+    createdAt:
+      type: datetime
+      nullable: false
+      gedmo:
+        timestampable:
+          on: create
     lastContactedAt:
       type: datetime
       nullable: false

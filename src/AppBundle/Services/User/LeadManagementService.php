@@ -4,6 +4,7 @@ namespace AppBundle\Services\User;
 
 
 use Doctrine\DBAL\DBALException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -26,6 +27,8 @@ class LeadManagementService
     private $router;
     /** @var TranslatorInterface */
     private $translator;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * LeadManagementService constructor.
@@ -33,13 +36,15 @@ class LeadManagementService
      * @param LeadRepository $leadRepository
      * @param RouterInterface $router
      * @param TranslatorInterface $translator
+     * @param LoggerInterface $logger
      */
-    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router, TranslatorInterface $translator)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
         $this->router = $router;
         $this->translator = $translator;
+        $this->logger = $logger;
     }
 
     /**
@@ -114,7 +119,7 @@ class LeadManagementService
      */
     public function generateProUserLead(ProUser $proUser)
     {
-        $potentialLeads = $this->retrivePotentialLeads($proUser);
+        $potentialLeads = $this->retrievePotentialLeads($proUser);
         foreach ($potentialLeads as $leadInfo) {
             /** @var BaseUser $leadUser */
             $leadUser = $this->userRepository->findIgnoreSoftDeleted($leadInfo['leadUserId']);
@@ -123,7 +128,14 @@ class LeadManagementService
                 if ($lead != null) {
                     $lead->setNbMessages($leadInfo['nbMessages']);
                     $lead->setNbLikes($leadInfo['nbLikes']);
-                    $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
+                    try {
+                        $lead->setCreatedAt(new \DateTime($leadInfo['createdAt']));
+                        $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
+                    } catch (\Exception $e) {
+                        $this->logger->critical('Error while setting Lead Dates (now are used by default) ' . $lead->getId());
+                        $this->logger->critical(print_r($leadInfo, true));
+                        // Note : update with 'now' date in lastContactedAt and createdAt even if error
+                    }
                     $this->leadRepository->update($lead);
                 }
             }
@@ -136,7 +148,7 @@ class LeadManagementService
      * @param ProUser $proUser
      * @return array
      */
-    private function retrivePotentialLeads(ProUser $proUser)
+    private function retrievePotentialLeads(ProUser $proUser)
     {
         try {
             return $this->leadRepository->getPotentialLeadsByProUser($proUser);
