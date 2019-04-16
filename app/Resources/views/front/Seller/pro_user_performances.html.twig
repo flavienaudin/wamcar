@@ -100,7 +100,7 @@
                         </tr>
                         <tr>
                             <th>Taux de transformation</th>
-                            <td>{{ performances.conversionRate }}</td>
+                            <td>{{ (performances.conversionRate * 100)| round }}%</td>
                         </tr>
                         </tbody>
                     </table>
