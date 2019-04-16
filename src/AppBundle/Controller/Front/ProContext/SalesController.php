@@ -62,14 +62,14 @@ class SalesController extends BaseController
             throw new AccessDeniedException();
         }
 
-        $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser);
+        // $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser, $request->query->all());
         /* TODO : implémenter un nouveau système de status de vente
         $declaredVehicles = $this->proVehicleEditionService->getProUserVehiclesAlreadySalesDeclarated($currentUser);
         */
         $declaredVehicles = new ArrayCollection();
 
         return $this->render("front/Seller/sales_declaration.html.twig", [
-            "vehiclesToDeclare" => $vehiclesToDeclare,
+            //"vehiclesToDeclare" => $vehiclesToDeclare,
             "declaredVehicles" => $declaredVehicles
         ]);
     }

@@ -10,7 +10,7 @@
     margin-right: auto;
   }
 
-  &_processing{
+  &_processing {
     z-index: 1;
   }
 
@@ -68,5 +68,25 @@
         text-align: center;
       }
     }
+  }
+}
+
+#vehiclesToDeclare_dt {
+  &_wrapper {
+    // Fix to align header and body columns
+    table.dataTable {
+      width: 100% !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .dt-image {
+      max-width: 100px;
+      height: auto;
+    }
+  }
+
+  &_processing {
+    z-index: 1;
   }
 }

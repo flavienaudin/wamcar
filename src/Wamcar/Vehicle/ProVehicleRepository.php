@@ -46,8 +46,8 @@ interface ProVehicleRepository extends VehicleRepository
 
     /**
      * @param ProUser $proUser
-     * @param bool $getNullSaleStatus
+     * @param array $params
      * @return Collection|array
      */
-    public function findDeletedVehiclesByUserAndSaleStatus(ProUser $proUser, bool $getNullSaleStatus);
+    public function getDeletedProVehiclesByRequest(ProUser $proUser, array $params);
 }

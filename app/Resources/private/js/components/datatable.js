@@ -62,4 +62,40 @@ $(function () {
       });
     });
   }
+
+  const $vehiclesToDeclareDatatable = $('.js-vehicles-to-declare-datatable');
+  if ($vehiclesToDeclareDatatable) {
+    $vehiclesToDeclareDatatable.each((index, datatable) => {
+      let ajaxUrl = $(datatable).data('href');
+      let transUrl = $(datatable).data('trans');
+      $(datatable).DataTable({
+        'processing': true,
+        'serverSide': true,
+        'scrollX': true,
+        'responsive': true,
+        'autoWidth': true,
+        'searchDelay': 1000,
+        'language': {
+          'url': transUrl
+        },
+        'lengthChange': false,
+        'ajax': {
+          'url': ajaxUrl,
+          'error': function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
+          }
+        },
+        'columns': [
+          {'data': 'image', 'searchable': false, 'orderable': false, 'className':'dt-image'},
+          {'data': 'name', 'searchable': true, 'orderable': true},
+          {'data': 'garage', 'searchable': true, 'orderable': true},
+          {'data': 'actions', 'searchable': false, 'orderable': false}
+        ]
+      });
+    });
+  }
 });

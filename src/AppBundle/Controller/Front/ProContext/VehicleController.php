@@ -28,6 +28,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
 class VehicleController extends BaseController
@@ -403,5 +404,23 @@ class VehicleController extends BaseController
         $this->proVehicleEditionService->userLikesVehicle($this->getUser(), $vehicle);
 
         return new JsonResponse(count($vehicle->getPositiveLikes()), Response::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getProVehiclesToDeclareAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        $currentUser = $this->getUser();
+        if(!$currentUser instanceof ProUser){
+            return new JsonResponse($this->translator->trans('flash.error.sale.unauthorized_to_get_vehicle_to_declare'), Response::HTTP_UNAUTHORIZED);
+        }
+
+        return new JsonResponse($this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser, $request->query->all()));
     }
 }

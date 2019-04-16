@@ -26,21 +26,22 @@
                 <small>{{ 'sale.vehicles.waiting.subtitle'|trans }}</small>
             </h2>
             <div class="sales-container margin-bottom-2">
-                <div class="vehicle-list">
-                    {% for vehicle in vehiclesToDeclare %}
-                        {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
-                    {% else %}
-                        <i>Pas de véhicule vendu à déclarer</i>
-                    {% endfor %}
-                </div>
+                <table id="vehiclesToDeclare_dt" class="js-vehicles-to-declare-datatable dataTable compact row-border"
+                       data-href="{{ path('front_pro_vehicles_to_declare') }}"
+                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Véhicle</th>
+                        <th>Garage</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
             </div>
 
-
-            <h2 class="primary-color">{{ 'sale.vehicles.sold.title'|trans }}<br>
-                {#<small>{{ ''|trans }}</small>#}
+            {#<h2 class="primary-color">{{ 'sale.vehicles.sold.title'|trans }}<br><small>{{ ''|trans }}</small>
             </h2>
-
-
             <div class="sales-container">
                 <div class="vehicle-list">
                     {% for vehicle in declaredVehicles %}
@@ -49,7 +50,7 @@
                         <i>Pas de véhicule déclaré</i>
                     {% endfor %}
                 </div>
-            </div>
+            </div>#}
 
         </div>
     </div>

@@ -10,8 +10,10 @@ use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
+use AppBundle\Services\Picture\PathVehiclePicture;
 use Elastica\ResultSet;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Routing\RouterInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
@@ -38,7 +40,10 @@ class ProVehicleEditionService
     private $likeProVehicleRepository;
     /** @var MessageBus */
     private $eventBus;
-
+    /** @var RouterInterface */
+    private $router;
+    /** @var PathVehiclePicture */
+    private $pathVehiclePicture;
 
     /**
      * ProVehicleEditionService constructor.
@@ -46,18 +51,23 @@ class ProVehicleEditionService
      * @param GarageRepository $garageRepository
      * @param DoctrineLikeProVehicleRepository $likeProVehicleRepository
      * @param MessageBus $eventBus
+     * @param RouterInterface $router
+     * @param PathVehiclePicture $pathVehiclePicture
      */
     public function __construct(
         ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
         DoctrineLikeProVehicleRepository $likeProVehicleRepository,
-        MessageBus $eventBus
+        MessageBus $eventBus, RouterInterface $router,
+        PathVehiclePicture $pathVehiclePicture
     )
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
         $this->likeProVehicleRepository = $likeProVehicleRepository;
         $this->eventBus = $eventBus;
+        $this->router = $router;
+        $this->pathVehiclePicture = $pathVehiclePicture;
         $this->vehicleBuilder = [
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
             FormVehicleDTO::class => FormVehicleBuilder::class
@@ -98,23 +108,33 @@ class ProVehicleEditionService
 
 
     /**
-     * TODO : implémenter un nouveau système de status de vente
      * @param ProUser $proUser
+     * @param array Request params
      * @return array of ProVehicle
      */
-    public function getProUserVehiclesForSalesDeclaration(ProUser $proUser): array
+    public function getProUserVehiclesForSalesDeclaration(ProUser $proUser, array $params): array
     {
-        return $this->vehicleRepository->findDeletedVehiclesByUserAndSaleStatus($proUser, true);
-    }
+        $vehicles = $this->vehicleRepository->getDeletedProVehiclesByRequest($proUser, $params);
 
-    /**
-     * TODO : implémenter un nouveau système de status de vente
-     * @param ProUser $proUser
-     * @return array of ProVehicle
-     */
-    public function getProUserVehiclesAlreadySalesDeclarated(ProUser $proUser): array
-    {
-        return $this->vehicleRepository->findDeletedVehiclesByUserAndSaleStatus($proUser, false);
+        $vehiclesToDeclare = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => $vehicles['recordsTotalCount'],
+            "recordsFiltered" => $vehicles['recordsFilteredCount'],
+            "data" => []
+        ];
+        /** @var ProVehicle $vehicle */
+        foreach ($vehicles['data'] as $vehicle) {
+            $vehicleInfoForDataTable = [
+                'image' => '<img src="' . $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_picture') . '" class="img-responsive" alt="' . $vehicle->getNAme() . '">',
+                'name' => $vehicle->getName(),
+                'garage' => '<a href="' . $this->router->generate('front_garage_view', [
+                        'slug' => $vehicle->getGarage()->getSlug()
+                    ]) . '">' . $vehicle->getGarageName() . '</a>',
+                'actions' => '<a href="#">Vendu avec Wamcar</a><a href="#">Supprimer</a>'
+            ];
+            $vehiclesToDeclare['data'][] = $vehicleInfoForDataTable;
+        }
+        return $vehiclesToDeclare;
     }
 
     /**

@@ -250,6 +250,10 @@ front_pro_user_sales:
     path: /mes-ventes
     controller: AppBundle:Front\ProContext\Sales:salesView
 
+front_pro_vehicles_to_declare:
+    path: /ventes/get
+    controller: AppBundle:Front\ProContext\Vehicle:getProVehiclesToDeclare
+
 front_sale_declaration_new:
     path: /vente/declarer
     controller: AppBundle:Front\ProContext\Sales:declareForm

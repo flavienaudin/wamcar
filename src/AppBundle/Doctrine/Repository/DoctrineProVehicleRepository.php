@@ -2,6 +2,7 @@
 
 namespace AppBundle\Doctrine\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Wamcar\Garage\Garage;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
@@ -38,7 +39,7 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         $qb = $this->createQueryBuilder('pv');
         $qb->where($qb->expr()->exists('SELECT 1 FROM AppBundle\Doctrine\Entity\ProVehiclePicture pic WHERE pic.vehicle = pv'))
             ->orderBy('pv.createdAt', 'DESC')
-        ->setMaxResults($limit);
+            ->setMaxResults($limit);
         return $qb->getQuery()->getResult();
     }
 
@@ -54,7 +55,6 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         }
     }
 
-
     /**
      * @inheritdoc
      */
@@ -68,29 +68,69 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         return $qb->getQuery()->execute();
     }
 
-
     /**
      * @inheritdoc
      */
-    public function findDeletedVehiclesByUserAndSaleStatus(ProUser $proUser, bool $getNullSaleStatus)
+    public function getDeletedProVehiclesByRequest(ProUser $proUser, array $params)
     {
-
-        $qb = $this->createQueryBuilder('v');
-        $qb->where($qb->expr()->eq('v.seller', ':seller'))
-            ->andWhere($qb->expr()->isNotNull('v.deletedAt'));
-        /*if ($getNullSaleStatus) {
-            $qb->andWhere($qb->expr()->isNull('v.saleStatus'));
-        } else {
-            $qb->andWhere($qb->expr()->isNotNull('v.saleStatus'));
-        }*/
-        $qb->setParameter('seller', $proUser);
-
+        // Disable 'softDeletable' filter to get softDeleted vehicles
         if ($this->getEntityManager()->getFilters()->isEnabled('softDeleteable')) {
             $this->getEntityManager()->getFilters()->disable('softDeleteable');
         }
+
+        // Query count total filtered results
+        $qb = $this->createQueryBuilder('v');
+        $qb->select('COUNT(v.id)')
+            ->where($qb->expr()->eq('v.seller', ':seller'))
+            ->andWhere($qb->expr()->isNotNull('v.deletedAt'))
+            ->setParameter('seller', $proUser);
+        try {
+            $totalCount = $qb->getQuery()->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            $totalCount = null;
+        }
+
+        if (isset($params['search']) && !empty($params['search']['value'])) {
+            $qb->join('v.garage', 'g')
+                ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
+                    $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
+                    $qb->expr()->like('g.name', ':searchValue')
+                )
+            );
+            $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
+        }
+
+        try {
+            $count = $qb->getQuery()->getSingleScalarResult();
+        } catch (NonUniqueResultException $e) {
+            $count = null;
+        }
+
+        // Query filtered results
+        $qb = $this->createQueryBuilder('v');
+        $qb->where($qb->expr()->eq('v.seller', ':seller'))
+            ->andWhere($qb->expr()->isNotNull('v.deletedAt'))
+            ->setParameter('seller', $proUser)
+            ->setFirstResult($params['start'])
+            ->setMaxResults($params['length']);
+
+        if (isset($params['search']) && !empty($params['search']['value'])) {
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
+                    $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
+                    $qb->expr()->like('g.name', ':searchValue')
+                )
+            );
+            $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
+        }
         $result = $qb->getQuery()->execute();
+
         $this->getEntityManager()->getFilters()->enable('softDeleteable');
-        return $result;
+
+        return ['data' => $result , 'recordsTotalCount' => $totalCount, 'recordsFilteredCount' => $count];
     }
 
 }

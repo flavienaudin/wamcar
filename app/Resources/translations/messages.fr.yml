@@ -77,6 +77,7 @@ flash:
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
       invalid_status: Le statut est invalide
     sale:
+      unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accèder aux véhicles à déclarer de ce conseiller.
       saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
