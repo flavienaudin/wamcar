@@ -26,7 +26,9 @@
             <div class="row">
                 <div class="column small-12 medium-6">
                     {{ form_widget(saleDeclarationForm.sellerFirstName, {
-                        'label':'sale.form.seller.field.firstname.label'|trans
+                        'label':'sale.form.seller.field.firstname.label'|trans,
+                        'disabled':'disabled',
+                        'attr':{'readonly':'readonly'}
                     }) }}
                 </div>
                 <div class="column small-12 medium-6">
@@ -37,6 +39,12 @@
             </div>
             <h2>{{ 'sale.form.buyer.section.title'|trans }}</h2>
             <div class="row">
+                {% if associatedLead is not null %}
+                    <div class="column small-12">
+                        <p>Cette vente est associée à votre contact : <b>{{ associatedLead.fullName }}</b>. Vous pouvez
+                            mettre à jour ses coordonnées si nécessaire.</p>
+                    </div>
+                {% endif %}
                 <div class="column small-12 medium-6">
                     {{ form_widget(saleDeclarationForm.buyerFirstName, {
                         'label':'sale.form.buyer.field.firstname.label'|trans
@@ -50,14 +58,22 @@
             </div>
             <h2>{{ 'sale.form.transaction.section.title'|trans }}</h2>
             <div class="row">
+                <div class="column small-12">
+                    <p>Veuillez renseigner le montant de la vente et/ou de la reprise :
+                    {{ form_errors(saleDeclarationForm.transactionSaleAmount) }}
+                    </p>
+                </div>
                 <div class="column small-12 medium-6">
                     {{ form_widget(saleDeclarationForm.transactionSaleAmount, {
-                        'label':'sale.form.transaction.field.transactionSaleAmount.label'|trans
+                        'label':'sale.form.transaction.field.transactionSaleAmount.label'|trans,
+                        'required_class':'show-for-sr'
                     }) }}
+
                 </div>
                 <div class="column small-12 medium-6">
                     {{ form_widget(saleDeclarationForm.transactionPartExchangeAmount, {
-                        'label':'sale.form.transaction.field.transactionPartExchangeAmount.label'|trans
+                        'label':'sale.form.transaction.field.transactionPartExchangeAmount.label'|trans,
+                        'required_class':'show-for-sr'
                     }) }}
                 </div>
                 <div class="column small-12">
@@ -66,8 +82,9 @@
                     }) }}
                 </div>
             </div>
-            <div>
-                <button type="submit" class="button">{{ 'global.button.validate'|trans }}</button>
+            <div class="is-flex align-right">
+                <a href="{{ app.request.headers.get('referer') }}" class="button reverse">{{ 'global.button.cancel'|trans }}</a>
+                <button type="submit" class="button margin-left-1">{{ 'global.button.validate'|trans }}</button>
             </div>
             {{ form_end(saleDeclarationForm) }}
 

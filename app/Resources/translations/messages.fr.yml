@@ -1032,14 +1032,14 @@ sale:
       title: Véhicules vendus
   form:
     seller:
-      section.title: Le vendeur
+      section.title: Vous
       field:
         firstname:
           label : Prénom
         lastname:
           label: Nom
     buyer:
-      section.title: L'acheteur
+      section.title: Le client
       field:
         firstname:
           label : Prénom

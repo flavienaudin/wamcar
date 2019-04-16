@@ -46,8 +46,8 @@ class SaleManagementService
             if ($proUser instanceof ProUser) {
                 try {
                     $declaration = new Declaration($proUser);
-                    $declaration->setSellerFirstName($proUser->getFirstName());
-                    $declaration->setSellerLastName($proUser->getLastName());
+                    $declaration->setSellerFirstName($saleDeclarationDTO->getSellerFirstName());
+                    $declaration->setSellerLastName($saleDeclarationDTO->getSellerLastName());
                 } catch (\Exception $e) {
                     return false;
                 }

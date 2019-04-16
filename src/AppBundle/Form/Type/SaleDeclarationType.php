@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DTO\SaleDeclarationDTO;
+use AppBundle\Form\Validator\Constraints\SaleDeclaration;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -49,7 +50,8 @@ class SaleDeclarationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => SaleDeclarationDTO::class
+            'data_class' => SaleDeclarationDTO::class,
+            'constraints' => [new SaleDeclaration()]
         ]);
     }
 }

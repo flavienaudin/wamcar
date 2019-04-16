@@ -24,16 +24,20 @@ $(function () {
         'ajax': {
           'url': ajaxUrl,
           'error': function (jqXHR, textStatus, errorThrown) {
-            Toastr.warning(jqXHR.responseJSON.error);
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
           }
         },
         'columns': [
           {'data': 'leadName', 'searchable': true, 'orderable': true},
           {'data': 'lastContactAt', 'searchable': false, 'orderable': true},
-          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
-          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
-          {'data': 'messageStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
-          {'data': 'likeStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
+          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'messageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'likeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
           {'data': 'status', 'searchable': false, 'orderable': true},
           {'data': 'action', 'searchable': false, 'orderable': true}
         ]
@@ -47,7 +51,11 @@ $(function () {
             }).done(function (success) {
               Toastr.success(success);
             }).fail(function (jqXHR, textStatus) {
-              Toastr.warning(jqXHR.responseJSON.error);
+              if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+                Toastr.warning(jqXHR.responseJSON.error);
+              } else {
+                Toastr.warning(textStatus);
+              }
             });
           });
         });

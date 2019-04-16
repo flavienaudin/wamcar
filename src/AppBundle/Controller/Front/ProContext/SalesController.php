@@ -62,7 +62,6 @@ class SalesController extends BaseController
             throw new AccessDeniedException();
         }
 
-
         $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser);
         /* TODO : implémenter un nouveau système de status de vente
         $declaredVehicles = $this->proVehicleEditionService->getProUserVehiclesAlreadySalesDeclarated($currentUser);
@@ -114,7 +113,8 @@ class SalesController extends BaseController
             }
         }
         return $this->render("front/Seller/sale_declaration_form.html.twig", [
-            'saleDeclarationForm' => $saleDeclarationForm->createView()
+            'saleDeclarationForm' => $saleDeclarationForm->createView(),
+            'associatedLead' => $lead ?? null
         ]);
     }
 }
