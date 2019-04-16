@@ -3,9 +3,22 @@
    =========================================================================== */
 
 #prouserleads_dt {
+  // Fix to align header and body columns
+  &_wrapper table.dataTable {
+    width: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+  }
 
-  thead th, tfoot th {
+  thead th,
+  tfoot th {
     font-size: rem-calc(14);
+  }
+
+  &_wrapper [class^="icon-"]::before,
+  &_wrapper [class*=" icon-"]::before {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   select {
@@ -14,5 +27,42 @@
     padding-left: rem-calc(5);
     padding-right: rem-calc(5);
     margin-bottom: 0;
+  }
+}
+
+.perf-audience-datatable,
+.perf-activity-datatable,
+.perf-results-datatable {
+  border: 1px solid $border-color;
+
+  tbody {
+    th {
+      width: 80%;
+      text-align: center;
+      @include breakpoint(medium) {
+        width: 50%;
+        text-align: right;
+      }
+      @include breakpoint(large) {
+        width: 80%;
+        text-align: right;
+      }
+    }
+
+    td {
+      width: 20%;
+      text-align: center;
+      @include breakpoint(medium) {
+        width: 50%;
+        text-align: left;
+      }
+      @include breakpoint(medium only) {
+        padding-left: 15px !important;
+      }
+      @include breakpoint(large) {
+        width: 20%;
+        text-align: center;
+      }
+    }
   }
 }

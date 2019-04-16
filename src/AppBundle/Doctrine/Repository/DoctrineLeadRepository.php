@@ -5,6 +5,7 @@ namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Wamcar\User\BaseUser;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\ProUser;
@@ -67,7 +68,7 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
         }
         try {
             $count = $qb->getQuery()->getSingleScalarResult();
-        }catch(NonUniqueResultException $e){
+        } catch (NonUniqueResultException $e) {
             $count = null;
         }
 
@@ -90,7 +91,7 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
         }
 
         foreach ($params['order'] as $order) {
-            if($order['column'] > 0){
+            if ($order['column'] > 0) {
                 $orderColumns = [
                     1 => 'l.lastContactedAt',
                     2 => 'l.nbPhoneAction',
@@ -100,7 +101,7 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
                     6 => 'l.status'
                 ];
                 $qb->addOrderBy($orderColumns[$order['column']], $order['dir']);
-            }else{
+            } else {
                 $qb->addOrderBy('l.firstName', $order['dir']);
                 $qb->addOrderBy('l.lastName', $order['dir']);
             }
@@ -108,6 +109,28 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
 
 
         return ['data' => $qb->getQuery()->getResult(), 'recordsFilteredCount' => $count];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCountLeadsByLastDateOfContact(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int
+    {
+        if (empty($referenceDate)) {
+            $referenceDate = new \DateTime();
+        }
+        $firstDate = clone $referenceDate;
+        $firstDate->sub(new \DateInterval('P' . $sinceDays . 'D'));
+
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('COUNT(l.id)')
+            ->where($qb->expr()->eq('l.proUser', ':user'))
+            ->andwhere($qb->expr()->gte('l.lastContactedAt', ':firstDate'))
+            ->andWhere($qb->expr()->lte('l.lastContactedAt', ':referenceDate'))
+            ->setParameter('user', $user)
+            ->setParameter('firstDate', $firstDate)
+            ->setParameter('referenceDate', $referenceDate);
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**

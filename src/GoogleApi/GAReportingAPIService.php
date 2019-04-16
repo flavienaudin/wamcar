@@ -105,7 +105,7 @@ class GAReportingAPIService
         $eventLabelDimension = new \Google_Service_AnalyticsReporting_Dimension();
         $eventLabelDimension->setName(self::EVENT_LABEL_DIMENSION_NAME);
 
-        // Common "eventLabel" Dimension object
+        // Common "eventCategory" Dimension object
         $eventCategoryDimension = new \Google_Service_AnalyticsReporting_Dimension();
         $eventCategoryDimension->setName(self::EVENT_CATEGORY_DIMENSION_NAME);
 
@@ -213,8 +213,6 @@ class GAReportingAPIService
         });
         $proUserStatistics['top5Vehicles'] = array_reverse(array_slice($orderedArray, -5), true);
 
-        // Contacts events Report (Possible de fusionner les deux rapports ProfilePage et VehiclesPages en lisant la dimension
-        // pour différencier la statistique
         $contactsEventsReport = $reports[1];
         $rows = $contactsEventsReport->getData()->getRows();
         $metricsValues = [

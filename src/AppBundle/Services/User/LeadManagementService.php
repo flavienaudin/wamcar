@@ -100,7 +100,7 @@ class LeadManagementService
 
             $result['data'][] = [
                 'leadName' => $leadName,
-                'lastContactAt' => $lead->getLastContactedAt()->format("d-m-Y H:i:s"),
+                'lastContactAt' => $lead->getLastContactedAt()->format("d/m/y H:i"),
                 'proPhoneStats' => $lead->getNbPhoneProAction(),
                 'profilePhoneStats' => $lead->getNbPhoneAction(),
                 'messageStats' => $lead->getNbMessages(),

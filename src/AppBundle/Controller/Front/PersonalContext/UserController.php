@@ -33,8 +33,8 @@ use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
-use GoogleApi\GAReportingAPIService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -86,8 +86,8 @@ class UserController extends BaseController
     protected $translator;
     /** @var AffinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
-    /** @var GAReportingAPIService */
-    protected $gaReportingApiService;
+    /** @var UserInformationService */
+    protected $userInformationService;
     /** @var LeadManagementService */
     protected $leadManagementService;
 
@@ -105,7 +105,7 @@ class UserController extends BaseController
      * @param MessageBus $eventBus
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
-     * @param GAReportingAPIService $gaReportingApiService
+     * @param UserInformationService $userInformationService
      * @param LeadManagementService $leadManagementService
      */
     public function __construct(
@@ -121,7 +121,7 @@ class UserController extends BaseController
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService,
-        GAReportingAPIService $gaReportingApiService, LeadManagementService $leadManagementService
+        UserInformationService $userInformationService, LeadManagementService $leadManagementService
     )
     {
         $this->formFactory = $formFactory;
@@ -136,7 +136,7 @@ class UserController extends BaseController
         $this->eventBus = $eventBus;
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
-        $this->gaReportingApiService = $gaReportingApiService;
+        $this->userInformationService = $userInformationService;
         $this->leadManagementService = $leadManagementService;
     }
 
@@ -556,10 +556,8 @@ class UserController extends BaseController
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
             throw new AccessDeniedException();
         }
-
-        return $this->render("front/Seller/pro_user_performances.html.twig", [
-            'report' => $this->gaReportingApiService->getProUserKPI($currentUser)
-        ]);
+        $performances = $this->userInformationService->getProUserPerformances($currentUser);
+        return $this->render("front/Seller/pro_user_performances.html.twig", ['performances' => $performances]);
     }
 
 

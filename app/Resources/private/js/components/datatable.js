@@ -22,7 +22,7 @@ $(function () {
         },
         'lengthChange': false,
         'ajax': {
-          'url':ajaxUrl,
+          'url': ajaxUrl,
           'error': function (jqXHR, textStatus, errorThrown) {
             Toastr.warning(jqXHR.responseJSON.error);
           }
@@ -30,10 +30,10 @@ $(function () {
         'columns': [
           {'data': 'leadName', 'searchable': true, 'orderable': true},
           {'data': 'lastContactAt', 'searchable': false, 'orderable': true},
-          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true},
-          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true},
-          {'data': 'messageStats', 'searchable': false, 'orderable': true},
-          {'data': 'likeStats', 'searchable': false, 'orderable': true},
+          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
+          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
+          {'data': 'messageStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
+          {'data': 'likeStats', 'searchable': false, 'orderable': true, 'className':'dt-center'},
           {'data': 'status', 'searchable': false, 'orderable': true},
           {'data': 'action', 'searchable': false, 'orderable': true}
         ]

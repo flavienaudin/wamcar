@@ -79,6 +79,10 @@ services:
             $userSpecificRepositories: {AppBundle\Doctrine\Entity\PersonalApplicationUser: '@AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository', AppBundle\Doctrine\Entity\ProApplicationUser: '@AppBundle\Doctrine\Repository\DoctrineProUserRepository'}
             $userLikeRepository: '@AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
 
+    AppBundle\Services\User\UserInformationService:
+        class: AppBundle\Services\User\UserInformationService
+        autowire: true
+
     AppBundle\Services\User\LeadManagementService:
         autowire: true
 

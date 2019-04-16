@@ -33,4 +33,28 @@ class DoctrineLikeProVehicleRepository extends EntityRepository implements UserL
     {
         return $this->findBy(['vehicle' => $vehicle]);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCountReceivedLikes(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int
+    {
+        if (empty($referenceDate)) {
+            $referenceDate = new \DateTime();
+        }
+        $firstDate = clone $referenceDate;
+        $firstDate->sub(new \DateInterval('P' . $sinceDays . 'D'));
+
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('COUNT(l.id)')
+            ->join('l.vehicle', 'v')
+            ->where($qb->expr()->eq('v.seller', ':user'))
+            ->andWhere($qb->expr()->isNull('v.deletedAt'))
+            ->andwhere($qb->expr()->gte('l.updatedAt', ':firstDate'))
+            ->andWhere($qb->expr()->lte('l.updatedAt', ':referenceDate'))
+            ->setParameter('user', $user)
+            ->setParameter('firstDate', $firstDate)
+            ->setParameter('referenceDate', $referenceDate);
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

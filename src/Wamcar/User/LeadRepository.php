@@ -41,6 +41,14 @@ interface LeadRepository
     public function findOneBy(array $criteria, array $orderBy = null);
 
     /**
+     * Compte les leads contacté pendant l'intervalle de la référence
+     * @param BaseUser $user
+     * @param int|null $sinceDays Intervalle de temps avant la date de référence
+     * @param \DateTimeInterface|null $referenceDate Date de référence (par défaut le jour même)
+     * @return int
+     */
+    public function getCountLeadsByLastDateOfContact(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int;
+    /**
      * @param Lead $lead
      * @return Lead
      */

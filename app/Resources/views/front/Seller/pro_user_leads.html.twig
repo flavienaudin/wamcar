@@ -18,39 +18,24 @@
         title: block('title')
     } %}
 
-
     <div class="row">
         <div class="column small-12">
-            <div>
-                <table id="prouserleads_dt" class="js-lead-datatable disaply width-100"
-                       data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
-                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
-                    <thead>
-                    <tr>
-                        <th>Prénom Nom</th>
-                        <th>Date du dernier contact</th>
-                        <th>#aff. {{ app.user.userProfile.phone??'-' }}</th>
-                        <th>#aff. {{ app.user.phonePro??'-' }}</th>
-                        <th>#mes.</th>
-                        <th>#likes</th>
-                        <th>Status</th>
-                        <th>Vente</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th>Prénom Nom</th>
-                        <th>Date du dernier contact</th>
-                        <th>#aff. {{ app.user.userProfile.phone??'-' }}</th>
-                        <th>#aff. {{ app.user.phonePro??'-' }}</th>
-                        <th>#mes.</th>
-                        <th>#likes</th>
-                        <th>Status</th>
-                        <th>Vente</th>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+            <table id="prouserleads_dt" class="js-lead-datatable dataTable compact"
+                   data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
+                   data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                <thead class="">
+                <tr>
+                    <th>Prénom Nom</th>
+                    <th>Date du dernier contact</th>
+                    <th class="text-center"><span class="icon-mobile" title="Nombre d'affichage de {{ app.user.userProfile.phone??'-' }}" data-tooltip></span></th>
+                    <th class="text-center"><span class="icon-tel" title="Nombre d'affichage de {{ app.user.userProfile.phonePro??'-' }}" data-tooltip></span></th>
+                    <th class="text-center"><span class="icon-message" title="Nombre de messages" data-tooltip></span></th>
+                    <th class="text-center"><span class="icon-heart" title="Nombre de likes" data-tooltip></span></th>
+                    <th>Status</th>
+                    <th>Vente</th>
+                </tr>
+                </thead>
+            </table>
         </div>
     </div>
 {% endblock %}
