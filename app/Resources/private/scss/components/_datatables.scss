@@ -1,7 +1,6 @@
 /* ===========================================================================
    datatables : Lead datatable and future others
    =========================================================================== */
-
 #prouserleads_dt {
   // Fix to align header and body columns
   &_wrapper table.dataTable {
@@ -83,6 +82,12 @@
     .dt-image {
       max-width: 100px;
       height: auto;
+    }
+
+    [class^="icon-"]::before,
+    [class*=" icon-"]::before {
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 

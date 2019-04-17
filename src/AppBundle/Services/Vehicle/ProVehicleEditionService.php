@@ -126,10 +126,10 @@ class ProVehicleEditionService
         foreach ($vehicles['data'] as $vehicle) {
             $vehicleInfoForDataTable = [
                 'image' => '<img src="' . $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_picture') . '" class="img-responsive" alt="' . $vehicle->getNAme() . '">',
-                'name' => $vehicle->getName(),
-                'garage' => '<a href="' . $this->router->generate('front_garage_view', [
-                        'slug' => $vehicle->getGarage()->getSlug()
-                    ]) . '">' . $vehicle->getGarageName() . '</a>',
+                'vehicle' => $vehicle->getName() . '<br>' .
+                    $vehicle->getPrice() . '€' . '<br>' .
+                    '<a href="' . $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()]) . '" target="_blank">' . $vehicle->getGarageName() . '</a>',
+                'date' => $vehicle->getUpdatedAt()->format("d/m/y H:i"),
                 'actions' => '<a href="#">Vendu avec Wamcar</a><a href="#">Supprimer</a>'
             ];
             $vehiclesToDeclare['data'][] = $vehicleInfoForDataTable;

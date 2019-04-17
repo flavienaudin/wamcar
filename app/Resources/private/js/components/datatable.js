@@ -74,6 +74,7 @@ $(function () {
         'scrollX': true,
         'responsive': true,
         'autoWidth': true,
+        'order': [[ 1, 'desc' ]],
         'searchDelay': 1000,
         'language': {
           'url': transUrl
@@ -89,11 +90,11 @@ $(function () {
             }
           }
         },
-        'columns': [
-          {'data': 'image', 'searchable': false, 'orderable': false, 'className':'dt-image'},
-          {'data': 'name', 'searchable': true, 'orderable': true},
-          {'data': 'garage', 'searchable': true, 'orderable': true},
-          {'data': 'actions', 'searchable': false, 'orderable': false}
+        'columnDefs': [
+          {'targets': 0, 'data': 'image', 'searchable': false, 'orderable': false, 'className':'dt-image'},
+          {'targets': 1, 'data': 'vehicle', 'searchable': true, 'orderable': true},
+          {'targets': 2, 'data': 'date', 'searchable': false, 'orderable': true},
+          {'targets': 3, 'data': 'actions', 'searchable': false, 'orderable': false},
         ]
       });
     });

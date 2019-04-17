@@ -93,12 +93,12 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         if (isset($params['search']) && !empty($params['search']['value'])) {
             $qb->join('v.garage', 'g')
                 ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
-                    $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
-                    $qb->expr()->like('g.name', ':searchValue')
-                )
-            );
+                    $qb->expr()->orX(
+                        $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
+                        $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
+                        $qb->expr()->like('g.name', ':searchValue')
+                    )
+                );
             $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
         }
 
@@ -117,20 +117,30 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
             ->setMaxResults($params['length']);
 
         if (isset($params['search']) && !empty($params['search']['value'])) {
-            $qb->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
-                    $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
-                    $qb->expr()->like('g.name', ':searchValue')
-                )
-            );
+            $qb->join('v.garage', 'g')
+                ->andWhere(
+                    $qb->expr()->orX(
+                        $qb->expr()->like('v.modelVersion.model.name', ':searchValue'),
+                        $qb->expr()->like('v.modelVersion.model.make.name', ':searchValue'),
+                        $qb->expr()->like('g.name', ':searchValue')
+                    )
+                );
             $qb->setParameter('searchValue', '%' . $params['search']['value'] . '%');
+        }
+
+        foreach ($params['order'] as $order) {
+            if ($order['column'] === "1") {
+                $qb->addOrderBy('v.modelVersion.model.make.name', $order['dir'])
+                    ->addOrderBy('v.modelVersion.model.name', $order['dir']);
+            } else if ($order['column'] === "2") {
+                $qb->addOrderBy('v.updatedAt', $order['dir']);
+            }
         }
         $result = $qb->getQuery()->execute();
 
         $this->getEntityManager()->getFilters()->enable('softDeleteable');
 
-        return ['data' => $result , 'recordsTotalCount' => $totalCount, 'recordsFilteredCount' => $count];
+        return ['data' => $result, 'recordsTotalCount' => $totalCount, 'recordsFilteredCount' => $count];
     }
 
 }
