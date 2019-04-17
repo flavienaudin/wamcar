@@ -20,31 +20,32 @@
 
     <div class="row">
         <div class="column small-12">
-            <p>Retrouvez dans le tableau ci-dessous les utilisateurs de Wamcar avec lesquels vous avez intéragi (échange
-                de message, affichage d'un numéro de téléphone, like sur l'un de vos véhicules). Vous pouvez les
-                qualifier en modifiant leur statut et déclarer des ventes à l'aide du lien "Nouvelle vente"</p>
+            <p>{{ 'lead.page.explications'|trans }}</p>
             <div class="input-margin full-width">
                 <table id="prouserleads_dt" class="js-lead-datatable dataTable compact row-border"
                        data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
                        data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
                     <thead class="">
                     <tr>
-                        <th>Prénom Nom</th>
-                        <th>Date du dernier contact</th>
+                        <th>{{ 'lead.table.name'|trans }}</th>
+                        <th>{{ 'lead.table.last_contacted_at'|trans }}</th>
                         <th><span class="icon-mobile"
-                                  title="Nombre d'affichage de {{ app.user.userProfile.phone??'-' }}"></span></th>
+                                  title="{{ 'lead.table.tel'|trans({'%telNumber%':app.user.userProfile.phone??'-'}) }}"></span>
+                        </th>
                         <th><span class="icon-tel"
-                                  title="Nombre d'affichage de {{ app.user.userProfile.phonePro??'-' }}"></span></th>
-                        <th><span class="icon-message" title="Nombre de messages"></span></th>
-                        <th><span class="icon-heart" title="Nombre de likes"></span></th>
-                        <th>Statut</th>
-                        <th>Vente</th>
+                                  title="{{ 'lead.table.tel'|trans({'%telNumber%':app.user.userProfile.phonePro??'-'}) }}"></span>
+                        </th>
+                        <th><span class="icon-message" title="{{ 'lead.table.messages'|trans }}"></span></th>
+                        <th><span class="icon-heart" title="{{ 'lead.table.likes'|trans }}"></span></th>
+                        <th>{{ 'lead.table.status'|trans }}</th>
+                        <th>{{ 'lead.table.action'|trans }}</th>
                     </tr>
                     </thead>
                 </table>
             </div>
-            <p>Vous souhaitez déclarer une vente sans l'associer à un de vos contacts en particulier :
-                <a href="{{ path('front_sale_declaration_new') }}" class="text-underline">Nouvelle vente</a></p>
+            <p>{{ 'lead.explication_no_contact'|trans }}
+                <a href="{{ path('front_sale_declaration_new') }}" class="text-underline">
+                    {{ 'lead.add_sale'|trans }}</a></p>
         </div>
     </div>
 {% endblock %}

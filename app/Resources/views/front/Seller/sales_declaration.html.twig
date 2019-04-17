@@ -19,11 +19,10 @@
         link:'<a href="'~path('front_pro_user_boost_view') ~'" class="text-underline">'~ 'boost.link'|trans~'</a>'
     } %}
 
-
     <div class="row">
         <div class="column small-12">
-            <h2 class="primary-color">{{ 'sale.vehicles.waiting.title'|trans }}<br>
-                <small>{{ 'sale.vehicles.waiting.subtitle'|trans }}</small>
+            <h2 class="primary-color">{{ 'sale.vehicles.title'|trans }}<br>
+                <small>{{ 'sale.vehicles.subtitle'|trans }}</small>
             </h2>
             <div class="sales-container margin-bottom-2">
                 <table id="vehiclesToDeclare_dt" class="js-vehicles-to-declare-datatable dataTable compact row-border"
@@ -32,26 +31,16 @@
                     <thead>
                     <tr>
                         <th><span class="icon-pics"></span></th>
-                        <th>Véhicle</th>
-                        <th>Date de suppression</th>
+                        <th>{{ 'sale.vehicles.table.vehicle'|trans }}</th>
+                        <th>{{ 'sale.vehicles.table.deleted_at_date'|trans }}</th>
                         <th><span class="icon-ellipsis-h"></span></th>
                     </tr>
                     </thead>
                 </table>
             </div>
-
-            {#<h2 class="primary-color">{{ 'sale.vehicles.sold.title'|trans }}<br><small>{{ ''|trans }}</small>
-            </h2>
-            <div class="sales-container">
-                <div class="vehicle-list">
-                    {% for vehicle in declaredVehicles %}
-                        {% include 'front/Seller/includes/item_pro_vehicle_sale.html.twig' %}
-                    {% else %}
-                        <i>Pas de véhicule déclaré</i>
-                    {% endfor %}
-                </div>
-            </div>#}
-
+            <p>{{ 'sale.explication_no_vehicle'|trans }}
+                <a href="{{ path('front_sale_declaration_new') }}" class="text-underline">
+                    {{ 'lead.add_sale'|trans }}</a></p>
         </div>
     </div>
 {% endblock %}

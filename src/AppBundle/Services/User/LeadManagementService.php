@@ -69,11 +69,11 @@ class LeadManagementService
             if ($lead->getUserLead() instanceof ProUser) {
                 $leadName = '<a href="' . $this->router->generate('front_view_pro_user_info', [
                         'slug' => $lead->getUserLead()->getSlug()
-                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $lead->getFullName() . '</a>';
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $lead->getFullName() . '</a>';
             } elseif ($lead->getUserLead() instanceof PersonalUser) {
                 $leadName = '<a href="' . $this->router->generate('front_view_personal_user_info', [
                         'slug' => $lead->getUserLead()->getSlug()
-                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $lead->getFullName() . '</a>';
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $lead->getFullName() . '</a>';
             } else {
                 $leadName = $lead->getFullName();
             }
@@ -91,7 +91,7 @@ class LeadManagementService
             }
             $nbSales = count($lead->getSaleDeclarations());
             $action = '<ul class="no-bullet no-margin">';
-            $action .= '<li>' . $this->translator->transChoice('lead.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
+            $action .= '<li>' . $this->translator->transChoice('lead.table.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
             $action .= '<li><a href="' . $this->router->generate('front_sale_declaration_new', [
                     'leadId' => $lead->getId()
                 ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $this->translator->trans('lead.add_sale') . '</a></li>';
