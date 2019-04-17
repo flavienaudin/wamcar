@@ -43,6 +43,7 @@ import './components/notification';
 import './components/phone_number';
 import './components/affinity';
 import './components/datatable';
+import './components/sales';
 import {activeClass} from './settings/settings.js';
 
 import {default as autosize} from 'autosize';

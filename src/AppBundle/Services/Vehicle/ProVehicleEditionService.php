@@ -13,7 +13,9 @@ use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Elastica\ResultSet;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
@@ -42,6 +44,8 @@ class ProVehicleEditionService
     private $eventBus;
     /** @var RouterInterface */
     private $router;
+    /** @var TranslatorInterface */
+    private $translator;
     /** @var PathVehiclePicture */
     private $pathVehiclePicture;
 
@@ -52,13 +56,14 @@ class ProVehicleEditionService
      * @param DoctrineLikeProVehicleRepository $likeProVehicleRepository
      * @param MessageBus $eventBus
      * @param RouterInterface $router
+     * @param TranslatorInterface $translator
      * @param PathVehiclePicture $pathVehiclePicture
      */
     public function __construct(
         ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
         DoctrineLikeProVehicleRepository $likeProVehicleRepository,
-        MessageBus $eventBus, RouterInterface $router,
+        MessageBus $eventBus, RouterInterface $router, TranslatorInterface $translator,
         PathVehiclePicture $pathVehiclePicture
     )
     {
@@ -67,6 +72,7 @@ class ProVehicleEditionService
         $this->likeProVehicleRepository = $likeProVehicleRepository;
         $this->eventBus = $eventBus;
         $this->router = $router;
+        $this->translator = $translator;
         $this->pathVehiclePicture = $pathVehiclePicture;
         $this->vehicleBuilder = [
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
@@ -129,8 +135,12 @@ class ProVehicleEditionService
                 'vehicle' => $vehicle->getName() . '<br>' .
                     $vehicle->getPrice() . '€' . '<br>' .
                     '<a href="' . $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()]) . '" target="_blank">' . $vehicle->getGarageName() . '</a>',
-                'date' => $vehicle->getUpdatedAt()->format("d/m/y H:i"),
-                'actions' => '<a href="#">Vendu avec Wamcar</a><a href="#">Supprimer</a>'
+                'date' => $vehicle->getDeletedAt()->format("d/m/y H:i"),
+                'actions' => ($vehicle->getSaleDeclaration() != null ?
+                    $this->translator->trans('vehicle.sale.sold_by', ['%sellerName%' => $vehicle->getSaleDeclaration()->getProUserSeller()->getFullName()]) :
+                    '<a href="' . $this->router->generate('front_sale_declaration_new', ['vehicleId' => $vehicle->getId()], UrlGenerator::ABSOLUTE_URL) . '">' . $this->translator->trans('vehicle.sale.i_sold') . '</a>'
+                )
+
             ];
             $vehiclesToDeclare['data'][] = $vehicleInfoForDataTable;
         }

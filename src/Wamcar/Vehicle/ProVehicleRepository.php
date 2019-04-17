@@ -38,7 +38,7 @@ interface ProVehicleRepository extends VehicleRepository
     public function findAllForGarage(Garage $garage, array $orderBy = [], bool $ignoreSoftDeleted = false): array;
 
     /**
-     * @param  Garage $garage
+     * @param Garage $garage
      * @param array $references
      * @return Collection|array
      */
@@ -50,4 +50,12 @@ interface ProVehicleRepository extends VehicleRepository
      * @return Collection|array
      */
     public function getDeletedProVehiclesByRequest(ProUser $proUser, array $params);
+
+    /**
+     * @param ProUser $proUser
+     * @param int|null $sinceDays
+     * @param \DateTimeInterface|null $referenceDate
+     * @return array
+     */
+    public function findDeletedProVehiclesByProUser(ProUser $proUser, ?int $sinceDays = 60, ?\DateTimeInterface $referenceDate = null): array;
 }

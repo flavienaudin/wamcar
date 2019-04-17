@@ -286,7 +286,7 @@ class ProUser extends BaseUser
      */
     public function removeSaleDeclaration(Declaration $declaration): void
     {
-        $this->saleDeclarations->add($declaration);
+        $this->saleDeclarations->removeElement($declaration);
     }
 
     /**

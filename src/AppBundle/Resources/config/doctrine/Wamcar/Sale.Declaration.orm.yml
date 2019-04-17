@@ -9,8 +9,8 @@ Wamcar\Sale\Declaration:
       time_aware: false
 
   id:
-      id:
-          type: uuid
+    id:
+      type: uuid
 
   fields:
     sellerFirstName:
@@ -19,10 +19,10 @@ Wamcar\Sale\Declaration:
     sellerLastName:
       type: string
       nullable: true
-    buyerFirstName:
+    customerFirstName:
       type: string
       nullable: true
-    buyerLastName:
+    customerLastName:
       type: string
       nullable: true
     transactionSaleAmount:
@@ -51,7 +51,6 @@ Wamcar\Sale\Declaration:
         timestampable:
           on: update
 
-
   manyToOne:
     proUserSeller:
       targetEntity: Wamcar\User\ProUser
@@ -60,10 +59,16 @@ Wamcar\Sale\Declaration:
         name: pro_user_seller_id
         referencedColumnName: id
         nullable: false
-    leadBuyer:
+    leadCustomer:
       targetEntity: Wamcar\User\Lead
       inversedBy: saleDeclarations
       joinColumn:
-        name: lead_id
+        name: lead_customer_id
         referencedColumnName: id
         nullable: true
+
+  oneToOne:
+    proVehicle:
+      targetEntity: Wamcar\Vehicle\ProVehicle
+      mappedBy: saleDeclaration
+      cascade: ["persist", "merge", "remove"]

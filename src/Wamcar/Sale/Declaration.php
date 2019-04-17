@@ -7,6 +7,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\User\Lead;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\ProVehicle;
 
 class Declaration
 {
@@ -21,11 +22,13 @@ class Declaration
     /** @var string|null */
     private $sellerLastName;
     /** @var Lead|null */
-    private $leadBuyer;
+    private $leadCustomer;
     /** @var string|null */
-    private $buyerFirstName;
+    private $customerFirstName;
     /** @var string|null */
-    private $buyerLastName;
+    private $customerLastName;
+    /** @var ProVehicle|null */
+    private $proVehicle;
     /** @var int|null */
     private $transactionSaleAmount;
     /** @var int|null */
@@ -109,49 +112,68 @@ class Declaration
     /**
      * @return null|Lead
      */
-    public function getLeadBuyer(): ?Lead
+    public function getLeadCustomer(): ?Lead
     {
-        return $this->leadBuyer;
+        return $this->leadCustomer;
     }
 
     /**
-     * @param null|Lead $leadBuyer
+     * @param null|Lead $leadCustomer
      */
-    public function setLeadBuyer(?Lead $leadBuyer): void
+    public function setLeadCustomer(?Lead $leadCustomer): void
     {
-        $this->leadBuyer = $leadBuyer;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getBuyerFirstName(): ?string
-    {
-        return $this->buyerFirstName;
-    }
-
-    /**
-     * @param null|string $buyerFirstName
-     */
-    public function setBuyerFirstName(?string $buyerFirstName): void
-    {
-        $this->buyerFirstName = $buyerFirstName;
+        $this->leadCustomer = $leadCustomer;
     }
 
     /**
      * @return null|string
      */
-    public function getBuyerLastName(): ?string
+    public function getCustomerFirstName(): ?string
     {
-        return $this->buyerLastName;
+        return $this->customerFirstName;
     }
 
     /**
-     * @param null|string $buyerLastName
+     * @param null|string $customerFirstName
      */
-    public function setBuyerLastName(?string $buyerLastName): void
+    public function setCustomerFirstName(?string $customerFirstName): void
     {
-        $this->buyerLastName = $buyerLastName;
+        $this->customerFirstName = $customerFirstName;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCustomerLastName(): ?string
+    {
+        return $this->customerLastName;
+    }
+
+    /**
+     * @param null|string $customerLastName
+     */
+    public function setCustomerLastName(?string $customerLastName): void
+    {
+        $this->customerLastName = $customerLastName;
+    }
+
+    /**
+     * @return ProVehicle|null
+     */
+    public function getProVehicle(): ?ProVehicle
+    {
+        return $this->proVehicle;
+    }
+
+    /**
+     * @param ProVehicle|null $proVehicle
+     */
+    public function setProVehicle(?ProVehicle $proVehicle): void
+    {
+        $this->proVehicle = $proVehicle;
+        if ($this->proVehicle != null) {
+            $this->proVehicle->setSaleDeclaration($this);
+        }
     }
 
     /**

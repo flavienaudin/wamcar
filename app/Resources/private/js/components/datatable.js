@@ -94,7 +94,7 @@ $(function () {
           {'targets': 0, 'data': 'image', 'searchable': false, 'orderable': false, 'className':'dt-image'},
           {'targets': 1, 'data': 'vehicle', 'searchable': true, 'orderable': true},
           {'targets': 2, 'data': 'date', 'searchable': false, 'orderable': true},
-          {'targets': 3, 'data': 'actions', 'searchable': false, 'orderable': false},
+          {'targets': 3, 'data': 'actions', 'searchable': false, 'orderable': true},
         ]
       });
     });

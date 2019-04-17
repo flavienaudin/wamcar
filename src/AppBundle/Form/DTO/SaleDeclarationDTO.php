@@ -4,22 +4,23 @@ namespace AppBundle\Form\DTO;
 
 
 use Wamcar\Sale\Declaration;
+use Wamcar\User\Lead;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\ProVehicle;
 
 class SaleDeclarationDTO
 {
-    /** @var int */
-    private $proUserSellerId;
+
+    /** @var ProUser */
+    private $proUserSeller;
+    /** @var Lead|null */
+    private $leadCustomer;
     /** @var string|null */
-    private $sellerFirstName;
+    private $customerFirstName;
     /** @var string|null */
-    private $sellerLastName;
-    /** @var int|null */
-    private $leadBuyerId;
-    /** @var string|null */
-    private $buyerFirstName;
-    /** @var string|null */
-    private $buyerLastName;
+    private $customerLastName;
+    /** @var ProVehicle|null */
+    private $proVehicle;
     /** @var int|null */
     private $transactionSaleAmount;
     /** @var int|null */
@@ -34,118 +35,88 @@ class SaleDeclarationDTO
      */
     public function __construct(ProUser $proUser, ?Declaration $declaration)
     {
+        $this->proUserSeller = $proUser;
         if ($declaration != null) {
-            $this->proUserSellerId = $declaration->getProUserSeller()->getId();
-            $this->sellerFirstName = $declaration->getSellerFirstName();
-            $this->sellerLastName = $declaration->getSellerLastName();
-            $this->leadBuyerId = ($declaration->getLeadBuyer() != null ? $declaration->getLeadBuyer()->getId() : null);
-            $this->buyerLastName = $declaration->getBuyerFirstName();
-            $this->buyerFirstName = $declaration->getBuyerLastName();
+            $this->leadCustomer = $declaration->getLeadCustomer();
+            $this->customerFirstName = $declaration->getCustomerFirstName();
+            $this->customerLastName = $declaration->getCustomerLastName();
+            $this->proVehicle = $declaration->getProVehicle();
             $this->transactionSaleAmount = $declaration->getTransactionSaleAmount();
             $this->transactionPartExchangeAmount = $declaration->getTransactionPartExchangeAmount();
             $this->transactionCommentary = $declaration->getTransactionCommentary();
-        } else {
-            $this->proUserSellerId = $proUser->getId();
-            $this->sellerFirstName = $proUser->getFirstName();
-            $this->sellerLastName = $proUser->getLastName();
         }
     }
 
-
     /**
-     * @return int
+     * @return ProUser
      */
-    public function getProUserSellerId(): int
+    public function getProUserSeller(): ProUser
     {
-        return $this->proUserSellerId;
+        return $this->proUserSeller;
     }
 
     /**
-     * @param int $proUserSellerId
+     * @return Lead|null
      */
-    public function setProUserSellerId(int $proUserSellerId): void
+    public function getLeadCustomer(): ?Lead
     {
-        $this->proUserSellerId = $proUserSellerId;
+        return $this->leadCustomer;
     }
 
     /**
-     * @return null|string
+     * @param Lead|null $leadCustomer
      */
-    public function getSellerFirstName(): ?string
+    public function setLeadCustomer(?Lead $leadCustomer): void
     {
-        return $this->sellerFirstName;
+        $this->leadCustomer = $leadCustomer;
     }
 
     /**
-     * @param null|string $sellerFirstName
+     * @return string|null
      */
-    public function setSellerFirstName(?string $sellerFirstName): void
+    public function getCustomerFirstName(): ?string
     {
-        $this->sellerFirstName = $sellerFirstName;
+        return $this->customerFirstName;
     }
 
     /**
-     * @return null|string
+     * @param string|null $customerFirstName
      */
-    public function getSellerLastName(): ?string
+    public function setCustomerFirstName(?string $customerFirstName): void
     {
-        return $this->sellerLastName;
+        $this->customerFirstName = $customerFirstName;
     }
 
     /**
-     * @param null|string $sellerLastName
+     * @return string|null
      */
-    public function setSellerLastName(?string $sellerLastName): void
+    public function getCustomerLastName(): ?string
     {
-        $this->sellerLastName = $sellerLastName;
+        return $this->customerLastName;
     }
 
     /**
-     * @return int|null
+     * @param string|null $customerLastName
      */
-    public function getLeadBuyerId(): ?int
+    public function setCustomerLastName(?string $customerLastName): void
     {
-        return $this->leadBuyerId;
+        $this->customerLastName = $customerLastName;
     }
 
     /**
-     * @param int|null $leadBuyerId
+     * @return ProVehicle|null
      */
-    public function setLeadBuyerId(?int $leadBuyerId): void
+    public function getProVehicle(): ?ProVehicle
     {
-        $this->leadBuyerId = $leadBuyerId;
+        return $this->proVehicle;
     }
 
     /**
-     * @return null|string
+     * @param ProVehicle|null $proVehicle
      */
-    public function getBuyerFirstName(): ?string
+    public function setProVehicle(?ProVehicle $proVehicle): void
     {
-        return $this->buyerFirstName;
-    }
-
-    /**
-     * @param null|string $buyerFirstName
-     */
-    public function setBuyerFirstName(?string $buyerFirstName): void
-    {
-        $this->buyerFirstName = $buyerFirstName;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getBuyerLastName(): ?string
-    {
-        return $this->buyerLastName;
-    }
-
-    /**
-     * @param null|string $buyerLastName
-     */
-    public function setBuyerLastName(?string $buyerLastName): void
-    {
-        $this->buyerLastName = $buyerLastName;
+        $this->proVehicle = $proVehicle;
     }
 
     /**
@@ -181,7 +152,7 @@ class SaleDeclarationDTO
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getTransactionCommentary(): ?string
     {
@@ -189,7 +160,7 @@ class SaleDeclarationDTO
     }
 
     /**
-     * @param null|string $transactionCommentary
+     * @param string|null $transactionCommentary
      */
     public function setTransactionCommentary(?string $transactionCommentary): void
     {

@@ -64,5 +64,5 @@ Wamcar\User\Lead:
   oneToMany:
     saleDeclarations:
       targetEntity: Wamcar\Sale\Declaration
-      mappedBy: leadBuyer
+      mappedBy: leadCustomer
       cascade: ["persist", "merge", "remove"]

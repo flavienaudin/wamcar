@@ -18,49 +18,55 @@
         title: block('title')
     } %}
 
-
     <div class="row">
         <div class="column small-12">
             {{ form_start(saleDeclarationForm, { 'attr' : {'class': '','data-abide' : 'data-abide','novalidate': 'novalidate'} }) }}
-            <h2>{{ 'sale.form.seller.section.title'|trans }}</h2>
+            <h2>{{ 'sale.form.customer.section.title'|trans }}</h2>
             <div class="row">
-                <div class="column small-12 medium-6">
-                    {{ form_widget(saleDeclarationForm.sellerFirstName, {
-                        'label':'sale.form.seller.field.firstname.label'|trans,
-                        'disabled':'disabled',
-                        'attr':{'readonly':'readonly'}
-                    }) }}
-                </div>
-                <div class="column small-12 medium-6">
-                    {{ form_widget(saleDeclarationForm.sellerLastName, {
-                        'label':'sale.form.seller.field.lastname.label'|trans
-                    }) }}
-                </div>
-            </div>
-            <h2>{{ 'sale.form.buyer.section.title'|trans }}</h2>
-            <div class="row">
-                {% if associatedLead is not null %}
+                {% if saleDeclarationForm.leadCustomer is defined %}
                     <div class="column small-12">
-                        <p>Cette vente est associée à votre contact : <b>{{ associatedLead.fullName }}</b>. Vous pouvez
-                            mettre à jour ses coordonnées si nécessaire.</p>
+                        <p>Vous pouvez associer cette vente à l'un de vos contacts et mettre à jour ses coordonnées si
+                            nécessaire, ou simplement renseigner ses coordonnées.
+                            {{ form_widget(saleDeclarationForm.leadCustomer, {
+                                'label':'sale.form.customer.field.entity.label'|trans,
+                                'label_class': 'show-for-sr',
+                                'placeholder':'sale.form.customer.field.entity.placeholder'|trans,
+                                'class':'js-lead-customer-select',
+                                'attr' : {
+                                    'data-customer-firstname': saleDeclarationForm.customerFirstName.vars.id,
+                                    'data-customer-lastname': saleDeclarationForm.customerLastName.vars.id
+                                }
+                            }) }}
+                        </p>
                     </div>
                 {% endif %}
                 <div class="column small-12 medium-6">
-                    {{ form_widget(saleDeclarationForm.buyerFirstName, {
-                        'label':'sale.form.buyer.field.firstname.label'|trans
+                    {{ form_widget(saleDeclarationForm.customerFirstName, {
+                        'label':'sale.form.customer.field.firstname.label'|trans
                     }) }}
                 </div>
                 <div class="column small-12 medium-6">
-                    {{ form_widget(saleDeclarationForm.buyerLastName, {
-                        'label':'sale.form.buyer.field.lastname.label'|trans
+                    {{ form_widget(saleDeclarationForm.customerLastName, {
+                        'label':'sale.form.customer.field.lastname.label'|trans
                     }) }}
                 </div>
             </div>
             <h2>{{ 'sale.form.transaction.section.title'|trans }}</h2>
             <div class="row">
                 <div class="column small-12">
+                    <p>Vous pouvez sélectionner un véhicule parmi les derniers vendus :
+                        {{ form_widget(saleDeclarationForm.proVehicle, {
+                            'label':'sale.form.transaction.field.proVehicle.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder':'sale.form.transaction.field.proVehicle.placeholder'|trans,
+                            'class':'js-pro-vehicle-select',
+                            'attr' : {
+                                'data-provehicle-price': saleDeclarationForm.transactionSaleAmount.vars.id
+                            }
+                        }) }}</p>
+
                     <p>Veuillez renseigner le montant de la vente et/ou de la reprise :
-                    {{ form_errors(saleDeclarationForm.transactionSaleAmount) }}
+                        {{ form_errors(saleDeclarationForm.transactionSaleAmount) }}
                     </p>
                 </div>
                 <div class="column small-12 medium-6">
@@ -83,7 +89,8 @@
                 </div>
             </div>
             <div class="is-flex align-right">
-                <a href="{{ app.request.headers.get('referer') }}" class="button reverse">{{ 'global.button.cancel'|trans }}</a>
+                <a href="{{ app.request.headers.get('referer') }}"
+                   class="button reverse">{{ 'global.button.cancel'|trans }}</a>
                 <button type="submit" class="button margin-left-1">{{ 'global.button.validate'|trans }}</button>
             </div>
             {{ form_end(saleDeclarationForm) }}
