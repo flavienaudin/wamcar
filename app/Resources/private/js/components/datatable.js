@@ -71,6 +71,24 @@ $(function () {
             });
           });
         });
+      }).on('responsive-display', (e, datatable, columns) => {
+        let $leadStatusSelect = $('td.child select.js-change-status');
+        $leadStatusSelect.each((index, selectElt) => {
+          $(selectElt).on('change', (event) => {
+            let url = $(event.currentTarget).find('option:selected').first().val();
+            $.ajax({
+              url: url
+            }).done(function (success) {
+              Toastr.success(success);
+            }).fail(function (jqXHR, textStatus) {
+              if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+                Toastr.warning(jqXHR.responseJSON.error);
+              } else {
+                Toastr.warning(textStatus);
+              }
+            });
+          });
+        });
       });
     });
   }
