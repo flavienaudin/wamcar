@@ -13,9 +13,6 @@ class GoogleApiController extends BaseController
         $analytics = $this->initializeAnalytics();
         // Call the Analytics Reporting API V4.
         $response = $this->getReport($analytics);
-        return $this->render("front/Seller/pro_user_performances.html.twig", [
-            'reports' => $this->printResults($response)
-        ]);
     }
 
     /**

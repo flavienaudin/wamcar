@@ -12,6 +12,28 @@ class DoctrineSaleDeclarationRepository extends EntityRepository implements Sale
 {
     use SoftDeletableEntityRepositoryTrait;
 
+    /**
+     * @inheritDoc
+     */
+    public function findByUserAndDate(ProUSer $proUser, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): array
+    {
+
+        if (empty($referenceDate)) {
+            $referenceDate = new \DateTime();
+        }
+        $firstDate = clone $referenceDate;
+        $firstDate->sub(new \DateInterval('P' . $sinceDays . 'D'));
+
+        $qb = $this->createQueryBuilder('s');
+        $qb->where($qb->expr()->eq('s.proUserSeller', ':proUser'))
+            ->andWhere('s.updatedAt >= :firstDate')
+            ->andWhere('s.updatedAt < :referenceDate')
+            ->setParameter('proUser', $proUser)
+            ->setParameter('firstDate', $firstDate)
+            ->setParameter('referenceDate', $referenceDate)
+            ->orderBy('s.updatedAt', 'desc');
+        return $qb->getQuery()->getResult();
+    }
 
     /**
      * @inheritDoc

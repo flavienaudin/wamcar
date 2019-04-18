@@ -99,6 +99,7 @@ class LeadManagementService
             $status .= '</select>';
 
             $result['data'][] = [
+                'control' => '<td><span class="icon-plus-circle no-margin"></span></td>',
                 'leadName' => $leadName,
                 'lastContactAt' => $lead->getLastContactedAt()->format("d/m/y H:i"),
                 'proPhoneStats' => $lead->getNbPhoneProAction(),

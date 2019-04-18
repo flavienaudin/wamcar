@@ -131,11 +131,12 @@ class ProVehicleEditionService
         /** @var ProVehicle $vehicle */
         foreach ($vehicles['data'] as $vehicle) {
             $vehicleInfoForDataTable = [
+                'control' => '<td><span class="icon-plus-circle no-margin"></span></td>',
                 'image' => '<img src="' . $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_picture') . '" class="img-responsive" alt="' . $vehicle->getNAme() . '">',
                 'vehicle' => $vehicle->getName() . '<br>' .
                     $vehicle->getPrice() . '€' . '<br>' .
                     '<a href="' . $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()]) . '" target="_blank">' . $vehicle->getGarageName() . '</a>',
-                'date' => $vehicle->getDeletedAt()->format("d/m/y H:i"),
+                'date' => $vehicle->getDeletedAt()->format("d/m/y"),
                 'actions' => ($vehicle->getSaleDeclaration() != null ?
                     $this->translator->trans('vehicle.sale.sold_by', ['%sellerName%' => $vehicle->getSaleDeclaration()->getProUserSeller()->getFullName()]) :
                     '<a href="' . $this->router->generate('front_sale_declaration_new', ['vehicleId' => $vehicle->getId()], UrlGenerator::ABSOLUTE_URL) . '">' . $this->translator->trans('vehicle.sale.i_sold') . '</a>'

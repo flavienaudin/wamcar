@@ -7,6 +7,15 @@ use Wamcar\User\ProUser;
 
 interface SaleDeclarationRepository
 {
+
+    /**
+     * @param ProUser $proUser
+     * @param int|null $sinceDays
+     * @param \DateTimeInterface|null $referenceDate
+     * @return array
+     */
+    public function findByUserAndDate(ProUSer $proUser, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): array;
+
     /**
      * @param ProUser $user L'utilisateur ayant fait les ventes
      * @param int|null $sinceDays Intervalle de temps avant la date de référence

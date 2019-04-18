@@ -21,30 +21,31 @@
 
     <div class="row">
         <div class="column small-12">
-            <h2>Mes performances sur les 30 derniers jours</h2>
+            <h2>{{ 'pro_user_performances.30_days.title'|trans }}</h2>
             <div class="row">
                 <div class="column block-grid small-12 large-4">
                     <table class="perf-audience-datatable dataTable compact row-border">
                         <thead>
                         <tr>
-                            <th class="text-center black-color" colspan="2"><h3 class="no-margin">Mon audience</h3></th>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.audience.title'|trans }}</h3></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <th>#Vues de votre page profil</th>
+                            <th>{{ 'pro_user_performances.audience.table.profile_view'|trans }}</th>
                             <td>{{ performances.nbUniqueViewsOfProfilePage }}</td>
                         </tr>
                         <tr>
-                            <th>#click numéro téléphone</th>
+                            <th>{{ 'pro_user_performances.audience.table.tel_display'|trans }}</th>
                             <td>{{ performances.nbPhoneNumberDisplays }}</td>
                         </tr>
                         <tr>
-                            <th>#messages reçus</th>
+                            <th>{{ 'pro_user_performances.audience.table.received_messages'|trans }}</th>
                             <td>{{ performances.nbReceivedMessages }}</td>
                         </tr>
                         <tr>
-                            <th>#likes reçus</th>
+                            <th>{{ 'pro_user_performances.audience.table.received_likes'|trans }}</th>
                             <td>{{ performances.nbReceivedLikes }}</td>
                         </tr>
                         </tbody>
@@ -54,16 +55,17 @@
                     <table class="perf-activity-datatable dataTable compact row-border">
                         <thead>
                         <tr>
-                            <th class="text-center black-color" colspan="2"><h3 class="no-margin">Mon activité</h3></th>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.activity.title'|trans }}</h3></th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <th>#Messages envoyés</th>
+                            <th>{{ 'pro_user_performances.activity.table.sent_messages'|trans }}</th>
                             <td>{{ performances.nbSentMessages }}</td>
                         </tr>
                         <tr>
-                            <th>#likes envoyés</th>
+                            <th>{{ 'pro_user_performances.activity.table.sent_likes'|trans }}</th>
                             <td>{{ performances.nbSentLikes }}</td>
                         </tr>
                         {#<tr>
@@ -71,7 +73,7 @@
                             <td>{{ performances. }}</td>
                         </tr>#}
                         <tr>
-                            <th>#leads</th>
+                            <th>{{ 'pro_user_performances.activity.table.lead'|trans }}</th>
                             <td>{{ performances.nbLeads }}</td>
                         </tr>
                         </tbody>
@@ -81,146 +83,81 @@
                     <table class="perf-results-datatable dataTable compact row-border">
                         <thead>
                         <tr>
-                            <th class="text-center black-color" colspan="2"><h3 class="no-margin">Mes résultats</h3>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.results.title'|trans }}</h3>
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <th>#ventes</th>
+                            <th>{{ 'pro_user_performances.results.table.sales'|trans }}</th>
                             <td>{{ performances.nbSales }}</td>
                         </tr>
                         <tr>
-                            <th>#Reprises</th>
+                            <th>{{ 'pro_user_performances.results.table.part_exchanges'|trans }}</th>
                             <td>{{ performances.nbPartExchanges }}</td>
                         </tr>
                         <tr>
-                            <th>#Total de transactions</th>
+                            <th>{{ 'pro_user_performances.results.table.transactions'|trans }}</th>
                             <td>{{ performances.nbTotalTransactions }}</td>
                         </tr>
                         <tr>
-                            <th>Taux de transformation</th>
+                            <th>{{ 'pro_user_performances.results.table.conversion_rate'|trans }}</th>
                             <td>{{ (performances.conversionRate * 100)| round }}%</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            {% if report is defined %}
-                <h2>Votre page "Conseiller Automobile"</h2>
-                {% set profilePagePath = path('front_view_pro_user_info', {'slug':app.user.slug}) %}
-                <ul>
-                    <li>Nombre de vues de votre page profil :
-                        <ul>
-                            <li>Les 30 derniers jours : {{ report.profilePage[0].uniquePageViews }}</li>
-                            <li>Les 7 derniers jours : {{ report.profilePage[1].uniquePageViews }}</li>
-                        </ul>
-                    </li>
-                    <li>Nombre d'affichage d'un numéro de téléphone :
-                        <ul>
-                            <li>Uniquement depuis votre page profil :
-
-                                <ul>
-                                    <li>Les 30 derniers jours
-                                        : {{ report.contactsEvents.telephone[0].onPage[profilePagePath]??0 }} </li>
-                                    <li>Les 7 derniers jours
-                                        : {{ report.contactsEvents.telephone[1].onPage[profilePagePath]??0 }}</li>
-                                </ul>
-                            </li>
-                            <li>Toutes pages confondues :
-                                <ul>
-                                    <li>Les 30 derniers jours : {{ report.contactsEvents.telephone[0].total??0 }} </li>
-                                    <li>Les 7 derniers jours : {{ report.contactsEvents.telephone[1].total??0 }}</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>Nombre de contacts par messagerie Wamcar :
-                        <ul>
-                            <li>Uniquement depuis votre page profil :
-                                <ul>
-                                    <li>Les 30 derniers jours
-                                        : {{ report.contactsEvents.message[0].onPage[profilePagePath]??0 }} </li>
-                                    <li>Les 7 derniers jours
-                                        : {{ report.contactsEvents.message[1].onPage[profilePagePath]??0 }}</li>
-                                </ul>
-                            </li>
-                            <li>Toutes pages confondues :
-                                <ul>
-                                    <li>Les 30 derniers jours : {{ report.contactsEvents.message[0].total??0 }} </li>
-                                    <li>Les 7 derniers jours : {{ report.contactsEvents.message[1].total??0 }}</li>
-                                </ul>
-                            </li>
-
-                        </ul>
-                    </li>
-                </ul>
-
-                <h2>Vos pages "Véhicules"</h2>
-                <h3>Statistiques sur vos véhicules</h3>
-                <div>
-                    <ul>
-                        <li>Nombre de véhicules disponibles : {{ app.user.vehicles|length }}</li>
-                        <li>Top {{ report.top5Vehicles|length }} des véhicules sur les 30 derniers jours :
-                            <ul>
-                                {% for top5vehiclePath, top5vehicleMetrics in report.top5Vehicles %}
-                                    <li>{{ top5vehiclePath }} {{ top5vehicleMetrics[0].uniquePageViews }}</li>
-                                {% endfor %}
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-
-
-                <h3>Statistiques détaillées de vos pages véhicules</h3>
-                {% for vehicle in app.user.vehicles %}
-                    <div>
-                        {% set vehiclePath = path('front_vehicle_pro_detail',{'slug':vehicle.slug}) %}
-                        <h4>{{ vehicle.name|title }}
-                            <small>{{ vehiclePath }}</small>
-                        </h4>
-                        <ul>
-                            <li>Nombre de vues :
-                                <ul>
-                                    <li>Sur les 30 derniers jours
-                                        : {{ report.vehiclesPages[vehiclePath][0].uniquePageViews??0 }}</li>
-                                    <li>Sur les 7 derniers jours
-                                        : {{ report.vehiclesPages[vehiclePath][1].uniquePageViews??0 }}</li>
-                                </ul>
-                            </li>
-                            <li>Nombre de likes :
-                                <ul>
-                                    <li>Total : {{ vehicle.positiveLikes|length }}</li>
-                                    {# Pas de données GA car non tracké : l'action est redirigée
-                                    <li>Sur les 30 derniers jours : {{ report.vehiclesLikes[vehiclePath][0]??0 }}</li>
-                                    <li>Sur les 7 derniers jours : {{ report.vehiclesLikes[vehiclePath][1]??0 }}</li>#}
-                                </ul>
-                            </li>
-                            <li>Nombre de contacts :
-                                <ul>
-                                    <li>Téléphone :
-                                        <ul>
-                                            <li>Les 30 derniers jours
-                                                : {{ report.contactsEvents.telephone[0].onPage[vehiclePath]??0 }} </li>
-                                            <li>Les 7 derniers jours
-                                                : {{ report.contactsEvents.telephone[1].onPage[vehiclePath]??0 }}</li>
-                                        </ul>
-                                    </li>
-                                    <li>Message :
-                                        <ul>
-                                            <li>Les 30 derniers jours
-                                                : {{ report.contactsEvents.message[0].onPage[vehiclePath]??0 }} </li>
-                                            <li>Les 7 derniers jours
-                                                : {{ report.contactsEvents.message[1].onPage[vehiclePath]??0 }}</li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+        </div>
+    </div>
+    <div class="row margin-top-2">
+        <div class="column small-12">
+            <h2>{{ 'pro_user_performances.declared_sales.title'|trans }}</h2>
+            <table id="declaredSale-dt" class="js-perf-declared-sales-datatable dataTable compact no-wrap row-border"
+                   style="width: 100%" data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th data-priority="2">{{ 'pro_user_performances.declared_sales.table.date'|trans }}</th>
+                    <th data-priority="1">{{ 'pro_user_performances.declared_sales.table.name'|trans }}</th>
+                    <th>{{ 'pro_user_performances.declared_sales.table.vehicle'|trans }}</th>
+                    <th data-priority="3">{{ 'pro_user_performances.declared_sales.table.sale_price'|trans }}</th>
+                    <th data-priority="4">{{ 'pro_user_performances.declared_sales.table.partexchange_price'|trans }}</th>
+                    <th>{{ 'pro_user_performances.declared_sales.table.commentary'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for saleDeclaration in saleDeclarations %}
+                    <tr>
+                        <td><span class="icon-plus-circle no-margin"></span></td>
+                        <td>{{ saleDeclaration.updatedAt|localizeddate('short', 'none') }}</td>
+                        <td>
+                            {% if saleDeclaration.leadCustomer is not null and saleDeclaration.leadCustomer.userLead is not null %}
+                                {% if saleDeclaration.leadCustomer.userLead.isPro %}
+                                    <a href="{{ path('front_view_pro_user_info', {'slug': saleDeclaration.leadCustomer.userLead.slug}) }}"
+                                       target="_blank">{{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}</a>
+                                {% else %}
+                                    <a href="{{ path('front_view_personal_user_info', {'slug': saleDeclaration.leadCustomer.userLead.slug}) }}"
+                                       target="_blank">{{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}</a>
+                                {% endif %}
+                            {% else %}
+                                {{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}
+                            {% endif %}
+                        </td>
+                        <td>{{ saleDeclaration.proVehicle.name??'-' }}</td>
+                        <td>{{ saleDeclaration.transactionSaleAmount|localizedcurrency('EUR') }}</td>
+                        <td>{{ saleDeclaration.transactionPartExchangeAmount|localizedcurrency('EUR') }}</td>
+                        <td>{{ saleDeclaration.transactionCommentary }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="dt-body-center"
+                            colspan="7">{{ 'pro_user_performances.declared_sales.table.empty'|trans }}</td>
+                    </tr>
                 {% endfor %}
-            {% endif %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

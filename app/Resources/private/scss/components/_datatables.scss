@@ -2,13 +2,6 @@
    datatables : Lead datatable and future others
    =========================================================================== */
 #prouserleads_dt {
-  // Fix to align header and body columns
-  &_wrapper table.dataTable {
-    width: 100% !important;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
   &_processing {
     z-index: 1;
   }
@@ -18,8 +11,8 @@
     font-size: rem-calc(14);
   }
 
-  &_wrapper [class^="icon-"]::before,
-  &_wrapper [class*=" icon-"]::before {
+  &_wrapper :not(.child) [class^="icon-"]::before,
+  &_wrapper :not(.child) [class*=" icon-"]::before {
     margin-left: auto;
     margin-right: auto;
   }
@@ -70,15 +63,12 @@
   }
 }
 
+.js-perf-declared-sales-datatable{
+  border: 1px solid $border-color;
+}
+
 #vehiclesToDeclare_dt {
   &_wrapper {
-    // Fix to align header and body columns
-    table.dataTable {
-      width: 100% !important;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
     .dt-image {
       max-width: 100px;
       height: auto;

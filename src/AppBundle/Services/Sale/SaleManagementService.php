@@ -35,6 +35,17 @@ class SaleManagementService
 
     /**
      * @param ProUser $proUser
+     * @param int|null $sinceDays
+     * @param \DateTimeInterface|null $referenceDate
+     * @return array
+     */
+    public function retrieveProUserSaleDeclarations(ProUSer $proUser, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): array
+    {
+        return $this->saleDeclarationRepository->findByUserAndDate($proUser, $sinceDays, $referenceDate);
+    }
+
+    /**
+     * @param ProUser $proUser
      * @param SaleDeclarationDTO $saleDeclarationDTO
      * @param Declaration|null $declaration
      * @return Declaration

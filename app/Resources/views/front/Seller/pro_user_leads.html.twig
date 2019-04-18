@@ -22,11 +22,12 @@
         <div class="column small-12">
             <p>{{ 'lead.page.explications'|trans }}</p>
             <div class="input-margin full-width">
-                <table id="prouserleads_dt" class="js-lead-datatable dataTable compact row-border"
+                <table id="prouserleads_dt" class="js-lead-datatable dataTable compact row-border" style="width: 100%"
                        data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
                        data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
-                    <thead class="">
+                    <thead>
                     <tr>
+                        <th></th>
                         <th>{{ 'lead.table.name'|trans }}</th>
                         <th>{{ 'lead.table.last_contacted_at'|trans }}</th>
                         <th><span class="icon-mobile"

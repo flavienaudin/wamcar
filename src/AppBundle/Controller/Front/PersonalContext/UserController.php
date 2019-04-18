@@ -31,6 +31,7 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\Sale\SaleManagementService;
 use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
@@ -90,6 +91,8 @@ class UserController extends BaseController
     protected $userInformationService;
     /** @var LeadManagementService */
     protected $leadManagementService;
+    /** @var SaleManagementService */
+    protected $saleManagementService;
 
     /**
      * SecurityController constructor.
@@ -107,6 +110,7 @@ class UserController extends BaseController
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
      * @param UserInformationService $userInformationService
      * @param LeadManagementService $leadManagementService
+     * @param SaleManagementService $saleManagementService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -121,7 +125,8 @@ class UserController extends BaseController
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService,
-        UserInformationService $userInformationService, LeadManagementService $leadManagementService
+        UserInformationService $userInformationService, LeadManagementService $leadManagementService,
+        SaleManagementService $saleManagementService
     )
     {
         $this->formFactory = $formFactory;
@@ -138,6 +143,7 @@ class UserController extends BaseController
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
         $this->userInformationService = $userInformationService;
         $this->leadManagementService = $leadManagementService;
+        $this->saleManagementService = $saleManagementService;
     }
 
     /**
@@ -557,7 +563,11 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
         $performances = $this->userInformationService->getProUserPerformances($currentUser);
-        return $this->render("front/Seller/pro_user_performances.html.twig", ['performances' => $performances]);
+        $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($currentUser);
+        return $this->render("front/Seller/pro_user_performances.html.twig", [
+            'performances' => $performances,
+            'saleDeclarations' => $saleDeclarations
+            ]);
     }
 
 

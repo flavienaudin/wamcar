@@ -26,13 +26,14 @@
             </h2>
             <div class="sales-container margin-bottom-2">
                 <table id="vehiclesToDeclare_dt" class="js-vehicles-to-declare-datatable dataTable compact row-border"
-                       data-href="{{ path('front_pro_vehicles_to_declare') }}"
+                       style="width: 100%;" data-href="{{ path('front_pro_vehicles_to_declare') }}"
                        data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
                     <thead>
                     <tr>
+                        <th></th>
                         <th><span class="icon-pics"></span></th>
-                        <th>{{ 'sale.vehicles.table.vehicle'|trans }}</th>
-                        <th>{{ 'sale.vehicles.table.deleted_at_date'|trans }}</th>
+                        <th data-priority="1">{{ 'sale.vehicles.table.vehicle'|trans }}</th>
+                        <th data-priority="2">{{ 'sale.vehicles.table.deleted_at_date'|trans }}</th>
                         <th><span class="icon-ellipsis-h"></span></th>
                     </tr>
                     </thead>

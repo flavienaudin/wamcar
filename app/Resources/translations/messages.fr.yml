@@ -1084,7 +1084,38 @@ lead:
 pro_user_performances:
   page:
     title: Mes Performances
-
+  30_days:
+    title: Mes performances sur les 30 derniers jours
+  audience:
+    title: Mon audience
+    table:
+      profile_view: "#Vues de votre page profil"
+      tel_display: "#click numéro téléphone"
+      received_messages: "#messages reçus"
+      received_likes: "#likes reçus"
+  activity:
+    title: Mon activité
+    table:
+      sent_messages: "#Messages envoyés"
+      sent_likes: "#likes envoyés"
+      lead: "#leads"
+  results:
+    title: Mes résultats
+    table:
+      sales: "#Ventes"
+      part_exchanges: "#Reprises"
+      transactions: "#Total de transactions"
+      conversion_rate: "Taux de transformation"
+  declared_sales:
+    title: Mes déclarations de vente
+    table:
+      date: Date
+      name: Client
+      vehicle: Véhicule vendu
+      sale_price: €Vente
+      partexchange_price: €Reprise
+      commentary: Description
+      empty: Aucune déclaration
 
 boost:
   link: Booster mes pages
