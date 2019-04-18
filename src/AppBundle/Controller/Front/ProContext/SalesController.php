@@ -9,7 +9,6 @@ use AppBundle\Form\Type\SaleDeclarationType;
 use AppBundle\Security\Voter\SaleDeclarationVoter;
 use AppBundle\Services\Sale\SaleManagementService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,17 +69,7 @@ class SalesController extends BaseController
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sales.unlogged');
             throw new AccessDeniedException();
         }
-
-        // $vehiclesToDeclare = $this->proVehicleEditionService->getProUserVehiclesForSalesDeclaration($currentUser, $request->query->all());
-        /* TODO : implémenter un nouveau système de status de vente
-        $declaredVehicles = $this->proVehicleEditionService->getProUserVehiclesAlreadySalesDeclarated($currentUser);
-        */
-        $declaredVehicles = new ArrayCollection();
-
-        return $this->render("front/Seller/sales_declaration.html.twig", [
-            //"vehiclesToDeclare" => $vehiclesToDeclare,
-            "declaredVehicles" => $declaredVehicles
-        ]);
+        return $this->render("front/Seller/sales_declaration.html.twig");
     }
 
     /**
