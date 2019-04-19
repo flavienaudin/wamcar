@@ -12,7 +12,16 @@
                         {% endfor %}
                     </span>
                 {% endif %}
+
+                {% if isUserPersonalPageProfil %}
+                    {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
+                        {#<h2>{{ userIsMe ? 'user.city.title.your_city'|trans:'user.city.title.its_city'|trans }}</h2>#}
+                        <br>
+                        <small class="profil-city">{{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}</small>
+                    {% endif %}
+                {% endif %}
             </h1>
+
             <div class="profil-action">
                 {% if isUserProPageProfil %}
                     {% if user.phonePro %}
