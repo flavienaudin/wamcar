@@ -15,9 +15,9 @@
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     {% include 'front/Layout/includes/page_header.html.twig' with {
-        title: block('title'),
-        link:'<a href="'~path('front_pro_user_boost_view') ~'" class="text-underline">'~ 'boost.link'|trans~'</a>'
+        title: block('title')
     } %}
+    {#,link:'<a href="'~path('front_pro_user_boost_view') ~'" class="text-underline">'~ 'boost.link'|trans~'</a>'#}
 
     <div class="row">
         <div class="column small-12">

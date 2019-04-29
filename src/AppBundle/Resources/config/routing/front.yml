@@ -241,9 +241,9 @@ front_change_lead_status:
     path: /lead/changestatus/{id}/{leadStatus}
     controller: AppBundle:Front\PersonalContext\User:changeLeadStatus
 
-front_pro_user_boost_view:
-    path: /boost
-    controller: AppBundle:Front\PersonalContext\User:boostView
+#front_pro_user_boost_view:
+#    path: /boost
+#    controller: AppBundle:Front\PersonalContext\User:boostView
 
 # Gestion des ventes
 front_pro_user_sales:
