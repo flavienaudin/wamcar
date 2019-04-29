@@ -1028,7 +1028,7 @@ conversation:
 sale:
   page:
     vehicles: Mes ventes
-    declaration: Déclaration
+    declaration: Nouvelle transaction
   explication_no_vehicle: "Vous souhaitez déclarer une vente sans l'associer à un véhicle en particulier :"
   vehicles:
     title: Véhicules supprimés de vos stocks
@@ -1038,7 +1038,11 @@ sale:
       deleted_at_date: Date de suppression
   form:
     customer:
-      section.title: Le client
+      section:
+        title: Le client
+        explanation: >
+          Vous avez réalisé une transaction grâce à Wamcar ? Sélectionnez le client parmi la liste de vos contacts, ou
+          entrez directement ses Nom et Prénom.
       field:
         entity:
           label: Votre contact
@@ -1048,7 +1052,9 @@ sale:
         lastname:
           label: Nom
     transaction:
-      section.title: La transaction
+      section:
+        title: La transaction
+        explanation: Sélectionnez le véhicule vendu dans cette liste, ou entrez simplement le montant de la transaction.
       field:
         proVehicle:
           label: Le véhicule acheté
@@ -1065,9 +1071,8 @@ lead:
   page:
     title: Mes contacts
     explications: >
-      Retrouvez dans le tableau ci-dessous les utilisateurs de Wamcar avec lesquels vous avez intéragi (échange de
-      message, affichage d'un numéro de téléphone, like sur l'un de vos véhicules). Vous pouvez les qualifier en
-      modifiant leur statut et déclarer des ventes à l'aide du lien "Nouvelle vente"
+      Retrouvez dans le tableau ci-dessous les utilisateurs de Wamcar avec lesquels vous avez intéragi. Vous pouvez les
+      qualifier en modifiant leur statut et déclarer des ventes ou des reprises à l'aide du lien "Nouvelle transaction"
   table:
     name: Prénom Nom
     last_contacted_at: Date du dernier contact
@@ -1077,7 +1082,7 @@ lead:
     status: Statut
     action: Vente
     sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
-  add_sale: "Nouvelle vente"
+  add_sale: "Nouvelle transaction"
   explication_no_contact: "Vous souhaitez déclarer une vente sans l'associer à un de vos contacts en particulier :"
 
 
@@ -1107,7 +1112,7 @@ pro_user_performances:
       transactions: "#Total de transactions"
       conversion_rate: "Taux de transformation"
   declared_sales:
-    title: Mes déclarations de vente
+    title: Mes ventes
     table:
       date: Date
       name: Client

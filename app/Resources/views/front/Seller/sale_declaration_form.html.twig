@@ -25,8 +25,7 @@
             <div class="row">
                 {% if saleDeclarationForm.leadCustomer is defined %}
                     <div class="column small-12">
-                        <p>Vous pouvez associer cette vente à l'un de vos contacts et mettre à jour ses coordonnées si
-                            nécessaire, ou simplement renseigner ses coordonnées.
+                        <p>{{ 'sale.form.customer.section.explanation'|trans }}
                             {{ form_widget(saleDeclarationForm.leadCustomer, {
                                 'label':'sale.form.customer.field.entity.label'|trans,
                                 'label_class': 'show-for-sr',
@@ -54,7 +53,7 @@
             <h2>{{ 'sale.form.transaction.section.title'|trans }}</h2>
             <div class="row">
                 <div class="column small-12">
-                    <p>Vous pouvez sélectionner un véhicule parmi les derniers vendus :
+                    <p>{{ 'sale.form.transaction.section.explanation'|trans }}
                         {{ form_widget(saleDeclarationForm.proVehicle, {
                             'label':'sale.form.transaction.field.proVehicle.label'|trans,
                             'label_class': 'show-for-sr',
