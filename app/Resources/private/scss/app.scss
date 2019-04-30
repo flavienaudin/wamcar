@@ -80,6 +80,11 @@
 
 @import '~toastr/toastr';
 
+/*
+   DataTables
+   ===================================== */
+
+@import '~datatables.net-dt/css/jquery.dataTables.min.css';
 
 /*
    Global
@@ -186,4 +191,6 @@
 @import "components/affinity";
 @import "components/radarChart";
 @import "components/registration_orientation";
+@import "components/datatables";
+
 // Only on last

@@ -1,168 +1,177 @@
 Wamcar\Vehicle\ProVehicle:
 
-    type: entity
-    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProVehicleRepository
-    gedmo:
-        soft_deleteable:
-            field_name: deletedAt
-            time_aware: false
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineProVehicleRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: false
 
-    exclusion_policy: ALL
+  exclusion_policy: ALL
 
+  id:
     id:
-        id:
-            type: uuid
-    entityListeners:
-        AppBundle\EntityListener\VehicleListener:
+      type: uuid
+  entityListeners:
+    AppBundle\EntityListener\VehicleListener:
 
-    oneToMany:
-        pictures:
-            targetEntity: AppBundle\Doctrine\Entity\ProVehiclePicture
-            mappedBy: vehicle
-            cascade: ["persist", "merge", "remove"]
-            orphanRemoval: true
-            orderBy:
-                position: ASC
+  oneToOne:
+    saleDeclaration:
+      targetEntity: Wamcar\Sale\Declaration
+      inversedBy: proVehicle
+      joinColumn:
+        name: declaration_id
+        nullable: true
+        referencedColumnName: id
 
-        headerMessages:
-            targetEntity: Wamcar\Conversation\Message
-            mappedBy: proVehicleHeader
-            cascade: ["persist", "merge", "remove"]
-            orphanRemoval: true
+  oneToMany:
+    pictures:
+      targetEntity: AppBundle\Doctrine\Entity\ProVehiclePicture
+      mappedBy: vehicle
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+      orderBy:
+        position: ASC
 
-        messages:
-            targetEntity: Wamcar\Conversation\Message
-            mappedBy: proVehicle
-            cascade: ["persist", "merge", "remove"]
-            orphanRemoval: true
-        likes:
-            targetEntity: Wamcar\User\ProLikeVehicle
-            mappedBy: vehicle
-            cascade: ["persist", "merge", "remove"]
-            orderBy:
-              updatedAt: DESC
+    headerMessages:
+      targetEntity: Wamcar\Conversation\Message
+      mappedBy: proVehicleHeader
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
 
-    manyToOne:
-        garage:
-            targetEntity: Wamcar\Garage\Garage
-            inversedBy: proVehicles
-            joinColumn:
-                name: garage_id
-                referencedColumnName: id
-        seller:
-            targetEntity: Wamcar\User\ProUser
-            inversedBy: vehicles
-            joinColumn:
-                name: seller_id
-                referencedColumnName: id
-                nullable: false
+    messages:
+      targetEntity: Wamcar\Conversation\Message
+      mappedBy: proVehicle
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+    likes:
+      targetEntity: Wamcar\User\ProLikeVehicle
+      mappedBy: vehicle
+      cascade: ["persist", "merge", "remove"]
+      orderBy:
+        updatedAt: DESC
 
-    embedded:
-        registration:
-            class: Wamcar\Vehicle\Registration
-        modelVersion:
-            class: Wamcar\Vehicle\ModelVersion
-        city:
-            class: Wamcar\Location\City
-            columnPrefix: city_
+  manyToOne:
+    garage:
+      targetEntity: Wamcar\Garage\Garage
+      inversedBy: proVehicles
+      joinColumn:
+        name: garage_id
+        referencedColumnName: id
+    seller:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: vehicles
+      joinColumn:
+        name: seller_id
+        referencedColumnName: id
+        nullable: false
 
-    fields:
-        transmission:
-            type: vehicletransmission
-        safetyTestState:
-            type: vehiclesafetyteststate
-            nullable: true
-        safetyTestDate:
-            type: date
-            nullable: true
-        maintenanceState:
-            type: vehiclemaintenancestate
-            nullable: true
-        registrationDate:
-            type: date
-        isUsed:
-            type: boolean
-        isUsedSlugValue:
-            type: string
-        mileage:
-            type: integer
-        bodyState:
-            type: integer
-            nullable: true
-        engineState:
-            type: integer
-            nullable: true
-        tyreState:
-            type: integer
-            nullable: true
-        timingBeltState:
-            type: vehicletimingbeltstate
-            nullable: true
-        isImported:
-            type: boolean
-            nullable: true
-        isFirstHand:
-            type: boolean
-            nullable: true
-        additionalInformation:
-            type: text
-            nullable: true
-        price:
-            type: float
-            nullable: false
-        catalogPrice:
-            type: float
-            nullable: true
-        discount:
-            type: float
-            nullable: true
-        guarantee:
-            type: vehicleguarantee
-            nullable: true
-        otherGuarantee:
-            type: string
-            nullable: true
-        funding:
-            type: vehiclefunding
-            nullable: true
-        otherFunding:
-            type: string
-            nullable: true
-        additionalServices:
-            type: text
-            nullable: true
-        reference:
-            type: string
-            nullable: true
-        createdAt:
-            type: datetime
-            gedmo:
-                timestampable:
-                    on: create
-        updatedAt:
-            type: datetime
-            gedmo:
-                timestampable:
-                    on: update
-        deletedAt:
-            type: date
-            nullable: true
+  embedded:
+    registration:
+      class: Wamcar\Vehicle\Registration
+    modelVersion:
+      class: Wamcar\Vehicle\ModelVersion
+    city:
+      class: Wamcar\Location\City
+      columnPrefix: city_
+
+  fields:
+    transmission:
+      type: vehicletransmission
+    safetyTestState:
+      type: vehiclesafetyteststate
+      nullable: true
+    safetyTestDate:
+      type: date
+      nullable: true
+    maintenanceState:
+      type: vehiclemaintenancestate
+      nullable: true
+    registrationDate:
+      type: date
+    isUsed:
+      type: boolean
+    isUsedSlugValue:
+      type: string
+    mileage:
+      type: integer
+    bodyState:
+      type: integer
+      nullable: true
+    engineState:
+      type: integer
+      nullable: true
+    tyreState:
+      type: integer
+      nullable: true
+    timingBeltState:
+      type: vehicletimingbeltstate
+      nullable: true
+    isImported:
+      type: boolean
+      nullable: true
+    isFirstHand:
+      type: boolean
+      nullable: true
+    additionalInformation:
+      type: text
+      nullable: true
+    price:
+      type: float
+      nullable: false
+    catalogPrice:
+      type: float
+      nullable: true
+    discount:
+      type: float
+      nullable: true
+    guarantee:
+      type: vehicleguarantee
+      nullable: true
+    otherGuarantee:
+      type: string
+      nullable: true
+    funding:
+      type: vehiclefunding
+      nullable: true
+    otherFunding:
+      type: string
+      nullable: true
+    additionalServices:
+      type: text
+      nullable: true
+    reference:
+      type: string
+      nullable: true
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: date
+      nullable: true
+    slug:
+      type: string
+      length: 512
+      gedmo:
         slug:
-            type: string
-            length: 512
-            gedmo:
-                slug:
-                    unique: true
-                    separator: -
-                    style: default
-                    updatable: false
-                    handlers:
-                        Gedmo\Sluggable\Handler\RelativeSlugHandler:
-                            relationField: garage
-                            relationSlugField: address.city.name
-                            separator: -
-                            urilize: true
-                    fields:
-                        - modelVersion.model.make.name
-                        - modelVersion.model.name
-                        - isUsedSlugValue
+          unique: true
+          separator: -
+          style: default
+          updatable: false
+          handlers:
+            Gedmo\Sluggable\Handler\RelativeSlugHandler:
+              relationField: garage
+              relationSlugField: address.city.name
+              separator: -
+              urilize: true
+          fields:
+            - modelVersion.model.make.name
+            - modelVersion.model.name
+            - isUsedSlugValue

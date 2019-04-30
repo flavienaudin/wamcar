@@ -54,7 +54,8 @@
     "jmose/command-scheduler-bundle":"^2.0",
     "ruflin/elastica":"^6.1",
     "easycorp/easyadmin-bundle":"^1.0",
-    "presta/sitemap-bundle":"^1.5"
+    "presta/sitemap-bundle":"^1.5",
+    "google/apiclient":"^2.0"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",

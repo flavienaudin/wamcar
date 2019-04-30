@@ -48,3 +48,16 @@ PERSONAL_PROJECT: "Particuliers - Demandes"
 
 TRANSMISSION_AUTOMATIC: Automatique
 TRANSMISSION_MANUAL: Manuelle
+
+SOLD_WITH_WAMCAR: Vendu grâce à Wamcar
+SOLD_WITOUT_WAMCAR: Vendu sans l'aide de Wamcar
+NO_LONGER_SOLD: Plus en vente
+OTHER: Autre
+
+leadStatus.to_qualify: A qualifier
+leadStatus.contacted: Contacté
+leadStatus.met: Rencontré
+leadStatus.quote: Devis
+leadStatus.negociation: Négociation
+leadStatus.won: Gagné
+leadStatus.lost: Perdu

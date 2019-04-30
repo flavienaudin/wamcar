@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Criteria;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
+use Wamcar\Conversation\ConversationUser;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
@@ -57,6 +58,8 @@ abstract class BaseUser implements HasApiCredential
     protected $twitterAccessToken;
     /** @var null|FirstContactPreference */
     protected $firstContactPreference;
+    /** @var int */
+    protected $creditPoints;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
@@ -89,6 +92,7 @@ abstract class BaseUser implements HasApiCredential
         $this->email = $email;
         $this->userProfile = new UserProfile(null, $firstName, $name, null, null, $city);
         $this->avatar = $avatar;
+        $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
@@ -239,6 +243,15 @@ abstract class BaseUser implements HasApiCredential
     public function getType()
     {
         return static::TYPE;
+    }
+
+    /**
+     * UserID for GoogleAnalyticsTracking
+     * @return string
+     */
+    public function getUserID(): string
+    {
+        return static::TYPE . '-' . $this->getId();
     }
 
     /**
@@ -426,6 +439,16 @@ abstract class BaseUser implements HasApiCredential
         return $this->conversationUsers;
     }
 
+    public function getTotalMessagesOnConversations(): int
+    {
+        $total = 0;
+        /** @var ConversationUser $conversation */
+        foreach ($this->conversationUsers as $conversation) {
+            $total += count($conversation->getConversation()->getMessages());
+        }
+        return $total;
+    }
+
     /**
      * @return Collection
      */
@@ -582,7 +605,7 @@ abstract class BaseUser implements HasApiCredential
                 $affinityDegreesArray[$affinityDegree->getGreaterIdUser()->getId()] = $affinityDegree->getAffinityValue();
             }
         }
-        if(empty($affinityDegreesArray)){
+        if (empty($affinityDegreesArray)) {
             $affinityDegreesArray[-1] = 0;
         }
         return $affinityDegreesArray;
@@ -635,4 +658,41 @@ abstract class BaseUser implements HasApiCredential
     {
         return count($this->getVehicles());
     }
+
+    /**
+     * @return int
+     */
+    public function getCreditPoints(): int
+    {
+        return $this->creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     */
+    public function setCreditPoints(int $creditPoints): void
+    {
+        $this->creditPoints = $creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     * @return int
+     */
+    public function addCreditPoints(int $creditPoints)
+    {
+        $this->creditPoints += $creditPoints;
+        return $this->creditPoints;
+    }
+
+    /**
+     * @param int $creditPoints
+     * @return int
+     */
+    public function substractCreditPoints(int $creditPoints)
+    {
+        $this->creditPoints -= $creditPoints;
+        return $this->creditPoints;
+    }
+
 }

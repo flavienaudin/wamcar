@@ -11,3 +11,18 @@ if ($phoneNumberElement.length) {
     });
   });
 }
+
+const $phoneNumberClickables = $('[id*="showtelpro"]');
+$phoneNumberClickables.each((index, clickable) => {
+  const url = $(clickable).data('href'),
+    eventId = $(clickable).attr('id');
+  $(clickable).on('click', () => {
+    $.ajax({
+      url: url,
+      method: 'POST',
+      data: {'eventId': eventId}
+    }).done(function (data) {
+      $(clickable).off('click');
+    });
+  });
+});

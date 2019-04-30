@@ -35,25 +35,6 @@ services:
                 aliases:
                     - service.elasticsearch
 
-    elasticsearch:
-        image: elasticsearch:6.5.4
-        environment:
-            - cluster.name=docker-cluster
-            - bootstrap.memory_lock=true
-            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-        ulimits:
-            memlock:
-                soft: -1
-                hard: -1
-        volumes:
-            - esdata1:/usr/share/elasticsearch/data
-        ports:
-            - 9200:9200
-        networks:
-            wamcar:
-                aliases:
-                    - service.elasticsearch
-
     php:
         image: "registry-gitlab.novaway.net/dev-team/dockerfiles/php-fpm:7.1"
         volumes:

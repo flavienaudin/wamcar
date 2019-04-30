@@ -43,16 +43,29 @@
                     <a href="{{ path('front_vehicle_pro_add', {'garage_id': garageMemberShip.garage.id}) }}"
                        class="logo-garage">
                         <img src="{{ garageMemberShip.garage|logo('garage_mini_logo') }}"
-                             class="small-2 logo-mini align-self-top"
-                             alt="Logo {{ garageMemberShip.garage.name }}">
-                        &nbsp;{{ garageMemberShip.garage.name }}
-                        - {{ garageMemberShip.garage.city.name }}
+                             class="small-2 logo-mini align-self-top" alt="Logo {{ garageMemberShip.garage.name }}">
+                        &nbsp;{{ garageMemberShip.garage.name }} - {{ garageMemberShip.garage.city.name }}
                     </a></li>
             {% endfor %}
         </ul>
     </li>
-{% endif %}<li><a href="{{ path('front_search') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
+{% endif %}
+
+<li><a href="{{ path('front_search') }}">{{ 'header.anonyme.see_search'|trans }}</a></li>
 
 <li class="menu-separator"></li>
 
-<li><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>
+<li>
+    <a href="#">{{ 'header.pro.dashboard'|trans }}</a>
+    <ul class="menu">
+        <li><a href="{{ path('front_pro_user_performances') }}">{{ 'header.pro.my_performances'|trans }}</a></li>
+        <li><a href="{{ path('front_pro_user_sales') }}">{{ 'header.pro.my_sales'|trans }}</a></li>
+        <li><a href="{{ path('front_pro_user_leads') }}">{{ 'header.pro.my_leads'|trans }}</a></li>
+    </ul>
+</li>
+
+{% if isUserAdmin %}
+    <li class="menu-separator"><a href="{{ path('admin_board') }}">{{ 'header.admin.adminstration'|trans }}</a></li>
+{% endif %}
+
+<li class="menu-separator"><a href="{{ path('security_logout') }}">{{ 'global.button.logout'|trans }}</a></li>

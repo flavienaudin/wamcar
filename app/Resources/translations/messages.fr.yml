@@ -46,6 +46,10 @@ flash:
     conversation_update: Votre message a bien été envoyé.
     vehicle:
       assign_new_seller: Le changement de vendeur a bien été enregistré.
+    sales:
+      declaration: Votre déclaration a bien été prise en compte
+    lead:
+      change_status: Le status de votre lead a bien été mis à jour
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -68,7 +72,13 @@ flash:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
-
+    lead:
+      unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
+      unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
+      invalid_status: Le statut est invalide
+    sale:
+      unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accèder aux véhicles à déclarer de ce conseiller.
+      saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
@@ -89,6 +99,12 @@ flash:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+    sales:
+      unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
+      unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
+      invalid_sale_status_value: Valeur du status de vente incorrecte
+    dashboard:
+      unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
     garage:
       already_member: Vous êtes déjà membre de ce garage
       same_as_existing: >
@@ -183,11 +199,17 @@ header:
   pro:
     my_garage: Mon garage
     my_garages: Mes garages
+    dashboard: Tableaux de bord
+    my_performances: Mes performances
+    my_sales: Suivi des ventes
+    my_leads: Mes contacts
   personal:
     my_add: Mon annonce
     my_vehicles: Mes véhicules
     add_vehicle: Vendre un véhicule
     directory: Annuaire Pro
+  admin:
+    adminstration: Administration
 
 
 
@@ -303,8 +325,8 @@ landing:
   mixte:
     title: "Site de rencontre automobile : reprise, achat et vente de voitures"
     description: >
-        Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
-        découvrez les occasions, changez de voiture !
+      Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+      découvrez les occasions, changez de voiture !
     image_alt: Rencontrez votre conseiller automobile.
     form.title: Le site de rencontre automobile
     field:
@@ -339,7 +361,7 @@ garage:
   infos:
     opening_hours: Horaires
     auto_vehicles_import_request:
-      presentation: Demander l'import automatisé de votre stock :
+      presentation: "Demander l'import automatisé de votre stock:"
       form: Formulaire
   tabs:
     vehicles: Véhicules
@@ -360,8 +382,8 @@ garage:
     auto_vehicles_import_request:
       title: Import automatisé de votre stock de véhicule
       presentation: >
-          Souhaitez-vous automatiser l'import des véhicules directement depuis votre stock via notre partenaire Ubiflow ?
-          Faites-en la demande via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">notre formulaire</a>
+        Souhaitez-vous automatiser l'import des véhicules directement depuis votre stock via notre partenaire Ubiflow ?
+        Faites-en la demande via <a href="%ubiflow_form_url%" id="ubiflow_request" class="text-underline" target="_blank">notre formulaire</a>
   assignation:
     invitation:
       title: Inviter vos collaborateurs à rejoindre %garage_name%
@@ -427,7 +449,7 @@ search:
         long: Professionnels
     result:
       no_vehicle_to_sell.alt: Pas de reprise
-  
+
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture
@@ -478,9 +500,9 @@ vehicle:
         long: Informations principales
       title: Informations principales
       make:
-        label : Marque
+        label: Marque
       model:
-        label : Modèle
+        label: Modèle
       statut:
         label: Statut
       registrationDate:
@@ -488,21 +510,21 @@ vehicle:
       commercializationDate:
         label: Date de commercialisation
       mileage:
-        label : Kilométrage
+        label: Kilométrage
       engine_name:
-        label : Motorisation
+        label: Motorisation
       transmission:
-        label : Boite de vitesse
+        label: Boite de vitesse
       fuel_name:
-        label : Energie
+        label: Energie
       imported:
-        label : Véhicule importé
+        label: Véhicule importé
       first_hand:
-        label : Véhicule 1ère main
+        label: Véhicule 1ère main
       immatriculation:
-        label : Immatriculation
+        label: Immatriculation
       vin:
-        label : V.I.N.
+        label: V.I.N.
     states:
       tab:
         short: Etat
@@ -615,7 +637,7 @@ vehicle:
     isFirstHand:
       label: Première main
     imported:
-      label : Véhicule importé
+      label: Véhicule importé
     additionalInformation:
       label: Description
       placeholder: 'Indiquez ici les informations complémentaires : version, équipements, défauts constatés...'
@@ -654,6 +676,10 @@ vehicle:
     no_project:
       title: "%username% n'a pas encore indiqué de souhait."
       subtitle: Vous pouvez tout de même le contacter pour lui demander plus d’informations et proposer un rachat de son véhicule.
+  sale:
+    sold_by: "Vendu par %sellerName%"
+    i_sold: "Déclarer sa vente"
+
 
 user:
   registration:
@@ -904,7 +930,6 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
-
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -958,7 +983,7 @@ user:
   preference:
     page_title: Mes préférences
     title:
-        notifications: Activation des notifications
+      notifications: Activation des notifications
     common:
       enabled: Activté
       disabled: Désactivé
@@ -999,6 +1024,108 @@ conversation:
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
+
+sale:
+  page:
+    vehicles: Suivi des ventes
+    declaration: Nouvelle transaction
+  explication_no_vehicle: "J'ai réalisé une nouvelle vente grâce à Wamcar : "
+  vehicles:
+    explanation: Ces annonces ont été dépubliées récemment. Avez-vous vendu le véhicule ?
+    table:
+      vehicle: Véhicle
+      deleted_at_date: Date de suppression
+  form:
+    customer:
+      section:
+        title: Le client
+        explanation: >
+          Vous avez réalisé une transaction grâce à Wamcar ? Sélectionnez le client parmi la liste de vos contacts, ou
+          entrez directement ses Nom et Prénom.
+      field:
+        entity:
+          label: Votre contact
+          placeholder: Choisissez un contact
+        firstname:
+          label: Prénom
+        lastname:
+          label: Nom
+    transaction:
+      section:
+        title: La transaction
+        explanation: Sélectionnez le véhicule vendu dans cette liste, ou entrez simplement le montant de la transaction.
+      field:
+        proVehicle:
+          label: Le véhicule acheté
+          placeholder: Choisissez un véhicule
+        transactionSaleAmount:
+          label: Montant de la vente (€)
+        transactionPartExchangeAmount:
+          label: Montant de la reprise (€)
+        transactionCommentary:
+          label: Commentaires
+          placeholder: Identifiation du véhicule acheté et/ou repris...
+
+lead:
+  page:
+    title: Mes contacts
+    explications: >
+      Retrouvez dans le tableau ci-dessous les utilisateurs de Wamcar avec lesquels vous avez intéragi. Vous pouvez les
+      qualifier en modifiant leur statut et déclarer des ventes ou des reprises à l'aide du lien "Nouvelle transaction"
+  table:
+    name: Prénom Nom
+    last_contacted_at: Date du dernier contact
+    tel: Nombre d'affichage de %telNumber%
+    messages: Nombre de messages
+    likes: Nombre de likes
+    status: Statut
+    action: Vente
+    sales: "[0,1]%nbSales% vente|[2,Inf[ %nbSales% ventes"
+  add_sale: "Nouvelle transaction"
+  explication_no_contact: "Vous souhaitez déclarer une vente sans l'associer à un de vos contacts en particulier :"
+
+
+pro_user_performances:
+  page:
+    title: Mes Performances
+  30_days:
+    title: Mes performances sur les 30 derniers jours
+  audience:
+    title: Mon audience
+    table:
+      profile_view: "#Vues de votre page profil"
+      tel_display: "#click numéro téléphone"
+      received_messages: "#messages reçus"
+      received_likes: "#likes reçus"
+  activity:
+    title: Mon activité
+    table:
+      sent_messages: "#Messages envoyés"
+      sent_likes: "#likes envoyés"
+      lead: "#leads"
+  results:
+    title: Mes résultats
+    table:
+      sales: "#Ventes"
+      part_exchanges: "#Reprises"
+      transactions: "#Total de transactions"
+      conversion_rate: "Taux de transformation"
+  declared_sales:
+    title: Mes ventes
+    table:
+      date: Date
+      name: Client
+      vehicle: Véhicule vendu
+      sale_price: €Vente
+      partexchange_price: €Reprise
+      commentary: Description
+      empty: Aucune déclaration
+
+boost:
+  link: Booster mes pages
+  page:
+    title: Booster mes pages
+    number_of_points: Je possède %points% points
 
 favorites:
   page_title: Ma sélection
@@ -1043,7 +1170,7 @@ directory:
     radius:
       label: Rayon de
     sorting:
-      label: Trier par :
+      label: "Trier par :"
   result:
     empty: Aucun résultat n'a été trouvé, rééssayez votre recherche.
     no_garage: Pas de garage renseigné pour l'instant

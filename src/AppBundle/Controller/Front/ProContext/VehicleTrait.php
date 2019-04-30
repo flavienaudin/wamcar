@@ -5,7 +5,6 @@ namespace AppBundle\Controller\Front\ProContext;
 
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Wamcar\Vehicle\BaseVehicle;
 
 trait VehicleTrait
 {

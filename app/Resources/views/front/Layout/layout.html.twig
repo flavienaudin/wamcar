@@ -11,13 +11,22 @@
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
     {% if google_tag_manager_id is not empty %}
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','{{ google_tag_manager_id }}');</script>
-    <!-- End Google Tag Manager -->
+        <!-- Google Tag Manager -->
+        <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+                {# Définir l'ID utilisateur à partir du paramètre user_id de l'utilisateur connecté. #}
+                {% if isLogged %}
+            w[l].push({'userId': "{{ isUserPro ? 'pro':'personal' }}_{{ app.user.id }}", event: 'gtm.js'});
+                {% endif %}
+            w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+            let f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = (l !== 'dataLayer' ? '&l=' + l : '');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', '{{ google_tag_manager_id }}');
+
+        </script>
+        <!-- End Google Tag Manager -->
     {% endif %}
 
     <meta charset="utf-8">

@@ -42,6 +42,8 @@ import './components/avatar';
 import './components/notification';
 import './components/phone_number';
 import './components/affinity';
+import './components/datatable';
+import './components/sales';
 import {activeClass} from './settings/settings.js';
 
 import {default as autosize} from 'autosize';
@@ -160,6 +162,7 @@ $(function () {
     });
   }
 
+
   /* Textarea autosize */
   autosize($('textarea'));
 
@@ -191,12 +194,13 @@ $(function () {
      Conversation : update last opened
      ===================================== */
   const $lastMessage = $('#last-message');
-  if($lastMessage.length > 0) {
+  if ($lastMessage.length > 0) {
     let w = new Waypoint.Inview({
       element: document.getElementById('last-message'), //$lastMessage,
       enter: function (direction) {
         const href = $lastMessage.data('conversation-open-url');
-        fetch(href).then((response) => {});
+        fetch(href).then((response) => {
+        });
         this.destroy();
       }
     });
@@ -220,7 +224,6 @@ $(function () {
   }
 
 
-
   /*
     Confirm box
     ===================================== */
@@ -234,12 +237,12 @@ $(function () {
 
     confirm(title, message, id, (param) => {
       window.location = param.href;
-    }, {'href':href});
+    }, {'href': href});
   });
 
 
   const $landingRegistration = $('#js-landing-orientation');
-  if($landingRegistration.length > 0){
+  if ($landingRegistration.length > 0) {
     $landingRegistration.find('input').on('click', (e) => {
       $landingRegistration.submit();
     });
@@ -288,7 +291,7 @@ function confirm(title, message, id, callback, callbackParam) {
     '<strong>' + title + '</strong>' +
     '<button class="small-right icon-close" data-close><span class="show-for-sr">Close</span></button>' +
     '</header>' +
-    '<div class="modal-content row">'+
+    '<div class="modal-content row">' +
     '<p class="lead">' + message + '</p>' +
     '<p class="full-width is-flex align-spaced">' +
     '<button class="button white yes">Oui</button>' +
@@ -297,7 +300,7 @@ function confirm(title, message, id, callback, callbackParam) {
     '</div>';
   $('body').append(modal);
 
-  let $modal = $('#'+id);
+  let $modal = $('#' + id);
   let confirmation = new Reveal($modal);
   confirmation.open();
   $modal.find('.yes').on('click', () => {

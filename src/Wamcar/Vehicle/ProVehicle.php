@@ -5,6 +5,7 @@ namespace Wamcar\Vehicle;
 use AppBundle\Services\User\CanBeGarageMember;
 use Wamcar\Garage\Garage;
 use Wamcar\Location\City;
+use Wamcar\Sale\Declaration;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\Enum\Funding;
@@ -40,6 +41,8 @@ class ProVehicle extends BaseVehicle
     private $garage;
     /** @var ProUser */
     private $seller;
+    /** @var Declaration|null */
+    private $saleDeclaration;
 
     // Garage and Seller must be set manually
     public function __construct(
@@ -214,6 +217,14 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * @return Declaration|null
+     */
+    public function getSaleDeclaration(): ?Declaration
+    {
+        return $this->saleDeclaration;
+    }
+
+    /**
      * @param float $price
      */
     public function setPrice(float $price): void
@@ -286,11 +297,29 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
+     * @param Declaration|null $saleDeclaration
+     */
+    public function setSaleDeclaration(?Declaration $saleDeclaration): void
+    {
+        $this->saleDeclaration = $saleDeclaration;
+    }
+
+    /**
      * @param BaseUser|null $user
      * @return bool
      */
     public function canEditMe(BaseUser $user = null): bool
     {
         return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($this->getGarage());
+    }
+
+
+    /**
+     * @param BaseUser|null $user
+     * @return bool
+     */
+    public function canDeclareSale(BaseUser $user = null): bool
+    {
+        return $this->getSeller()->is($user);
     }
 }

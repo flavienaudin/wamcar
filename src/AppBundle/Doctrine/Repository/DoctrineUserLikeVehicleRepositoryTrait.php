@@ -20,9 +20,32 @@ trait DoctrineUserLikeVehicleRepositoryTrait
     /**
      * {@inheritdoc}
      */
-    public function findOneByUserAndVehicle(BaseUser $user, BaseVehicle $vehicle): ?BaseVehicle{
+    public function findOneByUserAndVehicle(BaseUser $user, BaseVehicle $vehicle): ?BaseVehicle
+    {
 
         return $this->findOneBy(['user' => $user, 'vehicle' => $vehicle]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCountSentLikes(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int
+    {
+
+        if (empty($referenceDate)) {
+            $referenceDate = new \DateTime();
+        }
+        $firstDate = clone $referenceDate;
+        $firstDate->sub(new \DateInterval('P' . $sinceDays . 'D'));
+
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('COUNT(l.id)')
+            ->where('l.user = :user')
+            ->andwhere($qb->expr()->gte('l.updatedAt', ':firstDate'))
+            ->andWhere($qb->expr()->lte('l.updatedAt', ':referenceDate'))
+            ->setParameter('user', $user)->setParameter('firstDate', $firstDate)
+            ->setParameter('referenceDate', $referenceDate);
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
     /**

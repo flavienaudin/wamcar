@@ -1,0 +1,28 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "boost.page.title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+
+    <div class="row">
+        <div class="column small-12">
+            <p>{{ 'boost.page.number_of_points'|trans({'%points%': app.user.creditPoints??0}) }}</p>
+
+        </div>
+    </div>
+{% endblock %}

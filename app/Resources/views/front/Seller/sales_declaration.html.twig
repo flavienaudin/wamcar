@@ -1,0 +1,45 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "sale.page.vehicles"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+    {#,link:'<a href="'~path('front_pro_user_boost_view') ~'" class="text-underline">'~ 'boost.link'|trans~'</a>'#}
+
+    <div class="row">
+        <div class="column small-12">
+            <p>{{ 'sale.vehicles.explanation'|trans }}</p>
+            <div class="sales-container margin-bottom-2">
+                <table id="vehiclesToDeclare_dt" class="js-vehicles-to-declare-datatable dataTable compact row-border"
+                       style="width: 100%;" data-href="{{ path('front_pro_vehicles_to_declare') }}"
+                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th><span class="icon-pics"></span></th>
+                        <th data-priority="1">{{ 'sale.vehicles.table.vehicle'|trans }}</th>
+                        <th data-priority="2">{{ 'sale.vehicles.table.deleted_at_date'|trans }}</th>
+                        <th><span class="icon-ellipsis-h"></span></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <p>{{ 'sale.explication_no_vehicle'|trans }}
+                <a href="{{ path('front_sale_declaration_new') }}" class="text-underline">{{ 'lead.add_sale'|trans }}</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

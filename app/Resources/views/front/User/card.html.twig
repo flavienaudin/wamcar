@@ -32,11 +32,6 @@
         {% endif %}
     {% endif %}
 
-    {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
-        <h2>{{ userIsMe ? 'user.city.title.your_city'|trans:'user.city.title.its_city'|trans }}</h2>
-        <p>{{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}</p>
-    {% endif %}
-
     {% if userIsMe %}
         <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
     {% endif %}
@@ -66,7 +61,7 @@
 
 {% set user_project_block %}{% spaceless %}
     {% if (user.project and not user.project.empty) or userIsMe %}
-        <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Son projet" }}</h2>
+        <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Le projet de "~user.firstName }}</h2>
         {% if user.project and not user.project.empty %}
             {% set project = user.project %}
             {{ include('front/User/includes/personal_user_project.html.twig') }}
@@ -105,7 +100,7 @@
         </div>
         {% if user.vehicles|length > 0 or userIsMe %}
             <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'no-padding':'separator'  }} column small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'':'separator'  }} column small-12">
                     <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
                     <div class="row">
                         {% set balise = 'h3' %}
