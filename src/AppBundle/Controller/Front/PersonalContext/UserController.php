@@ -307,7 +307,7 @@ class UserController extends BaseController
     {
         $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
 
-        if ($user->getDeletedAt() != null) {
+        if ($user == null || $user->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.pro_user.deleted.title',
                 'messageKey' => 'error_page.pro_user.deleted.body',
@@ -399,8 +399,8 @@ class UserController extends BaseController
     {
         $user = $this->personalUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
 
-        if ($user->getDeletedAt() != null) {
-            if ($user->getCity() != null) {
+        if ($user == null || $user->getDeletedAt() != null) {
+            if ($user != null && $user->getCity() != null) {
                 $redirectionUrl = $this->generateUrl('front_search_by_city', [
                     'city' => $user->getCity()->getPostalCode() . '-' . urlencode($user->getCity()->getName()),
                     'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
@@ -567,7 +567,7 @@ class UserController extends BaseController
         return $this->render("front/Seller/pro_user_performances.html.twig", [
             'performances' => $performances,
             'saleDeclarations' => $saleDeclarations
-            ]);
+        ]);
     }
 
 
