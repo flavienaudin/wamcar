@@ -201,7 +201,7 @@ header:
     my_garages: Mes garages
     dashboard: Tableaux de bord
     my_performances: Mes performances
-    my_sales: Mes ventes
+    my_sales: Suivi des ventes
     my_leads: Mes contacts
   personal:
     my_add: Mon annonce
@@ -1027,12 +1027,11 @@ conversation:
 
 sale:
   page:
-    vehicles: Mes ventes
+    vehicles: Suivi des ventes
     declaration: Nouvelle transaction
-  explication_no_vehicle: "Vous souhaitez déclarer une vente sans l'associer à un véhicle en particulier :"
+  explication_no_vehicle: "J'ai réalisé une nouvelle vente grâce à Wamcar : "
   vehicles:
-    title: Véhicules supprimés de vos stocks
-    subtitle: Voici la liste des véhicules supprimés des stocks de vos garages.
+    explanation: Ces annonces ont été dépubliées récemment. Avez-vous vendu le véhicule ?
     table:
       vehicle: Véhicle
       deleted_at_date: Date de suppression
