@@ -8,10 +8,11 @@ use AppBundle\Doctrine\Entity\VehiclePicture;
 use AppBundle\Services\Picture\PathGaragePicture;
 use AppBundle\Services\Picture\PathUserPicture;
 use AppBundle\Services\Picture\PathVehiclePicture;
+use AppBundle\Utils\AccentuationUtils;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Garage\Garage;
-use Wamcar\User\BaseUser;
 
 class PictureExtension extends AbstractExtension
 {
@@ -53,21 +54,21 @@ class PictureExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('avatar', array($this, 'avatarFilter')),
-            new \Twig_SimpleFilter('banner', array($this, 'bannerFilter')),
-            new \Twig_SimpleFilter('logo', array($this, 'logoFilter')),
-            new \Twig_SimpleFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
-            new \Twig_SimpleFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
-            new \Twig_SimpleFilter('defaultAvatar', array($this, 'defaultAvatarFilter')),
-            new \Twig_SimpleFilter('defaultBanner', array($this, 'defaultBannerFilter')),
-            new \Twig_SimpleFilter('defaultLogo', array($this, 'defaultLogoFilter')),
-            new \Twig_SimpleFilter('defaultVehicleFormPicture', array($this, 'defaultVehicleFormPictureFilter'))
+            new TwigFilter('avatar', array($this, 'avatarFilter')),
+            new TwigFilter('banner', array($this, 'bannerFilter')),
+            new TwigFilter('logo', array($this, 'logoFilter')),
+            new TwigFilter('vehiclePicture', array($this, 'vehiclePictureFilter')),
+            new TwigFilter('defaultVehiclePicture', array($this, 'defaultVehiclePictureFilter')),
+            new TwigFilter('defaultAvatar', array($this, 'defaultAvatarFilter')),
+            new TwigFilter('defaultBanner', array($this, 'defaultBannerFilter')),
+            new TwigFilter('defaultLogo', array($this, 'defaultLogoFilter')),
+            new TwigFilter('defaultVehicleFormPicture', array($this, 'defaultVehicleFormPictureFilter'))
         );
     }
 
     public function avatarFilter(?UserPicture $userPicture, string $filter, string $firstname = null)
     {
-        return $this->pathUserPicture->getPath($userPicture, $filter, $firstname);
+        return $this->pathUserPicture->getPath($userPicture, $filter, AccentuationUtils::remove($firstname));
     }
 
     public function defaultAvatarFilter(string $filter)

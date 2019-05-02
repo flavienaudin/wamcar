@@ -134,6 +134,11 @@ legacy_view_user_info:
     requirements:
         id: '\d+'
 
+front_show_number:
+    path: /show-number
+    controller: AppBundle:Front\PersonalContext\User:showPhoneNumber
+    methods: POST
+
 # Garage
 front_garage_view:
     path: /g/{slug}
@@ -219,6 +224,44 @@ front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
     controller: AppBundle:Front\ProContext\Vehicle:delete
 
+# Tableau de bord : Conseillers auto
+front_pro_user_performances:
+    path: /mes-performances
+    controller: AppBundle:Front\PersonalContext\User:performancesView
+
+front_pro_user_leads:
+    path: /mes-contacts
+    controller: AppBundle:Front\PersonalContext\User:proUserLeadsView
+
+front_pro_user_lead:
+    path: /pro/leads/{id}
+    controller: AppBundle:Front\PersonalContext\User:proUserLeadsGet
+
+front_change_lead_status:
+    path: /lead/changestatus/{id}/{leadStatus}
+    controller: AppBundle:Front\PersonalContext\User:changeLeadStatus
+
+#front_pro_user_boost_view:
+#    path: /boost
+#    controller: AppBundle:Front\PersonalContext\User:boostView
+
+# Gestion des ventes
+front_pro_user_sales:
+    path: /mes-ventes
+    controller: AppBundle:Front\ProContext\Sales:salesView
+
+front_pro_vehicles_to_declare:
+    path: /ventes/get
+    controller: AppBundle:Front\ProContext\Vehicle:getProVehiclesToDeclare
+
+front_sale_declaration_new:
+    path: /vente/declarer
+    controller: AppBundle:Front\ProContext\Sales:declareForm
+
+front_sale_declaration_edit:
+    path: /vente/declaration/editer/{id}
+    controller: AppBundle:Front\ProContext\Sales:declareForm
+
 # Vehicules particuliers
 front_vehicle_personal_detail:
     path: /voiture-particulier/{slug}
@@ -275,6 +318,24 @@ legacy_search:
         page: 1
     requirements:
         page: '\d+'
+
+legacy_search_pro_vehicles:
+    path: /vendeur/rechercher/{page}
+    controller: FrameworkBundle:Redirect:urlRedirect
+    defaults:
+        path: /recherche-voitures
+        permanent: true
+        page: 1
+
+legacy_search_personal_vehicles:
+    path: /utilisateur/rechercher/{page}
+    controller: FrameworkBundle:Redirect:urlRedirect
+    defaults:
+        path: /recherche-voitures
+        permanent: true
+        page: 1
+
+
 
 # Messagerie
 front_conversation_vehicle_list:

@@ -38,6 +38,10 @@ module.exports = {
           loader: 'expose-loader',
           options: '$'
         }]
+      },
+      {
+        test: /\.png$/,
+        loader: 'url-loader'
       }
     ]
   },

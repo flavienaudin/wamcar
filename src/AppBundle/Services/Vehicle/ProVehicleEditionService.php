@@ -10,10 +10,12 @@ use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO as FormVehicleDTO;
 use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
-use Doctrine\Common\Collections\Criteria;
+use AppBundle\Services\Picture\PathVehiclePicture;
 use Elastica\ResultSet;
-use Novaway\ElasticsearchClient\Query\Result;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Garage\GarageRepository;
@@ -40,7 +42,12 @@ class ProVehicleEditionService
     private $likeProVehicleRepository;
     /** @var MessageBus */
     private $eventBus;
-
+    /** @var RouterInterface */
+    private $router;
+    /** @var TranslatorInterface */
+    private $translator;
+    /** @var PathVehiclePicture */
+    private $pathVehiclePicture;
 
     /**
      * ProVehicleEditionService constructor.
@@ -48,18 +55,25 @@ class ProVehicleEditionService
      * @param GarageRepository $garageRepository
      * @param DoctrineLikeProVehicleRepository $likeProVehicleRepository
      * @param MessageBus $eventBus
+     * @param RouterInterface $router
+     * @param TranslatorInterface $translator
+     * @param PathVehiclePicture $pathVehiclePicture
      */
     public function __construct(
         ProVehicleRepository $vehicleRepository,
         GarageRepository $garageRepository,
         DoctrineLikeProVehicleRepository $likeProVehicleRepository,
-        MessageBus $eventBus
+        MessageBus $eventBus, RouterInterface $router, TranslatorInterface $translator,
+        PathVehiclePicture $pathVehiclePicture
     )
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->garageRepository = $garageRepository;
         $this->likeProVehicleRepository = $likeProVehicleRepository;
         $this->eventBus = $eventBus;
+        $this->router = $router;
+        $this->translator = $translator;
+        $this->pathVehiclePicture = $pathVehiclePicture;
         $this->vehicleBuilder = [
             ApiVehicleDTO::class => ApiVehicleBuilder::class,
             FormVehicleDTO::class => FormVehicleBuilder::class
@@ -96,6 +110,42 @@ class ProVehicleEditionService
             $results['hits'] = $this->vehicleRepository->findByIds($ids);
         }
         return $results;
+    }
+
+
+    /**
+     * @param ProUser $proUser
+     * @param array Request params
+     * @return array of ProVehicle
+     */
+    public function getProUserVehiclesForSalesDeclaration(ProUser $proUser, array $params): array
+    {
+        $vehicles = $this->vehicleRepository->getDeletedProVehiclesByRequest($proUser, $params);
+
+        $vehiclesToDeclare = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => $vehicles['recordsTotalCount'],
+            "recordsFiltered" => $vehicles['recordsFilteredCount'],
+            "data" => []
+        ];
+        /** @var ProVehicle $vehicle */
+        foreach ($vehicles['data'] as $vehicle) {
+            $vehicleInfoForDataTable = [
+                'control' => '<td><span class="icon-plus-circle no-margin"></span></td>',
+                'image' => '<img src="' . $this->pathVehiclePicture->getPath($vehicle->getMainPicture(), 'vehicle_picture') . '" class="img-responsive" alt="' . $vehicle->getNAme() . '">',
+                'vehicle' => $vehicle->getName() . '<br>' .
+                    $vehicle->getPrice() . '€' . '<br>' .
+                    '<a href="' . $this->router->generate('front_garage_view', ['slug' => $vehicle->getGarage()->getSlug()]) . '" target="_blank">' . $vehicle->getGarageName() . '</a>',
+                'date' => $vehicle->getDeletedAt()->format("d/m/y"),
+                'actions' => ($vehicle->getSaleDeclaration() != null ?
+                    $this->translator->trans('vehicle.sale.sold_by', ['%sellerName%' => $vehicle->getSaleDeclaration()->getProUserSeller()->getFullName()]) :
+                    '<a href="' . $this->router->generate('front_sale_declaration_new', ['vehicleId' => $vehicle->getId()], UrlGenerator::ABSOLUTE_URL) . '">' . $this->translator->trans('vehicle.sale.i_sold') . '</a>'
+                )
+
+            ];
+            $vehiclesToDeclare['data'][] = $vehicleInfoForDataTable;
+        }
+        return $vehiclesToDeclare;
     }
 
     /**
@@ -241,7 +291,7 @@ class ProVehicleEditionService
     {
         $nbProVehicles = 0;
         // If Garage is softDeleted, then its vehicles are not retrieved and we want ALL vehicle to delete
-        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null,$garage->getDeletedAt() != null);
+        $proVehicleToDelete = $this->vehicleRepository->findAllForGarage($garage, null, $garage->getDeletedAt() != null);
         /** @var ProVehicle $proVehicle */
         foreach ($proVehicleToDelete as $proVehicle) {
             $this->deleteVehicle($proVehicle);
@@ -258,6 +308,16 @@ class ProVehicleEditionService
     public function canEdit($user, ProVehicle $vehicle): bool
     {
         return $vehicle !== null && $vehicle->canEditMe($user);
+    }
+
+    /**
+     * @param $user
+     * @param ProVehicle $vehicle
+     * @return bool
+     */
+    public function canDeclareSale($user, ProVehicle $vehicle): bool
+    {
+        return $vehicle !== null && $vehicle->canDeclareSale($user);
     }
 
     /**

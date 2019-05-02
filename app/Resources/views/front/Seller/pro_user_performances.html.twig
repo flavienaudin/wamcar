@@ -1,0 +1,163 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "pro_user_performances.page.title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+
+    <div class="row">
+        <div class="column small-12">
+            <h2>{{ 'pro_user_performances.30_days.title'|trans }}</h2>
+            <div class="row">
+                <div class="column block-grid small-12 large-4">
+                    <table class="perf-audience-datatable dataTable compact row-border">
+                        <thead>
+                        <tr>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.audience.title'|trans }}</h3></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>{{ 'pro_user_performances.audience.table.profile_view'|trans }}</th>
+                            <td>{{ performances.nbUniqueViewsOfProfilePage }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.audience.table.tel_display'|trans }}</th>
+                            <td>{{ performances.nbPhoneNumberDisplays }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.audience.table.received_messages'|trans }}</th>
+                            <td>{{ performances.nbReceivedMessages }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.audience.table.received_likes'|trans }}</th>
+                            <td>{{ performances.nbReceivedLikes }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column block-grid small-12 large-4">
+                    <table class="perf-activity-datatable dataTable compact row-border">
+                        <thead>
+                        <tr>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.activity.title'|trans }}</h3></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>{{ 'pro_user_performances.activity.table.sent_messages'|trans }}</th>
+                            <td>{{ performances.nbSentMessages }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.activity.table.sent_likes'|trans }}</th>
+                            <td>{{ performances.nbSentLikes }}</td>
+                        </tr>
+                        {#<tr>
+                            <th>#appels ? (affichage numéro)</th>
+                            <td>{{ performances. }}</td>
+                        </tr>#}
+                        <tr>
+                            <th>{{ 'pro_user_performances.activity.table.lead'|trans }}</th>
+                            <td>{{ performances.nbLeads }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="column block-grid small-12 large-4">
+                    <table class="perf-results-datatable dataTable compact row-border">
+                        <thead>
+                        <tr>
+                            <th class="text-center black-color" colspan="2"><h3
+                                        class="no-margin">{{ 'pro_user_performances.results.title'|trans }}</h3>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>{{ 'pro_user_performances.results.table.sales'|trans }}</th>
+                            <td>{{ performances.nbSales }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.results.table.part_exchanges'|trans }}</th>
+                            <td>{{ performances.nbPartExchanges }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.results.table.transactions'|trans }}</th>
+                            <td>{{ performances.nbTotalTransactions }}</td>
+                        </tr>
+                        <tr>
+                            <th>{{ 'pro_user_performances.results.table.conversion_rate'|trans }}</th>
+                            <td>{{ (performances.conversionRate * 100)| round }}%</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row margin-top-2">
+        <div class="column small-12">
+            <h2>{{ 'pro_user_performances.declared_sales.title'|trans }}</h2>
+            <table id="declaredSale-dt" class="js-perf-declared-sales-datatable dataTable compact no-wrap row-border"
+                   style="width: 100%" data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th data-priority="2">{{ 'pro_user_performances.declared_sales.table.date'|trans }}</th>
+                    <th data-priority="1">{{ 'pro_user_performances.declared_sales.table.name'|trans }}</th>
+                    <th>{{ 'pro_user_performances.declared_sales.table.vehicle'|trans }}</th>
+                    <th data-priority="3">{{ 'pro_user_performances.declared_sales.table.sale_price'|trans }}</th>
+                    <th data-priority="4">{{ 'pro_user_performances.declared_sales.table.partexchange_price'|trans }}</th>
+                    <th>{{ 'pro_user_performances.declared_sales.table.commentary'|trans }}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for saleDeclaration in saleDeclarations %}
+                    <tr>
+                        <td><span class="icon-plus-circle no-margin"></span></td>
+                        <td>{{ saleDeclaration.updatedAt|localizeddate('short', 'none') }}</td>
+                        <td>
+                            {% if saleDeclaration.leadCustomer is not null and saleDeclaration.leadCustomer.userLead is not null %}
+                                {% if saleDeclaration.leadCustomer.userLead.isPro %}
+                                    <a href="{{ path('front_view_pro_user_info', {'slug': saleDeclaration.leadCustomer.userLead.slug}) }}"
+                                       target="_blank">{{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}</a>
+                                {% else %}
+                                    <a href="{{ path('front_view_personal_user_info', {'slug': saleDeclaration.leadCustomer.userLead.slug}) }}"
+                                       target="_blank">{{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}</a>
+                                {% endif %}
+                            {% else %}
+                                {{ saleDeclaration.customerFirstName|title }} {{ saleDeclaration.customerLastName|title }}
+                            {% endif %}
+                        </td>
+                        <td>{{ saleDeclaration.proVehicle.name??'-' }}</td>
+                        <td>{{ saleDeclaration.transactionSaleAmount|localizedcurrency('EUR') }}</td>
+                        <td>{{ saleDeclaration.transactionPartExchangeAmount|localizedcurrency('EUR') }}</td>
+                        <td>{{ saleDeclaration.transactionCommentary }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td class="dt-body-center"
+                            colspan="7">{{ 'pro_user_performances.declared_sales.table.empty'|trans }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

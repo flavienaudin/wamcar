@@ -46,6 +46,8 @@ class IndexableProVehicle implements Indexable
     private $nbPicture;
     /** @var int */
     private $garageId;
+    /** @var int */
+    private $sellerId;
     /** @var \DateTime */
     private $deletedAt;
     /** @var float */
@@ -74,6 +76,7 @@ class IndexableProVehicle implements Indexable
      * @param string $picture
      * @param int $nbPicture
      * @param int $garageId
+     * @param int $sellerId
      * @param \DateTime|null $deletedAt
      * @param null|float $googleRating
      * @param int $nbPositiveLikes
@@ -97,6 +100,7 @@ class IndexableProVehicle implements Indexable
                                 string $picture,
                                 int $nbPicture,
                                 int $garageId,
+                                int $sellerId,
                                 ?\DateTime $deletedAt,
                                 ?float $googleRating,
                                 int $nbPositiveLikes
@@ -121,6 +125,7 @@ class IndexableProVehicle implements Indexable
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
         $this->garageId = $garageId;
+        $this->sellerId = $sellerId;
         $this->deletedAt = $deletedAt;
         $this->googleRating = $googleRating;
         $this->nbPositiveLikes = $nbPositiveLikes;
@@ -171,6 +176,7 @@ class IndexableProVehicle implements Indexable
             'picture' => $this->picture,
             'nbPicture' => $this->nbPicture,
             'garageId' => $this->garageId,
+            'sellerId' => $this->sellerId,
             'googleRating' => $this->googleRating,
             'nbPositiveLikes' => $this->nbPositiveLikes
         ];

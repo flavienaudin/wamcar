@@ -35,6 +35,7 @@
     "sass-loader": "^6.0.0",
     "script-loader": "^0.7.0",
     "style-loader": "^0.13.1",
+    "url-loader": "^1.1.2",
     "webpack": "^2.0.0",
     "webpack-notifier": "^1.5.0",
     "whatwg-fetch": "^2.0.3"
@@ -53,6 +54,9 @@
     "chart.js": "^2.7.3",
     "autosize": "^4.0.2",
     "waypoints": "^4.0.1",
-    "toastr": "^2.1.4"
+    "toastr": "^2.1.4",
+    "datatables.net":"^1.10.19",
+    "datatables.net-dt": "^1.10.19",
+    "datatables.net-responsive": "^2.2.3"
   }
 }

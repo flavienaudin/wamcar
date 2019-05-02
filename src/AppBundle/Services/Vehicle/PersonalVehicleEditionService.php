@@ -94,7 +94,7 @@ class PersonalVehicleEditionService
         }
 
         if ($futurOwner instanceof PersonalUser) {
-            $personalVehicle->setOwner($futurOwner);
+            $futurOwner->addPersonalVehicle($personalVehicle);
         }
 
         $this->vehicleRepository->add($personalVehicle);

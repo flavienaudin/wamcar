@@ -1,0 +1,87 @@
+/* ===========================================================================
+   datatables : Lead datatable and future others
+   =========================================================================== */
+#prouserleads_dt {
+  &_processing {
+    z-index: 1;
+  }
+
+  thead th,
+  tfoot th {
+    font-size: rem-calc(14);
+  }
+
+  &_wrapper :not(.child) [class^="icon-"]::before,
+  &_wrapper :not(.child) [class*=" icon-"]::before {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  select {
+    height: rem-calc(24);
+    font-size: rem-calc(12);
+    padding-left: rem-calc(5);
+    padding-right: rem-calc(5);
+    margin-bottom: 0;
+  }
+}
+
+.perf-audience-datatable,
+.perf-activity-datatable,
+.perf-results-datatable {
+  border: 1px solid $border-color;
+
+  tbody {
+    th {
+      width: 80%;
+      text-align: center;
+      @include breakpoint(medium) {
+        width: 50%;
+        text-align: right;
+      }
+      @include breakpoint(large) {
+        width: 80%;
+        text-align: right;
+      }
+    }
+
+    td {
+      width: 20%;
+      text-align: center;
+      @include breakpoint(medium) {
+        width: 50%;
+        text-align: left;
+      }
+      @include breakpoint(medium only) {
+        padding-left: 15px !important;
+      }
+      @include breakpoint(large) {
+        width: 20%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.js-perf-declared-sales-datatable{
+  border: 1px solid $border-color;
+}
+
+#vehiclesToDeclare_dt {
+  &_wrapper {
+    .dt-image {
+      max-width: 100px;
+      height: auto;
+    }
+
+    [class^="icon-"]::before,
+    [class*=" icon-"]::before {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  &_processing {
+    z-index: 1;
+  }
+}

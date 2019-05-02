@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
+use Wamcar\Sale\Declaration;
 use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
@@ -26,6 +27,10 @@ class ProUser extends BaseUser
     protected $vehicles;
     /** @var null|int */
     protected $landingPosition;
+    /** @var Collection */
+    protected $leads;
+    /** @var Collection */
+    protected $saleDeclarations;
 
     /**
      * ProUser constructor.
@@ -39,6 +44,8 @@ class ProUser extends BaseUser
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
+        $this->leads = new ArrayCollection();
+        $this->saleDeclarations = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -216,6 +223,70 @@ class ProUser extends BaseUser
     public function setLandingPosition(?int $landingPosition): void
     {
         $this->landingPosition = $landingPosition;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLeads(): Collection
+    {
+        return $this->leads;
+    }
+
+    /**
+     * Get the lead of the given $user. Attention si le $user est softdeleted, aucun lead n'est retourné.
+     * @param BaseUser $user
+     * @return null|Lead
+     */
+    public function getLeadOfUser(BaseUser $user): ?Lead
+    {
+        /** @var Lead $lead */
+        foreach ($this->getLeads() as $lead) {
+            if ($user->is($lead->getUserLead())) {
+                return $lead;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function addLead(Lead $lead): void
+    {
+        $this->leads->add($lead);
+    }
+
+    /**
+     * @param Lead $lead
+     */
+    public function removeLead(Lead $lead): void
+    {
+        $this->leads->removeElement($lead);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getSaleDeclarations(): Collection
+    {
+        return $this->saleDeclarations;
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function addSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->add($declaration);
+    }
+
+    /**
+     * @param Declaration $declaration
+     */
+    public function removeSaleDeclaration(Declaration $declaration): void
+    {
+        $this->saleDeclarations->removeElement($declaration);
     }
 
     /**

@@ -31,23 +31,29 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\Sale\SaleManagementService;
+use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
-use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
+use Wamcar\User\Lead;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
 use Wamcar\User\ProUser;
@@ -59,39 +65,34 @@ class UserController extends BaseController
 
     /** @var FormFactoryInterface */
     protected $formFactory;
-
     /** @var UserRepository */
     protected $userRepository;
-
     /** @var DoctrinePersonalUserRepository */
     protected $personalUserRepository;
-
     /** @var DoctrineProUserRepository */
     protected $proUserRepository;
-
     /** @var UserEditionService */
     protected $userEditionService;
-
     /** @var GarageEditionService */
     protected $garageEditionService;
-
     /** @var VehicleInfoEntityIndexer */
     private $vehicleInfoIndexer;
-
     /** @var ProVehicleEntityIndexer */
     private $proVehicleEntityIndexer;
-
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
-
     /** @var MessageBus */
     protected $eventBus;
-
     /** @var TranslatorInterface */
     protected $translator;
-
-    /** @var AffinityAnswerCalculationService $affinityAnswerCalculationService */
+    /** @var AffinityAnswerCalculationService */
     protected $affinityAnswerCalculationService;
+    /** @var UserInformationService */
+    protected $userInformationService;
+    /** @var LeadManagementService */
+    protected $leadManagementService;
+    /** @var SaleManagementService */
+    protected $saleManagementService;
 
     /**
      * SecurityController constructor.
@@ -107,6 +108,9 @@ class UserController extends BaseController
      * @param MessageBus $eventBus
      * @param TranslatorInterface $translator
      * @param AffinityAnswerCalculationService $affinityAnswerCalculationService
+     * @param UserInformationService $userInformationService
+     * @param LeadManagementService $leadManagementService
+     * @param SaleManagementService $saleManagementService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -120,7 +124,9 @@ class UserController extends BaseController
         ProVehicleEditionService $proVehicleEditionService,
         MessageBus $eventBus,
         TranslatorInterface $translator,
-        AffinityAnswerCalculationService $affinityAnswerCalculationService
+        AffinityAnswerCalculationService $affinityAnswerCalculationService,
+        UserInformationService $userInformationService, LeadManagementService $leadManagementService,
+        SaleManagementService $saleManagementService
     )
     {
         $this->formFactory = $formFactory;
@@ -135,6 +141,9 @@ class UserController extends BaseController
         $this->eventBus = $eventBus;
         $this->translator = $translator;
         $this->affinityAnswerCalculationService = $affinityAnswerCalculationService;
+        $this->userInformationService = $userInformationService;
+        $this->leadManagementService = $leadManagementService;
+        $this->saleManagementService = $saleManagementService;
     }
 
     /**
@@ -186,7 +195,6 @@ class UserController extends BaseController
             'user' => $user
         ]);
     }
-
 
     /**
      * @param Request $request
@@ -299,7 +307,7 @@ class UserController extends BaseController
     {
         $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
 
-        if ($user->getDeletedAt() != null) {
+        if ($user == null || $user->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.pro_user.deleted.title',
                 'messageKey' => 'error_page.pro_user.deleted.body',
@@ -344,12 +352,7 @@ class UserController extends BaseController
             $searchForm->handleRequest($request);
             $page = $request->query->get('page', 1);
 
-            $garageIds = [];
-            /** @var GarageProUser $garageMembership */
-            foreach ($user->getEnabledGarageMemberships() as $garageMembership) {
-                $garageIds[] = $garageMembership->getGarage()->getId();
-            }
-            $searchResultSet = $this->proVehicleEntityIndexer->getQueryGarageVehiclesResult($garageIds, $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryVehiclesByProUserResult($user->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
             if ($searchResultSet != null) {
                 $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
                 $lastPage = ElasticUtils::numberOfPages($searchResultSet);
@@ -396,8 +399,8 @@ class UserController extends BaseController
     {
         $user = $this->personalUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
 
-        if ($user->getDeletedAt() != null) {
-            if ($user->getCity() != null) {
+        if ($user == null || $user->getDeletedAt() != null) {
+            if ($user != null && $user->getCity() != null) {
                 $redirectionUrl = $this->generateUrl('front_search_by_city', [
                     'city' => $user->getCity()->getPostalCode() . '-' . urlencode($user->getCity()->getName()),
                     'type' => SearchController::QP_TYPE_PERSONAL_PROJECT
@@ -528,6 +531,114 @@ class UserController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws BadRequestHttpException
+     */
+    public function showPhoneNumberAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if ($this->getUser() instanceof BaseUser) {
+            $eventId = $request->get('eventId');
+            $userId = str_replace(['PC', 'Smartphone', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+            $phoneNumberUser = $this->userRepository->findOne($userId);
+            if ($phoneNumberUser instanceof ProUser) {
+                $this->leadManagementService->increasePhoneNumberOfProUser($phoneNumberUser, $this->getUser(),
+                    strpos($eventId, 'Fixe') > 0);
+            }
+        }
+        return new JsonResponse();
+    }
+
+    /**
+     * @return Response
+     */
+    public function performancesViewAction()
+    {
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+        $performances = $this->userInformationService->getProUserPerformances($currentUser);
+        $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($currentUser);
+        return $this->render("front/Seller/pro_user_performances.html.twig", [
+            'performances' => $performances,
+            'saleDeclarations' => $saleDeclarations
+        ]);
+    }
+
+
+    /**
+     * @return Response
+     */
+    public function proUserLeadsViewAction()
+    {
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+        return $this->render("front/Seller/pro_user_leads.html.twig");
+    }
+
+    /**
+     * @param Request $request
+     * @param ProUser $proUser
+     * @return JsonResponse
+     */
+    public function proUserLeadsGetAction(Request $request, ProUser $proUser)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$proUser->is($this->getUser())) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.unauthorized_to_get_leads')], Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->leadManagementService->getLeadsForDashboard($proUser, $request->query->all()));
+    }
+
+    /**
+     * @param Request $request
+     * @param Lead $lead
+     * @param string $leadStatus
+     * @return JsonResponse
+     */
+    public function changeLeadStatusAction(Request $request, Lead $lead, string $leadStatus): JsonResponse
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        if (!$lead->getProUser()->is($this->getUser())) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.unauthorized_to_change_status')], Response::HTTP_UNAUTHORIZED);
+        }
+
+        if (!LeadStatus::isValidKey($leadStatus)) {
+            return new JsonResponse(['error' => $this->translator->trans('flash.error.lead.invalid_status')], Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->leadManagementService->changeLeadStatus($lead, LeadStatus::$leadStatus());
+        return new JsonResponse([$this->translator->trans('flash.success.lead.change_status')]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function boostViewAction()
+    {
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
+            throw new AccessDeniedException();
+        }
+
+        return $this->render("front/Seller/boost.html.twig");
+    }
+
+    /**
      * security.yml - access_control : ROLE_ADMIN only
      * @return Response
      */
@@ -596,7 +707,7 @@ class UserController extends BaseController
                 /** @var UserDeletionDTO $userDeletionData */
                 $userDeletionData = $userDeletionForm->getData();
                 $userDeletionReason = $userDeletionData->getReason();
-            }else{
+            } else {
                 $userDeletionReason = 'Utilisateur supprimé par un administrateur';
             }
             $resultMessages = $this->userEditionService->deleteUser($userToDelete, $this->getUser(), $userDeletionReason);

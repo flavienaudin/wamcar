@@ -437,8 +437,7 @@ class SearchResultProvider
      * @param int $limit
      * @return null|ResultSet
      */
-    public
-    function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
+    public function getQueryUserVehiclesResult(BaseUser $user, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         if ($user instanceof ProUser) {
             $garageIds = [];
@@ -450,5 +449,6 @@ class SearchResultProvider
         } elseif ($user instanceof PersonalUser) {
             return $this->personalVehicleEntityIndexer->getQueryUserVehicleResult($user->getId(), $text, $page, $limit);
         }
+        return null;
     }
 }

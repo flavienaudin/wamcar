@@ -4,4 +4,5 @@ constraint:
     address.required: Vous n'avez pas sélectionné un résultat dans la liste proposée.
   message:
     not_empty: Veuillez saisir un message, ajouter une pièce jointe ou sélectionner un véhicule.
-
+  sale_declaration:
+    mandatory_transaction: Le montant d'au moins une transaction est obligatoire

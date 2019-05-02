@@ -7,14 +7,14 @@ var config = require('./config');
 // - - - - - - - - - - - -
 
 config.module.rules = config.module.rules.concat([
-{
-  test: /\.scss$/,
-  use: [
-    { loader: 'style-loader' },
-    { loader: 'css-loader' },
-    { loader: 'sass-loader' }
-  ]
-}
+  {
+    test: /\.scss$/,
+    use: [
+      { loader: 'style-loader' },
+      { loader: 'css-loader' },
+      { loader: 'sass-loader' }
+    ]
+  }
 ]);
 
 
@@ -36,4 +36,4 @@ module.exports = {
   },
   resolve: config.resolve,
   plugins: config.plugins
-}
+};

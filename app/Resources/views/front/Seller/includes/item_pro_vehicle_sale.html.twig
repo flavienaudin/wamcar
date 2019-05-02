@@ -1,0 +1,19 @@
+{% extends 'front/Vehicle/Listing/includes/vehicle_item.html.twig' %}
+
+{% set balise = balise|default('h3') %}
+
+{% block right_action %}{% endblock %}
+{% block complementary_block %}
+    <div class="vehicle-user-infos small-12 medium-auto">
+        <div class="small-12 dark-gray-color align-self-top">
+            <div>
+                <b>Garage : </b>
+                <a href="{{ path('front_garage_view', {'slug':vehicle.garage.slug}) }}"
+                                    class="dark-gray-color">{{ vehicle.garageName }}</a>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

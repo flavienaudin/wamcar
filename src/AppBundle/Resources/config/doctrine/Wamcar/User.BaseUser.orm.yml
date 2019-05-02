@@ -83,6 +83,9 @@ Wamcar\User\BaseUser:
         deletionReason:
             type: text
             nullable: true
+        creditPoints:
+            type: integer
+            nullable: false
 
     oneToOne:
         avatar:

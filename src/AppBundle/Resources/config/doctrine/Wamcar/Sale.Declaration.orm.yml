@@ -1,0 +1,74 @@
+Wamcar\Sale\Declaration:
+  type: entity
+  table: sale_declaration
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository
+  exclusion_policy: ALL
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: false
+
+  id:
+    id:
+      type: uuid
+
+  fields:
+    sellerFirstName:
+      type: string
+      nullable: true
+    sellerLastName:
+      type: string
+      nullable: true
+    customerFirstName:
+      type: string
+      nullable: true
+    customerLastName:
+      type: string
+      nullable: true
+    transactionSaleAmount:
+      type: integer
+      nullable: true
+    transactionPartExchangeAmount:
+      type: integer
+      nullable: true
+    transactionCommentary:
+      type: text
+      nullable: true
+    creditEarned:
+      type: integer
+      nullable: true
+    deletedAt:
+      type: date
+      nullable: true
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+
+  manyToOne:
+    proUserSeller:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: saleDeclarations
+      joinColumn:
+        name: pro_user_seller_id
+        referencedColumnName: id
+        nullable: false
+    leadCustomer:
+      targetEntity: Wamcar\User\Lead
+      inversedBy: saleDeclarations
+      joinColumn:
+        name: lead_customer_id
+        referencedColumnName: id
+        nullable: true
+
+  oneToOne:
+    proVehicle:
+      targetEntity: Wamcar\Vehicle\ProVehicle
+      mappedBy: saleDeclaration
+      cascade: ["persist", "merge", "remove"]
