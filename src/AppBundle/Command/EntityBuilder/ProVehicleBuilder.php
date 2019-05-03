@@ -17,7 +17,7 @@ abstract class ProVehicleBuilder
     private $logger;
 
     /**
-     * AutoManuelProVehicleBuilder constructor.
+     * ProVehicleBuilder constructor.
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)

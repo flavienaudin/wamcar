@@ -13,10 +13,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportVehicleFlowCommand extends BaseCommand
 {
-
-    /** Configure command */
-    const DATE_FORMAT = "d-m-Y H:i:s";
-
     protected function configure()
     {
         $this

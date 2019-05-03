@@ -15,7 +15,12 @@ use Wamcar\Vehicle\ModelVersion;
 use Wamcar\Vehicle\ProVehicle;
 use Wamcar\Vehicle\Registration;
 
-class AutoManuelProVehicleBuilder extends ProVehicleBuilder
+/**
+ * ProVehicle builder from AutosManuel data
+ * Class AutosManuelProVehicleBuilder
+ * @package AppBundle\Command\EntityBuilder
+ */
+class AutosManuelProVehicleBuilder extends ProVehicleBuilder
 {
     const FIELDNAME_REFERENCE = 'num_police';
     const FIELDNAME_RECIPIENT = 'code_destinataire';

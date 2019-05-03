@@ -182,6 +182,14 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return string
      */
+    public function getFullName(): string
+    {
+        return $this->getMake() . ' ' . $this->getModelName() . ' ' . $this->getEngineName();
+    }
+
+    /**
+     * @return string
+     */
     public function getMake(): string
     {
         return $this->modelVersion->getModel()->getMake()->getName();

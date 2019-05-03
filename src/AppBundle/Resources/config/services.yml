@@ -126,6 +126,16 @@ services:
         class: AppBundle\Services\Vehicle\VehicleEditionService
         autowire: true
 
+    AppBundle\Services\Vehicle\VehicleExportService:
+        autowire: true
+        arguments:
+            $contact_name: '%polevo.contact.name%'
+            $contact_email: '%polevo.contact.email%'
+            $contact_tel: '%polevo.contact.tel%'
+            $contact_address: '%polevo.contact.address%'
+            $contact_city: '%polevo.contact.city%'
+            $contact_zip: '%polevo.contact.zip%'
+
     AppBundle\Services\Notification\NotificationManagerExtended:
         autowire: true
 

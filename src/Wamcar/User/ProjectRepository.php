@@ -17,6 +17,13 @@ interface ProjectRepository
     public function find($id);
 
     /**
+     * Finds all entities in the repository.
+     *
+     * @return array
+     */
+    public function findAll();
+
+    /**
      * @param $ids array Array of entities'id
      * @return array
      */
