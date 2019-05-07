@@ -3,6 +3,7 @@
 namespace AppBundle\Services\Vehicle;
 
 
+use AppBundle\Command\EntityBuilder\AutoBonPlanProVehicleBuilder;
 use AppBundle\Command\EntityBuilder\AutosManuelProVehicleBuilder;
 use AppBundle\Command\EntityBuilder\PoleVOProVehicleBuilder;
 use AppBundle\Exception\Vehicle\VehicleImportInvalidDataException;
@@ -48,6 +49,8 @@ class VehicleImportService
     private $autosManuelProVehicleBuilder;
     /** @var PoleVOProVehicleBuilder */
     private $polevoProVehicleBuilder;
+    /** @var AutoBonPlanProVehicleBuilder */
+    private $autobonplanProVehicleBuilder;
     /** @var MessageBus */
     private $eventBus;
 
@@ -57,16 +60,19 @@ class VehicleImportService
      * @param ProVehicleRepository $proVehicleRepository
      * @param AutosManuelProVehicleBuilder $autosManuelProVehicleBuilder
      * @param PoleVOProVehicleBuilder $polevoProVehicleBuilder
+     * @param AutoBonPlanProVehicleBuilder $autobonplanProVehicleBuilder
      * @param MessageBus $eventBus
      */
     public function __construct(GarageRepository $garageRepository, ProVehicleRepository $proVehicleRepository,
                                 AutosManuelProVehicleBuilder $autosManuelProVehicleBuilder,
-                                PoleVOProVehicleBuilder $polevoProVehicleBuilder, MessageBus $eventBus)
+                                PoleVOProVehicleBuilder $polevoProVehicleBuilder, AutoBonPlanProVehicleBuilder $autobonplanProVehicleBuilder,
+                                MessageBus $eventBus)
     {
         $this->garageRepository = $garageRepository;
         $this->proVehicleRepository = $proVehicleRepository;
         $this->autosManuelProVehicleBuilder = $autosManuelProVehicleBuilder;
         $this->polevoProVehicleBuilder = $polevoProVehicleBuilder;
+        $this->autobonplanProVehicleBuilder = $autobonplanProVehicleBuilder;
         $this->eventBus = $eventBus;
     }
 
@@ -96,6 +102,7 @@ class VehicleImportService
             }
         }
         if ($io) {
+            $io->text(count($datas) . ' row(s) to import');
             $io->progressStart(count($datas));
         }
         foreach ($datas as $data) {
@@ -144,10 +151,20 @@ class VehicleImportService
             // Treat vehicle deletion
             if (isset($vehicleTreatedReferences[$garage->getId()])) {
                 $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences[$garage->getId()]);
+                if ($io) {
+                    $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
+                    $io->progressStart();
+                }
                 foreach ($vehiclesToDelete as $proVehicleToDelete) {
                     $this->proVehicleRepository->remove($proVehicleToDelete);
                     $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
                     $nbDeletedVehicles++;
+                    if ($io) {
+                        $io->progressAdvance();
+                    }
+                }
+                if ($io) {
+                    $io->progressFinish();
                 }
                 $this->garageRepository->update($garage);
             }
@@ -239,6 +256,108 @@ class VehicleImportService
     }
 
     /**
+     * @param array $config
+     * @param \SimpleXMLElement $datas
+     * @param null|SymfonyStyle $io
+     * @return array
+     */
+    public function importDataAutoBonPlan(array $config, \SimpleXMLElement $xml, ?SymfonyStyle $io = null)
+    {
+        // Information data
+        $idx = 0;
+        $nbCreatedVehicles = 0;
+        $nbUpdatedVehicles = 0;
+        $nbDeletedVehicles = 0;
+        $nbRejectedVehicles = 0;
+        $errors = [];
+
+        $vehicleTreatedReferences = [];
+        /** @var Garage $garage */
+        $garage = $this->garageRepository->getByClientId($config['garage']);
+        if ($garage != null) {
+            if ($io) {
+                $io->progressStart(count($xml->children()));
+            }
+            /** @var \SimpleXMLElement $child */
+            foreach ($xml->children() as $child) {
+                if ($child->getName() === AutoBonPlanProVehicleBuilder::CHILDNAME_VEHICLE) {
+                    // Search for existing vehicule by reference to update
+                    $existingProVehicle = null;
+                    $carId = $child->{AutoBonPlanProVehicleBuilder::CHILDNAME_REFERENCE};
+                    $existingProVehicle = $this->proVehicleRepository->findByReference(AutoBonPlanProVehicleBuilder::REFERENCE_PREFIX . $carId);
+                    try {
+                        $proVehicle = $this->autobonplanProVehicleBuilder->generateVehicleFromRowData($child, $garage, $existingProVehicle);
+                        if ($existingProVehicle == null) {
+                            $nbCreatedVehicles++;
+                            $this->proVehicleRepository->add($proVehicle);
+                            $this->eventBus->handle(new ProVehicleCreated($proVehicle));
+                        } else {
+                            $nbUpdatedVehicles++;
+                            $this->proVehicleRepository->update($proVehicle);
+                            $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
+                        }
+                        $vehicleTreatedReferences[] = $proVehicle->getReference();
+
+                    } catch (VehicleImportRGFailedException $e) {
+                        if (!isset($errors[$e->getRgName()])) {
+                            $errors[$e->getRgName()] = [];
+                        }
+                        $errors[$e->getRgName()][$idx] = $e->getMessage();
+                        $nbRejectedVehicles++;
+                    } catch (\Exception $e) {
+                        if (!isset($errors['invalidDataFormat'])) {
+                            $errors['invalidDataFormat'] = [];
+                        }
+                        $errors['invalidDataFormat'][$idx] = $e->getMessage();
+                        $nbRejectedVehicles++;
+                    }
+                    $idx++;
+                }
+                if ($io) {
+                    $io->progressAdvance();
+                }
+            }
+            if ($io) {
+                $io->progressFinish();
+            }
+
+            $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences);
+            if ($io) {
+                $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
+                $io->progressStart();
+            }
+            /** @var ProVehicle $proVehicleToDelete */
+            foreach ($vehiclesToDelete as $proVehicleToDelete) {
+                $this->proVehicleRepository->remove($proVehicleToDelete);
+                $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                $nbDeletedVehicles++;
+                if ($io) {
+                    $io->progressAdvance();
+                }
+            }
+            if ($io) {
+                $io->progressFinish();
+            }
+
+            $this->garageRepository->update($garage);
+        } else {
+            $errors['RG-TRAIT-AM-Garage'] = sprintf("API client Id <%s>not found", $config['garage']);
+        }
+        return [
+            self::RESULT_ERROR_KEY => $errors,
+            self::RESULT_STATS_KEY => [
+                self::RESULT_NB_TREATED_ROWS_KEY => $idx,
+                self::RESULT_NB_CREATED_VEHICLES_KEY => $nbCreatedVehicles,
+                self::RESULT_NB_UPDATED_VEHICLES_KEY => $nbUpdatedVehicles,
+                self::RESULT_NB_DELETED_VEHICLES_KEY => $nbDeletedVehicles,
+                self::RESULT_NB_REJECTED_VEHICLES_KEY => $nbRejectedVehicles,
+                self::RESULT_NB_MOVED_VEHICLES_KEY => 'na'
+            ]
+        ];
+
+    }
+
+    /**
      * @return array|Garage[]
      */
     public function getPoleVOGarage()
@@ -252,7 +371,7 @@ class VehicleImportService
      * @param SymfonyStyle|null $io
      * @return array
      */
-    public function importDataPoleVo(\SimpleXMLElement $xml, Garage $garage)
+    public function importDataPoleVo(\SimpleXMLElement $xml, Garage $garage, ?SymfonyStyle $io = null)
     {
         // Information data
         $idx = 0;
@@ -264,6 +383,9 @@ class VehicleImportService
 
         $vehicleTreatedReferences = [];
 
+        if ($io) {
+            $io->progressStart(count($xml->children()));
+        }
         /** @var \SimpleXMLElement $child */
         foreach ($xml->children() as $child) {
             if ($child->getName() === PoleVOProVehicleBuilder::CHILDNAME_VEHICLE) {
@@ -297,14 +419,30 @@ class VehicleImportService
                     $nbRejectedVehicles++;
                 }
                 $idx++;
+                if ($io) {
+                    $io->progressAdvance();
+                }
             }
+        }
+        if ($io) {
+            $io->progressFinish();
         }
 
         $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences);
+        if ($io) {
+            $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
+            $io->progressStart();
+        }
         foreach ($vehiclesToDelete as $proVehicleToDelete) {
             $this->proVehicleRepository->remove($proVehicleToDelete);
             $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
             $nbDeletedVehicles++;
+            if ($io) {
+                $io->progressAdvance();
+            }
+        }
+        if ($io) {
+            $io->progressFinish();
         }
         $this->garageRepository->update($garage);
 

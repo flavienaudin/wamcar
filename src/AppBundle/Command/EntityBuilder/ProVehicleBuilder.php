@@ -38,21 +38,33 @@ abstract class ProVehicleBuilder
      * @param ProVehicle $proVehicle
      * @param string $url
      * @param int $position
+     * @return true if the picture is accessible and successfully added
      */
     protected function addProVehiclePictureFormUrl(ProVehicle $proVehicle, string $url, int $position)
     {
         $originalFileName = basename($url);
-        $tempLocation = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
-
-        if (file_put_contents($tempLocation, fopen($url, "r")) !== false) {
-            try {
-                $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
-                $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
-                $proVehicle->addPicture($vehiclePicture);
-            } catch (FileNotFoundException $fileNotFoundException) {
-                $this->logger->warning($fileNotFoundException->getMessage());
+        $tempLocation = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('vehiclePicture') . '_' . $originalFileName;
+        try {
+            $urlFile = fopen($url, "r");
+            if ($urlFile !== FALSE) {
+                if (file_put_contents($tempLocation, $urlFile) !== false) {
+                    $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
+                    $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
+                    $proVehicle->addPicture($vehiclePicture);
+                    return true;
+                } else {
+                    $this->logger->warning('file_put_contents(' . $tempLocation . ') returns FALSE');
+                }
+                fclose($urlFile);
+            } else {
+                $this->logger->warning('fopen <' . $url . '> returns an FALSE');
             }
+        } catch (FileNotFoundException $fileNotFoundException) {
+            $this->logger->warning($fileNotFoundException->getMessage());
+        }catch(\Exception $e){
+            $this->logger->warning($e->getMessage());
         }
+        return false;
     }
 
     /**

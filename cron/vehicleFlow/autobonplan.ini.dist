@@ -1,0 +1,12 @@
+[Import flow file access : file, ftp]
+source = null
+origin = autobonplan
+
+[File configuration]
+file = null
+
+[FTP configuration]
+ftp[host] = null
+ftp[login] = null
+ftp[password] = null
+ftp[import_dir] = null

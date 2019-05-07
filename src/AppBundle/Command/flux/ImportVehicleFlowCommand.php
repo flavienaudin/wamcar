@@ -87,6 +87,25 @@ class ImportVehicleFlowCommand extends BaseCommand
                             }
                         }
                         break;
+                    case VehicleImportService::ORIGIN_AUTOBONPLAN:
+                        $importXMLFilesTempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'autobonplan' . DIRECTORY_SEPARATOR;
+                        if (file_exists($importXMLFilesTempDir) === FALSE) {
+                            mkdir($importXMLFilesTempDir);
+                        }
+
+                        $garagesFlowFiles = [];
+                        $garages = $vehicleImportService->getPoleVOGarage();
+                        /** @var Garage $garage */
+                        foreach ($garages as $garage) {
+                            $flowFileName = date('Ymd_Hi') . '_wamcar_flux_products.xml';
+                            if (ftp_get($conn_id, $importXMLFilesTempDir . $flowFileName, $config['ftp']['import_file'], FTP_BINARY)) {
+                                $io->text('(AutoBonPlan) Flow file <'.$config['ftp']['import_file'].'> was successfully downloaded in ' . $importXMLFilesTempDir . $flowFileName);
+                                $dataFile = $importXMLFilesTempDir . $flowFileName;
+                            } else {
+                                $io->error('(AutoBonPlan) Flow file <'.$config['ftp']['import_file'].'> was not found on FTP server or other error');
+                            }
+                        }
+                        break;
                     default:
                         ftp_close($conn_id);
                         $io->error("FTP connection is not supported yet for origin " . $origin);
@@ -97,13 +116,15 @@ class ImportVehicleFlowCommand extends BaseCommand
 
         switch ($origin) {
             case VehicleImportService::ORIGIN_AUTOBONPLAN:
-                exit("AutoBonPlan is not supported yet");
-                // $xmlElement = simplexml_load_file($dataFile);
-                // $dataAsArray = ArrayToXMLConverter::revert($xmlElement->asXML());
-                // dump($dataAsArray);
-                // TODO
-                // create new ProVehicle
-                // setGarage
+                if (file_exists($dataFile) === FALSE) {
+                    $io->error(sprintf("Access to data file (%s) is not allowed in read mode", $dataFile));
+                }
+                $io->text("Start at " . date(self::DATE_FORMAT));
+                $xmlElement = simplexml_load_file($dataFile);
+                $io->text("Datas read at " . date(self::DATE_FORMAT));
+                $result = $vehicleImportService->importDataAutoBonPlan($config, $xmlElement, $io);
+                $io->text("End at " . date(self::DATE_FORMAT));
+                $this->displayImportResult($io, $result);
                 break;
             case VehicleImportService::ORIGIN_AUTOSMANUEL:
                 if ($source == "file" && file_exists($dataFile) === FALSE) {
@@ -137,7 +158,7 @@ class ImportVehicleFlowCommand extends BaseCommand
                     foreach ($garagesFlowFiles as $garageFlowData) {
                         $garageXMLFlow = simplexml_load_file($garageFlowData['file']);
                         $io->text("Datas read at " . date(self::DATE_FORMAT));
-                        $result = $vehicleImportService->importDataPoleVo($garageXMLFlow, $garageFlowData['garage']);
+                        $result = $vehicleImportService->importDataPoleVo($garageXMLFlow, $garageFlowData['garage'], $io);
                         $io->text("End at " . date(self::DATE_FORMAT));
                         $this->displayImportResult($io, $result);
                     }

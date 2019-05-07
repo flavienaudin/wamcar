@@ -18,7 +18,7 @@ use Wamcar\Vehicle\Registration;
 
 class PoleVOProVehicleBuilder extends ProVehicleBuilder
 {
-    const REFERENCE_PREFIX = 'pvo_';
+    const REFERENCE_PREFIX = 'wpvo_';
 
     const CHILDNAME_VEHICLE = "annonce";
     const CHILDNAME_ID = "car_id";
@@ -38,6 +38,7 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_PICTURES = "photos";
     const CHILDNAME_PICTURE = "photo";
     const CHILDNAME_CREATED_AT = "created_at";
+    const CHILDNAME_UPDATED_AT = "updated_at";
 
     /**
      * @@inheritDoc
@@ -58,7 +59,7 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             );
             $modelVersion = new ModelVersion($vehicleDTORowData->{self::CHILDNAME_FULL_MODEL_VERSION},
                 new Model($vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}, new Make($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME})),
-                new Engine($engineName, new Fuel(strtoupper($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
+                new Engine($engineName, new Fuel(ucfirst($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
             );
         }
 
@@ -86,9 +87,9 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
         $registrationDate = new \DateTime($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_DATE}->__toString());
 
         $additionalInformation = isset($vehicleDTORowData->{self::CHILDNAME_DESCRIPTION}) ? strval($vehicleDTORowData->{self::CHILDNAME_DESCRIPTION}) . PHP_EOL : '';
-        $additionalInformation .= strval($vehicleDTORowData->{self::CHILDNAME_OPTIONS});
+        $additionalInformation .= strval($vehicleDTORowData->{self::CHILDNAME_OPTIONS}) . PHP_EOL;
 
-        // dump($vehicleDTORowData->{self::CHILDNAME_PICTURES});
+        $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData->{self::CHILDNAME_ID};
 
         if ($existingProVehicle != null) {
             $proVehicle = $existingProVehicle;
@@ -101,16 +102,17 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setAdditionalInformation($additionalInformation);
             $proVehicle->setPrice($price);
             $proVehicle->setCreatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
-            $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
+            $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_UPDATED_AT}));
 
             $photos = [];
             $updateVehiclePictures = false;
             $position = 0;
             /** @var ProVehiclePicture[] $proVehiclePictures */
             $proVehiclePictures = $proVehicle->getPictures();
-            if(count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0) {
-                foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES} as $picture) {
-                    $photoUrl = trim($picture->{self::CHILDNAME_PICTURE}[0]);
+            if(count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
+                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0 ) {
+                foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE} as $picture) {
+                    $photoUrl = trim(strval($picture));
                     $photoUrl = explode('?',$photoUrl)[0];
                     $photos[$position] = $photoUrl;
                     $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
@@ -159,14 +161,17 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
                 self::REFERENCE_PREFIX . $vehicleDTORowData->{self::CHILDNAME_ID}
             );
             $proVehicle->setCreatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
-            $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
+            $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_UPDATED_AT}));
 
             $position = 0;
-            foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES} as $picture) {
-                $photoUrl = trim($picture->{self::CHILDNAME_PICTURE}[0]);
-                $photoUrl = explode('?',$photoUrl)[0];
-                $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position);
-                $position++;
+            if(count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
+                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0 ) {
+                foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE} as $picture) {
+                    $photoUrl = trim(strval($picture));
+                    $photoUrl = explode('?', $photoUrl)[0];
+                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position);
+                    $position++;
+                }
             }
 
             $proVehicle->setGarage($garage);
