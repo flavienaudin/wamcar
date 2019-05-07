@@ -13,7 +13,7 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
 {
     /**
      * @param $reference
-     * @return ProVehicle|null
+     * @return object|ProVehicle|null
      */
     public function findByReference($reference)
     {
@@ -62,9 +62,11 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
     public function findByGarageAndExcludedReferences(Garage $garage, array $references)
     {
         $qb = $this->createQueryBuilder('v');
-        $qb->where($qb->expr()->eq('v.garage', ':garage'))
-            ->andwhere($qb->expr()->notIn('v.reference', $references))
-            ->andWhere($qb->expr()->isNotNull('v.reference'));
+        $qb->where($qb->expr()->eq('v.garage', ':garage'));
+        if (!empty($references)) {
+            $qb->andwhere($qb->expr()->notIn('v.reference', $references));
+        }
+        $qb->andWhere($qb->expr()->isNotNull('v.reference'));
         $qb->setParameter('garage', $garage);
         return $qb->getQuery()->execute();
     }

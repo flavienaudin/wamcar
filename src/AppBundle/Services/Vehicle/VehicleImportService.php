@@ -4,6 +4,7 @@ namespace AppBundle\Services\Vehicle;
 
 
 use AppBundle\Command\EntityBuilder\AutosManuelProVehicleBuilder;
+use AppBundle\Command\EntityBuilder\PoleVOProVehicleBuilder;
 use AppBundle\Exception\Vehicle\VehicleImportInvalidDataException;
 use AppBundle\Exception\Vehicle\VehicleImportRGFailedException;
 use SimpleBus\Message\Bus\MessageBus;
@@ -21,6 +22,7 @@ class VehicleImportService
     const ORIGIN_AUTOBONPLAN = "autobonplan";
     const ORIGIN_AUTOSMANUEL = "autosmanuel";
     const ORIGIN_EWIGO = "ewigo";
+    const ORIGIN_POLEVO = "polevo";
 
     const RESULT_STATUS_KEY = 'status';
     const RESULT_VEHICLE_KEY = 'vehicle';
@@ -44,6 +46,8 @@ class VehicleImportService
     private $proVehicleRepository;
     /** @var AutosManuelProVehicleBuilder */
     private $autosManuelProVehicleBuilder;
+    /** @var PoleVOProVehicleBuilder */
+    private $polevoProVehicleBuilder;
     /** @var MessageBus */
     private $eventBus;
 
@@ -52,13 +56,17 @@ class VehicleImportService
      * @param GarageRepository $garageRepository
      * @param ProVehicleRepository $proVehicleRepository
      * @param AutosManuelProVehicleBuilder $autosManuelProVehicleBuilder
+     * @param PoleVOProVehicleBuilder $polevoProVehicleBuilder
      * @param MessageBus $eventBus
      */
-    public function __construct(GarageRepository $garageRepository, ProVehicleRepository $proVehicleRepository, AutosManuelProVehicleBuilder $autosManuelProVehicleBuilder, MessageBus $eventBus)
+    public function __construct(GarageRepository $garageRepository, ProVehicleRepository $proVehicleRepository,
+                                AutosManuelProVehicleBuilder $autosManuelProVehicleBuilder,
+                                PoleVOProVehicleBuilder $polevoProVehicleBuilder, MessageBus $eventBus)
     {
         $this->garageRepository = $garageRepository;
         $this->proVehicleRepository = $proVehicleRepository;
         $this->autosManuelProVehicleBuilder = $autosManuelProVehicleBuilder;
+        $this->polevoProVehicleBuilder = $polevoProVehicleBuilder;
         $this->eventBus = $eventBus;
     }
 
@@ -210,7 +218,7 @@ class VehicleImportService
             }
 
             try {
-                $proVehicle = $this->autosManuelProVehicleBuilder->generateVehicleFromRowData($existingProVehicle, $data, $garages[$garageName]);
+                $proVehicle = $this->autosManuelProVehicleBuilder->generateVehicleFromRowData($data, $garages[$garageName], $existingProVehicle);
             } catch (\Exception $e) {
                 throw new VehicleImportInvalidDataException($e->getMessage(), $e->getCode(), $e);
             }
@@ -228,5 +236,88 @@ class VehicleImportService
         } else {
             throw new VehicleImportRGFailedException('RG-TRAIT-AM-Garage', sprintf("No garage configuration set for '%s', or API client Id not found", $garageName));
         }
+    }
+
+    /**
+     * @return array|Garage[]
+     */
+    public function getPoleVOGarage()
+    {
+        return $this->garageRepository->findPoleVO();
+    }
+
+    /**
+     * @param \SimpleXMLElement $xml
+     * @param Garage $garage
+     * @param SymfonyStyle|null $io
+     * @return array
+     */
+    public function importDataPoleVo(\SimpleXMLElement $xml, Garage $garage)
+    {
+        // Information data
+        $idx = 0;
+        $nbCreatedVehicles = 0;
+        $nbUpdatedVehicles = 0;
+        $nbDeletedVehicles = 0;
+        $nbRejectedVehicles = 0;
+        $errors = [];
+
+        $vehicleTreatedReferences = [];
+
+        /** @var \SimpleXMLElement $child */
+        foreach ($xml->children() as $child) {
+            if ($child->getName() === PoleVOProVehicleBuilder::CHILDNAME_VEHICLE) {
+                // Search for existing vehicule by reference to update
+                $existingProVehicle = null;
+                $carId = $child->{PoleVOProVehicleBuilder::CHILDNAME_ID};
+                $existingProVehicle = $this->proVehicleRepository->findByReference(PoleVOProVehicleBuilder::REFERENCE_PREFIX . $carId);
+                try {
+                    $proVehicle = $this->polevoProVehicleBuilder->generateVehicleFromRowData($child, $garage, $existingProVehicle);
+                    if ($existingProVehicle == null) {
+                        $nbCreatedVehicles++;
+                        $this->proVehicleRepository->add($proVehicle);
+                        $this->eventBus->handle(new ProVehicleCreated($proVehicle));
+                    } else {
+                        $nbUpdatedVehicles++;
+                        $this->proVehicleRepository->update($proVehicle);
+                        $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
+                    }
+                    $vehicleTreatedReferences[] = $proVehicle->getReference();
+                } catch (VehicleImportRGFailedException $e) {
+                    if (!isset($errors[$e->getRgName()])) {
+                        $errors[$e->getRgName()] = [];
+                    }
+                    $errors[$e->getRgName()][$idx] = $e->getMessage();
+                    $nbRejectedVehicles++;
+                } catch (\Exception $e) {
+                    if (!isset($errors['invalidDataFormat'])) {
+                        $errors['invalidDataFormat'] = [];
+                    }
+                    $errors['invalidDataFormat'][$idx] = $e->getMessage();
+                    $nbRejectedVehicles++;
+                }
+                $idx++;
+            }
+        }
+
+        $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences);
+        foreach ($vehiclesToDelete as $proVehicleToDelete) {
+            $this->proVehicleRepository->remove($proVehicleToDelete);
+            $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+            $nbDeletedVehicles++;
+        }
+        $this->garageRepository->update($garage);
+
+        return [
+            self::RESULT_ERROR_KEY => $errors,
+            self::RESULT_STATS_KEY => [
+                self::RESULT_NB_TREATED_ROWS_KEY => $idx,
+                self::RESULT_NB_CREATED_VEHICLES_KEY => $nbCreatedVehicles,
+                self::RESULT_NB_UPDATED_VEHICLES_KEY => $nbUpdatedVehicles,
+                self::RESULT_NB_DELETED_VEHICLES_KEY => $nbDeletedVehicles,
+                self::RESULT_NB_REJECTED_VEHICLES_KEY => $nbRejectedVehicles,
+                self::RESULT_NB_MOVED_VEHICLES_KEY => 'na'
+            ]
+        ];
     }
 }

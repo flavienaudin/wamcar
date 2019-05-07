@@ -26,12 +26,12 @@ abstract class ProVehicleBuilder
     }
 
     /**
-     * @param null|ProVehicle $existingProVehicle The vehicle to update or null
-     * @param array $vehicleDTORowData Vehicle data from the row
+     * @param array|\SimpleXMLElement $vehicleDTORowData Vehicle data from the row or XML
      * @param Garage $garage The garage of the vehicle
+     * @param null|ProVehicle $existingProVehicle The vehicle to update or null
      * @return ProVehicle
      */
-    public abstract function generateVehicleFromRowData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle;
+    public abstract function generateVehicleFromRowData($vehicleDTORowData, Garage $garage, ?ProVehicle $existingProVehicle = null): ProVehicle;
 
     /**
      * Add a picture to the ProVehicle from the given URL

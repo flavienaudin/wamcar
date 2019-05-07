@@ -1,16 +1,19 @@
 [Import flow file access : file, ftp]
-source = file
+source = null
 origin = polevo
+dest = polevo
 
 [Export flow location : local_dir, ftp]
 export_location = local_dir
 
 [File configuration]
-file = /var/www/myapp/database/fixtures/polevo/export_user_9556.xml
+file = null
+polevoId = null
 local_dir = /home/wamcar/www_wamcar/myapp/cron/vehicleFlow/polevo/
 
 [FTP configuration]
 ftp[host] = null
 ftp[login] = null
 ftp[password] = null
+ftp[import_dir] = null
 ftp[export_dir] = null

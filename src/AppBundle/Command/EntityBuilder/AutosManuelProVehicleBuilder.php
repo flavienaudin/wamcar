@@ -66,12 +66,9 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
     const FIELDNAME_PHOTOS = "photos";
 
     /**
-     * @param null|ProVehicle $existingProVehicle The vehicle to update or null
-     * @param array $vehicleDTORowData Vehicle data from the row
-     * @param Garage $garage The garage of the vehicle
-     * @return ProVehicle
+     * @@inheritDoc
      */
-    public function generateVehicleFromRowData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle
+    public function generateVehicleFromRowData($vehicleDTORowData, Garage $garage, ?ProVehicle $existingProVehicle = null): ProVehicle
     {
         $modelVersion = new ModelVersion(null,
             new Model ($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_NAME], new Make($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME])),

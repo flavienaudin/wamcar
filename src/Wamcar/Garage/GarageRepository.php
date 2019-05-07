@@ -26,6 +26,12 @@ interface GarageRepository extends ApiUserProvider
     public function findAll();
 
     /**
+     * Retrieve the garage with a flow from PoleVO
+     * @return Garage[]
+     */
+    public function findPoleVO(): array;
+
+    /**
      * IgnoreSoftDeleted version of Finds an entity by its primary key / identifier
      *
      * @param mixed $id The identifier.
