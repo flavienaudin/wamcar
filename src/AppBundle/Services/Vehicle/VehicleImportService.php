@@ -257,7 +257,7 @@ class VehicleImportService
 
     /**
      * @param array $config
-     * @param \SimpleXMLElement $datas
+     * @param \SimpleXMLElement $xml
      * @param null|SymfonyStyle $io
      * @return array
      */

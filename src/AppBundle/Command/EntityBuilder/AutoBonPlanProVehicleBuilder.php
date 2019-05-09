@@ -25,11 +25,18 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_VEHICLE = "Vehicule";
     const CHILDNAME_REFERENCE = "ReferenceVehicule";
     const CHILDNAME_REGISTRATION_DATE = "Date1Mec";
+    const CHILDNAME_REGISTRATION_VIN = "NumeroSerie";
+    const CHILDNAME_REGISTRATION_PLATENUMBER = "Immatriculation";
+    const CHILDNAME_CREATED_AT = "DateCreat";
+
 
     const CHILDNAME_MAKE_NAME = "Marque";
-    const CHILDNAME_MODEL_NAME = "Gamme";
-    const CHILDNAME_MODEL_FAMILLY_NAME = "Famille";
-    const CHILDNAME_MODEL_VERSION = "Version";
+    // = Famille + Version
+    const CHILDNAME_MODEL_NAME = "Modele";
+    // ModelVersion.Model.name
+    const CHILDNAME_MODEL_VERSION_NAME = "Famille";
+    // ModelVersion.Engine.name
+    const CHILDNAME_MODEL_ENGINE = "Version";
     const CHILDNAME_ENERGY = "EnergieLibelle";
     const CHILDNAME_MILEAGE = "Kilometrage";
     const CHILDNAME_TRANSMISSION = "BoiteLibelle";
@@ -40,10 +47,10 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_DISCOUNT = "Remise";
     const CHILDNAME_GUARANTEE = "GarantieConstructeur";
     const CHILDNAME_OTHER_GUARANTEE = "GarantieLibelle";
+    const CHILDNAME_OTHER_GUARANTEE_2 = "Garantie";
     const CHILDNAME_PICTURES = "UrlPhotoAutobonplan";
 
     // description
-    const CHILDNAME_FINITION = "Finition";
     const CHILDNAME_FISCAL_POWER = "PuissanceFiscale";
     const CHILDNAME_HORSE_POWER = "PuissanceReelle";
     const CHILDNAME_SEATS_NUMBER = "NbPlaces";
@@ -59,11 +66,21 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_MISSING_EQUIPMENTS = "EquipementsManquants";
     const CHILDNAME_MISSING_EQUIPMENTS_PRICE = "MontantEquipementsManquants";
     const CHILDNAME_ALL_DIMENSIONS = "PoidsEtDimensions";
+    const CHILDNAME_DIMENSION_VOLUME = "Volume";
+    const CHILDNAME_DIMENSION_FUELTANK_CAPACITY = "CapaciteReservoir";
+    const CHILDNAME_DIMENSION_LENGTH = "Longueur";
+    const CHILDNAME_DIMENSION_WIDTH = "Largeur";
+    const CHILDNAME_DIMENSION_HEIGHT = "Hauteur";
+    const CHILDNAME_DIMENSION_WHEELBASE = "Empattement";
+    const CHILDNAME_DIMENSION_WEIGHT = "Poids";
+    const CHILDNAME_DIMENSION_CYLINDRE = "Cylindre";
+
     const CHILDNAME_CO2_RATE = "Co2";
     const CHILDNAME_MIXED_CONSUMPTION = "ConsommationMixte";
     const CHILDNAME_URBAN_CONSUMPTION = "ConsommationUrbaine";
     const CHILDNAME_HIGHWAY_CONSUMPTION = "ConsommationExtraUrbaine";
     const CHILDNAME_KM_GUARANTEE = "KmGaranti";
+    const CHILDNAME_SITE_LOCALISATION = "Site";
 
     //const CHILDNAME_CREATED_AT = "created_at";
 
@@ -73,22 +90,22 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     public function generateVehicleFromRowData($vehicleDTORowData, Garage $garage, ?ProVehicle $existingProVehicle = null): ProVehicle
     {
         if (empty($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME}) ||
-            (empty($vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}) && empty($vehicleDTORowData->{self::CHILDNAME_MODEL_FAMILLY_NAME})) ||
-            empty($vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION}) || empty($vehicleDTORowData->{self::CHILDNAME_ENERGY})) {
+            empty($vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION_NAME}) ||
+            empty($vehicleDTORowData->{self::CHILDNAME_MODEL_ENGINE}) ||
+            empty($vehicleDTORowData->{self::CHILDNAME_ENERGY})) {
             // RG-TRI-Oblig-Modele
-            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Modele', sprintf("Make : %s ; Modele : %s ou %s ; Version : %s ; Fuel : %s",
-                $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME}, $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}, $vehicleDTORowData->{self::CHILDNAME_MODEL_FAMILLY_NAME},
-                $vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION}, $vehicleDTORowData->{self::CHILDNAME_ENERGY}
-            ));
+            throw new VehicleImportRGFailedException('RG-TRI-Oblig-Modele',
+                sprintf("Make : %s; Modele : %s; Engine : %s; Fuel : %s",
+                    $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME},
+                    $vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION_NAME},
+                    $vehicleDTORowData->{self::CHILDNAME_MODEL_ENGINE},
+                    $vehicleDTORowData->{self::CHILDNAME_ENERGY}
+                ));
         } else {
-            // RG-TRAIT-ABP-ModeleVersion
-            $modelName = empty($vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}) ?
-                $vehicleDTORowData->{self::CHILDNAME_MODEL_FAMILLY_NAME} :
-                $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME};
             $modelVersion = new ModelVersion(
-                $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME} . ' ' . $modelName . ' ' . $vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION},
-                new Model($modelName, new Make($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME})),
-                new Engine($vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION}, new Fuel(ucfirst($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
+                $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME} . ' ' . $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME},
+                new Model($vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION_NAME}, new Make($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME})),
+                new Engine($vehicleDTORowData->{self::CHILDNAME_MODEL_ENGINE}, new Fuel(ucfirst($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
             );
         }
 
@@ -103,13 +120,20 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             // RG-TRI-Oblig-Km
             throw new VehicleImportRGFailedException('RG-TRI-Oblig-Km');
         } else {
-            $mileage = intval($vehicleDTORowData->{self::CHILDNAME_MILEAGE}->__toString());
+            $mileage = intval($vehicleDTORowData->{self::CHILDNAME_MILEAGE});
+            // TODO decide if new or used vehicle ?
         }
 
         if (strval($vehicleDTORowData->{self::CHILDNAME_TRANSMISSION}) === self::AUTO_TRANSMISSION_VAUE) {
             $transmission = Transmission::TRANSMISSION_AUTOMATIC();
         } else {
             $transmission = Transmission::TRANSMISSION_MANUAL();
+        }
+
+        // Dates de création/mise à jour
+        $createdAt = null;
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_CREATED_AT})) {
+            $createdAt = date_create_from_format('Y-m-d', $vehicleDTORowData->{self::CHILDNAME_CREATED_AT});
         }
 
         // Discount
@@ -130,23 +154,37 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
         }
         $otherGuarantee = null;
         if (!empty($vehicleDTORowData->{self::CHILDNAME_OTHER_GUARANTEE})) {
-            $otherGuarantee = $vehicleDTORowData->{self::CHILDNAME_OTHER_GUARANTEE};
+            $otherGuarantee = $vehicleDTORowData->{self::CHILDNAME_OTHER_GUARANTEE} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_OTHER_GUARANTEE_2})) {
+            $otherGuarantee .= $vehicleDTORowData->{self::CHILDNAME_OTHER_GUARANTEE_2};
         }
 
-
         $registration = new Registration(null, null, null);
+        // VIN
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_VIN}) &&
+            preg_match('/^[\_A-HJ-NPR-Z\d]{17}$/i', $vehicleDTORowData->{self::CHILDNAME_REGISTRATION_VIN}) === 1) {
+            $registration->setVin($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_VIN});
+        }
+        // PlateNumber
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_PLATENUMBER})) {
+            $registration->setPlateNumber($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_PLATENUMBER});
+        }
+
         // Date de 1ere MEC
-        $registrationDate = \DateTime::createFromFormat('d-m-Y', strval($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_DATE}));
+        $registrationDate = date_create_from_format('d-m-Y', strval($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_DATE}));
         if (!$registrationDate) {
             throw new VehicleImportInvalidDataException("RegistrationDate conversion failed");
         }
-        // Marque Modèle et version du véhicule
-        $additionalInformation = $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME} . ' ' . $modelName . ' ' . $vehicleDTORowData->{self::CHILDNAME_MODEL_VERSION} . PHP_EOL;
 
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_FINITION})) {
-            // Puissance Fiscale
-            $additionalInformation .= 'Finition : ' . ucfirst($vehicleDTORowData->{self::CHILDNAME_FINITION}) . PHP_EOL;
+        // Marque Modèle et version du véhicule
+        $additionalInformation = $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME} . ' ' . $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME} . PHP_EOL;
+
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS})) {
+            // Equipements de série et options
+            $additionalInformation .= 'Equipements de série et options : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS} . PHP_EOL;
         }
+
         if (!empty($vehicleDTORowData->{self::CHILDNAME_CAR_BODY})) {
             // Puissance Fiscale
             $additionalInformation .= 'Catégorie de véhicule : ' . ucfirst($vehicleDTORowData->{self::CHILDNAME_CAR_BODY}) . PHP_EOL;
@@ -158,9 +196,45 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
         if (!empty($vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS})) {
             // Consommation moyenne
             $additionalInformation .= 'Dimensions : ' . PHP_EOL;
-            $additionalInformation .= '<ul>><li>' . str_replace('|', '</li><li>', $vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS}) . '</li></ul' . PHP_EOL;
+            $additionalInformation .= '<ul><li>' . str_replace('|', '</li><li>', $vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS}) . '</li></ul>' . PHP_EOL;
+        } else {
+            $dimensions = '';
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_VOLUME}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_VOLUME}) > 0) {
+                // Volume du coffre
+                $dimensions .= '<li>Capacité du coffre : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_VOLUME} . ' litres</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WHEELBASE}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WHEELBASE}) > 0) {
+                // Empattement
+                $dimensions .= '<li>Empattement : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_WHEELBASE} . ' mm</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_HEIGHT}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_HEIGHT}) > 0) {
+                // Hauteur
+                $dimensions .= '<li>Hauteur : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_HEIGHT} . ' mm</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WIDTH}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WIDTH}) > 0) {
+                // Largeur
+                $dimensions .= '<li>Largueur : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_WIDTH} . ' mm</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_LENGTH}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_LENGTH}) > 0) {
+                // Longueur
+                $dimensions .= '<li>Longueur : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_LENGTH} . ' mm</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WEIGHT}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_WEIGHT}) > 0) {
+                // Poids
+                $dimensions .= '<li>Poids : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_WEIGHT} . ' kg</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_FUELTANK_CAPACITY}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_FUELTANK_CAPACITY}) > 0) {
+                // Réservoir
+                $dimensions .= '<li>Réservoir : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_FUELTANK_CAPACITY} . ' litres</li>';
+            }
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_CYLINDRE}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_CYLINDRE}) > 0) {
+                // Cylindre
+                $dimensions .= '<li>Cylindrée : ' . $vehicleDTORowData->{self::CHILDNAME_DIMENSION_CYLINDRE} . ' cm3</li>';
+            }
 
-
+            if (!empty($dimensions)) {
+                $additionalInformation .= 'Dimensions : <ul>' . $dimensions . '</ul>';
+            }
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_SEATS_NUMBER})) {
             // Nombre de places
@@ -179,7 +253,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             $additionalInformation .= 'Taux CO2 : ' . $vehicleDTORowData->{self::CHILDNAME_CO2_RATE} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_HORSE_POWER}) && $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} > 0) {
-            // Puissance DIN
+            // Puissance réelle
             $additionalInformation .= 'Puissance (CV) : ' . $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER})) {
@@ -187,24 +261,28 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             $additionalInformation .= 'Nombre de rapports de boîte : ' . $vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) > 0) {
-            // Consommation moyenne
+            // Consommation mixte
             $additionalInformation .= 'Consommation mixte : ' . $vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) > 0) {
-            // Consommation moyenne
+            // Consommation urbaine
             $additionalInformation .= 'Consommation urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) > 0) {
-            // Consommation moyenne
+            // Consommation extra-urbaine
             $additionalInformation .= 'Consommation extra-urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_KM_GUARANTEE})) {
-            // Consommation moyenne
+            // Garantie kilomètrage
             $additionalInformation .= 'Garantie kilomètrage : ' . $vehicleDTORowData->{self::CHILDNAME_KM_GUARANTEE} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_SITE_LOCALISATION})) {
+            // Garantie kilomètrage
+            $additionalInformation .= 'Site : ' . $vehicleDTORowData->{self::CHILDNAME_SITE_LOCALISATION} . PHP_EOL;
         }
 
         // Référence
-        $additionalInformation .= 'Référence : ' . $vehicleDTORowData->{self::CHILDNAME_REFERENCE};
+        $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData->{self::CHILDNAME_REFERENCE};
 
         if ($existingProVehicle != null) {
             $proVehicle = $existingProVehicle;
@@ -219,8 +297,10 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setGuarantee($guarantee);
             $proVehicle->setOtherGuarantee($otherGuarantee);
             $proVehicle->setDiscount($discount);
-            /*$proVehicle->setCreatedAt(new \DateTime());
-            $proVehicle->setUpdatedAt(new \DateTime());*/
+            if ($createdAt != null) {
+                $proVehicle->setCreatedAt($createdAt);
+                $proVehicle->setUpdatedAt($createdAt);
+            }
 
             $photos = [];
             $updateVehiclePictures = false;
@@ -277,8 +357,10 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
                 null,
                 self::REFERENCE_PREFIX . $vehicleDTORowData->{self::CHILDNAME_REFERENCE}
             );
-//            $proVehicle->setCreatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
-//            $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_CREATED_AT}));
+            if ($createdAt != null) {
+                $proVehicle->setCreatedAt($createdAt);
+                $proVehicle->setUpdatedAt($createdAt);
+            }
 
             $position = 0;
             if (!empty(strval($vehicleDTORowData->{self::CHILDNAME_PICTURES}))) {
