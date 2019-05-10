@@ -15,9 +15,21 @@ interface VehicleRepository
     public function update(Vehicle $vehicle): void;
 
     /**
+     * @param array $vehicles
+     * @param int|null $batchSize
+     */
+    public function saveBulk(array $vehicles, ?int $batchSize = 50);
+
+    /**
      * @param Vehicle $vehicle
      */
     public function remove(Vehicle $vehicle): void;
+
+    /**
+     * @param array $vehicles
+     * @param int|null $batchSize
+     */
+    public function removeBulk(array $vehicles, ?int $batchSize = 50);
 
     /**
      * @param string $id

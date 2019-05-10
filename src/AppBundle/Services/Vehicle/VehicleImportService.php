@@ -278,6 +278,8 @@ class VehicleImportService
             if ($io) {
                 $io->progressStart(count($xml->children()));
             }
+            $createdVehicles = [];
+            $updatedVehicles = [];
             /** @var \SimpleXMLElement $child */
             foreach ($xml->children() as $child) {
                 if ($child->getName() === AutoBonPlanProVehicleBuilder::CHILDNAME_VEHICLE) {
@@ -288,13 +290,11 @@ class VehicleImportService
                     try {
                         $proVehicle = $this->autobonplanProVehicleBuilder->generateVehicleFromRowData($child, $garage, $existingProVehicle);
                         if ($existingProVehicle == null) {
+                            $createdVehicles[] = $proVehicle;
                             $nbCreatedVehicles++;
-                            $this->proVehicleRepository->add($proVehicle);
-                            $this->eventBus->handle(new ProVehicleCreated($proVehicle));
                         } else {
+                            $updatedVehicles[] = $proVehicle;
                             $nbUpdatedVehicles++;
-                            $this->proVehicleRepository->update($proVehicle);
-                            $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
                         }
                         $vehicleTreatedReferences[] = $proVehicle->getReference();
 
@@ -319,26 +319,44 @@ class VehicleImportService
             }
             if ($io) {
                 $io->progressFinish();
+                $io->text('Saving ' . count($createdVehicles) . ' new vehicles...');
+            }
+            $this->proVehicleRepository->saveBulk($createdVehicles);
+            if ($io) {
+                $io->text('Updating ' . count($updatedVehicles) . ' vehicles...');
+            }
+            $this->proVehicleRepository->saveBulk($updatedVehicles);
+
+            // ES update
+            if ($io) {
+                $io->text('ElasticSearch update (creation/update)');
+            }
+            foreach ($createdVehicles as $newVehicle) {
+                $this->eventBus->handle(new ProVehicleCreated($newVehicle));
+            }
+            foreach ($updatedVehicles as $updatedVehicle) {
+                $this->eventBus->handle(new ProVehicleUpdated($updatedVehicle));
             }
 
             $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences);
+            $nbDeletedVehicles = count($vehiclesToDelete);
             if ($io) {
-                $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
-                $io->progressStart();
+                $io->text($nbDeletedVehicles . " vehicles to delete for garage " . $garage->getName());
             }
-            /** @var ProVehicle $proVehicleToDelete */
-            foreach ($vehiclesToDelete as $proVehicleToDelete) {
-                $this->proVehicleRepository->remove($proVehicleToDelete);
+            $this->proVehicleRepository->removeBulk($vehiclesToDelete);
+            if ($io) {
+                $io->text('ElastichSearch update (deletion)');
+                $io->progressStart($nbDeletedVehicles);
+            }
+            array_map(function ($proVehicleToDelete) use ($io) {
                 $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
-                $nbDeletedVehicles++;
                 if ($io) {
                     $io->progressAdvance();
                 }
-            }
+            }, $vehiclesToDelete);
             if ($io) {
                 $io->progressFinish();
             }
-
             $this->garageRepository->update($garage);
         } else {
             $errors['RG-TRAIT-AM-Garage'] = sprintf("API client Id <%s>not found", $config['garage']);

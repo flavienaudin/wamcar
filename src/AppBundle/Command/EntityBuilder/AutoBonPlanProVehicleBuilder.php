@@ -39,6 +39,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_MODEL_ENGINE = "Version";
     const CHILDNAME_ENERGY = "EnergieLibelle";
     const CHILDNAME_MILEAGE = "Kilometrage";
+    const USED_VEHICLE_MIN_MILEAGE = 50;
     const CHILDNAME_TRANSMISSION = "BoiteLibelle";
     const AUTO_TRANSMISSION_VAUE = "Automatique";
     const MANUAL_TRANSMISSION_VAUE = "Manuelle";
@@ -121,7 +122,8 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             throw new VehicleImportRGFailedException('RG-TRI-Oblig-Km');
         } else {
             $mileage = intval($vehicleDTORowData->{self::CHILDNAME_MILEAGE});
-            // TODO decide if new or used vehicle ?
+            // RG-TRAIT-ABP-Statut
+            $isUsed = $mileage > self::USED_VEHICLE_MIN_MILEAGE;
         }
 
         if (strval($vehicleDTORowData->{self::CHILDNAME_TRANSMISSION}) === self::AUTO_TRANSMISSION_VAUE) {
@@ -182,7 +184,25 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
 
         if (!empty($vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS})) {
             // Equipements de série et options
-            $additionalInformation .= 'Equipements de série et options : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS} . PHP_EOL;
+            $additionalInformation .= 'Equipements de série et en option (inclus) : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS} . PHP_EOL;
+        } else {
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS})) {
+                $additionalInformation .= 'Equipements de série : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS} . PHP_EOL;
+            }
+
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_OPTIONAL_EQUIPMENTS})) {
+                $additionalInformation .= 'Equipements en option (inclus) : ' . $vehicleDTORowData->{self::CHILDNAME_OPTIONAL_EQUIPMENTS} . PHP_EOL;
+            }
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_PRICE_WITH_OPTIONS}) && intval($vehicleDTORowData->{self::CHILDNAME_PRICE_WITH_OPTIONS}) > 0) {
+            $additionalInformation .= 'Prix total des équipements en option inclus : ' . intval($vehicleDTORowData->{self::CHILDNAME_PRICE_WITH_OPTIONS}) . '€' . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_MISSING_EQUIPMENTS})) {
+            // Equipements de série et options
+            $additionalInformation .= 'Equipements en option disponibles sur demande : ' . $vehicleDTORowData->{self::CHILDNAME_MISSING_EQUIPMENTS} . PHP_EOL;
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_MISSING_EQUIPMENTS_PRICE}) && intval($vehicleDTORowData->{self::CHILDNAME_MISSING_EQUIPMENTS_PRICE}) > 0) {
+                $additionalInformation .= 'Prix total des équipements en option (disponible sur demande): ' . intval($vehicleDTORowData->{self::CHILDNAME_MISSING_EQUIPMENTS_PRICE}) . '€' . PHP_EOL;
+            }
         }
 
         if (!empty($vehicleDTORowData->{self::CHILDNAME_CAR_BODY})) {
@@ -196,7 +216,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
         if (!empty($vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS})) {
             // Consommation moyenne
             $additionalInformation .= 'Dimensions : ' . PHP_EOL;
-            $additionalInformation .= '<ul><li>' . str_replace('|', '</li><li>', $vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS}) . '</li></ul>' . PHP_EOL;
+            $additionalInformation .= '<ul><li>' . str_replace('|', '</li><li>', $vehicleDTORowData->{self::CHILDNAME_ALL_DIMENSIONS}) . '</li></ul>';
         } else {
             $dimensions = '';
             if (!empty($vehicleDTORowData->{self::CHILDNAME_DIMENSION_VOLUME}) && intval($vehicleDTORowData->{self::CHILDNAME_DIMENSION_VOLUME}) > 0) {
@@ -290,7 +310,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setTransmission($transmission);
             $proVehicle->setRegistration($registration);
             $proVehicle->setRegistrationDate($registrationDate);
-            $proVehicle->setIsUsed(true);
+            $proVehicle->setIsUsed($isUsed);
             $proVehicle->setMileage($mileage);
             $proVehicle->setAdditionalInformation($additionalInformation);
             $proVehicle->setPrice($price);
@@ -333,7 +353,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
                 $transmission,
                 $registration,
                 $registrationDate,
-                true,
+                $isUsed,
                 $mileage,
                 [],
                 null,
