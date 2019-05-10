@@ -133,7 +133,7 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(in="body", name="body", description="Véhicule à créer", required=true,
      *       @SWG\Schema(
      *          ref="#/definitions/Vehicle",
-     *          required={"IdentifiantVehicule", "Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description"}
+     *          required={"IdentifiantVehicule", "Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description", "CreatedAt", "UpdatedAt"}
      *       )
      *     ),
      *     @SWG\Response(response=200, description="Véhicule créé",
@@ -241,7 +241,7 @@ class VehicleController extends BaseController
      *     @SWG\Parameter(in="body", name="body", description="Données du véhicule à modifier", required=true,
      *       @SWG\Schema(
      *          ref="#/definitions/Vehicle",
-     *          required={"Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description"}
+     *          required={"Date1Mec", "Marque", "Type", "Motorisation", "Modele", "Version", "Energie", "Kilometrage", "PrixVenteTTC", "Description", "UpdatedAt"}
      *       )
      *     ),
      *     @SWG\Response(response=200, description="Véhicule mis à jour",
@@ -266,7 +266,7 @@ class VehicleController extends BaseController
         } catch (BadRequestHttpException|AccessDeniedHttpException|NotFoundHttpException $e) {
             return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getStatusCode());
         } catch (\Exception $e) {
-            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], $e->getCode());
+            return new JsonResponse(["errors" => ["message" => $e->getMessage()]], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

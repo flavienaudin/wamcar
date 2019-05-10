@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api\EntityBuilder;
 
+use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Services\Vehicle\CanBeProVehicle;
 use AppBundle\Services\Vehicle\VehicleBuilder;
 use Wamcar\Vehicle\Engine;
@@ -50,6 +51,16 @@ class ProVehicleBuilder implements VehicleBuilder
             null,
             $vehicleDTO->IdentifiantVehicule
         );
+        try {
+            if ($vehicleDTO->CreatedAt != null) {
+                $vehicle->setCreatedAt(date_create_from_format(VehicleDTO::DATETIME_FORMAT, $vehicleDTO->CreatedAt));
+            }
+            if ($vehicleDTO->UpdatedAt != null) {
+                $vehicle->setUpdatedAt(date_create_from_format(VehicleDTO::DATETIME_FORMAT, $vehicleDTO->UpdatedAt));
+            }
+        } catch (\Exception $e) {
+            // Do nothing, createdAt and updatedAt will be automatically set by doctrine
+        }
 
         return $vehicle;
     }
@@ -69,7 +80,13 @@ class ProVehicleBuilder implements VehicleBuilder
         $vehicle->setAdditionalInformation($vehicleDTO->EquipementsSerieEtOption . PHP_EOL . $vehicleDTO->Description);
         $vehicle->setPrice($vehicleDTO->PrixVenteTTC);
         $vehicle->setOtherGuarantee($vehicleDTO->GarantieLibelle);
-
+        try {
+            if ($vehicleDTO->UpdatedAt != null) {
+                $vehicle->setUpdatedAt(date_create_from_format(VehicleDTO::DATETIME_FORMAT, $vehicleDTO->UpdatedAt));
+            }
+        } catch (\Exception $e) {
+            // Do nothing, createdAt and updatedAt will be automatically set by doctrine
+        }
         return $vehicle;
     }
 

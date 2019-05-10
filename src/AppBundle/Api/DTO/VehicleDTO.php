@@ -13,6 +13,9 @@ use Wamcar\Vehicle\ProVehicle;
  */
 final class VehicleDTO implements CanBeProVehicle
 {
+
+    const DATETIME_FORMAT = "Y-d-m_H:i";
+
     /** @SWG\Property(type="integer", format="int64") */
     public $IdentifiantVehicule;
     /** @SWG\Property(type="string", format="date") */
@@ -55,6 +58,11 @@ final class VehicleDTO implements CanBeProVehicle
     public $GarantieLibelle;
     /** @SWG\Property(type="string") */
     public $EquipementsSerieEtOption;
+    /** @SWG\Property(type="string", format="date-time", description="YYYY-MM-DD_HH:mm") */
+    public $CreatedAt;
+    /** @SWG\Property(type="string", format="date-time", description="YYYY-MM-DD_HH:mm") */
+    public $UpdatedAt;
+
 
     /**
      * @param string $jsonData
@@ -87,6 +95,8 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->BoiteLibelle = $data['BoiteLibelle'] ?? null;
             $vehicleDto->GarantieLibelle = $data['GarantieLibelle'] ?? null;
             $vehicleDto->EquipementsSerieEtOption = $data['EquipementsSerieEtOption'] ?? null;
+            $vehicleDto->CreatedAt = $data['CreatedAt'] ?? null;
+            $vehicleDto->UpdatedAt = $data['UpdatedAt'] ?? null;
 
             return $vehicleDto;
         }
@@ -125,6 +135,8 @@ final class VehicleDTO implements CanBeProVehicle
             $vehicleDto->BoiteLibelle = $proVehicle->getTransmission()->getValue();
             $vehicleDto->GarantieLibelle = $proVehicle->getOtherGuarantee();
             $vehicleDto->EquipementsSerieEtOption = '';
+            $vehicleDto->CreatedAt = date_format($proVehicle->getCreatedAt(), self::DATETIME_FORMAT);
+            $vehicleDto->UpdatedAt= date_format($proVehicle->getUpdatedAt(), self::DATETIME_FORMAT);
 
             return $vehicleDto;
         }
