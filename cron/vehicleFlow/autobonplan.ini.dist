@@ -10,3 +10,6 @@ ftp[host] = null
 ftp[login] = null
 ftp[password] = null
 ftp[import_dir] = null
+
+[Garage]
+garage = null
