@@ -1,0 +1,1096 @@
+<?xml version="1.0"?>
+<Stock>
+    <Vehicule>
+        <IdentifiantVehicule>ST_143884</IdentifiantVehicule>
+        <ReferenceVehicule>ST_143884</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>13-08-2018</Date1Mec>
+        <Marque>ALFA ROMEO</Marque>
+        <Famille>GIULIA</Famille>
+        <Version>2.2 210 ch AT8 Q4 Veloce</Version>
+        <Modele>GIULIA 2.2 210 ch AT8 Q4 Veloce</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>11</PuissanceFiscale>
+        <PuissanceReelle>210</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>4</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Automatique</BoiteLibelle>
+        <NbRapports>8</NbRapports>
+        <PrixVenteTTC>38263</PrixVenteTTC>
+        <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Etriers de freins Rouge|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Confort :  Système d'entrée sans clés (conducteur et passager) Eclairage des poignées de portes Compartiment porte-objets côté conducteur Pare-soleil conducteur avec illumination|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Peinture Pastel Extra-série Blanc Alfa|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sièges cuir Sport Noir|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Vitres AR privatives|Volant Sport]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sièges cuir Sport Noir|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Volant Sport|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerie>
+        <EquipementsOption>Etriers de freins Rouge : +200.00|Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s
+            (conducteur et passager) Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9;
+            conducteur Pare-soleil conducteur avec illumination : +580.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa :
+            +650.00|Vitres AR privatives : +390.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>1820</MontantOptionsIncluses>
+        <EquipementsManquants>Pack Eclairage : Lave-phares Projecteurs Bi-X&#xE9;non 35W directionnels Feux AV eclairage
+            diurne LED : -400.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>400</MontantEquipementsManquants>
+        <Volume>480</Volume>
+        <CapaciteReservoir>52</CapaciteReservoir>
+        <Longueur>4643</Longueur>
+        <Largeur>1860</Largeur>
+        <Hauteur>1436</Hauteur>
+        <Empattement>2820</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 480 litres|Empattement : 2820 mm|Hauteur 1436 mm|Largeur :
+            1860 mm|Longueur : 4643 mm|Poids &#xE0; vide : 1535 kg|Rayon de braquage : 10,8 m|R&#xE9;servoir : 52 litres
+        </PoidsEtDimensions>
+        <Co2>122</Co2>
+        <Remise>27</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,70</ConsommationMixte>
+        <ConsommationUrbaine>0,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>53110</PrixNeuf>
+        <PrixVenteHT>31886</PrixVenteHT>
+        <PrixVenteTva>6377</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 12/08/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-cote-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-avant-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-arriere-noir.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-7173b3e752ceb888873e723b16814163.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-7173b3e752ceb888873e723b16814163.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>GIULIA</Gamme>
+        <EquipementsSerieConfort>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Sièges cuir Sport Noir|Start & Stop|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerieConfort>
+        <EquipementsSerieMedia>
+            <![CDATA[DAB - Radio Numerique|Rotary Pad (Control Système Media)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All
+            weather)|Frein &#xE0; main &#xE9;lectrom&#xE9;canique|Pack Assistance : Radar de parking AV Cam&#xE9;ra de
+            recul avec lignes indicatrices|Phares Bi-X&#xE9;non 25W|Syst&#xE8;me d'alertes anticollisions (FCW) avec d&#xE9;tection
+            pi&#xE9;tons|Syst&#xE8;me de freinage d'urgence|Syst&#xE8;me de freinage Veloce|Syst&#xE8;me de freins int&#xE9;gr&#xE9;
+            (IBS)
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Dark-Line ext&#xE9;rieur|Feux AR &#xE0; LED|Inserts et d&#xE9;tails interieurs
+            noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Planche de bord et panneaux de portes en 2
+            tons|Sortie d'&#xE9;chappement simple|Volant Sport
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager)
+            Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil
+            conducteur avec illumination : +580.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia/>
+        <EquipementsOptionSecurite/>
+        <EquipementsOptionStyle>Etriers de freins Rouge : +200.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa :
+            +650.00|Vitres AR privatives : +390.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_147038</IdentifiantVehicule>
+        <ReferenceVehicule>ST_147038</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>13-08-2018</Date1Mec>
+        <Marque>ALFA ROMEO</Marque>
+        <Famille>GIULIA</Famille>
+        <Version>2.2 210 ch AT8 Q4 Veloce</Version>
+        <Modele>GIULIA 2.2 210 ch AT8 Q4 Veloce</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>11</PuissanceFiscale>
+        <PuissanceReelle>210</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>4</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Automatique</BoiteLibelle>
+        <NbRapports>8</NbRapports>
+        <PrixVenteTTC>38263</PrixVenteTTC>
+        <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Etriers de freins Rouge|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Confort :  Système d'entrée sans clés (conducteur et passager) Eclairage des poignées de portes Compartiment porte-objets côté conducteur Pare-soleil conducteur avec illumination|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Peinture Pastel Extra-série Blanc Alfa|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Vitres AR privatives|Volant Sport]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Volant Sport|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerie>
+        <EquipementsOption>Etriers de freins Rouge : +200.00|Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s
+            (conducteur et passager) Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9;
+            conducteur Pare-soleil conducteur avec illumination : +580.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa :
+            +650.00|Vitres AR privatives : +390.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>1820</MontantOptionsIncluses>
+        <EquipementsManquants>Pack Eclairage : Lave-phares Projecteurs Bi-X&#xE9;non 35W directionnels Feux AV eclairage
+            diurne LED : -400.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>400</MontantEquipementsManquants>
+        <Volume>480</Volume>
+        <CapaciteReservoir>52</CapaciteReservoir>
+        <Longueur>4643</Longueur>
+        <Largeur>1860</Largeur>
+        <Hauteur>1436</Hauteur>
+        <Empattement>2820</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 480 litres|Empattement : 2820 mm|Hauteur 1436 mm|Largeur :
+            1860 mm|Longueur : 4643 mm|Poids &#xE0; vide : 1535 kg|Rayon de braquage : 10,8 m|R&#xE9;servoir : 52 litres
+        </PoidsEtDimensions>
+        <Co2>122</Co2>
+        <Remise>27</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,70</ConsommationMixte>
+        <ConsommationUrbaine>0,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>53110</PrixNeuf>
+        <PrixVenteHT>31886</PrixVenteHT>
+        <PrixVenteTva>6377</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 12/08/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-cote-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-avant-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-arriere-noir.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-f2d5d6bddf10055a5d1eab8bc9b764d3.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-c802b88e683ad6b2f93c5d3b56d46cb4.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-6b32fede0eb3fdb5c40364c30c95557f.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-598bdb485798eb36efd4d39996619556.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-8a6946cadef7f4237cf2399f517634df.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-eb7ed42ea133e7509976e22eb834fa0b.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-8c3557799dd04464c56175d0ca5103a5.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-326a2eb79087df9486b019d09862fe99.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-046c61569eaed84dd11f93f610e5bd7d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a6bb74c4219e6ebc4eebf5d3a23b75ed.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-d3c01feb8042a0b58f472cce275aa195.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-95beb3fa0406c88493f1b31fa4d3fb85.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-c45ee59103aca43b083d69348351de3e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-4d4cf063364acabc5fb8ad2c595ac664.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-4d4cf063364acabc5fb8ad2c595ac664.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>GIULIA</Gamme>
+        <EquipementsSerieConfort>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Start & Stop|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerieConfort>
+        <EquipementsSerieMedia>
+            <![CDATA[DAB - Radio Numerique|Rotary Pad (Control Système Media)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All
+            weather)|Frein &#xE0; main &#xE9;lectrom&#xE9;canique|Pack Assistance : Radar de parking AV Cam&#xE9;ra de
+            recul avec lignes indicatrices|Phares Bi-X&#xE9;non 25W|Syst&#xE8;me d'alertes anticollisions (FCW) avec d&#xE9;tection
+            pi&#xE9;tons|Syst&#xE8;me de freinage d'urgence|Syst&#xE8;me de freinage Veloce|Syst&#xE8;me de freins int&#xE9;gr&#xE9;
+            (IBS)
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Dark-Line ext&#xE9;rieur|Feux AR &#xE0; LED|Inserts et d&#xE9;tails interieurs
+            noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Planche de bord et panneaux de portes en 2
+            tons|Sortie d'&#xE9;chappement simple|Volant Sport
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager)
+            Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil
+            conducteur avec illumination : +580.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia/>
+        <EquipementsOptionSecurite/>
+        <EquipementsOptionStyle>Etriers de freins Rouge : +200.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa :
+            +650.00|Vitres AR privatives : +390.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_143886</IdentifiantVehicule>
+        <ReferenceVehicule>ST_143886</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>28-06-2018</Date1Mec>
+        <Marque>ALFA ROMEO</Marque>
+        <Famille>GIULIA</Famille>
+        <Version>2.2 210 ch AT8 Q4 Veloce</Version>
+        <Modele>GIULIA 2.2 210 ch AT8 Q4 Veloce</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>11</PuissanceFiscale>
+        <PuissanceReelle>210</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>4</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Automatique</BoiteLibelle>
+        <NbRapports>8</NbRapports>
+        <PrixVenteTTC>38316</PrixVenteTTC>
+        <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Etriers de freins Rouge|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 19" Performance Noires (avec Pneus Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Confort :  Système d'entrée sans clés (conducteur et passager) Eclairage des poignées de portes Compartiment porte-objets côté conducteur Pare-soleil conducteur avec illumination|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Peinture Pastel Extra-série Blanc Alfa|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Vitres AR privatives|Volant Sport]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Volant Sport|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerie>
+        <EquipementsOption>Etriers de freins Rouge : +200.00|Jantes en alliage 19" Performance Noires (avec Pneus Run-On
+            Flat) : +900.00|Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager) Eclairage
+            des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil conducteur avec
+            illumination : +580.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa : +650.00|Vitres AR privatives : +390.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>2720</MontantOptionsIncluses>
+        <EquipementsManquants>Pack Eclairage : Lave-phares Projecteurs Bi-X&#xE9;non 35W directionnels Feux AV eclairage
+            diurne LED : -400.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>400</MontantEquipementsManquants>
+        <Volume>480</Volume>
+        <CapaciteReservoir>52</CapaciteReservoir>
+        <Longueur>4643</Longueur>
+        <Largeur>1860</Largeur>
+        <Hauteur>1436</Hauteur>
+        <Empattement>2820</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 480 litres|Empattement : 2820 mm|Hauteur 1436 mm|Largeur :
+            1860 mm|Longueur : 4643 mm|Poids &#xE0; vide : 1535 kg|Rayon de braquage : 10,8 m|R&#xE9;servoir : 52 litres
+        </PoidsEtDimensions>
+        <Co2>122</Co2>
+        <Remise>29</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,70</ConsommationMixte>
+        <ConsommationUrbaine>0,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>54010</PrixNeuf>
+        <PrixVenteHT>31930</PrixVenteHT>
+        <PrixVenteTva>6386</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 27/06/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-cote-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-avant-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-arriere-noir.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-b9338081a6aaf1a2e7404cc7fbd32cc0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-d3ef9d3b5630356d50e74c8749d84f0d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-f48a6973c7b31b338268cfebd050bb0d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-c3dd051449297c2063345c40a6961860.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a49662dbe25608848307d4102e1a9fc1.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-8ed6890f16b42f313b07973a1c700f2d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-250d64804deb7d252182b3fb578b9eff.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-de5bf1a323eddc46c957b8f5320c3251.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-98ec2d9be9f418c6e7f7ac44f9d4d10c.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-7db0c4bcdb2b355a0a589e0be820e971.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-cba8328cefb68854f3a27c997307cb3d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-8d3ceb5fc9b5c081013407da53733906.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-df5fed72b764e5c0b81c2d746d971c53.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a8dabc8e5549cb27e72ae4aaea269d20.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a8dabc8e5549cb27e72ae4aaea269d20.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>GIULIA</Gamme>
+        <EquipementsSerieConfort>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Start & Stop|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerieConfort>
+        <EquipementsSerieMedia>
+            <![CDATA[DAB - Radio Numerique|Rotary Pad (Control Système Media)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All
+            weather)|Frein &#xE0; main &#xE9;lectrom&#xE9;canique|Pack Assistance : Radar de parking AV Cam&#xE9;ra de
+            recul avec lignes indicatrices|Syst&#xE8;me d'alertes anticollisions (FCW) avec d&#xE9;tection pi&#xE9;tons|Syst&#xE8;me
+            de freinage d'urgence|Syst&#xE8;me de freinage Veloce|Syst&#xE8;me de freins int&#xE9;gr&#xE9; (IBS)
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Dark-Line ext&#xE9;rieur|Feux AR &#xE0; LED|Inserts et d&#xE9;tails interieurs
+            noirs|Planche de bord et panneaux de portes en 2 tons|Sortie d'&#xE9;chappement simple|Volant Sport
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager)
+            Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil
+            conducteur avec illumination : +580.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia/>
+        <EquipementsOptionSecurite/>
+        <EquipementsOptionStyle>Etriers de freins Rouge : +200.00|Jantes en alliage 19" Performance Noires (avec Pneus
+            Run-On Flat) : +900.00|Peinture Pastel Extra-s&#xE9;rie Blanc Alfa : +650.00|Vitres AR privatives : +390.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_143891</IdentifiantVehicule>
+        <ReferenceVehicule>ST_143891</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>13-08-2018</Date1Mec>
+        <Marque>ALFA ROMEO</Marque>
+        <Famille>GIULIA</Famille>
+        <Version>2.2 210 ch AT8 Q4 Veloce</Version>
+        <Modele>GIULIA 2.2 210 ch AT8 Q4 Veloce</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>11</PuissanceFiscale>
+        <PuissanceReelle>210</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>4</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Automatique</BoiteLibelle>
+        <NbRapports>8</NbRapports>
+        <PrixVenteTTC>38793</PrixVenteTTC>
+        <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Etriers de freins Rouge|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Confort :  Système d'entrée sans clés (conducteur et passager) Eclairage des poignées de portes Compartiment porte-objets côté conducteur Pare-soleil conducteur avec illumination|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Peinture métallisée|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Vitres AR privatives|Volant Sport]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Volant Sport|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerie>
+        <EquipementsOption>Etriers de freins Rouge : +200.00|Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s
+            (conducteur et passager) Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9;
+            conducteur Pare-soleil conducteur avec illumination : +580.00|Peinture m&#xE9;tallis&#xE9;e : +890.00|Vitres
+            AR privatives : +390.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>2060</MontantOptionsIncluses>
+        <EquipementsManquants>Pack Eclairage : Lave-phares Projecteurs Bi-X&#xE9;non 35W directionnels Feux AV eclairage
+            diurne LED : -400.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>400</MontantEquipementsManquants>
+        <Volume>480</Volume>
+        <CapaciteReservoir>52</CapaciteReservoir>
+        <Longueur>4643</Longueur>
+        <Largeur>1860</Largeur>
+        <Hauteur>1436</Hauteur>
+        <Empattement>2820</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 480 litres|Empattement : 2820 mm|Hauteur 1436 mm|Largeur :
+            1860 mm|Longueur : 4643 mm|Poids &#xE0; vide : 1535 kg|Rayon de braquage : 10,8 m|R&#xE9;servoir : 52 litres
+        </PoidsEtDimensions>
+        <Co2>122</Co2>
+        <Remise>27</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,70</ConsommationMixte>
+        <ConsommationUrbaine>0,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>53350</PrixNeuf>
+        <PrixVenteHT>32328</PrixVenteHT>
+        <PrixVenteTva>6465</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 12/08/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-cote-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-avant-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-arriere-noir.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a8dabc8e5549cb27e72ae4aaea269d20.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a8dabc8e5549cb27e72ae4aaea269d20.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>GIULIA</Gamme>
+        <EquipementsSerieConfort>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Start & Stop|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerieConfort>
+        <EquipementsSerieMedia>
+            <![CDATA[DAB - Radio Numerique|Rotary Pad (Control Système Media)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All
+            weather)|Frein &#xE0; main &#xE9;lectrom&#xE9;canique|Pack Assistance : Radar de parking AV Cam&#xE9;ra de
+            recul avec lignes indicatrices|Phares Bi-X&#xE9;non 25W|Syst&#xE8;me d'alertes anticollisions (FCW) avec d&#xE9;tection
+            pi&#xE9;tons|Syst&#xE8;me de freinage d'urgence|Syst&#xE8;me de freinage Veloce|Syst&#xE8;me de freins int&#xE9;gr&#xE9;
+            (IBS)
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Dark-Line ext&#xE9;rieur|Feux AR &#xE0; LED|Inserts et d&#xE9;tails interieurs
+            noirs|Jantes en alliage 18" (avec Pneumatiques Run-On Flat)|Planche de bord et panneaux de portes en 2
+            tons|Sortie d'&#xE9;chappement simple|Volant Sport
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager)
+            Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil
+            conducteur avec illumination : +580.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia/>
+        <EquipementsOptionSecurite/>
+        <EquipementsOptionStyle>Etriers de freins Rouge : +200.00|Peinture m&#xE9;tallis&#xE9;e : +890.00|Vitres AR
+            privatives : +390.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_148197</IdentifiantVehicule>
+        <ReferenceVehicule>ST_148197</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2017</Annee>
+        <Date1Mec>25-04-2018</Date1Mec>
+        <Marque>AUDI</Marque>
+        <Famille>Q3</Famille>
+        <Version>2.0 TDI Ultra 150 ch</Version>
+        <Modele>Q3 2.0 TDI Ultra 150 ch</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>8</PuissanceFiscale>
+        <PuissanceReelle>150</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>5</NbPortes>
+        <Kilometrage>48</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Manuelle</BoiteLibelle>
+        <NbRapports>6</NbRapports>
+        <PrixVenteTTC>30313</PrixVenteTTC>
+        <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+        <EquipementsSerieEtOption>Accoudoir central AV|Airbags de t&#xEA;te, Airbags lat&#xE9;raux AV et Airbags
+            conducteur et passager AV|Applications d&#xE9;coratives Argent micrometallic sur tableau de bord,
+            contre-portes et console centrale|Audi Hold Assist: maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te
+            comme en descente|Audi Parking System Plus : signal acoustique et visuel d'aide au stationnement AV et AR
+            par par pictogrammes sur l'&#xE9;cran|Banquette AR rabattable 60/40|Becquet de pavillon|Climatisation
+            automatique Confort|Colonne de direction r&#xE9;glable manuellement en hauteur et en profondeur|Contr&#xF4;le
+            de la pression des pneus|D&#xE9;sactivation de l'airbag passager et pr&#xE9;paration pour si&#xE8;ges
+            enfants Isofix sur si&#xE8;ge passager AV|D&#xE9;tecteur de pluie et de luminosit&#xE9;|Essuie-glace AR|Feux
+            arri&#xE8;re &#xE0; technologie LED|Fixation pour si&#xE8;ges enfants ISOFIX aux places ext&#xE9;rieures
+            AR|Frein de stationnement &#xE9;lectrom&#xE9;canique|Interface Bluetooth|Jantes aluminium coul&#xE9; 10
+            branches 7Jx17" avec pneus 235/55 R17|Kit anti Crevaison|Lave-phares haute pression|L&#xE8;ve-vitres &#xE9;lectriques
+            AV et AR avec protection antipincement et fonction ouverture/fermeture confort par impulsion|MMI
+            Radio/Autoradio Concert avec lecteur CD compatible MP3, lecteur de cartes SDHC, &#xE9;cran couleur TFT
+            6.5"|Moulures de seuils de portes en plastique|Ordinateur de bord monochrome|Pack Eclairage : Miroir de
+            courtoisie c&#xF4;t&#xE9; conducteur et passager AV &#xE9;clair&#xE9; Catadioptres actifs sur les portes
+            Eclairage int&#xE9;rieur &#xE0; l'AV et &#xE0; l'AR avec spots de lecture Vide-poches &#xE9;clair&#xE9; sur
+            la console centrale Eclairage au sol et &#xE9;clairage niveau des pieds &#xE0; l'AV ainsi que des poign&#xE9;es
+            int&#xE9;rieures des portes Molettes des diffuseurs d'air &#xE9;clair&#xE9;s|Pack Navigation avec donn&#xE9;es
+            de navigation (carte SD) : Pack Connectivity Donn&#xE9;es de navigation sur carte SD Affichage des cartes
+            routi&#xE8;res sur &#xE9;cran couleur de 6.5"|Pare-brise acoustique avec bande de couleur|Peinture
+            vernie|Programme &#xE9;lectronique de stabilisation ESP|Projecteurs X&#xE9;non Plus incluant feux de jour
+            &#xE0; LED|Rampes de pavillon en aluminium poli|R&#xE9;gulateur de vitesse|R&#xE9;troviseurs ext&#xE9;rieurs
+            r&#xE9;glables &#xE9;lectriquement et d&#xE9;givrants, clignotants int&#xE9;gr&#xE9;s &#xE0; LED|S&#xE9;curit&#xE9;
+            enfants sur les porti&#xE8;res et les vitres &#xE9;lectriques AR|Sellerie tissu Initial Noir|Si&#xE8;ges AV
+            avec r&#xE9;glage manuel de la hauteur, de la longueur et des appuie-t&#xEA;tes ainsi que le r&#xE9;glage de
+            l'inclinaison du dossier|Si&#xE8;ges AV chauffants|Sortie d'&#xE9;chappement visible monoflux, 2 sorties
+            &#xE0; gauche avec embout chrom&#xE9;|Syst&#xE8;me Start/Stop|Tapis compl&#xE9;mentaires AV et
+            AR|Verrouillage centralis&#xE9; avec t&#xE9;l&#xE9;commande int&#xE9;gr&#xE9;e &#xE0; la cl&#xE9; du v&#xE9;hicule|Volant
+            multifonctions en cuir style 4 branches
+        </EquipementsSerieEtOption>
+        <EquipementsSerie>Accoudoir central AV|Airbags de t&#xEA;te, Airbags lat&#xE9;raux AV et Airbags conducteur et
+            passager AV|Applications d&#xE9;coratives Argent micrometallic sur tableau de bord, contre-portes et console
+            centrale|Banquette AR rabattable 60/40|Becquet de pavillon|Colonne de direction r&#xE9;glable manuellement
+            en hauteur et en profondeur|Contr&#xF4;le de la pression des pneus|D&#xE9;tecteur de pluie et de luminosit&#xE9;|Essuie-glace
+            AR|Feux arri&#xE8;re &#xE0; technologie LED|Fixation pour si&#xE8;ges enfants ISOFIX aux places ext&#xE9;rieures
+            AR|Frein de stationnement &#xE9;lectrom&#xE9;canique|Interface Bluetooth|Kit anti Crevaison|L&#xE8;ve-vitres
+            &#xE9;lectriques AV et AR avec protection antipincement et fonction ouverture/fermeture confort par
+            impulsion|MMI Radio/Autoradio Concert avec lecteur CD compatible MP3, lecteur de cartes SDHC, &#xE9;cran
+            couleur TFT 6.5"|Moulures de seuils de portes en plastique|Ordinateur de bord monochrome|Pare-brise
+            acoustique avec bande de couleur|Programme &#xE9;lectronique de stabilisation ESP|Projecteurs X&#xE9;non
+            Plus incluant feux de jour &#xE0; LED|R&#xE9;gulateur de vitesse|R&#xE9;troviseurs ext&#xE9;rieurs r&#xE9;glables
+            &#xE9;lectriquement et d&#xE9;givrants, clignotants int&#xE9;gr&#xE9;s &#xE0; LED|S&#xE9;curit&#xE9; enfants
+            sur les porti&#xE8;res et les vitres &#xE9;lectriques AR|Sellerie tissu Initial Noir|Si&#xE8;ges AV avec r&#xE9;glage
+            manuel de la hauteur, de la longueur et des appuie-t&#xEA;tes ainsi que le r&#xE9;glage de l'inclinaison du
+            dossier|Sortie d'&#xE9;chappement visible monoflux, 2 sorties &#xE0; gauche avec embout chrom&#xE9;|Syst&#xE8;me
+            Start/Stop|Tapis compl&#xE9;mentaires AV et AR|Verrouillage centralis&#xE9; avec t&#xE9;l&#xE9;commande int&#xE9;gr&#xE9;e
+            &#xE0; la cl&#xE9; du v&#xE9;hicule|Volant multifonctions en cuir style 4 branches|Ecrous de roues antivol :
+            -25.00|Pr&#xE9;paration pour crochet d'attelage avec c&#xE2;blage jusqu'au logement de la roue de secours :
+            -120.00|Roue de secours temporaire avec cric de levage : -100.00
+        </EquipementsSerie>
+        <EquipementsOption>Audi Hold Assist: maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te comme en
+            descente : +105.00|Audi Parking System Plus : signal acoustique et visuel d'aide au stationnement AV et AR
+            par par pictogrammes sur l'&#xE9;cran : +950.00|Climatisation automatique Confort : +720.00|D&#xE9;sactivation
+            de l'airbag passager et pr&#xE9;paration pour si&#xE8;ges enfants Isofix sur si&#xE8;ge passager AV :
+            +120.00|Jantes aluminium coul&#xE9; 10 branches 7Jx17" avec pneus 235/55 R17 : +660.00|Lave-phares haute
+            pression : +325.00|Pack Eclairage : Miroir de courtoisie c&#xF4;t&#xE9; conducteur et passager AV &#xE9;clair&#xE9;
+            Catadioptres actifs sur les portes Eclairage int&#xE9;rieur &#xE0; l'AV et &#xE0; l'AR avec spots de lecture
+            Vide-poches &#xE9;clair&#xE9; sur la console centrale Eclairage au sol et &#xE9;clairage niveau des pieds
+            &#xE0; l'AV ainsi que des poign&#xE9;es int&#xE9;rieures des portes Molettes des diffuseurs d'air &#xE9;clair&#xE9;s
+            : +295.00|Pack Navigation avec donn&#xE9;es de navigation (carte SD) : Pack Connectivity Donn&#xE9;es de
+            navigation sur carte SD Affichage des cartes routi&#xE8;res sur &#xE9;cran couleur de 6.5" :
+            +1410.00|Peinture vernie : +0.00|Rampes de pavillon en aluminium poli : +110.00|Si&#xE8;ges AV chauffants :
+            +420.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>5115</MontantOptionsIncluses>
+        <EquipementsManquants>Ecrous de roues antivol : -25.00|Pr&#xE9;paration pour crochet d'attelage avec c&#xE2;blage
+            jusqu'au logement de la roue de secours : -120.00|Roue de secours temporaire avec cric de levage : -100.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>245</MontantEquipementsManquants>
+        <Volume>460</Volume>
+        <CapaciteReservoir>64</CapaciteReservoir>
+        <Longueur>4388</Longueur>
+        <Largeur>2019</Largeur>
+        <Hauteur>1608</Hauteur>
+        <Empattement>2603</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 460 litres|Capacit&#xE9; maxi du coffre : 1365 litres|Charge
+            utile : 600 kg|Coffre, hauteur : 675 mm|Coffre, hauteur depuis sol : 781 mm|Coffre, largeur : 1000
+            mm|Coffre, largeur maxi : 1067 mm|Coffre, longueur : 880 mm|Coffre, longueur maxi : 1632 mm|Empattement :
+            2603 mm|Hauteur 1608 mm|Largeur : 1831 mm|Largeur ext&#xE9;rieure r&#xE9;tro compris : 2019 mm|Largeur maxi
+            : 2019 mm|Longueur : 4388 mm|Poids &#xE0; vide : 1485 kg|Poids total : 2085 kg|Rayon de braquage : 11,8
+            m|Remorque avec frein, poids maxi : 1800 kg|Remorque sans frein, poids maxi : 750 kg|R&#xE9;servoir : 64
+            litres|Surplomb arri&#xE8;re : 880 mm
+        </PoidsEtDimensions>
+        <Co2>115</Co2>
+        <Remise>19</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,40</ConsommationMixte>
+        <ConsommationUrbaine>5,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,10</ConsommationExtraUrbaine>
+        <PrixNeuf>37580</PrixNeuf>
+        <PrixVenteHT>25261</PrixVenteHT>
+        <PrixVenteTva>5052</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 24/04/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/audi-q3-cote-gris.jpg|https://pim.autobonplan.com/pictures/vehicle/audi-q3-avant-gris.jpg|https://pim.autobonplan.com/pictures/vehicle/audi-q3-arriere-gris.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-63844a883f2b48a370015d95a8d1e101.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-6c8aa6c0c22f9982f0a95d65bac482e7.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ac4202e5f334903eabb5b4ff8a6e507c.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-cab4983fbcbb0e31f23fa507db1b61f2.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-8b955c2d1f7615a24cb1145e97d4c060.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-a7af6a300a00dbc3aec03879c78c7781.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-3f6ec01102e6dcefd3c4d1024d2d2aeb.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-8a2e7f3d5a20d62c648d7cd9feb2eb02.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ff81b8047432a02fffb69a0fc973f33b.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-3f18bb752ca2d7925647cc7c7d93c69a.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-51aa8700825577b92424714fc7619735.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-1b4efe573fae0e5ef92aaa768c947a08.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ad46e45cf1887ed2bfc56df87a1f486c.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-cfb9162d6bbad026d618b81a2f141d73.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-983a93f8cb6bf5d8e029c02ed8b83778.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-0254625159c11564fee59f3d2e860d66.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-84a8a0503d6296f455c4f333e1896bba.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-6f69b8741b12d79a9456bf78edb432a5.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-8b7dea3636864c5c5fa3c45d3c013aff.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-bed16d3601811a02fa82a33d268b9c54.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-9bd013e9d5825d23b84a6ec2c821e215.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-de9d47726e74b68f3eff44504400358b.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>Q3</Gamme>
+        <EquipementsSerieConfort>Banquette AR rabattable 60/40|Colonne de direction r&#xE9;glable manuellement en
+            hauteur et en profondeur|D&#xE9;tecteur de pluie et de luminosit&#xE9;|Essuie-glace AR|Frein de
+            stationnement &#xE9;lectrom&#xE9;canique|L&#xE8;ve-vitres &#xE9;lectriques AV et AR avec protection
+            antipincement et fonction ouverture/fermeture confort par impulsion|Pare-brise acoustique avec bande de
+            couleur|R&#xE9;gulateur de vitesse|R&#xE9;troviseurs ext&#xE9;rieurs r&#xE9;glables &#xE9;lectriquement et d&#xE9;givrants,
+            clignotants int&#xE9;gr&#xE9;s &#xE0; LED|S&#xE9;curit&#xE9; enfants sur les porti&#xE8;res et les vitres
+            &#xE9;lectriques AR|Si&#xE8;ges AV avec r&#xE9;glage manuel de la hauteur, de la longueur et des appuie-t&#xEA;tes
+            ainsi que le r&#xE9;glage de l'inclinaison du dossier|Syst&#xE8;me Start/Stop|Tapis compl&#xE9;mentaires AV
+            et AR|Verrouillage centralis&#xE9; avec t&#xE9;l&#xE9;commande int&#xE9;gr&#xE9;e &#xE0; la cl&#xE9; du v&#xE9;hicule|Volant
+            multifonctions en cuir style 4 branches|Pr&#xE9;paration pour crochet d'attelage avec c&#xE2;blage jusqu'au
+            logement de la roue de secours : -120.00|Roue de secours temporaire avec cric de levage : -100.00
+        </EquipementsSerieConfort>
+        <EquipementsSerieMedia>Interface Bluetooth|MMI Radio/Autoradio Concert avec lecteur CD compatible MP3, lecteur
+            de cartes SDHC, &#xE9;cran couleur TFT 6.5"|Ordinateur de bord monochrome
+        </EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Airbags de t&#xEA;te, Airbags lat&#xE9;raux AV et Airbags conducteur et passager
+            AV|Contr&#xF4;le de la pression des pneus|Feux arri&#xE8;re &#xE0; technologie LED|Fixation pour si&#xE8;ges
+            enfants ISOFIX aux places ext&#xE9;rieures AR|Kit anti Crevaison|Programme &#xE9;lectronique de
+            stabilisation ESP|Ecrous de roues antivol : -25.00
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Applications d&#xE9;coratives Argent micrometallic sur tableau de bord, contre-portes et
+            console centrale|Becquet de pavillon|Moulures de seuils de portes en plastique|Projecteurs X&#xE9;non Plus
+            incluant feux de jour &#xE0; LED|Sellerie tissu Initial Noir|Sortie d'&#xE9;chappement visible monoflux, 2
+            sorties &#xE0; gauche avec embout chrom&#xE9;
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Accoudoir central AV|Audi Parking System Plus : signal acoustique et visuel d'aide au
+            stationnement AV et AR par par pictogrammes sur l'&#xE9;cran : +950.00|Climatisation automatique Confort :
+            +720.00|Lave-phares haute pression : +325.00|Si&#xE8;ges AV chauffants : +420.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia>Pack Navigation avec donn&#xE9;es de navigation (carte SD) : Pack Connectivity Donn&#xE9;es
+            de navigation sur carte SD Affichage des cartes routi&#xE8;res sur &#xE9;cran couleur de 6.5" : +1410.00
+        </EquipementsOptionMedia>
+        <EquipementsOptionSecurite>Audi Hold Assist: maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te comme en
+            descente : +105.00|D&#xE9;sactivation de l'airbag passager et pr&#xE9;paration pour si&#xE8;ges enfants
+            Isofix sur si&#xE8;ge passager AV : +120.00
+        </EquipementsOptionSecurite>
+        <EquipementsOptionStyle>Jantes aluminium coul&#xE9; 10 branches 7Jx17" avec pneus 235/55 R17 : +660.00|Pack
+            Eclairage : Miroir de courtoisie c&#xF4;t&#xE9; conducteur et passager AV &#xE9;clair&#xE9; Catadioptres
+            actifs sur les portes Eclairage int&#xE9;rieur &#xE0; l'AV et &#xE0; l'AR avec spots de lecture Vide-poches
+            &#xE9;clair&#xE9; sur la console centrale Eclairage au sol et &#xE9;clairage niveau des pieds &#xE0; l'AV
+            ainsi que des poign&#xE9;es int&#xE9;rieures des portes Molettes des diffuseurs d'air &#xE9;clair&#xE9;s :
+            +295.00|Peinture vernie : +0.00|Rampes de pavillon en aluminium poli : +110.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_145842</IdentifiantVehicule>
+        <ReferenceVehicule>ST_145842</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>28-06-2018</Date1Mec>
+        <Marque>AUDI</Marque>
+        <Famille>Q3</Famille>
+        <Version>2.0 TDI Ultra 150 ch Ambiente</Version>
+        <Modele>Q3 2.0 TDI Ultra 150 ch Ambiente</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>8</PuissanceFiscale>
+        <PuissanceReelle>150</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>5</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Manuelle</BoiteLibelle>
+        <NbRapports>6</NbRapports>
+        <PrixVenteTTC>33493</PrixVenteTTC>
+        <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+        <EquipementsSerieEtOption>ABS avec EBV et syst&#xE8;me d'assistance au freinage d'urgence|Accoudoir central AV
+            avec vide-poches|Airbags de t&#xEA;te|Airbags frontaux conducteur et passager grand volume, &#xE0; deux
+            niveaux de gonflement suivant la gravit&#xE9; du choc|Airbags lat&#xE9;raux AV int&#xE9;gr&#xE9;s aux
+            dossiers de si&#xE8;ges|Anti-patinage (ASR)|Appuie-t&#xEA;te int&#xE9;graux &#xE0; l'AV et l'AR|Audi Drive
+            Select avec mode "efficiency", permet diff&#xE9;rents r&#xE9;glages (direction, moteur et transmission) du v&#xE9;hicule|Audi
+            Hold Assist: maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te comme en descente|Audi Parking
+            System Plus : signal acoustique et visuel d'aide au stationnement AV et AR par par pictogrammes sur l'&#xE9;cran|Audi
+            Singleframe, encadrement gris pierre d'une seule pi&#xE8;ce sur la calandre, avec anneaux Audi anodis&#xE9;s
+            au centre|Avertisseurs 2 tons avec commande au centre du volant|Banquette AR rabattable 60/40, d&#xE9;verrouillage
+            &#xE0; distance des dossiers via un levier dans la garniture lat&#xE9;rale du coffre|Becquet de
+            pavillon|Blocage &#xE9;lectronique de diff&#xE9;rentiel EDS|Ciel de pavillon en tissu assorti &#xE0; la
+            couleur int&#xE9;rieure|Climatisation automatique Confort|Colonne de direction r&#xE9;glable manuellement en
+            hauteur et en profondeur|Console centrale sur&#xE9;lev&#xE9;e avec vide-poches pouvant &#xEA;tre utilis&#xE9;
+            comme porte-boissons avec volet ouvert|Contact d'allumage &#xE9;lectronique: cl&#xE9; de contact m&#xE9;morisant
+            diff&#xE9;rentes donn&#xE9;es d'entretien|Contr&#xF4;le de la pression des pneus avec signaux acoustique et
+            visuel de perte de pression|Couvre-bagages coulissant automatiquement par glissi&#xE8;res|D&#xE9;sactivation
+            de l'airbag passager et pr&#xE9;paration pour si&#xE8;ges enfants Isofix sur si&#xE8;ge passager AV|D&#xE9;tecteur
+            de pluie et de luminosit&#xE9;|D&#xE9;verrouillage du coffre avec touche douce (d&#xE9;verrouillage avec
+            assistance &#xE9;lectrique)|Direction &#xE9;lectrom&#xE9;canique &#xE0; assistance variable|Eclairage int&#xE9;rieur
+            &#xE0; extinction temporis&#xE9;e et contacteur sur toutes les portes, &#xE9;clairage coffre, conducteur,
+            passager AV et places AR, spots de lecture &#xE0; l'AV et &#xE0; l'AR ainsi que bo&#xEE;te &#xE0; gants
+            &#xE9;clair&#xE9;e|Essuie-glace AR avec commande de lavage-balayage automatique, balayage au passage de la
+            marche AR lorsque les essuie-glaces AV sont activ&#xE9;s|Essuie-glaces AV &#xE0; 2 vitesses avec r&#xE9;glage
+            d'intermittance sur 4 niveaux, commande de balayage coup par coup et lavage-balayage automatique|Feux AR
+            &#xE0; technologie LED|Fixation pour si&#xE8;ges enfants ISOFIX aux places ext&#xE9;rieures AR|Frein de
+            stationnement &#xE9;lectrom&#xE9;canique avec fonction frein de secours sur les 4 roues durant la
+            marche|Hayon &#xE9;lectrique|Indicateur de rapport de vitesse dans le syst&#xE8;me d'information
+            conducteur|Interface Bluetooth|Jantes Audi Sport en aluminium coul&#xE9; 10 branches finition Titane mat
+            8.5Jx19" avec pneus 255/40 R19|Kit de r&#xE9;paration de pneus|L&#xE8;ve-vitres &#xE9;lectriques AV et AR
+            avec protection antipincement et fonction ouverture/fermeture confort par impulsion|Lunette AR d&#xE9;givrante
+            avec minuterie|Miroir de courtoisie|MMI Radio/Autoradio Concert avec lecteur CD compatible MP3/WMA et ACC,
+            lecteur de cartes SDHC, &#xE9;cran couleur TFT 6.5", prise AUX-IN et 8HP puissance totale 80W|Moulures de
+            seuils de portes en plastique|Oeilletons de fixation, 4 oeilletons dans le coffre pour arrimer le
+            chargement|Ordinateur de bord couleur et contr&#xF4;le Autocheck et programme efficiency|Outillage de bord
+            dans le coffre|Pack Aluminium Int&#xE9;rieur|Pack Eclairage : Miroir de courtoisie c&#xF4;t&#xE9; conducteur
+            et passager AV &#xE9;clair&#xE9; Catadioptres actifs sur les portes Eclairage int&#xE9;rieur &#xE0; l'AV et
+            &#xE0; l'AR avec spots de lecture Lumi&#xE8;re r&#xE9;fl&#xE9;chie pour la console centrale et l'int&#xE9;rieur
+            des portes Eclairage du porte-boissons Vide-poches &#xE9;clair&#xE9; sur la console centrale Eclairage au
+            sol et &#xE9;clairage niveau des pieds &#xE0; l'AV ainsi que des poign&#xE9;es int&#xE9;rieures des portes
+            Molettes des diffuseurs d'air &#xE9;clair&#xE9;s|Pack Esth&#xE9;tique Noir : Encadrement de calandre noir
+            brillant, support de plaque d&#x2019;immatriculation et calandre noir mat, applications noir brillant sur la
+            calandre et les prises d&#x2019;air lat&#xE9;rales. Rampes de pavillon noir mat et entourage des vitres et
+            montants de pavillon centraux noir brillant|Pack Navigation avec donn&#xE9;es de navigation (carte SD) :
+            Pack Connectivity Donn&#xE9;es de navigation sur carte SD Affichage des cartes routi&#xE8;res sur &#xE9;cran
+            couleur de 6.5"|Pare-brise acoustique avec bande grise|Pare-soleil rabattables et pivotants c&#xF4;t&#xE9;
+            conducteur et passager AV, avec miroir de courtoisie occultable|Peinture int&#xE9;grale uni|Peinture m&#xE9;tallis&#xE9;e|Phares
+            AV int&#xE9;gralement &#xE0; LED|Plancher de chargement r&#xE9;versible|Poign&#xE9;es de maintien avec m&#xE9;canisme
+            amortisseur : 4 poign&#xE9;es encastr&#xE9;es dans le ciel de pavillon|Poign&#xE9;es de porti&#xE8;res ext&#xE9;rieures
+            laqu&#xE9;es dans la couleur de carrosserie|Porte-boissons double dans la console centrale|Programme &#xE9;lectronique
+            de stabilisation ESP|Protection antid&#xE9;marrage &#xE9;lectronique, int&#xE9;gr&#xE9;e &#xE0; la gestion
+            du moteur, activation automatique par la cl&#xE9; du v&#xE9;hicule|Rampes de pavillon noires|R&#xE9;cup&#xE9;ration
+            d'&#xE9;nergie, g&#xE9;n&#xE9;r&#xE9;e lors des phases de freinage ou de d&#xE9;c&#xE9;l&#xE9;ration et syst&#xE8;me
+            Start/Stop permettant une &#xE9;conomie de carburant|R&#xE9;glage d'appuis lombaires &#xE9;lectriques sur 4
+            plans pour les si&#xE8;ges AV|R&#xE9;gulateur de vitesse|R&#xE9;troviseur int&#xE9;rieur jour/nuit
+            automatique (incluant le d&#xE9;tecteur de pluie et de luminosit&#xE9;)|R&#xE9;troviseurs ext&#xE9;rieurs d&#xE9;givrants
+            et rabattables &#xE9;lectriquement|R&#xE9;troviseurs ext&#xE9;rieurs escamotables &#xE9;lectriquement, d&#xE9;givrants
+            des deux c&#xF4;t&#xE9;s et buses de lave-glaces d&#xE9;givrantes|R&#xE9;troviseurs ext&#xE9;rieurs r&#xE9;glables
+            &#xE9;lectriquement et d&#xE9;givrants, clignotants int&#xE9;gr&#xE9;s a LED bo&#xEE;tiers dans la couleur
+            de la carrosserie, miroir asph&#xE9;rique &#xE0; gauche, convexe &#xE0; droite|S&#xE9;curit&#xE9; enfants
+            sur les porti&#xE8;res et les vitres &#xE9;lectriques AR|Si&#xE8;ges AV avec r&#xE9;glage manuel de la
+            hauteur, de la longueur et des appuie-t&#xEA;tes ainsi que le r&#xE9;glage de l'inclinaison du dossier|Si&#xE8;ges
+            AV Sport &#xE0; r&#xE9;glages manuels et supports lombaires r&#xE9;glables &#xE9;lectriquement : |Sortie d'&#xE9;chappement
+            visible monoflux, 2 sorties &#xE0; gauche avec embout chrom&#xE9;|Syst&#xE8;me Start/Stop|T&#xE9;moins de
+            contr&#xF4;le pour airbags, ESP/ASR, adaptive air suspension, EDS, frein de stationnement &#xE9;lectrom&#xE9;canique,
+            r&#xE9;gulateur de vitesse, feux de route, feux AR anribrouillard, clignotants,&#xE9;lectronique moteur et
+            protection antid&#xE9;marrage|Verrouillage centralis&#xE9; avec fonction Autolock et t&#xE9;l&#xE9;commande
+            &#xE0; fr&#xE9;quence radio int&#xE9;gr&#xE9;e &#xE0; la cl&#xE9; du v&#xE9;hicule: ouvre et ferme les
+            portes, les vitres, le coffre et la trappe &#xE0; carburant avec code al&#xE9;atoire|Verrouillage &#xE9;lectrique
+            de la colonne de direction|Vide-poches dans les contre-portes AV/AR pouvant contenir une bouteille de 1,5
+            litres|Vitres AR surteint&#xE9;es : rev&#xEA;tement fonc&#xE9; des vitres de porti&#xE8;res AR et lat&#xE9;rales
+            AR ainsi que la lunette AR|Volant Sport 3 branches multifonctions en cuir
+        </EquipementsSerieEtOption>
+        <EquipementsSerie>ABS avec EBV et syst&#xE8;me d'assistance au freinage d'urgence|Accoudoir central AV avec
+            vide-poches|Airbags de t&#xEA;te|Airbags frontaux conducteur et passager grand volume, &#xE0; deux niveaux
+            de gonflement suivant la gravit&#xE9; du choc|Airbags lat&#xE9;raux AV int&#xE9;gr&#xE9;s aux dossiers de si&#xE8;ges|Anti-patinage
+            (ASR)|Appuie-t&#xEA;te int&#xE9;graux &#xE0; l'AV et l'AR|Audi Drive Select avec mode "efficiency", permet
+            diff&#xE9;rents r&#xE9;glages (direction, moteur et transmission) du v&#xE9;hicule|Audi Hold Assist:
+            maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te comme en descente|Audi Singleframe, encadrement
+            gris pierre d'une seule pi&#xE8;ce sur la calandre, avec anneaux Audi anodis&#xE9;s au centre|Avertisseurs 2
+            tons avec commande au centre du volant|Banquette AR rabattable 60/40, d&#xE9;verrouillage &#xE0; distance
+            des dossiers via un levier dans la garniture lat&#xE9;rale du coffre|Becquet de pavillon|Blocage &#xE9;lectronique
+            de diff&#xE9;rentiel EDS|Ciel de pavillon en tissu assorti &#xE0; la couleur int&#xE9;rieure|Climatisation
+            automatique Confort|Colonne de direction r&#xE9;glable manuellement en hauteur et en profondeur|Console
+            centrale sur&#xE9;lev&#xE9;e avec vide-poches pouvant &#xEA;tre utilis&#xE9; comme porte-boissons avec volet
+            ouvert|Contact d'allumage &#xE9;lectronique: cl&#xE9; de contact m&#xE9;morisant diff&#xE9;rentes donn&#xE9;es
+            d'entretien|Contr&#xF4;le de la pression des pneus avec signaux acoustique et visuel de perte de
+            pression|Couvre-bagages coulissant automatiquement par glissi&#xE8;res|D&#xE9;tecteur de pluie et de
+            luminosit&#xE9;|D&#xE9;verrouillage du coffre avec touche douce (d&#xE9;verrouillage avec assistance &#xE9;lectrique)|Direction
+            &#xE9;lectrom&#xE9;canique &#xE0; assistance variable|Eclairage int&#xE9;rieur &#xE0; extinction temporis&#xE9;e
+            et contacteur sur toutes les portes, &#xE9;clairage coffre, conducteur, passager AV et places AR, spots de
+            lecture &#xE0; l'AV et &#xE0; l'AR ainsi que bo&#xEE;te &#xE0; gants &#xE9;clair&#xE9;e|Essuie-glace AR avec
+            commande de lavage-balayage automatique, balayage au passage de la marche AR lorsque les essuie-glaces AV
+            sont activ&#xE9;s|Essuie-glaces AV &#xE0; 2 vitesses avec r&#xE9;glage d'intermittance sur 4 niveaux,
+            commande de balayage coup par coup et lavage-balayage automatique|Feux AR &#xE0; technologie LED|Fixation
+            pour si&#xE8;ges enfants ISOFIX aux places ext&#xE9;rieures AR|Frein de stationnement &#xE9;lectrom&#xE9;canique
+            avec fonction frein de secours sur les 4 roues durant la marche|Indicateur de rapport de vitesse dans le
+            syst&#xE8;me d'information conducteur|Interface Bluetooth|Kit de r&#xE9;paration de pneus|L&#xE8;ve-vitres
+            &#xE9;lectriques AV et AR avec protection antipincement et fonction ouverture/fermeture confort par
+            impulsion|Lunette AR d&#xE9;givrante avec minuterie|Miroir de courtoisie|MMI Radio/Autoradio Concert avec
+            lecteur CD compatible MP3/WMA et ACC, lecteur de cartes SDHC, &#xE9;cran couleur TFT 6.5", prise AUX-IN et
+            8HP puissance totale 80W|Moulures de seuils de portes en plastique|Oeilletons de fixation, 4 oeilletons dans
+            le coffre pour arrimer le chargement|Outillage de bord dans le coffre|Pack Aluminium Int&#xE9;rieur|Pare-brise
+            acoustique avec bande grise|Pare-soleil rabattables et pivotants c&#xF4;t&#xE9; conducteur et passager AV,
+            avec miroir de courtoisie occultable|Plancher de chargement r&#xE9;versible|Poign&#xE9;es de maintien avec m&#xE9;canisme
+            amortisseur : 4 poign&#xE9;es encastr&#xE9;es dans le ciel de pavillon|Poign&#xE9;es de porti&#xE8;res ext&#xE9;rieures
+            laqu&#xE9;es dans la couleur de carrosserie|Porte-boissons double dans la console centrale|Programme &#xE9;lectronique
+            de stabilisation ESP|Protection antid&#xE9;marrage &#xE9;lectronique, int&#xE9;gr&#xE9;e &#xE0; la gestion
+            du moteur, activation automatique par la cl&#xE9; du v&#xE9;hicule|R&#xE9;cup&#xE9;ration d'&#xE9;nergie, g&#xE9;n&#xE9;r&#xE9;e
+            lors des phases de freinage ou de d&#xE9;c&#xE9;l&#xE9;ration et syst&#xE8;me Start/Stop permettant une
+            &#xE9;conomie de carburant|R&#xE9;glage d'appuis lombaires &#xE9;lectriques sur 4 plans pour les si&#xE8;ges
+            AV|R&#xE9;gulateur de vitesse|R&#xE9;troviseur int&#xE9;rieur jour/nuit automatique (incluant le d&#xE9;tecteur
+            de pluie et de luminosit&#xE9;)|R&#xE9;troviseurs ext&#xE9;rieurs d&#xE9;givrants et rabattables &#xE9;lectriquement|R&#xE9;troviseurs
+            ext&#xE9;rieurs escamotables &#xE9;lectriquement, d&#xE9;givrants des deux c&#xF4;t&#xE9;s et buses de
+            lave-glaces d&#xE9;givrantes|R&#xE9;troviseurs ext&#xE9;rieurs r&#xE9;glables &#xE9;lectriquement et d&#xE9;givrants,
+            clignotants int&#xE9;gr&#xE9;s a LED bo&#xEE;tiers dans la couleur de la carrosserie, miroir asph&#xE9;rique
+            &#xE0; gauche, convexe &#xE0; droite|S&#xE9;curit&#xE9; enfants sur les porti&#xE8;res et les vitres &#xE9;lectriques
+            AR|Si&#xE8;ges AV avec r&#xE9;glage manuel de la hauteur, de la longueur et des appuie-t&#xEA;tes ainsi que
+            le r&#xE9;glage de l'inclinaison du dossier|Sortie d'&#xE9;chappement visible monoflux, 2 sorties &#xE0;
+            gauche avec embout chrom&#xE9;|Syst&#xE8;me Start/Stop|T&#xE9;moins de contr&#xF4;le pour airbags, ESP/ASR,
+            adaptive air suspension, EDS, frein de stationnement &#xE9;lectrom&#xE9;canique, r&#xE9;gulateur de vitesse,
+            feux de route, feux AR anribrouillard, clignotants,&#xE9;lectronique moteur et protection antid&#xE9;marrage|Verrouillage
+            centralis&#xE9; avec fonction Autolock et t&#xE9;l&#xE9;commande &#xE0; fr&#xE9;quence radio int&#xE9;gr&#xE9;e
+            &#xE0; la cl&#xE9; du v&#xE9;hicule: ouvre et ferme les portes, les vitres, le coffre et la trappe &#xE0;
+            carburant avec code al&#xE9;atoire|Verrouillage &#xE9;lectrique de la colonne de direction|Vide-poches dans
+            les contre-portes AV/AR pouvant contenir une bouteille de 1,5 litres|Pr&#xE9;paration pour crochet
+            d'attelage, comprend c&#xE2;blage jusqu'au logement de la roue de secours, syst&#xE8;me appropri&#xE9; de
+            refroidissement du moteur : -100.00|Roue de secours temporaire avec cric de levage : -100.00
+        </EquipementsSerie>
+        <EquipementsOption>Audi Parking System Plus : signal acoustique et visuel d'aide au stationnement AV et AR par
+            par pictogrammes sur l'&#xE9;cran : +465.00|D&#xE9;sactivation de l'airbag passager et pr&#xE9;paration pour
+            si&#xE8;ges enfants Isofix sur si&#xE8;ge passager AV : +120.00|Hayon &#xE9;lectrique : +600.00|Jantes Audi
+            Sport en aluminium coul&#xE9; 10 branches finition Titane mat 8.5Jx19" avec pneus 255/40 R19 :
+            +2555.00|Ordinateur de bord couleur et contr&#xF4;le Autocheck et programme efficiency : +150.00|Pack
+            Eclairage : Miroir de courtoisie c&#xF4;t&#xE9; conducteur et passager AV &#xE9;clair&#xE9; Catadioptres
+            actifs sur les portes Eclairage int&#xE9;rieur &#xE0; l'AV et &#xE0; l'AR avec spots de lecture Lumi&#xE8;re
+            r&#xE9;fl&#xE9;chie pour la console centrale et l'int&#xE9;rieur des portes Eclairage du porte-boissons
+            Vide-poches &#xE9;clair&#xE9; sur la console centrale Eclairage au sol et &#xE9;clairage niveau des pieds
+            &#xE0; l'AV ainsi que des poign&#xE9;es int&#xE9;rieures des portes Molettes des diffuseurs d'air &#xE9;clair&#xE9;s
+            : +295.00|Pack Esth&#xE9;tique Noir : Encadrement de calandre noir brillant, support de plaque d&#x2019;immatriculation
+            et calandre noir mat, applications noir brillant sur la calandre et les prises d&#x2019;air lat&#xE9;rales.
+            Rampes de pavillon noir mat et entourage des vitres et montants de pavillon centraux noir brillant :
+            +670.00|Pack Navigation avec donn&#xE9;es de navigation (carte SD) : Pack Connectivity Donn&#xE9;es de
+            navigation sur carte SD Affichage des cartes routi&#xE8;res sur &#xE9;cran couleur de 6.5" :
+            +720.00|Peinture int&#xE9;grale uni : +250.00|Peinture m&#xE9;tallis&#xE9;e : +850.00|Phares AV int&#xE9;gralement
+            &#xE0; LED : +1330.00|Rampes de pavillon noires : +0.00|Si&#xE8;ges AV Sport &#xE0; r&#xE9;glages manuels et
+            supports lombaires r&#xE9;glables &#xE9;lectriquement : : +350.00|Vitres AR surteint&#xE9;es : rev&#xEA;tement
+            fonc&#xE9; des vitres de porti&#xE8;res AR et lat&#xE9;rales AR ainsi que la lunette AR : +490.00|Volant
+            Sport 3 branches multifonctions en cuir : +145.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>8990</MontantOptionsIncluses>
+        <EquipementsManquants>Pr&#xE9;paration pour crochet d'attelage, comprend c&#xE2;blage jusqu'au logement de la
+            roue de secours, syst&#xE8;me appropri&#xE9; de refroidissement du moteur : -100.00|Roue de secours
+            temporaire avec cric de levage : -100.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>200</MontantEquipementsManquants>
+        <Volume>460</Volume>
+        <CapaciteReservoir>64</CapaciteReservoir>
+        <Longueur>4388</Longueur>
+        <Largeur>2019</Largeur>
+        <Hauteur>1608</Hauteur>
+        <Empattement>2603</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 460 litres|Capacit&#xE9; maxi du coffre : 1365 litres|Charge
+            utile : 600 kg|Coffre, hauteur : 675 mm|Coffre, hauteur depuis sol : 781 mm|Coffre, largeur : 1000
+            mm|Coffre, largeur maxi : 1067 mm|Coffre, longueur : 880 mm|Coffre, longueur maxi : 1632 mm|Empattement :
+            2603 mm|Hauteur 1608 mm|Largeur : 1831 mm|Largeur ext&#xE9;rieure r&#xE9;tro compris : 2019 mm|Largeur maxi
+            : 2019 mm|Longueur : 4388 mm|Poids &#xE0; vide : 1485 kg|Poids total : 2085 kg|Poids total roulant autoris&#xE9;
+            (PTRA) : 3885 kg|Rayon de braquage : 11,8 m|Remorque avec frein, poids maxi : 1800 kg|Remorque sans frein,
+            poids maxi : 750 kg|R&#xE9;servoir : 64 litres|Surplomb arri&#xE8;re : 880 mm
+        </PoidsEtDimensions>
+        <Co2>124</Co2>
+        <Remise>24</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,50</ConsommationMixte>
+        <ConsommationUrbaine>5,10</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,10</ConsommationExtraUrbaine>
+        <PrixNeuf>44450</PrixNeuf>
+        <PrixVenteHT>27911</PrixVenteHT>
+        <PrixVenteTva>5582</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 27/06/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/audi-q3-cote-gris.jpg|https://pim.autobonplan.com/pictures/vehicle/audi-q3-avant-gris.jpg|https://pim.autobonplan.com/pictures/vehicle/audi-q3-arriere-gris.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-c5275dd40b1e0ab6504bba44b9b70b79.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-c740b0d8efdc813216aba08f0e7a4ca5.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-d3120b86f7132381abb5013851ede5ce.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-a7e8f8f5d51d2e9fb85b99a9a4b79959.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-8d22bec03e6686a006b33b3bc1aee76e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-37678e2fbaef08f301559e89c364f579.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-81939d9b3f95584271f36faf5066ead9.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-78609e629c8790f8a90be1b18893478b.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-11f73008c5c075212f9d77fbc538a0b1.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-0c479b20400d527efa6e062c1d01b882.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-1e1c3cbccbe04d6f5aa90ecad40f39c6.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ccf51f31f4cbc929924be6b2acc11bd0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ccf51f31f4cbc929924be6b2acc11bd0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-74f4885557e8b9375d347aa1bd342c9b.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-1ad89fc918245ca4af660b3b9e9ffe6b.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-914fb6e4ee47e09a79f4244e663cffdf.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-ae85fa3829a98ab3153dec4802469380.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-8c494dfb1799e04bc7ff9b1e7df55d20.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-a388fc7d090af5ad06a288c1dd78f1c9.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-9ae0b2ab144735b48f7695cedcdf4443.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/audi-q3-334ef8b83670192e8ac3372e757f5258.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>Q3</Gamme>
+        <Finition>Ambiente</Finition>
+        <EquipementsSerieConfort>Accoudoir central AV avec vide-poches|Appuie-t&#xEA;te int&#xE9;graux &#xE0; l'AV et
+            l'AR|Audi Drive Select avec mode "efficiency", permet diff&#xE9;rents r&#xE9;glages (direction, moteur et
+            transmission) du v&#xE9;hicule|Banquette AR rabattable 60/40, d&#xE9;verrouillage &#xE0; distance des
+            dossiers via un levier dans la garniture lat&#xE9;rale du coffre|Colonne de direction r&#xE9;glable
+            manuellement en hauteur et en profondeur|Console centrale sur&#xE9;lev&#xE9;e avec vide-poches pouvant
+            &#xEA;tre utilis&#xE9; comme porte-boissons avec volet ouvert|Contact d'allumage &#xE9;lectronique: cl&#xE9;
+            de contact m&#xE9;morisant diff&#xE9;rentes donn&#xE9;es d'entretien|Couvre-bagages coulissant
+            automatiquement par glissi&#xE8;res|D&#xE9;tecteur de pluie et de luminosit&#xE9;|D&#xE9;verrouillage du
+            coffre avec touche douce (d&#xE9;verrouillage avec assistance &#xE9;lectrique)|Eclairage int&#xE9;rieur
+            &#xE0; extinction temporis&#xE9;e et contacteur sur toutes les portes, &#xE9;clairage coffre, conducteur,
+            passager AV et places AR, spots de lecture &#xE0; l'AV et &#xE0; l'AR ainsi que bo&#xEE;te &#xE0; gants
+            &#xE9;clair&#xE9;e|Essuie-glace AR avec commande de lavage-balayage automatique, balayage au passage de la
+            marche AR lorsque les essuie-glaces AV sont activ&#xE9;s|Essuie-glaces AV &#xE0; 2 vitesses avec r&#xE9;glage
+            d'intermittance sur 4 niveaux, commande de balayage coup par coup et lavage-balayage automatique|Indicateur
+            de rapport de vitesse dans le syst&#xE8;me d'information conducteur|L&#xE8;ve-vitres &#xE9;lectriques AV et
+            AR avec protection antipincement et fonction ouverture/fermeture confort par impulsion|Lunette AR d&#xE9;givrante
+            avec minuterie|Miroir de courtoisie|Oeilletons de fixation, 4 oeilletons dans le coffre pour arrimer le
+            chargement|Outillage de bord dans le coffre|Pare-brise acoustique avec bande grise|Pare-soleil rabattables
+            et pivotants c&#xF4;t&#xE9; conducteur et passager AV, avec miroir de courtoisie occultable|Plancher de
+            chargement r&#xE9;versible|Porte-boissons double dans la console centrale|R&#xE9;cup&#xE9;ration d'&#xE9;nergie,
+            g&#xE9;n&#xE9;r&#xE9;e lors des phases de freinage ou de d&#xE9;c&#xE9;l&#xE9;ration et syst&#xE8;me
+            Start/Stop permettant une &#xE9;conomie de carburant|R&#xE9;glage d'appuis lombaires &#xE9;lectriques sur 4
+            plans pour les si&#xE8;ges AV|R&#xE9;gulateur de vitesse|R&#xE9;troviseur int&#xE9;rieur jour/nuit
+            automatique (incluant le d&#xE9;tecteur de pluie et de luminosit&#xE9;)|R&#xE9;troviseurs ext&#xE9;rieurs d&#xE9;givrants
+            et rabattables &#xE9;lectriquement|R&#xE9;troviseurs ext&#xE9;rieurs r&#xE9;glables &#xE9;lectriquement et d&#xE9;givrants,
+            clignotants int&#xE9;gr&#xE9;s a LED bo&#xEE;tiers dans la couleur de la carrosserie, miroir asph&#xE9;rique
+            &#xE0; gauche, convexe &#xE0; droite|S&#xE9;curit&#xE9; enfants sur les porti&#xE8;res et les vitres &#xE9;lectriques
+            AR|Si&#xE8;ges AV avec r&#xE9;glage manuel de la hauteur, de la longueur et des appuie-t&#xEA;tes ainsi que
+            le r&#xE9;glage de l'inclinaison du dossier|Syst&#xE8;me Start/Stop|Verrouillage centralis&#xE9; avec
+            fonction Autolock et t&#xE9;l&#xE9;commande &#xE0; fr&#xE9;quence radio int&#xE9;gr&#xE9;e &#xE0; la cl&#xE9;
+            du v&#xE9;hicule: ouvre et ferme les portes, les vitres, le coffre et la trappe &#xE0; carburant avec code
+            al&#xE9;atoire|Verrouillage &#xE9;lectrique de la colonne de direction|Vide-poches dans les contre-portes
+            AV/AR pouvant contenir une bouteille de 1,5 litres|Pr&#xE9;paration pour crochet d'attelage, comprend c&#xE2;blage
+            jusqu'au logement de la roue de secours, syst&#xE8;me appropri&#xE9; de refroidissement du moteur :
+            -100.00|Roue de secours temporaire avec cric de levage : -100.00|Hayon &#xE9;lectrique : +600.00
+        </EquipementsSerieConfort>
+        <EquipementsSerieMedia>Interface Bluetooth|MMI Radio/Autoradio Concert avec lecteur CD compatible MP3/WMA et
+            ACC, lecteur de cartes SDHC, &#xE9;cran couleur TFT 6.5", prise AUX-IN et 8HP puissance totale 80W
+        </EquipementsSerieMedia>
+        <EquipementsSerieSecurite>ABS avec EBV et syst&#xE8;me d'assistance au freinage d'urgence|Airbags de t&#xEA;te|Airbags
+            frontaux conducteur et passager grand volume, &#xE0; deux niveaux de gonflement suivant la gravit&#xE9; du
+            choc|Airbags lat&#xE9;raux AV int&#xE9;gr&#xE9;s aux dossiers de si&#xE8;ges|Anti-patinage (ASR)|Blocage
+            &#xE9;lectronique de diff&#xE9;rentiel EDS|Contr&#xF4;le de la pression des pneus avec signaux acoustique et
+            visuel de perte de pression|Direction &#xE9;lectrom&#xE9;canique &#xE0; assistance variable|Fixation pour si&#xE8;ges
+            enfants ISOFIX aux places ext&#xE9;rieures AR|Frein de stationnement &#xE9;lectrom&#xE9;canique avec
+            fonction frein de secours sur les 4 roues durant la marche|Kit de r&#xE9;paration de pneus|Programme &#xE9;lectronique
+            de stabilisation ESP|Protection antid&#xE9;marrage &#xE9;lectronique, int&#xE9;gr&#xE9;e &#xE0; la gestion
+            du moteur, activation automatique par la cl&#xE9; du v&#xE9;hicule|T&#xE9;moins de contr&#xF4;le pour
+            airbags, ESP/ASR, adaptive air suspension, EDS, frein de stationnement &#xE9;lectrom&#xE9;canique, r&#xE9;gulateur
+            de vitesse, feux de route, feux AR anribrouillard, clignotants,&#xE9;lectronique moteur et protection antid&#xE9;marrage
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Audi Singleframe, encadrement gris pierre d'une seule pi&#xE8;ce sur la calandre, avec
+            anneaux Audi anodis&#xE9;s au centre|Avertisseurs 2 tons avec commande au centre du volant|Becquet de
+            pavillon|Ciel de pavillon en tissu assorti &#xE0; la couleur int&#xE9;rieure|Feux AR &#xE0; technologie
+            LED|Moulures de seuils de portes en plastique|Pack Aluminium Int&#xE9;rieur|Poign&#xE9;es de maintien avec m&#xE9;canisme
+            amortisseur : 4 poign&#xE9;es encastr&#xE9;es dans le ciel de pavillon|Poign&#xE9;es de porti&#xE8;res ext&#xE9;rieures
+            laqu&#xE9;es dans la couleur de carrosserie|Sortie d'&#xE9;chappement visible monoflux, 2 sorties &#xE0;
+            gauche avec embout chrom&#xE9;
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Climatisation automatique Confort|R&#xE9;troviseurs ext&#xE9;rieurs escamotables
+            &#xE9;lectriquement, d&#xE9;givrants des deux c&#xF4;t&#xE9;s et buses de lave-glaces d&#xE9;givrantes|Audi
+            Parking System Plus : signal acoustique et visuel d'aide au stationnement AV et AR par par pictogrammes sur
+            l'&#xE9;cran : +465.00|Pack Eclairage : Miroir de courtoisie c&#xF4;t&#xE9; conducteur et passager AV &#xE9;clair&#xE9;
+            Catadioptres actifs sur les portes Eclairage int&#xE9;rieur &#xE0; l'AV et &#xE0; l'AR avec spots de lecture
+            Lumi&#xE8;re r&#xE9;fl&#xE9;chie pour la console centrale et l'int&#xE9;rieur des portes Eclairage du
+            porte-boissons Vide-poches &#xE9;clair&#xE9; sur la console centrale Eclairage au sol et &#xE9;clairage
+            niveau des pieds &#xE0; l'AV ainsi que des poign&#xE9;es int&#xE9;rieures des portes Molettes des diffuseurs
+            d'air &#xE9;clair&#xE9;s : +295.00|Pack Esth&#xE9;tique Noir : Encadrement de calandre noir brillant,
+            support de plaque d&#x2019;immatriculation et calandre noir mat, applications noir brillant sur la calandre
+            et les prises d&#x2019;air lat&#xE9;rales. Rampes de pavillon noir mat et entourage des vitres et montants
+            de pavillon centraux noir brillant : +670.00|Si&#xE8;ges AV Sport &#xE0; r&#xE9;glages manuels et supports
+            lombaires r&#xE9;glables &#xE9;lectriquement : : +350.00|Vitres AR surteint&#xE9;es : rev&#xEA;tement fonc&#xE9;
+            des vitres de porti&#xE8;res AR et lat&#xE9;rales AR ainsi que la lunette AR : +490.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia>Ordinateur de bord couleur et contr&#xF4;le Autocheck et programme efficiency :
+            +150.00|Pack Navigation avec donn&#xE9;es de navigation (carte SD) : Pack Connectivity Donn&#xE9;es de
+            navigation sur carte SD Affichage des cartes routi&#xE8;res sur &#xE9;cran couleur de 6.5" : +720.00
+        </EquipementsOptionMedia>
+        <EquipementsOptionSecurite>Audi Hold Assist: maintien le v&#xE9;hicule &#xE0; l'arr&#xEA;t en c&#xF4;te comme en
+            descente|D&#xE9;sactivation de l'airbag passager et pr&#xE9;paration pour si&#xE8;ges enfants Isofix sur si&#xE8;ge
+            passager AV : +120.00
+        </EquipementsOptionSecurite>
+        <EquipementsOptionStyle>Jantes Audi Sport en aluminium coul&#xE9; 10 branches finition Titane mat 8.5Jx19" avec
+            pneus 255/40 R19 : +2555.00|Peinture int&#xE9;grale uni : +250.00|Peinture m&#xE9;tallis&#xE9;e :
+            +850.00|Phares AV int&#xE9;gralement &#xE0; LED : +1330.00|Rampes de pavillon noires : +0.00|Volant Sport 3
+            branches multifonctions en cuir : +145.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_143892</IdentifiantVehicule>
+        <ReferenceVehicule>ST_143892</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>13-08-2018</Date1Mec>
+        <Marque>ALFA ROMEO</Marque>
+        <Famille>GIULIA</Famille>
+        <Version>2.2 210 ch AT8 Q4 Veloce</Version>
+        <Modele>GIULIA 2.2 210 ch AT8 Q4 Veloce</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>11</PuissanceFiscale>
+        <PuissanceReelle>210</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>4</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Automatique</BoiteLibelle>
+        <NbRapports>8</NbRapports>
+        <PrixVenteTTC>38793</PrixVenteTTC>
+        <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Etriers de freins Rouge|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Jantes en alliage 19" Performance Noires (avec Pneus Run-On Flat)|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Confort :  Système d'entrée sans clés (conducteur et passager) Eclairage des poignées de portes Compartiment porte-objets côté conducteur Pare-soleil conducteur avec illumination|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Peinture métallisée|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Vitres AR privatives|Volant Sport]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All weather)|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|DAB - Radio Numerique|Dark-Line extérieur|Feux AR à LED|Frein à main électromécanique|Inserts et détails interieurs noirs|Pack Assistance :  Radar de parking AV Caméra de recul avec lignes indicatrices|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Phares Bi-Xénon 25W|Planche de bord et panneaux de portes en 2 tons|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Rotary Pad (Control Système Media)|Sortie d'échappement simple|Start & Stop|Système d'alertes anticollisions (FCW) avec détection piétons|Système de freinage d'urgence|Système de freinage Veloce|Système de freins intégré (IBS)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"|Volant Sport|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerie>
+        <EquipementsOption>Etriers de freins Rouge : +200.00|Jantes en alliage 19" Performance Noires (avec Pneus Run-On
+            Flat) : +900.00|Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager) Eclairage
+            des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil conducteur avec
+            illumination : +580.00|Peinture m&#xE9;tallis&#xE9;e : +890.00|Vitres AR privatives : +390.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>2960</MontantOptionsIncluses>
+        <EquipementsManquants>Pack Eclairage : Lave-phares Projecteurs Bi-X&#xE9;non 35W directionnels Feux AV eclairage
+            diurne LED : -400.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>400</MontantEquipementsManquants>
+        <Volume>480</Volume>
+        <CapaciteReservoir>52</CapaciteReservoir>
+        <Longueur>4643</Longueur>
+        <Largeur>1860</Largeur>
+        <Hauteur>1436</Hauteur>
+        <Empattement>2820</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 480 litres|Empattement : 2820 mm|Hauteur 1436 mm|Largeur :
+            1860 mm|Longueur : 4643 mm|Poids &#xE0; vide : 1535 kg|Rayon de braquage : 10,8 m|R&#xE9;servoir : 52 litres
+        </PoidsEtDimensions>
+        <Co2>122</Co2>
+        <Remise>28</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,70</ConsommationMixte>
+        <ConsommationUrbaine>0,00</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>54250</PrixNeuf>
+        <PrixVenteHT>32328</PrixVenteHT>
+        <PrixVenteTva>6465</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 12/08/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-cote-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-avant-noir.jpg|https://pim.autobonplan.com/pictures/vehicle/alfa-romeo-giulia-arriere-noir.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-c5a39d3f294a9d2622c0e4a3b245ff47.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-89ba281e0fbdc87c65ecf7e46da4db11.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-e901d62cad3c94211cdafa7b7a50abe0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-6bb2bba4748e0302d6d5d1195bd5917d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-9ebc85d5e32301016677399436a0e6b9.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-d970a667295e56315966f4ac1cb8ac8e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-a85a0d4c650494d858666df25c6cf683.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-0ca68df52a705c7c232f7dbc9172bd62.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-26a386c4c1aac4ec4a5835b33add3f3c.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-c767ef508aa03ce00f8f37b0e9054a71.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-ee2a80681be9161ac6161a199023a26a.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-9ade16e6280bfe606a765a8b9b77d681.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-717a0e14c8f977fe1c6c774c2459ae13.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-7173b3e752ceb888873e723b16814163.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/alfa-romeo-giulia-7173b3e752ceb888873e723b16814163.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>GIULIA</Gamme>
+        <EquipementsSerieConfort>
+            <![CDATA[Accoudoir AR + banquette AR rabattable|Banquette AR rabattable|Bouton Start sur le volant|Capteur de pluie et de luminosité|Climatisation automatique bi-zone|Pack Hiver :  Sièges AV chauffants Volant chauffant|Pack Intérieur :  Boîte à gants refrigérée Système Qualité Air + Prise USB AV Prise USB AR Sortie d'air places AR Pare-brise athermique|Pack Sièges électriques :  Réglage électrique conducteur 6 positions Réglage électrique passager 6 positions|Projecteurs et Eclairage de jour halogène|Radar AV et AR|Régulateur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Start & Stop|Pack Eclairage :  Lave-phares Projecteurs Bi-Xénon 35W directionnels Feux AV eclairage diurne LED : -400.00]]></EquipementsSerieConfort>
+        <EquipementsSerieMedia>
+            <![CDATA[DAB - Radio Numerique|Rotary Pad (Control Système Media)|Système Navigation 3D 8,8" & Radio Numérique & Instrumentation Bord 7"]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte de Franchissement de ligne blanche|Alfa DNA (Dynamic, Normal, All
+            weather)|Frein &#xE0; main &#xE9;lectrom&#xE9;canique|Pack Assistance : Radar de parking AV Cam&#xE9;ra de
+            recul avec lignes indicatrices|Phares Bi-X&#xE9;non 25W|Syst&#xE8;me d'alertes anticollisions (FCW) avec d&#xE9;tection
+            pi&#xE9;tons|Syst&#xE8;me de freinage d'urgence|Syst&#xE8;me de freinage Veloce|Syst&#xE8;me de freins int&#xE9;gr&#xE9;
+            (IBS)
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Dark-Line ext&#xE9;rieur|Feux AR &#xE0; LED|Inserts et d&#xE9;tails interieurs
+            noirs|Planche de bord et panneaux de portes en 2 tons|Sortie d'&#xE9;chappement simple|Volant Sport
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers/>
+        <EquipementsOptionConfort>Pack Confort : Syst&#xE8;me d'entr&#xE9;e sans cl&#xE9;s (conducteur et passager)
+            Eclairage des poign&#xE9;es de portes Compartiment porte-objets c&#xF4;t&#xE9; conducteur Pare-soleil
+            conducteur avec illumination : +580.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia/>
+        <EquipementsOptionSecurite/>
+        <EquipementsOptionStyle>Etriers de freins Rouge : +200.00|Jantes en alliage 19" Performance Noires (avec Pneus
+            Run-On Flat) : +900.00|Peinture m&#xE9;tallis&#xE9;e : +890.00|Vitres AR privatives : +390.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_152266</IdentifiantVehicule>
+        <ReferenceVehicule>ST_152266</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>18-07-2018</Date1Mec>
+        <Marque>RENAULT</Marque>
+        <Famille>CAPTUR</Famille>
+        <Version>DCI 90 ENERGY INTENS</Version>
+        <Modele>CAPTUR NOUVEAU DCI 90 ENERGY INTENS</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>5</PuissanceFiscale>
+        <PuissanceReelle>90</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>5</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Manuelle</BoiteLibelle>
+        <NbRapports>5</NbRapports>
+        <PrixVenteTTC>17593</PrixVenteTTC>
+        <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et latéraux|Alerte oubli ceinture conducteur|Ambiance intérieure Foncé|Assistance au freinage d'urgence (A.F.U.)|Cache bagages|Capteur de pluie et de luminosité|Carte "Mains libres"|Cartographie Europe de l'Ouest|Ceinture centrale AR 3 points|Ceintures de sécurité AV réglables en hauteur|Climatisation automatique|Condamnation électriques des portes|Controle dynamique de conduite ESP|Coques de rétroviseurs ton toit (si bi-ton)|Décors intérieurs Chrome (cerclages aérateurs et haut-parleurs, embase levier de vitesse)|Ecran multimédia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Feux de jour à LED|Indicateur de changement de vitesse|Jantes alliage 17'' Emotion diamantées Noir|Lève-vitre AV électrique à impulsion côté conducteur|Lève-vitres AR électrique|MediaNav Evolution - Navigation Nav&Go|Pack City Plus :  Aide au parking avec radars AV et caméra de recul|Peinture métallisée spéciale bi-ton|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction cornering|Régulateur et limiteur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Roue de secours|Sellerie déhoussable tissu Ivoire (DRAP 27)|Siège conducteur réglable en hauteur|Skis AV et AR|Système de surveillance de la pression des pneus|Système Ecomode|Système ISOFIX aux places latérales AR|Tiroir Easy-Life|Vitres AR surteintées|Volant cuir|3 appuis-tête AR réglables en hauteur]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et latéraux|Alerte oubli ceinture conducteur|Ambiance intérieure Foncé|Assistance au freinage d'urgence (A.F.U.)|Cache bagages|Capteur de pluie et de luminosité|Carte "Mains libres"|Cartographie Europe de l'Ouest|Ceinture centrale AR 3 points|Ceintures de sécurité AV réglables en hauteur|Climatisation automatique|Condamnation électriques des portes|Controle dynamique de conduite ESP|Coques de rétroviseurs ton toit (si bi-ton)|Décors intérieurs Chrome (cerclages aérateurs et haut-parleurs, embase levier de vitesse)|Ecran multimédia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Feux de jour à LED|Indicateur de changement de vitesse|Jantes alliage 17'' Emotion diamantées Noir|Lève-vitre AV électrique à impulsion côté conducteur|Lève-vitres AR électrique|MediaNav Evolution - Navigation Nav&Go|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction cornering|Régulateur et limiteur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Siège conducteur réglable en hauteur|Skis AV et AR|Système de surveillance de la pression des pneus|Système Ecomode|Système ISOFIX aux places latérales AR|Tiroir Easy-Life|Vitres AR surteintées|Volant cuir|3 appuis-tête AR réglables en hauteur|Accoudoir AV : -110.00|Pack Premium : Rétroviseur intérieur électrochrome Pédalier et pommeau de vitesse finition Aluminium Plafonnier à LED Miroirs de courtoisie conducteur et passager avant éclairés Range lunettes : -200.00]]></EquipementsSerie>
+        <EquipementsOption>Pack City Plus : Aide au parking avec radars AV et cam&#xE9;ra de recul : +350.00|Peinture m&#xE9;tallis&#xE9;e
+            sp&#xE9;ciale bi-ton : +740.00|Roue de secours : +130.00|Sellerie d&#xE9;houssable tissu Ivoire (DRAP 27) :
+            +0.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>1220</MontantOptionsIncluses>
+        <EquipementsManquants>Accoudoir AV : -110.00|Pack Premium : R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome P&#xE9;dalier
+            et pommeau de vitesse finition Aluminium Plafonnier &#xE0; LED Miroirs de courtoisie conducteur et passager
+            avant &#xE9;clair&#xE9;s Range lunettes : -200.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>310</MontantEquipementsManquants>
+        <Volume>377</Volume>
+        <CapaciteReservoir>45</CapaciteReservoir>
+        <Longueur>4122</Longueur>
+        <Largeur>1778</Largeur>
+        <Hauteur>1566</Hauteur>
+        <Empattement>2606</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 377 litres|Capacit&#xE9; maxi du coffre : 1235 litres|Coffre,
+            hauteur : 685 mm|Coffre, hauteur depuis sol : 732 mm|Coffre, largeur : 983 mm|Coffre, longueur : 724
+            mm|Coffre, longueur maxi : 1512 mm|Empattement : 2606 mm|Espace au sol : 170 mm|Hauteur 1566 mm|Largeur :
+            1778 mm|Longueur : 4122 mm|R&#xE9;servoir : 45 litres|Surplomb arri&#xE8;re : 650 mm
+        </PoidsEtDimensions>
+        <Co2>110</Co2>
+        <Remise>29</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,20</ConsommationMixte>
+        <ConsommationUrbaine>4,60</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>24910</PrixNeuf>
+        <PrixVenteHT>14661</PrixVenteHT>
+        <PrixVenteTva>2932</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 17/07/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/renault-captur-cote-blanc.jpg|https://pim.autobonplan.com/pictures/vehicle/renault-captur-avant-blanc.jpg|https://pim.autobonplan.com/pictures/vehicle/renault-captur-cote-blanc-1530113048.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-5ef4fa4fd68917397de70fc6ea06cd66.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-37096f6a1e55231559644f9a14b8dd57.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-8a3310aaed76563a43d4b3a4a25eefc0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-6dc2cbe02e562b571c76d90d49877e30.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-dc1018a09027ba51f2d5862b1404720d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-0d3c67ca30b165e35f99cc90b55bdea4.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-5c5eb0a0808f41033395350f72377328.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-36adb4a6f69544c72e1d9e5bcb618d14.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-65412d332de8f829df6c57aa14b664f3.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-5588da78e9867ac299218d65a384c477.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-828a14a77c53b7048912435723a285e5.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-4a825fdad0e507e15d3e534892669ff5.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-dd61428ecdf4caaf8dbd667829f3488a.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-b20cbe80ebdff8b9be1a9da28494ba2b.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>CAPTUR</Gamme>
+        <Finition>Intens</Finition>
+        <EquipementsSerieConfort>ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et lat&#xE9;raux|Cache
+            bagages|Capteur de pluie et de luminosit&#xE9;|Carte "Mains libres"|Climatisation automatique|Coques de r&#xE9;troviseurs
+            ton toit (si bi-ton)|D&#xE9;cors int&#xE9;rieurs Chrome (cerclages a&#xE9;rateurs et haut-parleurs, embase
+            levier de vitesse)|Ecran multim&#xE9;dia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Indicateur de
+            changement de vitesse|L&#xE8;ve-vitre AV &#xE9;lectrique &#xE0; impulsion c&#xF4;t&#xE9; conducteur|L&#xE8;ve-vitres
+            AR &#xE9;lectrique|R&#xE9;gulateur et limiteur de vitesse|R&#xE9;troviseurs ext&#xE9;rieurs rabattables
+            &#xE9;lectriquement|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|Skis AV et AR|Syst&#xE8;me ISOFIX aux
+            places lat&#xE9;rales AR|Tiroir Easy-Life|Vitres AR surteint&#xE9;es|3 appuis-t&#xEA;te AR r&#xE9;glables en
+            hauteur|Accoudoir AV : -110.00|Pack Premium : R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome P&#xE9;dalier
+            et pommeau de vitesse finition Aluminium Plafonnier &#xE0; LED Miroirs de courtoisie conducteur et passager
+            avant &#xE9;clair&#xE9;s Range lunettes : -200.00
+        </EquipementsSerieConfort>
+        <EquipementsSerieMedia><![CDATA[MediaNav Evolution - Navigation Nav&Go]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte oubli ceinture conducteur|Assistance au freinage d'urgence (A.F.U.)|Ceinture
+            centrale AR 3 points|Ceintures de s&#xE9;curit&#xE9; AV r&#xE9;glables en hauteur|Condamnation &#xE9;lectriques
+            des portes|Feux de jour &#xE0; LED|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction
+            cornering|Syst&#xE8;me de surveillance de la pression des pneus
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Ambiance int&#xE9;rieure Fonc&#xE9;|Jantes alliage 17'' Emotion diamant&#xE9;es Noir
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers>Controle dynamique de conduite ESP|Syst&#xE8;me Ecomode</EquipementsSerieDivers>
+        <EquipementsOptionConfort>Pack City Plus : Aide au parking avec radars AV et cam&#xE9;ra de recul : +350.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia>Cartographie Europe de l'Ouest</EquipementsOptionMedia>
+        <EquipementsOptionSecurite>Roue de secours : +130.00</EquipementsOptionSecurite>
+        <EquipementsOptionStyle>Volant cuir|Peinture m&#xE9;tallis&#xE9;e sp&#xE9;ciale bi-ton : +740.00|Sellerie d&#xE9;houssable
+            tissu Ivoire (DRAP 27) : +0.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+    <Vehicule>
+        <IdentifiantVehicule>ST_152277</IdentifiantVehicule>
+        <ReferenceVehicule>ST_152277</ReferenceVehicule>
+        <StatutStock>ST</StatutStock>
+        <Annee>2018</Annee>
+        <Date1Mec>24-07-2018</Date1Mec>
+        <Marque>RENAULT</Marque>
+        <Famille>CAPTUR</Famille>
+        <Version>DCI 90 ENERGY INTENS</Version>
+        <Modele>CAPTUR NOUVEAU DCI 90 ENERGY INTENS</Modele>
+        <EnergieLibelle>Diesel</EnergieLibelle>
+        <PuissanceFiscale>5</PuissanceFiscale>
+        <PuissanceReelle>90</PuissanceReelle>
+        <NbPlaces>5</NbPlaces>
+        <NbPortes>5</NbPortes>
+        <Kilometrage>10</Kilometrage>
+        <Couleur></Couleur>
+        <BoiteLibelle>Manuelle</BoiteLibelle>
+        <NbRapports>5</NbRapports>
+        <PrixVenteTTC>17593</PrixVenteTTC>
+        <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+        <EquipementsSerieEtOption>
+            <![CDATA[ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et latéraux|Alerte oubli ceinture conducteur|Ambiance intérieure Foncé|Assistance au freinage d'urgence (A.F.U.)|Cache bagages|Capteur de pluie et de luminosité|Carte "Mains libres"|Cartographie Europe de l'Ouest|Ceinture centrale AR 3 points|Ceintures de sécurité AV réglables en hauteur|Climatisation automatique|Condamnation électriques des portes|Controle dynamique de conduite ESP|Coques de rétroviseurs ton toit (si bi-ton)|Décors intérieurs Chrome (cerclages aérateurs et haut-parleurs, embase levier de vitesse)|Ecran multimédia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Feux de jour à LED|Indicateur de changement de vitesse|Jantes alliage 17'' Emotion diamantées Noir|Lève-vitre AV électrique à impulsion côté conducteur|Lève-vitres AR électrique|MediaNav Evolution - Navigation Nav&Go|Pack City Plus :  Aide au parking avec radars AV et caméra de recul|Peinture métallisée bi-ton|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction cornering|Régulateur et limiteur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Roue de secours|Sellerie déhoussable tissu Ivoire (DRAP 27)|Siège conducteur réglable en hauteur|Skis AV et AR|Système de surveillance de la pression des pneus|Système Ecomode|Système ISOFIX aux places latérales AR|Tiroir Easy-Life|Vitres AR surteintées|Volant cuir|3 appuis-tête AR réglables en hauteur]]></EquipementsSerieEtOption>
+        <EquipementsSerie>
+            <![CDATA[ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et latéraux|Alerte oubli ceinture conducteur|Ambiance intérieure Foncé|Assistance au freinage d'urgence (A.F.U.)|Cache bagages|Capteur de pluie et de luminosité|Carte "Mains libres"|Cartographie Europe de l'Ouest|Ceinture centrale AR 3 points|Ceintures de sécurité AV réglables en hauteur|Climatisation automatique|Condamnation électriques des portes|Controle dynamique de conduite ESP|Coques de rétroviseurs ton toit (si bi-ton)|Décors intérieurs Chrome (cerclages aérateurs et haut-parleurs, embase levier de vitesse)|Ecran multimédia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Feux de jour à LED|Indicateur de changement de vitesse|Jantes alliage 17'' Emotion diamantées Noir|Lève-vitre AV électrique à impulsion côté conducteur|Lève-vitres AR électrique|MediaNav Evolution - Navigation Nav&Go|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction cornering|Régulateur et limiteur de vitesse|Rétroviseurs extérieurs rabattables électriquement|Siège conducteur réglable en hauteur|Skis AV et AR|Système de surveillance de la pression des pneus|Système Ecomode|Système ISOFIX aux places latérales AR|Tiroir Easy-Life|Vitres AR surteintées|Volant cuir|3 appuis-tête AR réglables en hauteur|Accoudoir AV : -110.00|Pack Premium : Rétroviseur intérieur électrochrome Pédalier et pommeau de vitesse finition Aluminium Plafonnier à LED Miroirs de courtoisie conducteur et passager avant éclairés Range lunettes : -200.00]]></EquipementsSerie>
+        <EquipementsOption>Pack City Plus : Aide au parking avec radars AV et cam&#xE9;ra de recul : +350.00|Peinture m&#xE9;tallis&#xE9;e
+            bi-ton : +540.00|Roue de secours : +130.00|Sellerie d&#xE9;houssable tissu Ivoire (DRAP 27) : +0.00
+        </EquipementsOption>
+        <MontantOptionsIncluses>1020</MontantOptionsIncluses>
+        <EquipementsManquants>Accoudoir AV : -110.00|Pack Premium : R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome P&#xE9;dalier
+            et pommeau de vitesse finition Aluminium Plafonnier &#xE0; LED Miroirs de courtoisie conducteur et passager
+            avant &#xE9;clair&#xE9;s Range lunettes : -200.00
+        </EquipementsManquants>
+        <MontantEquipementsManquants>310</MontantEquipementsManquants>
+        <Volume>377</Volume>
+        <CapaciteReservoir>45</CapaciteReservoir>
+        <Longueur>4122</Longueur>
+        <Largeur>1778</Largeur>
+        <Hauteur>1566</Hauteur>
+        <Empattement>2606</Empattement>
+        <PoidsEtDimensions>Capacit&#xE9; mini du coffre : 377 litres|Capacit&#xE9; maxi du coffre : 1235 litres|Coffre,
+            hauteur : 685 mm|Coffre, hauteur depuis sol : 732 mm|Coffre, largeur : 983 mm|Coffre, longueur : 724
+            mm|Coffre, longueur maxi : 1512 mm|Empattement : 2606 mm|Espace au sol : 170 mm|Hauteur 1566 mm|Largeur :
+            1778 mm|Longueur : 4122 mm|R&#xE9;servoir : 45 litres|Surplomb arri&#xE8;re : 650 mm
+        </PoidsEtDimensions>
+        <Co2>110</Co2>
+        <Remise>28</Remise>
+        <GarantieConstructeur>24</GarantieConstructeur>
+        <ConsommationMixte>4,20</ConsommationMixte>
+        <ConsommationUrbaine>4,60</ConsommationUrbaine>
+        <ConsommationExtraUrbaine>4,00</ConsommationExtraUrbaine>
+        <PrixNeuf>24710</PrixNeuf>
+        <PrixVenteHT>14661</PrixVenteHT>
+        <PrixVenteTva>2932</PrixVenteTva>
+        <KmGaranti>Non garanti</KmGaranti>
+        <StatutStockABP>Arrivage</StatutStockABP>
+        <GarantieLibelle>Constructeur jusqu'au 23/07/2020</GarantieLibelle>
+        <PrixVenteMarchand>0</PrixVenteMarchand>
+        <UrlPhotoAutobonplan>
+            https://pim.autobonplan.com/pictures/vehicle/renault-captur-cote-blanc.jpg|https://pim.autobonplan.com/pictures/vehicle/renault-captur-avant-blanc.jpg|https://pim.autobonplan.com/pictures/vehicle/renault-captur-cote-blanc-1530113048.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-0d8d74f626365c80f15a1b67b234e2e6.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-0b3731f67d9970b11df67302ce7eb74a.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-8129f5080dc03b7d080800c022bc2f8c.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-f695ada1657303ab3e7bd503a3e3db6e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-cfd6c39e7b5852ce8f38f554c698b441.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-e0b93576521122bf9345604ab089a858.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-26a257ce57a8a08c171a8893d7b75d4e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-eb44aea98c2d0defaee05537cd8b84d4.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-ba5e39c9aa4de13357b021d340b326c0.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-e51760f031651af5885b9f9ab888aa01.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-e6e92dfbf57b864854608479c09524ee.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-a7920b09a7e11200144e93a6c2f41d82.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-dab218585ad86d9f0d4dd347a7d81a49.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-3f6903f719b5bcba51493e3d2a93a9b3.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-ae7b88acd965ca9589440e9f15fe5783.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-34daff4535ab4706eab5b9cac520f7d2.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-1b205f7fcb9a43fa5a0bdc8de1bb8b5e.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-c09b5b57fd526862ac1a674b8e698f71.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-7eef8c4d0dd79c1cd64335fa95d2817d.jpg|http://res.cloudinary.com/starterre/image/upload/v1416476609/renault-captur-nouveau-698c1e7f483d8baf8984fba9135a2cc0.jpg
+        </UrlPhotoAutobonplan>
+        <UrlAutobonplan></UrlAutobonplan>
+        <Gamme>CAPTUR</Gamme>
+        <Finition>Intens</Finition>
+        <EquipementsSerieConfort>ABS|Aide au parking AR|Airbags conducteur et passager|Airbags frontaux et lat&#xE9;raux|Cache
+            bagages|Capteur de pluie et de luminosit&#xE9;|Carte "Mains libres"|Climatisation automatique|Coques de r&#xE9;troviseurs
+            ton toit (si bi-ton)|D&#xE9;cors int&#xE9;rieurs Chrome (cerclages a&#xE9;rateurs et haut-parleurs, embase
+            levier de vitesse)|Ecran multim&#xE9;dia tactile 7" (radio MP3, Bluetooth, prises USB et Jack)|Indicateur de
+            changement de vitesse|L&#xE8;ve-vitre AV &#xE9;lectrique &#xE0; impulsion c&#xF4;t&#xE9; conducteur|L&#xE8;ve-vitres
+            AR &#xE9;lectrique|R&#xE9;gulateur et limiteur de vitesse|R&#xE9;troviseurs ext&#xE9;rieurs rabattables
+            &#xE9;lectriquement|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|Skis AV et AR|Syst&#xE8;me ISOFIX aux
+            places lat&#xE9;rales AR|Tiroir Easy-Life|Vitres AR surteint&#xE9;es|3 appuis-t&#xEA;te AR r&#xE9;glables en
+            hauteur|Accoudoir AV : -110.00|Pack Premium : R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome P&#xE9;dalier
+            et pommeau de vitesse finition Aluminium Plafonnier &#xE0; LED Miroirs de courtoisie conducteur et passager
+            avant &#xE9;clair&#xE9;s Range lunettes : -200.00
+        </EquipementsSerieConfort>
+        <EquipementsSerieMedia><![CDATA[MediaNav Evolution - Navigation Nav&Go]]></EquipementsSerieMedia>
+        <EquipementsSerieSecurite>Alerte oubli ceinture conducteur|Assistance au freinage d'urgence (A.F.U.)|Ceinture
+            centrale AR 3 points|Ceintures de s&#xE9;curit&#xE9; AV r&#xE9;glables en hauteur|Condamnation &#xE9;lectriques
+            des portes|Feux de jour &#xE0; LED|Phares LED PURE VISION|Projecteurs antibrouillard avec fonction
+            cornering|Syst&#xE8;me de surveillance de la pression des pneus
+        </EquipementsSerieSecurite>
+        <EquipementsSerieStyle>Ambiance int&#xE9;rieure Fonc&#xE9;|Jantes alliage 17'' Emotion diamant&#xE9;es Noir
+        </EquipementsSerieStyle>
+        <EquipementsSerieDivers>Controle dynamique de conduite ESP|Syst&#xE8;me Ecomode</EquipementsSerieDivers>
+        <EquipementsOptionConfort>Pack City Plus : Aide au parking avec radars AV et cam&#xE9;ra de recul : +350.00
+        </EquipementsOptionConfort>
+        <EquipementsOptionMedia>Cartographie Europe de l'Ouest</EquipementsOptionMedia>
+        <EquipementsOptionSecurite>Roue de secours : +130.00</EquipementsOptionSecurite>
+        <EquipementsOptionStyle>Volant cuir|Peinture m&#xE9;tallis&#xE9;e bi-ton : +540.00|Sellerie d&#xE9;houssable
+            tissu Ivoire (DRAP 27) : +0.00
+        </EquipementsOptionStyle>
+        <EquipementsOptionDivers/>
+    </Vehicule>
+</Stock>

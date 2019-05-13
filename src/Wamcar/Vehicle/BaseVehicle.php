@@ -182,6 +182,14 @@ abstract class BaseVehicle implements Vehicle
     /**
      * @return string
      */
+    public function getFullName(): string
+    {
+        return $this->getMake() . ' ' . $this->getModelName() . ' ' . $this->getEngineName();
+    }
+
+    /**
+     * @return string
+     */
     public function getMake(): string
     {
         return $this->modelVersion->getModel()->getMake()->getName();
@@ -788,6 +796,22 @@ abstract class BaseVehicle implements Vehicle
     public function setCity(City $city): void
     {
         $this->city = $city;
+    }
+
+    /**
+     * @param \DateTimeInterface $createdAt
+     */
+    public function setCreatedAt(\DateTimeInterface $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @param \DateTimeInterface $updatedAt
+     */
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
     /**

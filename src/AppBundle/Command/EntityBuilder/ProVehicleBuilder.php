@@ -17,7 +17,7 @@ abstract class ProVehicleBuilder
     private $logger;
 
     /**
-     * AutoManuelProVehicleBuilder constructor.
+     * ProVehicleBuilder constructor.
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -26,33 +26,45 @@ abstract class ProVehicleBuilder
     }
 
     /**
-     * @param null|ProVehicle $existingProVehicle The vehicle to update or null
-     * @param array $vehicleDTORowData Vehicle data from the row
+     * @param array|\SimpleXMLElement $vehicleDTORowData Vehicle data from the row or XML
      * @param Garage $garage The garage of the vehicle
+     * @param null|ProVehicle $existingProVehicle The vehicle to update or null
      * @return ProVehicle
      */
-    public abstract function generateVehicleFromRowData(?ProVehicle $existingProVehicle, array $vehicleDTORowData, Garage $garage): ProVehicle;
+    public abstract function generateVehicleFromRowData($vehicleDTORowData, Garage $garage, ?ProVehicle $existingProVehicle = null): ProVehicle;
 
     /**
      * Add a picture to the ProVehicle from the given URL
      * @param ProVehicle $proVehicle
      * @param string $url
      * @param int $position
+     * @return true if the picture is accessible and successfully added
      */
     protected function addProVehiclePictureFormUrl(ProVehicle $proVehicle, string $url, int $position)
     {
         $originalFileName = basename($url);
-        $tempLocation = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $originalFileName;
-
-        if (file_put_contents($tempLocation, fopen($url, "r")) !== false) {
-            try {
-                $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
-                $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
-                $proVehicle->addPicture($vehiclePicture);
-            } catch (FileNotFoundException $fileNotFoundException) {
-                $this->logger->warning($fileNotFoundException->getMessage());
+        $tempLocation = sys_get_temp_dir() . DIRECTORY_SEPARATOR . uniqid('vehiclePicture') . '_' . $originalFileName;
+        try {
+            $urlFile = fopen($url, "r");
+            if ($urlFile !== FALSE) {
+                if (file_put_contents($tempLocation, $urlFile) !== false) {
+                    $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
+                    $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
+                    $proVehicle->addPicture($vehiclePicture);
+                    return true;
+                } else {
+                    $this->logger->warning('file_put_contents(' . $tempLocation . ') returns FALSE');
+                }
+                fclose($urlFile);
+            } else {
+                $this->logger->warning('fopen <' . $url . '> returns an FALSE');
             }
+        } catch (FileNotFoundException $fileNotFoundException) {
+            $this->logger->warning($fileNotFoundException->getMessage());
+        }catch(\Exception $e){
+            $this->logger->warning($e->getMessage());
         }
+        return false;
     }
 
     /**

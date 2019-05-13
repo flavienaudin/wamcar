@@ -26,3 +26,11 @@ parameters:
     typeform.ubiflow_request: https://wamcar.typeform.com/to/pXYHJv
     typeform.affinity.personal.form: MBKzPH
     typeform.affinity.pro.form: oOG6ml
+
+
+    polevo.contact.name: Xavier Pousset
+    polevo.contact.email: xavier@wamcar.com
+    polevo.contact.tel: "0652374482"
+    polevo.contact.address: 200 bv de la résistance
+    polevo.contact.city: Mâcon
+    polevo.contact.zip: 71000

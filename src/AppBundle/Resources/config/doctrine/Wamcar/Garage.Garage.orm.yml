@@ -79,6 +79,9 @@ Wamcar\Garage\Garage:
         apiSecret:
             type: string
             nullable: true
+        polevoId:
+            type: string
+            nullable: true
         slug:
             type: string
             length: 512

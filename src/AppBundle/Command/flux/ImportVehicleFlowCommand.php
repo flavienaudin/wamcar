@@ -10,13 +10,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Wamcar\Garage\Garage;
 
 class ImportVehicleFlowCommand extends BaseCommand
 {
-
-    /** Configure command */
-    const DATE_FORMAT = "d-m-Y H:i:s";
-
     protected function configure()
     {
         $this
@@ -52,26 +49,84 @@ class ImportVehicleFlowCommand extends BaseCommand
         $origin = $config['origin'];
         $io->text('Origin  : ' . $origin);
 
-        if ($source == "file" || $source == "url") {
+        if ($source === "file" || $source === "url") {
             $dataFile = $config[$source];
-        } elseif ($source == "ftp") {
-            // TODO download the file throught FTP connexion
-            exit("FTP connection is not supported yet");
+            $io->text('DataFile : ' . $dataFile);
+        } elseif ($source === "ftp") {
+            if (!isset($config['ftp']['host']) || !isset($config['ftp']['login']) || !isset($config['ftp']['password'])) {
+                $io->error('Missing FTP settings : host, login or password');
+                exit(-1);
+            }
+            $conn_id = ftp_connect($config['ftp']['host']);
+            if (ftp_login($conn_id, $config['ftp']['login'], $config['ftp']['password'])) {
+                ftp_pasv($conn_id, true);
+
+                switch ($origin) {
+                    case VehicleImportService::ORIGIN_POLEVO:
+                        $importXMLFilesTempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'polevo' . DIRECTORY_SEPARATOR;
+                        if (file_exists($importXMLFilesTempDir) === FALSE) {
+                            mkdir($importXMLFilesTempDir);
+                        }
+
+                        $garagesFlowFiles = [];
+                        $garages = $vehicleImportService->getPoleVOGarage();
+                        /** @var Garage $garage */
+                        foreach ($garages as $garage) {
+                            $garageFileName = date('Ymd_Hi') . '_export_garage_' . $garage->getPolevoId() . '.xml';
+                            if (ftp_get($conn_id,
+                                $importXMLFilesTempDir . $garageFileName,
+                                ($config['ftp']['import_dir'] ?? DIRECTORY_SEPARATOR) . 'export_user_' . $garage->getPolevoId() . '.xml',
+                                FTP_BINARY)) {
+                                $io->text('File for garage PoleVO ' . $garage->getPolevoId() . ' was successfully downloaded in ' . $importXMLFilesTempDir . $garageFileName);
+                                $garagesFlowFiles[$garage->getPolevoId()] = [
+                                    'file' => $importXMLFilesTempDir . $garageFileName,
+                                    'garage' => $garage
+                                ];
+                            } else {
+                                $io->error('File for garage PoleVO ' . $garage->getPolevoId() . ' was not found on FTP server or other error');
+                            }
+                        }
+                        break;
+                    case VehicleImportService::ORIGIN_AUTOBONPLAN:
+                        $importXMLFilesTempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'autobonplan' . DIRECTORY_SEPARATOR;
+                        if (file_exists($importXMLFilesTempDir) === FALSE) {
+                            mkdir($importXMLFilesTempDir);
+                        }
+
+                        $garagesFlowFiles = [];
+                        $garages = $vehicleImportService->getPoleVOGarage();
+                        /** @var Garage $garage */
+                        foreach ($garages as $garage) {
+                            $flowFileName = date('Ymd_Hi') . '_wamcar_flux_products.xml';
+                            if (ftp_get($conn_id, $importXMLFilesTempDir . $flowFileName, $config['ftp']['import_file'], FTP_BINARY)) {
+                                $io->text('(AutoBonPlan) Flow file <'.$config['ftp']['import_file'].'> was successfully downloaded in ' . $importXMLFilesTempDir . $flowFileName);
+                                $dataFile = $importXMLFilesTempDir . $flowFileName;
+                            } else {
+                                $io->error('(AutoBonPlan) Flow file <'.$config['ftp']['import_file'].'> was not found on FTP server or other error');
+                            }
+                        }
+                        break;
+                    default:
+                        ftp_close($conn_id);
+                        $io->error("FTP connection is not supported yet for origin " . $origin);
+                        exit(-2);
+                }
+            }
         }
 
-        $io->text('DataFile : ' . $dataFile);
         switch ($origin) {
             case VehicleImportService::ORIGIN_AUTOBONPLAN:
-                exit("AutoBonPlan is not supported yet");
-                // $xmlElement = simplexml_load_file($dataFile);
-                // $dataAsArray = ArrayToXMLConverter::revert($xmlElement->asXML());
-                // dump($dataAsArray);
-                // TODO
-                // create new ProVehicle
-                // setGarage
+                if (file_exists($dataFile) === FALSE) {
+                    $io->error(sprintf("Access to data file (%s) is not allowed in read mode", $dataFile));
+                }
+                $io->text("Start at " . date(self::DATE_FORMAT));
+                $xmlElement = simplexml_load_file($dataFile);
+                $io->text("Datas read at " . date(self::DATE_FORMAT));
+                $result = $vehicleImportService->importDataAutoBonPlan($config, $xmlElement, $io);
+                $io->text("End at " . date(self::DATE_FORMAT));
+                $this->displayImportResult($io, $result);
                 break;
             case VehicleImportService::ORIGIN_AUTOSMANUEL:
-
                 if ($source == "file" && file_exists($dataFile) === FALSE) {
                     $io->error(sprintf("Access to data file (%s) is not allowed in read mode", $dataFile));
                 } elseif ($source == "url" && curl_init($dataFile) === FALSE) {
@@ -83,6 +138,30 @@ class ImportVehicleFlowCommand extends BaseCommand
                     $result = $vehicleImportService->importDataAutosManuel($config, $arrayJson, $io);
                     $io->text("End at " . date(self::DATE_FORMAT));
                     $this->displayImportResult($io, $result);
+                }
+                break;
+            case VehicleImportService::ORIGIN_POLEVO:
+                if ($source == "file" && file_exists($dataFile) === FALSE) {
+                    $io->error(sprintf("Access to data file (%s) is not allowed in read mode", $dataFile));
+                } elseif ($source == "ftp" && !isset($garagesFlowFiles)) {
+                    $io->error(sprintf("FTP files could not be downloaded"));
+                } else {
+                    $io->text("Start at " . date(self::DATE_FORMAT));
+                    if ($source === "file") {
+                        $garagesFlowFiles = [];
+                        $garageRepo = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
+                        $garagesFlowFiles[$config['polevoId']] = [
+                            'file' => $dataFile,
+                            'garage' => $garageRepo->findOneBy(['polevoId' => $config['polevoId']])
+                        ];
+                    }
+                    foreach ($garagesFlowFiles as $garageFlowData) {
+                        $garageXMLFlow = simplexml_load_file($garageFlowData['file']);
+                        $io->text("Datas read at " . date(self::DATE_FORMAT));
+                        $result = $vehicleImportService->importDataPoleVo($garageXMLFlow, $garageFlowData['garage'], $io);
+                        $io->text("End at " . date(self::DATE_FORMAT));
+                        $this->displayImportResult($io, $result);
+                    }
                 }
                 break;
             case VehicleImportService::ORIGIN_EWIGO:

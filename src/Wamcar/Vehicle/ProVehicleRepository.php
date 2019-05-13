@@ -11,7 +11,7 @@ interface ProVehicleRepository extends VehicleRepository
 {
     /**
      * @param $reference
-     * @return ProVehicle|null
+     * @return mixed
      */
     public function findByReference($reference);
 
