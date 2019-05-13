@@ -458,6 +458,7 @@ easy_admin:
           - { property: 'mainAdministrator.fullName', label: 'Gest. Nom'}
           - googlePlaceId
           - googleRating
+          - polevoId
           - { property: 'optionAdminSellers', label: 'Gest. vend.'}
           - { property: 'optionAdminVisible', label: 'Gest. visible'}
           - { property: 'countProVehicles', label: '#Vhl.'}
@@ -477,6 +478,7 @@ easy_admin:
           - siren
           - apiClientId
           - apiSecret
+          - polevoId
           - phone
           - { property: 'email', type: 'email'}
           - openingHours
@@ -500,6 +502,7 @@ easy_admin:
           - { property: 'googleRating'}
           - { property: 'name'}
           - { property: 'siren'}
+          - { property: 'polevoId'}
           - { property: 'optionAdminSellers', label: 'Gest. vend.'}
           - { property: 'optionAdminVisible', label: 'Gest. visible'}
     ProApplicationUser:
