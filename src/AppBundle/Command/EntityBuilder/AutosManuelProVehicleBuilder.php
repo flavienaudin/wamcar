@@ -70,10 +70,11 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
      */
     public function generateVehicleFromRowData($vehicleDTORowData, Garage $garage, ?ProVehicle $existingProVehicle = null): ProVehicle
     {
+        // RG-TRAIT-AM-Energie
+        $fuelName = self::getFuelName($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME], $vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_CODE]);
         $modelVersion = new ModelVersion(null,
             new Model ($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_NAME], new Make($vehicleDTORowData[self::FIELDNAME_MODELVERSION_MODEL_MAKE_NAME])),
-            new Engine($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME],
-                new Fuel($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_NAME] ?? self::translateEnergy($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_FUEL_CODE]))));
+            new Engine($vehicleDTORowData[self::FIELDNAME_MODELVERSION_ENGINE_NAME], new Fuel($fuelName)));
 
         if (intval($vehicleDTORowData[self::FIELDNAME_TRANSMISSION]) === 1) {
             $transmission = Transmission::TRANSMISSION_AUTOMATIC();
@@ -265,18 +266,26 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
         return $proVehicle;
     }
 
+    private static function getFuelName(string $dataFuelName, string $dataFuelCode): string
+    {
+        if ($dataFuelName === 'Hybride Diesel Electrique') {
+            return 'Hybride';
+        }
+        return $dataFuelName ?? self::translateEnergy($dataFuelCode);
+    }
+
     private static function translateEnergy(string $input, string $default = null, bool $toAbbreviation = false): string
     {
         $fuels = [
-            "ES" => "Energie Essence",
-            "GO" => "Gasoil",
+            "ES" => "Essence",
+            "GO" => "Diesel",
             "GP" => "Gpl",
-            "EE" => "Courant électrique",
-            "HDE" => "Hybride Diesel / Courant Electrique",
+            "EE" => "Electrique",
+            "HDE" => "Hybride",
             "ELECT" => "Electrique",
-            "HEE" => "Hybride Essence / Courant Electrique",
-            "HGE" => "Hybride Gaz / Courant Electrique",
-            "HHY" => "Hydrogène"
+            "HEE" => "Hybride",
+            "HGE" => "Hybride",
+            "HHY" => "Hybride"
         ];
         if ($toAbbreviation) {
             $fuels = array_flip($fuels);

@@ -59,7 +59,7 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             );
             $modelVersion = new ModelVersion($vehicleDTORowData->{self::CHILDNAME_FULL_MODEL_VERSION},
                 new Model($vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}, new Make($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME})),
-                new Engine($engineName, new Fuel(ucfirst($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
+                new Engine($engineName, new Fuel($this->getFuelName($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
             );
         }
 
@@ -109,16 +109,16 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             $position = 0;
             /** @var ProVehiclePicture[] $proVehiclePictures */
             $proVehiclePictures = $proVehicle->getPictures();
-            if(count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
-                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0 ) {
+            if (count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
+                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0) {
                 foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE} as $picture) {
                     $photoUrl = trim(strval($picture));
-                    $photoUrl = explode('?',$photoUrl)[0];
+                    $photoUrl = explode('?', $photoUrl)[0];
                     $photos[$position] = $photoUrl;
                     $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
                     $position++;
                 }
-            }else{
+            } else {
                 $updateVehiclePictures = true;
             }
 
@@ -164,8 +164,8 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setUpdatedAt(new \DateTime($vehicleDTORowData->{self::CHILDNAME_UPDATED_AT}));
 
             $position = 0;
-            if(count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
-                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0 ) {
+            if (count($vehicleDTORowData->{self::CHILDNAME_PICTURES}) > 0 &&
+                count($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE}) > 0) {
                 foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE} as $picture) {
                     $photoUrl = trim(strval($picture));
                     $photoUrl = explode('?', $photoUrl)[0];
@@ -181,5 +181,16 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
 
         }
         return $proVehicle;
+    }
+
+    /**  */
+    public function getFuelName(string $dataFuelName): string
+    {
+        $fuelTable = [
+            'diesel' => 'Diesel',
+            'essence' => 'Essence',
+            'hybrid' => 'Hybride'
+        ];
+        return $fuelTable[$dataFuelName];
     }
 }

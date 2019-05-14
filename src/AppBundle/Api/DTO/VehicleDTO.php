@@ -30,7 +30,7 @@ final class VehicleDTO implements CanBeProVehicle
     public $Modele;
     /** @SWG\Property(type="string") */
     public $Version;
-    /** @SWG\Property(type="string", enum={"Essence","Diesel","Hybride","Electrique","GPL"}) */
+    /** @SWG\Property(type="string", enum={"Essence","Diesel","Hybride","Electrique","Gpl"}) */
     public $Energie;
     /** @SWG\Property(type="integer", format="int32") */
     public $Kilometrage;
