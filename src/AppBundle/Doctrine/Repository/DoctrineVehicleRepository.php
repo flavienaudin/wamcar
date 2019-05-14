@@ -4,6 +4,7 @@ namespace AppBundle\Doctrine\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Wamcar\Garage\Garage;
+use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Vehicle;
 use Wamcar\Vehicle\VehicleRepository;
 
@@ -34,9 +35,43 @@ class DoctrineVehicleRepository extends EntityRepository implements VehicleRepos
     /**
      * {@inheritdoc}
      */
+    public function saveBulk(array $vehicles, ?int $batchSize = 50)
+    {
+        $idx = 0;
+        /** @var BaseVehicle $vehicle */
+        foreach ($vehicles as $vehicle) {
+            $idx++;
+            $this->_em->persist($vehicle);
+            if (($idx % $batchSize) === 0) {
+                $this->_em->flush();
+            }
+        }
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove(Vehicle $vehicle): void
     {
         $this->_em->remove($vehicle);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function removeBulk(array $vehicles, ?int $batchSize = 50)
+    {
+        $idx = 0;
+        /** @var BaseVehicle $vehicle */
+        foreach ($vehicles as $vehicle) {
+            $idx++;
+            $this->_em->remove($vehicle);
+            if (($idx % $batchSize) === 0) {
+                $this->_em->flush();
+            }
+        }
         $this->_em->flush();
     }
 

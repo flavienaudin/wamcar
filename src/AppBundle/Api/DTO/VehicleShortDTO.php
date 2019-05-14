@@ -1,10 +1,9 @@
 <?php
 
 namespace AppBundle\Api\DTO;
-use AppBundle\Services\Vehicle\CanBeProVehicle;
+
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Wamcar\Vehicle\ProVehicle;
-use Wamcar\Vehicle\Vehicle;
 
 /**
  * @SWG\Definition(
@@ -29,11 +28,10 @@ final class VehicleShortDTO
             $vehicleDto = new self();
 
             $vehicleDto->id = $proVehicle->getReference();
-            $vehicleDto->updatedDate = $proVehicle->getUpdatedAt()->format('Y-m-d\TH:i:sP');
+            $vehicleDto->updatedDate = $proVehicle->getUpdatedAt()->format(VehicleDTO::DATETIME_FORMAT);
 
             return $vehicleDto;
-        }
-        catch(\Exception $e) {
+        } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
     }

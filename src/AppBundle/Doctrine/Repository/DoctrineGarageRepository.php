@@ -55,6 +55,15 @@ class DoctrineGarageRepository extends EntityRepository implements GarageReposit
     /**
      * {@inheritdoc}
      */
+    public function findPoleVO(): array{
+        $qb = $this->createQueryBuilder("g");
+        $qb->where($qb->expr()->isNotNull('g.polevoId'));
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function add(Garage $garage)
     {
         $this->_em->persist($garage);

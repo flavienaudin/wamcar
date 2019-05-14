@@ -57,6 +57,8 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     protected $optionAdminSellers;
     /** @var bool */
     protected $optionAdminVisible;
+    /** @var string|null */
+    protected $polevoId;
 
     /**
      * Garage constructor.
@@ -281,6 +283,22 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function getCity(): City
     {
         return $this->address->getCity();
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPolevoId(): ?string
+    {
+        return $this->polevoId;
+    }
+
+    /**
+     * @param string|null $polevoId
+     */
+    public function setPolevoId(?string $polevoId): void
+    {
+        $this->polevoId = $polevoId;
     }
 
     /**
