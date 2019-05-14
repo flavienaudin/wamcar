@@ -464,8 +464,7 @@
     <Remise/>
     <Gamme></Gamme>
     <Ecotaxe/>
-  </Vehicule> 
-  
+  </Vehicule>
   <Vehicule>
     <IdentifiantVehicule>ST_170479</IdentifiantVehicule>
     <ReferenceVehicule>ST_170479</ReferenceVehicule>
@@ -572,7 +571,6 @@
     <Flux>STARTERRE</Flux>
     <Gamme></Gamme>
   </Vehicule>
-
   <Vehicule>
     <IdentifiantVehicule>DFB_30641</IdentifiantVehicule>
     <ReferenceVehicule>DFB_30641</ReferenceVehicule>
