@@ -86,7 +86,9 @@ class VehicleImportService
     {
         // Information data
         $idx = 0;
+        $createdVehicles = [];
         $nbCreatedVehicles = 0;
+        $updatedVehicles = [];
         $nbUpdatedVehicles = 0;
         $nbDeletedVehicles = 0;
         $nbRejectedVehicles = 0;
@@ -96,9 +98,11 @@ class VehicleImportService
         $vehicleTreatedReferences = [];
         $garages = [];
         foreach ($config['garage'] as $garageCode => $garageApiKey) {
+            /** @var Garage $garage */
             $garage = $this->garageRepository->getByClientId($garageApiKey);
             if ($garage != null) {
                 $garages[$garageCode] = $garage;
+                $vehicleTreatedReferences[$garage->getId()] = [];
             }
         }
         if ($io) {
@@ -110,8 +114,10 @@ class VehicleImportService
                 try {
                     $result = $this->importProVehicleFromAutosManuelData($data, $garages);
                     if ($result[self::RESULT_STATUS_KEY] === self::CREATION) {
+                        $createdVehicles[] = $result[self::RESULT_VEHICLE_KEY];
                         $nbCreatedVehicles++;
                     } elseif ($result[self::RESULT_STATUS_KEY] === self::UPDATE) {
+                        $updatedVehicles[] = $result[self::RESULT_VEHICLE_KEY];
                         $nbUpdatedVehicles++;
                     }
                     if ($result[self::RESULT_MOVED_KEY]) {
@@ -145,29 +151,45 @@ class VehicleImportService
         }
         if ($io) {
             $io->progressFinish();
+            $io->text('Saving ' . count($createdVehicles) . ' new vehicles...');
         }
+        $this->proVehicleRepository->saveBulk($createdVehicles);
+        if ($io) {
+            $io->text('Updating ' . count($updatedVehicles) . ' vehicles...');
+        }
+        $this->proVehicleRepository->saveBulk($updatedVehicles);
+        // ES update
+        if ($io) {
+            $io->text('ElasticSearch update (creation/update)');
+        }
+        foreach ($createdVehicles as $newVehicle) {
+            $this->eventBus->handle(new ProVehicleCreated($newVehicle));
+        }
+        foreach ($updatedVehicles as $updatedVehicle) {
+            $this->eventBus->handle(new ProVehicleUpdated($updatedVehicle));
+        }
+
         /** @var Garage $garage */
         foreach ($garages as $garage) {
             // Treat vehicle deletion
-            if (isset($vehicleTreatedReferences[$garage->getId()])) {
-                $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences[$garage->getId()]);
-                if ($io) {
-                    $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
-                    $io->progressStart();
-                }
-                foreach ($vehiclesToDelete as $proVehicleToDelete) {
-                    $this->proVehicleRepository->remove($proVehicleToDelete);
-                    $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
-                    $nbDeletedVehicles++;
-                    if ($io) {
-                        $io->progressAdvance();
-                    }
-                }
-                if ($io) {
-                    $io->progressFinish();
-                }
-                $this->garageRepository->update($garage);
+            $vehiclesToDelete = $this->proVehicleRepository->findByGarageAndExcludedReferences($garage, $vehicleTreatedReferences[$garage->getId()]);
+            if ($io) {
+                $io->text(count($vehiclesToDelete) . " vehicles to delete for garage " . $garage->getName());
+                $io->progressStart();
             }
+            foreach ($vehiclesToDelete as $proVehicleToDelete) {
+                $this->proVehicleRepository->remove($proVehicleToDelete);
+                $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                $nbDeletedVehicles++;
+                if ($io) {
+                    $io->progressAdvance();
+                }
+            }
+            if ($io) {
+                $io->progressFinish();
+            }
+            $this->garageRepository->update($garage);
+
         }
 
         return [
@@ -218,7 +240,7 @@ class VehicleImportService
 
         $garageName = $data[AutosManuelProVehicleBuilder::FIELDNAME_SELLER_CONTACT];
         if (isset($garages[$garageName])) {
-            $vehicleReference = $data[AutosManuelProVehicleBuilder::FIELDNAME_REFERENCE];
+            $vehicleReference = AutosManuelProVehicleBuilder::REFERENCE_PREFIX . $data[AutosManuelProVehicleBuilder::FIELDNAME_REFERENCE];
             $existingProVehicle = $this->proVehicleRepository->findByReference($vehicleReference);
 
             // Exiting vehicle is moved to another garage
@@ -242,12 +264,8 @@ class VehicleImportService
 
 
             if ($existingProVehicle != null) {
-                $this->proVehicleRepository->update($proVehicle);
-                $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
                 return [self::RESULT_STATUS_KEY => self::UPDATE, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
             } else {
-                $this->proVehicleRepository->add($proVehicle);
-                $this->eventBus->handle(new ProVehicleCreated($proVehicle));
                 return [self::RESULT_STATUS_KEY => self::CREATION, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];
             }
         } else {

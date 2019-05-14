@@ -20,7 +20,7 @@ use Wamcar\Vehicle\Registration;
 
 class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
 {
-    const REFERENCE_PREFIX = 'wabp_';
+    const REFERENCE_PREFIX = 'wamcar_autobonplan_';
 
     const CHILDNAME_VEHICLE = "Vehicule";
     const CHILDNAME_REFERENCE = "ReferenceVehicule";
@@ -182,16 +182,55 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
         // Marque Modèle et version du véhicule
         $additionalInformation = $vehicleDTORowData->{self::CHILDNAME_MAKE_NAME} . ' ' . $vehicleDTORowData->{self::CHILDNAME_MODEL_NAME} . PHP_EOL;
 
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_SEATS_NUMBER})) {
+            // Nombre de places
+            $additionalInformation .= 'Nombre de places : ' . $vehicleDTORowData->{self::CHILDNAME_SEATS_NUMBER} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_DOORS_NUMBER})) {
+            // Nombre de portes
+            $additionalInformation .= 'Nombre de portes : ' . $vehicleDTORowData->{self::CHILDNAME_DOORS_NUMBER} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_COLOR})) {
+            // Couleur extérieure
+            $additionalInformation .= 'Couleur extérieure : ' . $vehicleDTORowData->{self::CHILDNAME_COLOR} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_CO2_RATE}) && $vehicleDTORowData->{self::CHILDNAME_CO2_RATE} > 0) {
+            // Taux CO2
+            $additionalInformation .= 'Taux CO2 : ' . $vehicleDTORowData->{self::CHILDNAME_CO2_RATE} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_HORSE_POWER}) && $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} > 0) {
+            // Puissance réelle
+            $additionalInformation .= 'Puissance (CV) : ' . $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER})) {
+            // Nb rapport de boîte
+            $additionalInformation .= 'Nombre de rapports de boîte : ' . $vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER} . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) > 0) {
+            // Consommation mixte
+            $additionalInformation .= 'Consommation mixte : ' . $vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION} . ' l/100km' . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) > 0) {
+            // Consommation urbaine
+            $additionalInformation .= 'Consommation urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION} . ' l/100km' . PHP_EOL;
+        }
+        if (!empty($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) > 0) {
+            // Consommation extra-urbaine
+            $additionalInformation .= 'Consommation extra-urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION} . ' l/100km' . PHP_EOL;
+        }
+
         if (!empty($vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS})) {
             // Equipements de série et options
-            $additionalInformation .= 'Equipements de série et en option (inclus) : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS} . PHP_EOL;
+            $additionalInformation .= 'Equipements de série et en option (inclus) : ' .
+                str_replace('|', PHP_EOL, $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS_AND_OPTIONS}) . PHP_EOL;
         } else {
             if (!empty($vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS})) {
-                $additionalInformation .= 'Equipements de série : ' . $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS} . PHP_EOL;
+                $additionalInformation .= 'Equipements de série : ' .
+                    str_replace('|', PHP_EOL, $vehicleDTORowData->{self::CHILDNAME_STANDARD_EQUIPMENTS}) . PHP_EOL;
             }
-
             if (!empty($vehicleDTORowData->{self::CHILDNAME_OPTIONAL_EQUIPMENTS})) {
-                $additionalInformation .= 'Equipements en option (inclus) : ' . $vehicleDTORowData->{self::CHILDNAME_OPTIONAL_EQUIPMENTS} . PHP_EOL;
+                $additionalInformation .= 'Equipements en option (inclus) : ' .
+                    str_replace('|', PHP_EOL, $vehicleDTORowData->{self::CHILDNAME_OPTIONAL_EQUIPMENTS}) . PHP_EOL;
             }
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_PRICE_WITH_OPTIONS}) && intval($vehicleDTORowData->{self::CHILDNAME_PRICE_WITH_OPTIONS}) > 0) {
@@ -255,42 +294,6 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             if (!empty($dimensions)) {
                 $additionalInformation .= 'Dimensions : <ul>' . $dimensions . '</ul>';
             }
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_SEATS_NUMBER})) {
-            // Nombre de places
-            $additionalInformation .= 'Nombre de places : ' . $vehicleDTORowData->{self::CHILDNAME_SEATS_NUMBER} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_DOORS_NUMBER})) {
-            // Nombre de portes
-            $additionalInformation .= 'Nombre de portes : ' . $vehicleDTORowData->{self::CHILDNAME_DOORS_NUMBER} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_COLOR})) {
-            // Couleur extérieure
-            $additionalInformation .= 'Couleur extérieure : ' . $vehicleDTORowData->{self::CHILDNAME_COLOR} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_CO2_RATE}) && $vehicleDTORowData->{self::CHILDNAME_CO2_RATE} > 0) {
-            // Taux CO2
-            $additionalInformation .= 'Taux CO2 : ' . $vehicleDTORowData->{self::CHILDNAME_CO2_RATE} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_HORSE_POWER}) && $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} > 0) {
-            // Puissance réelle
-            $additionalInformation .= 'Puissance (CV) : ' . $vehicleDTORowData->{self::CHILDNAME_HORSE_POWER} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER})) {
-            // Nb rapport de boîte
-            $additionalInformation .= 'Nombre de rapports de boîte : ' . $vehicleDTORowData->{self::CHILDNAME_GEARS_NUMBER} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION}) > 0) {
-            // Consommation mixte
-            $additionalInformation .= 'Consommation mixte : ' . $vehicleDTORowData->{self::CHILDNAME_MIXED_CONSUMPTION} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION}) > 0) {
-            // Consommation urbaine
-            $additionalInformation .= 'Consommation urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_URBAN_CONSUMPTION} . PHP_EOL;
-        }
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) && floatval($vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION}) > 0) {
-            // Consommation extra-urbaine
-            $additionalInformation .= 'Consommation extra-urbaine : ' . $vehicleDTORowData->{self::CHILDNAME_HIGHWAY_CONSUMPTION} . PHP_EOL;
         }
         if (!empty($vehicleDTORowData->{self::CHILDNAME_KM_GUARANTEE})) {
             // Garantie kilomètrage

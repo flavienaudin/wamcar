@@ -18,7 +18,7 @@ use Wamcar\Vehicle\Registration;
 
 class PoleVOProVehicleBuilder extends ProVehicleBuilder
 {
-    const REFERENCE_PREFIX = 'wpvo_';
+    const REFERENCE_PREFIX = 'wamcar_polevo_';
 
     const CHILDNAME_VEHICLE = "annonce";
     const CHILDNAME_ID = "car_id";
@@ -86,9 +86,16 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
         $registration = new Registration(null, null, null);
         $registrationDate = new \DateTime($vehicleDTORowData->{self::CHILDNAME_REGISTRATION_DATE}->__toString());
 
-        $additionalInformation = isset($vehicleDTORowData->{self::CHILDNAME_DESCRIPTION}) ? strval($vehicleDTORowData->{self::CHILDNAME_DESCRIPTION}) . PHP_EOL : '';
-        $additionalInformation .= strval($vehicleDTORowData->{self::CHILDNAME_OPTIONS}) . PHP_EOL;
-
+        $additionalInformation = !empty($vehicleDTORowData->{self::CHILDNAME_DESCRIPTION}) ?
+            str_replace(' -', PHP_EOL, $vehicleDTORowData->{self::CHILDNAME_DESCRIPTION})
+            . PHP_EOL . PHP_EOL
+            : '';
+        $options = join(PHP_EOL, array_map(function ($option) {
+                return ucfirst(strtolower($option));
+            }, explode('|', $vehicleDTORowData->{self::CHILDNAME_OPTIONS})));
+        if(!empty($options)){
+            $additionalInformation .= "Options : " . PHP_EOL . $options . PHP_EOL . PHP_EOL;
+        }
         $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData->{self::CHILDNAME_ID};
 
         if ($existingProVehicle != null) {
