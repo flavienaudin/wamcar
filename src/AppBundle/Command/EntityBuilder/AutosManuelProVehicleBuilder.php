@@ -22,6 +22,8 @@ use Wamcar\Vehicle\Registration;
  */
 class AutosManuelProVehicleBuilder extends ProVehicleBuilder
 {
+    const REFERENCE_PREFIX = 'wamcar_autosmanuel_';
+
     const FIELDNAME_REFERENCE = 'num_police';
     const FIELDNAME_RECIPIENT = 'code_destinataire';
     const FIELDNAME_ENABLED = 'actif';
@@ -135,13 +137,9 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
         if (!empty($vehicleDTORowData[self::FIELDNAME_OPTIONS])
             && is_array($vehicleDTORowData[self::FIELDNAME_OPTIONS])
             && count($vehicleDTORowData[self::FIELDNAME_OPTIONS]) > 0) {
-            if (strpos($vehicleDTORowData[self::FIELDNAME_OPTIONS][0], 'ATTENTION') === FALSE) {
-                $options = join(' | ', array_filter($vehicleDTORowData[self::FIELDNAME_OPTIONS], function ($option) {
-                    return !empty($option);
-                }));
-                if (!empty($options)) {
-                    $additionalInformation .= "Options : " . $options . PHP_EOL;
-                }
+            $options = join(PHP_EOL, $vehicleDTORowData[self::FIELDNAME_OPTIONS]);
+            if (!empty($options)) {
+                $additionalInformation .= "Options :" . PHP_EOL . $options . PHP_EOL . PHP_EOL;
             }
         }
 
@@ -155,7 +153,7 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
         }
         if (!empty($vehicleDTORowData[self::FIELDNAME_REFERENCE])) {
             // Référence
-            $additionalInformation .= 'Référence : ' . $vehicleDTORowData[self::FIELDNAME_REFERENCE];
+            $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE];
         }
 
         $price = 0;
@@ -192,7 +190,7 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setPrice($price);
             $proVehicle->setGuarantee($guarantee);
             $proVehicle->setOtherGuarantee($otherGuarantee);
-            $proVehicle->setReference($vehicleDTORowData[self::FIELDNAME_REFERENCE] ?? null);
+            $proVehicle->setReference(self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE]);
 
 
             $photos = [];
@@ -245,7 +243,7 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
                 null,
                 null,
                 null,
-                $vehicleDTORowData[self::FIELDNAME_REFERENCE]
+                self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE]
             );
 
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
