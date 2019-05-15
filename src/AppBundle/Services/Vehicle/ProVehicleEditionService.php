@@ -13,6 +13,7 @@ use AppBundle\Form\EntityBuilder\ProVehicleBuilder as FormVehicleBuilder;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Elastica\ResultSet;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -340,5 +341,32 @@ class ProVehicleEditionService
         }
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
         $this->eventBus->handle(new UserLikeVehicleEvent($like));
+    }
+
+    /**
+     * @param int Clear pictures of vehicles soft deleted for $months months
+     * @param SymfonyStyle|null $io If in command context, to display information
+     * @return array Results
+     */
+    public function clearSoftDeletedVehiclesPictures(int $months, ?SymfonyStyle $io = null): array
+    {
+        $proVehicles = $this->vehicleRepository->findSoftDeletedForXMonth($months);
+        if ($io) {
+            $io->progressStart(count($proVehicles));
+        }
+
+        $nbRemovedPictures['total'] = 0;
+        array_walk($proVehicles, function (ProVehicle $proVehicle) use (&$nbRemovedPictures, $io) {
+            $nbRemovedPictures['total'] += $proVehicle->keepNPicture(1);
+            if ($io) {
+                $io->progressAdvance();
+            }
+        });
+        if ($io) {
+            $io->progressFinish();
+        }
+
+        $this->vehicleRepository->saveBulk($proVehicles);
+        return $nbRemovedPictures;
     }
 }

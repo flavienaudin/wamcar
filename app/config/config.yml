@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: front_mock.yml }
+    - { resource: ../../vendor/beberlei/DoctrineExtensions/config/mysql.yml}
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -165,9 +166,6 @@ doctrine:
                 alias: TypeForm
         resolve_target_entities:
             Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
-        dql:
-            string_functions:
-                field: DoctrineExtensions\Query\Mysql\Field
 
 doctrine_migrations:
     dir_name:             '%kernel.root_dir%/../database/migrations'
