@@ -118,9 +118,6 @@ class GarageEditionService
         if (!empty($garageDTO->googlePlaceId) && ($garage == null || $garage->getGooglePlaceId() !== $garageDTO->googlePlaceId)) {
             $existingGarage = $this->garageRepository->findOneBy(['googlePlaceId' => $garageDTO->googlePlaceId]);
         }
-        if ($existingGarage === null && ($garage == null || $garage->getName() !== $garageDTO->name)) {
-            $existingGarage = $this->garageRepository->findOneBy(['name' => $garageDTO->name]);
-        }
 
         if ($existingGarage != null) {
             // Garage is already existing, 2 exceptions => 2 different messages
@@ -344,7 +341,6 @@ class GarageEditionService
         // Remove the google place Id and SIREN, and rename the garage to allow a new garage creation using the same name, SIREN or/and google place Id
         $garage->setGooglePlaceId(null);
         $garage->setSiren(null);
-        $garage->setName('DELETED' . $garage->getName());
         // Update for softdeletion
         $this->garageRepository->update($garage);
         $this->garageRepository->remove($garage);
