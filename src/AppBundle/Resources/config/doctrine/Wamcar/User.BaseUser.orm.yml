@@ -86,6 +86,9 @@ Wamcar\User\BaseUser:
         creditPoints:
             type: integer
             nullable: false
+        youtubeVideoId:
+            type: string
+            nullable: true
 
     oneToOne:
         avatar:

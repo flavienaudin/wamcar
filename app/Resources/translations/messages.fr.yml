@@ -853,6 +853,8 @@ user:
       your_city: Votre ville
       its_city: Sa ville
     empty: Vous n'avez pas encore renseigné votre ville
+  video:
+    title: "%username% en vidéo"
   vehicles:
     title: Les véhicules que je vous propose
   project:

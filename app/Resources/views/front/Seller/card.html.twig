@@ -146,6 +146,17 @@
             {% endif %}
         </div>
 
+        {% if user.youtubeVideoId is not empty %}
+            <div class="column block-grid small-12">
+                <div class="small-12">
+                    <h2>{{ 'user.video.title'|trans({'%username%':user.fullName}) }}</h2>
+                </div>
+                <div class="small-12 large-8 large-offset-2">
+                    <div class="youtube-player" data-id="{{ user.youtubeVideoId }}"></div>
+                </div>
+            </div>
+        {% endif %}
+
         {% if vehicle_block is not empty %}
             {{ vehicle_block }}
         {% endif %}

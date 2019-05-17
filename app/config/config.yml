@@ -531,6 +531,7 @@ easy_admin:
           - { property: 'presentationTitle' }
           - { property: 'description', type: 'textarea' }
           - { property: 'landingPosition', label: 'HP-mixte-position' }
+          - { property: 'youtubeVideoId' }
       show:
         fields:
           - id
@@ -543,6 +544,7 @@ easy_admin:
           - userProfile.phone
           - phonePro
           - { property: 'avatar.fileName' }
+          - youtubeVideoId
           - facebookId
           - facebookAccessToken
           - linkedinId

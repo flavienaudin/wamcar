@@ -60,6 +60,8 @@ abstract class BaseUser implements HasApiCredential
     protected $firstContactPreference;
     /** @var int */
     protected $creditPoints;
+    /** @var string|null */
+    protected $youtubeVideoId;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
@@ -695,4 +697,19 @@ abstract class BaseUser implements HasApiCredential
         return $this->creditPoints;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getYoutubeVideoId(): ?string
+    {
+        return $this->youtubeVideoId;
+    }
+
+    /**
+     * @param string|null $youtubeVideoId
+     */
+    public function setYoutubeVideoId(?string $youtubeVideoId): void
+    {
+        $this->youtubeVideoId = $youtubeVideoId;
+    }
 }
