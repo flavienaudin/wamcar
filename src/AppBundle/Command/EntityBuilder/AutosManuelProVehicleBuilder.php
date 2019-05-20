@@ -47,6 +47,7 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
     const FIELDNAME_IMMATRICULATION = 'immatriculation';
     const FIELDNAME_VIN = 'numero_chassis';
     const FIELDNAME_REGISTRATION_DATE = 'date_mec';
+    const FIELDNAME_UPDATED_AT = 'date_update';
 
     // Description
     const FIELDNAME_GENRE = "code_genre_vehicule";
@@ -157,6 +158,16 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE];
         }
 
+        if(!empty($vehicleDTORowData[self::FIELDNAME_UPDATED_AT]) && $vehicleDTORowData[self::FIELDNAME_UPDATED_AT] != '0000-00-00 00:00:0'){
+            $updateAt = date_create_from_format('Y-m-d H:i:s', $vehicleDTORowData[self::FIELDNAME_UPDATED_AT]);
+        }else{
+            try {
+                $updateAt = $this->generateYesterdayDateTime();
+            }catch (\Exception $e){
+                $updateAt = null;
+            }
+        }
+
         $price = 0;
         if (!empty($vehicleDTORowData[self::FIELDNAME_INTERNET_PRICE])) {
             $price = $vehicleDTORowData[self::FIELDNAME_INTERNET_PRICE];
@@ -192,8 +203,7 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setGuarantee($guarantee);
             $proVehicle->setOtherGuarantee($otherGuarantee);
             $proVehicle->setReference(self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE]);
-
-
+            $proVehicle->setUpdatedAt($updateAt);
             $photos = [];
             $updateVehiclePictures = false;
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
@@ -246,6 +256,9 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
                 null,
                 self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE]
             );
+
+            $proVehicle->setCreatedAt($updateAt);
+            $proVehicle->setUpdatedAt($updateAt);
 
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
                 $position = 0;
