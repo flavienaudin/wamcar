@@ -14,7 +14,7 @@ use Wamcar\Vehicle\ProVehicle;
 final class VehicleDTO implements CanBeProVehicle
 {
 
-    const DATETIME_FORMAT = "Y-d-m_H:i";
+    const DATETIME_FORMAT = "Y-m-d_H:i";
 
     /** @SWG\Property(type="integer", format="int64") */
     public $IdentifiantVehicule;
