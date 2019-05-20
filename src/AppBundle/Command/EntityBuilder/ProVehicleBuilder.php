@@ -61,7 +61,7 @@ abstract class ProVehicleBuilder
             }
         } catch (FileNotFoundException $fileNotFoundException) {
             $this->logger->warning($fileNotFoundException->getMessage());
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             $this->logger->warning($e->getMessage());
         }
         return false;
@@ -84,5 +84,24 @@ abstract class ProVehicleBuilder
                 $proVehicle->addPicture($vehiclePicture);
             }
         }
+    }
+
+    /**
+     * * Générete un DateTime à la date de la veille et un horaire compris dans une journée de travail
+     * @param int|null $minHour
+     * @param int|null $maxHour
+     * @param int|null $minMinute
+     * @param int|null $maxMinute
+     * @return \DateTime
+     * @throws \Exception
+     */
+    protected function generateYesterdayDateTime(?int $minHour = 8, ?int $maxHour = 19, ?int $minMinute = 0, ?int $maxMinute = 59): \DateTime
+    {
+        $yesterday = new \DateTime();
+        $yesterday->sub(new \DateInterval("P1D"));
+        $hour = rand($minHour, $maxHour);
+        $minute = rand($minMinute, $maxMinute);
+        $yesterday->setTime($hour, $minute);
+        return $yesterday;
     }
 }
