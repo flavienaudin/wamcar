@@ -89,6 +89,9 @@ Wamcar\User\BaseUser:
         youtubeVideoId:
             type: string
             nullable: true
+        videoText:
+            type: text
+            nullable: true
 
     oneToOne:
         avatar:

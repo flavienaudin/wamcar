@@ -154,6 +154,11 @@
                 <div class="small-12 large-8 large-offset-2">
                     <div class="youtube-player" data-id="{{ user.youtubeVideoId }}"></div>
                 </div>
+                {% if user.videoText is not empty %}
+                    <div class="small-12 margin-top-2">
+                        {{ user.videoText|raw }}
+                    </div>
+                {% endif %}
             </div>
         {% endif %}
 

@@ -46,17 +46,17 @@
     "twig/extensions": "^1.5",
     "liip/imagine-bundle": "^1.9",
     "robertotru/to-inline-style-email-bundle": "^1.5",
-    "hwi/oauth-bundle":"^0.6",
-    "php-http/guzzle6-adapter":"^1.1",
+    "hwi/oauth-bundle": "^0.6",
+    "php-http/guzzle6-adapter": "^1.1",
     "ocramius/proxy-manager": "2.1",
     "beberlei/DoctrineExtensions": "^1.1",
-    "mgilet/notification-bundle":"^3.0",
-    "jmose/command-scheduler-bundle":"^2.0",
-    "ruflin/elastica":"^6.1",
-    "easycorp/easyadmin-bundle":"^1.0",
-    "presta/sitemap-bundle":"^1.5",
-    "google/apiclient":"^2.0"
-
+    "mgilet/notification-bundle": "^3.0",
+    "jmose/command-scheduler-bundle": "^2.0",
+    "ruflin/elastica": "^6.1",
+    "easycorp/easyadmin-bundle": "^1.0",
+    "presta/sitemap-bundle": "^1.5",
+    "google/apiclient": "^2.0",
+    "friendsofsymfony/ckeditor-bundle": "^2.1"
   },
   "require-dev": {
     "sensio/generator-bundle": "^3.0",
