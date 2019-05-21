@@ -425,9 +425,9 @@ jmose_command_scheduler:
 
 fos_ck_editor:
   input_sync: true
-  default_config: advanced_config
+  default_config: easyadmin_config
   configs:
-    advanced_config:
+    easyadmin_config:
       toolbar:
         - { name: "styles", items: ['Bold', 'Italic', 'Link', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',  '-', 'RemoveFormat'] }
 
@@ -542,8 +542,10 @@ easy_admin:
           - { property: 'description'}
           - { property: 'landingPosition', label: 'HP-mixte-position'}
           - { property: 'youtubeVideoId' }
+          - { property: 'videoShortText', type: 'fos_ckeditor',
+              type_options: { config_name: 'easyadmin_config' } }
           - { property: 'videoText', type: 'fos_ckeditor',
-              type_options: { config_name: 'advanced_config' } }
+              type_options: { config_name: 'easyadmin_config' } }
       show:
         fields:
           - id

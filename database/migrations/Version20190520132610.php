@@ -15,7 +15,7 @@ final class Version20190520132610 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user ADD video_text LONGTEXT DEFAULT NULL');
+        $this->addSql('ALTER TABLE user ADD video_short_text LONGTEXT DEFAULT NULL, ADD video_text LONGTEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
@@ -23,6 +23,6 @@ final class Version20190520132610 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE user DROP video_text');
+        $this->addSql('ALTER TABLE user DROP video_short_text, DROP video_text');
     }
 }

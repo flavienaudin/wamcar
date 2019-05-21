@@ -154,9 +154,18 @@
                 <div class="small-12 large-8 large-offset-2">
                     <div class="youtube-player" data-id="{{ user.youtubeVideoId }}"></div>
                 </div>
-                {% if user.videoText is not empty %}
+
+                {% if user.videoShortText is not empty %}
                     <div class="small-12 margin-top-2">
-                        {{ user.videoText|raw }}
+                        {{ user.videoShortText|raw }}
+                        {% if user.videoText is not empty %}
+                            <p><a data-toggle="userVideoText showMore showLess">
+                                <span id="showMore" data-toggler=".is-hidden" class="text-underline">{{ 'global.button.show_more'|trans }}</span>
+                                <span id="showLess" data-toggler=".is-hidden" class="text-underline is-hidden">{{ 'global.button.show_less'|trans }}</span>
+                            </a></p>
+                            <div id="userVideoText" class="js-show-videoText is-hidden" data-toggler=".is-hidden">{{ user.videoText|raw }}</div>
+                        {% endif %}
+
                     </div>
                 {% endif %}
             </div>

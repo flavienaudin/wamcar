@@ -147,6 +147,8 @@ global:
     invite: Inviter
     delete: Supprimer
     cancel: Annuler
+    show_more: Voir plus
+    show_less: Voir moins
   pagination:
     pagination: Pagination
     first: Première page
@@ -854,7 +856,7 @@ user:
       its_city: Sa ville
     empty: Vous n'avez pas encore renseigné votre ville
   video:
-    title: "%username% en vidéo"
+    title: Ma présentation en vidéo
   vehicles:
     title: Les véhicules que je vous propose
   project:
