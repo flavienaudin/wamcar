@@ -954,7 +954,7 @@ user:
     page_title: Wam Affinity
     section:
       title: Qui suis-je ?
-      your_affinities: Vos affinités
+      our_affinities: Nos affinités
       explanation:
         personal: >
           Découvrez votre degré d'affinité avec chaque professionnel <a href="%affinity_form_url%"
