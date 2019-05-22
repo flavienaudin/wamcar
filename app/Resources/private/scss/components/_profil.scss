@@ -129,6 +129,18 @@ $profil-image-offset: rem-calc(40);
       padding-bottom: rem-calc(25);
     }
 
+    @include breakpoint(medium down) {
+      .user-garages-list{
+        border-top: rem-calc(1) solid $border-color;
+        margin-top: rem-calc(30);
+        padding-top: rem-calc(25);
+
+        border-bottom: rem-calc(1) solid $border-color;
+        margin-bottom: rem-calc(30);
+        padding-bottom: rem-calc(25);
+      }
+    }
+
     .personal-user-profil & {
       /*.section:first-child:last-child {
         padding-top: 0;

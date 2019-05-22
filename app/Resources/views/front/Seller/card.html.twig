@@ -97,7 +97,7 @@
                     {% endif %}
                 </div>
 
-                <div class="column small-12 large-4">
+                <div class="column small-12 large-4 user-garages-list">
                     {% if user.hasGarage or userIsMe %}
                         {% if user.hasGarage or userIsMe %}
                             {% include 'front/User/includes/brand_list.html.twig' %}
@@ -140,6 +140,7 @@
                 </div>
             </div>
         </div>
+
         {% if vehicles.totalHits > 0 %}
             <div class="column small-12 garage-container">
                 <div class="column">
