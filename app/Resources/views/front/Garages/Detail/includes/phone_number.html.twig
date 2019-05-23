@@ -1,6 +1,9 @@
 {% set balise = balise|default('div') %}
+{% set disabledLoggedProtection = disabledLoggedProtection|default(false) %}
+
 {# Version texte souligné #}
 <{{ balise  }}>
+{% if isLogged or disabledLoggedProtection %}
     <span class="show-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
         <span class="js-see-number text-underline" id="PC{{ phoneNumber_eventId }}" data-href="{{ path('front_show_number') }}">{{ "global.button.see_phone_number"|trans }}</span>
         <span class="js-phone-number text-underline is-hidden">{{ phoneNumber }}</span>
@@ -9,6 +12,12 @@
        class="hide-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
         <span id="Smartphone{{ phoneNumber_eventId }}" data-href="{{ path('front_show_number') }}" class="text-underline">{{ "global.button.call"|trans }}</span>
     </a>
+{% else %}
+    <span class="phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
+        <span class="show-for-medium text-underline" data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >{{ "global.button.see_phone_number"|trans }}</span>
+        <span class="hide-for-medium text-underline" data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom" >{{ "global.button.call"|trans }}</span>
+    </span>
+{% endif %}
 </{{ balise  }}>
 
 {# Version bouton

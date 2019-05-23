@@ -34,22 +34,32 @@
                 <div class="column small-12 large-8">
 
                     <div class="profil-section">
+                        {% if not isLogged %}
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                <div class="column small-12 large-8 text-justify">
+                                    {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
+                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                    <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                                       class="button expand-height square dark-blue">
+                                        {{ 'global.button.register'|trans }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+
                         <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
                         {% if user.description %}
-                            <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
+                            <p class="text-justify">{{ user.description|nl2br }}</p>
                         {% elseif userIsMe %}
-                            <p class="text-justify no-margin">{{ 'user.presentation.empty'|trans }}</p>
+                            <p class="text-justify">{{ 'user.presentation.empty'|trans }}</p>
                         {% endif %}
 
                         {% if user.appointmentText is not empty %}
-                            <div class="affinity-appointment">
-                                <div class="block-grid align-middle">
-                                    <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
-                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                        <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                                           class="button expand-height square dark-blue">
-                                            {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
-                                    </div>
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
+                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                    <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
+                                       class="button expand-height square dark-blue">
+                                        {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
                                 </div>
                             </div>
                         {% endif %}
@@ -102,8 +112,10 @@
                             {% if userAffinity is not null %}
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
                             {% else %}
-                                <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}<br>
-                                <a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
+                                <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                    <div class="column small-12 large-8 text-justify">{{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title}) : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}</div>
+                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0"><a href="{{ path('front_affinity_personal_form') }}" class="button expand-height square dark-blue">{{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a></div>
+                                </div>
                             {% endif %}
                         </div>
                     {% endif %}

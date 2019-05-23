@@ -149,6 +149,7 @@ global:
     cancel: Annuler
     show_more: Voir plus
     show_less: Voir moins
+    register: "S'inscrire sur Wamcar"
   pagination:
     pagination: Pagination
     first: Première page
@@ -695,6 +696,12 @@ user:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
       banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+    block_insert: >
+      Inscrivez-vous gratuitement pour : <ul class="margin-bottom-0">
+      <li>appeler %username% sur sa ligne de téléphone directe,</li>
+      <li>le contacter via la messagerie sécurisée Wamcar,</li>
+      <li>obtenir une offre de reprise pour votre véhicule actuel</li>
+      </ul>
   confirmation:
     title: Inscription confirmée
     header_title: Merci de vous être inscrit sur
@@ -976,8 +983,12 @@ user:
       calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:
         personal:
-          logged: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
-          unlogged:  Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce professionnel.
+          logged: >
+            Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et d'autres
+            conseillers(ères) automobiles.
+          unlogged: >
+            Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et
+            d'autres conseillers(ères) automobiles.
         pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire
@@ -1001,7 +1012,6 @@ user:
       like:
         label: Quand on like votre annonce
   contacted_by: Contacté par %contact_name%
-
 
 conversation:
   list:
@@ -1187,3 +1197,7 @@ form:
     add_photo: Ajouter une photo
     remove_photo: Supprimer la photo
 
+phone_number:
+  tooltip:
+    display: Vous devez être connecté pour pouvoir afficher le numéro
+    call: Vous devez être connecté pour pouvoir appeler directement
