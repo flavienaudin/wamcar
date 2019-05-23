@@ -19,8 +19,12 @@ class ProUser extends BaseUser
 
     /** @var  string */
     protected $phonePro;
-    /** @var  string */
+    /** @var  string|null */
     protected $presentationTitle;
+    /** @var  string|null */
+    protected $appointmentText;
+    /** @var  string|null */
+    protected $appointmentAutofillMessage;
     /** @var  Collection */
     protected $garageMemberships;
     /** @var  Collection */
@@ -88,6 +92,38 @@ class ProUser extends BaseUser
     public function setPresentationTitle(?string $presentationTitle = null): void
     {
         $this->presentationTitle = $presentationTitle;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAppointmentText(): ?string
+    {
+        return $this->appointmentText;
+    }
+
+    /**
+     * @param string|null $appointmentText
+     */
+    public function setAppointmentText(?string $appointmentText): void
+    {
+        $this->appointmentText = $appointmentText;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAppointmentAutofillMessage(): ?string
+    {
+        return $this->appointmentAutofillMessage;
+    }
+
+    /**
+     * @param string|null $appointmentAutofillMessage
+     */
+    public function setAppointmentAutofillMessage(?string $appointmentAutofillMessage): void
+    {
+        $this->appointmentAutofillMessage = $appointmentAutofillMessage;
     }
 
     /**

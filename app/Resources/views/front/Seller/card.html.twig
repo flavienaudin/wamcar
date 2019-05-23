@@ -32,19 +32,32 @@
         <div class="profil-body column small-12">
             <div class="row">
                 <div class="column small-12 large-8">
-                    {% if user.description is not empty or userIsMe %}
-                        <div class="profil-section">
-                            <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
-                            {% if user.description %}
-                                <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
-                            {% elseif userIsMe %}
-                                <p class="text-justify no-margin">{{ 'user.presentation.empty'|trans }}</p>
-                            {% endif %}
-                            {% if userIsMe %}
-                                <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
-                            {% endif %}
-                        </div>
-                    {% endif %}
+
+                    <div class="profil-section">
+                        <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+                        {% if user.description %}
+                            <p class="text-justify no-margin">{{ user.description|nl2br }}</p>
+                        {% elseif userIsMe %}
+                            <p class="text-justify no-margin">{{ 'user.presentation.empty'|trans }}</p>
+                        {% endif %}
+
+                        {% if user.appointmentText is not empty %}
+                            <div class="affinity-appointment">
+                                <div class="block-grid align-middle">
+                                    <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
+                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                        <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
+                                           class="button expand-height square dark-blue">
+                                            {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if userIsMe %}
+                            <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
+                        {% endif %}
+                    </div>
 
                     {% if user.youtubeVideoId is not empty %}
                         <div class="profil-section">
@@ -89,9 +102,8 @@
                             {% if userAffinity is not null %}
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
                             {% else %}
-                                <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}</p>
-                                <p><a href="{{ path('front_affinity_personal_form') }}"
-                                      class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
+                                <p>{{ is_granted('IS_AUTHENTICATED_REMEMBERED') ? 'user.affinity.degree.explanation.personal.logged'|trans : 'user.affinity.degree.explanation.personal.unlogged'|trans }}<br>
+                                <a href="{{ path('front_affinity_personal_form') }}" class="button">{{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a></p>
                             {% endif %}
                         </div>
                     {% endif %}

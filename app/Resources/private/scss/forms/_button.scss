@@ -100,10 +100,29 @@ a.button {
             height: rem-calc(50);
         }
     }
+    &.expand-height {
+        height: auto;
+        min-height: rem-calc(40);
+        @include breakpoint(medium) {
+            min-height: rem-calc(60);
+        }
+    }
 
     /* Theme */
     &.white {
         @include buttonTheme(white, $primary-color, $primary-color);
+    }
+
+    &.dark-blue {
+        background-color: $white;
+        color: $dark-blue;
+        border-color: $dark-blue;
+        &:hover,
+        &:focus {
+            background-color: $primary-color;
+            color: $white;
+            border-color: $white;
+        }
     }
     /* Add */
     &.add {
@@ -169,5 +188,9 @@ a.button {
             opacity: 1;
             visibility: visible;
         }
+    }
+
+    &.square {
+        border-radius: 5px;
     }
 }

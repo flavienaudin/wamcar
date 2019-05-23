@@ -24,6 +24,12 @@ Wamcar\User\ProUser:
         landingPosition:
             type: integer
             nullable: true
+        appointmentText:
+            type: text
+            nullable: true
+        appointmentAutofillMessage:
+            type: text
+            nullable: true
 
     oneToMany:
         garageMemberships:

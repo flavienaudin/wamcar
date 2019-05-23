@@ -26,6 +26,12 @@ services:
             - { name: twig.extension }
         autowire: true
 
+    AppBundle\Twig\JsonExtension:
+        class: 'AppBundle\Twig\JsonExtension'
+        tags:
+            - { name: twig.extension }
+        autowire: true
+
     AppBundle\Twig\TestsExtension:
         class: 'AppBundle\Twig\TestsExtension'
         tags:

@@ -31,6 +31,7 @@ use Wamcar\Vehicle\BaseVehicle;
 class ConversationController extends BaseController
 {
     const NB_VEHICLES_PER_PAGE = 10;
+    const QUERYPARAM_APPOINTMENT = 'appointment';
 
     /** @var FormFactoryInterface */
     protected $formFactory;
@@ -161,10 +162,8 @@ class ConversationController extends BaseController
                 return $redirectRoute;
             }
         }
-
         $messageForm = $this->formFactory->create(MessageType::class, $messageDTO, ['user' => $this->getUser()]);
         $messageForm->handleRequest($request);
-
         if ($messageForm->isSubmitted()) {
             $action = $this->redirectionFromSubmitButton($request, $messageForm);
             if ($action) {
@@ -180,6 +179,13 @@ class ConversationController extends BaseController
                 return $this->redirectToRoute('front_conversation_edit', [
                     'id' => $conversation->getId(),
                     '_fragment' => 'last-message']);
+            }
+        }else{
+            if($request->query->get(self::QUERYPARAM_APPOINTMENT, false)){
+                if($messageDTO->interlocutor instanceof ProUser && !empty($messageDTO->interlocutor->getAppointmentAutofillMessage())){
+                    $messageDTO->content = $messageDTO->interlocutor->getAppointmentAutofillMessage();
+                    $messageForm->setData($messageDTO);
+                }
             }
         }
 
