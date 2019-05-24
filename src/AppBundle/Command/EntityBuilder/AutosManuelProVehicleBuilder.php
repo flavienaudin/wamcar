@@ -47,7 +47,9 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
     const FIELDNAME_IMMATRICULATION = 'immatriculation';
     const FIELDNAME_VIN = 'numero_chassis';
     const FIELDNAME_REGISTRATION_DATE = 'date_mec';
-    const FIELDNAME_UPDATED_AT = 'date_update';
+
+    // La date correspond à la date de mise à jour chez Koredge = date d'exécution du script
+    //const FIELDNAME_UPDATED_AT = 'date_update';
 
     // Description
     const FIELDNAME_GENRE = "code_genre_vehicule";
@@ -157,15 +159,11 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             // Référence
             $additionalInformation .= 'Référence : ' . self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE];
         }
-
-        if(!empty($vehicleDTORowData[self::FIELDNAME_UPDATED_AT]) && $vehicleDTORowData[self::FIELDNAME_UPDATED_AT] != '0000-00-00 00:00:0'){
-            $updateAt = date_create_from_format('Y-m-d H:i:s', $vehicleDTORowData[self::FIELDNAME_UPDATED_AT]);
-        }else{
-            try {
-                $updateAt = $this->generateYesterdayDateTime();
-            }catch (\Exception $e){
-                $updateAt = null;
-            }
+        try {
+            // Date non disponible : génération la veille à une heure de bureau aléatoire
+            $updateAt = $this->generateYesterdayDateTime();
+        }catch (\Exception $e){
+            $updateAt = null;
         }
 
         $price = 0;
