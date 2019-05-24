@@ -201,7 +201,13 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setGuarantee($guarantee);
             $proVehicle->setOtherGuarantee($otherGuarantee);
             $proVehicle->setReference(self::REFERENCE_PREFIX . $vehicleDTORowData[self::FIELDNAME_REFERENCE]);
+
+            if($updateAt < $proVehicle->getCreatedAt()){
+                $proVehicle->setCreatedAt($updateAt);
+            }
             $proVehicle->setUpdatedAt($updateAt);
+
+
             $photos = [];
             $updateVehiclePictures = false;
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
