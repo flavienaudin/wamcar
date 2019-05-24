@@ -108,7 +108,8 @@
                     {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
                         <div class="profil-section">
                             {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-                            <h2>{{ "user.affinity.section.our_affinities"|trans }}</h2>
+                            <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                             {% if userAffinity is not null %}
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
                             {% else %}
