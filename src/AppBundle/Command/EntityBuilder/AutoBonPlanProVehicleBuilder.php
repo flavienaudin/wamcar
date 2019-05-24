@@ -138,7 +138,7 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             try {
                 $updatedAt = $this->generateYesterdayDateTime();
                 if ($updatedAt < $createdAt) {
-                    $updatedAt = $createdAt;
+                    $createdAt = $updatedAt;
                 }
             } catch (\Exception $e) {
                 $updatedAt = null;
