@@ -2,13 +2,13 @@
 
 namespace Application\Fixtures;
 
-use AppBundle\Doctrine\Entity\{
-    PersonalApplicationUser, ProApplicationUser
-};
-use AppBundle\Utils\TokenGenerator;
+use AppBundle\Doctrine\Entity\{PersonalApplicationUser, ProApplicationUser};
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
+/**
+ * DoctrineFixturesBundle is disabled
+ */
 class UserFixture extends Fixture
 {
     public function load(ObjectManager $manager)

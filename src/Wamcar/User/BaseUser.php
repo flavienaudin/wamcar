@@ -60,6 +60,12 @@ abstract class BaseUser implements HasApiCredential
     protected $firstContactPreference;
     /** @var int */
     protected $creditPoints;
+    /** @var string|null */
+    protected $youtubeVideoId;
+    /** @var string|null */
+    protected $videoShortText;
+    /** @var string|null */
+    protected $videoText;
     /** @var Collection */
     protected $likes;
     /** @var UserPreferences */
@@ -695,4 +701,51 @@ abstract class BaseUser implements HasApiCredential
         return $this->creditPoints;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getYoutubeVideoId(): ?string
+    {
+        return $this->youtubeVideoId;
+    }
+
+    /**
+     * @param string|null $youtubeVideoId
+     */
+    public function setYoutubeVideoId(?string $youtubeVideoId): void
+    {
+        $this->youtubeVideoId = $youtubeVideoId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVideoShortText(): ?string
+    {
+        return $this->videoShortText;
+    }
+
+    /**
+     * @param string|null $videoShortText
+     */
+    public function setVideoShortText(?string $videoShortText): void
+    {
+        $this->videoShortText = $videoShortText;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVideoText(): ?string
+    {
+        return $this->videoText;
+    }
+
+    /**
+     * @param string|null $videoText
+     */
+    public function setVideoText(?string $videoText): void
+    {
+        $this->videoText = $videoText;
+    }
 }

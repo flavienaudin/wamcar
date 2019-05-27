@@ -40,10 +40,12 @@ composer.lock: composer.json
 	$(DOCKERRUN) composer update --no-scripts --no-suggest --optimize-autoloader
 
 # Database management
-database: fixtures
-fixtures: migration
-	@echo "--> Loading fixtures in database"
-	$(DOCKERPHP) ./bin/console doctrine:fixtures:load --no-interaction --fixtures=./database/fixtures
+database: migration
+# DoctrineFixturesBundle is disabled to avoid the error log that breaks list command (and so JMoseScheduler)
+#database: fixtures
+#fixtures: migration
+#	@echo "--> Loading fixtures in database"
+#	$(DOCKERPHP) ./bin/console doctrine:fixtures:load --no-interaction --fixtures=./database/fixtures
 migration:
 	@echo "--> Migrating database if needed"
 	$(DOCKERPHP) ./bin/console doctrine:migration:migrate --no-interaction --allow-no-migration

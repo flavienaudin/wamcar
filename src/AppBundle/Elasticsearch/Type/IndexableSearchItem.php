@@ -224,7 +224,7 @@ class IndexableSearchItem implements Indexable
                 'model' => $this->vehicleModel,
                 'makeAndModel' => $this->vehicleMake . " " . $this->vehicleModel,
                 'description' => $this->vehicleDescription,
-                'fuel' => $this->vehicleFuel,
+                'fuel' => strtolower($this->vehicleFuel),
                 'transmission' => $this->vehicleTransmission,
                 'location' => [
                     'lat' => $this->vehicleLatitude,

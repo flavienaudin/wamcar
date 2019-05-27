@@ -59,7 +59,7 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             );
             $modelVersion = new ModelVersion($vehicleDTORowData->{self::CHILDNAME_FULL_MODEL_VERSION},
                 new Model($vehicleDTORowData->{self::CHILDNAME_MODEL_NAME}, new Make($vehicleDTORowData->{self::CHILDNAME_MAKE_NAME})),
-                new Engine($engineName, new Fuel(ucfirst($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
+                new Engine($engineName, new Fuel($this->getFuelName($vehicleDTORowData->{self::CHILDNAME_ENERGY})))
             );
         }
 
@@ -188,5 +188,16 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
 
         }
         return $proVehicle;
+    }
+
+    /**  */
+    public function getFuelName(string $dataFuelName): string
+    {
+        $fuelTable = [
+            'diesel' => 'Diesel',
+            'essence' => 'Essence',
+            'hybrid' => 'Hybride'
+        ];
+        return $fuelTable[$dataFuelName];
     }
 }

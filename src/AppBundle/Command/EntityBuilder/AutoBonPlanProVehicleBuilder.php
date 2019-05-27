@@ -83,8 +83,6 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
     const CHILDNAME_KM_GUARANTEE = "KmGaranti";
     const CHILDNAME_SITE_LOCALISATION = "Site";
 
-    //const CHILDNAME_CREATED_AT = "created_at";
-
     /**
      * @@inheritDoc
      */
@@ -134,8 +132,31 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
 
         // Dates de création/mise à jour
         $createdAt = null;
-        if (!empty($vehicleDTORowData->{self::CHILDNAME_CREATED_AT})) {
-            $createdAt = date_create_from_format('Y-m-d', $vehicleDTORowData->{self::CHILDNAME_CREATED_AT});
+        $updatedAt = null;
+        if ($existingProVehicle != null) {
+            $createdAt = $existingProVehicle->getCreatedAt();
+            try {
+                $updatedAt = $this->generateYesterdayDateTime();
+                if ($updatedAt < $createdAt) {
+                    $createdAt = $updatedAt;
+                }
+            } catch (\Exception $e) {
+                $updatedAt = null;
+            }
+        } else {
+            if (!empty($vehicleDTORowData->{self::CHILDNAME_CREATED_AT})) {
+                $createdAt = date_create_from_format('Y-m-d', $vehicleDTORowData->{self::CHILDNAME_CREATED_AT});
+                $hour = rand(8, 20);
+                $minute = rand(0, 59);
+                $createdAt->setTime($hour, $minute);
+            } else {
+                try {
+                    $createdAt = $this->generateYesterdayDateTime();
+                } catch (\Exception $e) {
+                    $createdAt = null;
+                }
+            }
+            $updatedAt = $createdAt;
         }
 
         // Discount
@@ -322,7 +343,9 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setDiscount($discount);
             if ($createdAt != null) {
                 $proVehicle->setCreatedAt($createdAt);
-                $proVehicle->setUpdatedAt($createdAt);
+            }
+            if ($updatedAt != null) {
+                $proVehicle->setUpdatedAt($updatedAt);
             }
 
             $photos = [];
@@ -382,7 +405,9 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             );
             if ($createdAt != null) {
                 $proVehicle->setCreatedAt($createdAt);
-                $proVehicle->setUpdatedAt($createdAt);
+            }
+            if ($updatedAt != null) {
+                $proVehicle->setUpdatedAt($updatedAt);
             }
 
             $position = 0;

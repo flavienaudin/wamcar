@@ -202,7 +202,26 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
         $result = $qb->getQuery()->execute();
         $this->getEntityManager()->getFilters()->enable('softDeleteable');
         return $result;
+    }
 
+    /**
+     * @inheritDoc
+     */
+    public function findSoftDeletedForXMonth(?int $months = 3): array
+    {
+        $sinceDate = new \DateTime();
+        $sinceDate->sub(new \DateInterval('P' . $months . 'M'));
+        $qb = $this->createQueryBuilder('v');
+        $qb->where($qb->expr()->lte('v.deletedAt', ':refDate'))
+            ->setParameter('refDate', $sinceDate);
+
+        // Disable 'softDeletable' filter to get softDeleted vehicles
+        if ($this->getEntityManager()->getFilters()->isEnabled('softDeleteable')) {
+            $this->getEntityManager()->getFilters()->disable('softDeleteable');
+        }
+        $result = $qb->getQuery()->execute();
+        $this->getEntityManager()->getFilters()->enable('softDeleteable');
+        return $result;
     }
 }
 

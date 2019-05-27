@@ -58,4 +58,10 @@ interface ProVehicleRepository extends VehicleRepository
      * @return array
      */
     public function findDeletedProVehiclesByProUser(ProUser $proUser, ?int $sinceDays = 60, ?\DateTimeInterface $referenceDate = null): array;
+
+    /**
+     * @param int|null $months
+     * @return array
+     */
+    public function findSoftDeletedForXMonth(?int $months = 3): array ;
 }

@@ -15,6 +15,7 @@
     {% if garage.phone %}
         <li class="is-flex">Téléphone&nbsp;:&nbsp;
             {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                'disabledLoggedProtection':true,
                 'phoneNumber_eventId':'showtelgarage'~garage.id,
                 'phoneNumber': garage.phone
             }) }}</li>

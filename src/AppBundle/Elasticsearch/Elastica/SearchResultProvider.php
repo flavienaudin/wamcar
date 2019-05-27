@@ -303,7 +303,7 @@ class SearchResultProvider
         if (!empty($searchVehicleDTO->fuel)) {
             if (in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type) ||
                 in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
-                $mainBoolQuery->addFilter($qb->query()->term(['vehicle.fuel.keyword' => $searchVehicleDTO->fuel]));
+                $mainBoolQuery->addFilter($qb->query()->term(['vehicle.fuel.keyword' => strtolower($searchVehicleDTO->fuel)]));
             }
         }
 

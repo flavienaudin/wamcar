@@ -40,7 +40,6 @@
     border: rem-calc(1) solid $light-gray;
   }
 
-
   /*
      Border
      ===================================== */
@@ -50,6 +49,13 @@
     padding: rem-calc(30);
   }
 
+  /*
+    Shadow
+    ===================================== */
+  &-shadow {
+    box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .6);
+    transition: box-shadow 83ms;
+  }
 
   /*
     Grid
