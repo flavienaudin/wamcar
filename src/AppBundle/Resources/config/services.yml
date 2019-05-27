@@ -97,6 +97,8 @@ services:
 
     AppBundle\Security\UserProvider:
         autowire: true
+        tags:
+            - { name: monolog.logger, channel: user_provider }
 
     AppBundle\Services\Garage\GarageEditionService:
         class: AppBundle\Services\Garage\GarageEditionService

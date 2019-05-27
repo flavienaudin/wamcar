@@ -372,14 +372,9 @@ hwi_oauth:
             type: linkedin
             client_id: '%env(LINKEDIN_ID)%'
             client_secret: '%env(LINKEDIN_SECRET)%'
-            scope: "r_basicprofile,r_emailaddress"
+            scope: "r_liteprofile,r_emailaddress"
             options:
                 csrf: true
-            infos_url: "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,email-address,picture-url)?format=json"
-            paths:
-                firstname: firstName
-                lastname: lastName
-                profilepicture: pictureUrl
         google:
             type: google
             client_id: '%env(GOOGLE_ID)%'

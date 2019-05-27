@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +29,9 @@ use Wamcar\User\Title;
 class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInterface
 {
     const REGISTRATION_TYPE_SESSION_KEY = 'registration_type';
+
+    const LINKEDIN_RESPONSE_SERVICE_ERROR_CODE = 'serviceErrorCode';
+    const LINKEDIN_RESPONSE_SERVICE_ERROR_MESSAGE = 'message';
 
     /** @var DoctrineUserRepository */
     private $doctrineUserRepository;
@@ -70,23 +74,45 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
+        $responseData = $response->getData();
+        // LinkedIn Error handling
+        if(isset($responseData[self::LINKEDIN_RESPONSE_SERVICE_ERROR_CODE])){
+            $this->logger->error("OAUTH ERROR : serviceErrorCode = " . $response->getData()[self::LINKEDIN_RESPONSE_SERVICE_ERROR_CODE]);
+            if(isset($responseData['message'])) {
+                $this->logger->error("OAUTH ERROR : message = " . $response->getData()[self::LINKEDIN_RESPONSE_SERVICE_ERROR_MESSAGE]);
+            }
+            throw new AuthenticationException();
+        }
+
         $userServiceId = $response->getUsername();
         $service = $response->getResourceOwner()->getName();
 
-        $user = $this->doctrineUserRepository->findOneBy([$service . 'Id' => $userServiceId]);
+        if(!empty($userServiceId)) {
+            // Security to avoid to lookf for <service>Id = NULL
+            $user = $this->doctrineUserRepository->findOneBy([$service . 'Id' => $userServiceId]);
+        }else{
+            $this->logger->error('OAUTH ERROR : UserServiceId is empty');
+            throw new AuthenticationException("OAUTH ERROR : UserServiceId is empty");
+        }
 
-        //when the user is registrating
+        //when the user is registrating or using a new social connect
         if (null === $user) {
+            if(empty($response->getEmail())){
+                $this->logger->error('OAUTH ERROR : Email is not provided');
+                throw new AuthenticationException("flash.error.social_connect_no_email");
+            }
             $user = $this->doctrineUserRepository->findOneByEmail($response->getEmail());
 
             $setter = 'set' . ucfirst($service);
             $setter_id = $setter . 'Id';
             $setter_token = $setter . 'AccessToken';
 
+            // User is really registrating
             if ($user == null) {
                 // get the registration type and check its validity
                 if (!$this->session->has(self::REGISTRATION_TYPE_SESSION_KEY)) {
-                    throw new UsernameNotFoundException("flash.error.no_registration_type");
+                    $this->logger->warning('OAUTH : Create an account before loginwith social connect');
+                    throw new AuthenticationException("flash.error.no_registration_type");
                 }
 
                 $registrationType = $this->session->get(self::REGISTRATION_TYPE_SESSION_KEY);
@@ -142,7 +168,7 @@ class UserProvider implements UserProviderInterface, OAuthAwareUserProviderInter
             $this->doctrineUserRepository->update($user);
 
             // Add the query param to track the inscription
-            if ($this->session->has('_security.front.target_path')) {
+            if (isset($registrationType) && $this->session->has('_security.front.target_path')) {
                 $url_targeted = $this->session->get('_security.front.target_path');
                 if (!str_contains($url_targeted, SecurityController::INSCRIPTION_QUERY_PARAM . '=')) {
                     $queryParam = SecurityController::INSCRIPTION_QUERY_PARAM . "=" . $registrationType . "-" . $service;
