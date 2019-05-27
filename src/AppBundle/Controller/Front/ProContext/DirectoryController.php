@@ -67,7 +67,8 @@ class DirectoryController extends BaseController
                 if ($citiesResultSet->getTotalHits() > 0) {
                     foreach ($citiesResultSet->getResults() as $result) {
                         $hit = $result->getData();
-                        if ($hit['postalCode'] === $cityPostalCode) {
+                        $postalCodes = explode('/', $hit['postalCode']);
+                        if (in_array($cityPostalCode, $postalCodes)) {
                             $searchProDTO->postalCode = $hit['postalCode'];
                             $searchProDTO->cityName = $hit['cityName'];
                             $searchProDTO->latitude = $hit['latitude'];
