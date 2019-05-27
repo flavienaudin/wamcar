@@ -160,7 +160,7 @@ class IndexableProVehicle implements Indexable
             'makeAndModel' => $this->make . " ". $this->model,
             'modelVersion' => $this->modelVersion,
             'engine' => $this->engine,
-            'fuel' => $this->fuel,
+            'fuel' => strtolower($this->fuel),
             'transmission' => $this->transmission,
             'description' => $this->description,
             'years' => $this->years,

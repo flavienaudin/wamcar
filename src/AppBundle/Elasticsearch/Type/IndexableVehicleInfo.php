@@ -157,7 +157,7 @@ class IndexableVehicleInfo implements Indexable
             'body' => $this->body,
             'wheelDrive' => $this->wheelDrive,
             'fuelOrig' => $this->fuelOrig,
-            'fuel' => $this->fuel,
+            'fuel' => ucfirst($this->fuel),
             'nbCylinders' => $this->nbCylinders,
             'nbValve' => $this->nbValve,
         ];

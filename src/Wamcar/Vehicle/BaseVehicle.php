@@ -9,12 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
-use Wamcar\User\{
-    BaseLikeVehicle, BaseUser, Picture as UserPicture
-};
-use Wamcar\Vehicle\Enum\{
-    MaintenanceState, SafetyTestState, TimingBeltState, Transmission
-};
+use Wamcar\User\{BaseLikeVehicle, BaseUser, Picture as UserPicture};
+use Wamcar\Vehicle\Enum\{MaintenanceState, SafetyTestState, TimingBeltState, Transmission};
 
 abstract class BaseVehicle implements Vehicle
 {
@@ -635,6 +631,23 @@ abstract class BaseVehicle implements Vehicle
                 }
             }
         }
+    }
+
+    /**
+     * @param int|null $nbPictureToKeep
+     * @return int Number of removed pictures
+     */
+    public function keepNPicture(?int $nbPictureToKeep = 1): int
+    {
+        $nbRemovedPicts = 0;
+        // To keep the initial count while deleting picturess
+        $nbPicts = $this->getNbPictures();
+        // Pictures are "position"-ordered by doctrine ORM setting
+        for ($i = $nbPictureToKeep; $i < $nbPicts; $i++) {
+            $this->pictures->remove($i);
+            $nbRemovedPicts++;
+        }
+        return $nbRemovedPicts;
     }
 
     /**

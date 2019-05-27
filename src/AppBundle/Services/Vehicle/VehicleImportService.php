@@ -189,7 +189,6 @@ class VehicleImportService
                 $io->progressFinish();
             }
             $this->garageRepository->update($garage);
-
         }
 
         return [
@@ -261,7 +260,6 @@ class VehicleImportService
             } catch (\Exception $e) {
                 throw new VehicleImportInvalidDataException($e->getMessage(), $e->getCode(), $e);
             }
-
 
             if ($existingProVehicle != null) {
                 return [self::RESULT_STATUS_KEY => self::UPDATE, self::RESULT_VEHICLE_KEY => $proVehicle, self::RESULT_MOVED_KEY => $wasMoved];

@@ -113,7 +113,7 @@ class RegistrationController extends BaseController
                     return $this->redirectToRoute('front_view_current_user_info');
                 } elseif ($userGarages->count() == 1) {
                     return $this->redirectToRoute('front_vehicle_pro_add', [
-                        'garage_id' => $userGarages->first()->getId(),
+                        'garage_id' => $userGarages->first()->getGarage()->getId(),
                         'plateNumber' => $plateNumber
                     ]);
                 } else {

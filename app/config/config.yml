@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: front_mock.yml }
+    - { resource: ../../vendor/beberlei/DoctrineExtensions/config/mysql.yml}
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -104,6 +105,7 @@ twig:
         typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
     form_themes:
         - 'front/Layout/includes/forms/fields.html.twig'
+        - '@FOSCKEditor/Form/ckeditor_widget.html.twig'
 
 # Doctrine Configuration
 doctrine:
@@ -165,9 +167,6 @@ doctrine:
                 alias: TypeForm
         resolve_target_entities:
             Mgilet\NotificationBundle\Entity\Notification: AppBundle\Doctrine\Entity\EventNotification
-        dql:
-            string_functions:
-                field: DoctrineExtensions\Query\Mysql\Field
 
 doctrine_migrations:
     dir_name:             '%kernel.root_dir%/../database/migrations'
@@ -424,6 +423,15 @@ jmose_command_scheduler:
         - container
         - init
 
+fos_ck_editor:
+  input_sync: true
+  default_config: easyadmin_config
+  configs:
+    easyadmin_config:
+      toolbar:
+        - { name: "styles", items: ['Bold', 'Italic', 'Link', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',  '-', 'RemoveFormat'] }
+
+
 easy_admin:
   site_name: 'Wamcar Backend'
   design:
@@ -531,8 +539,13 @@ easy_admin:
           - { property: 'email', type: 'email', label: 'Login' }
           - { property: 'slug'}
           - { property: 'presentationTitle' }
-          - { property: 'description', type: 'textarea' }
-          - { property: 'landingPosition', label: 'HP-mixte-position' }
+          - { property: 'description'}
+          - { property: 'landingPosition', label: 'HP-mixte-position'}
+          - { property: 'youtubeVideoId' }
+          - { property: 'videoShortText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
+          - { property: 'videoText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
+          - { property: 'appointmentText'}
+          - { property: 'appointmentAutofillMessage'}
       show:
         fields:
           - id
@@ -545,6 +558,11 @@ easy_admin:
           - userProfile.phone
           - phonePro
           - { property: 'avatar.fileName' }
+          - youtubeVideoId
+          - videoShortText
+          - videoText
+          - appointmentText
+          - appointmentAutofillMessage
           - facebookId
           - facebookAccessToken
           - linkedinId
@@ -566,7 +584,6 @@ easy_admin:
           - deletionReason
           - vehicles
           - garageMemberships
-
     PersonalApplicationUser:
       class: AppBundle\Doctrine\Entity\PersonalApplicationUser
       label: 'Particuliers'

@@ -74,7 +74,9 @@ class ImportVehicleInfoCommand extends ContainerAwareCommand
 
             //TRAIT-2
             $energieName = [
-                'moteur électrique' => 'Electrique'
+                'moteur électrique' => 'Electrique',
+                'Moteur à essence (à deux temps)' => 'Essence',
+                'Hybride (moteur à essence / electrique)' => 'Hybride',
             ];
 
             $indexableVehicleInfo = new IndexableVehicleInfo(

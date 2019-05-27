@@ -218,7 +218,8 @@ class SearchController extends BaseController
                 if ($citiesResultSet->getTotalHits() > 0) {
                     foreach ($citiesResultSet->getResults() as $result) {
                         $hit = $result->getData();
-                        if ($hit['postalCode'] === $cityPostalCode) {
+                        $postalCodes = explode('/', $hit['postalCode']);
+                        if (in_array($cityPostalCode, $postalCodes)) {
                             $searchVehicleDTO->postalCode = $hit['postalCode'];
                             $searchVehicleDTO->cityName = $hit['cityName'];
                             $searchVehicleDTO->latitude = $hit['latitude'];

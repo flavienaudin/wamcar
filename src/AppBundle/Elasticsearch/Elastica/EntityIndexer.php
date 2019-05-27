@@ -66,9 +66,10 @@ class EntityIndexer
     /**
      * @param array $datas Array of Documents or Indexable entities
      * @param bool $areDocuments true indicates $data is already an array of Document
+     * @param int $batchSize Size of bulk of documents to add to ES
      * @return Response
      */
-    public function indexAllDocuments(array $datas, bool $areDocuments = false): Response
+    public function indexAllDocuments(array $datas, bool $areDocuments = false, ?int $batchSize = 3000): Response
     {
         $index = $this->client->getIndex($this->indexName);
         if ($areDocuments) {
@@ -83,7 +84,10 @@ class EntityIndexer
                 }
             }
         }
-        $index->addDocuments($documents);
+        $docs = array_chunk($documents, $batchSize);
+        foreach($docs as $d) {
+            $index->addDocuments($d);
+        }
         return $index->refresh();
     }
 

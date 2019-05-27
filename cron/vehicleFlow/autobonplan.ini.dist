@@ -9,7 +9,7 @@ file = null
 ftp[host] = null
 ftp[login] = null
 ftp[password] = null
-ftp[import_dir] = null
+ftp[import_file] = null
 
 [Garage]
 garage = null

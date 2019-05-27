@@ -137,7 +137,11 @@ class DefaultController extends BaseController
             $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
 
             if(PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY === $formData['orientation']->getValue()){
-                return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
+                if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+                    return $this->redirectToRoute('front_search');
+                }else {
+                    return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
+                }
             }else{
                 return $this->redirectToRoute('front_vehicle_registration');
             }

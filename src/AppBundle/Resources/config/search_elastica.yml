@@ -48,8 +48,6 @@ parameters:
             type: keyword
           makeOrig:
             type: keyword
-          make:
-            type: keyword
           makeCode:
             type: integer
           model:
