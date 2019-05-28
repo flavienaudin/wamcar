@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
@@ -38,12 +39,12 @@ class ConversationExtension extends AbstractExtension
     public function getFunctions()
     {
         return array(
-            new \Twig_SimpleFunction('getInterlocutorConversation', array($this, 'getInterlocutorConversationFunction')),
-            new \Twig_SimpleFunction('getCurrentUserConversation', array($this, 'getCurrentUserConversationFunction')),
-            new \Twig_SimpleFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
-            new \Twig_SimpleFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction')),
-            new \Twig_SimpleFunction('getAttachmentLink', array($this, 'getAttachmentLinkFunction')),
-            new \Twig_SimpleFunction('getUserContactsOfGarages', array($this, 'getUserContactsOfGaragesFunction')),
+            new TwigFunction('getInterlocutorConversation', array($this, 'getInterlocutorConversationFunction')),
+            new TwigFunction('getCurrentUserConversation', array($this, 'getCurrentUserConversationFunction')),
+            new TwigFunction('getLastMessageConversation', array($this, 'getLastMessageConversationFunction')),
+            new TwigFunction('getCountUnreadMessages', array($this, 'getCountUnreadMessagesFunction')),
+            new TwigFunction('getAttachmentLink', array($this, 'getAttachmentLinkFunction')),
+            new TwigFunction('getUserContactsOfGarages', array($this, 'getUserContactsOfGaragesFunction')),
         );
     }
 

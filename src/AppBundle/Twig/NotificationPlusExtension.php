@@ -7,12 +7,14 @@ use Mgilet\NotificationBundle\NotifiableInterface;
 use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 
 /**
  * Twig extension to display notifications (extending Mgillet/NotificationExtension)
  **/
-class NotificationPlusExtension extends \Twig_Extension
+class NotificationPlusExtension extends AbstractExtension
 {
 
     /** @var NotificationManagerExtended */
@@ -46,7 +48,7 @@ class NotificationPlusExtension extends \Twig_Extension
     {
         return array_merge(
             array(
-                new \Twig_SimpleFunction('wamcar_notification_render', array($this, 'render_extended'), array(
+                new TwigFunction('wamcar_notification_render', array($this, 'render_extended'), array(
                     'is_safe' => array('html')
                 ))
             )
@@ -90,7 +92,7 @@ class NotificationPlusExtension extends \Twig_Extension
         $offset = array_key_exists('offset', $options) ? $options['offset'] : 0;
         $limit = array_key_exists('limit', $options) ? $options['limit'] : null;
 
-        $notifications = $this->notificationManagerExtended->getNotifications($notifiable, $seen , $order, $offset, $limit);
+        $notifications = $this->notificationManagerExtended->getNotifications($notifiable, $seen, $order, $offset, $limit);
 
         // if the template option is set, use custom template
         $template = array_key_exists('template', $options) ? $options['template'] : '@MgiletNotification/notification_list.html.twig';
