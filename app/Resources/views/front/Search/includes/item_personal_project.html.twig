@@ -109,7 +109,7 @@
                 {% if isUserPro %}
                     {% set contacts = getUserContactsOfGarages(project.personalUser, app.user.garages) %}
                     <span class="seller-contacts">
-                        {% for contact in contacts if not contact.is(app.user) %}
+                        {% for contact in contacts|filter(c => not c.is(app.user)) %}
                             {{ include('front/User/includes/contacted_by.html.twig') }}
                         {% endfor %}
                     </span>
