@@ -7,22 +7,24 @@
     { label: "vehicle.field.safety_test_state.label"|trans(), value: vehicle.safetyTestState is null  ? null : vehicle.safetyTestState.key|trans([], 'enumeration') },
     { label: "vehicle.field.timingBeltState.label"|trans(), value: vehicle.timingBeltState is null ? null : vehicle.timingBeltState.key|trans([], 'enumeration') },
 ] %}
-{% for state in state_infos if state.value %}
-    <li class="dark-gray-color block-grid">
-        {% if state.value matches '/^\\d+$/' %}
-            <strong class="small-12 medium-4 large-5 xlarge-3">{{ state.label }}</strong>
-            <span class="small-12 medium-8 large-7 xlarge-9 star-list-container">
-                <span class="star-list small-5 medium-shrink">
-                    {% for i in 5..1 %}
-                        {% set starClass = (state.value < i ? "star-empty" : "star-full")  %}
-                         <i class="star-item {{ starClass }}"></i>
-                    {% endfor %}
+{% for state in state_infos  %}
+    {% if state.value %}
+        <li class="dark-gray-color block-grid">
+            {% if state.value matches '/^\\d+$/' %}
+                <strong class="small-12 medium-4 large-5 xlarge-3">{{ state.label }}</strong>
+                <span class="small-12 medium-8 large-7 xlarge-9 star-list-container">
+                    <span class="star-list small-5 medium-shrink">
+                        {% for i in 5..1 %}
+                            {% set starClass = (state.value < i ? "star-empty" : "star-full")  %}
+                             <i class="star-item {{ starClass }}"></i>
+                        {% endfor %}
+                    </span>
+                    <span class="star-label-sticky" style="opacity: 1">{{ state.value|starValueLabel }}</span>
                 </span>
-                <span class="star-label-sticky" style="opacity: 1">{{ state.value|starValueLabel }}</span>
-            </span>
-        {% else %}
-            <strong class="small-5 medium-4 large-5 xlarge-3">{{ state.label }}</strong>
-            <span class="small-auto">{{ state.value }}</span>
-        {% endif %}
-    </li>
+            {% else %}
+                <strong class="small-5 medium-4 large-5 xlarge-3">{{ state.label }}</strong>
+                <span class="small-auto">{{ state.value }}</span>
+            {% endif %}
+        </li>
+    {% endif %}
 {% endfor %}

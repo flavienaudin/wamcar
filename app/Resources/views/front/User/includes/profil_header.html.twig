@@ -7,8 +7,10 @@
                 {% if isUserPersonalPageProfil and isUserPro %}
                     {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
                     <span class="seller-contacts">
-                        {% for contact in contacts if not contact.is(app.user) %}
-                            {{ include('front/User/includes/contacted_by.html.twig') }}
+                        {% for contact in contacts  %}
+                            {% if not contact.is(app.user) %}
+                                {{ include('front/User/includes/contacted_by.html.twig') }}
+                            {% endif %}
                         {% endfor %}
                     </span>
                 {% endif %}
