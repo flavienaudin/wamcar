@@ -987,7 +987,7 @@ user:
       explanation:
         personal:
           logged: >
-            Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et d'autres
+            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et d'autres
             conseillers(ères) automobiles.
           unlogged: >
             Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et
