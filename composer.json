@@ -41,13 +41,13 @@
     "league/csv": "^9.0",
     "simple-bus/symfony-bridge": "^5.0",
     "guzzlehttp/guzzle": "^6.3",
+    "php-http/guzzle6-adapter": "^2.0",
     "zircote/swagger-php": "^2.0",
     "pragmarx/zipcode": "^1.5",
     "twig/extensions": "^1.5",
     "liip/imagine-bundle": "^1.9",
     "robertotru/to-inline-style-email-bundle": "^1.5",
-    "hwi/oauth-bundle": "^0.6",
-    "php-http/guzzle6-adapter": "^1.1",
+    "hwi/oauth-bundle": "master@dev",
     "ocramius/proxy-manager": "2.1",
     "beberlei/DoctrineExtensions": "^1.1",
     "mgilet/notification-bundle": "^3.0",
@@ -101,6 +101,7 @@
     "branch-alias": null
   },
   "config": {
-    "bin-dir": "bin"
+    "bin-dir": "bin",
+    "sort-packages": true
   }
 }

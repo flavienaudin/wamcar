@@ -4,6 +4,7 @@
 namespace AppBundle\Twig;
 
 use Twig\Extension\AbstractExtension;
+use Twig\TwigTest;
 
 class TestsExtension extends AbstractExtension
 {
@@ -11,7 +12,7 @@ class TestsExtension extends AbstractExtension
     public function getTests()
     {
         return array(
-            new \Twig_Test('instanceof', array($this, 'isInstanceOfTest'))
+            new TwigTest('instanceof', array($this, 'isInstanceOfTest'))
         );
     }
 

@@ -10,6 +10,7 @@ services:
             - ['setAuthorizationChecker', ['@security.authorization_checker']]
 
     AppBundle\Controller\Front\AdministrationContext\BackendController:
+        public: true
         calls:
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]

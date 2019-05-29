@@ -473,9 +473,9 @@ services:
     public: true
 
   Elastica\Client:
-      $config:
-          host: '%env(ELASTIC_HOST)%'
-          port: '%env(ELASTIC_PORT)%'
+    $config:
+      host: '%env(ELASTIC_HOST)%'
+      port: '%env(ELASTIC_PORT)%'
 
   # Services for index VEHICLE_INFO
   vehicle_info.index_builder:

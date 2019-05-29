@@ -5,6 +5,7 @@ namespace AppBundle\Twig;
 
 use AppBundle\Utils\StarsChoice;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 class StarsExtension extends AbstractExtension
 {
@@ -12,7 +13,7 @@ class StarsExtension extends AbstractExtension
     public function getFilters()
     {
         return array(
-            new \Twig_SimpleFilter('starValueLabel', array($this, 'starValueLabelFilter'))
+            new TwigFilter('starValueLabel', array($this, 'starValueLabelFilter'))
         );
     }
 

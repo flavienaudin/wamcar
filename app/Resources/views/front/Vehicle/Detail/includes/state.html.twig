@@ -7,7 +7,7 @@
     { label: "vehicle.field.safety_test_state.label"|trans(), value: vehicle.safetyTestState is null  ? null : vehicle.safetyTestState.key|trans([], 'enumeration') },
     { label: "vehicle.field.timingBeltState.label"|trans(), value: vehicle.timingBeltState is null ? null : vehicle.timingBeltState.key|trans([], 'enumeration') },
 ] %}
-{% for state in state_infos if state.value %}
+{% for state in state_infos|filter(s => s.value)  %}
     <li class="dark-gray-color block-grid">
         {% if state.value matches '/^\\d+$/' %}
             <strong class="small-12 medium-4 large-5 xlarge-3">{{ state.label }}</strong>

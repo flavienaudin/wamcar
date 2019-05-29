@@ -57,45 +57,55 @@ class SearchVehicleType extends AbstractType
                     },
                     'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('model', ChoiceType::class, [
                     'choices' => $availableValues['model'] ?? [],
                     'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('transmission', ChoiceType::class, [
                     'choices' => Transmission::toArray(),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => 'enumeration'
                 ])
                 ->add('fuel', ChoiceType::class, [
                     'choices' => $availableValues['fuel'] ?? [],
                     'placeholder' => count($availableValues['fuel'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('mileageMax', ChoiceType::class, [
                     'choices' => MileageChoice::getMileageMax(),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('yearsMin', ChoiceType::class, [
                     'choices' => YearsChoice::getLastYears(58),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('yearsMax', ChoiceType::class, [
                     'choices' => YearsChoice::getLastYears(58),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('budgetMin', ChoiceType::class, [
                     'choices' => BudgetChoice::getListMin(),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('budgetMax', ChoiceType::class, [
                     'choices' => BudgetChoice::getListMax(),
                     'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ])
                 ->add('radius', ChoiceType::class, [
                     'choices' => RadiusChoice::getListRadius(),
                     'empty_data' => 50,
-                    'error_bubbling' => true
+                    'error_bubbling' => true,
+                    'choice_translation_domain' => false
                 ]);
             if ($sortingField) {
                 $builder
@@ -118,7 +128,7 @@ class SearchVehicleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SearchVehicleDTO::class,
-            'translation_domain' => 'search',
+            'translation_domain' => 'messages',
             'csrf_protection' => false,
             'available_values' => [],
             'small_version' => false,

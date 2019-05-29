@@ -58,6 +58,9 @@ flash:
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
     bad_registration_type: Veuillez indiquer si vous êtes un particulier ou professionnel avant de vous inscrire.
     no_registration_type: Veuillez créer un compte Wamcar.
+    social_connect_not_accept: Vous n'avez pas autorisé la connexion via la plateforme sélectionnée.
+    social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
+    social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
     unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
     unauthorized_to_add_vehicle_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
@@ -163,7 +166,7 @@ error_page:
     title: La page recherchée est introuvable
     body: >
       <p>Oups! La page que vous recherchez n'est pas trouvée. <br> Il y a peut-être une erreur de saisie dans l'adresse renseignée.</p>
-      <p>Si vous rencontrez de nouveau le problème, <a href="%homeUrl%" class="text-underline">retournez à la page d’accueil</a> ou <a href="mailto:contact@wamcar.fr" class="text-underline">contactez-nous</a></p>
+      <p>Si vous rencontrez de nouveau le problème, <a href="%homeUrl%" class="text-underline">retournez à la page d’accueil</a> ou <a href="mailto:contact@wamcar.com" class="text-underline">contactez-nous</a></p>
   410:
     title: La page recherchée n'existe plus
     body: >
@@ -972,24 +975,24 @@ user:
           <a href="%affinity_form_url%" class="button"> Remplir le questionnaire WamAffinity</a>.
       edit:
         personal: >
-          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
           <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
         pro: >
-          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter votre affinité avec les
+          Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
           <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
     degree:
-      calculation_in_progress: Votre affinité avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
+      calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:
         personal:
           logged: >
-            Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et d'autres
+            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et d'autres
             conseillers(ères) automobiles.
           unlogged: >
-            Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec %username% et
+            Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
             d'autres conseillers(ères) automobiles.
-        pro: Répondez au questionnaire Wamcar Affinity pour découvrir votre affinité avec ce particulier.
+        pro: Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec ce particulier.
       calltoaction:
         fill_form: Remplir le questionnaire
       element.alt:
