@@ -172,6 +172,9 @@
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
+    {% if error_message|default(false) %}
+        <small class="form-error {{ error_message_class|default('') }}">{{ error_message }}</small>
+    {% endif %}
     {% if class_field %}
         </div>
     {% endif %}

@@ -16,32 +16,37 @@ class UserProfile
     protected $description;
     /** @var null|string */
     protected $phone;
+    /** @var bool */
+    protected $phoneDisplay;
     /** @var  City|null */
     protected $city;
 
     /**
      * UserProfile constructor.
-     * @param Title|null $title
      * @param string $firstName
      * @param string|null $lastName
+     * @param Title|null $title
      * @param string|null $description
      * @param string|null $phone
+     * @param bool|null $phoneDisplay
      * @param City|null $city
      */
     public function __construct(
-        Title $title = null,
         string $firstName,
         string $lastName = null,
+        Title $title = null,
         string $description = null,
         string $phone = null,
+        bool $phoneDisplay = false,
         City $city = null
     )
     {
-        $this->title = $title;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->title = $title;
         $this->description = $description;
         $this->phone = $phone;
+        $this->phoneDisplay = $phoneDisplay;
         $this->city = $city;
     }
 
@@ -53,12 +58,30 @@ class UserProfile
         return $this->title;
     }
 
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title): void
+    {
+        $this->title = $title;
+    }
+
+
     /**
      * @return string
      */
     public function getFirstName(): string
     {
         return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
     }
 
     /**
@@ -70,11 +93,27 @@ class UserProfile
     }
 
     /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
      * @return string
      */
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    /**
+     * @param null|string $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     /**
@@ -86,11 +125,43 @@ class UserProfile
     }
 
     /**
+     * @param mixed $phone
+     */
+    public function setPhone($phone): void
+    {
+        $this->phone = $phone;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhoneDisplay(): bool
+    {
+        return $this->phoneDisplay;
+    }
+
+    /**
+     * @param bool $phoneDisplay
+     */
+    public function setPhoneDisplay(bool $phoneDisplay): void
+    {
+        $this->phoneDisplay = $phoneDisplay;
+    }
+
+    /**
      * @return null|City
      */
     public function getCity(): ?City
     {
         return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city): void
+    {
+        $this->city = $city;
     }
 
     /**
@@ -123,53 +194,5 @@ class UserProfile
     public function getLongitude(): ?string
     {
         return ($this->getCity() != null ? $this->getCity()->getLongitude() : null);
-    }
-
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName(string $firstName): void
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @param null|string $description
-     */
-    public function setDescription(?string $description): void
-    {
-        $this->description = $description;
-    }
-
-    /**
-     * @param mixed $phone
-     */
-    public function setPhone($phone): void
-    {
-        $this->phone = $phone;
-    }
-
-    /**
-     * @param mixed $city
-     */
-    public function setCity($city): void
-    {
-        $this->city = $city;
     }
 }

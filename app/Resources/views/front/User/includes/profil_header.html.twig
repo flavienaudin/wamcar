@@ -40,6 +40,13 @@
                             }) }}</span>
                     {% endif %}
                 {% endif %}
+                {% if isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) and user.phone is not empty %}
+                    <span class="icon-tel primary-color small-12 medium-shrink">
+                            <a href="tel:{{ user.phone }}" class="text-underline no-margin" target="_blank"
+                               rel="noopener noreferrer">{{ user.phone|phoneFormat }}</a>
+                            {% if userIsMe and not user.isPhoneDisplay%}&nbsp;<span class="body-font-color">(Non affiché)</span>{% endif %}
+                        </span>
+                {% endif %}
 
                 {% if not userIsMe %}
                     <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block"

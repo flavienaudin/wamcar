@@ -815,9 +815,15 @@ user:
           required_message: Vous devez saisir votre ville
           placeholder: Ville ou code postal
         phonePro:
-          label: Téléphone fixe
+          label: Téléphone fixes
+          placeholder: "0123456789"
+          invalid_format: "Le format est incorrect"
         phone:
           label: Téléphone mobile
+          placeholder: "0623456789"
+          invalid_format: "Le format est incorrect"
+        phoneDisplay:
+          label: Afficher mon numéro aux professionnels
         presentation:
           label: Présentation
         avatar:
