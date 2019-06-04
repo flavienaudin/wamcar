@@ -78,9 +78,12 @@
                 <div class="column small-12 medium-6">
                     {{ form_widget(garageForm.phone, {
                         'label': 'Téléphone',
+                        'placeholder': 'Exemple: 0123456789',
                         'type': 'tel',
                         'class': 'medium-no-margin',
-                        'required': false
+                        'required': false,
+                        'error_message': 'Le format est incorrect',
+                        'attr' : {'maxlength':10},
                     }) }}
                 </div>
             </div>

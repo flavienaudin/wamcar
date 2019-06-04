@@ -816,11 +816,11 @@ user:
           placeholder: Ville ou code postal
         phonePro:
           label: Téléphone fixes
-          placeholder: "0123456789"
+          placeholder: "Exemple: 0123456789"
           invalid_format: "Le format est incorrect"
         phone:
           label: Téléphone mobile
-          placeholder: "0623456789"
+          placeholder: "Exemple: 0623456789"
           invalid_format: "Le format est incorrect"
         phoneDisplay:
           label: Afficher mon numéro aux professionnels
