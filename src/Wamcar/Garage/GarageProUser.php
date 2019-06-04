@@ -57,6 +57,14 @@ class GarageProUser
     }
 
     /**
+     * @return bool
+     */
+    public function isAdministrator(): bool
+    {
+        return GarageRole::GARAGE_ADMINISTRATOR()->equals($this->role);
+    }
+
+    /**
      * @param GarageRole $role
      */
     public function setRole(GarageRole $role): void
