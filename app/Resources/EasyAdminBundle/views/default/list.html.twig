@@ -3,7 +3,7 @@
 {% block item_actions %}
     {% set filtered_actions = {} %}
     {% for action_name, action_config in _list_item_actions %}
-        {% if not ( (action_name == 'viewUserProfile' or action_name == 'viewGaragePage' ) and item.deletedAt|default(null) is not null ) %}
+        {% if not ((action_name in ['viewUserProfile','viewProUserPerformances','viewGaragePage'] ) and item.deletedAt|default(null) is not null ) %}
             {# remove the 'viewUserProfile' action from softDeleted items #}
             {% set filtered_actions = filtered_actions|merge([action_config]) %}
         {% endif %}
