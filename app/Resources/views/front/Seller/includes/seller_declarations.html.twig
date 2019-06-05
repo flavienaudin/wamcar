@@ -1,12 +1,14 @@
 {% set title_tag = title_tag|default('h2') %}
 {% set table_id = table_id|default('declaredSale-dt') %}
+{% set emptyTable = saleDeclarations|length == 0 %}
 
 <{{ title_tag }}>{{ 'pro_user_performances.declared_sales.title'|trans }}</{{ title_tag }}>
-<table id="{{ table_id }}" class="js-perf-declared-sales-datatable dataTable compact no-wrap row-border"
+<table id="{{ table_id }}"
+       class="{{ emptyTable ? 'perf-declared-sales-datatable':'js-perf-declared-sales-datatable' }} dataTable compact no-wrap row-border"
        style="width: 100%" data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
     <thead>
     <tr>
-        <th></th>
+        {% if not emptyTable %}<th></th>{% endif %}
         <th data-priority="2">{{ 'pro_user_performances.declared_sales.table.date'|trans }}</th>
         <th data-priority="1">{{ 'pro_user_performances.declared_sales.table.name'|trans }}</th>
         <th>{{ 'pro_user_performances.declared_sales.table.vehicle'|trans }}</th>
@@ -40,7 +42,7 @@
         </tr>
     {% else %}
         <tr>
-            <td class="dt-body-center" colspan="7">{{ 'pro_user_performances.declared_sales.table.empty'|trans }}</td>
+            <td class="dt-body-center" colspan="6">{{ 'pro_user_performances.declared_sales.table.empty'|trans }}</td>
         </tr>
     {% endfor %}
     </tbody>
