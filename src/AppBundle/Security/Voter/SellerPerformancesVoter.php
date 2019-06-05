@@ -46,12 +46,11 @@ class SellerPerformancesVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        if ($this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
             return true;
         }
 
         $currentUser = $token->getUser();
-
         if (!$currentUser instanceof ProApplicationUser) {
             // the user must be logged in; if not, deny access
             return false;
@@ -63,6 +62,10 @@ class SellerPerformancesVoter extends Voter
 
         switch ($attribute) {
             case self::SHOW:
+                if ($seller->is($currentUser)) {
+                    return true;
+                }
+
                 /** @var GarageProUser $garageMembership */
                 foreach ($seller->getEnabledGarageMemberships() as $garageMembership) {
                     if ($currentUser->isAdministratorOfGarage($garageMembership->getGarage())) {
