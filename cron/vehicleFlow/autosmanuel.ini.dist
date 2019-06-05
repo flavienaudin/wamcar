@@ -1,4 +1,4 @@
-[Flow file access : file, ftp]
+[Flow file access : file, ftp, url]
 source = url
 origin = autosmanuel
 

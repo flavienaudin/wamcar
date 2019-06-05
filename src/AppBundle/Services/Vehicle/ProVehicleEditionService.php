@@ -161,9 +161,8 @@ class ProVehicleEditionService
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
         if ($seller == null) {
-            // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getAvailableSellers()->toArray();
-            $seller = $members[array_rand($members)]->getProUser();
+            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
+            $seller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
         }
         $proVehicle->setSeller($seller);
 
@@ -188,16 +187,15 @@ class ProVehicleEditionService
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
         if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
-            // TODO Cette vérification est faite pour corriger le cas AutoBonPlan (Romane est admin et vendeuse)
+            // Check if actual seller is not an admin
             $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
                 return $memberShip->getProUser();
             });
-            // Admins can't be sellers (The only one rule today)
+            // Admins can't be sellers
             if (!$availableSellers->contains($proVehicle->getSeller())) {
                 // The actual seller is an admin but it's not allowed by the garage option
-                // TODO Tirage aléatoire en attendant implémentation des règles
-                $members = $availableSellers->toArray();
-                $seller = $members[array_rand($members)];
+                $sellerCandidates = $proVehicle->getGarage()->getBestSellersForVehicle($proVehicle);
+                $seller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
                 $proVehicle->setSeller($seller);
             }
         }
@@ -219,18 +217,11 @@ class ProVehicleEditionService
     {
         if ($newSeller == null) {
             // Search for a new seller among garage'sellers
-            /** @var GarageProUser[] $members */
-            $members = $proVehicle->getGarage()->getAvailableSellers()->toArray();
-            do {
-                $randIndex = array_rand($members);
-                $newSeller = $members[$randIndex]->getProUser();
-                if (!$proVehicle->getSeller()->is($newSeller)) {
-                    break;
-                }
-                unset($members[$randIndex]);
-            } while (count($members) > 0);
-
-            if (count($members) == 0) {
+            /** @var ProUser[] $sellerCandidates */
+            $sellerCandidates = $proVehicle->getGarage()->getBestSellersForVehicle($proVehicle, $proVehicle->getSeller());
+            if (count($sellerCandidates) > 0) {
+                $newSeller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
+            } else {
                 throw new NewSellerToAssignNotFoundException($proVehicle);
             }
         }
