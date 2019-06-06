@@ -57,6 +57,7 @@ security:
                 lifetime: 604800 # 1 week in seconds
                 path:     front_default
                 secure:   true
+                always_remember_me: true
             logout:
                 path:   security_logout
                 target: front_default
