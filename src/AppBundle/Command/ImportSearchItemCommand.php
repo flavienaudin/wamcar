@@ -58,7 +58,9 @@ class ImportSearchItemCommand extends ContainerAwareCommand
         $io->text('Personal User indexed as Search Item');
 
         $io->text('Deleting ' . count($personaUserSearchItemIdsToDelete) . ' search items about personal users');
-        $searchItemEntityIndexer->deleteByIds($personaUserSearchItemIdsToDelete);
+        if(count($personaUserSearchItemIdsToDelete) > 0) {
+            $searchItemEntityIndexer->deleteByIds($personaUserSearchItemIdsToDelete);
+        }
         $io->text('Personal User indexed as Search Item');
 
         // Pro Vehicles
