@@ -1,0 +1,906 @@
+<?xml version="1.0"?>
+<Stock>
+  <Vehicule>
+    <IdentifiantVehicule>ST_177583</IdentifiantVehicule>
+    <ReferenceVehicule>ST_177583</ReferenceVehicule>
+    <StatutStock></StatutStock>
+    <Annee>2018</Annee>
+    <Date1Mec>10-05-2018</Date1Mec>
+    <Marque>BMW</Marque>
+    <Famille>SERIE 2 ACTIVE TOURER F45</Famille>
+    <Version>ACTIVE TOURER 218D 150 CH LOUNGE A</Version>
+    <Modele>SERIE 2 ACTIVE TOURER F45 ACTIVE TOURER 218D 150 CH LOUNGE A</Modele>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <PuissanceFiscale>8</PuissanceFiscale>
+    <PuissanceReelle>150</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Kilometrage>17089</Kilometrage>
+    <Couleur></Couleur>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <NbRapports>8</NbRapports>
+    <PrixVenteTTC>25030</PrixVenteTTC>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <EquipementsSerieEtOption>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Autoradio BMW Professional|Banquette AR coulissante et rabattable 40 / 20 / 40|Bo&#xEE;te &#xE0; gant &#xE9;clair&#xE9;e|Buses de lave-glace chauffantes|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|Crochets de fixation pour cintre (x2 &#xE0; l'AR)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Equipements Finition Lounge / Finition Business|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Filtre &#xE0; particules|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre cercl&#xE9;s de chrome avec 12 barreaux verticaux noirs|Inserts d&#xE9;coratifs en noir brillant et cerclages chrom&#xE9;s des a&#xE9;rateurs AV|Interface Bluetooth avec fonction streaming audio|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Motorisations BMW TwinPower Turbo: compos&#xE9; d'un turbocompresseur &#xE0; g&#xE9;om&#xE9;trie variable, de l'injection directe et d'une rampe commune Common Rail de 3&#xE8;me g&#xE9;n&#xE9;ration (BMW EfficientDynamics)|Navigation multim&#xE9;dia Business|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Pneumatiques RSC permettant le roulage &#xE0; plat|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Projecteurs antibrouillard AV|Projecteurs LED Feux de route et feux de croisement &#xE0; technologie LED. Eclairage d'intersection &#xE0; LED. Comprend &#xE9;galement les phares AR &#xE0; technologie LED|Respect de la norme anti-pollution EU6|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome |R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|Sellerie Tissu "Grid"|Services Apr&#xE8;s-vente connect&#xE9;s BMW TeleServices (dur&#xE9;e de vie de la voiture)|Si&#xE8;ges AV chauffants |Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement simple &#xE0; gauche, ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Teinte de carrosserie m&#xE9;tallis&#xE9;e|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitrage calorifuge |Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|Volant Sport gaine cuir |3&#xE8;me feu stop</EquipementsSerieEtOption>
+    <EquipementsSerie>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Autoradio BMW Professional|Banquette AR coulissante et rabattable 40 / 20 / 40|Bo&#xEE;te &#xE0; gant &#xE9;clair&#xE9;e|Buses de lave-glace chauffantes|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|Crochets de fixation pour cintre (x2 &#xE0; l'AR)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Equipements Finition Lounge / Finition Business|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Filtre &#xE0; particules|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre cercl&#xE9;s de chrome avec 12 barreaux verticaux noirs|Interface Bluetooth avec fonction streaming audio|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Motorisations BMW TwinPower Turbo: compos&#xE9; d'un turbocompresseur &#xE0; g&#xE9;om&#xE9;trie variable, de l'injection directe et d'une rampe commune Common Rail de 3&#xE8;me g&#xE9;n&#xE9;ration (BMW EfficientDynamics)|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Projecteurs antibrouillard AV|Respect de la norme anti-pollution EU6|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|Sellerie Tissu "Grid"|Services Apr&#xE8;s-vente connect&#xE9;s BMW TeleServices (dur&#xE9;e de vie de la voiture)|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement simple &#xE0; gauche, ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|3&#xE8;me feu stop</EquipementsSerie>
+    <EquipementsOption>Inserts d&#xE9;coratifs en noir brillant et cerclages chrom&#xE9;s des a&#xE9;rateurs AV : +160.00|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17 : +710.00|Navigation multim&#xE9;dia Business : +1200.00|Pneumatiques RSC permettant le roulage &#xE0; plat : +300.00|Projecteurs LED Feux de route et feux de croisement &#xE0; technologie LED. Eclairage d'intersection &#xE0; LED. Comprend &#xE9;galement les phares AR &#xE0; technologie LED : +1000.00|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome  : +180.00|Si&#xE8;ges AV chauffants  : +400.00|Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC  : +430.00|Teinte de carrosserie m&#xE9;tallis&#xE9;e : +840.00|Vitrage calorifuge  : +360.00|Volant Sport gaine cuir  : +120.00</EquipementsOption>
+    <MontantOptionsIncluses>5700</MontantOptionsIncluses>
+    <EquipementsManquants></EquipementsManquants>
+    <MontantEquipementsManquants>0</MontantEquipementsManquants>
+    <Volume>468</Volume>
+    <CapaciteReservoir>51</CapaciteReservoir>
+    <Longueur>4342</Longueur>
+    <Largeur>1800</Largeur>
+    <Hauteur>1555</Hauteur>
+    <Empattement>2670</Empattement>
+    <PoidsEtDimensions>Capacit&#xE9;  mini du coffre : 468 litres|Capacit&#xE9; maxi du coffre : 1510 litres|Charge utile : 555 kg|Empattement : 2670 mm|Espace au sol : 165 mm|Hauteur  1555 mm|Largeur : 1800 mm|Longueur : 4342 mm|Poids &#xE0; vide : 1410 kg|Poids total : 1965 kg|Poids total roulant autoris&#xE9; (PTRA) : 3265 kg|Rayon de braquage : 11,3 m|Remorque avec frein, poids maxi : 1300 kg|Remorque sans frein, poids maxi : 725 kg|R&#xE9;servoir : 51 litres|Surplomb arri&#xE8;re : 824 mm</PoidsEtDimensions>
+    <UrlPhotoAutobonplan>https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-serie-2-active-tourer-f45-b7e71ec17aea58474681354d52054f5a.jpg</UrlPhotoAutobonplan>
+    <Co2>120</Co2>
+    <Remise/>
+    <GarantieConstructeur>36</GarantieConstructeur>
+    <ConsommationMixte>4,30</ConsommationMixte>
+    <ConsommationUrbaine>4,70</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>4,10</ConsommationExtraUrbaine>
+    <PrixNeuf>42730</PrixNeuf>
+    <PrixVenteHT>20858</PrixVenteHT>
+    <PrixVenteTva>4172</PrixVenteTva>
+    <Ecotaxe/>
+    <KmGaranti>Non garanti</KmGaranti>
+    <StatutStockABP></StatutStockABP>
+    <GarantieLibelle>Constructeur jusqu'au 09/05/2021</GarantieLibelle>
+    <PrixVenteMarchand>0</PrixVenteMarchand>
+    <UrlAutobonplan></UrlAutobonplan>
+    <Flux>STARTERRE</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>ST_177588</IdentifiantVehicule>
+    <ReferenceVehicule>ST_177588</ReferenceVehicule>
+    <StatutStock></StatutStock>
+    <Annee>2018</Annee>
+    <Date1Mec>08-06-2018</Date1Mec>
+    <Marque>BMW</Marque>
+    <Famille>SERIE 2 ACTIVE TOURER F45</Famille>
+    <Version>ACTIVE TOURER 218D 150 CH LOUNGE A</Version>
+    <Modele>SERIE 2 ACTIVE TOURER F45 ACTIVE TOURER 218D 150 CH LOUNGE A</Modele>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <PuissanceFiscale>8</PuissanceFiscale>
+    <PuissanceReelle>150</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Kilometrage>17322</Kilometrage>
+    <Couleur></Couleur>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <NbRapports>8</NbRapports>
+    <PrixVenteTTC>25030</PrixVenteTTC>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <EquipementsSerieEtOption>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Autoradio BMW Professional|Banquette AR coulissante et rabattable 40 / 20 / 40|Bo&#xEE;te &#xE0; gant &#xE9;clair&#xE9;e|Buses de lave-glace chauffantes|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|Crochets de fixation pour cintre (x2 &#xE0; l'AR)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Filtre &#xE0; particules|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre cercl&#xE9;s de chrome avec 12 barreaux verticaux noirs|Inserts d&#xE9;coratifs en noir brillant et cerclages chrom&#xE9;s des a&#xE9;rateurs AV|Interface Bluetooth avec fonction streaming audio|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Motorisations BMW TwinPower Turbo: compos&#xE9; d'un turbocompresseur &#xE0; g&#xE9;om&#xE9;trie variable, de l'injection directe et d'une rampe commune Common Rail de 3&#xE8;me g&#xE9;n&#xE9;ration (BMW EfficientDynamics)|Navigation multim&#xE9;dia Business|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Pneumatiques RSC permettant le roulage &#xE0; plat|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Projecteurs antibrouillard AV|Projecteurs LED Feux de route et feux de croisement &#xE0; technologie LED. Eclairage d'intersection &#xE0; LED. Comprend &#xE9;galement les phares AR &#xE0; technologie LED|Respect de la norme anti-pollution EU6|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome |R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|Sellerie Tissu "Grid"|Services Apr&#xE8;s-vente connect&#xE9;s BMW TeleServices (dur&#xE9;e de vie de la voiture)|Si&#xE8;ges AV chauffants |Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement simple &#xE0; gauche, ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Teinte de carrosserie unie (Alpinweiss)|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitrage calorifuge |Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|Volant Sport gaine cuir |3&#xE8;me feu stop</EquipementsSerieEtOption>
+    <EquipementsSerie>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Autoradio BMW Professional|Banquette AR coulissante et rabattable 40 / 20 / 40|Bo&#xEE;te &#xE0; gant &#xE9;clair&#xE9;e|Buses de lave-glace chauffantes|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|Crochets de fixation pour cintre (x2 &#xE0; l'AR)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Filtre &#xE0; particules|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre cercl&#xE9;s de chrome avec 12 barreaux verticaux noirs|Interface Bluetooth avec fonction streaming audio|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Motorisations BMW TwinPower Turbo: compos&#xE9; d'un turbocompresseur &#xE0; g&#xE9;om&#xE9;trie variable, de l'injection directe et d'une rampe commune Common Rail de 3&#xE8;me g&#xE9;n&#xE9;ration (BMW EfficientDynamics)|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Projecteurs antibrouillard AV|Respect de la norme anti-pollution EU6|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|Sellerie Tissu "Grid"|Services Apr&#xE8;s-vente connect&#xE9;s BMW TeleServices (dur&#xE9;e de vie de la voiture)|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement simple &#xE0; gauche, ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|3&#xE8;me feu stop</EquipementsSerie>
+    <EquipementsOption>Inserts d&#xE9;coratifs en noir brillant et cerclages chrom&#xE9;s des a&#xE9;rateurs AV : +160.00|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17 : +710.00|Navigation multim&#xE9;dia Business : +1200.00|Pneumatiques RSC permettant le roulage &#xE0; plat : +300.00|Projecteurs LED Feux de route et feux de croisement &#xE0; technologie LED. Eclairage d'intersection &#xE0; LED. Comprend &#xE9;galement les phares AR &#xE0; technologie LED : +1000.00|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome  : +180.00|Si&#xE8;ges AV chauffants  : +400.00|Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC  : +430.00|Teinte de carrosserie unie (Alpinweiss) : +250.00|Vitrage calorifuge  : +360.00|Volant Sport gaine cuir  : +120.00</EquipementsOption>
+    <MontantOptionsIncluses>5110</MontantOptionsIncluses>
+    <EquipementsManquants></EquipementsManquants>
+    <MontantEquipementsManquants>0</MontantEquipementsManquants>
+    <Volume>468</Volume>
+    <CapaciteReservoir>51</CapaciteReservoir>
+    <Longueur>4342</Longueur>
+    <Largeur>1800</Largeur>
+    <Hauteur>1555</Hauteur>
+    <Empattement>2670</Empattement>
+    <PoidsEtDimensions>Capacit&#xE9;  mini du coffre : 468 litres|Capacit&#xE9; maxi du coffre : 1510 litres|Charge utile : 555 kg|Empattement : 2670 mm|Espace au sol : 165 mm|Hauteur  1555 mm|Largeur : 1800 mm|Longueur : 4342 mm|Poids &#xE0; vide : 1410 kg|Poids total : 1965 kg|Poids total roulant autoris&#xE9; (PTRA) : 3265 kg|Rayon de braquage : 11,3 m|Remorque avec frein, poids maxi : 1300 kg|Remorque sans frein, poids maxi : 725 kg|R&#xE9;servoir : 51 litres|Surplomb arri&#xE8;re : 824 mm</PoidsEtDimensions>
+    <UrlPhotoAutobonplan>https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-serie-2-active-tourer-f45-3888bfd7aa26d69d6c6fe5e0bd9a5a66.jpg</UrlPhotoAutobonplan>
+    <Co2>120</Co2>
+    <Remise/>
+    <GarantieConstructeur>36</GarantieConstructeur>
+    <ConsommationMixte>4,30</ConsommationMixte>
+    <ConsommationUrbaine>4,70</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>4,10</ConsommationExtraUrbaine>
+    <PrixNeuf>42140</PrixNeuf>
+    <PrixVenteHT>20858</PrixVenteHT>
+    <PrixVenteTva>4172</PrixVenteTva>
+    <Ecotaxe/>
+    <KmGaranti>Non garanti</KmGaranti>
+    <StatutStockABP></StatutStockABP>
+    <GarantieLibelle>Constructeur jusqu'au 07/06/2021</GarantieLibelle>
+    <PrixVenteMarchand>0</PrixVenteMarchand>
+    <UrlAutobonplan></UrlAutobonplan>
+    <Flux>STARTERRE</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>ST_176573</IdentifiantVehicule>
+    <ReferenceVehicule>ST_176573</ReferenceVehicule>
+    <StatutStock></StatutStock>
+    <Annee>2018</Annee>
+    <Date1Mec>26-03-2018</Date1Mec>
+    <Marque>BMW</Marque>
+    <Famille>SERIE 2 ACTIVE TOURER F45</Famille>
+    <Version>Active Tourer 225xe iPerformance 224 ch Lounge A</Version>
+    <Modele>SERIE 2 ACTIVE TOURER F45 Active Tourer 225xe iPerformance 224 ch Lounge A</Modele>
+    <EnergieLibelle>Hybride</EnergieLibelle>
+    <PuissanceFiscale>5</PuissanceFiscale>
+    <PuissanceReelle>136</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Kilometrage>18008</Kilometrage>
+    <Couleur></Couleur>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <NbRapports>6</NbRapports>
+    <PrixVenteTTC>30438</PrixVenteTTC>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <EquipementsSerieEtOption>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Alarme antivol|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Appui lombaire ajustable pour si&#xE8;ges AV|Attention Assit : signale la perte de vigilance du conducteur|Autoradio BMW Professional|Avertisseur de risque de collision (d&#xE9;tection par cam&#xE9;ra)|Baguettes de seuil de porte avec inscription "eDrive"|Batterie Lithium-ion haute performane (7,7 KWh)|Bo&#xEE;te de vitesses automatique 6 rapports|Buses de lave-glace chauffantes|C&#xE2;ble de recharge de la batterie de 5 m&#xE8;tres 230V pour prise domestique|Cabochons de roue exclusifs en bleu BMW i|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Construction all&#xE9;g&#xE9;e intelligente BMW EfficientDynamics|Contr&#xF4;le de la transmission pour plus de dynamisme et de s&#xE9;curit&#xE9; (reduction du sous-virage)|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Direction Servotronic &#xE0; assistance variable en fonction de la vitesse|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|Ecran d'information 5,7" haute r&#xE9;solution pour le combin&#xE9; d'instrumentation : |eDrive Services|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre exclusive en bleu BMW i|Insert d&#xE9;coratif Oxidsilver fonc&#xE9; mat soulign&#xE9; de noir brillant|Inserts d&#xE9;coratifs Oxidsilver mat|Interface Bluetooth avec fonction streaming audio|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17|Kit de mobilit&#xE9; BMW|Kit de rangement|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente|Logo i sur les ailes AV|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Moteur &#xE9;lectrique synchrone entrainant les roues AR|Motorisations BMW TwinPower Turbo: compos&#xE9; d'une suralimentation Twin Scroll, de l'injection directe d'essence High Precision Injection, de la lev&#xE9;e variable des soupapes Valvetronic ainsi que de la commande variable des arbres &#xE0; cames Double VANOS|Navigation multim&#xE9;dia Professional avec Affichage T&#xEA;te Haute HUD|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordianateur de bord avec affichage bleu|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Peinture m&#xE9;tallis&#xE9;e|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Pr&#xE9;conditionnement de l'habitacle (chauffage ou climatisation)|Prise de recharge avec anneau lumineux &#xE0; LED sur le cot&#xE9; AV gauche|Projecteurs antibrouillard AV|Projecteurs AV halog&#xE8;nes avec feux de jour &#xE0; LED|Radars de stationnement AR PDC|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|S&#xE9;lecteur de mode de conduite eDrive|Sellerie Tissu "Race" Anthrazit avec liser&#xE9; et surpiq&#xFB;res Grise|Services ConnectedDrive|Si&#xE8;ges Advanced pour conducteur et passager AV|Si&#xE8;ges AV chauffants|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement double (une de chaque c&#xF4;t&#xE9;), ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|Volant Sport gaine cuir|3&#xE8;me feu stop</EquipementsSerieEtOption>
+    <EquipementsSerie>ABS, y compris assistant de freinage|Accoudoir central AV avec compartiment de rangement, r&#xE9;glable sur 5 positions|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te AV et AR avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Allumage automatique des phares et d&#xE9;tecteur de pluie|Antenne "aileron de requin"|Antid&#xE9;marrage &#xE9;lectronique EWS IV|Appel d'Urgence Intelligent (dur&#xE9;e de vie de la voiture)|Attention Assit : signale la perte de vigilance du conducteur|Autoradio BMW Professional|Avertisseur de risque de collision (d&#xE9;tection par cam&#xE9;ra)|Baguettes de seuil de porte avec inscription "eDrive"|Batterie Lithium-ion haute performane (7,7 KWh)|Bo&#xEE;te de vitesses automatique 6 rapports|Buses de lave-glace chauffantes|C&#xE2;ble de recharge de la batterie de 5 m&#xE8;tres 230V pour prise domestique|Cabochons de roue exclusifs en bleu BMW i|Cl&#xE9;s radiocommand&#xE9;es &#xE0; m&#xE9;morisation automatique des r&#xE9;glages "Personal Profile"|Climatisation automatique bi-zone|Commande &#xE9;lectrique du hayon|Construction all&#xE9;g&#xE9;e intelligente BMW EfficientDynamics|Contr&#xF4;le de la transmission pour plus de dynamisme et de s&#xE9;curit&#xE9; (reduction du sous-virage)|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC+ avec fonctionnalit&#xE9;s &#xE9;tendues (y compris l'assistant de d&#xE9;marrage en c&#xF4;te)|D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;signation du mod&#xE8;le|D&#xE9;verrouillage &#xE9;lectrique du hayon via la poign&#xE9;e ou la cl&#xE9; radiocommand&#xE9;e|Diff&#xE9;rentiel &#xE0; blocage &#xE9;lectronique pour optimiser la motricit&#xE9;|Direction &#xE0; assistance &#xE9;lectrique BMW EfficientDynamics|Direction Servotronic &#xE0; assistance variable en fonction de la vitesse|Dossier de si&#xE8;ge AR rabattable 40-20-40|Eclairage de l'habitacle &#xE0; l'AV, &#xE0; l'AR et dans le coffre|Ecran d'information 5,7" haute r&#xE9;solution pour le combin&#xE9; d'instrumentation : |eDrive Services|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Feux antibrouillard AR|Feux de stop dynamiques clignotants|Fixations ISOFIX aux places lat&#xE9;rales AR et place du passager AV|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW EfficientDynamics|Fonction "roue libre" du mode ECO PRO BMW EfficientDynamics|Frein de parking &#xE9;lectrique|Grilles de calandre exclusive en bleu BMW i|Insert d&#xE9;coratif Oxidsilver fonc&#xE9; mat soulign&#xE9; de noir brillant|Inserts d&#xE9;coratifs Oxidsilver mat|Interface Bluetooth avec fonction streaming audio|Kit de mobilit&#xE9; BMW|Kit de rangement|L&#xE8;ve-vitres AV et AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente|Logo i sur les ailes AV|Mode ECO PRO (inclus s&#xE9;lecteur de mode de conduite) BMW EfficientDynamics|Moteur &#xE9;lectrique synchrone entrainant les roues AR|Motorisations BMW TwinPower Turbo: compos&#xE9; d'une suralimentation Twin Scroll, de l'injection directe d'essence High Precision Injection, de la lev&#xE9;e variable des soupapes Valvetronic ainsi que de la commande variable des arbres &#xE0; cames Double VANOS|Notice d'utilisation de la voiture int&#xE9;gr&#xE9;e et carnet d'entretien &#xE9;lectronique avec BMW Service History|Ordianateur de bord avec affichage bleu|Ordinateur de bord avec Check-Control et indicateur de temp&#xE9;rature ext&#xE9;rieure|Port USB avec connectivit&#xE9; iPod et prise AUX-IN|Pr&#xE9;conditionnement de l'habitacle (chauffage ou climatisation)|Prise de recharge avec anneau lumineux &#xE0; LED sur le cot&#xE9; AV gauche|Projecteurs antibrouillard AV|Projecteurs AV halog&#xE8;nes avec feux de jour &#xE0; LED|Radars de stationnement AR PDC|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glage &#xE9;lectrique et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur, rappel de clignotants int&#xE9;gr&#xE9;s|S&#xE9;lecteur de mode de conduite avec mode ECO PRO|S&#xE9;lecteur de mode de conduite eDrive|Services ConnectedDrive|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement double (une de chaque c&#xF4;t&#xE9;), ronde et chrom&#xE9;e, diam&#xE8;tre de 75 mm|Syst&#xE8;me anti-collision &#xE0; basse vitesse (freinage activ&#xE9; automatiquement jusqu'&#xE0; 60km/h) : |Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie de freinage BMW EfficientDynamics|Touches multifonctions sur le volant|Verrouillage automatique des portes d&#xE8;s 15 km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitres teint&#xE9;es vertes|Volant r&#xE9;glable en hauteur et en profondeur|Volant Sport gaine cuir|3&#xE8;me feu stop</EquipementsSerie>
+    <EquipementsOption>Alarme antivol : +490.00|Appui lombaire ajustable pour si&#xE8;ges AV : +250.00|Jantes en alliage l&#xE9;ger 17'' (43cm) style 478 &#xE0; rayons en &#xE9;toile, 7.5Jx17" / pneumatiques 205/55 R17 : +160.00|Navigation multim&#xE9;dia Professional avec Affichage T&#xEA;te Haute HUD : +2750.00|Peinture m&#xE9;tallis&#xE9;e : +840.00|Sellerie Tissu "Race" Anthrazit avec liser&#xE9; et surpiq&#xFB;res Grise : +0.00|Si&#xE8;ges Advanced pour conducteur et passager AV : +500.00|Si&#xE8;ges AV chauffants : +400.00</EquipementsOption>
+    <MontantOptionsIncluses>5390</MontantOptionsIncluses>
+    <EquipementsManquants></EquipementsManquants>
+    <MontantEquipementsManquants>0</MontantEquipementsManquants>
+    <Volume>468</Volume>
+    <CapaciteReservoir>36</CapaciteReservoir>
+    <Longueur>4342</Longueur>
+    <Largeur>1800</Largeur>
+    <Hauteur>1555</Hauteur>
+    <Empattement>2670</Empattement>
+    <PoidsEtDimensions>Capacit&#xE9;  mini du coffre : 468 litres|Capacit&#xE9; maxi du coffre : 1510 litres|Charge utile : 520 kg|Empattement : 2670 mm|Espace au sol : 165 mm|Hauteur  1555 mm|Largeur : 1800 mm|Longueur : 4342 mm|Poids &#xE0; vide : 1660 kg|Poids total : 2180 kg|Poids total roulant autoris&#xE9; (PTRA) : 2180 kg|Rayon de braquage : 11,3 m|R&#xE9;servoir : 36 litres|Surplomb arri&#xE8;re : 824 mm</PoidsEtDimensions>
+    <UrlPhotoAutobonplan>https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-serie-2-active-tourer-f45-3518a80522d80d9e67c9ee14b12c971a.jpg</UrlPhotoAutobonplan>
+    <Co2>46</Co2>
+    <Remise/>
+    <GarantieConstructeur>24</GarantieConstructeur>
+    <ConsommationMixte>2,00</ConsommationMixte>
+    <ConsommationUrbaine>0,00</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>0,00</ConsommationExtraUrbaine>
+    <PrixNeuf>46390</PrixNeuf>
+    <PrixVenteHT>25365</PrixVenteHT>
+    <PrixVenteTva>5073</PrixVenteTva>
+    <Ecotaxe/>
+    <KmGaranti>Non garanti</KmGaranti>
+    <StatutStockABP></StatutStockABP>
+    <GarantieLibelle>Constructeur jusqu'au 25/03/2020</GarantieLibelle>
+    <PrixVenteMarchand>0</PrixVenteMarchand>
+    <UrlAutobonplan></UrlAutobonplan>
+    <Flux>STARTERRE</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>DFB_30641</IdentifiantVehicule>
+    <ReferenceVehicule>DFB_30641</ReferenceVehicule>
+    <IdentifiantAir>30641</IdentifiantAir>
+    <Marque>CITROEN</Marque>
+    <Famille>C3 AIRCROSS</Famille>
+    <Version>PURETECH 110CH FEEL EAT6</Version>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <NbPortes>5</NbPortes>
+    <EnergieLibelle>Essence</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <PuissanceFiscale>6</PuissanceFiscale>
+    <PuissanceReelle>110</PuissanceReelle>
+    <Annee>2018</Annee>
+    <Date1Mec>31-08-2018</Date1Mec>
+    <Kilometrage>10</Kilometrage>
+    <Couleur>SPICY ORANGE</Couleur>
+    <EquipementsOption><![CDATA[Roue de secours galette|Sièges AV chauffants|Pack auto|Pack City|Pack Color Silver|Spicy Orange (M)|Véhicule sans S&S CO2 149|TVA sur marge]]></EquipementsOption>
+    <EquipementsSerie>Lunette arri&#xE8;re teint&#xE9;e|Ordinateur de bord|Phares antibrouillard|Poign&#xE9;es ton carrosserie|Prise 12V|Prise USB|Radio|Reconnaissance panneaux de signalisation|R&#xE9;gulateur de vitesse|R&#xE9;partiteur &#xE9;lectronique de freinage|R&#xE9;troviseurs d&#xE9;givrants|R&#xE9;troviseurs &#xE9;lectriques|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|Syst&#xE8;me de d&#xE9;tection de somnolence|T&#xE9;moin de bouclage des ceintures AV|Tissu Mica Grey|Verrouillage centralis&#xE9; &#xE0; distance|Verrouillage centralis&#xE9; des portes|Vitres arri&#xE8;re teint&#xE9;es|Volant cuir|Volant r&#xE9;glable en profondeur et hauteur|6 Haut parleurs|ABS|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux|Allumage des phares automatique|Antipatinage|Banquette 1/3-2/3|Barres de toit|Clim manuelle|Commandes du syst&#xE8;me audio au volant|D&#xE9;tecteur de sous-gonflage|Eclairage statique d'intersection|ESP|Feux de freinage d'urgence|Feux de jour &#xE0; LED|Fixation Isofix si&#xE8;ge passager avant|Fixations Isofix aux places arri&#xE8;res|Follow me home|Fonction MP3|Kit mains-libres Bluetooth|Lampes de lecture &#xE0; l'avant|Limiteur de vitesse</EquipementsSerie>
+    <GarantieLibelle>CONSTRUCTEUR</GarantieLibelle>
+    <GarantieConstructeur>0</GarantieConstructeur>
+    <NbPlaces>5</NbPlaces>
+    <KmGaranti>1</KmGaranti>
+    <AvecTva></AvecTva>
+    <Co2>149</Co2>
+    <ConsommationMixte></ConsommationMixte>
+    <ConsommationUrbaine></ConsommationUrbaine>
+    <ConsommationExtraUrbaine></ConsommationExtraUrbaine>
+    <Longueur>4154</Longueur>
+    <Largeur>1740</Largeur>
+    <Hauteur>1597</Hauteur>
+    <DebutGarantie>15/01/2018</DebutGarantie>
+    <Delai>STOCK</Delai>
+    <Quantite>1</Quantite>
+    <LieuStockage>NANTES</LieuStockage>
+    <Poids>1203</Poids>
+    <PrixSpecial></PrixSpecial>
+    <PrixNeuf>22770</PrixNeuf>
+    <StatutStock></StatutStock>
+    <StatutStockABP></StatutStockABP>
+    <Modele>C3 AIRCROSS PURETECH 110CH FEEL EAT6</Modele>
+    <NbRapports></NbRapports>
+    <CapaciteReservoir></CapaciteReservoir>
+    <Empattement></Empattement>
+    <Volume></Volume>
+    <NumeroSerie></NumeroSerie>
+    <PrixMarchand>17900</PrixMarchand>
+    <PrixVenteHT>16235.666666667</PrixVenteHT>
+    <PrixVenteTTC>19482.8</PrixVenteTTC>
+    <PrixVenteTva>3247.1333333333</PrixVenteTva>
+    <Remise>14</Remise>
+    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_1_1559749845.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_2_1559749846.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_3_1559749846.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_4_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_5_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_6_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_7_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_8_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_9_1559749847.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_10_1559749845.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_11_1559749846.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_12_1559749846.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_13_1559749846.jpg</UrlPhotoAutobonplan>
+    <Flux>AIR</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_vv44c2_A0001</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_vv44c2_A0001</ReferenceVehicule>
+    <Modele>XC60 D4 AdBlue AWD 190ch Inscription Geartronic</Modele>
+    <Marque>VOLVO</Marque>
+    <SuperFamille>XC60</SuperFamille>
+    <Famille>XC60</Famille>
+    <Version>D4 AdBlue AWD 190ch Inscription Geartronic</Version>
+    <PvTTC>43900</PvTTC>
+    <Kilometrage>15550</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>GRIS OSMIUM METAL</Couleur>
+    <PuissanceReelle>190</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>VOLVO SELEKT 12 mois</Garantie>
+    <Provenance>Soci&#xE9;t&#xE9;</Provenance>
+    <ConsommationMixte>6</ConsommationMixte>
+    <ConsommationUrbaine>6</ConsommationUrbaine>
+    <ConsommationExtraurbaine>5</ConsommationExtraurbaine>
+    <EquipementsSerie>10 Haut parleurs|ABS|Accoudoir central AV avec rangement|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag genoux|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux AV et AR|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Appel d'Urgence Localis&#xE9;|Appuis-t&#xEA;te avant actifs|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Assistance de maintient de trajectoire|Bacs de portes arri&#xE8;re|Bacs de portes avant|Banquette 60/40|Banquette AR rabattable|Banquette arri&#xE8;re 3 places|Barres de toit|Becquet arri&#xE8;re|Boite &#xE0; gants ferm&#xE9;e|Borne Wi-Fi|Boucliers AV et AR couleur caisse|Calandre chrom&#xE9;e|Capteur de luminosit&#xE9;|Capteur de pluie|Ceinture de vitrage chrom&#xE9;e|Ceintures avant ajustables en hauteur|Ceintures rang2 ajustables en hauteur|Clim automatique bi-zones|Coffre assist&#xE9; &#xE9;lectriquement|Commande du comportement dynamique|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Commandes vocales|Compte tours|Contr&#xF4;le de Traction Intelligent|Contr&#xF4;le optimal du roulis|D&#xE9;marrage sans cl&#xE9;|D&#xE9;tecteur de sous-gonflage</EquipementsSerie>
+    <EquipementsOption>Roue de secours temporaire|Gris Osmium|Si&#xE8;ges Cft Cuir Anthracite</EquipementsOption>
+    <Statut>ST</Statut>
+    <Genre>VP</Genre>
+    <Site>GAV ST NAZ</Site>
+    <Lieu>St Nazaire</Lieu>
+    <Carrosserie>Break</Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>0.0|0.0|0.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Garanti</VehiculeKmGaranti>
+    <Longueur>4688</Longueur>
+    <Largeur>1902</Largeur>
+    <Hauteur>1658</Hauteur>
+    <PrixVenteHT>36583</PrixVenteHT>
+    <NumeroSerie>YV1UZA8UCJ1116330</NumeroSerie>
+    <Poids>1870</Poids>
+    <VehiculePretAPartir>0</VehiculePretAPartir>
+    <Photos>vv44c2_A0001_01_hd.jpg|vv44c2_A0001_02_hd.jpg|vv44c2_A0001_03_hd.jpg|vv44c2_A0001_04_hd.jpg|vv44c2_A0001_05_hd.jpg|vv44c2_A0001_06_hd.jpg|vv44c2_A0001_07_hd.jpg|vv44c2_A0001_08_hd.jpg|vv44c2_A0001_09_hd.jpg|vv44c2_A0001_10_hd.jpg|vv44c2_A0001_11_hd.jpg|vv44c2_A0001_12_hd.jpg|vv44c2_A0001_13_hd.jpg|vv44c2_A0001_14_hd.jpg|vv44c2_A0001_15_hd.jpg</Photos>
+    <PrixVenteTTC>43900</PrixVenteTTC>
+    <PuissanceFiscale>11</PuissanceFiscale>
+    <FraisReel>1452</FraisReel>
+    <Immatriculation>EW-212-WN</Immatriculation>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <Annee>2018</Annee>
+    <CO2>144</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>8</NbRapports>
+    <CapaciteReservoir>60</CapaciteReservoir>
+    <Empattement>2865</Empattement>
+    <Volume>505</Volume>
+    <DateEntreeStock>30-11-2018</DateEntreeStock>
+    <PrixNeuf>56410</PrixNeuf>
+    <concessionidentifier>vv44c2_</concessionidentifier>
+    <DateCreat>2019-06-03</DateCreat>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_11_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_12_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_13_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_14_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_15_hd.jpg</UrlPhotoAutobonplan>
+    <Reprise>1</Reprise>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  
+  <Vehicule>
+    <IdentifiantVehicule>ST_170479</IdentifiantVehicule>
+    <ReferenceVehicule>ST_170479</ReferenceVehicule>
+    <StatutStock></StatutStock>
+    <Annee>2018</Annee>
+    <Date1Mec>28-09-2018</Date1Mec>
+    <Marque>BMW</Marque>
+    <Famille>X1</Famille>
+    <Version>XDRIVE 20D 190 CH BVA8 M SPORT</Version>
+    <Modele>X1 F48 XDRIVE 20D 190 CH BVA8 M SPORT</Modele>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <PuissanceFiscale>10</PuissanceFiscale>
+    <PuissanceReelle>190</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Kilometrage>4974</Kilometrage>
+    <Couleur></Couleur>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <NbRapports>8</NbRapports>
+    <PrixVenteTTC>40480</PrixVenteTTC>
+    <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+    <EquipementsSerieEtOption>ABS avec assistant de freinage d'urgence|Accoudoir central AV|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Alarme antivol  |Antenne aileron de requin|Appel d'Urgence Intelligent|Avertisseur de risque de collision|Banquette AR rabattable en 3 parties (40/20/40)|Bo&#xEE;te automatique &#xE0; 8 rapports|Cam&#xE9;ra de recul  |Ceintures de s&#xE9;curit&#xE9; &#xE0; 3 points d'ancrage &#xE0; toutes les places avec limiteur d'effort|Ciel de pavillon "Anthrazit"|Climatisation automatique bi-zone|Combinaison Tissu/Alcantara "Hexagon"|Commande &#xE9;lectrique du hayon|Contr&#xF4;le de la Transmission|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC |D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;tecteur de pluie et allumage automatique des projecteurs|Direction M Sport|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Fixations ISOFIX aux places lat&#xE9;rales AR|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW Efficient Dynamics|Frein de parking &#xE9;lectrique|Indicateur de limitation de vitesse|Inserts d&#xE9;coratifs en aluminium Hexagon soulign&#xE9;s de bleu mat|Interface Bluetooth avec fonction streaming audio|Jantes en alliage l&#xE9;ger 19" bicolores style 572M |Kit de rangement |Kit &#xE9;clairage |Lave-projecteurs|L&#xE8;ve-vitres AV/AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Ligne M Sport :  Kit a&#xE9;rodynamique M Repose-pied conducteur sigl&#xE9; "M" Eclairage d'ambiance avec deux couleurs au choix Grilles de calandre cercl&#xE9;es de chrome avec 8 barreaux verticaux noir brillant Logo M sur les ailes AV|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO sur le s&#xE9;lecteur de mode de conduite BMW EfficientDynamics|Montant B en noir brillant|Navigation multim&#xE9;dia Professional avec Affichage T&#xEA;te Haute HUD  |Pack SimpliCity :  Cam&#xE9;ra de recul R&#xE9;troviseur ext&#xE9;rieur &#xE9;lectrochrome (c&#xF4;t&#xE9; conducteur) et rabattables &#xE9;lectriquement Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC|Phares antibrouillard|Pneus Run Flat|Port USB avec connectivit&#xE9; iPod et prise AUX IN|Projecteurs LED|Rails de toit noir brillant Shadow Line BMW Individual|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome  |R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glages &#xE9;lectriques et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur et rappel de clignotants int&#xE9;gr&#xE9;s|R&#xE9;troviseurs ext&#xE9;rieurs rabattables &#xE9;lectriquement|Shadow Line brillant BMW Individual|Si&#xE8;ges Advanced pour conducteur et passager AV|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement double (une de chaque c&#xF4;t&#xE9;)|Suspension DirectDrive|Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC  |Syst&#xE8;me de r&#xE9;cuperation de l'&#xE9;nergie au freinage BMW Efficient Dynamics|Teinte de carrosserie unie (Alpinweiss)|Toit ouvrant panoramique &#xE9;lectrique en verre  |Touches multifonctions sur le volant|Vitrage calorifuge |Volant M gain&#xE9; cuir|Volant 3 branches gain&#xE9; cuir r&#xE9;glable en hauteur et en profondeur|3&#xE8;me feu stop</EquipementsSerieEtOption>
+    <EquipementsSerie>ABS avec assistant de freinage d'urgence|Accoudoir central AV|Airbag passager d&#xE9;connectable|Airbags de t&#xEA;te avec voile de protection contre les d&#xE9;bris de verre|Airbags frontaux conducteur et passager AV|Airbags lat&#xE9;raux AV|Antenne aileron de requin|Appel d'Urgence Intelligent|Avertisseur de risque de collision|Banquette AR rabattable en 3 parties (40/20/40)|Bo&#xEE;te automatique &#xE0; 8 rapports|Cam&#xE9;ra de recul  |Ceintures de s&#xE9;curit&#xE9; &#xE0; 3 points d'ancrage &#xE0; toutes les places avec limiteur d'effort|Ciel de pavillon "Anthrazit"|Climatisation automatique bi-zone|Combinaison Tissu/Alcantara "Hexagon"|Commande &#xE9;lectrique du hayon|Contr&#xF4;le de la Transmission|Contr&#xF4;le Dynamique de Stabilit&#xE9; DSC |D&#xE9;marrage sans cl&#xE9; via le bouton Start/Stop|D&#xE9;tecteur de pluie et allumage automatique des projecteurs|Direction M Sport|El&#xE9;ments ext&#xE9;rieurs (poign&#xE9;es de portes) couleur carrosserie|Fixations ISOFIX aux places lat&#xE9;rales AR|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW Efficient Dynamics|Frein de parking &#xE9;lectrique|Indicateur de limitation de vitesse|Inserts d&#xE9;coratifs en aluminium Hexagon soulign&#xE9;s de bleu mat|Interface Bluetooth avec fonction streaming audio|Kit de rangement |Kit &#xE9;clairage |L&#xE8;ve-vitres AV/AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Ligne M Sport :  Kit a&#xE9;rodynamique M Repose-pied conducteur sigl&#xE9; "M" Eclairage d'ambiance avec deux couleurs au choix Grilles de calandre cercl&#xE9;es de chrome avec 8 barreaux verticaux noir brillant Logo M sur les ailes AV|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente : |Mesure individuelle de pression des pneumatiques|Mode ECO PRO sur le s&#xE9;lecteur de mode de conduite BMW EfficientDynamics|Montant B en noir brillant|Pack SimpliCity :  Cam&#xE9;ra de recul R&#xE9;troviseur ext&#xE9;rieur &#xE9;lectrochrome (c&#xF4;t&#xE9; conducteur) et rabattables &#xE9;lectriquement Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC|Phares antibrouillard|Pneus Run Flat|Port USB avec connectivit&#xE9; iPod et prise AUX IN|Projecteurs LED|Rails de toit noir brillant Shadow Line BMW Individual|R&#xE9;troviseur int&#xE9;rieur &#xE9;lectrochrome  |R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glages &#xE9;lectriques et d&#xE9;givrants, miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur et rappel de clignotants int&#xE9;gr&#xE9;s|R&#xE9;troviseurs ext&#xE9;rieurs rabattables &#xE9;lectriquement|Shadow Line brillant BMW Individual|Si&#xE8;ges Advanced pour conducteur et passager AV|Si&#xE8;ges AV r&#xE9;glables en hauteur|Sortie d'&#xE9;chappement double (une de chaque c&#xF4;t&#xE9;)|Suspension DirectDrive|Syst&#xE8;me de manoeuvres automatiques "Park Assist" avec radars de stationnement AV et AR PDC  |Syst&#xE8;me de r&#xE9;cuperation de l'&#xE9;nergie au freinage BMW Efficient Dynamics|Touches multifonctions sur le volant|Volant M gain&#xE9; cuir|Volant 3 branches gain&#xE9; cuir r&#xE9;glable en hauteur et en profondeur|3&#xE8;me feu stop|Pack Confort :  Si&#xE8;ges AV &#xE9;lectriques &#xE0; m&#xE9;moires conducteur Appui lombaire ajustable &#xE9;lectriquement pour si&#xE8;ges AV Acc&#xE8;s Confort (ouverture et fermeture sans cl&#xE9;)  AVEC Si&#xE8;ges AV chauffants : -950.00</EquipementsSerie>
+    <EquipementsOption>Alarme antivol   : +490.00|Jantes en alliage l&#xE9;ger 19" bicolores style 572M  : +870.00|Lave-projecteurs : +280.00|Navigation multim&#xE9;dia Professional avec Affichage T&#xEA;te Haute HUD   : +1800.00|Teinte de carrosserie unie (Alpinweiss) : +0.00|Toit ouvrant panoramique &#xE9;lectrique en verre   : +1450.00|Vitrage calorifuge  : +360.00</EquipementsOption>
+    <MontantOptionsIncluses>5250</MontantOptionsIncluses>
+    <EquipementsManquants>Pack Confort :  Si&#xE8;ges AV &#xE9;lectriques &#xE0; m&#xE9;moires conducteur Appui lombaire ajustable &#xE9;lectriquement pour si&#xE8;ges AV Acc&#xE8;s Confort (ouverture et fermeture sans cl&#xE9;)  AVEC Si&#xE8;ges AV chauffants : -950.00</EquipementsManquants>
+    <MontantEquipementsManquants>950</MontantEquipementsManquants>
+    <Volume>505</Volume>
+    <CapaciteReservoir>61</CapaciteReservoir>
+    <Longueur>4439</Longueur>
+    <Largeur>2060</Largeur>
+    <Hauteur>1612</Hauteur>
+    <Empattement>2670</Empattement>
+    <PoidsEtDimensions>Capacit&#xE9;  mini du coffre : 505 litres|Capacit&#xE9; maxi du coffre : 1550 litres|Charge utile : 590 kg|Empattement : 2670 mm|Espace au sol : 183 mm|Hauteur  1598 mm|Hauteur maxi : 1612 mm|Largeur : 1821 mm|Largeur ext&#xE9;rieure r&#xE9;tro compris : 2060 mm|Largeur maxi : 2060 mm|Longueur : 4439 mm|Poids &#xE0; vide : 1615 kg|Poids total : 2205 kg|Poids total roulant autoris&#xE9; (PTRA) : 4205 kg|Rayon de braquage : 11,4 m|Remorque avec frein, poids maxi : 2000 kg|Remorque sans frein, poids maxi : 750 kg|R&#xE9;servoir : 61 litres|Surplomb arri&#xE8;re : 927 mm</PoidsEtDimensions>
+    <UrlPhotoAutobonplan>https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-b9f731e9814353af3c627f3593421a22.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-91e9074d874a8bd2567a1f70fbd1d8a4.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-4f92662aec351e00d883cf75434f6aa9.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-e444a487d36c10eca024d6256ac3f279.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-60208314633cfe4ce86a5bf63667ab77.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-69212d34d13c5393d1a319e890c1dd29.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-a4b3cac5495580ce59fa19f224f28630.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-09ab3040e250bf5a46c5d4693d5a0ca7.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-bc43aba932dca7b23d04469ddcaf9bc0.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-5d400ad7d0bb5a27dab3d99d6b63fa70.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-5a3283e0c689351e689d9d7e957759ca.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-2648edde8f631f655ff8cd64ff628905.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-3bfa188873744770c4b9cb08b7bb6dae.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x1-f48-a2260caaac4a77cbd9fa5db38023a219.jpg</UrlPhotoAutobonplan>
+    <Co2>126</Co2>
+    <Remise/>
+    <GarantieConstructeur>24</GarantieConstructeur>
+    <ConsommationMixte>4,80</ConsommationMixte>
+    <ConsommationUrbaine>5,40</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>4,40</ConsommationExtraUrbaine>
+    <PrixNeuf>54700</PrixNeuf>
+    <PrixVenteHT>33733</PrixVenteHT>
+    <PrixVenteTva>6747</PrixVenteTva>
+    <Ecotaxe/>
+    <KmGaranti>Non garanti</KmGaranti>
+    <StatutStockABP></StatutStockABP>
+    <GarantieLibelle>Constructeur jusqu'au 27/09/2020</GarantieLibelle>
+    <PrixVenteMarchand>0</PrixVenteMarchand>
+    <UrlAutobonplan></UrlAutobonplan>
+    <Flux>STARTERRE</Flux>
+    <Gamme></Gamme>
+  </Vehicule>  
+  <Vehicule>
+    <IdentifiantVehicule>ST_161179</IdentifiantVehicule>
+    <ReferenceVehicule>ST_161179</ReferenceVehicule>
+    <StatutStock></StatutStock>
+    <Annee>2018</Annee>
+    <Date1Mec>23-11-2018</Date1Mec>
+    <Marque>BMW</Marque>
+    <Famille>X2 F39</Famille>
+    <Version>SDRIVE 18I 140 CH DKG7 LOUNGE</Version>
+    <Modele>X2 F39 SDRIVE 18I 140 CH DKG7 LOUNGE</Modele>
+    <EnergieLibelle>Essence</EnergieLibelle>
+    <PuissanceFiscale>7</PuissanceFiscale>
+    <PuissanceReelle>140</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Kilometrage>8065</Kilometrage>
+    <Couleur></Couleur>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <NbRapports>7</NbRapports>
+    <PrixVenteTTC>30438</PrixVenteTTC>
+    <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+    <EquipementsSerieEtOption>ABS avec assistant de freinage d'urgence|Accoudoir central AV|Airbags conducteur et passager AV|Airbags de t&#xEA;te |Airbags lat&#xE9;raux AV|Alarme antivol|Antenne aileron de requin|Appel d'Urgence Intelligent|Appuis-t&#xEA;te AV et AR|Avertisseur de risque de collision|Banquette AR rabattable en 3 parties (40/20/40)|Bo&#xEE;te de vitesses automatique &#xE0; double embrayage &#xE0; 7 rapports|Bouton de d&#xE9;marrage Start/Stop sans manipulation de la cl&#xE9;|Buses de lave-glace chauffantes|Ceintures de s&#xE9;curit&#xE9; 3 points|Climatisation automatique bi-zone|Colone de direction r&#xE9;glable en hauteur et profondeur|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de stabilit&#xE9; DSC|Contr&#xF4;le dynamique de traction DTC|D&#xE9;tecteur de pluie et allumage automatique des projecteurs|Direction Servotronic &#xE0; assistance &#xE9;lectrique|El&#xE9;ments ext&#xE9;rieurs couleur carrosserie|Equipements Fintion Lounge|Feux antibrouillard AV et AR|Feux AR LED (design iconique 3D)|Fixations ISOFIX aux places lat&#xE9;rales AR|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW Efficient Dynamics|Frein de parking &#xE9;lectrom&#xE9;canique|Inserts d&#xE9;coratifs Oxidsilber mat soulign&#xE9;s de noir brillant|Jantes en alliage l&#xE9;ger 17" style 560 |Kit de mobilit&#xE9; BMW|Kit de rangement|Lave-projecteurs|Lecteur CD|L&#xE8;ve-vitres AV/AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente|Logo BMW sur le capot moteur, le hayon et les montants de custode|Mesure individuelle de pression des pneumatiques|Navigation multim&#xE9;dia Business|Prise 12V|Projecteurs AV &#xE0; LED|Radars de stationnement AR PDC|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glages &#xE9;lectriques et d&#xE9;givrants mirroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur et rappel de clignotants int&#xE9;gr&#xE9;s &#xE0; technologie LED|S&#xE9;lecteur de mode de conduite - 3 modes : "ECO PRO", "Comfort" et "Sport"|Sellerie tissu Grid|Seuil de chargement en acier inoxydable|Si&#xE8;ge passager AV r&#xE9;glable|Si&#xE8;ges AV chauffants|Syst&#xE8;me de r&#xE9;cuperation de l'&#xE9;nergie au freinage BMW Efficient Dynamics|Teinte de carrosserie unie (Alpinweiss)|Volant Sport Cuir|3&#xE8;me feu stop</EquipementsSerieEtOption>
+    <EquipementsSerie>ABS avec assistant de freinage d'urgence|Accoudoir central AV|Airbags conducteur et passager AV|Airbags de t&#xEA;te |Airbags lat&#xE9;raux AV|Antenne aileron de requin|Appel d'Urgence Intelligent|Appuis-t&#xEA;te AV et AR|Avertisseur de risque de collision|Banquette AR rabattable en 3 parties (40/20/40)|Bo&#xEE;te de vitesses automatique &#xE0; double embrayage &#xE0; 7 rapports|Bouton de d&#xE9;marrage Start/Stop sans manipulation de la cl&#xE9;|Buses de lave-glace chauffantes|Ceintures de s&#xE9;curit&#xE9; 3 points|Climatisation automatique bi-zone|Colone de direction r&#xE9;glable en hauteur et profondeur|Commande &#xE9;lectrique du hayon|Contr&#xF4;le Dynamique de stabilit&#xE9; DSC|Contr&#xF4;le dynamique de traction DTC|D&#xE9;tecteur de pluie et allumage automatique des projecteurs|Direction Servotronic &#xE0; assistance &#xE9;lectrique|El&#xE9;ments ext&#xE9;rieurs couleur carrosserie|Equipements Fintion Lounge|Feux antibrouillard AV et AR|Feux AR LED (design iconique 3D)|Fixations ISOFIX aux places lat&#xE9;rales AR|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur BMW Efficient Dynamics|Frein de parking &#xE9;lectrom&#xE9;canique|Inserts d&#xE9;coratifs Oxidsilber mat soulign&#xE9;s de noir brillant|Jantes en alliage l&#xE9;ger 17" style 560 |Kit de mobilit&#xE9; BMW|Kit de rangement|L&#xE8;ve-vitres AV/AR &#xE9;lectriques avec commande par impulsion et s&#xE9;curit&#xE9; enfants|Limiteur et r&#xE9;gulateur de vitesse avec maintien de la vitesse en descente|Logo BMW sur le capot moteur, le hayon et les montants de custode|Mesure individuelle de pression des pneumatiques|Prise 12V|Radars de stationnement AR PDC|R&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie &#xE0; r&#xE9;glages &#xE9;lectriques et d&#xE9;givrants mirroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur et rappel de clignotants int&#xE9;gr&#xE9;s &#xE0; technologie LED|S&#xE9;lecteur de mode de conduite - 3 modes : "ECO PRO", "Comfort" et "Sport"|Sellerie tissu Grid|Seuil de chargement en acier inoxydable|Si&#xE8;ge passager AV r&#xE9;glable|Syst&#xE8;me de r&#xE9;cuperation de l'&#xE9;nergie au freinage BMW Efficient Dynamics|Volant Sport Cuir|3&#xE8;me feu stop</EquipementsSerie>
+    <EquipementsOption>Alarme antivol : +490.00|Lave-projecteurs : +280.00|Lecteur CD : +110.00|Navigation multim&#xE9;dia Business : +1300.00|Projecteurs AV &#xE0; LED : +1000.00|Si&#xE8;ges AV chauffants : +400.00|Teinte de carrosserie unie (Alpinweiss) : +250.00</EquipementsOption>
+    <MontantOptionsIncluses>3830</MontantOptionsIncluses>
+    <EquipementsManquants></EquipementsManquants>
+    <MontantEquipementsManquants>0</MontantEquipementsManquants>
+    <Volume>470</Volume>
+    <CapaciteReservoir>51</CapaciteReservoir>
+    <Longueur>4360</Longueur>
+    <Largeur>2098</Largeur>
+    <Hauteur>1526</Hauteur>
+    <Empattement>2670</Empattement>
+    <PoidsEtDimensions>Capacit&#xE9;  mini du coffre : 470 litres|Capacit&#xE9; maxi du coffre : 1355 litres|Charge utile : 590 kg|Empattement : 2670 mm|Espace au sol : 182 mm|Hauteur  1526 mm|Largeur : 1824 mm|Largeur ext&#xE9;rieure r&#xE9;tro compris : 2098 mm|Largeur maxi : 2098 mm|Longueur : 4360 mm|Poids &#xE0; vide : 1415 kg|Poids total : 2005 kg|Poids total roulant autoris&#xE9; (PTRA) : 3705 kg|Rayon de braquage : 11,3 m|Remorque avec frein, poids maxi : 1700 kg|Remorque sans frein, poids maxi : 725 kg|R&#xE9;servoir : 51 litres|Surplomb arri&#xE8;re : 836 mm</PoidsEtDimensions>
+    <UrlPhotoAutobonplan>https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-5ff74de29ea2263e1e8ef122ee5e4254.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-b96baac73501f0095fe37b23d76e6453.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-4649147cb125855ab555429533a538de.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-d7a2b215bb0787a2d44db960359c6678.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-78507eda1a74a81dd1da2944a1a5cb1c.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-a55d3a364003d5f372d212890f46bc18.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-4b629015a9993f845f2951a72aa513c4.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-2284caa3e3cca3aaca74c6f02d40d2cf.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-02ec4ffd635052f1c8d181c333d092b2.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-54a3c804df428519366725e9990b8632.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-2d7b3a9671f07a9cc4a4cefca56ed45d.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-9a9fc91147058f0c0b9f9a5446147124.jpg|https://starterre-res.cloudinary.com/image/upload/f_auto,q_auto,w_1200/bmw-x2-f39-96725c1ba3833d880fb4f4e181a19fcc.jpg</UrlPhotoAutobonplan>
+    <Co2>129</Co2>
+    <Remise/>
+    <GarantieConstructeur>24</GarantieConstructeur>
+    <ConsommationMixte>5,60</ConsommationMixte>
+    <ConsommationUrbaine>6,90</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>4,90</ConsommationExtraUrbaine>
+    <PrixNeuf>39930</PrixNeuf>
+    <PrixVenteHT>25365</PrixVenteHT>
+    <PrixVenteTva>5073</PrixVenteTva>
+    <Ecotaxe/>
+    <KmGaranti>Non garanti</KmGaranti>
+    <StatutStockABP></StatutStockABP>
+    <GarantieLibelle>Constructeur jusqu'au 21/11/2020</GarantieLibelle>
+    <PrixVenteMarchand>0</PrixVenteMarchand>
+    <UrlAutobonplan></UrlAutobonplan>
+    <Flux>STARTERRE</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>DFB_30931</IdentifiantVehicule>
+    <ReferenceVehicule>DFB_30931</ReferenceVehicule>
+    <IdentifiantAir>30931</IdentifiantAir>
+    <Marque>MINI</Marque>
+    <Famille>CLUBMAN</Famille>
+    <Version>COOPER D 150CH BVA</Version>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <NbPortes>5</NbPortes>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <PuissanceFiscale>8</PuissanceFiscale>
+    <PuissanceReelle>150</PuissanceReelle>
+    <Annee>2016</Annee>
+    <Date1Mec>01-08-2016</Date1Mec>
+    <Kilometrage>23845</Kilometrage>
+    <Couleur>ROUGE</Couleur>
+    <EquipementsOption>Toit et coques r&#xE9;tros ext silvers#|Pack visibilit&#xE9;|JA 19" design John Cooper Works|Climatisation automatique bi-zone|Si&#xE8;ges avant chauffants|Rails de toit|Radars de stationnement AR|Project. Full LED+feux jour Omega|Chrome Line ext&#xE9;rieur|Blazing Red</EquipementsOption>
+    <EquipementsSerie>Kit mains-libres Bluetooth|Fonction MP3|Fixations Isofix aux places arri&#xE8;res|Filtre &#xE0; Pollen|Filtre &#xE0; particules|Feux de jour|ESP|Ecran multifonction couleur|EBD|Diff&#xE9;rentiel &#xE0; glissement limit&#xE9;|D&#xE9;tecteur de sous-gonflage|Contr&#xF4;le &#xE9;lect. de la pression des pneus|Contr&#xF4;le de freinage en courbe|Compte tours|Ceinture de vitrage chrom&#xE9;e|Capteur de pluie|Capteur de luminosit&#xE9;|Calandre chrom&#xE9;e|Buses de lave-glace chauffantes|Boite &#xE0; gant ferm&#xE9;e|BAS|Banquette arri&#xE8;re 3 places|Banquette AR rabattable|Banquette 60/40|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Appel d'Urgence Localis&#xE9;|Airbags rideaux AV et AR|Airbags lat&#xE9;raux avant|Airbag passager|Airbag conducteur|Aide au d&#xE9;marrage en pente|Accoudoir central AV|ABS|6 Haut parleurs|Volant sport|Volant multifonction|Volant cuir|Vitres avant &#xE9;lectriques|Tissu Firework Carbon Black|Sortie d'&#xE9;chappement chrom&#xE9;e|Si&#xE8;ge passager r&#xE9;glable en hauteur|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|R&#xE9;troviseurs &#xE9;lectriques|R&#xE9;troviseurs d&#xE9;givrants|R&#xE9;gulateur de vitesse|Radio|Prise USB|Prise iPod|Prise auxiliaire de connexion audio|Prise 12V|Portes arri&#xE8;re battantes|Porte-gobelets avant|Phares antibrouillard|Ordinateur de bord|Miroir de courtoisie passager|Miroir de courtoisie conducteur|Lampe de coffre</EquipementsSerie>
+    <GarantieLibelle>6 MOIS</GarantieLibelle>
+    <GarantieConstructeur>6</GarantieConstructeur>
+    <NbPlaces>5</NbPlaces>
+    <KmGaranti>0</KmGaranti>
+    <AvecTva></AvecTva>
+    <Co2>109</Co2>
+    <ConsommationMixte>4.1</ConsommationMixte>
+    <ConsommationUrbaine>4.7</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>3.8</ConsommationExtraUrbaine>
+    <Longueur>4253</Longueur>
+    <Largeur>1800</Largeur>
+    <Hauteur>1441</Hauteur>
+    <DebutGarantie></DebutGarantie>
+    <Delai>STOCK</Delai>
+    <Quantite>1</Quantite>
+    <LieuStockage>NANTES</LieuStockage>
+    <Poids>1360</Poids>
+    <PrixSpecial></PrixSpecial>
+    <PrixNeuf>35410</PrixNeuf>
+    <StatutStock></StatutStock>
+    <StatutStockABP></StatutStockABP>
+    <Modele>CLUBMAN COOPER D 150CH BVA</Modele>
+    <NbRapports></NbRapports>
+    <CapaciteReservoir></CapaciteReservoir>
+    <Empattement></Empattement>
+    <Volume></Volume>
+    <NumeroSerie></NumeroSerie>
+    <PrixMarchand>18950</PrixMarchand>
+    <PrixVenteHT>17163.166666667</PrixVenteHT>
+    <PrixVenteTTC>20595.8</PrixVenteTTC>
+    <PrixVenteTva>3432.6333333333</PrixVenteTva>
+    <Remise/>
+    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_1_1559749849.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_2_1559749849.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_3_1559749849.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_4_1559749849.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_5_1559749849.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_6_1559749850.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_7_1559749850.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_8_1559749850.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30931_9_1559749850.jpg</UrlPhotoAutobonplan>
+    <Flux>AIR</Flux>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>DFB_32721</IdentifiantVehicule>
+    <ReferenceVehicule>DFB_32721</ReferenceVehicule>
+    <IdentifiantAir>32721</IdentifiantAir>
+    <Marque>JIAYUAN</Marque>
+    <Famille>CITY FUN</Famille>
+    <Version>45 ELECTRIQUE SANS PERMIS</Version>
+    <CategorieLibelle/>
+    <NbPortes>2</NbPortes>
+    <EnergieLibelle>Electrique</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <PuissanceFiscale>1</PuissanceFiscale>
+    <PuissanceReelle>5</PuissanceReelle>
+    <Annee>2019</Annee>
+    <Date1Mec>01-06-2019</Date1Mec>
+    <Kilometrage>10</Kilometrage>
+    <Couleur>JAUNE</Couleur>
+    <EquipementsOption></EquipementsOption>
+    <EquipementsSerie>Climatisation|Chauffage|Fermeture Centralis&#xE9;e de portes &#xE0; Distance|Direction Assist&#xE9;e|Cam&#xE9;ra Avant|Toit Panoramique avec store|Cam&#xE9;ra de recul|Feux diurne &#xE0; LED|4 Freins &#xE0; disque|GPS 3D|Ecran Tactile|Bluetooth|Prise USB|Prise 12V|Jantes Alu 12|R&#xE9;troviseurs Electriques|R&#xE9;troviseurs D&#xE9;givrants|Vitres Electriques</EquipementsSerie>
+    <GarantieLibelle>CONSTRUCTEUR</GarantieLibelle>
+    <GarantieConstructeur>0</GarantieConstructeur>
+    <NbPlaces>2</NbPlaces>
+    <KmGaranti>1</KmGaranti>
+    <AvecTva></AvecTva>
+    <Co2></Co2>
+    <ConsommationMixte></ConsommationMixte>
+    <ConsommationUrbaine></ConsommationUrbaine>
+    <ConsommationExtraUrbaine></ConsommationExtraUrbaine>
+    <Longueur></Longueur>
+    <Largeur></Largeur>
+    <Hauteur></Hauteur>
+    <DebutGarantie></DebutGarantie>
+    <Delai>STOCK</Delai>
+    <Quantite>1</Quantite>
+    <LieuStockage>NANTES</LieuStockage>
+    <Poids></Poids>
+    <PrixSpecial></PrixSpecial>
+    <PrixNeuf>11490</PrixNeuf>
+    <StatutStock></StatutStock>
+    <StatutStockABP></StatutStockABP>
+    <Modele>CITY FUN 45 ELECTRIQUE SANS PERMIS</Modele>
+    <NbRapports></NbRapports>
+    <CapaciteReservoir></CapaciteReservoir>
+    <Empattement></Empattement>
+    <Volume></Volume>
+    <NumeroSerie></NumeroSerie>
+    <PrixMarchand>10450</PrixMarchand>
+    <PrixVenteHT>9654.8333333333</PrixVenteHT>
+    <PrixVenteTTC>11585.8</PrixVenteTTC>
+    <PrixVenteTva>1930.9666666667</PrixVenteTva>
+    <Remise>-1</Remise>
+    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_1_1559749859.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_2_1559749860.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_3_1559749860.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_4_1559749860.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_5_1559749860.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_6_1559749861.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_7_1559749861.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_8_1559749861.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_9_1559749861.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_10_1559749859.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_11_1559749859.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_12_1559749859.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_32721_13_1559749860.jpg</UrlPhotoAutobonplan>
+    <Flux>AIR</Flux>
+    <Gamme></Gamme>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>2052</IdentifiantVehicule>
+    <ReferenceVehicule>2052</ReferenceVehicule>
+    <Marque>VOLKSWAGEN</Marque>
+    <Famille>TOURAN</Famille>
+    <Version>1.6 TDI 115 BMT 7pl Sound</Version>
+    <CategorieLibelle/>
+    <NbPortes>5</NbPortes>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <Immatriculation>EX-452-MC</Immatriculation>
+    <BoiteLibelle>Manuelle</BoiteLibelle>
+    <PuissanceFiscale>6</PuissanceFiscale>
+    <PuissanceReelle>115</PuissanceReelle>
+    <Annee>2018</Annee>
+    <Date1Mec>22-05-2018</Date1Mec>
+    <Kilometrage>21100</Kilometrage>
+    <Couleur>Blanc</Couleur>
+    <EquipementsSerie><![CDATA[2 spots de lecture AV et 2 spots de lecture AR|7 places|Accoudoir central AV réglable avec compartiment de rangement, porte-gobelet intégré, et prise 12V pour les passagers AR|Activation automatique des feux de détresse lors d'un freinage d'urgence|Aide au stationnement AV/AR avec signaux sonores et visualisation de la distance des obstacles sur l'écran|Airbag de genoux conducteur|Airbags frontaux AV (Airbag passager désactivable par clé)|Airbags rideaux pour 3ème rangée|Airbags rideaux pour les 1ère et 2ème rangées|Alerte de perte de pression des pneus|Applications décoratives spécifiques "Sound" pour tableau de bord|Appuis-tête (3) réglables en hauteur sur la 2ème rangée de sièges|Appuis-tête AV réglables en hauteur|Arrière des sièges conducteur et passager en simili cuir|Aumônières au dos des sièges conducteur et passager AV|Avertisseur sonore et témoin d'oubli du port de la ceinture de sécurité à l'AV et témoin d'oubli du port de la ceinture de sécurité pour la 2ème rangée|Badge "Sound" sur le montant central|Boîte à gants réfrigérée|Boutons d'allumage des phares, de lève-vitres et de réglage de rétroviseurs avec filet chromé|Calandre noir avec 3 lamelles chromées|Caméra de recul avec visualisation de la zone située à l'AR du véhicule sur l'écran de la radio ou de la radionavigation|Car-Net "App-Connect" : affichage et contrôle via l'écran tactile de la voiture, du contenu, des fonctions et des applications compatibles présents sur le Smartphone|Car-Net "App-Connect" En combinaison avec Discover Media|Car-Net "Guide & Inform" 36 mois|Ceintures de sécurité (3) trois points sur la 2ème rangée de sièges|Ceintures de sécurité AV 3 points à enrouleur réglables en hauteur avec prétensionneurs|Climatisation automatique "Pure Air Climatronic" trois zones, réglable séparément pour conducteur, passager et sièges AR|Compartiment de rangement à gauche du volant|Compartiment de rangement sous la planche de bord|Compartiment de rangement sur la planche de bord avec trappe|Connecting Box au dessous de la boite à gants|Console de pavillon avec un grand compartiment de rangement (incompatible avec le toit ouvrant)|Correcteur électronique de trajectoire ESP, système d'antiblocage de roues ABS, blocage électronique de différentiel EDS, antipatinage électronique  ASR, régulateur de couple MSR et assistance au contrebraquage|Coupler Box : Ce système permet de téléphoner librement dans le véhicule|Coupler Box (en combinaison avec Discover Media ou Discover Pro)|Couvre-coffre enroulable et amovible|Direction électromécanique à assistance variable en fonction de la vitesse|Dossier du siège passager rabattable (Fold Flat)|Eclairage à LED de la plaque d'immatriculation AR|Eclairage de jour|Entourage des aérateurs chromées|Essuie-glace AV avec commande d'intermittence|Fatigue Détection système de détection de fatigue du conducteur|Frein à main électrique|Hill-Hold : Assistant au démarrage en côte grâce à une fonction anti-recul|Interface Bluetooth pour téléphone portable|Jantes en alliage léger 6,5J X 16 "Woodstock" spécifiques "Sound" et pneumatiques 205/60 R16 avec écrous antivol|Kit de réparation pour crevaison (compresseur 12V et bombe anti-crevaison)|Miroir de courtoisie éclairé sur les pare-soleil|Oeilletons de fixation (4) dans le coffre|Ordinateur de bord Plus|Pack Visibilité avec rétroviseurs extérieurs rabattables électriquement|Pare-chocs et boîtier de rétroviseurs extérieurs dans la couleur de la carrosserie|Pédalier en acier inoxydable|Plafonnier à extinction temporisée|Plancher de coffre modulable|Poignées de portes couleur carrosserie|Porte-bouteille dans toutes les portes|Pre Safe Assist - Système proactif de protection des passagers|Préparation pour fixation de sièges enfants suivant norme "Isofix" pour tous les 3 sièges de la 2ème rangée|Prise 12V dans le coffre|Prise USB|Projecteurs antibrouillard AV avec éclairage statique d'intersection|Protection antidémarrage|Rampe de pavillon anodisées|Régulateur de vitesse adaptatif ACC|Rétroviseurs extérieurs incluant le rappel de clignotant|Rétroviseurs extérieurs rabattables électriquement|Rétroviseurs extérieurs réglables électriquement et dégivrants, asphérique côté conducteur|Sellerie en tissu "Sound"|Seuil de portes spécifique "Sound"|Sièges AV Confort réglables en hauteur avec réglage lombaire|Sièges individuels (3) de la 2ème rangée réglables en longueur (200mm) et rabattables|Système de freinage anti multicollision : ce dispositif freine automatiquement le véhicule après un premier choc afin de limiter le risque de multicollision|Système de protection évitant l'utilisation d'un mauvais carburant|Système Front Assist : système de freinage automatique en cas de détection d'obstacle|Système Navigation & Infotainment "Discover Media"|Système Navigation & Infotainment "Discover Media" : Radionavigation 8 HP (4 x 20W)|Système Start/Stop automatique et dispositif de récupération de l'énergie de freinage|Tablette pliable au dos des sièges conducteur et passager AV|Tapis de sol AV et AR|Tiroir sous les sièges AV|Triangle de présignalisation|Verrouillage centralisé avec télécommande à fréquence radio par clé rétractable|Vitres AR et lunette AR surteintées à 65%|Vitres athermiques teintées vertes|Vitres électriques AV et AR|Volant 3 branches en cuir et pommeau de levier de vitesses cuir|Volant cuir multifonctions|Volant réglable en hauteur et en profondeur|Volkswagen Media Control|XDS : Système agissant comme un différentiel autobloquant électronique permettant une meilleure motricité en courbe grâce à une répartition optimale de la puissance et du couple sur les roues AV]]></EquipementsSerie>
+    <EquipementsOption>|Peinture m&#xE9;tallis&#xE9;e: +650.00</EquipementsOption>
+    <GarantieLibelle></GarantieLibelle>
+    <GarantieConstructeur></GarantieConstructeur>
+    <NbPlaces>7</NbPlaces>
+    <KmGarantie></KmGarantie>
+    <Co2>119</Co2>
+    <ConsommationMixte>4.6</ConsommationMixte>
+    <ConsommationUrbaine>5.4</ConsommationUrbaine>
+    <ConsommationExtraUrbaine>4.1</ConsommationExtraUrbaine>
+    <Longueur></Longueur>
+    <Largeur></Largeur>
+    <Hauteur></Hauteur>
+    <DebutGarantie></DebutGarantie>
+    <Delai></Delai>
+    <Remise/>
+    <GarantieType></GarantieType>
+    <StatutStockABP>Stock</StatutStockABP>
+    <Diffusion>CarsOnLine</Diffusion>
+    <Modele>TOURAN</Modele>
+    <PrixVenteHT>19575.00</PrixVenteHT>
+    <PrixVenteTTC>23490.00</PrixVenteTTC>
+    <PrixVenteTva>0</PrixVenteTva>
+    <Reprise>0</Reprise>
+    <NbRapports>6</NbRapports>
+    <CapaciteReservoir></CapaciteReservoir>
+    <Empattement></Empattement>
+    <Volume></Volume>
+    <NumeroSerie>WVGZZZ1TZJW091956</NumeroSerie>
+    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/kepler/2052-(1)_1549899572.jpg|https://pim.autobonplan.com/images/kepler/2052-(2)_1549899573.jpg|https://pim.autobonplan.com/images/kepler/2052-(3)_1549899576.jpg|https://pim.autobonplan.com/images/kepler/2052-(4)_1549899580.jpg|https://pim.autobonplan.com/images/kepler/2052-(5)_1549899582.jpg|https://pim.autobonplan.com/images/kepler/2052-(6)_1549899585.jpg|https://pim.autobonplan.com/images/kepler/2052-(7)_1549899589.jpg|https://pim.autobonplan.com/images/kepler/2052-(8)_1549899594.jpg|https://pim.autobonplan.com/images/kepler/2052-(9)_1549899595.jpg|https://pim.autobonplan.com/images/kepler/2052-(10)_1549899610.jpg|https://pim.autobonplan.com/images/kepler/2052-(11)_1549899603.jpg|https://pim.autobonplan.com/images/kepler/2052-(12)_1549899610.jpg|https://pim.autobonplan.com/images/kepler/2052-(13)_1549899613.jpg|https://pim.autobonplan.com/images/kepler/2052-(14)_1549899620.jpg|https://pim.autobonplan.com/images/kepler/2052-(15)_1549899620.jpg|https://pim.autobonplan.com/images/kepler/2052-(16)_1549899627.jpg|https://pim.autobonplan.com/images/kepler/2052-(17)_1549899627.jpg|https://pim.autobonplan.com/images/kepler/2052-(18)_1549899637.jpg|https://pim.autobonplan.com/images/kepler/2052-(19)_1549899636.jpg|https://pim.autobonplan.com/images/kepler/2052-(20)_1549899639.jpg|https://pim.autobonplan.com/images/kepler/2052-(21)_1549899642.jpg|https://pim.autobonplan.com/images/kepler/2052-(22)_1549899647.jpg|https://pim.autobonplan.com/images/kepler/2052-(23)_1549899648.jpg|https://pim.autobonplan.com/images/kepler/2052-(24)_1549899655.jpg|https://pim.autobonplan.com/images/kepler/2052-(25)_1549899656.jpg|https://pim.autobonplan.com/images/kepler/2052-(26)_1549899659.jpg</UrlPhotoAutobonplan>
+    <UrlAutobonplan></UrlAutobonplan>
+    <PrixVenteMarchand>23000.00</PrixVenteMarchand>
+    <StatutStock>ABP</StatutStock>
+    <Cylindre>1598</Cylindre>
+    <RefKepler>11x0nyly</RefKepler>
+    <DateEntreeStock>10-01-2019</DateEntreeStock>
+    <PointDeVente></PointDeVente>
+    <PrixNeuf>33380.00</PrixNeuf>
+    <Flux>KEPLER</Flux>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_re85c3_ST26551214</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_re85c3_ST26551214</ReferenceVehicule>
+    <Modele>Captur 1.3 TCe 130ch FAP Intens</Modele>
+    <Marque>RENAULT</Marque>
+    <SuperFamille>Captur</SuperFamille>
+    <Famille>Captur</Famille>
+    <Version>1.3 TCe 130ch FAP Intens</Version>
+    <PvTTC>19499</PvTTC>
+    <Kilometrage>1000</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>Ivoire/Noir Etoil&#xE9;</Couleur>
+    <PuissanceReelle>130</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>Constructeur</Garantie>
+    <Provenance>VEHICULE DEMO</Provenance>
+    <ConsommationMixte>0</ConsommationMixte>
+    <ConsommationUrbaine>0</ConsommationUrbaine>
+    <ConsommationExtraurbaine>0</ConsommationExtraurbaine>
+    <EquipementsSerie>ABS|Accoudoir central AV avec rangement|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Bacs de portes arri&#xE8;re|Bacs de portes avant|Banquette 1/3-2/3|Banquette AR rabattable|Banquette arri&#xE8;re 3 places|Banquette coulissante|Becquet arri&#xE8;re|Boite &#xE0; gants ferm&#xE9;e|Boucliers AV et AR couleur caisse|Capteur de luminosit&#xE9;|Capteur de pluie|Ceintures avant ajustables en hauteur|Clim automatique|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Compte tours|Contr&#xF4;le de freinage en courbe|D&#xE9;marrage sans cl&#xE9;|D&#xE9;tecteur de sous-gonflage|EBD|Eclairage statique d'intersection|Ecran multifonction couleur|Ecran tactile|ESP|Essuie-glace arri&#xE8;re|Feux arri&#xE8;re &#xE0; LED|Feux de jour &#xE0; LED|Filtre &#xE0; particules|Filtre &#xE0; Pollen|Fixation Isofix si&#xE8;ge passager avant|Fixations Isofix aux places arri&#xE8;res|Fonction MP3|GPS Cartographique|Jantes Alu|Kit mains-libres Bluetooth|Lampe de coffre|Limiteur de vitesse</EquipementsSerie>
+    <EquipementsOption>Ivoire/Noir Etoil&#xE9;|Pack City Plus|Roue de secours galette|Sellerie TEP/textile Carbone fonc&#xE9;</EquipementsOption>
+    <Statut>VD</Statut>
+    <Genre>VP</Genre>
+    <Site>RENAULT LUCON</Site>
+    <Lieu>RENAULT LUCON</Lieu>
+    <Carrosserie></Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>230.0|0.0|0.0|0.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Garanti</VehiculeKmGaranti>
+    <Longueur>4121</Longueur>
+    <Largeur>1778</Largeur>
+    <Hauteur>1573</Hauteur>
+    <PrixVenteHT>19499</PrixVenteHT>
+    <NumeroSerie>VF1R8700762332666</NumeroSerie>
+    <Poids>0</Poids>
+    <VehiculePretAPartir>0</VehiculePretAPartir>
+    <Photos>re85c3_ST26551214_01_hd.jpg|re85c3_ST26551214_02_hd.jpg|re85c3_ST26551214_03_hd.jpg|re85c3_ST26551214_04_hd.jpg|re85c3_ST26551214_05_hd.jpg|re85c3_ST26551214_06_hd.jpg|re85c3_ST26551214_07_hd.jpg|re85c3_ST26551214_08_hd.jpg|re85c3_ST26551214_09_hd.jpg|re85c3_ST26551214_10_hd.jpg|re85c3_ST26551214_11_hd.jpg|re85c3_ST26551214_12_hd.jpg|re85c3_ST26551214_13_hd.jpg|re85c3_ST26551214_14_hd.jpg|re85c3_ST26551214_15_hd.jpg</Photos>
+    <PrixVenteTTC>19499</PrixVenteTTC>
+    <PuissanceFiscale>7</PuissanceFiscale>
+    <FraisReel>0</FraisReel>
+    <Immatriculation>FC-176-SC</Immatriculation>
+    <EnergieLibelle>Essence</EnergieLibelle>
+    <BoiteLibelle>Manuelle</BoiteLibelle>
+    <Annee>2018</Annee>
+    <CO2>128</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>0</NbRapports>
+    <CapaciteReservoir>45</CapaciteReservoir>
+    <Empattement>2606</Empattement>
+    <Volume>455</Volume>
+    <DateEntreeStock>26-01-2019</DateEntreeStock>
+    <PrixNeuf>23050</PrixNeuf>
+    <concessionidentifier>re85c3_</concessionidentifier>
+    <DateCreat>2019-04-27</DateCreat>
+    <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_11_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_12_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_13_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_14_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_ST26551214_15_hd.jpg</UrlPhotoAutobonplan>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_re79c1_VNA6836</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_re79c1_VNA6836</ReferenceVehicule>
+    <Modele>Koleos 1.6 dCi 130ch energy Intens</Modele>
+    <Marque>RENAULT</Marque>
+    <SuperFamille>Koleos</SuperFamille>
+    <Famille>Koleos</Famille>
+    <Version>1.6 dCi 130ch energy Intens</Version>
+    <PvTTC>28889</PvTTC>
+    <Kilometrage>8900</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>Beige Min&#xE9;ral</Couleur>
+    <PuissanceReelle>131</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>Constructeur</Garantie>
+    <Provenance>VEHICULE DEMO</Provenance>
+    <ConsommationMixte>5</ConsommationMixte>
+    <ConsommationUrbaine>5</ConsommationUrbaine>
+    <ConsommationExtraurbaine>4</ConsommationExtraurbaine>
+    <EquipementsSerie>ABS|Accoudoir central AV avec rangement|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux AV et AR|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Appui-t&#xEA;te conducteur r&#xE9;glable hauteur|Appui-t&#xEA;te passager r&#xE9;glable en hauteur|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Bacs de portes arri&#xE8;re|Bacs de portes avant|Banquette 60/40|Banquette AR rabattable|Barres de toit|Becquet arri&#xE8;re|Blanc|Boite &#xE0; gants ferm&#xE9;e|Boucliers AV et AR couleur caisse|Cam&#xE9;ra de recul|Capteur de luminosit&#xE9;|Capteur de pluie|Ceinture de vitrage chrom&#xE9;e|Ceintures avant ajustables en hauteur|Clim automatique bi-zones|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Compte tours|Configuration 5 places|Contr&#xF4;le de freinage en courbe|Contr&#xF4;le &#xE9;lect. de la pression des pneus|Direction assist&#xE9;e asservie &#xE0; la vitesse|EBD|Eclairage au sol|Eclairage d'ambiance|Ecran LCD|Ecran multifonction couleur|ESP|Essuie-glace arri&#xE8;re|Feux arri&#xE8;re &#xE0; LED|Feux de freinage d'urgence|Feux de jour &#xE0; LED|Filtre &#xE0; particules|Filtre &#xE0; Pollen</EquipementsSerie>
+    <EquipementsOption>Beige Min&#xE9;ral|Roue de secours galette</EquipementsOption>
+    <Statut>VD</Statut>
+    <Genre>VP</Genre>
+    <Site>RENAULT NIORT</Site>
+    <Lieu>RENAULT NIORT</Lieu>
+    <Carrosserie></Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>740.0|0.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Non garanti</VehiculeKmGaranti>
+    <Longueur>4673</Longueur>
+    <Largeur>1843</Largeur>
+    <Hauteur>1678</Hauteur>
+    <PrixVenteHT>28889</PrixVenteHT>
+    <NumeroSerie>VF1RZG00760305282</NumeroSerie>
+    <Poids>1540</Poids>
+    <VehiculePretAPartir>1</VehiculePretAPartir>
+    <Photos>re79c1_VNA6836_01_hd.jpg|re79c1_VNA6836_02_hd.jpg|re79c1_VNA6836_03_hd.jpg|re79c1_VNA6836_04_hd.jpg|re79c1_VNA6836_05_hd.jpg|re79c1_VNA6836_06_hd.jpg|re79c1_VNA6836_07_hd.jpg|re79c1_VNA6836_08_hd.jpg|re79c1_VNA6836_09_hd.jpg|re79c1_VNA6836_10_hd.jpg|re79c1_VNA6836_11_hd.jpg|re79c1_VNA6836_12_hd.jpg|re79c1_VNA6836_13_hd.jpg|re79c1_VNA6836_14_hd.jpg</Photos>
+    <PrixVenteTTC>28889</PrixVenteTTC>
+    <PuissanceFiscale>7</PuissanceFiscale>
+    <FraisReel>0</FraisReel>
+    <Immatriculation>FB-517-KF</Immatriculation>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Manuelle</BoiteLibelle>
+    <Annee>2018</Annee>
+    <CO2>128</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>0</NbRapports>
+    <CapaciteReservoir>60</CapaciteReservoir>
+    <Empattement>2705</Empattement>
+    <Volume>458</Volume>
+    <DateEntreeStock>28-10-2018</DateEntreeStock>
+    <PrixNeuf>36000</PrixNeuf>
+    <concessionidentifier>re79c1_</concessionidentifier>
+    <DateCreat>2019-05-22</DateCreat>
+    <CategorieLibelle>4x4 / SUV</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_11_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_12_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_13_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re79c1_VNA6836_14_hd.jpg</UrlPhotoAutobonplan>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_vv44c2_A0000</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_vv44c2_A0000</ReferenceVehicule>
+    <Modele>XC40 D4 AdBlue AWD 190ch R-Design Geartronic 8</Modele>
+    <Marque>VOLVO</Marque>
+    <SuperFamille>XC40</SuperFamille>
+    <Famille>XC40</Famille>
+    <Version>D4 AdBlue AWD 190ch R-Design Geartronic 8</Version>
+    <PvTTC>37900</PvTTC>
+    <Kilometrage>22986</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>720 BLEU ECLATANT METALLI</Couleur>
+    <PuissanceReelle>190</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>VOLVO SELEKT 12 mois</Garantie>
+    <Provenance>Soci&#xE9;t&#xE9;</Provenance>
+    <ConsommationMixte>5</ConsommationMixte>
+    <ConsommationUrbaine>6</ConsommationUrbaine>
+    <ConsommationExtraurbaine>5</ConsommationExtraurbaine>
+    <EquipementsSerie>8 Haut parleurs|ABS|Accoudoir central AV avec rangement|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag genoux|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux AV et AR|Alarme|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Appel d'Assistance Localis&#xE9;|Appel d'Urgence Localis&#xE9;|Appui-t&#xEA;te conducteur r&#xE9;glable hauteur|Appui-t&#xEA;te passager r&#xE9;glable en hauteur|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Assistance de maintient de trajectoire|Bacs de portes avant|Banquette 60/40|Banquette AR rabattable|Banquette arri&#xE8;re 3 places|Barres de toit|Becquet arri&#xE8;re|Boite &#xE0; gants ferm&#xE9;e|Boucliers AV et AR couleur caisse|Capteur de pluie|Ceintures avant ajustables en hauteur|Chassis Sport|Clim automatique|Commande du comportement dynamique|Commandes du syst&#xE8;me audio au volant|Commandes vocales|Compte tours|Contr&#xF4;le de freinage en courbe|Contr&#xF4;le electronique de stabilit&#xE9;|Contr&#xF4;le optimal du roulis|D&#xE9;tecteur de sous-gonflage|Dispositif freinage automatique|EBD|Echappement &#xE0; double sortie|Eclairage au sol|Eclairage d'ambiance</EquipementsSerie>
+    <EquipementsOption>Roue de secours temporaire|Bleu &#xC9;clatant</EquipementsOption>
+    <Statut>ST</Statut>
+    <Genre>VP</Genre>
+    <Site>GAV ST NAZ</Site>
+    <Lieu>St Nazaire</Lieu>
+    <Carrosserie>Break</Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>0.0|0.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Non garanti</VehiculeKmGaranti>
+    <Longueur>4425</Longueur>
+    <Largeur>1863</Largeur>
+    <Hauteur>1652</Hauteur>
+    <PrixVenteHT>31583</PrixVenteHT>
+    <NumeroSerie>YV1XZA6BCJ2011081</NumeroSerie>
+    <Poids>1735</Poids>
+    <VehiculePretAPartir>0</VehiculePretAPartir>
+    <Photos>vv44c2_A0000_01_hd.jpg|vv44c2_A0000_02_hd.jpg|vv44c2_A0000_03_hd.jpg|vv44c2_A0000_04_hd.jpg|vv44c2_A0000_05_hd.jpg|vv44c2_A0000_06_hd.jpg|vv44c2_A0000_07_hd.jpg|vv44c2_A0000_08_hd.jpg|vv44c2_A0000_09_hd.jpg|vv44c2_A0000_10_hd.jpg</Photos>
+    <PrixVenteTTC>37900</PrixVenteTTC>
+    <PuissanceFiscale>10</PuissanceFiscale>
+    <FraisReel>1378</FraisReel>
+    <Immatriculation>EW-580-AZ</Immatriculation>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <Annee>2018</Annee>
+    <CO2>131</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>8</NbRapports>
+    <CapaciteReservoir>54</CapaciteReservoir>
+    <Empattement>2702</Empattement>
+    <Volume>460</Volume>
+    <DateEntreeStock>30-11-2018</DateEntreeStock>
+    <PrixNeuf>48170</PrixNeuf>
+    <concessionidentifier>vv44c2_</concessionidentifier>
+    <DateCreat>2019-06-03</DateCreat>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0000_10_hd.jpg</UrlPhotoAutobonplan>
+    <Reprise>1</Reprise>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_vv44c2_A0001</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_vv44c2_A0001</ReferenceVehicule>
+    <Modele>XC60 D4 AdBlue AWD 190ch Inscription Geartronic</Modele>
+    <Marque>VOLVO</Marque>
+    <SuperFamille>XC60</SuperFamille>
+    <Famille>XC60</Famille>
+    <Version>D4 AdBlue AWD 190ch Inscription Geartronic</Version>
+    <PvTTC>43900</PvTTC>
+    <Kilometrage>15550</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>GRIS OSMIUM METAL</Couleur>
+    <PuissanceReelle>190</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>VOLVO SELEKT 12 mois</Garantie>
+    <Provenance>Soci&#xE9;t&#xE9;</Provenance>
+    <ConsommationMixte>6</ConsommationMixte>
+    <ConsommationUrbaine>6</ConsommationUrbaine>
+    <ConsommationExtraurbaine>5</ConsommationExtraurbaine>
+    <EquipementsSerie>10 Haut parleurs|ABS|Accoudoir central AV avec rangement|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag genoux|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux AV et AR|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Appel d'Urgence Localis&#xE9;|Appuis-t&#xEA;te avant actifs|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Assistance de maintient de trajectoire|Bacs de portes arri&#xE8;re|Bacs de portes avant|Banquette 60/40|Banquette AR rabattable|Banquette arri&#xE8;re 3 places|Barres de toit|Becquet arri&#xE8;re|Boite &#xE0; gants ferm&#xE9;e|Borne Wi-Fi|Boucliers AV et AR couleur caisse|Calandre chrom&#xE9;e|Capteur de luminosit&#xE9;|Capteur de pluie|Ceinture de vitrage chrom&#xE9;e|Ceintures avant ajustables en hauteur|Ceintures rang2 ajustables en hauteur|Clim automatique bi-zones|Coffre assist&#xE9; &#xE9;lectriquement|Commande du comportement dynamique|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Commandes vocales|Compte tours|Contr&#xF4;le de Traction Intelligent|Contr&#xF4;le optimal du roulis|D&#xE9;marrage sans cl&#xE9;|D&#xE9;tecteur de sous-gonflage</EquipementsSerie>
+    <EquipementsOption>Roue de secours temporaire|Gris Osmium|Si&#xE8;ges Cft Cuir Anthracite</EquipementsOption>
+    <Statut>ST</Statut>
+    <Genre>VP</Genre>
+    <Site>GAV ST NAZ</Site>
+    <Lieu>St Nazaire</Lieu>
+    <Carrosserie>Break</Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>0.0|0.0|0.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Garanti</VehiculeKmGaranti>
+    <Longueur>4688</Longueur>
+    <Largeur>1902</Largeur>
+    <Hauteur>1658</Hauteur>
+    <PrixVenteHT>36583</PrixVenteHT>
+    <NumeroSerie>YV1UZA8UCJ1116330</NumeroSerie>
+    <Poids>1870</Poids>
+    <VehiculePretAPartir>0</VehiculePretAPartir>
+    <Photos>vv44c2_A0001_01_hd.jpg|vv44c2_A0001_02_hd.jpg|vv44c2_A0001_03_hd.jpg|vv44c2_A0001_04_hd.jpg|vv44c2_A0001_05_hd.jpg|vv44c2_A0001_06_hd.jpg|vv44c2_A0001_07_hd.jpg|vv44c2_A0001_08_hd.jpg|vv44c2_A0001_09_hd.jpg|vv44c2_A0001_10_hd.jpg|vv44c2_A0001_11_hd.jpg|vv44c2_A0001_12_hd.jpg|vv44c2_A0001_13_hd.jpg|vv44c2_A0001_14_hd.jpg|vv44c2_A0001_15_hd.jpg</Photos>
+    <PrixVenteTTC>43900</PrixVenteTTC>
+    <PuissanceFiscale>11</PuissanceFiscale>
+    <FraisReel>1452</FraisReel>
+    <Immatriculation>EW-212-WN</Immatriculation>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Automatique</BoiteLibelle>
+    <Annee>2018</Annee>
+    <CO2>144</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>8</NbRapports>
+    <CapaciteReservoir>60</CapaciteReservoir>
+    <Empattement>2865</Empattement>
+    <Volume>505</Volume>
+    <DateEntreeStock>30-11-2018</DateEntreeStock>
+    <PrixNeuf>56410</PrixNeuf>
+    <concessionidentifier>vv44c2_</concessionidentifier>
+    <DateCreat>2019-06-03</DateCreat>
+    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_11_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_12_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_13_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_14_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/vv44c2_A0001_15_hd.jpg</UrlPhotoAutobonplan>
+    <Reprise>1</Reprise>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+  <Vehicule>
+    <IdentifiantVehicule>planetvo_re44c2_019049</IdentifiantVehicule>
+    <ReferenceVehicule>planetvo_re44c2_019049</ReferenceVehicule>
+    <Modele>Clio 1.5 dCi 75ch energy Business 5p</Modele>
+    <Marque>RENAULT</Marque>
+    <SuperFamille>Clio</SuperFamille>
+    <Famille>Clio</Famille>
+    <Version>1.5 dCi 75ch energy Business 5p</Version>
+    <PvTTC>10990</PvTTC>
+    <Kilometrage>44045</Kilometrage>
+    <Date1Mec>21-05-2019</Date1Mec>
+    <Couleur>Ivoire</Couleur>
+    <PuissanceReelle>75</PuissanceReelle>
+    <NbPlaces>5</NbPlaces>
+    <NbPortes>5</NbPortes>
+    <Garantie>12 mois pi&#xE8;ces et main d'oeuvre</Garantie>
+    <Provenance>Auto-&#xE9;cole</Provenance>
+    <ConsommationMixte>3</ConsommationMixte>
+    <ConsommationUrbaine>4</ConsommationUrbaine>
+    <ConsommationExtraurbaine>3</ConsommationExtraurbaine>
+    <EquipementsSerie>ABS|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Bacs de portes avant|Banquette 1/3-2/3|Banquette AR rabattable|Banquette arri&#xE8;re 3 places|Becquet arri&#xE8;re|Blanc Glacier|Boite &#xE0; gants ferm&#xE9;e|Boucliers AV et AR couleur caisse|Ceintures avant ajustables en hauteur|Clim manuelle|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Compte tours|D&#xE9;marrage sans cl&#xE9;|D&#xE9;tecteur de sous-gonflage indirect|EBD|Ecran multifonction couleur|Ecran tactile|Enjoliveurs|ESP|Essuie-glace arri&#xE8;re|Feux de freinage d'urgence|Feux de jour &#xE0; LED|Filtre &#xE0; particules|Fonction MP3|GPS Cartographique|Kit mains-libres Bluetooth|Lampe de coffre|Limiteur de vitesse|Lunette AR d&#xE9;givrante|Miroir de courtoisie passager|Ordinateur de bord|Phares antibrouillard|Phares halog&#xE8;nes|Pneu &#xE0; faible r&#xE9;sistance au roulement|Pr&#xE9;paration Isofix|Prise 12V|Prise auxiliaire de connexion audio|Prise Jack|Prise USB|Radar de recul|Radio|R&#xE9;gulateur de vitesse</EquipementsSerie>
+    <EquipementsOption>Ivoire</EquipementsOption>
+    <Statut>ST</Statut>
+    <Genre>VP</Genre>
+    <Site>RENAULT LE LOROUX BOTTEREAU</Site>
+    <Lieu>RENAULT LE LOROUX BO</Lieu>
+    <Carrosserie></Carrosserie>
+    <OperationActivation>Non</OperationActivation>
+    <PvOperation>0</PvOperation>
+    <OperationDescription></OperationDescription>
+    <OperationType></OperationType>
+    <OperationStart></OperationStart>
+    <OperationEnd></OperationEnd>
+    <PvMarchand>0</PvMarchand>
+    <VehiculeOptionsPrix>230.0</VehiculeOptionsPrix>
+    <VehiculeKmGaranti>Non garanti</VehiculeKmGaranti>
+    <Longueur>4062</Longueur>
+    <Largeur>1732</Largeur>
+    <Hauteur>1448</Hauteur>
+    <PrixVenteHT>9158</PrixVenteHT>
+    <NumeroSerie>VF15RBF0A59782004</NumeroSerie>
+    <Poids>1090</Poids>
+    <VehiculePretAPartir>0</VehiculePretAPartir>
+    <Photos>re44c2_019049_01_hd.jpg|re44c2_019049_02_hd.jpg|re44c2_019049_03_hd.jpg|re44c2_019049_04_hd.jpg|re44c2_019049_05_hd.jpg|re44c2_019049_06_hd.jpg|re44c2_019049_07_hd.jpg|re44c2_019049_08_hd.jpg|re44c2_019049_09_hd.jpg|re44c2_019049_10_hd.jpg|re44c2_019049_11_hd.jpg</Photos>
+    <PrixVenteTTC>10990</PrixVenteTTC>
+    <PuissanceFiscale>4</PuissanceFiscale>
+    <FraisReel>85</FraisReel>
+    <Immatriculation>ET-497-AH</Immatriculation>
+    <EnergieLibelle>Diesel</EnergieLibelle>
+    <BoiteLibelle>Manuelle</BoiteLibelle>
+    <Annee>2017</Annee>
+    <CO2>85</CO2>
+    <GarantieType>1</GarantieType>
+    <NbRapports>0</NbRapports>
+    <CapaciteReservoir>45</CapaciteReservoir>
+    <Empattement>2589</Empattement>
+    <Volume>300</Volume>
+    <DateEntreeStock>30-01-2019</DateEntreeStock>
+    <PrixNeuf>19100</PrixNeuf>
+    <concessionidentifier>re44c2_</concessionidentifier>
+    <DateCreat>2019-06-04</DateCreat>
+    <CategorieLibelle>Routi&#xE8;res</CategorieLibelle>
+    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re44c2_019049_11_hd.jpg</UrlPhotoAutobonplan>
+    <Reprise>1</Reprise>
+    <Flux>PLANETVO</Flux>
+    <Remise/>
+    <Gamme></Gamme>
+    <Ecotaxe/>
+  </Vehicule>
+</Stock>
