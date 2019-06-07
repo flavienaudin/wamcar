@@ -1038,7 +1038,7 @@ conversation:
   fleet_to_sell: Votre flotte automobile à reprendre
   message:
     attachments: '{1} Pièce jointe|[2,Inf[ Pièces jointes'
-
+    read_by: "Lu par %username%"
   auto_added: (automatiquement ajouté à votre message)
   fleet:
     yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules

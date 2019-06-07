@@ -311,7 +311,7 @@
         margin-bottom: rem-calc(5);
       }
 
-      &-list{
+      &-list {
         margin-top: rem-calc(15);
       }
     }
@@ -322,6 +322,18 @@
       li a {
         word-wrap: break-word;
       }
+    }
+  }
+
+  &-read {
+    width: rem-calc(24);
+    height: rem-calc(24);
+    display: none;
+
+    img {
+      max-height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
     }
   }
 
@@ -444,6 +456,7 @@
     a {
       color: $primary-color;
     }
+
     margin-left: rem-calc(15);
     position: relative;
     top: rem-calc(-4);
@@ -453,6 +466,7 @@
     a {
       color: white;
     }
+
     color: white;
     margin: 0 0 rem-calc(3);
   }

@@ -1,6 +1,4 @@
-{% if currentConversation %}
-    {% set currentConversationLastMessage = getLastMessageConversation(currentConversation) %}
-{% endif %}
+{% set interlocutorConversationUser = interlocutor is not null and currentConversation is not null ? interlocutor.getConversationUser(currentConversation) : null %}
 
 <!-- Header for mobile -->
 <div class="messages-header messages-header-item-mobile block-grid hide-for-medium">
@@ -29,7 +27,7 @@
     {% endif %}
 
     <div class="messages-item block-grid no-bullet no-margin"
-         {% if message.id == currentConversationLastMessage.id %}id="last-message" data-conversation-open-url="{{ path('front_conversation_open', {'id':currentConversation.id}) }}"{% endif %}>
+         {% if loop.last %}id="last-message" data-conversation-open-url="{{ path('front_conversation_open', {'id':currentConversation.id}) }}"{% endif %}>
         <a href="{{ message.user|userInfoUrl }}" target="_blank">
             <img class="messages-user-img messages-item-user-img"
                  src="{{ message.user.avatar|avatar('user_thumbnail', message.user.firstName) }}"
@@ -77,6 +75,16 @@
             {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, vehicle: message.vehicle, user: message.user } %}
         {% elseif message.isFleet %}
             {% include 'front/Messages/includes/vehicle_taken.html.twig' with { messageItem: true, severalVehicles: message.user.vehicles|length, user: message.user } %}
+        {% endif %}
+
+        {% if message.user.is(user) and interlocutorConversationUser is not null and interlocutorConversationUser.lastOpenedAt > message.publishedAt %}
+            <div class="is-flex full-width align-right">
+                <div class="messages-read">
+                    <img src="{{ interlocutor.avatar|avatar('user_mini_thumbnail', interlocutor.firstname) }}"
+                         alt="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title}) }}"
+                         title="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title}) }}">
+                </div>
+            </div>
         {% endif %}
     </div>
 {% endfor %}
