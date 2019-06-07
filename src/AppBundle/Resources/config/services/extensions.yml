@@ -54,3 +54,9 @@ services:
         autowire: true
         tags:
             - { name: twig.extension }
+
+
+    AppBundle\Twig\FormatExtension:
+        class: 'AppBundle\Twig\FormatExtension'
+        tags:
+            - { name: twig.extension }

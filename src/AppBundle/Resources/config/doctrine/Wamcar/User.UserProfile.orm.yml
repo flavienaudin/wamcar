@@ -24,3 +24,5 @@ Wamcar\User\UserProfile:
         phone:
             type: string
             nullable: true
+        phoneDisplay:
+            type: boolean

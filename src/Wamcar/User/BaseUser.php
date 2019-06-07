@@ -96,7 +96,7 @@ abstract class BaseUser implements HasApiCredential
     )
     {
         $this->email = $email;
-        $this->userProfile = new UserProfile(null, $firstName, $name, null, null, $city);
+        $this->userProfile = new UserProfile($firstName, $name, null, null, null, $city);
         $this->avatar = $avatar;
         $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
@@ -177,7 +177,6 @@ abstract class BaseUser implements HasApiCredential
         $this->userProfile->setDescription($description);
     }
 
-
     /**
      * @return Title|null
      */
@@ -192,6 +191,14 @@ abstract class BaseUser implements HasApiCredential
     public function getPhone(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getPhone() : null);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhoneDisplay(): bool
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->isPhoneDisplay() : false);
     }
 
     /**

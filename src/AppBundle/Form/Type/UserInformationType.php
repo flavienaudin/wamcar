@@ -5,7 +5,9 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
+use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\Type\SpecificField\YesNoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -45,8 +47,11 @@ class UserInformationType extends AbstractType
                 },
             ])
             ->add('phone', TextType::class, [
-                'required' => false,
-                'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{2}(-| )?\d{2})(-| )?(\d{2}(-| )?\d{2})(( x| ext)\d{1,5}){0,1}$']
+                'required' => true,
+                'attr' => ['pattern' => '^0\d{9}$']
+            ])
+            ->add('phoneDisplay', YesNoType::class, [
+                'required' => false
             ])
             ->add('oldPassword', PasswordType::class, [
                 'required' => false,
@@ -69,6 +74,7 @@ class UserInformationType extends AbstractType
             ]);
 
         $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));
+        $builder->get('phoneDisplay')->addModelTransformer(new YesNoDataTransformer());
     }
 
     /**
