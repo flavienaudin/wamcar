@@ -1,0 +1,57 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block mainClass %}no-padding-top{% endblock %}
+
+{% block title %}{{ "sellers_performances.page.title"|trans }}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+    <div class="row">
+        <div class="column small-12 garages-stats">
+            {% for sellerId, sellerStats in sellersPerformances %}
+                <div class="input-margin {{ loop.index0 > 0 ? 'separator strong' }}">
+                    <h2 class="primary-color">{{ sellerStats.seller.fullname|title }}
+                        <small><a href="{{ path('front_view_pro_user_info', {'slug': sellerStats.seller.slug}) }}"
+                                  class="text-underline" target="_blank">{{ 'global.button.see_user_profile'|trans }}</a></small>
+                    </h2>
+
+                    <div class="input-margin">
+                        {{ include('front/Seller/includes/seller_performances.html.twig', {
+                            'isMe' : app.user.is(sellerStats.seller),
+                            'performances' : sellerStats.performances,
+                            'title_tag' : 'h3'
+                        }) }}
+                    </div>
+
+                    <div class="input-margin">
+                        {{ include('front/Seller/includes/seller_declarations.html.twig', {
+                            'isMe' : app.user.is(sellerStats.seller),
+                            'saleDeclarations' : sellerStats.saleDeclarations,
+                            'title_tag' : 'h3',
+                            'table_id' : 'declaredSale-dt'~sellerStats.seller.id
+                        }) }}
+                    </div>
+
+                    <span>{{ 'sellers_performances.link.his_garages'|trans }}</span>
+                    <ul>
+                        {% for garageName in sellerStats.garages %}
+                            <li>{{ garageName|title }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}

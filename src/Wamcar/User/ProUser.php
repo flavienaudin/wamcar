@@ -142,9 +142,26 @@ class ProUser extends BaseUser
         return $this->garageMemberships->matching(new Criteria(Criteria::expr()->isNull('requestedAt')));
     }
 
+    /**
+     * @return int
+     */
     public function countEnabledGarageMemberships(): int
     {
         return count($this->getEnabledGarageMemberships());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGarageAdminsitrator(): bool
+    {
+        /** @var GarageProUser $garageMembership */
+        foreach ($this->garageMemberships as $garageMembership) {
+            if ($garageMembership->isAdministrator()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
