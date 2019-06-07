@@ -112,7 +112,7 @@ class GarageEditionService
     {
         $existingGarage = null;
         // Précaution
-        if($garageDTO->googlePlaceId == "undefined"){
+        if ($garageDTO->googlePlaceId == "undefined") {
             $garageDTO->googlePlaceId = null;
         }
         if (!empty($garageDTO->googlePlaceId) && ($garage == null || $garage->getGooglePlaceId() !== $garageDTO->googlePlaceId)) {

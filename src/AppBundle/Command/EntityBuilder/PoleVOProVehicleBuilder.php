@@ -182,9 +182,8 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             }
 
             $proVehicle->setGarage($garage);
-            // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getAvailableSellers()->toArray();
-            $proVehicle->setSeller($members[array_rand($members)]->getProUser());
+            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
+            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
 
         }
         return $proVehicle;

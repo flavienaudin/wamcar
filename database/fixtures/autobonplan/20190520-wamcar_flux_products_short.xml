@@ -572,61 +572,6 @@
     <Gamme></Gamme>
   </Vehicule>
   <Vehicule>
-    <IdentifiantVehicule>DFB_30641</IdentifiantVehicule>
-    <ReferenceVehicule>DFB_30641</ReferenceVehicule>
-    <IdentifiantAir>30641</IdentifiantAir>
-    <Marque>CITROEN</Marque>
-    <Famille>C3 AIRCROSS</Famille>
-    <Version>PURETECH 110CH FEEL EAT6</Version>
-    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
-    <NbPortes>5</NbPortes>
-    <EnergieLibelle>Essence</EnergieLibelle>
-    <BoiteLibelle>Automatique</BoiteLibelle>
-    <PuissanceFiscale>6</PuissanceFiscale>
-    <PuissanceReelle>110</PuissanceReelle>
-    <Annee>2018</Annee>
-    <Date1Mec>31-08-2018</Date1Mec>
-    <Kilometrage>10</Kilometrage>
-    <Couleur>SPICY ORANGE</Couleur>
-    <EquipementsOption><![CDATA[Roue de secours galette|Sièges AV chauffants|Pack auto|Pack City|Pack Color Silver|Spicy Orange (M)|Véhicule sans S&S CO2 149|TVA sur marge]]></EquipementsOption>
-    <EquipementsSerie>Lunette arri&#xE8;re teint&#xE9;e|Ordinateur de bord|Phares antibrouillard|Poign&#xE9;es ton carrosserie|Prise 12V|Prise USB|Radio|Reconnaissance panneaux de signalisation|R&#xE9;gulateur de vitesse|R&#xE9;partiteur &#xE9;lectronique de freinage|R&#xE9;troviseurs d&#xE9;givrants|R&#xE9;troviseurs &#xE9;lectriques|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|Syst&#xE8;me de d&#xE9;tection de somnolence|T&#xE9;moin de bouclage des ceintures AV|Tissu Mica Grey|Verrouillage centralis&#xE9; &#xE0; distance|Verrouillage centralis&#xE9; des portes|Vitres arri&#xE8;re teint&#xE9;es|Volant cuir|Volant r&#xE9;glable en profondeur et hauteur|6 Haut parleurs|ABS|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag passager|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux|Allumage des phares automatique|Antipatinage|Banquette 1/3-2/3|Barres de toit|Clim manuelle|Commandes du syst&#xE8;me audio au volant|D&#xE9;tecteur de sous-gonflage|Eclairage statique d'intersection|ESP|Feux de freinage d'urgence|Feux de jour &#xE0; LED|Fixation Isofix si&#xE8;ge passager avant|Fixations Isofix aux places arri&#xE8;res|Follow me home|Fonction MP3|Kit mains-libres Bluetooth|Lampes de lecture &#xE0; l'avant|Limiteur de vitesse</EquipementsSerie>
-    <GarantieLibelle>CONSTRUCTEUR</GarantieLibelle>
-    <GarantieConstructeur>0</GarantieConstructeur>
-    <NbPlaces>5</NbPlaces>
-    <KmGaranti>1</KmGaranti>
-    <AvecTva></AvecTva>
-    <Co2>149</Co2>
-    <ConsommationMixte></ConsommationMixte>
-    <ConsommationUrbaine></ConsommationUrbaine>
-    <ConsommationExtraUrbaine></ConsommationExtraUrbaine>
-    <Longueur>4154</Longueur>
-    <Largeur>1740</Largeur>
-    <Hauteur>1597</Hauteur>
-    <DebutGarantie>15/01/2018</DebutGarantie>
-    <Delai>STOCK</Delai>
-    <Quantite>1</Quantite>
-    <LieuStockage>NANTES</LieuStockage>
-    <Poids>1203</Poids>
-    <PrixSpecial></PrixSpecial>
-    <PrixNeuf>22770</PrixNeuf>
-    <StatutStock></StatutStock>
-    <StatutStockABP></StatutStockABP>
-    <Modele>C3 AIRCROSS PURETECH 110CH FEEL EAT6</Modele>
-    <NbRapports></NbRapports>
-    <CapaciteReservoir></CapaciteReservoir>
-    <Empattement></Empattement>
-    <Volume></Volume>
-    <NumeroSerie></NumeroSerie>
-    <PrixMarchand>17900</PrixMarchand>
-    <PrixVenteHT>16235.666666667</PrixVenteHT>
-    <PrixVenteTTC>19482.8</PrixVenteTTC>
-    <PrixVenteTva>3247.1333333333</PrixVenteTva>
-    <Remise>14</Remise>
-    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_1_1556209555.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_2_1556209556.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_3_1556209556.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_4_1556209557.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_5_1556209557.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_6_1556209557.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_7_1556209558.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_8_1556209558.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_9_1556209558.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_10_1556209555.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_11_1556209555.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_12_1556209556.jpg|https://pim.autobonplan.com/images/air/CARDIFF_AIRSPE_30641_13_1556209556.jpg</UrlPhotoAutobonplan>
-    <Flux>AIR</Flux>
-    <Gamme></Gamme>
-  </Vehicule>
-  <Vehicule>
     <IdentifiantVehicule>DFB_30931</IdentifiantVehicule>
     <ReferenceVehicule>DFB_30931</ReferenceVehicule>
     <IdentifiantAir>30931</IdentifiantAir>
@@ -852,65 +797,6 @@
     <Ecotaxe/>
   </Vehicule>
   <Vehicule>
-    <IdentifiantVehicule>2018</IdentifiantVehicule>
-    <ReferenceVehicule>2018</ReferenceVehicule>
-    <Marque>MINI</Marque>
-    <Famille>MINI COUNTRYMAN R60</Famille>
-    <Version>112 ch Cooper D Finition Business Trip</Version>
-    <CategorieLibelle>4x4 / SUV</CategorieLibelle>
-    <NbPortes>5</NbPortes>
-    <EnergieLibelle>Diesel</EnergieLibelle>
-    <Immatriculation>DW400PD</Immatriculation>
-    <BoiteLibelle>Manuelle</BoiteLibelle>
-    <PuissanceFiscale>6</PuissanceFiscale>
-    <PuissanceReelle>112</PuissanceReelle>
-    <Annee>2015</Annee>
-    <Date1Mec>14-10-2015</Date1Mec>
-    <Kilometrage>67900</Kilometrage>
-    <Couleur>Vert Fonc&#xE9;</Couleur>
-    <EquipementsSerie>2&#xE8;me cl&#xE9; radiocommand&#xE9;e|3&#xE8;me feu stop|ABS et assistance de freinage|Accoudoir central AV|Airbags de t&#xEA;te|Airbags frontaux conducteur et passager|Airbags lat&#xE9;raux AV|Anti-d&#xE9;marrage &#xE9;lectronique|Appuis-t&#xEA;tes AV et AR r&#xE9;glables en hauteur|Autoradio MINI CD avec prise AUX-IN et 5HP compatible MP3|Autoradio MINI Visual Boost|Bagues d&#xE9;coratives Dark Anthracite autour du compteur de vitesse central, des a&#xE9;rateurs centraux et du soufflet de levier de vitesses|Baguettes de seuils de portes avec inscription du mod&#xE8;le|Banquette AR 3 places coulissante 60/40 avec dossiers rabattables 40/20/40|Bo&#xEE;te manuelle 6 rapports|Bouton de d&#xE9;marrage "Start/Stop"|Buses de lave-glace et r&#xE9;troviseurs ext&#xE9;rieurs d&#xE9;givrants|Calandre au contour chrom&#xE9; avec lamelles Silver|Ceintures de s&#xE9;curit&#xE9; &#xE0; 3 points &#xE0; toutes les places|Center Rail court|Climatisation automatique|Contr&#xF4;le du freinage en courbe CBC|Contr&#xF4;le Dynamique de stabilit&#xE9; DSC et assistant de d&#xE9;marrage en c&#xF4;te|Coques de r&#xE9;troviseurs ext&#xE9;rieurs couleur carrosserie|D&#xE9;sactivation de l'airbag passager &#xE0; l'AV|D&#xE9;tecteur de pluie et allumage automatique des projecteurs|Direction &#xE0; assistance &#xE9;lectrique|Ecrous de roues antivol|Feux de stop dynamiques|Filtre &#xE0; particules|Finition Business Trip (seulement pour les clients entreprises)|Fixations ISOFIX pour banquette AR|Fonction d'arr&#xEA;t et de red&#xE9;marrage automatique du moteur|Freins &#xE0; disques AV et AR ventil&#xE9;s &#xE0; l'AV|Indicateur de changement de rapport|Indicateur de pression des pneumatiques|Inserts d&#xE9;coratifs Piano Black|Jantes en alliage l&#xE9;ger 16'' design "5-Star Air Spoke" 6.5Jx16" avec pneumatiques 205/60 R16|Kit Eclairage|L&#xE8;ve-vitres &#xE9;lectriques AV et AR avec commande &#xE0; impulsion &#xE0; l'AV et protection anti-pincement|MINI Mobility System|Ordinateur de bord|Pare-chocs AV et AR dans la couleur de la carrosserie|Planche de bord noire avec insert chrom&#xE9; sur le volant|Poign&#xE9;es de portes chrom&#xE9;es|Poign&#xE9;es int&#xE9;rieures de portes chrom&#xE9;es|Porte-boissons AV (2)|Pr&#xE9;paration et interface Bluetooth pour t&#xE9;l&#xE9;phone portable avec port Audio USB|Prise 12V entre les porte-gobelets AV|Projecteurs antibrouillard AV &#xE0; LED|Projecteurs AV et feux AR au contour chrom&#xE9;|Rails de toit Silver|R&#xE9;glage en hauteur du si&#xE8;ge passager AV|R&#xE9;glage manuel de la port&#xE9;e des projecteurs|R&#xE9;troviseurs ext&#xE9;rieurs &#xE0; r&#xE9;glage &#xE9;lectrique avec miroir asph&#xE9;rique c&#xF4;t&#xE9; conducteur|Sellerie Tissu Cosmos|Si&#xE8;ge conducteur r&#xE9;glable en hauteur|Si&#xE8;ge passager r&#xE9;glable en hauteur|Si&#xE8;ges AV &#xE0; r&#xE9;glage manuel en longueur et en inclinaison|Sortie d'echappement simple, droite et chrom&#xE9;e|Syst&#xE8;me d'aide au stationnement PDC &#xE0; l'AR|Syst&#xE8;me de maintenance intelligent Condition Based Service|Syst&#xE8;me de navigation MINI|Syst&#xE8;me de r&#xE9;cup&#xE9;ration de l'&#xE9;nergie au freinage|Teinte d'habitacle Carbon Black|Teinte de carrosserie unie|Toit couleur carrosserie|Toit et coques de r&#xE9;troviseurs de couleur blanche ou noire|Touches multifonctions sur le volant avec r&#xE9;gulateur de vitesses|Triangle de pr&#xE9;signalisation avec kit de premiers secours|Verrouillage automatique des portes d&#xE8;s 15 Km/h environ|Verrouillage centralis&#xE9; des portes, du coffre et de la trappe &#xE0; carburant|Vitres teint&#xE9;es|Volant 2 branches r&#xE9;glable en hauteur et en profondeur|Volant Sport gain&#xE9; Cuir 3 branches|Si&#xE8;ges en tissu</EquipementsSerie>
-    <EquipementsOption>Ciel de pavillon anthracite: +170.00|Inlay Colour Carbon Black: +0.00|Jantes en alliage l&#xE9;ger 17'' design "5-Star Double Spoke" Jet Black 7Jx17" avec pneumatiques 205/55 R17: +860.00|R&#xE9;troviseurs ext&#xE9;rieurs rabattables &#xE9;lectriquement: +250.00|Teinte de carrosserie m&#xE9;tallis&#xE9;e: +570.00|Toit et r&#xE9;troviseurs noirs: +0.00</EquipementsOption>
-    <GarantieLibelle></GarantieLibelle>
-    <GarantieConstructeur>6</GarantieConstructeur>
-    <NbPlaces>5</NbPlaces>
-    <KmGarantie></KmGarantie>
-    <Co2>111</Co2>
-    <ConsommationMixte>4.2</ConsommationMixte>
-    <ConsommationUrbaine>4.7</ConsommationUrbaine>
-    <ConsommationExtraUrbaine>3.9</ConsommationExtraUrbaine>
-    <Longueur></Longueur>
-    <Largeur></Largeur>
-    <Hauteur></Hauteur>
-    <DebutGarantie></DebutGarantie>
-    <Delai></Delai>
-    <Remise/>
-    <GarantieType></GarantieType>
-    <StatutStockABP>Stock</StatutStockABP>
-    <Diffusion>CarsOnLine</Diffusion>
-    <Modele>MINI COUNTRYMAN R60</Modele>
-    <PrixVenteHT>13866.67</PrixVenteHT>
-    <PrixVenteTTC>16640.00</PrixVenteTTC>
-    <PrixVenteTva>0</PrixVenteTva>
-    <Reprise>1</Reprise>
-    <NbRapports>6</NbRapports>
-    <CapaciteReservoir></CapaciteReservoir>
-    <Empattement></Empattement>
-    <Volume></Volume>
-    <NumeroSerie>WMWZD31000WS26979</NumeroSerie>
-    <UrlPhotoAutobonplan>https://pim.autobonplan.com/images/kepler/2018-(1)_1548388513.jpg|https://pim.autobonplan.com/images/kepler/2018-(2)_1548388528.jpg|https://pim.autobonplan.com/images/kepler/2018-(3)_1548388530.jpg|https://pim.autobonplan.com/images/kepler/2018-(4)_1548388532.jpg|https://pim.autobonplan.com/images/kepler/2018-(5)_1548388533.jpg|https://pim.autobonplan.com/images/kepler/2018-(6)_1548388535.jpg|https://pim.autobonplan.com/images/kepler/2018-(7)_1548388536.jpg|https://pim.autobonplan.com/images/kepler/2018-(8)_1548388538.jpg|https://pim.autobonplan.com/images/kepler/2018-(9)_1548388539.jpg|https://pim.autobonplan.com/images/kepler/2018-(10)_1548388515.jpg|https://pim.autobonplan.com/images/kepler/2018-(11)_1548388516.jpg|https://pim.autobonplan.com/images/kepler/2018-(12)_1548388518.jpg|https://pim.autobonplan.com/images/kepler/2018-(13)_1548388519.jpg|https://pim.autobonplan.com/images/kepler/2018-(14)_1548388520.jpg|https://pim.autobonplan.com/images/kepler/2018-(15)_1548388521.jpg|https://pim.autobonplan.com/images/kepler/2018-(16)_1548388523.jpg|https://pim.autobonplan.com/images/kepler/2018-(17)_1548388524.jpg|https://pim.autobonplan.com/images/kepler/2018-(18)_1548388525.jpg|https://pim.autobonplan.com/images/kepler/2018-(19)_1548388526.jpg|https://pim.autobonplan.com/images/kepler/2018-(20)_1548388529.jpg</UrlPhotoAutobonplan>
-    <UrlAutobonplan></UrlAutobonplan>
-    <PrixVenteMarchand>15500.00</PrixVenteMarchand>
-    <StatutStock>ABP</StatutStock>
-    <Cylindre>1598</Cylindre>
-    <RefKepler>9w2xoblf</RefKepler>
-    <DateEntreeStock>2018-12-12T15:53:20+0100</DateEntreeStock>
-    <PointDeVente></PointDeVente>
-    <PrixNeuf>30700.00</PrixNeuf>
-    <Flux>KEPLER</Flux>
-    <Gamme></Gamme>
-    <Ecotaxe/>
-  </Vehicule>
-  <Vehicule>
     <IdentifiantVehicule>1141</IdentifiantVehicule>
     <ReferenceVehicule>1141</ReferenceVehicule>
     <Marque>OPEL</Marque>
@@ -1084,74 +970,6 @@
     <PointDeVente></PointDeVente>
     <PrixNeuf>32430.00</PrixNeuf>
     <Flux>KEPLER</Flux>
-    <Gamme></Gamme>
-    <Ecotaxe/>
-  </Vehicule>
-  <Vehicule>
-    <IdentifiantVehicule>planetvo_re85c3_LR82</IdentifiantVehicule>
-    <ReferenceVehicule>planetvo_re85c3_LR82</ReferenceVehicule>
-    <Modele>Grand Scenic 1.5 dCi 110ch Energy Business 7 places</Modele>
-    <Marque>RENAULT</Marque>
-    <SuperFamille>Scenic</SuperFamille>
-    <Famille>Grand Scenic</Famille>
-    <Version>1.5 dCi 110ch Energy Business 7 places</Version>
-    <PvTTC>20990</PvTTC>
-    <Kilometrage>14300</Kilometrage>
-    <Date1Mec>24-04-2019</Date1Mec>
-    <Couleur>Noir Etoil&#xE9;</Couleur>
-    <PuissanceReelle>110</PuissanceReelle>
-    <NbPlaces>7</NbPlaces>
-    <NbPortes>5</NbPortes>
-    <Garantie>Garantie OR 12 mois</Garantie>
-    <Provenance>Particulier</Provenance>
-    <ConsommationMixte>4</ConsommationMixte>
-    <ConsommationUrbaine>4</ConsommationUrbaine>
-    <ConsommationExtraurbaine>4</ConsommationExtraurbaine>
-    <EquipementsSerie>2 si&#xE8;ges arri&#xE8;re suppl&#xE9;mentaires|3&#xE8;me rang&#xE9;e de si&#xE8;ges|6 Haut parleurs|ABS|Accoudoir arri&#xE8;re|Accoudoir central AV avec rangement|AFIL|Aide au d&#xE9;marrage en c&#xF4;te|Aide au freinage d'urgence|Airbag conducteur|Airbag passager d&#xE9;connectable|Airbags lat&#xE9;raux avant|Airbags rideaux AV et AR|Antid&#xE9;marrage &#xE9;lectronique|Antipatinage|Arr&#xEA;t et red&#xE9;marrage auto. du moteur|Bacs de portes arri&#xE8;re|Bacs de portes avant|Banquette 1/3-2/3|Banquette AR rabattable|Banquette coulissante|Barres de toit|Blanc Glacier|Boite &#xE0; gants &#xE9;clair&#xE9;e et r&#xE9;frig&#xE9;rable|Boite &#xE0; gants ferm&#xE9;e|Boucliers AV et AR couleur caisse|Capteur de luminosit&#xE9;|Capteur de pluie|Ceinture de vitrage chrom&#xE9;e|Ceintures avant ajustables en hauteur|Clim automatique bi-zones|Commande Mode ECO|Commandes du syst&#xE8;me audio au volant|Commandes vocales|Compte tours|Contr&#xF4;le de freinage en courbe|Contr&#xF4;le &#xE9;lect. de la pression des pneus|D&#xE9;marrage sans cl&#xE9;|EBD|Ecran multifonction couleur|Ecran tactile|ESP|Feux de jour &#xE0; LED|Filtre &#xE0; Pollen|Follow me home|Freinage automatique d'urgence|Frein stationnement &#xE9;lectrique automatiq</EquipementsSerie>
-    <EquipementsOption>Noir Etoil&#xE9;</EquipementsOption>
-    <Statut>ST</Statut>
-    <Genre>VP</Genre>
-    <Site>RENAULT LUCON</Site>
-    <Lieu>RENAULT LUCON</Lieu>
-    <Carrosserie></Carrosserie>
-    <OperationActivation>Non</OperationActivation>
-    <PvOperation>0</PvOperation>
-    <OperationDescription></OperationDescription>
-    <OperationType></OperationType>
-    <OperationStart></OperationStart>
-    <OperationEnd></OperationEnd>
-    <PvMarchand>0</PvMarchand>
-    <VehiculeOptionsPrix>650.0</VehiculeOptionsPrix>
-    <VehiculeKmGaranti>Non garanti</VehiculeKmGaranti>
-    <Longueur>4634</Longueur>
-    <Largeur>1865</Largeur>
-    <Hauteur>1655</Hauteur>
-    <PrixVenteHT>20990</PrixVenteHT>
-    <NumeroSerie>VF1RFA00557211705</NumeroSerie>
-    <Poids>1550</Poids>
-    <VehiculePretAPartir>1</VehiculePretAPartir>
-    <Photos>re85c3_LR82_01_hd.jpg|re85c3_LR82_02_hd.jpg|re85c3_LR82_03_hd.jpg|re85c3_LR82_04_hd.jpg|re85c3_LR82_05_hd.jpg|re85c3_LR82_06_hd.jpg|re85c3_LR82_07_hd.jpg|re85c3_LR82_08_hd.jpg|re85c3_LR82_09_hd.jpg|re85c3_LR82_10_hd.jpg|re85c3_LR82_11_hd.jpg|re85c3_LR82_12_hd.jpg|re85c3_LR82_13_hd.jpg|re85c3_LR82_14_hd.jpg|re85c3_LR82_15_hd.jpg|re85c3_LR82_16_hd.jpg</Photos>
-    <PrixVenteTTC>20990</PrixVenteTTC>
-    <PuissanceFiscale>5</PuissanceFiscale>
-    <FraisReel>115</FraisReel>
-    <Immatriculation>ES-902-JP</Immatriculation>
-    <EnergieLibelle>Diesel</EnergieLibelle>
-    <BoiteLibelle>Manuelle</BoiteLibelle>
-    <Annee>2017</Annee>
-    <CO2>104</CO2>
-    <GarantieType>1</GarantieType>
-    <NbRapports>0</NbRapports>
-    <CapaciteReservoir>53</CapaciteReservoir>
-    <Empattement>2804</Empattement>
-    <Volume>533</Volume>
-    <DateEntreeStock>05-02-2019</DateEntreeStock>
-    <PrixNeuf>30600</PrixNeuf>
-    <concessionidentifier>re85c3_</concessionidentifier>
-    <DateCreat>2019-05-02</DateCreat>
-    <CategorieLibelle>Monospaces et breaks</CategorieLibelle>
-    <UrlPhotoAutobonplan>https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_01_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_02_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_03_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_04_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_05_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_06_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_07_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_08_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_09_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_10_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_11_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_12_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_13_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_14_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_15_hd.jpg|https://api.jeanrouyerautomobiles.fr/media/planetVo/re85c3_LR82_16_hd.jpg</UrlPhotoAutobonplan>
-    <Flux>PLANETVO</Flux>
-    <Remise/>
     <Gamme></Gamme>
     <Ecotaxe/>
   </Vehicule>
