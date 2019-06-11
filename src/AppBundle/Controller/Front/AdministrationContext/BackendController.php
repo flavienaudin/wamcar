@@ -112,4 +112,15 @@ class BackendController extends AdminController
         $entity = $this->em->getRepository(Garage::class)->find($id);
         return $this->redirectToRoute('front_garage_view', ['slug' => $entity->getSlug()]);
     }
+
+    /**
+     * Action to see pro user performances
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function viewProUserPerformancesAction()
+    {
+        $id = $this->request->query->get('id');
+        $entity = $this->em->getRepository(ProUser::class)->find($id);
+        return $this->redirectToRoute('front_pro_seller_performances', ['slug' => $entity->getSlug()]);
+    }
 }
