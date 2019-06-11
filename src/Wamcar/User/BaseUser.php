@@ -97,7 +97,7 @@ abstract class BaseUser implements HasApiCredential
     )
     {
         $this->email = $email;
-        $this->userProfile = new UserProfile($firstName, $name, null, null, null, $city);
+        $this->userProfile = new UserProfile($firstName, $name, null, null, null, false, $city);
         $this->avatar = $avatar;
         $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
