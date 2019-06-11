@@ -527,7 +527,8 @@ easy_admin:
           - { property: 'deletedAt', label: 'Suppr.', type: 'date' }
         sort: ['id', 'DESC']
         actions:
-          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_black' }
+          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_blank' }
+          - { name: 'viewProUserPerformances', icon: 'euro',  label: false, title: 'Perf. vendeur', target: '_blank' }
       form:
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
@@ -595,7 +596,7 @@ easy_admin:
           - { property: 'deletedAt', label: 'Suppr.' }
         sort: ['id', 'DESC']
         actions:
-          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_black' }
+          - { name: 'viewUserProfile', icon: 'user',  label: false, title: 'Profil Wamcar', target: '_blank' }
       form:
         fields:
           - { property: 'id', type_options: { disabled: 'disabled' } }
