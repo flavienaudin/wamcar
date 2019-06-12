@@ -40,6 +40,7 @@ class NotificationController extends BaseController
 
     /**
      * List of all notifications
+     * security.yml - access_control : ROLE_USER required
      *
      * @param NotifiableInterface $notifiable
      * @return \Symfony\Component\HttpFoundation\Response
@@ -63,7 +64,7 @@ class NotificationController extends BaseController
 
         if ($notifiedEntity instanceof ProApplicationUser or $notifiedEntity instanceof PersonalApplicationUser) {
             // Deal with User notifications
-            if ($notifiedEntity !== $this->getUser()) {
+            if (!$notifiedEntity->is($this->getUser())) {
                 // Current user isn't the given notifiable
                 /** @var NotifiableEntity $currentUserNotifiable */
                 $currentUserNotifiable = $this->notificationsManager->getNotifiableEntity($this->getUser());
@@ -78,15 +79,13 @@ class NotificationController extends BaseController
             ));
         }
         // No page found to display the notifiable's notifications
-        $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_DANGER,
-            'Unsupported notifiable'
-        );
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'Unsupported notifiable');
         return $this->redirectToRoute("front_default");
     }
 
     /**
      * Follow the notification link
+     * security.yml - access_control : ROLE_USER required
      *
      * @param int $notifiableId
      * @param int $notificationId
@@ -105,7 +104,7 @@ class NotificationController extends BaseController
         $notifiedEntity = $this->notificationsManager->getNotifiableInterface($this->notificationsManager->getNotifiableEntityById($notifiableId));
         if ($notifiedEntity instanceof ProApplicationUser or $notifiedEntity instanceof PersonalApplicationUser) {
             // Deal with User notifications
-            if ($notifiedEntity === $this->getUser()) {
+            if ($notifiedEntity->is($this->getUser())) {
                 if (!$this->notificationsManager->isSeen($notifiedEntity, $notification)) {
                     $this->notificationsManager->markAsSeen(
                         $notifiedEntity,
@@ -120,16 +119,14 @@ class NotificationController extends BaseController
 
 
         // No page found to display the notifiable's notifications
-        $this->session->getFlashBag()->add(
-            self::FLASH_LEVEL_WARNING,
-            'flash.error.notification.unauthorized'
-        );
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.notification.unauthorized');
         return $this->redirectToRoute("front_default");
 
     }
 
     /**
      * Set a Notification as seen
+     * security.yml - access_control : ROLE_USER required
      *
      * @param int $notifiable
      * @param int $notification
@@ -158,6 +155,7 @@ class NotificationController extends BaseController
 
     /**
      * Set a Notification as unseen
+     * security.yml - access_control : ROLE_USER required
      *
      * @param int $notifiable
      * @param int $notification
@@ -186,6 +184,7 @@ class NotificationController extends BaseController
 
     /**
      * Set all Notifications for a User as seen
+     * security.yml - access_control : ROLE_USER required
      *
      * @param $notifiable
      *

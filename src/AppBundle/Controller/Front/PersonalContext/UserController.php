@@ -156,7 +156,7 @@ class UserController extends BaseController
      */
     public function editInformationsAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
         /** @var ApplicationUser $user */
         $user = $this->getUser();
@@ -206,9 +206,10 @@ class UserController extends BaseController
      */
     public function editProjectAction(Request $request): Response
     {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+
         /** @var ApplicationUser $user */
         $user = $this->getUser();
-
         if ($user instanceof PersonalUser) {
             if ($user->getProject() === null) {
                 $user->setProject(new Project($user));
@@ -226,15 +227,9 @@ class UserController extends BaseController
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
                 if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.registration.personal.assitant.process_end'
-                    );
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
                 } else {
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.user.edit'
-                    );
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
                 }
 
                 return $this->redirectToRoute('front_view_current_user_info');
@@ -245,20 +240,15 @@ class UserController extends BaseController
                 'user' => $user
             ]);
         } else {
-            // TODO : Throw Exception
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                'flash.error.only_personal_can_have_project'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'flash.error.only_personal_can_have_project');
             return $this->redirectToRoute("front_default");
         }
-
     }
 
     /**
      * @param BaseUser $user
      * @param $userInformationDTO
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     private function createEditForm(BaseUser $user, $userInformationDTO)
     {
@@ -266,19 +256,13 @@ class UserController extends BaseController
             ProApplicationUser::TYPE => ProUserInformationType::class,
             PersonalApplicationUser::TYPE => PersonalUserInformationType::class
         ];
-
-
         $userForm = $userForms[$user->getType()];
-
-        return $this->formFactory->create(
-            $userForm,
-            $userInformationDTO
-        );
+        return $this->formFactory->create($userForm, $userInformationDTO);
     }
 
     /**
      * @param $projectDTO
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     private function createProjectForm(ProjectDTO $projectDTO)
     {
@@ -321,10 +305,7 @@ class UserController extends BaseController
         }
 
         if (!$user->canSeeMyProfile($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'flash.warning.user.unauthorized_to_access_profile'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
             throw new AccessDeniedException();
         }
 
@@ -423,10 +404,7 @@ class UserController extends BaseController
         }
 
         if (!$user->canSeeMyProfile($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'flash.warning.user.unauthorized_to_access_profile'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
             throw new AccessDeniedException();
         }
 
@@ -454,15 +432,14 @@ class UserController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @return Response
      * @throws \Exception
      */
     public function currentUserViewInformationAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
         $user = $this->getUser();
-
         if ($user instanceof ProUser) {
             return $this->proUserViewInformationAction($request, $user->getSlug());
         } else {
@@ -511,7 +488,7 @@ class UserController extends BaseController
      */
     public function editPreferencesAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
         $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
         $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
@@ -564,10 +541,7 @@ class UserController extends BaseController
         if ($isMe = ($seller == null)) {
             $seller = $this->getUser();
         }
-        if (!$this->isGranted(SellerPerformancesVoter::SHOW, $seller)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(SellerPerformancesVoter::SHOW, $seller,'flash.warning.dashboard.unauthorized');
 
         $performances = $this->userInformationService->getProUserPerformances($seller);
         $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($seller, 60);

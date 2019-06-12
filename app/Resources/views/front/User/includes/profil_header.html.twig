@@ -57,7 +57,7 @@
         </div>
         <div class="column medium-shrink medium-order-1">
             <div class="profil-image">
-                {% if not userIsMe %}
+                {% if avatarForm is not defined or avatarForm is null %}
                     <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}" width="100%">
                 {% else %}
                     {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}

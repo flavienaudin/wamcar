@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Wamcar\User\Event\UserPasswordResetTokenGenerated;
@@ -120,7 +121,7 @@ class SecurityController extends BaseController
      */
     public function registerAction(Request $request, string $type): Response
     {
-        if ($this->authorizationChecker->isGranted("IS_AUTHENTICATED_REMEMBERED")) {
+        if ($this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)) {
             return $this->redirectToRoute("front_view_current_user_info");
         }
 
