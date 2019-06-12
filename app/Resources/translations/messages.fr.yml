@@ -209,11 +209,11 @@ header:
   pro:
     my_garage: Mon garage
     my_garages: Mes garages
-    dashboard: Tableaux de bord
+    dashboard: Tableau de bord
     my_performances: Mes performances
     my_sales: Suivi des ventes
     my_leads: Mes contacts
-    sellers_performances: Mes vendeurs
+    sellers_performances: Mon équipe
   personal:
     my_add: Mon annonce
     my_vehicles: Mes véhicules
@@ -1038,7 +1038,7 @@ conversation:
   fleet_to_sell: Votre flotte automobile à reprendre
   message:
     attachments: '{1} Pièce jointe|[2,Inf[ Pièces jointes'
-    read_by: "Lu par %username%"
+    read_by: "Vu par %username% le %date%"
   auto_added: (automatiquement ajouté à votre message)
   fleet:
     yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules
@@ -1155,7 +1155,7 @@ pro_user_performances:
 
 sellers_performances:
   page:
-    title: Les performances de mes vendeurs
+    title: Les performances de mon équipe
   link:
     his_garages: Ses garages
 

@@ -246,7 +246,7 @@ front_pro_seller_performances:
     controller: AppBundle:Front\PersonalContext\User:sellerPerformancesView
 
 front_garage_admin_sellers_stats:
-    path: /gestionnaire/performances-vendeurs
+    path: /gestionnaire/performances-equipe
     controller: AppBundle:Front\PersonalContext\User:sellersPerformances
 
 #front_pro_user_boost_view:

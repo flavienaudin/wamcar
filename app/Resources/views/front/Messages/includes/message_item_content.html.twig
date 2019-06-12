@@ -81,8 +81,9 @@
             <div class="is-flex full-width align-right">
                 <div class="messages-read">
                     <img src="{{ interlocutor.avatar|avatar('user_mini_thumbnail', interlocutor.firstname) }}"
-                         alt="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title}) }}"
-                         title="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title}) }}">
+                         data-tooltip
+                         alt="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title, '%date%':interlocutorConversationUser.lastOpenedAt|localizeddate('medium','short')}) }}"
+                         title="{{ 'conversation.message.read_by'|trans({'%username%':interlocutor.firstname|title, '%date%':interlocutorConversationUser.lastOpenedAt|localizeddate('medium','short')}) }}">
                 </div>
             </div>
         {% endif %}
