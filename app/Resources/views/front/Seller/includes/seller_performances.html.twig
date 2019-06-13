@@ -1,0 +1,90 @@
+{% set title_tag = title_tag|default('h2') %}
+
+<{{ title_tag }}>{{ 'pro_user_performances.30_days.title'|transchoice(isMe) }}</{{ title_tag }}>
+<div class="row">
+    <div class="column block-grid small-12 large-4">
+        <table class="perf-audience-datatable dataTable compact row-border">
+            <thead>
+            <tr>
+                <th class="text-center black-color" colspan="2">
+                    <span class="h3 no-margin">{{ 'pro_user_performances.audience.title'|transchoice(isMe) }}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>{{ 'pro_user_performances.audience.table.profile_view'|trans }}</th>
+                <td>{{ performances.nbUniqueViewsOfProfilePage }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.audience.table.tel_display'|trans }}</th>
+                <td>{{ performances.nbPhoneNumberDisplays }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.audience.table.received_messages'|trans }}</th>
+                <td>{{ performances.nbReceivedMessages }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.audience.table.received_likes'|trans }}</th>
+                <td>{{ performances.nbReceivedLikes }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="column block-grid small-12 large-4">
+        <table class="perf-activity-datatable dataTable compact row-border">
+            <thead>
+            <tr>
+                <th class="text-center black-color" colspan="2">
+                    <span class="h3 no-margin">{{ 'pro_user_performances.activity.title'|trans }}</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>{{ 'pro_user_performances.activity.table.sent_messages'|trans }}</th>
+                <td>{{ performances.nbSentMessages }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.activity.table.sent_likes'|trans }}</th>
+                <td>{{ performances.nbSentLikes }}</td>
+            </tr>
+            {#<tr>
+                <th>#appels ? (affichage numéro)</th>
+                <td>{{ performances. }}</td>
+            </tr>#}
+            <tr>
+                <th>{{ 'pro_user_performances.activity.table.lead'|trans }}</th>
+                <td>{{ performances.nbLeads }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="column block-grid small-12 large-4">
+        <table class="perf-results-datatable dataTable compact row-border">
+            <thead>
+            <tr>
+                <th class="text-center black-color" colspan="2">
+                    <span class="h3 no-margin">{{ 'pro_user_performances.results.title'|trans }}</span>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>{{ 'pro_user_performances.results.table.sales'|trans }}</th>
+                <td>{{ performances.nbSales }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.results.table.part_exchanges'|trans }}</th>
+                <td>{{ performances.nbPartExchanges }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.results.table.transactions'|trans }}</th>
+                <td>{{ performances.nbTotalTransactions }}</td>
+            </tr>
+            <tr>
+                <th>{{ 'pro_user_performances.results.table.conversion_rate'|trans }}</th>
+                <td>{{ (performances.conversionRate * 100)| round }}%</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

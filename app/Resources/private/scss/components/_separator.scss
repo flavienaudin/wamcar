@@ -12,6 +12,10 @@
     padding-top: rem-calc(30);
   }
 
+  &.strong {
+    border-top-width: rem-calc(2);
+  }
+
   /* Exceptions */
 
   &.medium {

@@ -428,6 +428,88 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return $enabledMembers;
     }
 
+
+    /**
+     * @param ProVehicle $proVehicle
+     * @param ProUser|null $excludedProUser
+     * @return array
+     */
+    public function getBestSellersForVehicle(ProVehicle $proVehicle, ?ProUser $excludedProUser = null): array
+    {
+        $bestSellers = [];
+
+        /** @var GarageProUser $garageMemberShip */
+        foreach ($this->getAvailableSellers() as $garageMemberShip) {
+            $seller = $garageMemberShip->getProUser();
+            if ($excludedProUser == null || !$excludedProUser->is($seller)) {
+
+                // initialize seller score
+                $bestSellers[$seller->getId()] = [
+                    'seller' => $seller,
+                    'score' => 0
+                ];
+                if ($seller->getAffinityAnswer() != null) {
+                    $proAffinityAnswer = $seller->getAffinityAnswer()->getAffinityProAnswers();
+
+                    // Price affinity
+                    foreach ($proAffinityAnswer->getPricesAsArray() as $priceRange) {
+                        switch ($priceRange) {
+                            case "Moins de 5 000 €":
+                                if ($proVehicle->getPrice() < 5000) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                            case "5 000 € à 10 000 €":
+                                if (5000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 10000) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                            case "10 000 à 20 000 €":
+                                if (10000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 20000) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                            case "20 000 à 40 000 €":
+                                if (20000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 40000) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                            case "40 000 à 70 000 €":
+                                if (40000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 70000) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                            case "Plus de 70 000 €":
+                                if (70000 <= $proVehicle->getPrice()) {
+                                    $bestSellers[$seller->getId()]['score']++;
+                                }
+                                break;
+                        }
+                    }
+
+                    // Brands affinities
+                    foreach ($proAffinityAnswer->getBrandsAsArray() as $brand) {
+                        if (strtolower($brand) === strtolower($proVehicle->getMake())) {
+                            $bestSellers[$seller->getId()]['score']++;
+                        }
+                    }
+                }
+            }
+        }
+        if (count($bestSellers) == 0) {
+            return null;
+        }
+
+        // Tri par score décroissant
+        uasort($bestSellers, function ($entryA, $entryB) {
+            return $entryA['score'] - $entryB['score'];
+        });
+        $maxScore = array_first($bestSellers)['score'];
+        return array_filter($bestSellers, function ($entry) use ($maxScore) {
+            return $entry['score'] === $maxScore;
+        });
+    }
+
     /**
      * @param Collection $members
      */

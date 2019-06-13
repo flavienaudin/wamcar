@@ -34,7 +34,7 @@ class GarageType extends AbstractType
                 ->add('address', HiddenType::class, ['required' => false])
                 ->add('phone', HiddenType::class, [
                     'required' => false,
-                    'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+                    'attr' => ['pattern' => '^0\d{9}$']
                 ]);
         } else {
             $builder
@@ -53,7 +53,7 @@ class GarageType extends AbstractType
                 ])
                 ->add('address', TextType::class)
                 ->add('phone', TextType::class, [
-                    'attr' => ['pattern' => '^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$']
+                    'attr' => ['pattern' => '^0\d{9}$']
                 ])
                 ->add('banner', GaragePictureType::class, [
                     'error_bubbling' => true

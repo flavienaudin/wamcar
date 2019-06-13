@@ -225,10 +225,6 @@ front_vehicle_pro_delete:
     controller: AppBundle:Front\ProContext\Vehicle:delete
 
 # Tableau de bord : Conseillers auto
-front_pro_user_performances:
-    path: /mes-performances
-    controller: AppBundle:Front\PersonalContext\User:performancesView
-
 front_pro_user_leads:
     path: /mes-contacts
     controller: AppBundle:Front\PersonalContext\User:proUserLeadsView
@@ -240,6 +236,18 @@ front_pro_user_lead:
 front_change_lead_status:
     path: /lead/changestatus/{id}/{leadStatus}
     controller: AppBundle:Front\PersonalContext\User:changeLeadStatus
+
+front_pro_user_performances:
+    path: /mes-performances
+    controller: AppBundle:Front\PersonalContext\User:sellerPerformancesView
+
+front_pro_seller_performances:
+    path: /gestionnaire/performances-vendeur/{slug}
+    controller: AppBundle:Front\PersonalContext\User:sellerPerformancesView
+
+front_garage_admin_sellers_stats:
+    path: /gestionnaire/performances-equipe
+    controller: AppBundle:Front\PersonalContext\User:sellersPerformances
 
 #front_pro_user_boost_view:
 #    path: /boost

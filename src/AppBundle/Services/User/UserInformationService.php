@@ -76,13 +76,11 @@ class UserInformationService
             'nbTotalTransactions' => 0,
             'conversionRate' => 0
         ];
-
         $gaReport = $this->gaReportingApiService->getProUserKPI($proUser);
 
-
         // Audience
-        $performances['nbUniqueViewsOfProfilePage'] = intval($gaReport['profilePage'][0]['uniquePageViews']) ?? 0;
-        $phoneDisplayTotal = $gaReport['contactsEvents']['telephone'][0]['total'] ?? 0;
+        $performances['nbUniqueViewsOfProfilePage'] = isset($gaReport['profilePage'][0]) ? (intval($gaReport['profilePage'][0]['uniquePageViews']) ?? 0) : 0;
+        $phoneDisplayTotal = isset($gaReport['contactsEvents']['telephone'][0]) ? ($gaReport['contactsEvents']['telephone'][0]['total'] ?? 0) : 0;
         $performances['nbPhoneNumberDisplays'] = $phoneDisplayTotal;
         $performances['nbReceivedMessages'] = $this->messageRepository->getCountReceivedMessages($proUser);
         $performances['nbTotalContacts'] = $performances['nbPhoneNumberDisplays'] + $performances['nbReceivedMessages'];

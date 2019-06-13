@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Criteria;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
+use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\FirstContactPreference;
@@ -96,7 +97,7 @@ abstract class BaseUser implements HasApiCredential
     )
     {
         $this->email = $email;
-        $this->userProfile = new UserProfile(null, $firstName, $name, null, null, $city);
+        $this->userProfile = new UserProfile($firstName, $name, null, null, null, false, $city);
         $this->avatar = $avatar;
         $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
@@ -177,7 +178,6 @@ abstract class BaseUser implements HasApiCredential
         $this->userProfile->setDescription($description);
     }
 
-
     /**
      * @return Title|null
      */
@@ -192,6 +192,14 @@ abstract class BaseUser implements HasApiCredential
     public function getPhone(): ?string
     {
         return (null !== $this->getUserProfile() ? $this->getUserProfile()->getPhone() : null);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPhoneDisplay(): bool
+    {
+        return (null !== $this->getUserProfile() ? $this->getUserProfile()->isPhoneDisplay() : false);
     }
 
     /**
@@ -443,6 +451,21 @@ abstract class BaseUser implements HasApiCredential
     public function getConversationUsers(): Collection
     {
         return $this->conversationUsers;
+    }
+
+    /**
+     * @param Conversation $searchedConversation
+     * @return ConversationUser|null
+     */
+    public function getConversationUser(Conversation $searchedConversation): ?ConversationUser
+    {
+        /** @var ConversationUser $conversationUser */
+        foreach ($this->conversationUsers as $conversationUser) {
+            if ($searchedConversation->getId() === $conversationUser->getConversation()->getId()) {
+                return $conversationUser;
+            }
+        }
+        return null;
     }
 
     public function getTotalMessagesOnConversations(): int

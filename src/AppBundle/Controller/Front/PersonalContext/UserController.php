@@ -28,6 +28,7 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -48,6 +49,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Event\PersonalProjectUpdated;
@@ -125,7 +127,8 @@ class UserController extends BaseController
         MessageBus $eventBus,
         TranslatorInterface $translator,
         AffinityAnswerCalculationService $affinityAnswerCalculationService,
-        UserInformationService $userInformationService, LeadManagementService $leadManagementService,
+        UserInformationService $userInformationService,
+        LeadManagementService $leadManagementService,
         SaleManagementService $saleManagementService
     )
     {
@@ -553,23 +556,27 @@ class UserController extends BaseController
     }
 
     /**
+     * @param ProUser|null $seller
      * @return Response
      */
-    public function performancesViewAction()
+    public function sellerPerformancesViewAction(ProUser $seller = null)
     {
-        $currentUser = $this->getUser();
-        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+        if ($isMe = ($seller == null)) {
+            $seller = $this->getUser();
+        }
+        if (!$this->isGranted(SellerPerformancesVoter::SHOW, $seller)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
             throw new AccessDeniedException();
         }
-        $performances = $this->userInformationService->getProUserPerformances($currentUser);
-        $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($currentUser);
+
+        $performances = $this->userInformationService->getProUserPerformances($seller);
+        $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($seller, 60);
         return $this->render("front/Seller/pro_user_performances.html.twig", [
+            'seller' => $seller, 'isMe' => $isMe,
             'performances' => $performances,
             'saleDeclarations' => $saleDeclarations
         ]);
     }
-
 
     /**
      * @return Response
@@ -622,6 +629,47 @@ class UserController extends BaseController
 
         $this->leadManagementService->changeLeadStatus($lead, LeadStatus::$leadStatus());
         return new JsonResponse([$this->translator->trans('flash.success.lead.change_status')]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function sellersPerformancesAction(): Response
+    {
+        $currentUser = $this->getUser();
+        if (!$this->isGranted('ROLE_PRO') && !$currentUser instanceof ProUser) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.sellers_performances.unlogged');
+            throw new AccessDeniedException();
+        }
+        $sellersPerformances = [];
+        /** @var GarageProUser $garageMembership */
+        foreach ($currentUser->getEnabledGarageMemberships() as $garageMembership) {
+            if ($garageMembership->isAdministrator()) {
+                $currentGarage = $garageMembership->getGarage();
+
+                /** @var GarageProUser $garageMember */
+                foreach ($currentGarage->getEnabledMembers() as $garageMember) {
+                    $currentGarageMember = $garageMember->getProUser();
+                    if (isset($sellersPerformances[$currentGarageMember->getId()])) {
+                        $sellersPerformances[$currentGarageMember->getId()]['garages'][] = $currentGarage->getName();
+                    } else {
+                        $currentGarageMemberPerformances = $this->userInformationService->getProUserPerformances($currentGarageMember);
+                        $currentGarageMemberSaleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($currentGarageMember, 120);
+
+                        $sellersPerformances[$currentGarageMember->getId()] = [
+                            'seller' => $currentGarageMember,
+                            'garages' => [$currentGarage->getName()],
+                            'performances' => $currentGarageMemberPerformances,
+                            'saleDeclarations' => $currentGarageMemberSaleDeclarations,
+                        ];
+                    }
+                }
+            }
+        }
+
+        return $this->render('front/Seller/sellers_performances.html.twig', [
+            'sellersPerformances' => $sellersPerformances
+        ]);
     }
 
     /**

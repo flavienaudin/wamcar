@@ -108,6 +108,8 @@ flash:
       invalid_sale_status_value: Valeur du status de vente incorrecte
     dashboard:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
+    sellers_performances:
+      unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
     garage:
       already_member: Vous êtes déjà membre de ce garage
       same_as_existing: >
@@ -146,6 +148,7 @@ global:
     back: Retour
     validate: Valider
     see_phone_number: Voir le numéro
+    see_user_profile: Voir le profil
     call: Appeler
     invite: Inviter
     delete: Supprimer
@@ -153,6 +156,7 @@ global:
     show_more: Voir plus
     show_less: Voir moins
     register: "S'inscrire sur Wamcar"
+    link: lien
   pagination:
     pagination: Pagination
     first: Première page
@@ -205,10 +209,11 @@ header:
   pro:
     my_garage: Mon garage
     my_garages: Mes garages
-    dashboard: Tableaux de bord
+    dashboard: Tableau de bord
     my_performances: Mes performances
     my_sales: Suivi des ventes
     my_leads: Mes contacts
+    sellers_performances: Mon équipe
   personal:
     my_add: Mon annonce
     my_vehicles: Mes véhicules
@@ -815,9 +820,15 @@ user:
           required_message: Vous devez saisir votre ville
           placeholder: Ville ou code postal
         phonePro:
-          label: Téléphone fixe
+          label: Téléphone fixes
+          placeholder: "Exemple: 0123456789"
+          invalid_format: "Le format est incorrect"
         phone:
           label: Téléphone mobile
+          placeholder: "Exemple: 0623456789"
+          invalid_format: "Le format est incorrect"
+        phoneDisplay:
+          label: Afficher mon numéro aux professionnels
         presentation:
           label: Présentation
         avatar:
@@ -1027,7 +1038,7 @@ conversation:
   fleet_to_sell: Votre flotte automobile à reprendre
   message:
     attachments: '{1} Pièce jointe|[2,Inf[ Pièces jointes'
-
+    read_by: "Vu par %username% le %date%"
   auto_added: (automatiquement ajouté à votre message)
   fleet:
     yours: Vous disposez d’une flotte composée de %severalVehicles% véhicules
@@ -1106,31 +1117,33 @@ lead:
 
 pro_user_performances:
   page:
-    title: Mes Performances
+    title:
+      mine: Mes performances
+      seller: Les performances de %username%
   30_days:
-    title: Mes performances sur les 30 derniers jours
+    title: "Performances sur les 30 derniers jours"
   audience:
-    title: Mon audience
+    title: "Audience"
     table:
-      profile_view: "#Vues de votre page profil"
+      profile_view: "#Vues de la page profil"
       tel_display: "#click numéro téléphone"
       received_messages: "#messages reçus"
       received_likes: "#likes reçus"
   activity:
-    title: Mon activité
+    title: "Activité"
     table:
       sent_messages: "#Messages envoyés"
       sent_likes: "#likes envoyés"
       lead: "#leads"
   results:
-    title: Mes résultats
+    title: "Résultats"
     table:
       sales: "#Ventes"
       part_exchanges: "#Reprises"
       transactions: "#Total de transactions"
       conversion_rate: "Taux de transformation"
   declared_sales:
-    title: Mes ventes
+    title: Ventes
     table:
       date: Date
       name: Client
@@ -1139,6 +1152,13 @@ pro_user_performances:
       partexchange_price: €Reprise
       commentary: Description
       empty: Aucune déclaration
+
+sellers_performances:
+  page:
+    title: Les performances de mon équipe
+  link:
+    his_garages: Ses garages
+
 
 boost:
   link: Booster mes pages

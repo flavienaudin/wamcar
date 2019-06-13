@@ -5,35 +5,38 @@ namespace AppBundle\Form\DTO;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use Wamcar\Location\City;
+use Wamcar\User\Title;
 use Wamcar\User\UserProfile;
 
 class UserInformationDTO
 {
-    /** @var  int */
+    /** @var int */
     public $id;
-    /** @var  string */
+    /** @var string */
     public $email;
-    /** @var  string */
+    /** @var Title */
     public $title;
-    /** @var  string */
+    /** @var string */
     public $firstName;
-    /** @var  string */
+    /** @var string */
     public $lastName;
-    /** @var  string */
+    /** @var string */
     public $description;
-    /** @var  string */
+    /** @var string */
     public $phone;
-    /** @var  string */
+    /** @var boolean */
+    public $phoneDisplay;
+    /** @var string */
     public $cityName;
-    /** @var  string */
+    /** @var string */
     public $postalCode;
     /** @var string */
     public $latitude;
     /** @var string */
     public $longitude;
-    /** @var  string */
+    /** @var string */
     public $oldPassword;
-    /** @var  string */
+    /** @var string */
     public $newPassword;
     /** @var UserPictureDTO */
     public $avatar;
@@ -59,6 +62,7 @@ class UserInformationDTO
         $this->firstName = $profile->getFirstName();
         $this->lastName = $profile->getLastName();
         $this->phone = $profile->getPhone();
+        $this->phoneDisplay = $profile->isPhoneDisplay();
         $this->title = $profile->getTitle();
         $this->description = $profile->getDescription();
         $this->fillFromCity($profile->getCity());
@@ -94,7 +98,7 @@ class UserInformationDTO
      */
     public function getUserProfile(): UserProfile
     {
-        $userProfile = new UserProfile($this->title, $this->firstName, $this->lastName, $this->description, $this->phone, $this->getCity());
+        $userProfile = new UserProfile($this->firstName, $this->lastName, $this->title, $this->description, $this->phone, $this->phoneDisplay, $this->getCity());
 
         return $userProfile;
     }

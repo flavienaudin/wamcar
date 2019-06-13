@@ -133,8 +133,9 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
                 $proVehicle->clearPictures();
                 $pos = 0;
                 foreach ($photos as $photoUrl) {
-                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos);
-                    $pos++;
+                    if($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos)) {
+                        $pos++;
+                    }
                 }
             }
         } else {
@@ -176,15 +177,15 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
                 foreach ($vehicleDTORowData->{self::CHILDNAME_PICTURES}[0]->{self::CHILDNAME_PICTURE} as $picture) {
                     $photoUrl = trim(strval($picture));
                     $photoUrl = explode('?', $photoUrl)[0];
-                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position);
-                    $position++;
+                    if($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position)) {
+                        $position++;
+                    }
                 }
             }
 
             $proVehicle->setGarage($garage);
-            // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getAvailableSellers()->toArray();
-            $proVehicle->setSeller($members[array_rand($members)]->getProUser());
+            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
+            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
 
         }
         return $proVehicle;

@@ -61,6 +61,10 @@
         <li><a href="{{ path('front_pro_user_performances') }}">{{ 'header.pro.my_performances'|trans }}</a></li>
         <li><a href="{{ path('front_pro_user_sales') }}">{{ 'header.pro.my_sales'|trans }}</a></li>
         <li><a href="{{ path('front_pro_user_leads') }}">{{ 'header.pro.my_leads'|trans }}</a></li>
+        {% if app.user.isGarageAdminsitrator  %}
+            <li class="menu-separator"></li>
+            <li><a href="{{ path('front_garage_admin_sellers_stats') }}">{{ "header.pro.sellers_performances"|trans }}</a></li>
+        {% endif %}
     </ul>
 </li>
 

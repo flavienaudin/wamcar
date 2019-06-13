@@ -211,12 +211,15 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $photos = [];
             $updateVehiclePictures = false;
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
-                $position = 0;
+                $position = -1;
                 /** @var ProVehiclePicture[] $proVehiclePictures */
                 $proVehiclePictures = $proVehicle->getPictures();
                 foreach ($vehicleDTORowData[self::FIELDNAME_PHOTOS] as $photoUrl) {
-                    $photos[$position] = $photoUrl;
-                    $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
+                    // On zappe la première photo car contient le numéro de téléphone
+                    if($position >= 0){
+                        $photos[$position] = $photoUrl;
+                        $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
+                    }
                     $position++;
                 }
             } else {
@@ -226,8 +229,9 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
                 $proVehicle->clearPictures();
                 $pos = 0;
                 foreach ($photos as $photoUrl) {
-                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos);
-                    $pos++;
+                    if($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos)) {
+                        $pos++;
+                    }
                 }
             }
         } else {
@@ -265,17 +269,22 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             $proVehicle->setUpdatedAt($updateAt);
 
             if (isset($vehicleDTORowData[self::FIELDNAME_PHOTOS])) {
-                $position = 0;
+                $position = -1;
                 foreach ($vehicleDTORowData[self::FIELDNAME_PHOTOS] as $photoUrl) {
-                    $this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position);
-                    $position++;
+                    // On zappe la première photo car contient le numéro de téléphone
+                    if($position >= 0) {
+                        if($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position)){
+                            $position++;
+                        }
+                    }else {
+                        $position++;
+                    }
                 }
             }
 
             $proVehicle->setGarage($garage);
-            // TODO Tirage aléatoire en attendant implémentation des règles
-            $members = $garage->getAvailableSellers()->toArray();
-            $proVehicle->setSeller($members[array_rand($members)]->getProUser());
+            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
+            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
         }
 
         return $proVehicle;

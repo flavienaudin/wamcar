@@ -39,43 +39,13 @@ if ($messagesItemContents.length) {
   });
 }
 
+// Display the last avatar of read messages
+$('.messages-read:last').css('display', 'block');
+
+
+/* Attachements list*/
 let $attachmentsCollectionHolder = $('#js-attachments-list');
-
 if ($attachmentsCollectionHolder.length) {
-
-  function addAttachmentInput() {
-    if ($attachmentsCollectionHolder.find('input:file').filter(function () {
-      return $(this).val() === '';
-    }).length === 0) {
-
-      let index = parseInt($attachmentsCollectionHolder.data('index'));
-      let $newForm = $($attachmentsCollectionHolder.data('prototype').replace(/__name__/g, index));
-      $attachmentsCollectionHolder.data('index', index + 1);
-      $attachmentsCollectionHolder.append($newForm);
-
-      $newForm.find('.js-delete-attachment').on('click', (event) => {
-        $newForm.remove();
-      });
-
-      $newForm.change((event) => {
-        let fullPath = $(event.currentTarget).find('input:file').val();
-        if (fullPath) {
-          let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-          let filename = fullPath.substring(startIndex);
-          if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1);
-          }
-
-          $newForm.find('label').html(filename);
-          $newForm.find('label').removeClass('text-underline');
-
-          $newForm.find('.js-delete-attachment').removeClass('is-hidden');
-        }
-        addAttachmentInput();
-      });
-    }
-  }
-
   let $div = $attachmentsCollectionHolder.children('div');
   if ($div.length === 0) {
     addAttachmentInput();
@@ -102,6 +72,39 @@ if ($attachmentsCollectionHolder.length) {
         }
       });
 
+    });
+  }
+}
+
+function addAttachmentInput() {
+  if ($attachmentsCollectionHolder.find('input:file').filter(function () {
+    return $(this).val() === '';
+  }).length === 0) {
+
+    let index = parseInt($attachmentsCollectionHolder.data('index'));
+    let $newForm = $($attachmentsCollectionHolder.data('prototype').replace(/__name__/g, index));
+    $attachmentsCollectionHolder.data('index', index + 1);
+    $attachmentsCollectionHolder.append($newForm);
+
+    $newForm.find('.js-delete-attachment').on('click', (event) => {
+      $newForm.remove();
+    });
+
+    $newForm.change((event) => {
+      let fullPath = $(event.currentTarget).find('input:file').val();
+      if (fullPath) {
+        let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+        let filename = fullPath.substring(startIndex);
+        if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+          filename = filename.substring(1);
+        }
+
+        $newForm.find('label').html(filename);
+        $newForm.find('label').removeClass('text-underline');
+
+        $newForm.find('.js-delete-attachment').removeClass('is-hidden');
+      }
+      addAttachmentInput();
     });
   }
 }
