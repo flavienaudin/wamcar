@@ -15,6 +15,8 @@ trait ApplicationUserTrait
     protected $registrationToken;
     /** @var  \DateTime */
     protected $createdAt;
+    /** @var  \DateTime */
+    protected $lastLoginAt;
 
     /**
      * {@inheritdoc}
@@ -54,6 +56,22 @@ trait ApplicationUserTrait
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getLastLoginAt(): \DateTime
+    {
+        return $this->lastLoginAt;
+    }
+
+    /**
+     * @param \DateTime $lastLoginAt
+     */
+    public function setLastLoginAt(\DateTime $lastLoginAt): void
+    {
+        $this->lastLoginAt = $lastLoginAt;
     }
 
     /**
