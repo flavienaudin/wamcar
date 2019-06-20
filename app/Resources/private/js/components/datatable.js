@@ -49,10 +49,17 @@ $(function () {
           {'data': 'control', 'searchable': false, 'orderable': false, 'className': 'control'},
           {'data': 'leadName', 'searchable': true, 'orderable': true},
           {'data': 'lastContactAt', 'searchable': false, 'orderable': true},
-          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'messageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'likeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
+          {'data': 'proPhoneByProStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'profilePhoneByProStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'proMessageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'proLikeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
+          {'data': 'proPhoneByLeadStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'profilePhoneByLeadStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'leadMessageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'leadLikeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
           {'data': 'status', 'searchable': false, 'orderable': true},
           {'data': 'action', 'searchable': false, 'orderable': true}
         ]

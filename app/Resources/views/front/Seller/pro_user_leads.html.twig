@@ -27,9 +27,23 @@
                        data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
                     <thead>
                     <tr>
+                        <th rowspan="2"></th>
                         <th></th>
+                        <th></th>
+                        <th colspan="4" class="text-center">Vos interactions</th>
+                        <th colspan="4" class="text-center">Actions du contact</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
                         <th>{{ 'lead.table.name'|trans }}</th>
                         <th>{{ 'lead.table.last_contacted_at'|trans }}</th>
+                        <th><span class="icon-mobile" title="{{ 'lead.table.leadtelpro'|trans }}"></span>
+                        </th>
+                        <th><span class="icon-tel" title="{{ 'lead.table.leadtel'|trans }}"></span>
+                        </th>
+                        <th><span class="icon-message" title="{{ 'lead.table.messages'|trans }}"></span></th>
+                        <th><span class="icon-heart" title="{{ 'lead.table.likes'|trans }}"></span></th>
                         <th><span class="icon-mobile"
                                   title="{{ 'lead.table.tel'|trans({'%telNumber%':app.user.userProfile.phone??'-'}) }}"></span>
                         </th>

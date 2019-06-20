@@ -1106,6 +1106,8 @@ lead:
     name: Prénom Nom
     last_contacted_at: Date du dernier contact
     tel: Nombre d'affichage de %telNumber%
+    leadtel: Nombre d'affichage du téléphone du lead
+    leadtelpro: Nombre d'affichage du téléphone pro du lead
     messages: Nombre de messages
     likes: Nombre de likes
     status: Statut
