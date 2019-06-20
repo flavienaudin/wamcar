@@ -543,12 +543,19 @@ class UserController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if ($this->getUser() instanceof BaseUser) {
+        $currentUser = $this->getUser();
+        if ( $currentUser instanceof BaseUser) {
+
+            // TODO get request param to get which phonenumber is concerned and to get its owner
             $eventId = $request->get('eventId');
-            $userId = str_replace(['PC', 'Smartphone', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+            $userId = str_replace(['PC', 'Smartphone', 'showtelpart', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
             $phoneNumberUser = $this->userRepository->findOne($userId);
+            if($currentUser instanceof ProUser){
+                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser,$phoneNumberUser,
+                    strpos($eventId, 'Fixe') > 0);
+            }
             if ($phoneNumberUser instanceof ProUser) {
-                $this->leadManagementService->increasePhoneNumberOfProUser($phoneNumberUser, $this->getUser(),
+                $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
                     strpos($eventId, 'Fixe') > 0);
             }
         }
@@ -692,11 +699,23 @@ class UserController extends BaseController
      */
     public function proUserslistAction()
     {
-        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        return $this->render("front/adminContext/user/pro_user_list.html.twig");
+    }
 
-        return $this->render("front/adminContext/user/pro_user_list.html.twig", [
-            'proUsers' => $proUsers
-        ]);
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function proUsersStatisticsAction(Request $request)
+    {
+        if(!$request->isXmlHttpRequest()){
+            throw new BadRequestHttpException();
+        }
+        if(!$this->isGranted('ROLE_ADMIN')){
+            return new JsonResponse(['admin only'],Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getProUsersStatistics($request->query->all()));
     }
 
     /**
@@ -705,11 +724,23 @@ class UserController extends BaseController
      */
     public function personalUserslistAction()
     {
-        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        return $this->render("front/adminContext/user/personal_user_list.html.twig");
+    }
 
-        return $this->render("front/adminContext/user/personal_user_list.html.twig", [
-            'personalUsers' => $personalUsers
-        ]);
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function personalUsersStatisticsAction(Request $request)
+    {
+        if(!$request->isXmlHttpRequest()){
+            throw new BadRequestHttpException();
+        }
+        if(!$this->isGranted('ROLE_ADMIN')){
+            return new JsonResponse(['admin only'],Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getPersonalUsersStatistics($request->query->all()));
     }
 
     /**

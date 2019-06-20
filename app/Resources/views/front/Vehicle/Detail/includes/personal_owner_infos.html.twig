@@ -21,7 +21,7 @@
                     {% if vehicle.seller.isPhoneDisplay and vehicle.seller.phone is not empty %}
                         <span class="small-auto medium-shrink">
                             {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                'phoneNumber_eventId':'showtelpersonalMobile'~vehicle.seller.id,
+                                'phoneNumber_eventId':'showtelpartMobile'~vehicle.seller.id,
                                 'phoneNumber': vehicle.seller.phone,
                                 'icontel': 'icon-mobile'
                             }) }}</span>

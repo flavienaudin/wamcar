@@ -27,9 +27,9 @@ interface ApplicationUser extends UserInterface
     public function getRegistrationToken();
 
     /**
-     * @return \DateTime
+     * @return null|\DateTime
      */
-    public function getLastLoginAt(): \DateTime;
+    public function getLastLoginAt(): ?\DateTime;
 
     /**
      * @param \DateTime $lastLoginAt

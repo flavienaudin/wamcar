@@ -103,6 +103,25 @@ class BackendController extends AdminController
     }
 
     /**
+     * Action to convert personal account to pro account
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function convertToProAccountAction()
+    {
+        $id = $this->request->query->get('id');
+        /** @var PersonalUser $entity */
+        $entity = $this->em->getRepository(PersonalUser::class)->find($id);
+        $this->userEditionService->convertPersonalToProUser($entity, $this->getUser());
+
+
+        // redirect to the 'list' view of the given entity ...
+        return $this->redirectToRoute('easyadmin', array(
+            'action' => 'list',
+            'entity' => 'ProApplicationUser'
+        ));
+    }
+
+    /**
      * Action to see garage page
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

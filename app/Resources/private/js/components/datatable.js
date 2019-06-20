@@ -3,6 +3,9 @@
    =========================================================================== */
 import 'datatables.net/js/jquery.dataTables.min';
 import 'datatables.net-responsive/js/dataTables.responsive.min';
+import 'datatables.net-buttons/js/dataTables.buttons.min';
+import 'datatables.net-buttons/js/buttons.html5.min';
+
 import * as Toastr from 'toastr';
 
 $(function () {
@@ -165,6 +168,63 @@ $(function () {
         ]
       });
     });
+  }
 
+
+  const $usersListStatisticsDatatable = $('.js-personal-users-statistics-datatable,.js-pro-users-statistics-datatable');
+  if ($usersListStatisticsDatatable) {
+    $usersListStatisticsDatatable.each((index, datatable) => {
+      let ajaxUrl = $(datatable).data('href');
+      let transUrl = $(datatable).data('trans');
+      $(datatable).DataTable({
+        'processing': true,
+        'serverSide': true,
+        'responsive': {
+          'details': {
+            'renderer': function (api, rowIdx, columns) {
+              var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                  '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                  '<td class="is-flex ' + (col.columnIndex === 1 ? 'dt-image' : '') + '">' +
+                  (col.columnIndex !== 1 && col.columnIndex !== 4 ? col.title + '&nbsp;:&nbsp;' : '') + col.data +
+                  '</td></tr>'
+                  : '';
+              }).join('');
+              return data ? $('<table/>').append(data) : false;
+            }
+          }
+        },
+        'ordering': false,
+        'paging': false,
+        'searching': false,
+        'lengthChange': false,
+        'language': {
+          'url': transUrl
+        },
+        'ajax': {
+          'url': ajaxUrl,
+          'error': function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
+          }
+        },
+        'dom':'Birt',
+        'buttons':[
+          {
+            'action':'copy',
+            'text':'Copier',
+            'className':'text-underline margin-left-1'
+          },
+          {
+            'action':'csv',
+            'text':'Export CSV',
+            'className':'text-underline margin-left-1'
+          }
+        ]
+      });
+    });
   }
 });

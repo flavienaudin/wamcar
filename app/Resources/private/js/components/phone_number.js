@@ -2,8 +2,8 @@
    Phone number
    =========================================================================== */
 
+// Show the phone number
 const $phoneNumberElement = $('.js-see-number');
-
 if ($phoneNumberElement.length) {
   $phoneNumberElement.each((index, element) => {
     $(element).on('click', (event) => {
@@ -12,7 +12,8 @@ if ($phoneNumberElement.length) {
   });
 }
 
-const $phoneNumberClickables = $('[id*="showtelpro"]');
+// Ajax request to update number of clicks on "tel" (show and call)
+const $phoneNumberClickables = $('[id*="showtelpro"],[id*="showtelpart"]');
 $phoneNumberClickables.each((index, clickable) => {
   const url = $(clickable).data('href'),
     eventId = $(clickable).attr('id');

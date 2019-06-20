@@ -5,16 +5,24 @@ namespace AppBundle\Services\User;
 
 
 use AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository;
+use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
+use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository;
+use AppBundle\Services\Picture\PathUserPicture;
 use GoogleApi\GAReportingAPIService;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Wamcar\Conversation\MessageRepository;
 use Wamcar\Sale\SaleDeclarationRepository;
 use Wamcar\User\LeadRepository;
+use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 
 
 class UserInformationService
 {
+    const DATETIME_FORMAT = "d/m/Y H:i";
+
     /** @var MessageRepository $messageRepository */
     private $messageRepository;
     /** @var DoctrineUserLikeVehicleRepository */
@@ -27,6 +35,14 @@ class UserInformationService
     private $saleDeclarationRepository;
     /** @var GAReportingAPIService */
     private $gaReportingApiService;
+    /** @var DoctrinePersonalUserRepository */
+    private $personalUserRepository;
+    /** @var DoctrineProUserRepository */
+    private $proUserRepository;
+    /** @var PathUserPicture */
+    private $pathUserPicture;
+    /** @var RouterInterface */
+    private $router;
 
     /**
      * UserInformationService constructor.
@@ -36,13 +52,22 @@ class UserInformationService
      * @param LeadRepository $leadRepository
      * @param SaleDeclarationRepository $saleDeclarationRepository
      * @param GAReportingAPIService $gaReportingApiService
+     * @param DoctrinePersonalUserRepository $personalUserRepository
+     * @param DoctrineProUserRepository $proUserRepository
+     * @param PathUserPicture $pathUserPicture
+     * @param RouterInterface $router
      */
     public function __construct(MessageRepository $messageRepository,
                                 DoctrineUserLikeVehicleRepository $userLikeVehicleRepository,
                                 DoctrineLikeProVehicleRepository $likeRepository,
                                 LeadRepository $leadRepository,
                                 SaleDeclarationRepository $saleDeclarationRepository,
-                                GAReportingAPIService $gaReportingApiService)
+                                GAReportingAPIService $gaReportingApiService,
+                                DoctrinePersonalUserRepository $personalUserRepository,
+                                DoctrineProUserRepository $proUserRepository,
+                                PathUserPicture $pathUserPicture,
+                                RouterInterface $router
+    )
     {
         $this->messageRepository = $messageRepository;
         $this->userLikeVehicleRepository = $userLikeVehicleRepository;
@@ -50,6 +75,10 @@ class UserInformationService
         $this->leadRepository = $leadRepository;
         $this->saleDeclarationRepository = $saleDeclarationRepository;
         $this->gaReportingApiService = $gaReportingApiService;
+        $this->personalUserRepository = $personalUserRepository;
+        $this->proUserRepository = $proUserRepository;
+        $this->pathUserPicture = $pathUserPicture;
+        $this->router = $router;
     }
 
 
@@ -99,5 +128,108 @@ class UserInformationService
             $performances['conversionRate'] = $performances['nbTotalTransactions'] / $performances['nbLeads'];
         }
         return $performances;
+    }
+
+    /**
+     * Retrieve the statistics about all personal users
+     * @param array $params
+     * @param null|int $limit
+     * @param null|int $offset
+     * @return array
+     */
+    public function getPersonalUsersStatistics(array $params, int $limit = null, int $offset = null): array
+    {
+        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        $result = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => count($personalUsers),
+            "recordsFiltered" => count($personalUsers),
+            "data" => []
+        ];
+        /** @var PersonalUser $personalUser */
+        foreach ($personalUsers as $personalUser) {
+            if ($personalUser->getDeletedAt() == null) {
+                $personalUserId = '<a href="' . $this->router->generate('front_view_personal_user_info', [
+                        'slug' => $personalUser->getSlug()
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $personalUser->getId() . '</a>';
+            } else {
+                $personalUserId = '<span class="text-line-through">' . $personalUser->getId() . '</span>';
+            }
+            $userPicturePath = $this->pathUserPicture->getPath($personalUser->getAvatar(), 'user_mini_thumbnail', $personalUser->getFirstName());
+            $personalUserAvatar = '<span class="user-thumbnail-mini">
+                            <img src="' . $userPicturePath . '" alt="' . $personalUser->getFullName() . '"></span>';
+
+
+            $personalUserActionsData = $this->leadRepository->getLeadUserActionsStats($personalUser);
+
+            $result['data'][] = [
+                $personalUserId,
+                $personalUserAvatar,
+                $personalUser->getFirstName(),
+                $personalUser->getLastName(),
+                $personalUser->getEmail(),
+                $personalUser->getPhone(),
+                $personalUser->getCreatedAt() != null ? date(self::DATETIME_FORMAT, $personalUser->getCreatedAt()->getTimestamp()) : '-',
+                $personalUser->getLastSubmissionDate() != null ? date(self::DATETIME_FORMAT, $personalUser->getLastSubmissionDate()->getTimestamp()) : '-',
+                $personalUser->getLastLoginAt() != null ? date(self::DATETIME_FORMAT, $personalUser->getLastLoginAt()->getTimestamp()) : '-',
+                $personalUserActionsData['lastActionDate'],
+                count($personalUser->getInitiatedConversations()),
+                $personalUserActionsData['nbPhoneDisplays'],
+                count($personalUser->getPositiveLikes())
+            ];
+        }
+        return $result;
+    }
+
+    /**
+     * Retrieve the statistics about all pro users
+     * @param array $params
+     * @param null|int $limit
+     * @param null|int $offset
+     * @return array
+     */
+    public function getProUsersStatistics(array $params, int $limit = null, int $offset = null): array
+    {
+        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC'], $limit, $offset);
+        $result = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => count($proUsers),
+            "recordsFiltered" => count($proUsers),
+            "data" => []
+        ];
+        /** @var ProUser $proUser */
+        foreach ($proUsers as $proUser) {
+            if ($proUser->getDeletedAt() == null) {
+                $proUserId = '<a href="' . $this->router->generate('front_view_pro_user_info', [
+                        'slug' => $proUser->getSlug()
+                    ], UrlGeneratorInterface::ABSOLUTE_URL) . '" target="_blank">' . $proUser->getId() . '</a>';
+            } else {
+                $proUserId = '<span class="text-line-through">' . $proUser->getId() . '</span>';
+            }
+            $userPicturePath = $this->pathUserPicture->getPath($proUser->getAvatar(), 'user_mini_thumbnail', $proUser->getFirstName());
+            $proUserAvatar = '<span class="user-thumbnail-mini">
+                            <img src="' . $userPicturePath . '" alt="' . $proUser->getFullName() . '"></span>';
+
+            $proUserActionsData = $this->leadRepository->getProUserActionsStats($proUser);
+
+            $result['data'][] = [
+                $proUserId,
+                $proUserAvatar,
+                $proUser->getFirstName(),
+                $proUser->getLastName(),
+                $proUser->getEmail(),
+                $proUser->getPhone() . ' | ' . $proUser->getPhonePro(),
+                $proUser->getCreatedAt() != null ? date(self::DATETIME_FORMAT, $proUser->getCreatedAt()->getTimestamp()) : '-',
+                '-',
+                $proUser->getLastLoginAt() != null ? date(self::DATETIME_FORMAT, $proUser->getLastLoginAt()->getTimestamp()) : '-',
+                $proUserActionsData['lastActionDate'],
+                count($proUser->getInitiatedConversations()),
+                $proUserActionsData['nbPhoneDisplays'],
+                count($proUser->getPositiveLikes())
+            ];
+        }
+        return $result;
+
+
     }
 }

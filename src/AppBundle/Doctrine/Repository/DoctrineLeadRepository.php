@@ -17,6 +17,7 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
      */
     public function getPotentialLeadsByProUser(ProUser $proUser): array
     {
+        // TODO : recupérér différement les leads potentiels ? Connaitre qui a initié le lead
         $con = $this->_em->getConnection();
         $res = $con->executeQuery(
             "select u1.userId as leadUserId, sum(nb_messages) as nbMessages, sum(nb_like) as nbLikes, min(contactedAt) as createdAt, max(contactedAt) as contactedAt
@@ -131,6 +132,38 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
             ->setParameter('firstDate', $firstDate)
             ->setParameter('referenceDate', $referenceDate);
         return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Get statistics of the $proUser's actions on its leads
+     * @param ProUser $proUser
+     * @return array
+     */
+    public function getProUserActionsStats(ProUser $proUser): array
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('COUNT(l.id) as nbPhoneDisplays, MAX(l.lastContactedAt) as lastActionDate')
+            ->where($qb->expr()->eq('l.proUser', ':prouser'))
+            ->andWhere($qb->expr()->gt('l.nbPhoneActionByPro + l.nbPhoneProActionByPro', 0))
+            ->setParameter('prouser', $proUser);
+
+        return $qb->getQuery()->getSingleResult();
+    }
+
+    /**
+     * Get statistics about the $user as Lead of ProUser
+     * @param BaseUser $user
+     * @return array
+     */
+    public function getLeadUserActionsStats(BaseUser $user): array
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('COUNT(l.id) as nbPhoneDisplays, MAX(l.lastContactedAt) as lastActionDate')
+            ->where($qb->expr()->eq('l.userLead', ':user'))
+            ->andWhere($qb->expr()->gt('l.nbPhoneActionByLead + l.nbPhoneProActionByLead', 0))
+            ->setParameter('user', $user);
+
+        return $qb->getQuery()->getSingleResult();
     }
 
     /**

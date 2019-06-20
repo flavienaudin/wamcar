@@ -100,9 +100,9 @@ class Message
 
     /**
      * Get the writer of the message
-     * @return CanBeInConversation
+     * @return null|CanBeInConversation null if user is softDeleted
      */
-    public function getUser(): CanBeInConversation
+    public function getUser(): ?CanBeInConversation
     {
         return $this->user;
     }

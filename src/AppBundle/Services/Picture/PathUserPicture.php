@@ -5,6 +5,7 @@ namespace AppBundle\Services\Picture;
 
 
 use AppBundle\Doctrine\Entity\UserPicture;
+use AppBundle\Utils\AccentuationUtils;
 
 class PathUserPicture extends BasePathPicture
 {
@@ -16,6 +17,6 @@ class PathUserPicture extends BasePathPicture
      */
     public function getPath(?UserPicture $userPicture, string $filter, ?string $firstname): string
     {
-        return $this->getUserPicturePath($userPicture, $filter, 'file', 'avatar', $firstname);
+        return $this->getUserPicturePath($userPicture, $filter, 'file', 'avatar', AccentuationUtils::remove($firstname));
     }
 }

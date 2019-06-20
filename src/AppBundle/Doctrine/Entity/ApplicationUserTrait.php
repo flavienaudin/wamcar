@@ -15,7 +15,7 @@ trait ApplicationUserTrait
     protected $registrationToken;
     /** @var  \DateTime */
     protected $createdAt;
-    /** @var  \DateTime */
+    /** @var  \DateTime|null */
     protected $lastLoginAt;
 
     /**
@@ -59,9 +59,9 @@ trait ApplicationUserTrait
     }
 
     /**
-     * @return \DateTime
+     * @return null|\DateTime
      */
-    public function getLastLoginAt(): \DateTime
+    public function getLastLoginAt(): ?\DateTime
     {
         return $this->lastLoginAt;
     }

@@ -23,9 +23,32 @@ interface LeadRepository
     public function getLeadsByRequest(ProUser $proUser, array $params): array;
 
     /**
+     * Compte les leads contacté pendant l'intervalle de la référence
+     * @param BaseUser $user
+     * @param int|null $sinceDays Intervalle de temps avant la date de référence
+     * @param \DateTimeInterface|null $referenceDate Date de référence (par défaut le jour même)
+     * @return int
+     */
+    public function getCountLeadsByLastDateOfContact(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int;
+
+    /**
+     * Get statistics of the $proUser's actions on its leads
+     * @param ProUser $proUser
+     * @return array
+     */
+    public function getProUserActionsStats(ProUser $proUser): array;
+
+    /**
+     * Get statistics about the $user as Lead of ProUser
+     * @param BaseUser $user
+     * @return array
+     */
+    public function getLeadUserActionsStats(BaseUser $user): array;
+
+    /**
      * Finds an entity by its primary key / identifier.
      *
-     * @param mixed    $id          The identifier.
+     * @param mixed $id The identifier.
      * @return object|null The entity instance or NULL if the entity can not be found.
      */
     public function find($id);
@@ -33,7 +56,7 @@ interface LeadRepository
     /**
      * Finds a single entity by a set of criteria.
      *
-     * @param array      $criteria
+     * @param array $criteria
      * @param array|null $orderBy
      *
      * @return object|null The entity instance or NULL if the entity can not be found.
@@ -43,23 +66,15 @@ interface LeadRepository
     /**
      * Finds entities by a set of criteria.
      *
-     * @param array      $criteria
+     * @param array $criteria
      * @param array|null $orderBy
-     * @param int|null   $limit
-     * @param int|null   $offset
+     * @param int|null $limit
+     * @param int|null $offset
      *
      * @return array The objects.
      */
     public function findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null);
 
-    /**
-     * Compte les leads contacté pendant l'intervalle de la référence
-     * @param BaseUser $user
-     * @param int|null $sinceDays Intervalle de temps avant la date de référence
-     * @param \DateTimeInterface|null $referenceDate Date de référence (par défaut le jour même)
-     * @return int
-     */
-    public function getCountLeadsByLastDateOfContact(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int;
     /**
      * @param Lead $lead
      * @return Lead

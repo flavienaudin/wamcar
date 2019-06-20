@@ -102,10 +102,10 @@ class LeadManagementService
                 'control' => '<td><span class="icon-plus-circle no-margin"></span></td>',
                 'leadName' => $leadName,
                 'lastContactAt' => $lead->getLastContactedAt()->format("d/m/y H:i"),
-                'proPhoneStats' => $lead->getNbPhoneProAction(),
-                'profilePhoneStats' => $lead->getNbPhoneAction(),
-                'messageStats' => $lead->getNbMessages(),
-                'likeStats' => $lead->getNbLikes(),
+                'proPhoneStats' => $lead->getNbPhoneProActionByLead(),
+                'profilePhoneStats' => $lead->getNbPhoneActionByLead(),
+                'messageStats' => $lead->getNbLeadMessages(),
+                'likeStats' => $lead->getNbLeadLikes(),
                 'status' => $status,
                 'action' => $action
             ];
@@ -114,7 +114,8 @@ class LeadManagementService
     }
 
     /**
-     * Generate and intialise the leads of the $proUser, based on the conversation and the likes
+     * // TODO revoir la récupération des potentiels leads
+     * Generate and intialize the leads of the $proUser, based on the conversation and the likes
      * @param ProUser $proUser
      * @return int the number of $proUser's leads
      */
@@ -125,10 +126,13 @@ class LeadManagementService
             /** @var BaseUser $leadUser */
             $leadUser = $this->userRepository->findIgnoreSoftDeleted($leadInfo['leadUserId']);
             if ($leadUser != null) {
-                $lead = $this->getLead($proUser, $leadUser, false);
+                // TODO : find who initiate the lead
+                $lead = $this->getLead($proUser, $leadUser, $leadUser, false);
                 if ($lead != null) {
-                    $lead->setNbMessages($leadInfo['nbMessages']);
-                    $lead->setNbLikes($leadInfo['nbLikes']);
+
+                    // TODO séparer les messages des pros de ceux des leads, idem pour les likes
+                    $lead->setNbLeadMessages($leadInfo['nbMessages']);
+                    $lead->setNbLeadLikes($leadInfo['nbLikes']);
                     try {
                         $lead->setCreatedAt(new \DateTime($leadInfo['createdAt']));
                         $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
@@ -161,18 +165,19 @@ class LeadManagementService
     /**
      * Get or create a $proUser's Lead of $userLead
      * @param ProUser $proUser
+     * @param BaseUser $initiator
      * @param BaseUser $user
      * @param bool $bddSave if true the new Lead is persisted in the db
      * @return Lead|null null if trying to get himself lead
      */
-    public function getLead(ProUser $proUser, BaseUser $user, bool $bddSave = true): ?Lead
+    public function getLead(ProUser $proUser, BaseUser $initiator, BaseUser $user, bool $bddSave = true): ?Lead
     {
         if ($proUser->is($user)) {
             return null;
         }
         $lead = $this->leadRepository->findOneBy(['proUser' => $proUser, 'userLead' => $user]);
         if ($lead == null) {
-            $lead = $this->createLead($proUser, $user, $bddSave);
+            $lead = $this->createLead($proUser, $initiator, $user, $bddSave);
         }
         return $lead;
     }
@@ -180,16 +185,17 @@ class LeadManagementService
     /**
      * Create a new $proUser's Lead of $userLead
      * @param ProUser $proUser
+     * @param BaseUser $initiator
      * @param BaseUser $userLead
      * @param bool $bddSave if true the new Lead is persisted in the db
      * @return null|Lead null if trying to create himself lead
      */
-    public function createLead(ProUser $proUser, BaseUser $userLead, bool $bddSave = true): ?Lead
+    public function createLead(ProUser $proUser, BaseUser $initiator, BaseUser $userLead, bool $bddSave = true): ?Lead
     {
         if ($proUser->is($userLead)) {
             return null;
         }
-        $lead = new Lead($proUser, $userLead);
+        $lead = new Lead($proUser, $initiator, $userLead);
         if ($bddSave) {
             $this->leadRepository->add($lead);
         }
@@ -197,54 +203,107 @@ class LeadManagementService
     }
 
     /**
-     * Create/Update the $messageSender's lead of the $proUser by incrementing the number of messages
+     * Create/Update the lead of the $proUser by incrementing the number of lead messages
      * @param ProUser $proUser
-     * @param BaseUser $messageSender
+     * @param BaseUser $leadUser
      * @return Lead|null if message to himself
      */
-    public function increaseMessageNumberOfProUser(ProUser $proUser, BaseUser $messageSender): ?Lead
+    public function increaseNbLeadMessage(ProUser $proUser, BaseUser $leadUser): ?Lead
     {
-        $lead = $this->getLead($proUser, $messageSender, true);
+        $lead = $this->getLead($proUser, $leadUser, $leadUser, true);
         if ($lead != null) {
-            $lead->increaseNbMessages();
+            $lead->increaseNbLeadMessages();
             return $this->leadRepository->update($lead);
         }
         return null;
-
     }
 
     /**
-     * Create/Update the $liker's lead of the $proUser by incrementing the number of likes
+     * Create/Update the lead of the $proUser by incrementing the number of pro messages
+     * @param ProUser $proUser
+     * @param BaseUser $leadUser
+     * @return Lead|null if message to himself
+     */
+    public function increaseNbProMessage(ProUser $proUser, BaseUser $leadUser): ?Lead
+    {
+        $lead = $this->getLead($proUser, $proUser, $leadUser, true);
+        if ($lead != null) {
+            $lead->increaseNbProMessages();
+            return $this->leadRepository->update($lead);
+        }
+        return null;
+    }
+
+    /**
+     * Create/Update the lead of the $proUser by incrementing the number of likes by the lead
      * @param ProUser $proUser
      * @param BaseUser $liker
-     * @param bool $increase if true then nb of likes is increased, otherwise it is decreased
+     * @param bool $increase if true then nb of lead likes is increased, otherwise it is decreased
      * @return Lead|null if like to its own vehicle
      */
-    public function updateLikeNumberOfProUser(ProUser $proUser, BaseUser $liker, bool $increase = true): ?Lead
+    public function updateNbLeadLikes(ProUser $proUser, BaseUser $liker, bool $increase = true): ?Lead
     {
-        $lead = $this->getLead($proUser, $liker, false);
+        $lead = $this->getLead($proUser, $liker, $liker, false);
         if ($lead != null) {
-            $lead->increaseNbLikes($increase ? 1 : -1);
+            $lead->increaseNbLeadLikes($increase ? 1 : -1);
             return $this->leadRepository->update($lead);
         }
         return null;
     }
 
     /**
-     * Create/Update the $messageSender's lead of the $proUser by incrementing the number of messages
+     * Create/Update the lead of the $proUser by incrementing the number of likes by the pro
      * @param ProUser $proUser
-     * @param BaseUser $messageSender
+     * @param BaseUser $liker
+     * @param bool $increase if true then nb of pro likes is increased, otherwise it is decreased
+     * @return Lead|null if like to its own vehicle
+     */
+    public function updateNbProLikes(ProUser $proUser, BaseUser $liker, bool $increase = true): ?Lead
+    {
+        $lead = $this->getLead($proUser, $proUser, $liker, false);
+        if ($lead != null) {
+            $lead->increaseNbProLikes($increase ? 1 : -1);
+            return $this->leadRepository->update($lead);
+        }
+        return null;
+    }
+
+    /**
+     * Create/Update the lead of the $proUser by incrementing the number of phone[pro] action by the lead
+     * @param ProUser $proUser
+     * @param BaseUser $actor
      * @param bool $phonePro If true the phone number concerned is the ProUser.phonePro
      * @return Lead|null if $proUser's own phoneNumber
      */
-    public function increasePhoneNumberOfProUser(ProUser $proUser, BaseUser $messageSender, bool $phonePro): ?Lead
+    public function increaseNbPhoneActionByLead(ProUser $proUser, BaseUser $actor, bool $phonePro): ?Lead
     {
-        $lead = $this->getLead($proUser, $messageSender, false);
+        $lead = $this->getLead($proUser, $actor, $actor, false);
         if ($lead != null) {
             if ($phonePro) {
-                $lead->increaseNbPhoneProAction();
+                $lead->increaseNbPhoneProActionByLead();
             } else {
-                $lead->increaseNbPhoneAction();
+                $lead->increaseNbPhoneActionByLead();
+            }
+            return $this->leadRepository->update($lead);
+        }
+        return null;
+    }
+
+    /**
+     * Create/Update the lead of the $proUser by incrementing the number of phone[pro] action by the pro
+     * @param ProUser $proUser
+     * @param BaseUser $actor
+     * @param bool $phonePro If true the phone number concerned is the ProUser.phonePro
+     * @return Lead|null if $proUser's own phoneNumber
+     */
+    public function increaseNbPhoneActionByPro(ProUser $proUser, BaseUser $actor, bool $phonePro): ?Lead
+    {
+        $lead = $this->getLead($proUser, $proUser, $actor, false);
+        if ($lead != null) {
+            if ($phonePro) {
+                $lead->increaseNbPhoneProActionByPro();
+            } else {
+                $lead->increaseNbPhoneActionByPro();
             }
             return $this->leadRepository->update($lead);
         }

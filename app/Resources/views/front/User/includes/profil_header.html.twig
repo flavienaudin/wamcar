@@ -35,7 +35,7 @@
                     (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
                     <span class="small-auto medium-shrink">
                         {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneNumber_eventId':'showtel'~(isUserProPageProfil?'pro':'personal')~'Mobile'~user.id,
+                            'phoneNumber_eventId':'showtel'~(isUserProPageProfil?'pro':'part')~'Mobile'~user.id,
                             'phoneNumber': user.userProfile.phone,
                             'icontel': 'icon-mobile',
                             'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? ' (Non affiché)' : null)
