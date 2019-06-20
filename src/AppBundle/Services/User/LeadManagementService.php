@@ -102,17 +102,14 @@ class LeadManagementService
                 'control' => '<td><span class="icon-plus-circle no-margin"></span></td>',
                 'leadName' => $leadName,
                 'lastContactAt' => $lead->getLastContactedAt()->format("d/m/y H:i"),
-
                 'proPhoneByProStats' => $lead->getUserLead() instanceof ProUser ? $lead->getNbPhoneProActionByPro() : '-',
                 'profilePhoneByProStats' => $lead->getNbPhoneActionByPro(),
                 'proMessageStats' => $lead->getNbProMessages(),
                 'proLikeStats' => $lead->getNbProLikes(),
-
                 'proPhoneByLeadStats' => $lead->getNbPhoneProActionByLead(),
                 'profilePhoneByLeadStats' => $lead->getNbPhoneActionByLead(),
                 'leadMessageStats' => $lead->getNbLeadMessages(),
                 'leadLikeStats' => $lead->getNbLeadLikes(),
-
                 'status' => $status,
                 'action' => $action
             ];

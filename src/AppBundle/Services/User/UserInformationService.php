@@ -9,6 +9,7 @@ use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository;
 use AppBundle\Services\Picture\PathUserPicture;
+use AppBundle\Services\Vehicle\VehicleRepositoryResolver;
 use GoogleApi\GAReportingAPIService;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -25,6 +26,8 @@ class UserInformationService
 
     /** @var MessageRepository $messageRepository */
     private $messageRepository;
+    /** @var VehicleRepositoryResolver */
+    private $vehicleRepositoryResolver;
     /** @var DoctrineUserLikeVehicleRepository */
     private $userLikeVehicleRepository;
     /** @var DoctrineLikeProVehicleRepository */
@@ -47,6 +50,7 @@ class UserInformationService
     /**
      * UserInformationService constructor.
      * @param MessageRepository $messageRepository
+     * @param VehicleRepositoryResolver $vehicleRepositoryResolver
      * @param DoctrineUserLikeVehicleRepository $userLikeVehicleRepository
      * @param DoctrineLikeProVehicleRepository $likeRepository
      * @param LeadRepository $leadRepository
@@ -58,6 +62,7 @@ class UserInformationService
      * @param RouterInterface $router
      */
     public function __construct(MessageRepository $messageRepository,
+                                VehicleRepositoryResolver $vehicleRepositoryResolver,
                                 DoctrineUserLikeVehicleRepository $userLikeVehicleRepository,
                                 DoctrineLikeProVehicleRepository $likeRepository,
                                 LeadRepository $leadRepository,
@@ -70,6 +75,7 @@ class UserInformationService
     )
     {
         $this->messageRepository = $messageRepository;
+        $this->vehicleRepositoryResolver = $vehicleRepositoryResolver;
         $this->userLikeVehicleRepository = $userLikeVehicleRepository;
         $this->likeProVehicleRepository = $likeRepository;
         $this->leadRepository = $leadRepository;
@@ -172,7 +178,7 @@ class UserInformationService
                 $personalUser->getCreatedAt() != null ? $personalUser->getCreatedAt()->format(self::DATETIME_FORMAT) : '-',
                 $personalUser->getLastSubmissionDate() != null ? $personalUser->getLastSubmissionDate()->format(self::DATETIME_FORMAT) : '-',
                 $personalUser->getLastLoginAt() != null ? $personalUser->getLastLoginAt()->format(self::DATETIME_FORMAT) : '-',
-                $personalUserActionsData['lastActionDate'] != null ?  (new \DateTime($personalUserActionsData['lastActionDate']))->format(self::DATETIME_FORMAT) : '-',
+                $personalUserActionsData['lastActionDate'] != null ? (new \DateTime($personalUserActionsData['lastActionDate']))->format(self::DATETIME_FORMAT) : '-',
                 count($personalUser->getInitiatedConversations()),
                 $personalUserActionsData['nbPhoneDisplays'],
                 count($personalUser->getPositiveLikes())
@@ -212,15 +218,18 @@ class UserInformationService
 
             $proUserActionsData = $this->leadRepository->getProUserActionsStats($proUser);
 
+            $vehicleRepository = $this->vehicleRepositoryResolver->getVehicleRepositoryByUser($proUser);
+            $lastUpdatedVehicle = $vehicleRepository->findBy(['seller' => $proUser], ['updatedAt' => 'DESC'], 1);
+
             $result['data'][] = [
                 $proUserId,
                 $proUserAvatar,
                 $proUser->getFirstName(),
                 $proUser->getLastName(),
                 $proUser->getEmail(),
-                $proUser->getPhone() . ' | ' . $proUser->getPhonePro(),
+                $proUser->getPhone() . (!empty($proUser->getPhone()) && !empty($proUser->getPhonePro()) ? ' | ' : '') . $proUser->getPhonePro(),
                 $proUser->getCreatedAt() != null ? $proUser->getCreatedAt()->format(self::DATETIME_FORMAT) : '-',
-                '-',
+                count($lastUpdatedVehicle) == 1 ? $lastUpdatedVehicle[0]->getUpdatedAt()->format(self::DATETIME_FORMAT) : '-',
                 $proUser->getLastLoginAt() != null ? $proUser->getLastLoginAt()->format(self::DATETIME_FORMAT) : '-',
                 $proUserActionsData['lastActionDate'] != null ? (new \DateTime($proUserActionsData['lastActionDate']))->format(self::DATETIME_FORMAT) : '-',
                 count($proUser->getInitiatedConversations()),
