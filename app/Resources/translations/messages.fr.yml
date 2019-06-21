@@ -1125,7 +1125,7 @@ pro_user_performances:
   30_days:
     title: "Performances sur les 30 derniers jours"
   audience:
-    title: "Audience"
+    title: "Audience (par session unique)"
     table:
       profile_view: "#Vues de la page profil"
       tel_display: "#click numéro téléphone"
