@@ -46,6 +46,11 @@ interface LeadRepository
     public function getLeadUserActionsStats(BaseUser $user): array;
 
     /**
+     * Reset counters of Messages/Likes of all Leads
+     */
+    public function resetCountersMessageAndLikes();
+
+    /**
      * Finds an entity by its primary key / identifier.
      *
      * @param mixed $id The identifier.
@@ -92,5 +97,12 @@ interface LeadRepository
      * @return boolean
      */
     public function remove(Lead $lead);
+
+
+    /**
+     * @param array $leads
+     * @param int|null $batchSize
+     */
+    public function saveBulk(array $leads, ?int $batchSize = 50);
 
 }

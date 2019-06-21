@@ -3,17 +3,21 @@
 namespace AppBundle\Services\User;
 
 
-use Doctrine\DBAL\DBALException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Conversation\Message;
+use Wamcar\Conversation\MessageRepository;
+use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
+use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserRepository;
 
 class LeadManagementService
@@ -23,6 +27,10 @@ class LeadManagementService
     private $userRepository;
     /** @var LeadRepository */
     private $leadRepository;
+    /** @var MessageRepository */
+    private $messageRepository;
+    /** @var UserLikeVehicleRepository */
+    private $userLikeVehicleRepository;
     /** @var RouterInterface */
     private $router;
     /** @var TranslatorInterface */
@@ -34,14 +42,18 @@ class LeadManagementService
      * LeadManagementService constructor.
      * @param UserRepository $userRepository
      * @param LeadRepository $leadRepository
+     * @param MessageRepository $messageRepository
+     * @param UserLikeVehicleRepository $userLikeVehicleRepository
      * @param RouterInterface $router
      * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
      */
-    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, MessageRepository $messageRepository, UserLikeVehicleRepository $userLikeVehicleRepository, RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
+        $this->messageRepository = $messageRepository;
+        $this->userLikeVehicleRepository = $userLikeVehicleRepository;
         $this->router = $router;
         $this->translator = $translator;
         $this->logger = $logger;
@@ -118,52 +130,136 @@ class LeadManagementService
     }
 
     /**
-     * // TODO revoir la récupération des potentiels leads
-     * Generate and intialize the leads of the $proUser, based on the conversation and the likes
-     * @param ProUser $proUser
-     * @return int the number of $proUser's leads
+     * Initialize leads of all ProUsers, based on the conversation and the likes
+     * @param null|SymfonyStyle $io
+     * @return array [ProUser.Id => ProUser.NbLeads]
      */
-    public function generateProUserLead(ProUser $proUser)
+    public function generateProUserLeads(?SymfonyStyle $io): array
     {
-        $potentialLeads = $this->retrievePotentialLeads($proUser);
-        foreach ($potentialLeads as $leadInfo) {
-            /** @var BaseUser $leadUser */
-            $leadUser = $this->userRepository->findIgnoreSoftDeleted($leadInfo['leadUserId']);
-            if ($leadUser != null) {
-                // TODO : find who initiate the lead
-                $lead = $this->getLead($proUser, $leadUser, $leadUser, false);
-                if ($lead != null) {
+        // Reset all counters about Messages and Likes
+        $res = $this->leadRepository->resetCountersMessageAndLikes();
+        if ($io) {
+            $io->text('Reset counters (Message/Like) of Leads : ' . $res . ' updated rows');
+        }
 
-                    // TODO séparer les messages des pros de ceux des leads, idem pour les likes
-                    $lead->setNbLeadMessages($leadInfo['nbMessages']);
-                    $lead->setNbLeadLikes($leadInfo['nbLikes']);
-                    try {
-                        $lead->setCreatedAt(new \DateTime($leadInfo['createdAt']));
-                        $lead->setLastContactedAt(new \DateTime($leadInfo['contactedAt']));
-                    } catch (\Exception $e) {
-                        $this->logger->critical('Error while setting Lead Dates (now are used by default) ' . $lead->getId());
-                        $this->logger->critical(print_r($leadInfo, true));
-                        // Note : update with 'now' date in lastContactedAt and createdAt even if error
+        // Array of leads with ProUser.id & LeadUser.id as keys
+        $leads = [];
+        $messages = $this->messageRepository->findBy([], ['publishedAt' => 'ASC']);
+        if ($io) {
+            $io->text("Messages...");
+            $io->progressStart(count($messages));
+        }
+        array_walk($messages, function (Message $message) use (&$leads, $io) {
+            if ($io) {
+                $io->progressAdvance();
+            }
+            /** @var BaseUser $sender */
+            $sender = $message->getUser();
+            $recipients = $message->getRecipients();
+            if ($sender instanceof ProUser) {
+                /** @var BaseUser $recipient */
+                foreach ($recipients as $recipient) {
+                    if (isset($leads[$sender->getId()]) && isset($leads[$sender->getId()][$recipient->getId()])) {
+                        $lead = $leads[$sender->getId()][$recipient->getId()];
+                    } else {
+                        $lead = $this->getLead($sender, $sender, $recipient, false);
+                        if ($lead != null) {
+                            if (!isset($leads[$sender->getId()])) {
+                                $leads[$sender->getId()] = [];
+                            }
+                            $leads[$sender->getId()][$recipient->getId()] = $lead;
+                        }
                     }
-                    $this->leadRepository->update($lead);
+                    if ($lead != null) {
+                        $lead->increaseNbProMessages();
+                    }
                 }
             }
+            foreach ($recipients as $recipient) {
+                if ($recipient instanceof ProUser) {
+                    if (isset($leads[$recipient->getId()]) && isset($leads[$recipient->getId()][$sender->getId()])) {
+                        $lead = $leads[$recipient->getId()][$sender->getId()];
+                    } else {
+                        $lead = $this->getLead($recipient, $sender, $sender, false);
+                        if ($lead != null) {
+                            if (!isset($leads[$recipient->getId()])) {
+                                $leads[$recipient->getId()] = [];
+                            }
+                            $leads[$recipient->getId()][$sender->getId()] = $lead;
+                        }
+                    }
+                    if ($lead != null) {
+                        $lead->increaseNbLeadMessages();
+                    }
+                }
+            }
+        });
+        if ($io) {
+            $io->progressFinish();
         }
-        return count($proUser->getLeads());
-    }
 
-    /**
-     * Retrieve BaseUsers in conversation with the $proUser and who likes $proUser's vehicle
-     * @param ProUser $proUser
-     * @return array
-     */
-    private function retrievePotentialLeads(ProUser $proUser)
-    {
-        try {
-            return $this->leadRepository->getPotentialLeadsByProUser($proUser);
-        } catch (DBALException $e) {
-            return [];
+        $likes = $this->userLikeVehicleRepository->findBy(['value' => 1], ['createdAt' => 'ASC']);
+        if ($io) {
+            $io->text("Likes...");
+            $io->progressStart(count($likes));
         }
+        array_walk($likes, function (BaseLikeVehicle $likeVehicle) use (&$leads, $io) {
+            if ($io) {
+                $io->progressAdvance();
+            }
+            $liker = $likeVehicle->getUser();
+            $seller = $likeVehicle->getVehicle()->getSeller();
+            if ($liker instanceof ProUser) {
+                if (isset($leads[$liker->getId()]) && isset($leads[$liker->getId()][$seller->getId()])) {
+                    $lead = $leads[$liker->getId()][$seller->getId()];
+                } else {
+                    $lead = $this->getLead($liker, $liker, $seller, false);
+                    if ($lead != null) {
+                        if (!isset($leads[$liker->getId()])) {
+                            $leads[$liker->getId()] = [];
+                        }
+                        $leads[$liker->getId()][$seller->getId()] = $lead;
+                    }
+                }
+                if ($lead != null) {
+                    $lead->increaseNbProLikes();
+                }
+            }
+            if ($seller instanceof ProUser) {
+                if (isset($leads[$seller->getId()]) && isset($leads[$seller->getId()][$liker->getId()])) {
+                    $lead = $leads[$seller->getId()][$liker->getId()];
+                } else {
+                    $lead = $this->getLead($seller, $liker, $liker, false);
+                    if ($lead != null) {
+                        if (!isset($leads[$seller->getId()])) {
+                            $leads[$seller->getId()] = [];
+                        }
+                        $leads[$seller->getId()][$liker->getId()] = $lead;
+                    }
+                }
+                if ($lead != null) {
+                    $lead->increaseNbLeadLikes();
+                }
+            }
+        });
+        if ($io) {
+            $io->progressFinish();
+        }
+
+        $results = [];
+        if ($io) {
+            $io->text('Saving...');
+            $io->progressStart(count($leads));
+        }
+        foreach ($leads as $proUserId => $proUserleads) {
+            $io->progressAdvance();
+            $this->leadRepository->saveBulk($proUserleads);
+            $results[] = [$proUserId, count($proUserleads)];
+        }
+        if ($io) {
+            $io->progressFinish();
+        }
+        return $results;
     }
 
     /**
@@ -214,7 +310,7 @@ class LeadManagementService
      */
     public function increaseNbLeadMessage(ProUser $proUser, BaseUser $leadUser): ?Lead
     {
-        $lead = $this->getLead($proUser, $leadUser, $leadUser, true);
+        $lead = $this->getLead($proUser, $leadUser, $leadUser, false);
         if ($lead != null) {
             $lead->increaseNbLeadMessages();
             return $this->leadRepository->update($lead);
@@ -230,7 +326,7 @@ class LeadManagementService
      */
     public function increaseNbProMessage(ProUser $proUser, BaseUser $leadUser): ?Lead
     {
-        $lead = $this->getLead($proUser, $proUser, $leadUser, true);
+        $lead = $this->getLead($proUser, $proUser, $leadUser, false);
         if ($lead != null) {
             $lead->increaseNbProMessages();
             return $this->leadRepository->update($lead);

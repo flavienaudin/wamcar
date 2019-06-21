@@ -48,9 +48,9 @@ class ConversationUser
     }
 
     /**
-     * @return BaseUser
+     * @return null|BaseUser null if SoftDeleted
      */
-    public function getUser(): BaseUser
+    public function getUser(): ?BaseUser
     {
         return $this->user;
     }

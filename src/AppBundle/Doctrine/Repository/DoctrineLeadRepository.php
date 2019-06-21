@@ -167,6 +167,20 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
     }
 
     /**
+     * Reset counters of Messages/Likes of all Leads
+     */
+    public function resetCountersMessageAndLikes()
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->update('Wamcar:User\Lead', 'l')
+            ->set('l.nbLeadMessages', 0)
+            ->set('l.nbLeadLikes', 0)
+            ->set('l.nbProMessages', 0)
+            ->set('l.nbProLikes', 0);
+        return $qb->getQuery()->execute();
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function add(Lead $lead): Lead
@@ -192,6 +206,23 @@ class DoctrineLeadRepository extends EntityRepository implements LeadRepository
     public function remove(Lead $lead)
     {
         $this->_em->remove($lead);
+        $this->_em->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function saveBulk(array $leads, ?int $batchSize = 50)
+    {
+        $idx = 0;
+        /** @var Lead $lead */
+        foreach ($leads as $lead) {
+            $idx++;
+            $this->_em->persist($lead);
+            if (($idx % $batchSize) === 0) {
+                $this->_em->flush();
+            }
+        }
         $this->_em->flush();
     }
 }
