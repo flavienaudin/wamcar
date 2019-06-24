@@ -120,7 +120,7 @@ class Message
     public function getRecipients(): array
     {
         $recipients = [];
-        $this->getConversation()->getConversationUsers()->map(function (ConversationUser $conversationUser) use ($recipients) {
+        $this->getConversation()->getConversationUsers()->map(function (ConversationUser $conversationUser) use (&$recipients) {
             if ($conversationUser->getUser() != null && !$conversationUser->getUser()->is($this->getUser())) {
                 $recipients[] = $conversationUser->getUser();
             }

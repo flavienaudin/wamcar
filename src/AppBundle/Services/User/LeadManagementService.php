@@ -263,6 +263,13 @@ class LeadManagementService
                     }
                     if ($lead != null) {
                         $lead->increaseNbProMessages();
+                        // update createdAt when generating lead from old data
+                        if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()){
+                            $lead->setCreatedAt($message->getPublishedAt());
+                        }
+                        if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt()){
+                            $lead->setLastContactedAt($message->getPublishedAt());
+                        }
                     }
                 }
             }
@@ -281,6 +288,13 @@ class LeadManagementService
                     }
                     if ($lead != null) {
                         $lead->increaseNbLeadMessages();
+                        // update createdAt when generating lead from old data
+                        if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()){
+                            $lead->setCreatedAt($message->getPublishedAt());
+                        }
+                        if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt()){
+                            $lead->setLastContactedAt($message->getPublishedAt());
+                        }
                     }
                 }
             }
@@ -314,6 +328,13 @@ class LeadManagementService
                 }
                 if ($lead != null) {
                     $lead->increaseNbProLikes();
+                    // update createdAt/updateAt when generating lead from old data
+                    if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()){
+                        $lead->setCreatedAt($likeVehicle->getUpdatedAt());
+                    }
+                    if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt()){
+                        $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                    }
                 }
             }
             if ($seller instanceof ProUser) {
@@ -330,6 +351,14 @@ class LeadManagementService
                 }
                 if ($lead != null) {
                     $lead->increaseNbLeadLikes();
+
+                    // update createdAt/lastContactedAt when generating lead from old data
+                    if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()){
+                        $lead->setCreatedAt($likeVehicle->getUpdatedAt());
+                    }
+                    if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt()){
+                        $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                    }
                 }
             }
         });
@@ -339,7 +368,7 @@ class LeadManagementService
 
         $results = [];
         if ($io) {
-            $io->text('Saving...');
+            $io->text("Saving prouser's leads...");
             $io->progressStart(count($leads));
         }
         foreach ($leads as $proUserId => $proUserleads) {
