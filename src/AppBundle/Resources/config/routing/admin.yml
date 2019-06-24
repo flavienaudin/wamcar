@@ -31,6 +31,10 @@ admin_user_linking_list:
     path: /user/relation/list
     controller: AppBundle:Front\AdministrationContext\Administration:userLinking
 
+admin_user_linking_data:
+    path: /user/relation/data
+    controller: AppBundle:Front\AdministrationContext\Administration:userLinkingData
+
 admin_user_convert_personal_to_pro:
     path: /user/convertPersonalToPro/{slug}
     controller: AppBundle:Front\PersonalContext\User:convertPersonalToPro

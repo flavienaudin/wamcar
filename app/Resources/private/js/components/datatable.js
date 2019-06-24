@@ -234,4 +234,66 @@ $(function () {
       });
     });
   }
+
+  const $userlinkingsDatatable = $('.js-userlinkings-datatable');
+  if ($userlinkingsDatatable) {
+    $userlinkingsDatatable.each((index, datatable) => {
+      let ajaxUrl = $(datatable).data('href');
+      let transUrl = $(datatable).data('trans');
+      $(datatable).DataTable({
+        'processing': true,
+        'serverSide': true,
+        'responsive': {
+          'details': {
+            'renderer': function (api, rowIdx, columns) {
+              var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                  '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                  '<td class="is-flex">' + col.title + '&nbsp;:&nbsp;' + col.data + '</td></tr>' :
+                  '';
+              }).join('');
+              return data ? $('<table/>').append(data) : false;
+            }
+          }
+        },
+        'order': [[3, 'desc']],
+        'paging': false,
+        'searching': false,
+        'lengthChange': false,
+        'language': {
+          'url': transUrl
+        },
+        'ajax': {
+          'url': ajaxUrl,
+          'error': function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
+          }
+        },
+        'columns': [
+          {'data': 'userA', 'orderable':false},
+          {'data': 'userB', 'orderable':false},
+          {'data': 'firstContactedAt', 'orderable':true},
+          {'data': 'lastContactedAt', 'orderable':true},
+
+          {'data': 'userAproPhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userAprofilePhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userAMessages', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userALikes', 'className': 'dt-center', 'orderable':false},
+
+          {'data': 'userBproPhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBprofilePhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBMessages', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBLikes', 'className': 'dt-center', 'orderable':false},
+
+          {'data': 'affinityDegree'},
+          {'data': 'leadStatus', 'orderable':true},
+          {'data': 'sales', 'orderable':false}
+        ]
+      });
+    });
+  }
 });

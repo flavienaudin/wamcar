@@ -12,6 +12,7 @@ use Wamcar\Conversation\Message;
 use Wamcar\Conversation\MessageRepository;
 use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Enum\LeadInitiatedBy;
 use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
@@ -124,6 +125,96 @@ class LeadManagementService
                 'leadLikeStats' => $lead->getNbLeadLikes(),
                 'status' => $status,
                 'action' => $action
+            ];
+        }
+        return $result;
+    }
+
+    public function getLeadsAsUserLinkings(array $params): array
+    {
+        $ordering = [];
+        foreach ($params['order'] as $order) {
+            switch ($order['column']) {
+                case 2:
+                    $ordering['createdAt'] = $order['dir'];
+                    break;
+                case 3:
+                    $ordering['lastContactedAt'] = $order['dir'];
+                    break;
+                case 13:
+                    $ordering['status'] = $order['dir'];
+                    break;
+            }
+        }
+        $selectedLeads = $this->leadRepository->findBy([], $ordering);
+        $result = [
+            "draw" => intval($params['draw']),
+            "recordsTotal" => count($selectedLeads),
+            "recordsFiltered" => count($selectedLeads),
+            "data" => []
+        ];
+        /** @var Lead $lead */
+        foreach ($selectedLeads as $lead) {
+
+            $proUserInfos =
+                '<a href="' . $this->router->generate('front_view_pro_user_info', [
+                    'slug' => $lead->getProUser()->getSlug()],
+                    UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
+                $lead->getProUser()->getFullName() . ' (' . $lead->getProUser()->getId() . ')</a>';
+
+            $leadInfos = $lead->getUserLead() != null ?
+                '<a href="' . $this->router->generate($lead->getUserLead()->isPro() ? 'front_view_pro_user_info' : 'front_view_personal_user_info', [
+                    'slug' => $lead->getUserLead()->getSlug()],
+                    UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
+                $lead->getUserLead()->getFullName() . '(' . $lead->getUserLead()->getId() . ')</a>' :
+                $lead->getFullName() . ' (del)';
+            if (LeadInitiatedBy::PRO_USER()->equals($lead->getInitiatedBy())) {
+                $userAinfos = $proUserInfos;
+                $userBinfos = $leadInfos;
+                $userAproPhone = $lead->getNbPhoneProActionByPro();
+                $userAprofilePhone = $lead->getNbPhoneActionByPro();
+                $userAMessages = $lead->getNbProMessages();
+                $userALikes = $lead->getNbProLikes();
+                $userBproPhone = $lead->getNbPhoneProActionByLead();
+                $userBprofilePhone = $lead->getNbPhoneActionByLead();
+                $userBMessages = $lead->getNbLeadMessages();
+                $userBLikes = $lead->getNbLeadLikes();
+            } else {
+                $userAinfos = $leadInfos;
+                $userBinfos = $proUserInfos;
+                $userBproPhone = $lead->getNbPhoneProActionByPro();
+                $userBprofilePhone = $lead->getNbPhoneActionByPro();
+                $userBMessages = $lead->getNbProMessages();
+                $userBLikes = $lead->getNbProLikes();
+                $userAproPhone = $lead->getNbPhoneProActionByLead();
+                $userAprofilePhone = $lead->getNbPhoneActionByLead();
+                $userAMessages = $lead->getNbLeadMessages();
+                $userALikes = $lead->getNbLeadLikes();
+            }
+
+            $affinityDegrees = $lead->getProUser()->getAffinityDegreesWith($lead->getUserLead());
+
+            $nbSales = count($lead->getSaleDeclarations());
+
+            $result['data'][] = [
+                'userA' => $userAinfos,
+                'userB' => $userBinfos,
+                'firstContactedAt' => $lead->getCreatedAt()->format("d/m/y H:i"),
+                'lastContactedAt' => $lead->getLastContactedAt()->format("d/m/y H:i"),
+
+                'userAproPhone' => $userAproPhone,
+                'userAprofilePhone' => $userAprofilePhone,
+                'userAMessages' => $userAMessages,
+                'userALikes' => $userALikes,
+
+                'userBproPhone' => $userBproPhone,
+                'userBprofilePhone' => $userBprofilePhone,
+                'userBMessages' => $userBMessages,
+                'userBLikes' => $userBLikes,
+
+                'affinityDegree' => $affinityDegrees != null ? $affinityDegrees->getAffinityValue() : '-',
+                'leadStatus' => $this->translator->trans($lead->getStatus(), [], 'enumeration'),
+                'sales' => $nbSales
             ];
         }
         return $result;

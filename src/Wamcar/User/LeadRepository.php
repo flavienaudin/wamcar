@@ -58,6 +58,14 @@ interface LeadRepository
      */
     public function find($id);
 
+
+    /**
+     * Finds all entities in the repository.
+     *
+     * @return array The entities.
+     */
+    public function findAll();
+
     /**
      * Finds a single entity by a set of criteria.
      *
