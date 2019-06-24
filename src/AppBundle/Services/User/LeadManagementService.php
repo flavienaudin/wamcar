@@ -264,36 +264,42 @@ class LeadManagementService
                     if ($lead != null) {
                         $lead->increaseNbProMessages();
                         // update createdAt when generating lead from old data
-                        if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()){
+                        if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()) {
                             $lead->setCreatedAt($message->getPublishedAt());
                         }
-                        if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt()){
+                        if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt() ||
+                            ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)
+                        ) {
                             $lead->setLastContactedAt($message->getPublishedAt());
                         }
                     }
                 }
             }
-            foreach ($recipients as $recipient) {
-                if ($recipient instanceof ProUser) {
-                    if (isset($leads[$recipient->getId()]) && isset($leads[$recipient->getId()][$sender->getId()])) {
-                        $lead = $leads[$recipient->getId()][$sender->getId()];
-                    } else {
-                        $lead = $this->getLead($recipient, $sender, $sender, false);
-                        if ($lead != null) {
-                            if (!isset($leads[$recipient->getId()])) {
-                                $leads[$recipient->getId()] = [];
+            if ($sender != null && $sender->getDeletedAt() == null) {
+                foreach ($recipients as $recipient) {
+                    if ($recipient instanceof ProUser) {
+                        if (isset($leads[$recipient->getId()]) && isset($leads[$recipient->getId()][$sender->getId()])) {
+                            $lead = $leads[$recipient->getId()][$sender->getId()];
+                        } else {
+                            $lead = $this->getLead($recipient, $sender, $sender, false);
+                            if ($lead != null) {
+                                if (!isset($leads[$recipient->getId()])) {
+                                    $leads[$recipient->getId()] = [];
+                                }
+                                $leads[$recipient->getId()][$sender->getId()] = $lead;
                             }
-                            $leads[$recipient->getId()][$sender->getId()] = $lead;
                         }
-                    }
-                    if ($lead != null) {
-                        $lead->increaseNbLeadMessages();
-                        // update createdAt when generating lead from old data
-                        if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()){
-                            $lead->setCreatedAt($message->getPublishedAt());
-                        }
-                        if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt()){
-                            $lead->setLastContactedAt($message->getPublishedAt());
+                        if ($lead != null) {
+                            $lead->increaseNbLeadMessages();
+                            // update createdAt when generating lead from old data
+                            if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $message->getPublishedAt()) {
+                                $lead->setCreatedAt($message->getPublishedAt());
+                            }
+                            if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $message->getPublishedAt() ||
+                                ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)
+                            ) {
+                                $lead->setLastContactedAt($message->getPublishedAt());
+                            }
                         }
                     }
                 }
@@ -329,10 +335,11 @@ class LeadManagementService
                 if ($lead != null) {
                     $lead->increaseNbProLikes();
                     // update createdAt/updateAt when generating lead from old data
-                    if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()){
+                    if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
                         $lead->setCreatedAt($likeVehicle->getUpdatedAt());
                     }
-                    if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt()){
+                    if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
+                        ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
                         $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
                     }
                 }
@@ -353,10 +360,11 @@ class LeadManagementService
                     $lead->increaseNbLeadLikes();
 
                     // update createdAt/lastContactedAt when generating lead from old data
-                    if($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()){
+                    if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
                         $lead->setCreatedAt($likeVehicle->getUpdatedAt());
                     }
-                    if($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt()){
+                    if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
+                        ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
                         $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
                     }
                 }

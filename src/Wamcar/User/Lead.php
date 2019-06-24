@@ -181,9 +181,9 @@ class Lead
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return null|\DateTimeInterface
      */
-    public function getCreatedAt(): \DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
@@ -213,9 +213,9 @@ class Lead
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return null|\DateTimeInterface
      */
-    public function getLastContactedAt(): \DateTimeInterface
+    public function getLastContactedAt(): ?\DateTimeInterface
     {
         return $this->lastContactedAt;
     }
