@@ -289,7 +289,7 @@ $(function () {
           {'data': 'userBMessages', 'className': 'dt-center', 'orderable':false},
           {'data': 'userBLikes', 'className': 'dt-center', 'orderable':false},
 
-          {'data': 'affinityDegree'},
+          {'data': 'affinityDegree', 'orderable':false},
           {'data': 'leadStatus', 'orderable':true},
           {'data': 'sales', 'orderable':false}
         ]
