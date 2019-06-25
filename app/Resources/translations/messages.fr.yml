@@ -1223,6 +1223,7 @@ form:
     remove_photo: Supprimer la photo
 
 phone_number:
+  private: " (Non affiché)"
   tooltip:
     display: Vous devez être connecté pour pouvoir afficher le numéro
     call: Vous devez être connecté pour pouvoir appeler directement

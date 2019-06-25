@@ -25,8 +25,8 @@
                                     <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}"
                                        class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}">
                                         <span class="show-for-medium"
-                                              data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
-                                              data-wt-to="{{ like.user|wtUserDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span>
+                                              data-wt-action="LM" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
+                                              data-wt-to="{{ like.user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span>
                                     </a>
                                 {% endif %}
                             </li>

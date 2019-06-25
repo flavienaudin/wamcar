@@ -13,7 +13,7 @@ if ($phoneNumberElement.length) {
 }
 
 // Ajax request to update number of clicks on "tel" (show and call)
-const $phoneNumberClickables = $('[id*="showtelpro"],[id*="showtelpart"]');
+const $phoneNumberClickables = $('.js-callphone-action,.js-showphone-action');
 $phoneNumberClickables.each((index, clickable) => {
   const url = $(clickable).data('href'),
     eventId = $(clickable).attr('id');

@@ -36,19 +36,21 @@
                             {% else %}
                                 <div class="is-flex">
                                     <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
-                                        <span class="text-underline" data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
-                                              data-wt-to="{{ membership.prouser|wtUserDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span></a>
+                                        <span class="text-underline" data-wt-action="LM" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
+                                              data-wt-to="{{ membership.prouser|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span></a>
                                     {% if membership.proUser.phonePro %}
                                         <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                                'phoneNumber_eventId':'showtelproFixe'~membership.proUser.id,
+                                                'phoneOwner': membership.proUser,
                                                 'phoneNumber': membership.proUser.phonePro,
+                                                'showphone_subaction': "2",
                                                 'buttonClass': 'margin-left-1'
                                             }) }}</span>
                                     {% endif %}
-                                    {% if membership.proUser.userProfile.phone %}
+                                    {% if membership.proUser.phone %}
                                         <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                                'phoneNumber_eventId':'showtelproMobile'~membership.proUser.id,
-                                                'phoneNumber': membership.proUser.userProfile.phone,
+                                                'phoneOwner': membership.proUser,
+                                                'phoneNumber': membership.proUser.phone,
+                                                'showphone_subaction': "1",
                                                 'buttonClass': 'margin-left-1',
                                                 'icontel': 'icon-mobile'
                                             }) }}</span>

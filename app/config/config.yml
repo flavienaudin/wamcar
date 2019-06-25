@@ -3,7 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: front_mock.yml }
-    - { resource: ../../vendor/beberlei/DoctrineExtensions/config/mysql.yml}
+    - { resource: ../../vendor/beberlei/doctrineextensions/config/mysql.yml}
     - { resource: easyadmin.yml}
 
 # Put parameters here that don't need to change on each machine where the app is deployed
