@@ -58,7 +58,8 @@
                                 <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
                                 <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                                     <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                                       class="button expand-height square dark-blue">
+                                       class="button expand-height square dark-blue" data-wt-action="LM RDV"
+                                       data-wt-from="{{ app.user|wtUserDataAttrValue }}" data-wt-to="{{ user|wtUserDataAttrValue }}">
                                         {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
                                 </div>
                             </div>
@@ -197,11 +198,8 @@
         <div class="vehicle-editing hide-for-large block-grid small-12">
             <span class="column small-collapse small-12">
                 <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                   id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}"
-                   class="button add icon-message {#small-12 medium-shrink#}">{{ 'global.button.send_message'|trans }}</a>
-                {#<a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, '_fragment':'message-answer-block'}) }}"
-                   id="launchMP{{ vehicle.seller.isPro?"pro":"partiulier" }}{{ vehicle.seller.id }}"
-                   class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>#}
+                   class="button add icon-message " data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
+                   data-wt-to="{{ user|wtUserDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
             </span>
         </div>
     {% endif %}

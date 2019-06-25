@@ -36,7 +36,8 @@
                             {% else %}
                                 <div class="is-flex">
                                     <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
-                                        <span class="text-underline" id="launchMPpro{{ membership.prouser.id }}">{{ 'global.button.send_message'|trans }}</span></a>
+                                        <span class="text-underline" data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
+                                              data-wt-to="{{ membership.prouser|wtUserDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span></a>
                                     {% if membership.proUser.phonePro %}
                                         <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                                                 'phoneNumber_eventId':'showtelproFixe'~membership.proUser.id,

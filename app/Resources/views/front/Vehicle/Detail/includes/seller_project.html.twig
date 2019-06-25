@@ -8,7 +8,9 @@
         {% if isEditableByCurrentUser %}
             <a href="{{ path('front_edit_user_project') }}" class="button seller-project-button">{{ 'user.project.edit'|trans }}</a>
         {% else %}
-            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}" class="button seller-project-button">{{ 'user.project.answer'|trans }}</a>
+            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
+               class="button seller-project-button" data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
+            data-wt-to="{{ vehicle.seller|wtUserDataAttrValue }}">{{ 'user.project.answer'|trans }}</a>
         {% endif %}
     </div>
 {% else %}
@@ -17,8 +19,8 @@
             <a href="{{ path('front_edit_user_project') }}" class="button seller-project-button">{{ 'user.project.create'|trans }}</a>
         {% else %}
             <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
-               class="button seller-project-button" id="launchMP{{ vehicle.seller.isPro?"pro":"particulier" }}{{ vehicle.seller.id }}">
-                {{ 'global.button.send_message'|trans }}</a>
+               class="button seller-project-button" data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"
+               data-wt-to="{{ vehicle.seller|wtUserDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
         {% endif %}
     </div>
 {% endif %}

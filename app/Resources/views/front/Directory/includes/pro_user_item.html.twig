@@ -13,8 +13,9 @@
             </{{ balise }}>
             <a href="{{ sellerUrl }}"><p>{{ proUser.description|nl2br }}</p></a>
         </div>
-        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" id="launchMPpro{{ proUser.id }}"
-           class="directory-item-action is-flex align-middle icon-message"></a>
+        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"
+           class="directory-item-action is-flex align-middle icon-message"
+           data-wt-action="LM" data-wt-from="{{ app.user|wtUserDataAttrValue }}"data-wt-to="{{ proUser|wtUserDataAttrValue }}"></a>
     </div>
     <div class="small-12 medium-4">
         <div class="directory-item-garages">
