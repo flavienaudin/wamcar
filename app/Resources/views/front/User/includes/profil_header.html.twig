@@ -45,10 +45,12 @@
                 {% endif %}
 
                 {% if not userIsMe %}
-                    <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                       class="icon-message small-12 medium-shrink">
-                        <span class="text-underline" data-wt-action="LM" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
-                              data-wt-to="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span></a>
+                    <span class="small-12 medium-shrink icon-message primary-color">
+                        <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                           class="text-underline" data-wtaction="LM"
+                           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
+                            {{ 'global.button.send_message'|trans }}</a>
+                    </span>
                 {% endif %}
             </div>
         </div>

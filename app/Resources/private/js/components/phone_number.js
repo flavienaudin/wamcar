@@ -16,12 +16,14 @@ if ($phoneNumberElement.length) {
 const $phoneNumberClickables = $('.js-callphone-action,.js-showphone-action');
 $phoneNumberClickables.each((index, clickable) => {
   const url = $(clickable).data('href'),
-    eventId = $(clickable).attr('id');
+    action = $(clickable).data('wtaction'),
+    from = $(clickable).data('wtfrom'),
+    to = $(clickable).data('wtto');
   $(clickable).on('click', () => {
     $.ajax({
       url: url,
       method: 'POST',
-      data: {'eventId': eventId}
+      data: {'action': action, 'from': from, 'to': to}
     }).done(function (data) {
       $(clickable).off('click');
     });

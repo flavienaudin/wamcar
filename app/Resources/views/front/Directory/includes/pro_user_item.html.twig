@@ -13,9 +13,11 @@
             </{{ balise }}>
             <a href="{{ sellerUrl }}"><p>{{ proUser.description|nl2br }}</p></a>
         </div>
-        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}"
+        <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" title="{{ 'global.button.send_message'|trans }}"
            class="directory-item-action is-flex align-middle icon-message"
-           data-wt-action="LM" data-wt-from="{{ app.user|wtFromDataAttrValue }}"data-wt-to="{{ proUser|wtToDataAttrValue }}"></a>
+           data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"data-wtto="{{ proUser|wtToDataAttrValue }}">
+            <span class="sr-only">{{ 'global.button.send_message'|trans }}</span>
+        </a>
     </div>
     <div class="small-12 medium-4">
         <div class="directory-item-garages">

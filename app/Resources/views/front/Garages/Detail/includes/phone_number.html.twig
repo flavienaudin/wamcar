@@ -6,38 +6,31 @@
 {% set phoneOwner = phoneOwner|default(null) %}
 {% set textDisplay = textDisplay|default(null) %}
 
-<{{ balise  }}>
+<{{ balise }} class="primary-color {{ icontel }} {{ buttonClass }}">
 {% if isLogged or disabledLoggedProtection %}
     {% if is_mobile() %}
-        <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer"
-           class="phone-number-link {{ icontel }} {{ buttonClass }}">
-            <span class="js-callphone-action text-underline" data-href="{{ path('front_show_number') }}"
-                  data-wt-action="{{ showphone_action }}" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
-                  data-wt-to="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.call"|trans }}</span>
-            {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
-        </a>
+        <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer" class="js-callphone-action text-underline"
+           data-href="{{ path('front_show_number') }}" data-wtaction="{{ showphone_action }}"
+           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.call"|trans }}</a>
+        {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
     {% else %}
-        <span class="phone-number-link {{ icontel }} {{ buttonClass }}">
-            <span class="js-see-number js-showphone-action text-underline" data-href="{{ path('front_show_number') }}"
-                  data-wt-action="{{ showphone_action }}" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
-                  data-wt-to="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.see_phone_number"|trans }}</span>
-            <span class="js-phone-number text-underline is-hidden">{{ phoneNumber|phoneFormat }}</span>
-            {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
-        </span>
+        <span class="js-see-number js-showphone-action text-underline" data-href="{{ path('front_show_number') }}"
+              data-wtaction="{{ showphone_action }}" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+              data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.see_phone_number"|trans }}</span>
+        <span class="js-phone-number is-hidden text-underline">{{ phoneNumber|phoneFormat }}</span>
+        {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
     {% endif %}
 {% else %}
-    <span class="phone-number-link {{ icontel }} {{ buttonClass }}">
-        {% if is_mobile() %}
-            <span class="text-underline" data-wt-action="{{ showphone_action }}"
-                  data-wt-from="{{ app.user|wtFromDataAttrValue }}" data-wt-to="{{ phoneOwner|wtToDataAttrValue }}"
-                  data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom">
-                {{ "global.button.call"|trans }}</span>
-        {% else %}
-            <span class="text-underline" data-wt-action="{{ showphone_action }}"
-                  data-wt-from="{{ app.user|wtFromDataAttrValue }}" data-wt-to="{{ phoneOwner|wtToDataAttrValue }}"
-                  data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >
-                {{ "global.button.see_phone_number"|trans }}</span>
-        {% endif %}
-    </span>
+    {% if is_mobile() %}
+        <span class="text-underline" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom">
+            {{ "global.button.call"|trans }}</span>
+    {% else %}
+        <span class="text-underline" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >
+            {{ "global.button.see_phone_number"|trans }}</span>
+    {% endif %}
 {% endif %}
 </{{ balise  }}>

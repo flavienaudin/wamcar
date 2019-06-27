@@ -35,9 +35,10 @@
                                 <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit.action'|trans }}</a></p>
                             {% else %}
                                 <div class="is-flex">
-                                    <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="icon-message {#button user-send-message-button#}">
-                                        <span class="text-underline" data-wt-action="LM" data-wt-from="{{ app.user|wtFromDataAttrValue }}"
-                                              data-wt-to="{{ membership.prouser|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span></a>
+                                    <span class="icon-message primary-color">
+                                        <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline"
+                                           data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ membership.prouser|wtToDataAttrValue }}">
+                                        {{ 'global.button.send_message'|trans }}</a></span>
                                     {% if membership.proUser.phonePro %}
                                         <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                                                 'phoneOwner': membership.proUser,

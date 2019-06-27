@@ -37,6 +37,7 @@ use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -544,19 +545,20 @@ class UserController extends BaseController
             throw new BadRequestHttpException();
         }
         $currentUser = $this->getUser();
-        if ( $currentUser instanceof BaseUser) {
+        if ($currentUser instanceof BaseUser) {
+            $action = $request->get('action');
+            $to = $request->get('to');
 
-            // TODO get request param to get which phonenumber is concerned and to get its owner
-            $eventId = $request->get('eventId');
-            $userId = str_replace(['PC', 'Smartphone', 'showtelpart', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+            $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
+
             $phoneNumberUser = $this->userRepository->findOne($userId);
-            if($currentUser instanceof ProUser){
-                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser,$phoneNumberUser,
-                    strpos($eventId, 'Fixe') > 0);
+            if ($currentUser instanceof ProUser) {
+                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
+                    strpos($action, '2') > 0);
             }
             if ($phoneNumberUser instanceof ProUser) {
                 $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
-                    strpos($eventId, 'Fixe') > 0);
+                    strpos($action, '2') > 0);
             }
         }
         return new JsonResponse();
@@ -709,11 +711,11 @@ class UserController extends BaseController
      */
     public function proUsersStatisticsAction(Request $request)
     {
-        if(!$request->isXmlHttpRequest()){
+        if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if(!$this->isGranted('ROLE_ADMIN')){
-            return new JsonResponse(['admin only'],Response::HTTP_UNAUTHORIZED);
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->userInformationService->getProUsersStatistics($request->query->all()));
     }
@@ -734,11 +736,11 @@ class UserController extends BaseController
      */
     public function personalUsersStatisticsAction(Request $request)
     {
-        if(!$request->isXmlHttpRequest()){
+        if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if(!$this->isGranted('ROLE_ADMIN')){
-            return new JsonResponse(['admin only'],Response::HTTP_UNAUTHORIZED);
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->userInformationService->getPersonalUsersStatistics($request->query->all()));
     }

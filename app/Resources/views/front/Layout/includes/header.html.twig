@@ -21,10 +21,11 @@
                 </button>
 
                 <a href="{{ path('front_conversation_list') }}"
-                   class="l-navigation-item is-logged l-header-button icon-message body-font-color l-header-button">
-                    <span class="messages-notification">{{ getCountUnreadMessages(app.user) }}</span>
+                   class="l-navigation-item is-logged l-header-button icon-message body-font-color l-header-button"
+                    data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ wtNoneValue() }}">
+                    <span class="messages-notification" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+                          data-wtto="{{ wtNoneValue() }}">{{ getCountUnreadMessages(app.user) }}</span>
                 </a>
-
                 <a href="{{ mgilet_notification_generate_path('notification_list', app.user) }}"
                    class="l-navigation-item is-logged l-header-button icon-bell body-font-color l-header-button show-for-small-only">
                     <span class="messages-notification">{{ userUnseenNotificationCount }}</span>
