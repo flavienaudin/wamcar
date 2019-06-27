@@ -14,7 +14,7 @@
            data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.call"|trans }}</a>
         {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
     {% else %}
-        <span class="js-see-number js-showphone-action text-underline" data-href="{{ path('front_show_number') }}"
+        <span class="js-see-number js-showphone-action phone-number-link text-underline" data-href="{{ path('front_show_number') }}"
               data-wtaction="{{ showphone_action }}" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
               data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.see_phone_number"|trans }}</span>
         <span class="js-phone-number is-hidden text-underline">{{ phoneNumber|phoneFormat }}</span>
