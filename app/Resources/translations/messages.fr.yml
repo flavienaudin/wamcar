@@ -980,19 +980,19 @@ user:
         personal: >
           Découvrez votre degré d'affinité avec chaque professionnel, cela vous aidera à choisir le
           professionnel qui vous accompagnera dans votre projet.<br>
-          <a href="%affinity_form_url%" class="button"> Remplir le questionnaire WamAffinity</a>
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>
         pro: >
           Découvrez votre degré d'affinité avec chaque particulier<br>
-          <a href="%affinity_form_url%" class="button"> Remplir le questionnaire WamAffinity</a>.
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>.
       edit:
         personal: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
         pro: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline"> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       explanation:

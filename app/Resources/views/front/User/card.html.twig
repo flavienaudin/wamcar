@@ -41,13 +41,16 @@
     {% if userIsMe %}
         <h2>{{ "user.affinity.section.title"|trans }}</h2>
 
+        {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'"' %}
         {% if user.affinityAnswer is null %}
             <p>{{ 'user.affinity.section.explanation.personal'|trans({
-                    '%affinity_form_url%': path('front_affinity_personal_form')
+                    '%affinity_form_url%': path('front_affinity_personal_form'),
+                    '%datawtattr%': lwaWTattr
                 })|raw }}</p>
         {% else %}
             <p>{{ 'user.affinity.section.edit.personal'|trans({
-                    '%affinity_form_url%': path('front_affinity_personal_form')
+                    '%affinity_form_url%': path('front_affinity_personal_form'),
+                    '%datawtattr%': lwaWTattr
                 })|raw }}</p>
         {% endif %}
     {% else %}

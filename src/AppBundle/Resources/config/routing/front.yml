@@ -344,7 +344,6 @@ legacy_search_personal_vehicles:
         page: 1
 
 
-
 # Messagerie
 front_conversation_vehicle_list:
     path: /conversation/ajouter-vehicule/
