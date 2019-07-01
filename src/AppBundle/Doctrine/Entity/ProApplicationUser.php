@@ -114,7 +114,7 @@ class ProApplicationUser extends ProUser implements \Serializable, ApplicationUs
     public function isAdministratorOfGarage(Garage $garage): bool
     {
         // Wamcar administrator can administrate garage
-        if(in_array('ROLE_ADMIN', $this->getRoles())){
+        if(in_array('ROLE_PRO_ADMIN', $this->getRoles())){
             return true;
         }
         /** @var GarageProUser $garageMembership */

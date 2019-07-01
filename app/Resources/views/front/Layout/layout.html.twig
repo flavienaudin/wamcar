@@ -5,7 +5,7 @@
 {% set isLogged = is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) %}
 {% set isUserPro = (isLogged and app.user.isPro) %}
 {% set isUserPersonal = (isLogged and app.user.isPersonal) %}
-{% set isUserAdmin = is_granted('ROLE_ADMIN') %}
+{% set isUserAdmin = is_granted('ROLE_PRO_ADMIN') %}
 
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">

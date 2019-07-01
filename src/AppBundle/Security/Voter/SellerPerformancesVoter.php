@@ -46,7 +46,7 @@ class SellerPerformancesVoter extends Voter
 
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
-        if ($this->decisionManager->decide($token, ['ROLE_ADMIN'])) {
+        if ($this->decisionManager->decide($token, ['ROLE_PRO_ADMIN'])) {
             return true;
         }
 

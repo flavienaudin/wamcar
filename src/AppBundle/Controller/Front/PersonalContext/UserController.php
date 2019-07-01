@@ -661,7 +661,7 @@ class UserController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
+     * security.yml - access_control : ROLE_PRO_ADMIN only
      * @return Response
      */
     public function proUserslistAction()
@@ -674,7 +674,7 @@ class UserController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
+     * security.yml - access_control : ROLE_PRO_ADMIN only
      * @return Response
      */
     public function personalUserslistAction()
@@ -722,7 +722,7 @@ class UserController extends BaseController
 
         $userDeletionForm = $this->formFactory->create(UserDeletionType::class, new UserDeletionDTO());
         $userDeletionForm->handleRequest($request);
-        if ($this->isGranted('ROLE_ADMIN') || ($userDeletionForm->isSubmitted() && $userDeletionForm->isValid())) {
+        if ($this->isGranted('ROLE_PRO_ADMIN') || ($userDeletionForm->isSubmitted() && $userDeletionForm->isValid())) {
 
             $userDeletionReason = null;
             if ($userDeletionForm->isSubmitted()) {
@@ -758,7 +758,7 @@ class UserController extends BaseController
             if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
                 return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
             } else {
-                if ($this->isGranted('ROLE_ADMIN')) {
+                if ($this->isGranted('ROLE_PRO_ADMIN')) {
                     return $this->redirectToRoute('admin_board');
                 } else {
                     return $this->redirectToRoute('front_default');
