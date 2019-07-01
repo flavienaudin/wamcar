@@ -23,29 +23,23 @@
             </h1>
 
             <div class="profil-action">
-                {% if isUserProPageProfil %}
-                    {% if user.phonePro %}
-                        <span class="small-auto medium-shrink">
-                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                'phoneNumber_eventId':'showtelproFixe'~user.id,
-                                'phoneNumber': user.phonePro
-                            }) }}</span>
-                    {% endif %}
-                    {% if user.userProfile.phone %}
-                        <span class="small-auto medium-shrink">
-                            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                                'phoneNumber_eventId':'showtelproMobile'~user.id,
-                                'phoneNumber': user.userProfile.phone,
-                                'icontel': 'icon-mobile'
-                            }) }}</span>
-                    {% endif %}
+                {% if user.phonePro is defined and user.phonePro is not empty %}
+                    <span class="small-auto medium-shrink">
+                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                            'phoneNumber_eventId':'showtelproFixe'~user.id,
+                            'phoneNumber': user.phonePro
+                        }) }}</span>
                 {% endif %}
-                {% if isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) and user.phone is not empty %}
-                    <span class="icon-tel primary-color small-12 medium-shrink">
-                            <a href="tel:{{ user.phone }}" class="text-underline no-margin" target="_blank"
-                               rel="noopener noreferrer">{{ user.phone|phoneFormat }}</a>
-                            {% if userIsMe and not user.isPhoneDisplay%}&nbsp;<span class="body-font-color">(Non affiché)</span>{% endif %}
-                        </span>
+
+                {% if user.userProfile.phone is not empty and (isUserProPageProfil or
+                    (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
+                    <span class="small-auto medium-shrink">
+                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                            'phoneNumber_eventId':'showtel'~(isUserProPageProfil?'pro':'personal')~'Mobile'~user.id,
+                            'phoneNumber': user.userProfile.phone,
+                            'icontel': 'icon-mobile',
+                            'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? ' (Non affiché)' : null)
+                        }) }}</span>
                 {% endif %}
 
                 {% if not userIsMe %}
