@@ -8,9 +8,11 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Wamcar\Garage\Garage;
+use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\BaseVehicle;
 
 class TrackingExtension extends AbstractExtension
 {
@@ -31,7 +33,8 @@ class TrackingExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('wtNoneValue', array($this, 'getWtNoneValue'))
+            new TwigFunction('wtNoneValue', array($this, 'getWtNoneValue')),
+            new TwigFunction('wtLikeDataAttributes', array($this, 'getLikeWtDataAttributes'))
         ];
     }
 
@@ -76,7 +79,26 @@ class TrackingExtension extends AbstractExtension
     /**
      * @return string
      */
-    public function getWtNoneValue(): string {
+    public function getWtNoneValue(): string
+    {
         return self::VALUE_NONE;
+    }
+
+    /**
+     * @param BaseUser|null $fromUser The user, connected or not, who is (un)liking
+     * @param BaseUser $toUser The seller of the vehicule
+     * @param BaseLikeVehicle|null $likeVehicle The like or null
+     * @param BaseVehicle $vehicle The vehicle to (un)like
+     * @return string
+     */
+    public function getLikeWtDataAttributes(?BaseUser $fromUser, BaseUser $toUser, ?BaseLikeVehicle $likeVehicle, BaseVehicle $vehicle): string
+    {
+        if ($likeVehicle == null || $likeVehicle->getValue() === 0) {
+            $action = 'LI';
+        } else {
+            $action = 'UL';
+        }
+        return ' data-wtaction="' . $action . ' ' . $vehicle->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser)
+            . '" data-wtto="' . $this->getWtToDataAttrValue($toUser) . '"';
     }
 }

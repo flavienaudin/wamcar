@@ -1,4 +1,6 @@
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+{% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+
 <header class="vehicle-header block-grid column small-12 align-middle">
     <div class="column small-12">
         <h1 class="small-auto" id="header-{{ vehicle.id }}">{{ vehicle.name }}</h1>
@@ -14,8 +16,9 @@
         </div>
         <div class="small-shrink small-centered medium-right align-self-middle">
             <span class="no-border normal-fw" data-tooltip title="{{ 'favorites.tooltip.like'|trans }}" tabindex="1" data-position="bottom" data-alignment="center">
-            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug}) }}" class="like {{ likeIcon }}">
-                <sub>{{ positiveLikes[constant('AppBundle\\Controller\\Front\\ProContext\\FavoriteController::FAVORITES_ALL')]|length }}</sub>
+            <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug}) }}" class="like {{ likeIcon }}"
+            {{ wtLikeDataAttr|raw }}>
+                <sub {{ wtLikeDataAttr|raw }}>{{ positiveLikes[constant('AppBundle\\Controller\\Front\\ProContext\\FavoriteController::FAVORITES_ALL')]|length }}</sub>
             </a></span>
         </div>
     </div>
