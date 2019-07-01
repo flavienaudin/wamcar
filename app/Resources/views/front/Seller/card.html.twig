@@ -93,19 +93,19 @@
                         </div>
                     {% endif %}
 
-                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'"' %}
+                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
                     {% if userIsMe %}
                         <div class="profil-section">
                             <h2>{{ "user.affinity.section.title"|trans }}</h2>
                             {% if user.affinityAnswer is null %}
                                 <p>{{ 'user.affinity.section.explanation.pro'|trans({
                                         '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr
+                                        '%datawtattr%' : lwaWTattr|raw
                                     })|raw }}</p>
                             {% else %}
                                 <p>{{ 'user.affinity.section.edit.pro'|trans({
                                         '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr
+                                        '%datawtattr%' : lwaWTattr|raw
                                     })|raw }}</p>
                             {% endif %}
                         </div>

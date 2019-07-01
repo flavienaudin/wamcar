@@ -12,12 +12,12 @@
                 {% elseif user.isPro %}
                     <span>{{ 'user.affinity.degree.explanation.personal.logged'|trans }}</span>
                     <a href="{{ path('front_affinity_personal_form') }}" class="button margin-top-1 full-width small"
-                    data-wtaction="LWA" data-wtfrom="{{ app.user|wtFromDataAttrValue }}">
+                    data-wtaction="LWA" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtcontext=" {{ user|wtToDataAttrValue }}">
                         {{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
                 {% else %}
                     <span>{{ 'user.affinity.degree.explanation.pro'|trans }}</span>
                     <a href="{{ path('front_affinity_pro_form') }}" class="button margin-top-1 full-width small"
-                       data-wtaction="LWA" data-wtfrom="{{ app.user|wtFromDataAttrValue }}">
+                       data-wtaction="LWA" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtcontext=" {{ user|wtToDataAttrValue }}">
                             {{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
                 {% endif %}
             </span>
