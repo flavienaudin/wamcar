@@ -111,8 +111,8 @@ class TrackingExtension extends AbstractExtension
      */
     public function getSearchFormWtDataAttributes(FormView $form, ?BaseUser $currentUser): array
     {
+        $attributes = ['data-wtaction' => 'SA', 'data-wtfrom' => $this->getWtFromDataAttrValue($currentUser)];
         if ($form->vars['submitted']) {
-            $attributes = ['data-wtaction' => 'SA', 'data-wtfrom' => $this->getWtFromDataAttrValue($currentUser)];
             // text
             if (!empty($text = $this->getFormElementValue($form, 'text'))) {
                 $attributes['data-wtrequest'] = $text;
@@ -122,7 +122,6 @@ class TrackingExtension extends AbstractExtension
                 $attributes['data-wtcity'] = $city . '#' . $this->getFormElementValue($form, 'postalCode');
                 if (!empty($radius = $this->getFormElementValue($form, 'radius'))) {
                     $attributes['data-wtradius'] = $radius;
-
                 }
             }
             // type
@@ -135,9 +134,8 @@ class TrackingExtension extends AbstractExtension
             }
             /* make, model, transmission, fuel
             mileageMax, yearsMin, yearsMax, budgetMin, budgetMax*/
-            return $attributes;
         }
-        return [];
+        return $attributes;
     }
 
     /**
@@ -146,8 +144,8 @@ class TrackingExtension extends AbstractExtension
      */
     public function getDirectorySearchFormWtDataAttributes(FormView $form, ?BaseUser $currentUser): array
     {
+        $attributes = ['data-wtaction' => 'SC', 'data-wtfrom' => $this->getWtFromDataAttrValue($currentUser)];
         if ($form->vars['submitted']) {
-            $attributes = ['data-wtaction' => 'SC', 'data-wtfrom' => $this->getWtFromDataAttrValue($currentUser)];
             // text
             if (!empty($text = $this->getFormElementValue($form, 'text'))) {
                 $attributes['data-wtrequest'] = $text;
@@ -157,17 +155,14 @@ class TrackingExtension extends AbstractExtension
                 $attributes['data-wtcity'] = $city . '#' . $this->getFormElementValue($form, 'postalCode');
                 if (!empty($radius = $this->getFormElementValue($form, 'radius'))) {
                     $attributes['data-wtradius'] = $radius;
-
                 }
             }
             // sorting
             if (!empty($sorting = $this->getFormElementValue($form, 'sorting'))) {
                 $attributes['data-wtsorting'] = $sorting;
             }
-
-            return $attributes;
         }
-        return [];
+        return $attributes;
     }
 
     private function getFormElementValue(FormView $form, string $name): ?string
