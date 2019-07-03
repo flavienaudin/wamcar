@@ -229,7 +229,7 @@ front_pro_user_leads:
     path: /mes-contacts
     controller: AppBundle:Front\PersonalContext\User:proUserLeadsView
 
-front_pro_user_lead:
+front_pro_user_leads_retrieve:
     path: /pro/leads/{id}
     controller: AppBundle:Front\PersonalContext\User:proUserLeadsGet
 

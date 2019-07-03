@@ -104,6 +104,7 @@ class UserInformationService
             // Activity
             'nbSentMessages' => 0,
             'nbSentLikes' => 0,
+            'nbPhoneNumberViews' => 0,
             'nbLeads' => 0,
             // Results
             'nbSales' => 0,
@@ -117,13 +118,14 @@ class UserInformationService
         $performances['nbUniqueViewsOfProfilePage'] = isset($gaReport['profilePage'][0]) ? (intval($gaReport['profilePage'][0]['uniquePageViews']) ?? 0) : 0;
         $phoneDisplayTotal = isset($gaReport['contactsEvents']['telephone'][0]) ? ($gaReport['contactsEvents']['telephone'][0]['total'] ?? 0) : 0;
         $performances['nbPhoneNumberDisplays'] = $phoneDisplayTotal;
-        $performances['nbReceivedMessages'] = $this->messageRepository->getCountReceivedMessages($proUser);
+        $performances['nbReceivedMessages'] = $this->messageRepository->getCountReceivedMessages($proUser, 30);
         $performances['nbTotalContacts'] = $performances['nbPhoneNumberDisplays'] + $performances['nbReceivedMessages'];
-        $performances['nbReceivedLikes'] = $this->likeProVehicleRepository->getCountReceivedLikes($proUser);
+        $performances['nbReceivedLikes'] = $this->likeProVehicleRepository->getCountReceivedLikes($proUser, 30);
 
         // Activity
         $performances['nbSentMessages'] = $this->messageRepository->getCountSentMessages($proUser);
         $performances['nbSentLikes'] = $this->userLikeVehicleRepository->getCountSentLikes($proUser);
+        $performances['nbPhoneNumberViews'] = isset($gaReport['contactsEvents']['telViews'][0]) ? ($gaReport['contactsEvents']['telViews'][0]['total'] ?? 0) : 0;
         $performances['nbLeads'] = $this->leadRepository->getCountLeadsByLastDateOfContact($proUser);
 
         // Results

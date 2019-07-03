@@ -145,7 +145,11 @@ class Lead
      */
     public function getFullName(): string
     {
-        return join(' ', [$this->firstName, $this->lastName]);
+        if($this->userLead != null){
+            return $this->userLead->getFullName();
+        }else {
+            return join(' ', [$this->firstName, $this->lastName]);
+        }
     }
 
     /**

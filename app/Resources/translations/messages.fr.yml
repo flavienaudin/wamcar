@@ -1128,15 +1128,16 @@ pro_user_performances:
     title: "Audience (par session unique)"
     table:
       profile_view: "#Vues de la page profil"
-      tel_display: "#click numéro téléphone"
-      received_messages: "#messages reçus"
-      received_likes: "#likes reçus"
+      tel_display: "#Clics n° tél"
+      received_messages: "#Messages reçus"
+      received_likes: "#Likes reçus"
   activity:
     title: "Activité"
     table:
       sent_messages: "#Messages envoyés"
-      sent_likes: "#likes envoyés"
-      lead: "#leads"
+      phone_number_views: "#Clics n° tél."
+      sent_likes: "#Likes envoyés"
+      lead: "#Leads"
   results:
     title: "Résultats"
     table:
