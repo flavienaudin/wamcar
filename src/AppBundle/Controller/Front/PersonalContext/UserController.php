@@ -37,6 +37,7 @@ use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -543,13 +544,21 @@ class UserController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if ($this->getUser() instanceof BaseUser) {
-            $eventId = $request->get('eventId');
-            $userId = str_replace(['PC', 'Smartphone', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+        $currentUser = $this->getUser();
+        if ($currentUser instanceof BaseUser) {
+            $action = $request->get('action');
+            $to = $request->get('to');
+
+            $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
+
             $phoneNumberUser = $this->userRepository->findOne($userId);
+            if ($currentUser instanceof ProUser) {
+                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
+                    strpos($action, '2') > 0);
+            }
             if ($phoneNumberUser instanceof ProUser) {
-                $this->leadManagementService->increasePhoneNumberOfProUser($phoneNumberUser, $this->getUser(),
-                    strpos($eventId, 'Fixe') > 0);
+                $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
+                    strpos($action, '2') > 0);
             }
         }
         return new JsonResponse();
@@ -692,11 +701,23 @@ class UserController extends BaseController
      */
     public function proUserslistAction()
     {
-        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        return $this->render("front/adminContext/user/pro_user_list.html.twig");
+    }
 
-        return $this->render("front/adminContext/user/pro_user_list.html.twig", [
-            'proUsers' => $proUsers
-        ]);
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function proUsersStatisticsAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getProUsersStatistics($request->query->all()));
     }
 
     /**
@@ -705,11 +726,23 @@ class UserController extends BaseController
      */
     public function personalUserslistAction()
     {
-        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        return $this->render("front/adminContext/user/personal_user_list.html.twig");
+    }
 
-        return $this->render("front/adminContext/user/personal_user_list.html.twig", [
-            'personalUsers' => $personalUsers
-        ]);
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function personalUsersStatisticsAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getPersonalUsersStatistics($request->query->all()));
     }
 
     /**

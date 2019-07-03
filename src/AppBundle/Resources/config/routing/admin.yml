@@ -15,9 +15,25 @@ admin_pro_user_list:
     path: /user/pro/list
     controller: AppBundle:Front\PersonalContext\User:proUserslist
 
+admin_pro_user_statistics:
+    path: /user/pro/statistics
+    controller: AppBundle:Front\PersonalContext\User:proUsersStatistics
+
 admin_personal_user_list:
     path: /user/personal/list
     controller: AppBundle:Front\PersonalContext\User:personalUserslist
+
+admin_personal_user_statistics:
+    path: /user/personal/statistics
+    controller: AppBundle:Front\PersonalContext\User:personalUsersStatistics
+
+admin_user_linking_list:
+    path: /user/relation/list
+    controller: AppBundle:Front\AdministrationContext\Administration:userLinking
+
+admin_user_linking_data:
+    path: /user/relation/data
+    controller: AppBundle:Front\AdministrationContext\Administration:userLinkingData
 
 admin_user_convert_personal_to_pro:
     path: /user/convertPersonalToPro/{slug}

@@ -17,6 +17,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller }
 
+    AppBundle\EventListener\AuthenticationEventListener:
+        arguments: ['@AppBundle\Doctrine\Repository\DoctrineUserRepository']
+        tags:
+            - { name: event_subscriber }
+
     AppBundle\EventListener\LeadEventListener:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: messageCreated }

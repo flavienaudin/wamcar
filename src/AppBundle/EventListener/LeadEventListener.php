@@ -7,9 +7,7 @@ use AppBundle\Services\User\LeadManagementService;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
-use Wamcar\User\ProLikeVehicle;
 use Wamcar\User\ProUser;
-use Wamcar\Vehicle\ProVehicle;
 
 class LeadEventListener
 {
@@ -36,12 +34,12 @@ class LeadEventListener
         if ($messageSender instanceof BaseUser) {
             $recipient = $event->getInterlocutor();
             if ($recipient instanceof ProUser) {
-                // Recipient is ProUser
-                $this->leadManagementService->increaseMessageNumberOfProUser($recipient, $messageSender);
+                // Message from LeadUser(PersonalUser|ProUser) to ProUser
+                $this->leadManagementService->increaseNbLeadMessage($recipient, $messageSender);
             }
             if ($messageSender instanceof ProUser) {
                 // Message Sender is also a ProUser
-                $this->leadManagementService->increaseMessageNumberOfProUser($messageSender, $recipient);
+                $this->leadManagementService->increaseNbProMessage($messageSender, $recipient);
             }
         }
     }
@@ -52,11 +50,14 @@ class LeadEventListener
     public function userLikeVehicle(UserLikeVehicleEvent $event)
     {
         $likeVehicle = $event->getLikeVehicle();
+        $liker = $likeVehicle->getUser();
+        $seller = $likeVehicle->getVehicle()->getSeller();
 
-        if ($likeVehicle instanceof ProLikeVehicle) {
-            /** @var ProVehicle $proVehicle */
-            $proVehicle = $likeVehicle->getVehicle();
-            $this->leadManagementService->updateLikeNumberOfProUser($proVehicle->getSeller(), $likeVehicle->getUser(), $likeVehicle->getValue() == 1);
+        if ($liker instanceof ProUser) {
+            $this->leadManagementService->updateNbProLikes($liker, $seller, $likeVehicle->getValue() == 1);
+        }
+        if ($seller instanceof ProUser) {
+            $this->leadManagementService->updateNbLeadLikes($seller, $liker, $likeVehicle->getValue() == 1);
         }
     }
 

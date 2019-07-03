@@ -151,12 +151,21 @@ class GAReportingAPIService
         //------------------//
         // Dimension Filter Clause
         $contactsEventDimensionFilterClause = new \Google_Service_AnalyticsReporting_DimensionFilterClause();
-        // Dimension Filter : ga:eventLabel like (launchMpPro<ProUser.id>|(Smartphone|PC)showtelpro(Fixe|Mobile<ProUser.id>)
-        $contactsEventDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
-        $contactsEventDimensionFilter->setDimensionName(self::EVENT_LABEL_DIMENSION_NAME);
-        $contactsEventDimensionFilter->setOperator(self::OPERATOR_REGEXP);
-        $contactsEventDimensionFilter->setExpressions('^(launchMPpro|(Smartphone|PC)showtelpro(Fixe|Mobile))' . $proUser->getId() . '$');
-        $contactsEventDimensionFilterClause->setFilters([$contactsEventDimensionFilter]);
+        $contactsEventDimensionFilterClause->setOperator(self::OPERATOR_OR);
+
+        // Dimension Filter : Contacts to the pro : ga:eventLabel like (LM .* to Advisor<ProUser.id>|SP (1|2) .* to Advisor<ProUser.id>)
+        $contactsToAdvisorEventDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
+        $contactsToAdvisorEventDimensionFilter->setDimensionName(self::EVENT_LABEL_DIMENSION_NAME);
+        $contactsToAdvisorEventDimensionFilter->setOperator(self::OPERATOR_REGEXP);
+        $contactsToAdvisorEventDimensionFilter->setExpressions('^(LM|SP (1|2)).*to Advisor' . $proUser->getId() . '$');
+
+        // Dimension Filter : ShowTel from the pro : ga:eventLabel like (SP (1|2) from Advisor<ProUser.id> to (Customer|Advisor).*)
+        $showtelFromAdvisorEventDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
+        $showtelFromAdvisorEventDimensionFilter->setDimensionName(self::EVENT_LABEL_DIMENSION_NAME);
+        $showtelFromAdvisorEventDimensionFilter->setOperator(self::OPERATOR_REGEXP);
+        $showtelFromAdvisorEventDimensionFilter->setExpressions('^SP (1|2) from Advisor' . $proUser->getId() . ' to (Customer|Advisor)');
+
+        $contactsEventDimensionFilterClause->setFilters([$contactsToAdvisorEventDimensionFilter, $showtelFromAdvisorEventDimensionFilter ]);
 
         // Create the ReportRequest object for the Profile Page
         $showTelEventRequest = new \Google_Service_AnalyticsReporting_ReportRequest();
@@ -217,10 +226,13 @@ class GAReportingAPIService
         $rows = $contactsEventsReport->getData()->getRows();
         $metricsValues = [
             'telephone' => [],
-            'message' => []
+            'message' => [],
+            'telViews' => []
         ];
         for ($rowIndex = 0; $rowIndex < count($rows); $rowIndex++) {
             // Each dimension = $eventLabel (.*showtelpro.*<proUser.id> | launchMPpro<proUser.id>)
+            // Each dimension = $eventLabel (SP (1|2).*to Advisor<proUser.id> | LM.*to Advisor<proUser.id>)
+
             $row = $rows[$rowIndex];
             $metricsByDateRange = $row->getMetrics();
             $onPage = $row->getDimensions()[0];
@@ -239,14 +251,29 @@ class GAReportingAPIService
                         'onPage' => []
                     ];
                 }
+                // Each DateRange
+                if (!isset($metricsValues['telViews'][$j])) {
+                    $metricsValues['telViews'][$j] = [
+                        'total' => 0,
+                        'onPage' => []
+                    ];
+                }
                 $values = $metricsByDateRange[$j]->getValues();
-                if (strpos($eventLabel, 'showtelpro') !== FALSE) {
+                if (preg_match('/^SP (1|2) from .* to Advisor'.$proUser->getId().'$/', $eventLabel) === 1) {
                     $metricsValues['telephone'][$j]['total'] += intval($values[0]);
                     if (!isset($metricsValues['telephone'][$j]['onPage'][$onPage])) {
                         $metricsValues['telephone'][$j]['onPage'][$onPage] = 0;
                     }
                     $metricsValues['telephone'][$j]['onPage'][$onPage] += intval($values[0]);
-                } elseif (strpos($eventLabel, 'launchMPpro') !== FALSE) {
+                }
+                elseif (preg_match('/^SP (1|2) from Advisor'.$proUser->getId().' to (Customer|Advisor).*$/', $eventLabel) === 1) {
+                    $metricsValues['telViews'][$j]['total'] += intval($values[0]);
+                    if (!isset($metricsValues['telViews'][$j]['onPage'][$onPage])) {
+                        $metricsValues['telViews'][$j]['onPage'][$onPage] = 0;
+                    }
+                    $metricsValues['telViews'][$j]['onPage'][$onPage] += intval($values[0]);
+                }
+                elseif (preg_match('/LM from .* to Advisor'.$proUser->getId().'$/', $eventLabel ) === 1) {
                     $metricsValues['message'][$j]['total'] += intval($values[0]);
                     if (!isset($metricsValues['message'][$j]['onPage'][$onPage])) {
                         $metricsValues['message'][$j]['onPage'][$onPage] = 0;
@@ -256,10 +283,6 @@ class GAReportingAPIService
             }
         }
         $proUserStatistics['contactsEvents'] = $metricsValues;
-
-
-
-
         return $proUserStatistics;
     }
 

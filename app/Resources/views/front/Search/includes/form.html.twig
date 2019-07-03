@@ -50,9 +50,9 @@
 {% endspaceless %}{% endset %}
 
 <div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container">
-    {{ form_start(searchForm, {
-        'attr' : {'class' : 'search-form row', 'id': 'js-search-form'}
-    }) }}
+    {% set searchFormAttr =  {'class' : 'search-form row', 'id': 'js-search-form'}|merge(wtSearchFormDataAttributes(searchForm, app.user)) %}
+    {{ form_start(searchForm, {'attr' : searchFormAttr}) }}
+
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchForm.text, {
             'class' : '',
@@ -106,7 +106,6 @@
                 <span id="js-less-criteria" data-toggler=".is-hidden"
                       class="text-underline icon-minus-circle is-hidden">{{ 'search.common.less_criteria'|trans }}</span>
             </a>
-            {#<a href="" class="small-right medium-no-margin icon-save"><span class="text-underline">Enregistrer recherche</span></a>#}
         </div>
         <div class="block-grid column small-6 large-4 large-offset-2">
             {{ form_widget(searchForm.sorting, {

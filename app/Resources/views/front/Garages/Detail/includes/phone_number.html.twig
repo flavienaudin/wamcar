@@ -1,30 +1,36 @@
 {% set balise = balise|default('div') %}
+{% set buttonClass = buttonClass|default('') %}
+{% set icontel = icontel|default('icon-tel') %}
 {% set disabledLoggedProtection = disabledLoggedProtection|default(false) %}
+{% set showphone_action = showphone_subaction|default('') is not empty ? 'SP '~showphone_subaction:'SP' %}
+{% set phoneOwner = phoneOwner|default(null) %}
 {% set textDisplay = textDisplay|default(null) %}
-{# Version texte souligné #}
-<{{ balise  }}>
+
+<{{ balise }} class="primary-color {{ icontel }} {{ buttonClass }}">
 {% if isLogged or disabledLoggedProtection %}
-    <span class="show-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
-        <span class="js-see-number text-underline" id="PC{{ phoneNumber_eventId }}"
-              data-href="{{ path('front_show_number') }}">{{ "global.button.see_phone_number"|trans }}</span>
-        <span class="js-phone-number text-underline is-hidden">{{ phoneNumber|phoneFormat }}</span>
+    {% if is_mobile() %}
+        <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer" class="js-callphone-action text-underline"
+           data-href="{{ path('front_show_number') }}" data-wtaction="{{ showphone_action }}"
+           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.call"|trans }}</a>
         {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
-    </span>
-    <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer"
-       class="hide-for-medium phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
-        <span id="Smartphone{{ phoneNumber_eventId }}" data-href="{{ path('front_show_number') }}" class="text-underline">{{ "global.button.call"|trans }}</span>
+    {% else %}
+        <span class="js-see-number js-showphone-action phone-number-link text-underline" data-href="{{ path('front_show_number') }}"
+              data-wtaction="{{ showphone_action }}" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+              data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.see_phone_number"|trans }}</span>
+        <span class="js-phone-number is-hidden text-underline">{{ phoneNumber|phoneFormat }}</span>
         {% if textDisplay is not empty %}&nbsp;<span class="body-font-color">{{ textDisplay }}</span>{% endif %}
-    </a>
+    {% endif %}
 {% else %}
-    <span class="phone-number-link {{ icontel|default('icon-tel') }} {{ buttonClass|default('') }}">
-        <span class="show-for-medium text-underline" data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >{{ "global.button.see_phone_number"|trans }}</span>
-        <span class="hide-for-medium text-underline" data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom" >{{ "global.button.call"|trans }}</span>
-    </span>
+    {% if is_mobile() %}
+        <span class="text-underline" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom">
+            {{ "global.button.call"|trans }}</span>
+    {% else %}
+        <span class="text-underline" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >
+            {{ "global.button.see_phone_number"|trans }}</span>
+    {% endif %}
 {% endif %}
 </{{ balise  }}>
-
-{# Version bouton
-<button id="{{ phoneNumber_eventId }}" class="js-phone-number-button button phone-number-button center {{ buttonClass|default('') }}">
-    <span class="js-see-number icon-tel {{ contentClass|default('') }}">{{ "global.button.see_phone_number"|trans }}</span>
-    <span class="js-phone-number icon-tel is-hidden {{ contentClass|default('') }}">{{ phoneNumber }}</span>
-</button>#}

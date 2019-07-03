@@ -23,13 +23,27 @@
             <p>{{ 'lead.page.explications'|trans }}</p>
             <div class="input-margin full-width">
                 <table id="prouserleads_dt" class="js-lead-datatable dataTable compact row-border" style="width: 100%"
-                       data-href="{{ path('front_pro_user_lead', {'id': app.user.id }) }}"
+                       data-href="{{ path('front_pro_user_leads_retrieve', {'id': app.user.id }) }}"
                        data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
                     <thead>
                     <tr>
+                        <th rowspan="2"></th>
                         <th></th>
+                        <th></th>
+                        <th colspan="4" class="text-center">Vos interactions</th>
+                        <th colspan="4" class="text-center">Actions du contact</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
                         <th>{{ 'lead.table.name'|trans }}</th>
                         <th>{{ 'lead.table.last_contacted_at'|trans }}</th>
+                        <th><span class="icon-mobile" title="{{ 'lead.table.leadtelpro'|trans }}"></span>
+                        </th>
+                        <th><span class="icon-tel" title="{{ 'lead.table.leadtel'|trans }}"></span>
+                        </th>
+                        <th><span class="icon-message" title="{{ 'lead.table.messages'|trans }}"></span></th>
+                        <th><span class="icon-heart" title="{{ 'lead.table.likes'|trans }}"></span></th>
                         <th><span class="icon-mobile"
                                   title="{{ 'lead.table.tel'|trans({'%telNumber%':app.user.userProfile.phone??'-'}) }}"></span>
                         </th>
