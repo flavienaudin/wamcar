@@ -1186,6 +1186,7 @@ notifications:
   dropdown-pane:
     title: Notifications
     parameters: Paramètres
+    mark_all_as_seen: Toutes marquer comme lue
     view_all: Voir tout
   message:
     personal_like_vehicle: "<b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
