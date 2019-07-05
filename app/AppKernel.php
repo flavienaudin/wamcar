@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new EasyCorp\Bundle\EasyAdminBundle\EasyAdminBundle(),
             new Presta\SitemapBundle\PrestaSitemapBundle(),
             new FOS\CKEditorBundle\FOSCKEditorBundle(),
+            new SunCat\MobileDetectBundle\MobileDetectBundle(),
             new AppBundle\AppBundle(),
         ];
 

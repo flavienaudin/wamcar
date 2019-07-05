@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use TypeForm\Doctrine\Entity\AffinityAnswer;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
+use Wamcar\Conversation\Message;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
@@ -35,7 +36,7 @@ abstract class BaseUser implements HasApiCredential
     protected $email;
     /** @var  UserProfile|null */
     protected $userProfile;
-    /** @var null|Picture */
+    /** @var null|UserPicture */
     protected $avatar;
     /** @var  Collection <Message> */
     protected $messages;
@@ -85,14 +86,14 @@ abstract class BaseUser implements HasApiCredential
      * @param string $email
      * @param string $firstName
      * @param string|null $name
-     * @param Picture|null $avatar
+     * @param UserPicture|null $avatar
      * @param City|null $city
      */
     public function __construct(
         string $email,
         string $firstName,
         string $name = null,
-        Picture $avatar = null,
+        UserPicture $avatar = null,
         City $city = null
     )
     {
@@ -422,9 +423,9 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
-     * @return null|Picture
+     * @return null|UserPicture
      */
-    public function getAvatar(): ?Picture
+    public function getAvatar(): ?UserPicture
     {
         return $this->avatar;
     }
@@ -476,6 +477,22 @@ abstract class BaseUser implements HasApiCredential
             $total += count($conversation->getConversation()->getMessages());
         }
         return $total;
+    }
+
+
+    /**
+     * Conversations of the user, which are initiated by the user
+     * @return Collection
+     */
+    public function getInitiatedConversations(): Collection
+    {
+        return $this->conversationUsers->filter(function (ConversationUser $conversationUser) {
+            $conv = $conversationUser->getConversation();
+            /** @var Message $firstMessage */
+            $firstMessage = $conv->getMessages()->first();
+
+            return $firstMessage->getUser() != null && $this->is($firstMessage->getUser());
+        });
     }
 
     /**

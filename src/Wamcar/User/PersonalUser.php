@@ -160,4 +160,27 @@ class PersonalUser extends BaseUser
         $this->project = $project;
         return $this;
     }
+
+
+    /**
+     * Return the older date between the user project date (if not empty) and user's vehicle update dates. Or null if not vehicles and empty project
+     * @return \DateTimeInterface|null
+     */
+    public function getLastSubmissionDate(): ?\DateTimeInterface
+    {
+        $projectDate = null;
+        if ($this->getProject() != null && !$this->getProject()->isEmpty()) {
+            $projectDate = $this->getProject()->getUpdatedAt();
+        }
+        $lastVehicleSubmission = null;
+        /** @var PersonalVehicle $vehicle */
+        foreach ($this->getVehicles() as $vehicle) {
+            if ($vehicle->getDeletedAt() == null) {
+                if ($lastVehicleSubmission == null || $vehicle->getUpdatedAt() > $lastVehicleSubmission) {
+                    $lastVehicleSubmission = $vehicle->getUpdatedAt();
+                }
+            }
+        }
+        return $lastVehicleSubmission > $projectDate ? $lastVehicleSubmission : $projectDate;
+    }
 }

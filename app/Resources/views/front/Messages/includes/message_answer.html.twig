@@ -59,7 +59,12 @@
         {{ form_widget(messageForm.send, {
             'label': 'global.button.send'|trans,
             'class': 'small-12 medium-10 large-6 messages-send-btn button',
-            'loader': true
+            'loader': true,
+            'attr': {
+                'data-wtaction' : 'MP',
+                'data-wtfrom' : app.user|wtFromDataAttrValue,
+                'data-wtto' : interlocutor|wtToDataAttrValue
+            }
         }) }}
     </div>
     {{ form_end(messageForm) }}

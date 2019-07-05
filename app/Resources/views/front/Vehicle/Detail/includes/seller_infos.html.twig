@@ -10,16 +10,16 @@
                 <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail', vehicle.sellerName) }}" alt="{{ vehicle.sellerName }}">
             </a>
             <div>
-                <a href="{{ path('front_view_pro_user_info', {'slug': vehicle.seller.slug}) }}" class="primary-color h3"><b>{{ vehicle.sellerName }}</b></a>
+                <a href="{{ path('front_view_pro_user_info', {'slug': vehicle.seller.slug}) }}" class="primary-color h3">
+                    <b>{{ vehicle.sellerName }}</b></a>
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}<br>
                 {% if vehicle.seller.mainPhoneNumber is not empty %}
                     {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                        'phoneNumber_eventId':'showtelpro'~vehicle.seller.id,
-                        'phoneNumber':vehicle.seller.mainPhoneNumber
+                        'phoneOwner': vehicle.seller,
+                        'phoneNumber': vehicle.seller.phonePro is not empty ? vehicle.seller.phonePro : vehicle.seller.phone,
+                        'showphone_subaction': vehicle.seller.phonePro is not empty ? "2" : "1",
+                        'icontel': vehicle.seller.phonePro is not empty ? 'icon-tel' : 'icon-mobile'
                     }) }}
-                    {#<span class="icon-tel primary-color">
-                        <a href="tel:{{ vehicle.seller.phonePro }}" class="text-underline" target="_blank" rel="noopener noreferrer">{{ vehicle.seller.phonePro }}</a>
-                    </span>#}
                 {% endif %}
             </div>
         </figure>

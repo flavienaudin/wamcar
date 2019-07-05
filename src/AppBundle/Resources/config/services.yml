@@ -85,6 +85,8 @@ services:
 
     AppBundle\Services\User\LeadManagementService:
         autowire: true
+        arguments:
+            $userLikeVehicleRepository: '@AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
 
     AppBundle\Security\ApiTokenAuthenticator:
         autowire: true

@@ -26,8 +26,9 @@
                 {% if user.phonePro is defined and user.phonePro is not empty %}
                     <span class="small-auto medium-shrink">
                         {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneNumber_eventId':'showtelproFixe'~user.id,
-                            'phoneNumber': user.phonePro
+                            'phoneOwner': user,
+                            'phoneNumber': user.phonePro,
+                            'showphone_subaction': "2"
                         }) }}</span>
                 {% endif %}
 
@@ -35,17 +36,21 @@
                     (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
                     <span class="small-auto medium-shrink">
                         {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneNumber_eventId':'showtel'~(isUserProPageProfil?'pro':'personal')~'Mobile'~user.id,
-                            'phoneNumber': user.userProfile.phone,
+                            'phoneOwner': user,
+                            'phoneNumber': user.phone,
+                            'showphone_subaction': "1",
                             'icontel': 'icon-mobile',
-                            'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? ' (Non affiché)' : null)
+                            'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? 'phone_number.private'|trans : null)
                         }) }}</span>
                 {% endif %}
 
                 {% if not userIsMe %}
-                    <a href="{{ path('front_conversation_create', {'id': user.id}) }}#message-answer-block"
-                       class="icon-message small-12 medium-shrink">
-                        <span id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}" class="text-underline">{{ 'global.button.send_message'|trans }}</span></a>
+                    <span class="small-12 medium-shrink icon-message primary-color">
+                        <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                           class="text-underline" data-wtaction="LM"
+                           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
+                            {{ 'global.button.send_message'|trans }}</a>
+                    </span>
                 {% endif %}
             </div>
         </div>

@@ -17,7 +17,7 @@
   &:hover,
   &:focus { text-decoration: none; }
 
-  &::before {
+  &:before {
     font-family: 'icomoon' !important;
     margin-right: rem-calc(12);
 

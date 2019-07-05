@@ -1,0 +1,60 @@
+{% extends ':front/Layout:layout.html.twig' %}
+
+{% block title %}Administration - Mise en relation{% endblock title %}
+
+{% block bodyClass %}admin{% endblock %}
+{% block mainClass %}{% endblock %}
+
+{% set breadcrumbs = [
+    {
+        'name': "Tableau d'administration",
+        'href': path('admin_board')
+    },
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% block body %}
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        title: block('title')
+    } %}
+
+    <section class="row">
+        <div class="column small-12">
+            <div class="input-margin full-width">
+                <table id="userlinkings_dt" class="js-userlinkings-datatable dataTable compact row-border" style="width: 100%"
+                       data-href="{{ path('admin_user_linking_data') }}"
+                       data-trans="{{ asset('assets/trans-dt/fr_FR.json') }}">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">Initiateur</th>
+                        <th rowspan="2">Contacté</th>
+                        <th rowspan="2">1er contact</th>
+                        <th rowspan="2">Dern. contact</th>
+                        <th colspan="4" class="text-center">Actions Intiateur</th>
+                        <th colspan="4" class="text-center">Actions Contacté</th>
+                        <th rowspan="2">Affinité (%)</th>
+                        <th rowspan="2">Statut</th>
+                        <th rowspan="2">Ventes</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center"><span class="icon-mobile" title="UserA : Nb Aff tél pro"></span></th>
+                        <th class="text-center"><span class="icon-tel" title="UserA : Nb Aff tél"></span></th>
+                        <th class="text-center"><span class="icon-message" title="UserA : {{ 'lead.table.messages'|trans }}"></span></th>
+                        <th class="text-center"><span class="icon-heart" title="UserA : {{ 'lead.table.likes'|trans }}"></span></th>
+                        <th class="text-center"><span class="icon-mobile" title="UserB : Nb Aff tél pro"></span></th>
+                        <th class="text-center"><span class="icon-tel" title="UserB : Nb Aff tél"></span></th>
+                        <th class="text-center"><span class="icon-message" title="UserB : {{ 'lead.table.messages'|trans }}"></span></th>
+                        <th class="text-center"><span class="icon-heart" title="UserB : {{ 'lead.table.likes'|trans }}"></span></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

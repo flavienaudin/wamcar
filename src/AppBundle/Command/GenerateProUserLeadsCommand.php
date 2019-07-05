@@ -8,13 +8,10 @@ use AppBundle\Services\User\LeadManagementService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Wamcar\User\ProUser;
 
 class GenerateProUserLeadsCommand extends BaseCommand
 {
 
-    /** @var DoctrineProUserRepository $proUserRepository */
-    private $proUserRepository;
     /** @var LeadManagementService $leadManagementService */
     private $leadManagementService;
 
@@ -42,17 +39,10 @@ class GenerateProUserLeadsCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $proUsers = $this->proUserRepository->findAll();
-        $io->progressStart(count($proUsers));
-        $nbLeadsByProUser = [];
-        /** @var ProUser $proUser */
-        foreach ($proUsers as $proUser) {
-            $nbLeadsByProUser[] = [$proUser->getId(), $this->leadManagementService->generateProUserLead($proUser)];
-            $io->progressAdvance();
-        }
-        $io->progressFinish();
+
+        $nbLeadsByProUser = $this->leadManagementService->generateProUserLeads($io);
 
         $io->table(['ProUserId', 'Nb of leads'], $nbLeadsByProUser);
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 }

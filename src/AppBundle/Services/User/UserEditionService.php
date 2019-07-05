@@ -428,7 +428,9 @@ class UserEditionService
         $proUser = $this->userRegistrationService->registerUser($registrationDTO, false);
         if ($proUser instanceof ProUser) {
             $proUser->setAvatar($personalUser->getAvatar());
-            $personalUser->getAvatar()->setUser($proUser);
+            if($personalUser->getAvatar() != null) {
+                $personalUser->getAvatar()->setUser($proUser);
+            }
             $personalUser->setAvatar(null);
 
             $proUser->getUserProfile()->setTitle($personalUser->getTitle());

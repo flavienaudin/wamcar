@@ -20,3 +20,6 @@ AppBundle\Doctrine\Entity\ProApplicationUser:
             gedmo:
                 timestampable:
                     on: create
+        lastLoginAt:
+            type: datetime
+            nullable: true
