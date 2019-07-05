@@ -107,6 +107,7 @@ flash:
       unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
       invalid_sale_status_value: Valeur du status de vente incorrecte
     dashboard:
+      unauthorized: Vous n'êtes pas autorisé à accéder aux performances de ce conseiller.
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
     sellers_performances:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
