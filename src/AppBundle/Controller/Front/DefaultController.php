@@ -13,6 +13,7 @@ use AppBundle\Form\Type\VehicleInformationType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\ProVehicleRepository;
@@ -137,7 +138,7 @@ class DefaultController extends BaseController
             $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
 
             if(PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY === $formData['orientation']->getValue()){
-                if($this->isGranted('IS_AUTHENTICATED_REMEMBERED')){
+                if($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)){
                     return $this->redirectToRoute('front_search');
                 }else {
                     return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);

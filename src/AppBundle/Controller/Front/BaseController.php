@@ -11,6 +11,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Templating\EngineInterface;
 
@@ -175,7 +176,15 @@ abstract class BaseController
      */
     protected function isUserAuthenticated(): bool
     {
-        return $this->authorizationChecker->isGranted('IS_AUTHENTICATED_FULLY');
+        return $this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isUserAuthenticatedFully(): bool
+    {
+        return $this->authorizationChecker->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
     }
 
 
@@ -202,9 +211,12 @@ abstract class BaseController
      *
      * @throws AccessDeniedException
      */
-    protected function denyAccessUnlessGranted($attributes, $object = null, $message = 'Access Denied.')
+    protected function denyAccessUnlessGranted($attributes, $object = null, $message = null)
     {
         if (!$this->isGranted($attributes, $object)) {
+            if(!empty($message)){
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $message);
+            }
             $exception = $this->createAccessDeniedException($message);
             $exception->setAttributes($attributes);
             $exception->setSubject($object);

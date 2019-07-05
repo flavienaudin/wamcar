@@ -72,6 +72,7 @@ class ConversationController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @return Response
      */
@@ -93,6 +94,7 @@ class ConversationController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @param BaseUser $interlocutor
      * @param null|string $vehicleId
@@ -117,6 +119,7 @@ class ConversationController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @param ApplicationConversation $conversation
      * @param null|string $vehicleId
@@ -131,6 +134,7 @@ class ConversationController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param ApplicationConversation $conversation
      * @return JsonResponse
      */
@@ -307,6 +311,7 @@ class ConversationController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @return Response
      */
