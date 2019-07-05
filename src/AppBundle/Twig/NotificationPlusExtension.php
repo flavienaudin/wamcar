@@ -4,9 +4,11 @@ namespace AppBundle\Twig;
 
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use Mgilet\NotificationBundle\NotifiableInterface;
-use Symfony\Component\Routing\Router;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -21,24 +23,20 @@ class NotificationPlusExtension extends AbstractExtension
     protected $notificationManagerExtended;
     /** @var TokenStorage */
     protected $storage;
-    /** @var \Twig_Environment */
+    /** @var Environment */
     protected $twig;
-    /** @var Router|RouterInterface */
-    protected $router;
 
     /**
      * NotificationPlusExtension constructor.
      * @param NotificationManagerExtended $notificationManagerExtended
      * @param TokenStorage $storage
-     * @param \Twig_Environment $twig
-     * @param RouterInterface $router
+     * @param Environment $twig
      */
-    public function __construct(NotificationManagerExtended $notificationManagerExtended, TokenStorage $storage, \Twig_Environment $twig, Router $router)
+    public function __construct(NotificationManagerExtended $notificationManagerExtended, TokenStorage $storage, Environment $twig)
     {
         $this->notificationManagerExtended = $notificationManagerExtended;
         $this->storage = $storage;
         $this->twig = $twig;
-        $this->router = $router;
     }
 
     /**
@@ -63,9 +61,9 @@ class NotificationPlusExtension extends AbstractExtension
      * @param NotifiableInterface $notifiable
      *
      * @return null|string
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \Twig_Error
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function render_extended(NotifiableInterface $notifiable, array $options = array())
     {
@@ -81,9 +79,9 @@ class NotificationPlusExtension extends AbstractExtension
      *
      * @return string
      *
-     * @throws \RuntimeException
-     * @throws \InvalidArgumentException
-     * @throws \Twig_Error
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function renderNotifications(NotifiableInterface $notifiable, array $options)
     {
@@ -97,10 +95,6 @@ class NotificationPlusExtension extends AbstractExtension
         // if the template option is set, use custom template
         $template = array_key_exists('template', $options) ? $options['template'] : '@MgiletNotification/notification_list.html.twig';
 
-        return $this->twig->render($template,
-            array(
-                'notificationList' => $notifications
-            )
-        );
+        return $this->twig->render($template, ['notificationList' => $notifications]);
     }
 }

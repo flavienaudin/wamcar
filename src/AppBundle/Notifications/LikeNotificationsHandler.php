@@ -66,6 +66,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
         if (!$like->getUser()->is($like->getVehicle()->getSeller())) {
             // If user likes its own vehicle Then no notification
             if ($event->getLikeVehicle()->getValue()) {
+                // Event is "like" : create notification
                 $notifications = $this->notificationsManagerExtended->createNotification(
                     get_class($like),
                     get_class($event),
@@ -108,6 +109,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     );
                 }
             } else {
+                // Event is "unlike" : remove notification about the like
                 $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
                     'subject' => get_class($like),
                     'message' => $data
