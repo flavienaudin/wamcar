@@ -157,7 +157,7 @@ class GarageEditionService
                 $garageProUser->setRequestedAt(new \DateTime());
             }
             if (count($garage->getMembers()) == 0) {
-                // Assingation by an ROLE_ADMIN, the first member is administrator
+                // Assingation by an ROLE_PRO_ADMIN, the first member is administrator
                 $garageProUser->setRole(GarageRole::GARAGE_ADMINISTRATOR());
             }
             $garage->addMember($garageProUser);
