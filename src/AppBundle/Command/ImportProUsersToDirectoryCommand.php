@@ -4,12 +4,11 @@ namespace AppBundle\Command;
 
 
 use AppBundle\Elasticsearch\Type\IndexableProUser;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportProUsersToDirectoryCommand extends ContainerAwareCommand
+class ImportProUsersToDirectoryCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -49,12 +48,11 @@ class ImportProUsersToDirectoryCommand extends ContainerAwareCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
 
         $io->text('Indexing ' . count($proUserDocuments) . ' pro users');
         $proUserIndexer->indexAllDocuments($proUserDocuments, true);
 
-        $io->success('Done ! ');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
 }

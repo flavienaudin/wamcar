@@ -93,7 +93,7 @@ easy_admin:
           - { property: 'apiClientId'}
           - { property: 'landingPosition', label: 'HP-pos.' }
           - { property: 'countVehicles', label: '#Vhl.'}
-          - { property: 'countEnabledGarageMemberships', label: '#Garages.'}
+          - { property: 'numberOfGarages', label: '#Garages.'}
           - { property: 'createdAt', label: 'Insc.', type: 'date' }
           - { property: 'deletedAt', label: 'Suppr.', type: 'date' }
         sort: ['id', 'DESC']

@@ -9,7 +9,6 @@ use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use Doctrine\ORM\OptimisticLockException;
-use Mgilet\NotificationBundle\Entity\Notification;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
@@ -72,8 +71,8 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     get_class($event),
                     $data,
                     $vehicle instanceof ProVehicle ?
-                        $this->router->generate( 'front_vehicle_pro_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
-                        : $this->router->generate( 'front_vehicle_personal_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
+                        $this->router->generate('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
+                        : $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
                 );
                 try {
                     $this->notificationsManager->addNotification([$vehicle->getSeller()], $notifications, true);
@@ -96,12 +95,12 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                             'message_url' =>
                                 $like->getVehicle() instanceof ProVehicle ?
                                     $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
-                                    :$this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
+                                    : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
                             ,
                             'vehicle' => $like->getVehicle(),
                             'vehicleUrl' => $like->getVehicle() instanceof ProVehicle ?
                                 $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
-                                :$this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
+                                : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
                             'vehiclePrice' => ($like->getVehicle() instanceof ProVehicle ? $like->getVehicle()->getPrice() : null),
                             'thumbnailUrl' => $pathImg
                         ],

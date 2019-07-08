@@ -136,6 +136,7 @@ doctrine:
             firstcontactpreference: AppBundle\Doctrine\Type\FirstContactPreferenceType
             leadstatus: AppBundle\Doctrine\Type\LeadStatusType
             leadinitiatedby: AppBundle\Doctrine\Type\LeadInitiatedByType
+            leadcriteriaselection: AppBundle\Doctrine\Type\LeadCriteriaSelectionType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

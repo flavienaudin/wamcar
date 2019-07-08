@@ -4,6 +4,7 @@ namespace AppBundle\Doctrine\Entity;
 
 
 use Wamcar\User\BaseUser;
+use Wamcar\Vehicle\Enum\LeadCriteriaSelection;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class UserPreferences
@@ -20,21 +21,60 @@ class UserPreferences
     /** @var NotificationFrequency */
     private $likeEmailFrequency;
 
+    // Leads suggestion
+    /** @var bool $leadEmailEnabled */
+    private $leadEmailEnabled;
+    /** @var int $leadLocalizationRadius */
+    private $leadLocalizationRadiusCriteria;
+    /** @var LeadCriteriaSelection $leadPartExchangeSelectionCriteria */
+    private $leadPartExchangeSelectionCriteria;
+    /** @var null|int $leadPartExchangeKmCriteria */
+    private $leadPartExchangeKmMaxCriteria;
+    /** @var LeadCriteriaSelection $leadProjectSelectionCriteria */
+    private $leadProjectSelectionCriteria;
+    /** @var null|int $leadProjectBudgetMinCriteria */
+    private $leadProjectBudgetMinCriteria;
+
     /**
      * UserPreferences constructor.
      * @param BaseUser $user
      * @param bool $privateMessageEmailEnabled
      * @param bool $likeEmailEnabled
-     * @param null|NotificationFrequency $privateMessageEmailFrequency
-     * @param null|NotificationFrequency $likeEmailFrequency
+     * @param NotificationFrequency|null $privateMessageEmailFrequency
+     * @param NotificationFrequency|null $likeEmailFrequency
+     * @param bool $leadEmailEnabled
+     * @param int $leadLocalizationRadiusCriteria
+     * @param LeadCriteriaSelection|null $leadPartExchangeSelectionCriteria
+     * @param int|null $leadPartExchangeKmMaxCriteria
+     * @param LeadCriteriaSelection|null $leadProjectSelectionCriteria
+     * @param int|null $leadProjectBudgetMinCriteria
      */
-    public function __construct(BaseUser $user, bool $privateMessageEmailEnabled = true, bool $likeEmailEnabled = true, NotificationFrequency $privateMessageEmailFrequency = null, NotificationFrequency $likeEmailFrequency = null)
+    public function __construct(BaseUser $user,
+                                bool $privateMessageEmailEnabled = true,
+                                bool $likeEmailEnabled = true,
+                                NotificationFrequency $privateMessageEmailFrequency = null,
+                                NotificationFrequency $likeEmailFrequency = null,
+                                bool $leadEmailEnabled = true,
+                                int $leadLocalizationRadiusCriteria = 50,
+                                LeadCriteriaSelection $leadPartExchangeSelectionCriteria = null,
+                                int $leadPartExchangeKmMaxCriteria = null,
+                                LeadCriteriaSelection $leadProjectSelectionCriteria = null,
+                                int $leadProjectBudgetMinCriteria = null
+    )
     {
         $this->user = $user;
+
         $this->privateMessageEmailEnabled = $privateMessageEmailEnabled;
         $this->privateMessageEmailFrequency = $privateMessageEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
         $this->likeEmailEnabled = $likeEmailEnabled;
         $this->likeEmailFrequency = $likeEmailFrequency ?? NotificationFrequency::ONCE_A_DAY();
+
+        $this->leadEmailEnabled = $leadEmailEnabled;
+        $this->leadLocalizationRadiusCriteria = $leadLocalizationRadiusCriteria;
+        $this->leadPartExchangeSelectionCriteria = $leadPartExchangeSelectionCriteria ?? LeadCriteriaSelection::LEAD_CRITERIA_NO_MATTER();
+        $this->leadPartExchangeKmMaxCriteria = $leadPartExchangeKmMaxCriteria;
+        $this->leadProjectSelectionCriteria = $leadProjectSelectionCriteria ?? LeadCriteriaSelection::LEAD_CRITERIA_NO_MATTER();
+        $this->leadProjectBudgetMinCriteria = $leadProjectBudgetMinCriteria;
     }
 
     /**
@@ -107,5 +147,101 @@ class UserPreferences
     public function setLikeEmailFrequency(NotificationFrequency $likeEmailFrequency): void
     {
         $this->likeEmailFrequency = $likeEmailFrequency;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLeadEmailEnabled(): bool
+    {
+        return $this->leadEmailEnabled;
+    }
+
+    /**
+     * @param bool $leadEmailEnabled
+     */
+    public function setLeadEmailEnabled(bool $leadEmailEnabled): void
+    {
+        $this->leadEmailEnabled = $leadEmailEnabled;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLeadLocalizationRadiusCriteria(): int
+    {
+        return $this->leadLocalizationRadiusCriteria;
+    }
+
+    /**
+     * @param int $leadLocalizationRadiusCriteria
+     */
+    public function setLeadLocalizationRadiusCriteria(int $leadLocalizationRadiusCriteria): void
+    {
+        $this->leadLocalizationRadiusCriteria = $leadLocalizationRadiusCriteria;
+    }
+
+    /**
+     * @return LeadCriteriaSelection
+     */
+    public function getLeadPartExchangeSelectionCriteria(): LeadCriteriaSelection
+    {
+        return $this->leadPartExchangeSelectionCriteria;
+    }
+
+    /**
+     * @param LeadCriteriaSelection $leadPartExchangeSelectionCriteria
+     */
+    public function setLeadPartExchangeSelectionCriteria(LeadCriteriaSelection $leadPartExchangeSelectionCriteria): void
+    {
+        $this->leadPartExchangeSelectionCriteria = $leadPartExchangeSelectionCriteria;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLeadPartExchangeKmMaxCriteria(): ?int
+    {
+        return $this->leadPartExchangeKmMaxCriteria;
+    }
+
+    /**
+     * @param int|null $leadPartExchangeKmMaxCriteria
+     */
+    public function setLeadPartExchangeKmMaxCriteria(?int $leadPartExchangeKmMaxCriteria): void
+    {
+        $this->leadPartExchangeKmMaxCriteria = $leadPartExchangeKmMaxCriteria;
+    }
+
+    /**
+     * @return LeadCriteriaSelection
+     */
+    public function getLeadProjectSelectionCriteria(): LeadCriteriaSelection
+    {
+        return $this->leadProjectSelectionCriteria;
+    }
+
+    /**
+     * @param LeadCriteriaSelection $leadProjectSelectionCriteria
+     */
+    public function setLeadProjectSelectionCriteria(LeadCriteriaSelection $leadProjectSelectionCriteria): void
+    {
+        $this->leadProjectSelectionCriteria = $leadProjectSelectionCriteria;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLeadProjectBudgetMinCriteria(): ?int
+    {
+        return $this->leadProjectBudgetMinCriteria;
+    }
+
+    /**
+     * @param int|null $leadProjectBudgetMinCriteria
+     */
+    public function setLeadProjectBudgetMinCriteria(?int $leadProjectBudgetMinCriteria): void
+    {
+        $this->leadProjectBudgetMinCriteria = $leadProjectBudgetMinCriteria;
     }
 }

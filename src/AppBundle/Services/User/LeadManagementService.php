@@ -32,6 +32,8 @@ class LeadManagementService
     private $messageRepository;
     /** @var UserLikeVehicleRepository */
     private $userLikeVehicleRepository;
+    /** @var UserGlobalSearchService */
+    private $userGlobalSearchService;
     /** @var RouterInterface */
     private $router;
     /** @var TranslatorInterface */
@@ -45,16 +47,21 @@ class LeadManagementService
      * @param LeadRepository $leadRepository
      * @param MessageRepository $messageRepository
      * @param UserLikeVehicleRepository $userLikeVehicleRepository
+     * @param UserGlobalSearchService $personalUserRepository
      * @param RouterInterface $router
      * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
      */
-    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository, MessageRepository $messageRepository, UserLikeVehicleRepository $userLikeVehicleRepository, RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
+    public function __construct(UserRepository $userRepository, LeadRepository $leadRepository,
+                                MessageRepository $messageRepository, UserLikeVehicleRepository $userLikeVehicleRepository,
+                                UserGlobalSearchService $personalUserRepository,
+                                RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
         $this->messageRepository = $messageRepository;
         $this->userLikeVehicleRepository = $userLikeVehicleRepository;
+        $this->userGlobalSearchService = $personalUserRepository;
         $this->router = $router;
         $this->translator = $translator;
         $this->logger = $logger;
@@ -130,6 +137,12 @@ class LeadManagementService
         return $result;
     }
 
+    /**
+     * DataTables.net Ajax Request pour le tableau des mises en relation entre utilisateurs.
+     * Pour les admins Wamcar
+     * @param array $params
+     * @return array
+     */
     public function getLeadsAsUserLinkings(array $params): array
     {
         $ordering = [];
@@ -549,4 +562,16 @@ class LeadManagementService
         return $this->leadRepository->update($lead);
     }
 
+    /**
+     * @param int $since Nombre d'heure de
+     */
+    public function informProUserOfNewUser(int $since)
+    {
+        $newPersonalUsers = $this->userGlobalSearchService->findNewPersonalUser($since);
+        /** @var PersonalUser $newPersonalUser */
+        foreach($newPersonalUsers as $newPersonalUser)
+        {
+            //dump($newPersonalUser->getId() . ' ' . $newPersonalUser->getFullName());
+        }
+    }
 }

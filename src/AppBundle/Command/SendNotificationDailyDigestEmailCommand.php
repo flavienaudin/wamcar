@@ -11,6 +11,7 @@ use Mgilet\NotificationBundle\Entity\NotifiableEntity;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -67,14 +68,14 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-        $this->log('notice', 'Starting at ' . date(\DateTime::ISO8601));
+        $io = new SymfonyStyle($input, $output);
+        $io->text('Starting at ' . date(\DateTime::ISO8601));
 
         $progress = null;
         try {
             $notifiables = $this->notificationManagerExtended->getNotifiablesWithEmailableNotification();
 
-            $progress = new ProgressBar($output, count($notifiables));
+            $progress = $io->createProgressBar(count($notifiables));
             foreach ($notifiables as $notifiable) {
                 $progress->advance();
 
@@ -95,11 +96,10 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
             }
             $progress->finish();
 
-            $this->logCRLF();
-            $this->log('success', 'Done at : ' . date(\DateTime::ISO8601));
+            $io->success('Done at : ' . date(\DateTime::ISO8601));
         } catch (\Exception $exception) {
-            $this->log(parent::ERROR, $exception->getMessage());
-            $this->log(parent::ERROR, $exception->getTraceAsString());
+            $io->error($exception->getMessage());
+            $io->error($exception->getTraceAsString());
             if ($progress instanceof ProgressBar) {
                 $progress->finish();
             }

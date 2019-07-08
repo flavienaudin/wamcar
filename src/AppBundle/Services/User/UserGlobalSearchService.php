@@ -47,6 +47,59 @@ class UserGlobalSearchService
         } else {
             return null;
         }
-
     }
+
+
+    public function findNewPersonalUser(int $since): array
+    {
+        $selectIntervalEnd = new \DateTime("now");
+        $selectIntervalEnd->sub(new \DateInterval('PT1H'));
+        $selectIntervalStart = clone $selectIntervalEnd;
+        $selectIntervalStart->sub(new \DateInterval('PT' . $since . 'H'));
+
+        $mainQb = $this->personalUserRepository->createQueryBuilder('u');
+
+        $subQueryExistsPersonalVehicleQb = $mainQb->getEntityManager()->createQueryBuilder();
+        $subQueryExistsPersonalVehicleQb
+            ->select('1')->from('Wamcar:Vehicle\PersonalVehicle', 'pv')
+            ->where($subQueryExistsPersonalVehicleQb->expr()->isNull('pv.deletedAt'))
+            ->andWhere($subQueryExistsPersonalVehicleQb->expr()->eq('pv.owner', 'u'));
+
+        $subQueryExistsProjectVehicleQb = $mainQb->getEntityManager()->createQueryBuilder();
+        $subQueryExistsProjectVehicleQb->select('1')
+            ->from('Wamcar:User\ProjectVehicle', 'prv')
+            ->where($subQueryExistsProjectVehicleQb->expr()->eq('prv.project', 'pr'));
+
+        $subQueryExistsNonEmptyProjectQb = $mainQb->getEntityManager()->createQueryBuilder();
+        $subQueryExistsNonEmptyProjectQb->select('1')
+            ->from('Wamcar:User\Project', 'pr')
+            ->where($subQueryExistsNonEmptyProjectQb->expr()->eq('pr.personalUser', 'u'))
+            ->andWhere($subQueryExistsNonEmptyProjectQb->expr()->isNull('pr.deletedAt'))
+            ->andWhere(
+                $subQueryExistsNonEmptyProjectQb->expr()->orX(
+                    $subQueryExistsNonEmptyProjectQb->expr()->andX(
+                        $subQueryExistsNonEmptyProjectQb->expr()->isNotNull('pr.budget'),
+                        $subQueryExistsNonEmptyProjectQb->expr()->gt('pr.budget', 0)
+                    ),
+                    $subQueryExistsNonEmptyProjectQb->expr()->andX(
+                        $subQueryExistsNonEmptyProjectQb->expr()->isNotNull('pr.description'),
+                        $subQueryExistsNonEmptyProjectQb->expr()->neq('pr.description', '\'\'')
+                    ),
+                    $subQueryExistsNonEmptyProjectQb->expr()->exists(
+                        $subQueryExistsProjectVehicleQb->getDQL()
+                    )
+                )
+            );
+        $mainQb->where($mainQb->expr()->between('u.createdAt', ':afterDate', ':beforeDate'))
+            ->andWhere(
+                $mainQb->expr()->orX(
+                    $mainQb->expr()->exists($subQueryExistsPersonalVehicleQb->getDQL()),
+                    $mainQb->expr()->exists($subQueryExistsNonEmptyProjectQb->getDQL())
+                )
+            );
+        $mainQb->setParameter(':afterDate', $selectIntervalStart)
+            ->setParameter(':beforeDate', $selectIntervalEnd);
+        return $mainQb->getQuery()->execute();
+    }
+
 }

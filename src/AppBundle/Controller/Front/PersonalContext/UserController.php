@@ -24,6 +24,7 @@ use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
+use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
@@ -490,19 +491,18 @@ class UserController extends BaseController
     public function editPreferencesAction(Request $request)
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
-
+        $currentUser = $this->getUser();
         $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
-        $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
+        if($currentUser instanceof ProUser) {
+            $userPreferenceForm = $this->formFactory->create(ProUserPreferencesType::class, $userPreferenceDTO);
+        }else{
+            $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
+        }
         $userPreferenceForm->handleRequest($request);
         if ($userPreferenceForm->isSubmitted() && $userPreferenceForm->isValid()) {
+            $this->userEditionService->editPreferences($currentUser, $userPreferenceDTO);
 
-            $this->userEditionService->editPreferences($this->getUser(), $userPreferenceDTO);
-
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user_preferences.edit'
-            );
-
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user_preferences.edit');
             return $this->redirectToRoute('front_user_edit_preferences');
         }
 
@@ -550,7 +550,7 @@ class UserController extends BaseController
         if ($isMe = ($seller == null)) {
             $seller = $this->getUser();
         }
-        $this->denyAccessUnlessGranted(SellerPerformancesVoter::SHOW, $seller,'flash.warning.dashboard.unauthorized');
+        $this->denyAccessUnlessGranted(SellerPerformancesVoter::SHOW, $seller, 'flash.warning.dashboard.unauthorized');
 
         $performances = $this->userInformationService->getProUserPerformances($seller);
         $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($seller, 60);

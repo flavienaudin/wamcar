@@ -6,13 +6,12 @@ use AppBundle\Elasticsearch\Elastica\EntityIndexer;
 use AppBundle\Elasticsearch\Type\IndexableVehicleInfo;
 use League\Csv\Exception;
 use League\Csv\Reader as CsvReader;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportVehicleInfoCommand extends ContainerAwareCommand
+class ImportVehicleInfoCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -106,11 +105,10 @@ class ImportVehicleInfoCommand extends ContainerAwareCommand
             }
         }
         $io->progressFinish();
-        $io->newLine();
 
         $io->text('Indexing ' . count($vehicleInfoDocuments) . ' vehicle infos (models)');
         $vehicleInfoIndexer->indexAllDocuments($vehicleInfoDocuments, true);
 
-        $io->success(sprintf('Done ! (%d refused)', $nbRefused));
+        $io->success(sprintf('Done at ' . date(self::DATE_FORMAT) . '! (%d refused)', $nbRefused));
     }
 }

@@ -1016,16 +1016,27 @@ user:
     page_title: Mes préférences
     title:
       notifications: Activation des notifications
+      lead_suggestion: Suggestion des leads
+      criterias: Vos critères
     common:
       enabled: Activté
       disabled: Désactivé
       email_send: Par email
       notification_frequency: Fréquence d'envoi
+      criteria: Critère
     field:
       privateMessage:
         label: Quand on vous envoit un message privé
       like:
         label: Quand on like votre annonce
+      lead:
+        enabled.label: Nouvelle inscription d'un particulier selon vos critères
+        localisation.label: "{0,1}Km autour de votre garage|[2,Inf[ Km autour de vos garages"
+        partexchange_selection.label: Reprise d'un véhicule
+        partexchange_km_max.label: Kilomètrage max de la reprise
+        project_selection.label: Projet d'achat d'un véhicule
+        project_budget_min.label: Budget minimum du projet
+
   contacted_by: Contacté par %contact_name%
 
 conversation:
