@@ -1016,16 +1016,27 @@ user:
     page_title: Mes préférences
     title:
       notifications: Activation des notifications
+      lead_suggestion: Suggestion des leads
+      criterias: Vos critères
     common:
       enabled: Activté
       disabled: Désactivé
       email_send: Par email
       notification_frequency: Fréquence d'envoi
+      criteria: Critère
     field:
       privateMessage:
         label: Quand on vous envoit un message privé
       like:
         label: Quand on like votre annonce
+      lead:
+        enabled.label: Nouvelle inscription d'un particulier selon vos critères
+        localisation.label: "{0,1}Km autour de votre garage|[2,Inf[ Km autour de vos garages"
+        partexchange_selection.label: Reprise d'un véhicule
+        partexchange_km_max.label: Kilomètrage max de la reprise
+        project_selection.label: Projet d'achat d'un véhicule
+        project_budget_min.label: Budget minimum du projet
+
   contacted_by: Contacté par %contact_name%
 
 conversation:
@@ -1187,11 +1198,12 @@ notifications:
   dropdown-pane:
     title: Notifications
     parameters: Paramètres
-    mark_all_as_seen: Toutes marquer comme lue
+    mark_all_as_seen: Toutes marquer comme lues
     view_all: Voir tout
   message:
     personal_like_vehicle: "<b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
     pro_like_vehicle: "Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
+    new_interesting_lead: "<b>%username%</b> s'est inscrit dans votre secteur"
     pending_request_to_join_garage_created: "Le conseiller automobile <b>%username%</b> souhaite rejoindre le garage <b>%garage_name%</b>"
     pending_request_to_join_garage_accepted: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été accepté par un gestionnaire."
     pending_request_to_join_garage_declined: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été refusé par un gestionnaire."

@@ -6,6 +6,7 @@ namespace AppBundle\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ImportAllDataCommand extends BaseCommand
 {
@@ -25,7 +26,7 @@ class ImportAllDataCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
 
         $commands = [
             'wamcar:populate:personal_vehicle' => [],
@@ -39,18 +40,18 @@ class ImportAllDataCommand extends BaseCommand
         ];
         try {
             foreach ($commands as $commandName => $inputArgument) {
-                $this->log('info', $commandName);
+                $io->text($commandName);
                 $command = $this->getApplication()->find($commandName);
                 $greetInput = new ArrayInput($inputArgument);
                 $returnCode = $command->run($greetInput, $output);
-                $this->log('info', sprintf('%s : %d', $commandName, $returnCode));
-                $this->log('info', '------------------');
+
+                $io->text(sprintf('%s : %d', $commandName, $returnCode));
+                $io->text('------------------');
             }
+            $io->success("Done at " . date(self::DATE_FORMAT));
         } catch (\Exception $e) {
-            $this->log('error', $e->getMessage());
-            $this->log('error', $e->getTraceAsString());
+            $io->error($e->getMessage());
+            $io->error($e->getTraceAsString());
         }
     }
-
-
 }

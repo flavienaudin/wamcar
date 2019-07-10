@@ -50,17 +50,11 @@ class ImportCityCommand extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $now = new \DateTime();
-        $io->text('Start : ' . $now->format('d-m-Y G:i:s') . ' ---');
-
+        $io->text("Start at " . date(self::DATE_FORMAT));
         $filename = $input->getArgument('file');
-
         // Importing CSV on DB via Doctrine ORM
         $this->import($io, $filename);
-
-        $now = new \DateTime();
-        $io->success('End : ' . $now->format('d-m-Y G:i:s') . ' ---');
-
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
     private function import(SymfonyStyle $io, $filename)
@@ -68,7 +62,6 @@ class ImportCityCommand extends BaseCommand
         // Turning off doctrine default logs queries for saving memory
         $connection = $this->em->getConnection();
         $connection->getConfiguration()->setSQLLogger(null);
-
 
         $data = $this->convertCsvToArray($filename);
 

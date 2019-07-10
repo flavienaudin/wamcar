@@ -3,18 +3,16 @@
 namespace AppBundle\Command;
 
 use AppBundle\Elasticsearch\Elastica\EntityIndexBuilder;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ReloadIndexCommand extends ContainerAwareCommand
+class ReloadIndexCommand extends BaseCommand
 {
     /**
      * Configure command
-     *
      */
     protected function configure()
     {
@@ -27,8 +25,7 @@ class ReloadIndexCommand extends ContainerAwareCommand
             )
             ->addOption('populate', 'p', InputOption::VALUE_OPTIONAL,
                 'If true then indices will be populated',
-                false)
-        ;
+                false);
     }
 
     /**
@@ -50,7 +47,7 @@ class ReloadIndexCommand extends ContainerAwareCommand
             $entityIndexBuilder = $this->getContainer()->get($index . '.index_builder');
             $io->text('Reloading index : ' . $entityIndexBuilder->getIndexName());
             $entityIndexBuilder->create();
-            if($populate){
+            if ($populate) {
                 $indexToPopulateCommand = [
                     "vehicle_info" => ["name" => 'wamcar:populate:vehicle_info', 'arguments' => []],
                     "city" => ["name" => 'wamcar:populate:es-cities', 'arguments' => []],
@@ -60,7 +57,7 @@ class ReloadIndexCommand extends ContainerAwareCommand
                     "pro_user" => ["name" => 'wamcar:directory:index_pro_users', 'arguments' => []],
                     "search_item" => ["name" => 'wamcar:populate:search_item', 'arguments' => []],
                 ];
-                try{
+                try {
                     $cmd = $indexToPopulateCommand[$index];
                     $command = $this->getApplication()->find($cmd['name']);
                     $cmdInput = new ArrayInput($cmd['arguments']);
@@ -71,7 +68,7 @@ class ReloadIndexCommand extends ContainerAwareCommand
                 }
             }
         }
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
 }

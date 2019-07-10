@@ -9,8 +9,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\Vehicle\Enum\LeadCriteriaSelection;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class UserPreferencesType extends AbstractType
@@ -39,6 +41,7 @@ class UserPreferencesType extends AbstractType
                 'choices' => NotificationFrequency::toArray(),
                 'choice_translation_domain' => 'enumeration'
             ]);
+
 
         $builder->get('privateMessageEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));
         $builder->get('likeEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));

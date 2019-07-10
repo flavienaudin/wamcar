@@ -173,6 +173,7 @@ class NotificationManagerExtended
     }
 
     /**
+     * Note : possibilité à terme de supprimer cette méthode pour getNotificationByObjectDescriptionAndNotifiable()
      * @param array $description Can contain :
      *      - 'subject' Type of the notification's object : className
      *      - 'message' Identifier(s) of the notification's object : as json string
@@ -182,6 +183,39 @@ class NotificationManagerExtended
     public function getNotificationByObjectDescription(array $description): array
     {
         return $this->notificationRepository->findBy($description);
+    }
+
+    /**
+     * @param array $description Can contain :
+     *      - 'subject' Type of the notification's object : className
+     *      - 'message' Identifier(s) of the notification's object : as json string
+     *      - 'event'   Event which generated the notificatoin : className
+     * @param null|NotifiableEntity $notifiableEntity
+     * @return EventNotification[]
+     */
+    public function getNotificationByObjectDescriptionAndNotifiable(array $description, ?NotifiableEntity $notifiableEntity = null): array
+    {
+        $qb = $this->notificationRepository->createQueryBuilder('n');
+
+        if ($notifiableEntity != null) {
+            $qb->join('n.notifiableNotifications', 'nn');
+            $qb->andWhere($qb->expr()->eq('nn.notifiableEntity', ':notifiableEntity'));
+            $qb->setParameter('notifiableEntity', $notifiableEntity);
+        }
+
+        if (isset($description['subject']) && !empty($description['subject'])) {
+            $qb->andWhere($qb->expr()->eq('n.subject', ':subject'));
+            $qb->setParameter('subject', $description['subject']);
+        }
+        if (isset($description['message']) && !empty($description['message'])) {
+            $qb->andWhere($qb->expr()->eq('n.message', ':message'));
+            $qb->setParameter('message', $description['message']);
+        }
+        if (isset($description['event']) && !empty($description['event'])) {
+            $qb->andWhere($qb->expr()->eq('n.event', ':event'));
+            $qb->setParameter('event', $description['event']);
+        }
+        return $qb->getQuery()->execute();
     }
 
     /**

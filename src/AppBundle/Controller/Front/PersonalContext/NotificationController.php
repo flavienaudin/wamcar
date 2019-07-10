@@ -12,6 +12,8 @@ use Mgilet\NotificationBundle\Entity\NotifiableEntity;
 use Mgilet\NotificationBundle\Manager\NotificationManager;
 use Mgilet\NotificationBundle\NotifiableInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class NotificationController extends BaseController
 {
@@ -188,19 +190,22 @@ class NotificationController extends BaseController
      *
      * @param $notifiable
      *
-     * @return JsonResponse
+     * @return Response
      * @throws \RuntimeException
      * @throws \InvalidArgumentException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function markAllAsSeenAction($notifiable)
+    public function markAllAsSeenAction(Request $request, $notifiable)
     {
         $this->notificationsManager->markAllAsSeen(
             $this->notificationsManager->getNotifiableInterface($this->notificationsManager->getNotifiableEntityById($notifiable)),
             true
         );
-
-        return new JsonResponse(true);
+        if ($request->isXmlHttpRequest()) {
+            return new JsonResponse(true);
+        } else {
+            return $this->redirect($this->getReferer($request));
+        }
     }
 
 

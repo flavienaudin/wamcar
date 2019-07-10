@@ -143,14 +143,6 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @return int
-     */
-    public function countEnabledGarageMemberships(): int
-    {
-        return count($this->getEnabledGarageMemberships());
-    }
-
-    /**
      * @return bool
      */
     public function isGarageAdminsitrator(): bool

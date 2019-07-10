@@ -2,12 +2,11 @@
 
 namespace AppBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportProVehicleCommand extends ContainerAwareCommand
+class ImportProVehicleCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -48,12 +47,11 @@ class ImportProVehicleCommand extends ContainerAwareCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
 
         $io->text('Indexing ' . count($proVehicleDocuments) . ' pro vehicles');
         $proVehicleIndexer->indexAllDocuments($proVehicleDocuments, true);
 
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
 }

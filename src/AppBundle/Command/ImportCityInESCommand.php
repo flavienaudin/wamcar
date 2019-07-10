@@ -2,12 +2,11 @@
 
 namespace AppBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportCityInESCommand extends ContainerAwareCommand
+class ImportCityInESCommand extends BaseCommand
 {
 
     /**
@@ -46,6 +45,6 @@ class ImportCityInESCommand extends ContainerAwareCommand
         $io->text('Indexing ' . count($cityDocuments) . ' cities');
         $cityIndexer->indexAllDocuments($cityDocuments, true);
 
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 }

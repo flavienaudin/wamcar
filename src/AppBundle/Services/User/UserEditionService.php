@@ -380,9 +380,14 @@ class UserEditionService
         $user->updatePreferences(
             $userPreferencesDTO->isPrivateMessageEmailEnabled(),
             $userPreferencesDTO->isLikeEmailEnabled(),
-            NotificationFrequency::IMMEDIATELY()
-            /* TODO Désactivé v1 : $userPreferencesDTO->getPrivateMessageEmailFrequency()*/,
-            $userPreferencesDTO->getLikeEmailFrequency()
+            NotificationFrequency::IMMEDIATELY() /* TODO Désactivé v1 : $userPreferencesDTO->getPrivateMessageEmailFrequency()*/,
+            $userPreferencesDTO->getLikeEmailFrequency(),
+            $userPreferencesDTO->isLeadEmailEnabled(),
+            $userPreferencesDTO->getLeadLocalizationRadiusCriteria(),
+            $userPreferencesDTO->getLeadPartExchangeSelectionCriteria(),
+            $userPreferencesDTO->getLeadPartExchangeKmMaxCriteria(),
+            $userPreferencesDTO->getLeadProjectSelectionCriteria(),
+            $userPreferencesDTO->getLeadProjectBudgetMinCriteria()
         );
 
         $this->userPreferencesRepository->update($user->getPreferences());

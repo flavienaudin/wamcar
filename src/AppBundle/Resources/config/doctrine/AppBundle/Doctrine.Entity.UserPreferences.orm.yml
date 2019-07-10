@@ -18,7 +18,18 @@ AppBundle\Doctrine\Entity\UserPreferences:
               type: boolean
         likeEmailFrequency:
             type: notificationfrequency
-
+        leadEmailEnabled:
+            type: boolean
+        leadLocalizationRadiusCriteria:
+            type: integer
+        leadPartExchangeSelectionCriteria:
+            type: leadcriteriaselection
+        leadPartExchangeKmMaxCriteria:
+            type: integer
+        leadProjectSelectionCriteria:
+            type: leadcriteriaselection
+        leadProjectBudgetMinCriteria:
+            type: integer
 
     oneToOne:
         user:
