@@ -60,65 +60,83 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
 
         $vehicle = $event->getLikeVehicle()->getVehicle();
 
-        if (!$like->getUser()->is($like->getVehicle()->getSeller())) {
-            // If user likes its own vehicle Then no notification
-            if ($event->getLikeVehicle()->getValue()) {
-                // Event is "like" : create notification
-                $notifications = $this->notificationsManagerExtended->createNotification(
-                    get_class($like),
-                    get_class($event),
-                    $data,
-                    $vehicle instanceof ProVehicle ?
-                        $this->router->generate('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
-                        : $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
-                );
-                try {
-                    $this->notificationsManager->addNotification([$vehicle->getSeller()], $notifications, true);
-                } catch (OptimisticLockException $e) {
-                    // tant pis pour la notification, on ne bloque pas l'action
-                }
-
-                if ($like->getVehicle()->getSeller()->getPreferences()->isLikeEmailEnabled() &&
-                    $like->getVehicle()->getSeller()->getPreferences()->getLikeEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
-
-                    $pathImg = $this->pathVehiclePicture->getPath($like->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
-
-                    $this->send(
-                        $this->translator->trans('notifyUserOfLikeVehicle.object', ['%annonceTitle%' => $like->getVehicle()->getName()], 'email'),
-                        'Mail/notifyUserOfNewLikeVehicle.html.twig',
-                        [
-                            'username' => $like->getVehicle()->getSellerName(true),
-                            'messageAuthorName' => $like->getUser()->getFullName(),
-                            'annonceTitle' => $like->getVehicle()->getName(),
-                            'message_url' =>
-                                $like->getVehicle() instanceof ProVehicle ?
-                                    $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
-                                    : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
-                            ,
-                            'vehicle' => $like->getVehicle(),
-                            'vehicleUrl' => $like->getVehicle() instanceof ProVehicle ?
-                                $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
-                                : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
-                            'vehiclePrice' => ($like->getVehicle() instanceof ProVehicle ? $like->getVehicle()->getPrice() : null),
-                            'thumbnailUrl' => $pathImg
-                        ],
-                        new EmailRecipientList($this->createUserEmailContact($like->getVehicle()->getSeller()))
+        if($like->getDeletedAt() == null) {
+            // The vehicle and the like are not deleted
+            if (!$like->getUser()->is($like->getVehicle()->getSeller())) {
+                // If user likes its own vehicle Then no notification
+                if ($event->getLikeVehicle()->getValue()) {
+                    // Event is "like" : create notification
+                    $notifications = $this->notificationsManagerExtended->createNotification(
+                        get_class($like),
+                        get_class($event),
+                        $data,
+                        $vehicle instanceof ProVehicle ?
+                            $this->router->generate('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
+                            : $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
                     );
-                }
-            } else {
-                // Event is "unlike" : remove notification about the like
-                $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
-                    'subject' => get_class($like),
-                    'message' => $data
-                ]);
-                try {
-                    foreach ($notifications as $notification) {
-                        $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
-                        $this->notificationsManager->deleteNotification($notification, true);
+                    try {
+                        $this->notificationsManager->addNotification([$vehicle->getSeller()], $notifications, true);
+                    } catch (OptimisticLockException $e) {
+                        // tant pis pour la notification, on ne bloque pas l'action
                     }
-                } catch (OptimisticLockException $e) {
-                    // tant pis pour la suppression des notifications, on ne bloque pas l'action
+
+                    if ($like->getVehicle()->getSeller()->getPreferences()->isLikeEmailEnabled() &&
+                        $like->getVehicle()->getSeller()->getPreferences()->getLikeEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
+
+                        $pathImg = $this->pathVehiclePicture->getPath($like->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
+
+                        $this->send(
+                            $this->translator->trans('notifyUserOfLikeVehicle.object', ['%annonceTitle%' => $like->getVehicle()->getName()], 'email'),
+                            'Mail/notifyUserOfNewLikeVehicle.html.twig',
+                            [
+                                'username' => $like->getVehicle()->getSellerName(true),
+                                'messageAuthorName' => $like->getUser()->getFullName(),
+                                'annonceTitle' => $like->getVehicle()->getName(),
+                                'message_url' =>
+                                    $like->getVehicle() instanceof ProVehicle ?
+                                        $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
+                                        : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
+                                ,
+                                'vehicle' => $like->getVehicle(),
+                                'vehicleUrl' => $like->getVehicle() instanceof ProVehicle ?
+                                    $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
+                                    : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
+                                'vehiclePrice' => ($like->getVehicle() instanceof ProVehicle ? $like->getVehicle()->getPrice() : null),
+                                'thumbnailUrl' => $pathImg
+                            ],
+                            new EmailRecipientList($this->createUserEmailContact($like->getVehicle()->getSeller()))
+                        );
+                    }
+                } else {
+                    // Event is "unlike" : remove notification about the like
+                    $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+                        'subject' => get_class($like),
+                        'message' => $data
+                    ]);
+                    try {
+                        foreach ($notifications as $notification) {
+                            $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
+                            $this->notificationsManager->deleteNotification($notification, true);
+                        }
+                    } catch (OptimisticLockException $e) {
+                        // tant pis pour la suppression des notifications, on ne bloque pas l'action
+                    }
                 }
+            }
+        }
+        else{
+            // The vehicle and so the like, are (soft) deleted
+            $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
+                'subject' => get_class($like),
+                'message' => $data
+            ]);
+            try {
+                foreach ($notifications as $notification) {
+                    $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
+                    $this->notificationsManager->deleteNotification($notification, true);
+                }
+            } catch (OptimisticLockException $e) {
+                // tant pis pour la suppression des notifications, on ne bloque pas l'action
             }
         }
     }

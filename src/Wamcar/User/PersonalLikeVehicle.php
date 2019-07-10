@@ -5,6 +5,9 @@ namespace Wamcar\User;
 
 use Wamcar\Vehicle\PersonalVehicle;
 
+/**
+ * Like on PersonalVehicle
+ */
 class PersonalLikeVehicle extends BaseLikeVehicle
 {
 

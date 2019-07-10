@@ -14,6 +14,7 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\PersonalLikeVehicle;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\ProLikeVehicle;
 use Wamcar\Vehicle\Event\PersonalVehicleCreated;
 use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
 use Wamcar\Vehicle\Event\PersonalVehicleUpdated;
@@ -124,11 +125,17 @@ class PersonalVehicleEditionService
      */
     public function deleteVehicle(PersonalVehicle $personalVehicle): PersonalVehicle
     {
+        $deletedVehicleLikes = $personalVehicle->getLikes();
         $isSoftDeleted = $personalVehicle->getDeletedAt() != null;
         $this->vehicleRepository->remove($personalVehicle);
         if(!$isSoftDeleted) {
             // Generate Event only if vehicle is not definitively deleted
             $this->eventBus->handle(new PersonalVehicleRemoved($personalVehicle));
+
+            /** @var ProLikeVehicle $vehicleLike */
+            foreach ($deletedVehicleLikes as $vehicleLike) {
+                $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+            }
         }
         return $personalVehicle;
     }

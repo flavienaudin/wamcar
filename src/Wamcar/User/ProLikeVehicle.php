@@ -5,6 +5,9 @@ namespace Wamcar\User;
 
 use Wamcar\Vehicle\ProVehicle;
 
+/**
+ * Like on ProVehicle
+ */
 class ProLikeVehicle extends BaseLikeVehicle
 {
     /**
