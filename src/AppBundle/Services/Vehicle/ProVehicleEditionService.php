@@ -269,8 +269,13 @@ class ProVehicleEditionService
      */
     public function deleteVehicle(ProVehicle $proVehicle): void
     {
+        $deletedVehicleLikes = $proVehicle->getLikes();
         $this->vehicleRepository->remove($proVehicle);
         $this->eventBus->handle(new ProVehicleRemoved($proVehicle));
+        /** @var ProLikeVehicle $vehicleLike */
+        foreach ($deletedVehicleLikes as $vehicleLike) {
+            $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+        }
     }
 
     /**
