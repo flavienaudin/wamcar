@@ -5,6 +5,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
+use Wamcar\User\PersonalUser;
 
 
 class UserGlobalSearchService
@@ -50,56 +51,28 @@ class UserGlobalSearchService
     }
 
 
-    public function findNewPersonalUser(int $since): array
+    /**
+     * Search for new personal user (registration) between the $refDatetime or now() - 1H, and the $refDatetime or now() - 1H - $delay H
+     * The personal user
+     * @param int $since
+     * @param \DateTime|null $refDatetime
+     * @return array
+     * @throws \Exception
+     */
+    public function findNewPersonalUser(int $since, ?\DateTime $refDatetime = null): array
     {
-        $selectIntervalEnd = new \DateTime("now");
-        $selectIntervalEnd->sub(new \DateInterval('PT1H'));
-        $selectIntervalStart = clone $selectIntervalEnd;
-        $selectIntervalStart->sub(new \DateInterval('PT' . $since . 'H'));
+        return $this->personalUserRepository->findNewRegistations($since, $refDatetime);
+    }
 
-        $mainQb = $this->personalUserRepository->createQueryBuilder('u');
-
-        $subQueryExistsPersonalVehicleQb = $mainQb->getEntityManager()->createQueryBuilder();
-        $subQueryExistsPersonalVehicleQb
-            ->select('1')->from('Wamcar:Vehicle\PersonalVehicle', 'pv')
-            ->where($subQueryExistsPersonalVehicleQb->expr()->isNull('pv.deletedAt'))
-            ->andWhere($subQueryExistsPersonalVehicleQb->expr()->eq('pv.owner', 'u'));
-
-        $subQueryExistsProjectVehicleQb = $mainQb->getEntityManager()->createQueryBuilder();
-        $subQueryExistsProjectVehicleQb->select('1')
-            ->from('Wamcar:User\ProjectVehicle', 'prv')
-            ->where($subQueryExistsProjectVehicleQb->expr()->eq('prv.project', 'pr'));
-
-        $subQueryExistsNonEmptyProjectQb = $mainQb->getEntityManager()->createQueryBuilder();
-        $subQueryExistsNonEmptyProjectQb->select('1')
-            ->from('Wamcar:User\Project', 'pr')
-            ->where($subQueryExistsNonEmptyProjectQb->expr()->eq('pr.personalUser', 'u'))
-            ->andWhere($subQueryExistsNonEmptyProjectQb->expr()->isNull('pr.deletedAt'))
-            ->andWhere(
-                $subQueryExistsNonEmptyProjectQb->expr()->orX(
-                    $subQueryExistsNonEmptyProjectQb->expr()->andX(
-                        $subQueryExistsNonEmptyProjectQb->expr()->isNotNull('pr.budget'),
-                        $subQueryExistsNonEmptyProjectQb->expr()->gt('pr.budget', 0)
-                    ),
-                    $subQueryExistsNonEmptyProjectQb->expr()->andX(
-                        $subQueryExistsNonEmptyProjectQb->expr()->isNotNull('pr.description'),
-                        $subQueryExistsNonEmptyProjectQb->expr()->neq('pr.description', '\'\'')
-                    ),
-                    $subQueryExistsNonEmptyProjectQb->expr()->exists(
-                        $subQueryExistsProjectVehicleQb->getDQL()
-                    )
-                )
-            );
-        $mainQb->where($mainQb->expr()->between('u.createdAt', ':afterDate', ':beforeDate'))
-            ->andWhere(
-                $mainQb->expr()->orX(
-                    $mainQb->expr()->exists($subQueryExistsPersonalVehicleQb->getDQL()),
-                    $mainQb->expr()->exists($subQueryExistsNonEmptyProjectQb->getDQL())
-                )
-            );
-        $mainQb->setParameter(':afterDate', $selectIntervalStart)
-            ->setParameter(':beforeDate', $selectIntervalEnd);
-        return $mainQb->getQuery()->execute();
+    /**
+     * Seach for ProUsers according to Pro's preferences and the given PersonalUser : localization, personal vehicle
+     * and project
+     * @param PersonalUser $personalUser
+     * @return array
+     */
+    public function retrieveProUserToInform(PersonalUser $personalUser): array
+    {
+        return $this->proUserRepository->findInterestedByPersonalUser($personalUser);
     }
 
 }

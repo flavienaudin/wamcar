@@ -46,18 +46,31 @@ class InformProUsersOfNewPotentialLeadsCommand extends BaseCommand
             ->setDescription('Inform pro user of new potetial lead in their search')
             ->addOption('delay', null, InputOption::VALUE_REQUIRED,
                 'The script execution reccurence time in hours: Personal users registration between 
-                the current datetime - 1 hour and the current datetime - 1 hour - delay are treated.');
+                the {current/refdatetime} datetime - 1 hour and the {current/refdatetime} datetime - 1 hour - delay are treated.')
+            ->addOption('refdatetime', null, InputOption::VALUE_OPTIONAL,
+                'Default : now. The script execution reference datetime : YYYYMMDD_HHmm');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-
+        $io->text('Start at : ' . date(\DateTime::ISO8601));
         $delay = $input->getOption('delay');
         $io->text($delay);
+        $refDatetime = $input->getOption('refdatetime');
+        $io->text($refDatetime ? $refDatetime : 'none');
+        if ($refDatetime) {
+            $refDatetime = \DateTime::createFromFormat('Ymd_Hi', $refDatetime, new \DateTimeZone('Europe/Paris'));
+        } else {
+            $refDatetime = new \DateTime();
+        }
+        $io->text(date(\DateTime::ISO8601, $refDatetime->getTimestamp()));
 
-        $this->leadManagementService->informProUserOfNewUser($delay);
-
-        $io->success('Done at : ' . date(\DateTime::ISO8601));
+        $countNotifiedUsers = $this->leadManagementService->informProUserOfNewUser($delay, $refDatetime, $io);
+        if ($countNotifiedUsers  >= 0) {
+            $io->success($countNotifiedUsers .' ProUsers notifiés. Done at : ' . date(\DateTime::ISO8601));
+        } else {
+            $io->error('End at : ' . date(\DateTime::ISO8601));
+        }
     }
 }

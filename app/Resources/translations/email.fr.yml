@@ -70,6 +70,11 @@ notifyUserOfLikeVehicle:
         <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
     action_label: Voir
 
+notifyProUserOfNewInterestingLead:
+    object: "Un nouveau prospect vient de s'inscrire dans votre secteur"
+    body: "<p>%leadFullname%  se trouve à moins de %radius% kilomètres de votre société.</p>"
+    action_label: "Voir son profil"
+
 notifyUserOfAffinityDegreeCalculated:
     object: "Vos affinités sont maintenant disponibles sur Wamcar"
     body:

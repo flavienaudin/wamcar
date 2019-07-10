@@ -4,6 +4,7 @@ namespace AppBundle\Services\User;
 
 
 use Psr\Log\LoggerInterface;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -14,6 +15,7 @@ use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\LeadInitiatedBy;
 use Wamcar\User\Enum\LeadStatus;
+use Wamcar\User\Event\LeadNewRegistrationEvent;
 use Wamcar\User\Lead;
 use Wamcar\User\LeadRepository;
 use Wamcar\User\PersonalUser;
@@ -40,6 +42,8 @@ class LeadManagementService
     private $translator;
     /** @var LoggerInterface */
     private $logger;
+    /** @var MessageBus */
+    private $messageBus;
 
     /**
      * LeadManagementService constructor.
@@ -51,11 +55,13 @@ class LeadManagementService
      * @param RouterInterface $router
      * @param TranslatorInterface $translator
      * @param LoggerInterface $logger
+     * @param MessageBus $messageBus
      */
     public function __construct(UserRepository $userRepository, LeadRepository $leadRepository,
                                 MessageRepository $messageRepository, UserLikeVehicleRepository $userLikeVehicleRepository,
                                 UserGlobalSearchService $personalUserRepository,
-                                RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger)
+                                RouterInterface $router, TranslatorInterface $translator, LoggerInterface $logger,
+                                MessageBus $messageBus)
     {
         $this->userRepository = $userRepository;
         $this->leadRepository = $leadRepository;
@@ -65,6 +71,7 @@ class LeadManagementService
         $this->router = $router;
         $this->translator = $translator;
         $this->logger = $logger;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -563,15 +570,44 @@ class LeadManagementService
     }
 
     /**
-     * @param int $since Nombre d'heure de
+     * @param int $since Nb d'heure entre deux exécutions
+     * @param \DateTime|null $refDatetime Date de référence à utiliser, sinon la date courante est utilisée
+     * @param SymfonyStyle|null $io
+     * @return int negative if error. otherwise, the number of event created to inform pro users.
      */
-    public function informProUserOfNewUser(int $since)
+    public function informProUserOfNewUser(int $since, ?\DateTime $refDatetime = null, ?SymfonyStyle $io = null)
     {
-        $newPersonalUsers = $this->userGlobalSearchService->findNewPersonalUser($since);
-        /** @var PersonalUser $newPersonalUser */
-        foreach($newPersonalUsers as $newPersonalUser)
-        {
-            //dump($newPersonalUser->getId() . ' ' . $newPersonalUser->getFullName());
+        try {
+            $newPersonalUsers = $this->userGlobalSearchService->findNewPersonalUser($since, $refDatetime);
+            if ($io) {
+                $io->progressStart(count($newPersonalUsers));
+            }
+            $countEvents = 0;
+            /** @var PersonalUser $newPersonalUser */
+            foreach ($newPersonalUsers as $newPersonalUser) {
+                if ($io) {
+                    $io->progressAdvance();
+                    $io->text($newPersonalUser->getId());
+                }
+
+                $proUsersToInform = $this->userGlobalSearchService->retrieveProUserToInform($newPersonalUser);
+                /** @var ProUser $proUserToInform */
+                foreach ($proUsersToInform as $proUserToInform) {
+                    $io->text($proUserToInform->getId() . ' ' . $proUserToInform->getFullName());
+                    $this->messageBus->handle(new LeadNewRegistrationEvent($proUserToInform, $newPersonalUser));
+                    $countEvents++;
+                }
+            }
+            if ($io) {
+                $io->progressFinish();
+            }
+            return $countEvents;
+        } catch (\Exception $e) {
+            if ($io) {
+                $io->error($e->getMessage());
+                $io->error($e->getTraceAsString());
+            }
+            return -1;
         }
     }
 }

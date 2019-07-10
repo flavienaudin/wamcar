@@ -1198,11 +1198,12 @@ notifications:
   dropdown-pane:
     title: Notifications
     parameters: Paramètres
-    mark_all_as_seen: Toutes marquer comme lue
+    mark_all_as_seen: Toutes marquer comme lues
     view_all: Voir tout
   message:
     personal_like_vehicle: "<b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
     pro_like_vehicle: "Le conseiller automobile <b>%username%</b> a aimé votre annonce <b>%vehicle_name%</b>"
+    new_interesting_lead: "<b>%username%</b> s'est inscrit dans votre secteur"
     pending_request_to_join_garage_created: "Le conseiller automobile <b>%username%</b> souhaite rejoindre le garage <b>%garage_name%</b>"
     pending_request_to_join_garage_accepted: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été accepté par un gestionnaire."
     pending_request_to_join_garage_declined: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été refusé par un gestionnaire."

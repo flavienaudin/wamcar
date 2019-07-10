@@ -13,6 +13,13 @@
     {% set notificator_img = notification.subject.user.avatar|avatar('user_mini_thumbnail', notification.subject.user.firstName) %}
     {% set notificator_alt = notification.subject.user.fullname %}
     {% set notification_icon = '<span class="icon-thumbs-up primary-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\User\\Event\\LeadNewRegistrationEvent') %}
+    {% set subject = 'notifications.message.new_interesting_lead'|trans({
+        '%username%' : notification.subject.fullname
+    }) %}
+    {% set notificator_img = notification.subject.avatar|avatar('user_mini_thumbnail', notification.subject.firstName) %}
+    {% set notificator_alt = notification.subject.fullname %}
+    {% set notification_icon = '<span class="icon-id-badge primary-color"></span>' %}
 {% elseif notification.notificationEvent is same as('Wamcar\\Garage\\Event\\PendingRequestToJoinGarageCreatedEvent') %}
     {% set subject = 'notifications.message.pending_request_to_join_garage_created'|trans({
         '%username%':notification.subject.prouser.fullname,

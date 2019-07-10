@@ -56,9 +56,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
         $this->checkEventClass($event, UserLikeVehicleEvent::class);
 
         $like = $event->getLikeVehicle();
-        $data = json_encode([
-            'id' => $like->getId()
-        ]);
+        $data = json_encode(['id' => $like->getId()]);
 
         $vehicle = $event->getLikeVehicle()->getVehicle();
 
