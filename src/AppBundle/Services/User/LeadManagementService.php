@@ -175,19 +175,22 @@ class LeadManagementService
         ];
         /** @var Lead $lead */
         foreach ($selectedLeads as $lead) {
-
-            $proUserInfos =
-                '<a href="' . $this->router->generate('front_view_pro_user_info', [
-                    'slug' => $lead->getProUser()->getSlug()],
-                    UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
-                $lead->getProUser()->getFullName() . ' (' . $lead->getProUser()->getId() . ')</a>';
-
+            if ($lead->getProUser() != null) {
+                $proUserInfos =
+                    '<a href="' . $this->router->generate('front_view_pro_user_info', [
+                        'slug' => $lead->getProUser()->getSlug()],
+                        UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
+                    $lead->getProUser()->getFullName() . ' (' . $lead->getProUser()->getId() . ')</a>';
+            } else {
+                // TODO récupérer les pros soft deleted ! Vérifier si pro supprimé définitivement si leads aussi ?
+                $proUserInfos = '<span class="text-line-through">Utilisateur supprimé'/* . $lead->getProUser()->getFullName() . '(' . $lead->getProUser()->getId() . */. ')</span>';
+            }
             $leadInfos = $lead->getUserLead() != null ?
                 '<a href="' . $this->router->generate($lead->getUserLead()->isPro() ? 'front_view_pro_user_info' : 'front_view_personal_user_info', [
                     'slug' => $lead->getUserLead()->getSlug()],
                     UrlGeneratorInterface::ABSOLUTE_URL) . '" target="blank">' .
                 $lead->getUserLead()->getFullName() . '(' . $lead->getUserLead()->getId() . ')</a>' :
-                $lead->getFullName() . ' (del)';
+                '<span class="text-line-through">' . $lead->getFullName() . '</span>';
             if (LeadInitiatedBy::PRO_USER()->equals($lead->getInitiatedBy())) {
                 $userAinfos = $proUserInfos;
                 $userBinfos = $leadInfos;
@@ -212,7 +215,10 @@ class LeadManagementService
                 $userALikes = $lead->getNbLeadLikes();
             }
 
-            $affinityDegrees = $lead->getProUser()->getAffinityDegreesWith($lead->getUserLead());
+            $affinityDegrees = null;
+            if($lead->getProUser() != null) {
+                $affinityDegrees = $lead->getProUser()->getAffinityDegreesWith($lead->getUserLead());
+            }
 
             $nbSales = count($lead->getSaleDeclarations());
 

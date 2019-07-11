@@ -53,7 +53,7 @@ class AdministrationController extends BaseController
             throw new BadRequestHttpException();
         }
 
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_PRO_ADMIN')) {
             return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->leadManagementService->getLeadsAsUserLinkings($request->query->all()));

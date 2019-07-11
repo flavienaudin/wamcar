@@ -92,9 +92,9 @@ class Lead
     }
 
     /**
-     * @return ProUser
+     * @return ProUser|null null if softDeleted
      */
-    public function getProUser(): ProUser
+    public function getProUser(): ?ProUser
     {
         return $this->proUser;
     }
