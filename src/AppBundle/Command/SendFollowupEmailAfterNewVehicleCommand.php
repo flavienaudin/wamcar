@@ -50,7 +50,7 @@ class SendFollowupEmailAfterNewVehicleCommand extends BaseCommand
 
         $personals = $this->personalVehicleEditionService->findPersonalToRemind();
 
-        $io->createProgressBar(count($personals));
+        $io->progressStart(count($personals));
         foreach ($personals as $personal) {
             $io->progressAdvance();
             // a mail will be send to the user on the event handling
