@@ -22,14 +22,16 @@ AppBundle\Doctrine\Entity\UserPreferences:
             type: notificationfrequency
         leadEmailEnabled:
             type: boolean
+        leadOnlyPartExchange:
+            type: boolean
+        leadOnlyProject:
+            type: boolean
+        leadProjectWithPartExchange:
+            type: boolean
         leadLocalizationRadiusCriteria:
             type: integer
-        leadPartExchangeSelectionCriteria:
-            type: leadcriteriaselection
         leadPartExchangeKmMaxCriteria:
             type: integer
-        leadProjectSelectionCriteria:
-            type: leadcriteriaselection
         leadProjectBudgetMinCriteria:
             type: integer
 

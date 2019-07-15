@@ -63,29 +63,14 @@ class DoctrineProUserRepository extends EntityRepository implements UserReposito
         $personalUserHasProject = $personalUser->getProject() != null && !$personalUser->getProject()->isEmpty();
 
         if ($personalUserHasPartExchange && $personalUserHasProject) {
-            // Reprise && Projet => !WITHOUT Reprise AND !WITHOUT Project
-            $whereClause = $mainQueryQb->expr()->andX(
-                $mainQueryQb->expr()->neq('up.leadPartExchangeSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITHOUT)),
-                $mainQueryQb->expr()->neq('up.leadProjectSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITHOUT))
-            );
+            // Achat et reprise
+            $whereClause = $mainQueryQb->expr()->eq('up.leadProjectWithPartExchange', $mainQueryQb->expr()->literal(true));
         } elseif ($personalUserHasPartExchange && !$personalUserHasProject) {
-            // Reprise && PAS Projet
-            $whereClause = $mainQueryQb->expr()->andX(
-                $mainQueryQb->expr()->neq('up.leadProjectSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITH)),
-                $mainQueryQb->expr()->neq('up.leadPartExchangeSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITHOUT))
-            );
+            // Reprise sêche
+            $whereClause = $mainQueryQb->expr()->eq('up.leadOnlyPartExchange', $mainQueryQb->expr()->literal(true));
         } elseif (!$personalUserHasPartExchange && $personalUserHasProject) {
-            // PAS Reprise && Projet
-            $whereClause = $mainQueryQb->expr()->andX(
-                $mainQueryQb->expr()->neq('up.leadProjectSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITHOUT)),
-                $mainQueryQb->expr()->neq('up.leadPartExchangeSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITH))
-            );
-        } elseif (!$personalUserHasPartExchange && !$personalUserHasProject) {
-            // PAS Reprise && PAS Projet
-            $whereClause = $mainQueryQb->expr()->andX(
-                $mainQueryQb->expr()->neq('up.leadProjectSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITH)),
-                $mainQueryQb->expr()->neq('up.leadPartExchangeSelectionCriteria', $mainQueryQb->expr()->literal(LeadCriteriaSelection::LEAD_CRITERIA_WITH))
-            );
+            // Achat
+            $whereClause = $mainQueryQb->expr()->eq('up.leadOnlyProject', $mainQueryQb->expr()->literal(true));
         }
         if ($whereClause != null) {
             $mainQueryQb->andWhere($whereClause);

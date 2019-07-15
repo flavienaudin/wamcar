@@ -19,7 +19,6 @@ use Wamcar\Conversation\Message;
 use Wamcar\Location\City;
 use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\Enum\LeadCriteriaSelection;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 abstract class BaseUser implements HasApiCredential
@@ -581,10 +580,11 @@ abstract class BaseUser implements HasApiCredential
         NotificationFrequency $privateMessageEmailFrequency,
         NotificationFrequency $likeEmailFrequency,
         bool $leadEmailEnabled,
+        bool $leadOnlyPartExchange,
+        bool $leadOnlyProject,
+        bool $leadProjectWithPartExchange,
         int $leadLocalizationRadius,
-        LeadCriteriaSelection $leadPartExchangeSelection,
         ?int $leadPartExchangeKmMax,
-        LeadCriteriaSelection $leadProjectSelection,
         ?int $leadProjectBudgetMin
     ): void
     {
@@ -600,11 +600,11 @@ abstract class BaseUser implements HasApiCredential
 
         $this->getPreferences()->setLeadEmailEnabled($leadEmailEnabled);
         $this->getPreferences()->setLeadLocalizationRadiusCriteria($leadLocalizationRadius);
+        $this->getPreferences()->setLeadOnlyPartExchange($leadOnlyPartExchange);
+        $this->getPreferences()->setLeadOnlyProject($leadOnlyProject);
+        $this->getPreferences()->setLeadProjectWithPartExchange($leadProjectWithPartExchange);
 
-        $this->getPreferences()->setLeadPartExchangeSelectionCriteria($leadPartExchangeSelection);
         $this->getPreferences()->setLeadPartExchangeKmMaxCriteria($leadPartExchangeKmMax);
-
-        $this->getPreferences()->setLeadProjectSelectionCriteria($leadProjectSelection);
         $this->getPreferences()->setLeadProjectBudgetMinCriteria($leadProjectBudgetMin);
     }
 
