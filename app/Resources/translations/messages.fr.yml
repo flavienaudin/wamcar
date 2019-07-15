@@ -1025,6 +1025,7 @@ user:
       notification_frequency: Fréquence d'envoi
       criteria: Critère
     field:
+      globalEmailFrequency: Fréquence d'envoi des e-mails
       privateMessage:
         label: Quand on vous envoit un message privé
       like:

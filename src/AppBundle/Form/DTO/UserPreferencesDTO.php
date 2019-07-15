@@ -9,6 +9,8 @@ use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class UserPreferencesDTO
 {
+    /** @var NotificationFrequency $globalEmailFrequency */
+    private $globalEmailFrequency ;
     /** @var bool $privateMessageEmailEnabled */
     private $privateMessageEmailEnabled;
     /** @var NotificationFrequency $privateMessageEmailFrequency */
@@ -41,6 +43,8 @@ class UserPreferencesDTO
     {
         $userPreferencesDTO = new self();
 
+        $userPreferencesDTO->setGlobalEmailFrequency($user->getPreferences()->getGlobalEmailFrequency());
+
         $userPreferencesDTO->setPrivateMessageEmailEnabled($user->getPreferences()->isPrivateMessageEmailEnabled());
         $userPreferencesDTO->setPrivateMessageEmailFrequency(NotificationFrequency::IMMEDIATELY()/* Désactivé pour la v1 : $user->getPreferences()->getPrivateMessageEmailFrequency()*/);
 
@@ -55,6 +59,22 @@ class UserPreferencesDTO
         $userPreferencesDTO->setLeadProjectBudgetMinCriteria($user->getPreferences()->getLeadProjectBudgetMinCriteria());
 
         return $userPreferencesDTO;
+    }
+
+    /**
+     * @return NotificationFrequency
+     */
+    public function getGlobalEmailFrequency(): NotificationFrequency
+    {
+        return $this->globalEmailFrequency;
+    }
+
+    /**
+     * @param NotificationFrequency $globalEmailFrequency
+     */
+    public function setGlobalEmailFrequency(NotificationFrequency $globalEmailFrequency): void
+    {
+        $this->globalEmailFrequency = $globalEmailFrequency;
     }
 
     /**

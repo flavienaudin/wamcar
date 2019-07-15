@@ -50,7 +50,10 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
         $message = $event->getMessage();
         $interlocutor = $event->getInterlocutor();
         if ($interlocutor->getPreferences()->isPrivateMessageEmailEnabled()
-            && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
+            && $interlocutor->getPreferences()->getGlobalEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
+            // Use only the global email frequency preference
+            // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
+        ) {
             $pathImg = $event->getPathImg();
 
             $this->send(

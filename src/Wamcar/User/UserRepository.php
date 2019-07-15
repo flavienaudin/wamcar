@@ -2,15 +2,27 @@
 
 namespace Wamcar\User;
 
+use Doctrine\ORM\QueryBuilder;
+
 interface UserRepository
 {
+
+    /**
+     * Creates a new QueryBuilder instance that is prepopulated for this entity name.
+     *
+     * @param string $alias
+     * @param string $indexBy The index for the from.
+     *
+     * @return QueryBuilder
+     */
+    public function createQueryBuilder($alias, $indexBy = null);
+
     /**
      * @param int $userId
      *
      * @return BaseUser
      */
     public function findOne(int $userId): ?BaseUser;
-
 
     /**
      * @param array $criteria
@@ -70,6 +82,15 @@ interface UserRepository
      * @return object|null The entity instance or NULL if the entity can not be found.
      */
     public function findIgnoreSoftDeletedOneBy(array $criteria, array $orderBy = null);
+
+    /**
+     * Get users who have unread notifications or messages during the last 24h, in order to send them an email according to their preferences
+     *
+     * @return array
+     * @throws \Exception when the interval_spec cannot be parsed as an interval.
+     */
+    public function getUsersWithWaitingNotificationsOrMessages(int $sinceLastHours = 24);
+
     /**
      * @param BaseUser $user
      *

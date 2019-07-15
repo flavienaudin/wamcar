@@ -378,9 +378,10 @@ class UserEditionService
     public function editPreferences(BaseUser $user, UserPreferencesDTO $userPreferencesDTO)
     {
         $user->updatePreferences(
+            $userPreferencesDTO->getGlobalEmailFrequency(),
             $userPreferencesDTO->isPrivateMessageEmailEnabled(),
             $userPreferencesDTO->isLikeEmailEnabled(),
-            NotificationFrequency::IMMEDIATELY() /* TODO Désactivé v1 : $userPreferencesDTO->getPrivateMessageEmailFrequency()*/,
+            $userPreferencesDTO->getPrivateMessageEmailFrequency(),
             $userPreferencesDTO->getLikeEmailFrequency(),
             $userPreferencesDTO->isLeadEmailEnabled(),
             $userPreferencesDTO->getLeadLocalizationRadiusCriteria(),
@@ -433,7 +434,7 @@ class UserEditionService
         $proUser = $this->userRegistrationService->registerUser($registrationDTO, false);
         if ($proUser instanceof ProUser) {
             $proUser->setAvatar($personalUser->getAvatar());
-            if($personalUser->getAvatar() != null) {
+            if ($personalUser->getAvatar() != null) {
                 $personalUser->getAvatar()->setUser($proUser);
             }
             $personalUser->setAvatar(null);
@@ -454,6 +455,7 @@ class UserEditionService
             $proUser->setFirstContactPreference($personalUser->getFirstContactPreference());
 
             $proUser->updatePreferences(
+                $personalUser->getPreferences()->getGlobalEmailFrequency(),
                 $personalUser->getPreferences()->isPrivateMessageEmailEnabled(),
                 $personalUser->getPreferences()->isLikeEmailEnabled(),
                 $personalUser->getPreferences()->getPrivateMessageEmailFrequency(),
@@ -496,6 +498,16 @@ class UserEditionService
         }
 
         return $result;
+    }
 
+    /**
+     * Get users who have unread notifications or messages during the last 24h, in order to send them an email according to their preferences
+     *
+     * @return array
+     * @throws \Exception when the interval_spec cannot be parsed as an interval.
+     */
+    public function getUserWithEmailableUnreadNotifications(int $sinceLastHours = 24)
+    {
+        return $this->userRepository->getUsersWithWaitingNotificationsOrMessages($sinceLastHours);
     }
 }

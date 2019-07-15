@@ -10,6 +10,8 @@ AppBundle\Doctrine\Entity\UserPreferences:
             associationKey: true
 
     fields:
+        globalEmailFrequency:
+            type: notificationfrequency
         privateMessageEmailEnabled:
             type: boolean
         privateMessageEmailFrequency:

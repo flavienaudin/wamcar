@@ -42,6 +42,7 @@ class ConversationFromDTOBuilder
         $conversationUserFirst =  new ConversationUser($conversation, $dto->user);
         $conversation->addConversationUser($conversationUserFirst);
         $conversationUserSecond =  new ConversationUser($conversation, $dto->interlocutor);
+        $conversationUserSecond->setLastOpenedAt($conversationUserSecond->getLastOpenedAt()->sub(new \DateInterval('PT5S')));
         $conversation->addConversationUser($conversationUserSecond);
 
         return $conversation;
