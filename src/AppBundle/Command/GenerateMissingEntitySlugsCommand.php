@@ -53,7 +53,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $proUsers = $proUserRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
 
             $io->text("Pro users");
-            $io->createProgressBar(count($proUsers));
+            $io->progressStart(count($proUsers));
             /** @var BaseUser $proUser */
             foreach ($proUsers as $proUser) {
                 $io->progressAdvance();
@@ -77,7 +77,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $personalUsers = $personalUserRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
 
             $io->text("Personal users");
-            $io->createProgressBar(count($personalUsers));
+            $io->progressStart(count($personalUsers));
             /** @var BaseUser $personalUser */
             foreach ($personalUsers as $personalUser) {
                 $io->progressAdvance();
@@ -101,7 +101,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
 
             $proVehicles = $proVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $io->createProgressBar(count($proVehicles));
+            $io->progressStart(count($proVehicles));
             /** @var ProVehicle $proVehicle */
             foreach ($proVehicles as $proVehicle) {
                 $io->progressAdvance();
@@ -131,7 +131,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\PersonalVehicleRepository');
 
             $personalVehicles = $personalVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $io->createProgressBar(count($personalVehicles));
+            $io->progressStart(count($personalVehicles));
             /** @var PersonalVehicle $personalVehicle */
             foreach ($personalVehicles as $personalVehicle) {
                 $io->progressAdvance();
@@ -161,7 +161,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
 
             $garages = $garageRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $io->createProgressBar(count($garages));
+            $io->progressStart(count($garages));
             /** @var Garage $garage */
             foreach ($garages as $garage) {
                 $io->progressAdvance();
