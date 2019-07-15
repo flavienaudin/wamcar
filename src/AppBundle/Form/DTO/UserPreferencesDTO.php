@@ -4,13 +4,12 @@ namespace AppBundle\Form\DTO;
 
 
 use Wamcar\User\BaseUser;
-use Wamcar\Vehicle\Enum\LeadCriteriaSelection;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class UserPreferencesDTO
 {
     /** @var NotificationFrequency $globalEmailFrequency */
-    private $globalEmailFrequency ;
+    private $globalEmailFrequency;
     /** @var bool $privateMessageEmailEnabled */
     private $privateMessageEmailEnabled;
     /** @var NotificationFrequency $privateMessageEmailFrequency */
@@ -23,14 +22,16 @@ class UserPreferencesDTO
     // Leads suggestion
     /** @var bool $leadEmailEnabled */
     private $leadEmailEnabled;
+    /** @var bool Reprise sèche */
+    private $leadOnlyPartExchange;
+    /** @var bool Achat */
+    private $leadOnlyProject;
+    /** @var bool Achat avec reprise */
+    private $leadProjectWithPartExchange;
     /** @var int $leadLocalizationRadius */
     private $leadLocalizationRadiusCriteria;
-    /** @var LeadCriteriaSelection $leadPartExchangeSelectionCriteria */
-    private $leadPartExchangeSelectionCriteria;
     /** @var null|int $leadPartExchangeKmMaxCriteria */
     private $leadPartExchangeKmMaxCriteria;
-    /** @var LeadCriteriaSelection $leadProjectSelectionCriteria */
-    private $leadProjectSelectionCriteria;
     /** @var null|int $leadProjectBudgetMinCriteria */
     private $leadProjectBudgetMinCriteria;
 
@@ -52,10 +53,12 @@ class UserPreferencesDTO
         $userPreferencesDTO->setLikeEmailFrequency($user->getPreferences()->getLikeEmailFrequency());
 
         $userPreferencesDTO->setLeadEmailEnabled($user->getPreferences()->isLeadEmailEnabled());
+        $userPreferencesDTO->setLeadOnlyPartExchange($user->getPreferences()->isLeadOnlyPartExchange());
+        $userPreferencesDTO->setLeadOnlyProject($user->getPreferences()->isLeadOnlyProject());
+        $userPreferencesDTO->setLeadProjectWithPartExchange($user->getPreferences()->isLeadProjectWithPartExchange());
+
         $userPreferencesDTO->setLeadLocalizationRadiusCriteria($user->getPreferences()->getLeadLocalizationRadiusCriteria());
-        $userPreferencesDTO->setLeadPartExchangeSelectionCriteria($user->getPreferences()->getLeadPartExchangeSelectionCriteria());
         $userPreferencesDTO->setLeadPartExchangeKmMaxCriteria($user->getPreferences()->getLeadPartExchangeKmMaxCriteria());
-        $userPreferencesDTO->setLeadProjectSelectionCriteria($user->getPreferences()->getLeadProjectSelectionCriteria());
         $userPreferencesDTO->setLeadProjectBudgetMinCriteria($user->getPreferences()->getLeadProjectBudgetMinCriteria());
 
         return $userPreferencesDTO;
@@ -158,6 +161,54 @@ class UserPreferencesDTO
     }
 
     /**
+     * @return bool
+     */
+    public function isLeadOnlyPartExchange(): bool
+    {
+        return $this->leadOnlyPartExchange;
+    }
+
+    /**
+     * @param bool $leadOnlyPartExchange
+     */
+    public function setLeadOnlyPartExchange(bool $leadOnlyPartExchange): void
+    {
+        $this->leadOnlyPartExchange = $leadOnlyPartExchange;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLeadOnlyProject(): bool
+    {
+        return $this->leadOnlyProject;
+    }
+
+    /**
+     * @param bool $leadOnlyProject
+     */
+    public function setLeadOnlyProject(bool $leadOnlyProject): void
+    {
+        $this->leadOnlyProject = $leadOnlyProject;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLeadProjectWithPartExchange(): bool
+    {
+        return $this->leadProjectWithPartExchange;
+    }
+
+    /**
+     * @param bool $leadProjectWithPartExchange
+     */
+    public function setLeadProjectWithPartExchange(bool $leadProjectWithPartExchange): void
+    {
+        $this->leadProjectWithPartExchange = $leadProjectWithPartExchange;
+    }
+
+    /**
      * @return int
      */
     public function getLeadLocalizationRadiusCriteria(): int
@@ -174,22 +225,6 @@ class UserPreferencesDTO
     }
 
     /**
-     * @return LeadCriteriaSelection
-     */
-    public function getLeadPartExchangeSelectionCriteria(): LeadCriteriaSelection
-    {
-        return $this->leadPartExchangeSelectionCriteria;
-    }
-
-    /**
-     * @param LeadCriteriaSelection $leadPartExchangeSelectionCriteria
-     */
-    public function setLeadPartExchangeSelectionCriteria(LeadCriteriaSelection $leadPartExchangeSelectionCriteria): void
-    {
-        $this->leadPartExchangeSelectionCriteria = $leadPartExchangeSelectionCriteria;
-    }
-
-    /**
      * @return int|null
      */
     public function getLeadPartExchangeKmMaxCriteria(): ?int
@@ -203,22 +238,6 @@ class UserPreferencesDTO
     public function setLeadPartExchangeKmMaxCriteria(?int $leadPartExchangeKmMaxCriteria): void
     {
         $this->leadPartExchangeKmMaxCriteria = $leadPartExchangeKmMaxCriteria;
-    }
-
-    /**
-     * @return LeadCriteriaSelection
-     */
-    public function getLeadProjectSelectionCriteria(): LeadCriteriaSelection
-    {
-        return $this->leadProjectSelectionCriteria;
-    }
-
-    /**
-     * @param LeadCriteriaSelection $leadProjectSelectionCriteria
-     */
-    public function setLeadProjectSelectionCriteria(LeadCriteriaSelection $leadProjectSelectionCriteria): void
-    {
-        $this->leadProjectSelectionCriteria = $leadProjectSelectionCriteria;
     }
 
     /**

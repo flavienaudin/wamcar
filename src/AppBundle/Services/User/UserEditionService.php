@@ -384,10 +384,11 @@ class UserEditionService
             $userPreferencesDTO->getPrivateMessageEmailFrequency(),
             $userPreferencesDTO->getLikeEmailFrequency(),
             $userPreferencesDTO->isLeadEmailEnabled(),
+            $userPreferencesDTO->isLeadOnlyPartExchange(),
+            $userPreferencesDTO->isLeadOnlyProject(),
+            $userPreferencesDTO->isLeadProjectWithPartExchange(),
             $userPreferencesDTO->getLeadLocalizationRadiusCriteria(),
-            $userPreferencesDTO->getLeadPartExchangeSelectionCriteria(),
             $userPreferencesDTO->getLeadPartExchangeKmMaxCriteria(),
-            $userPreferencesDTO->getLeadProjectSelectionCriteria(),
             $userPreferencesDTO->getLeadProjectBudgetMinCriteria()
         );
 

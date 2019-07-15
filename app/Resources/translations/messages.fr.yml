@@ -1015,28 +1015,31 @@ user:
   preference:
     page_title: Mes préférences
     title:
-      notifications: Activation des notifications
-      lead_suggestion: Suggestion des leads
-      criterias: Vos critères
+      notifications: Activation des notifications par email
+      lead_suggestion: Les leads qui m'intéressent
+      criterias: Mes critères
     common:
       enabled: Activté
       disabled: Désactivé
       email_send: Par email
-      notification_frequency: Fréquence d'envoi
+      notification_frequency: Fréquence d'envoi des e-mails
       criteria: Critère
     field:
       globalEmailFrequency: Fréquence d'envoi des e-mails
       privateMessage:
-        label: Quand on vous envoit un message privé
+        label: Quand on m'envoie un message privé
       like:
-        label: Quand on like votre annonce
+        label: Quand on like une de mes annonces
       lead:
-        enabled.label: Nouvelle inscription d'un particulier selon vos critères
-        localisation.label: "{0,1}Km autour de votre garage|[2,Inf[ Km autour de vos garages"
-        partexchange_selection.label: Reprise d'un véhicule
+        enabled.label: A l'inscription d'un lead qui m'intéresse
+        localisation.label: "{0,1}Nb de Km autour de mon garage|[2,Inf[ Nb de Km autour de mes garages"
+        type:
+          label: "Type de demande :"
+          only_partexchange: Reprise sèche
+          only_project: Achat
+          project_with_partexchange: Achat avec reprise
         partexchange_km_max.label: Kilomètrage max de la reprise
-        project_selection.label: Projet d'achat d'un véhicule
-        project_budget_min.label: Budget minimum du projet
+        project_budget_min.label: Budget d'achat minimum
 
   contacted_by: Contacté par %contact_name%
 
