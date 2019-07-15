@@ -575,6 +575,7 @@ abstract class BaseUser implements HasApiCredential
     }
 
     public function updatePreferences(
+        NotificationFrequency $globalEmailFrequency,
         bool $privateMessageEmailEnabled,
         bool $likeEmailEnabled,
         NotificationFrequency $privateMessageEmailFrequency,
@@ -587,10 +588,16 @@ abstract class BaseUser implements HasApiCredential
         ?int $leadProjectBudgetMin
     ): void
     {
+        $this->getPreferences()->setGlobalEmailFrequency($globalEmailFrequency);
+
         $this->getPreferences()->setPrivateMessageEmailEnabled($privateMessageEmailEnabled);
-        $this->getPreferences()->setPrivateMessageEmailFrequency($privateMessageEmailFrequency);
+        // Use global Email Frequency
+        $this->getPreferences()->setPrivateMessageEmailFrequency($globalEmailFrequency);
+
         $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
-        $this->getPreferences()->setLikeEmailFrequency($likeEmailFrequency);
+        // Use global Email Frequency
+        $this->getPreferences()->setLikeEmailFrequency($globalEmailFrequency);
+
         $this->getPreferences()->setLeadEmailEnabled($leadEmailEnabled);
         $this->getPreferences()->setLeadLocalizationRadiusCriteria($leadLocalizationRadius);
 

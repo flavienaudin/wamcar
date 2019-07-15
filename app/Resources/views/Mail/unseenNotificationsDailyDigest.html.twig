@@ -7,8 +7,13 @@
 
 {% block body %}
     <div>
-        {{ 'unseenNotificationsDailyDigest.body'|transchoice(nbUnseenNotifications, {},'email')|raw }}
-
-        {{ action_button(message_url, 'unseenNotificationsDailyDigest.action_label'|trans) }}
+        {% if nbUnseenMessages %}
+            {{ 'unseenNotificationsDailyDigest.body.unread_message'|transchoice(nbUnseenMessages, {},'email')|raw }}
+            {{ action_button(conversationsListURL, 'unseenNotificationsDailyDigest.action_label.conversations'|transchoice(nbUnseenMessages, {},'email')) }}
+        {% endif %}
+        {% if nbUnseenNotifications %}
+            {{ 'unseenNotificationsDailyDigest.body.unread_notification'|transchoice(nbUnseenNotifications, {},'email')|raw }}
+            {{ action_button(notifiactionListUrl, 'unseenNotificationsDailyDigest.action_label.notifications'|transchoice(nbUnseenNotifications, {},'email')) }}
+        {% endif %}
     </div>
 {% endblock %}

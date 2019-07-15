@@ -62,6 +62,14 @@ class NotificationManagerExtended
     }
 
     /**
+     * @return NotificationManager
+     */
+    public function getNotificationManager(): NotificationManager
+    {
+        return $this->notificationManager;
+    }
+
+    /**
      * @param string $subject
      * @param string $event
      * @param string|null $message

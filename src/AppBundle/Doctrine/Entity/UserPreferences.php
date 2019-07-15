@@ -12,6 +12,9 @@ class UserPreferences
     /** @var BaseUser */
     private $user;
 
+    /** @var NotificationFrequency */
+    private $globalEmailFrequency;
+
     /** @var bool */
     private $privateMessageEmailEnabled;
     /** @var NotificationFrequency */
@@ -38,6 +41,7 @@ class UserPreferences
     /**
      * UserPreferences constructor.
      * @param BaseUser $user
+     * @param NotificationFrequency|null $globalEmailFrequency
      * @param bool $privateMessageEmailEnabled
      * @param bool $likeEmailEnabled
      * @param NotificationFrequency|null $privateMessageEmailFrequency
@@ -50,6 +54,7 @@ class UserPreferences
      * @param int|null $leadProjectBudgetMinCriteria
      */
     public function __construct(BaseUser $user,
+                                NotificationFrequency $globalEmailFrequency = null,
                                 bool $privateMessageEmailEnabled = true,
                                 bool $likeEmailEnabled = true,
                                 NotificationFrequency $privateMessageEmailFrequency = null,
@@ -63,9 +68,11 @@ class UserPreferences
     )
     {
         $this->user = $user;
+        $this->globalEmailFrequency = $globalEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
 
         $this->privateMessageEmailEnabled = $privateMessageEmailEnabled;
         $this->privateMessageEmailFrequency = $privateMessageEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
+
         $this->likeEmailEnabled = $likeEmailEnabled;
         $this->likeEmailFrequency = $likeEmailFrequency ?? NotificationFrequency::ONCE_A_DAY();
 
@@ -83,6 +90,22 @@ class UserPreferences
     public function getUser(): BaseUser
     {
         return $this->user;
+    }
+
+    /**
+     * @return NotificationFrequency
+     */
+    public function getGlobalEmailFrequency(): NotificationFrequency
+    {
+        return $this->globalEmailFrequency;
+    }
+
+    /**
+     * @param NotificationFrequency $globalEmailFrequency
+     */
+    public function setGlobalEmailFrequency(NotificationFrequency $globalEmailFrequency): void
+    {
+        $this->globalEmailFrequency = $globalEmailFrequency;
     }
 
     /**

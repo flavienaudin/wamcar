@@ -5,6 +5,20 @@
 
     <div class="column small-12 input-margin medium-no-margin">
         <div class="row align-middle input-margin">
+            <div class="column small-12 input-margin medium-6 medium-no-margin large-expand black-color">
+                {{ 'user.preference.field.globalEmailFrequency'|trans }}</div>
+            <div class="column small-12 medium-4">
+                {{ form_widget(userPreferenceForm.globalEmailFrequency,{
+                    'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.globalEmailFrequency'|trans,
+                    'label_class' : 'show-for-sr',
+                    'class':'no-margin'
+                }) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="column small-12 input-margin medium-no-margin">
+        <div class="row align-middle input-margin">
             <div class="column small-12 input-margin medium-no-margin large-expand black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
             <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
@@ -16,11 +30,11 @@
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-expand">
-                {{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
+                {#{{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.privateMessage.label'|trans,
                     'label_class' : 'show-for-sr',
                     'class':'no-margin'
-                }) }}
+                }) }}#}
             </div>
         </div>
     </div>
@@ -38,18 +52,14 @@
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-expand">
-                {{ form_widget(userPreferenceForm.likeEmailFrequency,{
+                {#{{ form_widget(userPreferenceForm.likeEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.like.label'|trans,
                     'label_class' : 'show-for-sr',
                     'class':'no-margin'
-                }) }}
+                }) }}#}
             </div>
         </div>
-    </div>
-
-    {% if isUserPro %}
-        <h2 class="column small-12 primary-color">{{ 'user.preference.title.lead_suggestion'|trans }}</h2>
-        <div class="column small-12 input-margin medium-no-margin">
+        {% if isUserPro %}
             <div class="row align-middle input-margin">
                 <div class="column small-12 input-margin medium-no-margin large-expand black-color">
                     {{ 'user.preference.field.lead.enabled.label'|trans }}
@@ -65,7 +75,11 @@
                 </div>
                 <div class="column small-12 medium-6 large-expand"></div>
             </div>
-        </div>
+        {% endif %}
+    </div>
+
+    {% if isUserPro %}
+        <h2 class="column small-12 primary-color">{{ 'user.preference.title.lead_suggestion'|trans }}</h2>
 
         <h3 class="column small-12 primary-color">{{ 'user.preference.title.criterias'|trans }}</h3>
         <div class="column small-12 input-margin medium-no-margin">

@@ -16,7 +16,7 @@
         <a href="{{ path('front_conversation_create', {'id': proUser.id}) }}" title="{{ 'global.button.send_message'|trans }}"
            class="directory-item-action is-flex align-middle icon-message"
            data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"data-wtto="{{ proUser|wtToDataAttrValue }}">
-            <span class="sr-only">{{ 'global.button.send_message'|trans }}</span>
+            <span class="sr-only is-hidden">{{ 'global.button.send_message'|trans }}</span>
         </a>
     </div>
     <div class="small-12 medium-4">
