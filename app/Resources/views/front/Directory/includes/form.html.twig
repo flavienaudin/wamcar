@@ -33,9 +33,9 @@
 {% endspaceless %}{% endset %}
 
 <div class="directory-form-container">
-    {{ form_start(searchProForm, {
-        'attr':{'class':'search-form row', 'id':'js-search-form'}
-    }) }}
+    {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
+    {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
+
     <div class="column small-12 medium-6 medium-order-1 large-4">
         {{ form_widget(searchProForm.text, {
             'class' : '',

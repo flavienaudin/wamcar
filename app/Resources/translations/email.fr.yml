@@ -70,6 +70,11 @@ notifyUserOfLikeVehicle:
         <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
     action_label: Voir
 
+notifyProUserOfNewInterestingLead:
+    object: "Un nouveau prospect vient de s'inscrire dans votre secteur"
+    body: "<p>%leadFullname%  se trouve à moins de %radius% kilomètres de votre société.</p>"
+    action_label: "Voir son profil"
+
 notifyUserOfAffinityDegreeCalculated:
     object: "Vos affinités sont maintenant disponibles sur Wamcar"
     body:
@@ -84,8 +89,12 @@ notifyUserOfAffinityDegreeCalculated:
 
 unseenNotificationsDailyDigest:
     object: "Quoi de neuf sur votre Wamcar ?"
-    body: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles noficiations sur Wamcar.</p>"
-    action_label: Voir
+    body:
+      unread_notification: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles notifications sur Wamcar.</p>"
+      unread_message: "{1} <p>Vous avez un nouveau message privé dans votre messagerie Wamcar.</p>|]1,Inf[ <p>Vous avez de nouveaux messages privés dans votre messagerie Wamcar.</p>"
+    action_label:
+      notifications: "{1} Voir la notification|]1,Inf[ Voir les notifications"
+      conversations: "{1} Voir le message|]1,Inf[ Voir les messages"
 
 notifyGarageAdministratorOfNewPendingRequest:
     object: "%seller_fullname% souhaite rejoindre %garage_name%"

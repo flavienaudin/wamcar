@@ -2,14 +2,13 @@
 
 namespace AppBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\User\PersonalUser;
 use Wamcar\Vehicle\ProVehicle;
 
-class ImportSearchItemCommand extends ContainerAwareCommand
+class ImportSearchItemCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -52,13 +51,12 @@ class ImportSearchItemCommand extends ContainerAwareCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
         $io->text('Indexing ' . count($personaUserSearchItemDocumentsToIndex) . ' search items about personal users');
         $searchItemEntityIndexer->indexAllDocuments($personaUserSearchItemDocumentsToIndex, true);
         $io->text('Personal User indexed as Search Item');
 
         $io->text('Deleting ' . count($personaUserSearchItemIdsToDelete) . ' search items about personal users');
-        if(count($personaUserSearchItemIdsToDelete) > 0) {
+        if (count($personaUserSearchItemIdsToDelete) > 0) {
             $searchItemEntityIndexer->deleteByIds($personaUserSearchItemIdsToDelete);
         }
         $io->text('Personal User indexed as Search Item');
@@ -78,11 +76,10 @@ class ImportSearchItemCommand extends ContainerAwareCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
         $io->text('Indexing ' . count($proVehicleDocuments) . ' search items about pro vehicles');
         $searchItemEntityIndexer->indexAllDocuments($proVehicleDocuments, true);
         $io->text('Pro Vehicles indexed as Search Item');
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
 }

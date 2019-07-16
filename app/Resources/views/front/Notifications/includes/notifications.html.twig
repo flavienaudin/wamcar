@@ -1,6 +1,10 @@
 <div class="dropdown-pane-header is-flex">
     <span class="black-color"><b>{{ 'notifications.dropdown-pane.title'|trans }}</b></span>
-    <a href="{{ path('front_user_edit_preferences') }}" class="primary-color small-right">{{ 'notifications.dropdown-pane.parameters'|trans }}</a>
+    <span class="small-right">
+        <a href="{{ mgilet_notification_generate_path('notification_mark_all_as_seen',app.user) }}" class="primary-color">{{ 'notifications.dropdown-pane.mark_all_as_seen'|trans }}</a>
+        &nbsp;-&nbsp;
+        <a href="{{ path('front_user_edit_preferences') }}" class="primary-color">{{ 'notifications.dropdown-pane.parameters'|trans }}</a>
+    </span>
 </div>
 <div class="dropdown-pane-body">
     <div class="notification-container">

@@ -27,22 +27,37 @@ Wamcar\User\Lead:
       gedmo:
         timestampable:
           on: create
+    initiatedBy:
+      type: leadinitiatedby
+      nullable: false
     lastContactedAt:
       type: datetime
       nullable: false
       gedmo:
         timestampable:
           on: update
-    nbPhoneAction:
+    nbPhoneActionByLead:
       type: integer
       nullable: false
-    nbPhoneProAction:
+    nbPhoneProActionByLead:
       type: integer
       nullable: false
-    nbMessages:
+    nbLeadMessages:
       type: integer
       nullable: false
-    nbLikes:
+    nbLeadLikes:
+      type: integer
+      nullable: false
+    nbPhoneActionByPro:
+      type: integer
+      nullable: false
+    nbPhoneProActionByPro:
+      type: integer
+      nullable: false
+    nbProMessages:
+      type: integer
+      nullable: false
+    nbProLikes:
       type: integer
       nullable: false
 

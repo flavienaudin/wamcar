@@ -3,23 +3,35 @@
 namespace AppBundle\Command;
 
 
+use AppBundle\Doctrine\Entity\PersonalApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use AppBundle\Services\Notification\NotificationManagerExtended;
+use AppBundle\Services\User\UserEditionService;
 use Mgilet\NotificationBundle\Entity\NotifiableEntity;
+use Mgilet\NotificationBundle\Entity\NotifiableNotification;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Conversation\MessageRepository;
+use Wamcar\User\BaseUser;
 
 class SendNotificationDailyDigestEmailCommand extends BaseCommand
 {
 
+    /** @var UserEditionService userEditionService */
+    private $userEditionService;
     /** @var NotificationManagerExtended $notificationManagerExtended */
     private $notificationManagerExtended;
+    /** @var MessageRepository */
+    private $messageRepository;
     /** @var Mailer $mailer */
     private $mailer;
     /** @var UrlGeneratorInterface $router */
@@ -32,12 +44,16 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
     /**
      * SendNotificationDailyDigestEmailCommand constructor.
      * @param NotificationManagerExtended $notificationManagerExtended
+     * @param MessageRepository $messageRepository
+     * @param UserEditionService $userEditionService
      * @param Mailer $mailer
      * @param UrlGeneratorInterface $router
      * @param EngineInterface $templating
      * @param TranslatorInterface $translator
      */
     public function __construct(NotificationManagerExtended $notificationManagerExtended,
+                                MessageRepository $messageRepository,
+                                UserEditionService $userEditionService,
                                 Mailer $mailer,
                                 UrlGeneratorInterface $router,
                                 EngineInterface $templating,
@@ -45,6 +61,8 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
     {
         parent::__construct();
         $this->notificationManagerExtended = $notificationManagerExtended;
+        $this->messageRepository = $messageRepository;
+        $this->userEditionService = $userEditionService;
         $this->mailer = $mailer;
         $this->router = $router;
         $this->templating = $templating;
@@ -59,7 +77,10 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
     {
         $this
             ->setName('wamcar:email:notification_daily_digest')
-            ->setDescription('Send daily digest of notification to user');
+            ->setDescription('Send daily digest of notification to user')
+            ->addOption('hours', null, InputOption::VALUE_OPTIONAL,
+                'Number of hours to treat : for how number of hours we check for unread notification or message',
+                24);
     }
 
     /**
@@ -67,39 +88,49 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
-        $this->log('notice', 'Starting at ' . date(\DateTime::ISO8601));
+        $io = new SymfonyStyle($input, $output);
+        $io->text('Starting at ' . date(\DateTime::ISO8601));
 
         $progress = null;
         try {
-            $notifiables = $this->notificationManagerExtended->getNotifiablesWithEmailableNotification();
+            $hours = $input->getOption('hours');
+            $usersToEmail = $this->userEditionService->getUserWithEmailableUnreadNotifications($hours);
 
-            $progress = new ProgressBar($output, count($notifiables));
-            foreach ($notifiables as $notifiable) {
-                $progress->advance();
+            $io->progressStart(count($usersToEmail));
+            /** @var BaseUser $userToEmail */
+            foreach ($usersToEmail as $userToEmail) {
+                $io->progressAdvance();
 
-                /** @var NotifiableEntity $notifiableEntity */
-                $notifiableEntity = $notifiable['notifiableEntity'];
+
+                $nbUnreadNotifications = 0;
+                if ($userToEmail instanceof ProApplicationUser or $userToEmail instanceof PersonalApplicationUser) {
+                    $notifiableEntity = $this->notificationManagerExtended->getNotificationManager()->getNotifiableEntity($userToEmail);
+                }
+                $countUnreadMessage = $this->messageRepository->getCountUnreadMessagesByUser($userToEmail);
 
                 $this->mailer->sendMessage(
                     'unseen_notification',
                     $this->translator->trans('unseenNotificationsDailyDigest.object', [], 'email'),
                     $this->templating->render('Mail/unseenNotificationsDailyDigest.html.twig', [
-                        'username' => $notifiable['recipient_firstname'],
-                        'nbUnseenNotifications' => count($notifiableEntity->getNotifiableNotifications()),
-                        'message_url' => $this->router->generate('notification_list', ['notifiable' => $notifiableEntity->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+                        'username' => $userToEmail->getFirstName(),
+                        'nbUnseenNotifications' => ($notifiableEntity ?
+                            count($notifiableEntity->getNotifiableNotifications()->filter(function (NotifiableNotification $nn) {
+                                return !$nn->isSeen();
+                            })) : 0),
+                        'nbUnseenMessages' => $countUnreadMessage,
+                        'conversationsListURL' => $this->router->generate('front_conversation_list', [], UrlGeneratorInterface::ABSOLUTE_URL),
+                        'notifiactionListUrl' => $this->router->generate('notification_list', ['notifiable' => $notifiableEntity->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
 
                     ]),
-                    new EmailRecipientList([new EmailContact($notifiable['recipient_email'], $notifiable['recipient_firstname'] . ' ' . $notifiable['recipient_lastname'])])
+                    new EmailRecipientList([new EmailContact($userToEmail->getEmail(), $userToEmail->getFullName())])
                 );
             }
-            $progress->finish();
+            $io->progressFinish();
 
-            $this->logCRLF();
-            $this->log('success', 'Done at : ' . date(\DateTime::ISO8601));
+            $io->success('Done at : ' . date(\DateTime::ISO8601));
         } catch (\Exception $exception) {
-            $this->log(parent::ERROR, $exception->getMessage());
-            $this->log(parent::ERROR, $exception->getTraceAsString());
+            $io->error($exception->getMessage());
+            $io->error($exception->getTraceAsString());
             if ($progress instanceof ProgressBar) {
                 $progress->finish();
             }

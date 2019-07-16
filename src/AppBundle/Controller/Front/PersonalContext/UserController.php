@@ -24,6 +24,7 @@ use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
+use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
@@ -37,6 +38,7 @@ use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -156,7 +158,7 @@ class UserController extends BaseController
      */
     public function editInformationsAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
         /** @var ApplicationUser $user */
         $user = $this->getUser();
@@ -206,9 +208,10 @@ class UserController extends BaseController
      */
     public function editProjectAction(Request $request): Response
     {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+
         /** @var ApplicationUser $user */
         $user = $this->getUser();
-
         if ($user instanceof PersonalUser) {
             if ($user->getProject() === null) {
                 $user->setProject(new Project($user));
@@ -226,15 +229,9 @@ class UserController extends BaseController
                 $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
 
                 if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.registration.personal.assitant.process_end'
-                    );
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
                 } else {
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.user.edit'
-                    );
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
                 }
 
                 return $this->redirectToRoute('front_view_current_user_info');
@@ -245,20 +242,15 @@ class UserController extends BaseController
                 'user' => $user
             ]);
         } else {
-            // TODO : Throw Exception
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                'flash.error.only_personal_can_have_project'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER, 'flash.error.only_personal_can_have_project');
             return $this->redirectToRoute("front_default");
         }
-
     }
 
     /**
      * @param BaseUser $user
      * @param $userInformationDTO
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     private function createEditForm(BaseUser $user, $userInformationDTO)
     {
@@ -266,19 +258,13 @@ class UserController extends BaseController
             ProApplicationUser::TYPE => ProUserInformationType::class,
             PersonalApplicationUser::TYPE => PersonalUserInformationType::class
         ];
-
-
         $userForm = $userForms[$user->getType()];
-
-        return $this->formFactory->create(
-            $userForm,
-            $userInformationDTO
-        );
+        return $this->formFactory->create($userForm, $userInformationDTO);
     }
 
     /**
      * @param $projectDTO
-     * @return \Symfony\Component\Form\FormInterface
+     * @return FormInterface
      */
     private function createProjectForm(ProjectDTO $projectDTO)
     {
@@ -321,10 +307,7 @@ class UserController extends BaseController
         }
 
         if (!$user->canSeeMyProfile($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'flash.warning.user.unauthorized_to_access_profile'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
             throw new AccessDeniedException();
         }
 
@@ -423,10 +406,7 @@ class UserController extends BaseController
         }
 
         if (!$user->canSeeMyProfile($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_WARNING,
-                'flash.warning.user.unauthorized_to_access_profile'
-            );
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
             throw new AccessDeniedException();
         }
 
@@ -454,15 +434,14 @@ class UserController extends BaseController
     }
 
     /**
+     * security.yml - access_control : ROLE_USER required
      * @param Request $request
      * @return Response
      * @throws \Exception
      */
     public function currentUserViewInformationAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
         $user = $this->getUser();
-
         if ($user instanceof ProUser) {
             return $this->proUserViewInformationAction($request, $user->getSlug());
         } else {
@@ -511,20 +490,19 @@ class UserController extends BaseController
      */
     public function editPreferencesAction(Request $request)
     {
-        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
-
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+        $currentUser = $this->getUser();
         $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
-        $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
+        if($currentUser instanceof ProUser) {
+            $userPreferenceForm = $this->formFactory->create(ProUserPreferencesType::class, $userPreferenceDTO);
+        }else{
+            $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
+        }
         $userPreferenceForm->handleRequest($request);
         if ($userPreferenceForm->isSubmitted() && $userPreferenceForm->isValid()) {
+            $this->userEditionService->editPreferences($currentUser, $userPreferenceDTO);
 
-            $this->userEditionService->editPreferences($this->getUser(), $userPreferenceDTO);
-
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_INFO,
-                'flash.success.user_preferences.edit'
-            );
-
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user_preferences.edit');
             return $this->redirectToRoute('front_user_edit_preferences');
         }
 
@@ -543,13 +521,21 @@ class UserController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if ($this->getUser() instanceof BaseUser) {
-            $eventId = $request->get('eventId');
-            $userId = str_replace(['PC', 'Smartphone', 'showtelpro', 'Fixe', 'Mobile'], '', $eventId);
+        $currentUser = $this->getUser();
+        if ($currentUser instanceof BaseUser) {
+            $action = $request->get('action');
+            $to = $request->get('to');
+
+            $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
+
             $phoneNumberUser = $this->userRepository->findOne($userId);
+            if ($currentUser instanceof ProUser) {
+                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
+                    strpos($action, '2') > 0);
+            }
             if ($phoneNumberUser instanceof ProUser) {
-                $this->leadManagementService->increasePhoneNumberOfProUser($phoneNumberUser, $this->getUser(),
-                    strpos($eventId, 'Fixe') > 0);
+                $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
+                    strpos($action, '2') > 0);
             }
         }
         return new JsonResponse();
@@ -564,10 +550,7 @@ class UserController extends BaseController
         if ($isMe = ($seller == null)) {
             $seller = $this->getUser();
         }
-        if (!$this->isGranted(SellerPerformancesVoter::SHOW, $seller)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.dashboard.unlogged');
-            throw new AccessDeniedException();
-        }
+        $this->denyAccessUnlessGranted(SellerPerformancesVoter::SHOW, $seller, 'flash.warning.dashboard.unauthorized');
 
         $performances = $this->userInformationService->getProUserPerformances($seller);
         $saleDeclarations = $this->saleManagementService->retrieveProUserSaleDeclarations($seller, 60);
@@ -687,29 +670,53 @@ class UserController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
+     * security.yml - access_control : ROLE_PRO_ADMIN only
      * @return Response
      */
     public function proUserslistAction()
     {
-        $proUsers = $this->proUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
-
-        return $this->render("front/adminContext/user/pro_user_list.html.twig", [
-            'proUsers' => $proUsers
-        ]);
+        return $this->render("front/adminContext/user/pro_user_list.html.twig");
     }
 
     /**
      * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function proUsersStatisticsAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getProUsersStatistics($request->query->all()));
+    }
+
+    /**
+     * security.yml - access_control : ROLE_PRO_ADMIN only
      * @return Response
      */
     public function personalUserslistAction()
     {
-        $personalUsers = $this->personalUserRepository->findIgnoreSoftDeletedBy([], ['createdAt' => 'DESC']);
+        return $this->render("front/adminContext/user/personal_user_list.html.twig");
+    }
 
-        return $this->render("front/adminContext/user/personal_user_list.html.twig", [
-            'personalUsers' => $personalUsers
-        ]);
+    /**
+     * security.yml - access_control : ROLE_ADMIN only
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function personalUsersStatisticsAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
+        }
+        return new JsonResponse($this->userInformationService->getPersonalUsersStatistics($request->query->all()));
     }
 
     /**
@@ -748,7 +755,7 @@ class UserController extends BaseController
 
         $userDeletionForm = $this->formFactory->create(UserDeletionType::class, new UserDeletionDTO());
         $userDeletionForm->handleRequest($request);
-        if ($this->isGranted('ROLE_ADMIN') || ($userDeletionForm->isSubmitted() && $userDeletionForm->isValid())) {
+        if ($this->isGranted('ROLE_PRO_ADMIN') || ($userDeletionForm->isSubmitted() && $userDeletionForm->isValid())) {
 
             $userDeletionReason = null;
             if ($userDeletionForm->isSubmitted()) {
@@ -784,7 +791,7 @@ class UserController extends BaseController
             if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
                 return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
             } else {
-                if ($this->isGranted('ROLE_ADMIN')) {
+                if ($this->isGranted('ROLE_PRO_ADMIN')) {
                     return $this->redirectToRoute('admin_board');
                 } else {
                     return $this->redirectToRoute('front_default');

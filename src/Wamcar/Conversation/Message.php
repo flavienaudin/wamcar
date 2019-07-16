@@ -79,7 +79,6 @@ class Message
         if ($vehicle) {
             $this->assignVehicle($vehicle);
         }
-
     }
 
     /**
@@ -100,9 +99,9 @@ class Message
 
     /**
      * Get the writer of the message
-     * @return CanBeInConversation
+     * @return null|CanBeInConversation null if user is softDeleted
      */
-    public function getUser(): CanBeInConversation
+    public function getUser(): ?CanBeInConversation
     {
         return $this->user;
     }
@@ -113,6 +112,20 @@ class Message
     public function setUser(BaseUser $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return array of BaseUser = Recipients this message
+     */
+    public function getRecipients(): array
+    {
+        $recipients = [];
+        $this->getConversation()->getConversationUsers()->map(function (ConversationUser $conversationUser) use (&$recipients) {
+            if ($conversationUser->getUser() != null && !$conversationUser->getUser()->is($this->getUser())) {
+                $recipients[] = $conversationUser->getUser();
+            }
+        });
+        return $recipients;
     }
 
     /**

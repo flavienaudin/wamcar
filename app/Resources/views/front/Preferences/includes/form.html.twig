@@ -5,7 +5,22 @@
 
     <div class="column small-12 input-margin medium-no-margin">
         <div class="row align-middle input-margin">
-            <div class="column small-12 input-margin medium-no-margin large-expand black-color">{{ 'user.preference.field.privateMessage.label'|trans }}</div>
+            <div class="column small-12 input-margin medium-6 medium-no-margin large-expand black-color">
+                {{ 'user.preference.field.globalEmailFrequency'|trans }}</div>
+            <div class="column small-12 medium-4">
+                {{ form_widget(userPreferenceForm.globalEmailFrequency,{
+                    'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.globalEmailFrequency'|trans,
+                    'label_class' : 'show-for-sr',
+                    'class':'no-margin'
+                }) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="column small-12 input-margin medium-no-margin">
+        <div class="row align-middle input-margin">
+            <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                {{ 'user.preference.field.privateMessage.label'|trans }}</div>
             <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.privateMessageEmailEnabled, {
@@ -16,18 +31,19 @@
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-expand">
-                {{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
+                {#{{ form_widget(userPreferenceForm.privateMessageEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.privateMessage.label'|trans,
                     'label_class' : 'show-for-sr',
                     'class':'no-margin'
-                }) }}
+                }) }}#}
             </div>
         </div>
     </div>
 
     <div class="column small-12 input-margin medium-no-margin">
         <div class="row align-middle input-margin">
-            <div class="column small-12 input-margin medium-no-margin large-expand black-color">{{ 'user.preference.field.like.label'|trans }}</div>
+            <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                {{ 'user.preference.field.like.label'|trans }}</div>
             <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
                 <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
                 {{ form_widget(userPreferenceForm.likeEmailEnabled, {
@@ -38,14 +54,135 @@
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-expand">
-                {{ form_widget(userPreferenceForm.likeEmailFrequency,{
+                {#{{ form_widget(userPreferenceForm.likeEmailFrequency,{
                     'label' :  'user.preference.common.notification_frequency'|trans~"_"~'user.preference.field.like.label'|trans,
                     'label_class' : 'show-for-sr',
                     'class':'no-margin'
-                }) }}
+                }) }}#}
             </div>
         </div>
+        {% if isUserPro %}
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.enabled.label'|trans }}
+                </div>
+                <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
+                    <span class="switch-left-label">{{ 'user.preference.common.email_send'|trans }}</span>
+                    {{ form_widget(userPreferenceForm.leadEmailEnabled, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.lead.enabled.label'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6 large-expand"></div>
+            </div>
+        {% endif %}
     </div>
+
+    {% if isUserPro %}
+        <h2 class="column small-12 primary-color">{{ 'user.preference.title.lead_suggestion'|trans }}</h2>
+
+        <h3 class="column small-12 primary-color">{{ 'user.preference.title.criterias'|trans }}</h3>
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-6 medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.localisation.label'|transchoice(app.user.numberOfGarages) }}
+                </div>
+                <div class="column small-12 medium-4">
+                    {{ form_widget(userPreferenceForm.leadLocalizationRadiusCriteria, {
+                        'label' :  'user.preference.common.criteria'|trans~"_"~'user.preference.field.lead.localisation.label'|transchoice(app.user.numberOfGarages),
+                        'label_class' : 'show-for-sr',
+                        'class':'no-margin'
+                    }) }}
+                </div>
+            </div>
+        </div>
+
+        <p class="column small-12 input-margin medium-no-margin">{{ 'user.preference.field.lead.type.label'|trans }}</p>
+
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.type.only_partexchange'|trans }}
+                </div>
+                <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
+                    {{ form_widget(userPreferenceForm.leadOnlyPartExchange, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.lead.type.only_partexchange'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6 large-expand"></div>
+            </div>
+        </div>
+
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.type.only_project'|trans }}
+                </div>
+                <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
+                    {{ form_widget(userPreferenceForm.leadOnlyProject, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.lead.type.only_project'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6 large-expand"></div>
+            </div>
+        </div>
+
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.type.project_with_partexchange'|trans }}
+                </div>
+                <div class="column block-grid small-12 input-margin medium-6 medium-no-margin large-shrink align-middle">
+                    {{ form_widget(userPreferenceForm.leadProjectWithPartExchange, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.lead.type.project_with_partexchange'|trans
+                    }) }}
+                </div>
+                <div class="column small-12 medium-6 large-expand"></div>
+            </div>
+        </div>
+
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-6 medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.partexchange_km_max.label'|trans }}
+                </div>
+                <div class="column small-12 medium-4">
+                    {{ form_widget(userPreferenceForm.leadPartExchangeKmMaxCriteria, {
+                        'label' :  'user.preference.common.criteria'|trans~"_"~'user.preference.field.lead.partexchange_km_max.label'|trans,
+                        'label_class' : 'show-for-sr',
+                        'class':'no-margin'
+                    }) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="column small-12 input-margin medium-no-margin">
+            <div class="row align-middle input-margin">
+                <div class="column small-12 input-margin medium-6 medium-no-margin large-expand black-color">
+                    {{ 'user.preference.field.lead.project_budget_min.label'|trans }}
+                </div>
+                <div class="column small-12 medium-4">
+                    {{ form_widget(userPreferenceForm.leadProjectBudgetMinCriteria, {
+                        'label' :  'user.preference.common.criteria'|trans~"_"~'user.preference.field.lead.project_budget_min.label'|trans,
+                        'label_class' : 'show-for-sr',
+                        'class':'no-margin'
+                    }) }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <div class="column small-12 medium-4">
         <button type="submit" class="button full-width">{{ 'global.button.validate'|trans }}</button>
     </div>

@@ -1,0 +1,16 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'notifyProUserOfNewInterestingLead.object'|trans }}{% endblock %}
+
+{% block body %}
+    <div>
+        {{ 'notifyProUserOfNewInterestingLead.body'|trans({
+            '%leadFullname%': leadFullname,
+            '%radius%': prefradius
+        })|raw }}
+        {{ action_button(profile_url, 'notifyProUserOfNewInterestingLead.action_label'|trans) }}
+    </div>
+{% endblock %}

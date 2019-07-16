@@ -58,7 +58,8 @@
                                 <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
                                 <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                                     <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                                       class="button expand-height square dark-blue">
+                                       class="button expand-height square dark-blue" data-wtaction="LM RDV"
+                                       data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
                                         {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
                                 </div>
                             </div>
@@ -92,16 +93,19 @@
                         </div>
                     {% endif %}
 
+                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
                     {% if userIsMe %}
                         <div class="profil-section">
                             <h2>{{ "user.affinity.section.title"|trans }}</h2>
                             {% if user.affinityAnswer is null %}
                                 <p>{{ 'user.affinity.section.explanation.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form')
+                                        '%affinity_form_url%': path('front_affinity_pro_form'),
+                                        '%datawtattr%' : lwaWTattr|raw
                                     })|raw }}</p>
                             {% else %}
                                 <p>{{ 'user.affinity.section.edit.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form')
+                                        '%affinity_form_url%': path('front_affinity_pro_form'),
+                                        '%datawtattr%' : lwaWTattr|raw
                                     })|raw }}</p>
                             {% endif %}
                         </div>
@@ -115,7 +119,7 @@
                             {% else %}
                                 <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
                                     <div class="column small-12 large-8 text-justify">{{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title}) : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}</div>
-                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0"><a href="{{ path('front_affinity_personal_form') }}" class="button expand-height square dark-blue">{{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a></div>
+                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0"><a href="{{ path('front_affinity_personal_form') }}" class="button expand-height square dark-blue" {{ lwaWTattr }}>{{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a></div>
                                 </div>
                             {% endif %}
                         </div>
@@ -197,11 +201,8 @@
         <div class="vehicle-editing hide-for-large block-grid small-12">
             <span class="column small-collapse small-12">
                 <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                   id="launchMP{{ user.isPro?"pro":"particulier" }}{{ user.id }}"
-                   class="button add icon-message {#small-12 medium-shrink#}">{{ 'global.button.send_message'|trans }}</a>
-                {#<a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, '_fragment':'message-answer-block'}) }}"
-                   id="launchMP{{ vehicle.seller.isPro?"pro":"partiulier" }}{{ vehicle.seller.id }}"
-                   class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>#}
+                   class="button add icon-message " data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+                   data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
             </span>
         </div>
     {% endif %}

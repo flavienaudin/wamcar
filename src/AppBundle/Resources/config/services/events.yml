@@ -131,6 +131,16 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
+    wamcar.event.lead_new_registation:
+        parent: wamcar.event.mail.abstract_event_handler
+        class: AppBundle\Notifications\LeadNewRegistrationEventHandler
+        arguments:
+            $type: lead_new_registration
+            $notificationsManager: '@mgilet.notification'
+            $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\LeadNewRegistrationEvent, method: notify }
+
     wamcar.event.affinity_degree_calculated:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\MailWorkflow\NotifyUserOfAffinityDegreeCalculated

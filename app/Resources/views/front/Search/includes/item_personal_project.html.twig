@@ -31,6 +31,7 @@
             {% set vehicle = project.personalUser.vehicles.first %}
             {% set like = isLogged?vehicle.getLikeOfUser(app.user):null %}
             {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+            {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
             {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 
             <div class="vehicle-picture small-auto">
@@ -54,11 +55,13 @@
                     <span class="vehicle-like small-shrink">
                         {% block right_action %}
                             {% if ajax_like %}
-                                <a href="{{ path('front_ajax_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug}) }}" class="like {{ likeIcon }} js-like">
-                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                                <a data-href="{{ path('front_ajax_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug}) }}"
+                                   class="like {{ likeIcon }} js-like" {{ wtLikeDataAttr|raw }}>
+                                    <sub {{ wtLikeDataAttr|raw }}>{{ vehicle.positiveLikes|length }}</sub></a>
                             {% else %}
-                                <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug, '_fragment':vehicle.id}) }}" class="like {{ likeIcon }}">
-                                    <sub>{{ vehicle.positiveLikes|length }}</sub></a>
+                                <a href="{{ path('front_user_like_'~vehicle.type ~'_vehicle', {'slug': vehicle.slug, '_fragment':vehicle.id}) }}"
+                                   class="like {{ likeIcon }}" {{ wtLikeDataAttr|raw }}>
+                                    <sub {{ wtLikeDataAttr|raw }}>{{ vehicle.positiveLikes|length }}</sub></a>
                             {% endif %}
                         {% endblock %}
                     </span>

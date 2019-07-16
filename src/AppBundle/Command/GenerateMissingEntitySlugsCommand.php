@@ -3,10 +3,10 @@
 namespace AppBundle\Command;
 
 
-use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\PersonalVehicle;
@@ -41,7 +41,7 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
+        $io = new SymfonyStyle($input, $output);
         $entities = ["personal_user" => false, "pro_user" => false, "personal_vehicle" => false, "pro_vehicle" => false, "garage" => false];
         foreach ($input->getOption("entity") as $entity) {
             $entities[$entity] = true;
@@ -52,24 +52,23 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $proUserRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineProUserRepository');
             $proUsers = $proUserRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
 
-            $this->log(self::INFO, "Pro users");
-            $progressProUsers = new ProgressBar($this->output, count($proUsers));
+            $io->text("Pro users");
+            $io->progressStart(count($proUsers));
             /** @var BaseUser $proUser */
             foreach ($proUsers as $proUser) {
-                $progressProUsers->advance();
+                $io->progressAdvance();
                 if ($proUser->getSlug() == null) {
                     // Pour obliger la mise à jour (si pas de modification de l'entité, pas d'update)
                     $proUser->setSlug('');
                     $proUserRepository->update($proUser);
                     $proUser->setSlug(null);
                     $proUserRepository->update($proUser);
-                }else {
+                } else {
                     $proUser->setSlug(null);
                     $proUserRepository->update($proUser);
                 }
             }
-            $progressProUsers->finish();
-            $this->logCRLF();
+            $io->progressFinish();
         }
 
         // Personal Users
@@ -77,36 +76,35 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
             $personalUserRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository');
             $personalUsers = $personalUserRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
 
-            $this->log(self::INFO, "Personal users");
-            $progressPersonalUsers = new ProgressBar($this->output, count($personalUsers));
+            $io->text("Personal users");
+            $io->progressStart(count($personalUsers));
             /** @var BaseUser $personalUser */
             foreach ($personalUsers as $personalUser) {
-                $progressPersonalUsers->advance();
+                $io->progressAdvance();
                 if ($personalUser->getSlug() == null) {
                     // Pour obliger la mise à jour (si pas de modification de l'entité, pas d'update)
                     $personalUser->setSlug('');
                     $proUserRepository->update($personalUser);
                     $personalUser->setSlug(null);
                     $proUserRepository->update($personalUser);
-                }else {
+                } else {
                     $personalUser->setSlug(null);
                     $proUserRepository->update($personalUser);
                 }
             }
-            $progressPersonalUsers->finish();
-            $this->logCRLF();
+            $io->progressFinish();
         }
 
         // Pro Vehicles
         if ($entities['pro_vehicle']) {
-            $this->log(self::INFO, "Pro Vehicles");
+            $io->text("Pro Vehicles");
             $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
 
             $proVehicles = $proVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $progressProVehicles = new ProgressBar($this->output, count($proVehicles));
+            $io->progressStart(count($proVehicles));
             /** @var ProVehicle $proVehicle */
             foreach ($proVehicles as $proVehicle) {
-                $progressProVehicles->advance();
+                $io->progressAdvance();
 
                 if (empty($proVehicle->getIsUsedSlugValue())) {
                     $proVehicle->setIsUsed($proVehicle->isUsed());
@@ -118,26 +116,25 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
                     $proVehicleRepository->update($proVehicle);
                     $proVehicle->setSlug(null);
                     $proVehicleRepository->update($proVehicle);
-                }else{
+                } else {
                     // Auto slug (re)generation
                     $proVehicle->setSlug(null);
                     $proVehicleRepository->update($proVehicle);
                 }
             }
-            $progressProVehicles->finish();
-            $this->logCRLF();
+            $io->progressFinish();
         }
 
         // Personal Vehicles
         if ($entities['personal_vehicle']) {
-            $this->log(self::INFO, "Personal Vehicles");
+            $io->text("Personal Vehicles");
             $personalVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\PersonalVehicleRepository');
 
             $personalVehicles = $personalVehicleRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $progressPersonalVehicles = new ProgressBar($this->output, count($personalVehicles));
+            $io->progressStart(count($personalVehicles));
             /** @var PersonalVehicle $personalVehicle */
             foreach ($personalVehicles as $personalVehicle) {
-                $progressPersonalVehicles->advance();
+                $io->progressAdvance();
 
                 if (empty($personalVehicle->getIsUsedSlugValue())) {
                     $personalVehicle->setIsUsed($personalVehicle->isUsed());
@@ -149,26 +146,25 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
                     $personalVehicleRepository->update($personalVehicle);
                     $personalVehicle->setSlug(null);
                     $personalVehicleRepository->update($personalVehicle);
-                }else{
+                } else {
                     // Auto slug (re)generation
                     $personalVehicle->setSlug(null);
                     $personalVehicleRepository->update($personalVehicle);
                 }
             }
-            $progressPersonalVehicles->finish();
-            $this->logCRLF();
+            $io->progressFinish();
         }
 
         // Garage
         if ($entities['garage']) {
-            $this->log(self::INFO, "Garage");
+            $io->text("Garage");
             $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
 
             $garages = $garageRepository->findForSlugGeneration($input->getOption('only-empty-slug'), true);
-            $progressGarages= new ProgressBar($this->output, count($garages));
+            $io->progressStart(count($garages));
             /** @var Garage $garage */
             foreach ($garages as $garage) {
-                $progressGarages->advance();
+                $io->progressAdvance();
 
                 if ($garage->getSlug() == null) {
                     // Pour obliger la mise à jour (si pas de modification de l'entité, pas d'update)
@@ -176,16 +172,14 @@ class GenerateMissingEntitySlugsCommand extends BaseCommand
                     $garageRepository->update($garage);
                     $garage->setSlug(null);
                     $garageRepository->update($garage);
-                }else{
+                } else {
                     // Auto slug (re)generation
                     $garage->setSlug(null);
                     $garageRepository->update($garage);
                 }
             }
-            $progressGarages->finish();
-            $this->logCRLF();
+            $io->progressFinish();
         }
-
-        $this->log('success', 'Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 }

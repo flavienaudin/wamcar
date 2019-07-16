@@ -3,12 +3,11 @@
 namespace AppBundle\Command;
 
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class ImportPersonalProjectCommand extends ContainerAwareCommand
+class ImportPersonalProjectCommand extends BaseCommand
 {
     /**
      * Configure command
@@ -48,12 +47,11 @@ class ImportPersonalProjectCommand extends ContainerAwareCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
 
         $io->text('Indexing ' . count($personalProjectDocuments) . ' personal projects');
         $personalProjectIndexer->indexAllDocuments($personalProjectDocuments, true);
 
-        $io->success('Done ! It\'s possible that projects are not indexed if empty.');
+        $io->success("Done at " . date(self::DATE_FORMAT) . "! It's possible that projects are not indexed if empty.");
     }
 
 }

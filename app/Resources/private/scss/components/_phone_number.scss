@@ -4,25 +4,6 @@
 
 .phone-number {
   &-link {
-    &:before {
-      color: $primary-color;
-    }
+    cursor: pointer;
   }
-
-  /*&-button {
-    background-color: $dark-blue;
-    border-color: $dark-blue;
-
-    &:focus,
-    &:hover {
-      color: $dark-blue;
-      background-color: white;
-    }
-
-    span {
-      &:before {
-        color: $primary-color;
-      }
-    }
-  }*/
 }

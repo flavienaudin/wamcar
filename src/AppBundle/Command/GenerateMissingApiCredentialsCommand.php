@@ -41,12 +41,8 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->output = $output;
         $io = new SymfonyStyle($input, $output);
-
         $userRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineUserRepository');
-
-
 
         if ($input->getOption(self::SOFTDELETED_ARGUMENT) === true) {
             $io->text('Option : true');
@@ -64,7 +60,6 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
             $userRepository->update($user);
         }
         $io->progressFinish();
-        $io->newLine();
 
         $garageRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrineGarageRepository');
         if ($input->getOption(self::SOFTDELETED_ARGUMENT) === true) {
@@ -81,7 +76,6 @@ class GenerateMissingApiCredentialsCommand extends BaseCommand
             $garageRepository->update($garage);
         }
         $io->progressFinish();
-        $io->newLine();
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 }

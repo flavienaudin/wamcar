@@ -47,12 +47,11 @@ class ImportPersonalVehicleCommand extends BaseCommand
             $io->progressAdvance();
         }
         $io->progressFinish();
-        $io->newLine();
 
         $io->text('Indexing ' . count($personalVehicleDocuments) . ' personal vehicles');
         $personalVehicleIndexer->indexAllDocuments($personalVehicleDocuments, true);
 
-        $io->success('Done !');
+        $io->success("Done at " . date(self::DATE_FORMAT));
     }
 
 }

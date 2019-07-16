@@ -27,6 +27,16 @@ interface ApplicationUser extends UserInterface
     public function getRegistrationToken();
 
     /**
+     * @return null|\DateTime
+     */
+    public function getLastLoginAt(): ?\DateTime;
+
+    /**
+     * @param \DateTime $lastLoginAt
+     */
+    public function setLastLoginAt(\DateTime $lastLoginAt): void;
+
+    /**
      * {@inheritdoc}
      */
     public function eraseCredentials();

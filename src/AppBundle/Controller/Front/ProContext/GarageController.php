@@ -83,7 +83,7 @@ class GarageController extends BaseController
     }
 
     /**
-     * security.yml - access_control : ROLE_ADMIN only
+     * security.yml - access_control : ROLE_PRO_ADMIN only
      * @return Response
      */
     public function listAction(): Response

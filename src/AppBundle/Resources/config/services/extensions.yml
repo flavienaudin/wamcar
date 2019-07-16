@@ -1,62 +1,57 @@
 services:
-    _defaults:
-        autowire: false
-        autoconfigure: false
-        public: false
+  _defaults:
+    autowire: false
+    autoconfigure: false
+    public: false
 
-    AppBundle\Twig\PictureExtension:
-        class: 'AppBundle\Twig\PictureExtension'
-        tags:
-            - { name: twig.extension }
-        arguments:
-          - '@vich_uploader.templating.helper.uploader_helper'
-          - '%placeholders%'
-          - '@AppBundle\Services\Picture\PathVehiclePicture'
-          - '@AppBundle\Services\Picture\PathGaragePicture'
-          - '@AppBundle\Services\Picture\PathUserPicture'
+  AppBundle\Twig\ConversationExtension:
+    tags:
+      - { name: twig.extension }
+    autowire: true
 
-    AppBundle\Twig\StarsExtension:
-        class: 'AppBundle\Twig\StarsExtension'
-        tags:
-            - { name: twig.extension }
+  AppBundle\Twig\FormatExtension:
+    tags:
+      - { name: twig.extension }
 
-    AppBundle\Twig\ConversationExtension:
-        class: 'AppBundle\Twig\ConversationExtension'
-        tags:
-            - { name: twig.extension }
-        autowire: true
+  AppBundle\Twig\JsonExtension:
+    tags:
+      - { name: twig.extension }
+    autowire: true
 
-    AppBundle\Twig\JsonExtension:
-        class: 'AppBundle\Twig\JsonExtension'
-        tags:
-            - { name: twig.extension }
-        autowire: true
+  AppBundle\Twig\NotificationPlusExtension:
+    tags:
+      - { name: twig.extension }
+    autowire: true
 
-    AppBundle\Twig\TestsExtension:
-        class: 'AppBundle\Twig\TestsExtension'
-        tags:
-            - { name: twig.extension }
-        autowire: true
+  AppBundle\Twig\PictureExtension:
+    tags:
+      - { name: twig.extension }
+    arguments:
+      - '@vich_uploader.templating.helper.uploader_helper'
+      - '%placeholders%'
+      - '@AppBundle\Services\Picture\PathVehiclePicture'
+      - '@AppBundle\Services\Picture\PathGaragePicture'
+      - '@AppBundle\Services\Picture\PathUserPicture'
 
-    AppBundle\Twig\NotificationPlusExtension:
-        tags:
-            - { name: twig.extension }
-        autowire: true
+  AppBundle\Twig\RadarChartExtension:
+    autowire: true
+    tags:
+      - { name: twig.extension }
 
-    AppBundle\Twig\URLFactoryExtension:
-        class: 'AppBundle\Twig\URLFactoryExtension'
-        autowire: true
-        tags:
-            - { name: twig.extension }
+  AppBundle\Twig\StarsExtension:
+    tags:
+      - { name: twig.extension }
 
-    AppBundle\Twig\RadarChartExtension:
-        class: 'AppBundle\Twig\RadarChartExtension'
-        autowire: true
-        tags:
-            - { name: twig.extension }
+  AppBundle\Twig\TestsExtension:
+    autowire: true
+    tags:
+      - { name: twig.extension }
 
+  AppBundle\Twig\TrackingExtension:
+    tags:
+      - { name: twig.extension }
 
-    AppBundle\Twig\FormatExtension:
-        class: 'AppBundle\Twig\FormatExtension'
-        tags:
-            - { name: twig.extension }
+  AppBundle\Twig\URLFactoryExtension:
+    autowire: true
+    tags:
+      - { name: twig.extension }

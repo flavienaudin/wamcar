@@ -13,7 +13,8 @@ security:
 
     role_hierarchy:
         ROLE_PRO: ROLE_USER
-        ROLE_ADMIN: ROLE_PRO
+        ROLE_PRO_ADMIN: ROLE_USER
+        ROLE_ADMIN: ROLE_PRO_ADMIN
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
@@ -76,8 +77,8 @@ security:
                     service: AppBundle\Security\UserProvider
 
     access_control:
-        # require ROLE_ADMIN for /admin*
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        # require ROLE_PRO_ADMIN for /admin*
+        - { path: ^/admin, roles: ROLE_PRO_ADMIN }
         - { path: ^/mon-profil, roles: ROLE_USER }
         - { path: ^/user/favorites, roles: ROLE_USER }
         - { path: ^/conversations, roles: ROLE_USER }

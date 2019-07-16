@@ -3,6 +3,9 @@
    =========================================================================== */
 import 'datatables.net/js/jquery.dataTables.min';
 import 'datatables.net-responsive/js/dataTables.responsive.min';
+import 'datatables.net-buttons/js/dataTables.buttons.min';
+import 'datatables.net-buttons/js/buttons.html5.min';
+
 import * as Toastr from 'toastr';
 
 $(function () {
@@ -46,10 +49,17 @@ $(function () {
           {'data': 'control', 'searchable': false, 'orderable': false, 'className': 'control'},
           {'data': 'leadName', 'searchable': true, 'orderable': true},
           {'data': 'lastContactAt', 'searchable': false, 'orderable': true},
-          {'data': 'proPhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'profilePhoneStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'messageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
-          {'data': 'likeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
+          {'data': 'proPhoneByProStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'profilePhoneByProStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'proMessageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'proLikeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
+          {'data': 'proPhoneByLeadStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'profilePhoneByLeadStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'leadMessageStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+          {'data': 'leadLikeStats', 'searchable': false, 'orderable': true, 'className': 'dt-center'},
+
           {'data': 'status', 'searchable': false, 'orderable': true},
           {'data': 'action', 'searchable': false, 'orderable': true}
         ]
@@ -165,6 +175,125 @@ $(function () {
         ]
       });
     });
+  }
 
+
+  const $usersListStatisticsDatatable = $('.js-personal-users-statistics-datatable,.js-pro-users-statistics-datatable');
+  if ($usersListStatisticsDatatable) {
+    $usersListStatisticsDatatable.each((index, datatable) => {
+      let ajaxUrl = $(datatable).data('href');
+      let transUrl = $(datatable).data('trans');
+      $(datatable).DataTable({
+        'processing': true,
+        'serverSide': true,
+        'responsive': {
+          'details': {
+            'renderer': function (api, rowIdx, columns) {
+              var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                  '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                  '<td class="is-flex ' + (col.columnIndex === 1 ? 'dt-image' : '') + '">' +
+                  (col.columnIndex !== 1 && col.columnIndex !== 4 ? col.title + '&nbsp;:&nbsp;' : '') + col.data +
+                  '</td></tr>'
+                  : '';
+              }).join('');
+              return data ? $('<table/>').append(data) : false;
+            }
+          }
+        },
+        'ordering': false,
+        'paging': false,
+        'searching': false,
+        'lengthChange': false,
+        'language': {
+          'url': transUrl
+        },
+        'ajax': {
+          'url': ajaxUrl,
+          'error': function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
+          }
+        },
+        'dom':'Birt',
+        'buttons':[
+          {
+            'action':'copy',
+            'text':'Copier',
+            'className':'text-underline margin-left-1'
+          },
+          {
+            'action':'csv',
+            'text':'Export CSV',
+            'className':'text-underline margin-left-1'
+          }
+        ]
+      });
+    });
+  }
+
+  const $userlinkingsDatatable = $('.js-userlinkings-datatable');
+  if ($userlinkingsDatatable) {
+    $userlinkingsDatatable.each((index, datatable) => {
+      let ajaxUrl = $(datatable).data('href');
+      let transUrl = $(datatable).data('trans');
+      $(datatable).DataTable({
+        'processing': true,
+        'serverSide': true,
+        'responsive': {
+          'details': {
+            'renderer': function (api, rowIdx, columns) {
+              var data = $.map(columns, function (col, i) {
+                return col.hidden ?
+                  '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                  '<td class="is-flex">' + col.title + '&nbsp;:&nbsp;' + col.data + '</td></tr>' :
+                  '';
+              }).join('');
+              return data ? $('<table/>').append(data) : false;
+            }
+          }
+        },
+        'order': [[3, 'desc']],
+        'paging': false,
+        'searching': false,
+        'lengthChange': false,
+        'language': {
+          'url': transUrl
+        },
+        'ajax': {
+          'url': ajaxUrl,
+          'error': function (jqXHR, textStatus, errorThrown) {
+            if (jqXHR.hasOwnProperty('responseJSON') && jqXHR.responseJSON.hasOwnProperty('error')) {
+              Toastr.warning(jqXHR.responseJSON.error);
+            } else {
+              Toastr.warning(textStatus);
+            }
+          }
+        },
+        'columns': [
+          {'data': 'userA', 'orderable':false},
+          {'data': 'userB', 'orderable':false},
+          {'data': 'firstContactedAt', 'orderable':true},
+          {'data': 'lastContactedAt', 'orderable':true},
+
+          {'data': 'userAproPhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userAprofilePhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userAMessages', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userALikes', 'className': 'dt-center', 'orderable':false},
+
+          {'data': 'userBproPhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBprofilePhone', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBMessages', 'className': 'dt-center', 'orderable':false},
+          {'data': 'userBLikes', 'className': 'dt-center', 'orderable':false},
+
+          {'data': 'affinityDegree', 'orderable':false},
+          {'data': 'leadStatus', 'orderable':true},
+          {'data': 'sales', 'orderable':false}
+        ]
+      });
+    });
   }
 });

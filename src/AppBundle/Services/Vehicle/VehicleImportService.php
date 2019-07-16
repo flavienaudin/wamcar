@@ -12,6 +12,8 @@ use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageRepository;
+use Wamcar\User\Event\UserLikeVehicleEvent;
+use Wamcar\User\ProLikeVehicle;
 use Wamcar\Vehicle\Event\ProVehicleCreated;
 use Wamcar\Vehicle\Event\ProVehicleRemoved;
 use Wamcar\Vehicle\Event\ProVehicleUpdated;
@@ -178,8 +180,13 @@ class VehicleImportService
                 $io->progressStart();
             }
             foreach ($vehiclesToDelete as $proVehicleToDelete) {
+                $deletedVehicleLikes = $proVehicleToDelete->getLikes();
                 $this->proVehicleRepository->remove($proVehicleToDelete);
                 $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                /** @var ProLikeVehicle $vehicleLike */
+                foreach ($deletedVehicleLikes as $vehicleLike) {
+                    $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+                }
                 $nbDeletedVehicles++;
                 if ($io) {
                     $io->progressAdvance();
@@ -246,8 +253,13 @@ class VehicleImportService
             $wasMoved = false;
             if ($existingProVehicle != null) {
                 if ($existingProVehicle->getGarage() != $garages[$garageName]) {
+                    $deletedVehicleLikes = $existingProVehicle->getLikes();
                     $this->proVehicleRepository->remove($existingProVehicle);
                     $this->eventBus->handle(new ProVehicleRemoved($existingProVehicle));
+                    /** @var ProLikeVehicle $vehicleLike */
+                    foreach ($deletedVehicleLikes as $vehicleLike) {
+                        $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+                    }
                     $wasMoved = true;
                     $existingProVehicle = null;
                 } elseif ($existingProVehicle->getDeletedAt() != null) {
@@ -364,8 +376,13 @@ class VehicleImportService
                 $io->text('ElastichSearch update (deletion)');
                 $io->progressStart($nbDeletedVehicles);
             }
-            array_map(function ($proVehicleToDelete) use ($io) {
+            array_map(function (ProVehicle $proVehicleToDelete) use ($io) {
                 $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+                $deletedVehicleLikes = $proVehicleToDelete->getLikes();
+                /** @var ProLikeVehicle $vehicleLike */
+                foreach ($deletedVehicleLikes as $vehicleLike) {
+                    $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+                }
                 if ($io) {
                     $io->progressAdvance();
                 }
@@ -468,8 +485,13 @@ class VehicleImportService
             $io->progressStart();
         }
         foreach ($vehiclesToDelete as $proVehicleToDelete) {
+            $deletedVehicleLikes = $proVehicleToDelete->getLikes();
             $this->proVehicleRepository->remove($proVehicleToDelete);
             $this->eventBus->handle(new ProVehicleRemoved($proVehicleToDelete));
+            /** @var ProLikeVehicle $vehicleLike */
+            foreach ($deletedVehicleLikes as $vehicleLike) {
+                $this->eventBus->handle(new UserLikeVehicleEvent($vehicleLike));
+            }
             $nbDeletedVehicles++;
             if ($io) {
                 $io->progressAdvance();

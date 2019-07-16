@@ -66,7 +66,8 @@
             "itemOffered" : {
                 "@type" : "Car",
                 "name" : "{{ vehicle.name }}",
-                "description" : "{{ vehicle.additionalInformation|raw }}",
+                {# Ne pas mettre de quote autour : ajouter par le json_encode + raw #}
+                "description" : {{ vehicle.additionalInformation|json_encode|raw }},
             "image" : "",
             "vehicleEngine" : {
                 "@type": "EngineSpecification",

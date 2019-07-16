@@ -21,11 +21,16 @@ class UserPreferencesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('globalEmailFrequency', ChoiceType::class, [
+                'multiple' => false,
+                'choices' => NotificationFrequency::toArray(),
+                'choice_translation_domain' => 'enumeration'
+            ])
             ->add('privateMessageEmailEnabled', CheckboxType::class, [
                 'required' => false
             ])
+            /* Désactivé : utilisation de globalEmailFrequency
             ->add('privateMessageEmailFrequency', HiddenType::class)
-            /* Désactivé pour la v1
              ->add('privateMessageEmailFrequency', ChoiceType::class, [
                 'multiple' => false,
                 'choices' => NotificationFrequency::toArray(),
@@ -34,14 +39,19 @@ class UserPreferencesType extends AbstractType
             ->add('likeEmailEnabled', CheckboxType::class, [
                 'required' => false
             ])
-            ->add('likeEmailFrequency', ChoiceType::class, [
+            /* Désactivé : utilisation de globalEmailFrequency
+            ->add('likeEmailFrequency', HiddenType::class)
+             ->add('likeEmailFrequency', ChoiceType::class, [
                 'multiple' => false,
                 'choices' => NotificationFrequency::toArray(),
                 'choice_translation_domain' => 'enumeration'
-            ]);
+            ])*/
+        ;
 
-        $builder->get('privateMessageEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));
-        $builder->get('likeEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));
+
+        $builder->get('globalEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));
+        /*$builder->get('privateMessageEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));
+        $builder->get('likeEmailFrequency')->addModelTransformer(new EnumDataTransformer(NotificationFrequency::class, NotificationFrequency::ONCE_A_DAY()));*/
     }
 
     /**
