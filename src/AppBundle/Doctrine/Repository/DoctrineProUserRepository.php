@@ -46,6 +46,7 @@ class DoctrineProUserRepository extends EntityRepository implements UserReposito
                 ->from('Wamcar:User\PersonalUser', 'cu')// Current PersonalUser
                 ->join('gpu.garage', 'g')
                 ->where($subqueryExistsGarageNearPersoanlUser->expr()->eq('gpu.proUser', 'pro'))
+                ->andWhere($subqueryExistsGarageNearPersoanlUser->expr()->isNull('gpu.requestedAt'))
                 ->andWhere($subqueryExistsGarageNearPersoanlUser->expr()->eq('cu', ':personalUser'))
                 ->andWhere($subqueryExistsGarageNearPersoanlUser->expr()->lte(
                     "6372.8 * 2 * asin(sqrt(power( sin(radians(cu.userProfile.city.latitude - g.address.city.latitude)/2),2) +
