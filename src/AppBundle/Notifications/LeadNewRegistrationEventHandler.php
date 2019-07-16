@@ -17,6 +17,7 @@ use Wamcar\User\Event\LeadEvent;
 use Wamcar\User\Event\LeadEventHandler;
 use Wamcar\User\Event\LeadNewRegistrationEvent;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class LeadNewRegistrationEventHandler extends AbstractEmailEventHandler implements LeadEventHandler
 {
@@ -82,8 +83,9 @@ class LeadNewRegistrationEventHandler extends AbstractEmailEventHandler implemen
                     // tant pis pour la notification, on ne bloque pas l'action
                 }
 
-                // Envoi du e-mail selon la préférence
-                if ($proUser->getPreferences()->isLeadEmailEnabled()) {
+                // Envoi du e-mail selon la préférence : Envoi Immediatement et Lead activé
+                if (NotificationFrequency::IMMEDIATELY()->equals($proUser->getPreferences()->getGlobalEmailFrequency())
+                    && $proUser->getPreferences()->isLeadEmailEnabled()) {
                     $this->send(
                         $this->translator->trans('notifyProUserOfNewInterestingLead.object', [], 'email'),
                         'Mail/notifyProUserOfNewInterestingLead.html.twig',
