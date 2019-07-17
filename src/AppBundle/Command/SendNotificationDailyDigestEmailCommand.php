@@ -108,18 +108,31 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
                 }
                 $countUnreadMessage = $this->messageRepository->getCountUnreadMessagesByUser($userToEmail);
 
+                $trackingKeywords = ($userToEmail->isPro() ? 'advisor' : 'customer') . $userToEmail->getId();
+                $commonUTM = [
+                    'utm_source' => 'notifications',
+                    'utm_medium' => 'email',
+                    'utm_campaign' => 'new_notifications',
+                    'utm_term' => $trackingKeywords
+                ];
                 $this->mailer->sendMessage(
                     'unseen_notification',
                     $this->translator->trans('unseenNotificationsDailyDigest.object', [], 'email'),
                     $this->templating->render('Mail/unseenNotificationsDailyDigest.html.twig', [
+                        'common_utm' => $commonUTM,
                         'username' => $userToEmail->getFirstName(),
                         'nbUnseenNotifications' => ($notifiableEntity ?
                             count($notifiableEntity->getNotifiableNotifications()->filter(function (NotifiableNotification $nn) {
                                 return !$nn->isSeen();
                             })) : 0),
                         'nbUnseenMessages' => $countUnreadMessage,
-                        'conversationsListURL' => $this->router->generate('front_conversation_list', [], UrlGeneratorInterface::ABSOLUTE_URL),
-                        'notifiactionListUrl' => $this->router->generate('notification_list', ['notifiable' => $notifiableEntity->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+                        'conversationsListURL' => $this->router->generate('front_conversation_list', array_merge($commonUTM, [
+                           'utm_cotent' => 'bouton_messagerie'
+                          ]), UrlGeneratorInterface::ABSOLUTE_URL),
+                        'notificationListUrl' => $this->router->generate('notification_list', array_merge($commonUTM, [
+                            'notifiable' => $notifiableEntity->getId(),
+                            'utm_content' => 'bouton_notification'
+                        ]), UrlGeneratorInterface::ABSOLUTE_URL)
 
                     ]),
                     new EmailRecipientList([new EmailContact($userToEmail->getEmail(), $userToEmail->getFullName())])

@@ -25,13 +25,27 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
         $user = $event->getUser();
 
         if (!$user->hasConfirmedRegistration()) {
+            $trackingKeywords = ($user->isPro() ? 'advisor' : 'customer') . $user->getId();
+            $commonUTM = [
+                'utm_source' => 'notifications',
+                'utm_medium' => 'email',
+                'utm_campaign' => 'confirm_email_customer',
+                'utm_term' => $trackingKeywords
+            ];
+
             $this->send(
                 $this->translator->trans('notifyUserOfRegistrationTokenGenerated.object', [], 'email'),
                 'Mail/notifyUserOfRegistrationTokenGenerated.html.twig',
                 [
+                    'common_utm' => $commonUTM,
                     'username' => $user->getFirstName(),
                     'emailAddress' => $user->getEmail(),
-                    'activationUrl' => $this->router->generate('security_confirm_registration', ['token' => $user->getRegistrationToken(), RegistrationController::VEHICLE_REPLACE_PARAM => $event->isVehicleReplace()], RouterInterface::ABSOLUTE_URL),
+                    'activationUrl' => $this->router->generate('security_confirm_registration', array_merge(
+                        $commonUTM, [
+                            'utm_content' => 'lien_1',
+                            'token' => $user->getRegistrationToken(),
+                            RegistrationController::VEHICLE_REPLACE_PARAM => $event->isVehicleReplace()]
+                    ), RouterInterface::ABSOLUTE_URL),
                 ],
                 new EmailRecipientList([$this->createUserEmailContact($user)])
             );
