@@ -12,6 +12,6 @@
             '%url_profile_page%': url_profile_page,
             '%url_contact_page%' : url_contact_page
         })|raw }}
-        {{ action_button(url('front_view_current_user_info'), 'notifyProUserOfRegistration.action_label'|trans) }}
+        {{ action_button(url(url_profile_page_button), 'notifyProUserOfRegistration.action_label'|trans) }}
     </div>
 {% endblock %}

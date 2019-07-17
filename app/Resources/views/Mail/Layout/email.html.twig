@@ -1,5 +1,9 @@
 {% trans_default_domain 'email' %}
 
+{% set logo_utm = common_utm|merge({'utm_content':'logo'}) %}
+{% set preferences_utm = common_utm|merge({'utm_content':'edit_preference'}) %}
+{% set transparentPixel = transparentPixel|default({}) %}
+
 {% macro action_button(action_url, action_label) %}
     <table class="button">
         <tr>
@@ -61,7 +65,7 @@
                                             <table>
                                                 <tr>
                                                     <th>
-                                                        <a href="{{ url('front_default') }}"><img src="{{ absolute_url(asset('assets/images/logo/logo-wamcar.png')) }}" alt="Wamcar"></a>
+                                                        <a href="{{ url('front_default', logo_utm) }}"><img src="{{ absolute_url(asset('assets/images/logo/logo-wamcar.png')) }}" alt="Wamcar"></a>
                                                     </th>
                                                 </tr>
                                             </table>
@@ -132,8 +136,8 @@
                                                 <tr>
                                                     <th>
                                                         <p>{{ 'email.footer.legal'|trans }}</p>
-                                                        <p>{{ 'email.footer.manage_preference'|trans({'%edit_preference_url%':url('front_user_edit_preferences') })|raw }}</p>
-                                                        <p>{{ 'email.footer.copyright'|trans|raw }}</p>
+                                                        <p>{{ 'email.footer.manage_preference'|trans({'%edit_preference_url%':url('front_user_edit_preferences', preferences_utm) })|raw }}</p>
+                                                        <p>{{ 'email.footer.copyright'|trans({'%year%':"now"|date('Y')})|raw }}</p>
                                                     </th>
                                                     <th class="expander"></th>
                                                 </tr>
@@ -163,6 +167,9 @@
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     </div>
+    {% if transparentPixel is not empty %}
+        <img src="https://www.google-analytics.com/collect?v=1{{ transparentPixel|url_encode }}"/>
+    {% endif %}
 {% endinlinecss %}
 </body>
 </html>

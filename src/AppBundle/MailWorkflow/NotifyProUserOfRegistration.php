@@ -42,15 +42,31 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
         /** @var BaseUser $user */
         $user = $event->getUser();
 
+        $trackingKeywords = ($user->isPro() ? 'advisor' : 'customer') . $user->getId();
+        $commonUTM = [
+            'utm_source' => 'notifications',
+            'utm_medium' => 'email',
+            'utm_campaign' => 'confirm_email_advisor',
+            'utm_term' => $trackingKeywords
+        ];
+
         // TODO : Adapater l'email ? identifiant = email mais mot de passe non connu de l'utilisateur
         $this->send(
             $this->translator->trans('notifyProUserOfRegistration.object', [], 'email'),
             'Mail/notifyProUserOfRegistration.html.twig',
             [
+                'common_utm' => $commonUTM,
                 'username' => $user->getFirstName(),
                 'user_mail' => $user->getEmail(),
-                'url_profile_page' => $this->router->generate("front_view_current_user_info", [], UrlGeneratorInterface::ABSOLUTE_URL),
-                'url_contact_page' => $this->router->generate("contact", [], UrlGeneratorInterface::ABSOLUTE_URL)
+                'url_profile_page' => $this->router->generate("front_view_current_user_info", array_merge($commonUTM, [
+                    'utm_content' => 'lien_1'
+                ]), UrlGeneratorInterface::ABSOLUTE_URL),
+                'url_contact_page' => $this->router->generate("contact", array_merge($commonUTM, [
+                    'utm_content' => 'lien_2'
+                ]), UrlGeneratorInterface::ABSOLUTE_URL),
+                'url_profile_page_button' => $this->router->generate("front_view_current_user_info", array_merge($commonUTM, [
+                    'utm_content' => 'bouton_1'
+                ]), UrlGeneratorInterface::ABSOLUTE_URL),
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
         );
