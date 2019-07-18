@@ -40,7 +40,7 @@ class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler impl
                 'username' => $vehicle->getSellerName(true),
                 'url_vehicle_page' => $this->router->generate('front_vehicle_personal_detail', array_merge(
                     $commonUTM, [
-                        'utm_content' => 'bouton_1',
+                        'utm_content' => 'button_add_pictures',
                         'slug' => $vehicle->getSlug()
                 ]), UrlGeneratorInterface::ABSOLUTE_URL)
             ],

@@ -42,7 +42,7 @@ class NotifyUserOfRegistrationTokenGenerated extends AbstractEmailEventHandler i
                     'emailAddress' => $user->getEmail(),
                     'activationUrl' => $this->router->generate('security_confirm_registration', array_merge(
                         $commonUTM, [
-                            'utm_content' => 'lien_1',
+                            'utm_content' => 'link_confirm_email',
                             'token' => $user->getRegistrationToken(),
                             RegistrationController::VEHICLE_REPLACE_PARAM => $event->isVehicleReplace()]
                     ), RouterInterface::ABSOLUTE_URL),

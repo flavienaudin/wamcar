@@ -39,7 +39,7 @@ class NotifyUserOfPasswordResetTokenGenerated extends AbstractEmailEventHandler 
                 'resetUrl' => $this->router->generate('security_password_reset', array_merge(
                     $commonUTM,[
                         'token' => $user->getPasswordResetToken(),
-                        'utm_content' => 'lien_1',
+                        'utm_content' => 'link_password_reset',
                     ]), RouterInterface::ABSOLUTE_URL),
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])

@@ -100,21 +100,22 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                         [
                             'id' => $message->getConversation()->getId(),
                             '_fragment' => 'last-message',
-                            'utm_content' => 'button_1'
+                            'utm_content' => 'button_answer'
                         ]), UrlGeneratorInterface::ABSOLUTE_URL),
                     'vehicle' => $message->getVehicle(),
                     'vehicleUrl' => $message->getVehicle() instanceof ProVehicle ?
                         $this->router->generate("front_vehicle_pro_detail", array_merge(
                             $commonUTM, [
                             'slug' => $message->getVehicle()->getSlug(),
-                            'utm_content' => 'vehicle']), UrlGeneratorInterface::ABSOLUTE_URL)
+                            'utm_content' => 'vehicle'
+                        ]), UrlGeneratorInterface::ABSOLUTE_URL)
                         : $message->getVehicle() instanceof PersonalVehicle ?
                             $this->router->generate("front_vehicle_personal_detail", array_merge(
                                 $commonUTM, [
                                 'slug' => $message->getVehicle()->getSlug(),
                                 'utm_content' => 'vehicle',
-                            ]), UrlGeneratorInterface::ABSOLUTE_URL) : null,
-
+                            ]), UrlGeneratorInterface::ABSOLUTE_URL)
+                            : null,
                     'vehiclePrice' => ($message->getVehicle() instanceof ProVehicle ? $message->getVehicle()->getPrice() : null),
                     'thumbnailUrl' => $pathImg
                 ],

@@ -127,11 +127,11 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
                             })) : 0),
                         'nbUnseenMessages' => $countUnreadMessage,
                         'conversationsListURL' => $this->router->generate('front_conversation_list', array_merge($commonUTM, [
-                           'utm_cotent' => 'bouton_messagerie'
+                           'utm_content' => 'button_conversations'
                           ]), UrlGeneratorInterface::ABSOLUTE_URL),
                         'notificationListUrl' => $this->router->generate('notification_list', array_merge($commonUTM, [
                             'notifiable' => $notifiableEntity->getId(),
-                            'utm_content' => 'bouton_notification'
+                            'utm_content' => 'button_notifications'
                         ]), UrlGeneratorInterface::ABSOLUTE_URL)
 
                     ]),
