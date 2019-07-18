@@ -108,6 +108,7 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
                 }
                 $countUnreadMessage = $this->messageRepository->getCountUnreadMessagesByUser($userToEmail);
 
+                $emailObject = $this->translator->trans('unseenNotificationsDailyDigest.object', [], 'email');
                 $trackingKeywords = ($userToEmail->isPro() ? 'advisor' : 'customer') . $userToEmail->getId();
                 $commonUTM = [
                     'utm_source' => 'notifications',
@@ -117,9 +118,25 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
                 ];
                 $this->mailer->sendMessage(
                     'unseen_notification',
-                    $this->translator->trans('unseenNotificationsDailyDigest.object', [], 'email'),
+                    $emailObject,
                     $this->templating->render('Mail/unseenNotificationsDailyDigest.html.twig', [
                         'common_utm' => $commonUTM,
+                        'transparentPixel' => [
+                            'tid' => 'UA-73946027-1',
+                            'cid' => $userToEmail->getUserID(),
+                            't' => 'event',
+                            'ec' => 'email',
+                            'ea' => 'open',
+                            'el' => urlencode($emailObject),
+                            'dh' => $this->router->getContext()->getHost(),
+                            'dp' => urlencode('/email/new_notifications/open/'.date('Ymd_Hi')),
+                            'dt' => urlencode($emailObject),
+                            'cs' => 'notifications', // Campaign source
+                            'cm' => 'email', // Campaign medium
+                            'cn' => 'new_notifications', // Campaign name
+                            'ck' => $trackingKeywords, // Campaign Keyword (/ terms)
+                            'cc' => 'opened', // Campaign content
+                        ],
                         'username' => $userToEmail->getFirstName(),
                         'nbUnseenNotifications' => ($notifiableEntity ?
                             count($notifiableEntity->getNotifiableNotifications()->filter(function (NotifiableNotification $nn) {
