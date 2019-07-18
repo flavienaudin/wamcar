@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
 <head>
-    {% if google_tag_manager_id is not empty %}
+    {% if google_tag_manager_id is not empty and google_tag_manager_id != 'anunull' %} {# anunull valeur null des variable d'environnement sur PHP FPM (PROD) #}
         {% set gtm_env_custom = google_tag_manager_env_auth is not empty and google_tag_manager_env_preview is not empty ?
             "&gtm_auth=" ~ google_tag_manager_env_auth ~ "&gtm_preview=" ~ google_tag_manager_env_preview ~ "&gtm_cookies_win=x" : "" %}
 
