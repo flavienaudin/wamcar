@@ -10,10 +10,14 @@
         <p>
         {% if user.isPro %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.pro'|trans }}
-            {% set action_url = url('front_search') %}
+            {% set action_url = url('front_search', common_utm|merge({
+                'utm_content': 'bouton_search_vehicle'
+            })) %}
         {% else %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.personal'|trans }}
-            {% set action_url = url('front_directory_view') %}
+            {% set action_url = url('front_directory_view', common_utm|merge({
+                'utm_content': 'bouton_annuary_pro'
+            })) %}
         {% endif %}
         </p>
         {{ action_button(action_url, 'notifyUserOfAffinityDegreeCalculated.action_label'|trans) }}
