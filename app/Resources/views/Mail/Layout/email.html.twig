@@ -168,7 +168,7 @@
         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
     </div>
     {% if transparentPixel is not empty %}
-        <img src="https://www.google-analytics.com/collect?v=1{{ transparentPixel|url_encode }}"/>
+        <img src="https://www.google-analytics.com/collect?v=1&{{ transparentPixel|url_encode }}"/>
     {% endif %}
 {% endinlinecss %}
 </body>
