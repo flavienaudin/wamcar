@@ -17,6 +17,7 @@ use Wamcar\User\Event\LeadEvent;
 use Wamcar\User\Event\LeadEventHandler;
 use Wamcar\User\Event\LeadNewRegistrationEvent;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\Enum\NotificationFrequency;
 
 class LeadNewRegistrationEventHandler extends AbstractEmailEventHandler implements LeadEventHandler
 {
@@ -82,18 +83,38 @@ class LeadNewRegistrationEventHandler extends AbstractEmailEventHandler implemen
                     // tant pis pour la notification, on ne bloque pas l'action
                 }
 
-                // Envoi du e-mail selon la préférence
-                if ($proUser->getPreferences()->isLeadEmailEnabled()) {
+                // Envoi du e-mail selon la préférence : Envoi Immediatement et Lead activé
+                if (NotificationFrequency::IMMEDIATELY()->equals($proUser->getPreferences()->getGlobalEmailFrequency())
+                    && $proUser->getPreferences()->isLeadEmailEnabled()) {
+
+                    $trackingKeywords = ($proUser->isPro() ? 'advisor' : 'customer') . $proUser->getId() . '_' . ($leadUser->isPro() ? 'advisor' : 'customer') . $leadUser->getId();
+                    $commonUTM = [
+                        'utm_source' => 'notifications',
+                        'utm_medium' => 'email',
+                        'utm_campaign' => 'prospect_near',
+                        'utm_term' => $trackingKeywords
+                    ];
                     $this->send(
-                        $this->translator->trans('notifyProUserOfNewInterestingLead.object', [], 'email'),
+                        $this->translator->trans('notifyProUserOfNewInterestingLead.object', [
+                            '%leadFirstName%' => $leadUser->getFirstName()
+                        ], 'email'),
                         'Mail/notifyProUserOfNewInterestingLead.html.twig',
                         [
+                            'common_utm' => $commonUTM,
                             'username' => $proUser->getFirstName(),
                             'leadFullname' => $leadUser->getFullName(),
                             'prefradius' => $proUser->getPreferences()->getLeadLocalizationRadiusCriteria(),
                             'profile_url' => $leadUser instanceof ProUser ?
-                                $this->router->generate('front_view_pro_user_info', ['slug' => $leadUser->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
-                                : $this->router->generate('front_view_personal_user_info', ['slug' => $leadUser->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
+                                $this->router->generate('front_view_pro_user_info', array_merge(
+                                    $commonUTM, [
+                                    'slug' => $leadUser->getSlug(),
+                                    'utm_content' => 'button_profile'
+                                ]), UrlGeneratorInterface::ABSOLUTE_URL)
+                                : $this->router->generate('front_view_personal_user_info', array_merge(
+                                    $commonUTM, [
+                                    'slug' => $leadUser->getSlug(),
+                                    'utm_content' => 'button_profile'
+                                ]), UrlGeneratorInterface::ABSOLUTE_URL)
                         ],
                         new EmailRecipientList($this->createUserEmailContact($proUser))
                     );

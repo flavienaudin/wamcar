@@ -22,13 +22,25 @@ class NotifyUserOfPasswordResetTokenGenerated extends AbstractEmailEventHandler 
 
         /** @var ApplicationUser $user */
         $user = $event->getUser();
+        $trackingKeywords = ($user->isPro() ? 'advisor' : 'customer') . $user->getId();
 
+        $commonUTM = [
+            'utm_source' => 'notifications',
+            'utm_medium' => 'email',
+            'utm_campaign' => 'password_reinitiat',
+            'utm_term' => $trackingKeywords
+        ];
         $this->send(
             $this->translator->trans('notifyUserOfPasswordResetTokenGenerated.object', [], 'email'),
             'Mail/notifyUserOfPasswordResetTokenGenerated.html.twig',
             [
+                'common_utm' => $commonUTM ,
                 'username' => $user->getFirstName(),
-                'resetUrl' => $this->router->generate('security_password_reset', ['token' => $user->getPasswordResetToken()], RouterInterface::ABSOLUTE_URL),
+                'resetUrl' => $this->router->generate('security_password_reset', array_merge(
+                    $commonUTM,[
+                        'token' => $user->getPasswordResetToken(),
+                        'utm_content' => 'link_password_reset',
+                    ]), RouterInterface::ABSOLUTE_URL),
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])
         );

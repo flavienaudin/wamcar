@@ -10,7 +10,7 @@
                 {% if app.user is not null and app.user.affinityAnswer is not null %}
                     <span>{{ 'user.affinity.degree.calculation_in_progress'|trans }}</span>
                 {% elseif user.isPro %}
-                    <span>{{ 'user.affinity.degree.explanation.personal.logged'|trans }}</span>
+                    <span>{{ 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title}) }}</span>
                     <a href="{{ path('front_affinity_personal_form') }}" class="button margin-top-1 full-width small"
                     data-wtaction="LWA" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtcontext=" {{ user|wtToDataAttrValue }}">
                         {{ 'user.affinity.degree.calltoaction.fill_form'|trans }}</a>
