@@ -279,32 +279,34 @@ class ConversationController extends BaseController
         /** @var MessageDTO $messageDTO */
         $messageDTO = $messageForm->getData();
 
-        switch ($messageForm->getClickedButton()->getName()) {
-            case 'selectVehicle':
-                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
-                return $this->redirectToRoute('front_conversation_vehicle_list');
-                break;
-            case 'createVehicle':
-                $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
-                $user = $this->getUser();
-                if ($user->isPersonal()) {
-                    return $this->redirectToRoute('front_vehicle_personal_add');
-                } else {
-                    /** @var ProUser $user */
-                    /** @var Collection $userGarages */
-                    $userGarages = $user->getEnabledGarageMemberships();
-                    if ($userGarages->isEmpty()) {
-                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
-                        return $this->redirectToRoute('front_garage_create');
-                    } elseif ($userGarages->count() == 1) {
-                        return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $userGarages->first()->getGarage()->getId()]);
+        if($messageForm->getClickedButton() != null) {
+            switch ($messageForm->getClickedButton()->getName()) {
+                case 'selectVehicle':
+                    $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
+                    return $this->redirectToRoute('front_conversation_vehicle_list');
+                    break;
+                case 'createVehicle':
+                    $this->sessionMessageManager->set($request->get('_route'), $request->get('_route_params'), $messageDTO);
+                    $user = $this->getUser();
+                    if ($user->isPersonal()) {
+                        return $this->redirectToRoute('front_vehicle_personal_add');
                     } else {
-                        /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
-                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
-                        return $this->redirectToRoute('front_view_current_user_info');
+                        /** @var ProUser $user */
+                        /** @var Collection $userGarages */
+                        $userGarages = $user->getEnabledGarageMemberships();
+                        if ($userGarages->isEmpty()) {
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
+                            return $this->redirectToRoute('front_garage_create');
+                        } elseif ($userGarages->count() == 1) {
+                            return $this->redirectToRoute('front_vehicle_pro_add', ['garage_id' => $userGarages->first()->getGarage()->getId()]);
+                        } else {
+                            /* TODO : gérer si le vendeur a plusieurs garages. Action pour l'instant non accessible Cf MessageType */
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.select_garage_first');
+                            return $this->redirectToRoute('front_view_current_user_info');
+                        }
                     }
-                }
-                break;
+                    break;
+            }
         }
 
         return null;

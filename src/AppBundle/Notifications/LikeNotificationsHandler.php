@@ -59,8 +59,9 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
         $data = json_encode(['id' => $like->getId()]);
 
         $vehicle = $event->getLikeVehicle()->getVehicle();
+        $vehicleSeller = $vehicle->getSeller();
 
-        if($like->getDeletedAt() == null) {
+        if ($like->getDeletedAt() == null) {
             // The vehicle and the like are not deleted
             if (!$like->getUser()->is($like->getVehicle()->getSeller())) {
                 // If user likes its own vehicle Then no notification
@@ -75,7 +76,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                             : $this->router->generate('front_vehicle_personal_detail', ['slug' => $vehicle->getSlug(), '_fragment' => 'js-interested_users'])
                     );
                     try {
-                        $this->notificationsManager->addNotification([$vehicle->getSeller()], $notifications, true);
+                        $this->notificationsManager->addNotification([$vehicleSeller], $notifications, true);
                     } catch (OptimisticLockException $e) {
                         // tant pis pour la notification, on ne bloque pas l'action
                     }
@@ -84,23 +85,48 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                         $like->getVehicle()->getSeller()->getPreferences()->getLikeEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY) {
 
                         $pathImg = $this->pathVehiclePicture->getPath($like->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
+                        $trackingKeywords = ($vehicleSeller->isPro() ? 'advisor' : 'customer') . $vehicleSeller->getId();
 
+                        $commonUTM = [
+                            'utm_source' => 'notifications',
+                            'utm_medium' => 'email',
+                            'utm_campaign' => 'password_reinitiat',
+                            'utm_term' => $trackingKeywords
+                        ];
                         $this->send(
                             $this->translator->trans('notifyUserOfLikeVehicle.object', ['%annonceTitle%' => $like->getVehicle()->getName()], 'email'),
                             'Mail/notifyUserOfNewLikeVehicle.html.twig',
                             [
+                                'common_utm' => $commonUTM,
                                 'username' => $like->getVehicle()->getSellerName(true),
                                 'messageAuthorName' => $like->getUser()->getFullName(),
                                 'annonceTitle' => $like->getVehicle()->getName(),
                                 'message_url' =>
                                     $like->getVehicle() instanceof ProVehicle ?
-                                        $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
-                                        : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug(), '_fragment' => 'js-interested_users'], UrlGeneratorInterface::ABSOLUTE_URL)
+                                        $this->router->generate("front_vehicle_pro_detail", array_merge(
+                                            $commonUTM, [
+                                            'utm_content' => 'bouton_1',
+                                            'slug' => $like->getVehicle()->getSlug(),
+                                            '_fragment' => 'js-interested_users'
+                                        ]), UrlGeneratorInterface::ABSOLUTE_URL)
+                                        : $this->router->generate("front_vehicle_personal_detail", array_merge(
+                                        $commonUTM, [
+                                        'utm_content' => 'bouton_1',
+                                        'slug' => $like->getVehicle()->getSlug(),
+                                        '_fragment' => 'js-interested_users'
+                                    ]), UrlGeneratorInterface::ABSOLUTE_URL)
                                 ,
                                 'vehicle' => $like->getVehicle(),
                                 'vehicleUrl' => $like->getVehicle() instanceof ProVehicle ?
-                                    $this->router->generate("front_vehicle_pro_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL)
-                                    : $this->router->generate("front_vehicle_personal_detail", ['slug' => $like->getVehicle()->getSlug()], UrlGeneratorInterface::ABSOLUTE_URL),
+                                    $this->router->generate("front_vehicle_pro_detail", array_merge(
+                                        $commonUTM, [
+                                        'utm_content' => 'lien_1',
+                                        'slug' => $like->getVehicle()->getSlug()
+                                    ]), UrlGeneratorInterface::ABSOLUTE_URL)
+                                    : $this->router->generate("front_vehicle_personal_detail", array_merge(
+                                        $commonUTM, [
+                                        'slug' => $like->getVehicle()->getSlug()
+                                    ]), UrlGeneratorInterface::ABSOLUTE_URL),
                                 'vehiclePrice' => ($like->getVehicle() instanceof ProVehicle ? $like->getVehicle()->getPrice() : null),
                                 'thumbnailUrl' => $pathImg
                             ],
@@ -115,7 +141,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     ]);
                     try {
                         foreach ($notifications as $notification) {
-                            $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
+                            $this->notificationsManager->removeNotification([$vehicleSeller], $notification);
                             $this->notificationsManager->deleteNotification($notification, true);
                         }
                     } catch (OptimisticLockException $e) {
@@ -123,8 +149,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     }
                 }
             }
-        }
-        else{
+        } else {
             // The vehicle and so the like, are (soft) deleted
             $notifications = $this->notificationsManagerExtended->getNotificationByObjectDescription([
                 'subject' => get_class($like),
@@ -132,7 +157,7 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
             ]);
             try {
                 foreach ($notifications as $notification) {
-                    $this->notificationsManager->removeNotification([$vehicle->getSeller()], $notification);
+                    $this->notificationsManager->removeNotification([$vehicleSeller], $notification);
                     $this->notificationsManager->deleteNotification($notification, true);
                 }
             } catch (OptimisticLockException $e) {

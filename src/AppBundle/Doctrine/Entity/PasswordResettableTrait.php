@@ -4,7 +4,6 @@
 namespace AppBundle\Doctrine\Entity;
 
 
-use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Utils\TokenGenerator;
 
 trait PasswordResettableTrait
