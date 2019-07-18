@@ -108,12 +108,12 @@ class LeadNewRegistrationEventHandler extends AbstractEmailEventHandler implemen
                                 $this->router->generate('front_view_pro_user_info', array_merge(
                                     $commonUTM, [
                                     'slug' => $leadUser->getSlug(),
-                                    'utm_content' => 'bouton_1'
+                                    'utm_content' => 'button_profile'
                                 ]), UrlGeneratorInterface::ABSOLUTE_URL)
                                 : $this->router->generate('front_view_personal_user_info', array_merge(
                                     $commonUTM, [
                                     'slug' => $leadUser->getSlug(),
-                                    'utm_content' => 'bouton_1'
+                                    'utm_content' => 'button_profile'
                                 ]), UrlGeneratorInterface::ABSOLUTE_URL)
                         ],
                         new EmailRecipientList($this->createUserEmailContact($proUser))

@@ -11,12 +11,12 @@
         {% if user.isPro %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.pro'|trans }}
             {% set action_url = url('front_search', common_utm|merge({
-                'utm_content': 'bouton_search_vehicle'
+                'utm_content': 'button_search_vehicle'
             })) %}
         {% else %}
             {{ 'notifyUserOfAffinityDegreeCalculated.body.personal'|trans }}
             {% set action_url = url('front_directory_view', common_utm|merge({
-                'utm_content': 'bouton_annuary_pro'
+                'utm_content': 'button_directory_pro'
             })) %}
         {% endif %}
         </p>

@@ -105,13 +105,13 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                                     $like->getVehicle() instanceof ProVehicle ?
                                         $this->router->generate("front_vehicle_pro_detail", array_merge(
                                             $commonUTM, [
-                                            'utm_content' => 'bouton_1',
+                                            'utm_content' => 'button_interested_users',
                                             'slug' => $like->getVehicle()->getSlug(),
                                             '_fragment' => 'js-interested_users'
                                         ]), UrlGeneratorInterface::ABSOLUTE_URL)
                                         : $this->router->generate("front_vehicle_personal_detail", array_merge(
                                         $commonUTM, [
-                                        'utm_content' => 'bouton_1',
+                                        'utm_content' => 'button_interested_users',
                                         'slug' => $like->getVehicle()->getSlug(),
                                         '_fragment' => 'js-interested_users'
                                     ]), UrlGeneratorInterface::ABSOLUTE_URL)
@@ -120,11 +120,12 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                                 'vehicleUrl' => $like->getVehicle() instanceof ProVehicle ?
                                     $this->router->generate("front_vehicle_pro_detail", array_merge(
                                         $commonUTM, [
-                                        'utm_content' => 'lien_1',
+                                        'utm_content' => 'vehicle',
                                         'slug' => $like->getVehicle()->getSlug()
                                     ]), UrlGeneratorInterface::ABSOLUTE_URL)
                                     : $this->router->generate("front_vehicle_personal_detail", array_merge(
                                         $commonUTM, [
+                                        'utm_content' => 'vehicle',
                                         'slug' => $like->getVehicle()->getSlug()
                                     ]), UrlGeneratorInterface::ABSOLUTE_URL),
                                 'vehiclePrice' => ($like->getVehicle() instanceof ProVehicle ? $like->getVehicle()->getPrice() : null),

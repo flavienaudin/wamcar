@@ -59,13 +59,13 @@ class NotifyProUserOfRegistration extends AbstractEmailEventHandler implements U
                 'username' => $user->getFirstName(),
                 'user_mail' => $user->getEmail(),
                 'url_profile_page' => $this->router->generate("front_view_current_user_info", array_merge($commonUTM, [
-                    'utm_content' => 'lien_1'
+                    'utm_content' => 'link_profile'
                 ]), UrlGeneratorInterface::ABSOLUTE_URL),
                 'url_contact_page' => $this->router->generate("contact", array_merge($commonUTM, [
-                    'utm_content' => 'lien_2'
+                    'utm_content' => 'link_contact'
                 ]), UrlGeneratorInterface::ABSOLUTE_URL),
                 'url_profile_page_button' => $this->router->generate("front_view_current_user_info", array_merge($commonUTM, [
-                    'utm_content' => 'bouton_1'
+                    'utm_content' => 'button_profile'
                 ]), UrlGeneratorInterface::ABSOLUTE_URL),
             ],
             new EmailRecipientList([$this->createUserEmailContact($user)])

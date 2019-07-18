@@ -8,8 +8,8 @@
 {% block welcome %}{% endblock %}
 
 
-{% set avatar_utm = common_utm|merge({'utm_content':'avatar'}) %}
-{% set profile_utm = common_utm|merge({'utm_content':'prenom_nom'}) %}
+{% set avatar_utm = common_utm|merge({'utm_content':'avatar_profile'}) %}
+{% set profile_utm = common_utm|merge({'utm_content':'fullname_profile'}) %}
 {% set garage_utm = common_utm|merge({'utm_content':'garage'}) %}
 {% set attachment_utm = common_utm|merge({'utm_content':'pj'}) %}
 
