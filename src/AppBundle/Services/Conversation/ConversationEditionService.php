@@ -9,6 +9,7 @@ use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use SimpleBus\Message\Bus\MessageBus;
+use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
 use Wamcar\User\BaseUser;
@@ -41,9 +42,9 @@ class ConversationEditionService
     /**
      * @param MessageDTO $messageDTO
      * @param null|ApplicationConversation $conversation
-     * @return ApplicationConversation
+     * @return Conversation
      */
-    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): ApplicationConversation
+    public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
         $message = new Message($conversation, $messageDTO->user, $messageDTO->content, $messageDTO->vehicleHeader, $messageDTO->vehicle, $messageDTO->isFleet, $messageDTO->attachments);
@@ -58,9 +59,10 @@ class ConversationEditionService
             $pathImg = $this->pathVehiclePicture->getPath($message->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
         }
 
+        $updatedConversation = $this->conversationRepository->update($conversation);
         $this->eventBus->handle(new MessageCreated($message, $messageDTO->interlocutor, $pathImg));
 
-        return $this->conversationRepository->update($conversation);
+        return $updatedConversation;
     }
 
     /**
