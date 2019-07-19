@@ -52,8 +52,8 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
         $interlocutor = $event->getInterlocutor();
         /** @var BaseUser $sender */
         $sender = $message->getUser();
-        if ($interlocutor->getPreferences()->isPrivateMessageEmailEnabled()
-            && $interlocutor->getPreferences()->getGlobalEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
+        if ($interlocutor->getPreferences()->isPrivateMessageEmailEnabled() &&
+            NotificationFrequency::IMMEDIATELY()->equals($interlocutor->getPreferences()->getGlobalEmailFrequency())
             // Use only the global email frequency preference
             // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
         ) {
@@ -76,20 +76,19 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                     'common_utm' => $commonUTM,
                     'transparentPixel' => [
                         'tid' => 'UA-73946027-1',
-                        'uid' => $interlocutor->getUserID(),
+                        'cid' => $interlocutor->getUserID(),
                         't' => 'event',
                         'ec' => 'email',
                         'ea' => 'open',
-                        'dp' => '/email/mp',
-                        'dt' => $emailObject,
+                        'el' => urlencode($emailObject),
+                        'dh' => $this->router->getContext()->getHost(),
+                        'dp' => urlencode('/email/mp/open/' . $message->getId()),
+                        'dt' => urlencode($emailObject),
                         'cs' => 'notifications', // Campaign source
                         'cm' => 'email', // Campaign medium
                         'cn' => 'mp', // Campaign name
                         'ck' => $trackingKeywords, // Campaign Keyword (/ terms)
-                        'cc' => 'open', // Campaign content
-
-                        // 'ci' => '', // Campaign id
-                        // 'aip' => '1', // anonymize IP
+                        'cc' => 'opened', // Campaign content
                     ],
                     'username' => $interlocutor->getFirstName(),
                     'sender' => $sender,
