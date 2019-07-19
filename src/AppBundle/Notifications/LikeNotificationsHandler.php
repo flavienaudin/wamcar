@@ -82,7 +82,8 @@ class LikeNotificationsHandler extends AbstractEmailEventHandler implements Like
                     }
 
                     if ($vehicleSeller->getPreferences()->isLikeEmailEnabled() &&
-                        NotificationFrequency::IMMEDIATELY()->equals($vehicleSeller->getPreferences()->getLikeEmailFrequency())) {
+                        // Use only the global email frequency preference
+                        NotificationFrequency::IMMEDIATELY()->equals($vehicleSeller->getPreferences()->getGlobalEmailFrequency())) {
 
                         $pathImg = $this->pathVehiclePicture->getPath($likedVehicle->getMainPicture(), 'vehicle_mini_thumbnail');
                         $trackingKeywords = ($vehicleSeller->isPro() ? 'advisor' : 'customer') . $vehicleSeller->getId();

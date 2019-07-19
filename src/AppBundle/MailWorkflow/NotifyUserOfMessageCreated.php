@@ -52,8 +52,8 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
         $interlocutor = $event->getInterlocutor();
         /** @var BaseUser $sender */
         $sender = $message->getUser();
-        if ($interlocutor->getPreferences()->isPrivateMessageEmailEnabled()
-            && $interlocutor->getPreferences()->getGlobalEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
+        if ($interlocutor->getPreferences()->isPrivateMessageEmailEnabled() &&
+            NotificationFrequency::IMMEDIATELY()->equals($interlocutor->getPreferences()->getGlobalEmailFrequency())
             // Use only the global email frequency preference
             // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
         ) {
@@ -82,7 +82,7 @@ class NotifyUserOfMessageCreated extends AbstractEmailEventHandler implements Me
                         'ea' => 'open',
                         'el' => urlencode($emailObject),
                         'dh' => $this->router->getContext()->getHost(),
-                        'dp' => urlencode('/email/mp/open/'.$message->getId()),
+                        'dp' => urlencode('/email/mp/open/' . $message->getId()),
                         'dt' => urlencode($emailObject),
                         'cs' => 'notifications', // Campaign source
                         'cm' => 'email', // Campaign medium
