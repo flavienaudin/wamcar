@@ -48,10 +48,16 @@ abstract class ProVehicleBuilder
             $urlFile = fopen($url, "r");
             if ($urlFile !== FALSE) {
                 if (file_put_contents($tempLocation, $urlFile) !== false) {
-                    $uploadedFile = new UploadedFile($tempLocation, $originalFileName, mime_content_type($tempLocation), filesize($tempLocation), null, true);
-                    $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
-                    $proVehicle->addPicture($vehiclePicture);
-                    return true;
+                    $mimeContentType = mime_content_type($tempLocation);
+                    // Check MIME TYPE
+                    if(strpos($mimeContentType, 'image') === 0) {
+                        $uploadedFile = new UploadedFile($tempLocation, $originalFileName, $mimeContentType, filesize($tempLocation), null, true);
+                        $vehiclePicture = new ProVehiclePicture(null, $proVehicle, $uploadedFile, null, $position);
+                        $proVehicle->addPicture($vehiclePicture);
+                        return true;
+                    }else{
+                        $this->logger->warning('MIME content type is not an image');
+                    }
                 } else {
                     $this->logger->warning('file_put_contents(' . $tempLocation . ') returns FALSE');
                 }
