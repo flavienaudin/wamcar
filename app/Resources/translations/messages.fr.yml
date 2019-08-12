@@ -792,6 +792,7 @@ user:
       other: "%username%, conseiller automobile"
   profile:
     my_profile: Mon profil
+    member_since: Membre depuis %year%
     edit:
       title: Editer mon profil
       action: Editer mon profil
