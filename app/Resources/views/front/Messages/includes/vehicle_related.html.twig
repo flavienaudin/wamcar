@@ -22,7 +22,7 @@
         </strong>
         <div class="messages-item-vehicle-proposed-model">
             <a href="{{ path }}" target="_blank">
-                <strong>{{ vehicle.name }}</strong> <span>{{ vehicle.engineName }}</span>
+                <strong>{{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}</strong> <span>{{ vehicle.engineName }}</span>
             </a>
         </div>
         <div class="messages-small-text messages-item-vehicle-proposed-model-infos">
