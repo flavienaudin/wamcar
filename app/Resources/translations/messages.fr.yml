@@ -1195,7 +1195,7 @@ favorites:
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
   my_experts:
     title: Mes experts
-    no_expert: Consultez les profils des conseillers et sélectionnez vos experts!
+    no_expert: Consultez les profils et sélectionnez vos experts favoris!
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
 
