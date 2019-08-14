@@ -4,6 +4,10 @@
             <h1 class="profil-name">
                 {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+                {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                    'expertUser' : user
+                }) }}
+
                 {% if isUserPersonalPageProfil and isUserPro %}
                     {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
                     <span class="seller-contacts">

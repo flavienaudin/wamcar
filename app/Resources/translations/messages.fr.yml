@@ -7,6 +7,9 @@ flash:
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
+    expert:
+      added: Expert enregistré avec succès
+      removed: Expert supprimé avec succès
     garage:
       create: Votre garage est bien enregistré.
       edit: Les modifications de votre garage ont été enregistrées.
@@ -205,7 +208,7 @@ header:
       vehicle: Rechercher une voiture
       directory: Rechercher un professionnel
     my_profile: Mon profil
-    my_favorites: Ma sélection
+    my_selections: Mes sélections
     conversations: Messagerie
   pro:
     my_garage: Mon garage
@@ -1186,9 +1189,13 @@ boost:
     number_of_points: Je possède %points% points
 
 favorites:
-  page_title: Ma sélection
-  my_favorites: Mes likes
-  ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+  page_title: Mes sélections
+  my_likes:
+    title: Mes likes
+    ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+  my_experts:
+    title: Mes experts
+    no_expert: Consultez les profils des conseillers et sélectionnez vos experts!
   tooltip:
     like: Cliquez sur "J'aime" pour signaler votre intérêt et affiner votre projet. Vous retrouverez votre sélection dans le menu
 

@@ -70,6 +70,10 @@ abstract class BaseUser implements HasApiCredential
     protected $videoText;
     /** @var Collection */
     protected $likes;
+    /** @var Collection */
+    protected $myExperts;
+    /** @var Collection */
+    protected $expertOf;
     /** @var UserPreferences */
     protected $preferences;
     /** @var null|string */
@@ -104,6 +108,8 @@ abstract class BaseUser implements HasApiCredential
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->myExperts = new ArrayCollection();
+        $this->expertOf = new ArrayCollection();
         $this->preferences = new UserPreferences($this);
         $this->greaterIdUserAffinityDegrees = new ArrayCollection();
         $this->smallerIdUserAffinityDegrees = new ArrayCollection();
@@ -539,6 +545,56 @@ abstract class BaseUser implements HasApiCredential
     public function addLike(BaseLikeVehicle $likeVehicle)
     {
         $this->likes->add($likeVehicle);
+    }
+
+    /**
+     * @return Collection|array
+     */
+    public function getMyExperts(bool $ordered = false)
+    {
+        if($ordered){
+            $orderedExperts = $this->myExperts->toArray();
+            uasort($orderedExperts, function ($e1, $e2) {
+                $expert1fullname = $e1->getFullname();
+                $expert2fullname = $e2->getFullname();
+
+                if ($expert1fullname === $expert2fullname) {
+                    return 0;
+                }
+                return $expert1fullname > $expert2fullname ? 1 : -1;
+            });
+            return $orderedExperts;
+        }else {
+            return $this->myExperts;
+        }
+    }
+
+    /**
+     * @param BaseUser $user
+     *
+     * @return bool
+     */
+    public function hasExpert(BaseUser $user): bool
+    {
+        return $this->myExperts->contains($user);
+    }
+
+    /**
+     * @param BaseUser $expertUser
+     */
+    public function addExpert(BaseUser $expertUser): void
+    {
+        $this->myExperts->add($expertUser);
+        $expertUser->expertOf->add($this);
+    }
+
+    /**
+     * @param BaseUser $expertUser
+     */
+    public function removeExpert(BaseUser $expertUser): void
+    {
+        $this->myExperts->removeElement($expertUser);
+        $expertUser->expertOf->removeElement($this);
     }
 
     /**

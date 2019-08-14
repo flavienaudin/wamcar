@@ -36,6 +36,7 @@ class TrackingExtension extends AbstractExtension
         return [
             new TwigFunction('wtNoneValue', array($this, 'getWtNoneValue')),
             new TwigFunction('wtLikeDataAttributes', array($this, 'getLikeWtDataAttributes')),
+            new TwigFunction('wtExpertDataAttributes', array($this, 'getExpertWtDataAttributes')),
             new TwigFunction('wtSearchFormDataAttributes', array($this, 'getSearchFormWtDataAttributes')),
             new TwigFunction('wtDirectorySearchFormDataAttributes', array($this, 'getDirectorySearchFormWtDataAttributes'))
         ];
@@ -89,7 +90,7 @@ class TrackingExtension extends AbstractExtension
 
     /**
      * @param BaseUser|null $fromUser The user, connected or not, who is (un)liking
-     * @param BaseUser $toUser The seller of the vehicule
+     * @param BaseUser $toUser The seller of the vehicle
      * @param BaseLikeVehicle|null $likeVehicle The like or null
      * @param BaseVehicle $vehicle The vehicle to (un)like
      * @return string
@@ -102,6 +103,23 @@ class TrackingExtension extends AbstractExtension
             $action = 'UL';
         }
         return ' data-wtaction="' . $action . ' ' . $vehicle->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser)
+            . '" data-wtto="' . $this->getWtToDataAttrValue($toUser) . '"';
+    }
+
+    /**
+     * @param BaseUser|null $fromUser The user, connected or not, who add/remove an expert
+     * @param BaseUser $toUser The seller to add/remove as expert
+     * @param bool $isAlreadyExpert if false then add as expert; if true then remove
+     * @return string
+     */
+    public function getExpertWtDataAttributes(?BaseUser $fromUser, BaseUser $toUser, bool $isAlreadyExpert): string
+    {
+        if ($isAlreadyExpert) {
+            $action = 'ADD';
+        } else {
+            $action = 'REMOVE';
+        }
+        return ' data-wtaction="' . $action . ' ' . $toUser->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser)
             . '" data-wtto="' . $this->getWtToDataAttrValue($toUser) . '"';
     }
 

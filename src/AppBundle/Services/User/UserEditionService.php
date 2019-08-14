@@ -42,7 +42,6 @@ use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
 use Wamcar\Vehicle\BaseVehicle;
-use Wamcar\Vehicle\Enum\NotificationFrequency;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
 use Wamcar\Vehicle\ProVehicleRepository;
@@ -510,5 +509,23 @@ class UserEditionService
     public function getUserWithEmailableUnreadNotifications(int $sinceLastHours = 24)
     {
         return $this->userRepository->getUsersWithWaitingNotificationsOrMessages($sinceLastHours);
+    }
+
+    /**
+     * @param BaseUser $user
+     * @param ProUser $userToggle
+     * @return bool false if expert is removed, true if expert is added
+     */
+    public function toggleExpert(BaseUser $user, ProUser $userToggle)
+    {
+        if($user->hasExpert($userToggle)){
+            $user->removeExpert($userToggle);
+            $this->userRepository->update($user);
+            return false;
+        }else{
+            $user->addExpert($userToggle);
+            $this->userRepository->update($user);
+            return true;
+        }
     }
 }

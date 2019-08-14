@@ -44,6 +44,7 @@ import './components/phone_number';
 import './components/affinity';
 import './components/datatable';
 import './components/sales';
+import './components/expert';
 import {activeClass} from './settings/settings.js';
 
 import {default as autosize} from 'autosize';

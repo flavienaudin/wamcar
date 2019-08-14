@@ -392,6 +392,10 @@ front_user_favorites_list:
     path: /user/favorites
     controller: AppBundle:Front\ProContext\Favorite:view
 
+front_expert_toggle:
+    path: /user/expert/toggle/{slug}
+    controller: AppBundle:Front\ProContext\Favorite:toggleExpert
+
 # Wamcar Affinity
 front_affinity_personal_form:
     path: /affinity/particulier
