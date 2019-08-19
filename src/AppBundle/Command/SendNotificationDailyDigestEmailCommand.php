@@ -101,8 +101,6 @@ class SendNotificationDailyDigestEmailCommand extends BaseCommand
             foreach ($usersToEmail as $userToEmail) {
                 $io->progressAdvance();
 
-
-                $nbUnreadNotifications = 0;
                 if ($userToEmail instanceof ProApplicationUser or $userToEmail instanceof PersonalApplicationUser) {
                     $notifiableEntity = $this->notificationManagerExtended->getNotificationManager()->getNotifiableEntity($userToEmail);
                 }
