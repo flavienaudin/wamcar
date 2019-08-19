@@ -8,9 +8,11 @@ use AppBundle\Utils\SearchTypeChoice;
 use Elastica\Client;
 use Elastica\Query;
 use Elastica\QueryBuilder;
+use Elastica\Result;
 use Elastica\ResultSet;
 use Elastica\Script\AbstractScript;
 use Elastica\Script\Script;
+use Psr\Log\LoggerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
@@ -33,6 +35,8 @@ class SearchResultProvider
     private $proVehicleEntityIndexer;
     /** @var Client */
     private $client;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * SearchResultProvider constructor.
@@ -46,13 +50,14 @@ class SearchResultProvider
                                 EntityIndexer $personalProjectIndexer,
                                 PersonalVehicleEntityIndexer $personalVehicleEntityIndexer,
                                 ProVehicleEntityIndexer $proVehicleEntityIndexer,
-                                Client $client)
+                                Client $client, LoggerInterface $logger)
     {
         $this->searchItemIndexer = $searchItemIndexer;
         $this->personalProjectIndexer = $personalProjectIndexer;
         $this->personalVehicleEntityIndexer = $personalVehicleEntityIndexer;
         $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
         $this->client = $client;
+        $this->logger = $logger;
     }
 
 
@@ -427,7 +432,15 @@ class SearchResultProvider
         if (!$mainQuery->hasParam('min_score')) {
             $mainQuery->setMinScore(self::MIN_SCORE);
         }
-        return $this->client->getIndex($indexName)->search($mainQuery);
+
+        $result = $this->client->getIndex($indexName)->search($mainQuery);
+        $this->logger->notice(json_encode($result->getQuery()->toArray()));
+        $resultToArray = array_map(function (Result $r){
+            return $r->getHit();
+        }, $result->getResults());
+        $this->logger->notice(json_encode($resultToArray));
+
+        return $result;
     }
 
     /**
