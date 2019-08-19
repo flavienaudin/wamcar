@@ -20,7 +20,7 @@ class ProVehicleEntityIndexer extends EntityIndexer
      * @param int $limit
      * @return null|ResultSet
      */
-    public function getQueryGarageVehiclesResult($garageIds, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
+    public function getQueryGarageVehiclesResult($garageIds, ?string $text, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         $mainQuery = new Query();
 
@@ -46,8 +46,7 @@ class ProVehicleEntityIndexer extends EntityIndexer
             $textMultiMatchQuery->setOperator(Query\MultiMatch::OPERATOR_OR);
             $textMultiMatchQuery->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
             $textMultiMatchQuery->setQuery($text);
-            $mainBoolQuery->addShould($textMultiMatchQuery);
-            $mainQuery->setMinScore(1.1);
+            $mainBoolQuery->addMust($textMultiMatchQuery);
         }
         $mainQuery->setQuery($mainBoolQuery);
         $mainQuery->setFrom(self::OFFSET + ($page - 1) * $limit);
@@ -84,7 +83,9 @@ class ProVehicleEntityIndexer extends EntityIndexer
         $mainQuery->setQuery($functionScoreQuery);
         $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
 
-        return $this->search($mainQuery);
+        $result = $this->search($mainQuery);
+        dump($result->getResults());
+        return $result;
     }
 
 
