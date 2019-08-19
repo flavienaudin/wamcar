@@ -379,7 +379,13 @@ garage:
       presentation: "Demander l'import automatisé de votre stock:"
       form: Formulaire
   tabs:
-    vehicles: Véhicules
+    vehicles:
+      title: Véhicules
+      list:
+        title: "[0,1] véhicule en vente|[2,Inf[ véhicules en vente"
+        member_empty: Vous n'avez aucun véhicule en vente.
+        empty_list: Aucun véhicule n'est en vente.
+        empty_result: Aucun véhicule en vente ne correspond à votre recherche.
     about: A propos
     opinions:
       title: Avis
@@ -387,6 +393,7 @@ garage:
     sellers: Vendeurs
   google_rating:
     unknown: Note inconnue
+
   form:
     field:
       googleSearch:
