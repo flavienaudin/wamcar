@@ -83,9 +83,7 @@ class ProVehicleEntityIndexer extends EntityIndexer
         $mainQuery->setQuery($functionScoreQuery);
         $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
 
-        $result = $this->search($mainQuery);
-        dump($result->getResults());
-        return $result;
+        return $this->search($mainQuery);
     }
 
 
