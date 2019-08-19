@@ -1,0 +1,13 @@
+{% if expertUser.isPro %}
+    {% set isAlreadyExpert = isLogged and app.user.hasExpert(expertUser) %}
+    {% set wtExpertDataAttr = wtExpertDataAttributes(app.user, expertUser, isAlreadyExpert) %}
+
+    {% if isLogged %}
+        <a data-href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr }}
+           class="js-expert primary-color {{ isAlreadyExpert ? 'icon-heart ' : 'icon-heart-o' }} is-inline-block"></a>
+    {% else %}
+        <a href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr }}
+           class="primary-color icon-heart-o is-inline-block"></a>
+    {% endif %}
+{% endif %}
+

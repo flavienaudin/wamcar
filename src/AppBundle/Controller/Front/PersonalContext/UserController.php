@@ -99,7 +99,7 @@ class UserController extends BaseController
     protected $saleManagementService;
 
     /**
-     * SecurityController constructor.
+     * UserController constructor.
      * @param FormFactoryInterface $formFactory
      * @param UserRepository $userRepository
      * @param DoctrinePersonalUserRepository $personalUserRepository

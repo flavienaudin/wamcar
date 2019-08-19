@@ -96,7 +96,7 @@ class AffinityController extends BaseController
             throw $this->createAccessDeniedException();
         }
         // Check if the answer was received
-        $this->waitUntilAnswerReceived($this->getUSer());
+        $this->waitUntilAnswerReceived($this->getUser());
         // Validation et complétion du profil
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.pro.validation');
         return $this->redirectToRoute('front_edit_user_info');
