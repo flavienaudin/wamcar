@@ -40,7 +40,7 @@ class FormatExtension extends AbstractExtension
         }
         foreach ($words as $w) {
             if (!empty($result)) {
-                $result .= '-';
+                $result .= ' ';
             }
             if (in_array(strtolower($w), $blacklist) || strlen($w) <= 2) {
                 $result .= strtoupper($w);
