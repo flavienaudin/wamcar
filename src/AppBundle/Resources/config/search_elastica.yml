@@ -578,3 +578,6 @@ services:
         - '@personal_vehicle.indexer'
         - '@pro_vehicle.indexer'
         - '@Elastica\Client'
+        - '@logger'
+      tags:
+        - { name: monolog.logger, channel: elastic }
