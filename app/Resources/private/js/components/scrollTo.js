@@ -11,7 +11,7 @@ import anim from 'animated-scrollto';
 */
 export default (selector) => {
   const $element = document.querySelector(selector);
-  const scrollTop = $element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - 70;
+  const scrollTop = $element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - 80;
   anim(document.body, scrollTop, 700);
   anim(document.documentElement, scrollTop, 700);
 };
