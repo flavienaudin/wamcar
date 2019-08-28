@@ -42,40 +42,20 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="column small-12">
+    <div class="row white-bg">
+        <div class="directory-result column small-12">
             <h2 class="primary-color">{{ 'favorites.my_experts.title'|trans }}</h2>
-
-            {% if user_experts|length > 0 %}
-                <ul class="no-bullet list-border tiny no-margin">
+            <div>
+                {% if user_experts|length > 0 %}
                     {% for expert in user_experts %}
-                        {% set expertProfileUrl = expert|userInfoUrl %}
-                        <li class="block-grid no-margin align-middle">
-                            <div>
-                                <a href="{{ expertProfileUrl }}"><span class="seller-pic">
-                                    <img src="{{ expert.avatar|avatar('user_mini_thumbnail', expert.firstName) }}"
-                                         alt="{{ expert.fullName(not expert.isPro and isUserPersonal) }}">
-                                </span></a>
-                            </div>
-                            <div>
-                                <a href="{{ expertProfileUrl }}">
-                                    <span class="seller-name">{{ expert.is(app.user)?'global.you'|trans:(expert.fullName(not expert.isPro and isUserPersonal)) }}</span>
-                                </a>
-                                {% if expert.presentationTitle is defined and expert.presentationTitle is not empty %}
-                                    &nbsp;<i>{{ expert.presentationTitle }}</i>
-                                {% endif %}
-
-                                {% set garageCount = expert.numberOfGarages %}
-                                {% if garageCount > 0 %}
-                                    <span class="icon-location">{% if garageCount > 1 %}France{% else %}{{ (expert.garages|first).city }}{% endif %}</span>
-                                {% endif %}
-                            </div>
-                        </li>
+                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
+                            'proUser' : expert
+                        }) }}
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>{{ 'favorites.my_experts.no_expert'|trans }}</p>
-            {% endif %}
+                {% else %}
+                    <p>{{ 'favorites.my_experts.no_expert'|trans }}</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 {% endblock %}
