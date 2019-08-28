@@ -478,9 +478,9 @@ class SearchResultProvider
                 break;
         }
 
-        if (!$mainQuery->hasParam('min_score')) {
+        /*if (!$mainQuery->hasParam('min_score')) {
             $mainQuery->setMinScore(self::MIN_SCORE);
-        }
+        }*/
 
         $result = $this->client->getIndex($indexName)->search($mainQuery);
         /*$this->logger->notice(json_encode($result->getQuery()->toArray()));
