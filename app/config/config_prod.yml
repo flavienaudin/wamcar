@@ -29,3 +29,7 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
+        elastica:
+            type: stream
+            path: '%kernel.logs_dir%/elastic_%kernel.environment%.log'
+            channels: elastic

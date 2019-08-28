@@ -40,7 +40,7 @@ class SearchVehicleDTO
     /** @var string */
     public $fuel;
     /** @var string */
-    public $sorting = Sorting::SEARCH_SORTING_DATE;
+    public $sorting = Sorting::SEARCH_SORTING_RELEVANCE;
     /** @var string */
     public $tab;
 

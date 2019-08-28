@@ -14,6 +14,11 @@ parameters:
           tokenizer:    uax_url_email # standard + email/url as one token
           filter:       [asciifolding, elision, lowercase, french_stopwords, word_delimiter, french_snowball]
           char_filter:  [custom_char_filter]
+        make_model_search:
+          type:         custom
+          tokenizer:    standard
+          filter:       [asciifolding, lowercase]
+          char_filter:  [custom_char_filter]
       tokenizer:
         nGram:
           type:       nGram
@@ -123,16 +128,22 @@ parameters:
             type: keyword
           make:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
           model:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
           makeAndModel:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
@@ -201,16 +212,22 @@ parameters:
             type: keyword
           make:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
           model:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
           makeAndModel:
             type: text
+            analyzer: make_model_search
+            search_analyzer: make_model_search
             fields:
               keyword:
                 type: keyword
@@ -287,16 +304,22 @@ parameters:
                 properties:
                   make:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
                   model:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
                   makeAndModel:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
@@ -388,16 +411,22 @@ parameters:
                 type: keyword
               make:
                 type: text
+                analyzer: make_model_search
+                search_analyzer: make_model_search
                 fields:
                   keyword:
                     type: keyword
               model:
                 type: text
+                analyzer: make_model_search
+                search_analyzer: make_model_search
                 fields:
                   keyword:
                     type: keyword
               makeAndModel:
                 type: text
+                analyzer: make_model_search
+                search_analyzer: make_model_search
                 fields:
                   keyword:
                     type: keyword
@@ -448,16 +477,22 @@ parameters:
                 properties:
                   make:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
                   model:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
                   makeAndModel:
                     type: text
+                    analyzer: make_model_search
+                    search_analyzer: make_model_search
                     fields:
                       keyword:
                         type: keyword
@@ -578,3 +613,6 @@ services:
         - '@personal_vehicle.indexer'
         - '@pro_vehicle.indexer'
         - '@Elastica\Client'
+        - '@logger'
+      tags:
+        - { name: monolog.logger, channel: elastic }

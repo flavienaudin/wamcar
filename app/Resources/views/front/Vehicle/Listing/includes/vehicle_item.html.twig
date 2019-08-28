@@ -47,7 +47,7 @@
                     <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
                     <time class="vehicle-time black-color small-auto">
                         <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
-                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM YYYY, HH'h'mm")}) }}</span>
                     </time>
                 </div>
             </a>

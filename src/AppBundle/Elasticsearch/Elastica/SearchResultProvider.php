@@ -11,6 +11,7 @@ use Elastica\QueryBuilder;
 use Elastica\ResultSet;
 use Elastica\Script\AbstractScript;
 use Elastica\Script\Script;
+use Psr\Log\LoggerInterface;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
@@ -21,7 +22,7 @@ class SearchResultProvider
 {
     const LIMIT = 10;
     const OFFSET = 0;
-    const MIN_SCORE = 0;
+    const MIN_SCORE = 0.5;
 
     /** @var EntityIndexer */
     private $searchItemIndexer;
@@ -33,6 +34,8 @@ class SearchResultProvider
     private $proVehicleEntityIndexer;
     /** @var Client */
     private $client;
+    /** @var LoggerInterface */
+    private $logger;
 
     /**
      * SearchResultProvider constructor.
@@ -46,13 +49,14 @@ class SearchResultProvider
                                 EntityIndexer $personalProjectIndexer,
                                 PersonalVehicleEntityIndexer $personalVehicleEntityIndexer,
                                 ProVehicleEntityIndexer $proVehicleEntityIndexer,
-                                Client $client)
+                                Client $client, LoggerInterface $logger)
     {
         $this->searchItemIndexer = $searchItemIndexer;
         $this->personalProjectIndexer = $personalProjectIndexer;
         $this->personalVehicleEntityIndexer = $personalVehicleEntityIndexer;
         $this->proVehicleEntityIndexer = $proVehicleEntityIndexer;
         $this->client = $client;
+        $this->logger = $logger;
     }
 
 
@@ -104,6 +108,7 @@ class SearchResultProvider
             if (count($searchVehicleDTO->type) > 1) {
                 $mainBoolQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
                 $mainBoolQuery->addShould($qb->query()->term(['_index' => $this->personalProjectIndexer->getIndexName()]));
+                $mainBoolQuery->setMinimumShouldMatch(1);
             }
         }
 
@@ -111,34 +116,75 @@ class SearchResultProvider
         if (!empty($searchVehicleDTO->text)) {
             $textBoolQuery = $qb->query()->bool();
 
+            $queryTermsAsArray = explode(' ', $searchVehicleDTO->text);
+            $filteredQueryTerms = array_filter($queryTermsAsArray, function ($term) {
+                return strlen($term) > 2;
+            });
+
             if (in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type) ||
                 in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
-                $textVehicleMultiMatch = $qb->query()->multi_match();
-                $textVehicleMultiMatch->setFields(['vehicle.makeAndModel^2', 'vehicle.make.keyword', 'vehicle.model.keyword', 'vehicle.description']);
-                $textVehicleMultiMatch->setOperator(Query\MultiMatch::OPERATOR_AND);
-                $textVehicleMultiMatch->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
-                $textVehicleMultiMatch->setQuery($searchVehicleDTO->text);
-                $textBoolQuery->addShould($textVehicleMultiMatch);
+
+                // Make
+                $textMakeMultiMatch = $qb->query()->multi_match();
+                $textMakeMultiMatch->setFields(['vehicle.make', 'vehicle.make.keyword^2', 'vehicle.makeAndModel']);
+                $textMakeMultiMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textMakeMultiMatch->setType(Query\MultiMatch::TYPE_MOST_FIELDS);
+                $textMakeMultiMatch->setTieBreaker(0.75);
+                $textMakeMultiMatch->setQuery($searchVehicleDTO->text);
+                $textBoolQuery->addShould($textMakeMultiMatch);
+
+                // Model
+                $textModelMatch = $qb->query()->multi_match();
+                $textModelMatch->setFields(['vehicle.model', 'vehicle.model.keyword^2', 'vehicle.makeAndModel']);
+                $textModelMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textModelMatch->setType(Query\MultiMatch::TYPE_MOST_FIELDS);
+                $textModelMatch->setTieBreaker(0.75);
+                $textModelMatch->setQuery($searchVehicleDTO->text);
+                $textBoolQuery->addShould($textModelMatch);
+
+                // Description
+                if (!empty($filteredQueryTerms)) {
+                    $textModelMatch = $qb->query()->match();
+                    $textModelMatch->setFieldQuery('vehicle.description', join(' ', $filteredQueryTerms));
+                    $textBoolQuery->addShould($textModelMatch);
+                }
             }
+
             if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type)) {
-                $textMatchProjectDescription = $qb->query()->multi_match();
-                $textMatchProjectDescription->setFields(['project.description']);
-                $textMatchProjectDescription->setOperator(Query\MultiMatch::OPERATOR_AND);
-                $textMatchProjectDescription->setQuery($searchVehicleDTO->text);
-                $textBoolQuery->addShould($textMatchProjectDescription);
+                // Description
+                if (!empty($filteredQueryTerms)) {
+                    $textProjectDescriptionMatch = $qb->query()->match();
+                    $textProjectDescriptionMatch->setFieldQuery('project.description', join(' ', $filteredQueryTerms));
+                    $textBoolQuery->addShould($textProjectDescriptionMatch);
+                }
 
                 $textProjectNested = $qb->query()->nested();
                 $textProjectNested->setPath('project.models');
 
-                $textProjectMultiMatch = $qb->query()->multi_match();
-                $textProjectMultiMatch->setFields(['project.models.makeAndModel^2', 'project.models.make.keyword', 'project.models.model.keyword']);
-                $textProjectMultiMatch->setOperator(Query\MultiMatch::OPERATOR_AND);
-                $textProjectMultiMatch->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
-                $textProjectMultiMatch->setQuery($searchVehicleDTO->text);
-                $textProjectNested->setQuery($textProjectMultiMatch);
+                $textProjectNestedBoolQuery = $qb->query()->bool();
+
+                // Make
+                $textProjectMakeMultiMatch = $qb->query()->multi_match();
+                $textProjectMakeMultiMatch->setFields(['project.models.make', 'project.models.make.keyword^2', 'project.models.makeAndModel']);
+                $textProjectMakeMultiMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textProjectMakeMultiMatch->setType(Query\MultiMatch::TYPE_MOST_FIELDS);
+                $textProjectMakeMultiMatch->setTieBreaker(0.75);
+                $textProjectMakeMultiMatch->setQuery($searchVehicleDTO->text);
+                $textProjectNestedBoolQuery->addShould($textProjectMakeMultiMatch);
+
+                // Model
+                $textModelModelMultiMatch = $qb->query()->multi_match();
+                $textModelModelMultiMatch->setFields(['project.models.model', 'project.models.model.keyword^2', 'project.models.makeAndModel']);
+                $textModelModelMultiMatch->setOperator(Query\MultiMatch::OPERATOR_OR);
+                $textModelModelMultiMatch->setType(Query\MultiMatch::TYPE_MOST_FIELDS);
+                $textModelModelMultiMatch->setTieBreaker(0.75);
+                $textModelModelMultiMatch->setQuery($searchVehicleDTO->text);
+                $textProjectNestedBoolQuery->addShould($textModelModelMultiMatch);
+                $textProjectNested->setQuery($textProjectNestedBoolQuery);
 
                 $textBoolQuery->addShould($textProjectNested);
             }
+
             $mainBoolQuery->addMust($textBoolQuery);
         }
 
@@ -316,11 +362,7 @@ class SearchResultProvider
         // Sorting configuration
         switch ($searchVehicleDTO->sorting) {
             case Sorting::SEARCH_SORTING_DATE:
-                if (!empty($searchVehicleDTO->text)) {
-                    $mainQuery->setSort(['_score' => 'desc', 'mainSortingDate' => 'desc']);
-                } else {
-                    $mainQuery->setSort(['mainSortingDate' => 'desc']);
-                }
+                $mainQuery->setSort(['mainSortingDate' => 'desc']);
                 break;
             case Sorting::SEARCH_SORTING_PRICE_ASC:
                 $mainQuery->setSort(['mainSortingPrice' => [
@@ -365,23 +407,24 @@ class SearchResultProvider
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
                 $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
 
-                // Importance : 5/5
+                // WamAffinity : Importance : 5/5
                 // Script value between [0;1] => factor 5 => [0;5]
                 if ($currentUser != null) {
-
                     $script = new Script("return (params.affinityDegrees[doc.userId.value] ?: params.default) / 100",
                         ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
                         AbstractScript::LANG_PAINLESS
                     );
                     $functionScoreQuery->addScriptScoreFunction($script, null, 1);
                 }
+
+                // Nb likes positifs : Value [0; 5] => Sqrt [0;2,23] => Factor 0 => [ 0;2,23]
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPositiveLikes', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
                     0, null, $vehicleEntityQuery
                 );
 
-                // Value [0;20] => Log1P [0; ~3] => Factor 1 => [0;3]
+                // Nb Photos : Value [0;20] => LogNep1P [0; ~3] => Factor 1 => [0;3]
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPictures', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
@@ -395,7 +438,7 @@ class SearchResultProvider
                     0, 1, $qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE])
                 );
 
-                // City [0;3] => factor 3 => [0;3]
+                // City [0;1] => factor 3 => [0;3]
                 if (!empty($searchVehicleDTO->cityName)) {
                     $functionScoreQuery->addDecayFunction(
                         Query\FunctionScore::DECAY_GAUSS,
@@ -420,14 +463,33 @@ class SearchResultProvider
                 );
 
                 $mainQuery->setQuery($functionScoreQuery);
+
+                if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type) && count($searchVehicleDTO->type) === 1) {
+                    // Only search Personal Project : score is low (no additionnal function score)
+                    $mainQuery->setMinScore(self::MIN_SCORE);
+                } else {
+                    if (empty($searchVehicleDTO->text)) {
+                        $mainQuery->setMinScore(4);
+                    } else {
+                        $queryTermsAsArray = explode(' ', $searchVehicleDTO->text);
+                        $mainQuery->setMinScore(8 * sqrt(count($queryTermsAsArray)));
+                    }
+                }
                 break;
         }
-
 
         if (!$mainQuery->hasParam('min_score')) {
             $mainQuery->setMinScore(self::MIN_SCORE);
         }
-        return $this->client->getIndex($indexName)->search($mainQuery);
+
+        $result = $this->client->getIndex($indexName)->search($mainQuery);
+        /*$this->logger->notice(json_encode($result->getQuery()->toArray()));
+        $resultToArray = array_map(function (Result $r){
+            return $r->getHit();
+        }, $result->getResults());
+        $this->logger->notice(json_encode($resultToArray));*/
+
+        return $result;
     }
 
     /**
