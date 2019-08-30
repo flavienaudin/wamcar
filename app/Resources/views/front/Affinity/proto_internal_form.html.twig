@@ -1,0 +1,17 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% form_theme form 'front/Layout/includes/forms/fields.html.twig' %}
+
+{% block title %}WamAffinity Prototye{% endblock %}
+{% block mainClass %}{% endblock %}
+
+{% block body %}
+    <div class="js_affinity_ajax_form_container row">
+        {{ include('front/Affinity/includes/proto_internal_question_form.html.twig', {
+            'form':form
+        }) }}
+    </div>
+{% endblock body %}
+
+{% block footer %}{% endblock footer %}
+

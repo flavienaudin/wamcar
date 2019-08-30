@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Templating\EngineInterface;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 
 abstract class BaseController
@@ -93,6 +93,20 @@ abstract class BaseController
     protected function render(string $view, array $parameters = array(), Response $response = null): Response
     {
         return $this->templatingEngine->renderResponse($view, $parameters, $response);
+    }
+
+
+    /**
+     * Renders a view.
+     *
+     * @param string $view The view name
+     * @param array $parameters An array of parameters to pass to the view
+     *
+     * @return Response A Response instance
+     */
+    protected function renderView(string $view, array $parameters = array()): string
+    {
+        return $this->templatingEngine->render($view, $parameters);
     }
 
     /**

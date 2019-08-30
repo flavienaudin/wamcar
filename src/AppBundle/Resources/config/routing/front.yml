@@ -413,4 +413,12 @@ front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
+proto_affinity_internal_pro_form:
+    path: /affinity/proto/professionnel
+    methods: [GET]
+    controller: AppBundle:Front\PersonalContext\Affinity:protoInternalProForm
 
+proto_affinity_internal_pro_submit_form:
+    path: /affinity/proto/professionnel
+    methods: [POST]
+    controller: AppBundle:Front\PersonalContext\Affinity:protoInternalProFormSubmit

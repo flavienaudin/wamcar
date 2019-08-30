@@ -600,7 +600,11 @@
 {%- endblock _message_isFleet_widget -%}
 
 {%- block button_widget -%}
+    {% set attr = attr|default([]) %}
     {% set class = class|default('') %}
+    {% if attr.class is defined %}
+        {% set class = class ~ ' ' ~ attr.class  %}
+    {% endif %}
     {%- if label is empty -%}
         {%- if label_format is not empty -%}
             {% set label = label_format|replace({
@@ -660,6 +664,10 @@
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _pro_user_information_title_widget -%}
+
+{%- block _question_title_widget -%}
+    {{ block('yesno_widget') }}
+{%- endblock _question_title_widget -%}
 
 {%- block _search_vehicle_type_widget -%}
     {{ block('yesno_widget') }}

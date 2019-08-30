@@ -4,6 +4,12 @@ namespace AppBundle\Controller\Front\PersonalContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use AppBundle\Services\Affinity\AffinityFormService;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
@@ -16,14 +22,22 @@ class AffinityController extends BaseController
 
     /** @var UserRepository $userRepository */
     private $userRepository;
+    /** @var FormFactoryInterface */
+    protected $formFactory;
+    /** @var AffinityFormService */
+    private $affinityFormService;
 
     /**
      * AffinityController constructor.
      * @param UserRepository $userRepository
+     * @param FormFactoryInterface $formFactory
+     * @param AffinityFormService $affinityFormService
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, FormFactoryInterface $formFactory, AffinityFormService $affinityFormService)
     {
         $this->userRepository = $userRepository;
+        $this->formFactory = $formFactory;
+        $this->affinityFormService = $affinityFormService;
     }
 
     public function personalFormAction()
@@ -87,7 +101,7 @@ class AffinityController extends BaseController
         $proFormInstanceId = uniqid("prf_");
         $this->session->set(self::TYPEFORM_INSTANCE_ID_SESSION_KEY, $proFormInstanceId);
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.affinity.loading_form');
-        return $this->render('front/Affinity/pro_form.html.twig',['instanceId' => $proFormInstanceId]);
+        return $this->render('front/Affinity/pro_form.html.twig', ['instanceId' => $proFormInstanceId]);
     }
 
     public function proFormSubmitedAction()
@@ -121,4 +135,59 @@ class AffinityController extends BaseController
             $this->session->remove(self::TYPEFORM_INSTANCE_ID_SESSION_KEY);
         }
     }
+
+
+    /**
+     * PROTOTYPE pour tester l'internalisation du formulaire WamAffinity
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function protoInternalProFormAction()
+    {
+        try {
+            $form = $this->affinityFormService->nextQuestion('', true);
+            return $this->render('front/Affinity/proto_internal_form.html.twig', [
+                'form' => $form->createView()
+            ]);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage(), $e);
+        }
+    }
+
+
+    /**
+     * PROTOTYPE pour tester l'internalisation du formulaire WamAffinity
+     * @param Request $request
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function protoInternalProFormSubmitAction(Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(array('message' => 'You can access this only using Ajax!'), 400);
+        }
+        $questionData = $request->request->get('question');
+        $currentQuestionName = $questionData['current_question_name'];
+        $form = $this->affinityFormService->getQuestionForm($currentQuestionName);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // TODO Save submitted data
+
+            $previousClick = $form->has('previous') && $form->get('previous')->isClicked();
+            $nextQuestionForm = $this->affinityFormService->nextQuestion($currentQuestionName, $previousClick);
+            dump($nextQuestionForm);
+            return new JsonResponse([
+                'nextQuestion' => $this->renderView('front/Affinity/includes/proto_internal_question_form.html.twig', [
+                    'form' => $nextQuestionForm ? $nextQuestionForm->createView() : null
+                ])
+            ]);
+
+        }
+
+        return new JsonResponse([
+            'form' => $this->render('front/Affinity/includes/proto_internal_question_form.html.twig', [
+                'form' => $form->createView()
+            ])
+        ], Response::HTTP_BAD_REQUEST);
+    }
+
 }

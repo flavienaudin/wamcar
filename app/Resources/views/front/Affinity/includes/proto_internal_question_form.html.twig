@@ -1,0 +1,33 @@
+{% if form is not null %}
+    {{ form_start(form, {
+        'attr' : {
+            'class': 'js_affinity_ajax_form column small-12 row',
+            'data-abide' : 'data-abide',
+            'novalidate': 'novalidate'
+        } }) }}
+
+    {% for childname, child in form.children if childname not in ['previous', 'next'] %}
+        <div class="column small-12">
+            <div class="input-margin">
+                {{ form_widget(child) }}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="column small-12">
+        <div class="input-margin is-flex">
+            {% if form.previous is defined %}
+                {{ form_row(form.previous) }}
+            {% endif %}
+            {% if form.next is defined %}
+                {{ form_row(form.next) }}
+            {% endif %}
+        </div>
+    </div>
+
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+{% else %}
+    <p>Félicitations! Vous avez terminé! <a href="{{ path('proto_affinity_internal_pro_form') }}"
+                                            class="text-underline">Recommencer</a></p>
+
+{% endif %}

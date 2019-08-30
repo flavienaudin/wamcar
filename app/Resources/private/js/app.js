@@ -171,7 +171,13 @@ $(function () {
 
   const $form = $('#js-register-form, form[data-abide]');
 
+  $form.on('formvalid.zf.abide', function (e) {
+    console.log('App.js : formvalid.zf.abide ' + e.currentTarget.name);
+  });
+
   $form.on('forminvalid.zf.abide', function (e) {
+    e.preventDefault();
+    console.log('App.js : forminvalid.zf.abide ' + e.currentTarget.name);
     let invalidFields = $(this).find('[data-invalid]');
 
     if (invalidFields) {

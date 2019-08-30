@@ -1251,6 +1251,13 @@ directory:
     no_garage: Pas de garage renseigné pour l'instant
     more_garage: '{1} %n% garage supplémentaire|[2,Inf[ %n% garages supplémentaires'
 
+affinity:
+  question:
+    title:
+      label: Quel est votre sexe ?
+    seller_function:
+      label: Quel est votre métier ?
+
 form:
   picture:
     add_photo: Ajouter une photo
