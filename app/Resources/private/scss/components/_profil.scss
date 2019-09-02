@@ -72,8 +72,8 @@ $profil-image-offset: rem-calc(40);
      ===================================== */
 
   &-city {
-
     font-size: rem-calc(14);
+    font-weight: normal;
   }
 
   /*
@@ -93,10 +93,6 @@ $profil-image-offset: rem-calc(40);
     /* Components */
 
     a {
-      @include breakpoint(small only) {
-        margin-bottom: rem-calc(12);
-      }
-
       @include breakpoint(medium) {
         font-size: rem-calc(14);
 

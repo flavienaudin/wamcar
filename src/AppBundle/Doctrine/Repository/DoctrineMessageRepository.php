@@ -42,6 +42,7 @@ class DoctrineMessageRepository extends EntityRepository implements MessageRepos
      */
     public function getCountUnreadMessagesByUser(BaseUser $user): int
     {
+        // TODO : exclude conversation with deleted interlocutor
         $query = $this->createQueryBuilder('m')
             ->select('COUNT(m.id)')
             ->join('m.conversation', 'c')

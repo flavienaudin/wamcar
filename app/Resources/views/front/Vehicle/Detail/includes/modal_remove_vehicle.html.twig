@@ -2,7 +2,7 @@
 
 {% set modalId = 'js-modal-remove-vehicle' %}
 
-{% block title %}Suppression de l'annonce {{ vehicle.name }}{% endblock %}
+{% block title %}Suppression de l'annonce {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}{% endblock %}
 
 {% block content %}
     <p class="dark-gray-color">Êtes-vous sûr de vouloir supprimer ce véhicule&nbsp;?</p>

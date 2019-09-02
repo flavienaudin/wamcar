@@ -1,5 +1,8 @@
 {% if searchForm is not null %}
-    {{ form_start(searchForm) }}
+    {% set searchFormAttr = searchForm.vars.submitted ? {'data-scroll-to-now':'vehicles'}:{} %}
+    {{ form_start(searchForm, {'attr':{
+        'id' : 'js-garage-vehicle-search-form'
+    }|merge(searchFormAttr)}) }}
     <div class="column">
         <div class="row">
             <div class="column small-12 medium-auto">
@@ -22,7 +25,9 @@
 
 <div class="block-grid column small-12 align-bottom">
     {% if displayNbOfResult is not defined or displayNbOfResult %}
-        <h2 class="column no-margin"><span class="primary-color">{{ vehicles.totalHits }}</span> véhicule{{ vehicles.totalHits > 1 ? 's' : '' }} en vente</h2>
+        <h2 class="column no-margin">
+            <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
+        </h2>
     {% endif %}
     {% if isEditableByCurrentUser %}
     <div class="small-12 medium-shrink medium-right">
@@ -48,12 +53,11 @@
         </div>
     </div>
 {% else %}
-    {% if currentUserIsMemberOfGarage %}
-        <p>Vous n'avez aucun véhicule en vente.</p>
-        <div class="small-12 medium-6 large-4">
-            <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
-        </div>
+    {% if searchForm is not null and searchForm.vars.submitted %}
+        <p>{{ 'garage.tabs.vehicles.list.empty_result'|trans }}</p>
+    {% elseif currentUserIsMemberOfGarage %}
+        <p>{{ 'garage.tabs.vehicles.list.member_empty'|trans }}</p>
     {% else %}
-        <p>Aucun véhicule n'est en vente.</p>
+        <p>{{ 'garage.tabs.vehicles.list.empty_list'|trans }}</p>
     {% endif %}
 {% endif %}

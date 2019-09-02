@@ -45,7 +45,10 @@
                 </div>
             </div>
             <div class="vehicle-infos small-shrink">
-                <a href="{{ detailUrl }}" class="is-block"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
+                <a href="{{ detailUrl }}" class="is-block">
+                    <{{ balise }} class="vehicle-name h3">
+                        {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
+                    </{{ balise }}>
                 <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span></a>
 
                 <div class="vehicle-middle block-grid full-width">

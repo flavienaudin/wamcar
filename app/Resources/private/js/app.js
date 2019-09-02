@@ -44,7 +44,8 @@ import './components/phone_number';
 import './components/affinity';
 import './components/datatable';
 import './components/sales';
-import {activeClass} from './settings/settings.js';
+import './components/expert';
+import scrollTo from './components/scrollTo';
 
 import {default as autosize} from 'autosize';
 
@@ -246,6 +247,14 @@ $(function () {
     $landingRegistration.find('input').on('click', (e) => {
       $landingRegistration.submit();
     });
+  }
+
+  /*
+   * Scroll here : Scroll to DOM element
+   ===================================== */
+  const $scrollToNow = $('[data-scroll-to-now]');
+  if ($scrollToNow.length > 0) {
+    scrollTo('#' + $($scrollToNow[0]).data('scroll-to-now'));
   }
 
   /*

@@ -6,7 +6,7 @@
 
 {% block title %}
     {% if vehicle %}
-        Modifier mon véhicule {{ vehicle.name }}
+        Modifier mon véhicule {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
     {% else %}
         {{ 'vehicle.add'|trans }}
     {% endif %}

@@ -135,5 +135,20 @@ Wamcar\User\BaseUser:
             targetEntity: AppBundle\Doctrine\Entity\AffinityDegree
             mappedBy: smallerIdUser
             cascade: ["persist", "merge", "remove"]
-
+    manyToMany:
+        myExperts:
+            targetEntity: Wamcar\User\BaseUser
+            mappedBy: expertOf
+            cascade: ["persist", "merge", "remove"]
+        expertOf:
+            targetEntity:  Wamcar\User\BaseUser
+            inversedBy: myExperts
+            joinTable:
+                name: experts
+                joinColumns:
+                    expert_user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    user_id:
+                        referencedColumnName: id
 

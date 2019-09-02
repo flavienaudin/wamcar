@@ -21,12 +21,11 @@
     } %}
 
 
-    <div class="row">
+    <div class="row margin-bottom-2">
         <div class="column small-12">
-            <h2 class="primary-color">{{ 'favorites.my_favorites'|trans }}<br>
-                <small>{{ 'favorites.ordering_indication'|trans }}</small>
+            <h2 class="primary-color">{{ 'favorites.my_likes.title'|trans }}<br>
+                <small>{{ 'favorites.my_likes.ordering_indication'|trans }}</small>
             </h2>
-
 
             <div class="favorites-container">
                 <div class="vehicle-list">
@@ -39,6 +38,23 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row white-bg">
+        <div class="directory-result column small-12">
+            <h2 class="primary-color">{{ 'favorites.my_experts.title'|trans }}</h2>
+            <div>
+                {% if user_experts|length > 0 %}
+                    {% for expert in user_experts %}
+                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
+                            'proUser' : expert
+                        }) }}
+                    {% endfor %}
+                {% else %}
+                    <p>{{ 'favorites.my_experts.no_expert'|trans }}</p>
+                {% endif %}
             </div>
         </div>
     </div>

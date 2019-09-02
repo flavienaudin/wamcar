@@ -65,7 +65,7 @@
                 "price" : "{{ vehicle.price }}" },
             "itemOffered" : {
                 "@type" : "Car",
-                "name" : "{{ vehicle.name }}",
+                "name" : "{{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}",
                 {# Ne pas mettre de quote autour : ajouter par le json_encode + raw #}
                 "description" : {{ vehicle.additionalInformation|json_encode|raw }},
             "image" : "",

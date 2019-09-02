@@ -30,3 +30,17 @@ if ($selects.length) {
     });
   });
 }
+
+// Search vehicle in garage page
+const $garageSearchForm = $('#js-garage-vehicle-search-form');
+if($garageSearchForm.length){
+  // Submit form when using pagination navigation
+  let $paginationItems = $('.pagination-item');
+  if($paginationItems.length){
+    $paginationItems.on('click', (e) => {
+      e.preventDefault();
+      $garageSearchForm.attr('action', $(e.currentTarget).attr('href'));
+      $garageSearchForm.submit();
+    });
+  }
+}

@@ -59,7 +59,7 @@ if ($searchForm.length) {
     });
   }
 
-  // Submit form when using pagination navigation
+  // Submit form when selecting new checkbox (Search)
   let $searchTypesCheckbox = $('.js-search-type-list li input[type="checkbox"]');
   if($searchTypesCheckbox.length){
     $searchTypesCheckbox.on('change', () => {

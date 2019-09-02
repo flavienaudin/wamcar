@@ -12,13 +12,13 @@ if ($likes.length > 0) {
       $like.toggleClass('icon-thumbs-up');
       $like.toggleClass('icon-thumbs-o-up');
 
-      let action = $like.attr('data-wtaction');
+      let action = $like.data('wtaction');
       if(action.startsWith('LI')){
         action = action.replace('LI','UL');
       }else {
         action = action.replace('UL', 'LI');
       }
-      const href = $like.attr('data-href');
+      const href = $like.data('href');
       $.ajax({
         url: href
       }).done(function (nbPositiveLikes) {

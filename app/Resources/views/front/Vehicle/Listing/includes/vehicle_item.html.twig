@@ -20,7 +20,10 @@
             </div>
         </div>
         <div class="vehicle-infos small-shrink full-width">
-            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="is-block"><{{ balise }} class="vehicle-name h3">{{ vehicle.name }}</{{ balise }}>
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="is-block">
+                <{{ balise }} class="vehicle-name h3">
+                    {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
+                </{{ balise }}>
             <span class="vehicle-years body-font-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</span></a>
 
             <div class="vehicle-middle block-grid">
@@ -44,7 +47,7 @@
                     <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
                     <time class="vehicle-time black-color small-auto">
                         <span class="show-for-small-only">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
-                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
+                        <span class="show-for-medium">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM YYYY, HH'h'mm")}) }}</span>
                     </time>
                 </div>
             </a>
