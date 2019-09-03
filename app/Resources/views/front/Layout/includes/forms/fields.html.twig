@@ -8,6 +8,7 @@
     {% set required_message = required_message|default('Ce champ est requis') %}
     {% set required_class = required_class|default('') %}
     {% set label_class = label_class|default('') %}
+    {% set label_trans = label_trans|default(false) %}
     {% set class_field = class_field|default('') %}
     {% set form = form|default('') %}
 
@@ -15,6 +16,9 @@
         <div class="{{ class_field }}">
     {% endif %}
     {% if label %}
+        {% if label_trans %}
+            {% set label = label|trans %}
+        {% endif %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <select {{ block('widget_attributes') }} class="{{ class }}" {{ required ? 'required' }}
@@ -147,6 +151,7 @@
     {% set required_message = required_message|default('Ce champ est requis') %}
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
+    {% set label_trans = label_trans|default(false) %}
     {% set label_class = label_class|default('') %}
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
@@ -155,6 +160,9 @@
     {% set type = type|default('text') %}
 
     {% if label %}
+        {% if label_trans %}
+            {% set label = label|trans %}
+        {% endif %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     {% if class_field %}
@@ -453,11 +461,15 @@
     {% set required_message = required_message|default('Ce champ est requis') %}
     {% set required_class = required_class|default('') %}
     {% set label = label|default(false) %}
+    {% set label_trans = label_trans|default(false) %}
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('small-up-2') %}
     {% set values_translation_domain = values_translation_domain|default('message')%}
 
     {% if label %}
+        {% if label_trans %}
+            {% set label = label|trans %}
+        {% endif %}
         <label for="{{ name }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
     <ul class="block-grid {{ list_class }}">
@@ -668,6 +680,10 @@
 {%- block _question_title_widget -%}
     {{ block('yesno_widget') }}
 {%- endblock _question_title_widget -%}
+
+{%- block _question_expertise_fields_widget -%}
+    {{ block('yesno_widget') }}
+{%- endblock _question_expertise_fields_widget -%}
 
 {%- block _search_vehicle_type_widget -%}
     {{ block('yesno_widget') }}

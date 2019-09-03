@@ -10,9 +10,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Wamcar\User\Title;
+use Wamcar\Affinity\Enum\ExpertiseFieldChoices;
 
-class TitleQuestion extends ChoiceType
+class ExpertiseFieldsQuestion extends ChoiceType
 {
     /**
      * @inheritDoc
@@ -20,7 +20,7 @@ class TitleQuestion extends ChoiceType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        $builder->addModelTransformer(new EnumDataTransformer(Title::class));
+        $builder->addModelTransformer(new EnumDataTransformer(ExpertiseFieldChoices::class));
     }
 
     /**
@@ -30,6 +30,9 @@ class TitleQuestion extends ChoiceType
     {
         parent::buildView($view, $form, $options);
         $view->vars['label_trans'] = $options['label_trans'];
+        $view->vars['list_class'] = $options['list_class'];
+        $view->vars['values_translation_domain'] = $options['values_translation_domain'];
+
     }
 
     /**
@@ -39,15 +42,17 @@ class TitleQuestion extends ChoiceType
     {
         parent::configureOptions($resolver);
         $resolver->setDefaults([
-            'label' => 'affinity.question.title.label',
+            'label' => 'affinity.question.expertise_field.label',
             'label_trans' => true,
-            'required' => false,
+            'list_class' => 'small-up-4',
+            'required' => true,
             'expanded' => true,
-            'multiple' => false,
-            'choices' => Title::toArray(),
-            'translation_domain' => 'messages'
+            'multiple' => true,
+            'choices' => ExpertiseFieldChoices::toArray(),
+            'values_translation_domain' => 'enumeration'
         ]);
     }
+
 
 
 }

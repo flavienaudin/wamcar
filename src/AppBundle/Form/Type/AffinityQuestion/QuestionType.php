@@ -4,7 +4,6 @@
 namespace AppBundle\Form\Type\AffinityQuestion;
 
 
-use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\Router;
-use Wamcar\User\Title;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class QuestionType extends AbstractType
 {
@@ -29,8 +28,9 @@ class QuestionType extends AbstractType
                     'label' => 'Quel est votre prénom ?',
                     'attr' => [
                         'placeholder' => 'Prénom'
-                    ],
+                    ]
                 ],
+                'formConstraints' => [NotBlank::class => []],
                 'previous' => null,
                 'next' => 'lastname'
             ],
@@ -41,7 +41,7 @@ class QuestionType extends AbstractType
                     'label' => 'Quel est votre nom ?',
                     'attr' => [
                         'placeholder' => 'Nom'
-                    ],
+                    ]
                 ],
                 'previous' => 'firstname',
                 'next' => 'title'
@@ -54,9 +54,13 @@ class QuestionType extends AbstractType
             'function' => [
                 'formType' => SellerFunctionQuestion::class,
                 'previous' => 'title',
+                'next' => 'expertise_fields'
+            ],
+            'expertise_fields' => [
+                'formType' => ExpertiseFieldsQuestion::class,
+                'previous' => 'function',
                 'next' => null
             ]
-
         ]
     ];
 
@@ -77,19 +81,27 @@ class QuestionType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $questionName = $options['attr']['questionName'];
+        $questionName = $options['questionName'];
+
+        $formOptions = self::PRO_FORM['questions'][$questionName]['formOptions'] ?? [];
+        if (isset(self::PRO_FORM['questions'][$questionName]['formConstraints'])) {
+            $constraints = [];
+            foreach (self::PRO_FORM['questions'][$questionName]['formConstraints'] as $constraintClass => $constraintParam) {
+                if (!empty($constraintParam)) {
+                    $constraints[] = new $constraintClass($constraintParam);
+                } else {
+                    $constraints[] = new $constraintClass();
+                }
+            }
+
+            $formOptions['constraints'] = $constraints;
+        }
 
         $builder
             ->add('current_question_name', HiddenType::class, [
                 'data' => $questionName
             ])
-            ->add($questionName, self::PRO_FORM['questions'][$questionName]['formType'],
-                self::PRO_FORM['questions'][$questionName]['formOptions'] ?? []);
-
-        /*if (isset(self::PRO_FORM['questions'][$questionName]['enumDataTransformer'])) {
-            dump(self::PRO_FORM['questions'][$questionName]['enumDataTransformer']);
-            $builder->get($questionName)->addModelTransformer(new EnumDataTransformer(self::PRO_FORM['questions'][$questionName]['enumDataTransformer']));
-        }*/
+            ->add($questionName, self::PRO_FORM['questions'][$questionName]['formType'], $formOptions);
 
         // Submit buttons : Previous / Next
         if (self::PRO_FORM['questions'][$questionName]['previous'] != null) {
@@ -114,6 +126,8 @@ class QuestionType extends AbstractType
                 UrlGenerator::ABSOLUTE_URL),
             'method' => Request::METHOD_POST
         ]);
+        $resolver->setDefined('questionName');
+        $resolver->setAllowedTypes('questionName', 'string');
     }
 
 

@@ -7,63 +7,53 @@ namespace AppBundle\Services\Affinity;
 use AppBundle\Form\Type\AffinityQuestion\QuestionType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Router;
 
 class AffinityFormService
 {
+    const PROFORM_SESSION_KEY = '_proform/';
 
 
     /** @var FormFactory */
     private $formFactory;
     /** @var Router */
     private $router;
+    /** @var SessionInterface */
+    private $session;
 
     /**
      * AffinityFormService constructor.
      * @param FormFactory $formFactory
      * @param Router $router
+     * @param SessionInterface $session
      */
-    public function __construct(FormFactory $formFactory, Router $router)
+    public function __construct(FormFactory $formFactory, Router $router, SessionInterface $session)
     {
         $this->formFactory = $formFactory;
         $this->router = $router;
+        $this->session = $session;
     }
 
 
     /**
      * @param string|null $questionName
-     * @param array|null $data
      * @return FormInterface
      * @throws \Exception
      */
     public function getQuestionForm(?string $questionName): FormInterface
     {
-        if(empty($questionName)){
+        if (empty($questionName)) {
             $questionName = QuestionType::PRO_FORM['initial_question'];
         }
         if (isset(QuestionType::PRO_FORM['questions'][$questionName])) {
-            /*$options = [
-                'action' => $this->router->generate('proto_affinity_internal_pro_submit_form', [],
-                    UrlGenerator::ABSOLUTE_URL),
-                'method' => Request::METHOD_POST
-            ];*/
-            $attr = [
+            $options = [
                 'questionName' => $questionName
             ];
-            return $this->formFactory->create(QuestionType::class, [], ['attr' => $attr]);
 
-            /*$form->add('current_question_name', HiddenType::class, [
-                'data' => $questionName
-            ]);
-
-            $form->add($questionName, self::PRO_FORM['questions'][$questionName]['formType'],
-                self::PRO_FORM['questions'][$questionName]['formOptions'] ?? []);
-
-
-
-            return $form;*/
+            $currentQuestionData = $this->session->get(self::PROFORM_SESSION_KEY. $questionName, null);
+            return $this->formFactory->create(QuestionType::class, [$questionName => $currentQuestionData], $options);
         }
-
         // ERREUR
         throw new \Exception('[Get Question Form] Wrong form config: unknown question : ' . $questionName);
     }
@@ -76,7 +66,6 @@ class AffinityFormService
      */
     public function nextQuestion(?string $currentQuestionName, bool $previous = false): ?FormInterface
     {
-
         if (empty($currentQuestionName)) {
             $nextQuestionName = QuestionType::PRO_FORM['initial_question'];
         } else if (isset(QuestionType::PRO_FORM['questions'][$currentQuestionName])) {
@@ -93,25 +82,10 @@ class AffinityFormService
 
         if (!isset($nextQuestionName)) {
             // ERREUR
-            throw new \Exception('Wrong form config: unknown ' . ($previous ? 'next' : 'previous') . ' question name for current question : ' . $currentQuestionName);
+            throw new \Exception('Wrong form config: unknown ' . ($previous ? 'next' : 'previous') .
+                ' question name for current question : ' . $currentQuestionName);
         }
 
         return $this->getQuestionForm($nextQuestionName);
-
-        /*$options = [
-            'action' => $this->router->generate('proto_affinity_internal_pro_submit_form', [],
-                UrlGenerator::ABSOLUTE_URL),
-            'method' => Request::METHOD_POST
-        ];
-        $form = $this->formFactory->create(QuestionType::class, [], $options);
-
-        $form->add('current_question_name', HiddenType::class, [
-            'data' => $nextQuestionName
-        ]);
-        $form->add($nextQuestionName, self::PRO_FORM['questions'][$nextQuestionName]['formType'],
-            self::PRO_FORM['questions'][$nextQuestionName]['formOptions'] ?? []);
-
-
-        return $form;*/
     }
 }

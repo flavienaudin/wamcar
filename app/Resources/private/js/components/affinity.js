@@ -3,6 +3,8 @@
    =========================================================================== */
 
 import Chart from 'chart.js';
+import {Abide} from 'foundation-sites/js/foundation.abide';
+import initRadioDeselectableInputs from './radio';
 
 /** Affinty Radar Chart **/
 
@@ -25,11 +27,14 @@ if ($radarChart.length) {
   });
 }
 
-const $affinityAjaxForm = $('.js_affinity_ajax_form');
+const $affinityAjaxForm = $('.js-affinity-ajax-form');
 if ($affinityAjaxForm.length) {
   init_ajax_form();
 }
 
+/**
+ * Initialize submission of Affinity form
+ */
 function init_ajax_form() {
   console.log('init_ajax_form');
 
@@ -39,7 +44,7 @@ function init_ajax_form() {
 
   init_input_form();
 
-  $(document).on('submit', '.js_affinity_ajax_form', function (ev) {
+  $(document).on('submit', '.js-affinity-ajax-form', function (ev) {
     ev.preventDefault();
     console.log('Affinity.js : Form ' + ev.currentTarget.name + ' intercepted');
 
@@ -77,10 +82,11 @@ function init_ajax_form() {
         console.log(jqXHR.responseJSON);
         if (typeof jqXHR.responseJSON !== 'undefined') {
           if (jqXHR.responseJSON.hasOwnProperty('form')) {
-            $(this).html(jqXHR.responseJSON.form);
+            $form.replaceWith(jqXHR.responseJSON.form);
+            init_input_form();
           }
 
-          $('.form_error').html(jqXHR.responseJSON.message);
+          /*$('.form_error').html(jqXHR.responseJSON.message);*/
 
         } else {
           alert(errorThrown);
@@ -90,18 +96,37 @@ function init_ajax_form() {
   });
 }
 
+/**
+ * Initialize specific behaviors on input and submit
+ */
 function init_input_form() {
+
+  /* Abide = JS input validation */
+  const $abide = $('form.js-affinity-ajax-form');
+
+  $abide.each((inddex, abide) => {
+    return new Abide($(abide));
+  });
+
+  // Selectable radio
+  initRadioDeselectableInputs();
+
   // Set the right default submit button when hitting ENTER key
-  $('form.js_affinity_ajax_form input[type!=submit]').keydown(function (event) {
+  $('form.js-affinity-ajax-form input[type!=submit]').keydown(function (event) {
     if (event.keyCode === 13) {
       event.preventDefault();
-      $('form.js_affinity_ajax_form .js-default_submit[type=submit]').click();
+      $('form.js-affinity-ajax-form .js-default_submit[type=submit]').click();
     }
   });
 
   // Decide which submit button is clicked
-  $('form.js_affinity_ajax_form [type=submit]').on('click', function () {
+  $('form.js-affinity-ajax-form [type=submit]').on('click', function () {
     $('[type=submit]', $(this).parents('form')).removeAttr('clicked');
     $(this).attr('clicked', 'clicked');
+  });
+
+  $('form.js-affinity-ajax-form [type=submit][formnovalidate]').on('click', function () {
+    console.log('formnovalidate clicked');
+    $($(this).parents('form')).foundation('destroy');
   });
 }

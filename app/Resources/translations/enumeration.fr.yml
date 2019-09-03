@@ -65,3 +65,8 @@ leadStatus.quote: Devis
 leadStatus.negociation: Négociation
 leadStatus.won: Gagné
 leadStatus.lost: Perdu
+
+AUTOMOBILE_ENGINEERING: Ingénieurie de l'automobile
+AUTOMOBILE_ENGINE: Mécanique automobile
+CROSS_COUNTRY: Tout-terrain
+COLLECTION_VEHICLE: Véhicle de collection

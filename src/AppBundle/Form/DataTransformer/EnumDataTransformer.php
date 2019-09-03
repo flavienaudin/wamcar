@@ -24,15 +24,22 @@ class EnumDataTransformer implements DataTransformerInterface
 
     /**
      * @param mixed $value
-     * @return null|string
+     * @return null|mixed
      * @throws \LogicException when provided data is not an Enum
      */
-    public function transform($value): ?string
+    public function transform($value)
     {
         if ($value === null) {
             return null;
         }
 
+        if(is_array($value)){
+            $transformedValues = [];
+            foreach($value as $val) {
+                $transformedValues[] = $this->transform($val);
+            }
+            return $transformedValues;
+        }
         $value = is_string($value) ? new $this->className($value) : $value;
 
         if (!$value instanceof Enum) {
@@ -50,12 +57,20 @@ class EnumDataTransformer implements DataTransformerInterface
 
     /**
      * @param mixed $value
-     * @return Enum
+     * @return mixed
      */
-    public function reverseTransform($value): ?Enum
+    public function reverseTransform($value)
     {
         if(empty($value)) {
             return $this->default;
+        }
+
+        if(is_array($value)){
+            $reversedValues = [];
+            foreach($value as $val) {
+                $reversedValues[] = $this->reverseTransform($val);
+            }
+            return $reversedValues;
         }
 
         return new $this->className($value);

@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
@@ -143,14 +144,15 @@ class AffinityController extends BaseController
      */
     public function protoInternalProFormAction()
     {
-        try {
-            $form = $this->affinityFormService->nextQuestion('', true);
+        /*try {*/
+        //$this->session->clear();
+            $form = $this->affinityFormService->nextQuestion('');
             return $this->render('front/Affinity/proto_internal_form.html.twig', [
-                'form' => $form->createView()
+                'form' => $form ? $form->createView() : null
             ]);
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage(), $e);
-        }
+        }*/
     }
 
 
@@ -167,24 +169,36 @@ class AffinityController extends BaseController
         }
         $questionData = $request->request->get('question');
         $currentQuestionName = $questionData['current_question_name'];
+
         $form = $this->affinityFormService->getQuestionForm($currentQuestionName);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // TODO Save submitted data
-
+        if ($form->isSubmitted()) {
             $previousClick = $form->has('previous') && $form->get('previous')->isClicked();
-            $nextQuestionForm = $this->affinityFormService->nextQuestion($currentQuestionName, $previousClick);
-            dump($nextQuestionForm);
-            return new JsonResponse([
-                'nextQuestion' => $this->renderView('front/Affinity/includes/proto_internal_question_form.html.twig', [
-                    'form' => $nextQuestionForm ? $nextQuestionForm->createView() : null
-                ])
-            ]);
 
+            if ($previousClick) {
+                // No form va lidation => back to previous question
+                $nextQuestionForm = $this->affinityFormService->nextQuestion($currentQuestionName, $previousClick);
+                return new JsonResponse([
+                    'nextQuestion' => $this->renderView('front/Affinity/includes/proto_internal_question_form.html.twig', [
+                        'form' => $nextQuestionForm ? $nextQuestionForm->createView() : null
+                    ])
+                ]);
+            } elseif ($form->isValid()) {
+                // save data into session
+                $this->session->set(AffinityFormService::PROFORM_SESSION_KEY . $currentQuestionName, $form->getData()[$currentQuestionName]);
+
+                $nextQuestionForm = $this->affinityFormService->nextQuestion($currentQuestionName, $previousClick);
+                return new JsonResponse([
+                    'nextQuestion' => $this->renderView('front/Affinity/includes/proto_internal_question_form.html.twig', [
+                        'form' => $nextQuestionForm ? $nextQuestionForm->createView() : null
+                    ])
+                ]);
+            }
+            // form submitted (next) but not valid
         }
 
         return new JsonResponse([
-            'form' => $this->render('front/Affinity/includes/proto_internal_question_form.html.twig', [
+            'form' => $this->renderView('front/Affinity/includes/proto_internal_question_form.html.twig', [
                 'form' => $form->createView()
             ])
         ], Response::HTTP_BAD_REQUEST);

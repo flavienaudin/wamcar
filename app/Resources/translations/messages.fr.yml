@@ -1257,8 +1257,10 @@ affinity:
       label: Quel est votre sexe ?
     seller_function:
       label: Quel est votre métier ?
+      placeholder: Sélectionnez votre métier
+    expertise_field:
+      label: Quels sont vos domaines d'expertise ?
 
-form:
   picture:
     add_photo: Ajouter une photo
     remove_photo: Supprimer la photo

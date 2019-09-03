@@ -1,8 +1,7 @@
 {% if form is not null %}
     {{ form_start(form, {
         'attr' : {
-            'class': 'js_affinity_ajax_form column small-12 row',
-            'data-abide' : 'data-abide',
+            'class': 'js-affinity-ajax-form column small-12 row',
             'novalidate': 'novalidate'
         } }) }}
 
@@ -10,13 +9,16 @@
         <div class="column small-12">
             <div class="input-margin">
                 {{ form_widget(child) }}
+                {{ form_errors(child) }}
             </div>
         </div>
     {% endfor %}
     <div class="column small-12">
         <div class="input-margin is-flex">
             {% if form.previous is defined %}
-                {{ form_row(form.previous) }}
+                {{ form_row(form.previous, {'attr': {
+                    'formnovalidate':'formnovalidate'
+                }}) }}
             {% endif %}
             {% if form.next is defined %}
                 {{ form_row(form.next) }}
