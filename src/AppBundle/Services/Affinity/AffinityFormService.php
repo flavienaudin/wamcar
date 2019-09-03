@@ -51,7 +51,7 @@ class AffinityFormService
                 'questionName' => $questionName
             ];
 
-            $currentQuestionData = $this->session->get(self::PROFORM_SESSION_KEY. $questionName, null);
+            $currentQuestionData = $this->session->get(self::PROFORM_SESSION_KEY . $questionName, null);
             return $this->formFactory->create(QuestionType::class, [$questionName => $currentQuestionData], $options);
         }
         // ERREUR
@@ -78,11 +78,21 @@ class AffinityFormService
                 // Form end
                 return null;
             }
+            if (is_array($nextQuestionName) && isset($nextQuestionName['function_name'])) {
+                $functionParams = [];
+                $functionParams['currentQuestionData'] = $this->session->get(self::PROFORM_SESSION_KEY . $currentQuestionName);
+                if (isset($nextQuestionName['function_params'])) {
+                    if (isset($nextQuestionName['function_params']['related_question'])) {
+                        $functionParams['relatedQuestionData'] = $this->session->get(self::PROFORM_SESSION_KEY . $nextQuestionName['function_params']['related_question']);
+                    }
+                }
+                $nextQuestionName = QuestionType::{$nextQuestionName['function_name']}($functionParams);
+            }
         }
 
         if (!isset($nextQuestionName)) {
             // ERREUR
-            throw new \Exception('Wrong form config: unknown ' . ($previous ? 'next' : 'previous') .
+            throw new \Exception('Wrong form config: unknown ' . ($previous ? 'previous' : 'next') .
                 ' question name for current question : ' . $currentQuestionName);
         }
 

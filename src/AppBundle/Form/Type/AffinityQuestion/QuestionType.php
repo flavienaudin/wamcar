@@ -5,6 +5,7 @@ namespace AppBundle\Form\Type\AffinityQuestion;
 
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -59,6 +60,46 @@ class QuestionType extends AbstractType
             'expertise_fields' => [
                 'formType' => ExpertiseFieldsQuestion::class,
                 'previous' => 'function',
+                'next' => 'contact_means'
+            ],
+            'contact_means' => [
+                'formType' => ContactMeansQuestion::class,
+                'previous' => 'expertise_fields',
+                'next' => [
+                    'function_name' => 'contactMeansNext'
+                ]
+            ],
+            'phone_number' => [
+                'formType' => TextType::class,
+                'formOptions' => [
+                    'required' => true,
+                    'label' => 'Votre numéro de téléphone ?',
+                    'attr' => ['pattern' => '^0\d{9}$'],
+                    'invalid_message' => 'user.profile.edit.form.phonePro.invalid_format'
+                ],
+                'previous' => 'contact_means',
+                'next' => 'availibities'
+            ],
+            'availibities' => [
+                'formType' => ChoiceType::class,
+                'formOptions' => [
+                    'required' => false,
+                    'label' => 'Vous êtes disponible plutôt',
+                    'choices' => [
+                        'morning' => 'Le matin (de 8h à 12h)',
+                        'noon' => 'Le midi (de 12h à 14h)',
+                        'afternoon' => 'L\'après-midi (de 14h à 18h)',
+                        'evening' => 'Le soir (de 18h à 20h)',
+                        'week' => 'En semaine',
+                        'week-end' => 'Le week-end'
+                    ]
+                ],
+                'previous' => [
+                    'function_name' => 'availibitiesPrevious',
+                    'function_params' => [
+                        'related_question' => 'contact_means'
+                    ]
+                ],
                 'next' => null
             ]
         ]
@@ -130,5 +171,25 @@ class QuestionType extends AbstractType
         $resolver->setAllowedTypes('questionName', 'string');
     }
 
+    public static function contactMeansNext(array $data)
+    {
+        if (in_array('phone_call', $data['currentQuestionData'])
+            or in_array('sms', $data['currentQuestionData'])) {
+            return 'phone_number';
+        }
+        else{
+            return 'availibities';
+        }
+    }
+    public static function availibitiesPrevious(array $data)
+    {
+        if (in_array('phone_call', $data['relatedQuestionData'])
+            or in_array('sms', $data['relatedQuestionData'])) {
+            return 'phone_number';
+        }
+        else{
+            return 'contact_means';
+        }
+    }
 
 }

@@ -32,7 +32,6 @@ class ExpertiseFieldsQuestion extends ChoiceType
         $view->vars['label_trans'] = $options['label_trans'];
         $view->vars['list_class'] = $options['list_class'];
         $view->vars['values_translation_domain'] = $options['values_translation_domain'];
-
     }
 
     /**
