@@ -490,8 +490,6 @@ class SearchResultProvider
         }*/
 
         $result = $this->client->getIndex($indexName)->search($mainQuery);
-        dump($result->getQuery());
-        dump($result);
         /*$this->logger->notice(json_encode($result->getQuery()->toArray()));
         $resultToArray = array_map(function (Result $r){
             return $r->getHit();
