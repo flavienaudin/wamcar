@@ -428,7 +428,7 @@ class SearchResultProvider
                 $functionScoreQuery->addFieldValueFactorFunction(
                     'vehicle.nbPictures', 1,
                     Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
-                    0, 2, $vehicleEntityQuery
+                    -2, 2, $vehicleEntityQuery
                 );
 
                 // Google rating [0;5] => factor 1 => [0;5]
@@ -452,6 +452,11 @@ class SearchResultProvider
                 }
 
                 // Date [0;1] => factor 2 => [0;2]
+                $mainSortingDateWeight = 2;
+                if (empty($searchVehicleDTO->text)) {
+                    // Date [0;1] => factor 6 => [0;6]
+                    $mainSortingDateWeight = 6;
+                }
                 $functionScoreQuery->addDecayFunction(
                     Query\FunctionScore::DECAY_GAUSS,
                     'mainSortingDate',
@@ -459,14 +464,16 @@ class SearchResultProvider
                     '100d',
                     '1d',
                     0.3,
-                    2
+                    $mainSortingDateWeight
                 );
 
                 $mainQuery->setQuery($functionScoreQuery);
 
-                if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type) && count($searchVehicleDTO->type) === 1) {
+                if ((in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type)
+                        or in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type))
+                    && count($searchVehicleDTO->type) === 1) {
                     // Only search Personal Project : score is low (no additionnal function score)
-                    $mainQuery->setMinScore(self::MIN_SCORE);
+                    $mainQuery->setMinScore(0);
                 } else {
                     if (empty($searchVehicleDTO->text)) {
                         $mainQuery->setMinScore(4);
@@ -483,6 +490,8 @@ class SearchResultProvider
         }*/
 
         $result = $this->client->getIndex($indexName)->search($mainQuery);
+        dump($result->getQuery());
+        dump($result);
         /*$this->logger->notice(json_encode($result->getQuery()->toArray()));
         $resultToArray = array_map(function (Result $r){
             return $r->getHit();
