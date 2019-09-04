@@ -16,7 +16,14 @@
 
 {% block mainClass %}medium-no-padding-top{% endblock %}
 
-{% block title %}{{ 'vehicle.detail.personal.title'|trans({'%vehicleName%':vehicle.name,'%vehicleCityName%':vehicle.cityName|upper,'%vehicleStatus%':vehicle.status|trans({},'enumeration'),'%vehicleYear%':vehicle.years}) }}{% endblock %}
+{% block title %}
+    {{ 'vehicle.detail.personal.title'|trans({
+        '%vehicleName%': vehicle.make|vehicleMakeFormat('make') ~ ' ' ~ vehicle.modelName|vehicleModelFormat('model'),
+        '%vehicleCityName%':vehicle.cityName|upper,
+        '%vehicleStatus%':vehicle.status|trans({},'enumeration'),
+        '%vehicleYear%':vehicle.years
+    }) }}
+{% endblock %}
 {%- block meta_description %}
     {{ 'vehicle.detail.personal.meta_description'|trans({
         '%vehicleFuelName%':vehicle.fuelName|lower,
