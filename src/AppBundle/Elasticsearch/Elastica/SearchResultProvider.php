@@ -469,25 +469,30 @@ class SearchResultProvider
 
                 $mainQuery->setQuery($functionScoreQuery);
 
-                if ((in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchVehicleDTO->type)
-                        or in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type))
+
+                if (in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)
                     && count($searchVehicleDTO->type) === 1) {
-                    // Only search Personal Project : score is low (no additionnal function score)
-                    $mainQuery->setMinScore(0);
-                } else {
+                    // Search only in PRO_VEHICLE : Google Rating & many pictures, increasse score => higher minScore
                     if (empty($searchVehicleDTO->text)) {
                         $mainQuery->setMinScore(4);
                     } else {
                         $queryTermsAsArray = explode(' ', $searchVehicleDTO->text);
                         $mainQuery->setMinScore(8 * sqrt(count($queryTermsAsArray)));
                     }
+                }elseif (!in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
+                    // Search only Personal Vehicle OR/AND Project : no additionnal function score => low score => lower minScore
+                    $mainQuery->setMinScore(0);
+                }else{
+                    // Mix Search : Pro / Personal
+                    if (empty($searchVehicleDTO->text)) {
+                        $mainQuery->setMinScore(0);
+                    } else {
+                        $queryTermsAsArray = explode(' ', $searchVehicleDTO->text);
+                        $mainQuery->setMinScore(2 * sqrt(count($queryTermsAsArray)));
+                    }
                 }
                 break;
         }
-
-        /*if (!$mainQuery->hasParam('min_score')) {
-            $mainQuery->setMinScore(self::MIN_SCORE);
-        }*/
 
         $result = $this->client->getIndex($indexName)->search($mainQuery);
         /*$this->logger->notice(json_encode($result->getQuery()->toArray()));
