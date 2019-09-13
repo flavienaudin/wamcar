@@ -29,7 +29,7 @@ services:
         volumes:
             - esdata1:/usr/share/elasticsearch/data
         ports:
-            - 9200:9200
+            - ${DOCKER_PORT}:9200
         networks:
             wamcar:
                 aliases:
