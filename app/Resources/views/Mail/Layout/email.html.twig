@@ -1,7 +1,7 @@
 {% trans_default_domain 'email' %}
 
-{% set logo_utm = common_utm|merge({'utm_content':'logo'}) %}
-{% set preferences_utm = common_utm|merge({'utm_content':'edit_preference'}) %}
+{% set logo_utm = common_utm is defined ? common_utm|merge({'utm_content':'logo'}) : {} %}
+{% set preferences_utm = common_utm is defined ? common_utm|merge({'utm_content':'edit_preference'}) : {} %}
 {% set transparentPixel = transparentPixel|default({}) %}
 
 {% macro action_button(action_url, action_label) %}
