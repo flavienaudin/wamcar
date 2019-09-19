@@ -1,0 +1,33 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'notifyProUserOfContactMessageCreated.object'|trans({'%proContactMessageAuthorName%%': contactFullName}) }}{% endblock %}
+
+{% block welcome %}{% endblock %}
+
+{% block body %}
+    <div>
+        <div style="padding: 20px 15px; display: flex; flex-flow: row wrap; align-content: flex-start;">
+            <div style="flex-grow: 1; min-width: 0; padding-left: 20px">
+                <div>
+                    <strong style="font-size: 14px;">{{ contactFullName }}</strong><br>
+
+                    <u>Email :</u> <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a><br>
+
+                    {% if contactPhonenumber is not empty %}
+                        <u>Téléphone :</u> {{ contactPhonenumber|phoneFormat }}
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        <div>
+            <div style="margin-top: 15px; width: 100%;">
+                {{ message|nl2br }}
+            </div>
+            {{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label'|trans) }}
+        </div>
+    </div>
+{% endblock %}

@@ -120,6 +120,14 @@ services:
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
 
+    wamcar.event.pro_contact_message_created:
+      parent: wamcar.event.mail.abstract_event_handler
+      class: AppBundle\MailWorkflow\NotifyProUserOfContactMessageCreated
+      arguments:
+        $type: pro_contact_message_created
+      tags:
+        - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\ProContactMessageCreated, method: notify }
+
     wamcar.event.user_like_vehicle:
         parent: wamcar.event.mail.abstract_event_handler
         class: AppBundle\Notifications\LikeNotificationsHandler

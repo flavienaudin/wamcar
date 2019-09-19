@@ -64,6 +64,10 @@ notifyUserOfMessageCreated:
     action_label: Répondre
     attachments: Pièces jointes
 
+notifyProUserOfContactMessageCreated:
+    object: "%proContactMessageAuthorName% souhaite vous contacter"
+    action_label: Répondre par e-mail
+
 notifyUserOfLikeVehicle:
     object: "Nouveau like sur votre annonce %annonceTitle%"
     body: >

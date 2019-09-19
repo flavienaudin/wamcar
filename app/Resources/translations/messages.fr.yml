@@ -53,6 +53,8 @@ flash:
       declaration: Votre déclaration a bien été prise en compte
     lead:
       change_status: Le status de votre lead a bien été mis à jour
+    pro_contact_message:
+      sent: Votre message a bien été envoyé à %proUserName%
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -967,6 +969,26 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
+  pro_contact:
+    form.field:
+      firstname:
+        label: Prénom
+        placeholder: Prénom
+      lastname:
+        label: Nom
+        placeholder: Nom
+      email:
+        label: E-mail
+        placeholder: E-mail
+        required_message: Votre e-mail est obligatoire
+      phonenumber:
+        label: Téléphone
+        placeholder: Téléphone
+        invalid_format: Format invalide (0xxxxxxxxx)
+      message:
+        label: Votre message
+        placeholder: J'ai vu votre profil sur Wamcar.com et je souhaite m'entretenir avec vous.
+
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -1081,6 +1103,8 @@ conversation:
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
+
+
 
 sale:
   page:
