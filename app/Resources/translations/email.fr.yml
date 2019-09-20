@@ -68,6 +68,12 @@ notifyProUserOfContactMessageCreated:
     object: "%proContactMessageAuthorName% souhaite vous contacter"
     action_label: Répondre par e-mail
 
+encourageToRegisterAfterProContact:
+    object: "Inscrivez-vous sur Wamcar.com"
+    action_label:
+      pro: Conseiller Automobile
+      personal: Particulier
+
 notifyUserOfLikeVehicle:
     object: "Nouveau like sur votre annonce %annonceTitle%"
     body: >

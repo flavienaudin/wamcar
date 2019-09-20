@@ -4,6 +4,7 @@
 namespace AppBundle\MailWorkflow;
 
 
+use AppBundle\MailWorkflow\Model\EmailContact;
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
 use AppBundle\MailWorkflow\Services\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -14,9 +15,8 @@ use Wamcar\Conversation\Event\ProContactMessageEvent;
 use Wamcar\Conversation\Event\ProContactMessageEventHandler;
 use Wamcar\Conversation\ProContactMessage;
 
-class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler implements ProContactMessageEventHandler
+class EncourageToRegisterAfterProContact extends AbstractEmailEventHandler implements ProContactMessageEventHandler
 {
-
     /**
      * AbstractEmailEventHandler constructor.
      * @param Mailer $mailer
@@ -48,54 +48,44 @@ class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler imp
         $proUser = $proContactMessage->getProUser();
         $contactFullName = $proContactMessage->getFirstname() . ' ' . $proContactMessage->getLastname();
 
-        /*if ($proUser->getPreferences()->isPrivateMessageEmailEnabled() &&
-            NotificationFrequency::IMMEDIATELY()->equals($proUser->getPreferences()->getGlobalEmailFrequency())
-            // Use only the global email frequency preference
-            // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
-        ) {*/
-        $emailObject = $this->translator->trans('notifyProUserOfContactMessageCreated.object', [
-            '%proContactMessageAuthorName%' => $contactFullName
-        ], 'email');
-        $trackingKeywords = 'advisor' . $proUser->getId();
+        $emailObject = $this->translator->trans('encourageToRegisterAfterProContact.object', [], 'email');
+        $trackingKeywords = 'visitor_'.$proContactMessage->getId();
 
         $commonUTM = [
             'utm_source' => 'notifications',
             'utm_medium' => 'email',
-            'utm_campaign' => 'pro_contact',
+            'utm_campaign' => 'encourage_registration',
             'utm_term' => $trackingKeywords
         ];
 
         $this->send(
             $emailObject,
-            'Mail/notifyProUserOfContactMessageCreated.html.twig',
+            'Mail/encourageToRegisterAfterProContact.html.twig',
             [
                 'common_utm' => $commonUTM,
                 'transparentPixel' => [
                     'tid' => 'UA-73946027-1',
-                    'cid' => $proUser->getUserID(),
+                    'cid' => $proContactMessage->getId(),
                     't' => 'event',
                     'ec' => 'email',
                     'ea' => 'open',
                     'el' => urlencode($emailObject),
                     'dh' => $this->router->getContext()->getHost(),
-                    'dp' => urlencode('/email/procontact/open/' . $proContactMessage->getId()),
+                    'dp' => urlencode('/email/encourage_registration/open/' . $proContactMessage->getId()),
                     'dt' => urlencode($emailObject),
                     'cs' => 'notifications', // Campaign source
                     'cm' => 'email', // Campaign medium
-                    'cn' => 'procontact', // Campaign name
+                    'cn' => 'encourage_registration', // Campaign name
                     'ck' => $trackingKeywords, // Campaign Keyword (/ terms)
                     'cc' => 'opened', // Campaign content
                 ],
-                'username' => $proUser->getFirstName(),
-                'contactFullName' => $contactFullName,
+                'username' => $contactFullName,
                 'contactEmail' => $proContactMessage->getEmail(),
                 'contactPhonenumber' => $proContactMessage->getPhonenumber(),
-                'message' => $proContactMessage->getMessage()
+                'contactedProUser' => $proUser
             ],
-            new EmailRecipientList([$this->createUserEmailContact($proUser)]),
-            [],
-            $proContactMessage->getFirstName()
+            new EmailRecipientList([new EmailContact($proContactMessage->getEmail(), $contactFullName)]),
+            []
         );
-        //}
     }
 }
