@@ -12,6 +12,13 @@ $profil-image-offset: rem-calc(40);
     Header
     ===================================== */
 
+  &-seller-header {
+    min-height: 400px;
+    background: #17303b url('#{$img-folder}/background/bg-reinsurance.jpg') center center/cover no-repeat;
+    padding-top: 30px;
+    text-align: center;
+  }
+
   &-header {
     background: #f7f7f7;
     padding-top: rem-calc(25);

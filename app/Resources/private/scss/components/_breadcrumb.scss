@@ -27,8 +27,12 @@
     display: flex;
     align-items: center;
     height: rem-calc(40);
-    color: rgba(black, .6);
     font-size: rem-calc(12);
+    color: rgba(black, .6);
+
+    .profil-seller-header &{
+      color: rgba(white, .6);
+    }
 
     @include breakpoint(large) {
       &:hover { text-decoration: underline; }
