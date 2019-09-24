@@ -48,3 +48,12 @@ if ($($moveVehicleActions).length) {
     mediaQuery: '(max-width: 1023px)'
   });
 }
+
+const $proProfilImage = $('.js-pro-profil-image');
+if($proProfilImage.length){
+  $proProfilImage.removeClass('is-invisible');
+  $proProfilImage.responsiveDom({
+    prependTo: '.js-pro-profil-summary',
+    mediaQuery: '(min-width: 640px)'
+  });
+}

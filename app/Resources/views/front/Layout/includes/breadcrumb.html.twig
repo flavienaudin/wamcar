@@ -1,4 +1,6 @@
-<div class="row">
+{% set breadcrumb_container_class = breadcrumb_container_class|default('') %}
+
+<div class="row {{ breadcrumb_container_class }}">
     <ol class="breadcrumb is-flex no-bullet column show-for-medium" itemscope itemtype="http://schema.org/BreadcrumbList">
         <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
             <a itemprop="item" href="{{ path('front_default') }}"><span itemprop="name">{{ 'breadcrumb.home'|trans }}</span></a>

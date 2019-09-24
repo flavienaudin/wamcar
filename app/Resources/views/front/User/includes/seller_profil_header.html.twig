@@ -1,128 +1,141 @@
-<header class="profil-seller-header full-width ">
-    <div class="row">
+<header class="profil-seller-header">
+    <div class="row align-center-middle">
+        <div class="js-pro-profil-image is-invisible profil-image">
+            {% if avatarForm is not defined or avatarForm is null %}
+                <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
+                     width="100%">
+            {% else %}
+                {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                {{ form_widget(avatarForm.avatar, {
+                    'label': false,
+                    'required': false,
+                    'required_class': '',
+                    'classPreview': 'file-preview-avatar',
+                    'input_class': 'js-onchange-submit',
+                    'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
+                    'isRemovable': false
+                }) }}
+                {{ form_widget(avatarForm) }}
+                {{ form_end(avatarForm) }}
+            {% endif %}
+        </div>
+        <div class="column">
+            <div class="profile-titles">
+                <h1>
+                    {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
 
-        <div class="column align-self-middle">
-            <h1 class="white-color">
-                {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
-            </h1>
-            <h2 class="white-color">{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
-            <div class="row is-flex align-spaced">
-                <button class="button white">{{ 'global.button.send_message'|trans }}</button>
-                <button class="button white">{{ 'global.button.see_phone_number'|trans }}</button>
+                </h1>
+                <div class="title-actions is-flex align-right">
+                    <a class="icon-heart-o" href=""></a>
+                    <a class="icon-plus-circle" href=""></a>
+                </div>
+
+                <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+                <div class="profile-actions">
+                    <button class="button white">{{ 'global.button.send_message'|trans }}</button>
+                    <button class="button white">{{ 'global.button.display_phone_number'|trans }}</button>
+                </div>
             </div>
         </div>
     </div>
 </header>
 
 
-{% include 'front/Layout/includes/breadcrumb.html.twig' %}
+{% include 'front/Layout/includes/breadcrumb.html.twig' with {
+    'breadcrumb_container_class' : 'breadcrumb-seller'
+} %}
 
-<div class="row align-justify" style="height: 140px; margin-top: -70px;  background-color: white; border: 1px solid #AEAEAE; padding: 15px; display: flex;">
-    <div class="profil-image">
-        {% if avatarForm is not defined or avatarForm is null %}
-            <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
-                 width="100%">
-        {% else %}
-            {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-            {{ form_widget(avatarForm.avatar, {
-                'label': false,
-                'required': false,
-                'required_class': '',
-                'classPreview': 'file-preview-avatar',
-                'input_class': 'js-onchange-submit',
-                'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
-                'isRemovable': false
-            }) }}
-            {{ form_widget(avatarForm) }}
-            {{ form_end(avatarForm) }}
-        {% endif %}
-    </div>
-    <div>
-        Localisation<br>
-        <b>Lyon, France</b>
-    </div>
-    <div>
-        Conseiller automobile<br>
-        <b>Depuis 10ans</b>
-    </div>
-    <div>
-        Travail chez<br>
-        <b>Renault Grenoble</b><br>
-        <b>Renault Vizille</b><br>
-    </div>
+<div class="row">
+    <div class="column">
+        <div class="js-pro-profil-summary profil-seller-summary  is-flex align-justify">
+            <div>
+                Localisation<br>
+                <b>Lyon, France</b>
+            </div>
+            <div>
+                Conseiller automobile<br>
+                <b>Depuis 10ans</b>
+            </div>
+            <div>
+                Travail chez<br>
+                <b>Renault Grenoble</b><br>
+                <b>Renault Vizille</b><br>
+            </div>
 
+        </div>
+    </div>
 </div>
 
-    {#<header class="row text-center medium-text-left align-middle">
-        <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">
+{#<header class="row text-center medium-text-left align-middle">
+    <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
+        <h1 class="profil-name">
 
-                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
-                {{ include('front/Favorites/includes/expert_define_component.html.twig', {
-                    'expertUser' : user
-                }) }}
+            {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
+            {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                'expertUser' : user
+            }) }}
 
-                <small class="profil-city">
-                    {% if isUserProPageProfil %}
-                        {% set garageCount = user.numberOfGarages %}
-                        {% if garageCount > 0 %}
-                            <span class="icon-location is-inline ">{% if garageCount > 1 %}France{% else %}{{ (user.garages|first).city }}{% endif %}</span>&nbsp;&mdash;&nbsp;
-                        {% endif %}
+            <small class="profil-city">
+                {% if isUserProPageProfil %}
+                    {% set garageCount = user.numberOfGarages %}
+                    {% if garageCount > 0 %}
+                        <span class="icon-location is-inline ">{% if garageCount > 1 %}France{% else %}{{ (user.garages|first).city }}{% endif %}</span>&nbsp;&mdash;&nbsp;
                     {% endif %}
-                    {{ 'user.profile.member_since'|trans({'%year%':user.createdAt|date('Y')}) }}
-                </small>
-            </h1>
-            <div class="profil-action">
-                {% if user.userProfile.phone is not empty and (isUserProPageProfil or
-                    (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
-                    <span class="small-auto medium-shrink">
-                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneOwner': user,
-                            'phoneNumber': user.phone,
-                            'showphone_subaction': "1",
-                            'icontel': 'icon-mobile',
-                            'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? 'phone_number.private'|trans : null)
-                        }) }}</span>
-                {% elseif user.phonePro is defined and user.phonePro is not empty %}
-                    <span class="small-auto medium-shrink">
-                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneOwner': user,
-                            'phoneNumber': user.phonePro,
-                            'showphone_subaction': "2"
-                        }) }}</span>
                 {% endif %}
+                {{ 'user.profile.member_since'|trans({'%year%':user.createdAt|date('Y')}) }}
+            </small>
+        </h1>
+        <div class="profil-action">
+            {% if user.userProfile.phone is not empty and (isUserProPageProfil or
+                (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
+                <span class="small-auto medium-shrink">
+                    {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                        'phoneOwner': user,
+                        'phoneNumber': user.phone,
+                        'showphone_subaction': "1",
+                        'icontel': 'icon-mobile',
+                        'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? 'phone_number.private'|trans : null)
+                    }) }}</span>
+            {% elseif user.phonePro is defined and user.phonePro is not empty %}
+                <span class="small-auto medium-shrink">
+                    {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                        'phoneOwner': user,
+                        'phoneNumber': user.phonePro,
+                        'showphone_subaction': "2"
+                    }) }}</span>
+            {% endif %}
 
-                {% if not userIsMe %}
-                    <span class="small-12 medium-shrink icon-message primary-color align-center">
-                        <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                           class="text-underline" data-wtaction="LM"
-                           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
-                            {{ 'global.button.send_message'|trans }}</a>
-                    </span>
-                {% endif %}
-            </div>
+            {% if not userIsMe %}
+                <span class="small-12 medium-shrink icon-message primary-color align-center">
+                    <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                       class="text-underline" data-wtaction="LM"
+                       data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
+                        {{ 'global.button.send_message'|trans }}</a>
+                </span>
+            {% endif %}
         </div>
-        <div class="column medium-shrink medium-order-1">
-            <div class="profil-image">
-                {% if avatarForm is not defined or avatarForm is null %}
-                    <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
-                         width="100%">
-                {% else %}
-                    {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-                    {{ form_widget(avatarForm.avatar, {
-                        'label': false,
-                        'required': false,
-                        'required_class': '',
-                        'classPreview': 'file-preview-avatar',
-                        'input_class': 'js-onchange-submit',
-                        'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
-                        'isRemovable': false
-                    }) }}
-                    {{ form_widget(avatarForm) }}
-                    {{ form_end(avatarForm) }}
-                {% endif %}
-            </div>
+    </div>
+    <div class="column medium-shrink medium-order-1">
+        <div class="profil-image">
+            {% if avatarForm is not defined or avatarForm is null %}
+                <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
+                     width="100%">
+            {% else %}
+                {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                {{ form_widget(avatarForm.avatar, {
+                    'label': false,
+                    'required': false,
+                    'required_class': '',
+                    'classPreview': 'file-preview-avatar',
+                    'input_class': 'js-onchange-submit',
+                    'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
+                    'isRemovable': false
+                }) }}
+                {{ form_widget(avatarForm) }}
+                {{ form_end(avatarForm) }}
+            {% endif %}
         </div>
-    </header>#}
+    </div>
+</header>#}
 
 

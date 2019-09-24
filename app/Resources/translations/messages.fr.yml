@@ -153,6 +153,7 @@ global:
     next_step: Etape suivante
     back: Retour
     validate: Valider
+    display_phone_number: Afficher le numéro
     see_phone_number: Voir le numéro
     see_user_profile: Voir le profil
     call: Appeler
