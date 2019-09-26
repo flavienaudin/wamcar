@@ -177,6 +177,10 @@ $profil-image-offset: rem-calc(40);
 
     &-main {
       background-color: #eff0f2;
+
+      @include breakpoint(medium) {
+        background-color: $body-background;
+      }
     }
 
     &-header {
@@ -218,8 +222,8 @@ $profil-image-offset: rem-calc(40);
         }
 
         .title-actions {
-          margin-top: -100px;
-          margin-bottom: 70px;
+          margin-top: rem-calc(-120px);
+          margin-bottom: rem-calc(80px);
           justify-content: space-between;
 
           @include breakpoint(medium) {
@@ -227,7 +231,7 @@ $profil-image-offset: rem-calc(40);
             margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, medium), 'h1'), 'font-size') + 25));
             line-height: map-get(map-get(map-get($header-styles, medium), 'h1'), 'line-height');
 
-            @include breakpoint(large){
+            @include breakpoint(large) {
               margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, large), 'h1'), 'font-size') + 25));
               line-height: map-get(map-get(map-get($header-styles, large), 'h1'), 'line-height');
             }
@@ -237,6 +241,7 @@ $profil-image-offset: rem-calc(40);
               border-radius: 50%;
             }
           }
+
           a {
             width: 35px;
             height: 35px;
@@ -244,7 +249,11 @@ $profil-image-offset: rem-calc(40);
             margin-right: 5px;
             color: $body-font-color;
             font-weight: normal;
-            font-size: 14px;
+            font-size: 1.2rem;
+
+            @include breakpoint(medium) {
+              font-size: 14px;
+            }
 
             &::before {
               margin: auto;
@@ -281,7 +290,6 @@ $profil-image-offset: rem-calc(40);
       }
 
 
-
     }
 
     &-summary {
@@ -290,10 +298,61 @@ $profil-image-offset: rem-calc(40);
       background-color: white;
       padding: rem-calc(15);
 
-      @include breakpoint(medium){
+      @include breakpoint(medium) {
         border: 1px solid #AEAEAE;
         margin-top: 0;
         border-radius: 10px;
+      }
+    }
+
+    &-contact-form {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 3;
+      top: initial;
+      padding-bottom: 0;
+
+      .button {
+        height: rem-calc(60);
+        line-height: 1.1;
+        border-radius: 0;
+        margin-bottom: 0;
+
+        &::before {
+          font-size: rem-calc(20);
+        }
+
+        &.white {
+          border: 0;
+        }
+      }
+
+      ~ .off-canvas {
+        top: unset;
+        bottom: 0;
+        padding-bottom: 0;
+        max-height: 90vh;
+        height: auto;
+        background-color: transparent;
+
+        .close-action{
+          display:block;
+          font-weight: bold;
+          font-size: 2rem;
+          line-height: 2rem;
+          color: #ffffff;
+          text-align: center;
+        }
+
+        .off-canvas-content-element {
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          margin-bottom: 0;
+          background-color: $body-background;
+        }
+
       }
     }
   }

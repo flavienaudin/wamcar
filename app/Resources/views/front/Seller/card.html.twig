@@ -126,85 +126,8 @@
                 </div>
 
                 <div class="column small-12 large-4 user-garages-list">
-                    {% if contactForm is not null %}
-                        <div class="margin-bottom-2">
-                            <h2>Me contacter</h2>
-                            {{ form_start(contactForm, {
-                                'attr': {'data-abide' : 'data-abide','novalidate' : 'novalidate'}
-                            }) }}
-                            {% if contactForm.firstname is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.firstname, {
-                                        'label': 'user.pro_contact.form.field.firstname.label'|trans,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'user.pro_contact.form.field.firstname.placeholder'|trans
-                                    }) }}
-                                    {{ form_errors(contactForm.firstname) }}
-                                </div>
-                            {% endif %}
-                            {% if contactForm.lastname is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.lastname, {
-                                        'label': 'user.pro_contact.form.field.lastname.label'|trans,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'user.pro_contact.form.field.lastname.placeholder'|trans
-                                    }) }}
-                                    {{ form_errors(contactForm.lastname) }}
-                                </div>
-                            {% endif %}
-                            {% if contactForm.phonenumber is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.phonenumber, {
-                                        'label': 'user.pro_contact.form.field.phonenumber.label'|trans,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'user.pro_contact.form.field.phonenumber.placeholder'|trans,
-                                        'error_message': 'user.pro_contact.form.field.phonenumber.invalid_format'|trans
-                                    }) }}
-                                    {{ form_errors(contactForm.phonenumber) }}
-                                </div>
-                            {% endif %}
-                            {% if contactForm.email is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.email, {
-                                        'required': true,
-                                        'label': 'user.pro_contact.form.field.email.label'|trans,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'user.pro_contact.form.field.email.placeholder'|trans
-                                    }) }}
-                                    {{ form_errors(contactForm.email) }}
-                                </div>
-
-                            {% endif %}
-                            {% if contactForm.message is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.message, {
-                                        'label': 'user.pro_contact.form.field.message.label'|trans,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'user.pro_contact.form.field.message.placeholder'|trans
-                                    }) }}
-                                    {{ form_errors(contactForm.message) }}
-                                </div>
-                            {% elseif contactForm.content is defined %}
-                                <div>
-                                    {{ form_widget(contactForm.content, {
-                                        'label': 'conversation.answer.field.message.label'|trans({
-                                            '%interlocutorProfilUrl%': (user.isPersonal ?
-                                            path('front_view_personal_user_info',{'slug':user.slug}):
-                                            path('front_view_pro_user_info',{'slug':user.slug})),
-                                            '%interlocutorName%':user.fullName
-                                        })|raw,
-                                        'label_class': 'show-for-sr',
-                                        'placeholder': 'conversation.answer.field.message.placeholder'|trans,
-                                        'required':'true'
-                                    }) }}
-                                    {{ form_errors(contactForm.content) }}
-                                </div>
-                            {% endif %}
-                            <div class="full-width is-flex align-right">
-                                <button type="submit" class="align-right button">{{ 'global.button.send'|trans }}</button>
-                            </div>
-                            {{ form_end(contactForm) }}
-                        </div>
+                    {% if not userIsMe and contactForm is not null %}
+                        <div class="js-contactForm-container"></div>
                     {% endif %}
 
                     {% if user.hasGarage or userIsMe %}
@@ -276,14 +199,98 @@
         {% endif %}
     </section>
 
-    {% if not userIsMe %}
+    {% if not userIsMe and contactForm is not null %}
         {# On mobile device : button to send a message fixed at screen bottom #}
-        <div class="vehicle-editing hide-for-large block-grid small-12">
-            <span class="column small-collapse small-12">
-                <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                   class="button add icon-message " data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-                   data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
-            </span>
+        <div class="profil-seller-contact-form show-for-small-only block-grid small-12">
+            <div class="column small-collapse small-12">
+                <span class="button add icon-message" data-toggle="contactFormOffCanvas">{{ 'global.button.send_message'|trans }}</span>
+            </div>
+        </div>
+
+
+        <div class="off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
+            <a class="close-action" aria-label="close contact form" data-close>
+                <span aria-hidden="true">&mdash;</span></a>
+
+            <div class="off-canvas-content-element">
+                <!-- Your Off-canvas content goes here -->
+                <h2>Me contacter</h2>
+                {{ form_start(contactForm, {
+                    'attr': {'data-abide' : 'data-abide','novalidate' : 'novalidate'}
+                }) }}
+                {% if contactForm.firstname is defined %}
+                    <div>
+                        {{ form_widget(contactForm.firstname, {
+                            'label': 'user.pro_contact.form.field.firstname.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'user.pro_contact.form.field.firstname.placeholder'|trans
+                        }) }}
+                        {{ form_errors(contactForm.firstname) }}
+                    </div>
+                {% endif %}
+                {% if contactForm.lastname is defined %}
+                    <div>
+                        {{ form_widget(contactForm.lastname, {
+                            'label': 'user.pro_contact.form.field.lastname.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'user.pro_contact.form.field.lastname.placeholder'|trans
+                        }) }}
+                        {{ form_errors(contactForm.lastname) }}
+                    </div>
+                {% endif %}
+                {% if contactForm.phonenumber is defined %}
+                    <div>
+                        {{ form_widget(contactForm.phonenumber, {
+                            'label': 'user.pro_contact.form.field.phonenumber.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'user.pro_contact.form.field.phonenumber.placeholder'|trans,
+                            'error_message': 'user.pro_contact.form.field.phonenumber.invalid_format'|trans
+                        }) }}
+                        {{ form_errors(contactForm.phonenumber) }}
+                    </div>
+                {% endif %}
+                {% if contactForm.email is defined %}
+                    <div>
+                        {{ form_widget(contactForm.email, {
+                            'required': true,
+                            'label': 'user.pro_contact.form.field.email.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'user.pro_contact.form.field.email.placeholder'|trans
+                        }) }}
+                        {{ form_errors(contactForm.email) }}
+                    </div>
+
+                {% endif %}
+                {% if contactForm.message is defined %}
+                    <div>
+                        {{ form_widget(contactForm.message, {
+                            'label': 'user.pro_contact.form.field.message.label'|trans,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'user.pro_contact.form.field.message.placeholder'|trans
+                        }) }}
+                        {{ form_errors(contactForm.message) }}
+                    </div>
+                {% elseif contactForm.content is defined %}
+                    <div>
+                        {{ form_widget(contactForm.content, {
+                            'label': 'conversation.answer.field.message.label'|trans({
+                                '%interlocutorProfilUrl%': (user.isPersonal ?
+                                path('front_view_personal_user_info',{'slug':user.slug}):
+                                path('front_view_pro_user_info',{'slug':user.slug})),
+                                '%interlocutorName%':user.fullName
+                            })|raw,
+                            'label_class': 'show-for-sr',
+                            'placeholder': 'conversation.answer.field.message.placeholder'|trans,
+                            'required':'true'
+                        }) }}
+                        {{ form_errors(contactForm.content) }}
+                    </div>
+                {% endif %}
+                <div class="full-width is-flex align-right">
+                    <button type="submit" class="align-right button">{{ 'global.button.send'|trans }}</button>
+                </div>
+                {{ form_end(contactForm) }}
+            </div>
         </div>
     {% endif %}
 {% endblock body %}
