@@ -35,6 +35,21 @@
 /*
    Icon list
    ===================================== */
+.icon-briefcase:before {
+  content: "\f0b1";
+}
+.icon-suitcase:before {
+  content: "\f0f2";
+}
+.icon-comments:before {
+  content: "\f086";
+}
+.icon-comments-o:before {
+  content: "\f0e6";
+}
+.icon-share-alt:before {
+  content: "\f1e0";
+}
 .icon-id-badge:before {
   content: "\f2c1";
 }
@@ -136,6 +151,30 @@
 }
 .icon-thumbs-down:before {
   content: "\f165";
+}
+.icon-library:before {
+  content: "\e921";
+}
+.icon-bubble:before {
+  content: "\e96b";
+}
+.icon-bubbles:before {
+  content: "\e96c";
+}
+.icon-bubbles2:before {
+  content: "\e96d";
+}
+.icon-bubble2:before {
+  content: "\e96e";
+}
+.icon-bubbles3:before {
+  content: "\e96f";
+}
+.icon-bubbles4:before {
+  content: "\e970";
+}
+.icon-share22:before {
+  content: "\ea82";
 }
 .icon-envelop:before {
   content: "\e945";

@@ -57,3 +57,12 @@ if($proProfilImage.length){
     mediaQuery: '(min-width: 640px)'
   });
 }
+
+
+const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
+if($proProfilContactForm.length){
+  $proProfilContactForm.responsiveDom({
+    prependTo: '.js-pro-profil-right-column ',
+    mediaQuery: '(min-width: 640px)'
+  });
+}

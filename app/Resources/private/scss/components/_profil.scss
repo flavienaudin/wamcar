@@ -126,23 +126,7 @@ $profil-image-offset: rem-calc(40);
       padding-bottom: rem-calc(25);
     }
 
-    @include breakpoint(medium down) {
-      .user-garages-list {
-        border-top: rem-calc(1) solid $border-color;
-        margin-top: rem-calc(30);
-        padding-top: rem-calc(25);
-
-        border-bottom: rem-calc(1) solid $border-color;
-        margin-bottom: rem-calc(30);
-        padding-bottom: rem-calc(25);
-      }
-    }
-
     .personal-user-profil & {
-      /*.section:first-child:last-child {
-        padding-top: 0;
-        padding-bottom: 0;
-      }*/
 
       @include breakpoint(medium down) {
         .column:not(:first-child) {
@@ -177,10 +161,6 @@ $profil-image-offset: rem-calc(40);
 
     &-main {
       background-color: #eff0f2;
-
-      @include breakpoint(medium) {
-        background-color: $body-background;
-      }
     }
 
     &-header {
@@ -337,8 +317,8 @@ $profil-image-offset: rem-calc(40);
         height: auto;
         background-color: transparent;
 
-        .close-action{
-          display:block;
+        .close-action {
+          display: block;
           font-weight: bold;
           font-size: 2rem;
           line-height: 2rem;
@@ -351,8 +331,32 @@ $profil-image-offset: rem-calc(40);
           border-top-right-radius: 20px;
           margin-bottom: 0;
           background-color: $body-background;
+
+          textarea {
+            max-height: 100px;
+          }
         }
 
+      }
+    }
+
+
+    &-right-column {
+      > div {
+        border-radius: 15px;
+        background-color: $body-background;
+        margin-bottom: 1rem;
+        padding: rem-calc(25);
+
+        @include breakpoint(medium down) {
+          border-top: rem-calc(1) solid $border-color;
+          margin-top: rem-calc(30);
+          padding-top: rem-calc(25);
+
+          border-bottom: rem-calc(1) solid $border-color;
+          margin-bottom: rem-calc(30);
+          padding-bottom: rem-calc(25);
+        }
       }
     }
   }
