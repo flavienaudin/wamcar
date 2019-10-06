@@ -29,9 +29,10 @@ class AuthenticationEventListener implements EventSubscriberInterface
 
     public function onAuthenticationSuccess(InteractiveLoginEvent $event)
     {
-        /** @var ApplicationUser $currentUser */
         $currentUser = $event->getAuthenticationToken()->getUser();
-        $currentUser->setLastLoginAt(new \DateTime());
-        $this->userRepository->update($currentUser);
+        if ($currentUser instanceof ApplicationUser) {
+            $currentUser->setLastLoginAt(new \DateTime());
+            $this->userRepository->update($currentUser);
+        }
     }
 }
