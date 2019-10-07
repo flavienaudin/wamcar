@@ -1,11 +1,13 @@
 {% set enable_dropdown = enable_dropdown is defined ? enable_dropdown : true %}
+{% set display_if_no_answer = display_if_no_answer is defined ? display_if_no_answer : false %}
 
-{% if user.affinityAnswer is not null %}
+{% if user.affinityAnswer is not null or display_if_no_answer %}
     {% set dropdownpane_id = 'affinity_degree_'~(app.user.id??'unlogged')~'_'~user.id~'_'~random() %}
     <span class="affinity-score">
-        <img src="{{ asset('assets/images/affinity_pourcentage/unknown.png') }}" {% if enable_dropdown %}data-toggle="{{ dropdownpane_id  }}" {% endif %}
+        <img src="{{ asset('assets/images/affinity_pourcentage/unknown.png') }}"
+             {% if enable_dropdown and user.affinityAnswer is not null %}data-toggle="{{ dropdownpane_id  }}" {% endif %}
              alt="{{ 'user.affinity.degree.element.alt.unknown'|trans }}">
-        {% if enable_dropdown %}
+        {% if enable_dropdown and user.affinityAnswer is not null %}
             <span id="{{ dropdownpane_id  }}" class="dropdown-pane" data-dropdown data-hover="true" data-hover-pane="true">
                 {% if app.user is not null and app.user.affinityAnswer is not null %}
                     <span>{{ 'user.affinity.degree.calculation_in_progress'|trans }}</span>

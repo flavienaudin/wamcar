@@ -193,12 +193,10 @@ $profil-image-offset: rem-calc(40);
         height: 300px;
         background-color: #ffffff;
         padding-top: rem-calc(75);
-        border-radius: 10px;
 
         @include breakpoint(medium) {
           padding-top: rem-calc(50);
           background-color: transparent;
-          border-radius: 0;
         }
 
         .title-actions {
@@ -209,10 +207,12 @@ $profil-image-offset: rem-calc(40);
           @include breakpoint(medium) {
             justify-content: flex-end;
             margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, medium), 'h1'), 'font-size') + 25));
+            margin-bottom: rem-calc(60px);
             line-height: map-get(map-get(map-get($header-styles, medium), 'h1'), 'line-height');
 
             @include breakpoint(large) {
               margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, large), 'h1'), 'font-size') + 25));
+              margin-bottom: rem-calc(40px);
               line-height: map-get(map-get(map-get($header-styles, large), 'h1'), 'line-height');
             }
 
@@ -259,17 +259,22 @@ $profil-image-offset: rem-calc(40);
 
         button {
           margin: rem-calc(10) auto;
+          background-color: $white;
+          color: $dark-blue;
+          border: rem-calc(2) solid $dark-blue;
+
+          &:hover, &:focus {
+            background-color: $dark-blue;
+            color: $white;
+            border: rem-calc(2) solid $white;
+          }
 
           @include breakpoint(medium) {
             margin-left: rem-calc(10);
             margin-right: rem-calc(10);
           }
         }
-
-
       }
-
-
     }
 
     &-summary {
@@ -277,11 +282,34 @@ $profil-image-offset: rem-calc(40);
       margin-top: rem-calc(150 + 25);
       background-color: white;
       padding: rem-calc(15);
+      display: block;
+
+      @include breakpoint(small only) {
+        > :first-child {
+          margin-bottom: $input-margin-bottom;
+        }
+      }
 
       @include breakpoint(medium) {
         border: 1px solid #AEAEAE;
         margin-top: 0;
-        border-radius: 10px;
+        display: flex;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"]{
+        &:before{
+          background-color: $light-gray;
+          padding: 6px 10px;
+        }
+      }
+
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      .profil-image {
+        min-width: rem-calc(100); // To keep the image round
       }
     }
 
@@ -343,7 +371,6 @@ $profil-image-offset: rem-calc(40);
 
     &-right-column {
       > div {
-        border-radius: 15px;
         background-color: $body-background;
         margin-bottom: 1rem;
         padding: rem-calc(25);

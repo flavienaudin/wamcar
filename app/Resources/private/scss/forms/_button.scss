@@ -124,6 +124,7 @@ a.button {
             border-color: $white;
         }
     }
+
     /* Add */
     &.add {
         background: $dark-gray;
@@ -191,6 +192,6 @@ a.button {
     }
 
     &.square {
-        border-radius: 5px;
+        border-radius: 0;
     }
 }

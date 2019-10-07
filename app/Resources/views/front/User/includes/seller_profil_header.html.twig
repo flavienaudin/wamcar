@@ -27,13 +27,13 @@
                 </h1>
                 <div class="title-actions is-flex align-right">
                     <a class="icon-heart-o" href=""></a>
-                    <a class="icon-share22" href=""></a>
+                    {#<a class="icon-share22" href=""></a>#}
                 </div>
 
                 <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
                 <div class="profile-actions">
-                    <button class="button white">{{ 'global.button.send_message'|trans }}</button>
-                    <button class="button white">{{ 'global.button.display_phone_number'|trans }}</button>
+                    <button class="button square">{{ 'global.button.send_message'|trans }}</button>
+                    <button class="button square">{{ 'global.button.display_phone_number'|trans }}</button>
                 </div>
             </div>
         </div>
@@ -47,21 +47,57 @@
 
 <div class="row">
     <div class="column">
-        <div class="js-pro-profil-summary profil-seller-summary  is-flex align-justify">
+        <div class="js-pro-profil-summary profil-seller-summary align-spaced align-middle">
+            <div class="row small-up-2 align-middle">
+                <div class="column text-right">
+                    <h3 class="margin-0">Votre taux d'affinité</h3>
+                </div>
+                <div class="column text-left">
+                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
+                        'user':user,
+                        'display_if_no_answer':true
+                    }) }}
+                </div>
+            </div>
+            {% set userGarages = user.garagesOrderByGoogleRating %}
             <div>
-                Localisation<br>
-                <b>Lyon, France</b>
+                <div class="icon-location">
+                    <div class="is-block">
+                        <div>Localisation</div>
+                        <div><b class="dark-gray-color">
+                            {% if userGarages|length > 1 %}
+                                Multi-sites
+                            {% elseif userGarages|length == 1 %}
+                                {{ userGarages[0].garage.city }}
+                            {% else %}
+                                &ndash;
+                            {% endif %}
+                            </b>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div>
-                Conseiller automobile<br>
-                <b>Depuis 10ans</b>
+                <div class="icon-suitcase">
+                    <div class="is-block">
+                        <div>Travail chez</div>
+                        <div>
+                            {% for userGarage in userGarages %}
+                                {% set garage = userGarage.garage %}
+                                <a href="{{ path('front_garage_view', {'slug':garage.slug}) }}"
+                                   class="directory-item-garage is-block">
+                                    <b class="dark-gray-color"> {{ garage.name|title }}</b>
+                                    {#<span class="body-font-color">{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>#}
+                                </a>
+                            {% else %}
+                                <div class="directory-item-garage">
+                                    {{ 'directory.result.no_garage'|trans }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div>
-                Travail chez<br>
-                <b>Renault Grenoble</b><br>
-                <b>Renault Vizille</b><br>
-            </div>
-
         </div>
     </div>
 </div>
