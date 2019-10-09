@@ -179,15 +179,20 @@ class UserController extends BaseController
 
     /**
      * @param Request $request
+     * @param ProUser|null $proUser
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request): Response
+    public function editInformationsAction(Request $request, ?ProUser $proUser): Response
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
-        /** @var ApplicationUser $user */
-        $user = $this->getUser();
+        if ($proUser != null && $this->isGranted('ROLE_PRO_ADMIN')) {
+            $user = $proUser;
+        } else {
+            /** @var ApplicationUser $user */
+            $user = $this->getUser();
+        }
 
         $userProfileTemplate = [
             ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
@@ -218,7 +223,13 @@ class UserController extends BaseController
                 'flash.success.user.edit'
             );
 
-            return $this->redirectToRoute('front_view_current_user_info');
+            if ($proUser != null) {
+                return $this->redirectToRoute('front_view_pro_user_info', [
+                    'slug' => $proUser->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
         }
 
         return $this->render($userProfileTemplate[$user->getType()], [
@@ -428,7 +439,7 @@ class UserController extends BaseController
                     $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
                         $this->translator->trans('flash.success.pro_contact_message.sent', [
-                           '%proUserName%' => $user->getFullName()
+                            '%proUserName%' => $user->getFullName()
                         ]));
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
                 }
@@ -601,21 +612,25 @@ class UserController extends BaseController
             $action = $request->get('action');
             $to = $request->get('to');
 
-            $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
+            if (strpos($to, TrackingExtension::VALUE_ADVISOR) !== false ||
+                strpos($to, TrackingExtension::VALUE_CUSTOMER) !== false) {
+                // User phone number
+                $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
 
-            $phoneNumberUser = $this->userRepository->findOne($userId);
-            if ($currentUser instanceof ProUser) {
-                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
-                    strpos($action, '2') > 0);
-            }
-            if ($phoneNumberUser instanceof ProUser) {
-                $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
-                    strpos($action, '2') > 0);
-            }
-            if(strpos($action, '2') > 0){
-                return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhonePro())]);
-            }else{
-                return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhone())]);
+                $phoneNumberUser = $this->userRepository->findOne($userId);
+                if ($currentUser instanceof ProUser) {
+                    $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
+                        strpos($action, '2') > 0);
+                }
+                if ($phoneNumberUser instanceof ProUser) {
+                    $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
+                        strpos($action, '2') > 0);
+                }
+                if (strpos($action, '2') > 0) {
+                    return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhonePro())]);
+                } else {
+                    return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhone())]);
+                }
             }
 
         }

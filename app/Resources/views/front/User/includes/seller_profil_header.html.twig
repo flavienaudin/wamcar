@@ -1,4 +1,4 @@
-<header class="profil-seller-header">
+<header class="profil-seller-header" style="background-image: url('{{ user.banner|userBanner('user_banner') }}')">
     <div class="row align-center-middle">
         <div class="js-pro-profil-image is-invisible profil-image">
             {% if avatarForm is not defined or avatarForm is null %}

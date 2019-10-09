@@ -164,8 +164,16 @@ $profil-image-offset: rem-calc(40);
     }
 
     &-header {
-      // TODO custom bg image by pro user
-      background: #17303b url('#{$img-folder}/background/bg-reinsurance.jpg') center center/cover no-repeat;
+      // to blacken the image
+      background-color: #888888;
+      background-blend-mode: multiply;
+
+      background-clip: border-box;
+      background-position: center;
+      background-size: cover;
+      background-origin: border-box;
+      background-repeat: no-repeat;
+
       text-align: center;
       color: $body-font-color;
 

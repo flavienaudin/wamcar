@@ -12,6 +12,8 @@ class ProUserInformationDTO extends UserInformationDTO
     public $phonePro;
     /** @var string */
     public $presentationTitle;
+    /** @var UserPictureDTO */
+    public $banner;
 
     /**
      * UserInformationDTO constructor.
@@ -22,6 +24,6 @@ class ProUserInformationDTO extends UserInformationDTO
         parent::__construct($user);
         $this->phonePro = $user->getPhonePro();
         $this->presentationTitle = $user->getPresentationTitle();
-
+        $this->banner = new UserPictureDTO($user->getBannerFile());
     }
 }

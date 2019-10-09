@@ -79,6 +79,28 @@ class BackendController extends AdminController
     // CUSTOM ACTIONS
 
     /**
+     * Action to edit user profile
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editUserProfileAction()
+    {
+        $id = $this->request->query->get('id');
+        $entity = $this->em->getRepository(BaseUser::class)->find($id);
+        if ($entity instanceof ProUser) {
+            return $this->redirectToRoute('admin_pro_user_edit', [
+                'slug' => $entity->getSlug()
+            ]);
+        } elseif ($entity instanceof PersonalUser) {
+            $this->addFlash('error', 'Impossible d\'éditer un PersonalUser ');
+        }
+        // redirect to the 'list' view of the given entity ...
+        return $this->redirectToRoute('easyadmin', array(
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ));
+    }
+
+    /**
      * Action to see user profile
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */

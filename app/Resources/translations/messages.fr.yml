@@ -808,7 +808,9 @@ user:
     my_profile: Mon profil
     member_since: Membre depuis %year%
     edit:
-      title: Editer mon profil
+      title:
+        mine: Editer mon profil
+        other: Editer le profil de %username%
       action: Editer mon profil
       form:
         titles:
@@ -849,6 +851,8 @@ user:
           label: Présentation
         avatar:
           label: Avatar
+        banner:
+          label: Image de couverture
         submit: Enregistrer mes modifications
     delete:
       title: Suppression de mon compte

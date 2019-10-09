@@ -3,6 +3,7 @@
 namespace Wamcar\User;
 
 use AppBundle\Doctrine\Entity\AffinityDegree;
+use AppBundle\Doctrine\Entity\UserBanner;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Doctrine\Entity\UserPreferences;
 use AppBundle\Security\SecurityInterface\HasApiCredential;
@@ -21,6 +22,10 @@ use Wamcar\User\Enum\FirstContactPreference;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Enum\NotificationFrequency;
 
+/**
+ * Class BaseUser
+ * @package Wamcar\User
+ */
 abstract class BaseUser implements HasApiCredential
 {
     use ApiCredentialTrait;
@@ -38,6 +43,8 @@ abstract class BaseUser implements HasApiCredential
     protected $userProfile;
     /** @var null|UserPicture */
     protected $avatar;
+    /** @var null|UserBanner */
+    protected $banner;
     /** @var  Collection <Message> */
     protected $messages;
     /** @var  Collection <ConversationUser> */
@@ -92,18 +99,21 @@ abstract class BaseUser implements HasApiCredential
      * @param string|null $name
      * @param UserPicture|null $avatar
      * @param City|null $city
+     * @param UserBanner|null $userBanner
      */
     public function __construct(
         string $email,
         string $firstName,
         string $name = null,
         UserPicture $avatar = null,
-        City $city = null
+        City $city = null,
+        UserBanner $userBanner = null
     )
     {
         $this->email = $email;
         $this->userProfile = new UserProfile($firstName, $name, null, null, null, false, $city);
         $this->avatar = $avatar;
+        $this->banner = $userBanner;
         $this->creditPoints = 0;
         $this->messages = new ArrayCollection();
         $this->conversationUsers = new ArrayCollection();
@@ -445,6 +455,22 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * @return null|UserBanner
+     */
+    public function getBanner(): ?UserBanner
+    {
+        return $this->banner;
+    }
+
+    /**
+     * @return null|File
+     */
+    public function getBannerFile(): ?File
+    {
+        return $this->banner ? $this->banner->getFile() : null;
+    }
+
+    /**
      * @return Collection <Message>
      */
     public function getMessages(): Collection
@@ -603,6 +629,13 @@ abstract class BaseUser implements HasApiCredential
     public function setAvatar(?UserPicture $avatar)
     {
         $this->avatar = $avatar;
+    }
+    /**
+     * @param UserBanner $banner
+     */
+    public function setBanner(?UserBanner $banner)
+    {
+        $this->banner = $banner;
     }
 
     /**

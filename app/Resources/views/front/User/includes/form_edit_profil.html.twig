@@ -123,14 +123,28 @@
 <div class="input-margin column small-12 medium-6 xlarge-5">
     <div id="js-pictures-list" data-preview-src="{{ asset('assets/images/placeholders/user/unisex-avatar.jpg') }}" class="separator">
         <h2>{{ 'user.profile.edit.form.titles.medias'|trans }}</h2>
-        {{ form_widget(editUserForm.avatar, {
-            'label': 'user.profile.edit.form.avatar.label'|trans,
-            'required': false,
-            'required_class': '',
-            'classPreview': 'small-6 large-4 file-preview-avatar',
-            'imgPreview':  user.avatar|avatar('user_thumbnail', editUserForm.firstName.vars.value ),
-            'defaultImage': 'user_thumbnail'|defaultAvatar
-        }) }}
+        <div>
+            {{ form_widget(editUserForm.avatar, {
+                'label': 'user.profile.edit.form.avatar.label'|trans,
+                'required': false,
+                'required_class': '',
+                'classPreview': 'small-6 large-4 file-preview-avatar',
+                'imgPreview':  user.avatar|avatar('user_thumbnail', editUserForm.firstName.vars.value ),
+                'defaultImage': 'user_thumbnail'|defaultAvatar
+            }) }}
+        </div>
+        {% if editUserForm.banner is defined  %}
+            <div class="margin-top-2">
+                {{ form_widget(editUserForm.banner, {
+                    'label': 'user.profile.edit.form.banner.label'|trans,
+                    'required': false,
+                    'required_class': '',
+                    'classPreview': 'file-preview-user-banner',
+                    'imgPreview':  user.banner|userBanner('user_banner'),
+                    'defaultImage': null|userBanner('user_banner')
+                }) }}
+            </div>
+        {% endif %}
     </div>
 </div>
 <div class="column small-12">

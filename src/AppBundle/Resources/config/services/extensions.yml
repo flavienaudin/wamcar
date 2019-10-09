@@ -32,6 +32,7 @@ services:
       - '@AppBundle\Services\Picture\PathVehiclePicture'
       - '@AppBundle\Services\Picture\PathGaragePicture'
       - '@AppBundle\Services\Picture\PathUserPicture'
+      - '@AppBundle\Services\Picture\PathUserBanner'
 
   AppBundle\Twig\RadarChartExtension:
     autowire: true

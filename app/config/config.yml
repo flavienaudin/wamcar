@@ -44,6 +44,7 @@ parameters:
             y: '/assets/images/placeholders/user/letters/y.png'
             z: '/assets/images/placeholders/user/letters/z.png'
             unknown: '/assets/images/placeholders/user/letters/unknown.png'
+        user_banner: '/assets/images/placeholders/user/banner.jpg'
         banner: '/assets/images/placeholders/garages/banner.png'
         logo: '/assets/images/placeholders/garages/logo.png'
         vehicle: '/assets/images/register/pictures_default.jpg'
@@ -225,6 +226,16 @@ vich_uploader:
             inject_on_load:     true
             delete_on_remove: true
             delete_on_update: true
+        user_banner:
+            uri_prefix:         /uploads/images/user_banners
+            upload_destination: '%env(UPLOAD_DIR)%/images/user_banners'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
         garage_banner:
             uri_prefix:         /uploads/images/garages/banner
             upload_destination: '%env(UPLOAD_DIR)%/images/garages/banner'
@@ -318,6 +329,11 @@ liip_imagine:
             filters:
                 auto_rotate: ~
                 thumbnail: { size: [200, 200], mode: outbound }
+        user_banner:
+            quality: 100
+            filters:
+                auto_rotate: ~
+                thumbnail: { size: [1200, 400], mode: outbound, allow_upscale: true }
         garage_banner:
             quality: 75
             filters:

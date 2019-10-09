@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Picture;
 
-class UserPicture extends Picture implements ApplicationPicture
+class UserBanner extends Picture implements ApplicationPicture
 {
     use FileHolderTrait;
 
@@ -15,7 +15,7 @@ class UserPicture extends Picture implements ApplicationPicture
     private $id;
 
     /**
-     * UserPicture constructor.
+     * UserBanner constructor.
      * @param BaseUser $user
      * @param File $file
      */
