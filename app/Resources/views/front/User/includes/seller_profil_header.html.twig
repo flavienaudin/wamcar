@@ -26,14 +26,26 @@
 
                 </h1>
                 <div class="title-actions is-flex align-right">
-                    <a class="icon-heart-o" href=""></a>
+                    {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                        'expertUser' : user,
+                        'cssClasses': 'primary-color'
+                    }) }}
                     {#<a class="icon-share22" href=""></a>#}
                 </div>
 
                 <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
                 <div class="profile-actions">
-                    <button class="button square">{{ 'global.button.send_message'|trans }}</button>
-                    <button class="button square">{{ 'global.button.display_phone_number'|trans }}</button>
+                    <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                       class="button square" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+                       data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
+
+                    {% if user.phonePro is not empty or user.phone is not empty %}
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'phoneOwner': user,
+                            'phoneNumber': user.phonePro is not empty ? user.phonePro : user.phone,
+                            'showphone_subaction': user.phonePro is not empty ? "2" : "1"
+                        }) }}
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -50,7 +62,7 @@
         <div class="js-pro-profil-summary profil-seller-summary align-spaced align-middle">
             <div class="row small-up-2 align-middle">
                 <div class="column text-right">
-                    <h3 class="margin-0">Votre taux d'affinité</h3>
+                    <h3 class="margin-0">{{ 'user.affinity.section.affinity_rate'|trans }}</h3>
                 </div>
                 <div class="column text-left">
                     {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
@@ -87,7 +99,6 @@
                                 <a href="{{ path('front_garage_view', {'slug':garage.slug}) }}"
                                    class="directory-item-garage is-block">
                                     <b class="dark-gray-color"> {{ garage.name|title }}</b>
-                                    {#<span class="body-font-color">{{ garage.address.postalCode }} {{ garage.address.cityName|upper }}</span>#}
                                 </a>
                             {% else %}
                                 <div class="directory-item-garage">

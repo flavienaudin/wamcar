@@ -44,6 +44,7 @@ use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
@@ -611,6 +612,12 @@ class UserController extends BaseController
                 $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
                     strpos($action, '2') > 0);
             }
+            if(strpos($action, '2') > 0){
+                return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhonePro())]);
+            }else{
+                return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhone())]);
+            }
+
         }
         return new JsonResponse();
     }

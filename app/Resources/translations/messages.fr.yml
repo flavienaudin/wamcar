@@ -836,7 +836,7 @@ user:
           required_message: Vous devez saisir votre ville
           placeholder: Ville ou code postal
         phonePro:
-          label: Téléphone fixes
+          label: Téléphone fixe
           placeholder: "Exemple: 0123456789"
           invalid_format: "Le format est incorrect"
         phone:
@@ -1012,6 +1012,7 @@ user:
     section:
       title: Qui suis-je ?
       our_affinities: Nos affinités
+      affinity_rate: Votre taux d'affinité
       explanation:
         personal: >
           Découvrez votre degré d'affinité avec chaque professionnel, cela vous aidera à choisir le

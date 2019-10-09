@@ -193,6 +193,8 @@ $profil-image-offset: rem-calc(40);
         height: 300px;
         background-color: #ffffff;
         padding-top: rem-calc(75);
+        padding-left: rem-calc(15);
+        padding-right: rem-calc(15);
 
         @include breakpoint(medium) {
           padding-top: rem-calc(50);
@@ -227,7 +229,6 @@ $profil-image-offset: rem-calc(40);
             height: 35px;
             margin-left: 5px;
             margin-right: 5px;
-            color: $body-font-color;
             font-weight: normal;
             font-size: 1.2rem;
 
@@ -257,6 +258,7 @@ $profil-image-offset: rem-calc(40);
           align-content: center;
         }
 
+        .button,
         button {
           margin: rem-calc(10) auto;
           background-color: $white;
@@ -368,6 +370,14 @@ $profil-image-offset: rem-calc(40);
       }
     }
 
+
+    &-left-column {
+      > .profil-section {
+        background-color: $body-background;
+        margin-bottom: 1rem;
+        padding: rem-calc(25);
+      }
+    }
 
     &-right-column {
       > div {

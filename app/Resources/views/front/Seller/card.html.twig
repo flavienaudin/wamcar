@@ -31,20 +31,20 @@
         <div class="profil-body column small-12">
             <div class="row">
                 {# Left column #}
-                <div class="column small-12 large-8">
-                    <div class="profil-section">
-                        {% if not isLogged %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
-                                <div class="column small-12 large-8 text-justify">
-                                    {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
-                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                    <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                                       class="button expand-height square dark-blue">
-                                        {{ 'global.button.register'|trans }}</a>
-                                </div>
+                <div class="profil-seller-left-column column small-12 large-8">
+                    {% if not isLogged %}
+                        <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
+                            <div class="column small-12 large-8 text-justify">
+                                {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
+                            <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                                   class="button expand-height square dark-blue">
+                                    {{ 'global.button.register'|trans }}</a>
                             </div>
-                        {% endif %}
+                        </div>
+                    {% endif %}
 
+                    <div class="profil-section">
                         <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
                         {% if user.description %}
                             <p class="text-justify">{{ user.description|nl2br }}</p>
@@ -52,22 +52,22 @@
                             <p class="text-justify">{{ 'user.presentation.empty'|trans }}</p>
                         {% endif %}
 
-                        {% if user.appointmentText is not empty %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
-                                <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
-                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                    <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                                       class="button expand-height square dark-blue" data-wtaction="LM RDV"
-                                       data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
-                                        {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
-                                </div>
-                            </div>
-                        {% endif %}
-
                         {% if userIsMe %}
                             <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
                         {% endif %}
                     </div>
+                    {% if user.
+                        appointmentText is not empty %}
+                        <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
+                            <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
+                            <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
+                                   class="button expand-height square dark-blue" data-wtaction="LM RDV"
+                                   data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
+                                    {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
+                            </div>
+                        </div>
+                    {% endif %}
 
                     {% if user.youtubeVideoId is not empty %}
                         <div class="profil-section">
@@ -109,62 +109,65 @@
                             {% endif %}
                         </div>
                     {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
-                        <div class="profil-section">
-                            {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-                            <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                            {% if userAffinity is not null %}
+                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+                        {% if userAffinity is not null %}
+                            <div class="profil-section">
+                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
-                            {% else %}
-                                <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
-                                    <div class="column small-12 large-8 text-justify">{{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title}) : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}</div>
-                                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0"><a href="{{ path('front_affinity_personal_form') }}" class="button expand-height square dark-blue" {{ lwaWTattr }}>{{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a></div>
+                            </div>
+                        {% else %}
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                <div class="column small-12 large-8 text-justify">
+                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
+                                        : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
                                 </div>
-                            {% endif %}
-                        </div>
+                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0"><a href="{{ path('front_affinity_personal_form') }}" class="button expand-height square dark-blue" {{ lwaWTattr }}>{{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a></div>
+                            </div>
+                        {% endif %}
                     {% endif %}
                 </div>
 
                 {# Right column #}
                 <div class="js-pro-profil-right-column profil-seller-right-column column small-12 large-4">
-                    {% if user.hasGarage or userIsMe %}
-                        {% if user.hasGarage or userIsMe %}
+                    {% if userIsMe %}
+                        <div>
                             {% include 'front/User/includes/brand_list.html.twig' %}
-                        {% else %}
-                            <p>{{ 'user.garage.empty'|trans }}</p>
-                        {% endif %}
 
-                        {% if addGarageForm is not null %}
-                            <h3>{{ 'user.garage.join'|trans }}</h3>
-                            {{ form_start(addGarageForm, {'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                            {% if addGarageForm is not null %}
+                                <h3 class="separator strong">{{ 'user.garage.join'|trans }}</h3>
+                                {{ form_start(addGarageForm, {'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 
-                            {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                label: 'garage.form.field.googleSearch.label'|trans,
-                                label_class: 'hide',
-                                name: 'google_place',
-                                placeholder: 'garage.form.field.googleSearch.placeholder'|trans,
-                                attributes:{
-                                    'data-google_api_client_key' : google_api_client_key,
-                                    'data-locale' : app.request.locale|slice(0, 2)
-                                }
-                            } %}
-                            {{ form_widget(addGarageForm.googlePlaceId) }}
-                            {{ form_widget(addGarageForm.googleRating) }}
-                            {{ form_widget(addGarageForm.latitude) }}
-                            {{ form_widget(addGarageForm.longitude) }}
-                            {{ form_widget(addGarageForm.name) }}
-                            {{ form_widget(addGarageForm.openingHours) }}
-                            {{ form_widget(addGarageForm.address) }}
-                            {{ form_widget(addGarageForm.postalCode) }}
-                            {{ form_widget(addGarageForm.cityName) }}
-                            {{ form_widget(addGarageForm.phone) }}
+                                {% include 'front/Layout/includes/forms/input.html.twig' with {
+                                    label: 'garage.form.field.googleSearch.label'|trans,
+                                    label_class: 'hide',
+                                    name: 'google_place',
+                                    placeholder: 'garage.form.field.googleSearch.placeholder'|trans,
+                                    attributes:{
+                                        'data-google_api_client_key' : google_api_client_key,
+                                        'data-locale' : app.request.locale|slice(0, 2)
+                                    }
+                                } %}
+                                {{ form_widget(addGarageForm.googlePlaceId) }}
+                                {{ form_widget(addGarageForm.googleRating) }}
+                                {{ form_widget(addGarageForm.latitude) }}
+                                {{ form_widget(addGarageForm.longitude) }}
+                                {{ form_widget(addGarageForm.name) }}
+                                {{ form_widget(addGarageForm.openingHours) }}
+                                {{ form_widget(addGarageForm.address) }}
+                                {{ form_widget(addGarageForm.postalCode) }}
+                                {{ form_widget(addGarageForm.cityName) }}
+                                {{ form_widget(addGarageForm.phone) }}
 
-                            <button type="submit" class="button full-width input-margin">{{ 'global.button.validate'|trans }}</button>
-                            {{ form_end(addGarageForm) }}
-                        {% endif %}
-                        {% if userIsMe %}
-                            <a href="{{ path('front_garage_create') }}" class="text-underline">{{ 'user.garage.add'|trans }}</a>
-                        {% endif %}
+                                <button type="submit" class="button full-width input-margin">{{ 'global.button.validate'|trans }}</button>
+                                {{ form_end(addGarageForm) }}
+                            {% endif %}
+                            {% if userIsMe %}
+                                <a href="{{ path('front_garage_create') }}" class="text-underline">{{ 'user.garage.add'|trans }}</a>
+                            {% endif %}
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -187,11 +190,16 @@
 
         {% if userIsMe %}
             <div class="column small-12">
-                <h2>{{ 'user.profile.delete.title'|trans }}</h2>
-                <p>{{ 'user.profile.delete.link.information'|trans }}
-                    <a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a>
-                </p>
-
+                <div class="column">
+                    <div class="row">
+                        <div class="column small-12 block-white">
+                            <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+                            <p>{{ 'user.profile.delete.link.information'|trans }}
+                                <a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         {% endif %}
     </section>

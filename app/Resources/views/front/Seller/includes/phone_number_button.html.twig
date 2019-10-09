@@ -1,0 +1,33 @@
+
+{% set disabledLoggedProtection = disabledLoggedProtection|default(false) %}
+{% set showphone_action = showphone_subaction|default('') is not empty ? 'SP '~showphone_subaction:'SP' %}
+{% set phoneOwner = phoneOwner|default(null) %}
+{% set textDisplay = textDisplay|default(null) %}
+
+
+{% if isLogged or disabledLoggedProtection %}
+    {% if is_mobile() %}
+        <a href="tel:{{ phoneNumber }}" rel="noopener noreferrer" class="js-callphone-action button square"
+           data-href="{{ path('front_show_number') }}" data-wtaction="{{ showphone_action }}"
+           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}">
+            {{ "global.button.call"|trans }}</a>
+    {% else %}
+        <a class="js-showphone-action button square" data-href="{{ path('front_show_number') }}"
+              data-wtaction="{{ showphone_action }}" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+              data-wtto="{{ phoneOwner|wtToDataAttrValue }}">
+            {{ "global.button.display_phone_number"|trans }}
+        </a>
+    {% endif %}
+{% else %}
+    {% if is_mobile() %}
+        <a class="button square" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.call'|trans }}" data-position="bottom">
+            {{ "global.button.call"|trans }}</a>
+    {% else %}
+        <a class="button square" data-wtaction="{{ showphone_action }}"
+              data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}"
+              data-tooltip title="{{ 'phone_number.tooltip.display'|trans }}" data-position="bottom" >
+            {{ "global.button.display_phone_number"|trans }}</a>
+    {% endif %}
+{% endif %}
