@@ -62,7 +62,27 @@ if($proProfilImage.length){
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
 if($proProfilContactForm.length){
   $proProfilContactForm.responsiveDom({
-    prependTo: '.js-pro-profil-right-column ',
+    prependTo: '.js-pro-profil-right-column',
     mediaQuery: '(min-width: 640px)'
   });
 }
+
+
+/*** HOMEPAGE PEEXEO ***/
+
+const $baselineTitle = $('#baseline');
+if($baselineTitle.length){
+
+  $baselineTitle.responsiveDom({
+    prependTo: '.top-section > .row',
+    mediaQuery: '(max-width: 639px)',
+    callback: (matched) => {
+      if(matched){
+        $baselineTitle.addClass('column w-100');
+      }else{
+        $baselineTitle.removeClass('column w-100');
+      }
+    }
+  });
+}
+

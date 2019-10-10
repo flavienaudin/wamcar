@@ -1,0 +1,78 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block bodyClass %}landing-peexeo{% endblock %}
+
+{% block mainClass %}{#has-no-scroll#} no-padding {% endblock %}
+
+{% block title %}{{ 'landing.peexeo.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'landing.peexeo.description'|trans }}{% endblock %}
+
+{% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
+{% set image_alt = 'landing.peexeo.image_alt'|trans %}
+
+{% block body %}
+
+    <section class="top-section">
+        <div class="row full-height align-middle">
+            <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
+
+                <div class="orbit" role="region" aria-label="Experts autormobile" data-orbit data-timer-delay="2000">
+                    <div class="orbit-wrapper">
+                        <ul class="orbit-container">
+                            {% for pro in proProfils %}
+                                <li class="{{ loop.index0 ? 'is-active' }} orbit-slide item-seller">
+                                    <div class="profil-image margin-bottom-2">
+                                        <img src="{{ pro.avatar|avatar('user_thumbnail', pro.fullName) }}"
+                                             alt="{{ pro.fullName }}" width="100%">
+                                    </div>
+                                    <h2 class="text-center margin-bottom-1">{{ pro.fullName }}</h2>
+
+                                    <div class="margin-bottom-1 text-center black-color">{{ pro.presentationTitle }}&nbsp;</div>
+
+                                    {% set userGarages = pro.garagesOrderByGoogleRating %}
+                                    <div class="icon-location primary-color align-center input-margin">
+                                        <span class="body-font-color">
+                                            {% if userGarages|length > 1 %}
+                                                Multi-sites
+                                            {% elseif userGarages|length == 1 %}
+                                                {{ userGarages[0].garage.city }}
+                                            {% else %}
+                                                &ndash;
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <nav class="orbit-bullets">
+                        {% for pro in proProfils %}
+                            <button class="{{ loop.index0 ? 'is-active' }}" data-slide="{{ loop.index0 }}">
+                                <span class="show-for-sr">{{ pro.fullName }}</span>
+                                <span class="show-for-sr" data-slide-active-label>Current Slide</span>
+                            </button>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+            <div class="column small-12 medium-6 baseline-container">
+                <div class="content">
+                    <h1 id="baseline">Dans quelques clics vous aurez trouvé un conseiller auto
+                        <div class="primary-color">à l'écoute</div></h1>
+
+                    <a href="{{ path('front_directory_view') }}" class="button square">
+                        Trouver mon conseiller
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="small-12">
+        <div class="section reinsurance-container small-12" id="reinsurance_general">
+            <div class="row">
+                {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' with {'title_class':'is-hidden'} %}
+            </div>
+        </div>
+    </section>
+{% endblock body %}

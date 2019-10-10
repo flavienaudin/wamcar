@@ -371,6 +371,14 @@ landing:
     search:
       title: Annonces
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
+  peexeo:
+    title: "Dénicheur de conseillers auto"
+    image_alt: Dans quelques clicks vous aurez trouvé un conseiller auto
+    description: >
+      Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+      découvrez les occasions, changez de voiture !
+
+
 
 garage:
   my_garage: Mon garage

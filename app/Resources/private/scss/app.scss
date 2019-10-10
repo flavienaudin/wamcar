@@ -36,7 +36,7 @@
 // @include foundation-label;
 // @include foundation-media-object;
 @include foundation-off-canvas;
-// @include foundation-orbit;
+@include foundation-orbit;
 // @include foundation-pagination;
 // @include foundation-progress-bar;
 // @include foundation-slider;
@@ -52,9 +52,10 @@
 @include foundation-visibility-classes;
 // @include foundation-float-classes;
 @include foundation-flex-classes;
-//@include foundation-prototype-classes;
-// Only prototype spacing
+// @include foundation-prototype-classes;
+// Only prototype spacing & sizing
 @include foundation-prototype-spacing;
+@include foundation-prototype-sizing;
 
 @include motion-ui-transitions;
 // @include motion-ui-animations;

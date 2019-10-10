@@ -77,6 +77,7 @@
       }
 
     }
+
     // End &-form
 
     /** Form Header **/
@@ -115,8 +116,10 @@
         }
       }
     }
+
     // End .form-header
   }
+
   // End &-meeting, &-mixte
 
   /*
@@ -168,7 +171,7 @@
       label {
         margin-bottom: $input-margin-bottom;
 
-        &:hover{
+        &:hover {
           background-color: $primary-color;
           color: white;
         }
@@ -219,6 +222,66 @@
           color: $body-font-color;
         }
       }
+    }
+  }
+
+
+  /** Landing Peexeo : Dénicheur */
+  &-peexeo {
+
+    .top-section {
+      min-height: 100vh;
+      height: 100vh;
+      margin-top: -$header-height;
+      padding-top: $header-height;
+      background-color: #eaeef4;
+
+      @include breakpoint (medium) {
+        background: #eaeef4 url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
+        background-blend-mode: overlay;
+
+      }
+
+      @include breakpoint (large) {
+        margin-top: -$header-height-medium;
+        padding-top: $header-height-medium;
+      }
+
+      .item-sellers-container {
+
+        .item-seller {
+          background-color: white;
+          margin-left: auto;
+          margin-right: auto;
+          padding: rem-calc(15);
+
+          @include breakpoint (medium) {
+            max-width: 350px;
+          }
+
+          .profil-image {
+            margin: 0 auto;
+          }
+        }
+      }
+
+      #baseline {
+        margin: auto;
+        font-size: 2rem;
+
+        @include breakpoint (medium) {
+          margin-bottom: rem-calc(50);
+        }
+      }
+
+      .baseline-container {
+        .content {
+          @include breakpoint (medium) {
+            max-width: 400px;
+          }
+        }
+      }
+
     }
   }
 }

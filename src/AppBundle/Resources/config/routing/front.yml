@@ -1,16 +1,13 @@
 # Homepages & landings
 front_default:
     path: /
-    controller: AppBundle:Front\Default:landingMixte
+    controller: AppBundle:Front\Default:landingPeexeo
     options:
         sitemap: true
 
 legacy_landing_mixte:
     path: /m
-    controller: FrameworkBundle:Redirect:redirect
-    defaults:
-        route: front_default
-        permanent: true
+    controller: AppBundle:Front\Default:landingMixte
 
 front_landing_reprise:
     path: /reprise

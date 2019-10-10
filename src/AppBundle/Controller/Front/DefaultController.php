@@ -158,4 +158,21 @@ class DefaultController extends BaseController
             ]
         );
     }
+
+    /**
+     * Page d'accueil par défaut : /
+     * @param Request $request
+     * @return Response
+     */
+    public function landingPeexeoAction(Request $request): Response
+    {
+        $proProfils = $this->proUserRepository->findProUsersForHomepage();
+
+        return $this->render(
+            '/front/Home/landing_peexeo.html.twig',
+            [
+                'proProfils' => $proProfils
+            ]
+        );
+    }
 }
