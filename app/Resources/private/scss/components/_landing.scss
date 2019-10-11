@@ -247,6 +247,31 @@
         padding-top: $header-height-medium;
       }
 
+      .down {
+        @include breakpoint (small only) {
+          display: none;
+        }
+
+        border: $body-font-color 2px solid;
+        background-color: $grey-alt;
+        width: 40px;
+        height: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: rem-calc(30);
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+          margin: auto;
+
+          &::before {
+            margin: auto;
+            color: $body-font-color;
+          }
+        }
+      }
+
       .item-sellers-container {
 
         .item-seller {
@@ -255,8 +280,17 @@
           margin-right: auto;
           padding: rem-calc(15);
 
+          p {
+            margin-bottom: 0;
+          }
+
           @include breakpoint (medium) {
             max-width: 350px;
+            padding: rem-calc(40) rem-calc(15);
+
+            p {
+              margin-bottom: rem-calc(30);
+            }
           }
 
           .profil-image {
@@ -281,7 +315,32 @@
           }
         }
       }
+    }
 
+    .reinsurance-container#reinsurance_wamaffinity {
+      background-color: $grey-alt;
+      background-image: none;
+
+      h2 {
+        color: $dark-gray;
+      }
+
+      li > p {
+        color: $body-font-color;
+        > b {
+          font-size: 1.5rem;
+        }
+      }
+
+      .reinsurance-video-button{
+        &:hover, &:focus {
+          color: $primary-color;
+        }
+
+        &:before {
+          border: 1px $dark-gray solid;
+        }
+      }
     }
   }
 }

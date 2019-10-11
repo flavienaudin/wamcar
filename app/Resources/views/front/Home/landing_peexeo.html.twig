@@ -16,21 +16,24 @@
         <div class="row full-height align-middle">
             <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
 
-                <div class="orbit" role="region" aria-label="Experts autormobile" data-orbit data-timer-delay="2000">
+                <div class="orbit" role="region" aria-label="Experts automobile" data-orbit data-timer-delay="10000">
                     <div class="orbit-wrapper">
                         <ul class="orbit-container">
                             {% for pro in proProfils %}
                                 <li class="{{ loop.index0 ? 'is-active' }} orbit-slide item-seller">
                                     <div class="profil-image margin-bottom-2">
-                                        <img src="{{ pro.avatar|avatar('user_thumbnail', pro.fullName) }}"
-                                             alt="{{ pro.fullName }}" width="100%">
+                                        <a href="{{ path('front_view_pro_user_info', {'slug': pro.slug}) }}">
+                                            <img src="{{ pro.avatar|avatar('user_thumbnail', pro.fullName) }}"
+                                                 alt="{{ pro.fullName }}"></a>
                                     </div>
                                     <h2 class="text-center margin-bottom-1">{{ pro.fullName }}</h2>
 
-                                    <div class="margin-bottom-1 text-center black-color">{{ pro.presentationTitle }}&nbsp;</div>
+                                    <div class="margin-bottom-1 text-center black-color">
+                                        {{ pro.presentationTitle }}&nbsp;
+                                    </div>
 
                                     {% set userGarages = pro.garagesOrderByGoogleRating %}
-                                    <div class="icon-location primary-color align-center input-margin">
+                                    <p class="icon-location primary-color align-center">
                                         <span class="body-font-color">
                                             {% if userGarages|length > 1 %}
                                                 Multi-sites
@@ -40,7 +43,7 @@
                                                 &ndash;
                                             {% endif %}
                                         </span>
-                                    </div>
+                                    </p>
                                 </li>
                             {% endfor %}
                         </ul>
@@ -58,13 +61,30 @@
             <div class="column small-12 medium-6 baseline-container">
                 <div class="content">
                     <h1 id="baseline">Dans quelques clics vous aurez trouvé un conseiller auto
-                        <div class="primary-color">à l'écoute</div></h1>
+                        <div class="primary-color">à l'écoute</div>
+                    </h1>
 
                     <a href="{{ path('front_directory_view') }}" class="button square">
                         Trouver mon conseiller
                     </a>
                 </div>
             </div>
+
+            {# Indicator to  scroll
+            <div class="down is-flex">
+                <span class="icon-chevron-down"></span>
+            </div>#}
+
+        </div>
+    </section>
+
+    <section class="reinsurance-container section small-12" id="reinsurance_wamaffinity">
+        <div class="row">
+            <h2 class="section-title h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.wamaffinity.title'|trans }}</h2>
+            {% set reinsurance_class = 'medium-order-3' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' %}
+            <button type="button" class="reinsurance-video-button black-color icon-play small-right medium-order-2" data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+            {% include 'front/Home/includes/modal_concept_video.html.twig' %}
         </div>
     </section>
 

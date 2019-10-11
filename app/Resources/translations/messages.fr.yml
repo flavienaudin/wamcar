@@ -792,6 +792,28 @@ user:
         third:
           alt:
           content: Nos intérêts convergent ! Nous prenons rendez-vous grâce à la messagerie sécurisée.
+    wamaffinity:
+      title: Comment ça marche ?
+      items:
+        first:
+          alt: Formulaire WamAffinity
+          title: Je remplis le formulaire WamAffinity
+          content: >
+            Notre formulaire Wamaffinity nous permet de cerner votre besoin et vos projets afin de vous proposer le
+            conseiller automobile idéal pour vous accompagner.
+        second:
+          alt: Conseilleur automobile
+          title: Je trouve le conseiller automobile qui me correspond
+          content: >
+            Pami notre sélection personnalisée de conseiller automobile, trouvez celui qui vous correspond et prenez
+            rendez-vous avec lui grâce à la message sécurisée.
+        third:
+          alt: Mon projet
+          title: Je confie mes projets automobile à mon conseiller
+          content: >
+            Vous pouvez dès à présent réaliser vos projets automobile en toute tranquillité et en toute sécurité. Nos
+            conseillers automobile sont sélectionnés avec soin pour vous offir un accompagnement de qualité.
+
     pro:
       title: La vente avec reprise, c’est simple avec
       items:
