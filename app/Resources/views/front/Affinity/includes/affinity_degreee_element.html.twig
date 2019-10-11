@@ -1,5 +1,5 @@
 {% set always_displays = always_displays is defined ? always_displays : false %}
-{% if not user.is(app.user) and (app.user is null and user.isPro or app.user is not null and (user.type != app.user.type or always_displays)) %}
+{% if always_displays or (not user.is(app.user) and (app.user is null and user.isPro or app.user is not null and user.type != app.user.type)) %}
     {% set userAffinityDegree = user.getAffinityDegreesWith(app.user) %}
     {% if userAffinityDegree is not null %}
         {{ include('front/Affinity/includes/affinity_degree.html.twig') }}

@@ -1066,6 +1066,7 @@ user:
           <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
+      himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
       explanation:
         personal:
           logged: >

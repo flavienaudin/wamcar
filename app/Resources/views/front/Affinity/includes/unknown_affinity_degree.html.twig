@@ -9,7 +9,9 @@
              alt="{{ 'user.affinity.degree.element.alt.unknown'|trans }}">
         {% if enable_dropdown and user.affinityAnswer is not null %}
             <span id="{{ dropdownpane_id  }}" class="dropdown-pane" data-dropdown data-hover="true" data-hover-pane="true">
-                {% if app.user is not null and app.user.affinityAnswer is not null %}
+                {% if app.user is not null and app.user.is(user)%}
+                    <span>{{ 'user.affinity.degree.himself'|trans }}</span>
+                {% elseif app.user is not null and app.user.affinityAnswer is not null  %}
                     <span>{{ 'user.affinity.degree.calculation_in_progress'|trans }}</span>
                 {% elseif user.isPro %}
                     <span>{{ 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title}) }}</span>
