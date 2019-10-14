@@ -44,7 +44,7 @@ $header-background: white;
     font-size: rem-calc(20);
   }
 
-  &-right{
+  &-right {
     height: 100%;
 
     > * {
@@ -84,52 +84,60 @@ $header-background: white;
      ===================================== */
 
   &-button {
+    text-align: center;
+    justify-content: center;
+    width: 40px;
+    height: $header-height;
 
-    @include breakpoint(medium down) {
-      &::before { font-size: rem-calc(17); }
+    &::before {
+      font-size: rem-calc(17);
+      width: 100%;
     }
 
-    @include breakpoint(large down) {
-      text-align: center;
-      justify-content: center;
+    @media (min-width: 400px) {
       width: $header-height;
       height: $header-height;
 
-      &::before { width: 100%; }
-    } // End MQ large down
-
-    @include breakpoint(355 down) {
-      width: rem-calc(50);
+      &::before {
+        font-size: rem-calc(20);
+      }
     }
 
-    @include breakpoint(large only) {
+    @include breakpoint(large) {
       width: $header-height-medium;
       height: $header-height-medium;
 
-      &::before { font-size: rem-calc(20); }
-    } // End MQ large only
-
-    @include breakpoint(large) {
       .is-transparent & {
         border: 0;
       }
-    } // End MQ large
+    }
+    // End MQ large
 
     @include breakpoint(xlarge) {
-      &::before { font-size: rem-calc(17); }
+      width: unset;
+
+      &::before {
+        font-size: rem-calc(17);
+      }
     }
 
-  } // End &-button
+    > span {
+      white-space: nowrap;
+    }
+  }
+
+  // End &-button
 }
 
 :target:before {
-  content:"";
-  display:block;
-  height:$header-height; /* fixed header height*/
-  margin:-$header-height 0 0; /* negative fixed header height */
+  content: "";
+  display: block;
+  height: $header-height; /* fixed header height*/
+  margin: -$header-height 0 0; /* negative fixed header height */
 
   @include breakpoint(large) {
-    height:$header-height-medium; /* fixed header height*/
-    margin:-$header-height-medium 0 0; /* negative fixed header height */
-  } // End MQ large only
+    height: $header-height-medium; /* fixed header height*/
+    margin: -$header-height-medium 0 0; /* negative fixed header height */
+  }
+  // End MQ large only
 }

@@ -3,10 +3,14 @@
    =========================================================================== */
 
 .logo {
-  width: rem-calc(120);
+  max-width: rem-calc(120);
 
   @include breakpoint(medium) {
-    width: rem-calc(190);
+    max-width: rem-calc(300);
+  }
+
+  @include breakpoint(large) {
+    max-width: rem-calc(200);
   }
 
   &-mini {
