@@ -4,12 +4,13 @@
 
 .l-footer {
   margin-top: auto;
-  background: #cf0612;
+  background: #eaeef4;
 
   /* Components */
 
-  &,
-  a { color: white; }
+  &, a {
+    color: $grey-altPeexeo;
+  }
 
 
   /*
@@ -25,7 +26,6 @@
   }
 
   &-top {
-    background: #e30613;
-    box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .1);
+    background: $white;
   }
 }
