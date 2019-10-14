@@ -786,6 +786,24 @@ user:
         fifth:
           title: Sécurisé
           content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
+    wamcar:
+      title: Cinq bonnes raisons d'utiliser
+      items:
+        first:
+          title: Humain
+          content: Des offres réalistes faites par des hommes, pas des machines
+        second:
+          title: Avisé
+          content: Bénéficiez des derniers avis Google sur les professionnels
+        third:
+          title: Gratuit
+          content: Aucun engagement et aucun frais
+        fourth:
+          title: Sécurisé
+          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
+        fifth:
+          title: Juste
+          content: Site indépendant de tout groupe ou marque
     personal:
       title: Je veux remplacer ma voiture. Comment  marche  Wamcar?
       items:

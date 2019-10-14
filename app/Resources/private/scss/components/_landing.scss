@@ -387,5 +387,27 @@
         }
       }
     }
+
+
+    #reinsurance_wamcar{
+      background-color: $grey-altPeexeo;
+      background-image: none;
+
+      .reinsurance {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        .reinsurance-item {
+          h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 0;
+          }
+          p {
+            color: white;
+          }
+        }
+      }
+    }
   }
 }
