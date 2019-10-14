@@ -321,14 +321,59 @@
       background-color: $grey-alt;
       background-image: none;
 
-      h2 {
-        color: $dark-gray;
+
+      .reinsurance-wamcar {
+        @include breakpoint(xlarge) {
+          &::after {
+            content: "";
+            position: initial;
+            right: unset;
+            bottom: unset;
+            left: unset;
+            height: unset;
+            background: unset;
+            z-index: unset;
+          }
+        }
+      }
+
+      p, h2 {
+        color: $grey-altPeexeo;
+      }
+
+      .wamaffinity-experience {
+
+        &-image {
+          img {
+            max-height: 300px;
+            width: 100%;
+          }
+        }
+      }
+
+      .row:not(:last-child){
+        border-bottom: $grey-altPeexeo dotted 3px;
+        padding-bottom: rem-calc(40);
+        margin-bottom: rem-calc(40);
+
+        @include breakpoint(xlarge) {
+          padding-bottom: rem-calc(90);
+          margin-bottom: rem-calc(90);
+        }
+
       }
 
       li > p {
         color: $body-font-color;
         > b {
           font-size: 1.5rem;
+        }
+      }
+
+      .reinsurance-wamcar-image {
+        border-radius: 0;
+        img {
+          border-radius: 0;
         }
       }
 

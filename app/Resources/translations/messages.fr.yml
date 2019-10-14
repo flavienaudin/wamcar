@@ -377,6 +377,12 @@ landing:
     description: >
       Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
       découvrez les occasions, changez de voiture !
+    wamaffinity:
+      title: L'expérience WamAffinity
+      content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
+      actions:
+        find_advisor: Trouver mon conseiller
+        all_advisors: Tous nos conseillers
 
 
 

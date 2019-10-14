@@ -125,6 +125,10 @@ a.button {
         }
     }
 
+    &.grey-light {
+        @include buttonTheme(white, $grey-altPeexeo, $dark-blue);
+    }
+
     /* Add */
     &.add {
         background: $dark-gray;

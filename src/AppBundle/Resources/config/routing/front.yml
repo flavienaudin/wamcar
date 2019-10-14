@@ -5,7 +5,7 @@ front_default:
     options:
         sitemap: true
 
-legacy_landing_mixte:
+front_landing_mixte:
     path: /m
     controller: AppBundle:Front\Default:landingMixte
 
