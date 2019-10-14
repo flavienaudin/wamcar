@@ -96,11 +96,13 @@
             </div>
         </div>
         <div class="row">
-            <h2 class="section-title h1 column text-center medium-text-left small-12 medium-9 large-8 medium-order-1">{{ 'user.reinsurance.wamaffinity.title'|trans }}</h2>
-            {% set reinsurance_class = 'medium-order-3' %}
-            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' %}
-            <button type="button" class="reinsurance-video-button black-color icon-play small-right medium-order-2"
+            <h2 class="section-title h1 small-12 large-8 column text-center align-self-middle">{{ 'user.reinsurance.wamaffinity.title'|trans }}</h2>
+            <button type="button" class="reinsurance-video-button black-color icon-play is-center margin-bottom-1"
                     data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+
+            {% set reinsurance_class = '' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' %}
+
             {% include 'front/Home/includes/modal_concept_video.html.twig' %}
         </div>
     </section>

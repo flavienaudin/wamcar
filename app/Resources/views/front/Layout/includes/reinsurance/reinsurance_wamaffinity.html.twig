@@ -20,15 +20,18 @@
 ] %}
 {% set reinsurance_class = reinsurance_class|default('') %}
 
-<ul class="reinsurance-wamcar block-grid column large-collapse small-12 small-up-1 medium-up-3 no-bullet {{ reinsurance_class }}">
+<ul class="reinsurance-comment-ca-marche block-grid column small-12 small-up-1 large-up-3 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
-        <li class="column is-flex small-horizontal medium-vertical xlarge-horizontal align-middle xlarge-collapse">
-            <span class="reinsurance-wamcar-image medium-12 text-center primary-color">
-                <img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image) }}" {#srcset="{{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'.jpg') }} 1x, {{ asset('assets/images/reinsurance/' ~ reinsurance.image ~'-2x.jpg') }} 2x"#} alt="{{ reinsurance.alt }}" width="130"></span>
-            <p class="reinsurance-wamcar-body no-margin">
-                <b class="primary-color">{{ reinsurance.title }}</b><br>
-                {{ reinsurance.content }}
-            </p>
+        <li class="column is-flex small-vertical medium-horizontal large-vertical align-middle">
+            <div class="reinsurance-ccm-image">
+                <img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image) }}" alt="{{ reinsurance.alt }}">
+            </div>
+
+            <div class="reinsurance-ccm-body">
+                <div class="reinsurance-ccm-step">0{{ loop.index }}</div>
+                <div class="reinsurance-ccm-title">{{ reinsurance.title }}</div>
+                <div class="reinsurance-ccm-content">{{ reinsurance.content }}</div>
+            </div>
         </li>
     {% endfor %}
 </ul>
