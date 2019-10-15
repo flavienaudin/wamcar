@@ -374,7 +374,12 @@ landing:
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
   peexeo:
     title: "Dénicheur de conseillers auto"
-    image_alt: Dans quelques clicks vous aurez trouvé un conseiller auto
+    baseline:
+      main: Dans quelques clics vous aurez trouvé un conseiller auto
+      first: à l'écoute
+      second: fidèle
+      third: enfin disponible
+      fourth: sur-mesure
     description: >
       Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
       découvrez les occasions, changez de voiture !
@@ -729,7 +734,7 @@ user:
     pro:
       title: Inscription pour les professionnels de l'automobile
       meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
-      banner: Conseiller Automobile? Inscrivez-vous sur Wamcar pour accèder à des leads et à un sourcing VO de qualité
+      banner: "Conseiller Automobile ? Inscrivez-vous sur Wamcar pour générer des rendez-vous clients de qualité"
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
@@ -862,6 +867,12 @@ user:
   profile:
     my_profile: Mon profil
     member_since: Membre depuis %year%
+    header:
+      location:
+        label: Localisation
+        multigarages: Multi-sites
+      garage:
+        label: Travaille chez
     edit:
       title:
         mine: Editer mon profil

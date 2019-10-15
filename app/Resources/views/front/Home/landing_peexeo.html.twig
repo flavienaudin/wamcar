@@ -8,7 +8,7 @@
 {% block meta_description %}{{ 'landing.peexeo.description'|trans }}{% endblock %}
 
 {% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
-{% set image_alt = 'landing.peexeo.image_alt'|trans %}
+{% set image_alt = 'landing.peexeo.baseline.main'|trans %}
 
 {% block body %}
 
@@ -16,7 +16,7 @@
         <div class="row full-height align-middle">
             <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
 
-                <div class="orbit" role="region" aria-label="Experts automobile" data-orbit data-timer-delay="10000">
+                <div class="orbit" role="region" aria-label="Experts automobile" data-orbit data-timer-delay="8000">
                     <div class="orbit-wrapper">
                         <ul class="orbit-container">
                             {% for pro in proProfils %}
@@ -60,8 +60,13 @@
             </div>
             <div class="column small-12 medium-6 baseline-container">
                 <div class="content">
-                    <h1 id="baseline">Dans quelques clics vous aurez trouvé un conseiller auto
-                        <div class="primary-color">à l'écoute</div>
+                    <h1 id="baseline">{{ 'landing.peexeo.baseline.main'|trans }}
+                        <div class="baseline-words primary-color">
+                            <span>{{ 'landing.peexeo.baseline.first'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.second'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.third'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.fourth'|trans }}</span>
+                        </div>
                     </h1>
 
                     <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"

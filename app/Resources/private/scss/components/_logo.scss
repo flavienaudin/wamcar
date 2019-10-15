@@ -9,10 +9,6 @@
     max-width: rem-calc(300);
   }
 
-  @include breakpoint(large) {
-    max-width: rem-calc(200);
-  }
-
   &-mini {
     width: rem-calc(40);
     object-fit: contain;
