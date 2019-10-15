@@ -33,6 +33,10 @@
   &-dark-blue {
     background: $dark-blue;
     color: white;
+
+    h2 {
+      color: white;
+    }
   }
 
   &-white {

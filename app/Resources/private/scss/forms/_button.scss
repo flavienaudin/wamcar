@@ -124,6 +124,11 @@ a.button {
             border-color: $white;
         }
     }
+
+    &.grey-light {
+        @include buttonTheme(white, $grey-altPeexeo, $dark-blue);
+    }
+
     /* Add */
     &.add {
         background: $dark-gray;
@@ -191,6 +196,6 @@ a.button {
     }
 
     &.square {
-        border-radius: 5px;
+        border-radius: 0;
     }
 }

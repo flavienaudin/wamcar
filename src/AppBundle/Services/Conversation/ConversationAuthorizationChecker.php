@@ -35,10 +35,10 @@ class ConversationAuthorizationChecker
 
 
     /**
-     * @param BaseUser $user
-     * @param BaseUser $interlocutor
+     * @param null|BaseUser $user
+     * @param null|BaseUser $interlocutor
      */
-    public function canCommunicate(BaseUser $user, BaseUser $interlocutor)
+    public function canCommunicate(?BaseUser $user, ?BaseUser $interlocutor)
     {
         if (!$this->authorizationChecker->isGranted('ROLE_USER')) {
             throw new AccessDeniedHttpException('Only connected user can create conversation');

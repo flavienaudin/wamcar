@@ -115,9 +115,9 @@ class TrackingExtension extends AbstractExtension
     public function getExpertWtDataAttributes(?BaseUser $fromUser, BaseUser $toUser, bool $isAlreadyExpert): string
     {
         if ($isAlreadyExpert) {
-            $action = 'ADD';
-        } else {
             $action = 'REMOVE';
+        } else {
+            $action = 'ADD';
         }
         return ' data-wtaction="' . $action . ' ' . $toUser->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser)
             . '" data-wtto="' . $this->getWtToDataAttrValue($toUser) . '"';

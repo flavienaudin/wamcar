@@ -8,6 +8,7 @@ use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use Gedmo\Mapping\Annotation\SoftDeleteable;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
@@ -35,21 +36,20 @@ class BackendController extends AdminController
     // Common
     protected function removeEntity($entity)
     {
-        $isAlreadySoftDeleted = $entity->getDeletedAt() != null;
         if ($entity instanceof Garage) {
+            $isAlreadySoftDeleted = $entity->getDeletedAt() != null;
             try {
                 $this->garageEditionService->remove($entity);
                 if ($isAlreadySoftDeleted) {
                     $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.garage.deleted.hard');
                 } else {
-                    if ($isAlreadySoftDeleted) {
-                        $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.garage.deleted.soft');
-                    }
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.garage.deleted.soft');
                 }
             } catch (\InvalidArgumentException $exception) {
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, $exception->getMessage());
             }
         } elseif ($entity instanceof BaseUser) {
+            $isAlreadySoftDeleted = $entity->getDeletedAt() != null;
             if(!$this->isGranted(UserVoter::DELETE, $entity)){
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, 'flash.error.user.deletion_not_allowed');
                 return;
@@ -77,6 +77,28 @@ class BackendController extends AdminController
     }
 
     // CUSTOM ACTIONS
+
+    /**
+     * Action to edit user profile
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function editUserProfileAction()
+    {
+        $id = $this->request->query->get('id');
+        $entity = $this->em->getRepository(BaseUser::class)->find($id);
+        if ($entity instanceof ProUser) {
+            return $this->redirectToRoute('admin_pro_user_edit', [
+                'slug' => $entity->getSlug()
+            ]);
+        } elseif ($entity instanceof PersonalUser) {
+            $this->addFlash('error', 'Impossible d\'éditer un PersonalUser ');
+        }
+        // redirect to the 'list' view of the given entity ...
+        return $this->redirectToRoute('easyadmin', array(
+            'action' => 'list',
+            'entity' => $this->request->query->get('entity'),
+        ));
+    }
 
     /**
      * Action to see user profile

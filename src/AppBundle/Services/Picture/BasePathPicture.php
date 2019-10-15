@@ -61,6 +61,20 @@ abstract class BasePathPicture
         $picturePath = $picture ? $this->uploaderHelper->asset($picture, $fileField): $this->placeholders[$placeholderKey][$initial];
 
         return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
+    }
+
+    /**
+     * @param ApplicationPicture $picture
+     * @param string $filter
+     * @param string $fileField
+     * @param string $placeholderKey
+     * @return string
+     */
+    protected function getUserBannerPath(?ApplicationPicture $picture, string $filter, string $fileField, string $placeholderKey): string
+    {
+        $picturePath = $picture ? $this->uploaderHelper->asset($picture, $fileField): $this->placeholders[$placeholderKey];
+
+        return $this->imagineCacheManager->getBrowserPath($picturePath, $filter);
 
     }
 

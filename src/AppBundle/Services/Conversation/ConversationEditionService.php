@@ -7,11 +7,14 @@ use AppBundle\Doctrine\Repository\DoctrineConversationRepository;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Form\Builder\Conversation\ConversationFromDTOBuilder;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
+use Wamcar\Conversation\ProContactMessage;
+use Wamcar\Conversation\ProContactMessageRepository;
 use Wamcar\User\BaseUser;
 
 
@@ -25,18 +28,22 @@ class ConversationEditionService
     private $eventBus;
     /** @var PathVehiclePicture */
     private $pathVehiclePicture;
+    /** @var ProContactMessageRepository */
+    private $proContactMessageRepository;
 
     public function __construct(
         DoctrineConversationRepository $conversationRepository,
         DoctrineConversationUserRepository $conversationUserRepository,
         MessageBus $eventBus,
-        PathVehiclePicture $pathVehiclePicture
+        PathVehiclePicture $pathVehiclePicture,
+        ProContactMessageRepository $proContactMessageRepository
     )
     {
         $this->conversationRepository = $conversationRepository;
         $this->conversationUserRepository = $conversationUserRepository;
         $this->eventBus = $eventBus;
         $this->pathVehiclePicture = $pathVehiclePicture;
+        $this->proContactMessageRepository = $proContactMessageRepository;
     }
 
     /**
@@ -87,5 +94,23 @@ class ConversationEditionService
     public function getConversation(BaseUser $user, BaseUser $interlocutor): ?ApplicationConversation
     {
         return $this->conversationRepository->findByUserAndInterlocutor($user, $interlocutor);
+    }
+
+    /**
+     * @param ProContactMessageDTO $proContactMessageDTO
+     * @return ProContactMessage
+     */
+    public function saveProContactMessage(ProContactMessageDTO $proContactMessageDTO)
+    {
+
+        $proContactMessage = new ProContactMessage(
+            $proContactMessageDTO->proUser,
+            $proContactMessageDTO->firstname,
+            $proContactMessageDTO->lastname,
+            $proContactMessageDTO->phonenumber,
+            $proContactMessageDTO->email,
+            $proContactMessageDTO->message);
+        $this->proContactMessageRepository->update($proContactMessage);
+        return $proContactMessage;
     }
 }

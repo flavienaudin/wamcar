@@ -27,9 +27,11 @@ class ProUserInformationType extends UserInformationType
             ])
             ->add('presentationTitle', TextType::class, [
                 'required' => false,
-                'constraints' => new Length([ 'max' => 50])
+                'constraints' => new Length(['max' => 50])
             ])
-        ;
+            ->add('banner', UserPictureType::class, [
+                'error_bubbling' => true
+            ]);
     }
 
     /**

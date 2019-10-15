@@ -1,0 +1,115 @@
+<header class="profil-seller-header" style="background-image: url('{{ user.banner|userBanner('user_banner') }}')">
+    <div class="row align-center-middle">
+        <div class="js-pro-profil-image is-invisible profil-image">
+            {% if avatarForm is not defined or avatarForm is null %}
+                <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
+                     width="100%">
+            {% else %}
+                {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                {{ form_widget(avatarForm.avatar, {
+                    'label': false,
+                    'required': false,
+                    'required_class': '',
+                    'classPreview': 'file-preview-avatar',
+                    'input_class': 'js-onchange-submit',
+                    'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
+                    'isRemovable': false
+                }) }}
+                {{ form_widget(avatarForm) }}
+                {{ form_end(avatarForm) }}
+            {% endif %}
+        </div>
+        <div class="column">
+            <div class="profile-titles">
+                <h1>
+                    {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
+
+                </h1>
+                <div class="title-actions is-flex align-right">
+                    {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                        'expertUser' : user,
+                        'cssClasses': 'primary-color'
+                    }) }}
+                    {#<a class="icon-share22" href=""></a>#}
+                </div>
+
+                <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+                <div class="profile-actions">
+                    <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
+                       class="button square" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+                       data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
+
+                    {% if user.phonePro is not empty or user.phone is not empty %}
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'phoneOwner': user,
+                            'phoneNumber': user.phonePro is not empty ? user.phonePro : user.phone,
+                            'showphone_subaction': user.phonePro is not empty ? "2" : "1"
+                        }) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+{% include 'front/Layout/includes/breadcrumb.html.twig' with {
+    'breadcrumb_container_class' : 'breadcrumb-seller'
+} %}
+
+<div class="row">
+    <div class="column">
+        <div class="js-pro-profil-summary profil-seller-summary align-spaced align-middle">
+            <div class="row small-up-2 align-middle">
+                <div class="column text-right">
+                    <h3 class="margin-0">{{ 'user.affinity.section.affinity_rate'|trans }}</h3>
+                </div>
+                <div class="column text-left">
+                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
+                        'user':user,
+                        'display_if_no_answer':true,
+                        'always_displays':true
+                    }) }}
+                </div>
+            </div>
+            {% set userGarages = user.garagesOrderByGoogleRating %}
+            <div>
+                <div class="icon-location">
+                    <div class="is-block">
+                        <div>{{ 'user.profile.header.location.label'|trans }}</div>
+                        <div><b class="dark-gray-color">
+                            {% if userGarages|length > 1 %}
+                                {{ 'user.profile.header.location.multigarages'|trans }}
+                            {% elseif userGarages|length == 1 %}
+                                {{ userGarages[0].garage.city }}
+                            {% else %}
+                                &ndash;
+                            {% endif %}
+                            </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="icon-suitcase">
+                    <div class="is-block">
+                        <div>{{ 'user.profile.header.garage.label'|trans }}</div>
+                        <div>
+                            {% for userGarage in userGarages %}
+                                {% set garage = userGarage.garage %}
+                                <a href="{{ path('front_garage_view', {'slug':garage.slug}) }}"
+                                   class="directory-item-garage is-block">
+                                    <b class="dark-gray-color"> {{ garage.name|title }}</b>
+                                </a>
+                            {% else %}
+                                <div class="directory-item-garage">&ndash;</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

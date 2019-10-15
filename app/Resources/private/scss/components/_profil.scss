@@ -11,7 +11,6 @@ $profil-image-offset: rem-calc(40);
   /*
     Header
     ===================================== */
-
   &-header {
     background: #f7f7f7;
     padding-top: rem-calc(25);
@@ -65,6 +64,7 @@ $profil-image-offset: rem-calc(40);
       object-fit: cover;
     }
   }
+
   // End &-image
 
   /*
@@ -110,6 +110,7 @@ $profil-image-offset: rem-calc(40);
     }
 
   }
+
   // End &-action
 
   /*
@@ -125,23 +126,7 @@ $profil-image-offset: rem-calc(40);
       padding-bottom: rem-calc(25);
     }
 
-    @include breakpoint(medium down) {
-      .user-garages-list{
-        border-top: rem-calc(1) solid $border-color;
-        margin-top: rem-calc(30);
-        padding-top: rem-calc(25);
-
-        border-bottom: rem-calc(1) solid $border-color;
-        margin-bottom: rem-calc(30);
-        padding-bottom: rem-calc(25);
-      }
-    }
-
     .personal-user-profil & {
-      /*.section:first-child:last-child {
-        padding-top: 0;
-        padding-bottom: 0;
-      }*/
 
       @include breakpoint(medium down) {
         .column:not(:first-child) {
@@ -160,9 +145,268 @@ $profil-image-offset: rem-calc(40);
       }
     }
 
-    blockquote{
+    blockquote {
       font-style: italic;
       padding: rem-calc(9 20 9 19);
+    }
+  }
+
+
+  /*
+     Profil Seller (only)
+     ===================================== */
+
+
+  &-seller {
+
+    &-main {
+      background-color: #eff0f2;
+    }
+
+    &-header {
+      // to blacken the image
+      background-color: #888888;
+      background-blend-mode: multiply;
+
+      background-clip: border-box;
+      background-position: center;
+      background-size: cover;
+      background-origin: border-box;
+      background-repeat: no-repeat;
+
+      text-align: center;
+      color: $body-font-color;
+
+      height: 300px;
+
+      @include breakpoint(medium) {
+        height: 400px;
+      }
+
+      > div {
+        padding-top: rem-calc(150);
+
+        @include breakpoint(medium) {
+          padding-top: 0;
+        }
+      }
+
+      .profil-image {
+        position: absolute;
+        top: rem-calc(150-50); // parent:padding-top - image.height / 2
+        margin: 0;
+      }
+
+      .profile-titles {
+        height: 300px;
+        background-color: #ffffff;
+        padding-top: rem-calc(75);
+        padding-left: rem-calc(15);
+        padding-right: rem-calc(15);
+
+        @include breakpoint(medium) {
+          padding-top: rem-calc(50);
+          background-color: transparent;
+        }
+
+        .title-actions {
+          margin-top: rem-calc(-120px);
+          margin-bottom: rem-calc(80px);
+          justify-content: space-between;
+
+          @include breakpoint(medium) {
+            justify-content: flex-end;
+            margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, medium), 'h1'), 'font-size') + 25));
+            margin-bottom: rem-calc(60px);
+            line-height: map-get(map-get(map-get($header-styles, medium), 'h1'), 'line-height');
+
+            @include breakpoint(large) {
+              margin-top: rem-calc(- (map-get(map-get(map-get($header-styles, large), 'h1'), 'font-size') + 25));
+              margin-bottom: rem-calc(40px);
+              line-height: map-get(map-get(map-get($header-styles, large), 'h1'), 'line-height');
+            }
+
+            a {
+              background-color: #ffffff;
+              border-radius: 50%;
+            }
+          }
+
+          a {
+            width: 35px;
+            height: 35px;
+            margin-left: 5px;
+            margin-right: 5px;
+            font-weight: normal;
+            font-size: 1.2rem;
+
+            @include breakpoint(medium) {
+              font-size: 14px;
+            }
+
+            &::before {
+              margin: auto;
+            }
+          }
+        }
+
+        @include breakpoint(medium) {
+          h1, h2 {
+            color: #ffffff;
+          }
+        }
+      }
+
+      .profile-actions {
+        @include breakpoint(medium) {
+          display: flex;
+          // align-center-midle :
+          justify-content: center;
+          align-items: center;
+          align-content: center;
+        }
+
+        .button,
+        button {
+          margin: rem-calc(10) auto;
+          background-color: $white;
+          color: $dark-blue;
+          border: rem-calc(2) solid $dark-blue;
+
+          &:hover, &:focus {
+            background-color: $dark-blue;
+            color: $white;
+            border: rem-calc(2) solid $white;
+          }
+
+          @include breakpoint(medium) {
+            margin-left: rem-calc(10);
+            margin-right: rem-calc(10);
+          }
+        }
+      }
+    }
+
+    &-summary {
+      // profile-titles.height / 2 + 25
+      margin-top: rem-calc(150 + 25);
+      background-color: white;
+      padding: rem-calc(15);
+      display: block;
+
+      @include breakpoint(small only) {
+        > :first-child {
+          margin-bottom: $input-margin-bottom;
+        }
+      }
+
+      @include breakpoint(medium) {
+        border: 1px solid #AEAEAE;
+        margin-top: 0;
+        display: flex;
+      }
+
+      [class^="icon-"],
+      [class*=" icon-"]{
+        &:before{
+          background-color: $light-gray;
+          padding: 6px 10px;
+        }
+      }
+
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      .profil-image {
+        min-width: rem-calc(100); // To keep the image round
+      }
+    }
+
+    &-contact-form {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 3;
+      top: initial;
+      padding-bottom: 0;
+
+      .button {
+        height: rem-calc(60);
+        line-height: 1.1;
+        border-radius: 0;
+        margin-bottom: 0;
+
+        &::before {
+          font-size: rem-calc(20);
+        }
+
+        &.white {
+          border: 0;
+        }
+      }
+
+      ~ .off-canvas {
+        top: unset;
+        bottom: 0;
+        padding-bottom: 0;
+        max-height: 90vh;
+        height: auto;
+        background-color: transparent;
+
+        .close-action {
+          display: block;
+          font-weight: bold;
+          font-size: 2rem;
+          line-height: 2rem;
+          color: #ffffff;
+          text-align: center;
+        }
+
+        .off-canvas-content-element {
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          margin-bottom: 0;
+          background-color: $body-background;
+
+          textarea {
+            max-height: 100px;
+          }
+        }
+
+      }
+
+      &-close-button {
+        top: 2.5rem;
+      }
+    }
+
+
+    &-left-column {
+      > .profil-section {
+        background-color: $body-background;
+        margin-bottom: 1rem;
+        padding: rem-calc(25);
+      }
+    }
+
+    &-right-column {
+      > div {
+        background-color: $body-background;
+        margin-bottom: 1rem;
+        padding: rem-calc(25);
+
+        @include breakpoint(medium down) {
+          border-top: rem-calc(1) solid $border-color;
+          margin-top: rem-calc(30);
+          padding-top: rem-calc(25);
+
+          border-bottom: rem-calc(1) solid $border-color;
+          margin-bottom: rem-calc(30);
+          padding-bottom: rem-calc(25);
+        }
+      }
     }
   }
 }

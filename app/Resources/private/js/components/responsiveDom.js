@@ -48,3 +48,41 @@ if ($($moveVehicleActions).length) {
     mediaQuery: '(max-width: 1023px)'
   });
 }
+
+const $proProfilImage = $('.js-pro-profil-image');
+if($proProfilImage.length){
+  $proProfilImage.removeClass('is-invisible');
+  $proProfilImage.responsiveDom({
+    prependTo: '.js-pro-profil-summary',
+    mediaQuery: '(min-width: 640px)'
+  });
+}
+
+
+const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
+if($proProfilContactForm.length){
+  $proProfilContactForm.responsiveDom({
+    prependTo: '.js-pro-profil-right-column',
+    mediaQuery: '(min-width: 640px)'
+  });
+}
+
+
+/*** HOMEPAGE PEEXEO ***/
+
+const $baselineTitle = $('#baseline');
+if($baselineTitle.length){
+
+  $baselineTitle.responsiveDom({
+    prependTo: '.top-section > .row',
+    mediaQuery: '(max-width: 639px)',
+    callback: (matched) => {
+      if(matched){
+        $baselineTitle.addClass('column w-100');
+      }else{
+        $baselineTitle.removeClass('column w-100');
+      }
+    }
+  });
+}
+

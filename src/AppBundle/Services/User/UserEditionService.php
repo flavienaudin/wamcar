@@ -5,6 +5,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
+use AppBundle\Doctrine\Entity\UserBanner;
 use AppBundle\Doctrine\Entity\UserPicture;
 use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexableSearchItem;
@@ -154,6 +155,15 @@ class UserEditionService
         if ($userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);
             $user->setPresentationTitle($userInformationDTO->presentationTitle);
+
+            if ($userInformationDTO->banner) {
+                if ($userInformationDTO->banner->isRemoved) {
+                    $user->setBanner(null);
+                } elseif ($userInformationDTO->banner->file) {
+                    $picture = new UserBanner($user, $userInformationDTO->banner->file);
+                    $user->setBanner($picture);
+                }
+            }
         }
 
         $this->userRepository->update($user);

@@ -132,6 +132,22 @@
     }
   }
 
+  /*
+     User Banner
+     ===================================== */
+
+  &-user-banner {
+    display: inline-block;
+
+    .file-preview-image-container {
+      padding: 0;
+      margin: 0;
+    }
+
+    .file-preview-image {
+      position: relative;
+    }
+  }
 
   /*
      Garage

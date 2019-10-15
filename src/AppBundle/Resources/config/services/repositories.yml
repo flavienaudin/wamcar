@@ -76,6 +76,11 @@ services:
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
         arguments: ['Wamcar\Conversation\Message']
 
+    AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository:
+        class: 'AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository'
+        factory: ['@doctrine.orm.entity_manager', 'getRepository']
+        arguments: ['Wamcar\Conversation\ProContactMessage']
+
     AppBundle\Doctrine\Repository\DoctrineCityRepository:
         class: 'AppBundle\Doctrine\Repository\DoctrineCityRepository'
         factory: ['@doctrine.orm.entity_manager', 'getRepository']
