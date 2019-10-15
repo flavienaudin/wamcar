@@ -1296,6 +1296,8 @@ boost:
 
 favorites:
   page_title: Mes sélections
+  toggle:
+    tooltip: Ajouter aux favoris
   my_likes:
     title: Mes likes
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.

@@ -5,10 +5,12 @@
 
     {% if isLogged %}
         <a data-href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr|raw }}
-           class="js-expert {{ cssClasses  }} {{ isAlreadyExpert ? 'icon-heart ' : 'icon-heart-o' }}"></a>
+           class="js-expert expert-toogle-link {{ cssClasses }} {{ isAlreadyExpert ? 'icon-heart ' : 'icon-heart-o' }}"
+           data-tooltip data-position="bottom" title="{{ "favorites.toggle.tooltip"|trans }}"></a>
     {% else %}
         <a href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr|raw }}
-           class=" {{ cssClasses  }} icon-heart-o"></a>
+           class="expert-toogle-link {{ cssClasses }} icon-heart-o" data-tooltip data-position="bottom"
+           title="{{ "favorites.toggle.tooltip"|trans }}"></a>
     {% endif %}
 {% endif %}
 
