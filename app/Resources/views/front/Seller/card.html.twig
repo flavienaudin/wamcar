@@ -213,13 +213,16 @@
         </div>
 
 
-        <div class=" show-for-small-only off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
-            <a class="close-action" aria-label="close contact form" data-close>
-                <span aria-hidden="true">&mdash;</span></a>
+        <div class="show-for-small-only off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
+            <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 
             <div class="off-canvas-content-element">
                 <div class="js-pro-profil-contact-form-container">
-                    <h2>Me contacter</h2>
+                    <h2>{{ 'user.pro_contact.title'|trans }}</h2>
+                    <button class="profil-seller-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
                     {{ form_start(contactForm, {
                         'attr': {'data-abide' : 'data-abide','novalidate' : 'novalidate'}
                     }) }}
