@@ -15,7 +15,7 @@ class UserPicture extends Picture implements ApplicationPicture
     private $id;
 
     /**
-     * VehiclePicture constructor.
+     * UserPicture constructor.
      * @param BaseUser $user
      * @param File $file
      */

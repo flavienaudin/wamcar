@@ -1,0 +1,37 @@
+{% set reinsurance_list = [
+    {
+        image: 'peexeo-ccm1.png',
+        alt: 'user.reinsurance.wamaffinity.items.first.alt'|trans,
+        title: 'user.reinsurance.wamaffinity.items.first.title'|trans,
+        content: 'user.reinsurance.wamaffinity.items.first.content'|trans,
+    },
+    {
+        image: 'peexeo-ccm2.png',
+        alt: 'user.reinsurance.wamaffinity.items.second.alt'|trans,
+        title: 'user.reinsurance.wamaffinity.items.second.title'|trans,
+        content: 'user.reinsurance.wamaffinity.items.second.content'|trans,
+    },
+    {
+        image: 'peexeo-ccm3.png',
+        alt: 'user.reinsurance.wamaffinity.items.third.alt'|trans,
+        title: 'user.reinsurance.wamaffinity.items.third.title'|trans,
+        content: 'user.reinsurance.wamaffinity.items.third.content'|trans,
+    }
+] %}
+{% set reinsurance_class = reinsurance_class|default('') %}
+
+<ul class="reinsurance-comment-ca-marche block-grid column small-12 small-up-1 large-up-3 no-bullet {{ reinsurance_class }}">
+    {% for index, reinsurance in reinsurance_list %}
+        <li class="column is-flex small-vertical medium-horizontal large-vertical align-middle">
+            <div class="reinsurance-ccm-image">
+                <img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image) }}" alt="{{ reinsurance.alt }}">
+            </div>
+
+            <div class="reinsurance-ccm-body">
+                <div class="reinsurance-ccm-step">0{{ loop.index }}</div>
+                <div class="reinsurance-ccm-title">{{ reinsurance.title }}</div>
+                <div class="reinsurance-ccm-content">{{ reinsurance.content }}</div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>

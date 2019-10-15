@@ -3,235 +3,323 @@
    =========================================================================== */
 
 .reinsurance {
-    color: $primary-color;
-    margin-top: rem-calc(25);
+  color: $primary-color;
+  margin-top: rem-calc(25);
+  @include breakpoint(medium) {
+    margin-top: rem-calc(45);
+  }
+  @include breakpoint(xlarge) {
+    margin-top: rem-calc(55);
+    margin-bottom: 0;
+  }
+  /*
+  Container
+  ===================================== */
+  &-container {
+    background: #17303b url('#{$img-folder}/background/bg-reinsurance.jpg') center center/cover no-repeat;
+    padding-right: rem-calc(35);
+    padding-left: rem-calc(35);
+
+
     @include breakpoint(medium) {
-        margin-top: rem-calc(45);
+      padding-right: rem-calc(20);
+      padding-left: rem-calc(20);
+    }
+
+    /* Components */
+    h2,
+    p {
+      color: white;
+    }
+
+    h3 {
+      @include breakpoint(medium) {
+        margin-top: rem-calc(15);
+        margin-bottom: rem-calc(15);
+      }
+      @include breakpoint(xlarge) {
+        margin-top: rem-calc(20);
+        margin-bottom: rem-calc(20);
+      }
+    }
+
+    svg {
+      @include breakpoint(small only) {
+        width: rem-calc(60);
+      }
+    }
+  }
+
+  // End &-container
+
+  /*
+  Item
+  ===================================== */
+  &-item {
+    @include breakpoint(small only) {
+      &:not(:first-child) {
+        margin-top: rem-calc(10);
+      }
+    }
+    @include breakpoint(large) {
+      padding-right: rem-calc(30);
+      padding-left: rem-calc(30);
+    }
+  }
+
+  // End &-item
+  /*
+   Wamcar container
+   ===================================== */
+  &-wamcar-container {
+    background: $primary-color url('#{$img-folder}/background/bg-reinsurance-wamcar.jpg') center center/cover no-repeat;
+    color: white;
+  }
+
+  /*
+   Wamcar
+   ===================================== */
+  &-wamcar {
+    counter-reset: section;
+    margin-top: rem-calc(30);
+    @include breakpoint(medium) {
+      text-align: center;
     }
     @include breakpoint(xlarge) {
-        margin-top: rem-calc(55);
-        margin-bottom: 0;
+      position: relative;
+      text-align: left;
+      z-index: 1;
+      margin-top: rem-calc(65);
+      margin-bottom: rem-calc(65);
+      &::after {
+        content: "";
+        position: absolute;
+        right: rem-calc(20);
+        bottom: rem-calc(-27);
+        left: rem-calc(20);
+        height: rem-calc(1);
+        background: rgba(black, .2);
+        z-index: -1;
+      }
     }
-    /*
-    Container
-    ===================================== */
-    &-container {
-        background: #17303b url('#{$img-folder}/background/bg-reinsurance.jpg') center center/cover no-repeat;
-        padding-right: rem-calc(35);
-        padding-left: rem-calc(35);
+    // End MQ large
 
+    /* Components */
+    > li {
+      @include breakpoint(small only) {
+        margin-bottom: rem-calc(20);
+      }
+    }
+
+    p {
+      @include breakpoint(large) {
+        padding-right: rem-calc(15);
+        padding-left: rem-calc(15);
+      }
+      @include breakpoint(xlarge) {
+        padding-right: rem-calc(10);
+        padding-left: rem-calc(15);
+      }
+    }
+
+    &-body {
+      text-align: justify;
+    }
+  }
+
+  // End &-wamcar
+  /*
+   Wamcar image
+   ===================================== */
+  &-wamcar-image {
+    position: relative;
+    flex: 0 0 rem-calc(110);
+    border-radius: 50%;
+    margin-right: rem-calc(25);
+
+    img {
+      border-radius: 50%;
+    }
+
+    @include breakpoint(medium) {
+      flex: 0 0 rem-calc(130);
+      margin: 0 auto rem-calc(20);
+    }
+    @include breakpoint(xlarge) {
+      margin: 0;
+    }
+
+    &,
+    &::before {
+      box-shadow: 0 rem-calc(10) rem-calc(10) rgba(black, .15);
+    }
+
+    &::before,
+    &::after {
+      position: absolute;
+      background: white;
+    }
+
+    &::before {
+      content: counter(section);
+      counter-increment: section;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: rem-calc(25);
+      height: rem-calc(25);
+      color: currentColor;
+      font-weight: bold;
+      border-radius: 50%;
+      @include breakpoint(large down) {
+        top: rem-calc(6);
+        right: rem-calc(6);
+      }
+      @include breakpoint(xlarge) {
+        bottom: rem-calc(-10);
+        left: 50%;
+        width: rem-calc(35);
+        height: rem-calc(35);
+        font-size: rem-calc(18);
+        transform: translate3d(-50%, 100%, 0);
+      }
+    }
+
+    // End &::before
+    &::after {
+      @include breakpoint(xlarge) {
+        content: "";
+        bottom: 0;
+        left: 50%;
+        height: rem-calc(10);
+        width: rem-calc(2);
+        transform: translate3d(0, 100%, 0);
+      }
+    }
+
+    // End &::after
+  }
+
+  // End &-wamcar-image
+
+  /*
+   WamAffinity Comment ca marche
+   ===================================== */
+  &-comment-ca-marche {
+    li {
+      color: $grey-altPeexeo;
+      text-align: center;
+      margin-bottom: rem-calc(20);
+
+      @include breakpoint(large) {
+        padding-left: rem-calc(15);
+        padding-right: rem-calc(15);
+      }
+
+      .reinsurance-ccm-image {
+        max-width: 60%;
 
         @include breakpoint(medium) {
-            padding-right: rem-calc(20);
-            padding-left: rem-calc(20);
-        }
-        /* Components */
-        h2,
-        p {
-            color: white;
-        }
-        h3 {
-            @include breakpoint(medium) {
-                margin-top: rem-calc(15);
-                margin-bottom: rem-calc(15);
-            }
-            @include breakpoint(xlarge) {
-                margin-top: rem-calc(20);
-                margin-bottom: rem-calc(20);
-            }
-        }
-        svg {
-            @include breakpoint(small only) {
-                width: rem-calc(60);
-            }
-        }
-    } // End &-container
-
-    /*
-    Item
-    ===================================== */
-    &-item {
-        @include breakpoint(small only) {
-            &:not(:first-child) {
-                margin-top: rem-calc(10);
-            }
+          max-width: 30%;
         }
         @include breakpoint(large) {
-            padding-right: rem-calc(30);
-            padding-left: rem-calc(30);
+          max-width: 100%;
         }
-    } // End &-item
-    /*
-     Wamcar container
-     ===================================== */
-    &-wamcar-container {
-        background: $primary-color url('#{$img-folder}/background/bg-reinsurance-wamcar.jpg') center center/cover no-repeat;
-        color: white;
-    }
-    /*
-     Wamcar
-     ===================================== */
-    &-wamcar {
-        counter-reset: section;
-        margin-top: rem-calc(30);
-        @include breakpoint(medium) {
-            text-align: center;
-        }
-        @include breakpoint(xlarge) {
-            position: relative;
-            text-align: left;
-            z-index: 1;
-            margin-top: rem-calc(65);
-            margin-bottom: rem-calc(65);
-            &::after {
-                content: "";
-                position: absolute;
-                right: rem-calc(20);
-                bottom: rem-calc(-27);
-                left: rem-calc(20);
-                height: rem-calc(1);
-                background: rgba(black, .2);
-                z-index: -1;
-            }
-        } // End MQ large
-        /* Components */
-        >li {
-            @include breakpoint(small only) {
-                margin-bottom: rem-calc(20);
-            }
-        }
-        p {
-            @include breakpoint(large) {
-                padding-right: rem-calc(15);
-                padding-left: rem-calc(15);
-            }
-            @include breakpoint(xlarge) {
-                padding-right: rem-calc(10);
-                padding-left: rem-calc(15);
-            }
+      }
+
+      .reinsurance-ccm-body{
+        @include breakpoint(medium){
+          max-width: 70%;
+          margin-left: rem-calc(30);
+          text-align: left;
         }
 
-        &-body {
-            text-align: justify;
+        @include breakpoint(large){
+          max-width: 100%;
+          margin-left: rem-calc(30);
+          margin-right: rem-calc(30);
+          text-align: center;
         }
-    } // End &-wamcar
-    /*
-     Wamcar image
-     ===================================== */
-    &-wamcar-image {
-        position: relative;
-        flex: 0 0 rem-calc(110);
-        border-radius: 50%;
-        margin-right: rem-calc(25);
-        img {
-            border-radius: 50%;
+
+        .reinsurance-ccm-step {
+          color: $primary-color;
+          font-size: 2rem;
+          font-weight: bold;
         }
-        @include breakpoint(medium) {
-            flex: 0 0 rem-calc(130);
-            margin: 0 auto rem-calc(20);
+
+        .reinsurance-ccm-title {
+          font-size: 1.5rem;
+          font-weight: bold;
+          @include breakpoint(medium) {
+            margin-bottom: rem-calc(20);
+          }
         }
-        @include breakpoint(xlarge) {
-            margin: 0;
-        }
-        &,
+      }
+    }
+  }  // End &-comment-ca-marche
+
+  /*
+   Video button
+   ===================================== */
+  &-video-button {
+    padding-right: rem-calc(20);
+    padding-left: rem-calc(20);
+    font-weight: bold;
+    @include breakpoint(small only) {
+      margin-top: rem-calc(10);
+    }
+    @include breakpoint(medium only) {
+      padding-left: 0;
+    }
+    @include breakpoint(xlarge) {
+      &:hover {
         &::before {
-            box-shadow: 0 rem-calc(10) rem-calc(10) rgba(black, .15);
+          font-size: rem-calc(32);
         }
-        &::before,
-        &::after {
-            position: absolute;
-            background: white;
-        }
-        &::before {
-            content: counter(section);
-            counter-increment: section;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: rem-calc(25);
-            height: rem-calc(25);
-            color: currentColor;
-            font-weight: bold;
-            border-radius: 50%;
-            @include breakpoint(large down) {
-                top: rem-calc(6);
-                right: rem-calc(6);
-            }
-            @include breakpoint(xlarge) {
-                bottom: rem-calc(-10);
-                left: 50%;
-                width: rem-calc(35);
-                height: rem-calc(35);
-                font-size: rem-calc(18);
-                transform: translate3d(-50%, 100%, 0);
-            }
-        } // End &::before
-        &::after {
-            @include breakpoint(xlarge) {
-                content: "";
-                bottom: 0;
-                left: 50%;
-                height: rem-calc(10);
-                width: rem-calc(2);
-                transform: translate3d(0, 100%, 0);
-            }
-        } // End &::after
-    } // End &-wamcar-image
-    /*
-     Video button
-     ===================================== */
-    &-video-button {
-        padding-right: rem-calc(20);
-        padding-left: rem-calc(20);
-        font-weight: bold;
-        @include breakpoint(small only) {
-            margin-top: rem-calc(10);
-        }
-        @include breakpoint(medium only) {
-            padding-left: 0;
-        }
-        @include breakpoint(xlarge) {
-            &:hover {
-                &::before {
-                    font-size: rem-calc(32);
-                }
-            }
-        }
-        &,
-        &:hover,
-        &:focus {
-            color: white;
-        }
-        &,
-        &::before {
-            align-items: center;
-        }
-        &::before {
-            display: flex;
-            justify-content: center;
-            width: rem-calc(40);
-            height: rem-calc(40);
-            background: white;
-            border-radius: 50%;
-            font-size: rem-calc(14);
-            color: $primary-color;
-            text-indent: rem-calc(4);
-            margin-right: 0;
-            transition: $global-transition;
-            @include breakpoint(small only) {
-                order: 2;
-                margin-left: rem-calc(20);
-            }
-            @include breakpoint(medium) {
-                width: rem-calc(55);
-                height: rem-calc(55);
-                margin-right: rem-calc(20);
-            }
-            @include breakpoint(large) {
-                width: rem-calc(77);
-                height: rem-calc(77);
-                font-size: rem-calc(28);
-            }
-        } // End &::before
-    } // End &-video-button
+      }
+    }
+
+    &,
+    &:hover,
+    &:focus {
+      color: white;
+    }
+
+    &,
+    &::before {
+      align-items: center;
+    }
+
+    &::before {
+      display: flex;
+      justify-content: center;
+      width: rem-calc(40);
+      height: rem-calc(40);
+      background: white;
+      border-radius: 50%;
+      font-size: rem-calc(14);
+      color: $primary-color;
+      text-indent: rem-calc(4);
+      margin-right: 0;
+      transition: $global-transition;
+      @include breakpoint(small only) {
+        order: 2;
+        margin-left: rem-calc(20);
+      }
+      @include breakpoint(medium) {
+        width: rem-calc(55);
+        height: rem-calc(55);
+        margin-right: rem-calc(20);
+      }
+      @include breakpoint(large) {
+        width: rem-calc(77);
+        height: rem-calc(77);
+        font-size: rem-calc(28);
+      }
+    }
+
+    // End &::before
+  }
+
+  // End &-video-button
 }

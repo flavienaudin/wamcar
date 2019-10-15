@@ -77,6 +77,7 @@
       }
 
     }
+
     // End &-form
 
     /** Form Header **/
@@ -115,8 +116,10 @@
         }
       }
     }
+
     // End .form-header
   }
+
   // End &-meeting, &-mixte
 
   /*
@@ -168,7 +171,7 @@
       label {
         margin-bottom: $input-margin-bottom;
 
-        &:hover{
+        &:hover {
           background-color: $primary-color;
           color: white;
         }
@@ -220,5 +223,209 @@
         }
       }
     }
+  }
+
+
+  /** Landing Peexeo : Dénicheur */
+  &-peexeo {
+
+    .top-section {
+      min-height: 100vh;
+      height: 100vh;
+      margin-top: -$header-height;
+      padding-top: $header-height;
+      background-color: #eaeef4;
+
+      @include breakpoint (medium) {
+        background: #eaeef4 url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
+        background-blend-mode: overlay;
+
+      }
+
+      @include breakpoint (large) {
+        margin-top: -$header-height-medium;
+        padding-top: $header-height-medium;
+      }
+
+      .down {
+        @include breakpoint (small only) {
+          display: none;
+        }
+
+        border: $body-font-color 2px solid;
+        background-color: $grey-alt;
+        width: 40px;
+        height: 40px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+        margin-bottom: rem-calc(30);
+
+        [class^="icon-"],
+        [class*=" icon-"] {
+          margin: auto;
+
+          &::before {
+            margin: auto;
+            color: $body-font-color;
+          }
+        }
+      }
+
+      .item-sellers-container {
+
+        .item-seller {
+          background-color: white;
+          margin-left: auto;
+          margin-right: auto;
+          padding: rem-calc(15);
+
+          p {
+            margin-bottom: 0;
+          }
+
+          @include breakpoint (medium) {
+            max-width: 350px;
+            padding: rem-calc(40) rem-calc(15);
+
+            p {
+              margin-bottom: rem-calc(30);
+            }
+          }
+
+          .profil-image {
+            margin: 0 auto;
+          }
+        }
+      }
+
+      #baseline {
+        margin: auto;
+        font-size: 1.5rem;
+
+        @include breakpoint (medium) {
+          margin-bottom: rem-calc(50);
+          font-size: 2rem;
+        }
+
+        .baseline-words{
+          span {
+            position: absolute;
+            overflow: hidden;
+            animation: changeWordsAnimation 12s linear infinite;
+            opacity: 0;
+
+            &:nth-child(1) {
+              animation-delay: 0s;
+            }
+            &:nth-child(2) {
+              animation-delay: 3s;
+            }
+            &:nth-child(3) {
+              animation-delay: 6s;
+            }
+            &:nth-child(4) {
+              animation-delay: 9s;
+            }
+
+          }
+        }
+
+      }
+
+      .baseline-container {
+        .content {
+          @include breakpoint (medium) {
+            max-width: 400px;
+          }
+        }
+      }
+    }
+
+    .reinsurance-container#reinsurance_wamaffinity {
+      background-color: $grey-alt;
+      background-image: none;
+
+      p, h2 {
+        color: $grey-altPeexeo;
+      }
+
+      .wamaffinity-experience {
+        &-image {
+          img {
+            max-height: 300px;
+            width: 100%;
+          }
+        }
+      }
+
+      .row:not(:last-child){
+        border-bottom: $grey-altPeexeo dotted 3px;
+        padding-bottom: rem-calc(40);
+        margin-bottom: rem-calc(40);
+
+        @include breakpoint(xlarge) {
+          padding-bottom: rem-calc(90);
+          margin-bottom: rem-calc(90);
+        }
+      }
+
+      .reinsurance-video-button{
+        &:hover, &:focus {
+          color: $primary-color;
+        }
+
+        &:before {
+          border: 1px $dark-gray solid;
+        }
+      }
+    }
+
+
+    #reinsurance_wamcar{
+      background-color: $grey-altPeexeo;
+      background-image: none;
+
+      .reinsurance {
+        margin-top: 0;
+        margin-bottom: 0;
+
+        .reinsurance-item {
+          h3 {
+            font-size: 1.5rem;
+            color: white;
+            margin-top: 0;
+          }
+          p {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+@keyframes changeWordsAnimation {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  2% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  18% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  20% {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(50px);
   }
 }

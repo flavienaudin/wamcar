@@ -2,7 +2,6 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
 
@@ -12,21 +11,21 @@ parameters:
 
     sitename: Wamcar
     css_js_unique_version: ~
+
     facebook_username: wamcar.france
     facebook_page_id: ~
     facebook_admin_ids: ~
     twitter_username: wamcar
 
-    pro_space_url: pro.wamcar.com
+    pro_space_url: 'http://pro.wamcar.com/'
 
     salespersons_emails: {"xavier@wamcar.com": "Xavier Pousset"}
     monitors_emails: [flavien@wamcar.com]
 
-    typeform.contact: https://wamcar.typeform.com/to/AIMBwx
-    typeform.ubiflow_request: https://wamcar.typeform.com/to/pXYHJv
+    typeform.contact: 'https://wamcar.typeform.com/to/AIMBwx'
+    typeform.ubiflow_request: 'https://wamcar.typeform.com/to/pXYHJv'
     typeform.affinity.personal.form: MBKzPH
     typeform.affinity.pro.form: oOG6ml
-
 
     polevo.contact.name: Xavier Pousset
     polevo.contact.email: xavier@wamcar.com

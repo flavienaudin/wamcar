@@ -1,0 +1,49 @@
+Wamcar\Conversation\ProContactMessage:
+
+    type: entity
+    table: procontact_message
+
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        firstname:
+            type: string
+            nullable: false
+        lastname:
+            type: string
+            nullable: true
+        phonenumber:
+            type: string
+            nullable: true
+        email:
+            type: string
+            nullable: true
+        message:
+            type: text
+            nullable: false
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                    on: update
+
+    manyToOne:
+        proUser:
+            targetEntity: Wamcar\User\ProUser
+            inversedBy: proContactMessages
+            joinColumn:
+                name: pro_user_id
+                referencedColumnName: id
+                nullable: false

@@ -1,0 +1,122 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block bodyClass %}landing-peexeo{% endblock %}
+
+{% block mainClass %}no-padding {% endblock %}
+
+{% block title %}{{ 'landing.peexeo.title'|trans }}{% endblock %}
+{% block meta_description %}{{ 'landing.peexeo.description'|trans }}{% endblock %}
+
+{% set seo_img_url = absolute_url(asset('assets/images/background/Wamcar-rencontre-conseiller_automobile-selfie.png')) %}
+{% set image_alt = 'landing.peexeo.baseline.main'|trans %}
+
+{% block body %}
+
+    <section class="top-section">
+        <div class="row full-height align-middle">
+            <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
+
+                <div class="orbit" role="region" aria-label="Experts automobile" data-orbit data-timer-delay="12000">
+                    <div class="orbit-wrapper">
+                        <ul class="orbit-container">
+                            {% for pro in proProfils %}
+                                <li class="{{ loop.index0 ? 'is-active' }} orbit-slide item-seller">
+                                    <div class="profil-image margin-bottom-2">
+                                        <a href="{{ path('front_view_pro_user_info', {'slug': pro.slug}) }}">
+                                            <img src="{{ pro.avatar|avatar('user_thumbnail', pro.fullName) }}"
+                                                 alt="{{ pro.fullName }}"></a>
+                                    </div>
+                                    <h2 class="text-center margin-bottom-1">{{ pro.fullName }}</h2>
+
+                                    <div class="margin-bottom-1 text-center black-color">
+                                        {{ pro.presentationTitle }}&nbsp;
+                                    </div>
+
+                                    {% set userGarages = pro.garagesOrderByGoogleRating %}
+                                    <p class="icon-location primary-color align-center">
+                                        <span class="body-font-color">
+                                            {% if userGarages|length > 1 %}
+                                                Multi-sites
+                                            {% elseif userGarages|length == 1 %}
+                                                {{ userGarages[0].garage.city }}
+                                            {% else %}
+                                                &ndash;
+                                            {% endif %}
+                                        </span>
+                                    </p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <nav class="orbit-bullets">
+                        {% for pro in proProfils %}
+                            <button class="{{ loop.index0 ? 'is-active' }}" data-slide="{{ loop.index0 }}">
+                                <span class="show-for-sr">{{ pro.fullName }}</span>
+                                <span class="show-for-sr" data-slide-active-label>Current Slide</span>
+                            </button>
+                        {% endfor %}
+                    </nav>
+                </div>
+            </div>
+            <div class="column small-12 medium-6 baseline-container">
+                <div class="content">
+                    <h1 id="baseline">{{ 'landing.peexeo.baseline.main'|trans }}
+                        <div class="baseline-words primary-color">
+                            <span>{{ 'landing.peexeo.baseline.first'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.second'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.third'|trans }}</span>
+                            <span>{{ 'landing.peexeo.baseline.fourth'|trans }}</span>
+                        </div>
+                    </h1>
+
+                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                       class="button square">Trouver mon conseiller</a>
+                </div>
+            </div>
+
+            {# Indicator to  scroll
+            <div class="down is-flex">
+                <span class="icon-chevron-down"></span>
+            </div>#}
+
+        </div>
+    </section>
+
+    <section class="reinsurance-container section small-12" id="reinsurance_wamaffinity">
+        <div class="row align-middle">
+            <div class="column small-12 large-6 large-order-2 wamaffinity-experience-image">
+                <img alt="Expérience WamAffinity" src="{{ asset('assets/images/background/wamaffinity-experience.svg') }}">
+            </div>
+            <div class="column small-12 large-6 large-order-1 wamaffinity-experience">
+                <h2 class="section-title h1">{{ 'landing.peexeo.wamaffinity.title'|trans }}</h2>
+                <p class="body-font-color">{{ 'landing.peexeo.wamaffinity.content'|trans }}</p>
+                <div class="row">
+                    <div class="column small-12 margin-bottom-1 medium-6">
+                        <a class="button square" href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                    </div>
+                    <div class="column small-12 margin-bottom-1 medium-6 ">
+                        <a class="button square grey-light" href="{{ path('front_directory_view') }}">{{ 'landing.peexeo.wamaffinity.actions.all_advisors'|trans }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <h2 class="section-title h1 small-12 large-8 column text-center align-self-middle">{{ 'user.reinsurance.wamaffinity.title'|trans }}</h2>
+            <button type="button" class="reinsurance-video-button black-color icon-play is-center margin-bottom-1"
+                    data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+
+            {% set reinsurance_class = '' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' %}
+
+            {% include 'front/Home/includes/modal_concept_video.html.twig' %}
+        </div>
+    </section>
+
+    <section class="small-12">
+        <div class="section reinsurance-container small-12" id="reinsurance_wamcar">
+            <div class="row">
+                {% include '/front/Layout/includes/reinsurance/reinsurance_wamcar.html.twig' with {'title_class':'is-hidden'} %}
+            </div>
+        </div>
+    </section>
+{% endblock body %}

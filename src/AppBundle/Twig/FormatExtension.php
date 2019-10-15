@@ -14,9 +14,7 @@ class FormatExtension extends AbstractExtension
     public function getFilters()
     {
         return [
-            new TwigFilter('phoneFormat', function (string $value) {
-                return join('-', str_split($value, 2));
-            }),
+            new TwigFilter('phoneFormat', [$this, 'phoneFormat']),
             new TwigFilter('vehicleMakeFormat', [$this, 'vehicleMakeModelFormat']),
             new TwigFilter('vehicleModelFormat', [$this, 'vehicleMakeModelFormat']),
         ];
@@ -49,5 +47,14 @@ class FormatExtension extends AbstractExtension
             }
         }
         return $result;
+    }
+
+    /**
+     * Format a phone number xx-xx-xx-xx-xx
+     * @param string $value
+     * @return string
+     */
+    public static function phoneFormat(string $value) {
+        return join('-', str_split($value, 2));
     }
 }

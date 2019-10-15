@@ -1,13 +1,7 @@
 {% set isLogged = isLogged|default(false) %}
-{% set action = isLogged ? path('front_search') : path('front_default') %}
+{% set action = isLogged ? path('front_directory_view') : path('front_default') %}
 
 <a href="{{ action }}" class="logo-container column shrink {{ isLogged ? 'small-collapse large-uncollapse is-logged' }}">
-    {% if isLogged %}
-        <picture>
-            <source media="(max-width: 590px)" srcset="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}">
-            <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar">
-        </picture>
-    {% else %}
-        <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar" class="logo">
-    {% endif %}
+    <img src="{{ asset('assets/images/logo/w_denicheur.svg') }}" alt="Wamcar" class="logo show-for-small-only">
+    <img src="{{ asset('assets/images/logo/wamcar_denicheur.svg') }}" alt="Wamcar" class="logo hide-for-small-only">
 </a>

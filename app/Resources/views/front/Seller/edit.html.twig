@@ -2,7 +2,9 @@
 
 {% block mainClass %}no-padding-top{% endblock %}
 
-{% block title %}{{ 'user.profile.edit.title'|trans }}{% endblock %}
+{% block title %}{{ user.is(app.user) ?
+        'user.profile.edit.title.mine'|trans :
+        'user.profile.edit.title.other'|trans({'%username%' : user.fullname })}}{% endblock %}
 
 {% set breadcrumbs = [
     {

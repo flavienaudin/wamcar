@@ -548,7 +548,7 @@
 
   &-notification {
     position: absolute;
-    left: rem-calc(37);
+    left: rem-calc(24);
     margin-top: rem-calc(-15);
     width: rem-calc(16);
     height: rem-calc(16);
@@ -559,18 +559,17 @@
     border-radius: 50%;
     text-align: center;
 
-    @media screen and (max-width: rem-calc(355)) {
-      left: rem-calc(30);
-      margin-top: rem-calc(-15);
-    }
-
-    @include breakpoint(large) {
-      left: rem-calc(60);
+    @media (min-width: 400px) {
+      left: rem-calc(40);
       margin-top: rem-calc(-17);
       width: rem-calc(20);
       height: rem-calc(20);
       font-size: rem-calc(11);
       line-height: rem-calc(20);
+    }
+
+    @include breakpoint(large){
+      left: rem-calc(50);
     }
 
     + b {

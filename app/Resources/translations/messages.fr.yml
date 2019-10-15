@@ -53,6 +53,8 @@ flash:
       declaration: Votre déclaration a bien été prise en compte
     lead:
       change_status: Le status de votre lead a bien été mis à jour
+    pro_contact_message:
+      sent: Votre message a bien été envoyé à %proUserName%
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -140,6 +142,7 @@ global:
     search: Rechercher
     send: Envoyer
     send_message: Envoyer un message
+    contact_freely: Contacter gratuitement
     complete: Compléter
     more_information: Plus d'information
     dislike: Je n'aime plus
@@ -151,6 +154,7 @@ global:
     next_step: Etape suivante
     back: Retour
     validate: Valider
+    display_phone_number: Afficher le numéro
     see_phone_number: Voir le numéro
     see_user_profile: Voir le profil
     call: Appeler
@@ -201,6 +205,7 @@ header:
   anonyme:
     see_search: Voir les annonces
     sell: Déposer une annonce
+    ours_advisors: Nos conseillers
     log: Connexion / Inscription
     pro_space: Je suis un professionnel
   common:
@@ -367,6 +372,25 @@ landing:
     search:
       title: Annonces
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
+  peexeo:
+    title: "Dénicheur de conseillers auto"
+    baseline:
+      main: Dans quelques clics vous aurez trouvé un conseiller auto
+      first: à l'écoute
+      second: fidèle
+      third: enfin disponible
+      fourth: sur-mesure
+    description: >
+      Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
+      découvrez les occasions, changez de voiture !
+    wamaffinity:
+      title: L'expérience WamAffinity
+      content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
+      actions:
+        find_advisor: Trouver mon conseiller
+        all_advisors: Tous nos conseillers
+
+
 
 garage:
   my_garage: Mon garage
@@ -710,7 +734,7 @@ user:
     pro:
       title: Inscription pour les professionnels de l'automobile
       meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
-      banner: Conseiller Automobile? Inscrivez-vous sur Wamcar pour accèder à des leads et à un sourcing VO de qualité
+      banner: Inscrivez-vous sur Wamcar pour générer des rendez-vous clients de qualité !
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
@@ -768,6 +792,24 @@ user:
         fifth:
           title: Sécurisé
           content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
+    wamcar:
+      title: Cinq bonnes raisons d'utiliser
+      items:
+        first:
+          title: Humain
+          content: Des offres réalistes faites par des hommes, pas des machines
+        second:
+          title: Avisé
+          content: Bénéficiez des derniers avis Google sur les professionnels
+        third:
+          title: Gratuit
+          content: Aucun engagement et aucun frais
+        fourth:
+          title: Sécurisé
+          content: Messagerie sécurisée, pas de spams ou d'appels intempestifs
+        fifth:
+          title: Juste
+          content: Site indépendant de tout groupe ou marque
     personal:
       title: Je veux remplacer ma voiture. Comment  marche  Wamcar?
       items:
@@ -780,6 +822,28 @@ user:
         third:
           alt:
           content: Nos intérêts convergent ! Nous prenons rendez-vous grâce à la messagerie sécurisée.
+    wamaffinity:
+      title: Comment ça marche ?
+      items:
+        first:
+          alt: Formulaire WamAffinity
+          title: Je remplis le formulaire WamAffinity
+          content: >
+            Notre formulaire Wamaffinity nous permet de cerner votre besoin et vos projets afin de vous proposer le
+            conseiller automobile idéal pour vous accompagner.
+        second:
+          alt: Conseilleur automobile
+          title: Je trouve le conseiller automobile qui me correspond
+          content: >
+            Pami notre sélection personnalisée de conseiller automobile, trouvez celui qui vous correspond et prenez
+            rendez-vous avec lui grâce à la message sécurisée.
+        third:
+          alt: Mon projet
+          title: Je confie mes projets automobile à mon conseiller
+          content: >
+            Vous pouvez dès à présent réaliser vos projets automobile en toute tranquillité et en toute sécurité. Nos
+            conseillers automobile sont sélectionnés avec soin pour vous offir un accompagnement de qualité.
+
     pro:
       title: La vente avec reprise, c’est simple avec
       items:
@@ -803,8 +867,16 @@ user:
   profile:
     my_profile: Mon profil
     member_since: Membre depuis %year%
+    header:
+      location:
+        label: Localisation
+        multigarages: Multi-sites
+      garage:
+        label: Travaille chez
     edit:
-      title: Editer mon profil
+      title:
+        mine: Editer mon profil
+        other: Editer le profil de %username%
       action: Editer mon profil
       form:
         titles:
@@ -832,7 +904,7 @@ user:
           required_message: Vous devez saisir votre ville
           placeholder: Ville ou code postal
         phonePro:
-          label: Téléphone fixes
+          label: Téléphone fixe
           placeholder: "Exemple: 0123456789"
           invalid_format: "Le format est incorrect"
         phone:
@@ -845,6 +917,8 @@ user:
           label: Présentation
         avatar:
           label: Avatar
+        banner:
+          label: Image de couverture
         submit: Enregistrer mes modifications
     delete:
       title: Suppression de mon compte
@@ -967,6 +1041,27 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
+  pro_contact:
+    title: Me contacter
+    form.field:
+      firstname:
+        label: Prénom
+        placeholder: Prénom
+      lastname:
+        label: Nom
+        placeholder: Nom
+      email:
+        label: E-mail
+        placeholder: E-mail
+        required_message: Votre e-mail est obligatoire
+      phonenumber:
+        label: Téléphone
+        placeholder: Téléphone
+        invalid_format: Format invalide (0xxxxxxxxx)
+      message:
+        label: Votre message
+        placeholder: J'ai vu votre profil sur Wamcar.com et je souhaite m'entretenir avec vous.
+
   garage:
     seller_for: Vendeur pour
     empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
@@ -988,6 +1083,7 @@ user:
     section:
       title: Qui suis-je ?
       our_affinities: Nos affinités
+      affinity_rate: Votre taux d'affinité
       explanation:
         personal: >
           Découvrez votre degré d'affinité avec chaque professionnel, cela vous aidera à choisir le
@@ -1007,6 +1103,7 @@ user:
           <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
+      himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
       explanation:
         personal:
           logged: >
@@ -1081,6 +1178,8 @@ conversation:
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
+
+
 
 sale:
   page:
@@ -1198,6 +1297,8 @@ boost:
 
 favorites:
   page_title: Mes sélections
+  toggle:
+    tooltip: Ajouter aux favoris
   my_likes:
     title: Mes likes
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.

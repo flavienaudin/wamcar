@@ -13,6 +13,7 @@ import {Reveal} from 'foundation-sites/js/foundation.reveal';
 import {Tabs} from 'foundation-sites/js/foundation.tabs';
 import {Magellan} from 'foundation-sites/js/foundation.magellan';
 import {Tooltip} from 'foundation-sites/js/foundation.tooltip';
+import {Orbit} from 'foundation-sites/js/foundation.orbit';
 
 import {Dropdown} from './foundation/foundation.override.dropdown'; // Overridded version of DropDown
 import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
@@ -125,6 +126,16 @@ $(function () {
         $(magellan).foundation('scrollToLoc', window.location.hash);
       }
       return $currentMagellan;
+    });
+  }
+
+  /* Orbit */
+
+  const $orbits = $('.orbit');
+  if($orbits.length){
+    $orbits.each((index, orbit) => {
+      console.log(orbit);
+      new Orbit($(orbit));
     });
   }
 

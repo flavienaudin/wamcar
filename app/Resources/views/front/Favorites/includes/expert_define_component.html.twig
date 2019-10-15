@@ -1,13 +1,16 @@
 {% if expertUser.isPro %}
     {% set isAlreadyExpert = isLogged and app.user.hasExpert(expertUser) %}
     {% set wtExpertDataAttr = wtExpertDataAttributes(app.user, expertUser, isAlreadyExpert) %}
+    {% set cssClasses = cssClasses ?? "primary-color is-inline-block" %}
 
     {% if isLogged %}
-        <a data-href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr }}
-           class="js-expert primary-color {{ isAlreadyExpert ? 'icon-heart ' : 'icon-heart-o' }} is-inline-block"></a>
+        <a data-href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr|raw }}
+           class="js-expert expert-toogle-link {{ cssClasses }} {{ isAlreadyExpert ? 'icon-heart ' : 'icon-heart-o' }}"
+           data-tooltip data-position="bottom" title="{{ "favorites.toggle.tooltip"|trans }}"></a>
     {% else %}
-        <a href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr }}
-           class="primary-color icon-heart-o is-inline-block"></a>
+        <a href="{{ path('front_expert_toggle', {'slug': expertUser.slug}) }}" {{ wtExpertDataAttr|raw }}
+           class="expert-toogle-link {{ cssClasses }} icon-heart-o" data-tooltip data-position="bottom"
+           title="{{ "favorites.toggle.tooltip"|trans }}"></a>
     {% endif %}
 {% endif %}
 

@@ -14,13 +14,17 @@ use AppBundle\Elasticsearch\Elastica\ElasticUtils;
 use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserDeletionDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
+use AppBundle\Form\Type\ContactProType;
 use AppBundle\Form\Type\GarageType;
+use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
@@ -32,12 +36,15 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
+use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
+use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\Sale\SaleManagementService;
 use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
@@ -46,11 +53,15 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Conversation\Conversation;
+use Wamcar\Conversation\ConversationRepository;
+use Wamcar\Conversation\Event\ProContactMessageCreated;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\LeadStatus;
@@ -97,6 +108,12 @@ class UserController extends BaseController
     protected $leadManagementService;
     /** @var SaleManagementService */
     protected $saleManagementService;
+    /** @var ConversationAuthorizationChecker */
+    protected $conversationAuthorizationChecker;
+    /** @var ConversationRepository */
+    protected $conversationRepository;
+    /** @var ConversationEditionService */
+    protected $conversationEditionService;
 
     /**
      * UserController constructor.
@@ -115,6 +132,9 @@ class UserController extends BaseController
      * @param UserInformationService $userInformationService
      * @param LeadManagementService $leadManagementService
      * @param SaleManagementService $saleManagementService
+     * @param ConversationAuthorizationChecker $conversationAuthorizationChecker
+     * @param ConversationRepository $conversationRepository
+     * @param ConversationEditionService $conversationEditionService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -131,7 +151,10 @@ class UserController extends BaseController
         AffinityAnswerCalculationService $affinityAnswerCalculationService,
         UserInformationService $userInformationService,
         LeadManagementService $leadManagementService,
-        SaleManagementService $saleManagementService
+        SaleManagementService $saleManagementService,
+        ConversationAuthorizationChecker $conversationAuthorizationChecker,
+        ConversationRepository $conversationRepository,
+        ConversationEditionService $conversationEditionService
     )
     {
         $this->formFactory = $formFactory;
@@ -149,19 +172,27 @@ class UserController extends BaseController
         $this->userInformationService = $userInformationService;
         $this->leadManagementService = $leadManagementService;
         $this->saleManagementService = $saleManagementService;
+        $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
+        $this->conversationRepository = $conversationRepository;
+        $this->conversationEditionService = $conversationEditionService;
     }
 
     /**
      * @param Request $request
+     * @param ProUser|null $proUser
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request): Response
+    public function editInformationsAction(Request $request, ?ProUser $proUser): Response
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
-        /** @var ApplicationUser $user */
-        $user = $this->getUser();
+        if ($proUser != null && $this->isGranted('ROLE_PRO_ADMIN')) {
+            $user = $proUser;
+        } else {
+            /** @var ApplicationUser $user */
+            $user = $this->getUser();
+        }
 
         $userProfileTemplate = [
             ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
@@ -192,7 +223,13 @@ class UserController extends BaseController
                 'flash.success.user.edit'
             );
 
-            return $this->redirectToRoute('front_view_current_user_info');
+            if ($proUser != null) {
+                return $this->redirectToRoute('front_view_pro_user_info', [
+                    'slug' => $proUser->getSlug()
+                ]);
+            } else {
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
         }
 
         return $this->render($userProfileTemplate[$user->getType()], [
@@ -294,8 +331,8 @@ class UserController extends BaseController
      */
     public function proUserViewInformationAction(Request $request, string $slug): Response
     {
+        /** @var null|ProUser $user */
         $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
-
         if ($user == null || $user->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.pro_user.deleted.title',
@@ -305,20 +342,23 @@ class UserController extends BaseController
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
         }
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $userIsCurrentUser = $user->is($currentUser);
 
-        if (!$user->canSeeMyProfile($this->getUser())) {
+        if (!$user->canSeeMyProfile($currentUser)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
             throw new AccessDeniedException();
         }
 
         $avatarForm = null;
-        if ($user->is($this->getUser())) {
+        if ($userIsCurrentUser) {
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
 
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
-                $this->userEditionService->editInformations($this->getUser(), $avatarForm->getData());
-                $this->eventBus->handle(new ProUserUpdated($this->getUser()));
+                $this->userEditionService->editInformations($currentUser, $avatarForm->getData());
+                $this->eventBus->handle(new ProUserUpdated($currentUser));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.user.edit'
@@ -355,16 +395,62 @@ class UserController extends BaseController
         }
 
         $addGarageForm = null;
-        if ($this->getUser() instanceof ProUser && $user->is($this->getUser())) {
+        if ($currentUser instanceof ProUser && $userIsCurrentUser) {
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                 'only_google_fields' => true,
                 'action' => $this->generateRoute('front_garage_create')]);
         }
 
+        $contactForm = null;
+        if (!$userIsCurrentUser) {
+            try {
+                $this->conversationAuthorizationChecker->canCommunicate($currentUser, $user);
+
+                // $currentUser is logged and can communicate with Wamcar messaging service
+                $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $user);
+                if ($conversation instanceof Conversation) {
+                    // Useless check ?
+                    //$this->conversationAuthorizationChecker->memberOfConversation($currentUser, $conversation);
+                    $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
+                } else {
+                    $messageDTO = new MessageDTO(null, $currentUser, $user);
+                }
+                $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.conversation_update'
+                    );
+                    return $this->redirectToRoute('front_conversation_edit', [
+                        'id' => $conversation->getId(),
+                        '_fragment' => 'last-message']);
+
+                }
+
+            } catch (AccessDeniedHttpException $exception) {
+                // $currentUser is unlogged or can't communicate directly => contact form for unlogged user
+                $proContactMessageDTO = new ProContactMessageDTO($user);
+                $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                    $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                        $this->translator->trans('flash.success.pro_contact_message.sent', [
+                            '%proUserName%' => $user->getFullName()
+                        ]));
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }
+            }
+        }
+
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
-            'userIsMe' => $user->is($this->getUser()),
+            'contactForm' => $contactForm ? $contactForm->createView() : null,
+            'userIsMe' => $userIsCurrentUser,
             'user' => $user,
             'isEditableByCurrentUser' => false,
             'searchForm' => $searchForm ? $searchForm->createView() : null,
@@ -493,9 +579,9 @@ class UserController extends BaseController
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
         $currentUser = $this->getUser();
         $userPreferenceDTO = UserPreferencesDTO::createFromUser($this->getUser());
-        if($currentUser instanceof ProUser) {
+        if ($currentUser instanceof ProUser) {
             $userPreferenceForm = $this->formFactory->create(ProUserPreferencesType::class, $userPreferenceDTO);
-        }else{
+        } else {
             $userPreferenceForm = $this->formFactory->create(UserPreferencesType::class, $userPreferenceDTO);
         }
         $userPreferenceForm->handleRequest($request);
@@ -526,17 +612,27 @@ class UserController extends BaseController
             $action = $request->get('action');
             $to = $request->get('to');
 
-            $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
+            if (strpos($to, TrackingExtension::VALUE_ADVISOR) !== false ||
+                strpos($to, TrackingExtension::VALUE_CUSTOMER) !== false) {
+                // User phone number
+                $userId = str_replace([TrackingExtension::VALUE_ADVISOR, TrackingExtension::VALUE_CUSTOMER], '', $to);
 
-            $phoneNumberUser = $this->userRepository->findOne($userId);
-            if ($currentUser instanceof ProUser) {
-                $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
-                    strpos($action, '2') > 0);
+                $phoneNumberUser = $this->userRepository->findOne($userId);
+                if ($currentUser instanceof ProUser) {
+                    $this->leadManagementService->increaseNbPhoneActionByPro($currentUser, $phoneNumberUser,
+                        strpos($action, '2') > 0);
+                }
+                if ($phoneNumberUser instanceof ProUser) {
+                    $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
+                        strpos($action, '2') > 0);
+                }
+                if (strpos($action, '2') > 0) {
+                    return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhonePro())]);
+                } else {
+                    return new JsonResponse(['phoneNumber' => FormatExtension::phoneFormat($phoneNumberUser->getPhone())]);
+                }
             }
-            if ($phoneNumberUser instanceof ProUser) {
-                $this->leadManagementService->increaseNbPhoneActionByLead($phoneNumberUser, $currentUser,
-                    strpos($action, '2') > 0);
-            }
+
         }
         return new JsonResponse();
     }

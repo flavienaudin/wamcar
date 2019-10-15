@@ -27,11 +27,21 @@
     display: flex;
     align-items: center;
     height: rem-calc(40);
-    color: rgba(black, .6);
     font-size: rem-calc(12);
+    color: rgba(black, .6);
 
     @include breakpoint(large) {
       &:hover { text-decoration: underline; }
+    }
+  }
+
+
+  &-seller{
+    @include breakpoint(medium) {
+      margin-top: -110px;
+      a {
+        color: rgba(white, .6);
+      }
     }
   }
 

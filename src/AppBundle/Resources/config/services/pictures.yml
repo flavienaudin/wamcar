@@ -24,3 +24,7 @@ services:
         class: 'AppBundle\Services\Picture\PathUserPicture'
         parent: AppBundle\Services\Picture\BasePathPicture
 
+    AppBundle\Services\Picture\PathUserBanner:
+        class: 'AppBundle\Services\Picture\PathUserBanner'
+        parent: AppBundle\Services\Picture\BasePathPicture
+

@@ -1,0 +1,19 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}{{ 'encourageToRegisterAfterProContact.object'|trans }}{% endblock %}
+
+
+{% block body %}
+    <div>
+        <div>
+            Pour profiter pleinement de Wamcar, inscrivez-vous et ....
+            <div style="display: flex; width: 100%;">
+                {{ action_button(url('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}), 'encourageToRegisterAfterProContact.action_label.personal'|trans) }}
+                {{ action_button(url('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}), 'encourageToRegisterAfterProContact.action_label.pro'|trans) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

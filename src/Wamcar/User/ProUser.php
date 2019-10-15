@@ -7,6 +7,7 @@ namespace Wamcar\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Wamcar\Conversation\ProContactMessage;
 use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
@@ -35,6 +36,8 @@ class ProUser extends BaseUser
     protected $leads;
     /** @var Collection */
     protected $saleDeclarations;
+    /** @var Collection */
+    protected $proContactMessages;
 
     /**
      * ProUser constructor.
@@ -50,6 +53,7 @@ class ProUser extends BaseUser
         $this->vehicles = new ArrayCollection();
         $this->leads = new ArrayCollection();
         $this->saleDeclarations = new ArrayCollection();
+        $this->proContactMessages = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -332,6 +336,31 @@ class ProUser extends BaseUser
     public function removeSaleDeclaration(Declaration $declaration): void
     {
         $this->saleDeclarations->removeElement($declaration);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getProContactMessages(): Collection
+    {
+        return $this->proContactMessages;
+    }
+
+
+    /**
+     * @param ProContactMessage $proContactMessage
+     */
+    public function addProContactMessage(ProContactMessage $proContactMessage): void
+    {
+        $this->proContactMessages->add($proContactMessage);
+    }
+
+    /**
+     * @param ProContactMessage $proContactMessage
+     */
+    public function removeProContactMessage(ProContactMessage $proContactMessage): void
+    {
+        $this->proContactMessages->removeElement($proContactMessage);
     }
 
     /**
