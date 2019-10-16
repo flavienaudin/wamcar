@@ -308,27 +308,9 @@
           font-size: 2rem;
         }
 
-        .baseline-words{
-          span {
-            position: absolute;
-            overflow: hidden;
-            animation: changeWordsAnimation 12s linear infinite;
-            opacity: 0;
-
-            &:nth-child(1) {
-              animation-delay: 0s;
-            }
-            &:nth-child(2) {
-              animation-delay: 3s;
-            }
-            &:nth-child(3) {
-              animation-delay: 6s;
-            }
-            &:nth-child(4) {
-              animation-delay: 9s;
-            }
-
-          }
+        .baseline-words:after {
+          content: attr(data-first);
+          animation: spin 8s linear infinite;
         }
 
       }
@@ -359,7 +341,7 @@
         }
       }
 
-      .row:not(:last-child){
+      .row:not(:last-child) {
         border-bottom: $grey-altPeexeo dotted 3px;
         padding-bottom: rem-calc(40);
         margin-bottom: rem-calc(40);
@@ -370,7 +352,7 @@
         }
       }
 
-      .reinsurance-video-button{
+      .reinsurance-video-button {
         &:hover, &:focus {
           color: $primary-color;
         }
@@ -382,7 +364,7 @@
     }
 
 
-    #reinsurance_wamcar{
+    #reinsurance_wamcar {
       background-color: $grey-altPeexeo;
       background-image: none;
 
@@ -396,6 +378,7 @@
             color: white;
             margin-top: 0;
           }
+
           p {
             color: white;
           }
@@ -405,27 +388,20 @@
   }
 }
 
-
-
-@keyframes changeWordsAnimation {
+@keyframes spin {
   0% {
-    opacity: 0;
-    transform: translateY(-50px);
+    content: attr(data-first);
   }
-  2% {
-    opacity: 1;
-    transform: translateY(0);
+  25% {
+    content: attr(data-second);
   }
-  18% {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    content: attr(data-third);
   }
-  20% {
-    opacity: 0;
-    transform: translateY(50px);
+  75% {
+    content: attr(data-fourth);
   }
   100% {
-    opacity: 0;
-    transform: translateY(50px);
+    content: attr(data-first);
   }
 }
