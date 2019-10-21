@@ -17,7 +17,7 @@ monolog:
             type: stream
             path: '%kernel.logs_dir%/%kernel.environment%.log'
             level: debug
-            channels: ['!event', '!doctrine', '!user_provider']
+            channels: ['!event', '!doctrine', '!user_provider', '!api']
         user_provider :
             type: stream
             path: '%kernel.logs_dir%/user_provider_%kernel.environment%.log'
@@ -26,6 +26,10 @@ monolog:
             type: stream
             path: '%kernel.logs_dir%/doctrine_%kernel.environment%.log'
             channels: doctrine
+        api:
+            type: stream
+            path: '%kernel.logs_dir%/api_%kernel.environment%.log'
+            channels: api
         console:
             type: console
             process_psr_3_messages: false

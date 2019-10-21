@@ -13,7 +13,7 @@ monolog:
             type: fingers_crossed
             action_level: error
             handler: nested
-            channels: ['!doctrine', '!user_provider']
+            channels: ['!doctrine', '!user_provider','!api']
         user_provider:
             type: stream
             path: '%kernel.logs_dir%/user_provider_%kernel.environment%.log'
@@ -22,6 +22,10 @@ monolog:
             type: stream
             path: '%kernel.logs_dir%/doctrine_%kernel.environment%.log'
             channels: doctrine
+        api:
+            type: stream
+            path: '%kernel.logs_dir%/api_%kernel.environment%.log'
+            channels: api
         nested:
             type: stream
             path: '%kernel.logs_dir%/%kernel.environment%.log'
