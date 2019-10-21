@@ -58,4 +58,7 @@ services:
         autowire: true
         autoconfigure: false
         parent: AppBundle\Controller\Api\BaseController
-        tags: ['controller.service_arguments']
+        tags:
+            - 'controller.service_arguments'
+            - { name: monolog.logger, channel: api }
+
