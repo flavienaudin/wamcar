@@ -76,6 +76,14 @@ class SearchResultProvider
 
         $mainBoolQuery = $qb->query()->bool();
 
+        // With Pictures or without vehicle.nbPicture field (ie PersonalProject)
+        $withPictureBoolQuery = $qb->query()->bool();
+        $withoutNbPicturesBoolQuery = $qb->query()->bool();
+        $withoutNbPicturesBoolQuery->addMustNot($qb->query()->exists('vehicle.nbPictures'));
+        $withPictureBoolQuery->addShould($withoutNbPicturesBoolQuery);
+        $withPictureBoolQuery->addShould($qb->query()->range('vehicle.nbPictures', ['gt' => 0]));
+        //$mainBoolQuery->addFilter($withPictureBoolQuery);
+
         // Search types
         if (in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
             // Search with reprise ==> Search_Item
@@ -479,10 +487,10 @@ class SearchResultProvider
                         $queryTermsAsArray = explode(' ', $searchVehicleDTO->text);
                         $mainQuery->setMinScore(8 * sqrt(count($queryTermsAsArray)));
                     }
-                }elseif (!in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
+                } elseif (!in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
                     // Search only Personal Vehicle OR/AND Project : no additionnal function score => low score => lower minScore
                     $mainQuery->setMinScore(0);
-                }else{
+                } else {
                     // Mix Search : Pro / Personal
                     if (empty($searchVehicleDTO->text)) {
                         $mainQuery->setMinScore(0);

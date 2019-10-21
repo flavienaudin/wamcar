@@ -7,6 +7,7 @@ use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use Psr\Log\LoggerInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -35,6 +36,8 @@ class VehicleController extends BaseController
     private $vehicleRepository;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+    /** @var LoggerInterface */
+    private $logger;
 
 
     /**
@@ -49,11 +52,15 @@ class VehicleController extends BaseController
      * VehicleController constructor.
      * @param ProVehicleRepository $vehicleRepository
      * @param ProVehicleEditionService $proVehicleEditionService
+     * @param LoggerInterface $logger
      */
-    public function __construct(ProVehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
+    public function __construct(ProVehicleRepository $vehicleRepository,
+                                ProVehicleEditionService $proVehicleEditionService,
+                                LoggerInterface $logger)
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->proVehicleEditionService = $proVehicleEditionService;
+        $this->logger = $logger;
     }
 
     /**
@@ -295,6 +302,9 @@ class VehicleController extends BaseController
     public function addImageAction(Request $request, string $id): Response
     {
         try {
+            $this->logger->notice(print_r($request->headers, true));
+            $this->logger->notice(print_r($request->files, true));
+
             $vehicle = $this->getVehicleFromId($id);
 
             if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
