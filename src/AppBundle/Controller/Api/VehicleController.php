@@ -302,13 +302,15 @@ class VehicleController extends BaseController
     public function addImageAction(Request $request, string $id): Response
     {
         try {
-            $this->logger->notice(print_r($request->headers, true));
-            $this->logger->notice(print_r($request->files, true));
-
             $vehicle = $this->getVehicleFromId($id);
 
             if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
-                throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
+                throw new \InvalidArgumentException(
+                    sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD),
+                    Response::HTTP_BAD_REQUEST);
+
+            }elseif (count($request->files ) == 0 ){
+                throw new \InvalidArgumentException('No file received', Response::HTTP_BAD_REQUEST);
             }
 
             $pictures = [];
@@ -316,6 +318,7 @@ class VehicleController extends BaseController
             foreach ($request->files as $file) {
                 $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
             }
+
 
             $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
             $data = VehicleShortDTO::createFromProVehicle($vehicle);
