@@ -7,6 +7,7 @@ use AppBundle\Api\DTO\VehicleDTO;
 use AppBundle\Api\DTO\VehicleShortDTO;
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
+use Psr\Log\LoggerInterface;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -35,6 +36,8 @@ class VehicleController extends BaseController
     private $vehicleRepository;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+    /** @var LoggerInterface */
+    private $logger;
 
 
     /**
@@ -49,11 +52,15 @@ class VehicleController extends BaseController
      * VehicleController constructor.
      * @param ProVehicleRepository $vehicleRepository
      * @param ProVehicleEditionService $proVehicleEditionService
+     * @param LoggerInterface $logger
      */
-    public function __construct(ProVehicleRepository $vehicleRepository, ProVehicleEditionService $proVehicleEditionService)
+    public function __construct(ProVehicleRepository $vehicleRepository,
+                                ProVehicleEditionService $proVehicleEditionService,
+                                LoggerInterface $logger)
     {
         $this->vehicleRepository = $vehicleRepository;
         $this->proVehicleEditionService = $proVehicleEditionService;
+        $this->logger = $logger;
     }
 
     /**
@@ -298,7 +305,12 @@ class VehicleController extends BaseController
             $vehicle = $this->getVehicleFromId($id);
 
             if (count($request->files) > self::MAX_IMAGE_UPLOAD) {
-                throw new \InvalidArgumentException(sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD));
+                throw new \InvalidArgumentException(
+                    sprintf('You can not upload more than %d images for a vehicle', self::MAX_IMAGE_UPLOAD),
+                    Response::HTTP_BAD_REQUEST);
+
+            }elseif (count($request->files ) == 0 ){
+                throw new \InvalidArgumentException('No file received', Response::HTTP_BAD_REQUEST);
             }
 
             $pictures = [];
@@ -306,6 +318,7 @@ class VehicleController extends BaseController
             foreach ($request->files as $file) {
                 $pictures[] = new ProVehiclePicture(null, $vehicle, $file);
             }
+
 
             $vehicle = $this->proVehicleEditionService->addPictures($pictures, $vehicle);
             $data = VehicleShortDTO::createFromProVehicle($vehicle);
