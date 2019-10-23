@@ -48,3 +48,7 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Sale\Declaration
             mappedBy: proUserSeller
             cascade: ["persist", "merge", "remove"]
+        proContactMessages:
+            targetEntity: Wamcar\Conversation\ProContactMessage
+            mappedBy: proUser
+            cascade: ["persist", "merge", "remove"]
