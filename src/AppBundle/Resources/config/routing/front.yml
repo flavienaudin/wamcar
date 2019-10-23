@@ -296,6 +296,11 @@ front_vehicle_personal_delete:
     controller: AppBundle:Front\ProContext\PersonalVehicle:delete
 
 # Search
+
+front_vehicle_search_form_update:
+    path: /recherche-voitures/form_update.json
+    controller: AppBundle:Front\ProContext\Search:updateSeacrhVehicleForm
+
 front_search_by_city:
     path: /recherche-voitures/v/{city}
     controller: AppBundle:Front\ProContext\Search:search

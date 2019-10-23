@@ -8,6 +8,7 @@ use AppBundle\Utils\SearchTypeChoice;
 use Elastica\Client;
 use Elastica\Query;
 use Elastica\QueryBuilder;
+use Elastica\Result;
 use Elastica\ResultSet;
 use Elastica\Script\AbstractScript;
 use Elastica\Script\Script;
@@ -532,5 +533,100 @@ class SearchResultProvider
             return $this->personalVehicleEntityIndexer->getQueryUserVehicleResult($user->getId(), $text, $page, $limit);
         }
         return null;
+    }
+
+
+    public function getVehicleInfoFilterValue(array $data): array
+    {
+        $aggregations = $this->getVehicleInfoAggregates();
+
+        if (isset($data['vehicle.make.keyword'])) {
+            $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates(['vehicle.make.keyword' => $data['vehicle.make.keyword']]));
+            if (isset($data['vehicle.model.keyword'])) {
+                $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
+                    'vehicle.make.keyword' => $data['vehicle.make.keyword'],
+                    'vehicle.model.keyword' => $data['vehicle.model.keyword'],
+                ]));
+            }
+            if (isset($data['engine.keyword'])) {
+                $aggregations = array_merge($aggregations, $this->getVehicleInfoAggregates([
+                    'vehicle.make.keyword' => $data['vehicle.make.keyword'],
+                    'vehicle.model.keyword' => $data['vehicle.model.keyword'],
+                    'vehicle.engine.keyword' => $data['vehicle.engine.keyword'],
+                ]));
+            }
+
+        }
+        return $aggregations;
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     */
+    public function getVehicleInfoAggregates(array $data = []): array
+    {
+        $mainQuery = new Query();
+
+        $qb = new QueryBuilder();
+
+        $boolQuery = $qb->query()->bool();
+        foreach ($data as $field => $value) {
+            if (!empty($value)) {
+                $boolQuery->addMust($qb->query()->term([$field => $value]));
+            }
+        }
+        $mainQuery->setQuery($boolQuery);
+
+        $fuelTermsAgg = $qb->aggregation()->terms("vehicle.fuel.keyword");
+        $fuelTermsAgg->setField('vehicle.fuel.keyword');
+        $fuelTermsAgg->setSize(1000);
+        $mainQuery->addAggregation($fuelTermsAgg);
+
+
+        if (empty($data)) {
+            $makeTermsAgg = $qb->aggregation()->terms("vehicle.make.keyword");
+            $makeTermsAgg->setField('vehicle.make.keyword');
+            $makeTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $mainQuery->addAggregation($makeTermsAgg);
+        }
+
+        $childAggregations = [];
+        $formattedAggregations = [];
+        $aggregationMapping = [
+            'vehicle.make.keyword' => ['vehicle.model.keyword', 'vehicle.engine.keyword', 'vehicle.fuel.keyword'],
+            'vehicle.model.keyword' => ['vehicle.engine.keyword', 'vehicle.fuel.keyword'],
+            'vehicle.engine.keyword' => ['vehicle.fuel.keyword'],
+            'vehicle.fuel.keyword' => ['vehicle.engine.keyword']
+        ];
+        foreach ($aggregationMapping as $key => $children) {
+            $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
+        }
+        foreach ($childAggregations as $aggregationField) {
+            $childTermsAgg = $qb->aggregation()->terms($aggregationField);
+            $childTermsAgg->setField($aggregationField);
+            $childTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $mainQuery->addAggregation($childTermsAgg);
+        }
+
+
+
+
+        $resultSet = $this->client->getIndex($this->searchItemIndexer->getIndexName())->search($mainQuery);
+        $this->logger->notice(json_encode($resultSet->getQuery()->toArray()));
+        $resultToArray = array_map(function (Result $r){
+            return $r->getHit();
+        }, $resultSet->getResults());
+        $this->logger->notice(json_encode($resultToArray));
+
+
+        foreach ($resultSet->getAggregations() as $field => $aggregation) {
+            $cleanAggregation = array_map(function ($aggregationDetail) {
+                return $aggregationDetail['key'];
+            }, $aggregation['buckets']);
+            sort($cleanAggregation);
+            $formattedAggregations[$field] = array_combine($cleanAggregation, $cleanAggregation);
+        }
+        return $formattedAggregations;
     }
 }

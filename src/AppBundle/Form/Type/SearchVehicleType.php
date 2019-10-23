@@ -51,17 +51,17 @@ class SearchVehicleType extends AbstractType
                     'empty_data' => [SearchTypeChoice::SEARCH_PRO_VEHICLE]
                 ])
                 ->add('make', ChoiceType::class, [
-                    'choices' => $availableValues['make'] ?? [],
+                    'choices' => $availableValues['vehicle.make.keyword'] ?? [],
                     'preferred_choices' => function ($val, $key) {
                         return in_array($key, $this->preferredMakes);
                     },
-                    'placeholder' => count($availableValues['make'] ?? []) === 1 ? false : '',
+                    'placeholder' => count($availableValues['vehicle.make.keyword'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
                     'choice_translation_domain' => false
                 ])
                 ->add('model', ChoiceType::class, [
-                    'choices' => $availableValues['model'] ?? [],
-                    'placeholder' => count($availableValues['model'] ?? []) === 1 ? false : '',
+                    'choices' => $availableValues['vehicle.model.keyword'] ?? [],
+                    'placeholder' => count($availableValues['vehicle.model.keyword'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
                     'choice_translation_domain' => false
                 ])
@@ -71,8 +71,8 @@ class SearchVehicleType extends AbstractType
                     'choice_translation_domain' => 'enumeration'
                 ])
                 ->add('fuel', ChoiceType::class, [
-                    'choices' => $availableValues['fuel'] ?? [],
-                    'placeholder' => count($availableValues['fuel'] ?? []) === 1 ? false : '',
+                    'choices' => $availableValues['vehicle.fuel.keyword'] ?? [],
+                    'placeholder' => count($availableValues['vehicle.fuel.keyword'] ?? []) === 1 ? false : '',
                     'error_bubbling' => true,
                     'choice_translation_domain' => false
                 ])

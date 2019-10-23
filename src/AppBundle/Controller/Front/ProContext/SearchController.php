@@ -14,6 +14,7 @@ use AppBundle\Services\Vehicle\PersonalVehicleEditionService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Utils\SearchTypeChoice;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
@@ -93,7 +94,6 @@ class SearchController extends BaseController
         $searchResult = $this->searchResultProvider->getSearchResult($searchForm->getData(), $page, $this->getUser());
         $searchResultVehicles = $this->userEditionService->getMixedBySearchItemResult($searchResult);
 
-
         return $this->render('front/Search/search.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterData' => (array)$searchForm->getData(),
@@ -123,14 +123,14 @@ class SearchController extends BaseController
         }
 
         $filters = [
-            'make' => $make ?? $paramSearchVehicle['make'] ?? null,
-            'model' => $model ?? $paramSearchVehicle['model'] ?? null
+            'vehicle.make.keyword' => $make ?? $paramSearchVehicle['make'] ?? null,
+            'vehicle.model.keyword' => $model ?? $paramSearchVehicle['model'] ?? null
         ];
 
-        $availableValues = $this->vehicleInfoIndexer->getVehicleInfoAggregatesFromMakeAndModel($filters);
+        $availableValues = $this->searchResultProvider->getVehicleInfoFilterValue($filters);
         $searchVehicleDTO = new SearchVehicleDTO();
-        $searchVehicleDTO->make = $filters['make'];
-        $searchVehicleDTO->model = $filters['model'];
+        $searchVehicleDTO->make = $filters['vehicle.make.keyword'];
+        $searchVehicleDTO->model = $filters['vehicle.model.keyword'];
 
         // Result types of the search
         $type = null;
@@ -236,5 +236,20 @@ class SearchController extends BaseController
             'available_values' => $availableValues,
             'sortingField' => $displaySortingField
         ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function updateSeacrhVehicleFormAction(Request $request): JsonResponse
+    {
+        $filters = $request->get('filters', []);
+        $fetch = $request->get('fetch', null);
+
+        $aggregates = $this->searchResultProvider->getVehicleInfoFilterValue($filters);
+
+        return new JsonResponse($fetch ? $aggregates[$fetch] : $aggregates);
     }
 }

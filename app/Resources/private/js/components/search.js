@@ -92,7 +92,7 @@ if ($makeSelect && $modelSelect) {
       clearSelect($modelSelect);
 
       let filterForm = new FormData();
-      filterForm.append('filters[make]', $makeSelect.value);
+      filterForm.append('filters[vehicle.make.keyword]', $makeSelect.value);
 
       fetch(dataFetchUrl, {
         method: 'POST',
@@ -104,10 +104,10 @@ if ($makeSelect && $modelSelect) {
       })
         .then(response => response.json())
         .then((data) => {
-          for (let value in data['model']) {
-            if (data['model'].hasOwnProperty(value)) {
+          for (let value in data['vehicle.model.keyword']) {
+            if (data['vehicle.model.keyword'].hasOwnProperty(value)) {
               let option = document.createElement('option');
-              option.text = data['model'][value];
+              option.text = data['vehicle.model.keyword'][value];
               option.value = value;
               $modelSelect.add(option);
             }
