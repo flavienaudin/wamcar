@@ -43,7 +43,7 @@ if ($searchForm.length) {
 
   // Submit form when changing sorting select
   let $sortingSelect = $('#js-search-sorting-select');
-  if($sortingSelect.length){
+  if ($sortingSelect.length) {
     $sortingSelect.on('change', () => {
       $searchForm.submit();
     });
@@ -51,7 +51,7 @@ if ($searchForm.length) {
 
   // Submit form when using pagination navigation
   let $paginationItems = $('.pagination-item');
-  if($paginationItems.length){
+  if ($paginationItems.length) {
     $paginationItems.on('click', (e) => {
       e.preventDefault();
       $searchForm.attr('action', $(e.currentTarget).attr('href'));
@@ -61,7 +61,7 @@ if ($searchForm.length) {
 
   // Submit form when selecting new checkbox (Search)
   let $searchTypesCheckbox = $('.js-search-type-list li input[type="checkbox"]');
-  if($searchTypesCheckbox.length){
+  if ($searchTypesCheckbox.length) {
     $searchTypesCheckbox.on('change', () => {
       $searchForm.submit();
     });
@@ -69,18 +69,18 @@ if ($searchForm.length) {
 }
 
 
-
 const $makeSelect = document.getElementById('search_vehicle_make');
 const $modelSelect = document.getElementById('search_vehicle_model');
+const $fuelSelect = document.getElementById('search_vehicle_fuel');
 if ($makeSelect && $modelSelect) {
-  let clearSelect = function (select) {
+  let clearSelect = function (select, defaultValue) {
     let selectOptions = select.getElementsByTagName('OPTION');
     while (selectOptions.length > 0) {
       select.remove(selectOptions[0]);
     }
 
     let defaultOption = document.createElement('option');
-    defaultOption.text = 'Modèle du véhicule';
+    defaultOption.text = defaultValue;
     defaultOption.value = '';
     select.add(defaultOption);
   };
@@ -89,10 +89,22 @@ if ($makeSelect && $modelSelect) {
   if ($information) {
     let dataFetchUrl = $information.getAttribute('data-fetch-url');
     $makeSelect.addEventListener('change', () => {
-      clearSelect($modelSelect);
+      clearSelect($modelSelect, 'Modèle du véhicule');
+      if ($fuelSelect) {
+        clearSelect($fuelSelect, 'Energie');
+      }
 
       let filterForm = new FormData();
-      filterForm.append('filters[vehicle.make.keyword]', $makeSelect.value);
+      filterForm.append('filters[make]', $makeSelect.value);
+
+      let $searchTypeField = $($information).find('input[name="search_vehicle[type][]"]');
+      if ($searchTypeField.length > 0) {
+        $searchTypeField.each(function (index, $searchType) {
+          if ($($searchType).attr('checked') === 'checked') {
+            filterForm.append('type[]', $($searchType).val());
+          }
+        });
+      }
 
       fetch(dataFetchUrl, {
         method: 'POST',
@@ -104,12 +116,22 @@ if ($makeSelect && $modelSelect) {
       })
         .then(response => response.json())
         .then((data) => {
-          for (let value in data['vehicle.model.keyword']) {
-            if (data['vehicle.model.keyword'].hasOwnProperty(value)) {
+          for (let value in data['model']) {
+            if (data['model'].hasOwnProperty(value)) {
               let option = document.createElement('option');
-              option.text = data['vehicle.model.keyword'][value];
+              option.text = data['model'][value];
               option.value = value;
               $modelSelect.add(option);
+            }
+          }
+          if ($fuelSelect) {
+            for (let value in data['fuel']) {
+              if (data['fuel'].hasOwnProperty(value)) {
+                let option = document.createElement('option');
+                option.text = data['fuel'][value];
+                option.value = value;
+                $fuelSelect.add(option);
+              }
             }
           }
         })
@@ -117,6 +139,49 @@ if ($makeSelect && $modelSelect) {
           throw err;
         });
     });
+
+    if ($fuelSelect) {
+      $modelSelect.addEventListener('change', () => {
+        clearSelect($fuelSelect, 'Energie');
+
+        let filterForm = new FormData();
+        filterForm.append('filters[make]', $makeSelect.value);
+        filterForm.append('filters[model]', $modelSelect.value);
+
+        let $searchTypeField = $($information).find('input[name="search_vehicle[type][]"]');
+        if ($searchTypeField.length > 0) {
+          $searchTypeField.each(function (index, $searchType) {
+            if ($($searchType).attr('checked') === 'checked') {
+              filterForm.append('type[]', $($searchType).val());
+            }
+          });
+        }
+
+        fetch(dataFetchUrl, {
+          method: 'POST',
+          body: filterForm,
+          credentials: 'include',
+          headers: new Headers({
+            'X-Requested-With': 'XMLHttpRequest'
+          })
+        })
+          .then(response => response.json())
+          .then((data) => {
+            for (let value in data['fuel']) {
+              if (data['fuel'].hasOwnProperty(value)) {
+                let option = document.createElement('option');
+                option.text = data['fuel'][value];
+                option.value = value;
+                $fuelSelect.add(option);
+              }
+            }
+          })
+          .catch(err => {
+            throw err;
+          });
+      });
+    }
+
   }
 }
 

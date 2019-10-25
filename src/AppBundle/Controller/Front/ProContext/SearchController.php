@@ -112,25 +112,7 @@ class SearchController extends BaseController
     {
         $paramSearchVehicle = $request->get('search_vehicle');
 
-        $make = $request->get('make');
-        if ($make) {
-            $make = strtoupper($make);
-        }
-
-        $model = $request->get('model');
-        if ($model) {
-            $model = urldecode($model);
-        }
-
-        $filters = [
-            'vehicle.make.keyword' => $make ?? $paramSearchVehicle['make'] ?? null,
-            'vehicle.model.keyword' => $model ?? $paramSearchVehicle['model'] ?? null
-        ];
-
-        $availableValues = $this->searchResultProvider->getVehicleInfoFilterValue($filters);
         $searchVehicleDTO = new SearchVehicleDTO();
-        $searchVehicleDTO->make = $filters['vehicle.make.keyword'];
-        $searchVehicleDTO->model = $filters['vehicle.model.keyword'];
 
         // Result types of the search
         $type = null;
@@ -152,6 +134,7 @@ class SearchController extends BaseController
                 $type = null;
             }
         } elseif ($request->query->has('search_vehicle')) {
+            // legacy GET form submission
             $searchVehicleQueryParam = $request->query->get('search_vehicle');
             if (is_array($searchVehicleQueryParam) && isset($searchVehicleQueryParam['tab'])) {
                 // legacy GET form submission
@@ -199,9 +182,39 @@ class SearchController extends BaseController
             }
         }
         if(empty($searchVehicleDTO->type)){
+            // Default Value (modified when handling the request)
             $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
         }
 
+        // Make / Model / Fuel filters values
+        $make = $request->get('make');
+        if ($make) {
+            $make = strtoupper($make);
+        }
+
+        $model = $request->get('model');
+        if ($model) {
+            $model = urldecode($model);
+        }
+
+        // manually get submitted TYPE as we are before the handling of the request in the form
+        $searchVehicleData = $request->get('search_vehicle', []);
+        if(isset($searchVehicleData['type'])) {
+            // submitted value
+            $types =$searchVehicleData['type'];
+        }else {
+            // value computed earlier
+            $types = $searchVehicleDTO->type;
+        }
+
+        $filters = [
+            'make' => $make ?? $paramSearchVehicle['make'] ?? null,
+            'model' => $model ?? $paramSearchVehicle['model'] ?? null,
+        ];
+
+        $availableValues = $this->searchResultProvider->getVehicleInfoFilterValue($filters, $types);
+        $searchVehicleDTO->make = $filters['make'];
+        $searchVehicleDTO->model = $filters['model'];
 
         // Champ libre
         if ($request->query->has('q')) {
@@ -246,9 +259,11 @@ class SearchController extends BaseController
     public function updateSeacrhVehicleFormAction(Request $request): JsonResponse
     {
         $filters = $request->get('filters', []);
+        $searchTypes = $request->get('type', []);
+
         $fetch = $request->get('fetch', null);
 
-        $aggregates = $this->searchResultProvider->getVehicleInfoFilterValue($filters);
+        $aggregates = $this->searchResultProvider->getVehicleInfoFilterValue($filters, $searchTypes);
 
         return new JsonResponse($fetch ? $aggregates[$fetch] : $aggregates);
     }
