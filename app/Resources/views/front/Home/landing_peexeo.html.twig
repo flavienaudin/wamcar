@@ -12,6 +12,18 @@
 
 {% block body %}
 
+    {% if not isLogged %}
+        {% set findAdvisorLink = path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) %}
+    {% elseif app.user.affinityAnswer is not null %}
+        {% if isUserPersonal %}
+            {% set findAdvisorLink = path('front_affinity_personal_form') %}
+        {% else %}
+            {% set findAdvisorLink = path('front_affinity_pro_form') %}
+        {% endif %}
+    {% else %}
+        {% set findAdvisorLink = path('front_directory_view') %}
+    {% endif %}
+
     <section class="top-section">
         <div class="row full-height align-middle">
             <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
@@ -68,9 +80,8 @@
                               data-fourth="{{ 'landing.peexeo.baseline.fourth'|trans }}"
                         ></span>
                     </h1>
-
-                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                       class="button square">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                    <a href="{{ findAdvisorLink }}" class="button square">
+                        {{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
                 </div>
             </div>
 
@@ -94,7 +105,7 @@
                 <div class="row">
                     <div class="column small-12 margin-bottom-1 medium-6">
                         <a class="button square"
-                           href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                           href="{{ findAdvisorLink }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
                     </div>
                     <div class="column small-12 margin-bottom-1 medium-6 ">
                         <a class="button square grey-light"
