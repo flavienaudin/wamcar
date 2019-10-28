@@ -20,9 +20,9 @@
 ] %}
 {% set reinsurance_class = reinsurance_class|default('') %}
 
-<ul class="reinsurance-comment-ca-marche block-grid column small-12 small-up-1 large-up-3 no-bullet {{ reinsurance_class }}">
+<ul class="reinsurance-comment-ca-marche block-grid column small-12 small-up-1 no-bullet {{ reinsurance_class }}">
     {% for index, reinsurance in reinsurance_list %}
-        <li class="column is-flex small-vertical medium-horizontal large-vertical align-middle">
+        <li class="column is-flex small-vertical medium-horizontal align-middle">
             <div class="reinsurance-ccm-image">
                 <img src="{{ asset('assets/images/reinsurance/' ~ reinsurance.image) }}" alt="{{ reinsurance.alt }}">
             </div>

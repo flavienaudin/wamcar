@@ -222,9 +222,6 @@
         @include breakpoint(medium) {
           max-width: 30%;
         }
-        @include breakpoint(large) {
-          max-width: 100%;
-        }
       }
 
       .reinsurance-ccm-body{
@@ -232,13 +229,6 @@
           max-width: 70%;
           margin-left: rem-calc(30);
           text-align: left;
-        }
-
-        @include breakpoint(large){
-          max-width: 100%;
-          margin-left: rem-calc(30);
-          margin-right: rem-calc(30);
-          text-align: center;
         }
 
         .reinsurance-ccm-step {
