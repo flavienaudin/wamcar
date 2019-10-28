@@ -542,8 +542,6 @@ class SearchResultProvider
      */
     public function getVehicleInfoFilterValue(array $data, array $searchTypes): array
     {
-        dump('getVehicleInfoFilterValue');
-
         $includeProVehicle = in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchTypes);
         $includePersonalVehicle = in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchTypes);
 
