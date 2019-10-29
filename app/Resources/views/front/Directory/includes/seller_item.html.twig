@@ -1,0 +1,27 @@
+{% set itemClass = itemClass|default('') %}
+
+<div class="{{ itemClass }} seller-item">
+    <div class="profil-image margin-bottom-2">
+        <a href="{{ path('front_view_pro_user_info', {'slug': proUser.slug}) }}">
+            <img src="{{ proUser.avatar|avatar('user_thumbnail', proUser.fullName) }}"
+                 alt="{{ proUser.fullName }}"></a>
+    </div>
+    <h2 class="text-center margin-bottom-1">{{ proUser.fullName }}</h2>
+
+    <div class="margin-bottom-1 text-center black-color">
+        {{ proUser.presentationTitle }}&nbsp;
+    </div>
+
+    {% set userGarages = proUser.garagesOrderByGoogleRating %}
+    <p class="icon-location primary-color align-center">
+        <span class="body-font-color">
+            {% if userGarages|length > 1 %}
+                Multi-sites
+            {% elseif userGarages|length == 1 %}
+                {{ userGarages[0].garage.city }}
+            {% else %}
+                &ndash;
+            {% endif %}
+        </span>
+    </p>
+</div>
