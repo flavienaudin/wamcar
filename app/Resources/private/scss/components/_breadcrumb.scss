@@ -21,6 +21,10 @@
         }
       }
     } // &:not(:first-child)
+
+    &:last-child {
+      font-weight: bold;
+    }
   }
 
   a {

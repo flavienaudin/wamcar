@@ -1331,11 +1331,11 @@ notifications:
     garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
 
 directory:
-  page_tile: Annuaire des professionnels
+  page_tile: Tous nos conseillers
+  breadcrumb: Nos conseillers
   description: Rencontrez votre conseiller automobile
   form:
-    title: Rencontrez votre conseiller automobile
-    subtitle: Matchez, discutez, découvrez de bonnes occasions, et obtenez une offre de reprise sérieuse pour votre auto
+    title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
   field:
     text:
       label: Je cherche un conseiller

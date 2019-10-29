@@ -32,7 +32,7 @@
     {% endif %}#}
 {% endspaceless %}{% endset %}
 
-<div class="directory-form-container">
+<div class="column directory-form-container">
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
