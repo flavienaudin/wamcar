@@ -49,22 +49,53 @@
     {% endif %}
 {% endspaceless %}{% endset %}
 
-<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_registration_form_update') }}" class="search-form-container">
+<div id="js-search-form-container" data-fetch-url="{{ path('front_vehicle_search_form_update') }}" class="search-form-container">
     {% set searchFormAttr =  {'class' : 'search-form row gtm-dom-ready', 'id': 'js-search-form'}|merge(wtSearchFormDataAttributes(searchForm, app.user)) %}
     {{ form_start(searchForm, {'attr' : searchFormAttr}) }}
 
-    <div class="column small-12 medium-6 medium-order-1 large-4">
-        {{ form_widget(searchForm.text, {
+
+    <div class="column small-12 medium-6 large-3">
+        {{ form_widget(searchForm.make, {
             'class' : '',
-            'label' : 'search.common.field.text.label'|trans,
-            'label_class' : '',
             'required' : false,
             'required_class': 'show-for-sr',
-            'placeholder': 'search.common.field.text.placeholder'|trans
+            'label' : 'vehicle.field.make.label'|trans,
+            'label_class' : '',
+            'placeholder': 'vehicle.field.make.placeholder'
+        }) }}
+    </div>
+    <div class="column small-12 medium-6 large-3">
+        {{ form_widget(searchForm.model, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'vehicle.field.model.label'|trans,
+            'label_class' : '',
+            'placeholder': 'vehicle.field.model.placeholder'
+        }) }}
+    </div>
+    <div class="column small-12 medium-6 large-3">
+        {{ form_widget(searchForm.fuel, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.fuel.label'|trans,
+            'label_class' : '',
+            'placeholder': 'search.common.field.fuel.placeholder'
+        }) }}
+    </div>
+    <div class="column small-12 medium-6 large-3">
+        {{ form_widget(searchForm.mileageMax, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.mileageMax.label'|trans,
+            'label_class' : '',
+            'placeholder': 'search.common.field.mileageMax.placeholder'
         }) }}
     </div>
 
-    <div class="column small-12 medium-6 medium-order-3 large-4 large-order-2">
+    <div class="column small-12 medium-6 large-4">
         {{ form_widget(searchForm.postalCode, {
             'label': 'search.common.field.location.label'|trans,
             'class': 'js-city-autocomplete',
@@ -84,7 +115,7 @@
 
     </div>
 
-    <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
+    <div class="column small-12 medium-6 large-2">
         {{ form_widget(searchForm.radius, {
             'class' : '',
             'required' : true,
@@ -93,10 +124,23 @@
         }) }}
     </div>
 
-    <div class="column show-for-medium medium-6 medium-order-2 large-2">
+
+    <div class="column small-12 medium-6 large-4">
+        {{ form_widget(searchForm.text, {
+            'class' : '',
+            'label' : 'search.common.field.text.label'|trans,
+            'label_class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'placeholder': 'search.common.field.text.placeholder'|trans
+        }) }}
+    </div>
+
+    <div class="column show-for-medium medium-6 large-2">
         <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
+
 
     <div class="block-grid small-12 medium-order-3 align-middle">
         <div class="search-actions-button block-grid column small-6">
@@ -119,36 +163,6 @@
     </div>
 
     <div id="js-search-expand" class="is-hidden block-grid small-12  medium-order-3" data-toggler=".is-hidden">
-        <div class="column small-12 medium-6 large-3">
-            {{ form_widget(searchForm.make, {
-                'class' : '',
-                'required' : false,
-                'required_class': 'show-for-sr',
-                'label' : 'vehicle.field.make.label'|trans,
-                'label_class' : '',
-                'placeholder': 'vehicle.field.make.placeholder'
-            }) }}
-        </div>
-        <div class="column small-12 medium-6 large-3">
-            {{ form_widget(searchForm.model, {
-                'class' : '',
-                'required' : false,
-                'required_class': 'show-for-sr',
-                'label' : 'vehicle.field.model.label'|trans,
-                'label_class' : '',
-                'placeholder': 'vehicle.field.model.placeholder'
-            }) }}
-        </div>
-        <div class="column small-12 medium-6 large-3">
-            {{ form_widget(searchForm.mileageMax, {
-                'class' : '',
-                'required' : false,
-                'required_class': 'show-for-sr',
-                'label' : 'search.common.field.mileageMax.label'|trans,
-                'label_class' : '',
-                'placeholder': 'search.common.field.mileageMax.placeholder'
-            }) }}
-        </div>
         <div class="block-grid small-12">
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(searchForm.yearsMin, {
@@ -198,16 +212,6 @@
                     'label' : 'search.common.field.transmission.label'|trans,
                     'label_class' : '',
                     'placeholder': 'search.common.field.transmission.placeholder'
-                }) }}
-            </div>
-            <div class="column small-12 medium-6 large-3">
-                {{ form_widget(searchForm.fuel, {
-                    'class' : '',
-                    'required' : false,
-                    'required_class': 'show-for-sr',
-                    'label' : 'search.common.field.fuel.label'|trans,
-                    'label_class' : '',
-                    'placeholder': 'search.common.field.fuel.placeholder'
                 }) }}
             </div>
         </div>
