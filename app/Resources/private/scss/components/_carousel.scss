@@ -89,7 +89,7 @@
     }
 
     .slick-track {
-      background: $grey-alt2;
+      background: $gray-alt2;
       margin: 0 0 rem-calc(10);
     }
 
@@ -131,7 +131,7 @@
         border-radius: 50%;
         font-size: 2em;
         color: $body-font-color;
-        background-color: rgba($grey-alt2, 0.7);
+        background-color: rgba($gray-alt2, 0.7);
         opacity: $slick-opacity-default;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -187,7 +187,7 @@
     li {
       padding: rem-calc(20) 0;
       margin: 0 0 rem-calc(10);
-      background: $grey-alt2;
+      background: $gray-alt2;
     }
 
     img {

@@ -80,6 +80,7 @@ $directory-item-min-height: 182;
   }
 
   &-result {
+    width: 100%;
     padding-top: rem-calc(15);
 
     @include breakpoint(medium) {

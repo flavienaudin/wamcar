@@ -3,10 +3,14 @@
 namespace AppBundle\Form\DTO;
 
 
+use Wamcar\User\ProService;
+
 class SearchProDTO
 {
     /** @var string */
     public $text;
+    /** @var ProService */
+    public $service;
     /** @var string */
     public $postalCode;
     /** @var string */
