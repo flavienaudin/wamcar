@@ -26,6 +26,10 @@ front_directory_by_city_view:
     path: /annuaire-conseillers-auto/v/{city}
     controller: AppBundle:Front\ProContext\Directory:view
 
+front_directory_by_service_view:
+    path: /annuaire-conseillers-auto/s/{service}
+    controller: AppBundle:Front\ProContext\Directory:view
+
 front_directory_view:
     path: /annuaire-conseillers-auto
     controller: AppBundle:Front\ProContext\Directory:view

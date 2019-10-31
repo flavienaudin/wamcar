@@ -48,3 +48,7 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Sale\Declaration
             mappedBy: proUserSeller
             cascade: ["persist", "merge", "remove"]
+        proUserProServices:
+            targetEntity: Wamcar\User\ProUserProService
+            mappedBy: proUser
+            cascade: ["persist", "merge", "remove"]

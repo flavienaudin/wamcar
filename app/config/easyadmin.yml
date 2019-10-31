@@ -8,6 +8,8 @@ easy_admin:
       - { label: 'Ressources :' }
       - Garage
       - ProApplicationUser
+      - ProService
+      - ProUserProService
       - PersonalApplicationUser
       - CronJobs
   formats:
@@ -152,6 +154,35 @@ easy_admin:
           - deletionReason
           - vehicles
           - garageMemberships
+    ProService:
+      class: Wamcar\User\ProService
+      label: Services Pro
+      list:
+        title: 'Services Pro'
+        max_results: 60
+        sort: ['name', 'ASC']
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
+      form:
+        fields:
+          - { property: 'name'}
+    ProUserProService:
+      class: Wamcar\User\ProUserProService
+      label: Selection des services Pro
+      list:
+        title: 'Sélection des services Pro'
+        max_results: 60
+        #sort: ['name', 'ASC']
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
+      new:
+        fields:
+          - proUser
+          - proService
+          - isSpeciality
+      edit:
+        fields:
+          - isSpeciality
     PersonalApplicationUser:
       class: AppBundle\Doctrine\Entity\PersonalApplicationUser
       label: 'Particuliers'

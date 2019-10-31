@@ -9,6 +9,7 @@ use AppBundle\Elasticsearch\Elastica\ElasticUtils;
 use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
 use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\SearchProType;
+use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,8 @@ class DirectoryController extends BaseController
     private $proUserEntityIndexer;
     /** @var UserEditionService */
     private $userEditionService;
+    /** @var ProServiceService */
+    private $proServiceService;
     /** @var CityEntityIndexer */
     private $cityEntityIndexer;
 
@@ -30,18 +33,21 @@ class DirectoryController extends BaseController
      * @param FormFactoryInterface $formFactory
      * @param ProUserEntityIndexer $proUserEntityIndexer
      * @param UserEditionService $userEditionService
+     * @param ProServiceService $proServiceService
      * @param CityEntityIndexer $cityEntityIndexe
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         ProUserEntityIndexer $proUserEntityIndexer,
         UserEditionService $userEditionService,
+        ProServiceService $proServiceService,
         CityEntityIndexer $cityEntityIndexe
     )
     {
         $this->formFactory = $formFactory;
         $this->proUserEntityIndexer = $proUserEntityIndexer;
         $this->userEditionService = $userEditionService;
+        $this->proServiceService = $proServiceService;
         $this->cityEntityIndexer = $cityEntityIndexe;
     }
 
@@ -55,6 +61,11 @@ class DirectoryController extends BaseController
         // Champ libre
         if ($request->query->has('q')) {
             $searchProDTO->text = $request->query->get('q');
+        }
+
+        // Services
+        if (($serviceName = $request->get('service', $request->get('s'))) !== null) {
+            $searchProDTO->service = $this->proServiceService->getProServiceBySlug($serviceName);
         }
 
         // Deal with ByCity action

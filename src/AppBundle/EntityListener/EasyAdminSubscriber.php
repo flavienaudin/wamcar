@@ -14,6 +14,7 @@ use Wamcar\Garage\Garage;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserUpdated;
+use Wamcar\User\ProUserProService;
 
 class EasyAdminSubscriber implements EventSubscriberInterface
 {
@@ -69,6 +70,9 @@ class EasyAdminSubscriber implements EventSubscriberInterface
                 break;
             case $entity instanceof ProApplicationUser:
                 $this->messabeBus->handle(new ProUserUpdated($entity));
+                break;
+            case $entity instanceof ProUserProService:
+                $this->messabeBus->handle(new ProUserUpdated($entity->getProUser()));
                 break;
         }
     }

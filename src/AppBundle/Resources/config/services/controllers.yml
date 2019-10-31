@@ -12,8 +12,10 @@ services:
     AppBundle\Controller\Front\AdministrationContext\BackendController:
         public: true
         calls:
+            - ['setTranslator', ['@translator']]
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
+            - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

@@ -38,6 +38,8 @@ class ProUser extends BaseUser
     protected $saleDeclarations;
     /** @var Collection */
     protected $proContactMessages;
+    /** @var Collection */
+    protected $proUserProServices;
 
     /**
      * ProUser constructor.
@@ -54,6 +56,7 @@ class ProUser extends BaseUser
         $this->leads = new ArrayCollection();
         $this->saleDeclarations = new ArrayCollection();
         $this->proContactMessages = new ArrayCollection();
+        $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -381,4 +384,40 @@ class ProUser extends BaseUser
     {
         return true;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getProUserProServices(): Collection
+    {
+        return $this->proUserProServices;
+    }
+
+    /**
+     * Filtered ProServices on isSpeciality
+     * @return Collection
+     */
+    public function getProUserSpecialities(): Collection
+    {
+        return $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
+            return $proUserProService->isSpeciality();
+        });
+    }
+
+    /**
+     * @param ProUserProService $proUserProService
+     */
+    public function addProUserProService(ProUserProService $proUserProService)
+    {
+        $this->proUserProServices->add($proUserProService);
+    }
+
+    /**
+     * @param ProUserProService $proUserProService
+     */
+    public function removeProUserProService(ProUserProService $proUserProService)
+    {
+        $this->proUserProServices->removeElement($proUserProService);
+    }
+
 }

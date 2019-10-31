@@ -36,9 +36,12 @@ use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\Event\PersonalProjectRemoved;
 use Wamcar\User\Event\PersonalUserRemoved;
 use Wamcar\User\Event\ProUserRemoved;
+use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
 use Wamcar\User\ProUser;
+use Wamcar\User\ProUserProService;
+use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
@@ -68,6 +71,8 @@ class UserEditionService
     private $proVehicleRepository;
     /** @var UserPreferencesRepository */
     private $userPreferencesRepository;
+    /** @var ProUserProServiceRepository */
+    private $proUserProServiceRepository;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserLikeVehicleRepository $userLikeRepository */
@@ -88,6 +93,7 @@ class UserEditionService
      * @param PersonalVehicleRepository $personalVehicleRepository
      * @param ProVehicleRepository $proVehicleRepository
      * @param UserPreferencesRepository $userPreferencesRepository
+     * @param ProUserProServiceRepository $proUserProServiceRepository
      * @param GarageEditionService $garageEditionService
      * @param UserLikeVehicleRepository $userLikeRepository
      * @param UserRegistrationService $userRegistrationService
@@ -103,6 +109,7 @@ class UserEditionService
         PersonalVehicleRepository $personalVehicleRepository,
         ProVehicleRepository $proVehicleRepository,
         UserPreferencesRepository $userPreferencesRepository,
+        ProUserProServiceRepository $proUserProServiceRepository,
         GarageEditionService $garageEditionService,
         UserLikeVehicleRepository $userLikeRepository,
         UserRegistrationService $userRegistrationService,
@@ -118,6 +125,7 @@ class UserEditionService
         $this->personalVehicleRepository = $personalVehicleRepository;
         $this->proVehicleRepository = $proVehicleRepository;
         $this->userPreferencesRepository = $userPreferencesRepository;
+        $this->proUserProServiceRepository = $proUserProServiceRepository;
         $this->garageEditionService = $garageEditionService;
         $this->userLikeRepository = $userLikeRepository;
         $this->userRegistrationService = $userRegistrationService;
@@ -538,4 +546,15 @@ class UserEditionService
             return true;
         }
     }
+
+    /**
+     * Delete a service offered by a pro
+     * @param ProUserProService $proUserProService
+     */
+    public function deleteProUserProService(ProUserProService $proUserProService){
+        $proUser = $proUserProService->getProUser();
+        $this->proUserProServiceRepository->remove($proUserProService);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
+    }
+
 }

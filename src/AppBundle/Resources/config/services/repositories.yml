@@ -1,118 +1,126 @@
 services:
-    _defaults:
-        autowire: false
-        autoconfigure: false
-        public: false
+  _defaults:
+    autowire: false
+    autoconfigure: false
+    public: false
 
-    # Même sans public est accessible via les commands
-    Wamcar\Vehicle\ProVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProVehicleRepository'
-        factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: [ 'Wamcar\Vehicle\ProVehicle' ]
-        public: true
+  # Même sans public est accessible via les commands
+  Wamcar\Vehicle\ProVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineProVehicleRepository'
+    factory: 'doctrine.orm.entity_manager:getRepository'
+    arguments: ['Wamcar\Vehicle\ProVehicle']
+    public: true
 
-    Wamcar\Vehicle\PersonalVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository'
-        factory: 'doctrine.orm.entity_manager:getRepository'
-        arguments: [ 'Wamcar\Vehicle\PersonalVehicle' ]
-        public: true
+  Wamcar\Vehicle\PersonalVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrinePersonalVehicleRepository'
+    factory: 'doctrine.orm.entity_manager:getRepository'
+    arguments: ['Wamcar\Vehicle\PersonalVehicle']
+    public: true
 
-    AppBundle\Doctrine\Repository\ProjectRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProjectRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\Project']
-        public: true
+  Wamcar\User\ProjectRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineProjectRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\Project']
+    public: true
 
-    # Interfaces default service
-    Wamcar\User\UserRepository: '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
+  # Interfaces default service
+  Wamcar\User\UserRepository: '@AppBundle\Doctrine\Repository\DoctrineUserRepository'
 
-    AppBundle\Doctrine\Repository\DoctrineUserRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\BaseUser']
+  AppBundle\Doctrine\Repository\DoctrineUserRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineUserRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\BaseUser']
 
-    AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\UserPreferences']
+  AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineUserPreferencesRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\UserPreferences']
 
-    AppBundle\Doctrine\Repository\DoctrineProUserRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProUserRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\ProApplicationUser']
+  AppBundle\Doctrine\Repository\DoctrineProUserRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineProUserRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\ProApplicationUser']
 
-    AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\PersonalApplicationUser']
+  AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\PersonalApplicationUser']
 
-    AppBundle\Doctrine\Repository\DoctrineGarageRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineGarageRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Garage\Garage']
+  AppBundle\Doctrine\Repository\DoctrineGarageRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineGarageRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Garage\Garage']
 
-    AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Garage\GarageProUser']
+  AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineGarageProUserRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Garage\GarageProUser']
 
-    AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\ProjectVehicle']
+  AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineProjectVehicleRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\ProjectVehicle']
 
-    AppBundle\Doctrine\Repository\DoctrineConversationRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineConversationRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\ApplicationConversation']
+  AppBundle\Doctrine\Repository\DoctrineConversationRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineConversationRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\ApplicationConversation']
 
-    AppBundle\Doctrine\Repository\DoctrineConversationUserRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineConversationUserRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Conversation\ConversationUser']
+  AppBundle\Doctrine\Repository\DoctrineConversationUserRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineConversationUserRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Conversation\ConversationUser']
 
-    AppBundle\Doctrine\Repository\DoctrineMessageRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineMessageRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Conversation\Message']
+  AppBundle\Doctrine\Repository\DoctrineMessageRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineMessageRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Conversation\Message']
 
-    AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Conversation\ProContactMessage']
+  AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineProContactMessageRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Conversation\ProContactMessage']
 
-    AppBundle\Doctrine\Repository\DoctrineCityRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineCityRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\ApplicationCity']
-        public: true
+  AppBundle\Doctrine\Repository\DoctrineCityRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineCityRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\ApplicationCity']
+    public: true
 
-    AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\BaseLikeVehicle']
+  AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineUserLikeVehicleRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\BaseLikeVehicle']
 
-    AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\ProLikeVehicle']
+  AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineLikeProVehicleRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\ProLikeVehicle']
 
-    AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\PersonalLikeVehicle']
+  AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineLikePersonalVehicleRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\PersonalLikeVehicle']
 
-    AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['AppBundle\Doctrine\Entity\AffinityDegree']
+  AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineAffinityDegreeRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\AffinityDegree']
 
-    AppBundle\Doctrine\Repository\DoctrineLeadRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineLeadRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\User\Lead']
+  AppBundle\Doctrine\Repository\DoctrineLeadRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineLeadRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\Lead']
 
-    AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository:
-        class: 'AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository'
-        factory: ['@doctrine.orm.entity_manager', 'getRepository']
-        arguments: ['Wamcar\Sale\Declaration']
+  AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository:
+    class: 'AppBundle\Doctrine\Repository\DoctrineSaleDeclarationRepository'
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\Sale\Declaration']
+
+  Wamcar\User\ProUserProServiceRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\ProUserProService']
+
+  Wamcar\User\ProServiceRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\User\ProService']
