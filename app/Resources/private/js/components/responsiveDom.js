@@ -58,12 +58,26 @@ if($proProfilImage.length){
   });
 }
 
-
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
 if($proProfilContactForm.length){
   $proProfilContactForm.responsiveDom({
     prependTo: '.js-pro-profil-right-column',
     mediaQuery: '(min-width: 640px)'
+  });
+}
+
+const $proProfilVehicles = $('.js-pro-profil-vehicles');
+if($proProfilVehicles.length){
+  $proProfilVehicles.responsiveDom({
+    appendTo: '.js-profil-seller-left-column',
+    mediaQuery: '(min-width: 1024px)',
+    callback: (matched) => {
+      if(matched){
+        $proProfilVehicles.removeClass('column small-12');
+      }else{
+        $proProfilVehicles.addClass('column small-12');
+      }
+    }
   });
 }
 

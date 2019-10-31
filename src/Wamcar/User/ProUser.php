@@ -419,6 +419,21 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @param bool $excludeSpecialities
+     * @return ArrayCollection|Collection
+     */
+    public function getProUserServices(bool $excludeSpecialities = false){
+        if($excludeSpecialities) {
+            $criteria = Criteria::create();
+            $criteria->where(Criteria::expr()->eq('isSpeciality', false));
+            return $this->proUserProServices->matching($criteria);
+        }else{
+            return $this->proUserProServices;
+        }
+
+    }
+
+    /**
      * @param ProUserProService $proUserProService
      */
     public function addProUserProService(ProUserProService $proUserProService)

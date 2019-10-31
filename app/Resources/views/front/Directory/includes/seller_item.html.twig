@@ -6,7 +6,8 @@
             <img src="{{ proUser.avatar|avatar('user_thumbnail', proUser.fullName) }}"
                  alt="{{ proUser.fullName }}"></a>
     </div>
-    <h2 class="text-center margin-bottom-1">{{ proUser.fullName }}</h2>
+    <a href="{{ path('front_view_pro_user_info', {'slug': proUser.slug}) }}">
+        <h2 class="text-center margin-bottom-1">{{ proUser.fullName }}</h2></a>
 
     <div class="margin-bottom-1 text-center black-color">
         {{ proUser.presentationTitle }}&nbsp;
@@ -24,7 +25,7 @@
             {% endif %}
         </span>
     </p>
-    <div class="tag-container">
+    <div class="tag-container text-center">
         {% set nbProSpeciality = proUser.proUserSpecialities|length %}
         {% for proSpeciality in proUser.proUserSpecialities(highlightSpecialities ?? [])|slice(0,2) %}
             <a href="{{ path('front_directory_by_service_view', {'service': proSpeciality.proService.slug}) }}"

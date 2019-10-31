@@ -31,7 +31,7 @@
         <div class="profil-body column small-12">
             <div class="row">
                 {# Left column #}
-                <div class="profil-seller-left-column column small-12 large-8">
+                <div class="js-profil-seller-left-column profil-seller-left-column column small-12 large-8">
                     {% if not isLogged %}
                         <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
                             <div class="column small-12 large-8 text-justify">
@@ -44,18 +44,21 @@
                         </div>
                     {% endif %}
 
-                    <div class="profil-section">
-                        <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
-                        {% if user.description %}
-                            <p class="text-justify">{{ user.description|nl2br }}</p>
-                        {% elseif userIsMe %}
-                            <p class="text-justify">{{ 'user.presentation.empty'|trans }}</p>
-                        {% endif %}
+                    {% if user.description is not empty or userIsMe %}
+                        <div class="profil-section">
+                            <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+                            {% if user.description %}
+                                <p class="text-justify">{{ user.description|nl2br }}</p>
+                            {% elseif userIsMe %}
+                                <p class="text-justify">{{ 'user.presentation.empty'|trans }}</p>
+                            {% endif %}
 
-                        {% if userIsMe %}
-                            <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
-                        {% endif %}
-                    </div>
+                            {% if userIsMe %}
+                                <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
                     {% if user.appointmentText is not empty %}
                         <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
                             <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
@@ -168,17 +171,42 @@
                             {% endif %}
                         </div>
                     {% endif %}
+
+                    <div class="seller-services">
+                        {% set userSpecialities = user.proUserSpecialities %}
+                        {% set proServices = user.proUserServices(true) %}
+                        {% if userSpecialities |length > 0 %}
+                            <div>
+                                <h2>Mes spécialités</h2>
+                                <div class="tag-container">
+                                    {% for proUserProSpeciality in userSpecialities %}
+                                        <a href="{{ path('front_directory_by_service_view', {'service': proUserProSpeciality.proService.slug}) }}"
+                                           class="tag">{{ proUserProSpeciality.proService.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        {% if proServices|length > 0 %}
+                            <div>
+                                <h2>Mes services</h2>
+                                <div class="tag-container">
+                                    {% for proUserProService in proServices %}
+                                        <a href="{{ path('front_directory_by_service_view', {'service': proUserProService.proService.slug}) }}"
+                                           class="tag">{{ proUserProService.proService.name }}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </div>
 
         {% if vehicles.totalHits > 0 %}
-            <div class="column small-12 garage-container">
-                <div class="column">
-                    <div class="row">
-                        <div class="column small-12 medium-auto"><h2>{{ 'user.vehicles.title'|trans }}</h2></div>
-                    </div>
-                </div>
+            <div class="js-pro-profil-vehicles pro-profil-vehicles column small-12">
+                <h2>{{ 'user.vehicles.title'|trans }}</h2>
                 {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                     'pagination_route': 'front_view_pro_user_info',
                     'pagination_route_params': {'slug':user.slug},
@@ -210,8 +238,6 @@
                 <span class="button add icon-message" data-toggle="contactFormOffCanvas">{{ 'global.button.contact_freely'|trans }}</span>
             </div>
         </div>
-
-
         <div class="show-for-small-only off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
             <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 

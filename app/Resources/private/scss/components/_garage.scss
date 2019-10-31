@@ -4,14 +4,21 @@
 
 .garage {
 
-
   /*
     Container
     ===================================== */
 
   &-container {
+
     @include breakpoint(large) {
       padding-top: rem-calc(40);
+    }
+
+    .tab-panel-vehicles {
+      @include breakpoint(medium down) {
+        margin-right: rem-calc(10);
+        margin-left: rem-calc(10);
+      }
     }
   }
 
@@ -119,7 +126,7 @@
   /*
     Summary Card
      ===================================== */
-  &-summary-card{
+  &-summary-card {
     flex: 1 0 50%;
   }
 }
