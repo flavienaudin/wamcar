@@ -15,7 +15,7 @@ use Wamcar\Vehicle\Enum\DirectorySorting;
 class ProUserEntityIndexer extends EntityIndexer
 {
 
-    const LIMIT = 10;
+    const LIMIT = 12;
     const MIN_SCORE = 0.1;
     const OFFSET = 0;
 
@@ -56,7 +56,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $serviceQuery = $qb->query()->term(['proServices' => $searchProDTO->service->getName()]);
             $serviceBoolQuery->addShould($serviceQuery);
 
-            $specialityQuery = $qb->query()->term(['proSpecialities' =>  $searchProDTO->service->getName()]);
+            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->service->getName()]);
             $serviceBoolQuery->addShould($specialityQuery);
 
             $serviceBoolQuery->setMinimumShouldMatch(1);

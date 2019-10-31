@@ -60,7 +60,8 @@
                         <div class="column">
                             {{ include('front/Directory/includes/seller_item.html.twig', {
                                 "itemClass" : "width-100",
-                                "proUser" : hit
+                                "proUser" : hit,
+                                "highlightSpecialities" : filterData.service is defined ? [filterData.service] : []
                             }) }}
                         </div>
                     {% endfor %}

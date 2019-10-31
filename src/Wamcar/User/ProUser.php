@@ -395,13 +395,27 @@ class ProUser extends BaseUser
 
     /**
      * Filtered ProServices on isSpeciality
-     * @return Collection
+     * @param array $highlightSpecialities
+     * @return array|ArrayCollection|Collection
      */
-    public function getProUserSpecialities(): Collection
+    public function getProUserSpecialities(array $highlightSpecialities = [])
     {
-        return $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
+        $specialities = $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
             return $proUserProService->isSpeciality();
         });
+        if(!empty($highlightSpecialities)){
+            $specialities = $specialities->toArray();
+            uasort($specialities, function (ProUserProService $ps1, ProUserProService $ps2) use ($highlightSpecialities){
+                if(in_array($ps1->getProService(), $highlightSpecialities)){
+                    return -1;
+                }elseif(in_array($ps2->getProService(), $highlightSpecialities)){
+                    return 1;
+                }
+                return 0;
+            });
+
+        }
+        return $specialities;
     }
 
     /**
