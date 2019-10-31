@@ -51,7 +51,8 @@ Wamcar\User\ProUser:
         proUserProServices:
             targetEntity: Wamcar\User\ProUserProService
             mappedBy: proUser
-            cascade: ["persist", "merge", "remove"]        proContactMessages:
+            cascade: ["persist", "merge", "remove"]
+        proContactMessages:
             targetEntity: Wamcar\Conversation\ProContactMessage
             mappedBy: proUser
             cascade: ["persist", "merge", "remove"]
