@@ -55,6 +55,10 @@ flash:
       change_status: Le status de votre lead a bien été mis à jour
     pro_contact_message:
       sent: Votre message a bien été envoyé à %proUserName%
+    pro_user_pro_service:
+      delete: Le service %servicename% n'est plus proposé par le conseiller %username%
+    pro_service:
+      delete: Le service %servicename% a été supprimé
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -1331,15 +1335,18 @@ notifications:
     garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
 
 directory:
-  page_tile: Annuaire des professionnels
+  page_tile: Tous nos conseillers
+  breadcrumb: Nos conseillers
   description: Rencontrez votre conseiller automobile
   form:
-    title: Rencontrez votre conseiller automobile
-    subtitle: Matchez, discutez, découvrez de bonnes occasions, et obtenez une offre de reprise sérieuse pour votre auto
+    title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
   field:
     text:
       label: Je cherche un conseiller
       placeholder: Entrer un nom ou une marque
+    service:
+      label: Service proposé
+      placeholder: Service
     location:
       label: Autour de
       placeholder: Ville ou code postal

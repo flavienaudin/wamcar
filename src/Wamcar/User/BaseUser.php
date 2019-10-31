@@ -127,6 +127,16 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
+     * Used by EasyAdmin to display User in form
+     * @return string|null
+     */
+    public function __toString()
+    {
+        return $this->getFullName();
+    }
+
+
+    /**
      * @return int
      */
     public function getId(): int

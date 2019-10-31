@@ -60,12 +60,13 @@
                 </div>
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
                     {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
-
                         <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }}">
+                            <div class="tab-panel-vehicles">
                             {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                                 'pagination_route': 'front_garage_view',
                                 'pagination_route_params': {'slug':garage.slug}
                             } %}
+                            </div>
                         </div>
                     {% endif %}
                     {% if garage.presentation or isEditableByCurrentUser %}

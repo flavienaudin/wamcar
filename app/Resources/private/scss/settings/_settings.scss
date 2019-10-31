@@ -70,22 +70,30 @@ $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #E30613,
-  secondary: #2C2C2C,
+  primary: #e30613,
+  secondary: #2c2c2c,
   success: #3adb76,
   warning: #ffae00,
   alert: #e30613
 );
-$light-gray: #E5E5E5;
-$medium-gray: #7A7A7A;
-$dark-gray: #2C2C2C;
-$grey-alt: #f7f7f7;
-$grey-alt2: #f2f2f2;
-$grey-altPeexeo: #2d3155;
+$light-gray: #e5e5e5;
+$light-gray-peexeo: #eaeef4;
+$medium-gray: #7a7a7a;
+$dark-gray: #2c2c2c;
+$dark-gray-peexeo: #8299af;
+$gray-alt: #f7f7f7;
+$gray-alt2: #f2f2f2;
+$gray-peexeo: #d3d9e3;
 $dark-blue: #17303b;
+$dark-blue-peexeo: #2d3155;
+$blue-peexeo: #3955eb;
 $black: #0a0a0a;
 $white: #fefefe;
-$border-color: #E5E5E5;
+$red-peexeo: #fb0000;
+$red-pastel-peexeo: #ff8080;
+$green-peexeo: #1fd9ae;
+$orange-peexeo: #f79918;
+$border-color: #e5e5e5;
 $body-background: white;
 $body-font-color: $medium-gray;
 $body-font-family: 'Muli', sans-serif;

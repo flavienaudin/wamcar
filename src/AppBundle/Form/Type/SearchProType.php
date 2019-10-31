@@ -6,16 +6,33 @@ namespace AppBundle\Form\Type;
 use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use AppBundle\Utils\RadiusChoice;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Wamcar\User\ProService;
+use Wamcar\User\ProServiceRepository;
 use Wamcar\Vehicle\Enum\DirectorySorting;
 
 class SearchProType extends AbstractType
 {
+
     use AutocompleteableCityTrait;
+
+    /** @var ProServiceRepository */
+    private $proServiceRepository;
+
+    /**
+     * SearchProType constructor.
+     * @param ProServiceRepository $proServiceRepository
+     */
+    public function __construct(ProServiceRepository $proServiceRepository)
+    {
+        $this->proServiceRepository = $proServiceRepository;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,6 +40,13 @@ class SearchProType extends AbstractType
         $builder
             ->add('text', TextType::class, [
                 'required' => false
+            ])
+            ->add('service', EntityType::class, [
+                'class' => ProService::class,
+                'choice_label' => 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
+                },
             ])
             ->add('radius', ChoiceType::class, [
                 'choices' => RadiusChoice::getListRadius(),

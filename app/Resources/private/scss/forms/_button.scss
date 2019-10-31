@@ -119,14 +119,14 @@ a.button {
         border-color: $dark-blue;
         &:hover,
         &:focus {
-            background-color: $grey-alt2;
+            background-color: $gray-alt2;
             color: $dark-blue;
             border-color: $white;
         }
     }
 
     &.grey-light {
-        @include buttonTheme(white, $grey-altPeexeo, $dark-blue);
+        @include buttonTheme(white, $dark-blue-peexeo, $dark-blue);
     }
 
     /* Add */

@@ -6,20 +6,33 @@ namespace AppBundle\Controller\Front\AdministrationContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
-use Gedmo\Mapping\Annotation\SoftDeleteable;
+use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\ProService;
 use Wamcar\User\ProUser;
+use Wamcar\User\ProUserProService;
 
 class BackendController extends AdminController
 {
+    /** @var TranslatorInterface */
+    private $translator;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserEditionService */
     private $userEditionService;
+    /** @var ProServiceService */
+    private $proServiceService;
+
+    /** @param TranslatorInterface $translator */
+    public function setTranslator(TranslatorInterface $translator): void
+    {
+        $this->translator = $translator;
+    }
 
     /** @param GarageEditionService $garageEditionService */
     public function setGarageEditionService(GarageEditionService $garageEditionService): void
@@ -31,6 +44,12 @@ class BackendController extends AdminController
     public function setUserEditionService(UserEditionService $userEditionService): void
     {
         $this->userEditionService = $userEditionService;
+    }
+
+    /** @param ProServiceService $proServiceService */
+    public function setProServiceService(ProServiceService $proServiceService): void
+    {
+        $this->proServiceService = $proServiceService;
     }
 
     // Common
@@ -50,7 +69,7 @@ class BackendController extends AdminController
             }
         } elseif ($entity instanceof BaseUser) {
             $isAlreadySoftDeleted = $entity->getDeletedAt() != null;
-            if(!$this->isGranted(UserVoter::DELETE, $entity)){
+            if (!$this->isGranted(UserVoter::DELETE, $entity)) {
                 $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING, 'flash.error.user.deletion_not_allowed');
                 return;
             }
@@ -69,6 +88,23 @@ class BackendController extends AdminController
                     $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
                 }
             }
+        } elseif ($entity instanceof ProUserProService) {
+            $serviceName = $entity->getProService()->getName();
+            $userName = $entity->getProUser()->getFullName();
+            $this->userEditionService->deleteProUserProService($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                $this->translator->trans('flash.success.pro_user_pro_service.delete', [
+                        '%servicename%' => $serviceName,
+                        '%username%' => $userName
+                    ]
+                ));
+        } elseif ($entity instanceof ProService) {
+            // TODO Fix : update ProUser with this ProService
+
+            $serviceName = $entity->getName();
+            $this->proServiceService->deleteProService($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                $this->translator->trans('flash.success.pro_service.delete', ['%servicename%' => $serviceName]));
         } else {
             // TODO other entities
             // parent::removeEntity($entity);
@@ -134,7 +170,6 @@ class BackendController extends AdminController
         /** @var PersonalUser $entity */
         $entity = $this->em->getRepository(PersonalUser::class)->find($id);
         $this->userEditionService->convertPersonalToProUser($entity, $this->getUser());
-
 
         // redirect to the 'list' view of the given entity ...
         return $this->redirectToRoute('easyadmin', array(

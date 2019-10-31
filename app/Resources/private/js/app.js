@@ -134,7 +134,6 @@ $(function () {
   const $orbits = $('.orbit');
   if($orbits.length){
     $orbits.each((index, orbit) => {
-      console.log(orbit);
       new Orbit($(orbit));
     });
   }

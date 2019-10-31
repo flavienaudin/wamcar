@@ -32,11 +32,11 @@
     {% endif %}#}
 {% endspaceless %}{% endset %}
 
-<div class="directory-form-container">
+<div class="column directory-form-container">
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
-    <div class="column small-12 medium-6 medium-order-1 large-4">
+    <div class="column small-12 medium-6">
         {{ form_widget(searchProForm.text, {
             'class' : '',
             'label' : 'directory.field.text.label'|trans,
@@ -47,7 +47,18 @@
         }) }}
     </div>
 
-    <div class="column small-12 medium-6 medium-order-3 large-4 large-order-2">
+    <div class="column small-12 medium-6">
+        {{ form_widget(searchProForm.service, {
+            'class' : '',
+            'label' : 'directory.field.service.label'|trans,
+            'label_class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'placeholder': 'directory.field.service.placeholder'|trans
+        }) }}
+    </div>
+
+    <div class="column small-12 medium-6 large-6">
         {{ form_widget(searchProForm.postalCode, {
             'label': 'directory.field.location.label'|trans,
             'class': 'js-city-autocomplete',
@@ -66,7 +77,7 @@
         {{ form_widget(searchProForm.longitude) }}
     </div>
 
-    <div class="column small-12 medium-6 medium-order-3 large-2 large-order-2">
+    <div class="column small-12 medium-6 large-2">
         {{ form_widget(searchProForm.radius, {
             'class' : '',
             'required' : true,
@@ -76,7 +87,7 @@
         }) }}
     </div>
 
-    <div class="column show-for-medium medium-6 medium-order-2 large-2">
+    <div class="column show-for-medium medium-6 large-2">
         <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>

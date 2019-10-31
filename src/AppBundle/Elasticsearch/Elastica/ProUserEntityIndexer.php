@@ -15,7 +15,7 @@ use Wamcar\Vehicle\Enum\DirectorySorting;
 class ProUserEntityIndexer extends EntityIndexer
 {
 
-    const LIMIT = 10;
+    const LIMIT = 12;
     const MIN_SCORE = 0.1;
     const OFFSET = 0;
 
@@ -50,6 +50,20 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addMust($textBoolQuery);
         }
 
+        if ($searchProDTO->service != null) {
+            $serviceBoolQuery = $qb->query()->bool();
+
+            $serviceQuery = $qb->query()->term(['proServices' => $searchProDTO->service->getName()]);
+            $serviceBoolQuery->addShould($serviceQuery);
+
+            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->service->getName()]);
+            $serviceBoolQuery->addShould($specialityQuery);
+
+            $serviceBoolQuery->setMinimumShouldMatch(1);
+
+            $mainBoolQuery->addMust($serviceBoolQuery);
+        }
+
         // handle location filter
         if (!empty($searchProDTO->latitude) && !empty($searchProDTO->longitude)) {
             $radius = 50;
@@ -65,7 +79,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addFilter($locationNestedGaragesQuery);
         }
 
-        if (empty($searchProDTO->text) && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
+        if (empty($searchProDTO->text) && $searchProDTO->service == null && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
             $mainQuery->setQuery($qb->query()->match_all());
         } else {
             $mainQuery->setQuery($mainBoolQuery);
