@@ -386,9 +386,9 @@ parameters:
               garageGoogleRating:
                 type: float
           proServices:
-            type: text
+            type: keyword
           proSpecialities:
-            type: text
+            type: keyword
 
   search_item.index_builder.config:
     settings:

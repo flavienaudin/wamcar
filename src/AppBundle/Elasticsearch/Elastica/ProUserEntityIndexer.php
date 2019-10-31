@@ -50,15 +50,17 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addMust($textBoolQuery);
         }
 
-        if($searchProDTO->service != null){
+        if ($searchProDTO->service != null) {
             $serviceBoolQuery = $qb->query()->bool();
-            $serviceQuery = $qb->query()->match('proServices', $searchProDTO->service->getName());
+
+            $serviceQuery = $qb->query()->term(['proServices' => $searchProDTO->service->getName()]);
             $serviceBoolQuery->addShould($serviceQuery);
 
-            $specialityQuery = $qb->query()->match('proSpecialities', $searchProDTO->service->getName());
+            $specialityQuery = $qb->query()->term(['proSpecialities' =>  $searchProDTO->service->getName()]);
             $serviceBoolQuery->addShould($specialityQuery);
 
             $serviceBoolQuery->setMinimumShouldMatch(1);
+
             $mainBoolQuery->addMust($serviceBoolQuery);
         }
 
