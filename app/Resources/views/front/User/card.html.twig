@@ -11,7 +11,7 @@
     {% if userIsMe %}
         {{ 'user.title.personal.mine'|trans }}
     {% else %}
-        {{ 'user.title.personal.other'|trans({'%username%':(app.user is not null and app.user.isPro)?user.fullName:user.firstName}) }}
+        {{ 'user.title.personal.other'|trans({'%username%':user.fullName(app.user is null or not app.user.isPro)}) }}
     {% endif %}
 {% endblock %}
 
@@ -103,7 +103,7 @@
         </div>
         {% if user.vehicles|length > 0 or userIsMe %}
             <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'':'separator'  }} column small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'':'separator' }} column small-12">
                     <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
                     <div class="row">
                         {% set balise = 'h3' %}
@@ -122,9 +122,11 @@
 
         {% if userIsMe %}
             <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator'  }} column section small-12">
+                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator' }} column section small-12">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
-                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a></p>
+                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}"
+                                                                            class="text-underline">{{ 'global.button.delete'|trans }}</a>
+                    </p>
                 </div>
             </div>
         {% endif %}
