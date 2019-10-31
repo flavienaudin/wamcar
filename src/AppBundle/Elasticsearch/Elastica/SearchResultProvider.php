@@ -82,7 +82,7 @@ class SearchResultProvider
         $withoutNbPicturesBoolQuery->addMustNot($qb->query()->exists('vehicle.nbPictures'));
         $withPictureBoolQuery->addShould($withoutNbPicturesBoolQuery);
         $withPictureBoolQuery->addShould($qb->query()->range('vehicle.nbPictures', ['gt' => 0]));
-        //$mainBoolQuery->addFilter($withPictureBoolQuery);
+        $mainBoolQuery->addFilter($withPictureBoolQuery);
 
         // Search types
         if (in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
