@@ -1342,11 +1342,11 @@ directory:
     title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
   field:
     text:
-      label: Je cherche un conseiller
-      placeholder: Entrer un nom ou une marque
-    service:
-      label: Service proposé
-      placeholder: Service
+      label: Marque
+      placeholder: Marque
+    speciality:
+      label: Spécialité
+      placeholder: Spécialité
     location:
       label: Autour de
       placeholder: Ville ou code postal

@@ -5,11 +5,11 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
-use AppBundle\Utils\RadiusChoice;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -37,21 +37,24 @@ class SearchProType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $data = $builder->getData();
+        $specialitiesChoices = $builder->getOption('specialitiesChoices');
         $builder
             ->add('text', TextType::class, [
                 'required' => false
             ])
-            ->add('service', EntityType::class, [
+            ->add('speciality', EntityType::class, [
                 'class' => ProService::class,
                 'choice_label' => 'name',
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('s')->orderBy('s.name', 'ASC');
+                'query_builder' => function (EntityRepository $er) use ($specialitiesChoices) {
+                    $qb = $er->createQueryBuilder('s');
+                    return $qb
+                        ->where($qb->expr()->in("s.name", $specialitiesChoices))
+                        ->orderBy('s.name', 'ASC');
                 },
             ])
-            ->add('radius', ChoiceType::class, [
-                'choices' => RadiusChoice::getListRadius(),
+            ->add('radius', HiddenType::class, [
                 'data' => 50,
-                'error_bubbling' => true,
+                'error_bubbling' => true
             ])
             ->add('sorting', ChoiceType::class, [
                 'choices' => DirectorySorting::toArray(),
@@ -70,7 +73,8 @@ class SearchProType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => false,
             'data_class' => SearchProDTO::class,
-            'method' => 'POST'
+            'method' => 'POST',
+            'specialitiesChoices' => []
         ]);
     }
 }

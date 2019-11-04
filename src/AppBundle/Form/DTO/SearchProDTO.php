@@ -10,7 +10,7 @@ class SearchProDTO
     /** @var string */
     public $text;
     /** @var ProService */
-    public $service;
+    public $speciality;
     /** @var string */
     public $postalCode;
     /** @var string */

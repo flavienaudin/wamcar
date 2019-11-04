@@ -61,7 +61,7 @@
                             {{ include('front/Directory/includes/seller_item.html.twig', {
                                 "itemClass" : "width-100",
                                 "proUser" : hit,
-                                "highlightSpecialities" : filterData.service is defined ? [filterData.service] : []
+                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
                             }) }}
                         </div>
                     {% endfor %}
