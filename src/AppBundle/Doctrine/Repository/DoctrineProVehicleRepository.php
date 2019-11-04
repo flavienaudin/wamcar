@@ -21,6 +21,15 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
     }
 
     /**
+     * @param $vin
+     * @return mixed|void
+     */
+    public function findOneByVIN($vin)
+    {
+        return $this->findOneBy(['vin' => $vin]);
+    }
+
+    /**
      * Return the $limit last vehicles
      * @param $limit
      * @return array

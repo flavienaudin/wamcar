@@ -13,7 +13,7 @@ security:
 
     role_hierarchy:
         ROLE_PRO: ROLE_USER
-        ROLE_PRO_ADMIN: ROLE_USER
+        ROLE_PRO_ADMIN: ROLE_PRO
         ROLE_ADMIN: ROLE_PRO_ADMIN
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 

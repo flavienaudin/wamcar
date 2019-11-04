@@ -16,6 +16,12 @@ interface ProVehicleRepository extends VehicleRepository
     public function findByReference($reference);
 
     /**
+     * @param $vin
+     * @return mixed
+     */
+    public function findOneByVIN($vin);
+
+    /**
      * Return the $limit last vehicles
      * @param $limit
      * @return Collection

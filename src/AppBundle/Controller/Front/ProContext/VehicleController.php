@@ -9,6 +9,7 @@ use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\ProVehicleDTO;
 use AppBundle\Form\Type\ProVehicleType;
+use AppBundle\Security\Voter\ProVehicleVoter;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
@@ -121,7 +122,7 @@ class VehicleController extends BaseController
         }
 
         if ($vehicle) {
-            if (!$this->proVehicleEditionService->canEdit($this->getUser(), $vehicle)) {
+            if (!$this->isGranted(ProVehicleVoter::EDIT, $vehicle)) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
                     'flash.error.unauthorized_to_edit_vehicle'
@@ -335,7 +336,7 @@ class VehicleController extends BaseController
      */
     public function deleteAction(ProVehicle $proVehicle): Response
     {
-        if (!$this->proVehicleEditionService->canEdit($this->getUser(), $proVehicle)) {
+        if (!$this->isGranted(ProVehicleVoter::EDIT, $proVehicle)) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_DANGER,
                 'flash.error.remove_vehicle'
