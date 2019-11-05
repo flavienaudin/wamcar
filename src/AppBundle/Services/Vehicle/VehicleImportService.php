@@ -250,8 +250,9 @@ class VehicleImportService
 
         $garageName = $data[AutosManuelProVehicleBuilder::FIELDNAME_SELLER_CONTACT];
         if (isset($garages[$garageName])) {
+            $vehicleReference = AutosManuelProVehicleBuilder::REFERENCE_PREFIX . $data[AutosManuelProVehicleBuilder::FIELDNAME_REFERENCE];
             $vehicleVIN = $data[AutosManuelProVehicleBuilder::FIELDNAME_VIN];
-            $existingProVehicle = $this->proVehicleRepository->findOneByVIN($vehicleVIN);
+            $existingProVehicle = $this->proVehicleRepository->findOneByReferenceAndVIN($vehicleReference, $vehicleVIN);
 
             // Exiting vehicle is moved to another garage
             $wasMoved = false;
