@@ -55,23 +55,13 @@
 
 
     <div class="column small-12 medium-6 large-3">
-        {{ form_widget(searchForm.make, {
+        {{ form_widget(searchForm.text, {
             'class' : '',
+            'label' : 'search.common.field.text.label'|trans,
+            'label_class' : '',
             'required' : false,
             'required_class': 'show-for-sr',
-            'label' : 'vehicle.field.make.label'|trans,
-            'label_class' : '',
-            'placeholder': 'vehicle.field.make.placeholder'
-        }) }}
-    </div>
-    <div class="column small-12 medium-6 large-3">
-        {{ form_widget(searchForm.model, {
-            'class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'label' : 'vehicle.field.model.label'|trans,
-            'label_class' : '',
-            'placeholder': 'vehicle.field.model.placeholder'
+            'placeholder': 'search.common.field.text.placeholder'|trans
         }) }}
     </div>
     <div class="column small-12 medium-6 large-3">
@@ -85,6 +75,16 @@
         }) }}
     </div>
     <div class="column small-12 medium-6 large-3">
+        {{ form_widget(searchForm.budgetMax, {
+            'class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'label' : 'search.common.field.budgetMax.label'|trans,
+            'label_class' : '',
+            'placeholder': 'search.common.field.budgetMax.placeholder'
+        }) }}
+    </div>
+    <div class="column small-12 medium-6 large-3">
         {{ form_widget(searchForm.mileageMax, {
             'class' : '',
             'required' : false,
@@ -94,8 +94,7 @@
             'placeholder': 'search.common.field.mileageMax.placeholder'
         }) }}
     </div>
-
-    <div class="column small-12 medium-6 large-4">
+    <div class="column small-12 medium-6 large-6">
         {{ form_widget(searchForm.postalCode, {
             'label': 'search.common.field.location.label'|trans,
             'class': 'js-city-autocomplete',
@@ -112,9 +111,7 @@
         {{ form_widget(searchForm.cityName) }}
         {{ form_widget(searchForm.latitude) }}
         {{ form_widget(searchForm.longitude) }}
-
     </div>
-
     <div class="column small-12 medium-6 large-2">
         {{ form_widget(searchForm.radius, {
             'class' : '',
@@ -124,21 +121,9 @@
         }) }}
     </div>
 
-
-    <div class="column small-12 medium-6 large-4">
-        {{ form_widget(searchForm.text, {
-            'class' : '',
-            'label' : 'search.common.field.text.label'|trans,
-            'label_class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'placeholder': 'search.common.field.text.placeholder'|trans
-        }) }}
-    </div>
-
-    <div class="column show-for-medium medium-6 large-2">
-        <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
-        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+    <div class="column medium-12 large-4 margin-bottom-2">
+        <label for="search-label" class="show-for-large is-invisible">{{ 'global.button.search'|trans }}</label>
+        <button type="submit" id="search-label" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
 
 
@@ -162,8 +147,28 @@
         </div>
     </div>
 
-    <div id="js-search-expand" class="is-hidden block-grid small-12  medium-order-3" data-toggler=".is-hidden">
+    <div id="js-search-expand" class="is-hidden block-grid small-12 medium-order-3" data-toggler=".is-hidden">
         <div class="block-grid small-12">
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(searchForm.make, {
+                    'class' : '',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'label' : 'vehicle.field.make.label'|trans,
+                    'label_class' : '',
+                    'placeholder': 'vehicle.field.make.placeholder'
+                }) }}
+            </div>
+            <div class="column small-12 medium-6 large-3">
+                {{ form_widget(searchForm.model, {
+                    'class' : '',
+                    'required' : false,
+                    'required_class': 'show-for-sr',
+                    'label' : 'vehicle.field.model.label'|trans,
+                    'label_class' : '',
+                    'placeholder': 'vehicle.field.model.placeholder'
+                }) }}
+            </div>
             <div class="column small-12 medium-6 large-3">
                 {{ form_widget(searchForm.yearsMin, {
                     'class' : '',
@@ -195,16 +200,6 @@
                 }) }}
             </div>
             <div class="column small-12 medium-6 large-3">
-                {{ form_widget(searchForm.budgetMax, {
-                    'class' : '',
-                    'required' : false,
-                    'required_class': 'show-for-sr',
-                    'label' : 'search.common.field.budgetMax.label'|trans,
-                    'label_class' : '',
-                    'placeholder': 'search.common.field.budgetMax.placeholder'
-                }) }}
-            </div>
-            <div class="column small-12 medium-6 large-3">
                 {{ form_widget(searchForm.transmission, {
                     'class' : '',
                     'required' : false,
@@ -229,16 +224,11 @@
         }) }}
     </div>
 
-    <div class="hide-for-medium column small-12 medium-order-3 input-margin">
-        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
-    </div>
-
     {% if form_criteria is not empty %}
         <div class="column small-12 medium-order-3 input-margin">
             {{ form_criteria }}
         </div>
     {% endif %}
-
 
     {{ form_end(searchForm) }}
 </div>
