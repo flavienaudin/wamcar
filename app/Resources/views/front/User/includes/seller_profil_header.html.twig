@@ -39,11 +39,11 @@
                        class="button square" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
                        data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
 
-                    {% if user.phonePro is not empty or user.phone is not empty %}
+                    {% if user.phone is not empty or user.phonePro is not empty %}
                         {{ include('front/Seller/includes/phone_number_button.html.twig', {
                             'phoneOwner': user,
-                            'phoneNumber': user.phonePro is not empty ? user.phonePro : user.phone,
-                            'showphone_subaction': user.phonePro is not empty ? "2" : "1"
+                            'phoneNumber': user.phone is not empty ? user.phone : user.phonePro ,
+                            'showphone_subaction': user.phone is not empty ? "1" : "2"
                         }) }}
                     {% endif %}
                 </div>

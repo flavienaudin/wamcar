@@ -26,7 +26,6 @@ $phoneNumberClickables.each((index, clickable) => {
       data: {'action': action, 'from': from, 'to': to}
     }).done(function (data) {
       $(clickable).off('click');
-      console.log(data);
       if(data.hasOwnProperty('phoneNumber')){
         $(clickable).html(data.phoneNumber);
       }
