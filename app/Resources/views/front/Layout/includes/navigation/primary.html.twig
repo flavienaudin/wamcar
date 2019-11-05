@@ -8,40 +8,42 @@
 
 <nav id="{{ not isLogged ? 'js-navigation' }}"
      class="l-navigation column large-text-center is-hidden {{ navigation_class }} {{ visibilityConfigClass }}">
-    <div class="l-navigation-header-search {{ visibilityConfigClass }}">
-        <form id="header-search-form" method="post" action="{{ path('front_search') }}">
-            <div class="{{ visibilityConfigClass }} is-flex">
-                <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
-                <input type="search" name="search_vehicle[text]" id="js-header-search" class="input no-margin"
-                       placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
-                       data-toggle="header_search_dropdown_pane">
-                <input type="hidden" name="search_vehicle[radius]" value="50">
-                <input type="hidden" name="search_vehicle[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
-                {% if isUserPro %}
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE') }}">
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') }}">
-                {% else %}
-                    <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE') }}">
-                {% endif %}
-            </div>
-            <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
-                 data-close-on-click="true">
-                <div class="dropdown-pane-body">
-                    <ul class="no-bullet text-left">
-                        <li>
-                            <button type="submit" id="js-header-vehicle-search-submit" data-input-name="search_vehicle"
-                                    data-action="{{ path('front_search') }}" class="full-width text-left black-color">
-                                {{ 'header.common.search.vehicle'|trans }}</button>
-                        </li>
-                        <li>
-                            <button type="submit" id="js-header-pro-search-submit" data-input-name="search_pro"
-                                    data-action="{{ directoryAction }}" class="full-width text-left black-color">
-                                {{ 'header.common.search.directory'|trans }}</button>
-                        </li>
-                    </ul>
+    {% if isLogged %}
+        <div class="l-navigation-header-search {{ visibilityConfigClass }}">
+            <form id="header-search-form" method="post" action="{{ path('front_search') }}">
+                <div class="{{ visibilityConfigClass }} is-flex">
+                    <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
+                    <input type="search" name="search_vehicle[text]" id="js-header-search" class="input no-margin"
+                           placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
+                           data-toggle="header_search_dropdown_pane">
+                    <input type="hidden" name="search_vehicle[radius]" value="50">
+                    <input type="hidden" name="search_vehicle[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
+                    {% if isUserPro %}
+                        <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_VEHICLE') }}">
+                        <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PERSONAL_PROJECT') }}">
+                    {% else %}
+                        <input type="hidden" name="search_vehicle[type][]" value="{{ constant('AppBundle\\Utils\\SearchTypeChoice::SEARCH_PRO_VEHICLE') }}">
+                    {% endif %}
                 </div>
-            </div>
-        </form>
-    </div>
+                <div id="header_search_dropdown_pane" class="dropdown-pane {{ visibilityConfigClass }}" data-dropdown
+                     data-close-on-click="true">
+                    <div class="dropdown-pane-body">
+                        <ul class="no-bullet text-left">
+                            <li>
+                                <button type="submit" id="js-header-vehicle-search-submit" data-input-name="search_vehicle"
+                                        data-action="{{ path('front_search') }}" class="full-width text-left black-color">
+                                    {{ 'header.common.search.vehicle'|trans }}</button>
+                            </li>
+                            <li>
+                                <button type="submit" id="js-header-pro-search-submit" data-input-name="search_pro"
+                                        data-action="{{ directoryAction }}" class="full-width text-left black-color">
+                                    {{ 'header.common.search.directory'|trans }}</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
+    {% endif %}
     {% block navigation %}{% endblock %}
 </nav>

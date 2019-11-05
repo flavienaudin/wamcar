@@ -64,8 +64,8 @@ class DirectoryController extends BaseController
         }
 
         // Services
-        if (($serviceName = $request->get('service', $request->get('s'))) !== null) {
-            $searchProDTO->service = $this->proServiceService->getProServiceBySlug($serviceName);
+        if (($serviceName = $request->get('speciality', $request->get('s'))) !== null) {
+            $searchProDTO->speciality = $this->proServiceService->getProServiceBySlug($serviceName);
         }
 
         // Deal with ByCity action
@@ -92,7 +92,8 @@ class DirectoryController extends BaseController
         }
 
         $searchProForm = $this->formFactory->create(SearchProType::class, $searchProDTO, [
-            'action' => $this->generateRoute('front_directory_view')
+            'action' => $this->generateRoute('front_directory_view'),
+            'specialitiesChoices' => $this->proUserEntityIndexer->getSpecialities()
         ]);
         $searchProForm->handleRequest($request);
         $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());

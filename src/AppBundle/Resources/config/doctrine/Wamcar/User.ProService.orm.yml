@@ -25,7 +25,7 @@ Wamcar\User\ProService:
       unique: true
       gedmo:
         slug:
-          unique: true
+          unique: false
           separator: -
           style: default
           updatable: true

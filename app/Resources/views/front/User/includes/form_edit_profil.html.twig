@@ -72,18 +72,6 @@
     {% endif %}
 
     <h2 class="separator-for-small">{{ 'user.profile.edit.form.titles.phones'|trans }}</h2>
-    {% if editUserForm.phonePro is defined %}
-        <div>
-        {{ form_widget(editUserForm.phonePro, {
-            'label': 'user.profile.edit.form.phonePro.label'|trans,
-            'placeholder': 'user.profile.edit.form.phonePro.placeholder'|trans,
-            'required': false,
-            'type' : 'tel',
-            'attr' : {'maxlength':10},
-            'error_message' : 'user.profile.edit.form.phonePro.invalid_format'|trans,
-        }) }}
-        </div>
-    {% endif %}
 
     <div>
         {{ form_widget(editUserForm.phone, {
@@ -96,13 +84,28 @@
         }) }}
     </div>
 
-    <div>
-        {{ form_widget(editUserForm.phoneDisplay, {
-            'label' : 'user.profile.edit.form.phoneDisplay.label'|trans,
-            'required' : true,
-            'list_class': 'small-up-2 small-12 medium-8'
-        }) }}
-    </div>
+    {% if editUserForm.phonePro is defined %}
+        <div>
+            {{ form_widget(editUserForm.phonePro, {
+                'label': 'user.profile.edit.form.phonePro.label'|trans,
+                'placeholder': 'user.profile.edit.form.phonePro.placeholder'|trans,
+                'required': false,
+                'type' : 'tel',
+                'attr' : {'maxlength':10},
+                'error_message' : 'user.profile.edit.form.phonePro.invalid_format'|trans,
+            }) }}
+        </div>
+    {% endif %}
+
+    {% if editUserForm.phoneDisplay is defined %}
+        <div>
+            {{ form_widget(editUserForm.phoneDisplay, {
+                'label' : 'user.profile.edit.form.phoneDisplay.label'|trans,
+                'required' : true,
+                'list_class': 'small-up-2 small-12 medium-8'
+            }) }}
+        </div>
+    {% endif %}
 
     <h2 class="separator">{{ 'user.profile.edit.form.titles.informations'|trans }}</h2>
     {% if editUserForm.presentationTitle is defined %}

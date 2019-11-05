@@ -50,18 +50,9 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addMust($textBoolQuery);
         }
 
-        if ($searchProDTO->service != null) {
-            $serviceBoolQuery = $qb->query()->bool();
-
-            $serviceQuery = $qb->query()->term(['proServices' => $searchProDTO->service->getName()]);
-            $serviceBoolQuery->addShould($serviceQuery);
-
-            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->service->getName()]);
-            $serviceBoolQuery->addShould($specialityQuery);
-
-            $serviceBoolQuery->setMinimumShouldMatch(1);
-
-            $mainBoolQuery->addMust($serviceBoolQuery);
+        if ($searchProDTO->speciality != null) {
+            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->speciality->getName()]);
+            $mainBoolQuery->addFilter($specialityQuery);
         }
 
         // handle location filter
@@ -79,7 +70,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addFilter($locationNestedGaragesQuery);
         }
 
-        if (empty($searchProDTO->text) && $searchProDTO->service == null && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
+        if (empty($searchProDTO->text) && $searchProDTO->speciality == null && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
             $mainQuery->setQuery($qb->query()->match_all());
         } else {
             $mainQuery->setQuery($mainBoolQuery);
@@ -162,5 +153,27 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainQuery->setQuery($functionScoreQuery);
         }
         return $this->search($mainQuery);
+    }
+
+    /**
+     * Retrieve list of specialities selected by pros.
+     * @return ResultSet
+     */
+    public function getSpecialities()    {
+
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $proSpecialitiesAgg = $qb->aggregation()->terms('proSpecialities');
+        $proSpecialitiesAgg->setField('proSpecialities');
+        $mainQuery->addAggregation($proSpecialitiesAgg);
+        $mainQuery->setSize(0);
+
+        $resultSet = $this->search($mainQuery);
+
+        $specialities = array_map(function ($aggDetails) {
+            return $aggDetails['key'];
+        }, $resultSet->getAggregation('proSpecialities')['buckets']);
+        return $specialities;
     }
 }
