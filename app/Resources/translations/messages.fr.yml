@@ -742,7 +742,8 @@ user:
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
-      banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+      banner: S'inscrire maintenant (ou pas) ?
+      subbanner: En vous inscrivant, vous pourrez contacter directement les conseillers via leur page profil.
     block_insert: >
       Inscrivez-vous gratuitement pour : <ul class="margin-bottom-0">
       <li>appeler %username% sur sa ligne de téléphone directe,</li>
@@ -1343,6 +1344,7 @@ directory:
   description: Rencontrez votre conseiller automobile
   form:
     title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
+    button: Commencer l'expérience
   field:
     text:
       label: Marque

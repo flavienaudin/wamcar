@@ -12,15 +12,13 @@
     font-size: rem-calc(14);
   }
 
+  .form-compact & {
+    @include inputMarginCompact;
+  }
+
   /* Visible state */
 
   &.is-visible {
     display: block;
-  }
-
-  /* Exceptions */
-
-  .register-form & {
-    margin-bottom: 0;
   }
 }
