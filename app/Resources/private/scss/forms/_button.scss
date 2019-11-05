@@ -14,6 +14,13 @@
     }
 }
 
+@mixin buttonHeightCompact {
+    height: rem-calc(20);
+    @include breakpoint(medium) {
+        height: rem-calc(40);
+    }
+}
+
 @mixin buttonPadding {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
@@ -125,7 +132,7 @@ a.button {
         }
     }
 
-    &.grey-light {
+    &.gray-light {
         @include buttonTheme(white, $dark-blue-peexeo, $dark-blue);
     }
 

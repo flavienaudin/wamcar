@@ -116,6 +116,11 @@ $radio-checked-margin-left: $radio-border-width;
 
   &.is-invalid-label {
     margin-bottom: rem-calc(5);
+
+    & ~ .form-error.is-visible {
+      margin-top: rem-calc(-5);
+    }
+
     &::before { @extend %input-error-style; }
   }
 

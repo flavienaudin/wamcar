@@ -6,14 +6,19 @@
 {% block meta_description%}{{ 'user.registration.pro.meta_description'|trans }}{% endblock %}
 {% block og_type%}article{% endblock %}
 
+{% block bodyClass %}light-gray-peexeo-bg{% endblock %}
 {% block body %}
-    <header class="banner">
-        <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.pro.banner'|trans }}</h1>
-    </header>
+    {% include 'front/Layout/includes/page_header.html.twig' with {
+        page_header_class: 'column register-page-header',
+        title: 'user.registration.pro.banner'|trans,
+        title_class: 'dark-blue-color'
+    } %}
 
-    <section class="small-12">
-        <div class="register-form input-margin row">
-            {% include 'front/Security/Register/includes/account.html.twig' with { context:constant("Wamcar\\User\\ProUser::TYPE") } %}
+    <section class="small-12 padding-bottom-2">
+        <div class="row white-bg padding-top-2 padding-bottom-1 form-compact">
+            {% include 'front/Security/Register/includes/account.html.twig' with {
+                context:constant("Wamcar\\User\\ProUser::TYPE")
+            } %}
         </div>
     </section>
 

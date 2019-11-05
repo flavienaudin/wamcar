@@ -21,12 +21,13 @@ class DoctrineProVehicleRepository extends DoctrineVehicleRepository implements 
     }
 
     /**
+     * @param $reference
      * @param $vin
      * @return mixed|void
      */
-    public function findOneByVIN($vin)
+    public function findOneByReferenceAndVIN($reference, $vin)
     {
-        return $this->findOneBy(['vin' => $vin]);
+        return $this->findOneBy(['reference' => $reference, 'registration.vin' => $vin]);
     }
 
     /**

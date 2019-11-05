@@ -33,8 +33,8 @@
                             <h2 class="no-margin">{{ 'directory.form.title'|trans }}</h2>
                         </div>
                         <div class="column small-12 medium-4">
-                            <button class="button expand-height square dark-blue is-center">Commencer l'expérience
-                            </button>
+                            <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                               class="button expand-height square dark-blue is-center">Commencer l'expérience</a>
                         </div>
                     </div>
                 </div>

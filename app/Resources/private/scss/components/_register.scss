@@ -27,6 +27,14 @@
 
 .register {
 
+  &-page-header {
+    background-color: $light-gray-peexeo;
+    margin-bottom: 0;
+
+    h1 {
+      color: $dark-blue-peexeo;
+    }
+  }
 
   /*
     Aside container

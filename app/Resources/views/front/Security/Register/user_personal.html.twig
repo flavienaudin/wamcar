@@ -9,31 +9,26 @@
 {% set assitant_registration_mode = assitant_registration_mode|default(false) %}
 {% set social_connect = social_connect|default(true) %}
 
+{% block bodyClass %}light-gray-peexeo-bg{% endblock %}
 {% block body %}
     {% if not assitant_registration_mode %}
-        <header class="banner">
-            <h1 class="no-margin text-center column large-10 xlarge-6">{{ 'user.registration.personal.banner'|trans }}</h1>
-        </header>
+        {% include 'front/Layout/includes/page_header.html.twig' with {
+            page_header_class: 'column register-page-header',
+            title: 'user.registration.personal.banner'|trans,
+            title_class: 'dark-blue-color',
+            subtitle: 'user.registration.personal.subbanner'|trans,
+            subtitle_class: 'dark-blue-color',
+        } %}
     {% endif %}
 
     <section class="small-12">
-        <div class="register-form row">
+        <div class="row white-bg padding-top-2 padding-bottom-1 form-compact">
             {% include 'front/Security/Register/includes/account.html.twig' with {
                 context:constant("Wamcar\\User\\PersonalUser::TYPE"),
                 social_connect: social_connect
             }%}
         </div>
     </section>
-
-    {% if not assitant_registration_mode %}
-        <section class="section reinsurance-container small-12">
-            <div class="row">
-                <h2 class="h1 column text-center full-width xlarge-no-margin">Changer de véhicule, c’est simple avec <span class="primary-color">{{ site_name }}</span></h2>
-                {% include 'front/Layout/includes/reinsurance/reinsurance_user.html.twig' %}
-                <p class="no-margin text-center full-width">Schéma représentant le processus de reprise de véhicule. L’inscription ne vous engage en rien à vendre sur Wamcar.</p>
-            </div>
-        </section>
-    {% endif %}
 {% endblock body %}
 
 

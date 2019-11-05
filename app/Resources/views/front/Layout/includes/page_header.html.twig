@@ -1,12 +1,17 @@
 {% set balise = balise|default('h1') %}
+{% set balise_sub = balise_sub|default('p') %}
 {% set page_header_class = page_header_class|default(false) %}
-{% set title_class = title_class|default(false) %}
+{% set title_class = title_class|default('primary-color ') %}
+{% set subtitle_class = subtitle_class|default('primary-color ') %}
 {% set link = link|default(false) %}
 
 <header class="page-header {{ page_header_class }}">
     <div class="row full-width">
         <div class="block-grid column small-12 align-middle">
-            <{{ balise }} class="primary-color {{ title_class }} no-margin text-center medium-text-left small-12">{{ title }}</{{ balise }}>
+            <{{ balise }} class="{{ title_class }} full-width no-margin text-center medium-text-left">{{ title }}</{{ balise }}>
+            {% if subtitle is defined %}
+                <{{ balise_sub }} class="{{ subtitle_class }} no-margin text-center medium-text-left">{{ subtitle }}</{{ balise_sub }}>
+            {% endif %}
             {{ link ? link|raw : '' }}
         </div>
     </div>
