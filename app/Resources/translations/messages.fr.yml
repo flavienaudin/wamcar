@@ -877,6 +877,9 @@ user:
         multigarages: Multi-sites
       garage:
         label: Travaille chez
+    proservices:
+      specialities.title: Mes spécialités
+      services.title: Mes services
     edit:
       title:
         mine: Editer mon profil
