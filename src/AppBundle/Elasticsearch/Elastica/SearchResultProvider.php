@@ -614,6 +614,7 @@ class SearchResultProvider
     }
 
     /**
+     * Get Vehicle Infos about PersonalVehicles and ProVehicles
      * @param array $data
      * @param bool $includePersonalVehicle
      * @param bool $includeProVehicle
@@ -626,6 +627,9 @@ class SearchResultProvider
         $qb = new QueryBuilder();
 
         $boolQuery = $qb->query()->bool();
+
+        // With Pictures
+        $boolQuery->addFilter($qb->query()->range('vehicle.nbPictures', ['gt' => 0]));
 
         // Filter
         if ($includePersonalVehicle && $includeProVehicle) {
@@ -702,6 +706,7 @@ class SearchResultProvider
     }
 
     /**
+     * Get Vehicle Infos about PersonalProject
      * @param array $data
      * @param array $searchTypes
      * @return array
