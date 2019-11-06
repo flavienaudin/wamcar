@@ -27,7 +27,7 @@ front_directory_by_city_view:
     controller: AppBundle:Front\ProContext\Directory:view
 
 front_directory_by_service_view:
-    path: /annuaire-conseillers-auto/s/{service}
+    path: /annuaire-conseillers-auto/s/{speciality}
     controller: AppBundle:Front\ProContext\Directory:view
 
 front_directory_view:

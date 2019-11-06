@@ -53,7 +53,7 @@ class SearchProType extends AbstractType
                 },
             ])
             ->add('radius', HiddenType::class, [
-                'data' => 50,
+                'data' => 100,
                 'error_bubbling' => true
             ])
             ->add('sorting', ChoiceType::class, [

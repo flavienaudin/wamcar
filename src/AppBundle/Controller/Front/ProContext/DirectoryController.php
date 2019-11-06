@@ -64,7 +64,7 @@ class DirectoryController extends BaseController
         }
 
         // Services
-        if (($serviceName = $request->get('speciality', $request->get('s'))) !== null) {
+        if (($serviceName = $request->get('speciality')) !== null) {
             $searchProDTO->speciality = $this->proServiceService->getProServiceBySlug($serviceName);
         }
 
