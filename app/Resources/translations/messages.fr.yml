@@ -427,7 +427,7 @@ garage:
     field:
       googleSearch:
         label: Rechercher votre établissement
-        placeholder: Rechercher votre établissement sur Google Map
+        placeholder: Rechercher sur Google
       location:
         placeholder: Ville ou code postal
     auto_vehicles_import_request:
@@ -962,9 +962,7 @@ user:
     title:
       personal: Présentation
       pro: Laissez-moi vous guider
-    empty: >
-      Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
-      possible pour faciliter la confiance dans le dialogue avec vos clients.
+    empty: Présentez-vous en quelques mots pour mettre en confiance vos clients.
     edit: Modifier mes informations
   city:
     title:
@@ -1073,7 +1071,6 @@ user:
 
   garage:
     seller_for: Vendeur pour
-    empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
     add: Ajouter un garage
     join: Rejoindre un garage
     remove_member: Détacher ce vendeur
@@ -1099,8 +1096,8 @@ user:
           professionnel qui vous accompagnera dans votre projet.<br>
           <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>
         pro: >
-          Découvrez votre degré d'affinité avec chaque particulier<br>
-          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>.
+          <p>Découvrez votre degré d'affinité avec chaque particulier</p>
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>
       edit:
         personal: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
@@ -1109,7 +1106,7 @@ user:
         pro: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici</a>.
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
