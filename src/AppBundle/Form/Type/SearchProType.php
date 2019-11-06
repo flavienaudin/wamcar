@@ -49,6 +49,9 @@ class SearchProType extends AbstractType
                     $qb = $er->createQueryBuilder('s');
                     if(!empty($specialitiesChoices)){
                         $qb->where($qb->expr()->in("s.name", $specialitiesChoices));
+                    }else{
+                        $qb->where($qb->expr()->eq("s.name", ":falseName"));
+                        $qb->setParameter('falseName', 'xxxxxx');
                     }
                     return $qb->orderBy('s.name', 'ASC');
                 },
