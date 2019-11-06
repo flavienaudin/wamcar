@@ -744,7 +744,9 @@ user:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
       banner: S'inscrire maintenant (ou pas) ?
-      subbanner: En vous inscrivant, vous pourrez contacter directement les conseillers via leur page profil.
+      subbanner: >
+        En vous inscrivant, vous pourrez contacter les conseillers via leur leur ligne directe, et bénéficier des
+        meilleurs outils pour accélérer votre recherche.
     block_insert: >
       Inscrivez-vous gratuitement pour : <ul class="margin-bottom-0">
       <li>appeler %username% sur sa ligne de téléphone directe,</li>
