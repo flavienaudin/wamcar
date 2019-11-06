@@ -8,9 +8,9 @@
 <header class="page-header {{ page_header_class }}">
     <div class="row full-width">
         <div class="block-grid column small-12 align-middle">
-            <{{ balise }} class="{{ title_class }} full-width no-margin text-center medium-text-left">{{ title }}</{{ balise }}>
+            <{{ balise }} class="full-width no-margin text-center medium-text-left {{ title_class }} ">{{ title }}</{{ balise }}>
             {% if subtitle is defined %}
-                <{{ balise_sub }} class="{{ subtitle_class }} no-margin text-center medium-text-left">{{ subtitle }}</{{ balise_sub }}>
+                <{{ balise_sub }} class="text-center medium-text-left {{ subtitle_class }}">{{ subtitle }}</{{ balise_sub }}>
             {% endif %}
             {{ link ? link|raw : '' }}
         </div>
