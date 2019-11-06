@@ -90,7 +90,7 @@
             <div>
                 <button type="submit" class="button float-right margin-left-1">
                     {{ 'global.button.delete'|trans }}</button>
-                <button type="button" class="button float-right white">{{ 'global.button.cancel'|trans }}</button>
+                <a href="{{ path('front_view_current_user_info') }}" class="button float-right white">{{ 'global.button.cancel'|trans }}</a>
             </div>
 
             {{ form_errors(userDeletionForm) }}

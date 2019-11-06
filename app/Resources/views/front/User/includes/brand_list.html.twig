@@ -1,4 +1,4 @@
-<ul class="brand-list">
+{% set brandListBlock %}{% spaceless %}
     {% for membership in user.garageMemberships %}
         {% if membership.requestedAt is null or userIsMe %}
             {% set garageRating = membership.garage.googleRating %}
@@ -16,7 +16,11 @@
                 {% endif %}
             </li>
         {% endif %}
-    {% else %}
-        <li class="margin-bottom-1">{{ 'user.garage.empty'|trans }}</li>
     {% endfor %}
-</ul>
+{% endspaceless %}{% endset %}
+
+{% if brandListBlock is not empty %}
+    <ul class="brand-list">
+        {{ brandListBlock  }}
+    </ul>
+{% endif %}
