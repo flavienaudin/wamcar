@@ -209,7 +209,7 @@ header:
   anonyme:
     see_search: Voir les annonces
     sell: Déposer une annonce
-    ours_advisors: Nos conseillers
+    ours_advisors: Voir les conseillers
     log: Connexion / Inscription
     pro_space: Je suis un professionnel
   common:
@@ -261,7 +261,7 @@ social_network:
   connexion_with: Se connecter avec %social_network%
 
 footer:
-  our_vehicles: Nos voitures
+  our_vehicles: Voir les voitures
   concept: Concept
   who_are_we: Qui sommes-nous ?
   contact_us: Contactez-nous
@@ -393,7 +393,7 @@ landing:
       content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
       actions:
         find_advisor: Trouver mon conseiller
-        all_advisors: Tous nos conseillers
+        all_advisors: Voir les conseillers
 
 
 
@@ -1339,8 +1339,8 @@ notifications:
     garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
 
 directory:
-  page_tile: Tous nos conseillers
-  breadcrumb: Nos conseillers
+  page_tile: Voir les conseillers
+  breadcrumb: Voir les conseillers
   description: Rencontrez votre conseiller automobile
   form:
     title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
