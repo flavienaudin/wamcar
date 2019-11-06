@@ -39,11 +39,11 @@
                        class="button square" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
                        data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
 
-                    {% if user.phonePro is not empty or user.phone is not empty %}
+                    {% if user.phone is not empty or user.phonePro is not empty %}
                         {{ include('front/Seller/includes/phone_number_button.html.twig', {
                             'phoneOwner': user,
-                            'phoneNumber': user.phonePro is not empty ? user.phonePro : user.phone,
-                            'showphone_subaction': user.phonePro is not empty ? "2" : "1"
+                            'phoneNumber': user.phone is not empty ? user.phone : user.phonePro ,
+                            'showphone_subaction': user.phone is not empty ? "1" : "2"
                         }) }}
                     {% endif %}
                 </div>
@@ -60,18 +60,20 @@
 <div class="row">
     <div class="column">
         <div class="js-pro-profil-summary profil-seller-summary align-spaced align-middle">
-            <div class="row small-up-2 align-middle">
-                <div class="column text-right">
-                    <h3 class="margin-0">{{ 'user.affinity.section.affinity_rate'|trans }}</h3>
+            {% if not userIsMe %}
+                <div class="row small-up-2 align-middle">
+                    <div class="column text-right">
+                        <h3 class="margin-0">{{ 'user.affinity.section.affinity_rate'|trans }}</h3>
+                    </div>
+                    <div class="column text-left">
+                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
+                            'user':user,
+                            'display_if_no_answer':true,
+                            'always_displays':true
+                        }) }}
+                    </div>
                 </div>
-                <div class="column text-left">
-                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
-                        'user':user,
-                        'display_if_no_answer':true,
-                        'always_displays':true
-                    }) }}
-                </div>
-            </div>
+            {% endif %}
             {% set userGarages = user.garagesOrderByGoogleRating %}
             <div>
                 <div class="icon-location">

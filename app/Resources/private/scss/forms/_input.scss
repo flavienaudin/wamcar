@@ -9,9 +9,12 @@
    ===================================== */
 
 $input-height: rem-calc(40);
+$input-height-compact: rem-calc(32);
 $input-background: white;
 $input-line-height: $input-height;
+$input-line-height-compact: $input-height-compact;
 $input-font-size: rem-calc(16);
+$input-font-size-compact: rem-calc(14);
 $input-border: rem-calc(1) solid $border-color;
 $input-border-radius: 0;
 $input-color: black;
@@ -32,6 +35,10 @@ $input-padding: 0 rem-calc(10);
   @include breakpoint(medium) {
     margin-bottom: $input-margin-bottom-medium;
   }
+}
+
+@mixin inputMarginCompact {
+  margin-bottom: $input-margin-bottom;
 }
 
 
@@ -55,6 +62,10 @@ $input-padding: 0 rem-calc(10);
 
   &:focus {
     border-color: $input-focus-border;
+  }
+
+  .form-compact & {
+    font-size: $input-font-size-compact;
   }
 }
 
@@ -99,6 +110,10 @@ textarea {
   @include inputMargin;
   width: 100%;
   margin-bottom: $input-margin-bottom;
+
+  .form-compact &:not(.is-invalid-input) {
+    @include inputMarginCompact;
+  }
 }
 
 .input {
@@ -106,7 +121,10 @@ textarea {
   @include buttonPadding;
   line-height: $input-line-height;
 
-
+  .form-compact &{
+    @include buttonHeightCompact;
+    line-height: $input-line-height-compact;
+  }
 
   /*
      Margin
@@ -114,6 +132,10 @@ textarea {
 
   &-margin {
     @include inputMargin;
+
+    .form-compact & {
+      @include inputMarginCompact;
+    }
   }
 
   &-margin-small {

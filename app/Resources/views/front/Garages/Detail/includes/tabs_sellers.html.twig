@@ -28,7 +28,7 @@
                             {% if membership.proUser.description %}
                                 <p>{{ membership.proUser.presentationTitle is not null?membership.proUser.presentationTitle }}</p>
                             {% elseif userIsMe %}
-                                <p>Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information possible pour faciliter la confiance dans le dialogue avec vos clients.</p>
+                                <p>{{ 'user.presentation.empty'|trans }}</p>
                             {% endif %}
 
                             {% if userIsMe %}

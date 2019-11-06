@@ -52,8 +52,8 @@
                     </li>
                 </ul>
             {% else %}
-                <button class="l-header-button icon-search small-right hide-for-large"
-                        data-toggle="header_search_links"></button>
+                {# Recherche dans le header supprimée
+                <button class="l-header-button icon-search small-right hide-for-large" data-toggle="header_search_links"></button>#}
                 <button type="button" class="l-header-button icon-user small-right" id="open-side-login"
                         data-toggle="js-off-canvas-user" title="{{ 'header.anonyme.log'|trans }}">
                     <span class="show-for-xlarge">{{ 'header.anonyme.log'|trans }}</span>
@@ -66,19 +66,19 @@
     </div>
 </header>
 
-
-<div id="header_search_links"
-     class="dropdown-pane dropdown-pane-header-search-links {{ isLogged ? 'show-for-small-only':'hide-for-large' }}"
-     data-dropdown  data-position="bottom" data-alignement="right" data-close-on-click="true">
-    <div class="dropdown-pane-body {{ isLogged ? 'show-for-small-only':'hide-for-large' }}">
-        <ul class="no-bullet no-margin">
-            <li><a href="{{ path('front_search') }}" class="black-color">{{ 'header.common.search.vehicle'|trans }}</a></li>
-            <li><a href="{{ path('front_directory_view') }}" class="black-color">{{ 'header.common.search.directory'|trans }}</a></li>
-        </ul>
-    </div>
-</div>
-
 {% if isLogged %}
+
+    <div id="header_search_links"
+         class="dropdown-pane dropdown-pane-header-search-links {{ isLogged ? 'show-for-small-only':'hide-for-large' }}"
+         data-dropdown  data-position="bottom" data-alignement="right" data-close-on-click="true">
+        <div class="dropdown-pane-body {{ isLogged ? 'show-for-small-only':'hide-for-large' }}">
+            <ul class="no-bullet no-margin">
+                <li><a href="{{ path('front_search') }}" class="black-color">{{ 'header.common.search.vehicle'|trans }}</a></li>
+                <li><a href="{{ path('front_directory_view') }}" class="black-color">{{ 'header.common.search.directory'|trans }}</a></li>
+            </ul>
+        </div>
+    </div>
+
     <div id="notifications-dropdown" class="dropdown-pane dropdown-pane-notifications show-for-medium" data-dropdown
          data-position="bottom" data-alignment="right" data-auto-focus="true">
         {{ wamcar_notification_render(app.user, {

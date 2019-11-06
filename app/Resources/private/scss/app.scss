@@ -120,6 +120,7 @@
 @import "forms/error";
 @import "forms/label";
 @import "forms/select";
+@import "forms/select";
 @import "forms/disabled";
 @import "forms/form";
 
@@ -139,6 +140,8 @@
 @import "components/logo";
 @import "components/hamburger";
 @import "components/off-canvas";
+@import "components/separator";
+@import "components/page";
 @import "components/social-networks";
 @import "components/copyright";
 @import "components/reinsurance";
@@ -158,10 +161,8 @@
 @import "components/banner";
 @import "components/tooltips";
 @import "components/profil";
-@import "components/separator";
 @import "components/brand";
 @import "components/breadcrumb";
-@import "components/page";
 @import "components/garage";
 @import "components/review";
 @import "components/pagination";
@@ -194,5 +195,6 @@
 @import "components/registration_orientation";
 @import "components/datatables";
 @import "components/expert";
+@import "components/tag";
 
 // Only on last

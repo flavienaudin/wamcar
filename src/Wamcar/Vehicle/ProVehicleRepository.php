@@ -16,6 +16,13 @@ interface ProVehicleRepository extends VehicleRepository
     public function findByReference($reference);
 
     /**
+     * @param $reference
+     * @param $vin
+     * @return mixed
+     */
+    public function findOneByReferenceAndVIN($reference, $vin);
+
+    /**
      * Return the $limit last vehicles
      * @param $limit
      * @return Collection
@@ -63,5 +70,5 @@ interface ProVehicleRepository extends VehicleRepository
      * @param int|null $months
      * @return array
      */
-    public function findSoftDeletedForXMonth(?int $months = 3): array ;
+    public function findSoftDeletedForXMonth(?int $months = 3): array;
 }

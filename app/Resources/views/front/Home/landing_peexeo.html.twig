@@ -12,45 +12,36 @@
 
 {% block body %}
 
+    {% if not isLogged %}
+        {% set findAdvisorLink = path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) %}
+    {% elseif app.user.affinityAnswer is not null %}
+        {% if isUserPersonal %}
+            {% set findAdvisorLink = path('front_affinity_personal_form') %}
+        {% else %}
+            {% set findAdvisorLink = path('front_affinity_pro_form') %}
+        {% endif %}
+    {% else %}
+        {% set findAdvisorLink = path('front_directory_view') %}
+    {% endif %}
+
     <section class="top-section">
         <div class="row full-height align-middle">
-            <div id="item-sellers-container" class="column small-12 medium-6 item-sellers-container">
+            <div id="seller-item-container" class="column small-12 medium-6 seller-item-container">
 
                 <div class="orbit" role="region" aria-label="Experts automobile" data-orbit data-timer-delay="12000">
                     <div class="orbit-wrapper">
-                        <ul class="orbit-container">
-                            {% for pro in proProfils %}
-                                <li class="{{ loop.index0 ? 'is-active' }} orbit-slide item-seller">
-                                    <div class="profil-image margin-bottom-2">
-                                        <a href="{{ path('front_view_pro_user_info', {'slug': pro.slug}) }}">
-                                            <img src="{{ pro.avatar|avatar('user_thumbnail', pro.fullName) }}"
-                                                 alt="{{ pro.fullName }}"></a>
-                                    </div>
-                                    <h2 class="text-center margin-bottom-1">{{ pro.fullName }}</h2>
-
-                                    <div class="margin-bottom-1 text-center black-color">
-                                        {{ pro.presentationTitle }}&nbsp;
-                                    </div>
-
-                                    {% set userGarages = pro.garagesOrderByGoogleRating %}
-                                    <p class="icon-location primary-color align-center">
-                                        <span class="body-font-color">
-                                            {% if userGarages|length > 1 %}
-                                                Multi-sites
-                                            {% elseif userGarages|length == 1 %}
-                                                {{ userGarages[0].garage.city }}
-                                            {% else %}
-                                                &ndash;
-                                            {% endif %}
-                                        </span>
-                                    </p>
-                                </li>
+                        <div class="orbit-container">
+                            {% for proUser in proProfils %}
+                                {{ include('front/Directory/includes/seller_item.html.twig', {
+                                    "itemClass" : "orbit-slide "~(loop.index0 == 0 ? "is-active"),
+                                    "proUser" : proUser
+                                }) }}
                             {% endfor %}
-                        </ul>
+                        </div>
                     </div>
                     <nav class="orbit-bullets">
                         {% for pro in proProfils %}
-                            <button class="{{ loop.index0 ? 'is-active' }}" data-slide="{{ loop.index0 }}">
+                            <button class="{{ loop.index0 == 0 ? 'is-active' }}" data-slide="{{ loop.index0 }}">
                                 <span class="show-for-sr">{{ pro.fullName }}</span>
                                 <span class="show-for-sr" data-slide-active-label>Current Slide</span>
                             </button>
@@ -68,9 +59,8 @@
                               data-fourth="{{ 'landing.peexeo.baseline.fourth'|trans }}"
                         ></span>
                     </h1>
-
-                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                       class="button square">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                    <a href="{{ findAdvisorLink }}" class="button square">
+                        {{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
                 </div>
             </div>
 
@@ -94,10 +84,10 @@
                 <div class="row">
                     <div class="column small-12 margin-bottom-1 medium-6">
                         <a class="button square"
-                           href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                           href="{{ findAdvisorLink }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
                     </div>
                     <div class="column small-12 margin-bottom-1 medium-6 ">
-                        <a class="button square grey-light"
+                        <a class="button square gray-light"
                            href="{{ path('front_directory_view') }}">{{ 'landing.peexeo.wamaffinity.actions.all_advisors'|trans }}</a>
                     </div>
                 </div>

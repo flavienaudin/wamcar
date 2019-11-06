@@ -122,7 +122,7 @@ $profil-image-offset: rem-calc(40);
 
     .profil-section:not(:last-child) {
       border-bottom: rem-calc(1) solid $border-color;
-      margin-bottom: rem-calc(30);
+      margin-bottom: rem-calc(25);
       padding-bottom: rem-calc(25);
     }
 
@@ -382,12 +382,20 @@ $profil-image-offset: rem-calc(40);
       }
     }
 
+    &-vehicles {
+      margin-bottom: rem-calc(25);
+    }
+
+    &-delete-section {
+      padding: rem-calc(25);
+      background-color: $body-background;
+    }
 
     &-left-column {
       > .profil-section {
-        background-color: $body-background;
-        margin-bottom: 1rem;
+        margin-bottom: rem-calc(25);
         padding: rem-calc(25);
+        background-color: $body-background;
       }
     }
 
@@ -405,6 +413,12 @@ $profil-image-offset: rem-calc(40);
           border-bottom: rem-calc(1) solid $border-color;
           margin-bottom: rem-calc(30);
           padding-bottom: rem-calc(25);
+        }
+      }
+
+      .garages-card {
+        >:not(:first-child){
+          @include separatorMixin;
         }
       }
     }

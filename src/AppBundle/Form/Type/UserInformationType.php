@@ -50,9 +50,6 @@ class UserInformationType extends AbstractType
                 'required' => true,
                 'attr' => ['pattern' => '^0\d{9}$']
             ])
-            ->add('phoneDisplay', YesNoType::class, [
-                'required' => false
-            ])
             ->add('oldPassword', PasswordType::class, [
                 'required' => false,
                 'error_bubbling' => true,
@@ -74,7 +71,6 @@ class UserInformationType extends AbstractType
             ]);
 
         $builder->get('title')->addModelTransformer(new EnumDataTransformer(Title::class));
-        $builder->get('phoneDisplay')->addModelTransformer(new YesNoDataTransformer());
     }
 
     /**

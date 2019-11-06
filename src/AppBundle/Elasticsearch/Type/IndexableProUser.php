@@ -7,6 +7,7 @@ use AppBundle\Doctrine\Entity\ProApplicationUser;
 use Novaway\ElasticsearchClient\Indexable;
 use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Garage\GarageProUser;
+use Wamcar\User\ProUserProService;
 
 class IndexableProUser implements Indexable
 {
@@ -30,6 +31,10 @@ class IndexableProUser implements Indexable
     private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
+    /** @var string[] (ProService->name[]) */
+    private $proServices;
+    /** @var string[] (ProService->name[] if ProUserProService->isSpeciality == true) */
+    private $proSpecialities;
     /** @var \DateTime */
     private $deletedAt;
 
@@ -42,9 +47,20 @@ class IndexableProUser implements Indexable
      * @param array|null $garages
      * @param int|null $hasAvatar
      * @param array|null $roles
+     * @param array|null $proServices
+     * @param array|null $proSpecialities
      * @param null|\DateTime $deletedAt
      */
-    private function __construct(int $id, string $firstName, ?string $lastName, ?string $description, array $garages = [], int $hasAvatar = 0, array $roles = [], ?\DateTime $deletedAt = null)
+    private function __construct(int $id,
+                                 string $firstName,
+                                 ?string $lastName,
+                                 ?string $description,
+                                 array $garages = [],
+                                 int $hasAvatar = 0,
+                                 array $roles = [],
+                                 array $proServices = [],
+                                 array $proSpecialities = [],
+                                 ?\DateTime $deletedAt = null)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -54,6 +70,8 @@ class IndexableProUser implements Indexable
         $this->garages = $garages;
         $this->hasAvatar = $hasAvatar;
         $this->roles = $roles;
+        $this->proServices = $proServices;
+        $this->proSpecialities = $proSpecialities;
         $this->deletedAt = $deletedAt;
     }
 
@@ -67,6 +85,12 @@ class IndexableProUser implements Indexable
             [],
             ($proApplicationUser->getAvatar() != null?1:0), // int for function score
             $proApplicationUser->getRoles(),
+            array_map(function (ProUserProService $proUserProService) {
+                return $proUserProService->getProService()->getName();
+            }, $proApplicationUser->getProUserProServices()->toArray()),
+            array_map(function (ProUserProService $proUserProService) {
+                return $proUserProService->getProService()->getName();
+            }, $proApplicationUser->getProUserSpecialities()->toArray()),
             $proApplicationUser->getDeletedAt()
         );
         $indexableProUser->maxGarageGoogleRating = -1;
@@ -131,6 +155,8 @@ class IndexableProUser implements Indexable
             'description' => $this->description,
             'descriptionLength' => $this->descriptionLength,
             'garages' => array_values($this->garages),
+            'proServices' => array_values($this->proServices),
+            'proSpecialities' => array_values($this->proSpecialities),
             'hasAvatar' => $this->hasAvatar
         ];
         if ($this->maxGarageGoogleRating > 0) {

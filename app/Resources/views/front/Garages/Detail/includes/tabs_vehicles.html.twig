@@ -3,23 +3,23 @@
     {{ form_start(searchForm, {'attr':{
         'id' : 'js-garage-vehicle-search-form'
     }|merge(searchFormAttr)}) }}
-    <div class="column">
-        <div class="row">
-            <div class="column small-12 medium-auto">
-                {{ form_widget(searchForm.text, {
-                    'class':'',
-                    'label':'search.common.field.text.label'|trans,
-                    'label_class':'show-for-sr',
-                    'required' : false,
-                    'required_class': 'show-for-sr',
-                    'placeholder':'search.common.field.text.placeholder'|trans
-                }) }}
-            </div>
-            <div class="column small-12 medium-shrink input-margin medium-no-margin ">
-                <button type="submit" class="button no-margin full-width">{{ 'global.button.search'|trans }}</button>
-            </div>
+
+    <div class="row">
+        <div class="column small-12 medium-auto">
+            {{ form_widget(searchForm.text, {
+                'class':'',
+                'label':'search.common.field.text.label'|trans,
+                'label_class':'show-for-sr',
+                'required' : false,
+                'required_class': 'show-for-sr',
+                'placeholder':'search.common.field.text.placeholder'|trans
+            }) }}
+        </div>
+        <div class="column small-12 medium-shrink input-margin medium-no-margin ">
+            <button type="submit" class="button no-margin full-width">{{ 'global.button.search'|trans }}</button>
         </div>
     </div>
+
     {{ form_end(searchForm) }}
 {% endif %}
 
@@ -40,18 +40,23 @@
     {% set balise = 'h3' %}
     {% set vehiclesToList = vehicles.hits %}
     {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-    <br>
 
-    <div class="block-grid small-12 align-middle input-margin">
-        <div class="small-12">
-            {% include 'front/Layout/includes/pagination.html.twig' with {
-                'route': pagination_route,
-                'route_params': pagination_route_params,
-                'page': page,
-                'lastPage': lastPage
-            } %}
+    {% set tabVehiclesBlock %}
+        {%- include 'front/Layout/includes/pagination.html.twig' with {
+            'route': pagination_route,
+            'route_params': pagination_route_params,
+            'page': page,
+            'lastPage': lastPage
+        } -%}
+    {% endset %}
+    {% if tabVehiclesBlock is not empty %}
+        <br>
+        <div class="block-grid small-12 align-middle input-margin">
+            <div class="small-12">
+                {{ tabVehiclesBlock }}
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% else %}
     {% if searchForm is not null and searchForm.vars.submitted %}
         <p>{{ 'garage.tabs.vehicles.list.empty_result'|trans }}</p>

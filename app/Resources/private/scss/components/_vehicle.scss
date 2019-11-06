@@ -163,7 +163,6 @@
       }
     }
 
-    .garage-container &,
     .separator-section &,
     .section &{
       margin-right: rem-calc(10);
@@ -175,16 +174,11 @@
       }
     }
 
-    .garage-container.search-result-pro &,
-    .garage-container.search-result-personal & {
-      margin-right: 0;
-      margin-left: 0;
-    }
-
     .sales-container &,
     .last-vehicles-container &,
     .favorites-container &,
-    .garage-container & {
+    .garage-container &,
+    .profil-seller-vehicles & {
       width: 100%;
     }
 

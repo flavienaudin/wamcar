@@ -243,11 +243,16 @@ class VehicleImportService
             // RG-TRI-Oblig-Km
             throw new VehicleImportRGFailedException('RG-TRI-Oblig-Km');
         }
+        if (empty($data[AutosManuelProVehicleBuilder::FIELDNAME_VIN])) {
+            // RG-TRI-Oblig-VIN
+            throw new VehicleImportRGFailedException('RG-TRI-Oblig-VIN');
+        }
 
         $garageName = $data[AutosManuelProVehicleBuilder::FIELDNAME_SELLER_CONTACT];
         if (isset($garages[$garageName])) {
             $vehicleReference = AutosManuelProVehicleBuilder::REFERENCE_PREFIX . $data[AutosManuelProVehicleBuilder::FIELDNAME_REFERENCE];
-            $existingProVehicle = $this->proVehicleRepository->findByReference($vehicleReference);
+            $vehicleVIN = $data[AutosManuelProVehicleBuilder::FIELDNAME_VIN];
+            $existingProVehicle = $this->proVehicleRepository->findOneByReferenceAndVIN($vehicleReference, $vehicleVIN);
 
             // Exiting vehicle is moved to another garage
             $wasMoved = false;

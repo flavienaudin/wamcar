@@ -385,6 +385,11 @@ parameters:
                 type: geo_point
               garageGoogleRating:
                 type: float
+          proServices:
+            type: keyword
+          proSpecialities:
+            type: keyword
+
   search_item.index_builder.config:
     settings:
       index: '%common_settings%'

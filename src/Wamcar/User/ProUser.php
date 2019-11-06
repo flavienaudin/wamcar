@@ -38,6 +38,8 @@ class ProUser extends BaseUser
     protected $saleDeclarations;
     /** @var Collection */
     protected $proContactMessages;
+    /** @var Collection */
+    protected $proUserProServices;
 
     /**
      * ProUser constructor.
@@ -54,6 +56,7 @@ class ProUser extends BaseUser
         $this->leads = new ArrayCollection();
         $this->saleDeclarations = new ArrayCollection();
         $this->proContactMessages = new ArrayCollection();
+        $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
     }
 
@@ -381,4 +384,69 @@ class ProUser extends BaseUser
     {
         return true;
     }
+
+    /**
+     * @return Collection
+     */
+    public function getProUserProServices(): Collection
+    {
+        return $this->proUserProServices;
+    }
+
+    /**
+     * Filtered ProServices on isSpeciality
+     * @param array $highlightSpecialities
+     * @return array|ArrayCollection|Collection
+     */
+    public function getProUserSpecialities(array $highlightSpecialities = [])
+    {
+        $specialities = $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
+            return $proUserProService->isSpeciality();
+        });
+        if(!empty($highlightSpecialities)){
+            $specialities = $specialities->toArray();
+            uasort($specialities, function (ProUserProService $ps1, ProUserProService $ps2) use ($highlightSpecialities){
+                if(in_array($ps1->getProService(), $highlightSpecialities)){
+                    return -1;
+                }elseif(in_array($ps2->getProService(), $highlightSpecialities)){
+                    return 1;
+                }
+                return 0;
+            });
+
+        }
+        return $specialities;
+    }
+
+    /**
+     * @param bool $excludeSpecialities
+     * @return ArrayCollection|Collection
+     */
+    public function getProUserServices(bool $excludeSpecialities = false){
+        if($excludeSpecialities) {
+            $criteria = Criteria::create();
+            $criteria->where(Criteria::expr()->eq('isSpeciality', false));
+            return $this->proUserProServices->matching($criteria);
+        }else{
+            return $this->proUserProServices;
+        }
+
+    }
+
+    /**
+     * @param ProUserProService $proUserProService
+     */
+    public function addProUserProService(ProUserProService $proUserProService)
+    {
+        $this->proUserProServices->add($proUserProService);
+    }
+
+    /**
+     * @param ProUserProService $proUserProService
+     */
+    public function removeProUserProService(ProUserProService $proUserProService)
+    {
+        $this->proUserProServices->removeElement($proUserProService);
+    }
+
 }

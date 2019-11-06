@@ -1,5 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
-{% block mainClass %}no-padding-top{% endblock %}
+{% block mainClass %}no-padding-top directory-page{% endblock %}
 
 {% block title %}{{ 'directory.page_tile'|trans }}{% endblock %}
 {% block meta_description %}{{ 'directory.description'|trans }}{% endblock %}
@@ -8,58 +8,78 @@
 
 {% set breadcrumbs = [
     {
-        'name': 'directory.page_tile'|trans,
+        'name': 'directory.breadcrumb'|trans,
         'href': app.request.requestUri
     }
 ] %}
 
 {% block body %}
-    {% set page_header_class = 'no-margin' %}
 
-    {% if not isLogged %}<div class="is-hidden">{% endif %}
-        {% include 'front/Layout/includes/breadcrumb.html.twig' %}
-    {% if not isLogged %}</div>{% endif %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
-    {% include 'front/Layout/includes/page_header.html.twig' with {
-        page_header_class: 'show-for-sr',
-        title: block('title')
-    } %}
-
-    <div class="block-gray {{ not isLogged ? 'directory-header-background' }}">
-        {% if not isLogged %}
-            <div class=" directory-form-header is-flex align-middle">
-                <div class="column small-8 large-7 large-offset-1 xlarge-6 xlarge-offset-2 text-center">
-                    <h2 class="h1">{{ 'directory.form.title'|trans }}</h2>
-                    <h3 class="h2 show-for-medium">{{ 'directory.form.subtitle'|trans }}</h3>
-                </div>
-                <div class="column small-4 large-4 xlarge-4 selfie-bg">&nbsp;</div>
-            </div>
-        {% endif %}
-        {% include 'front/Directory/includes/form.html.twig' %}
+    <div class="row">
+        {% include 'front/Layout/includes/page_header.html.twig' with {
+            title: block('title'),
+            page_header_class: 'column directory-page-header'
+        } %}
     </div>
 
-    <div class="row white-bg">
-        <div class="directory-result column small-12">
-            <header class="block-grid small-12 align-middle">
-                <strong class="h2 no-margin show-for-medium">{{ result.totalHits }} résultat(s)</strong>
+    {% if not isLogged %}
+        <div class="row">
+            <div class="column small-12">
+                <div class="column directory-form-header">
+                    <div class="row">
+                        <div class="column small-12 medium-8 text-justify">
+                            <h2 class="no-margin">{{ 'directory.form.title'|trans }}</h2>
+                        </div>
+                        <div class="column small-12 medium-4">
+                            <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                               class="button expand-height square dark-blue is-center">Commencer l'expérience</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="row">
+        <div class="column small-12">
+            {% include 'front/Directory/includes/form.html.twig' %}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="directory-result">
+            <header class="column small-12 margin-bottom-1">
+                <strong class="h2 no-margin ">{{ result.totalHits }} résultat(s)</strong>
             </header>
-            <div>
-                {% if result.totalHits > 0 %}
+            {% if result.totalHits > 0 %}
+                <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
+
                     {% for hit in result.hits %}
-                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
-                            'proUser' : hit
-                        }) }}
+                        <div class="column">
+                            {{ include('front/Directory/includes/seller_item.html.twig', {
+                                "itemClass" : "width-100",
+                                "proUser" : hit,
+                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
+                            }) }}
+                        </div>
                     {% endfor %}
                     {% include 'front/Layout/includes/pagination.html.twig' with {
                         'route': 'front_directory_view',
                         'page': page,
                         'lastPage': lastPage
                     } %}
-                {% else %}
-                    <br>
-                    <p>{{ 'directory.result.empty'|trans }}</p>
-                {% endif %}
-            </div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="column small-12">
+                        <div class="column">
+                            <p class="padding-1 white-bg">{{ 'directory.result.empty'|trans }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock body %}

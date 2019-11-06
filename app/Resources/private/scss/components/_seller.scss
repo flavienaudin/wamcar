@@ -117,4 +117,54 @@
       }
     }
   }
+
+  /*
+     Cartouche vendeur
+     ===================================== */
+  &-item{
+    background-color: white;
+    padding: rem-calc(15);
+
+    p {
+      margin-bottom: 0;
+    }
+
+
+    @include breakpoint (medium) {
+      padding: rem-calc(40) rem-calc(15);
+
+      p {
+        margin-bottom: rem-calc(30);
+      }
+
+      .profil-image {
+        margin: 0 auto;
+      }
+    }
+
+    &-container {
+
+    }
+  }
+
+  /*
+     Seller Services (and specialities)
+     ===================================== */
+  &-services {
+
+    h2 {
+      margin-bottom: rem-calc(10);
+    }
+
+    > div:not(:last-child) {
+      border-bottom: $dark-blue-peexeo dotted 3px;
+      padding-bottom: rem-calc(12);
+      margin-bottom: rem-calc(12);
+
+      @include breakpoint(xlarge) {
+        padding-bottom: rem-calc(20);
+        margin-bottom: rem-calc(20);
+      }
+    }
+  }
 }

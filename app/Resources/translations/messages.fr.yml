@@ -55,6 +55,10 @@ flash:
       change_status: Le status de votre lead a bien été mis à jour
     pro_contact_message:
       sent: Votre message a bien été envoyé à %proUserName%
+    pro_user_pro_service:
+      delete: Le service %servicename% n'est plus proposé par le conseiller %username%
+    pro_service:
+      delete: Le service %servicename% a été supprimé
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -205,7 +209,7 @@ header:
   anonyme:
     see_search: Voir les annonces
     sell: Déposer une annonce
-    ours_advisors: Nos conseillers
+    ours_advisors: Voir les conseillers
     log: Connexion / Inscription
     pro_space: Je suis un professionnel
   common:
@@ -257,6 +261,7 @@ social_network:
   connexion_with: Se connecter avec %social_network%
 
 footer:
+  our_vehicles: Voir les voitures
   concept: Concept
   who_are_we: Qui sommes-nous ?
   contact_us: Contactez-nous
@@ -388,7 +393,7 @@ landing:
       content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
       actions:
         find_advisor: Trouver mon conseiller
-        all_advisors: Tous nos conseillers
+        all_advisors: Voir les conseillers
 
 
 
@@ -422,7 +427,7 @@ garage:
     field:
       googleSearch:
         label: Rechercher votre établissement
-        placeholder: Rechercher votre établissement sur Google Map
+        placeholder: Rechercher sur Google
       location:
         placeholder: Ville ou code postal
     auto_vehicles_import_request:
@@ -738,7 +743,10 @@ user:
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
-      banner: Inscrivez-vous pour discuter avec les meilleurs conseillers automobile de manière sécurisée !
+      banner: S'inscrire maintenant (ou pas) ?
+      subbanner: >
+        En vous inscrivant, vous pourrez contacter les conseillers via leur leur ligne directe, et bénéficier des
+        meilleurs outils pour accélérer votre recherche.
     block_insert: >
       Inscrivez-vous gratuitement pour : <ul class="margin-bottom-0">
       <li>appeler %username% sur sa ligne de téléphone directe,</li>
@@ -835,7 +843,7 @@ user:
           alt: Conseilleur automobile
           title: Je trouve le conseiller automobile qui me correspond
           content: >
-            Pami notre sélection personnalisée de conseiller automobile, trouvez celui qui vous correspond et prenez
+            Parmi notre sélection personnalisée de conseillers automobile, trouvez celui qui vous correspond et prenez
             rendez-vous avec lui grâce à la message sécurisée.
         third:
           alt: Mon projet
@@ -873,6 +881,9 @@ user:
         multigarages: Multi-sites
       garage:
         label: Travaille chez
+    proservices:
+      specialities.title: Mes spécialités
+      services.title: Mes services
     edit:
       title:
         mine: Editer mon profil
@@ -953,9 +964,7 @@ user:
     title:
       personal: Présentation
       pro: Laissez-moi vous guider
-    empty: >
-      Présentez-vous en quelques mots, votre rôle, parcours, votre société, etc. Renseigner le plus d'information
-      possible pour faciliter la confiance dans le dialogue avec vos clients.
+    empty: Présentez-vous en quelques mots pour mettre en confiance vos clients.
     edit: Modifier mes informations
   city:
     title:
@@ -1064,7 +1073,6 @@ user:
 
   garage:
     seller_for: Vendeur pour
-    empty: Créer un garage pour renseigner votre parc automobile et les valoriser au près de vos prospects.
     add: Ajouter un garage
     join: Rejoindre un garage
     remove_member: Détacher ce vendeur
@@ -1090,8 +1098,8 @@ user:
           professionnel qui vous accompagnera dans votre projet.<br>
           <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>
         pro: >
-          Découvrez votre degré d'affinité avec chaque particulier<br>
-          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>.
+          <p>Découvrez votre degré d'affinité avec chaque particulier</p>
+          <a href="%affinity_form_url%" class="button" %datawtattr%> Remplir le questionnaire WamAffinity</a>
       edit:
         personal: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
@@ -1100,7 +1108,7 @@ user:
         pro: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici</a>.
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
@@ -1331,15 +1339,19 @@ notifications:
     garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
 
 directory:
-  page_tile: Annuaire des professionnels
+  page_tile: Voir les conseillers
+  breadcrumb: Voir les conseillers
   description: Rencontrez votre conseiller automobile
   form:
-    title: Rencontrez votre conseiller automobile
-    subtitle: Matchez, discutez, découvrez de bonnes occasions, et obtenez une offre de reprise sérieuse pour votre auto
+    title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
+    button: Commencer l'expérience
   field:
     text:
-      label: Je cherche un conseiller
-      placeholder: Entrer un nom ou une marque
+      label: Marque
+      placeholder: Marque
+    speciality:
+      label: Spécialité
+      placeholder: Spécialité
     location:
       label: Autour de
       placeholder: Ville ou code postal

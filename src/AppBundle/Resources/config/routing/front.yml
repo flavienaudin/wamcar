@@ -26,6 +26,10 @@ front_directory_by_city_view:
     path: /annuaire-conseillers-auto/v/{city}
     controller: AppBundle:Front\ProContext\Directory:view
 
+front_directory_by_service_view:
+    path: /annuaire-conseillers-auto/s/{speciality}
+    controller: AppBundle:Front\ProContext\Directory:view
+
 front_directory_view:
     path: /annuaire-conseillers-auto
     controller: AppBundle:Front\ProContext\Directory:view
@@ -296,6 +300,11 @@ front_vehicle_personal_delete:
     controller: AppBundle:Front\ProContext\PersonalVehicle:delete
 
 # Search
+
+front_vehicle_search_form_update:
+    path: /recherche-voitures/form_update.json
+    controller: AppBundle:Front\ProContext\Search:updateSeacrhVehicleForm
+
 front_search_by_city:
     path: /recherche-voitures/v/{city}
     controller: AppBundle:Front\ProContext\Search:search

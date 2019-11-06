@@ -14,6 +14,13 @@
     }
 }
 
+@mixin buttonHeightCompact {
+    height: rem-calc(32);
+    @include breakpoint(medium) {
+        height: rem-calc(48);
+    }
+}
+
 @mixin buttonPadding {
     padding-right: rem-calc(20);
     padding-left: rem-calc(20);
@@ -119,14 +126,14 @@ a.button {
         border-color: $dark-blue;
         &:hover,
         &:focus {
-            background-color: $grey-alt2;
+            background-color: $gray-alt2;
             color: $dark-blue;
             border-color: $white;
         }
     }
 
-    &.grey-light {
-        @include buttonTheme(white, $grey-altPeexeo, $dark-blue);
+    &.gray-light {
+        @include buttonTheme(white, $dark-blue-peexeo, $dark-blue);
     }
 
     /* Add */

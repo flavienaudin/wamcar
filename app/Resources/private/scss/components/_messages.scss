@@ -30,7 +30,7 @@
 
   &-header {
     padding: rem-calc(2) rem-calc(15);
-    background: $grey-alt;
+    background: $gray-alt;
 
     &:not(.messages-header-item-mobile)   {
       @include breakpoint(small only) {
@@ -164,7 +164,7 @@
     padding: $message-xs-padding;
 
     &:hover {
-      background: $grey-alt;
+      background: $gray-alt;
     }
 
     @include breakpoint(medium) {
@@ -178,20 +178,20 @@
 
     &.is-unread {
       @include breakpoint(medium) {
-        background: $grey-alt;
+        background: $gray-alt;
 
         &:hover {
-          background: darken($grey-alt, 2%);
+          background: darken($gray-alt, 2%);
         }
       }
     }
 
     &.is-current {
       @include breakpoint(medium) {
-        background: darken($grey-alt, 3%);
+        background: darken($gray-alt, 3%);
 
         &:hover {
-          background: darken($grey-alt, 6%);
+          background: darken($gray-alt, 6%);
         }
       }
 
@@ -339,7 +339,7 @@
 
   &-item-answer {
     padding: rem-calc(20) rem-calc(15) rem-calc(40);
-    background: $grey-alt2;
+    background: $gray-alt2;
 
     @include breakpoint(medium) {
       padding: rem-calc(20) rem-calc(25) rem-calc(40);

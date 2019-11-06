@@ -15,7 +15,7 @@ use Wamcar\Vehicle\Enum\DirectorySorting;
 class ProUserEntityIndexer extends EntityIndexer
 {
 
-    const LIMIT = 10;
+    const LIMIT = 12;
     const MIN_SCORE = 0.1;
     const OFFSET = 0;
 
@@ -50,6 +50,11 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addMust($textBoolQuery);
         }
 
+        if ($searchProDTO->speciality != null) {
+            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->speciality->getName()]);
+            $mainBoolQuery->addFilter($specialityQuery);
+        }
+
         // handle location filter
         if (!empty($searchProDTO->latitude) && !empty($searchProDTO->longitude)) {
             $radius = 50;
@@ -65,7 +70,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainBoolQuery->addFilter($locationNestedGaragesQuery);
         }
 
-        if (empty($searchProDTO->text) && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
+        if (empty($searchProDTO->text) && $searchProDTO->speciality == null && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
             $mainQuery->setQuery($qb->query()->match_all());
         } else {
             $mainQuery->setQuery($mainBoolQuery);
@@ -148,5 +153,27 @@ class ProUserEntityIndexer extends EntityIndexer
             $mainQuery->setQuery($functionScoreQuery);
         }
         return $this->search($mainQuery);
+    }
+
+    /**
+     * Retrieve list of specialities selected by pros.
+     * @return ResultSet
+     */
+    public function getSpecialities()    {
+
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $proSpecialitiesAgg = $qb->aggregation()->terms('proSpecialities');
+        $proSpecialitiesAgg->setField('proSpecialities');
+        $mainQuery->addAggregation($proSpecialitiesAgg);
+        $mainQuery->setSize(0);
+
+        $resultSet = $this->search($mainQuery);
+
+        $specialities = array_map(function ($aggDetails) {
+            return $aggDetails['key'];
+        }, $resultSet->getAggregation('proSpecialities')['buckets']);
+        return $specialities;
     }
 }

@@ -1,0 +1,36 @@
+Wamcar\User\ProUserProService:
+  type: entity
+  table: prouser_proservice
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineProUserProServiceRepository
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    isSpeciality:
+      type: boolean
+      nullable: false
+
+  manyToOne:
+    proUser:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: proUserProServices
+      joinColumn:
+        name: pro_user_id
+        referencedColumnName: id
+        nullable: false
+    proService:
+      targetEntity: Wamcar\User\ProService
+      inversedBy: proService
+      joinColumn:
+        name: pro_service_id
+        referencedColumnName: id
+        nullable: false
+
+  uniqueConstraints:
+    proUserProService:
+      columns: [pro_user_id, pro_service_id]

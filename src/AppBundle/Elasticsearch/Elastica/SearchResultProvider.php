@@ -82,7 +82,7 @@ class SearchResultProvider
         $withoutNbPicturesBoolQuery->addMustNot($qb->query()->exists('vehicle.nbPictures'));
         $withPictureBoolQuery->addShould($withoutNbPicturesBoolQuery);
         $withPictureBoolQuery->addShould($qb->query()->range('vehicle.nbPictures', ['gt' => 0]));
-        //$mainBoolQuery->addFilter($withPictureBoolQuery);
+        $mainBoolQuery->addFilter($withPictureBoolQuery);
 
         // Search types
         if (in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
@@ -221,6 +221,7 @@ class SearchResultProvider
                 $projectMakeFilterQuery->setPath('project.models');
                 $projectMakeFilterQuery->setQuery($qb->query()->term(['project.models.make.keyword' => $searchVehicleDTO->make]));
             }
+
             if ($vehicleMakeFilterQuery != null && $projectMakeFilterQuery != null) {
                 $filterBoolQuery = $qb->query()->bool();
                 $filterBoolQuery->addShould($vehicleMakeFilterQuery);
@@ -532,5 +533,242 @@ class SearchResultProvider
             return $this->personalVehicleEntityIndexer->getQueryUserVehicleResult($user->getId(), $text, $page, $limit);
         }
         return null;
+    }
+
+    /**
+     * @param array $data
+     * @param array $searchTypes
+     * @return array
+     */
+    public function getVehicleInfoFilterValue(array $data, array $searchTypes): array
+    {
+        $includeProVehicle = in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchTypes);
+        $includePersonalVehicle = in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchTypes);
+
+        $vehicleAggregations = [];
+        $projectModelsAggregations = [];
+
+        if ($includePersonalVehicle || $includeProVehicle) {
+            $vehicleAggregations = $this->getVehicleInfoAggregates([], $includePersonalVehicle, $includeProVehicle);
+
+            if (isset($data['make']) && !empty($data['make'])) {
+                $vehicleAggregations = array_merge($vehicleAggregations, $this->getVehicleInfoAggregates([
+                    'make' => $data['make']
+                ], $includePersonalVehicle, $includeProVehicle));
+                if (isset($data['model']) && !empty($data['model'])) {
+                    $vehicleAggregations = array_merge($vehicleAggregations, $this->getVehicleInfoAggregates([
+                        'make' => $data['make'],
+                        'model' => $data['model'],
+                    ], $includePersonalVehicle, $includeProVehicle));
+                    if (isset($data['engine']) && !empty($data['engine'])) {
+                        $vehicleAggregations = array_merge($vehicleAggregations, $this->getVehicleInfoAggregates([
+                            'make' => $data['make'],
+                            'model' => $data['model'],
+                            'engine' => $data['engine'],
+                        ], $includePersonalVehicle, $includeProVehicle));
+                    }
+                }
+            }
+        }
+
+        if (in_array(SearchTypeChoice::SEARCH_PERSONAL_PROJECT, $searchTypes)) {
+            $projectModelsAggregations = $this->getProjectModelInfoAggregates([]);
+
+            if (isset($data['make']) && !empty($data['make'])) {
+                $projectModelsAggregations = array_merge($projectModelsAggregations, $this->getProjectModelInfoAggregates([
+                    'make' => $data['make']
+                ]));
+                if (isset($data['model']) && !empty($data['model'])) {
+                    $projectModelsAggregations = array_merge($projectModelsAggregations, $this->getProjectModelInfoAggregates([
+                        'make' => $data['make'],
+                        'model' => $data['model']
+                    ]));
+                    if (isset($data['engine']) && !empty($data['engine'])) {
+                        $projectModelsAggregations = array_merge($projectModelsAggregations, $this->getProjectModelInfoAggregates([
+                            'make' => $data['make'],
+                            'model' => $data['model'],
+                            'engine' => $data['engine']
+                        ]));
+                    }
+                }
+            }
+        }
+
+        $result = $vehicleAggregations;
+        foreach ($projectModelsAggregations as $aggName => $aggResult) {
+            if (!empty($aggResult)) {
+                if (isset($result[$aggName])) {
+                    $result[$aggName] = array_merge($result[$aggName], $aggResult);
+                } else {
+                    $result[$aggName] = $aggResult;
+                }
+            }
+        }
+
+        foreach ($result as $aggName => $agg) {
+            asort($agg);
+            $result[$aggName] = $agg;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get Vehicle Infos about PersonalVehicles and ProVehicles
+     * @param array $data
+     * @param bool $includePersonalVehicle
+     * @param bool $includeProVehicle
+     * @return array
+     */
+    public function getVehicleInfoAggregates(array $data, bool $includePersonalVehicle, bool $includeProVehicle): array
+    {
+
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $boolQuery = $qb->query()->bool();
+
+        // With Pictures
+        $boolQuery->addFilter($qb->query()->range('vehicle.nbPictures', ['gt' => 0]));
+
+        // Filter
+        if ($includePersonalVehicle && $includeProVehicle) {
+            $boolQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
+            $boolQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
+            $boolQuery->setMinimumShouldMatch(1);
+        } elseif ($includePersonalVehicle) {
+            $boolQuery->addFilter($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
+        } elseif ($includeProVehicle) {
+            $boolQuery->addFilter($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
+        }
+
+
+        if (empty($data)) {
+            // $data is empty => Aggregation on Make
+            $vehicleMakeTermsAgg = $qb->aggregation()->terms("make");
+            $vehicleMakeTermsAgg->setField('vehicle.make.keyword');
+            $vehicleMakeTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $mainQuery->addAggregation($vehicleMakeTermsAgg);
+        } else {
+            // Query according to submitted data (make / model)
+            $vehicleDataQuery = $qb->query()->bool();
+            foreach ($data as $field => $value) {
+                if (!empty($value)) {
+                    $vehicleDataQuery->addMust($qb->query()->term(['vehicle.' . $field . '.keyword' => $value]));
+                }
+            }
+            $boolQuery->addMust($vehicleDataQuery);
+
+            // Aggregations according to $data
+            $childAggregations = [];
+            $aggregationMapping = [
+                'make' => ['model', 'engine', 'fuel'],
+                'model' => ['engine', 'fuel'],
+                'engine' => ['fuel'],
+                'fuel' => ['engine']
+            ];
+            foreach ($aggregationMapping as $key => $children) {
+                $childAggregations = (isset($data[$key]) && !empty($data[$key]) ? $children : $childAggregations);
+            }
+            foreach ($childAggregations as $aggregationField) {
+                $childTermsAgg = $qb->aggregation()->terms($aggregationField);
+                $childTermsAgg->setField('vehicle.' . $aggregationField . '.keyword');
+                $childTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+                $mainQuery->addAggregation($childTermsAgg);
+            }
+        }
+        $mainQuery->setQuery($boolQuery);
+
+        $fuelTermsAgg = $qb->aggregation()->terms("fuel");
+        $fuelTermsAgg->setField('vehicle.fuel.keyword');
+        $fuelTermsAgg->setSize(1000);
+        $mainQuery->addAggregation($fuelTermsAgg);
+
+        $resultSet = $this->client->getIndex($this->searchItemIndexer->getIndexName())->search($mainQuery);
+
+        $formattedAggregations = [];
+        foreach ($resultSet->getAggregations() as $field => $aggregation) {
+            if (isset($aggregation['buckets'])) {
+                $cleanAggregation = array_map(function ($aggregationDetail) {
+                    return $aggregationDetail['key'];
+                }, $aggregation['buckets']);
+                sort($cleanAggregation);
+                if (isset($formattedAggregations[$field])) {
+                    foreach ($cleanAggregation as $cAgg) {
+                        $formattedAggregations[$field][$cAgg] = $cAgg;
+                    }
+                } else {
+                    $formattedAggregations[$field] = array_combine($cleanAggregation, $cleanAggregation);
+                }
+            }
+        }
+        return $formattedAggregations;
+    }
+
+    /**
+     * Get Vehicle Infos about PersonalProject
+     * @param array $data
+     * @param array $searchTypes
+     * @return array
+     */
+    public function getProjectModelInfoAggregates(array $data): array
+    {
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $projectNested = $qb->query()->nested();
+        $projectNested->setPath('project.models');
+        $projectNestedBoolQuery = $qb->query()->bool();
+        $projectNested->setQuery($projectNestedBoolQuery);
+
+        foreach ($data as $field => $value) {
+            if (!empty($value)) {
+                $projectNestedBoolQuery->addMust($qb->query()->term([
+                    'project.models.' . $field . '.keyword' => $value
+                ]));
+            }
+        }
+        $mainQuery->setQuery($projectNested);
+        $formattedAggregations = [];
+
+        if (empty($data)) {
+            $makeTermsAgg = $qb->aggregation()->nested("projectModels", "project.models");
+            $projectModelMakeTermsSubAgg = $qb->aggregation()->terms("make");
+            $projectModelMakeTermsSubAgg->setField("project.models.make.keyword");
+            $projectModelMakeTermsSubAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+            $makeTermsAgg->addAggregation($projectModelMakeTermsSubAgg);
+            $mainQuery->addAggregation($makeTermsAgg);
+        } else if (isset($data['make']) && !empty($data['make'])) {
+            $childNestedAgg = $qb->aggregation()->nested('project.models', 'project.models');
+            $childTermsAgg = $qb->aggregation()->terms('model');
+            $childTermsAgg->setField('project.models.model.keyword');
+            $childTermsAgg->setSize(1000); // Set size to 0 is not working to not limit the size
+
+            $childNestedAgg->addAggregation($childTermsAgg);
+            $mainQuery->addAggregation($childNestedAgg);
+        }
+
+        $resultSet = $this->client->getIndex($this->personalProjectIndexer->getIndexName())->search($mainQuery);
+
+        foreach ($resultSet->getAggregations() as $field => $aggregation) {
+            foreach ($aggregation as $subField => $subAggregation) {
+                if (in_array($subField, ['make', 'model'])) {
+                    $cleanAggregation = array_map(function ($aggregationDetail) {
+                        return $aggregationDetail['key'];
+                    }, $aggregation[$subField]['buckets']);
+                    sort($cleanAggregation);
+                    $formattedAggregations[$subField] = array_merge($formattedAggregations[$subField] ?? [], array_combine($cleanAggregation, $cleanAggregation));
+
+                    if (isset($formattedAggregations[$subField])) {
+                        foreach ($cleanAggregation as $cAgg) {
+                            $formattedAggregations[$subField][$cAgg] = $cAgg;
+                        }
+                    } else {
+                        $formattedAggregations[$subField] = array_combine($cleanAggregation, $cleanAggregation);
+                    }
+                }
+            }
+        }
+        return $formattedAggregations;
     }
 }
