@@ -47,9 +47,10 @@ class SearchProType extends AbstractType
                 'choice_label' => 'name',
                 'query_builder' => function (EntityRepository $er) use ($specialitiesChoices) {
                     $qb = $er->createQueryBuilder('s');
-                    return $qb
-                        ->where($qb->expr()->in("s.name", $specialitiesChoices))
-                        ->orderBy('s.name', 'ASC');
+                    if(!empty($specialitiesChoices)){
+                        $qb->where($qb->expr()->in("s.name", $specialitiesChoices));
+                    }
+                    return $qb->orderBy('s.name', 'ASC');
                 },
             ])
             ->add('radius', HiddenType::class, [
