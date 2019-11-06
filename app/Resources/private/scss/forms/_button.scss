@@ -15,9 +15,9 @@
 }
 
 @mixin buttonHeightCompact {
-    height: rem-calc(20);
+    height: rem-calc(32);
     @include breakpoint(medium) {
-        height: rem-calc(40);
+        height: rem-calc(48);
     }
 }
 
