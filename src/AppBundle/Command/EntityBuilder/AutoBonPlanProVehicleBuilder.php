@@ -356,8 +356,9 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             if (!empty(strval($vehicleDTORowData->{self::CHILDNAME_PICTURES}))) {
                 $pictures = explode('|', strval($vehicleDTORowData->{self::CHILDNAME_PICTURES}));
                 foreach ($pictures as $photoUrl) {
-                    $photos[$position] = $photoUrl;
-                    $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photoUrl);
+                    $photoBaseUrl = explode('?', $photoUrl);
+                    $photos[$position] = $photoBaseUrl[0];
+                    $updateVehiclePictures = $updateVehiclePictures || !isset($proVehiclePictures[$position]) || $proVehiclePictures[$position]->getFileOriginalName() != basename($photos[$position]);
                     $position++;
                 }
             } else {
@@ -368,7 +369,8 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
                 $proVehicle->clearPictures();
                 $pos = 0;
                 foreach ($photos as $photoUrl) {
-                    if ($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $pos)) {
+                    $photoBaseUrl = explode('?', $photoUrl);
+                    if ($this->addProVehiclePictureFormUrl($proVehicle, $photoBaseUrl[0], $pos)) {
                         $pos++;
                     }
                 }
@@ -414,7 +416,8 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
             if (!empty(strval($vehicleDTORowData->{self::CHILDNAME_PICTURES}))) {
                 $pictures = explode('|', strval($vehicleDTORowData->{self::CHILDNAME_PICTURES}));
                 foreach ($pictures as $photoUrl) {
-                    if ($this->addProVehiclePictureFormUrl($proVehicle, $photoUrl, $position)) {
+                    $photoBaseUrl = explode('?', $photoUrl);
+                    if ($this->addProVehiclePictureFormUrl($proVehicle, $photoBaseUrl[0], $position)) {
                         $position++;
                     }
                 }
