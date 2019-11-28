@@ -36,18 +36,18 @@
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
-    <div class="column small-12 medium-6 large-3">
-        {{ form_widget(searchProForm.speciality, {
-            'class' : '',
-            'label' : 'directory.field.speciality.label'|trans,
-            'label_class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'placeholder': 'directory.field.speciality.placeholder'|trans
-        }) }}
-    </div>
-
-    <div class="column small-12 medium-6 large-3">
+    {% set largeSize = 12 / searchProForm.vars.mainFilters|length %}
+    {% for filter in searchProForm.vars.mainFilters %}
+        <div class="column small-12 medium-6 large-{{ largeSize }}">
+            {{ form_widget(attribute(searchProForm, (filter.category.label|lower)), {
+                'class' : '',
+                'label_class' : '',
+                'required' : false,
+                'required_class': 'show-for-sr'
+            }) }}
+        </div>
+    {% endfor %}
+    {#<div class="column small-12 medium-6 large-3">
         {{ form_widget(searchProForm.text, {
             'class' : '',
             'label' : 'directory.field.text.label'|trans,
@@ -56,9 +56,9 @@
             'required_class': 'show-for-sr',
             'placeholder': 'directory.field.text.placeholder'|trans
         }) }}
-    </div>
+    </div>#}
 
-    <div class="column small-12 medium-6  large-4">
+    <div class="column small-12 medium-6 large-4">
         {{ form_widget(searchProForm.postalCode, {
             'label': 'directory.field.location.label'|trans,
             'class': 'js-city-autocomplete',

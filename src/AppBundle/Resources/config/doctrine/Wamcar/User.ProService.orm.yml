@@ -37,3 +37,12 @@ Wamcar\User\ProService:
       targetEntity: Wamcar\User\ProUserProService
       mappedBy: proService
       cascade: ["persist", "merge", "remove"]
+
+  manyToOne:
+    category:
+      targetEntity: Wamcar\User\ProServiceCategory
+      inversedBy: proServices
+      joinColumn:
+        name: category_id
+        referencedColumnName: id
+        nullable: false

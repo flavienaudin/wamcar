@@ -32,6 +32,15 @@ class ProServiceService
         ]);
     }
 
+    /**
+     * @param string $slug
+     * @return ProService|object|null
+     */
+    public function getProServiceByNames(array $proServiceNames)
+    {
+        return $this->proServiceRepository->findByNames($proServiceNames);
+    }
+
     public function deleteProService(ProService $proService)
     {
         $this->proServiceRepository->remove($proService);
