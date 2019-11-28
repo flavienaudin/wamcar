@@ -94,6 +94,7 @@ class ProUserEntityIndexer extends EntityIndexer
                 $mainBoolQuery->addMust($servicesBoolQuery);
 
                 $specialitiesBoolQuery->setMinimumShouldMatch(0);
+                $specialitiesBoolQuery->setBoost(2);
                 $mainBoolQuery->addShould($specialitiesBoolQuery);
 
                 $mainQueryPartsCounter++;
@@ -134,7 +135,7 @@ class ProUserEntityIndexer extends EntityIndexer
             // Combination of the function and the query scores
             $functionScoreQuery->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
             // Combination of the functions'scores
-            $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_REPLACE);
+            $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_SUM);
 
             // Importance : 5/5
             // Script value between [0;10] => factor 1 => [0;10]
@@ -172,14 +173,6 @@ class ProUserEntityIndexer extends EntityIndexer
                 0
             );
 
-            // Importance : 5/5
-            // Value depends on query...
-            $functionScoreQuery->addFieldValueFactorFunction(
-                "_score",
-                1.5,
-                Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQUARE,
-                1
-            );
             $mainQuery->setQuery($functionScoreQuery);
         }
         return $this->search($mainQuery);
