@@ -5,7 +5,7 @@ namespace AppBundle\Doctrine\Repository;
 
 
 use Doctrine\ORM\EntityRepository;
-use Wamcar\User\ProService;
+use Wamcar\User\ProServiceCategory;
 use Wamcar\User\ProServiceCategoryRepository;
 
 class DoctrineProServiceCategoryRepository extends EntityRepository implements ProServiceCategoryRepository
@@ -14,9 +14,9 @@ class DoctrineProServiceCategoryRepository extends EntityRepository implements P
     /**
      * {@inheritdoc}
      */
-    public function remove(ProService $proService): void
+    public function remove(ProServiceCategory $proServiceCategory): void
     {
-        $this->_em->remove($proService);
+        $this->_em->remove($proServiceCategory);
         $this->_em->flush();
     }
 }

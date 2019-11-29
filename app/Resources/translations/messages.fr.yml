@@ -59,6 +59,8 @@ flash:
       delete: Le service %servicename% n'est plus proposé par le conseiller %username%
     pro_service:
       delete: Le service %servicename% a été supprimé
+    pro_service_category:
+      delete: La categorie de service %servicecategory% a été supprimée
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.

@@ -14,6 +14,7 @@ use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProService;
+use Wamcar\User\ProServiceCategory;
 use Wamcar\User\ProUser;
 use Wamcar\User\ProUserProService;
 
@@ -99,15 +100,22 @@ class BackendController extends AdminController
                     ]
                 ));
         } elseif ($entity instanceof ProService) {
-            // TODO Fix : update ProUser with this ProService
-
+            // TODO Fix : update ProUser (ES) with this deleted ProService
             $serviceName = $entity->getName();
             $this->proServiceService->deleteProService($entity);
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
                 $this->translator->trans('flash.success.pro_service.delete', ['%servicename%' => $serviceName]));
-        } else {
+        } elseif ($entity instanceof ProServiceCategory) {
+            // TODO Fix : update ProUser (ES) with ProServices of this Category
+            $categoryName = $entity->getLabel();
+            $this->proServiceService->deleteProServiceCategory($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                $this->translator->trans('flash.success.pro_service_category.delete', ['%servicecategory%' => $categoryName ]));
+        } else{
             // TODO other entities
             // parent::removeEntity($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING,
+                'Suppression pas encore configurée');
             return;
         }
     }

@@ -8,9 +8,9 @@ interface ProServiceCategoryRepository
 {
 
     /**
-     * @param ProService $proService
+     * @param ProServiceCategory $proServiceCategory
      * @return boolean
      */
-    public function remove(ProService $proService);
+    public function remove(ProServiceCategory $proServiceCategory);
 
 }

@@ -5,20 +5,26 @@ namespace AppBundle\Services\User;
 
 
 use Wamcar\User\ProService;
+use Wamcar\User\ProServiceCategory;
+use Wamcar\User\ProServiceCategoryRepository;
 use Wamcar\User\ProServiceRepository;
 
 class ProServiceService
 {
     /** @var ProServiceRepository */
     private $proServiceRepository;
+    /** @var ProServiceCategoryRepository */
+    private $proServiceCategoryRepository;
 
     /**
      * ProServiceService constructor.
      * @param ProServiceRepository $proServiceRepository
+     * @param ProServiceCategoryRepository $proServiceCategoryRepository
      */
-    public function __construct(ProServiceRepository $proServiceRepository)
+    public function __construct(ProServiceRepository $proServiceRepository, ProServiceCategoryRepository $proServiceCategoryRepository)
     {
         $this->proServiceRepository = $proServiceRepository;
+        $this->proServiceCategoryRepository = $proServiceCategoryRepository;
     }
 
     /**
@@ -44,6 +50,11 @@ class ProServiceService
     public function deleteProService(ProService $proService)
     {
         $this->proServiceRepository->remove($proService);
+    }
+
+    public function deleteProServiceCategory(ProServiceCategory $proServiceCategory)
+    {
+        $this->proServiceCategoryRepository->remove($proServiceCategory);
     }
 
 }
