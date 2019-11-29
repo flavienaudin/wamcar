@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -54,6 +55,8 @@ class SearchProType extends AbstractType
             ]);
 
         $mainFilters = $builder->getOption('mainFilters');
+        /** @var ProService|null $querySelectedService */
+        $querySelectedService = $builder->getOption('selectedService');
         foreach ($mainFilters as $filterPosition => $filterData) {
             /** @var ProServiceCategory $filterCategory */
             $filterCategory = $filterData['category'];
@@ -73,6 +76,10 @@ class SearchProType extends AbstractType
                 'required' => false,
                 'attr' => []
             ];
+            if($querySelectedService != null && $querySelectedService->getCategory() ===  $filterCategory){
+              $options['data'] = new ArrayCollection([$querySelectedService]);
+            }
+
             if ($filterCategory->isChoiceMultiple()) {
                 $options['multiple'] = 'multiple';
                 $options['attr']['multiple'] = 'multiple';
@@ -99,7 +106,8 @@ class SearchProType extends AbstractType
         $resolver->setDefaults([
             'csrf_protection' => false,
             'method' => 'POST',
-            'mainFilters' => []
+            'mainFilters' => [],
+            'selectedService' => null
         ]);
     }
 }

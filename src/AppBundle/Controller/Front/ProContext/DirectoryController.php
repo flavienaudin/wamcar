@@ -11,6 +11,7 @@ use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\SearchProType;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Wamcar\User\ProService;
@@ -66,9 +67,10 @@ class DirectoryController extends BaseController
         }*/
 
         // Services
-        /*if (($serviceName = $request->get('speciality')) !== null) {
-            $searchProDTO->speciality = $this->proServiceService->getProServiceBySlug($serviceName);
-        }*/
+        $querySelectedService =null;
+        if (($serviceName = $request->get('speciality')) !== null) {
+            $querySelectedService = $this->proServiceService->getProServiceBySlug($serviceName);
+        }
 
         // Deal with ByCity action
         if (($city = $request->get('city')) !== null) {
@@ -110,16 +112,18 @@ class DirectoryController extends BaseController
         ksort($mainFilters);
         $searchProForm = $this->formFactory->create(SearchProType::class, $searchProDTO, [
             'action' => $this->generateRoute('front_directory_view'),
-            'mainFilters' => $mainFilters
+            'mainFilters' => $mainFilters,
+            'selectedService' => $querySelectedService
         ]);
+
         $searchProForm->handleRequest($request);
-        foreach ($mainFilters as $positionMainFilter => $filterParam){
+        foreach ($mainFilters as $positionMainFilter => $filterParam) {
             /** @var ProServiceCategory $filterCategory */
             $filterCategory = $filterParam['category'];
-            $filterCategory ->getLabel();
+            $filterCategory->getLabel();
             $filterForm = $searchProForm->get(strtolower($filterCategory));
-            if($filterForm != null && !empty($filterData = $filterForm->getData())){
-                $searchProDTO->filters[strtolower($filterCategory )] = $filterData;
+            if ($filterForm != null && !empty($filterData = $filterForm->getData())) {
+                $searchProDTO->filters[strtolower($filterCategory)] = $filterData;
             }
         }
 
