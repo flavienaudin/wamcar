@@ -187,9 +187,10 @@ class ProUserEntityIndexer extends EntityIndexer
         $mainQuery = new Query();
         $qb = new QueryBuilder();
 
-        $proSpecialitiesAgg = $qb->aggregation()->terms('proServices');
-        $proSpecialitiesAgg->setField('proServices');
-        $mainQuery->addAggregation($proSpecialitiesAgg);
+        $proServicesAgg = $qb->aggregation()->terms('proServices');
+        $proServicesAgg->setField('proServices');
+        $proServicesAgg->setSize(1000);
+        $mainQuery->addAggregation($proServicesAgg);
         $mainQuery->setSize(0);
 
         $resultSet = $this->search($mainQuery);
@@ -211,6 +212,7 @@ class ProUserEntityIndexer extends EntityIndexer
 
         $proSpecialitiesAgg = $qb->aggregation()->terms('proSpecialities');
         $proSpecialitiesAgg->setField('proSpecialities');
+        $proSpecialitiesAgg->setSize(1000);
         $mainQuery->addAggregation($proSpecialitiesAgg);
         $mainQuery->setSize(0);
 
