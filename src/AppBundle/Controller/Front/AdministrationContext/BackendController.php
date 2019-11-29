@@ -9,9 +9,11 @@ use AppBundle\Services\Garage\GarageEditionService;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
+use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProService;
 use Wamcar\User\ProServiceCategory;
@@ -22,6 +24,8 @@ class BackendController extends AdminController
 {
     /** @var TranslatorInterface */
     private $translator;
+    /** @var MessageBus */
+    private $eventBus;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserEditionService */
@@ -33,6 +37,12 @@ class BackendController extends AdminController
     public function setTranslator(TranslatorInterface $translator): void
     {
         $this->translator = $translator;
+    }
+
+    /** @param MessageBus $eventBus */
+    public function setEventBus(MessageBus $eventBus): void
+    {
+        $this->eventBus = $eventBus;
     }
 
     /** @param GarageEditionService $garageEditionService */
@@ -100,18 +110,37 @@ class BackendController extends AdminController
                     ]
                 ));
         } elseif ($entity instanceof ProService) {
-            // TODO Fix : update ProUser (ES) with this deleted ProService
             $serviceName = $entity->getName();
+
+            // ES Update of ProUser with this service
+            $proUSerToUpdate = [];
+            array_map(function (ProUserProService $proUserProService) use (&$proUSerToUpdate) {
+                $proUSerToUpdate[] = $proUserProService->getProUser();
+            }, $entity->getProUserProServices()->toArray());
             $this->proServiceService->deleteProService($entity);
+            foreach ($proUSerToUpdate as $proUser) {
+                $this->eventBus->handle(new ProUserUpdated($proUser));
+            }
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
                 $this->translator->trans('flash.success.pro_service.delete', ['%servicename%' => $serviceName]));
         } elseif ($entity instanceof ProServiceCategory) {
-            // TODO Fix : update ProUser (ES) with ProServices of this Category
             $categoryName = $entity->getLabel();
+
+            $proUSerToUpdate = [];
+            /** @var ProService $proService */
+            foreach ($entity->getProServices() as $proService) {
+                // ES Update of ProUser with this service
+                array_map(function (ProUserProService $proUserProService) use (&$proUSerToUpdate) {
+                    $proUSerToUpdate[] = $proUserProService->getProUser();
+                }, $proService->getProUserProServices()->toArray());
+            }
             $this->proServiceService->deleteProServiceCategory($entity);
+            foreach ($proUSerToUpdate as $proUser) {
+                $this->eventBus->handle(new ProUserUpdated($proUser));
+            }
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
-                $this->translator->trans('flash.success.pro_service_category.delete', ['%servicecategory%' => $categoryName ]));
-        } else{
+                $this->translator->trans('flash.success.pro_service_category.delete', ['%servicecategory%' => $categoryName]));
+        } else {
             // TODO other entities
             // parent::removeEntity($entity);
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_WARNING,
