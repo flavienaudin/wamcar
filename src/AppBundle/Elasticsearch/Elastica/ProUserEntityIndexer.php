@@ -71,11 +71,8 @@ class ProUserEntityIndexer extends EntityIndexer
 
         $services = [];
         if (count($searchProDTO->filters) > 0) {
-            /**
-             * @var string $filterName
-             * @var ArrayCollection $filterValues
-             */
-            foreach ($searchProDTO->filters as $filterName => $filterValues) {
+            /** @var ArrayCollection $filterValues */
+            foreach ($searchProDTO->filters as $filterValues) {
                 array_map(function (ProService $selectedProService) use (&$services) {
                     $services[] = $selectedProService->getName();
                 }, $filterValues->toArray());

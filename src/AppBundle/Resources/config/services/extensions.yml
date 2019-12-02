@@ -9,6 +9,10 @@ services:
       - { name: twig.extension }
     autowire: true
 
+  AppBundle\Twig\FormExtension:
+    tags:
+      - { name: twig.extension }
+
   AppBundle\Twig\FormatExtension:
     tags:
       - { name: twig.extension }

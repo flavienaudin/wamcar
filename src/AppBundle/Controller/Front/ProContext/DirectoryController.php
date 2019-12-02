@@ -11,7 +11,6 @@ use AppBundle\Form\DTO\SearchProDTO;
 use AppBundle\Form\Type\SearchProType;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Wamcar\User\ProService;
@@ -67,7 +66,7 @@ class DirectoryController extends BaseController
         }*/
 
         // Services
-        $querySelectedService =null;
+        $querySelectedService = null;
         if (($serviceName = $request->get('speciality')) !== null) {
             $querySelectedService = $this->proServiceService->getProServiceBySlug($serviceName);
         }
@@ -120,10 +119,11 @@ class DirectoryController extends BaseController
         foreach ($mainFilters as $positionMainFilter => $filterParam) {
             /** @var ProServiceCategory $filterCategory */
             $filterCategory = $filterParam['category'];
-            $filterCategory->getLabel();
-            $filterForm = $searchProForm->get(strtolower($filterCategory));
+
+            $categoryFieldName = SearchProType::getCategoryFieldName($filterCategory);
+            $filterForm = $searchProForm->get($categoryFieldName);
             if ($filterForm != null && !empty($filterData = $filterForm->getData())) {
-                $searchProDTO->filters[strtolower($filterCategory)] = $filterData;
+                $searchProDTO->filters[$categoryFieldName] = $filterData;
             }
         }
 

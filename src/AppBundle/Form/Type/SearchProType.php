@@ -64,20 +64,20 @@ class SearchProType extends AbstractType
             usort($filterChoices, function (ProService $a, ProService $b) {
                 return strcmp($a->getName(), $b->getName());
             });
-            $filterName = $filterCategory->getLabel();
+            $filterLabel = $filterCategory->getLabel();
 
             $options = [
                 'class' => ProService::class,
                 'mapped' => false,
-                'label' => $filterName,
-                'placeholder' => $filterName,
+                'label' => $filterLabel,
+                'placeholder' => $filterLabel,
                 'choice_label' => 'name',
                 'choices' => $filterChoices,
                 'required' => false,
                 'attr' => []
             ];
-            if($querySelectedService != null && $querySelectedService->getCategory() ===  $filterCategory){
-              $options['data'] = new ArrayCollection([$querySelectedService]);
+            if ($querySelectedService != null && $querySelectedService->getCategory() === $filterCategory) {
+                $options['data'] = new ArrayCollection([$querySelectedService]);
             }
 
             if ($filterCategory->isChoiceMultiple()) {
@@ -85,9 +85,9 @@ class SearchProType extends AbstractType
                 $options['attr']['multiple'] = 'multiple';
                 $options['attr']['class'] = 'js-select2-input';
                 $options['attr']['data-multiple'] = true;
-                $options['attr']['data-placeholder'] = $filterName;
+                $options['attr']['data-placeholder'] = $filterLabel;
             }
-            $builder->add(strtolower($filterName), EntityType::class, $options);
+            $builder->add($this->getCategoryFieldName($filterCategory), EntityType::class, $options);
         }
         $this->addAutocompletableCityField($builder, $data);
     }
@@ -109,5 +109,15 @@ class SearchProType extends AbstractType
             'mainFilters' => [],
             'selectedService' => null
         ]);
+    }
+
+    /**
+     * Get a compatible form field name from a ProServiceCategory
+     * @param ProServiceCategory $proServiceCategory
+     * @return string
+     */
+    public static function getCategoryFieldName(ProServiceCategory $proServiceCategory)
+    {
+        return strtolower(str_replace(' ', '_', $proServiceCategory->getLabel()));
     }
 }

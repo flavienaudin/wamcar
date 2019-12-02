@@ -36,10 +36,10 @@
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
-    {% set largeSize = 12 / searchProForm.vars.mainFilters|length %}
+    {% set largeSize = max(min(12/searchProForm.vars.mainFilters|length, 6), 3) %}
     {% for filter in searchProForm.vars.mainFilters %}
         <div class="column small-12 medium-6 large-{{ largeSize }}">
-            {{ form_widget(attribute(searchProForm, (filter.category.label|lower)), {
+            {{ form_widget(attribute(searchProForm, (filter.category|proServiceCategoryFieldName)), {
                 'class' : '',
                 'label_class' : '',
                 'required' : false,
