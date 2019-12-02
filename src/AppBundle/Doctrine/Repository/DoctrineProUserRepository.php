@@ -4,6 +4,7 @@ namespace AppBundle\Doctrine\Repository;
 
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\UserRepository;
@@ -103,5 +104,17 @@ class DoctrineProUserRepository extends EntityRepository implements UserReposito
         }
 
         return $mainQueryQb->getQuery()->execute();
+    }
+
+    /**
+     * Admin filter: don't display deleted ProUSer.
+     */
+    public static function adminQueryBuilderToSelectCategoryForProUser(EntityRepository $r): QueryBuilder
+    {
+        $qb = $r->createQueryBuilder('u');
+        return $qb
+            ->where($qb->expr()->isNull('u.deletedAt'))
+            ->orderBy('u.userProfile.firstName', 'ASC')
+            ->addOrderBy('u.userProfile.lastName', 'ASC');
     }
 }

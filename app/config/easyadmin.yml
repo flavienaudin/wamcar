@@ -194,7 +194,7 @@ easy_admin:
           - { name: 'new', label: 'Ajouter' } # Allow creation
       new:
         fields:
-          - proUser
+          - { property: 'proUser', type_options: {class: 'Wamcar\User\ProUser', query_builder: 'AppBundle\Doctrine\Repository\DoctrineProUserRepository::adminQueryBuilderToSelectCategoryForProUser'}}
           - proService
           - isSpeciality
       edit:
