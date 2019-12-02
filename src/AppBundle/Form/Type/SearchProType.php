@@ -4,6 +4,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
+use AppBundle\Utils\AccentuationUtils;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -118,6 +119,6 @@ class SearchProType extends AbstractType
      */
     public static function getCategoryFieldName(ProServiceCategory $proServiceCategory)
     {
-        return strtolower(str_replace(' ', '_', $proServiceCategory->getLabel()));
+        return strtolower(AccentuationUtils::remove(str_replace(' ', '_', $proServiceCategory->getLabel())));
     }
 }

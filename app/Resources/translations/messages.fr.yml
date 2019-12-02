@@ -1348,6 +1348,7 @@ directory:
     title: Trouvez le conseiller qui vous correspond pour discuter de votre projet en remplissant le fomulaire WamAffinity
     button: Commencer l'expérience
   field:
+    filter.label: "Spécialités"
     text:
       label: Marque
       placeholder: Marque

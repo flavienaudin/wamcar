@@ -32,6 +32,7 @@ $.fn.select2.amd.define('NbSelectedItemSelectionAdapter', ['select2/utils', 'sel
         formatted = this.options.get('placeholder') || '';
       } else {
         let itemsData = {
+          placeholder: this.options.get('placeholder'),
           selected: data || [],
           all: this.$element.find('option') || []
         };
@@ -62,10 +63,8 @@ const selec2tInputs = document.querySelectorAll('.js-select2-input');
   if ($select2.data('multiple')) {
     options.selectionAdapter = $.fn.select2.amd.require('NbSelectedItemSelectionAdapter');
     options.templateSelection = (data) => {
-      if (data.selected.length <= 1) {
-        return `${data.selected.length} sélectionné`;
-      } else {
-        return `${data.selected.length} sélectionnés`;
+      if (data.selected.length >= 1) {
+        return `${data.placeholder} : ${data.selected.length}`;
       }
     };
   }

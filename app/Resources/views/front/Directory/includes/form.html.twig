@@ -37,11 +37,16 @@
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
     {% set largeSize = max(min(12/searchProForm.vars.mainFilters|length, 6), 3) %}
+    {% if searchProForm.vars.mainFilters|length > 0 %}
+        <div class="column small-12">
+            <label>{{ 'directory.field.filter.label'|trans }}</label>
+        </div>
+    {% endif %}
     {% for filter in searchProForm.vars.mainFilters %}
         <div class="column small-12 medium-6 large-{{ largeSize }}">
             {{ form_widget(attribute(searchProForm, (filter.category|proServiceCategoryFieldName)), {
                 'class' : '',
-                'label_class' : '',
+                'label_class' : 'show-for-sr',
                 'required' : false,
                 'required_class': 'show-for-sr'
             }) }}
@@ -58,7 +63,7 @@
         }) }}
     </div>#}
 
-    <div class="column small-12 medium-6 large-4">
+    <div class="column small-12 medium-8 large-4">
         {{ form_widget(searchProForm.postalCode, {
             'label': 'directory.field.location.label'|trans,
             'class': 'js-city-autocomplete',
@@ -87,7 +92,7 @@
         }) }}
     </div>
 
-    <div class="column show-for-medium medium-6 large-2">
+    <div class="column show-for-medium medium4 large-2">
         <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
