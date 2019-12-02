@@ -396,6 +396,7 @@ landing:
       actions:
         find_advisor: Trouver mon conseiller
         all_advisors: Voir les conseillers
+        registration: Inscription
 
 
 
