@@ -82,12 +82,11 @@ class ProUserEntityIndexer extends EntityIndexer
                 $specialitiesBoolQuery = $qb->query()->bool();
                 foreach ($services as $s) {
                     $serviceTermQuery = $qb->query()->term(['proServices' => $s]);
-                    $servicesBoolQuery->addShould($serviceTermQuery);
+                    $servicesBoolQuery->addMust($serviceTermQuery);
 
                     $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $s]);
                     $specialitiesBoolQuery->addShould($specialitiesTermQuery);
                 }
-                $servicesBoolQuery->setMinimumShouldMatch(1);
                 $mainBoolQuery->addMust($servicesBoolQuery);
 
                 $specialitiesBoolQuery->setMinimumShouldMatch(0);
