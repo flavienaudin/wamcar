@@ -13,6 +13,7 @@ services:
         public: true
         calls:
             - ['setTranslator', ['@translator']]
+            - ['setEventBus', ['@event_bus']]
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
             - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]

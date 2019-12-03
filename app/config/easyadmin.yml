@@ -8,6 +8,7 @@ easy_admin:
       - { label: 'Ressources :' }
       - Garage
       - ProApplicationUser
+      - ProServiceCategory
       - ProService
       - ProUserProService
       - PersonalApplicationUser
@@ -154,6 +155,21 @@ easy_admin:
           - deletionReason
           - vehicles
           - garageMemberships
+    ProServiceCategory:
+      class: Wamcar\User\ProServiceCategory
+      label: Categories des services
+      list:
+        title: 'Categorisation des services'
+        max_result: 60
+        sort: ['label', 'ASC']
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
+      form:
+        fields:
+          - { property: 'label'}
+          - { property: 'choiceMultiple'}
+          - { property: 'positionMainFilter'}
+          - { property: 'positionMoreFilter'}
     ProService:
       class: Wamcar\User\ProService
       label: Services Pro
@@ -166,6 +182,7 @@ easy_admin:
       form:
         fields:
           - { property: 'name'}
+          - { property: 'category'}
     ProUserProService:
       class: Wamcar\User\ProUserProService
       label: Selection des services Pro
@@ -177,7 +194,7 @@ easy_admin:
           - { name: 'new', label: 'Ajouter' } # Allow creation
       new:
         fields:
-          - proUser
+          - { property: 'proUser', type_options: {class: 'Wamcar\User\ProUser', query_builder: 'AppBundle\Doctrine\Repository\DoctrineProUserRepository::adminQueryBuilderToSelectCategoryForProUser'}}
           - proService
           - isSpeciality
       edit:

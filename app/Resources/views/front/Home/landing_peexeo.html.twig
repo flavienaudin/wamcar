@@ -12,7 +12,8 @@
 
 {% block body %}
 
-    {% if not isLogged %}
+    {% set findAdvisorLink = path('front_directory_view') %}
+    {#{% if not isLogged %}
         {% set findAdvisorLink = path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) %}
     {% elseif app.user.affinityAnswer is not null %}
         {% if isUserPersonal %}
@@ -22,7 +23,7 @@
         {% endif %}
     {% else %}
         {% set findAdvisorLink = path('front_directory_view') %}
-    {% endif %}
+    {% endif %}#}
 
     <section class="top-section">
         <div class="row full-height align-middle">
@@ -82,6 +83,11 @@
                 <h2 class="section-title h1">{{ 'landing.peexeo.wamaffinity.title'|trans }}</h2>
                 <p class="body-font-color">{{ 'landing.peexeo.wamaffinity.content'|trans }}</p>
                 <div class="row">
+                    <div class="column small-12 margin-bottom-1 medium-6 ">
+                        <a class="button square gray-light"
+                           href="{{ path('register') }}">{{ 'landing.peexeo.wamaffinity.actions.registration'|trans }}</a>
+                    </div>
+                    {# Simplification
                     <div class="column small-12 margin-bottom-1 medium-6">
                         <a class="button square"
                            href="{{ findAdvisorLink }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
@@ -89,7 +95,7 @@
                     <div class="column small-12 margin-bottom-1 medium-6 ">
                         <a class="button square gray-light"
                            href="{{ path('front_directory_view') }}">{{ 'landing.peexeo.wamaffinity.actions.all_advisors'|trans }}</a>
-                    </div>
+                    </div>#}
                 </div>
             </div>
         </div>

@@ -16,6 +16,8 @@ class ProService
     private $name;
     /** @var string */
     private $slug;
+    /** @var ProServiceCategory */
+    private $category;
     /** @var Collection */
     private $proUserProServices;
 
@@ -73,6 +75,22 @@ class ProService
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    /**
+     * @return ProServiceCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param ProServiceCategory $category
+     */
+    public function setCategory(ProServiceCategory $category): void
+    {
+        $this->category = $category;
     }
 
     /**

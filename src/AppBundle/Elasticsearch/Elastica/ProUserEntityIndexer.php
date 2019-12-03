@@ -4,12 +4,14 @@ namespace AppBundle\Elasticsearch\Elastica;
 
 
 use AppBundle\Form\DTO\SearchProDTO;
+use Doctrine\Common\Collections\ArrayCollection;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
 use Elastica\Script\AbstractScript;
 use Elastica\Script\Script;
 use Wamcar\User\BaseUser;
+use Wamcar\User\ProService;
 use Wamcar\Vehicle\Enum\DirectorySorting;
 
 class ProUserEntityIndexer extends EntityIndexer
@@ -25,9 +27,10 @@ class ProUserEntityIndexer extends EntityIndexer
         $qb = new QueryBuilder();
         $mainQuery = new Query();
         $mainBoolQuery = $qb->query()->bool();
+        $mainQueryPartsCounter = 0;
 
-        // handle text query
-        if (!empty($searchProDTO->text)) {
+        // Not in use : handle text query
+        /*if (!empty($searchProDTO->text)) {
             $textBoolQuery = $qb->query()->bool();
 
             $textMultiMatchQuery = $qb->query()->multi_match();
@@ -48,12 +51,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $textBoolQuery->addShould($textNestedGaragesQuery);
 
             $mainBoolQuery->addMust($textBoolQuery);
-        }
-
-        if ($searchProDTO->speciality != null) {
-            $specialityQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->speciality->getName()]);
-            $mainBoolQuery->addFilter($specialityQuery);
-        }
+        }*/
 
         // handle location filter
         if (!empty($searchProDTO->latitude) && !empty($searchProDTO->longitude)) {
@@ -68,12 +66,41 @@ class ProUserEntityIndexer extends EntityIndexer
                 ['lat' => $searchProDTO->latitude, 'lon' => $searchProDTO->longitude],
                 $radius . 'km'));
             $mainBoolQuery->addFilter($locationNestedGaragesQuery);
+            $mainQueryPartsCounter++;
         }
 
-        if (empty($searchProDTO->text) && $searchProDTO->speciality == null && (empty($searchProDTO->latitude) || empty($searchProDTO->longitude))) {
-            $mainQuery->setQuery($qb->query()->match_all());
-        } else {
+        $services = [];
+        if (count($searchProDTO->filters) > 0) {
+            /** @var ArrayCollection $filterValues */
+            foreach ($searchProDTO->filters as $filterValues) {
+                array_map(function (ProService $selectedProService) use (&$services) {
+                    $services[] = $selectedProService->getName();
+                }, $filterValues->toArray());
+            }
+            if (count($services) > 0) {
+                $servicesBoolQuery = $qb->query()->bool();
+                $specialitiesBoolQuery = $qb->query()->bool();
+                foreach ($services as $s) {
+                    $serviceTermQuery = $qb->query()->term(['proServices' => $s]);
+                    $servicesBoolQuery->addMust($serviceTermQuery);
+
+                    $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $s]);
+                    $specialitiesBoolQuery->addShould($specialitiesTermQuery);
+                }
+                $mainBoolQuery->addMust($servicesBoolQuery);
+
+                $specialitiesBoolQuery->setMinimumShouldMatch(0);
+                $specialitiesBoolQuery->setBoost(2);
+                $mainBoolQuery->addShould($specialitiesBoolQuery);
+
+                $mainQueryPartsCounter++;
+            }
+        }
+
+        if ($mainQueryPartsCounter > 0) {
             $mainQuery->setQuery($mainBoolQuery);
+        } else {
+            $mainQuery->setQuery($qb->query()->match_all());
         }
         $mainQuery->setFrom(self::OFFSET + ($page - 1) * $limit);
         $mainQuery->setSize($limit);
@@ -104,7 +131,7 @@ class ProUserEntityIndexer extends EntityIndexer
             // Combination of the function and the query scores
             $functionScoreQuery->setScoreMode(Query\FunctionScore::SCORE_MODE_SUM);
             // Combination of the functions'scores
-            $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_REPLACE);
+            $functionScoreQuery->setBoostMode(Query\FunctionScore::BOOST_MODE_SUM);
 
             // Importance : 5/5
             // Script value between [0;10] => factor 1 => [0;10]
@@ -142,14 +169,6 @@ class ProUserEntityIndexer extends EntityIndexer
                 0
             );
 
-            // Importance : 5/5
-            // Value depends on query...
-            $functionScoreQuery->addFieldValueFactorFunction(
-                "_score",
-                1.5,
-                Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQUARE,
-                1
-            );
             $mainQuery->setQuery($functionScoreQuery);
         }
         return $this->search($mainQuery);
@@ -157,15 +176,39 @@ class ProUserEntityIndexer extends EntityIndexer
 
     /**
      * Retrieve list of specialities selected by pros.
+     * @return array
+     */
+    public function getProServices()
+    {
+        $mainQuery = new Query();
+        $qb = new QueryBuilder();
+
+        $proServicesAgg = $qb->aggregation()->terms('proServices');
+        $proServicesAgg->setField('proServices');
+        $proServicesAgg->setSize(1000);
+        $mainQuery->addAggregation($proServicesAgg);
+        $mainQuery->setSize(0);
+
+        $resultSet = $this->search($mainQuery);
+
+        $specialities = array_map(function ($aggDetails) {
+            return $aggDetails['key'];
+        }, $resultSet->getAggregation('proServices')['buckets']);
+        return $specialities;
+    }
+
+    /**
+     * Retrieve list of specialities selected by pros.
      * @return ResultSet
      */
-    public function getSpecialities()    {
-
+    public function getSpecialities()
+    {
         $mainQuery = new Query();
         $qb = new QueryBuilder();
 
         $proSpecialitiesAgg = $qb->aggregation()->terms('proSpecialities');
         $proSpecialitiesAgg->setField('proSpecialities');
+        $proSpecialitiesAgg->setSize(1000);
         $mainQuery->addAggregation($proSpecialitiesAgg);
         $mainQuery->setSize(0);
 

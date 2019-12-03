@@ -13,6 +13,8 @@ use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Wamcar\User\ProService;
+use Wamcar\User\ProServiceCategory;
 
 class DirectoryController extends BaseController
 {
@@ -59,13 +61,14 @@ class DirectoryController extends BaseController
         $searchProDTO = new SearchProDTO();
 
         // Champ libre
-        if ($request->query->has('q')) {
+        /*if ($request->query->has('q')) {
             $searchProDTO->text = $request->query->get('q');
-        }
+        }*/
 
         // Services
+        $querySelectedService = null;
         if (($serviceName = $request->get('speciality')) !== null) {
-            $searchProDTO->speciality = $this->proServiceService->getProServiceBySlug($serviceName);
+            $querySelectedService = $this->proServiceService->getProServiceBySlug($serviceName);
         }
 
         // Deal with ByCity action
@@ -91,11 +94,39 @@ class DirectoryController extends BaseController
             }
         }
 
+        $proServicesInUse = $this->proServiceService->getProServiceByNames($this->proUserEntityIndexer->getProServices());
+        $mainFilters = [];
+        /** @var ProService $proService */
+        foreach ($proServicesInUse as $proService) {
+            if ($proService->getCategory()->getPositionMainFilter() != null) {
+                if (!isset($mainFilters[$proService->getCategory()->getPositionMainFilter()])) {
+                    $mainFilters[$proService->getCategory()->getPositionMainFilter()] = [
+                        'category' => $proService->getCategory(),
+                        'services' => []
+                    ];
+                }
+                $mainFilters[$proService->getCategory()->getPositionMainFilter()]['services'][] = $proService;
+            }
+        }
+        ksort($mainFilters);
         $searchProForm = $this->formFactory->create(SearchProType::class, $searchProDTO, [
             'action' => $this->generateRoute('front_directory_view'),
-            'specialitiesChoices' => $this->proUserEntityIndexer->getSpecialities()
+            'mainFilters' => $mainFilters,
+            'selectedService' => $querySelectedService
         ]);
+
         $searchProForm->handleRequest($request);
+        foreach ($mainFilters as $positionMainFilter => $filterParam) {
+            /** @var ProServiceCategory $filterCategory */
+            $filterCategory = $filterParam['category'];
+
+            $categoryFieldName = SearchProType::getCategoryFieldName($filterCategory);
+            $filterForm = $searchProForm->get($categoryFieldName);
+            if ($filterForm != null && !empty($filterData = $filterForm->getData())) {
+                $searchProDTO->filters[$categoryFieldName] = $filterData;
+            }
+        }
+
         $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($resultSet);
 

@@ -36,6 +36,13 @@ interface ProServiceRepository
     public function findOneBy(array $criteria, array $orderBy = null);
 
     /**
+     * Find ProServices by their names
+     * @param array $proServiceNames
+     * @return mixed
+     */
+    public function findByNames(array $proServiceNames);
+
+    /**
      * @param ProService $proService
      * @return boolean
      */

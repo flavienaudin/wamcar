@@ -24,24 +24,6 @@
         } %}
     </div>
 
-    {% if not isLogged %}
-        <div class="row">
-            <div class="column small-12">
-                <div class="column directory-form-header">
-                    <div class="row">
-                        <div class="column small-12 medium-8 text-justify">
-                            <h2 class="no-margin">{{ 'directory.form.title'|trans }}</h2>
-                        </div>
-                        <div class="column small-12 medium-4">
-                            <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                               class="button expand-height square dark-blue is-center">Commencer l'expérience</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
-
     <div class="row">
         <div class="column small-12">
             {% include 'front/Directory/includes/form.html.twig' %}
@@ -80,6 +62,25 @@
                     </div>
                 </div>
             {% endif %}
+
+            {% if not isLogged %}
+                <div class="row">
+                    <div class="column small-12">
+                        <div class="column directory-form-header">
+                            <div class="row">
+                                <div class="column small-12 medium-8 text-justify">
+                                    <h2 class="no-margin">{{ 'directory.form.title'|trans }}</h2>
+                                </div>
+                                <div class="column small-12 medium-4">
+                                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                                       class="button expand-height square dark-blue is-center">Commencer l'expérience</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
     </div>
 {% endblock body %}
