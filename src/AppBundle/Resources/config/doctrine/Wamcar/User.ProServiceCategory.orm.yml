@@ -1,0 +1,33 @@
+Wamcar\User\ProServiceCategory:
+  type: entity
+  table: pro_service_category
+  exclusion_policy: ALL
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineProServiceCategoryRepository
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    label:
+      type: string
+      length: 191   # needed to index field in utf8mb4
+      nullable: false
+      unique: true
+    choiceMultiple:
+      type: boolean
+    positionMainFilter:
+      type: integer
+      nullable: true
+    positionMoreFilter:
+      type: integer
+      nullable: true
+
+  oneToMany:
+    proServices:
+      targetEntity: Wamcar\User\ProService
+      mappedBy: category
+      cascade: ["persist", "merge", "remove"]

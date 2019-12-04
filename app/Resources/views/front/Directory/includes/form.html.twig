@@ -36,18 +36,23 @@
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
-    <div class="column small-12 medium-6 large-3">
-        {{ form_widget(searchProForm.speciality, {
-            'class' : '',
-            'label' : 'directory.field.speciality.label'|trans,
-            'label_class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'placeholder': 'directory.field.speciality.placeholder'|trans
-        }) }}
-    </div>
-
-    <div class="column small-12 medium-6 large-3">
+    {% set largeSize = searchProForm.vars.mainFilters|length > 0 ? max(min(12/searchProForm.vars.mainFilters|length, 6), 3) : 12 %}
+    {% if searchProForm.vars.mainFilters|length > 0 %}
+        <div class="column small-12">
+            <label>{{ 'directory.field.filter.label'|trans }}</label>
+        </div>
+    {% endif %}
+    {% for filter in searchProForm.vars.mainFilters %}
+        <div class="column small-12 medium-6 large-{{ largeSize }}">
+            {{ form_widget(attribute(searchProForm, (filter.category|proServiceCategoryFieldName)), {
+                'class' : '',
+                'label_class' : 'show-for-sr',
+                'required' : false,
+                'required_class': 'show-for-sr'
+            }) }}
+        </div>
+    {% endfor %}
+    {#<div class="column small-12 medium-6 large-3">
         {{ form_widget(searchProForm.text, {
             'class' : '',
             'label' : 'directory.field.text.label'|trans,
@@ -56,9 +61,9 @@
             'required_class': 'show-for-sr',
             'placeholder': 'directory.field.text.placeholder'|trans
         }) }}
-    </div>
+    </div>#}
 
-    <div class="column small-12 medium-6  large-4">
+    <div class="column small-12 medium-8 large-4">
         {{ form_widget(searchProForm.postalCode, {
             'label': 'directory.field.location.label'|trans,
             'class': 'js-city-autocomplete',
@@ -81,13 +86,12 @@
         {{ form_widget(searchProForm.radius, {
             'class' : '',
             'required' : true,
-
             'label' : 'directory.field.radius.label'|trans,
             'label_class' : ''
         }) }}
     </div>
 
-    <div class="column show-for-medium medium-6 large-2">
+    <div class="column show-for-medium medium4 large-2">
         <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
         <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
     </div>

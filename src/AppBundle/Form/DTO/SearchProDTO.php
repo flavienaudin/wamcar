@@ -7,10 +7,10 @@ use Wamcar\User\ProService;
 
 class SearchProDTO
 {
+    /** @var array */
+    public $filters;
     /** @var string */
     public $text;
-    /** @var ProService */
-    public $speciality;
     /** @var string */
     public $postalCode;
     /** @var string */

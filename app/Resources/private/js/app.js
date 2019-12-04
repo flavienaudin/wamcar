@@ -25,6 +25,7 @@ import './components/responsiveDom';
 import './components/search';
 import './components/header';
 import './components/select';
+import './components/select2';
 import './components/step';
 import './components/file';
 import './components/garage';

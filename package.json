@@ -47,7 +47,7 @@
     "formdata-polyfill": "^3.0.9",
     "foundation-sites": "6.4.3",
     "motion-ui": "^1.1.1",
-    "select2": "^4.0.6-rc.1",
+    "select2": "^4.0.6",
     "siema": "^1.4.6",
     "slick-carousel": "^1.8.1",
     "linkifyjs": "^2.1.7",
