@@ -98,6 +98,16 @@ class Hobby
     }
 
     /**
+     * @return int
+     */
+    public function getUsersNumber()
+    {
+        return count($this->users->filter(function (BaseUser $baseUser) {
+            return !$baseUser->isDeleted();
+        }));
+    }
+
+    /**
      * @param Collection $users
      */
     public function setUsers(Collection $users): void

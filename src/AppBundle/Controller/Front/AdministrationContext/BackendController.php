@@ -6,6 +6,7 @@ namespace AppBundle\Controller\Front\AdministrationContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\HobbyService;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AdminController;
@@ -14,12 +15,21 @@ use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\Garage\Garage;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\ProUserUpdated;
+use Wamcar\User\Hobby;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProService;
 use Wamcar\User\ProServiceCategory;
 use Wamcar\User\ProUser;
 use Wamcar\User\ProUserProService;
 
+/**
+ * Note umportante: EasyAdminSubscriber permet de :
+ * - disableSoftDeletableFilter : pour le listing et la recherche d'entité
+ * - Lancer les événements (via eventBus) xUpdated sur les entités lors des événements post_persist et post_update
+ *
+ * Class BackendController
+ * @package AppBundle\Controller\Front\AdministrationContext
+ */
 class BackendController extends AdminController
 {
     /** @var TranslatorInterface */
@@ -32,6 +42,8 @@ class BackendController extends AdminController
     private $userEditionService;
     /** @var ProServiceService */
     private $proServiceService;
+    /** @var HobbyService */
+    private $hobbyService;
 
     /** @param TranslatorInterface $translator */
     public function setTranslator(TranslatorInterface $translator): void
@@ -61,6 +73,12 @@ class BackendController extends AdminController
     public function setProServiceService(ProServiceService $proServiceService): void
     {
         $this->proServiceService = $proServiceService;
+    }
+
+    /** @param HobbyService $hobbyService */
+    public function setHobbyService(HobbyService $hobbyService): void
+    {
+        $this->hobbyService = $hobbyService;
     }
 
     // Common
@@ -140,6 +158,12 @@ class BackendController extends AdminController
             }
             $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
                 $this->translator->trans('flash.success.pro_service_category.delete', ['%servicecategory%' => $categoryName]));
+        } elseif ($entity instanceof Hobby) {
+            $hobbyName = $entity->getName();
+            $this->hobbyService->deleteHobby($entity);
+            $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO,
+                $this->translator->trans('flash.success.hobby.delete', ['%hobbyName%' => $hobbyName]));
+
         } else {
             // TODO other entities
             // parent::removeEntity($entity);

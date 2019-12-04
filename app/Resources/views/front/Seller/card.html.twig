@@ -209,9 +209,9 @@
                                     <div class="hobby-container">
                                         {% for userHobby in userHobbies %}
                                             <span class="hobby-icon" title="{{ userHobby.name }}">
-                                                <img src="{{ asset('assets/images/hobbies/'~userHobby.icon) }}">
+                                                <img src="{{ asset('assets/images/hobbies/'~userHobby.icon) }}" alt="{{ userHobby.name }}">
                                             </span>
-                                        {% endfor %}k
+                                        {% endfor %}
                                     </div>
                                 </div>
                             {% endif %}

@@ -38,4 +38,3 @@ Wamcar\User\Hobby:
         users:
             targetEntity: Wamcar\User\BaseUser
             mappedBy: hobbies
-            cascade: ["remove"]

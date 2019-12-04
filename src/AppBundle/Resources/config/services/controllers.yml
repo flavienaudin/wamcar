@@ -17,6 +17,7 @@ services:
             - ['setGarageEditionService', ['@AppBundle\Services\Garage\GarageEditionService']]
             - ['setUserEditionService', ['@AppBundle\Services\User\UserEditionService']]
             - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
+            - ['setHobbyService', ['@AppBundle\Services\User\HobbyService']]
 
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'

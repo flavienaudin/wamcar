@@ -119,7 +119,7 @@ easy_admin:
           - { property: 'videoText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
           - { property: 'appointmentText'}
           - { property: 'appointmentAutofillMessage'}
-          - { property: 'hobbies'}
+          - { property: 'hobbies', type_options: {class: 'Wamcar\User\Hobby', query_builder: 'AppBundle\Doctrine\Repository\DoctrineHobbyRepository::adminQueryBuilderToOrderHobby'}}
       show:
         fields:
           - id
@@ -265,14 +265,14 @@ easy_admin:
       list:
         title: "Centres d'intérêt / Hobby"
         max_results: 60
-        sort: ['name', 'DESC']
+        sort: ['name', 'ASC']
         actions:
             - { name: 'new', label: 'Ajouter' } # Allow creation
         fields:
           - id
           - name
           - { property: 'icon', type: 'image', base_path: '/assets/images/hobbies/' }
-          - users
+          - { property: 'usersNumber', label: '#Users'}
       form:
         fields:
           - name

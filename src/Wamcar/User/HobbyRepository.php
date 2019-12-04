@@ -13,4 +13,11 @@ interface HobbyRepository
      */
     public function findAll();
 
+
+    /**
+     * @param Hobby $hobby
+     * @return boolean
+     */
+    public function remove(Hobby $hobby);
+
 }
