@@ -176,7 +176,8 @@
 
                     {% set userSpecialities = user.proUserSpecialities %}
                     {% set proServices = user.proUserServices(true) %}
-                    {% if userSpecialities |length > 0 or proServices|length > 0 %}
+                    {% set userHobbies = user.hobbies %}
+                    {% if userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
                         <div class="seller-services">
                             {% if userSpecialities |length > 0 %}
                                 <div>
@@ -198,6 +199,19 @@
                                             <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProService.proService.slug}) }}"
                                                class="tag">{{ proUserProService.proService.name }}</a>
                                         {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            {% if userHobbies|length > 0 %}
+                                <div>
+                                    <h2>{{ 'user.profile.hobbies.title'|trans }}</h2>
+                                    <div class="hobby-container">
+                                        {% for userHobby in userHobbies %}
+                                            <span class="hobby-icon" title="{{ userHobby.name }}">
+                                                <img src="{{ asset('assets/images/hobbies/'~userHobby.icon) }}">
+                                            </span>
+                                        {% endfor %}k
                                     </div>
                                 </div>
                             {% endif %}

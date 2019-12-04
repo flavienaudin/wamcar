@@ -887,6 +887,8 @@ user:
     proservices:
       specialities.title: Mes spécialités
       services.title: Mes services
+    hobbies:
+      title: Centres d'intérêt
     edit:
       title:
         mine: Editer mon profil
