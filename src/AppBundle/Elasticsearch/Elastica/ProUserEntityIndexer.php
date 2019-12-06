@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Elastica;
 
 use AppBundle\Form\DTO\SearchProDTO;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
@@ -73,9 +74,13 @@ class ProUserEntityIndexer extends EntityIndexer
         if (count($searchProDTO->filters) > 0) {
             /** @var ArrayCollection $filterValues */
             foreach ($searchProDTO->filters as $filterValues) {
-                array_map(function (ProService $selectedProService) use (&$services) {
-                    $services[] = $selectedProService->getName();
-                }, $filterValues->toArray());
+                if($filterValues instanceof Collection) {
+                    array_map(function (ProService $selectedProService) use (&$services) {
+                        $services[] = $selectedProService->getName();
+                    }, $filterValues->toArray());
+                }else{
+                    $services[] = $filterValues->getName();
+                }
             }
             if (count($services) > 0) {
                 $servicesBoolQuery = $qb->query()->bool();
