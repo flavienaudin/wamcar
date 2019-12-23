@@ -19,9 +19,12 @@ services:
             - ['setProServiceService', ['@AppBundle\Services\User\ProServiceService']]
             - ['setHobbyService', ['@AppBundle\Services\User\HobbyService']]
 
+    AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController:
+        parent: AppBundle\Controller\Front\AdministrationContext\BackendController
+
     AppBundle\Controller\Front\:
         resource: '../../../Controller/Front'
-        exclude: '../../../Controller/Front/{BaseController.php,AdministrationContext/BackendController.php}'
+        exclude: '../../../Controller/Front/{BaseController.php,AdministrationContext/BackendController.php,AdministrationContext/ProUserProServiceAdministrationController.php}'
         public: false
         autowire: true
         autoconfigure: false

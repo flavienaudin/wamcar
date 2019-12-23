@@ -188,10 +188,12 @@ easy_admin:
           - { property: 'category'}
     ProUserProService:
       class: Wamcar\User\ProUserProService
+      controller: AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController
       label: Selection des services Pro
       list:
         title: 'Sélection des services Pro'
         max_results: 60
+        dql_filter: 'proUser.deletedAt IS NULL'
         actions:
           - { name: 'new', label: 'Ajouter' } # Allow creation
       new:
