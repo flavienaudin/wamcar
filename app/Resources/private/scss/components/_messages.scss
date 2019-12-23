@@ -275,6 +275,14 @@
     .messages-main {
       flex-grow: 1;
     }
+
+    a {
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   &-item-wrapper-desktop {
