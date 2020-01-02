@@ -1,0 +1,26 @@
+/* ===========================================================================
+   Seller
+   =========================================================================== */
+
+.hobby {
+
+  &-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &-icon {
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    vertical-align: middle;
+    background-color:$light-gray-peexeo;
+
+    > img {
+      height: 100%;
+      width: auto;
+    }
+  }
+}

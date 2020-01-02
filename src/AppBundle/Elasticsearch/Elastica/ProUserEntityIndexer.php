@@ -5,6 +5,7 @@ namespace AppBundle\Elasticsearch\Elastica;
 
 use AppBundle\Form\DTO\SearchProDTO;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Elastica\Query;
 use Elastica\QueryBuilder;
 use Elastica\ResultSet;
@@ -72,20 +73,31 @@ class ProUserEntityIndexer extends EntityIndexer
         $services = [];
         if (count($searchProDTO->filters) > 0) {
             /** @var ArrayCollection $filterValues */
-            foreach ($searchProDTO->filters as $filterValues) {
-                array_map(function (ProService $selectedProService) use (&$services) {
-                    $services[] = $selectedProService->getName();
-                }, $filterValues->toArray());
+            foreach ($searchProDTO->filters as $filterName => $filterValues) {
+                $services[$filterName] = [];
+                if($filterValues instanceof Collection) {
+                    array_map(function (ProService $selectedProService) use ($filterName, &$services) {
+                        $services[$filterName][] = $selectedProService->getName();
+                    }, $filterValues->toArray());
+                }else{
+                    $services[$filterName][] = $filterValues->getName();
+                }
             }
             if (count($services) > 0) {
                 $servicesBoolQuery = $qb->query()->bool();
                 $specialitiesBoolQuery = $qb->query()->bool();
-                foreach ($services as $s) {
-                    $serviceTermQuery = $qb->query()->term(['proServices' => $s]);
-                    $servicesBoolQuery->addMust($serviceTermQuery);
+                foreach ($services as $categoryService => $servicesValues) {
+                    $servicesByFilterBoolQuery = $qb->query()->bool();
 
-                    $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $s]);
-                    $specialitiesBoolQuery->addShould($specialitiesTermQuery);
+                    foreach ($servicesValues as $service) {
+                        $serviceTermQuery = $qb->query()->term(['proServices' => $service]);
+                        $servicesByFilterBoolQuery->addShould($serviceTermQuery);
+
+                        $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $service]);
+                        $specialitiesBoolQuery->addShould($specialitiesTermQuery);
+                    }
+                    $servicesByFilterBoolQuery->setMinimumShouldMatch(1);
+                    $servicesBoolQuery->addMust($servicesByFilterBoolQuery);
                 }
                 $mainBoolQuery->addMust($servicesBoolQuery);
 

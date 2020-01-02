@@ -91,6 +91,8 @@ abstract class BaseUser implements HasApiCredential
     protected $greaterIdUserAffinityDegrees;
     /** @®var Collection $affinityDegree AffinityDegree with greater-id-user */
     protected $smallerIdUserAffinityDegrees;
+    /** @var Collection */
+    protected $hobbies;
 
     /**
      * User constructor.
@@ -124,6 +126,7 @@ abstract class BaseUser implements HasApiCredential
         $this->greaterIdUserAffinityDegrees = new ArrayCollection();
         $this->smallerIdUserAffinityDegrees = new ArrayCollection();
         $this->generateApiCredentials();
+        $this->hobbies = new ArrayCollection();
     }
 
     /**
@@ -588,7 +591,7 @@ abstract class BaseUser implements HasApiCredential
      */
     public function getMyExperts(bool $ordered = false)
     {
-        if($ordered){
+        if ($ordered) {
             $orderedExperts = $this->myExperts->toArray();
             uasort($orderedExperts, function ($e1, $e2) {
                 $expert1fullname = $e1->getFullname();
@@ -600,7 +603,7 @@ abstract class BaseUser implements HasApiCredential
                 return $expert1fullname > $expert2fullname ? 1 : -1;
             });
             return $orderedExperts;
-        }else {
+        } else {
             return $this->myExperts;
         }
     }
@@ -640,6 +643,7 @@ abstract class BaseUser implements HasApiCredential
     {
         $this->avatar = $avatar;
     }
+
     /**
      * @param UserBanner $banner
      */
@@ -909,5 +913,29 @@ abstract class BaseUser implements HasApiCredential
     public function setVideoText(?string $videoText): void
     {
         $this->videoText = $videoText;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getHobbies(): Collection
+    {
+        return $this->hobbies;
+    }
+
+    /**
+     * @param Hobby $hobby
+     */
+    public function addHobby(Hobby $hobby)
+    {
+        $this->hobbies->add($hobby);
+    }
+
+    /**
+     * @param Hobby $hobby
+     */
+    public function removeHobby(Hobby $hobby)
+    {
+        $this->hobbies->removeElement($hobby);
     }
 }

@@ -12,6 +12,7 @@ easy_admin:
       - ProService
       - ProUserProService
       - PersonalApplicationUser
+      - Hobby
       - CronJobs
   formats:
     date: 'd/m/Y'
@@ -97,6 +98,7 @@ easy_admin:
           - { property: 'landingPosition', label: 'HP-pos.' }
           - { property: 'countVehicles', label: '#Vhl.'}
           - { property: 'numberOfGarages', label: '#Garages.'}
+          - hobbies
           - { property: 'createdAt', label: 'Insc.', type: 'date' }
           - { property: 'deletedAt', label: 'Suppr.', type: 'date' }
         sort: ['id', 'DESC']
@@ -117,6 +119,7 @@ easy_admin:
           - { property: 'videoText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
           - { property: 'appointmentText'}
           - { property: 'appointmentAutofillMessage'}
+          - { property: 'hobbies', type_options: {class: 'Wamcar\User\Hobby', query_builder: 'AppBundle\Doctrine\Repository\DoctrineHobbyRepository::adminQueryBuilderToOrderHobby'}}
       show:
         fields:
           - id
@@ -185,11 +188,12 @@ easy_admin:
           - { property: 'category'}
     ProUserProService:
       class: Wamcar\User\ProUserProService
+      controller: AppBundle\Controller\Front\AdministrationContext\ProUserProServiceAdministrationController
       label: Selection des services Pro
       list:
         title: 'Sélection des services Pro'
         max_results: 60
-        #sort: ['name', 'ASC']
+        dql_filter: 'proUser.deletedAt IS NULL'
         actions:
           - { name: 'new', label: 'Ajouter' } # Allow creation
       new:
@@ -224,6 +228,7 @@ easy_admin:
           - { property: 'email', type: 'email', label: 'Login' }
           - { property: 'slug'}
           - { property: 'description', type: 'textarea' }
+          - { property: 'hobbies'}
       show:
         fields:
           - id
@@ -256,6 +261,25 @@ easy_admin:
           - deletedAt
           - deletionReason
           - vehicles
+    Hobby:
+      class: Wamcar\User\Hobby
+      label: Centres d'intérêt
+      list:
+        title: "Centres d'intérêt / Hobby"
+        max_results: 60
+        sort: ['name', 'ASC']
+        actions:
+            - { name: 'new', label: 'Ajouter' } # Allow creation
+        fields:
+          - id
+          - name
+          - slug
+          - { property: 'icon', type: 'image', base_path: '/assets/images/hobbies/' }
+          - { property: 'usersNumber', label: '#Users'}
+      form:
+        fields:
+          - name
+          - icon
     CronJobs:
       translation_domain: 'JMoseCommandScheduler'
       class: JMose\CommandSchedulerBundle\Entity\ScheduledCommand

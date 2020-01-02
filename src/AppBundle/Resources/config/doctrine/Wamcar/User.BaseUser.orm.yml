@@ -158,4 +158,14 @@ Wamcar\User\BaseUser:
                 inverseJoinColumns:
                     user_id:
                         referencedColumnName: id
-
+        hobbies:
+            targetEntity: Wamcar\User\Hobby
+            inversedBy: users
+            joinTable:
+                name: users_hobbies
+                joinColumns:
+                    user_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    hobby_id:
+                        referencedColumnName: id

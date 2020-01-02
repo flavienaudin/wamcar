@@ -53,18 +53,22 @@ const selec2tInputs = document.querySelectorAll('.js-select2-input');
   const $select2 = $(select);
   const options = {
     language: fr,
-    allowClear: true,
-    closeOnSelect: false,
+    closeOnSelect: true,
     width: '100%',
     templateResult: (state) => {
       return $('<span class="icon-">' + state.text + '</span>');
     }
   };
   if ($select2.data('multiple')) {
+    options.multiple = true;
+    options.allowClear = true;
+    options.closeOnSelect = false;
     options.selectionAdapter = $.fn.select2.amd.require('NbSelectedItemSelectionAdapter');
     options.templateSelection = (data) => {
-      if (data.selected.length >= 1) {
-        return `${data.placeholder} : ${data.selected.length}`;
+      if (data.selected.length > 1) {
+        return `${data.selected[0].text} +${data.selected.length-1}`;
+      }else{
+        return `${data.selected[0].text}`;
       }
     };
   }
