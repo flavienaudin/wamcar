@@ -26,6 +26,11 @@ Wamcar\Conversation\Message:
             mappedBy: message
             cascade: ["persist", "merge", "remove"]
             orphanRemoval: true
+        linkPreviews:
+            targetEntity: Wamcar\Conversation\MessageLinkPreview
+            mappedBy: message
+            cascade: ["persist", "merge", "remove"]
+            orphanRemoval: true
 
     manyToOne:
         conversation:

@@ -1,0 +1,36 @@
+Wamcar\Conversation\MessageLinkPreview:
+
+  type: entity
+  table: conversation_message_linkpreview
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    linkIndex:
+      type: integer
+      nullable: false
+    title:
+      type: string
+      nullable: true
+    description:
+      type: text
+      nullable: true
+    image:
+      type: string
+      nullable: true
+
+
+  manyToOne:
+    message:
+      targetEntity: Wamcar\Conversation\Message
+      inversedBy: linkPreviews
+      joinColumn:
+        nullable: false
+        name: message_id
+        referencedColumnName: id
+

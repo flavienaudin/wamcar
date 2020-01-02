@@ -283,52 +283,74 @@
         text-decoration: underline;
       }
     }
-  }
 
-  &-item-wrapper-desktop {
-    border-left: rem-calc(1) solid $border-color;
-    border-right: rem-calc(1) solid $border-color;
-  }
+    &-wrapper-desktop {
+      border-left: rem-calc(1) solid $border-color;
+      border-right: rem-calc(1) solid $border-color;
+    }
 
-  &-item-user-img {
-    height: rem-calc(40);
-    width: rem-calc(40);
-  }
+    &-user-img {
+      height: rem-calc(40);
+      width: rem-calc(40);
+    }
 
-  &-item-sender-name {
-    color: $primary-color;
-  }
+    &-sender-name {
+      color: $primary-color;
+    }
 
-  &-item-content {
-    margin-top: rem-calc(15);
-  }
+    &-content {
+      margin-top: rem-calc(15);
+    }
 
-  &-item-attachments {
-    margin-top: rem-calc(15);
+    &-attachments {
+      margin-top: rem-calc(15);
 
-    &-field {
-      label {
-        font-size: rem-calc(14);
-        margin-bottom: rem-calc(10);
+      &-field {
+        label {
+          font-size: rem-calc(14);
+          margin-bottom: rem-calc(10);
+        }
+
+        span.icon-close {
+          margin-left: 5px;
+          cursor: pointer;
+          font-size: rem-calc(14);
+          margin-bottom: rem-calc(5);
+        }
+
+        &-list {
+          margin-top: rem-calc(15);
+        }
       }
 
-      span.icon-close {
-        margin-left: 5px;
-        cursor: pointer;
-        font-size: rem-calc(14);
-        margin-bottom: rem-calc(5);
-      }
+      ol {
+        margin-bottom: 0;
 
-      &-list {
-        margin-top: rem-calc(15);
+        li a {
+          word-wrap: break-word;
+        }
       }
     }
 
-    ol {
-      margin-bottom: 0;
+    &-link {
+      &-previews {
+        margin-left: rem-calc(10);
+        margin-right: rem-calc(10);
+      }
 
-      li a {
-        word-wrap: break-word;
+      &-preview {
+        margin-bottom: rem-calc(10);
+        border: 1px solid $gray-peexeo;
+
+        img {
+          max-height: 100px;
+        }
+
+        i {
+          display: block;
+          background-color: $light-gray-peexeo;
+          padding: rem-calc(5);
+        }
       }
     }
   }

@@ -13,6 +13,7 @@ use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
+use Wamcar\Conversation\MessageLinkPreview;
 use Wamcar\Conversation\ProContactMessage;
 use Wamcar\Conversation\ProContactMessageRepository;
 use Wamcar\User\BaseUser;
@@ -55,6 +56,8 @@ class ConversationEditionService
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
         $message = new Message($conversation, $messageDTO->user, $messageDTO->content, $messageDTO->vehicleHeader, $messageDTO->vehicle, $messageDTO->isFleet, $messageDTO->attachments);
+        $this->treatsMessageLinkPreviews($message);
+
         $conversation->addMessage($message);
 
         // Update date conversation
@@ -112,5 +115,72 @@ class ConversationEditionService
             $proContactMessageDTO->message);
         $this->proContactMessageRepository->update($proContactMessage);
         return $proContactMessage;
+    }
+
+    /**
+     * @param Message $message
+     */
+    public function treatsMessageLinkPreviews(Message $message)
+    {
+        $url_regex = '/(http|https):\/\/(www)?(.*)/i';
+        preg_match_all($url_regex, $message->getContent(), $urls, PREG_PATTERN_ORDER);
+
+        foreach ($urls[0] as $url) {
+            $url = $this->checkValues($url);
+
+            $tags = get_meta_tags($url);
+
+            $string = $this->fetch_record($url);
+
+            $linkPreview = new MessageLinkPreview();
+
+            /// fecth title
+            $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";
+            preg_match_all($title_regex, $string, $title, PREG_PATTERN_ORDER);
+            if (isset($title[1]) && !empty($title[1][0])) {
+                $linkPreview->setTitle($title[1][0]);
+            }
+            // fetch images
+            $metaOGImageRegex = '/<meta[^>]*property="og:image"[^>]*content="(\S*)">/';
+            preg_match($metaOGImageRegex, $string, $img);
+            $imageUrl = null;
+            if (isset($img[1])) {
+                $imageUrl = $img[1];
+            } elseif (isset($tags['twitter:image'])) {
+                $imageUrl = $tags['twitter:image'];
+            }
+            if (!empty($imageUrl) && exif_imagetype($imageUrl) !== false) {
+                // Valid image file
+                $linkPreview->setImage($imageUrl);
+            }
+            if ($linkPreview->isValid()) {
+                $message->addLinkPreview($linkPreview);
+            }
+        }
+    }
+
+    private function checkValues($value)
+    {
+        $value = trim($value);
+        if (get_magic_quotes_gpc()) {
+            $value = stripslashes($value);
+        }
+        $value = strtr($value, array_flip(get_html_translation_table(HTML_ENTITIES)));
+        $value = strip_tags($value);
+        $value = htmlspecialchars($value);
+        return $value;
+    }
+
+    private function fetch_record($path)
+    {
+        $file = fopen($path, "r");
+        if (!$file) {
+            exit("Problem occured");
+        }
+        $data = '';
+        while (!feof($file)) {
+            $data .= fgets($file, 1024);
+        }
+        return $data;
     }
 }
