@@ -105,7 +105,6 @@ class ConversationEditionService
      */
     public function saveProContactMessage(ProContactMessageDTO $proContactMessageDTO)
     {
-
         $proContactMessage = new ProContactMessage(
             $proContactMessageDTO->proUser,
             $proContactMessageDTO->firstname,
@@ -132,7 +131,7 @@ class ConversationEditionService
 
             $string = $this->fetch_record($url);
 
-            $linkPreview = new MessageLinkPreview();
+            $linkPreview = new MessageLinkPreview($url);
 
             /// fecth title
             $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";
@@ -140,14 +139,17 @@ class ConversationEditionService
             if (isset($title[1]) && !empty($title[1][0])) {
                 $linkPreview->setTitle($title[1][0]);
             }
-            // fetch images
-            $metaOGImageRegex = '/<meta[^>]*property="og:image"[^>]*content="(\S*)">/';
-            preg_match($metaOGImageRegex, $string, $img);
+            // fetch images from balise meta (og:image, image, twitter:image,...)
+            $metaPropertyImageRegex = '/<meta[^>]*(property|name){1}="[^"]*image"[^>]*content=[\s]*"(\S*)"[^>]*>/';
+
+            preg_match_all($metaPropertyImageRegex, $string, $img);
             $imageUrl = null;
-            if (isset($img[1])) {
-                $imageUrl = $img[1];
+            if (isset($img[2])) {
+                $imageUrl = $img[2][0];
             } elseif (isset($tags['twitter:image'])) {
                 $imageUrl = $tags['twitter:image'];
+            } elseif (isset($tags['image'])) {
+                $imageUrl = $tags['image'];
             }
             if (!empty($imageUrl) && exif_imagetype($imageUrl) !== false) {
                 // Valid image file

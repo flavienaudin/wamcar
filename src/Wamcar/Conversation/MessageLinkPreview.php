@@ -12,19 +12,31 @@ class MessageLinkPreview
     /** @var int */
     private $linkIndex;
     /** @var null|string */
+    private $url;
+    /** @var null|string */
     private $title;
     /** @var null|string */
     private $description;
-    /** @var null|string (url)*/
+    /** @var null|string (url) */
     private $image;
     /** @var Message */
     private $message;
 
     /**
+     * MessageLinkPreview constructor.
+     * @param string|null $url
+     */
+    public function __construct(?string $url)
+    {
+        $this->url = $url;
+    }
+
+    /**
      * Return <b>true</b> if the link preview is not empty (almost one data is set) and can be added to its Message
      * @return bool
      */
-    public function isValid(): bool {
+    public function isValid(): bool
+    {
         return !empty($this->title) || !empty($this->description) || !empty($this->image);
     }
 
@@ -50,6 +62,27 @@ class MessageLinkPreview
     public function setLinkIndex(int $linkIndex): void
     {
         $this->linkIndex = $linkIndex;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function getDomainUrl(): ?string
+    {
+        return parse_url($this->url, PHP_URL_HOST);
+    }
+
+    /**
+     * @param string|null $url
+     */
+    public function setUrl(?string $url): void
+    {
+        $this->url = $url;
     }
 
     /**

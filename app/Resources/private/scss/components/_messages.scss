@@ -339,18 +339,37 @@
       }
 
       &-preview {
-        margin-bottom: rem-calc(10);
+        max-width: 350px;
+        margin: 0 auto rem-calc(10) auto;
         border: 1px solid $gray-peexeo;
 
         img {
-          max-height: 100px;
+          width: 100%;
+          border-bottom: 1px solid $gray-peexeo;
         }
 
-        i {
-          display: block;
+        .no-img{
+          width: 100%;
+          max-width: 350px;
+          height: 150px;
+          border-bottom: 1px solid $gray-peexeo;
           background-color: $light-gray-peexeo;
+        }
+
+        .linkpreview-title,
+        .linkpreview-link {
+          display: block;
+          color: $black;
+          background-color: $white;
           padding: rem-calc(5);
         }
+
+        a.linkpreview-link {
+          text-align: left;
+          font-weight: normal;
+          color: $body-font-color;
+        }
+
       }
     }
   }

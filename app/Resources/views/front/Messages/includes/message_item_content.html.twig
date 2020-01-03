@@ -64,16 +64,18 @@
         {% if message.linkPreviews|length > 0 %}
             <div class="messages-item-link-previews full-width">
                 {% for linkPreview in message.linkPreviews %}
-                    <div class="messages-item-link-preview text-center">
+                    <div class="messages-item-link-preview">
                         {% if linkPreview.image is not empty %}
-                            <img src="{{ linkPreview.image }}" alt="{{ linkPreview.description|default('pas de description') }}">
+                            <a href="{{ linkPreview.url }}" target="_blank">
+                                <img src="{{ linkPreview.image }}" alt="{{ linkPreview.description|default('pas de description') }}">
+                            </a>
+                        {% else %}
+                            <div class="no-img">&nbsp;</div>
                         {% endif %}
                         {% if linkPreview.title is not empty%}
-                            <i>{{ linkPreview.title|raw }}</i>
+                            <b class="linkpreview-title">{{ linkPreview.title|raw }}</b>
                         {% endif %}
-                        {% if linkPreview.description is not empty %}
-                            <i>{{ linkPreview.description|raw }}</i>
-                        {% endif %}
+                        <a href="{{ linkPreview.url }}" target="_blank" class="linkpreview-link">{{ linkPreview.domainUrl }}</a>
                     </div>
                 {% endfor %}
             </div>
