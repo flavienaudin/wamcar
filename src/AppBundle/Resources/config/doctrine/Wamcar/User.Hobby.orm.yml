@@ -1,0 +1,40 @@
+Wamcar\User\Hobby:
+    type: entity
+    table: hobby
+    exclusion_policy: ALL
+    repositoryClass: AppBundle\Doctrine\Repository\DoctrineHobbyRepository
+
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+
+    fields:
+        name:
+            type: string
+            length: 191   # needed to index field in utf8mb4
+            nullable: false
+            unique: true
+        slug:
+            type: string
+            length: 191   # needed to index field in utf8mb4
+            nullable: false
+            unique: true
+            gedmo:
+                slug:
+                    unique: false
+                    separator: -
+                    style: default
+                    updatable: true
+                    fields:
+                        - name
+        icon:
+            type: string
+            nullable: true
+
+    manyToMany:
+        users:
+            targetEntity: Wamcar\User\BaseUser
+            mappedBy: hobbies

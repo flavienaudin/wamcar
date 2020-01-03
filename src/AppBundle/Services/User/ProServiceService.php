@@ -56,5 +56,4 @@ class ProServiceService
     {
         $this->proServiceCategoryRepository->remove($proServiceCategory);
     }
-
 }

@@ -275,6 +275,14 @@
     .messages-main {
       flex-grow: 1;
     }
+
+    a {
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   &-item-wrapper-desktop {
@@ -293,6 +301,9 @@
 
   &-item-content {
     margin-top: rem-calc(15);
+    a {
+      color: $dark-blue-peexeo;
+    }
   }
 
   &-item-attachments {

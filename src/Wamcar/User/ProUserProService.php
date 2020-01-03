@@ -25,6 +25,14 @@ class ProUserProService
     }
 
     /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->proUser->getFullName() . ' <=> ' .$this->proService->getName() . ($this->isSpeciality ? '(Spé)' : '');
+    }
+
+    /**
      * @return int
      */
     public function getId()

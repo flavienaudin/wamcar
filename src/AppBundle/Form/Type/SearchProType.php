@@ -75,8 +75,11 @@ class SearchProType extends AbstractType
                 'choice_label' => 'name',
                 'choices' => $filterChoices,
                 'required' => false,
-                'attr' => []
+                'attr' => [
+                    'class'=> 'js-select2-input'
+                ]
             ];
+
             if ($querySelectedService != null && $querySelectedService->getCategory() === $filterCategory) {
                 $options['data'] = new ArrayCollection([$querySelectedService]);
             }
@@ -84,7 +87,6 @@ class SearchProType extends AbstractType
             if ($filterCategory->isChoiceMultiple()) {
                 $options['multiple'] = 'multiple';
                 $options['attr']['multiple'] = 'multiple';
-                $options['attr']['class'] = 'js-select2-input';
                 $options['attr']['data-multiple'] = true;
                 $options['attr']['data-placeholder'] = $filterLabel;
             }

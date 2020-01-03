@@ -17,7 +17,6 @@ Wamcar\User\ProService:
       length: 191   # needed to index field in utf8mb4
       nullable: false
       unique: true
-
     slug:
       type: string
       length: 191   # needed to index field in utf8mb4
