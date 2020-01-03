@@ -300,6 +300,9 @@
 
     &-content {
       margin-top: rem-calc(15);
+      a {
+        color: $dark-blue-peexeo;
+      }
     }
 
     &-attachments {
