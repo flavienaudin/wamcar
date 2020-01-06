@@ -76,19 +76,23 @@ class SearchProType extends AbstractType
                 'choices' => $filterChoices,
                 'required' => false,
                 'attr' => [
-                    'class'=> 'js-select2-input'
+                    'class' => 'js-select2-input'
                 ]
             ];
-
-            if ($querySelectedService != null && $querySelectedService->getCategory() === $filterCategory) {
-                $options['data'] = new ArrayCollection([$querySelectedService]);
-            }
 
             if ($filterCategory->isChoiceMultiple()) {
                 $options['multiple'] = 'multiple';
                 $options['attr']['multiple'] = 'multiple';
                 $options['attr']['data-multiple'] = true;
                 $options['attr']['data-placeholder'] = $filterLabel;
+            }
+
+            if ($querySelectedService != null && $querySelectedService->getCategory() === $filterCategory) {
+                if ($filterCategory->isChoiceMultiple()) {
+                    $options['data'] = new ArrayCollection([$querySelectedService]);
+                } else {
+                    $options['data'] = $querySelectedService;
+                }
             }
             $builder->add($this->getCategoryFieldName($filterCategory), EntityType::class, $options);
         }
