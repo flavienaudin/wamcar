@@ -886,6 +886,9 @@ user:
         multigarages: Multi-sites
       garage:
         label: Travaille chez
+      cat:
+        edit_profile: Editer mon profil
+        answer_wamaffinity_form: Remplir le questionnaire WamAffinity
     proservices:
       specialities.title: Mes spécialités
       services.title: Mes services

@@ -452,7 +452,6 @@ class UserController extends BaseController
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,
             'user' => $user,
-            'isEditableByCurrentUser' => false,
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
