@@ -102,6 +102,10 @@ a.button {
         }
     }
     /* Size */
+    .form-compact & {
+        @include buttonHeightCompact;
+    }
+
     &.small {
         @include breakpoint(medium) {
             height: rem-calc(50);

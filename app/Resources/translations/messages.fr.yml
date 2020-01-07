@@ -934,6 +934,9 @@ user:
           invalid_format: "Le format est incorrect"
         phoneDisplay:
           label: Afficher mon numéro aux professionnels
+        presentationTitle:
+          label: Titre de ma page
+          placeholder: Laissez-moi vous guider
         presentation:
           label: Présentation
         avatar:

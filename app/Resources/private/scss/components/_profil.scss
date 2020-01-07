@@ -120,10 +120,33 @@ $profil-image-offset: rem-calc(40);
   &-body {
     padding-top: rem-calc(20);
 
-    .profil-section:not(:last-child) {
-      border-bottom: rem-calc(1) solid $border-color;
-      margin-bottom: rem-calc(25);
-      padding-bottom: rem-calc(25);
+    .profil-section {
+      &:not(:last-child) {
+        border-bottom: rem-calc(1) solid $border-color;
+        margin-bottom: rem-calc(25);
+        padding-bottom: rem-calc(25);
+      }
+
+      .profil-section-action {
+        float: right;
+
+        width: 35px;
+        height: 35px;
+        margin-left: 5px;
+        margin-right: 5px;
+
+        &:hover {
+          background-color: $light-gray-peexeo;
+          border-radius: 50%;
+        }
+
+        &[class*="icon-"]::before {
+          font-size: 1rem;
+          font-weight: normal;
+          color: $body-font-color;
+          margin: auto;
+        }
+      }
     }
 
     .personal-user-profil & {

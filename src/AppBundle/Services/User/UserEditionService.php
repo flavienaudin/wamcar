@@ -12,6 +12,7 @@ use AppBundle\Elasticsearch\Type\IndexableSearchItem;
 use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
+use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
@@ -176,6 +177,19 @@ class UserEditionService
 
         $this->userRepository->update($user);
 
+        return $user;
+    }
+
+    /**
+     * @param ProUser $user
+     * @param ProUserPresentationDTO $proUserPresentationDTO
+     * @return ProUser
+     */
+    public function editPresentationInformations(ProUser $user, ProUserPresentationDTO $proUserPresentationDTO)
+    {
+        $user->setPresentationTitle($proUserPresentationDTO->presentationTitle);
+        $user->setDescription($proUserPresentationDTO->description);
+        $this->userRepository->update($user);
         return $user;
     }
 

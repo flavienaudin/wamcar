@@ -110,10 +110,10 @@
     <h2 class="separator">{{ 'user.profile.edit.form.titles.informations'|trans }}</h2>
     {% if editUserForm.presentationTitle is defined %}
         {{ form_widget(editUserForm.presentationTitle, {
-            'label': 'Titre de ma page Profil',
+            'label': 'user.profile.edit.form.presentationTitle.label'|trans,
             'required': false,
             'attr' : {
-                'placeholder': 'Laissez-moi vous guider',
+                'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
                 'maxlength' : 50
             }
         }) }}

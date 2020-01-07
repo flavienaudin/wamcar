@@ -22,6 +22,7 @@ use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserDeletionDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
+use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\Type\ContactProType;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\MessageType;
@@ -29,6 +30,7 @@ use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\ProUserPreferencesType;
+use AppBundle\Form\Type\ProUserPresentationType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
@@ -395,10 +397,20 @@ class UserController extends BaseController
         }
 
         $addGarageForm = null;
+        $presentationForm = null;
         if ($currentUser instanceof ProUser && $userIsCurrentUser) {
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                 'only_google_fields' => true,
                 'action' => $this->generateRoute('front_garage_create')]);
+
+            $proUserPresentationDTO = new ProUserPresentationDTO($user);
+            $presentationForm = $this->formFactory->create(ProUserPresentationType::class, $proUserPresentationDTO);
+            $presentationForm->handleRequest($request);
+            if($presentationForm->isSubmitted() && $presentationForm->isValid()){
+                $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
         }
 
         $contactForm = null;
@@ -448,6 +460,7 @@ class UserController extends BaseController
 
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,

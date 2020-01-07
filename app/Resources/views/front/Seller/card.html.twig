@@ -44,18 +44,54 @@
                         </div>
                     {% endif %}
 
-                    {% if user.description is not empty or userIsMe %}
-                        <div class="profil-section">
-                            <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
-                            {% if user.description %}
-                                <p class="text-justify">{{ user.description|nl2br }}</p>
-                            {% elseif userIsMe %}
-                                <p class="text-justify">{{ 'user.presentation.empty'|trans }}</p>
+                    {% if user.description is not empty or presentationForm is not null %}
+                        <div class="profil-section ">
+                            {% if presentationForm is not null %}{{ form_start(presentationForm, {
+                                'attr': {'class': 'form-compact'}
+                            }) }}{% endif %}
+                            <h2>
+                                {% if presentationForm is not null %}
+                                    <span class="profil-section-action icon-pen"
+                                          data-toggle="jsPresentationTitleInput jsDescriptionInput jsDescriptionText jsSubmitInput">
+                                    </span>
+                                {% endif %}
+                                {{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}
+                            </h2>
+
+                            {% if presentationForm is not null %}
+                                <div id="jsPresentationTitleInput" class="is-hidden" data-toggler="is-hidden">
+                                    {{ form_widget(presentationForm.presentationTitle, {
+                                        'label': 'user.profile.edit.form.presentationTitle.label'|trans,
+                                        'required': false,
+                                        'attr' : {
+                                            'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
+                                            'maxlength': 50
+                                        }
+                                    }) }}
+                                </div>
                             {% endif %}
 
-                            {% if userIsMe %}
-                                <a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.presentation.edit'|trans }}</a>
+                            <div id="jsDescriptionText" data-toggler="is-hidden" class="text-justify">
+                                {% if user.description %}
+                                    {{ user.description|nl2br }}
+                                {% elseif userIsMe %}
+                                    {{ 'user.presentation.empty'|trans }}
+                                {% endif %}
+                            </div>
+
+                            {% if presentationForm is not null %}
+                                <div id="jsDescriptionInput" class="is-hidden" data-toggler="is-hidden">
+                                    {{ form_widget(presentationForm.description, {
+                                        'label': 'user.profile.edit.form.presentation.label'|trans,
+                                        'required': false
+                                    }) }}
+                                </div>
+                                <div id="jsSubmitInput" class="is-flex align-right is-hidden" data-toggler="is-hidden">
+                                    <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                                </div>
                             {% endif %}
+
+                            {% if presentationForm is not null %}{{ form_end(presentationForm) }}{% endif %}
                         </div>
                     {% endif %}
 
