@@ -70,7 +70,7 @@ abstract class BaseUser implements HasApiCredential
     /** @var int */
     protected $creditPoints;
     /** @var string|null */
-    protected $youtubeVideoId;
+    protected $youtubeVideoUrl;
     /** @var string|null */
     protected $videoShortText;
     /** @var string|null */
@@ -870,17 +870,30 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return string|null
      */
-    public function getYoutubeVideoId(): ?string
+    public function getYoutubeVideoUrl(): ?string
     {
-        return $this->youtubeVideoId;
+        return $this->youtubeVideoUrl;
     }
 
     /**
-     * @param string|null $youtubeVideoId
+     * @return string|null
      */
-    public function setYoutubeVideoId(?string $youtubeVideoId): void
+    public function getYoutubeVideoId(): ?string
     {
-        $this->youtubeVideoId = $youtubeVideoId;
+
+        $youtubeIds = [];
+        preg_match('/(https:\/\/www.youtube.com\/watch\?v=|https:\/\/youtu.be\/){1}([a-zA-Z0-9]+)/',
+            $this->youtubeVideoUrl,
+            $youtubeIds);
+        return isset($youtubeIds[2]) ? $youtubeIds[2] : null;
+    }
+
+    /**
+     * @param string|null $youtubeVideoUrl
+     */
+    public function setYoutubeVideoUrl(?string $youtubeVideoUrl): void
+    {
+        $this->youtubeVideoUrl = $youtubeVideoUrl;
     }
 
     /**

@@ -88,6 +88,9 @@ flash:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
+      edit:
+        presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
+        video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
@@ -939,6 +942,13 @@ user:
           placeholder: Laissez-moi vous guider
         presentation:
           label: Présentation
+        video:
+          youtubeVideoUrl:
+            label: URL de votre vidéo Youtube
+            placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
+            invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
+          shortText.label: Texte court de desription
+          longText.label: Texte complet de desription
         avatar:
           label: Avatar
         banner:
@@ -986,6 +996,9 @@ user:
     empty: Vous n'avez pas encore renseigné votre ville
   video:
     title: Ma présentation en vidéo
+    placeholder:
+      with_text: Vous devez saisir une vidéo pour faire appaître cet encart sur votre fiche profil.
+      all_empty: Vous pouvez ajouter une vidéo et un texte explicatif vous présentant afin d'aider les particulier à mieux vous connaître.
   vehicles:
     title: Les véhicules que je vous propose
   project:

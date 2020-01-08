@@ -46,9 +46,11 @@
 
                     {% if user.description is not empty or presentationForm is not null %}
                         <div class="profil-section ">
-                            {% if presentationForm is not null %}{{ form_start(presentationForm, {
-                                'attr': {'class': 'form-compact'}
-                            }) }}{% endif %}
+                            {% if presentationForm is not null %}
+                                {{ form_start(presentationForm, {
+                                    'attr': {'class': 'form-compact', 'data-abide' : '','novalidate': 'novalidate'}
+                                }) }}
+                            {% endif %}
                             <h2>
                                 {% if presentationForm is not null %}
                                     <span class="profil-section-action icon-pen"
@@ -107,24 +109,74 @@
                         </div>
                     {% endif %}
 
-                    {% if user.youtubeVideoId is not empty %}
+                    {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
                         <div class="profil-section">
-                            <h2>{{ 'user.video.title'|trans({'%username%':user.fullName}) }}</h2>
-                            <div class="youtube-player" data-id="{{ user.youtubeVideoId }}"></div>
+                            <h2>
+                                {% if videoPresentationForm is not null %}
+                                    <span class="profil-section-action icon-pen"
+                                          data-toggle="jsVideoPresentationPreview jsVideoPresentationForm">
+                                    </span>
+                                {% endif %}
+                                {{ 'user.video.title'|trans({'%username%':user.fullName}) }}
+                            </h2>
+                            <div id="jsVideoPresentationPreview" data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
+                                {% set userYoutubeVideoId =  user.youtubeVideoId %}
+                                {% if userYoutubeVideoId is not empty %}
+                                    <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
+                                {% elseif videoPresentationForm is not null and videoPresentationForm is not null %}
+                                    <div>
+                                        {% if user.videoShortText is empty %}
+                                            <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
+                                        {% else %}
+                                            <div class="callout warning small"><i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i></div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
 
-                            {% if user.videoShortText is not empty %}
-                                <div class="margin-top-2">
-                                    {{ user.videoShortText|raw }}
-                                    {% if user.videoText is not empty %}
-                                        <p><a data-toggle="userVideoText showMore showLess">
-                                                <span id="showMore" data-toggler=".is-hidden" class="text-underline">{{ 'global.button.show_more'|trans }}</span>
-                                                <span id="showLess" data-toggler=".is-hidden" class="text-underline is-hidden">{{ 'global.button.show_less'|trans }}</span>
-                                            </a></p>
-                                        <div id="userVideoText" class="js-show-videoText is-hidden" data-toggler=".is-hidden">
-                                            {{ user.videoText|raw }}
-                                            <a data-toggle="userVideoText showMore showLess"><span class="text-underline">{{ 'global.button.show_less'|trans }}</span></a>
-                                        </div>
-                                    {% endif %}
+                                {% if user.videoShortText is not empty %}
+                                    <div class="margin-top-2">
+                                        {{ user.videoShortText|raw }}
+                                        {% if user.videoText is not empty %}
+                                            <p><a data-toggle="userVideoText showMore showLess">
+                                                    <span id="showMore" data-toggler=".is-hidden" class="text-underline">{{ 'global.button.show_more'|trans }}</span>
+                                                    <span id="showLess" data-toggler=".is-hidden" class="text-underline is-hidden">{{ 'global.button.show_less'|trans }}</span>
+                                                </a></p>
+                                            <div id="userVideoText" class="js-show-videoText is-hidden" data-toggler=".is-hidden">
+                                                {{ user.videoText|raw }}
+                                                {% if user.videoText|length > 2000 %}
+                                                    <a data-toggle="userVideoText showMore showLess"><span class="text-underline">{{ 'global.button.show_less'|trans }}</span></a>
+                                                {% endif %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% if videoPresentationForm is not null %}
+                                <div id="jsVideoPresentationForm"  {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                                    {{ form_start(videoPresentationForm, {
+                                        'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                                    }) }}
+
+                                    {{ form_widget(videoPresentationForm.youtubeVideoUrl, {
+                                        'label' : 'user.profile.edit.form.video.youtubeVideoUrl.label'|trans,
+                                        'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage'|trans,
+                                        'required': false,
+                                        'attr': {
+                                            'placeholder': 'user.profile.edit.form.video.youtubeVideoUrl.placeholder'|trans,
+                                        }
+                                    }) }}
+                                    {{ form_errors(videoPresentationForm.youtubeVideoUrl) }}
+
+                                    {{ form_label(videoPresentationForm.shortText, 'user.profile.edit.form.video.shortText.label'|trans) }}
+                                    {{ form_widget(videoPresentationForm.shortText, {'required': false}) }}
+
+                                    {{ form_label(videoPresentationForm.longText, 'user.profile.edit.form.video.longText.label'|trans) }}
+                                    {{ form_widget(videoPresentationForm.longText, {'required': false}) }}
+
+                                    <div class="is-flex align-right">
+                                        <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                                    </div>
+                                    {{ form_end(videoPresentationForm) }}
                                 </div>
                             {% endif %}
                         </div>

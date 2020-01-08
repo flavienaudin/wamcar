@@ -17,6 +17,7 @@ use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
+use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserDeletionDTO;
@@ -28,6 +29,7 @@ use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
+use AppBundle\Form\Type\ProPresentationVideoType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\ProUserPresentationType;
@@ -398,19 +400,41 @@ class UserController extends BaseController
 
         $addGarageForm = null;
         $presentationForm = null;
+        $videoPresentationForm = null;
         if ($currentUser instanceof ProUser && $userIsCurrentUser) {
+            // Form to add garage
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                 'only_google_fields' => true,
                 'action' => $this->generateRoute('front_garage_create')]);
 
+            // Encart Présentation : formulaire d'édition
             $proUserPresentationDTO = new ProUserPresentationDTO($user);
             $presentationForm = $this->formFactory->create(ProUserPresentationType::class, $proUserPresentationDTO);
             $presentationForm->handleRequest($request);
-            if($presentationForm->isSubmitted() && $presentationForm->isValid()){
-                $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
-                return $this->redirectToRoute('front_view_current_user_info');
+            if($presentationForm->isSubmitted()){
+                if($presentationForm->isValid()) {
+                    $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                    return $this->redirectToRoute('front_view_current_user_info');
+                }else{
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
+                }
             }
+
+            // Encart Vidéo de présentation : formulaire d'édition
+            $proVideoDTO = new ProPresentationVideoDTO($user);
+            $videoPresentationForm = $this->formFactory->create(ProPresentationVideoType::class, $proVideoDTO);
+            $videoPresentationForm->handleRequest($request);
+            if($videoPresentationForm->isSubmitted()){
+                if($videoPresentationForm->isValid()){
+                    $this->userEditionService->editVideoInformations($currentUser, $proVideoDTO);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                    return $this->redirectToRoute('front_view_current_user_info');
+                }else{
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.video');
+                }
+            }
+
         }
 
         $contactForm = null;
@@ -461,6 +485,7 @@ class UserController extends BaseController
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
+            'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,

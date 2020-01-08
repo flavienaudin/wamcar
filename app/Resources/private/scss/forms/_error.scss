@@ -3,7 +3,10 @@
    =========================================================================== */
 
 .form-error {
-  @include inputMargin;
+
+  &:last-of-type {
+    @include inputMargin;
+  }
   display: none;
   font-size: rem-calc(12);
   color: $alert-color;

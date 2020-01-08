@@ -11,6 +11,7 @@ use AppBundle\Elasticsearch\Type\IndexablePersonalProject;
 use AppBundle\Elasticsearch\Type\IndexableSearchItem;
 use AppBundle\Form\Builder\User\ProjectFromDTOBuilder;
 use AppBundle\Form\DTO\ProjectDTO;
+use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
@@ -189,6 +190,19 @@ class UserEditionService
     {
         $user->setPresentationTitle($proUserPresentationDTO->presentationTitle);
         $user->setDescription($proUserPresentationDTO->description);
+        $this->userRepository->update($user);
+        return $user;
+    }
+    /**
+     * @param BaseUser $user
+     * @param ProPresentationVideoDTO $proPresentationVideoDTO
+     * @return BaseUser
+     */
+    public function editVideoInformations(BaseUser $user, ProPresentationVideoDTO $proPresentationVideoDTO)
+    {
+        $user->setYoutubeVideoUrl($proPresentationVideoDTO->youtubeVideoUrl);
+        $user->setVideoShortText($proPresentationVideoDTO->shortText);
+        $user->setVideoText($proPresentationVideoDTO->longText);
         $this->userRepository->update($user);
         return $user;
     }
