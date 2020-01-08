@@ -882,7 +882,7 @@ abstract class BaseUser implements HasApiCredential
     {
 
         $youtubeIds = [];
-        preg_match('/(https:\/\/www.youtube.com\/watch\?v=|https:\/\/youtu.be\/){1}([a-zA-Z0-9]+)/',
+        preg_match('/(https:\/\/www.youtube.com\/watch\?v=|https:\/\/youtu.be\/){1}([^&]+)/',
             $this->youtubeVideoUrl,
             $youtubeIds);
         return isset($youtubeIds[2]) ? $youtubeIds[2] : null;
