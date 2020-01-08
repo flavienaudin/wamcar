@@ -122,7 +122,6 @@ $profil-image-offset: rem-calc(40);
 
     .profil-section {
       &:not(:last-child) {
-        border-bottom: rem-calc(1) solid $border-color;
         margin-bottom: rem-calc(25);
         padding-bottom: rem-calc(25);
       }
@@ -330,8 +329,8 @@ $profil-image-offset: rem-calc(40);
       }
 
       [class^="icon-"],
-      [class*=" icon-"]{
-        &:before{
+      [class*=" icon-"] {
+        &:before {
           background-color: $light-gray;
           padding: 6px 10px;
         }
@@ -397,7 +396,6 @@ $profil-image-offset: rem-calc(40);
             max-height: 100px;
           }
         }
-
       }
 
       &-close-button {
@@ -424,24 +422,30 @@ $profil-image-offset: rem-calc(40);
 
     &-right-column {
       > div {
-        background-color: $body-background;
-        margin-bottom: 1rem;
+        margin-bottom: rem-calc(25);
         padding: rem-calc(25);
+        background-color: $body-background;
 
         @include breakpoint(medium down) {
-          border-top: rem-calc(1) solid $border-color;
           margin-top: rem-calc(30);
-          padding-top: rem-calc(25);
-
-          border-bottom: rem-calc(1) solid $border-color;
           margin-bottom: rem-calc(30);
-          padding-bottom: rem-calc(25);
         }
       }
 
       .garages-card {
-        >:not(:first-child){
-          @include separatorMixin;
+        .add-garage-form:not(:last-child){
+          border-bottom: rem-calc(1) solid $border-color;
+          margin-bottom: rem-calc(30);
+          padding-bottom: rem-calc(25);
+
+          @include breakpoint(medium) {
+            margin-bottom: rem-calc(35);
+            padding-bottom: rem-calc(30);
+          }
+        }
+
+        > .brand-list {
+          margin-top: rem-calc(40);
         }
       }
     }

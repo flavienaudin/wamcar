@@ -227,38 +227,8 @@
                 {# Right column #}
                 <div class="js-pro-profil-right-column profil-seller-right-column column small-12 large-4">
                     {% if userIsMe %}
-                        <div class="garages-card">
+                        <div class="profil-section garages-card">
                             {% include 'front/User/includes/brand_list.html.twig' %}
-
-                            {% if addGarageForm is not null %}
-                                <div>
-                                    <h3>{{ 'user.garage.add'|trans }}</h3>
-                                    {{ form_start(addGarageForm, {'attr' : { 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-                                    {% include 'front/Layout/includes/forms/input.html.twig' with {
-                                        label: 'garage.form.field.googleSearch.label'|trans,
-                                        label_class: 'hide',
-                                        name: 'google_place',
-                                        placeholder: 'garage.form.field.googleSearch.placeholder'|trans,
-                                        attributes:{
-                                            'data-google_api_client_key' : google_api_client_key,
-                                            'data-locale' : app.request.locale|slice(0, 2)
-                                        }
-                                    } %}
-                                    {{ form_widget(addGarageForm.googlePlaceId) }}
-                                    {{ form_widget(addGarageForm.googleRating) }}
-                                    {{ form_widget(addGarageForm.latitude) }}
-                                    {{ form_widget(addGarageForm.longitude) }}
-                                    {{ form_widget(addGarageForm.name) }}
-                                    {{ form_widget(addGarageForm.openingHours) }}
-                                    {{ form_widget(addGarageForm.address) }}
-                                    {{ form_widget(addGarageForm.postalCode) }}
-                                    {{ form_widget(addGarageForm.cityName) }}
-                                    {{ form_widget(addGarageForm.phone) }}
-
-                                    <button type="submit" class="button full-width input-margin">{{ 'user.garage.add'|trans }}</button>
-                                    {{ form_end(addGarageForm) }}
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
 
