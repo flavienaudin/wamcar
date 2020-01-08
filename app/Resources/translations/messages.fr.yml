@@ -947,8 +947,8 @@ user:
             label: URL de votre vidéo Youtube
             placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
             invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
-          shortText.label: Texte court de desription
-          longText.label: Texte complet de desription
+          shortText.label: Texte court de description
+          longText.label: Texte complet de description
         avatar:
           label: Avatar
         banner:

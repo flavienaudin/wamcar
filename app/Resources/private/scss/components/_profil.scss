@@ -446,6 +446,26 @@ $profil-image-offset: rem-calc(40);
 
         > .brand-list {
           margin-top: rem-calc(40);
+
+          .edit-garage-action {
+            float: right;
+            width: 35px;
+            height: 35px;
+            margin-left: 5px;
+            margin-right: 5px;
+
+            &:hover {
+              background-color: $light-gray-peexeo;
+              border-radius: 50%;
+            }
+
+            &[class*="icon-"]::before {
+              font-size: 1rem;
+              font-weight: normal;
+              color: $body-font-color;
+              margin: auto;
+            }
+          }
         }
       }
     }

@@ -3,11 +3,10 @@
         {% if membership.requestedAt is null or userIsMe %}
             {% set garageRating = membership.garage.googleRating %}
             <li>
-                {{ include('front/Garages/Detail/includes/summary_card.html.twig', {garage: membership.garage}) }}
-                {% if userIsMe and membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
-                    <p><a href="{{ path('front_garage_edit', {'id': membership.garage.id}) }}"
-                          class="icon-pen"><span class="text-underline">{{ 'garage.action.edit'|trans }}</span></a></p>
-                {% endif %}
+                {{ include('front/Garages/Detail/includes/summary_card.html.twig', {
+                    garage: membership.garage,
+                    membership: membership
+                }) }}
                 {% if membership.requestedAt is not null %}
                     <p class="black-color">
                         <i>{{ 'user.garage.pending_request.member'|trans({'%garage_name%':membership.garage.name}) }}&nbsp;:</i>

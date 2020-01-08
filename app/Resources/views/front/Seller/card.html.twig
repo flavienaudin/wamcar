@@ -167,11 +167,16 @@
                                     }) }}
                                     {{ form_errors(videoPresentationForm.youtubeVideoUrl) }}
 
-                                    {{ form_label(videoPresentationForm.shortText, 'user.profile.edit.form.video.shortText.label'|trans) }}
-                                    {{ form_widget(videoPresentationForm.shortText, {'required': false}) }}
+                                    {{ form_row(videoPresentationForm.shortText, {
+                                        'label': 'user.profile.edit.form.video.shortText.label'|trans,
+                                        'required': false
+                                    }) }}
 
-                                    {{ form_label(videoPresentationForm.longText, 'user.profile.edit.form.video.longText.label'|trans) }}
-                                    {{ form_widget(videoPresentationForm.longText, {'required': false}) }}
+                                    {{ form_row(videoPresentationForm.longText, {
+                                        'label': 'user.profile.edit.form.video.longText.label'|trans,
+                                        'label_attr':{'class': 'margin-top-2'},
+                                        'required': false
+                                    }) }}
 
                                     <div class="is-flex align-right">
                                         <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
