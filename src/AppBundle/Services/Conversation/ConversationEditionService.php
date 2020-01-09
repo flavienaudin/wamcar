@@ -10,6 +10,7 @@ use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Services\Picture\PathVehiclePicture;
 use SimpleBus\Message\Bus\MessageBus;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\Conversation\Message;
@@ -114,6 +115,36 @@ class ConversationEditionService
             $proContactMessageDTO->message);
         $this->proContactMessageRepository->update($proContactMessage);
         return $proContactMessage;
+    }
+
+    /**
+     * @param SymfonyStyle|null $io
+     */
+    public function clearAndReloadMessageLinkPreviews(?SymfonyStyle $io)
+    {
+        $conversations = $this->conversationRepository->findAll();
+        /** @var Conversation $conversation */
+        foreach ($conversations as $index => $conversation) {
+
+            $messages = $conversation->getMessages();
+            if ($io != null) {
+                $io->text('Conversation n°' . $index);
+                $io->progressStart(count($messages));
+            }
+
+            /** @var Message $message */
+            foreach ($messages as $message) {
+                $message->getLinkPreviews()->clear();
+                $this->treatsMessageLinkPreviews($message);
+                if ($io != null) {
+                    $io->progressAdvance();
+                }
+            }
+            $this->conversationRepository->update($conversation);
+            if ($io != null) {
+                $io->progressFinish();
+            }
+        }
     }
 
     /**
