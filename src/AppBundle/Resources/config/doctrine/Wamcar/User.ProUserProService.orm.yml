@@ -25,7 +25,7 @@ Wamcar\User\ProUserProService:
         nullable: false
     proService:
       targetEntity: Wamcar\User\ProService
-      inversedBy: proService
+      inversedBy: proUserProServices
       joinColumn:
         name: pro_service_id
         referencedColumnName: id
