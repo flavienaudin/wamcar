@@ -175,10 +175,12 @@ class ConversationEditionService
                 $imageUrl = null;
                 if (isset($img[2])) {
                     $imageUrl = $img[2][0];
-                } elseif (isset($tags['twitter:image'])) {
-                    $imageUrl = $tags['twitter:image'];
-                } elseif (isset($tags['image'])) {
-                    $imageUrl = $tags['image'];
+                } elseif (isset($tags) && is_array($tags)) {
+                    if (isset($tags['twitter:image'])) {
+                        $imageUrl = $tags['twitter:image'];
+                    } elseif (isset($tags['image'])) {
+                        $imageUrl = $tags['image'];
+                    }
                 }
                 if (!empty($imageUrl) && exif_imagetype($imageUrl) !== false) {
                     // Valid image file
@@ -206,16 +208,27 @@ class ConversationEditionService
         return $value;
     }
 
+    /**
+     * @param $path
+     * @return string
+     * @throws \Exception If the URL can not be opened
+     */
     private function fetch_record($path)
     {
-        $file = fopen($path, "r");
-        if (!$file) {
-            exit("Problem occured");
+        try {
+            $file = fopen($path, "r");
+            if ($file === FALSE) {
+                throw new \Exception('Can not open the URL');
+            }
+            $data = '';
+            while (!feof($file)) {
+                $data .= fgets($file, 1024);
+            }
+            return $data;
+        } catch (\Exception $e) {
+            // If error while opening the URL (get_meta_tags or fetch_record().fopen()
+            // Then do not block
+            throw $e;
         }
-        $data = '';
-        while (!feof($file)) {
-            $data .= fgets($file, 1024);
-        }
-        return $data;
     }
 }
