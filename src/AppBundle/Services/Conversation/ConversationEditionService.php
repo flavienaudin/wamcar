@@ -125,38 +125,40 @@ class ConversationEditionService
         preg_match_all($url_regex, $message->getContent(), $urls, PREG_PATTERN_ORDER);
 
         foreach ($urls[0] as $url) {
-            $url = $this->checkValues($url);
+            try {
+                $url = $this->checkValues($url);
+                $tags = get_meta_tags($url);
+                $string = $this->fetch_record($url);
+                $linkPreview = new MessageLinkPreview($url);
 
-            $tags = get_meta_tags($url);
+                /// fecth title
+                $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";
+                preg_match_all($title_regex, $string, $title, PREG_PATTERN_ORDER);
+                if (isset($title[1]) && !empty($title[1][0])) {
+                    $linkPreview->setTitle($title[1][0]);
+                }
+                // fetch images from balise meta (og:image, image, twitter:image,...)
+                $metaPropertyImageRegex = '/<meta[^>]*(property|name){1}="[^"]*image"[^>]*content=[\s]*"(\S*)"[^>]*>/';
 
-            $string = $this->fetch_record($url);
-
-            $linkPreview = new MessageLinkPreview($url);
-
-            /// fecth title
-            $title_regex = "/<title>[\s\W]*([^<]*)[\s\W]*<\/title>/im";
-            preg_match_all($title_regex, $string, $title, PREG_PATTERN_ORDER);
-            if (isset($title[1]) && !empty($title[1][0])) {
-                $linkPreview->setTitle($title[1][0]);
-            }
-            // fetch images from balise meta (og:image, image, twitter:image,...)
-            $metaPropertyImageRegex = '/<meta[^>]*(property|name){1}="[^"]*image"[^>]*content=[\s]*"(\S*)"[^>]*>/';
-
-            preg_match_all($metaPropertyImageRegex, $string, $img);
-            $imageUrl = null;
-            if (isset($img[2])) {
-                $imageUrl = $img[2][0];
-            } elseif (isset($tags['twitter:image'])) {
-                $imageUrl = $tags['twitter:image'];
-            } elseif (isset($tags['image'])) {
-                $imageUrl = $tags['image'];
-            }
-            if (!empty($imageUrl) && exif_imagetype($imageUrl) !== false) {
-                // Valid image file
-                $linkPreview->setImage($imageUrl);
-            }
-            if ($linkPreview->isValid()) {
-                $message->addLinkPreview($linkPreview);
+                preg_match_all($metaPropertyImageRegex, $string, $img);
+                $imageUrl = null;
+                if (isset($img[2])) {
+                    $imageUrl = $img[2][0];
+                } elseif (isset($tags['twitter:image'])) {
+                    $imageUrl = $tags['twitter:image'];
+                } elseif (isset($tags['image'])) {
+                    $imageUrl = $tags['image'];
+                }
+                if (!empty($imageUrl) && exif_imagetype($imageUrl) !== false) {
+                    // Valid image file
+                    $linkPreview->setImage($imageUrl);
+                }
+                if ($linkPreview->isValid()) {
+                    $message->addLinkPreview($linkPreview);
+                }
+            } catch (\Exception $e) {
+                // If error while opening the URL (get_meta_tags or fetch_record().fopen()
+                // Then do not block
             }
         }
     }
