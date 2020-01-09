@@ -65,6 +65,7 @@
                                     {{ form_widget(presentationForm.presentationTitle, {
                                         'label': 'user.profile.edit.form.presentationTitle.label'|trans,
                                         'required': false,
+                                        'required_class': 'show-for-sr',
                                         'attr' : {
                                             'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
                                             'maxlength': 50
@@ -85,7 +86,8 @@
                                 <div id="jsDescriptionInput" class="is-hidden" data-toggler="is-hidden">
                                     {{ form_widget(presentationForm.description, {
                                         'label': 'user.profile.edit.form.presentation.label'|trans,
-                                        'required': false
+                                        'required': false,
+                                        'required_class': 'show-for-sr'
                                     }) }}
                                 </div>
                                 <div id="jsSubmitInput" class="is-flex align-right is-hidden" data-toggler="is-hidden">
@@ -117,7 +119,11 @@
                                           data-toggle="jsVideoPresentationPreview jsVideoPresentationForm">
                                     </span>
                                 {% endif %}
-                                {{ 'user.video.title'|trans({'%username%':user.fullName}) }}
+                                {% if user.videoTitle is not empty %}
+                                    {{ user.videoTitle }}
+                                {% else %}
+                                    {{ 'user.video.title'|trans }}
+                                {% endif %}
                             </h2>
                             <div id="jsVideoPresentationPreview" data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
                                 {% set userYoutubeVideoId =  user.youtubeVideoId %}
@@ -133,10 +139,12 @@
                                     </div>
                                 {% endif %}
 
-                                {% if user.videoShortText is not empty %}
-                                    <div class="margin-top-2">
-                                        {{ user.videoShortText|raw }}
-                                        {% if user.videoText is not empty %}
+                                {% if user.videoText is not empty %}
+                                    <div class="profil-video margin-top-2">
+
+                                        {{ user.videoText|raw }}
+
+                                        {#{% if user.videoText is not empty %}
                                             <p><a data-toggle="userVideoText showMore showLess">
                                                     <span id="showMore" data-toggler=".is-hidden" class="text-underline">{{ 'global.button.show_more'|trans }}</span>
                                                     <span id="showLess" data-toggler=".is-hidden" class="text-underline is-hidden">{{ 'global.button.show_less'|trans }}</span>
@@ -147,7 +155,7 @@
                                                     <a data-toggle="userVideoText showMore showLess"><span class="text-underline">{{ 'global.button.show_less'|trans }}</span></a>
                                                 {% endif %}
                                             </div>
-                                        {% endif %}
+                                        {% endif %}#}
                                     </div>
                                 {% endif %}
                             </div>
@@ -157,25 +165,28 @@
                                         'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
                                     }) }}
 
+                                    {{ form_widget(videoPresentationForm.videoTitle, {
+                                        'label' : 'user.profile.edit.form.video.title.label'|trans,
+                                        'required' : false,
+                                        'required_class': 'show-for-sr',
+                                        'attr': {'placeholder': 'user.video.title'|trans}
+                                    }) }}
+
                                     {{ form_widget(videoPresentationForm.youtubeVideoUrl, {
                                         'label' : 'user.profile.edit.form.video.youtubeVideoUrl.label'|trans,
                                         'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage'|trans,
                                         'required': false,
+                                        'required_class': 'show-for-sr',
                                         'attr': {
                                             'placeholder': 'user.profile.edit.form.video.youtubeVideoUrl.placeholder'|trans,
                                         }
                                     }) }}
                                     {{ form_errors(videoPresentationForm.youtubeVideoUrl) }}
 
-                                    {{ form_row(videoPresentationForm.shortText, {
-                                        'label': 'user.profile.edit.form.video.shortText.label'|trans,
-                                        'required': false
-                                    }) }}
-
-                                    {{ form_row(videoPresentationForm.longText, {
-                                        'label': 'user.profile.edit.form.video.longText.label'|trans,
-                                        'label_attr':{'class': 'margin-top-2'},
-                                        'required': false
+                                    {{ form_row(videoPresentationForm.videoText, {
+                                        'label': 'user.profile.edit.form.video.videoText.label'|trans,
+                                        'required': false,
+                                        'required_class': 'show-for-sr'
                                     }) }}
 
                                     <div class="is-flex align-right">

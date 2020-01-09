@@ -201,8 +201,8 @@ class UserEditionService
     public function editVideoInformations(BaseUser $user, ProPresentationVideoDTO $proPresentationVideoDTO)
     {
         $user->setYoutubeVideoUrl($proPresentationVideoDTO->youtubeVideoUrl);
-        $user->setVideoShortText($proPresentationVideoDTO->shortText);
-        $user->setVideoText($proPresentationVideoDTO->longText);
+        $user->setVideoTitle($proPresentationVideoDTO->videoTitle);
+        $user->setVideoText($proPresentationVideoDTO->videoText);
         $this->userRepository->update($user);
         return $user;
     }

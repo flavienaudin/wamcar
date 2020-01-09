@@ -30,6 +30,9 @@ class ProPresentationVideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('videoTitle', TextType::class, [
+                'required' => false
+            ])
             ->add('youtubeVideoUrl', TextType::class, [
                 'required' => false,
                 'attr' => [
@@ -43,10 +46,7 @@ class ProPresentationVideoType extends AbstractType
                 ],
 
             ])
-            ->add('shortText', CKEditorType::class, [
-                'required' => false
-            ])
-            ->add('longText', CKEditorType::class, [
+            ->add('videoText', CKEditorType::class, [
                 'required' => false
             ]);
     }

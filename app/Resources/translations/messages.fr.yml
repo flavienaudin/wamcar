@@ -943,12 +943,13 @@ user:
         presentation:
           label: Présentation
         video:
+          title:
+            label: Titre de la vidéo
           youtubeVideoUrl:
             label: URL de votre vidéo Youtube
             placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
             invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
-          shortText.label: Texte court de description
-          longText.label: Texte complet de description
+          videoText.label: Description de la vidéo
         avatar:
           label: Avatar
         banner:

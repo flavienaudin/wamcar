@@ -10,8 +10,10 @@ class ProPresentationVideoDTO
 {
     /** @var string */
     public $youtubeVideoUrl;
-    public $shortText;
-    public $longText;
+    /** @var string */
+    public $videoTitle;
+    /** @var string */
+    public $videoText;
 
     /**
      * ProPresentationVideoDTO constructor.
@@ -20,9 +22,7 @@ class ProPresentationVideoDTO
     public function __construct(ProUser $proUSer)
     {
         $this->youtubeVideoUrl = $proUSer->getYoutubeVideoUrl();
-        $this->shortText = $proUSer->getVideoShortText();
-        $this->longText = $proUSer->getVideoText();
+        $this->videoTitle = $proUSer->getVideoTitle();
+        $this->videoText = $proUSer->getVideoText();
     }
-
-
 }

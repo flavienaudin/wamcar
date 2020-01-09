@@ -72,6 +72,8 @@ abstract class BaseUser implements HasApiCredential
     /** @var string|null */
     protected $youtubeVideoUrl;
     /** @var string|null */
+    protected $videoTitle;
+    /** @var string|null */
     protected $videoShortText;
     /** @var string|null */
     protected $videoText;
@@ -899,17 +901,17 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return string|null
      */
-    public function getVideoShortText(): ?string
+    public function getVideoTitle(): ?string
     {
-        return $this->videoShortText;
+        return $this->videoTitle;
     }
 
     /**
-     * @param string|null $videoShortText
+     * @param string|null $videoTitle
      */
-    public function setVideoShortText(?string $videoShortText): void
+    public function setVideoTitle(?string $videoTitle): void
     {
-        $this->videoShortText = $videoShortText;
+        $this->videoTitle = $videoTitle;
     }
 
     /**
