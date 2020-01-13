@@ -357,7 +357,7 @@ class UserController extends BaseController
             $avatarForm->handleRequest($request);
 
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
-                $this->userEditionService->editInformations($currentUser, $avatarForm->getData());
+                $this->userEditionService->editAvatar($currentUser, $avatarForm->getData());
                 $this->eventBus->handle(new ProUserUpdated($currentUser));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
