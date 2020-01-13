@@ -179,6 +179,23 @@ class UserEditionService
         return $user;
     }
 
+    public function editAvatar(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
+    {
+        if ($userInformationDTO->avatar) {
+            if ($userInformationDTO->avatar->isRemoved) {
+                $user->setAvatar(null);
+            } elseif ($userInformationDTO->avatar->file) {
+                $picture = new UserPicture($user, $userInformationDTO->avatar->file);
+                $user->setAvatar($picture);
+            }
+        }
+
+
+        $this->userRepository->update($user);
+
+        return $user;
+    }
+
     /**
      * @param BaseUser $userToDelete
      * @param ApplicationUser $currentUser
