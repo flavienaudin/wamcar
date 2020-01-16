@@ -1,40 +1,43 @@
 services:
-    _defaults:
-        autowire: true
-        autoconfigure: true
-        public: false
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
 
-    AppBundle\EntityListener\VehicleListener:
-        tags:
-            - { name: doctrine.orm.entity_listener }
+  AppBundle\EntityListener\VehicleListener:
+    tags:
+      - { name: doctrine.orm.entity_listener }
 
-    AppBundle\EntityListener\EasyAdminSubscriber:
-        tags:
-            - { name: event_subscriber }
+  AppBundle\EntityListener\EasyAdminSubscriber:
+    tags:
+      - { name: event_subscriber }
 
-    AppBundle\EventListener\AnnotationListener:
-        arguments: ['@annotation_reader']
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller }
+  AppBundle\EventListener\AnnotationListener:
+    arguments: ['@annotation_reader']
+    tags:
+      - { name: kernel.event_listener, event: kernel.controller }
 
-    AppBundle\EventListener\AuthenticationEventListener:
-        arguments: ['@AppBundle\Doctrine\Repository\DoctrineUserRepository']
-        tags:
-            - { name: event_subscriber }
+  AppBundle\EventListener\ResponseHeadersListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
-    AppBundle\EventListener\LeadEventListener:
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: messageCreated }
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: userLikeVehicle }
+  AppBundle\EventListener\AuthenticationEventListener:
+    arguments: ['@AppBundle\Doctrine\Repository\DoctrineUserRepository']
+    tags:
+      - { name: event_subscriber }
 
-    AppBundle\EventListener\SitemapSubscriber:
-        tags:
-            - { name: kernel.event_subscriber, priority: 100 }
+  AppBundle\EventListener\LeadEventListener:
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: messageCreated }
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: userLikeVehicle }
 
+  AppBundle\EventListener\SitemapSubscriber:
+    tags:
+      - { name: kernel.event_subscriber, priority: 100 }
 
     # Decoration of the SluggableListener to be compatible with softDeleteable extension (disable SoftDeleteable filter before generating slug)
-    Gedmo\Sluggable\SluggableListener:
-        decorates: 'stof_doctrine_extensions.listener.sluggable'
-        calls:
-            - ['setAnnotationReader', ['@annotation_reader']]
-            - ['addManagedFilter', ['softDeleteable']]
+  Gedmo\Sluggable\SluggableListener:
+    decorates: 'stof_doctrine_extensions.listener.sluggable'
+    calls:
+      - ['setAnnotationReader', ['@annotation_reader']]
+      - ['addManagedFilter', ['softDeleteable']]

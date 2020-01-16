@@ -446,7 +446,7 @@ class UserController extends BaseController
             }
         }
 
-        return $this->render('front/Seller/card.html.twig', [
+        $response = $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
@@ -458,6 +458,129 @@ class UserController extends BaseController
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
         ]);
+
+        $response->headers->set('X-Frame-Options', null);
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
+    }
+
+
+    /**
+     * @param Request $request
+     * @param string $slug
+     * @return Response
+     * @throws \Exception
+     */
+    public function proUserViewEmbeddedAction(Request $request, string $slug): Response
+    {
+        /** @var null|ProUser $user */
+        $user = $this->proUserRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
+        if ($user == null || $user->getDeletedAt() != null) {
+            $response = $this->render('front/Exception/error410.html.twig', [
+                'titleKey' => 'error_page.pro_user.deleted.title',
+                'messageKey' => 'error_page.pro_user.deleted.body',
+                'redirectionUrl' => $this->generateUrl('front_directory_view')
+            ]);
+            $response->setStatusCode(Response::HTTP_GONE);
+            return $response;
+        }
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $userIsCurrentUser = $user->is($currentUser);
+
+        if (!$user->canSeeMyProfile($currentUser)) {
+            return new Response('UNAUTHORIZED', Response::HTTP_UNAUTHORIZED);
+        }
+
+        $searchForm = null;
+        if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
+            $searchVehicleDTO = new SearchVehicleDTO();
+            $searchForm = $this->formFactory->create(SearchVehicleType::class, $searchVehicleDTO, [
+                'action' => $this->generateRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]),
+                'available_values' => [],
+                'small_version' => true
+            ]);
+            $searchForm->handleRequest($request);
+            $page = $request->query->get('page', 1);
+
+            $searchResultSet = $this->proVehicleEntityIndexer->getQueryVehiclesByProUserResult($user->getId(), $searchForm->get("text")->getData(), $page, self::NB_VEHICLES_PER_PAGE);
+            if ($searchResultSet != null) {
+                $vehicles = $this->proVehicleEditionService->getVehiclesBySearchResult($searchResultSet);
+                $lastPage = ElasticUtils::numberOfPages($searchResultSet);
+            } else {
+                $vehicles = ['totalHits' => 0, 'hits' => []];
+                $lastPage = 1;
+            }
+        } else {
+            $userVehicles = $user->getVehicles();
+            $vehicles = [
+                'totalHits' => count($userVehicles),
+                'hits' => $userVehicles
+            ];
+        }
+
+
+        $contactForm = null;
+        /*if (!$userIsCurrentUser) {
+            try {
+                $this->conversationAuthorizationChecker->canCommunicate($currentUser, $user);
+
+                // $currentUser is logged and can communicate with Wamcar messaging service
+                $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $user);
+                if ($conversation instanceof Conversation) {
+                    // Useless check ?
+                    //$this->conversationAuthorizationChecker->memberOfConversation($currentUser, $conversation);
+                    $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
+                } else {
+                    $messageDTO = new MessageDTO(null, $currentUser, $user);
+                }
+                $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.conversation_update'
+                    );
+                    return $this->redirectToRoute('front_conversation_edit', [
+                        'id' => $conversation->getId(),
+                        '_fragment' => 'last-message']);
+
+                }
+
+            } catch (AccessDeniedHttpException $exception) {
+                // $currentUser is unlogged or can't communicate directly => contact form for unlogged user
+                $proContactMessageDTO = new ProContactMessageDTO($user);
+                $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                    $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                        $this->translator->trans('flash.success.pro_contact_message.sent', [
+                            '%proUserName%' => $user->getFullName()
+                        ]));
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }
+            }
+        }*/
+
+        $response = $this->render('front/Seller/card.html.twig', [
+            'layout' => 'embedded',
+            'avatarForm' => null,
+            'addGarageForm' => null,
+            'contactForm' => $contactForm ? $contactForm->createView() : null,
+            'userIsMe' => $userIsCurrentUser,
+            'user' => $user,
+            'isEditableByCurrentUser' => false,
+            'searchForm' => $searchForm ? $searchForm->createView() : null,
+            'vehicles' => $vehicles,
+            'page' => $page ?? null,
+            'lastPage' => $lastPage ?? null,
+        ]);
+        $response->headers->set('X-Frame-Options', 'ALLOW');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
+        return $response;
     }
 
     /**

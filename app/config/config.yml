@@ -59,7 +59,6 @@ parameters:
     typeform_affinity_pro_form: '%typeform.affinity.pro.form%'
 
 framework:
-    #esi: ~
     translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
     router:

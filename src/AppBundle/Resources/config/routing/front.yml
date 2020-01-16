@@ -113,6 +113,11 @@ front_view_pro_user_info:
     path: /conseiller-auto/{slug}
     controller: AppBundle:Front\PersonalContext\User:proUserViewInformation
 
+
+embedded_view_pro_user_info:
+    path: /embedded/conseiller-auto/{slug}
+    controller: AppBundle:Front\PersonalContext\User:proUserViewEmbedded
+
 front_view_personal_user_info:
     path: /particulier/{slug}
     controller: AppBundle:Front\PersonalContext\User:personalUserViewInformation

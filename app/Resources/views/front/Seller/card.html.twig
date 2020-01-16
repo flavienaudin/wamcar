@@ -1,9 +1,11 @@
-{% extends 'front/Layout/layout.html.twig' %}
+{% extends layout is defined and layout == 'embedded' ? 'front/Layout/layout_embedded.html.twig' : 'front/Layout/layout.html.twig'%}
+
 
 {% block mainClass %}no-padding-top profil-seller-main{% endblock %}
 
 {% set isUserProPageProfil = (user.isPro) %}
 {% set isUserPersonalPageProfil = (user.isPersonal) %}
+
 
 {% block title %}
     {% if userIsMe %}
@@ -184,7 +186,7 @@
                                     <h2>{{ 'user.profile.proservices.specialities.title'|trans }}</h2>
                                     <div class="tag-container">
                                         {% for proUserProSpeciality in userSpecialities %}
-                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
+                                            <a href="{{ url('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
                                                class="tag">{{ proUserProSpeciality.proService.name }}</a>
                                         {% endfor %}
                                     </div>
@@ -196,7 +198,7 @@
                                     <h2>{{ 'user.profile.proservices.services.title'|trans }}</h2>
                                     <div class="tag-container">
                                         {% for proUserProService in proServices %}
-                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProService.proService.slug}) }}"
+                                            <a href="{{ url('front_directory_by_service_view', {'speciality': proUserProService.proService.slug}) }}"
                                                class="tag">{{ proUserProService.proService.name }}</a>
                                         {% endfor %}
                                     </div>
@@ -343,6 +345,8 @@
 {% endblock body %}
 
 {% block javascripts %}
+    {{ parent() }}
+
     {% if addGarageForm is not null %}
         <script>
           let autocomplete;

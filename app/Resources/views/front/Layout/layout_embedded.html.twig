@@ -1,0 +1,41 @@
+{% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
+{% set is_register_page = is_register_page|default(false) %}
+{% set cookiebar = false %}
+
+{% set isLogged = is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) %}
+{% set isUserPro = (isLogged and app.user.isPro) %}
+{% set isUserPersonal = (isLogged and app.user.isPersonal) %}
+{% set isUserAdmin = is_granted('ROLE_PRO_ADMIN') %}
+
+
+{% if is_register_page %}
+    <div class="is-relative-for-ie is-sticky"> {# IE fix #}
+        {% include 'front/Layout/includes/header_register.html.twig' %}
+    </div>
+{% else %}
+    {% include 'front/Layout/includes/header.html.twig' %}
+{% endif %}
+
+{% block flash_messages %}
+    {% include ':front/Layout/includes:flashMessage.html.twig' %}
+{% endblock %}
+
+<main class="l-main {% block mainClass %}{% endblock %}">
+    {% block body %}{% endblock %}
+</main>
+
+{% block footer %}
+    {% include 'front/Layout/includes/footer.html.twig' %}
+{% endblock %}
+
+{% if cookiebar is defined and cookiebar == true %}
+    {% include 'front/Layout/includes/cookie_bar.html.twig' %}
+{% endif %}
+
+{% block modal %}{% endblock %}
+
+{% block javascripts %}
+    <script id="css-to-add" data-href="{{ absolute_url(asset('assets/bundle/bundle.css')) }}?v={{ site_version }}"></script>
+    <script id="script-to-execute" data-src="{{ absolute_url(asset('assets/bundle/bundle.js')) }}?v={{ site_version }}"></script>
+{% endblock %}
+
