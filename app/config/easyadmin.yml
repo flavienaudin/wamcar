@@ -5,14 +5,18 @@ easy_admin:
     color_scheme: 'light'
     menu:
       - { label: "Tableau d'administration", route: 'admin_board' }
-      - { label: 'Ressources :' }
-      - Garage
+      - { label: "Utilisateurs" }
+      - PersonalApplicationUser
       - ProApplicationUser
+      - Garage
+      - ProUserProService
+      - { label: "Référentiel de données"}
       - ProServiceCategory
       - ProService
-      - ProUserProService
-      - PersonalApplicationUser
       - Hobby
+      - { label: "Interface Utilisateur"}
+      - FooterLink
+      - { label: "Administration Technique" }
       - CronJobs
   formats:
     date: 'd/m/Y'
@@ -280,6 +284,14 @@ easy_admin:
         fields:
           - name
           - icon
+    FooterLink:
+      class: AppBundle\Doctrine\Entity\FooterLink
+      label: Pied-de-page
+      list:
+        title: "Pied-de-page : liens"
+        sort: ["columnNumber", 'ASC', 'position', 'ASC']
+        actions:
+          - { name: 'new', label: 'Ajouter' } # Allow creation
     CronJobs:
       translation_domain: 'JMoseCommandScheduler'
       class: JMose\CommandSchedulerBundle\Entity\ScheduledCommand

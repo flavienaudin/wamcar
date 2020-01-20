@@ -1,9 +1,62 @@
 <footer class="l-footer" id="footer">
     <div class="l-footer-top">
-        {% include 'front/Layout/includes/navigation/secondary.html.twig' %}
+        {% set columnNb = 2 + footerLinksByColumn|length %}
+        {% set columnSize = (12 / columnNb)|round(0, 'floor') %}
+        <div class="row margin-bottom-1">
+            <div class="column small-12 medium-{{ columnSize }}">
+                <img src="{{ asset('assets/images/logo/logo-wamcar.png') }}" alt="Logo Wamcar">
+            </div>
+        </div>
+
+        <nav class="row">
+            <div class="l-footer-column column small-12 medium-{{ columnSize }}">
+                <ul>
+                    <li><a href="{{ path('contact') }}"
+                           class="small-6 medium-shrink">{{ 'footer.contact_us'|trans }}</a></li>
+                    <li>
+                        <ul class="social-networks">
+                            <li><a href="{{ facebook_url }}" target="_blank" rel="noopener noreferrer"
+                                   class="social-networks-link icon-facebook"><span class="show-for-sr">Facebook</span></a>
+                            </li>
+                            <li><a href="{{ twitter_url }}" target="_blank" rel="noopener noreferrer"
+                                   class="social-networks-link icon-twitter"><span
+                                            class="show-for-sr">Twitter</span></a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="l-footer-column column small-12 medium-{{ columnSize }}">
+                <ul>
+                    <li><a data-toggle="js-off-canvas-user"
+                           class="small-6 medium-shrink">{{ 'global.button.connect'|trans }}</a></li>
+                    <li><a data-toggle="js-off-canvas-user"
+                           class="small-6 medium-shrink">{{ 'global.button.login'|trans }}</a></li>
+                    <li class="icon-external-link"><a href="http://pro.wamcar.com" target="_blank">{{ 'footer.pro_space'|trans }}</a> </li>
+                </ul>
+            </div>
+
+            {% for columnNumber, columnLinks in footerLinksByColumn %}
+                <div class="l-footer-column column small-12 medium-{{ columnSize }}">
+                    <ul>
+                        {% for position, footerLink in columnLinks %}
+                            <li><a href="{{ footerLink.link }}">{{ footerLink.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </nav>
     </div>
     <div class="l-footer-bottom row align-middle">
-        {% include 'front/Layout/includes/social_networks.html.twig' %}
-        {% include 'front/Layout/includes/copyright.html.twig' %}
+        <div class="column small-12 large-auto copyright">&copy; Tous droits réservés Wamcar {{ "now"|date("Y") }}
+        </div>
+        <div class="small-12 large-shrink text-center">&nbsp;&ndash;&nbsp;</div>
+        <div class="column small-12 large-auto legal-links">
+            <div class="row">
+                <a href="{{ path('cgu') }}" class="column small-12 medium-4">{{ 'footer.cgu'|trans }}</a>
+                <a href="{{ path('privacy_policy') }}" class="column small-12 medium-4">{{ 'footer.privacy_policy'|trans }}</a>
+                <a href="{{ path('legal_notices') }}" class="column small-12 medium-4">{{ 'footer.legal_notice'|trans }}</a>
+            </div>
+        </div>
     </div>
 </footer>

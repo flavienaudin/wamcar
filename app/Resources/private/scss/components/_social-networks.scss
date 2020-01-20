@@ -31,32 +31,10 @@
    ===================================== */
 
 .social-networks {
-  padding-top: rem-calc(20);
-  list-style: none;
-  margin-left: 0;
-  margin-bottom: 0;
-
-  @include breakpoint(medium) {
-    padding: rem-calc(20) 0;
-  }
-
-  @include breakpoint(xlarge) {
-    padding-top: rem-calc(25);
-    padding-bottom: rem-calc(25);
-  }
 
   /* Components */
-
   > li {
-    @include breakpoint(large down) {
-      width: 50%;
-    }
-
-    @include breakpoint(xlarge) {
-      &:not(:first-child) {
-        margin-left: rem-calc(20);
-      }
-    }
+    display: inline-block;
   }
 
   /*
@@ -65,25 +43,21 @@
 
   &-link {
 
-    @include breakpoint(large down) {
-      margin-top: rem-calc(10);
-    }
-
     &::before {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: rem-calc(40);
-      height: rem-calc(40);
-      flex: 0 0 rem-calc(40);
-      background: white;
-      color: $primary-color;
+      width: rem-calc(30);
+      height: rem-calc(30);
+      flex: 0 0 rem-calc(30);
+      background: $dark-blue-peexeo;
+      color: $white;
       border-radius: 50%;
 
       @include breakpoint(medium) {
-        width: rem-calc(50);
-        height: rem-calc(50);
-        flex: 0 0 rem-calc(50);
+        width: rem-calc(40);
+        height: rem-calc(40);
+        flex: 0 0 rem-calc(40);
       }
     }
     // End &::before

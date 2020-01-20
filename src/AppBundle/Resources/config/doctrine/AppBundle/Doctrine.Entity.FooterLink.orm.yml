@@ -1,0 +1,23 @@
+AppBundle\Doctrine\Entity\FooterLink:
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineFooterLinkRepository
+
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+
+  fields:
+    columnNumber:
+      type: integer
+    position:
+      type: integer
+    link:
+      type: string
+    title:
+      type: string
+
+  uniqueConstraints:
+    columnPosition:
+      columns: [column_number, position]
