@@ -3,7 +3,9 @@
 namespace AppBundle\Controller\Front;
 
 use AppBundle\Controller\Front\PersonalContext\RegistrationController;
+use AppBundle\Doctrine\Entity\FooterLink;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
+use AppBundle\Doctrine\Repository\FooterLinkRepository;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\VehicleInformationDTO;
@@ -31,24 +33,50 @@ class DefaultController extends BaseController
     private $proVehicleRepository;
     /** @var DoctrineProUserRepository */
     private $proUserRepository;
+    /** @var FooterLinkRepository */
+    private $footerLinkRepository;
 
     /**
      * DefaultController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      * @param DoctrineProUserRepository $proUserRepository
+     * @param FooterLinkRepository $footerLinkRepository
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleRepository $proVehicleRepository,
-        DoctrineProUserRepository $proUserRepository
+        DoctrineProUserRepository $proUserRepository,
+        FooterLinkRepository $footerLinkRepository
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleRepository = $proVehicleRepository;
         $this->proUserRepository = $proUserRepository;
+        $this->footerLinkRepository = $footerLinkRepository;
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function footerAction(Request $request): Response
+    {
+        $footerLinks = $this->footerLinkRepository->findAllOrdered();
+        $footerLinksByColumn = [];
+        /** @var FooterLink $footerLink */
+        foreach ($footerLinks as $footerLink) {
+            if (!isset($footerLinksByColumn[$footerLink->getColumnNumber()])) {
+                $footerLinksByColumn[$footerLink->getColumnNumber()] = [];
+            }
+            $footerLinksByColumn[$footerLink->getColumnNumber()][$footerLink->getPosition()] = $footerLink;
+        }
+
+        return $this->render('front/Layout/includes/footer.html.twig', [
+            'footerLinksByColumn' => $footerLinksByColumn
+        ]);
     }
 
     /**
@@ -133,17 +161,17 @@ class DefaultController extends BaseController
         $last_vehicles = $this->proVehicleRepository->getLastWithPicture(self::NB_PRO_VEHICLE_IN_HOMEPAGE);
         $personalOrientationForm = $this->formFactory->create(PersonalRegistrationOrientationType::class);
         $personalOrientationForm->handleRequest($request);
-        if($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()){
+        if ($personalOrientationForm->isSubmitted() && $personalOrientationForm->isValid()) {
             $formData = $personalOrientationForm->getData();
             $this->session->set(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY, $formData['orientation']->getValue());
 
-            if(PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY === $formData['orientation']->getValue()){
-                if($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)){
+            if (PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY === $formData['orientation']->getValue()) {
+                if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED)) {
                     return $this->redirectToRoute('front_search');
-                }else {
+                } else {
                     return $this->redirectToRoute('register', ['type' => PersonalUser::TYPE]);
                 }
-            }else{
+            } else {
                 return $this->redirectToRoute('front_vehicle_registration');
             }
 

@@ -117,7 +117,7 @@
     </main>
 
     {% block footer %}
-        {% include 'front/Layout/includes/footer.html.twig' %}
+        {{ render(controller('AppBundle:Front/Default:footer')) }}
     {% endblock %}
 
     {% if cookiebar is defined and cookiebar == true %}

@@ -149,6 +149,7 @@ global:
     close: Fermer
     connect: Se connecter
     connexion: Connexion
+    login: S'inscrire
     logout: Déconnexion
     search: Rechercher
     send: Envoyer
@@ -271,7 +272,8 @@ footer:
   our_vehicles: Voir les voitures
   concept: Concept
   who_are_we: Qui sommes-nous ?
-  contact_us: Contactez-nous
+  contact_us: Nous contacter
+  pro_space: Espace professionnels
   cgu: Conditions d'utilisation
   privacy_policy: Protection des données
   legal_notice: Mentions légales
