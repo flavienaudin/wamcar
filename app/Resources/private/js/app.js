@@ -20,6 +20,7 @@ import {DropdownMenu} from 'foundation-sites/js/foundation.dropdownMenu';
 import 'linkifyjs';
 import 'waypoints/lib/noframework.waypoints';
 import 'waypoints/lib/shortcuts/inview';
+import * as Toastr from 'toastr';
 
 import './components/responsiveDom';
 import './components/search';
@@ -174,9 +175,21 @@ $(function () {
     });
   }
 
-
   /* Textarea autosize */
   autosize($('textarea'));
+
+  /* Toastr */
+  const levelToFunction = {
+    'success':'success','warning':'warning','alert' : 'error'
+  };
+  const $flashes = $('.js-flash-message');
+  if($flashes){
+    $flashes.each((index, flash) => {
+      let flashLevel = $(flash).data('level');
+      let flashMessage = $(flash).data('message');
+      Toastr[levelToFunction[flashLevel]](flashMessage);
+    });
+  }
 
   /* Form invalid */
 

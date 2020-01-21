@@ -4,7 +4,13 @@
             <img src="{{ garage|logo('garage_mini_logo') }}" alt="{{ garage.name }}">
         </a>
         <div class="garage-summary-card">
-            <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}" class="primary-color h3 text-wrap "><b>{{ garage.name }}</b></a><br>
+            {% if userIsMe is defined and userIsMe and membership is defined and membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="edit-garage-action icon-pen"></a>
+            {% endif %}
+
+            <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}" class="primary-color h3 text-wrap "><b>{{ garage.name }}</b></a>
+
+            <br>
             <span>{{ garage.address.cityName|upper }}</span>
             {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
                 garageRating : garage.googleRating,

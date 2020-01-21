@@ -114,8 +114,8 @@ easy_admin:
           - { property: 'presentationTitle' }
           - { property: 'description'}
           - { property: 'landingPosition', label: 'HP-mixte-position'}
-          - { property: 'youtubeVideoId' }
-          - { property: 'videoShortText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
+          - { property: 'youtubeVideoUrl' }
+          - { property: 'videoTitle' }
           - { property: 'videoText', type: 'fos_ckeditor', type_options: { config_name: 'easyadmin_config' } }
           - { property: 'appointmentText'}
           - { property: 'appointmentAutofillMessage'}

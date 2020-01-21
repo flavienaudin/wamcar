@@ -70,7 +70,9 @@ abstract class BaseUser implements HasApiCredential
     /** @var int */
     protected $creditPoints;
     /** @var string|null */
-    protected $youtubeVideoId;
+    protected $youtubeVideoUrl;
+    /** @var string|null */
+    protected $videoTitle;
     /** @var string|null */
     protected $videoShortText;
     /** @var string|null */
@@ -870,33 +872,46 @@ abstract class BaseUser implements HasApiCredential
     /**
      * @return string|null
      */
-    public function getYoutubeVideoId(): ?string
+    public function getYoutubeVideoUrl(): ?string
     {
-        return $this->youtubeVideoId;
-    }
-
-    /**
-     * @param string|null $youtubeVideoId
-     */
-    public function setYoutubeVideoId(?string $youtubeVideoId): void
-    {
-        $this->youtubeVideoId = $youtubeVideoId;
+        return $this->youtubeVideoUrl;
     }
 
     /**
      * @return string|null
      */
-    public function getVideoShortText(): ?string
+    public function getYoutubeVideoId(): ?string
     {
-        return $this->videoShortText;
+
+        $youtubeIds = [];
+        preg_match('/(https:\/\/www.youtube.com\/watch\?v=|https:\/\/youtu.be\/){1}([^&]+)/',
+            $this->youtubeVideoUrl,
+            $youtubeIds);
+        return isset($youtubeIds[2]) ? $youtubeIds[2] : null;
     }
 
     /**
-     * @param string|null $videoShortText
+     * @param string|null $youtubeVideoUrl
      */
-    public function setVideoShortText(?string $videoShortText): void
+    public function setYoutubeVideoUrl(?string $youtubeVideoUrl): void
     {
-        $this->videoShortText = $videoShortText;
+        $this->youtubeVideoUrl = $youtubeVideoUrl;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getVideoTitle(): ?string
+    {
+        return $this->videoTitle;
+    }
+
+    /**
+     * @param string|null $videoTitle
+     */
+    public function setVideoTitle(?string $videoTitle): void
+    {
+        $this->videoTitle = $videoTitle;
     }
 
     /**

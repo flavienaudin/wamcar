@@ -86,11 +86,11 @@ Wamcar\User\BaseUser:
         creditPoints:
             type: integer
             nullable: false
-        youtubeVideoId:
+        youtubeVideoUrl:
             type: string
             nullable: true
-        videoShortText:
-            type: text
+        videoTitle:
+            type: string
             nullable: true
         videoText:
             type: text
