@@ -38,6 +38,8 @@ class Message
     protected $publishedAt;
     /** @var Collection|array */
     protected $attachments;
+    /** @var Collection */
+    protected $linkPreviews;
 
     /**
      * Message constructor.
@@ -72,6 +74,7 @@ class Message
                 }
             }
         }
+        $this->linkPreviews = new ArrayCollection();
 
         if ($vehicleHeader) {
             $this->assignVehicleHeader($vehicleHeader);
@@ -176,6 +179,32 @@ class Message
         if ($attachment->getId()) {
             $this->attachments[] = $attachment;
         }
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getLinkPreviews(): Collection
+    {
+        return $this->linkPreviews;
+    }
+
+    /**
+     * @param MessageLinkPreview $linkPreview
+     */
+    public function addLinkPreview(MessageLinkPreview $linkPreview): void
+    {
+        $linkPreview->setLinkIndex($this->linkPreviews->count());
+        $this->linkPreviews->add($linkPreview);
+        $linkPreview->setMessage($this);
+    }
+
+    /**
+     * @param MessageLinkPreview $linkPreview
+     */
+    public function removeLinkPreview(MessageLinkPreview $linkPreview): void
+    {
+        $this->linkPreviews->removeElement($linkPreview);
     }
 
     /**
