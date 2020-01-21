@@ -2,10 +2,13 @@ imports:
     - { resource: config.yml }
 
 framework:
+    ide: 'phpstorm://open?url=file://%%f&line=%%l&/var/www/myapp/>%env(LOCAL_DEV_PROJECT_DIR)%'
     router:
         resource: '%kernel.project_dir%/app/config/routing_dev.yml'
         strict_requirements: true
     profiler: { only_exceptions: false }
+    session:
+        cookie_secure: false
 
 web_profiler:
     toolbar: true
@@ -57,3 +60,9 @@ monolog:
 swiftmailer:
     encryption: tls
     # delivery_addresses: ['me@example.com']
+
+security:
+    firewalls:
+        front:
+            remember_me:
+                secure: false

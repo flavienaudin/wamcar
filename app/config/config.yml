@@ -77,6 +77,9 @@ framework:
         # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
         handler_id: session.handler.native_file
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
+        # 13ans = 60×60×24×365x13
+        cookie_lifetime: 409968000
+        cookie_secure: true
     fragments: ~
     http_method_override: true
     assets: ~
