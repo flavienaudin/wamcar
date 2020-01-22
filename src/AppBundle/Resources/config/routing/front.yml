@@ -420,3 +420,9 @@ front_affinity_pro_redirection:
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
 
+
+
+# TEST GOOGLE YOUTUBE API
+dev_youtube_api:
+    path: /youtube
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleYoutubeApi

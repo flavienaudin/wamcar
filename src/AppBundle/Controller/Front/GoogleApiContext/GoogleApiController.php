@@ -4,6 +4,8 @@ namespace AppBundle\Controller\Front\GoogleApiContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class GoogleApiController extends BaseController
 {
@@ -130,5 +132,25 @@ class GoogleApiController extends BaseController
             $result[$reportIndex] = $reportArray;
         }
         return $result;
+    }
+
+
+    public function testGoogleYoutubeApiAction(Request $request)
+    {
+
+        $client = new \Google_Client();
+        $client->useApplicationDefaultCredentials();
+        $client->setScopes(\Google_Service_YouTube::YOUTUBE_READONLY);
+
+        $youtube = new \Google_Service_YouTube($client);
+        $m = $youtube->search->listSearch('snippet',[
+            'channelId' => 'UCU0FhLr6fr7U9GOn6OiQHpQ',
+            'order' => 'date'
+        ]);
+
+        dump($m);
+        return new Response();
+
+
     }
 }
