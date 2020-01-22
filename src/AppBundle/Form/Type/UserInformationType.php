@@ -79,9 +79,7 @@ class UserInformationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => UserInformationDTO::class,
-            'translation_domain' => 'user',
-            'label_format' => 'user.field.%name%.label'
+            'data_class' => UserInformationDTO::class
         ]);
     }
 }

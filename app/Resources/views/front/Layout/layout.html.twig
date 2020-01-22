@@ -117,7 +117,7 @@
     </main>
 
     {% block footer %}
-        {% include 'front/Layout/includes/footer.html.twig' %}
+        {{ render(controller('AppBundle:Front/Default:footer')) }}
     {% endblock %}
 
     {% if cookiebar is defined and cookiebar == true %}
@@ -128,6 +128,5 @@
 
     <script src="{{ asset('assets/bundle/bundle.js') }}?v={{ site_version }}" defer async></script>
     {% block javascripts %}{% endblock %}
-
     </body>
 </html>

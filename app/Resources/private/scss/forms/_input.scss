@@ -121,7 +121,7 @@ textarea {
   @include buttonPadding;
   line-height: $input-line-height;
 
-  .form-compact &{
+  .form-compact &:not(textarea){
     @include buttonHeightCompact;
     line-height: $input-line-height-compact;
   }

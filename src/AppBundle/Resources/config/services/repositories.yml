@@ -117,6 +117,10 @@ services:
     factory: ['@doctrine.orm.entity_manager', 'getRepository']
     arguments: ['Wamcar\Sale\Declaration']
 
+  AppBundle\Doctrine\Repository\DoctrineFooterLinkRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['AppBundle\Doctrine\Entity\FooterLink']
+
   Wamcar\User\ProUserProServiceRepository:
     factory: ['@doctrine.orm.entity_manager', 'getRepository']
     arguments: ['Wamcar\User\ProUserProService']

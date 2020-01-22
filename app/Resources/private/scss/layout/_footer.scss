@@ -5,13 +5,7 @@
 .l-footer {
   margin-top: auto;
   background: #eaeef4;
-
-  /* Components */
-
-  &, a {
-    color: $dark-blue-peexeo;
-  }
-
+  color: $dark-blue-peexeo;
 
   /*
      Top
@@ -26,6 +20,55 @@
   }
 
   &-top {
+    padding-top: rem-calc(15);
+    padding-bottom: rem-calc(15);
     background: $white;
+
+    a {
+      color: $dark-blue-peexeo;
+
+      &:not(.social-networks-link):hover {
+        text-decoration: underline;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &-bottom {
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+
+    color: $dark-gray-peexeo;
+
+    .copyright {
+      text-align: center;
+
+      @include breakpoint(large) {
+        text-align: right;
+      }
+    }
+    .legal-links{
+      text-align: center;
+      @include breakpoint(large) {
+        text-align: left;
+      }
+
+      a {
+        color: $dark-gray-peexeo;
+      }
+    }
+  }
+
+
+  &-column {
+    @include breakpoint(small only) {
+      padding-top: rem-calc(15);
+      padding-bottom: rem-calc(15);
+    }
+
+    > ul > li {
+      padding-top: rem-calc(5);
+      padding-bottom: rem-calc(5);
+    }
   }
 }

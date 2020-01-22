@@ -283,55 +283,96 @@
         text-decoration: underline;
       }
     }
-  }
 
-  &-item-wrapper-desktop {
-    border-left: rem-calc(1) solid $border-color;
-    border-right: rem-calc(1) solid $border-color;
-  }
-
-  &-item-user-img {
-    height: rem-calc(40);
-    width: rem-calc(40);
-  }
-
-  &-item-sender-name {
-    color: $primary-color;
-  }
-
-  &-item-content {
-    margin-top: rem-calc(15);
-    a {
-      color: $dark-blue-peexeo;
+    &-wrapper-desktop {
+      border-left: rem-calc(1) solid $border-color;
+      border-right: rem-calc(1) solid $border-color;
     }
-  }
 
-  &-item-attachments {
-    margin-top: rem-calc(15);
+    &-user-img {
+      height: rem-calc(40);
+      width: rem-calc(40);
+    }
 
-    &-field {
-      label {
-        font-size: rem-calc(14);
-        margin-bottom: rem-calc(10);
-      }
+    &-sender-name {
+      color: $primary-color;
+    }
 
-      span.icon-close {
-        margin-left: 5px;
-        cursor: pointer;
-        font-size: rem-calc(14);
-        margin-bottom: rem-calc(5);
-      }
-
-      &-list {
-        margin-top: rem-calc(15);
+    &-content {
+      margin-top: rem-calc(15);
+      a {
+        color: $dark-blue-peexeo;
       }
     }
 
-    ol {
-      margin-bottom: 0;
+    &-attachments {
+      margin-top: rem-calc(15);
 
-      li a {
-        word-wrap: break-word;
+      &-field {
+        label {
+          font-size: rem-calc(14);
+          margin-bottom: rem-calc(10);
+        }
+
+        span.icon-close {
+          margin-left: 5px;
+          cursor: pointer;
+          font-size: rem-calc(14);
+          margin-bottom: rem-calc(5);
+        }
+
+        &-list {
+          margin-top: rem-calc(15);
+        }
+      }
+
+      ol {
+        margin-bottom: 0;
+
+        li a {
+          word-wrap: break-word;
+        }
+      }
+    }
+
+    &-link {
+      &-previews {
+        margin-left: rem-calc(10);
+        margin-right: rem-calc(10);
+      }
+
+      &-preview {
+        max-width: 350px;
+        margin: 0 auto rem-calc(10) auto;
+        border: 1px solid $gray-peexeo;
+
+        img {
+          width: 100%;
+          border-bottom: 1px solid $gray-peexeo;
+        }
+
+        .no-img{
+          width: 100%;
+          max-width: 350px;
+          height: 150px;
+          border-bottom: 1px solid $gray-peexeo;
+          background-color: $light-gray-peexeo;
+        }
+
+        .linkpreview-title,
+        .linkpreview-link {
+          display: block;
+          color: $black;
+          background-color: $white;
+          padding: rem-calc(5);
+        }
+
+        a.linkpreview-link {
+          text-align: left;
+          font-weight: normal;
+          color: $body-font-color;
+        }
+
       }
     }
   }

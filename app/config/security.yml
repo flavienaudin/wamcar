@@ -55,7 +55,7 @@ security:
                 use_forward: true
             remember_me:
                 secret:   '%secret%'
-                lifetime: 604800 # 1 week in seconds
+                lifetime: 31536000 # 1 year in seconds
                 path:     front_default
                 secure:   true
                 always_remember_me: true
