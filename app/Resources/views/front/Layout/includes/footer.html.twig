@@ -2,16 +2,20 @@
     <div class="l-footer-top">
         {% set columnNb = 2 + footerLinksByColumn|length %}
         {% set columnSize = (12 / columnNb)|round(0, 'floor') %}
+        {% set action = isUserPro ? path('front_search') : isUserPersonal ? path('front_directory_view') : path('front_default') %}
         <div class="row margin-bottom-1">
             <div class="column small-12 medium-{{ columnSize }}">
-                <img src="{{ asset('assets/images/logo/logo-wamcar.png') }}" alt="Logo Wamcar">
+                <a href="{{ action  }}">
+                    <img src="{{ asset('assets/images/logo/logo-wamcar.png') }}" alt="Logo Wamcar">
+                </a>
             </div>
         </div>
 
         <nav class="row">
             <div class="l-footer-column column small-12 medium-{{ columnSize }}">
                 <ul>
-                    <li><a href="{{ path('contact') }}"
+                    <li><a href="{{ url('front_default', {'_fragment': 'hp_concept'}) }}">{{ 'footer.concept'|trans }}</a></li>
+                    <li><a href="{{ url('contact') }}"
                            class="small-6 medium-shrink">{{ 'footer.contact_us'|trans }}</a></li>
                     <li>
                         <ul class="social-networks">
@@ -28,10 +32,12 @@
 
             <div class="l-footer-column column small-12 medium-{{ columnSize }}">
                 <ul>
-                    <li><a data-toggle="js-off-canvas-user"
-                           class="small-6 medium-shrink">{{ 'global.button.connect'|trans }}</a></li>
-                    <li><a data-toggle="js-off-canvas-user"
-                           class="small-6 medium-shrink">{{ 'global.button.login'|trans }}</a></li>
+                    {% if not isLogged %}
+                        <li><a data-toggle="js-off-canvas-user"
+                               class="small-6 medium-shrink">{{ 'global.button.connect'|trans }}</a></li>
+                        <li><a data-toggle="js-off-canvas-user"
+                               class="small-6 medium-shrink">{{ 'global.button.login'|trans }}</a></li>
+                    {% endif %}
                     <li class="icon-external-link"><a href="http://pro.wamcar.com" target="_blank">{{ 'footer.pro_space'|trans }}</a> </li>
                 </ul>
             </div>

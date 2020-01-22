@@ -447,7 +447,7 @@ fos_ck_editor:
   configs:
     easyadmin_config:
       toolbar:
-        - { name: "styles", items: ['Bold', 'Italic', 'Link', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',  '-', 'RemoveFormat'] }
+        - { name: "styles", items: ['Bold', 'Italic', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote',  '-', 'RemoveFormat'] }
 
 presta_sitemap:
     sitemap_file_prefix: '8azs_1t3m7p+qs768'
