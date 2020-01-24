@@ -19,11 +19,12 @@ use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
+use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\DTO\UserDeletionDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
-use AppBundle\Form\DTO\ProUserPresentationDTO;
+use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
 use AppBundle\Form\Type\ContactProType;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\MessageType;
@@ -37,6 +38,7 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Form\Type\YoutubePlaylistInsertType;
 use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
@@ -47,6 +49,7 @@ use AppBundle\Services\Sale\SaleManagementService;
 use AppBundle\Services\User\LeadManagementService;
 use AppBundle\Services\User\UserEditionService;
 use AppBundle\Services\User\UserInformationService;
+use AppBundle\Services\User\UserVideosInsertService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
@@ -77,6 +80,8 @@ use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
 use Wamcar\User\ProUser;
 use Wamcar\User\UserRepository;
+use Wamcar\User\VideosInsert;
+use Wamcar\User\YoutubePlaylistInsert;
 
 class UserController extends BaseController
 {
@@ -118,6 +123,8 @@ class UserController extends BaseController
     protected $conversationRepository;
     /** @var ConversationEditionService */
     protected $conversationEditionService;
+    /** @var UserVideosInsertService $userVideosInsertService */
+    protected $userVideosInsertService;
 
     /**
      * UserController constructor.
@@ -139,6 +146,7 @@ class UserController extends BaseController
      * @param ConversationAuthorizationChecker $conversationAuthorizationChecker
      * @param ConversationRepository $conversationRepository
      * @param ConversationEditionService $conversationEditionService
+     * @param UserVideosInsertService $userVideosInsertService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -158,7 +166,8 @@ class UserController extends BaseController
         SaleManagementService $saleManagementService,
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         ConversationRepository $conversationRepository,
-        ConversationEditionService $conversationEditionService
+        ConversationEditionService $conversationEditionService,
+        UserVideosInsertService $userVideosInsertService
     )
     {
         $this->formFactory = $formFactory;
@@ -179,6 +188,7 @@ class UserController extends BaseController
         $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
         $this->conversationRepository = $conversationRepository;
         $this->conversationEditionService = $conversationEditionService;
+        $this->userVideosInsertService = $userVideosInsertService;
     }
 
     /**
@@ -401,6 +411,8 @@ class UserController extends BaseController
         $addGarageForm = null;
         $presentationForm = null;
         $videoPresentationForm = null;
+        $addVideosInsertForm = null;
+        // $editVideosInsertForm = [];
         if ($currentUser instanceof ProUser && $userIsCurrentUser) {
             // Form to add garage
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
@@ -411,13 +423,13 @@ class UserController extends BaseController
             $proUserPresentationDTO = new ProUserPresentationDTO($user);
             $presentationForm = $this->formFactory->create(ProUserPresentationType::class, $proUserPresentationDTO);
             $presentationForm->handleRequest($request);
-            if($presentationForm->isSubmitted()){
-                if($presentationForm->isValid()) {
+            if ($presentationForm->isSubmitted()) {
+                if ($presentationForm->isValid()) {
                     $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
                     return $this->redirectToRoute('front_view_current_user_info');
-                }else{
-                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
+                } else {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
                 }
             }
 
@@ -425,16 +437,33 @@ class UserController extends BaseController
             $proVideoDTO = new ProPresentationVideoDTO($user);
             $videoPresentationForm = $this->formFactory->create(ProPresentationVideoType::class, $proVideoDTO);
             $videoPresentationForm->handleRequest($request);
-            if($videoPresentationForm->isSubmitted()){
-                if($videoPresentationForm->isValid()){
+            if ($videoPresentationForm->isSubmitted()) {
+                if ($videoPresentationForm->isValid()) {
                     $this->userEditionService->editVideoInformations($currentUser, $proVideoDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
                     return $this->redirectToRoute('front_view_current_user_info');
-                }else{
+                } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.video');
                 }
             }
 
+            // Encarts Vidéos personnalisable. Implémentations actives: Youtube playlist
+            // Ajout
+            $addVideosInsertDTO = new UserYoutubePlaylistInsertDTO(new YoutubePlaylistInsert($currentUser));
+            $addVideosInsertForm = $this->formFactory->create(YoutubePlaylistInsertType::class, $addVideosInsertDTO);
+            $addVideosInsertForm->handleRequest($request);
+            if ($addVideosInsertForm->isSubmitted()) {
+                if ($addVideosInsertForm->isSubmitted()) {
+                    $this->userEditionService->addVideosInsert($currentUser, $addVideosInsertDTO);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.add.videos_insert');
+                    return $this->redirectToRoute('front_view_current_user_info');
+
+                } else {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.add.videos_insert');
+                }
+            }
+
+            // Edition d'existants
         }
 
         $contactForm = null;
@@ -482,10 +511,18 @@ class UserController extends BaseController
             }
         }
 
+        $videosInserts = [];
+        /** @var VideosInsert $videosInsert */
+        foreach ($user->getVideosInserts() as $userVideosInsert) {
+            $videosInserts[] = $this->userVideosInsertService->getVideosInsertData($userVideosInsert);
+        }
+
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
+            'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
+            'videosInserts' => $videosInserts,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,

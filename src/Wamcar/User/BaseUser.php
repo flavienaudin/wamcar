@@ -93,6 +93,8 @@ abstract class BaseUser implements HasApiCredential
     protected $smallerIdUserAffinityDegrees;
     /** @var Collection */
     protected $hobbies;
+    /** @var Collection */
+    protected $videosInserts;
 
     /**
      * User constructor.
@@ -112,6 +114,7 @@ abstract class BaseUser implements HasApiCredential
         UserBanner $userBanner = null
     )
     {
+        $this->generateApiCredentials();
         $this->email = $email;
         $this->userProfile = new UserProfile($firstName, $name, null, null, null, false, $city);
         $this->avatar = $avatar;
@@ -125,8 +128,8 @@ abstract class BaseUser implements HasApiCredential
         $this->preferences = new UserPreferences($this);
         $this->greaterIdUserAffinityDegrees = new ArrayCollection();
         $this->smallerIdUserAffinityDegrees = new ArrayCollection();
-        $this->generateApiCredentials();
         $this->hobbies = new ArrayCollection();
+        $this->videosInserts = new ArrayCollection();
     }
 
     /**
@@ -950,5 +953,29 @@ abstract class BaseUser implements HasApiCredential
     public function removeHobby(Hobby $hobby)
     {
         $this->hobbies->removeElement($hobby);
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVideosInserts(): Collection
+    {
+        return $this->videosInserts;
+    }
+
+    /**
+     * @param YoutubePlaylistInsert $videosInsert
+     */
+    public function addVideosInsert(YoutubePlaylistInsert $videosInsert)
+    {
+        $this->videosInserts->add($videosInsert);
+    }
+
+    /**
+     * @param YoutubePlaylistInsert $videosInsert
+     */
+    public function removeVideosInsert(YoutubePlaylistInsert $videosInsert)
+    {
+        $this->videosInserts->removeElement($videosInsert);
     }
 }

@@ -173,6 +173,18 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
+  // End &-body
+
+  /*
+     Videos Insert
+     ===================================== */
+
+  &-videos-insert {
+    padding: rem-calc(25);
+    background-color: $body-background;
+    margin-bottom: rem-calc(25);
+  }
+
 
   /*
      Profil Seller (only)

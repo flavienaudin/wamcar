@@ -17,6 +17,8 @@ use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
+use AppBundle\Form\DTO\UserVideosInsertDTO;
+use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Security\UserRegistrationService;
@@ -47,6 +49,7 @@ use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\User\YoutubePlaylistInsert;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -210,6 +213,7 @@ class UserEditionService
         $this->userRepository->update($user);
         return $user;
     }
+
     /**
      * @param BaseUser $user
      * @param ProPresentationVideoDTO $proPresentationVideoDTO
@@ -221,6 +225,23 @@ class UserEditionService
         $user->setVideoTitle($proPresentationVideoDTO->videoTitle);
         $user->setVideoText($proPresentationVideoDTO->videoText);
         $this->userRepository->update($user);
+        return $user;
+    }
+
+    /**
+     * @param BaseUser $user
+     * @param UserVideosInsertDTO $videosInsertDTO
+     * @return BaseUser
+     */
+    public function addVideosInsert(BaseUser $user, UserVideosInsertDTO $videosInsertDTO): BaseUser
+    {
+        if ($videosInsertDTO instanceof UserYoutubePlaylistInsertDTO) {
+            $videosInsert = new YoutubePlaylistInsert($user, $videosInsertDTO);
+        }
+        if (isset($videosInsert) && $videosInsert != null) {
+            $user->addVideosInsert($videosInsert);
+            $this->userRepository->update($user);
+        }
         return $user;
     }
 
@@ -581,11 +602,11 @@ class UserEditionService
      */
     public function toggleExpert(BaseUser $user, ProUser $userToggle)
     {
-        if($user->hasExpert($userToggle)){
+        if ($user->hasExpert($userToggle)) {
             $user->removeExpert($userToggle);
             $this->userRepository->update($user);
             return false;
-        }else{
+        } else {
             $user->addExpert($userToggle);
             $this->userRepository->update($user);
             return true;
@@ -596,7 +617,8 @@ class UserEditionService
      * Delete a service offered by a pro
      * @param ProUserProService $proUserProService
      */
-    public function deleteProUserProService(ProUserProService $proUserProService){
+    public function deleteProUserProService(ProUserProService $proUserProService)
+    {
         $proUser = $proUserProService->getProUser();
         $this->proUserProServiceRepository->remove($proUserProService);
         $this->eventBus->handle(new ProUserUpdated($proUser));

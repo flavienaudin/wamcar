@@ -4,11 +4,25 @@ namespace AppBundle\Controller\Front\GoogleApiContext;
 
 
 use AppBundle\Controller\Front\BaseController;
+use GoogleApi\GoogleYoutubeApiService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class GoogleApiController extends BaseController
 {
+
+    /** @var GoogleYoutubeApiService */
+    private $youtubeService;
+
+    /**
+     * GoogleApiController constructor.
+     * @param GoogleYoutubeApiService $youtubeService
+     */
+    public function __construct(GoogleYoutubeApiService $youtubeService)
+    {
+        $this->youtubeService = $youtubeService;
+    }
+
 
     public function testGoogleAnalyticsAction()
     {
@@ -137,18 +151,9 @@ class GoogleApiController extends BaseController
 
     public function testGoogleYoutubeApiAction(Request $request)
     {
+        $playlistList = $this->youtubeService->fetchPlaylistVideos('FLnxhipnwO6xKq8-wFBD1WQQ');
+        // dump($playlistList);
 
-        $client = new \Google_Client();
-        $client->useApplicationDefaultCredentials();
-        $client->setScopes(\Google_Service_YouTube::YOUTUBE_READONLY);
-
-        $youtube = new \Google_Service_YouTube($client);
-        $m = $youtube->search->listSearch('snippet',[
-            'channelId' => 'UCU0FhLr6fr7U9GOn6OiQHpQ',
-            'order' => 'date'
-        ]);
-
-        dump($m);
         return new Response();
 
 

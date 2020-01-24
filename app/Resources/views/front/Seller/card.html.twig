@@ -190,9 +190,9 @@
                             <h2>{{ "user.affinity.section.title"|trans }}</h2>
                             {% if user.affinityAnswer is null %}
                                 {{ 'user.affinity.section.explanation.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr|raw
-                                    })|raw }}
+                                    '%affinity_form_url%': path('front_affinity_pro_form'),
+                                    '%datawtattr%' : lwaWTattr|raw
+                                })|raw }}
                             {% else %}
                                 <p>{{ 'user.affinity.section.edit.pro'|trans({
                                         '%affinity_form_url%': path('front_affinity_pro_form'),
@@ -280,6 +280,77 @@
                 </div>
             </div>
         </div>
+
+        {% for videosInsert in videosInserts %}
+            <div class="column small-12" id="{{ videosInsert.id }}">
+                <div class="profil-videos-insert">
+                    {% if videosInsert.title is not empty %}
+                        <h2>{{ videosInsert.title }}</h2>
+                    {% endif %}
+
+                    {% if videosInsert is instanceof("Wamcar\\User\\YoutubePlaylistInsert") %}
+                        {% if videosInsert.playlistData is not null %}
+                            <div class="row">
+                                {% for video in videosInsert.playlistData.videos %}
+                                    <div class="video-box column small-12 medium-6 large-4">
+                                        <div class="video-player youtube-player" data-id="{{ video.id }}"></div>
+                                        <div class="video-metadata">
+                                            {% if video.title is not empty %}
+                                                <h3 class="video-title">{{ video.title }}</h3>
+                                            {% endif %}
+                                            {% if video.videoStatistics is not null or video.publishedAt is not empty %}
+                                                <div class="video-stats is-fex align-justify">
+                                                    <span>{{ 'user.video_insert.video.statistics.view'|transchoice(
+                                                            video.videoStatistics.viewCount|default(0),
+                                                            {'%count%':video.videoStatistics.viewCount|default(0)}
+                                                        ) }}</span>
+                                                    <span>{{ video.publishedAt|time_diff }} </span>
+                                                </div>
+
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if addVideosInsertForm is not null %}
+            <div class="column small-12">
+                <div class="profil-videos-insert">
+                    <div class="icon-plus" data-toggle="addVideosInsertForm">Ajouter un encart vidéo</div>
+                    <div class="is-hidden" id="addVideosInsertForm" data-toggler="is-hidden">
+                        {{ form_start(addVideosInsertForm, {
+                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                        }) }}
+
+                        {{ form_widget(addVideosInsertForm.title, {
+                            'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                            'required' : false,
+                            'required_class': 'show-for-sr',
+                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                        }) }}
+                        {% if addVideosInsertForm.playlistId %}
+                            {{ form_widget(addVideosInsertForm.playlistId, {
+                                'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
+                            }) }}
+                        {% endif %}
+
+                        <div class="is-flex align-right">
+                            <a href="#" class="button white">{{ 'global.button.delete'|trans }}</a>
+                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                        </div>
+                        {{ form_end(addVideosInsertForm) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
 
         {% if vehicles.totalHits > 0 %}
             <div class="js-pro-profil-vehicles profil-seller-vehicles column small-12">
