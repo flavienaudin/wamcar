@@ -116,7 +116,7 @@ class VehicleController extends BaseController
                 throw new BadRequestHttpException('A vehicle to edit OR a garage to add a new vehicle, is required, not both');
             }
             if (!$user->isMemberOfGarage($garage)) {
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized_to_add_vehicle_to_garage');
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.vehicle.add_to_garage');
                 return $this->redirectToRoute("front_view_current_user_info");
             }
         }
@@ -125,7 +125,7 @@ class VehicleController extends BaseController
             if (!$this->isGranted(ProVehicleVoter::EDIT, $vehicle)) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
-                    'flash.error.unauthorized_to_edit_vehicle'
+                    'flash.error.unauthorized.vehicle.edit'
                 );
                 return $this->redirectToRoute("front_garage_view", ['slug' => $garage->getSlug()]);
             }

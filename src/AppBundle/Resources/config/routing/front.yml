@@ -129,6 +129,10 @@ front_edit_user_project:
     path: /mon-projet/edit
     controller: AppBundle:Front\PersonalContext\User:editProject
 
+front_delete_user_videos_insert:
+    path: /videos_insert/delete/{id}
+    controller: AppBundle:Front\PersonalContext\User:deleteVideosInsert
+
 legacy_view_user_info:
     path: /profil/{id}
     controller: AppBundle:Front\PersonalContext\User:legacyViewInformation

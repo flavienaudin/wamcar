@@ -97,7 +97,7 @@ class PersonalVehicleController extends BaseController
             if (!$this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle)) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
-                    'flash.error.unauthorized_to_edit_vehicle'
+                    'flash.error.unauthorized.vehicle.edit'
                 );
                 return $this->redirectToRoute("front_default");
             }

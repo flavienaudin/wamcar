@@ -2,13 +2,14 @@ flash:
   success:
     user:
       add:
-        videos_insert: L'encart Vidéo a bien été ajouté à votre profil.
+        videos_insert: L'encart vidéo a bien été ajouté à votre profil.
       edit:
         profile: Les modifications de votre profil ont été enregistrées.
-        videos_insert: L'encart Vidéo a bien été modifié.
-      deleted:
+        videos_insert: L'encart vidéo a bien été modifié.
+      delete:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
+        videos_insert: L'encart vidéo a bien été supprimé.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -79,13 +80,17 @@ flash:
     social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
     social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
-    unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
-    unauthorized_to_add_vehicle_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
     select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
     pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    unauthorized:
+      vehicle:
+        add_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
+        edit: Vous n'êtes pas autorisé à modifier ce véhicule
+      videos_insert:
+        delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
     user:

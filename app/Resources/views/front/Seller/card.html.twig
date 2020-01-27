@@ -356,7 +356,12 @@
                             {% endif %}
 
                             <div class="is-flex align-right">
-                                <a href="#" class="button white margin-right-1">{{ 'global.button.delete'|trans }}</a>
+                                <a href="{{ path('front_delete_user_videos_insert', {'id': videosInsert.id}) }}"
+                                   class="js-confirm-box button white margin-right-1"
+                                   data-id="videosInsert-deletion-{{ videosInsert.id }}"
+                                   data-title="Attention!"
+                                   data-message="Confirmez-vous la suppression de cet encart vidéo ?">
+                                    {{ 'global.button.delete'|trans }}</a>
                                 <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
                             </div>
 

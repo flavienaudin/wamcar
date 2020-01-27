@@ -41,6 +41,7 @@ use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Form\Type\YoutubePlaylistInsertType;
 use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
+use AppBundle\Security\Voter\VideosInsertVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
@@ -458,7 +459,7 @@ class UserController extends BaseController
             $addVideosInsertForm->handleRequest($request);
             if ($addVideosInsertForm->isSubmitted()) {
                 if ($addVideosInsertForm->isSubmitted()) {
-                    $this->userEditionService->addVideosInsert($currentUser, $addVideosInsertDTO);
+                    $this->userVideosInsertService->addVideosInsert($currentUser, $addVideosInsertDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.add.videos_insert');
                     return $this->redirectToRoute('front_view_current_user_info');
 
@@ -468,17 +469,17 @@ class UserController extends BaseController
             }
 
             // Edition d'existants
-            foreach ($user->getVideosInserts() as $userVideosInsert ) {
-                if($userVideosInsert instanceof YoutubePlaylistInsert) {
+            foreach ($user->getVideosInserts() as $userVideosInsert) {
+                if ($userVideosInsert instanceof YoutubePlaylistInsert) {
                     $editVideosInsertDTO = new UserYoutubePlaylistInsertDTO($userVideosInsert);
                     $editVideosInsertForm[$userVideosInsert->getId()] = $this->formFactory->createNamed(
                         'youtube_playlist_insert_' . $userVideosInsert->getId(),
                         YoutubePlaylistInsertType::class, $editVideosInsertDTO
                     );
                     $editVideosInsertForm[$userVideosInsert->getId()]->handleRequest($request);
-                    if($editVideosInsertForm[$userVideosInsert->getId()]->isSubmitted()) {
+                    if ($editVideosInsertForm[$userVideosInsert->getId()]->isSubmitted()) {
                         if ($editVideosInsertForm[$userVideosInsert->getId()]->isValid()) {
-                            $this->userEditionService->editVideosInsert($userVideosInsert, $editVideosInsertDTO);
+                            $this->userVideosInsertService->editVideosInsert($userVideosInsert, $editVideosInsertDTO);
                             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.videos_insert');
                             return $this->redirectToRoute('front_view_current_user_info');
                         } else {
@@ -557,6 +558,24 @@ class UserController extends BaseController
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
         ]);
+    }
+
+    /**
+     * @param VideosInsert $videosInsert PLs0P9ZvAbQDVnxqQrz8VlqEtCPD9C7o47
+     * @return Response
+     */
+    public function deleteVideosInsertAction(VideosInsert $videosInsert): Response
+    {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        if (!$this->isGranted(VideosInsertVoter::DELETE, $videosInsert)) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.videos_insert.delete');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
+        $this->userVideosInsertService->deleteVideosInsert($videosInsert);
+
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.delete.videos_insert');
+        return $this->redirectToRoute('front_view_current_user_info');
     }
 
     /**
@@ -970,9 +989,9 @@ class UserController extends BaseController
             }
             if (count($resultMessages['errorMessages']) == 0) {
                 if ($isAlreadySoftDeleted) {
-                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.delete.hard');
                 } else {
-                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+                    $this->session->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.delete.soft');
                 }
 
                 if ($isUserHimSelf) {

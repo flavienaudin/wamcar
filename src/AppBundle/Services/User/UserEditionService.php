@@ -17,8 +17,6 @@ use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
-use AppBundle\Form\DTO\UserVideosInsertDTO;
-use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Security\UserRegistrationService;
@@ -49,9 +47,7 @@ use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
-use Wamcar\User\VideosInsert;
 use Wamcar\User\VideosInsertReposistory;
-use Wamcar\User\YoutubePlaylistInsert;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -233,38 +229,6 @@ class UserEditionService
         $user->setVideoText($proPresentationVideoDTO->videoText);
         $this->userRepository->update($user);
         return $user;
-    }
-
-    /**
-     * @param BaseUser $user
-     * @param UserVideosInsertDTO $videosInsertDTO
-     * @return BaseUser
-     */
-    public function addVideosInsert(BaseUser $user, UserVideosInsertDTO $videosInsertDTO): BaseUser
-    {
-        if ($videosInsertDTO instanceof UserYoutubePlaylistInsertDTO) {
-            $videosInsert = new YoutubePlaylistInsert($user, $videosInsertDTO);
-        }
-        if (isset($videosInsert) && $videosInsert != null) {
-            $user->addVideosInsert($videosInsert);
-            $this->userRepository->update($user);
-        }
-        return $user;
-    }
-
-    /**
-     * @param VideosInsert $videosInsert
-     * @param UserVideosInsertDTO $videosInsertDTO
-     * @return VideosInsert
-     */
-    public function editVideosInsert(VideosInsert $videosInsert, UserVideosInsertDTO $videosInsertDTO): VideosInsert
-    {
-        $videosInsert->setTitle($videosInsertDTO->getTitle());
-        if($videosInsert instanceof YoutubePlaylistInsert && $videosInsertDTO instanceof UserYoutubePlaylistInsertDTO){
-            $videosInsert->setPlaylistId($videosInsertDTO->getPlaylistId());
-        }
-        $this->videosInsertRepository->update($videosInsert);
-        return $videosInsert;
     }
 
     /**
