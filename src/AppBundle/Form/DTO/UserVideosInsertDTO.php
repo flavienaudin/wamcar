@@ -47,9 +47,9 @@ class UserVideosInsertDTO
     }
 
     /**
-     * @param string $title
+     * @param null|string $title
      */
-    public function setTitle(string $title): void
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
     }

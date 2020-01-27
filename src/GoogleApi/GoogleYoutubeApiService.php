@@ -175,7 +175,7 @@ class GoogleYoutubeApiService
     {
         /** @var \Google_Service_YouTube_SearchListResponse $searchListResponse */
         $searchListResponse = $this->youtubeApi->search->listSearch('snippet', [
-            'channelId' => 'UCU0FhLr6fr7U9GOn6OiQHpQ',
+            'channelId' => $channelId,
             'order' => 'date'
         ]);
         return $searchListResponse;

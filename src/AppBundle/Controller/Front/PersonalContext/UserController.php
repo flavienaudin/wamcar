@@ -57,6 +57,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -234,7 +235,7 @@ class UserController extends BaseController
 
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_INFO,
-                'flash.success.user.edit'
+                'flash.success.user.edit.profile'
             );
 
             if ($proUser != null) {
@@ -282,7 +283,7 @@ class UserController extends BaseController
                 if ($this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)) {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.registration.personal.assitant.process_end');
                 } else {
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
                 }
 
                 return $this->redirectToRoute('front_view_current_user_info');
@@ -375,7 +376,7 @@ class UserController extends BaseController
                 $this->eventBus->handle(new ProUserUpdated($currentUser));
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user.edit'
+                    'flash.success.user.edit.profile'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -412,7 +413,10 @@ class UserController extends BaseController
         $presentationForm = null;
         $videoPresentationForm = null;
         $addVideosInsertForm = null;
-        // $editVideosInsertForm = [];
+        /** @var FormInterface[] $editVideosInsertForm */
+        $editVideosInsertForm = [];
+        /** @var FormView[] $editVideosInsertForm */
+        $editVideosInsertFormViews = [];
         if ($currentUser instanceof ProUser && $userIsCurrentUser) {
             // Form to add garage
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
@@ -426,7 +430,7 @@ class UserController extends BaseController
             if ($presentationForm->isSubmitted()) {
                 if ($presentationForm->isValid()) {
                     $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
                     return $this->redirectToRoute('front_view_current_user_info');
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
@@ -440,7 +444,7 @@ class UserController extends BaseController
             if ($videoPresentationForm->isSubmitted()) {
                 if ($videoPresentationForm->isValid()) {
                     $this->userEditionService->editVideoInformations($currentUser, $proVideoDTO);
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit');
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
                     return $this->redirectToRoute('front_view_current_user_info');
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.video');
@@ -448,7 +452,7 @@ class UserController extends BaseController
             }
 
             // Encarts Vidéos personnalisable. Implémentations actives: Youtube playlist
-            // Ajout
+            // Ajout TODO : manage differents Videos platform and implement other VideosInsert classes that extends VideosInsert
             $addVideosInsertDTO = new UserYoutubePlaylistInsertDTO(new YoutubePlaylistInsert($currentUser));
             $addVideosInsertForm = $this->formFactory->create(YoutubePlaylistInsertType::class, $addVideosInsertDTO);
             $addVideosInsertForm->handleRequest($request);
@@ -464,6 +468,26 @@ class UserController extends BaseController
             }
 
             // Edition d'existants
+            foreach ($user->getVideosInserts() as $userVideosInsert ) {
+                if($userVideosInsert instanceof YoutubePlaylistInsert) {
+                    $editVideosInsertDTO = new UserYoutubePlaylistInsertDTO($userVideosInsert);
+                    $editVideosInsertForm[$userVideosInsert->getId()] = $this->formFactory->createNamed(
+                        'youtube_playlist_insert_' . $userVideosInsert->getId(),
+                        YoutubePlaylistInsertType::class, $editVideosInsertDTO
+                    );
+                    $editVideosInsertForm[$userVideosInsert->getId()]->handleRequest($request);
+                    if($editVideosInsertForm[$userVideosInsert->getId()]->isSubmitted()) {
+                        if ($editVideosInsertForm[$userVideosInsert->getId()]->isValid()) {
+                            $this->userEditionService->editVideosInsert($userVideosInsert, $editVideosInsertDTO);
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.videos_insert');
+                            return $this->redirectToRoute('front_view_current_user_info');
+                        } else {
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.videos_insert');
+                        }
+                    }
+                    $editVideosInsertFormViews[$userVideosInsert->getId()] = $editVideosInsertForm[$userVideosInsert->getId()]->createView();
+                }
+            }
         }
 
         $contactForm = null;
@@ -522,6 +546,7 @@ class UserController extends BaseController
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
+            'editVideosInsertFormViews' => !empty($editVideosInsertFormViews) ? $editVideosInsertFormViews : null,
             'videosInserts' => $videosInserts,
             'addGarageForm' => $addGarageForm ? $addGarageForm->createView() : null,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
@@ -580,7 +605,7 @@ class UserController extends BaseController
 
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
-                    'flash.success.user.edit'
+                    'flash.success.user.edit.profile'
                 );
                 return $this->redirectToRoute('front_view_current_user_info');
             }

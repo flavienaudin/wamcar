@@ -49,6 +49,8 @@ use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\User\VideosInsert;
+use Wamcar\User\VideosInsertReposistory;
 use Wamcar\User\YoutubePlaylistInsert;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
@@ -78,6 +80,8 @@ class UserEditionService
     private $userPreferencesRepository;
     /** @var ProUserProServiceRepository */
     private $proUserProServiceRepository;
+    /** @var VideosInsertReposistory */
+    private $videosInsertRepository;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserLikeVehicleRepository $userLikeRepository */
@@ -99,6 +103,7 @@ class UserEditionService
      * @param ProVehicleRepository $proVehicleRepository
      * @param UserPreferencesRepository $userPreferencesRepository
      * @param ProUserProServiceRepository $proUserProServiceRepository
+     * @param VideosInsertReposistory $videosInsertRepository
      * @param GarageEditionService $garageEditionService
      * @param UserLikeVehicleRepository $userLikeRepository
      * @param UserRegistrationService $userRegistrationService
@@ -115,6 +120,7 @@ class UserEditionService
         ProVehicleRepository $proVehicleRepository,
         UserPreferencesRepository $userPreferencesRepository,
         ProUserProServiceRepository $proUserProServiceRepository,
+        VideosInsertReposistory $videosInsertRepository,
         GarageEditionService $garageEditionService,
         UserLikeVehicleRepository $userLikeRepository,
         UserRegistrationService $userRegistrationService,
@@ -131,6 +137,7 @@ class UserEditionService
         $this->proVehicleRepository = $proVehicleRepository;
         $this->userPreferencesRepository = $userPreferencesRepository;
         $this->proUserProServiceRepository = $proUserProServiceRepository;
+        $this->videosInsertRepository = $videosInsertRepository;
         $this->garageEditionService = $garageEditionService;
         $this->userLikeRepository = $userLikeRepository;
         $this->userRegistrationService = $userRegistrationService;
@@ -243,6 +250,21 @@ class UserEditionService
             $this->userRepository->update($user);
         }
         return $user;
+    }
+
+    /**
+     * @param VideosInsert $videosInsert
+     * @param UserVideosInsertDTO $videosInsertDTO
+     * @return VideosInsert
+     */
+    public function editVideosInsert(VideosInsert $videosInsert, UserVideosInsertDTO $videosInsertDTO): VideosInsert
+    {
+        $videosInsert->setTitle($videosInsertDTO->getTitle());
+        if($videosInsert instanceof YoutubePlaylistInsert && $videosInsertDTO instanceof UserYoutubePlaylistInsertDTO){
+            $videosInsert->setPlaylistId($videosInsertDTO->getPlaylistId());
+        }
+        $this->videosInsertRepository->update($videosInsert);
+        return $videosInsert;
     }
 
     /**

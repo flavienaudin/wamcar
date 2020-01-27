@@ -3,7 +3,9 @@ flash:
     user:
       add:
         videos_insert: L'encart Vidéo a bien été ajouté à votre profil.
-      edit: Les modifications de votre profil ont été enregistrées.
+      edit:
+        profile: Les modifications de votre profil ont été enregistrées.
+        videos_insert: L'encart Vidéo a bien été modifié.
       deleted:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
@@ -91,10 +93,11 @@ flash:
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
       add:
-        videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart Vidéo. Merci de corriger votre saisie.
+        videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart vidéo. Merci de corriger votre saisie.
       edit:
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
+        videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
@@ -963,6 +966,7 @@ user:
           youtube_playlist_id:
             label: Identifiant de la playlist Youtube
             placeholder: PL.....
+            invalidMEssage: Renseigner l'ID de votre playlist Youtube
         avatar:
           label: Avatar
         banner:

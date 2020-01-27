@@ -125,7 +125,8 @@
                                     {{ 'user.video.title'|trans }}
                                 {% endif %}
                             </h2>
-                            <div id="jsVideoPresentationPreview" data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
+                            <div id="jsVideoPresentationPreview"
+                                 data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
                                 {% set userYoutubeVideoId =  user.youtubeVideoId %}
                                 {% if userYoutubeVideoId is not empty %}
                                     <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
@@ -134,7 +135,9 @@
                                         {% if user.videoText is empty %}
                                             <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
                                         {% else %}
-                                            <div class="callout warning small"><i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i></div>
+                                            <div class="callout warning small">
+                                                <i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i>
+                                            </div>
                                         {% endif %}
                                     </div>
                                 {% endif %}
@@ -146,7 +149,7 @@
                                 {% endif %}
                             </div>
                             {% if videoPresentationForm is not null %}
-                                <div id="jsVideoPresentationForm"  {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                                <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
                                     {{ form_start(videoPresentationForm, {
                                         'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
                                     }) }}
@@ -206,7 +209,7 @@
                             <div class="profil-section">
                                 <h2>{{ "user.affinity.section.our_affinities"|trans }}
                                     {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
+                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                             </div>
                         {% else %}
                             <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
@@ -214,7 +217,7 @@
                                     <h2>{{ "user.affinity.section.our_affinities"|trans }}
                                         {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                                     {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
-                                        : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
+                                    : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
                                 </div>
                                 <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                                     <a href="{{ path('front_affinity_personal_form') }}"
@@ -224,7 +227,7 @@
                             </div>
                         {% endif %}
                     {% endif %}
-                </div>
+                </div> {# End Left Column #}
 
                 {# Right column #}
                 <div class="js-pro-profil-right-column profil-seller-right-column column small-12 large-4">
@@ -284,35 +287,81 @@
         {% for videosInsert in videosInserts %}
             <div class="column small-12" id="{{ videosInsert.id }}">
                 <div class="profil-videos-insert">
-                    {% if videosInsert.title is not empty %}
-                        <h2>{{ videosInsert.title }}</h2>
+                    {% if videosInsert.title is not empty or editVideosInsertFormViews[videosInsert.id] is defined %}
+                        <h2>
+                            {% if editVideosInsertFormViews[videosInsert.id] is defined %}
+                                <span class="profil-section-action icon-pen"
+                                      data-toggle="jsEditVideoInsert-{{ videosInsert.id }} jsVideoInsertVideos-{{ videosInsert.id }}">
+                                    </span>
+                            {% endif %}
+                            {{ videosInsert.title }}
+                        </h2>
                     {% endif %}
 
-                    {% if videosInsert is instanceof("Wamcar\\User\\YoutubePlaylistInsert") %}
-                        {% if videosInsert.playlistData is not null %}
-                            <div class="row">
-                                {% for video in videosInsert.playlistData.videos %}
-                                    <div class="video-box column small-12 medium-6 large-4">
-                                        <div class="video-player youtube-player" data-id="{{ video.id }}"></div>
-                                        <div class="video-metadata">
-                                            {% if video.title is not empty %}
-                                                <h3 class="video-title">{{ video.title }}</h3>
-                                            {% endif %}
-                                            {% if video.videoStatistics is not null or video.publishedAt is not empty %}
-                                                <div class="video-stats is-fex align-justify">
-                                                    <span>{{ 'user.video_insert.video.statistics.view'|transchoice(
-                                                            video.videoStatistics.viewCount|default(0),
-                                                            {'%count%':video.videoStatistics.viewCount|default(0)}
-                                                        ) }}</span>
-                                                    <span>{{ video.publishedAt|time_diff }} </span>
-                                                </div>
+                    <div id="jsVideoInsertVideos-{{ videosInsert.id }}" data-toggler="is-hidden"
+                            {{ editVideosInsertFormViews[videosInsert.id] is not null and not editVideosInsertFormViews[videosInsert.id].vars.valid ? 'class="is-hidden"' }}>
+                        {% if videosInsert is instanceof("Wamcar\\User\\YoutubePlaylistInsert") %}
+                            {% if videosInsert.playlistData is not null %}
+                                <div class="row">
+                                    {% for video in videosInsert.playlistData.videos %}
+                                        <div class="video-box column small-12 medium-6 large-4">
+                                            <div class="video-player youtube-player" data-id="{{ video.id }}"></div>
+                                            <div class="video-metadata">
+                                                {% if video.title is not empty %}
+                                                    <h3 class="video-title">{{ video.title }}</h3>
+                                                {% endif %}
+                                                {% if video.videoStatistics is not null or video.publishedAt is not empty %}
+                                                    <div class="video-stats is-fex align-justify">
+                                                        <span>{{ 'user.video_insert.video.statistics.view'|transchoice(
+                                                                video.videoStatistics.viewCount|default(0),
+                                                                {'%count%':video.videoStatistics.viewCount|default(0)}
+                                                            ) }}</span>
+                                                        <span>{{ video.publishedAt|time_diff }} </span>
+                                                    </div>
 
-                                            {% endif %}
+                                                {% endif %}
+                                            </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         {% endif %}
+                    </div>
+
+                    {% if editVideosInsertFormViews[videosInsert.id] is defined %}
+                        <div id="jsEditVideoInsert-{{ videosInsert.id }}" data-toggler="is-hidden"
+                                {{ editVideosInsertFormViews[videosInsert.id].vars.valid ? 'class="is-hidden"' }}>
+                            {{ form_start(editVideosInsertFormViews[videosInsert.id], {
+                                'id' : editVideosInsertFormViews[videosInsert.id].vars.id,
+                                'attr': {'data-abide' : '','novalidate': 'novalidate'}
+                            }) }}
+
+                            {{ form_widget(editVideosInsertFormViews[videosInsert.id].title, {
+                                'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                            }) }}
+
+                            {% if editVideosInsertFormViews[videosInsert.id].playlistId is defined %}
+                                {{ form_widget(editVideosInsertFormViews[videosInsert.id].playlistId, {
+                                    'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
+                                    'error_message': 'user.profile.edit.form.video_insert.youtube_playlist_id.invalidMEssage'|trans,
+                                    'required':  true,
+                                    'attr': {
+                                        'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans,
+                                    }
+                                }) }}
+                                {{ form_errors(editVideosInsertFormViews[videosInsert.id].playlistId) }}
+                            {% endif %}
+
+                            <div class="is-flex align-right">
+                                <a href="#" class="button white margin-right-1">{{ 'global.button.delete'|trans }}</a>
+                                <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                            </div>
+
+                            {{ form_end(editVideosInsertFormViews[videosInsert.id]) }}
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -343,7 +392,6 @@
                         {% endif %}
 
                         <div class="is-flex align-right">
-                            <a href="#" class="button white">{{ 'global.button.delete'|trans }}</a>
                             <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
                         </div>
                         {{ form_end(addVideosInsertForm) }}
@@ -369,7 +417,8 @@
                 <div class="profil-seller-delete-section">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
                     <p>{{ 'user.profile.delete.link.information'|trans }}
-                        <a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a>
+                        <a href="{{ path('front_user_delete') }}"
+                           class="text-underline">{{ 'global.button.delete'|trans }}</a>
                     </p>
                 </div>
             </div>

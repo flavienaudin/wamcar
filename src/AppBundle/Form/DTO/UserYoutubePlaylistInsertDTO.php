@@ -29,9 +29,9 @@ class UserYoutubePlaylistInsertDTO extends UserVideosInsertDTO
     }
 
     /**
-     * @param string $playlistId
+     * @param null|string $playlistId
      */
-    public function setPlaylistId(string $playlistId): void
+    public function setPlaylistId(?string $playlistId): void
     {
         $this->playlistId = $playlistId;
     }
