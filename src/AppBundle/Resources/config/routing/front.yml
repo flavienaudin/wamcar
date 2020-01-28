@@ -129,6 +129,10 @@ front_edit_user_project:
     path: /mon-projet/edit
     controller: AppBundle:Front\PersonalContext\User:editProject
 
+front_show_more_videos_from_videos_insert:
+    path: /videos_insert/showmore/{id}/{pagetoken}
+    controller: AppBundle:Front\PersonalContext\User:showMoreVideosFromVideosInsert
+
 front_delete_user_videos_insert:
     path: /videos_insert/delete/{id}
     controller: AppBundle:Front\PersonalContext\User:deleteVideosInsert

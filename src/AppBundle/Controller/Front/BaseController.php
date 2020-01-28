@@ -96,6 +96,16 @@ abstract class BaseController
     }
 
     /**
+     * REnder a template
+     * @param string $view
+     * @param array $parameters
+     * @return string
+     */
+    protected function renderTemplate(string $view, array $parameters = array()): string {
+        return $this->templatingEngine->render($view, $parameters);
+    }
+
+    /**
      * Returns a RedirectResponse to the given URL.
      *
      * @param string $url The URL to redirect to

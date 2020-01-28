@@ -151,11 +151,12 @@ class GoogleApiController extends BaseController
 
     public function testGoogleYoutubeApiAction(Request $request)
     {
-        $playlistList = $this->youtubeService->fetchPlaylistVideos('FLnxhipnwO6xKq8-wFBD1WQQ');
+        $playlistList = $this->youtubeService->fetchPlaylistVideos('PLy29lNirQTv0t13LoWci8c6ajrbxOrdJr');
         // dump($playlistList);
+        $playlistListBis = $this->youtubeService->fetchPlaylistVideos('PLy29lNirQTv0t13LoWci8c6ajrbxOrdJr',
+            $playlistList->getNextPageToken());
+        // dump($playlistListBis);
 
         return new Response();
-
-
     }
 }

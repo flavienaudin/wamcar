@@ -54,6 +54,7 @@ use AppBundle\Services\User\UserVideosInsertService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
+use GoogleApi\GoogleYoutubeApiService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -65,6 +66,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -367,21 +369,6 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
-        $avatarForm = null;
-        if ($userIsCurrentUser) {
-            $avatarForm = $this->createAvatarForm();
-            $avatarForm->handleRequest($request);
-
-            if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
-                $this->userEditionService->editAvatar($currentUser, $avatarForm->getData());
-                $this->eventBus->handle(new ProUserUpdated($currentUser));
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.user.edit.profile'
-                );
-                return $this->redirectToRoute('front_view_current_user_info');
-            }
-        }
 
         $searchForm = null;
         if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
@@ -410,6 +397,10 @@ class UserController extends BaseController
             ];
         }
 
+        /* ====================================== *
+         * Formumlaires d'édition de la page profil
+         * ====================================== */
+        $avatarForm = null;
         $addGarageForm = null;
         $presentationForm = null;
         $videoPresentationForm = null;
@@ -419,6 +410,20 @@ class UserController extends BaseController
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
         if ($currentUser instanceof ProUser && $userIsCurrentUser) {
+            // Avatar
+            $avatarForm = $this->createAvatarForm();
+            $avatarForm->handleRequest($request);
+
+            if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
+                $this->userEditionService->editAvatar($currentUser, $avatarForm->getData());
+                $this->eventBus->handle(new ProUserUpdated($currentUser));
+                $this->session->getFlashBag()->add(
+                    self::FLASH_LEVEL_INFO,
+                    'flash.success.user.edit.profile'
+                );
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
+
             // Form to add garage
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                 'only_google_fields' => true,
@@ -452,7 +457,7 @@ class UserController extends BaseController
                 }
             }
 
-            // Encarts Vidéos personnalisable. Implémentations actives: Youtube playlist
+            // Encarts Vidéos personnalisables. Implémentations actives: Youtube playlist
             // Ajout TODO : manage differents Videos platform and implement other VideosInsert classes that extends VideosInsert
             $addVideosInsertDTO = new UserYoutubePlaylistInsertDTO(new YoutubePlaylistInsert($currentUser));
             $addVideosInsertForm = $this->formFactory->create(YoutubePlaylistInsertType::class, $addVideosInsertDTO);
@@ -491,6 +496,9 @@ class UserController extends BaseController
             }
         }
 
+        /*
+         * Contact Form
+         */
         $contactForm = null;
         if (!$userIsCurrentUser) {
             try {
@@ -536,6 +544,7 @@ class UserController extends BaseController
             }
         }
 
+        /* Vidéos inserts */
         $videosInserts = [];
         /** @var VideosInsert $videosInsert */
         foreach ($user->getVideosInserts() as $userVideosInsert) {
@@ -557,6 +566,46 @@ class UserController extends BaseController
             'vehicles' => $vehicles,
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
+        ]);
+    }
+
+    /**
+     * @param VideosInsert $videosInsert
+     * @param string $pagetoken
+     * @return Response
+     */
+    public function showMoreVideosFromVideosInsertAction(Request $request, VideosInsert $videosInsert, string $pagetoken): Response
+    {
+        $videosInsert = $this->userVideosInsertService->getVideosInsertData($videosInsert, $request->get('currentpageidx', 1), $pagetoken);
+
+        $videosHtml = null;
+        if ($videosInsert instanceof YoutubePlaylistInsert) {
+            $videosHtml = $this->renderTemplate('front/Seller/includes/videosinsert_youtubeplaylistvideos.html.twig', [
+                'videosInsert' => $videosInsert
+            ]);
+            if(!empty($videosInsert->getPlaylistData()->getNextPageToken())) {
+                $showMoreVideosLink = $this->router->generate('front_show_more_videos_from_videos_insert', [
+                    'id' => $videosInsert->getId(),
+                    'pagetoken' => $videosInsert->getPlaylistData()->getNextPageToken(),
+                    'currentpageidx' => $videosInsert->getPlaylistData()->getCurrentPageIdx()
+                ], UrlGeneratorInterface::ABSOLUTE_URL);
+
+                $showMoreVideosText = $this->translator->transChoice('user.video_insert.video.show_x_more',
+                    $videosInsert->getPlaylistData()->getNextTokenVideosNumber(),
+                    ['%nbRemainingVideos%' => $videosInsert->getPlaylistData()->getNextTokenVideosNumber()]);
+            }else{
+                $showMoreVideosLink = null;
+                $showMoreVideosText = null;
+            }
+        }else{
+            return new JsonResponse([
+                'error' => 'Unhandled VideosInsert Type or unfound VideoInsert'
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        return new JsonResponse([
+            'videosHtml' => $videosHtml,
+            'showMoreVideosLink' => $showMoreVideosLink,
+            'showMoreVideosText' => $showMoreVideosText
         ]);
     }
 

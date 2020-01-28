@@ -4,6 +4,8 @@
 namespace GoogleApi\youtube;
 
 
+use GoogleApi\GoogleYoutubeApiService;
+
 class YoutubePlaylist
 {
     /** @var string|null */
@@ -18,6 +20,8 @@ class YoutubePlaylist
     private $prevPageToken;
     /** @var string|null */
     private $nextPageToken;
+    /** @var int */
+    private $currentPageIdx;
     /** @var array of YoutubeVideo */
     private $videos = [];
 
@@ -115,6 +119,30 @@ class YoutubePlaylist
     public function setNextPageToken(?string $nextPageToken): void
     {
         $this->nextPageToken = $nextPageToken;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentPageIdx(): int
+    {
+        return $this->currentPageIdx;
+    }
+
+    /**
+     * @param int $currentPageIdx
+     */
+    public function setCurrentPageIdx(int $currentPageIdx): void
+    {
+        $this->currentPageIdx = $currentPageIdx;
+    }
+
+    public function getNextTokenVideosNumber(): int
+    {
+        return $nbRemainingVideos = min(
+            $this->getPageInfos()->getTotalResults() - $this->getCurrentPageIdx() * $this->getPageInfos()->getResultsPerPage(),
+            GoogleYoutubeApiService::YOUTUBE_PLAYLIST_VIDEOS_BATCH_SIZE
+        );
     }
 
     /**

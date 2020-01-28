@@ -44,10 +44,11 @@ class UserVideosInsertService
      * @param string|null $pageToken
      * @return VideosInsert
      */
-    public function getVideosInsertData(VideosInsert $videosInsert, string $pageToken = null)
+    public function getVideosInsertData(VideosInsert $videosInsert, ?int $currentPageIdx = 1, string $pageToken = null)
     {
         if ($videosInsert instanceof YoutubePlaylistInsert) {
             $playlistData = $this->gooleYoutubeApliService->fetchPlaylistVideos($videosInsert->getPlaylistId(), $pageToken);
+            $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
             $videosInsert->setPlaylistData($playlistData);
         }
         return $videosInsert;

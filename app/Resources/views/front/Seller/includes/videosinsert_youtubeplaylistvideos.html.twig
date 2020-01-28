@@ -1,0 +1,20 @@
+{% for video in videosInsert.playlistData.videos %}
+    <div class="video-box column small-12 medium-6 large-4">
+        <div class="video-player youtube-player" data-id="{{ video.id }}"></div>
+        <div class="video-metadata">
+            {% if video.title is not empty %}
+                <h3 class="video-title">{{ video.title }}</h3>
+            {% endif %}
+            {% if video.videoStatistics is not null or video.publishedAt is not empty %}
+                <div class="video-stats is-fex align-justify">
+                    <span>{{ 'user.video_insert.video.statistics.view'|transchoice(
+                            video.videoStatistics.viewCount|default(0),
+                            {'%count%':video.videoStatistics.viewCount|default(0)}
+                        ) }}</span>
+                    <span>{{ video.publishedAt|time_diff }} </span>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+{% endfor %}

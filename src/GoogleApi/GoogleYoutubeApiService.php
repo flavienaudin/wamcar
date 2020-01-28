@@ -10,6 +10,8 @@ use GoogleApi\youtube\YoutubeVideo;
 class GoogleYoutubeApiService
 {
 
+    const YOUTUBE_PLAYLIST_VIDEOS_BATCH_SIZE = 6;
+
     /** @var string */
     private $applicationName;
     /** @var \Google_Service_YouTube */
@@ -63,7 +65,7 @@ class GoogleYoutubeApiService
     {
         $options = [
             'playlistId' => $playlistId,
-            'maxResults' => 6
+            'maxResults' => self::YOUTUBE_PLAYLIST_VIDEOS_BATCH_SIZE
         ];
         if (!empty($pageToken)) {
             $options['pageToken'] = $pageToken;
