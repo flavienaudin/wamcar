@@ -7,19 +7,32 @@ front_default:
 
 front_landing_mixte:
     path: /m
-    controller: AppBundle:Front\Default:landingMixte
+    #controller: AppBundle:Front\Default:landingMixte
+    controller: FrameworkBundle:Redirect:redirect
+    defaults:
+        route: front_default
+        permanent: true
+
 
 front_landing_reprise:
     path: /reprise
-    controller: AppBundle:Front\Default:landingReprise
-    options:
-        sitemap: true
+    #controller: AppBundle:Front\Default:landingReprise
+    controller: FrameworkBundle:Redirect:redirect
+    defaults:
+        route: front_default
+        permanent: true
+#    options:
+#        sitemap: true
 
 front_landing_meeting:
     path: /rencontre
-    controller: AppBundle:Front\Default:landingMeeting
-    options:
-        sitemap: true
+    #controller: AppBundle:Front\Default:landingMeeting
+    controller: FrameworkBundle:Redirect:redirect
+    defaults:
+        route: front_default
+        permanent: true
+#    options:
+#        sitemap: true
 
 # Annuaire des conseillers automobile
 front_directory_by_city_view:

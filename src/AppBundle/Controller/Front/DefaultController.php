@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicleRepository;
 
 class DefaultController extends BaseController
@@ -75,6 +76,9 @@ class DefaultController extends BaseController
         }
 
         return $this->render('front/Layout/includes/footer.html.twig', [
+            'isLogged' => $this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED),
+            'isUserPro' => $this->getUser() != null && $this->getUser() instanceof ProUser,
+            'isUserPersonal' => $this->getUser() != null && $this->getUser() instanceof PersonalUser,
             'footerLinksByColumn' => $footerLinksByColumn
         ]);
     }
