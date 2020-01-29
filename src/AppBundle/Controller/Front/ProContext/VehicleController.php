@@ -363,6 +363,7 @@ class VehicleController extends BaseController
                 } else {
                     $messageDTO = new MessageDTO(null, $currentUser, $vehicle->getSeller());
                 }
+                $messageDTO->vehicleHeader = $vehicle;
                 $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
                 $contactForm->handleRequest($request);
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
@@ -383,6 +384,7 @@ class VehicleController extends BaseController
                 $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
                 $contactForm->handleRequest($request);
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $proContactMessageDTO->vehicle = $vehicle;
                     $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
                     $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,

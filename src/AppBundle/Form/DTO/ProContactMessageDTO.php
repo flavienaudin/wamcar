@@ -5,6 +5,7 @@ namespace AppBundle\Form\DTO;
 
 
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\ProVehicle;
 
 class ProContactMessageDTO
 {
@@ -21,6 +22,8 @@ class ProContactMessageDTO
     public $email;
     /** @var string|null */
     public $message;
+    /** @var ProVehicle */
+    public $vehicle;
 
     /**
      * ProContactMessageDTO constructor.
@@ -30,8 +33,15 @@ class ProContactMessageDTO
      * @param string|null $phonenumber
      * @param string|null $email
      * @param string|null $message
+     * @param ProVehicle|null $vehicle
      */
-    public function __construct(ProUser $proUser, ?string $firstname = null, ?string $lastname = null, ?string $phonenumber = null, ?string $email = null, ?string $message = null)
+    public function __construct(ProUser $proUser,
+                                ?string $firstname = null,
+                                ?string $lastname = null,
+                                ?string $phonenumber = null,
+                                ?string $email = null,
+                                ?string $message = null,
+                                ?ProVehicle $vehicle = null)
     {
         $this->proUser = $proUser;
         $this->firstname = $firstname;
@@ -39,6 +49,7 @@ class ProContactMessageDTO
         $this->phonenumber = $phonenumber;
         $this->email = $email;
         $this->message = $message;
+        $this->vehicle = $vehicle;
     }
 
 

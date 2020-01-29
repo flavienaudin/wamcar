@@ -6,6 +6,7 @@ namespace Wamcar\Conversation;
 
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\ProVehicle;
 
 class ProContactMessage
 {
@@ -25,6 +26,8 @@ class ProContactMessage
     private $email;
     /** @var string */
     private $message;
+    /** @var ProVehicle|null */
+    private $vehicle;
 
     /**
      * ProContactMessage constructor.
@@ -34,8 +37,9 @@ class ProContactMessage
      * @param string|null $phonenumber
      * @param string $email
      * @param string $message
+     * @param ProVehicle|null $vehicle
      */
-    public function __construct(ProUser $proUser, string $firstname, ?string $lastname, ?string $phonenumber, string $email, string $message)
+    public function __construct(ProUser $proUser, string $firstname, ?string $lastname, ?string $phonenumber, string $email, string $message, ?ProVehicle $vehicle)
     {
         $this->proUser = $proUser;
         $this->firstname = $firstname;
@@ -43,6 +47,7 @@ class ProContactMessage
         $this->phonenumber = $phonenumber;
         $this->email = $email;
         $this->message = $message;
+        $this->vehicle = $vehicle;
     }
 
     /**
@@ -149,5 +154,19 @@ class ProContactMessage
         $this->message = $message;
     }
 
+    /**
+     * @return ProVehicle|null
+     */
+    public function getVehicle(): ?ProVehicle
+    {
+        return $this->vehicle;
+    }
 
+    /**
+     * @param ProVehicle|null $vehicle
+     */
+    public function setVehicle(?ProVehicle $vehicle): void
+    {
+        $this->vehicle = $vehicle;
+    }
 }
