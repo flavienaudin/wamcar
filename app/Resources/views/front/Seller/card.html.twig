@@ -129,9 +129,9 @@
                                 {% set userYoutubeVideoId =  user.youtubeVideoId %}
                                 {% if userYoutubeVideoId is not empty %}
                                     <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
-                                {% elseif videoPresentationForm is not null and videoPresentationForm is not null %}
+                                {% elseif videoPresentationForm is not null %}
                                     <div>
-                                        {% if user.videoShortText is empty %}
+                                        {% if user.videoText is empty %}
                                             <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
                                         {% else %}
                                             <div class="callout warning small"><i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i></div>
@@ -141,21 +141,7 @@
 
                                 {% if user.videoText is not empty %}
                                     <div class="profil-video margin-top-2">
-
                                         {{ user.videoText|raw }}
-
-                                        {#{% if user.videoText is not empty %}
-                                            <p><a data-toggle="userVideoText showMore showLess">
-                                                    <span id="showMore" data-toggler=".is-hidden" class="text-underline">{{ 'global.button.show_more'|trans }}</span>
-                                                    <span id="showLess" data-toggler=".is-hidden" class="text-underline is-hidden">{{ 'global.button.show_less'|trans }}</span>
-                                                </a></p>
-                                            <div id="userVideoText" class="js-show-videoText is-hidden" data-toggler=".is-hidden">
-                                                {{ user.videoText|raw }}
-                                                {% if user.videoText|length > 2000 %}
-                                                    <a data-toggle="userVideoText showMore showLess"><span class="text-underline">{{ 'global.button.show_less'|trans }}</span></a>
-                                                {% endif %}
-                                            </div>
-                                        {% endif %}#}
                                     </div>
                                 {% endif %}
                             </div>

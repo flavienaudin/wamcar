@@ -74,8 +74,6 @@ abstract class BaseUser implements HasApiCredential
     /** @var string|null */
     protected $videoTitle;
     /** @var string|null */
-    protected $videoShortText;
-    /** @var string|null */
     protected $videoText;
     /** @var Collection */
     protected $likes;
