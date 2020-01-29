@@ -137,7 +137,6 @@ easy_admin:
           - phonePro
           - { property: 'avatar.fileName' }
           - youtubeVideoId
-          - videoShortText
           - videoText
           - appointmentText
           - appointmentAutofillMessage
