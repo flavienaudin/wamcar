@@ -101,13 +101,17 @@
         </div>
         <div class="row">
             <h2 id="hp_concept" class="section-title h1 small-12 large-8 column text-center align-self-middle">{{ 'user.reinsurance.wamaffinity.title'|trans }}</h2>
+            {# Vidéo plus en accord avec le concept actuel
             <button type="button" class="reinsurance-video-button black-color icon-play is-center margin-bottom-1"
-                    data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>
+                    data-open="js-modal-concept-video">{{ 'homepage.video.action'|trans }}</button>#}
 
             {% set reinsurance_class = '' %}
-            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' %}
+            {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' with {'reinsurance_class': 'no-margin'} %}
+            <div class="column small-12 medium-4 medium-offset-4 large-2 large-offset-5">
+                <a class="button square gray-light" href="{{ path('register') }}">{{ 'landing.peexeo.wamaffinity.actions.registration'|trans }}</a>
+            </div>
 
-            {% include 'front/Home/includes/modal_concept_video.html.twig' %}
+            {#{% include 'front/Home/includes/modal_concept_video.html.twig' %}#}
         </div>
     </section>
 
