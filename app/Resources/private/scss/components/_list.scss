@@ -64,7 +64,7 @@
       margin-bottom: 0;
     }
 
-    small {
+    small:not(.form-error) {
       display: block;
       color: $medium-gray;
       margin-top: rem-calc(5);

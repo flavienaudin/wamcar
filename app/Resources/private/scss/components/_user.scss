@@ -42,4 +42,69 @@
       color: $primary-color;
     }
   }*/
+
+
+  &-contact-form {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 3;
+    top: initial;
+    padding-bottom: 0;
+
+    .button {
+      height: rem-calc(60);
+      line-height: 1.1;
+      border-radius: 0;
+      margin-bottom: 0;
+
+      &::before {
+        font-size: rem-calc(20);
+      }
+
+      &.white {
+        border: 0;
+      }
+    }
+
+    ~ .off-canvas {
+      top: unset;
+      bottom: 0;
+      padding-bottom: 0;
+      max-height: 90vh;
+      height: auto;
+      background-color: transparent;
+
+      .close-action {
+        display: block;
+        font-weight: bold;
+        font-size: 2rem;
+        line-height: 2rem;
+        color: #ffffff;
+        text-align: center;
+      }
+
+      .off-canvas-content-element {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin-bottom: 0;
+        background-color: $body-background;
+
+        textarea {
+          max-height: 100px;
+        }
+      }
+    }
+
+    &-close-button {
+      top: 2.5rem;
+    }
+
+    &-container {
+      h3 {
+        margin-top: 1rem;
+      }
+    }
+  }
 }
