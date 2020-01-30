@@ -111,6 +111,47 @@
                         </div>
                     {% endif %}
 
+                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
+                    {% if userIsMe %}
+                        <div class="profil-section">
+                            <h2>{{ "user.affinity.section.title"|trans }}</h2>
+                            {% if user.affinityAnswer is null %}
+                                {{ 'user.affinity.section.explanation.pro'|trans({
+                                    '%affinity_form_url%': path('front_affinity_pro_form'),
+                                    '%datawtattr%' : lwaWTattr|raw
+                                })|raw }}
+                            {% else %}
+                                <p>{{ 'user.affinity.section.edit.pro'|trans({
+                                        '%affinity_form_url%': path('front_affinity_pro_form'),
+                                        '%datawtattr%' : lwaWTattr|raw
+                                    })|raw }}</p>
+                            {% endif %}
+                        </div>
+                    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
+                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+                        {% if userAffinity is not null %}
+                            <div class="profil-section">
+                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
+                            </div>
+                        {% else %}
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                <div class="column small-12 large-8 text-justify">
+                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
+                                    : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
+                                </div>
+                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                    <a href="{{ path('front_affinity_personal_form') }}"
+                                       class="button expand-height square dark-blue" {{ lwaWTattr }}>
+                                        {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
                     {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
                         <div class="profil-section">
                             <h2>
@@ -185,47 +226,6 @@
                                 </div>
                             {% endif %}
                         </div>
-                    {% endif %}
-
-                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
-                    {% if userIsMe %}
-                        <div class="profil-section">
-                            <h2>{{ "user.affinity.section.title"|trans }}</h2>
-                            {% if user.affinityAnswer is null %}
-                                {{ 'user.affinity.section.explanation.pro'|trans({
-                                    '%affinity_form_url%': path('front_affinity_pro_form'),
-                                    '%datawtattr%' : lwaWTattr|raw
-                                })|raw }}
-                            {% else %}
-                                <p>{{ 'user.affinity.section.edit.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr|raw
-                                    })|raw }}</p>
-                            {% endif %}
-                        </div>
-                    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
-                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-                        {% if userAffinity is not null %}
-                            <div class="profil-section">
-                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
-                            </div>
-                        {% else %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
-                                <div class="column small-12 large-8 text-justify">
-                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
-                                    : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
-                                </div>
-                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                    <a href="{{ path('front_affinity_personal_form') }}"
-                                       class="button expand-height square dark-blue" {{ lwaWTattr }}>
-                                        {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
-                                </div>
-                            </div>
-                        {% endif %}
                     {% endif %}
                 </div> {# End Left Column #}
 
