@@ -11,6 +11,8 @@ abstract class VideosInsert
 
     /** @var string */
     private $id;
+    /** @var int */
+    private $position;
     /** @var BaseUser */
     private $user;
     /** @var null|string */
@@ -27,6 +29,9 @@ abstract class VideosInsert
         if($videosInsertDTO != null){
             $this->id = $videosInsertDTO->getId();
             $this->setTitle($videosInsertDTO->getTitle());
+            $this->setPosition($videosInsertDTO->getPosition());
+        }else{
+            $this->setPosition(count($user->getVideosInserts()));
         }
     }
 
@@ -36,6 +41,22 @@ abstract class VideosInsert
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(int $position)
+    {
+        $this->position = $position;
     }
 
     /**

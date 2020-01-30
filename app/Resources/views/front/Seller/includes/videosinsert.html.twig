@@ -7,7 +7,7 @@
                 {{  include(':front/Seller/includes:videosinsert_youtubeplaylistvideos.html.twig') }}
             </div>
             {% if videosInsert.playlistData.nextPageToken is not empty %}
-                <div class="row">
+                <div class="row margin-top-1">
                     <div class="column small-12">
                         <button class="js-show-more-videos button white is-center"
                                 data-href="{{ url('front_show_more_videos_from_videos_insert', {

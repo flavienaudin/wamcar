@@ -5,6 +5,11 @@
 .video {
 
   &-box {
+    @include breakpoint(small only){
+      margin: 0;
+      padding:0;
+    }
+
     margin-bottom: rem-calc(15);
 
     .video-player {
