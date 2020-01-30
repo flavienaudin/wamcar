@@ -15,6 +15,7 @@ final class Version20200129144445 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('ALTER TABLE procontact_message DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB ');
         $this->addSql('ALTER TABLE procontact_message ADD vehicle_id CHAR(36) DEFAULT NULL COMMENT \'(DC2Type:uuid)\'');
         $this->addSql('ALTER TABLE procontact_message ADD CONSTRAINT FK_5211FD15545317D1 FOREIGN KEY (vehicle_id) REFERENCES pro_vehicle (id)');
         $this->addSql('CREATE INDEX IDX_5211FD15545317D1 ON procontact_message (vehicle_id)');
