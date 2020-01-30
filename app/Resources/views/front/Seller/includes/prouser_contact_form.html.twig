@@ -11,7 +11,7 @@
         <div class="js-pro-profil-contact-form-container user-contact-form-container margin-top-1"
              data-responsivedom-destination="{{ responsiveDomDestination }}"
              data-responsivedom-appendto="{{ responsiveDomAppendTo }}">
-            <h3 class="{{ titleClass|default('') }}">{{ 'user.pro_contact.title'|trans }}</h3>
+            <h3 class="{{ title_class|default('') }}">{{ 'user.pro_contact.title'|trans }}</h3>
             <button class="show-for-small-only user-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -67,7 +67,10 @@
                     {{ form_widget(contactForm.message, {
                         'label': 'user.pro_contact.form.field.message.label'|trans,
                         'label_class': 'show-for-sr',
-                        'placeholder': 'user.pro_contact.form.field.message.placeholder'|trans
+                        'placeholder': 'user.pro_contact.form.field.message.placeholder'|trans,
+                        'class': 'margin-bottom-0',
+                        'help_message': vehicle is defined and vehicle is not null ? 'conversation.answer.field.message.vehicle_help_message'|trans : null,
+                        'help_message_class': vehicle is defined and vehicle is not null ? 'margin-top-0' : null
                     }) }}
                     {{ form_errors(contactForm.message) }}
                 </div>
@@ -83,7 +86,9 @@
                         'label_class': 'show-for-sr',
                         'placeholder': 'conversation.answer.field.message.placeholder'|trans,
                         'required':'true',
-                        'class': 'small'
+                        'class': 'small margin-bottom-0',
+                        'help_message': vehicle is defined and vehicle is not null ? 'conversation.answer.field.message.vehicle_help_message'|trans : null,
+                        'help_message_class': vehicle is defined and vehicle is not null ? 'margin-top-0' : null
                     }) }}
                     {{ form_errors(contactForm.content) }}
                 </div>

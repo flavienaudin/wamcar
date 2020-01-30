@@ -1209,14 +1209,13 @@ conversation:
       message:
         label: Votre message pour&nbsp;<a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
         placeholder: Entrez votre message...
+        vehicle_help_message: La fiche du véhicule sera joint au message
       vehicle:
         create: Créer un véhicule
         select: Proposer un véhicule
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
-
-
 
 sale:
   page:
