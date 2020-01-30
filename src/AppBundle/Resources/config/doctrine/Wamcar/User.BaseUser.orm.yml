@@ -146,6 +146,8 @@ Wamcar\User\BaseUser:
             targetEntity: Wamcar\User\VideosInsert
             mappedBy: user
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+                position: 'ASC'
     manyToMany:
         myExperts:
             targetEntity: Wamcar\User\BaseUser

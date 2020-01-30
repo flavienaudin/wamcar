@@ -17,6 +17,9 @@ Wamcar\User\VideosInsert:
         strategy: uuid
 
   fields:
+    position:
+      type: integer
+      nullable: false
     title:
       type: string
       nullable: true
