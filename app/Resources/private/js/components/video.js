@@ -60,7 +60,7 @@ function labnolThumb(id) {
 
 function labnolIframe(event) {
   let iframe = document.createElement('iframe');
-  let embed = 'https://www.youtube.com/embed/ID?rel=0 ';
+  let embed = 'https://www.youtube.com/embed/ID?rel=0&autoplay=1';
   iframe.setAttribute('src', embed.replace('ID', this.dataset.id));
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('allowfullscreen', '1');
