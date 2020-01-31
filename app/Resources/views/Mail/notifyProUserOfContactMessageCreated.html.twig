@@ -22,6 +22,10 @@
             <div style="margin-top: 15px; width: 100%; padding: 5px 10px; background-color: #f3f3f3; border: 1px solid #cacaca;">
                 {{ message|nl2br }}
             </div>
+
+            {% if vehicle != null %}
+                {{ encart_vehicle(thumbnailUrl, vehicleUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
+             {% endif %}
             {{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label'|trans) }}
         </div>
     </div>

@@ -191,6 +191,8 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
+    {% set help_message = help_message|default('') %}
+    {% set help_message_class = help_message_class|default('') %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
@@ -205,6 +207,9 @@
         data-equalto="{{ equalTo }}"
         {{ required ? 'required' }}
     >{{ value }}</textarea>
+    {% if help_message is not empty %}
+        <small class="{{ help_message_class }}">{{ help_message }}</small>
+    {% endif %}
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}

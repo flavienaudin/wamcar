@@ -4,7 +4,7 @@
         {{ include("front/Garages/Detail/includes/summary_card.html.twig", {garage: vehicle.garage})  }}
     </li>
     {% if vehicle.sellerName %}
-    <li class="no-margin">
+    <li class="js-seller-infos no-margin">
         <figure class="block-grid align-middle" role="group">
             <a href="{{ path('front_view_pro_user_info', {'slug': vehicle.seller.slug}) }}" class="user-thumbnail-mini margin-right-1">
                 <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail', vehicle.sellerName) }}" alt="{{ vehicle.sellerName }}">
