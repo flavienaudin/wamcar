@@ -183,6 +183,11 @@ $(function () {
   const levelToFunction = {
     'success':'success','warning':'warning','alert' : 'error'
   };
+  Toastr.options = {
+    'positionClass': 'toast-top-full-width',
+    'timeOut': '5000',
+    'extendedTimeOut': '3000'
+  };
   const $flashes = $('.js-flash-message');
   if($flashes){
     $flashes.each((index, flash) => {

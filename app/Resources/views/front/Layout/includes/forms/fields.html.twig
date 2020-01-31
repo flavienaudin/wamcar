@@ -164,7 +164,7 @@
         type="{{ type }}"
         {{ block('widget_attributes') }}
         value="{{ value }}"
-        class="input {{ class }}"
+        class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
         {% if pattern %}pattern="{{ pattern }}"{% endif %}

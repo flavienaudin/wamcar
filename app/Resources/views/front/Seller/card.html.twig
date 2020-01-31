@@ -285,7 +285,7 @@
         </div>
 
         {% for videosInsert in videosInserts %}
-            <div class="column small-12" id="{{ videosInsert.id }}">
+            <div class="column small-12" id="videos-encart-{{ videosInsert.id }}">
                 <div class="profil-videos-insert">
                     {% if videosInsert.title is not empty or editVideosInsertFormViews[videosInsert.id] is defined %}
                         <h2>
@@ -305,9 +305,13 @@
                     {% if editVideosInsertFormViews[videosInsert.id] is defined %}
                         <div id="jsEditVideoInsert-{{ videosInsert.id }}" data-toggler="is-hidden"
                                 {{ editVideosInsertFormViews[videosInsert.id].vars.valid ? 'class="is-hidden"' }}>
-                            {{ form_start(editVideosInsertFormViews[videosInsert.id], {
+
+                            {% set formAttr = (not editVideosInsertFormViews[videosInsert.id].vars.valid?{
                                 'id' : editVideosInsertFormViews[videosInsert.id].vars.id,
-                                'attr': {'data-abide' : '','novalidate': 'novalidate'}
+                                'data-scroll-to-now':editVideosInsertFormViews[videosInsert.id].vars.id}
+                                :{}) %}
+                            {{ form_start(editVideosInsertFormViews[videosInsert.id], {
+                                'attr': formAttr|merge({'data-abide' : '','novalidate': 'novalidate'})
                             }) }}
 
                             {{ form_widget(editVideosInsertFormViews[videosInsert.id].title, {

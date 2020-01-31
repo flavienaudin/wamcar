@@ -54,7 +54,6 @@ use AppBundle\Services\User\UserVideosInsertService;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Twig\FormatExtension;
 use AppBundle\Twig\TrackingExtension;
-use GoogleApi\GoogleYoutubeApiService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -486,7 +485,9 @@ class UserController extends BaseController
                         if ($editVideosInsertForm[$userVideosInsert->getId()]->isValid()) {
                             $this->userVideosInsertService->editVideosInsert($userVideosInsert, $editVideosInsertDTO);
                             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.videos_insert');
-                            return $this->redirectToRoute('front_view_current_user_info');
+                            return $this->redirectToRoute('front_view_current_user_info', [
+                                '_fragment' => 'videos-encart-' . $userVideosInsert->getId()
+                            ]);
                         } else {
                             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.videos_insert');
                         }
@@ -548,7 +549,10 @@ class UserController extends BaseController
         $videosInserts = [];
         /** @var VideosInsert $videosInsert */
         foreach ($user->getVideosInserts() as $userVideosInsert) {
-            $videosInserts[] = $this->userVideosInsertService->getVideosInsertData($userVideosInsert);
+            $vi = $this->userVideosInsertService->getVideosInsertData($userVideosInsert);
+            if ($vi != null) {
+                $videosInserts[] = $vi;
+            }
         }
 
         return $this->render('front/Seller/card.html.twig', [
@@ -583,7 +587,7 @@ class UserController extends BaseController
             $videosHtml = $this->renderTemplate('front/Seller/includes/videosinsert_youtubeplaylistvideos.html.twig', [
                 'videosInsert' => $videosInsert
             ]);
-            if(!empty($videosInsert->getPlaylistData()->getNextPageToken())) {
+            if (!empty($videosInsert->getPlaylistData()->getNextPageToken())) {
                 $showMoreVideosLink = $this->router->generate('front_show_more_videos_from_videos_insert', [
                     'id' => $videosInsert->getId(),
                     'pagetoken' => $videosInsert->getPlaylistData()->getNextPageToken(),
@@ -593,11 +597,11 @@ class UserController extends BaseController
                 $showMoreVideosText = $this->translator->transChoice('user.video_insert.video.show_x_more',
                     $videosInsert->getPlaylistData()->getNextTokenVideosNumber(),
                     ['%nbRemainingVideos%' => $videosInsert->getPlaylistData()->getNextTokenVideosNumber()]);
-            }else{
+            } else {
                 $showMoreVideosLink = null;
                 $showMoreVideosText = null;
             }
-        }else{
+        } else {
             return new JsonResponse([
                 'error' => 'Unhandled VideosInsert Type or unfound VideoInsert'
             ], Response::HTTP_BAD_REQUEST);

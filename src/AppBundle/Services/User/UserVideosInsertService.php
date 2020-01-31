@@ -42,14 +42,18 @@ class UserVideosInsertService
     /**
      * @param VideosInsert $videosInsert
      * @param string|null $pageToken
-     * @return VideosInsert
+     * @return VideosInsert|null
      */
     public function getVideosInsertData(VideosInsert $videosInsert, ?int $currentPageIdx = 1, string $pageToken = null)
     {
         if ($videosInsert instanceof YoutubePlaylistInsert) {
-            $playlistData = $this->gooleYoutubeApliService->fetchPlaylistVideos($videosInsert->getPlaylistId(), $pageToken);
-            $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
-            $videosInsert->setPlaylistData($playlistData);
+            try {
+                $playlistData = $this->gooleYoutubeApliService->fetchPlaylistVideos($videosInsert->getPlaylistId(), $pageToken);
+                $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
+                $videosInsert->setPlaylistData($playlistData);
+            }catch (\Google_Service_Exception $google_Service_Exception){
+                return null;
+            }
         }
         return $videosInsert;
     }

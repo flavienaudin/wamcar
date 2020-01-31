@@ -4,9 +4,8 @@
 namespace AppBundle\Form\Type;
 
 
-use AppBundle\Form\DTO\UserVideosInsertDTO;
 use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
-use Symfony\Component\Form\AbstractType;
+use AppBundle\Form\Validator\Constraints\YoutubePlaylistExisting;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -20,7 +19,7 @@ class YoutubePlaylistInsertType extends VideosInsertType
         $builder
             ->add('playlistId', TextType::class, [
                 'required' => true,
-                'constraints' => new NotBlank()
+                'constraints' => [new NotBlank(), new YoutubePlaylistExisting()]
             ]);
     }
 

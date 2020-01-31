@@ -44,8 +44,8 @@ class GoogleYoutubeApiService
     {
         $options = [
             'id' => $playlistId,
-            'maxResults' => 5
         ];
+
         if (!empty($pageToken)) {
             $options['pageToken'] = $pageToken;
         }
