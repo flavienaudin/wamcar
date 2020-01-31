@@ -8,9 +8,8 @@ $profil-image-offset: rem-calc(40);
 
 .profil {
 
-  /*
-    Header
-    ===================================== */
+  /* Header
+     ===================================== */
   &-header {
     background: #f7f7f7;
     padding-top: rem-calc(25);
@@ -32,10 +31,10 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-  /*
-    Name
-    ===================================== */
+  // Enf od &-header
 
+  /* Name
+     ===================================== */
   &-name {
     color: $primary-color;
     margin-bottom: rem-calc(12);
@@ -46,10 +45,10 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-  /*
-     Image
-     ===================================== */
+  // End of &-name
 
+  /* Image
+     ===================================== */
   &-image {
     width: rem-calc(100);
     height: rem-calc(100);
@@ -67,19 +66,17 @@ $profil-image-offset: rem-calc(40);
 
   // End &-image
 
-  /*
-     City
+  /* City
      ===================================== */
-
   &-city {
     font-size: rem-calc(14);
     font-weight: normal;
   }
 
-  /*
-     Action
-     ===================================== */
+  // End of &-city
 
+  /* Action
+     ===================================== */
   &-action {
     display: flex;
     flex-wrap: wrap;
@@ -113,10 +110,8 @@ $profil-image-offset: rem-calc(40);
 
   // End &-action
 
-  /*
-     Body
+  /* Body
      ===================================== */
-
   &-body {
     padding-top: rem-calc(20);
 
@@ -124,27 +119,6 @@ $profil-image-offset: rem-calc(40);
       &:not(:last-child) {
         margin-bottom: rem-calc(25);
         padding-bottom: rem-calc(25);
-      }
-
-      .profil-section-action {
-        float: right;
-
-        width: 35px;
-        height: 35px;
-        margin-left: 5px;
-        margin-right: 5px;
-
-        &:hover {
-          background-color: $light-gray-peexeo;
-          border-radius: 50%;
-        }
-
-        &[class*="icon-"]::before {
-          font-size: 1rem;
-          font-weight: normal;
-          color: $body-font-color;
-          margin: auto;
-        }
       }
     }
 
@@ -173,12 +147,69 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
+  // End &-body
+
+
+  /* Profil section acition (in section title)
+     ===================================== */
+  &-section-action {
+    float: right;
+
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    &:hover {
+      background-color: $light-gray-peexeo;
+      border-radius: 50%;
+    }
+
+    &[class*="icon-"]::before {
+      font-size: 1rem;
+      font-weight: normal;
+      color: $body-font-color;
+      margin: auto;
+    }
+  }
+
+  // End of &-section-action
 
   /*
-     Profil Seller (only)
+     Videos Insert
      ===================================== */
 
+  &-videos-insert {
+    padding: rem-calc(25);
+    background-color: $body-background;
+    margin-bottom: rem-calc(25);
+  }
 
+  // End &-video-insert
+
+  /* Video
+     ===================================== */
+  &-video {
+    overflow: auto;
+    max-height: 300px;
+    background: /* Shadow covers */
+            linear-gradient(white 30%, rgba(255, 255, 255, 0)),
+            linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%,
+              /* Shadows */
+            radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)),
+            radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+
+    /* Opera doesn't support this in the shorthand */
+    background-attachment: local, local, scroll, scroll;
+  }
+
+  // End of &-video
+
+  /* Profil Seller (only)
+     ===================================== */
   &-seller {
 
     &-main {
@@ -433,7 +464,7 @@ $profil-image-offset: rem-calc(40);
       }
 
       .garages-card {
-        .add-garage-form:not(:last-child){
+        .add-garage-form:not(:last-child) {
           border-bottom: rem-calc(1) solid $border-color;
           margin-bottom: rem-calc(30);
           padding-bottom: rem-calc(25);
@@ -471,26 +502,7 @@ $profil-image-offset: rem-calc(40);
     }
   }
 
-  /*
-     Video
-     ===================================== */
-  &-video {
-      overflow: auto;
-      max-height: 300px;
-      background:
-        /* Shadow covers */
-        linear-gradient(white 30%, rgba(255,255,255,0)),
-        linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+  // End of &-seller
 
-          /* Shadows */
-        radial-gradient(farthest-side at 50% 0, rgba(0,0,0,.2), rgba(0,0,0,0)),
-        radial-gradient(farthest-side at 50% 100%, rgba(0,0,0,.2), rgba(0,0,0,0)) 0 100%;
-      background-repeat: no-repeat;
-      background-color: white;
-      background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-
-      /* Opera doesn't support this in the shorthand */
-      background-attachment: local, local, scroll, scroll;
-  }
 
 }

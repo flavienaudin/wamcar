@@ -47,6 +47,7 @@ use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\User\VideosInsertReposistory;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -75,6 +76,8 @@ class UserEditionService
     private $userPreferencesRepository;
     /** @var ProUserProServiceRepository */
     private $proUserProServiceRepository;
+    /** @var VideosInsertReposistory */
+    private $videosInsertRepository;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserLikeVehicleRepository $userLikeRepository */
@@ -96,6 +99,7 @@ class UserEditionService
      * @param ProVehicleRepository $proVehicleRepository
      * @param UserPreferencesRepository $userPreferencesRepository
      * @param ProUserProServiceRepository $proUserProServiceRepository
+     * @param VideosInsertReposistory $videosInsertRepository
      * @param GarageEditionService $garageEditionService
      * @param UserLikeVehicleRepository $userLikeRepository
      * @param UserRegistrationService $userRegistrationService
@@ -112,6 +116,7 @@ class UserEditionService
         ProVehicleRepository $proVehicleRepository,
         UserPreferencesRepository $userPreferencesRepository,
         ProUserProServiceRepository $proUserProServiceRepository,
+        VideosInsertReposistory $videosInsertRepository,
         GarageEditionService $garageEditionService,
         UserLikeVehicleRepository $userLikeRepository,
         UserRegistrationService $userRegistrationService,
@@ -128,6 +133,7 @@ class UserEditionService
         $this->proVehicleRepository = $proVehicleRepository;
         $this->userPreferencesRepository = $userPreferencesRepository;
         $this->proUserProServiceRepository = $proUserProServiceRepository;
+        $this->videosInsertRepository = $videosInsertRepository;
         $this->garageEditionService = $garageEditionService;
         $this->userLikeRepository = $userLikeRepository;
         $this->userRegistrationService = $userRegistrationService;
@@ -210,6 +216,7 @@ class UserEditionService
         $this->userRepository->update($user);
         return $user;
     }
+
     /**
      * @param BaseUser $user
      * @param ProPresentationVideoDTO $proPresentationVideoDTO
@@ -581,11 +588,11 @@ class UserEditionService
      */
     public function toggleExpert(BaseUser $user, ProUser $userToggle)
     {
-        if($user->hasExpert($userToggle)){
+        if ($user->hasExpert($userToggle)) {
             $user->removeExpert($userToggle);
             $this->userRepository->update($user);
             return false;
-        }else{
+        } else {
             $user->addExpert($userToggle);
             $this->userRepository->update($user);
             return true;
@@ -596,7 +603,8 @@ class UserEditionService
      * Delete a service offered by a pro
      * @param ProUserProService $proUserProService
      */
-    public function deleteProUserProService(ProUserProService $proUserProService){
+    public function deleteProUserProService(ProUserProService $proUserProService)
+    {
         $proUser = $proUserProService->getProUser();
         $this->proUserProServiceRepository->remove($proUserProService);
         $this->eventBus->handle(new ProUserUpdated($proUser));

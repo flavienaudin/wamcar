@@ -6,3 +6,6 @@ constraint:
     not_empty: Veuillez saisir un message, ajouter une pièce jointe ou sélectionner un véhicule.
   sale_declaration:
     mandatory_transaction: Le montant d'au moins une transaction est obligatoire
+  youtube:
+    playlist:
+      notfound: Veuillez indiquer l'ID d'une playlist Youtube existante.

@@ -48,6 +48,7 @@ import './components/affinity';
 import './components/datatable';
 import './components/sales';
 import './components/expert';
+import './components/video';
 import scrollTo from './components/scrollTo';
 
 import {default as autosize} from 'autosize';
@@ -182,6 +183,11 @@ $(function () {
   const levelToFunction = {
     'success':'success','warning':'warning','alert' : 'error'
   };
+  Toastr.options = {
+    'positionClass': 'toast-top-full-width',
+    'timeOut': '5000',
+    'extendedTimeOut': '3000'
+  };
   const $flashes = $('.js-flash-message');
   if($flashes){
     $flashes.each((index, flash) => {
@@ -236,24 +242,9 @@ $(function () {
   });
 
   /*
-     Light embeded youtube video
-     ===================================== */
-
-  let div, n, v = $('.youtube-player');
-  for (n = 0; n < v.length; n++) {
-    div = document.createElement('div');
-    div.setAttribute('data-id', v[n].dataset.id);
-    div.innerHTML = labnolThumb(v[n].dataset.id);
-    div.onclick = labnolIframe;
-    v[n].appendChild(div);
-  }
-
-
-  /*
     Confirm box
     ===================================== */
   $('a.js-confirm-box').on('click', (e) => {
-
     e.preventDefault();
     let href = e.currentTarget.href;
     let id = $(e.currentTarget).data('id');
@@ -295,24 +286,6 @@ $(function () {
 
 });
 
-
-/*
-   Light embeded youtube video : functions
-   ===================================== */
-function labnolThumb(id) {
-  let thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
-    play = '<div class="play"></div>';
-  return thumb.replace('ID', id) + play;
-}
-
-function labnolIframe(event) {
-  let iframe = document.createElement('iframe');
-  let embed = 'https://www.youtube.com/embed/ID?rel=0 ';
-  iframe.setAttribute('src', embed.replace('ID', this.dataset.id));
-  iframe.setAttribute('frameborder', '0');
-  iframe.setAttribute('allowfullscreen', '1');
-  this.parentNode.replaceChild(iframe, this);
-}
 
 /*
    Confirm box : functions

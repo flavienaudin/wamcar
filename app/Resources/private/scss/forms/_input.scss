@@ -3,7 +3,6 @@
    =========================================================================== */
 
 
-
 /*
    Settings
    ===================================== */
@@ -42,7 +41,6 @@ $input-padding: 0 rem-calc(10);
 }
 
 
-
 /*
    Style
    ===================================== */
@@ -73,7 +71,6 @@ $input-padding: 0 rem-calc(10);
   background-color: #fef3f4;
   border-color: $alert-color;
 }
-
 
 
 /*
@@ -121,7 +118,7 @@ textarea {
   @include buttonPadding;
   line-height: $input-line-height;
 
-  .form-compact &:not(textarea){
+  .form-compact &:not(textarea) {
     @include buttonHeightCompact;
     line-height: $input-line-height-compact;
   }
@@ -147,7 +144,7 @@ input[value="Non"] {
   ~ .radio-item {
     svg {
       path {
-        fill: darken($alert-color,10%);
+        fill: darken($alert-color, 10%);
       }
     }
   }

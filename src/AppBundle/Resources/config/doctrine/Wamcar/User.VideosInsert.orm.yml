@@ -1,0 +1,34 @@
+Wamcar\User\VideosInsert:
+  type: entity
+  inheritanceType: SINGLE_TABLE
+  table: videos_insert
+  discriminatorColumn:
+    name: discriminator
+    type: string
+  discriminatorMap:
+    youtube-playlist: Wamcar\User\YoutubePlaylistInsert
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideosInsertRepository
+
+  id:
+    id:
+      type: uuid
+      id: true
+      generator:
+        strategy: uuid
+
+  fields:
+    position:
+      type: integer
+      nullable: false
+    title:
+      type: string
+      nullable: true
+
+  manyToOne:
+    user:
+      targetEntity: Wamcar\User\BaseUser
+      inversedBy: videosInserts
+      joinColumn:
+        name: user_id
+        referencedColumnName: id
+        nullable: false

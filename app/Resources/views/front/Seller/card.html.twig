@@ -111,6 +111,47 @@
                         </div>
                     {% endif %}
 
+                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
+                    {% if userIsMe %}
+                        <div class="profil-section">
+                            <h2>{{ "user.affinity.section.title"|trans }}</h2>
+                            {% if user.affinityAnswer is null %}
+                                {{ 'user.affinity.section.explanation.pro'|trans({
+                                    '%affinity_form_url%': path('front_affinity_pro_form'),
+                                    '%datawtattr%' : lwaWTattr|raw
+                                })|raw }}
+                            {% else %}
+                                <p>{{ 'user.affinity.section.edit.pro'|trans({
+                                        '%affinity_form_url%': path('front_affinity_pro_form'),
+                                        '%datawtattr%' : lwaWTattr|raw
+                                    })|raw }}</p>
+                            {% endif %}
+                        </div>
+                    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
+                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+                        {% if userAffinity is not null %}
+                            <div class="profil-section">
+                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
+                            </div>
+                        {% else %}
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                                <div class="column small-12 large-8 text-justify">
+                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
+                                    : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
+                                </div>
+                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                                    <a href="{{ path('front_affinity_personal_form') }}"
+                                       class="button expand-height square dark-blue" {{ lwaWTattr }}>
+                                        {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+
                     {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
                         <div class="profil-section">
                             <h2>
@@ -125,7 +166,8 @@
                                     {{ 'user.video.title'|trans }}
                                 {% endif %}
                             </h2>
-                            <div id="jsVideoPresentationPreview" data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
+                            <div id="jsVideoPresentationPreview"
+                                 data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
                                 {% set userYoutubeVideoId =  user.youtubeVideoId %}
                                 {% if userYoutubeVideoId is not empty %}
                                     <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
@@ -134,7 +176,9 @@
                                         {% if user.videoText is empty %}
                                             <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
                                         {% else %}
-                                            <div class="callout warning small"><i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i></div>
+                                            <div class="callout warning small">
+                                                <i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i>
+                                            </div>
                                         {% endif %}
                                     </div>
                                 {% endif %}
@@ -146,7 +190,7 @@
                                 {% endif %}
                             </div>
                             {% if videoPresentationForm is not null %}
-                                <div id="jsVideoPresentationForm"  {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                                <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
                                     {{ form_start(videoPresentationForm, {
                                         'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
                                     }) }}
@@ -183,48 +227,7 @@
                             {% endif %}
                         </div>
                     {% endif %}
-
-                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
-                    {% if userIsMe %}
-                        <div class="profil-section">
-                            <h2>{{ "user.affinity.section.title"|trans }}</h2>
-                            {% if user.affinityAnswer is null %}
-                                {{ 'user.affinity.section.explanation.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr|raw
-                                    })|raw }}
-                            {% else %}
-                                <p>{{ 'user.affinity.section.edit.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr|raw
-                                    })|raw }}</p>
-                            {% endif %}
-                        </div>
-                    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
-                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-                        {% if userAffinity is not null %}
-                            <div class="profil-section">
-                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode}}"></canvas>
-                            </div>
-                        {% else %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
-                                <div class="column small-12 large-8 text-justify">
-                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
-                                        : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
-                                </div>
-                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                    <a href="{{ path('front_affinity_personal_form') }}"
-                                       class="button expand-height square dark-blue" {{ lwaWTattr }}>
-                                        {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endif %}
-                </div>
+                </div> {# End Left Column #}
 
                 {# Right column #}
                 <div class="js-pro-profil-right-column profil-seller-right-column column small-12 large-4">
@@ -281,6 +284,105 @@
             </div>
         </div>
 
+        {% for videosInsert in videosInserts %}
+            <div class="column small-12" id="videos-encart-{{ videosInsert.id }}">
+                <div class="profil-videos-insert">
+                    {% if videosInsert.title is not empty or editVideosInsertFormViews[videosInsert.id] is defined %}
+                        <h2>
+                            {% if editVideosInsertFormViews[videosInsert.id] is defined %}
+                                <span class="profil-section-action icon-pen"
+                                      data-toggle="jsEditVideoInsert-{{ videosInsert.id }} jsVideoInsertVideos-{{ videosInsert.id }}">
+                                    </span>
+                            {% endif %}
+                            {{ videosInsert.title }}
+                        </h2>
+                    {% endif %}
+
+                    {{ include('front/Seller/includes/videosinsert.html.twig', {
+                        'mainClass': editVideosInsertFormViews[videosInsert.id] is not null and not editVideosInsertFormViews[videosInsert.id].vars.valid ? 'is-hidden' : ''
+                    }) }}
+
+                    {% if editVideosInsertFormViews[videosInsert.id] is defined %}
+                        <div id="jsEditVideoInsert-{{ videosInsert.id }}" data-toggler="is-hidden"
+                                {{ editVideosInsertFormViews[videosInsert.id].vars.valid ? 'class="is-hidden"' }}>
+
+                            {% set formAttr = (not editVideosInsertFormViews[videosInsert.id].vars.valid?{
+                                'id' : editVideosInsertFormViews[videosInsert.id].vars.id,
+                                'data-scroll-to-now':editVideosInsertFormViews[videosInsert.id].vars.id}
+                                :{}) %}
+                            {{ form_start(editVideosInsertFormViews[videosInsert.id], {
+                                'attr': formAttr|merge({'data-abide' : '','novalidate': 'novalidate'})
+                            }) }}
+
+                            {{ form_widget(editVideosInsertFormViews[videosInsert.id].title, {
+                                'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                            }) }}
+
+                            {% if editVideosInsertFormViews[videosInsert.id].playlistId is defined %}
+                                {{ form_widget(editVideosInsertFormViews[videosInsert.id].playlistId, {
+                                    'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
+                                    'error_message': 'user.profile.edit.form.video_insert.youtube_playlist_id.invalidMEssage'|trans,
+                                    'required':  true,
+                                    'attr': {
+                                        'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans,
+                                    }
+                                }) }}
+                                {{ form_errors(editVideosInsertFormViews[videosInsert.id].playlistId) }}
+                            {% endif %}
+
+                            <div class="is-flex align-right">
+                                <a href="{{ path('front_delete_user_videos_insert', {'id': videosInsert.id}) }}"
+                                   class="js-confirm-box button white margin-right-1"
+                                   data-id="videosInsert-deletion-{{ videosInsert.id }}"
+                                   data-title="Attention!"
+                                   data-message="Confirmez-vous la suppression de cet encart vidéo ?">
+                                    {{ 'global.button.delete'|trans }}</a>
+                                <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                            </div>
+
+                            {{ form_end(editVideosInsertFormViews[videosInsert.id]) }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% if addVideosInsertForm is not null %}
+            <div class="column small-12">
+                <div class="profil-videos-insert">
+                    <div class="icon-plus" data-toggle="addVideosInsertForm">Ajouter un encart vidéo</div>
+                    <div class="is-hidden" id="addVideosInsertForm" data-toggler="is-hidden">
+                        {{ form_start(addVideosInsertForm, {
+                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                        }) }}
+
+                        {{ form_widget(addVideosInsertForm.title, {
+                            'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                            'required' : false,
+                            'required_class': 'show-for-sr',
+                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                        }) }}
+                        {% if addVideosInsertForm.playlistId %}
+                            {{ form_widget(addVideosInsertForm.playlistId, {
+                                'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
+                            }) }}
+                        {% endif %}
+
+                        <div class="is-flex align-right">
+                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                        </div>
+                        {{ form_end(addVideosInsertForm) }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
         {% if vehicles.totalHits > 0 %}
             <div class="js-pro-profil-vehicles profil-seller-vehicles column small-12">
                 <h2>{{ 'user.vehicles.title'|trans }}</h2>
@@ -298,7 +400,8 @@
                 <div class="profil-seller-delete-section">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
                     <p>{{ 'user.profile.delete.link.information'|trans }}
-                        <a href="{{ path('front_user_delete') }}" class="text-underline">{{ 'global.button.delete'|trans }}</a>
+                        <a href="{{ path('front_user_delete') }}"
+                           class="text-underline">{{ 'global.button.delete'|trans }}</a>
                     </p>
                 </div>
             </div>

@@ -142,6 +142,14 @@ front_edit_user_project:
     path: /mon-projet/edit
     controller: AppBundle:Front\PersonalContext\User:editProject
 
+front_show_more_videos_from_videos_insert:
+    path: /videos_insert/showmore/{id}/{pagetoken}
+    controller: AppBundle:Front\PersonalContext\User:showMoreVideosFromVideosInsert
+
+front_delete_user_videos_insert:
+    path: /videos_insert/delete/{id}
+    controller: AppBundle:Front\PersonalContext\User:deleteVideosInsert
+
 legacy_view_user_info:
     path: /profil/{id}
     controller: AppBundle:Front\PersonalContext\User:legacyViewInformation
@@ -433,3 +441,9 @@ front_affinity_pro_redirection:
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
 
+
+
+# TEST GOOGLE YOUTUBE API
+dev_youtube_api:
+    path: /youtube
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleYoutubeApi

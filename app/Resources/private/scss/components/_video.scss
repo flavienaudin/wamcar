@@ -1,0 +1,26 @@
+/* ===========================================================================
+   Video
+   =========================================================================== */
+
+.video {
+
+  &-box {
+    @include breakpoint(small only){
+      margin: 0;
+      padding:0;
+    }
+
+    margin-bottom: rem-calc(15);
+
+    .video-player {
+      width: 100%;
+      height: auto;
+    }
+
+    .video-metadata {
+      .video-title{
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -66,7 +66,7 @@ if($proProfilContactForm.length){
   });
 }
 
-const $proProfilVehicles = $('.js-pro-profil-vehicles');
+/*const $proProfilVehicles = $('.js-pro-profil-vehicles');
 if($proProfilVehicles.length){
   $proProfilVehicles.responsiveDom({
     appendTo: '.js-profil-seller-left-column',
@@ -79,7 +79,7 @@ if($proProfilVehicles.length){
       }
     }
   });
-}
+}*/
 
 
 /*** HOMEPAGE PEEXEO ***/

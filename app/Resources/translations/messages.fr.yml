@@ -1,10 +1,15 @@
 flash:
   success:
     user:
-      edit: Les modifications de votre profil ont été enregistrées.
-      deleted:
+      add:
+        videos_insert: L'encart vidéo a bien été ajouté à votre profil.
+      edit:
+        profile: Les modifications de votre profil ont été enregistrées.
+        videos_insert: L'encart vidéo a bien été modifié.
+      delete:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
+        videos_insert: L'encart vidéo a bien été supprimé.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -75,22 +80,29 @@ flash:
     social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
     social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
-    unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
-    unauthorized_to_add_vehicle_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
     select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
     pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    unauthorized:
+      vehicle:
+        add_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
+        edit: Vous n'êtes pas autorisé à modifier ce véhicule
+      videos_insert:
+        delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
     user:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
+      add:
+        videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart vidéo. Merci de corriger votre saisie.
       edit:
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
+        videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
@@ -952,6 +964,14 @@ user:
             placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
             invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
           videoText.label: Description de la vidéo
+        video_insert:
+          title:
+            label: Titre de l'encart
+            placeholder: Titre de l'encart
+          youtube_playlist_id:
+            label: Identifiant de la playlist Youtube
+            placeholder: PL.....
+            invalidMEssage: Renseigner l'ID de votre playlist Youtube
         avatar:
           label: Avatar
         banner:
@@ -1002,6 +1022,11 @@ user:
     placeholder:
       with_text: Vous devez saisir une vidéo pour faire appaître cet encart sur votre fiche profil.
       all_empty: Vous pouvez ajouter une vidéo et un texte explicatif vous présentant afin d'aider les particulier à mieux vous connaître.
+  video_insert:
+    video:
+      statistics:
+        view: "[0,1] %count% vue | [2, Inf[ %count% vues"
+      show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
     title: Les véhicules que je vous propose
   project:
