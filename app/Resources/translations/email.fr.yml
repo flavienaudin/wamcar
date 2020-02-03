@@ -2,202 +2,210 @@ email:
   hello: Bonjour,
   hello_username: Bonjour %username%,
   signature: >
-      Merci,<br>
-      L'équipe Wamcar
+    Merci,<br>
+    L'équipe Wamcar
   footer:
-      legal: >
-          Ce mail vous est envoyé par Wamcar. Conformément à la loi informatique et libertés du 6 janvier 1978,
-          vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.
-      manage_preference: "Pour gérer vos notifications par e-mails, <a  href=\"%edit_preference_url%\">éditer vos préférences</a>."
-      copyright: "&copy;%year% Wamcar. Tous droits réservés."
+    legal: >
+      Ce mail vous est envoyé par Wamcar. Conformément à la loi informatique et libertés du 6 janvier 1978,
+      vous disposez d'un droit d'accès, de rectification et de suppression des données vous concernant.
+    manage_preference: "Pour gérer vos notifications par e-mails, <a  href=\"%edit_preference_url%\">éditer vos préférences</a>."
+    copyright: "&copy;%year% Wamcar. Tous droits réservés."
 
 notifyUserOfRegistrationTokenGenerated:
-    object: "Confirmez votre adresse e-mail - Wamcar"
-    body: >
-        <p>Bienvenue sur Wamcar !</p>
-        <p>Pour commencer l'expérience Wamcar, il ne vous reste plus qu'à confirmer votre adresse e-mail (%emailAddress%)
-        en cliquant, ou en copiant dans la barre d'adresse de votre navigateur, le lien suivant :<br>
-        <a href="%activationUrl%">%activationUrl%</a></p>
-    description: Confirmation de l'adresse e-mail %emailAddress%
+  object: "Confirmez votre adresse e-mail - Wamcar"
+  body: >
+    <p>Bienvenue sur Wamcar !</p>
+    <p>Pour commencer l'expérience Wamcar, il ne vous reste plus qu'à confirmer votre adresse e-mail (%emailAddress%)
+    en cliquant, ou en copiant dans la barre d'adresse de votre navigateur, le lien suivant :<br>
+    <a href="%activationUrl%">%activationUrl%</a></p>
+  description: Confirmation de l'adresse e-mail %emailAddress%
 
 notifyProUserOfRegistration:
-    object:  "Votre compte Wamcar"
-    body: >
-        <p>Votre inscription a bien été enregistrée et toute l’équipe Wamcar vous en remercie.</p>
-        <p>Voici l'identifiant vous permettant d’accéder à votre espace personnel :
-        <ul><li>Votre identifiant : %user_mail%</li></ul>
-        </p>
-        <p>Vous bénéficiez désormais d’un <a href="%url_profile_page%">espace personnel</a> vous permettant de :
-        <ul>
-        <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
-        <li>Chercher parmi des demandes de particuliers : reprise et/ou achat</li>
-        <li>Envoyer des offres à des particuliers</li>
-        </ul>
-        </p>
-        <p>Pour toute question, n'hésitez pas à consulter à contacter <a href="%url_contact_page%">notre service client</a>.</p>
-    action_label: Consulter votre profil
+  object:  "Votre compte Wamcar"
+  body: >
+    <p>Votre inscription a bien été enregistrée et toute l’équipe Wamcar vous en remercie.</p>
+    <p>Voici l'identifiant vous permettant d’accéder à votre espace personnel :
+    <ul><li>Votre identifiant : %user_mail%</li></ul>
+    </p>
+    <p>Vous bénéficiez désormais d’un <a href="%url_profile_page%">espace personnel</a> vous permettant de :
+    <ul>
+    <li>Créer une fiche garage et mettre vos véhicules en vitrine</li>
+    <li>Chercher parmi des demandes de particuliers : reprise et/ou achat</li>
+    <li>Envoyer des offres à des particuliers</li>
+    </ul>
+    </p>
+    <p>Pour toute question, n'hésitez pas à consulter à contacter <a href="%url_contact_page%">notre service client</a>.</p>
+  action_label: Consulter votre profil
 
 notifyUserOfPasswordResetTokenGenerated:
-    object:  "Réinitialisation de votre mot de passe - Wamcar"
-    body: >
-        <p>Nous avons reçu une demande pour réinitialiser le mot de passe de votre compte. <br>
-        Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
-        <p><a href="%resetUrl%">Réinitialiser mon mot de passe</a></p>
-        <p>Ce lien est valable 24 Heures. Au-delà de ce délai, vous devrez renouveler votre demande de mot de passe.</p>
+  object:  "Réinitialisation de votre mot de passe - Wamcar"
+  body: >
+    <p>Nous avons reçu une demande pour réinitialiser le mot de passe de votre compte. <br>
+    Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :</p>
+    <p><a href="%resetUrl%">Réinitialiser mon mot de passe</a></p>
+    <p>Ce lien est valable 24 Heures. Au-delà de ce délai, vous devrez renouveler votre demande de mot de passe.</p>
 
 notifyOwnerOfVehicleRemoved:
-    object: "Votre annonce a bien été supprimée - Wamcar"
-    body: >
-        <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
-        <p>Donnez votre avis sur Wamcar en remplissant notre formulaire de satisfaction.</p>
-    action_label: Donner votre avis
+  object: "Votre annonce a bien été supprimée - Wamcar"
+  body: >
+    <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
+    <p>Donnez votre avis sur Wamcar en remplissant notre formulaire de satisfaction.</p>
+  action_label: Donner votre avis
 
 notifyUserOfAddingPicturesToVehicle:
-    object: "Améliorez votre annonce en la complétant - Wamcar"
-    body: >
-        <p>Afin d'obtenir un maximum d'offres réalistes et adaptées, nous vous invîtons à compléter votre annonce en ajoutant plusieurs photos.</p>
-        <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
-    action_label: Compléter la fiche véhicule
+  object: "Améliorez votre annonce en la complétant - Wamcar"
+  body: >
+    <p>Afin d'obtenir un maximum d'offres réalistes et adaptées, nous vous invîtons à compléter votre annonce en ajoutant plusieurs photos.</p>
+    <p>Votre annonce peut être jusqu'à 5 fois plus efficace.</p>
+  action_label: Compléter la fiche véhicule
 
 notifyUserOfMessageCreated:
-    object: "Nouveau message de %messageAuthorName%"
-    action_label: Répondre
-    attachments: Pièces jointes
+  object: "Nouveau message de %messageAuthorName%"
+  action_label: Répondre
+  attachments: Pièces jointes
 
 notifyProUserOfContactMessageCreated:
-    object: "%proContactMessageAuthorName% souhaite vous contacter"
-    action_label: Répondre par e-mail
+  object:
+    profile: "%proContactMessageAuthorName% souhaite vous contacter"
+    vehicle: "Demande d'information sur l'un de vos véhicule"
+  body:
+    message: "%senderFullname% vous a laissé le message suivant :"
+    vehicle: 'Cette personne vous a contacté depuis la fiche véhicule <a href="vehicleUrl">%vehicleMakeModel%</a>'
+    contact: "Contact :"
+  action_label:
+    email: E-mail
+    phone: Téléphone
 
 encourageToRegisterAfterProContact:
-    object: "Votre demande d'information a bien été envoyée"
-    body:
-      common: "<p>Nous vous invitons à vous inscrire sur Wamcar et ce afin de profiter de nombreux services et d'un service plus personnalisé.</p>"
-      profile: "{0}<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>|{1} <p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>|[2,Inf[<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>"
-      vehicle: "<p>Nous avons transmis votre message concernant le véhicule <a href='%vehicleUrl%'>%vehicleMakeModel%</a> à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>"
-    action_label:
-      personal: M'inscrire
+  object: "Votre demande d'information a bien été envoyée"
+  body:
+    common: "<p>Nous vous invitons à vous inscrire sur Wamcar et ce afin de profiter de nombreux services et d'un service plus personnalisé.</p>"
+    profile: "{0}<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>|{1} <p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>|[2,Inf[<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>"
+    vehicle: "<p>Nous avons transmis votre message concernant le véhicule <a href='%vehicleUrl%'>%vehicleMakeModel%</a> à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>"
+  action_label:
+    personal: M'inscrire
 
 notifyUserOfLikeVehicle:
-    object: "Nouveau like sur votre annonce %annonceTitle%"
-    body: >
-        <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
-    action_label: Voir
+  object: "Nouveau like sur votre annonce %annonceTitle%"
+  body: >
+    <p>Vous avez reçu un nouveau like de %messageAuthorName% sur votre annonce %annonceTitle%</p>
+  action_label: Voir
 
 notifyProUserOfNewInterestingLead:
-    object: "%leadFirstName% vient de s'inscrire dans votre secteur"
-    body: "<p>%leadFullname%  se trouve à moins de %radius% kilomètres de votre société.</p>"
-    action_label: "Voir son profil"
+  object: "%leadFirstName% vient de s'inscrire dans votre secteur"
+  body: "<p>%leadFullname%  se trouve à moins de %radius% kilomètres de votre société.</p>"
+  action_label: "Voir son profil"
 
 notifyUserOfAffinityDegreeCalculated:
-    object: "Vos affinités sont maintenant disponibles sur Wamcar"
-    body:
-      personal: >
-          Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
-          vous entendre et qui comprendront mieux vos besoins.
-      pro: >
-        Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
-        Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui
-        vous allez bien vous entendre.
-    action_label: "Rechercher"
+  object: "Vos affinités sont maintenant disponibles sur Wamcar"
+  body:
+    personal: >
+      Nous avons calculé vos affinités. Vous pouvez désormais identifier les conseillers avec qui vous allez bien
+      vous entendre et qui comprendront mieux vos besoins.
+    pro: >
+      Nous avons calculé vos affinités avec tous les particuliers qui ont eux aussi remplis leur questionnaire WamAffinity.
+      Identifiez-les grâce au logo WamAffinity et augmentez vos chance de faire affaire en ciblant vos clients avec qui
+      vous allez bien vous entendre.
+  action_label: "Rechercher"
 
 unseenNotificationsDailyDigest:
-    object: "Quoi de neuf sur votre Wamcar ?"
-    body:
-      unread_notification: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles notifications sur Wamcar.</p>"
-      unread_message: "{1} <p>Vous avez un nouveau message privé dans votre messagerie Wamcar.</p>|]1,Inf[ <p>Vous avez de nouveaux messages privés dans votre messagerie Wamcar.</p>"
-    action_label:
-      notifications: "{1} Voir la notification|]1,Inf[ Voir les notifications"
-      conversations: "{1} Voir le message|]1,Inf[ Voir les messages"
+  object: "Quoi de neuf sur votre Wamcar ?"
+  body:
+    unread_notification: "{1} <p>Vous avez une nouvelle notification sur Wamcar.</p>|]1,Inf[ <p>Vous avez des nouvelles notifications sur Wamcar.</p>"
+    unread_message: "{1} <p>Vous avez un nouveau message privé dans votre messagerie Wamcar.</p>|]1,Inf[ <p>Vous avez de nouveaux messages privés dans votre messagerie Wamcar.</p>"
+  action_label:
+    notifications: "{1} Voir la notification|]1,Inf[ Voir les notifications"
+    conversations: "{1} Voir le message|]1,Inf[ Voir les messages"
 
 notifyGarageAdministratorOfNewPendingRequest:
-    object: "%seller_fullname% souhaite rejoindre %garage_name%"
-    body: >
-        <p>Un nouveau vendeur professionnel souhaite rejoindre %garage_name% :</p>
-        <ul>
-            <li>Nom : %seller_fullname%</li>
-            <li>E-mail : %seller_email%</li>
-            <li>Page profil : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
-        </ul>
-    action:
-        accept: Accepter %seller_firstname%
-        decline: Refuser %seller_firstname%
+  object: "%seller_fullname% souhaite rejoindre %garage_name%"
+  body: >
+    <p>Un nouveau vendeur professionnel souhaite rejoindre %garage_name% :</p>
+    <ul>
+        <li>Nom : %seller_fullname%</li>
+        <li>E-mail : %seller_email%</li>
+        <li>Page profil : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
+    </ul>
+  action:
+    accept: Accepter %seller_firstname%
+    decline: Refuser %seller_firstname%
 
 notifyProOfAcceptedPendingRequestToJoinGarage:
-    object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été acceptée"
-    body: >
-        <div>
-            <p>%administrator_fullname% vous a accepté dans %garage_name% :</p>
-            <ul>
-                <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
-            </ul>
-        </div>
-    action:
-        see_garage: Voir la page entreprise
-        add_vehicle: Ajouter un véhicule
+  object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été acceptée"
+  body: >
+    <div>
+        <p>%administrator_fullname% vous a accepté dans %garage_name% :</p>
+        <ul>
+            <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
+        </ul>
+    </div>
+  action:
+    see_garage: Voir la page entreprise
+    add_vehicle: Ajouter un véhicule
 
 notifyProOfDeclinedPendingRequestToJoinGarage:
-    object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été refusée"
-    body: >
-        <div>
-            <p>Votre demande pour rejoindre %garage_name% a été refusée par %administrator_fullname%.</p>
-            <ul>
-                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
-                <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
-            </ul>
-        </div>
-    action.contact: Contacter %administrator_fullname%
+  object: "%seller_fullname%, votre demande pour rejoindre %garage_name% a été refusée"
+  body: >
+    <div>
+        <p>Votre demande pour rejoindre %garage_name% a été refusée par %administrator_fullname%.</p>
+        <ul>
+            <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+            <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
+        </ul>
+    </div>
+  action.contact: Contacter %administrator_fullname%
 
 notifyGarageAdministratorOfCancelledPendingRequest:
-    object: "%seller_fullname% a annulé sa demande pour rejoindre %garage_name%"
-    body: >
-       <div>
-            <p>%seller_fullname% a annulé sa demande pour rejoindre %garage_name%:</p>
-            <ul>
-                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
-                <li>Page profile : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
-            </ul>
-        </div>
+  object: "%seller_fullname% a annulé sa demande pour rejoindre %garage_name%"
+  body: >
+    <div>
+         <p>%seller_fullname% a annulé sa demande pour rejoindre %garage_name%:</p>
+         <ul>
+             <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+             <li>Page profile : <a href="%seller_profile_url%">%seller_profile_url%</a></li>
+         </ul>
+     </div>
 
 notifyProUserOfGarageAssignation:
-    object: "%seller_fullname%, vous êtes maintenant membre du %garage_name%"
-    body: >
-        <div>
-            <p>%administrator_fullname% vous a ajouté en tant que membre de %garage_name%.</p>
-            <ul>
-                <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
-            </ul>
-        </div>
-    action:
-        see_garage: Voir la page entreprise
-        add_vehicle: Ajouter un véhicule
+  object: "%seller_fullname%, vous êtes maintenant membre du %garage_name%"
+  body: >
+    <div>
+        <p>%administrator_fullname% vous a ajouté en tant que membre de %garage_name%.</p>
+        <ul>
+            <li>Page entreprise: <a href="%garage_url%">%garage_url%</a></li>
+        </ul>
+    </div>
+  action:
+    see_garage: Voir la page entreprise
+    add_vehicle: Ajouter un véhicule
 
 notifyProUserOfGarageUnassignation:
-    object: "%seller_fullname%, vous avez été détaché de %garage_name%"
-    body: >
-        <div>
-            <p>Vous avez avez été détaché de %garage_name% par %administrator_fullname%.</p>
-            <ul>
-                <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
-                <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
-            </ul>
-        </div>
-    action:
-        see_garage: Voir la page entreprise
-        contact: Contacter %administrator_fullname%
+  object: "%seller_fullname%, vous avez été détaché de %garage_name%"
+  body: >
+    <div>
+        <p>Vous avez avez été détaché de %garage_name% par %administrator_fullname%.</p>
+        <ul>
+            <li>Page entreprise : <a href="%garage_url%">%garage_url%</a></li>
+            <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
+        </ul>
+    </div>
+  action:
+    see_garage: Voir la page entreprise
+    contact: Contacter %administrator_fullname%
 
 inviteByEmailToRegister:
-    object: "%administrator_fullname% vous invite à vous inscrire sur Wamcar"
-    body: >
-        <div>
-            <p>%administrator_fullname% souhaite que vous vous inscriviez sur Wamcar afin que vous puissiez collaborer.</p>
-            <ul>
-                <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
-            </ul>
-    action.register: S'inscrire
+  object: "%administrator_fullname% vous invite à vous inscrire sur Wamcar"
+  body: >
+    <div>
+        <p>%administrator_fullname% souhaite que vous vous inscriviez sur Wamcar afin que vous puissiez collaborer.</p>
+        <ul>
+            <li>Page du gestionnaire: <a href="%administrator_url%">%administrator_url%</a></li>
+        </ul>
+  action.register: S'inscrire
 
 notifyAdminOfGoogleApiReturn:
-    object: "Wamcar ADMIN-Google API Return Error"
-    body: >
-        <p>Une erreur est survenue lors de l'appel à l'API Google:</p>
-        <p>%url_call%<p>
-        <p>%status% : %message%</p>
+  object: "Wamcar ADMIN-Google API Return Error"
+  body: >
+    <p>Une erreur est survenue lors de l'appel à l'API Google:</p>
+    <p>%url_call%<p>
+    <p>%status% : %message%</p>
