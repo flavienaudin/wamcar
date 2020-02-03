@@ -22,8 +22,10 @@
 {% macro encart_vehicle(thumbnail_url, vehicleUrl, vehicleMake, vehicleModelName, vehicleMileage, vehiclePrice) %}
     <table style="margin-bottom: 20px;">
         <tr>
-            <td width="200" style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5; vertical-align: center">
-                <a href="{{ vehicleUrl }}"><img src="{{ thumbnail_url }}" alt="{{ vehicleMake }} {{ vehicleModelName }}"></a>
+            <td width="200"
+                style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5; vertical-align: center">
+                <a href="{{ vehicleUrl }}"><img src="{{ thumbnail_url }}"
+                                                alt="{{ vehicleMake }} {{ vehicleModelName }}"></a>
             </td>
             <td style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-right: 1px solid #E5E5E5; padding: 15px 20px;">
                 <div style="font-weight: bold; margin-bottom: 5px;">
@@ -65,7 +67,9 @@
                                             <table>
                                                 <tr>
                                                     <th>
-                                                        <a href="{{ url('front_default', logo_utm) }}"><img src="{{ absolute_url(asset('assets/images/logo/logo-wamcar.png')) }}" alt="Wamcar"></a>
+                                                        <a href="{{ url('front_default', logo_utm) }}">
+                                                            <img src="{{ absolute_url(asset('assets/images/logo/logo-wamcar.svg')) }}"
+                                                                 alt="Wamcar"></a>
                                                     </th>
                                                 </tr>
                                             </table>
@@ -84,8 +88,7 @@
                                                         <table class="spacer">
                                                             <tbody>
                                                             <tr>
-                                                                <td height="30px"
-                                                                    style="font-size:30px;line-height:30px;">&#xA0;
+                                                                <td height="30px" style="font-size:30px;line-height:30px;">&#xA0;
                                                                 </td>
                                                             </tr>
                                                             </tbody>
@@ -136,7 +139,9 @@
                                                 <tr>
                                                     <th>
                                                         <p>{{ 'email.footer.legal'|trans }}</p>
-                                                        <p>{{ 'email.footer.manage_preference'|trans({'%edit_preference_url%':url('front_user_edit_preferences', preferences_utm) })|raw }}</p>
+                                                        {% if managePrefDisabled is not defined or not managePrefDisabled %}
+                                                            <p>{{ 'email.footer.manage_preference'|trans({'%edit_preference_url%':url('front_user_edit_preferences', preferences_utm) })|raw }}</p>
+                                                        {% endif %}
                                                         <p>{{ 'email.footer.copyright'|trans({'%year%':"now"|date('Y')})|raw }}</p>
                                                     </th>
                                                     <th class="expander"></th>

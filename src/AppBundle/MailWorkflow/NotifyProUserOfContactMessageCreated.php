@@ -62,9 +62,13 @@ class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler imp
             // Use only the global email frequency preference
             // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
         ) {*/
-        $emailObject = $this->translator->trans('notifyProUserOfContactMessageCreated.object', [
-            '%proContactMessageAuthorName%' => $contactFullName
-        ], 'email');
+        if ($proContactMessage->getCreatedAt() != null) {
+            $emailObject = $this->translator->trans('notifyProUserOfContactMessageCreated.object.vehicle', [], 'email');
+        } else {
+            $emailObject = $this->translator->trans('notifyProUserOfContactMessageCreated.object.profile', [
+                '%proContactMessageAuthorName%' => $contactFullName
+            ], 'email');
+        }
         $trackingKeywords = 'advisor' . $proUser->getId();
 
         $commonUTM = [
@@ -120,7 +124,6 @@ class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler imp
                         : null,
                 'vehiclePrice' => ($proContactMessage->getVehicle() instanceof ProVehicle ? $proContactMessage->getVehicle()->getPrice() : null),
                 'thumbnailUrl' => $pathImg
-
             ],
             new EmailRecipientList([$this->createUserEmailContact($proUser)]),
             [],

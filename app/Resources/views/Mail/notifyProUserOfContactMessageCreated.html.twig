@@ -3,30 +3,42 @@
 {% trans_default_domain 'email' %}
 {% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
 
-{% block title %}{{ 'notifyProUserOfContactMessageCreated.object'|trans({'%proContactMessageAuthorName%%': contactFullName}) }}{% endblock %}
-
-{% block welcome %}{% endblock %}
+{% block title %}
+    {% if vehicle is not null %}
+        {{ 'notifyProUserOfContactMessageCreated.object.vehicle'|trans }}
+    {% else %}
+        {{ 'notifyProUserOfContactMessageCreated.object.profile'|trans({'%proContactMessageAuthorName%%': contactFullName}) }}
+    {% endif %}
+{% endblock %}
 
 {% block body %}
     <div>
         <div>
-            <strong style="font-size: 14px;">{{ contactFullName }}</strong><br>
-
-            <u>Email :</u> <a href="mailto:{{ contactEmail }}">{{ contactEmail }}</a><br>
-
-            {% if contactPhonenumber is not empty %}
-                <u>Téléphone :</u> {{ contactPhonenumber|phoneFormat }}
-            {% endif %}
-        </div>
-        <div>
-            <div style="margin-top: 15px; width: 100%; padding: 5px 10px; background-color: #f3f3f3; border: 1px solid #cacaca;">
+            {{ 'notifyProUserOfContactMessageCreated.body.message'|trans({
+                '%senderFullname%': contactFullName
+            }) }}
+            <div style="margin-top: 15px; margin-bottom: 15px; width: 100%; padding: 5px 10px; background-color: #f3f3f3; border: 1px solid #cacaca;">
                 {{ message|nl2br }}
             </div>
-
-            {% if vehicle != null %}
+            {% if vehicle is not null %}
+                <br>
+                {{ 'notifyProUserOfContactMessageCreated.body.vehicle'|trans({
+                    '%vehicleMakeModel%': vehicle.name
+                })|raw }}
                 {{ encart_vehicle(thumbnailUrl, vehicleUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
-             {% endif %}
-            {{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label'|trans) }}
+            {% endif %}
+            {{ 'notifyProUserOfContactMessageCreated.body.contact'|trans }}
+
+            <table>
+                <tr>
+                    <td>{{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label.email'|trans) }}</td>
+                    <td>
+                        {% if contactPhonenumber is not empty %}
+                            {{ action_button('tel:' ~ contactPhonenumber, 'notifyProUserOfContactMessageCreated.action_label.phone'|trans) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 {% endblock %}

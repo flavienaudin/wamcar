@@ -9,10 +9,27 @@
 {% block body %}
     <div>
         <div>
-            Pour profiter pleinement de Wamcar, inscrivez-vous et ....
+            {% if vehicle is not null and proUser is not null %}
+                {{ 'encourageToRegisterAfterProContact.body.vehicle'|trans({
+                    '%proFullname%': proUser.fullname,
+                    '%proUrl%': url('front_view_pro_user_info',{'slug':proUser.slug}),
+                    '%vehicleUrl%': url('front_vehicle_pro_detail',{'slug':vehicle.slug}),
+                    '%vehicleMakeModel%': vehicle.name,
+                    '%garageName%': vehicle.garage.name,
+                    '%garageUrl%': url('front_garage_view',{'slug':vehicle.garage.slug})
+                })|raw }}
+            {% elseif proUser is not null %}
+                {{ 'encourageToRegisterAfterProContact.body.profile'|transchoice(
+                    proUser.numberOfGarages, {
+                        '%proFullname%': proUser.fullname,
+                        '%proUrl%': url('front_view_pro_user_info',{'slug':proUser.slug}),
+                        '%garageName%': (proUser.numberOfGarages == 1?proUser.garages[0].name:null),
+                        '%garageUrl%': (proUser.numberOfGarages == 1?url('front_garage_view',{'slug':proUser.garages[0].slug}):null)
+                    })|raw }}
+            {% endif %}
+            {{ 'encourageToRegisterAfterProContact.body.common'|trans|raw }}
             <div style="display: flex; width: 100%;">
                 {{ action_button(url('register', {'type':constant("Wamcar\\User\\PersonalUser::TYPE")}), 'encourageToRegisterAfterProContact.action_label.personal'|trans) }}
-                {{ action_button(url('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}), 'encourageToRegisterAfterProContact.action_label.pro'|trans) }}
             </div>
         </div>
     </div>

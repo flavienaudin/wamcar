@@ -299,7 +299,7 @@
                     {% endif %}
 
                     {{ include('front/Seller/includes/videosinsert.html.twig', {
-                        'mainClass': editVideosInsertFormViews[videosInsert.id] is not null and not editVideosInsertFormViews[videosInsert.id].vars.valid ? 'is-hidden' : ''
+                        'mainClass': editVideosInsertFormViews[videosInsert.id] is defined and not editVideosInsertFormViews[videosInsert.id].vars.valid ? 'is-hidden' : ''
                     }) }}
 
                     {% if editVideosInsertFormViews[videosInsert.id] is defined %}
