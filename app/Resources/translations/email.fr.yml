@@ -69,10 +69,13 @@ notifyProUserOfContactMessageCreated:
     action_label: Répondre par e-mail
 
 encourageToRegisterAfterProContact:
-    object: "Inscrivez-vous sur Wamcar.com"
+    object: "Votre demande d'information a bien été envoyée"
+    body:
+      common: "<p>Nous vous invitons à vous inscrire sur Wamcar et ce afin de profiter de nombreux services et d'un service plus personnalisé.</p>"
+      profile: "{0}<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>|{1} <p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>|[2,Inf[<p>Nous avons transmis votre message à <a href='%proUrl%'>%proFullname%</a>.</p>"
+      vehicle: "<p>Nous avons transmis votre message concernant le véhicule <a href='%vehicleUrl%'>%vehicleMakeModel%</a> à <a href='%proUrl%'>%proFullname%</a> de <a href='%garageUrl%'>%garageName%</a>.</p>"
     action_label:
-      pro: Conseiller Automobile
-      personal: Particulier
+      personal: M'inscrire
 
 notifyUserOfLikeVehicle:
     object: "Nouveau like sur votre annonce %annonceTitle%"
