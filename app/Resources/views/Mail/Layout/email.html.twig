@@ -4,8 +4,8 @@
 {% set preferences_utm = common_utm is defined ? common_utm|merge({'utm_content':'edit_preference'}) : {} %}
 {% set transparentPixel = transparentPixel|default({}) %}
 
-{% macro action_button(action_url, action_label) %}
-    <table class="button">
+{% macro action_button(action_url, action_label, centered = false) %}
+    <table class="button {{ centered ? 'expand center' }}">
         <tr>
             <td>
                 <table>
@@ -22,9 +22,8 @@
 {% macro encart_vehicle(thumbnail_url, vehicleUrl, vehicleMake, vehicleModelName, vehicleMileage, vehiclePrice) %}
     <table style="margin-bottom: 20px;">
         <tr>
-            <td width="200"
-                style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5; vertical-align: center">
-                <a href="{{ vehicleUrl }}"><img src="{{ thumbnail_url }}"
+            <td width="200" style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-left: 1px solid #E5E5E5; vertical-align: middle">
+                <a href="{{ vehicleUrl }}"><img src="{{ thumbnail_url }}" class="float-center"
                                                 alt="{{ vehicleMake }} {{ vehicleModelName }}"></a>
             </td>
             <td style="border-top: 1px solid #E5E5E5; border-bottom: 1px solid #E5E5E5; border-right: 1px solid #E5E5E5; padding: 15px 20px;">
