@@ -71,10 +71,9 @@ notifyProUserOfContactMessageCreated:
   body:
     message: "%senderFullname% vous a laissé le message suivant :"
     vehicle: 'Cette personne vous a contacté depuis la fiche véhicule <a href="vehicleUrl">%vehicleMakeModel%</a>'
-    contact: "Contact :"
   action_label:
-    email: E-mail
-    phone: Téléphone
+    email: Répondre par e-mail
+    phone: Appeler le %phoneNumber%
 
 encourageToRegisterAfterProContact:
   object: "Votre demande d'information a bien été envoyée"

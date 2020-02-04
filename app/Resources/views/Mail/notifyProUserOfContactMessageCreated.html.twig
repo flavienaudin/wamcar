@@ -27,18 +27,13 @@
                 })|raw }}
                 {{ encart_vehicle(thumbnailUrl, vehicleUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
             {% endif %}
-            {{ 'notifyProUserOfContactMessageCreated.body.contact'|trans }}
 
-            <table>
-                <tr>
-                    <td>{{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label.email'|trans) }}</td>
-                    <td>
-                        {% if contactPhonenumber is not empty %}
-                            {{ action_button('tel:' ~ contactPhonenumber, 'notifyProUserOfContactMessageCreated.action_label.phone'|trans) }}
-                        {% endif %}
-                    </td>
-                </tr>
-            </table>
+            <p>{{ action_button('mailto:' ~ contactEmail, 'notifyProUserOfContactMessageCreated.action_label.email'|trans, true) }}</p>
+            {% if contactPhonenumber is not empty %}
+                <p>{{ action_button('tel:' ~ contactPhonenumber, 'notifyProUserOfContactMessageCreated.action_label.phone'|trans({
+                        '%phoneNumber%' : contactPhonenumber|phoneFormat
+                    }), true) }}</p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
