@@ -1,0 +1,26 @@
+{{ form_start(selectProServicesByCategoryForm, {
+    'attr' : { 'data-abide' : 'data-abide', 'novalidate': 'novalidate'}
+}) }}
+<div class="row">
+    {% for childName, categoryProServicesForm in selectProServicesByCategoryForm.children %}
+        {% if not(childName starts with '_') %}
+            <div class="column small-12 proservice-section">
+                <h2 class="">{{ categoryProServicesForm.vars.label }}</h2>
+
+                <div class="row">
+                    {% for id, proServiceCheckbox in categoryProServicesForm.children %}
+                        <div class="column small-12 medium-6 large-4">
+                            {{ form_row(proServiceCheckbox, {}) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+
+    <div class="column small-12 proservice-section action-buttons is-flex align-center-middle">
+        <a href="{{ url('front_view_current_user_info') }}" class="button white square">{{ 'global.button.back'|trans }}</a>
+        <button type="submit" class="button square">{{ 'global.button.next'|trans }}</button>
+    </div>
+</div>
+{{ form_end(selectProServicesByCategoryForm) }}

@@ -161,6 +161,14 @@ front_show_number:
     controller: AppBundle:Front\PersonalContext\User:showPhoneNumber
     methods: POST
 
+front_edit_prouser_proservices:
+    path: /proservices/edit
+    controller: AppBundle:Front\ProContext\ProService:editProUserProServices
+
+front_edit_prouser_specialities:
+    path: /prospecialities/edit
+    controller: AppBundle:Front\ProContext\ProService:editProUserSpecialities
+
 # Garage
 front_garage_view:
     path: /g/{slug}
@@ -321,7 +329,6 @@ front_vehicle_personal_delete:
     controller: AppBundle:Front\ProContext\PersonalVehicle:delete
 
 # Search
-
 front_vehicle_search_form_update:
     path: /recherche-voitures/form_update.json
     controller: AppBundle:Front\ProContext\Search:updateSeacrhVehicleForm
@@ -439,7 +446,6 @@ front_affinity_pro_form:
 front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
-
 
 
 

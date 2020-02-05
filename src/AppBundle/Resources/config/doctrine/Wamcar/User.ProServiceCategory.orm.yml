@@ -31,3 +31,5 @@ Wamcar\User\ProServiceCategory:
       targetEntity: Wamcar\User\ProService
       mappedBy: category
       cascade: ["persist", "merge", "remove"]
+      orderBy:
+        name: 'ASC'

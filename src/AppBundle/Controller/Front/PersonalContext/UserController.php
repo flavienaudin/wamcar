@@ -364,7 +364,7 @@ class UserController extends BaseController
         $userIsCurrentUser = $user->is($currentUser);
 
         if (!$user->canSeeMyProfile($currentUser)) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized.to_access_profile');
             throw new AccessDeniedException();
         }
 
@@ -663,7 +663,7 @@ class UserController extends BaseController
         }
 
         if (!$user->canSeeMyProfile($this->getUser())) {
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized_to_access_profile');
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized.to_access_profile');
             throw new AccessDeniedException();
         }
 
