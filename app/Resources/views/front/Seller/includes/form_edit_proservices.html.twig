@@ -19,8 +19,8 @@
     {% endfor %}
 
     <div class="column small-12 proservice-section action-buttons is-flex align-center-middle">
-        <a href="{{ url('front_view_current_user_info') }}" class="button white square">{{ 'global.button.back'|trans }}</a>
-        <button type="submit" class="button square">{{ 'global.button.next'|trans }}</button>
+        <a href="{{ app.request.headers.get('referer') }}" class="button white square">{{ 'global.button.back'|trans }}</a>
+        <button type="submit" class="button square">{{ 'user.proservices.edit.action.submit'|trans }}</button>
     </div>
 </div>
 {{ form_end(selectProServicesByCategoryForm) }}

@@ -106,8 +106,6 @@ class VehicleSpecificsType extends AbstractType
         $builder->get('maintenanceState')->addModelTransformer(new EnumDataTransformer(MaintenanceState::class));
 
         $builder->get('isUsed')->addModelTransformer(new VehicleStatutDataTransformer());
-        $builder->get('isImported')->addModelTransformer(new YesNoDataTransformer());
-        $builder->get('isFirstHand')->addModelTransformer(new YesNoDataTransformer());
 
         $this->addAutocompletableCityField($builder, $data);
     }

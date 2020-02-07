@@ -1,0 +1,31 @@
+{{ form_start(selectSpecialitiesForm, {
+    'attr' : {'class':'form-compact', 'data-abide' : 'data-abide', 'novalidate': 'novalidate'}
+}) }}
+<div class="row">
+
+
+    <div class="column small-12 proservice-section">
+        <h2 class=""></h2>
+
+        <div class="row">
+            <div class="column small-12 margin-bottom-1">
+                <p>{{ 'user.prospecialities.edit.text'|trans }}</p>
+            </div>
+            <div class="column small-12">
+                <div class="row">
+                    {% for proUserProServiceForSpecialityForm in selectSpecialitiesForm.proUserProServicesForSpecialities %}
+                        <div class="column small-12 medium-6 large-4">
+                            {{ form_widget(proUserProServiceForSpecialityForm, {}) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="column small-12 proservice-section action-buttons is-flex align-center-middle">
+        <a href="{{ app.request.headers.get('referer') }}" class="button white square">{{ 'global.button.back'|trans }}</a>
+        <button type="submit" class="button square">{{ 'user.prospecialities.edit.action.submit'|trans }}</button>
+    </div>
+</div>
+{{ form_end(selectSpecialitiesForm) }}

@@ -14,6 +14,7 @@ use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\ProUserPresentationDTO;
+use AppBundle\Form\DTO\ProUserProSpecialitiesDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
@@ -612,7 +613,7 @@ class UserEditionService
         $proUserProServicesToDelete = [];
         /** @var ProUserProService $proUserProService */
         foreach ($proUser->getProUserProServices() as $proUserProService) {
-            if(in_array($proUserProService->getProService(), $proServicesToDelete)) {
+            if (in_array($proUserProService->getProService(), $proServicesToDelete)) {
                 $proUserProServicesToDelete[] = $proUserProService;
             }
 
@@ -628,6 +629,29 @@ class UserEditionService
 
         $this->proUserProServiceRepository->removeBulk($proUserProServicesToDelete);
         $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
+    }
+
+    /**
+     * @param ProUser $proUser
+     * @param ProUserProSpecialitiesDTO $proUserProSpecialitiesDTO
+     * @return ProUser
+     */
+    public function updateProUserSpecialities(ProUser $proUser, ProUserProSpecialitiesDTO $proUserProSpecialitiesDTO): ProUser
+    {
+        /** @var ProUserProService $proUserProService */
+        foreach ($proUser->getProUserProServices() as $proUserProService) {
+            if (isset($proUserProSpecialitiesDTO->getProUserProServicesForSpecialities()[$proUserProService->getId()])) {
+                $proUserProService->setIsSpeciality($proUserProSpecialitiesDTO->getProUserProServicesForSpecialities()[$proUserProService->getId()]->isSpeciality());
+            } else {
+                $proUserProService->setIsSpeciality(false);
+            }
+        }
+
+        $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
+
+        return $proUser;
     }
 
     /**

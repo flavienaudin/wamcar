@@ -430,6 +430,11 @@
     </li>
 {% endblock %}
 
+
+{% block _pro_user_specialities_select_proUserProServicesForSpecialities_entry_widget %}
+    {{ form_row(form.isSpeciality) }}
+{% endblock %}
+
 {%- block city_widget -%}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}

@@ -6,6 +6,7 @@ flash:
       edit:
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
+        prouser_specialities: Vos spécialités ont été mises à jour.
       delete:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
@@ -1014,9 +1015,14 @@ user:
   proservices:
     edit:
       title: Editer mes services
-  prospecialites:
+      action:
+        submit: Enregistrer
+  prospecialities:
     edit:
+      text: Sélectionnez parmi vos services, vos points forts que vous souhaitez mettre en avant.
       title: Editer mes spécialités
+      action:
+        submit: Enregistrer
   presentation:
     title:
       personal: Présentation

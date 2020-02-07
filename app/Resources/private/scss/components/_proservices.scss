@@ -10,6 +10,8 @@
     background-color: $white;
 
     &.action-buttons {
+      background-color: transparent;
+
       a, button {
         margin: 0 rem-calc(10);
       }
