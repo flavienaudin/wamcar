@@ -29,19 +29,23 @@ class CityEntityIndexer extends EntityIndexer
 
         $qb = new QueryBuilder();
         $boolQuery = $qb->query()->bool();
+        $boolQuery->setMinimumShouldMatch(1);
 
         foreach (explode(' ', $terms) as $term) {
-            $postalCodeQuery = $qb->query()->prefix(['postalCode' => $term]);
-            $boolQuery->addShould($postalCodeQuery);
+            if(is_int($term[0]) ) { // to deal with Corse CP 2A.../2B...
+                $postalCodeQuery = $qb->query()->prefix(['postalCode' => $term]);
+                $boolQuery->addShould($postalCodeQuery);
 
-            $postalCodeTermQuery = $qb->query()->term(['postalCode' => ['value' => $term, 'boost' => 2]]);
-            $boolQuery->addShould($postalCodeTermQuery);
+                $postalCodeTermQuery = $qb->query()->term(['postalCode' => ['value' => $term]]);
+                $boolQuery->addShould($postalCodeTermQuery);
+            }else {
+                $cityNamePrefixQuery = $qb->query()->prefix(['cityName' => ['value' => $term]]);
+                $boolQuery->addShould($cityNamePrefixQuery);
 
-            $cityNamePrefixQuery = $qb->query()->prefix(['cityName' => ['value' => $term]]);
-            $boolQuery->addShould($cityNamePrefixQuery);
-
-            $cityNameMatchQuery = $qb->query()->term(['cityName' => ['value' => $term]]);
-            $boolQuery->addShould($cityNameMatchQuery);
+                $cityNameTermQuery = $qb->query()->match();
+                $cityNameTermQuery->setField('cityName' ,$term);
+                $boolQuery->addShould($cityNameTermQuery);
+            }
         }
 
         $mainQuery = new Query($boolQuery);
