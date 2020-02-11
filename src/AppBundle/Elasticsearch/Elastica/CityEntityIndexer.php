@@ -37,11 +37,11 @@ class CityEntityIndexer extends EntityIndexer
             $postalCodeTermQuery = $qb->query()->term(['postalCode' => ['value' => $term, 'boost' => 2]]);
             $boolQuery->addShould($postalCodeTermQuery);
 
-            $cityNameMatchQuery = $qb->query()->match('cityName' ,$term);
-            $boolQuery->addShould($cityNameMatchQuery);
+            $cityNamePrefixQuery = $qb->query()->prefix(['cityName' => ['value' => $term]]);
+            $boolQuery->addShould($cityNamePrefixQuery);
 
-            $cityNamePrefixQuery = $qb->query()->prefix(['cityName' => $term]);
-            $boolQuery->addShould($cityNamePrefixQuery );
+            $cityNameMatchQuery = $qb->query()->term(['cityName' => ['value' => $term]]);
+            $boolQuery->addShould($cityNameMatchQuery);
         }
 
         $mainQuery = new Query($boolQuery);
