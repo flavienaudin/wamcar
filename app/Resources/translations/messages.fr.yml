@@ -6,6 +6,7 @@ flash:
       edit:
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
+        prouser_services: Vos services ont été mis à jour.
         prouser_specialities: Vos spécialités ont été mises à jour.
       delete:
         soft: L'utilisateur a bien été supprimé.
@@ -105,6 +106,7 @@ flash:
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
         videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
+        prouser_specialities.no_service: Vous devez avoir sélectionné des services pour pouvoir définir vos spécialités.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.

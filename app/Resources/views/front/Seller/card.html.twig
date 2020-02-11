@@ -240,9 +240,9 @@
                     {% set userSpecialities = user.proUserSpecialities %}
                     {% set proServices = user.proUserServices(true) %}
                     {% set userHobbies = user.hobbies %}
-                    {% if userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
+                    {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
                         <div class="seller-services">
-                            {% if userSpecialities |length > 0 %}
+                            {% if userIsMe or userSpecialities |length > 0 %}
                                 <div>
                                     <h2>
                                         {% if userIsMe %}
@@ -258,7 +258,7 @@
                                 </div>
                             {% endif %}
 
-                            {% if proServices|length > 0 %}
+                            {% if userIsMe or proServices|length > 0 %}
                                 <div>
                                     <h2>
                                         {% if userIsMe %}
