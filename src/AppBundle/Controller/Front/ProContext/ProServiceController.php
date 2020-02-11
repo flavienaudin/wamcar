@@ -54,9 +54,9 @@ class ProServiceController extends BaseController
                 $selectedProServices = array_merge($selectedProServices, $services);
             }
             $this->userEditionService->updateProServicesOfUser($currentUser, $selectedProServices);
-            if($currentUser->getProUserProServices()->count() > 0) {
+            if ($currentUser->getProUserProServices()->count() > 0) {
                 return $this->redirectToRoute('front_edit_prouser_specialities');
-            }else{
+            } else {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.prouser_services');
                 return $this->redirectToRoute('front_view_current_user_info');
             }
@@ -78,7 +78,7 @@ class ProServiceController extends BaseController
             return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        if($currentUser->getProUserProServices()->count() === 0){
+        if ($currentUser->getProUserProServices()->count() === 0) {
             $this->session->getFlashBag()->add(
                 self::FLASH_LEVEL_WARNING,
                 'flash.error.user.edit.prouser_specialities.no_service'
@@ -89,11 +89,12 @@ class ProServiceController extends BaseController
         $proUserProSpecialitiesDTO = new ProUserProSpecialitiesDTO($currentUser);
         $selectSpecialitiesForm = $this->formFactory->create(ProUserSpecialitiesSelectType::class, $proUserProSpecialitiesDTO);
         $selectSpecialitiesForm->handleRequest($request);
-        if ($selectSpecialitiesForm->isSubmitted() && $selectSpecialitiesForm->isValid()) {
-
-            $this->userEditionService->updateProUserSpecialities($currentUser, $selectSpecialitiesForm->getData());
-            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.prouser_specialities');
-            return $this->redirectToRoute('front_view_current_user_info');
+        if ($selectSpecialitiesForm->isSubmitted()) {
+            if ($selectSpecialitiesForm->isValid()) {
+                $this->userEditionService->updateProUserSpecialities($currentUser, $selectSpecialitiesForm->getData());
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.prouser_specialities');
+                return $this->redirectToRoute('front_view_current_user_info');
+            }
         }
 
         return $this->render('/front/Seller/edit_prospecialities.html.twig', [

@@ -9,3 +9,5 @@ constraint:
   youtube:
     playlist:
       notfound: Veuillez indiquer l'ID d'une playlist Youtube existante.
+  max_speciality_selection:
+    max_selection: Vous ne pouvez pas sélectionner plus de %max% spécialités.
