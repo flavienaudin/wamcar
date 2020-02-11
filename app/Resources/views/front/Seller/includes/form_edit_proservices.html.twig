@@ -7,6 +7,10 @@
             <div class="column small-12 proservice-section">
                 <h2 class="">{{ categoryProServicesForm.vars.label }}</h2>
 
+                {% if categoryProServicesForm.vars.category_description is not empty %}
+                    <p>{{ categoryProServicesForm.vars.category_description }}</p>
+                {% endif %}
+
                 <div class="row">
                     {% for id, proServiceCheckbox in categoryProServicesForm.children %}
                         <div class="column small-12 medium-6 large-4">

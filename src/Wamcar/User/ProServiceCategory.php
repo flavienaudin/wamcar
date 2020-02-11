@@ -14,6 +14,8 @@ class ProServiceCategory
     private $id;
     /** @var string */
     private $label;
+    /** @var null|string */
+    private $description;
     /** @var bool */
     private $choiceMultiple;
     /** @var null|int */
@@ -62,6 +64,22 @@ class ProServiceCategory
     public function setLabel(string $label): void
     {
         $this->label = $label;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string|null $description
+     */
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     /**

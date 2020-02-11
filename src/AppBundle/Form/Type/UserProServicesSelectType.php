@@ -56,14 +56,13 @@ class UserProServicesSelectType extends AbstractType
                         'label' => $category->getLabel(),
                         'choices' => $category->getProServices(),
                         'class' => ProService::class,
-                        'data' => $dataByCategory
+                        'data' => $dataByCategory,
+                        'category_description' => $category->getDescription()
                     ]);
             }
 
             $formEvent->setData($userProServicesByCategory);
         });
-
-
     }
 
     public function configureOptions(OptionsResolver $resolver)

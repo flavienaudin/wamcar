@@ -173,6 +173,7 @@ easy_admin:
       form:
         fields:
           - { property: 'label'}
+          - { property: 'description', type: 'textarea'}
           - { property: 'choiceMultiple'}
           - { property: 'positionMainFilter'}
           - { property: 'positionMoreFilter'}
