@@ -26,7 +26,6 @@ class PersonalUserInformationType extends UserInformationType
             ->add('phoneDisplay', YesNoType::class, [
                 'required' => false
             ]);
-        $builder->get('phoneDisplay')->addModelTransformer(new YesNoDataTransformer());
         $this->addAutocompletableCityField($builder, $builder->getData());
     }
 

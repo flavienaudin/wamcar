@@ -6,6 +6,8 @@ flash:
       edit:
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
+        prouser_services: Vos services ont été mis à jour.
+        prouser_specialities: Vos spécialités ont été mises à jour.
       delete:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
@@ -62,6 +64,7 @@ flash:
       sent: Votre message a bien été envoyé à %proUserName%
     pro_user_pro_service:
       delete: Le service %servicename% n'est plus proposé par le conseiller %username%
+      edit_specialities: Vos spécialités ont été mises à jour.
     pro_service:
       delete: Le service %servicename% a été supprimé
     pro_service_category:
@@ -103,6 +106,7 @@ flash:
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
         videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
+        prouser_specialities.no_service: Vous devez avoir sélectionné des services pour pouvoir définir vos spécialités.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
@@ -125,11 +129,14 @@ flash:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
       assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
-
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
-    user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+    user:
+      unauthorized:
+        to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+        edit_prouser_proservices: Seules les conseillers automobile peuvent éditer leurs services.
+        edit_prouser_specialities: Seules les conseillers automobile peuvent éditer leurs spécialités.
     sales:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
       unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
@@ -177,6 +184,7 @@ global:
     previous_step: Etape précédente
     next_step: Etape suivante
     back: Retour
+    next: Suivant
     validate: Valider
     display_phone_number: Afficher le numéro
     see_phone_number: Voir le numéro
@@ -1006,6 +1014,17 @@ user:
           alors détachés du garage.
         member: Vous êtes membre de ce garage. Vous serez simplement détaché.
         no_garage: Vous n'êtes membre d'aucun garage.
+  proservices:
+    edit:
+      title: Editer mes services
+      action:
+        submit: Enregistrer
+  prospecialities:
+    edit:
+      text: Sélectionnez parmi vos services, vos points forts que vous souhaitez mettre en avant.
+      title: Editer mes spécialités
+      action:
+        submit: Enregistrer
   presentation:
     title:
       personal: Présentation

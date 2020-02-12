@@ -403,12 +403,12 @@ class ProUser extends BaseUser
         $specialities = $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
             return $proUserProService->isSpeciality();
         });
-        if(!empty($highlightSpecialities)){
+        if (!empty($highlightSpecialities)) {
             $specialities = $specialities->toArray();
-            uasort($specialities, function (ProUserProService $ps1, ProUserProService $ps2) use ($highlightSpecialities){
-                if(in_array($ps1->getProService(), $highlightSpecialities)){
+            uasort($specialities, function (ProUserProService $ps1, ProUserProService $ps2) use ($highlightSpecialities) {
+                if (in_array($ps1->getProService(), $highlightSpecialities)) {
                     return -1;
-                }elseif(in_array($ps2->getProService(), $highlightSpecialities)){
+                } elseif (in_array($ps2->getProService(), $highlightSpecialities)) {
                     return 1;
                 }
                 return 0;
@@ -420,17 +420,47 @@ class ProUser extends BaseUser
 
     /**
      * @param bool $excludeSpecialities
-     * @return ArrayCollection|Collection
+     * @param bool $excludeDisabledCategory To exclude ProService which Category is disabled
+     * @return array
      */
-    public function getProUserServices(bool $excludeSpecialities = false){
-        if($excludeSpecialities) {
+    public function getProUserServices(bool $excludeSpecialities = false, bool $excludeDisabledCategory = false)
+    {
+        if ($excludeSpecialities) {
             $criteria = Criteria::create();
             $criteria->where(Criteria::expr()->eq('isSpeciality', false));
-            return $this->proUserProServices->matching($criteria);
-        }else{
-            return $this->proUserProServices;
+            $result = $this->proUserProServices->matching($criteria);
+        } else {
+            $result = $this->proUserProServices;
         }
 
+        if ($excludeDisabledCategory) {
+            $enabledServices = array_filter($result->toArray(), function (ProUserProService $proUserProService) {
+                return $proUserProService->getProService()->getCategory()->isEnabled();
+            });
+        } else {
+            $enabledServices = $result->toArray();
+        }
+
+        return array_map(function (ProUserProService $proUserProService) {
+            return $proUserProService->getProService();
+        }, $enabledServices);
+    }
+
+    public function getProServicesByCategory()
+    {
+        $proServicesByCategory = [];
+        /** @var ProUserProService $proUserProService */
+        foreach ($this->proUserProServices as $proUserProService) {
+            $proService = $proUserProService->getProService();
+            if($proService->getCategory()->isEnabled()) {
+                if (!isset($proServicesByCategory[$proService->getCategory()->getLabel()])) {
+                    $proServicesByCategory[$proService->getCategory()->getLabel()] = [];
+                }
+                $proServicesByCategory[$proService->getCategory()->getLabel()][$proService->getSlug()] = $proService;
+            }
+        }
+
+        return $proServicesByCategory;
     }
 
     /**

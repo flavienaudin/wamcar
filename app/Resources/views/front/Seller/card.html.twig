@@ -238,13 +238,17 @@
                     {% endif %}
 
                     {% set userSpecialities = user.proUserSpecialities %}
-                    {% set proServices = user.proUserServices(true) %}
+                    {% set proServices = user.proUserServices(true, true) %}
                     {% set userHobbies = user.hobbies %}
-                    {% if userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
+                    {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
                         <div class="seller-services">
-                            {% if userSpecialities |length > 0 %}
+                            {% if userIsMe or userSpecialities |length > 0 %}
                                 <div>
-                                    <h2>{{ 'user.profile.proservices.specialities.title'|trans }}</h2>
+                                    <h2>
+                                        {% if userIsMe %}
+                                            <a href="{{ path('front_edit_prouser_specialities') }}" class="profil-section-action icon-pen"></a>
+                                        {% endif %}
+                                        {{ 'user.profile.proservices.specialities.title'|trans }}</h2>
                                     <div class="tag-container">
                                         {% for proUserProSpeciality in userSpecialities %}
                                             <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
@@ -254,13 +258,17 @@
                                 </div>
                             {% endif %}
 
-                            {% if proServices|length > 0 %}
+                            {% if userIsMe or proServices|length > 0 %}
                                 <div>
-                                    <h2>{{ 'user.profile.proservices.services.title'|trans }}</h2>
+                                    <h2>
+                                        {% if userIsMe %}
+                                            <a href="{{ path('front_edit_prouser_proservices') }}" class="profil-section-action icon-pen"></a>
+                                        {% endif %}
+                                        {{ 'user.profile.proservices.services.title'|trans }}</h2>
                                     <div class="tag-container">
-                                        {% for proUserProService in proServices %}
-                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProService.proService.slug}) }}"
-                                               class="tag">{{ proUserProService.proService.name }}</a>
+                                        {% for proUserServices in proServices %}
+                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserServices.slug}) }}"
+                                               class="tag">{{ proUserServices.name }}</a>
                                         {% endfor %}
                                     </div>
                                 </div>
