@@ -408,7 +408,7 @@ class UserController extends BaseController
         $editVideosInsertForm = [];
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
-        if ($currentUser instanceof ProUser && $userIsCurrentUser) {
+        if ($currentUser instanceof ProUser && $this->isGranted(UserVoter::EDIT, $user)) {
             // Avatar
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
@@ -416,11 +416,8 @@ class UserController extends BaseController
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editAvatar($currentUser, $avatarForm->getData());
                 $this->eventBus->handle(new ProUserUpdated($currentUser));
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.user.edit.profile'
-                );
-                return $this->redirectToRoute('front_view_current_user_info');
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
+                return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
             // Form to add garage
@@ -436,7 +433,7 @@ class UserController extends BaseController
                 if ($presentationForm->isValid()) {
                     $this->userEditionService->editPresentationInformations($currentUser, $proUserPresentationDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
-                    return $this->redirectToRoute('front_view_current_user_info');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
                 }
@@ -450,7 +447,7 @@ class UserController extends BaseController
                 if ($videoPresentationForm->isValid()) {
                     $this->userEditionService->editVideoInformations($currentUser, $proVideoDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
-                    return $this->redirectToRoute('front_view_current_user_info');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.video');
                 }
@@ -465,7 +462,7 @@ class UserController extends BaseController
                 if ($addVideosInsertForm->isSubmitted()) {
                     $this->userVideosInsertService->addVideosInsert($currentUser, $addVideosInsertDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.add.videos_insert');
-                    return $this->redirectToRoute('front_view_current_user_info');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
 
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.add.videos_insert');
@@ -485,8 +482,8 @@ class UserController extends BaseController
                         if ($editVideosInsertForm[$userVideosInsert->getId()]->isValid()) {
                             $this->userVideosInsertService->editVideosInsert($userVideosInsert, $editVideosInsertDTO);
                             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.videos_insert');
-                            return $this->redirectToRoute('front_view_current_user_info', [
-                                '_fragment' => 'videos-encart-' . $userVideosInsert->getId()
+                            return $this->redirectToRoute('front_view_pro_user_info', [
+                                'slug' => $user->getSlug(), '_fragment' => 'videos-encart-' . $userVideosInsert->getId()
                             ]);
                         } else {
                             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.videos_insert');
@@ -620,15 +617,16 @@ class UserController extends BaseController
     public function deleteVideosInsertAction(VideosInsert $videosInsert): Response
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
+        $userOfVideoInsert = $videosInsert->getUser();
         if (!$this->isGranted(VideosInsertVoter::DELETE, $videosInsert)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.videos_insert.delete');
-            return $this->redirectToRoute('front_view_current_user_info');
+            return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userOfVideoInsert->getSlug()]);
         }
 
         $this->userVideosInsertService->deleteVideosInsert($videosInsert);
 
         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.delete.videos_insert');
-        return $this->redirectToRoute('front_view_current_user_info');
+        return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $userOfVideoInsert->getSlug()]);
     }
 
     /**
