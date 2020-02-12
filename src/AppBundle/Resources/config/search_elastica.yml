@@ -105,6 +105,8 @@ parameters:
             type: keyword
           cityName:
             type: text
+            analyzer: simple
+            search_analyzer: simple
             fields:
               keyword:
                 type: keyword
