@@ -5,9 +5,7 @@ namespace AppBundle\Form\Type;
 
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
-use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\UserInformationDTO;
-use AppBundle\Form\Type\SpecificField\YesNoType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

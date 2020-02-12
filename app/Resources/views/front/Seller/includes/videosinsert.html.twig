@@ -1,0 +1,26 @@
+{% set mainClass = mainClass|default('') %}
+
+<div id="jsVideoInsertVideos-{{ videosInsert.id }}" class="{{ mainClass }}" data-toggler="is-hidden">
+    {% if videosInsert is instanceof("Wamcar\\User\\YoutubePlaylistInsert") %}
+        {% if videosInsert.playlistData is not null %}
+            <div class="js-videosinsert-videos row">
+                {{  include(':front/Seller/includes:videosinsert_youtubeplaylistvideos.html.twig') }}
+            </div>
+            {% if videosInsert.playlistData.nextPageToken is not empty %}
+                <div class="row margin-top-1">
+                    <div class="column small-12">
+                        <button class="js-show-more-videos button white is-center"
+                                data-href="{{ url('front_show_more_videos_from_videos_insert', {
+                                    'id' : videosInsert.id,
+                                    'pagetoken' : videosInsert.playlistData.nextPageToken,
+                                    'currentpageidx' : videosInsert.playlistData.currentPageIdx
+                                }) }}">{{ 'user.video_insert.video.show_x_more'|transchoice(
+                                videosInsert.playlistData.nextTokenVideosNumber,
+                                {'%nbRemainingVideos%':videosInsert.playlistData.nextTokenVideosNumber}) }}
+                        </button>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+</div>

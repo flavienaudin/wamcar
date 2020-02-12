@@ -112,7 +112,9 @@ class ConversationEditionService
             $proContactMessageDTO->lastname,
             $proContactMessageDTO->phonenumber,
             $proContactMessageDTO->email,
-            $proContactMessageDTO->message);
+            $proContactMessageDTO->message,
+            $proContactMessageDTO->vehicle
+        );
         $this->proContactMessageRepository->update($proContactMessage);
         return $proContactMessage;
     }

@@ -1,20 +1,26 @@
 services:
-    GoogleApi\GoogleMapsApiConnector:
-        autowire: true
-        autoconfigure: true
-        public: false
-        arguments:
-          - '@event_bus'
-          - '@logger'
-          - '%env(GOOGLE_MAPS_API_HOST)%'
-          - '%env(GOOGLE_API_SERVER_KEY)%'
-          - '%env(GOOGLE_MAPS_API_PLACE_DETAILS_PATH)%'
+  GoogleApi\GoogleMapsApiConnector:
+    autowire: true
+    autoconfigure: true
+    public: false
+    arguments:
+      - '@event_bus'
+      - '@logger'
+      - '%env(GOOGLE_MAPS_API_HOST)%'
+      - '%env(GOOGLE_API_SERVER_KEY)%'
+      - '%env(GOOGLE_MAPS_API_PLACE_DETAILS_PATH)%'
 
-    GoogleApi\GAReportingAPIService:
-        autowire: true
-        autoconfigure: true
-        public: false
-        arguments:
-          $applicationName: '%sitename%'
-          $viewId: '%env(GOOGLE_ANALYTICS_VIEW_ID)%'
+  GoogleApi\GAReportingAPIService:
+    autowire: true
+    autoconfigure: true
+    public: false
+    arguments:
+      $applicationName: '%sitename%'
+      $viewId: '%env(GOOGLE_ANALYTICS_VIEW_ID)%'
 
+  GoogleApi\GoogleYoutubeApiService:
+    autowire: true
+    autoconfigure: true
+    public: false
+    arguments:
+      $applicationName: '%sitename%'

@@ -4,12 +4,19 @@ namespace AppBundle\Controller\Front\ProContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
+use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
+use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProVehicleDTO;
+use AppBundle\Form\Type\ContactProType;
+use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Security\Voter\ProVehicleVoter;
+use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
+use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
@@ -20,15 +27,21 @@ use AutoData\Request\GetInformationFromPlateNumber;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use SimpleBus\Message\Bus\MessageBus;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Translation\TranslatorInterface;
+use Wamcar\Conversation\Conversation;
+use Wamcar\Conversation\ConversationRepository;
+use Wamcar\Conversation\Event\ProContactMessageCreated;
 use Wamcar\Garage\Garage;
+use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -42,37 +55,57 @@ class VehicleController extends BaseController
     private $vehicleInfoEntityIndexer;
     /** @var ProVehicleEditionService */
     private $proVehicleEditionService;
+    /** @var ConversationRepository */
+    private $conversationRepository;
+    /** @var ConversationAuthorizationChecker */
+    protected $conversationAuthorizationChecker;
+    /** @var ConversationEditionService */
+    protected $conversationEditionService;
     /** @var ApiConnector */
     protected $autoDataConnector;
     /** @var SessionMessageManager */
     protected $sessionMessageManager;
     /** @var TranslatorInterface $translator */
     private $translator;
+    /** @var MessageBus */
+    protected $eventBus;
 
     /**
      * GarageController constructor.
      * @param FormFactoryInterface $formFactory
      * @param VehicleInfoEntityIndexer $vehicleInfoEntityIndexer
      * @param ProVehicleEditionService $proVehicleEditionService
+     * @param ConversationRepository $conversationRepository
+     * @param ConversationAuthorizationChecker $conversationAuthorizationChecker
+     * @param ConversationEditionService $conversationEditionService,
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
      * @param TranslatorInterface $translator
+     * @param MessageBus $eventBus
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         VehicleInfoEntityIndexer $vehicleInfoEntityIndexer,
         ProVehicleEditionService $proVehicleEditionService,
+        ConversationRepository $conversationRepository,
+        ConversationAuthorizationChecker $conversationAuthorizationChecker,
+        ConversationEditionService $conversationEditionService,
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        MessageBus $eventBus
     )
     {
         $this->formFactory = $formFactory;
         $this->vehicleInfoEntityIndexer = $vehicleInfoEntityIndexer;
         $this->proVehicleEditionService = $proVehicleEditionService;
+        $this->conversationRepository = $conversationRepository;
+        $this->conversationAuthorizationChecker = $conversationAuthorizationChecker;
+        $this->conversationEditionService = $conversationEditionService;
         $this->autoDataConnector = $autoDataConnector;
         $this->sessionMessageManager = $sessionMessageManager;
         $this->translator = $translator;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -116,7 +149,7 @@ class VehicleController extends BaseController
                 throw new BadRequestHttpException('A vehicle to edit OR a garage to add a new vehicle, is required, not both');
             }
             if (!$user->isMemberOfGarage($garage)) {
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized_to_add_vehicle_to_garage');
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.vehicle.add_to_garage');
                 return $this->redirectToRoute("front_view_current_user_info");
             }
         }
@@ -125,7 +158,7 @@ class VehicleController extends BaseController
             if (!$this->isGranted(ProVehicleVoter::EDIT, $vehicle)) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_DANGER,
-                    'flash.error.unauthorized_to_edit_vehicle'
+                    'flash.error.unauthorized.vehicle.edit'
                 );
                 return $this->redirectToRoute("front_garage_view", ['slug' => $garage->getSlug()]);
             }
@@ -292,7 +325,7 @@ class VehicleController extends BaseController
      * @param ProVehicle $vehicle
      * @return Response
      */
-    public function detailAction(ProVehicle $vehicle): Response
+    public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
         if ($vehicle->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
@@ -312,11 +345,63 @@ class VehicleController extends BaseController
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
         }
+
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $userIsCurrentUser = $vehicle->getSeller()->is($currentUser);
+        $contactForm = null;
+        if (!$userIsCurrentUser) {
+            try {
+                $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
+
+                // $currentUser is logged and can communicate with Wamcar messaging service
+                $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $vehicle->getSeller());
+                if ($conversation instanceof Conversation) {
+                    // Useless check ?
+                    //$this->conversationAuthorizationChecker->memberOfConversation($currentUser, $conversation);
+                    $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
+                } else {
+                    $messageDTO = new MessageDTO(null, $currentUser, $vehicle->getSeller());
+                }
+                $messageDTO->vehicleHeader = $vehicle;
+                $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.conversation_update'
+                    );
+                    return $this->redirectToRoute('front_conversation_edit', [
+                        'id' => $conversation->getId(),
+                        '_fragment' => 'last-message']);
+
+                }
+
+            } catch (AccessDeniedHttpException $exception) {
+                // $currentUser is unlogged or can't communicate directly => contact form for unlogged user
+                $proContactMessageDTO = new ProContactMessageDTO($vehicle->getSeller());
+                $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $proContactMessageDTO->vehicle = $vehicle;
+                    $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                    $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                        $this->translator->trans('flash.success.pro_contact_message.sent', [
+                            '%proUserName%' => $vehicle->getSellerName()
+                        ]));
+                    return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
+                }
+            }
+        }
+
         return $this->render('front/Vehicle/Detail/detail_proVehicle.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
             'positiveLikes' => $vehicle->getPositiveLikesByUserType(),
-            'like' => $userLike
+            'like' => $userLike,
+            'contactForm' => $contactForm ? $contactForm->createView() : null,
         ]);
     }
 

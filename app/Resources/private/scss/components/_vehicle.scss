@@ -473,12 +473,12 @@
   &-aside {
     z-index: 2;
 
-    @media screen and (min-width: rem-calc(1200)) {
+    /*@media screen and (min-width: rem-calc(1200)) {
       position: sticky;
       position: -webkit-sticky;
       top: $header-height-medium + rem-calc(30);
       padding-top: 0;
-    }
+    }*/
   }
 
   &-aside-container {

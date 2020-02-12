@@ -52,6 +52,8 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\User\ProUserProService
             mappedBy: proUser
             cascade: ["persist", "merge", "remove"]
+            orderBy:
+                proService: 'ASC'
         proContactMessages:
             targetEntity: Wamcar\Conversation\ProContactMessage
             mappedBy: proUser

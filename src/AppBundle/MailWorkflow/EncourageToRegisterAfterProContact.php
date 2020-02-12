@@ -82,7 +82,10 @@ class EncourageToRegisterAfterProContact extends AbstractEmailEventHandler imple
                 'username' => $contactFullName,
                 'contactEmail' => $proContactMessage->getEmail(),
                 'contactPhonenumber' => $proContactMessage->getPhonenumber(),
-                'contactedProUser' => $proUser
+                'contactedProUser' => $proUser,
+                'managePrefDisabled'=> true,
+                'vehicle' => $proContactMessage->getVehicle(),
+                'proUser' => $proUser
             ],
             new EmailRecipientList([new EmailContact($proContactMessage->getEmail(), $contactFullName)]),
             []

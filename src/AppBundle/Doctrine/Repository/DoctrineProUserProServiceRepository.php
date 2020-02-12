@@ -19,4 +19,21 @@ class DoctrineProUserProServiceRepository extends EntityRepository implements Pr
         $this->_em->remove($proUserProService);
         $this->_em->flush();
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeBulk(array $proUserProServices, ?int $batchSize = 50)
+    {
+        $idx = 0;
+        /** @var ProUserProService $proUserProService */
+        foreach ($proUserProServices as $proUserProService) {
+            $idx++;
+            $this->_em->remove($proUserProService);
+            if (($idx % $batchSize) === 0) {
+                $this->_em->flush();
+            }
+        }
+        $this->_em->flush();
+    }
 }

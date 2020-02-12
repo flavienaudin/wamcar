@@ -164,7 +164,7 @@
         type="{{ type }}"
         {{ block('widget_attributes') }}
         value="{{ value }}"
-        class="input {{ class }}"
+        class="input {{ class }} {{ not form.vars.valid ? 'is-invalid-input' }}"
         placeholder="{{ placeholder }}"
         data-equalto="{{ equalTo }}"
         {% if pattern %}pattern="{{ pattern }}"{% endif %}
@@ -191,6 +191,8 @@
     {% set value = value|default('') %}
     {% set placeholder = placeholder|default('') %}
     {% set equalTo = equalTo|default('') %}
+    {% set help_message = help_message|default('') %}
+    {% set help_message_class = help_message_class|default('') %}
 
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
@@ -205,6 +207,9 @@
         data-equalto="{{ equalTo }}"
         {{ required ? 'required' }}
     >{{ value }}</textarea>
+    {% if help_message is not empty %}
+        <small class="{{ help_message_class }}">{{ help_message }}</small>
+    {% endif %}
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
     {% endif %}
@@ -249,19 +254,19 @@
     {% endif %}
 {%- endblock integer_widget -%}
 
-{%- block _vehicle_userRegistration_accept_row  -%}
+{%- block _vehicle_userRegistration_accept_row -%}
     {{ block('_personal_vehicle_userRegistration_accept_row') }}
-{%- endblock _vehicle_userRegistration_accept_row  -%}
+{%- endblock _vehicle_userRegistration_accept_row -%}
 
-{%- block _registration_accept_row  -%}
+{%- block _registration_accept_row -%}
     {{ block('_personal_vehicle_userRegistration_accept_row') }}
-{%- endblock _registration_accept_row  -%}
+{%- endblock _registration_accept_row -%}
 
 {% block _user_registration_personal_vehicle_userRegistration_accept_row %}
     {{ block('_personal_vehicle_userRegistration_accept_row') }}
 {% endblock _user_registration_personal_vehicle_userRegistration_accept_row %}
 
-{%- block _personal_vehicle_userRegistration_accept_row  -%}
+{%- block _personal_vehicle_userRegistration_accept_row -%}
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
         <b>{{ 'user.field.accept.start'|trans({}, 'security') }}
@@ -272,7 +277,7 @@
     {% if errorMsg is defined %} <small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
-{%- block _user_deletion_confirmation_widget  -%}
+{%- block _user_deletion_confirmation_widget -%}
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
         <b>{{ 'user.profile.delete.field.confirmation.label'|trans }}</b>
@@ -281,11 +286,11 @@
     {% if errorMsg is defined %}<small class="form-error">{{ errorMsg|trans }}</small>{% endif %}
 {%- endblock -%}
 
-{%- block _pro_vehicle_offer_refunded_row  -%}
+{%- block _pro_vehicle_offer_refunded_row -%}
     {{ block('_one_checkbox_row') }}
-{%- endblock _pro_vehicle_offer_refunded_row  -%}
+{%- endblock _pro_vehicle_offer_refunded_row -%}
 
-{%- block _one_checkbox_row  -%}
+{%- block _one_checkbox_row -%}
     {{- form_widget(form) -}}
     <label for="{{ id }}" class="checkbox">
         {{ label|raw }}
@@ -425,6 +430,11 @@
     </li>
 {% endblock %}
 
+
+{% block _pro_user_specialities_select_proUserProServicesForSpecialities_entry_widget %}
+    {{ form_row(form.isSpeciality) }}
+{% endblock %}
+
 {%- block city_widget -%}
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
@@ -473,6 +483,13 @@
         {% endfor %}
     </ul>
 {%- endblock yesno_widget -%}
+
+{%- block checkbox_row %}
+    {{ form_widget(form) }}
+    <label for="{{ form.vars.id }}" class="checkbox">
+        {{ form.vars.label }}
+    </label>
+{%- endblock checkbox_row %}
 
 {%- block checkbox_widget -%}
     {% if switch is defined %}

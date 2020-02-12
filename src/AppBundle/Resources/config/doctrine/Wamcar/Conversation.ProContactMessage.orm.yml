@@ -47,3 +47,10 @@ Wamcar\Conversation\ProContactMessage:
                 name: pro_user_id
                 referencedColumnName: id
                 nullable: false
+
+        vehicle:
+            targetEntity: Wamcar\Vehicle\ProVehicle
+            joinColumn:
+                name: vehicle_id
+                referencedColumnName: id
+                nullable: true

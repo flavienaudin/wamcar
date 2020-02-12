@@ -1,0 +1,7 @@
+Wamcar\User\YoutubePlaylistInsert:
+  type: entity
+
+  fields:
+    playlistId:
+      type: string
+      nullable: false

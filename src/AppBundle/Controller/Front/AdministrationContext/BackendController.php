@@ -112,9 +112,9 @@ class BackendController extends AdminController
             }
             if (count($resultMessages['errorMessages']) == 0) {
                 if ($isAlreadySoftDeleted) {
-                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.hard');
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.delete.hard');
                 } else {
-                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.deleted.soft');
+                    $this->get('session')->getFlashBag()->add(BaseController::FLASH_LEVEL_INFO, 'flash.success.user.delete.soft');
                 }
             }
         } elseif ($entity instanceof ProUserProService) {

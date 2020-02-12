@@ -142,6 +142,14 @@ front_edit_user_project:
     path: /mon-projet/edit
     controller: AppBundle:Front\PersonalContext\User:editProject
 
+front_show_more_videos_from_videos_insert:
+    path: /videos_insert/showmore/{id}/{pagetoken}
+    controller: AppBundle:Front\PersonalContext\User:showMoreVideosFromVideosInsert
+
+front_delete_user_videos_insert:
+    path: /videos_insert/delete/{id}
+    controller: AppBundle:Front\PersonalContext\User:deleteVideosInsert
+
 legacy_view_user_info:
     path: /profil/{id}
     controller: AppBundle:Front\PersonalContext\User:legacyViewInformation
@@ -152,6 +160,14 @@ front_show_number:
     path: /show-number
     controller: AppBundle:Front\PersonalContext\User:showPhoneNumber
     methods: POST
+
+front_edit_prouser_proservices:
+    path: /proservices/edit
+    controller: AppBundle:Front\ProContext\ProService:editProUserProServices
+
+front_edit_prouser_specialities:
+    path: /prospecialities/edit
+    controller: AppBundle:Front\ProContext\ProService:editProUserSpecialities
 
 # Garage
 front_garage_view:
@@ -313,7 +329,6 @@ front_vehicle_personal_delete:
     controller: AppBundle:Front\ProContext\PersonalVehicle:delete
 
 # Search
-
 front_vehicle_search_form_update:
     path: /recherche-voitures/form_update.json
     controller: AppBundle:Front\ProContext\Search:updateSeacrhVehicleForm
@@ -433,3 +448,8 @@ front_affinity_pro_redirection:
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
 
+
+# TEST GOOGLE YOUTUBE API
+dev_youtube_api:
+    path: /youtube
+    controller: AppBundle:Front\GoogleApiContext\GoogleApi:testGoogleYoutubeApi

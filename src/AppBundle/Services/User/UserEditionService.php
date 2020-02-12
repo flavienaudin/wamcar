@@ -14,6 +14,7 @@ use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProPresentationVideoDTO;
 use AppBundle\Form\DTO\ProUserInformationDTO;
 use AppBundle\Form\DTO\ProUserPresentationDTO;
+use AppBundle\Form\DTO\ProUserProSpecialitiesDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
@@ -47,6 +48,7 @@ use Wamcar\User\ProUserProServiceRepository;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserPreferencesRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\User\VideosInsertReposistory;
 use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\PersonalVehicle;
 use Wamcar\Vehicle\PersonalVehicleRepository;
@@ -75,6 +77,8 @@ class UserEditionService
     private $userPreferencesRepository;
     /** @var ProUserProServiceRepository */
     private $proUserProServiceRepository;
+    /** @var VideosInsertReposistory */
+    private $videosInsertRepository;
     /** @var GarageEditionService */
     private $garageEditionService;
     /** @var UserLikeVehicleRepository $userLikeRepository */
@@ -96,6 +100,7 @@ class UserEditionService
      * @param ProVehicleRepository $proVehicleRepository
      * @param UserPreferencesRepository $userPreferencesRepository
      * @param ProUserProServiceRepository $proUserProServiceRepository
+     * @param VideosInsertReposistory $videosInsertRepository
      * @param GarageEditionService $garageEditionService
      * @param UserLikeVehicleRepository $userLikeRepository
      * @param UserRegistrationService $userRegistrationService
@@ -112,6 +117,7 @@ class UserEditionService
         ProVehicleRepository $proVehicleRepository,
         UserPreferencesRepository $userPreferencesRepository,
         ProUserProServiceRepository $proUserProServiceRepository,
+        VideosInsertReposistory $videosInsertRepository,
         GarageEditionService $garageEditionService,
         UserLikeVehicleRepository $userLikeRepository,
         UserRegistrationService $userRegistrationService,
@@ -128,6 +134,7 @@ class UserEditionService
         $this->proVehicleRepository = $proVehicleRepository;
         $this->userPreferencesRepository = $userPreferencesRepository;
         $this->proUserProServiceRepository = $proUserProServiceRepository;
+        $this->videosInsertRepository = $videosInsertRepository;
         $this->garageEditionService = $garageEditionService;
         $this->userLikeRepository = $userLikeRepository;
         $this->userRegistrationService = $userRegistrationService;
@@ -210,6 +217,7 @@ class UserEditionService
         $this->userRepository->update($user);
         return $user;
     }
+
     /**
      * @param BaseUser $user
      * @param ProPresentationVideoDTO $proPresentationVideoDTO
@@ -581,11 +589,11 @@ class UserEditionService
      */
     public function toggleExpert(BaseUser $user, ProUser $userToggle)
     {
-        if($user->hasExpert($userToggle)){
+        if ($user->hasExpert($userToggle)) {
             $user->removeExpert($userToggle);
             $this->userRepository->update($user);
             return false;
-        }else{
+        } else {
             $user->addExpert($userToggle);
             $this->userRepository->update($user);
             return true;
@@ -593,10 +601,65 @@ class UserEditionService
     }
 
     /**
+     * Update ProServices of a ProUser with the given $proServices
+     * @param ProUser $proUser
+     * @param array $proServices List of selected ProServices
+     */
+    public function updateProServicesOfUser(ProUser $proUser, array $proServices)
+    {
+        $proUserServices = $proUser->getProUserServices();
+        $proServicesToDelete = array_diff($proUserServices, $proServices);
+
+        $proUserProServicesToDelete = [];
+        /** @var ProUserProService $proUserProService */
+        foreach ($proUser->getProUserProServices() as $proUserProService) {
+            if (in_array($proUserProService->getProService(), $proServicesToDelete)) {
+                $proUserProServicesToDelete[] = $proUserProService;
+            }
+
+        }
+        foreach ($proServices as $service) {
+            if (!in_array($service, $proUserServices)) {
+                $newProUserProService = new ProUserProService();
+                $newProUserProService->setProUser($proUser);
+                $newProUserProService->setProService($service);
+                $proUser->addProUserProService($newProUserProService);
+            }
+        }
+
+        $this->proUserProServiceRepository->removeBulk($proUserProServicesToDelete);
+        $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
+    }
+
+    /**
+     * @param ProUser $proUser
+     * @param ProUserProSpecialitiesDTO $proUserProSpecialitiesDTO
+     * @return ProUser
+     */
+    public function updateProUserSpecialities(ProUser $proUser, ProUserProSpecialitiesDTO $proUserProSpecialitiesDTO): ProUser
+    {
+        /** @var ProUserProService $proUserProService */
+        foreach ($proUser->getProUserProServices() as $proUserProService) {
+            if (isset($proUserProSpecialitiesDTO->getProUserProServicesForSpecialities()[$proUserProService->getId()])) {
+                $proUserProService->setIsSpeciality($proUserProSpecialitiesDTO->getProUserProServicesForSpecialities()[$proUserProService->getId()]->isSpeciality());
+            } else {
+                $proUserProService->setIsSpeciality(false);
+            }
+        }
+
+        $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
+
+        return $proUser;
+    }
+
+    /**
      * Delete a service offered by a pro
      * @param ProUserProService $proUserProService
      */
-    public function deleteProUserProService(ProUserProService $proUserProService){
+    public function deleteProUserProService(ProUserProService $proUserProService)
+    {
         $proUser = $proUserProService->getProUser();
         $this->proUserProServiceRepository->remove($proUserProService);
         $this->eventBus->handle(new ProUserUpdated($proUser));

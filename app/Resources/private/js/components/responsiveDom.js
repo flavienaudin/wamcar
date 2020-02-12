@@ -59,14 +59,23 @@ if($proProfilImage.length){
 }
 
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
-if($proProfilContactForm.length){
-  $proProfilContactForm.responsiveDom({
-    prependTo: '.js-pro-profil-right-column',
-    mediaQuery: '(min-width: 640px)'
+if($proProfilContactForm.length > 0){
+  $proProfilContactForm.each((index, element) => {
+    let options = {
+      mediaQuery: '(min-width: 640px)'
+    };
+    const destination = $(element).data('responsivedom-destination');
+    const appendTo = $(element).data('responsivedom-appendto');
+    if(appendTo){
+      options.appendTo = destination;
+    }else{
+      options.prependTo = destination;
+    }
+    $(element).responsiveDom(options);
   });
 }
 
-const $proProfilVehicles = $('.js-pro-profil-vehicles');
+/*const $proProfilVehicles = $('.js-pro-profil-vehicles');
 if($proProfilVehicles.length){
   $proProfilVehicles.responsiveDom({
     appendTo: '.js-profil-seller-left-column',
@@ -79,7 +88,7 @@ if($proProfilVehicles.length){
       }
     }
   });
-}
+}*/
 
 
 /*** HOMEPAGE PEEXEO ***/

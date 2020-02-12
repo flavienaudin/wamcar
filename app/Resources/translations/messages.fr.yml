@@ -1,10 +1,17 @@
 flash:
   success:
     user:
-      edit: Les modifications de votre profil ont été enregistrées.
-      deleted:
+      add:
+        videos_insert: L'encart vidéo a bien été ajouté à votre profil.
+      edit:
+        profile: Les modifications de votre profil ont été enregistrées.
+        videos_insert: L'encart vidéo a bien été modifié.
+        prouser_services: Vos services ont été mis à jour.
+        prouser_specialities: Vos spécialités ont été mises à jour.
+      delete:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
+        videos_insert: L'encart vidéo a bien été supprimé.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -57,6 +64,7 @@ flash:
       sent: Votre message a bien été envoyé à %proUserName%
     pro_user_pro_service:
       delete: Le service %servicename% n'est plus proposé par le conseiller %username%
+      edit_specialities: Vos spécialités ont été mises à jour.
     pro_service:
       delete: Le service %servicename% a été supprimé
     pro_service_category:
@@ -75,22 +83,30 @@ flash:
     social_connect_no_email: La réponse de la plateforme est invalide. Merci d'autoriser Wamcar à accèder à vos information ou utiliser un autre moyen de connexion.
     social_connect_error: Une erreur s'est produite lors de la connexion via la plateforme. Merci de nous contacter si cela se reproduit.
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
-    unauthorized_to_edit_vehicle: Vous n'êtes pas autorisé à modifier ce véhicule
-    unauthorized_to_add_vehicle_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
     select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
     pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
+    unauthorized:
+      vehicle:
+        add_to_garage: Vous n'êtes pas autorisé à ajouter un véhicule à ce garage
+        edit: Vous n'êtes pas autorisé à modifier ce véhicule
+      videos_insert:
+        delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
     user:
       deletion_with_conversations: "Cet utilisateur a des conversations en cours. Il ne peut être supprimé DEFINITIVEMENT (pour l'instant)"
       not_logged: "Vous devez être connecté pour liker un véhicule"
       deletion_not_allowed: Vous n'êtes pas autorisé à supprimer cet utilisateur.
+      add:
+        videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart vidéo. Merci de corriger votre saisie.
       edit:
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
+        videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
+        prouser_specialities.no_service: Vous devez avoir sélectionné des services pour pouvoir définir vos spécialités.
     lead:
       unauthorized_to_get_leads: Vous n'êtes pas autorisé à accèder aux leads de ce conseiller.
       unauthorized_to_change_status: Vous n'êtes pas autorisé à changer le status de ce lead.
@@ -113,11 +129,14 @@ flash:
       unauthorized_to_assign: Vous n'êtes pas autorisé à changer le vendeur de ce véhicule.
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
       assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
-
   warning:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
-    user.unauthorized_to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+    user:
+      unauthorized:
+        to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
+        edit_prouser_proservices: Seules les conseillers automobile peuvent éditer leurs services.
+        edit_prouser_specialities: Seules les conseillers automobile peuvent éditer leurs spécialités.
     sales:
       unlogged: Seuls les conseillers automobiles connectés peuvent accéder à cette page.
       unauthorized_to_edit_declaration: Vous n'êtes pas autorisé à éditer cette déclaration.
@@ -165,6 +184,7 @@ global:
     previous_step: Etape précédente
     next_step: Etape suivante
     back: Retour
+    next: Suivant
     validate: Valider
     display_phone_number: Afficher le numéro
     see_phone_number: Voir le numéro
@@ -952,6 +972,14 @@ user:
             placeholder: https://www.youtube.com/watch?v=... ou https://youtu.be/...
             invalidMEssage: Renseigner une URL de vidéo Youtube https://www.youtube.com/watch?v=... ou https://youtu.be/...
           videoText.label: Description de la vidéo
+        video_insert:
+          title:
+            label: Titre de l'encart
+            placeholder: Titre de l'encart
+          youtube_playlist_id:
+            label: Identifiant de la playlist Youtube
+            placeholder: PL.....
+            invalidMEssage: Renseigner l'ID de votre playlist Youtube
         avatar:
           label: Avatar
         banner:
@@ -986,6 +1014,17 @@ user:
           alors détachés du garage.
         member: Vous êtes membre de ce garage. Vous serez simplement détaché.
         no_garage: Vous n'êtes membre d'aucun garage.
+  proservices:
+    edit:
+      title: Editer mes services
+      action:
+        submit: Enregistrer
+  prospecialities:
+    edit:
+      text: Sélectionnez parmi vos services, vos points forts que vous souhaitez mettre en avant.
+      title: Editer mes spécialités
+      action:
+        submit: Enregistrer
   presentation:
     title:
       personal: Présentation
@@ -1002,6 +1041,11 @@ user:
     placeholder:
       with_text: Vous devez saisir une vidéo pour faire appaître cet encart sur votre fiche profil.
       all_empty: Vous pouvez ajouter une vidéo et un texte explicatif vous présentant afin d'aider les particulier à mieux vous connaître.
+  video_insert:
+    video:
+      statistics:
+        view: "[0,1] %count% vue | [2, Inf[ %count% vues"
+      show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
     title: Les véhicules que je vous propose
   project:
@@ -1209,14 +1253,13 @@ conversation:
       message:
         label: Votre message pour&nbsp;<a href="%interlocutorProfilUrl%" target="_blank" class="text-underline no-margin"> %interlocutorName%</a>
         placeholder: Entrez votre message...
+        vehicle_help_message: La fiche du véhicule sera jointe au message
       vehicle:
         create: Créer un véhicule
         select: Proposer un véhicule
       attachments:
         label: Pièces jointes
         add: Ajouter une pièce jointe
-
-
 
 sale:
   page:
