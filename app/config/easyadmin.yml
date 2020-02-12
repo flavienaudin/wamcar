@@ -161,6 +161,7 @@ easy_admin:
           - deletionReason
           - vehicles
           - garageMemberships
+          - proUserProServices
     ProServiceCategory:
       class: Wamcar\User\ProServiceCategory
       label: Categories des services

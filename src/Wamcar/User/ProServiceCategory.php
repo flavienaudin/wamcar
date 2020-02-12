@@ -43,6 +43,14 @@ class ProServiceCategory
     }
 
     /**
+     * @return bool
+     */
+    public function isEnabled()
+    {
+        return $this->getPositionMainFilter() != null || $this->getPositionMoreFilter() != null;
+    }
+
+    /**
      * @return int
      */
     public function getId()

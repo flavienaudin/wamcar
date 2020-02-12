@@ -420,9 +420,10 @@ class ProUser extends BaseUser
 
     /**
      * @param bool $excludeSpecialities
+     * @param bool $excludeDisabledCategory To exclude ProService which Category is disabled
      * @return array
      */
-    public function getProUserServices(bool $excludeSpecialities = false)
+    public function getProUserServices(bool $excludeSpecialities = false, bool $excludeDisabledCategory = false)
     {
         if ($excludeSpecialities) {
             $criteria = Criteria::create();
@@ -431,10 +432,18 @@ class ProUser extends BaseUser
         } else {
             $result = $this->proUserProServices;
         }
+
+        if ($excludeDisabledCategory) {
+            $enabledServices = array_filter($result->toArray(), function (ProUserProService $proUserProService) {
+                return $proUserProService->getProService()->getCategory()->isEnabled();
+            });
+        } else {
+            $enabledServices = $result->toArray();
+        }
+
         return array_map(function (ProUserProService $proUserProService) {
             return $proUserProService->getProService();
-        }, $result->toArray());
-
+        }, $enabledServices);
     }
 
     public function getProServicesByCategory()
@@ -443,11 +452,12 @@ class ProUser extends BaseUser
         /** @var ProUserProService $proUserProService */
         foreach ($this->proUserProServices as $proUserProService) {
             $proService = $proUserProService->getProService();
-            if (!isset($proServicesByCategory[$proService->getCategory()->getLabel()])) {
-                $proServicesByCategory[$proService->getCategory()->getLabel()] = [];
+            if($proService->getCategory()->isEnabled()) {
+                if (!isset($proServicesByCategory[$proService->getCategory()->getLabel()])) {
+                    $proServicesByCategory[$proService->getCategory()->getLabel()] = [];
+                }
+                $proServicesByCategory[$proService->getCategory()->getLabel()][$proService->getSlug()] = $proService;
             }
-
-            $proServicesByCategory[$proService->getCategory()->getLabel()][$proService->getSlug()] = $proService;
         }
 
         return $proServicesByCategory;
