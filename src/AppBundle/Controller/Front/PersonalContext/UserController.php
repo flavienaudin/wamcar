@@ -230,7 +230,7 @@ class UserController extends BaseController
             $this->userEditionService->editInformations($user, $userInformationDTO);
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
 
-            if ($proUser != null) {
+            if ($user instanceof ProUser) {
                 return $this->redirectToRoute('front_view_pro_user_info', [
                     'slug' => $user->getSlug()
                 ]);
