@@ -4,6 +4,7 @@ flash:
       add:
         videos_insert: L'encart vidéo a bien été ajouté à votre profil.
       edit:
+        avatar: Votre avatar a été mis à jour.
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
         prouser_services: Vos services ont été mis à jour.

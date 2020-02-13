@@ -5,7 +5,7 @@
                 {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
 
-                {% if isUserPersonalPageProfil and isUserPro %}
+                {% if isUserPro %}
                     {% set contacts = getUserContactsOfGarages(user, app.user.garages) %}
                     <span class="seller-contacts">
                         {% for contact in contacts|filter(c => not c.is(app.user)) %}
@@ -15,39 +15,22 @@
                 {% endif %}
                 <br>
                 <small class="profil-city">
-                    {% if isUserProPageProfil %}
-                        {% set garageCount = user.numberOfGarages %}
-                        {% if garageCount > 0 %}
-                            <span class="icon-location is-inline ">{% if garageCount > 1 %}France{% else %}{{ (user.garages|first).city }}{% endif %}</span>&nbsp;&mdash;&nbsp;
-                        {% endif %}
-                    {% elseif isUserPersonalPageProfil %}
-                        {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
-                            {{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}&nbsp;&mdash;&nbsp;
-                        {% endif %}
+                    {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
+                        {{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}&nbsp;&mdash;&nbsp;
                     {% endif %}
                     {{ 'user.profile.member_since'|trans({'%year%':user.createdAt|date('Y')}) }}
                 </small>
             </h1>
             <div class="profil-action">
-                {% if user.userProfile.phone is not empty and (isUserProPageProfil or
-                    (isUserPersonalPageProfil and (isUserPro and user.isPhoneDisplay or userIsMe) )) %}
-                    <span class="small-auto medium-shrink">
-                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                {% if user.userProfile.phone is not empty and (isUserPro and user.isPhoneDisplay or userIsMe) %}
+                    <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                             'phoneOwner': user,
                             'phoneNumber': user.phone,
                             'showphone_subaction': "1",
                             'icontel': 'icon-mobile',
-                            'textDisplay': (isUserPersonalPageProfil and userIsMe and not user.isPhoneDisplay ? 'phone_number.private'|trans : null)
-                        }) }}</span>
-                {% elseif user.phonePro is defined and user.phonePro is not empty %}
-                    <span class="small-auto medium-shrink">
-                        {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
-                            'phoneOwner': user,
-                            'phoneNumber': user.phonePro,
-                            'showphone_subaction': "2"
+                            'textDisplay': (userIsMe and not user.isPhoneDisplay ? 'phone_number.private'|trans : null)
                         }) }}</span>
                 {% endif %}
-
                 {% if not userIsMe %}
                     <span class="small-12 medium-shrink icon-message primary-color align-center">
                         <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
