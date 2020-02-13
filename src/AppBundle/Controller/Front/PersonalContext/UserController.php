@@ -232,11 +232,11 @@ class UserController extends BaseController
 
             if ($proUser != null) {
                 return $this->redirectToRoute('front_view_pro_user_info', [
-                    'slug' => $proUser->getSlug()
+                    'slug' => $user->getSlug()
                 ]);
             } else {
                 return $this->redirectToRoute('front_view_personal_user_info', [
-                    'slug' => $proUser->getSlug()
+                    'slug' => $user->getSlug()
                 ]);
             }
         }
