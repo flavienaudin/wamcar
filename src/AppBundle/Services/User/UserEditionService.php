@@ -37,7 +37,9 @@ use Wamcar\User\BaseLikeVehicle;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\PersonalOrientationChoices;
 use Wamcar\User\Event\PersonalProjectRemoved;
+use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserRemoved;
+use Wamcar\User\Event\PersonalUserUpdated;
 use Wamcar\User\Event\ProUserRemoved;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
@@ -142,12 +144,12 @@ class UserEditionService
     }
 
     /**
-     * @param ApplicationUser $user
+     * @param BaseUser $user
      * @param UserInformationDTO $userInformationDTO
-     * @return ApplicationUser
+     * @return BaseUser
      * @throws \Exception
      */
-    public function editInformations(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
+    public function editInformations(BaseUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
     {
         if (!empty($userInformationDTO->newPassword)) {
             $isValid = $this->passwordEncoder->isPasswordValid($user->getPassword(), $userInformationDTO->oldPassword, $user->getSalt());
@@ -169,7 +171,7 @@ class UserEditionService
             }
         }
 
-        if ($userInformationDTO instanceof ProUserInformationDTO) {
+        if ($user instanceof ProUser && $userInformationDTO instanceof ProUserInformationDTO) {
             $user->setPhonePro($userInformationDTO->phonePro);
             $user->setPresentationTitle($userInformationDTO->presentationTitle);
 
@@ -184,11 +186,23 @@ class UserEditionService
         }
 
         $this->userRepository->update($user);
-
+        if ($user instanceof PersonalUser) {
+            $this->eventBus->handle(new PersonalUserUpdated($user));
+            if ($user->getProject() != null) {
+                $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
+            }
+        } else if ($user instanceof ProUser) {
+            $this->eventBus->handle(new ProUserUpdated($user));
+        }
         return $user;
     }
 
-    public function editAvatar(ApplicationUser $user, UserInformationDTO $userInformationDTO): ApplicationUser
+    /**
+     * @param BaseUser $user
+     * @param UserInformationDTO $userInformationDTO
+     * @return BaseUser
+     */
+    public function editAvatar(BaseUser $user, UserInformationDTO $userInformationDTO): BaseUser
     {
         if ($userInformationDTO->avatar) {
             if ($userInformationDTO->avatar->isRemoved) {
@@ -199,9 +213,15 @@ class UserEditionService
             }
         }
 
-
         $this->userRepository->update($user);
-
+        if ($user instanceof PersonalUser) {
+            $this->eventBus->handle(new PersonalUserUpdated($user));
+            if ($user->getProject() != null) {
+                $this->eventBus->handle(new PersonalProjectUpdated($user->getProject()));
+            }
+        } else if ($user instanceof ProUser) {
+            $this->eventBus->handle(new ProUserUpdated($user));
+        }
         return $user;
     }
 
