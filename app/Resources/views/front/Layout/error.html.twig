@@ -1,25 +1,123 @@
-{% extends 'front/Layout/layout.html.twig' %}
+{% set current_url = '%s://%s%s'|format(app.request.scheme, app.request.host, app.request.requestUri) %}
 
-{% block mainClass %}no-padding{% endblock %}
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|slice(0, 2) }}" prefix="og: http://ogp.me/ns#">
+<head>
+    {% if google_tag_manager_id is not empty %} {# anunull valeur null des variable d'environnement sur PHP FPM (PROD) #}
+        {% set gtm_env_custom = google_tag_manager_env_auth is not empty and google_tag_manager_env_auth != 'anunull'
+            and google_tag_manager_env_preview is not empty and google_tag_manager_env_preview != 'anunull'  ?
+            "&gtm_auth=" ~ google_tag_manager_env_auth ~ "&gtm_preview=" ~ google_tag_manager_env_preview ~ "&gtm_cookies_win=x" : "" %}
 
-{% block body %}
+        <!-- Google Tag Manager -->
+        <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+            let f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = (l !== 'dataLayer' ? '&l=' + l : '');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl + '{{ gtm_env_custom|raw }}';
+            f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', '{{ google_tag_manager_id }}');
+        </script>
+        <!-- End Google Tag Manager -->
+    {% endif %}
 
-    <header class="banner">
-        <strong class="h1 no-margin text-center column large-10 xlarge-6">{{ block('title') }}</strong>
-    </header>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <section class="row">
-        <div class="column">
-            {% block errorBody %}{% endblock %}
+    <title>{% block title %}{% endblock %} - {{ site_name }}</title>
+
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+
+    {# ogp.me : required properties #}
+    <meta property="og:title" content="{{ block('title') }}">
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+    {% block seo_img_block %}
+        <meta property="og:image"
+              content="{{ seo_img_url|default( absolute_url(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png'))) }}">{% endblock %}
+    <meta property="og:url" content="{{ current_url }}">
+    {# ogp.me : optional metadatas #}
+    <meta property="og:locale" content="{{ app.request.locale~'_'~app.request.locale|upper }}">
+    <meta property="og:site_name" content="{{ site_name }}">
+    <meta property="og:description" content="{{ block('meta_description') }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ block('title') }}">
+    <meta name="twitter:description" content="{{ block('meta_description') }}">
+    <meta name="twitter:image"
+          content="{{ seo_img_url|default( absolute_url(asset('assets/images/background/reprise-et-achat-auto-par-affinites-small-bg-white.png'))) }}">
+    <meta name="twitter:image:alt" content="{{ image_alt|default(block('title')) }}">
+    <meta name="twitter:url" content="{{ current_url }}">
+    <meta name="twitter:site" content="@{{ twitter_username }}">
+    <meta name="twitter:creator" content="@{{ twitter_username }}">
+
+    <meta property="fb:pages" content="{{ facebook_page_id }}">
+    {% for admin_id in facebook_admin_ids|split(',') %}
+        <meta property="fb:admins" content="{{ admin_id }}">
+    {% endfor %}
+    <meta property="fb:app_id" content="{{ facebook_app_id }}">
+
+    {# Turning off Number Detection in iOS #}
+    <meta name="format-detection" content="telephone=no">
+
+    {% block additional_meta %}{% endblock %}
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/images/favicons/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/images/favicons/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/images/favicons/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('assets/images/favicons/manifest.json') }}">
+    <link rel="mask-icon" href="{{ asset('assets/images/favicons/safari-pinned-tab.svg') }}" color="#000000">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicons/favicon.ico') }}">
+    <meta name="msapplication-config" content="{{ asset('assets/images/favicons/browserconfig.xml') }}">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="canonical" href="{% block canonical %}{{ current_url }}{% endblock canonical %}">
+
+    {% if seo_noindex is defined %}
+        <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+
+    <link rel="stylesheet" href="{{ asset('assets/bundle/bundle.css') }}?v={{ site_version }}">
+</head>
+
+<body class="{% block bodyClass %}{% endblock %}">
+
+{% if google_tag_manager_id is not empty %}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id={{ google_tag_manager_id }}{{ gtm_env_custom|raw }}"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+{% endif %}
+
+<main class="l-main page-error is-flex align-center-middle {% block mainClass %}{% endblock %}">
+    {% block body %}
+        <div class="row">
+            <header class="column small-12 text-center">
+                <h1>{{ block('title') }}</h1>
+            </header>
+
+            <section class="column small-12 text-center">
+                {% block errorBody %}{% endblock %}
+            </section>
         </div>
-    </section>
-
-    {% block reinsurance %}
-        <section class="section reinsurance-container small-12">
-            <div class="row">
-                {% include 'front/Layout/includes/reinsurance/reinsurance.html.twig' %}
-            </div>
-        </section>
     {% endblock %}
+</main>
+<script src="{{ asset('assets/bundle/bundle.js') }}?v={{ site_version }}" defer async></script>
 
-{% endblock %}
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
