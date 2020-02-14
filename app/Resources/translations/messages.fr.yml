@@ -4,6 +4,7 @@ flash:
       add:
         videos_insert: L'encart vidéo a bien été ajouté à votre profil.
       edit:
+        avatar: Votre avatar a été mis à jour.
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
         prouser_services: Vos services ont été mis à jour.
@@ -974,12 +975,14 @@ user:
           videoText.label: Description de la vidéo
         video_insert:
           title:
-            label: Titre de l'encart
-            placeholder: Titre de l'encart
+            label: Titre de la playlist
+            placeholder: Titre de la playlist
           youtube_playlist_id:
             label: Identifiant de la playlist Youtube
             placeholder: PL.....
             invalidMEssage: Renseigner l'ID de votre playlist Youtube
+          add:
+            youtube_playlist: Ajouter une playlist Youtube
         avatar:
           label: Avatar
         banner:

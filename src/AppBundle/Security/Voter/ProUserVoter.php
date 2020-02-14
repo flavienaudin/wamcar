@@ -6,12 +6,11 @@ namespace AppBundle\Security\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Wamcar\User\BaseUser;
+use Wamcar\User\ProUser;
 
-class UserVoter extends Voter
+class ProUserVoter extends Voter
 {
     const EDIT = 'user.edit';
-    const DELETE = 'user.delete';
 
     /** @var AccessDecisionManagerInterface */
     private $decisionManager;
@@ -28,12 +27,12 @@ class UserVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, [self::EDIT, self::DELETE])) {
+        if (!in_array($attribute, [self::EDIT])) {
             return false;
         }
 
-        // only vote on BaseUser objects inside this voter
-        if (!$subject instanceof BaseUser) {
+        // only vote on ProUser objects inside this voter
+        if (!$subject instanceof ProUser) {
             return false;
         }
 
@@ -48,13 +47,12 @@ class UserVoter extends Voter
 
         $currentUser = $token->getUser();
 
-        // you know $subject is a BaseUser object, thanks to supports
-        /** @var BaseUser $user */
+        // you know $subject is a ProUser object, thanks to supports
+        /** @var ProUser $user */
         $user = $subject;
 
         switch ($attribute) {
             case self::EDIT:
-            case self::DELETE:
                 return $user->is($currentUser);
         }
 

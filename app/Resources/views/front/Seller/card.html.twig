@@ -361,7 +361,7 @@
         {% if addVideosInsertForm is not null %}
             <div class="column small-12">
                 <div class="profil-videos-insert">
-                    <div class="icon-plus" data-toggle="addVideosInsertForm">Ajouter un encart vidéo</div>
+                    <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
                     <div class="is-hidden" id="addVideosInsertForm" data-toggler="is-hidden">
                         {{ form_start(addVideosInsertForm, {
                             'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
