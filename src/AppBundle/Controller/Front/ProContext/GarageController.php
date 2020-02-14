@@ -98,11 +98,13 @@ class GarageController extends BaseController
     /**
      * @Entity("garage", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
      * @param Request $request
-     * @param Garage $garage
+     * @param string $slug
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewAction(Request $request, Garage $garage)
+    public function viewAction(Request $request, string $slug)
     {
+        /** @var Garage $garage */
+        $garage = $this->garageRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
         if ($garage->getDeletedAt() != null) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.garage.deleted.title',
