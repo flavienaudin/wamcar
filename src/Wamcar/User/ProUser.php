@@ -401,7 +401,7 @@ class ProUser extends BaseUser
     public function getProUserSpecialities(array $highlightSpecialities = [])
     {
         $specialities = $this->proUserProServices->filter(function (ProUserProService $proUserProService) {
-            return $proUserProService->isSpeciality();
+            return $proUserProService->isSpeciality() && $proUserProService->getProService()->getCategory()->isEnabled();
         });
         if (!empty($highlightSpecialities)) {
             $specialities = $specialities->toArray();
