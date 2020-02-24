@@ -540,6 +540,8 @@ class UserController extends BaseController
             $vi = $this->userVideosInsertService->getVideosInsertData($userVideosInsert);
             if ($vi != null) {
                 $videosInserts[] = $vi;
+            } else {
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $this->translator->trans('flash.warning.video_insert.unloadable'));
             }
         }
 

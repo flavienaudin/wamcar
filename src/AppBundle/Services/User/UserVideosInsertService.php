@@ -7,6 +7,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Form\DTO\UserVideosInsertDTO;
 use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
 use GoogleApi\GoogleYoutubeApiService;
+use GuzzleHttp\Exception\ConnectException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\UserRepository;
 use Wamcar\User\VideosInsert;
@@ -52,6 +53,8 @@ class UserVideosInsertService
                 $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
                 $videosInsert->setPlaylistData($playlistData);
             }catch (\Google_Service_Exception $google_Service_Exception){
+                return null;
+            }catch (ConnectException $connectException){
                 return null;
             }
         }

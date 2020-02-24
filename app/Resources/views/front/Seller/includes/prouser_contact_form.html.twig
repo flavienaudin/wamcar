@@ -1,7 +1,7 @@
 {# On mobile device : button to send a message fixed at screen bottom #}
 <div class="user-contact-form show-for-small-only block-grid small-12">
     <div class="column small-collapse small-12">
-        <span class="button add icon-message" data-toggle="contactFormOffCanvas">{{ 'global.button.contact_freely'|trans }}</span>
+        <span class="button add icon-message" data-toggle="contactFormOffCanvas">{{ 'global.button.send_message'|trans }}</span>
     </div>
 </div>
 <div class="show-for-small-only off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
@@ -94,7 +94,7 @@
                 </div>
             {% endif %}
             <button type="submit" class="button full-width show-for-small-only">{{ 'global.button.send'|trans }}</button>
-            <button type="submit" class="button full-width hide-for-small-only">{{ 'global.button.contact_freely'|trans }}</button>
+            <button type="submit" class="button full-width hide-for-small-only">{{ 'global.button.send_message'|trans }}</button>
             {{ form_end(contactForm) }}
         </div>
     </div>

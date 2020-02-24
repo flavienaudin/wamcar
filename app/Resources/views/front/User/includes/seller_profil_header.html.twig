@@ -44,12 +44,9 @@
                                 {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
                         {% endif %}
                     {% else %}
-                        <a href="{{ path('front_conversation_create', {'id': user.id, '_fragment':'message-answer-block'}) }}"
-                           class="button square" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-                           data-wtto="{{ user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
-
                         {% if user.phone is not empty or user.phonePro is not empty %}
                             {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                                'disabledLoggedProtection': true,
                                 'phoneOwner': user,
                                 'phoneNumber': user.phone is not empty ? user.phone : user.phonePro ,
                                 'showphone_subaction': user.phone is not empty ? "1" : "2"
