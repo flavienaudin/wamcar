@@ -382,9 +382,12 @@
 
   &-like {
     display: flex;
-    align-items: right;
+    align-items: self-end;
     position: absolute;
-    right: rem-calc(36);
+    right: 0;
+    @include breakpoint(medium) {
+      right: rem-calc(36);
+    }
   }
 
   /*
