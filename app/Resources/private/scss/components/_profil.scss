@@ -237,7 +237,7 @@ $profil-image-offset: rem-calc(40);
       }
 
       > div {
-        padding-top: rem-calc(150);
+        padding-top: rem-calc(200);
 
         @include breakpoint(medium) {
           padding-top: 0;
@@ -246,12 +246,12 @@ $profil-image-offset: rem-calc(40);
 
       .profil-image {
         position: absolute;
-        top: rem-calc(150-50); // parent:padding-top - image.height / 2
+        top: rem-calc(200-50); // parent:padding-top - image.height / 2
         margin: 0;
       }
 
       .profile-titles {
-        height: 300px;
+        height: 250px;
         background-color: #ffffff;
         padding-top: rem-calc(75);
         padding-left: rem-calc(15);
@@ -261,6 +261,11 @@ $profil-image-offset: rem-calc(40);
           padding-top: rem-calc(50);
           background-color: transparent;
         }
+
+        .no-phone-button {
+          margin-top: 35px;
+        }
+
 
         .title-actions {
           margin-top: rem-calc(-120px);

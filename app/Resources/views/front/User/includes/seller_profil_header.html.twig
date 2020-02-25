@@ -21,21 +21,7 @@
         </div>
         <div class="column">
             <div class="profile-titles">
-                <h1>
-                    {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
-                </h1>
-                {% if not userIsMe %}
-                    <div class="title-actions is-flex align-right">
-                        {{ include('front/Favorites/includes/expert_define_component.html.twig', {
-                            'expertUser' : user,
-                            'cssClasses': 'primary-color'
-                        }) }}
-                        {#<a class="icon-share22" href=""></a>#}
-                    </div>
-                {% endif %}
-
-                <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
-                <div class="profile-actions">
+                {% set profilActionsBlock %}{% spaceless %}
                     {% if userIsMe %}
                         <a href="{{ path('front_edit_user_info') }}" class="button square">
                             {{ 'user.profile.header.cat.edit_profile'|trans }}</a>
@@ -53,7 +39,27 @@
                             }) }}
                         {% endif %}
                     {% endif %}
-                </div>
+                {% endspaceless %}{% endset %}
+
+                <h1 class="{{ profilActionsBlock is empty ? 'no-phone-button'}}">{{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}</h1>
+
+                {% if not userIsMe %}
+                    <div class="title-actions is-flex align-right">
+                        {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                            'expertUser' : user,
+                            'cssClasses': 'primary-color'
+                        }) }}
+                        {#<a class="icon-share22" href=""></a>#}
+                    </div>
+                {% endif %}
+
+                <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+
+                {% if profilActionsBlock is not empty %}
+                    <div class="profile-actions">
+                        {{ profilActionsBlock  }}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
