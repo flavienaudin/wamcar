@@ -382,9 +382,14 @@ $profil-image-offset: rem-calc(40);
     } // End of &-summary
 
     &-vehicles {
-      padding: rem-calc(25);
+      padding: rem-calc(25) rem-calc(15);
       background-color: $body-background;
       margin-bottom: rem-calc(25);
+
+      @include breakpoint(medium){
+        padding: rem-calc(25) rem-calc(25);
+      }
+
     } // End of &-vehicles
 
     &-delete-section {
