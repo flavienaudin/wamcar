@@ -136,7 +136,7 @@
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                             </div>
                         {% else %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1 hide-for-small-only">
                                 <div class="column small-12 large-8 text-justify">
                                     <h2>{{ "user.affinity.section.our_affinities"|trans }}
                                         {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
