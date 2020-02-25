@@ -234,10 +234,10 @@
       height: 100vh;
       margin-top: -$header-height;
       padding-top: $header-height;
-      background-color: #eaeef4;
+      background-color: $light-gray-peexeo;
 
       @include breakpoint (medium) {
-        background: #eaeef4 url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
+        background: $light-gray-peexeo url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
         background-blend-mode: overlay;
 
       }
