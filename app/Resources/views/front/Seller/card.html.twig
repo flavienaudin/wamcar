@@ -392,14 +392,16 @@
         {% endif %}
 
         {% if vehicles.totalHits > 0 %}
-            <div class="js-pro-profil-vehicles profil-seller-vehicles column small-12">
-                <h2>{{ 'user.vehicles.title'|trans }}</h2>
-                {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
-                    'pagination_route': 'front_view_pro_user_info',
-                    'pagination_route_params': {'slug':user.slug},
-                    'displayNbOfResult' : false,
-                    'isEditableByCurrentUser' : false
-                } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
+            <div class="js-pro-profil-vehicles column small-12">
+                <div class="profil-seller-vehicles">
+                    <h2>{{ 'user.vehicles.title'|trans }}</h2>
+                    {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                        'pagination_route': 'front_view_pro_user_info',
+                        'pagination_route_params': {'slug':user.slug},
+                        'displayNbOfResult' : false,
+                        'isEditableByCurrentUser' : false
+                    } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
+                </div>
             </div>
         {% endif %}
 

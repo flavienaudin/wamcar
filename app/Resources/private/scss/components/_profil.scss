@@ -213,7 +213,7 @@ $profil-image-offset: rem-calc(40);
   &-seller {
 
     &-main {
-      background-color: #eff0f2;
+      background-color: $light-gray-peexeo;
     }
 
     &-header {
@@ -379,11 +379,13 @@ $profil-image-offset: rem-calc(40);
       .profil-image {
         min-width: rem-calc(100); // To keep the image round
       }
-    }
+    } // End of &-summary
 
     &-vehicles {
+      padding: rem-calc(25);
+      background-color: $body-background;
       margin-bottom: rem-calc(25);
-    }
+    } // End of &-vehicles
 
     &-delete-section {
       padding: rem-calc(25);
@@ -447,9 +449,5 @@ $profil-image-offset: rem-calc(40);
         }
       }
     }
-  }
-
-  // End of &-seller
-
-
+  } // End of &-seller
 }

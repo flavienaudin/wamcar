@@ -1051,7 +1051,7 @@ user:
         view: "[0,1] %count% vue | [2, Inf[ %count% vues"
       show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
-    title: Les véhicules que je vous propose
+    title: Mes annonces
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
