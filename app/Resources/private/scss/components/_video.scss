@@ -10,6 +10,11 @@
       padding:0;
     }
 
+    @include breakpoint(400 down){
+      min-width: 200px;
+      margin: 0 auto;
+    }
+
     margin-bottom: rem-calc(15);
 
     .video-player {

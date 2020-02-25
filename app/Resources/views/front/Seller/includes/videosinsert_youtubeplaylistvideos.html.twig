@@ -1,5 +1,5 @@
 {% for video in videosInsert.playlistData.videos %}
-    <div class="video-box column small-6 large-4">
+    <div class="video-box column small-6 medium-6 large-4">
         <div class="video-player youtube-player" data-id="{{ video.id }}"></div>
         <div class="video-metadata hide-for-small-only">
             {% if video.title is not empty %}
@@ -13,7 +13,6 @@
                         ) }}</span>
                     <span>{{ video.publishedAt|time_diff }} </span>
                 </div>
-
             {% endif %}
         </div>
     </div>

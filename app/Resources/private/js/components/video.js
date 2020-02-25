@@ -20,9 +20,9 @@ if ($showMoreVideos.length > 0) {
           let $videosContainer = $(videosInsertContainer).find('.js-videosinsert-videos');
           $videosContainer.append(success.videosHtml);
           initYoutubePlayer($videosContainer.find('.youtube-player'));
-          if(success.showMoreVideosLink == null) {
+          if (success.showMoreVideosLink == null) {
             $buttonShowMore.remove();
-          }else{
+          } else {
             $buttonShowMore.data('href', success.showMoreVideosLink);
             $buttonShowMore.html(success.showMoreVideosText);
           }
@@ -64,5 +64,13 @@ function labnolIframe(event) {
   iframe.setAttribute('src', embed.replace('ID', this.dataset.id));
   iframe.setAttribute('frameborder', '0');
   iframe.setAttribute('allowfullscreen', '1');
+
+  $($(this).closest('.js-videosinsert-videos').find('.video-box')).each((idx, elt) => {
+    if ($(elt).hasClass('small-12')) {
+      $(elt).addClass('small-6').removeClass('small-12');
+    }
+  });
+  $($(this).closest('.video-box')[0]).removeClass('small-6').addClass('small-12');
+
   this.parentNode.replaceChild(iframe, this);
 }
