@@ -362,9 +362,13 @@
             <div class="column small-12">
                 <div class="profil-videos-insert">
                     <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
-                    <div class="is-hidden" id="addVideosInsertForm" data-toggler="is-hidden">
+                    <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
+                        {% set formAttr = (not addVideosInsertForm.vars.valid?{
+                            'id' : addVideosInsertForm.vars.id,
+                            'data-scroll-to-now':addVideosInsertForm.vars.id}
+                            :{}) %}
                         {{ form_start(addVideosInsertForm, {
-                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                            'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
                         }) }}
 
                         {{ form_widget(addVideosInsertForm.title, {
@@ -380,6 +384,7 @@
                                 'required_class': 'show-for-sr',
                                 'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
                             }) }}
+                            {{ form_errors(addVideosInsertForm.playlistId) }}
                         {% endif %}
 
                         <div class="is-flex align-right">

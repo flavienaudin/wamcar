@@ -77,8 +77,6 @@ use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Enum\LeadStatus;
 use Wamcar\User\Event\PersonalProjectUpdated;
-use Wamcar\User\Event\PersonalUserUpdated;
-use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\Lead;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\Project;
@@ -450,7 +448,7 @@ class UserController extends BaseController
             $addVideosInsertForm = $this->formFactory->create(YoutubePlaylistInsertType::class, $addVideosInsertDTO);
             $addVideosInsertForm->handleRequest($request);
             if ($addVideosInsertForm->isSubmitted()) {
-                if ($addVideosInsertForm->isSubmitted()) {
+                if ($addVideosInsertForm->isValid()) {
                     $this->userVideosInsertService->addVideosInsert($user, $addVideosInsertDTO);
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.add.videos_insert');
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
@@ -538,10 +536,14 @@ class UserController extends BaseController
         /** @var VideosInsert $videosInsert */
         foreach ($user->getVideosInserts() as $userVideosInsert) {
             $vi = $this->userVideosInsertService->getVideosInsertData($userVideosInsert);
-            if ($vi != null) {
-                $videosInserts[] = $vi;
-            } else {
-                $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $this->translator->trans('flash.warning.video_insert.unloadable'));
+            if ($vi instanceof YoutubePlaylistInsert) {
+                if (count($vi->getPlaylistData()->getVideos()) > 0) {
+                    $videosInserts[] = $vi;
+                } elseif ($userIsCurrentUser) {
+                    // No video in the video insert
+                    $videosInserts[] = $vi;
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $this->translator->trans('flash.warning.video_insert.unloadable'));
+                }
             }
         }
 

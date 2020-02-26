@@ -1047,6 +1047,7 @@ user:
       all_empty: Vous pouvez ajouter une vidéo et un texte explicatif vous présentant afin d'aider les particulier à mieux vous connaître.
   video_insert:
     video:
+      empty_playlist: La playlist est vide ou en erreur. Merci de vérifier l'identifiant de la playlist.
       statistics:
         view: "[0,1] %count% vue | [2, Inf[ %count% vues"
       show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
