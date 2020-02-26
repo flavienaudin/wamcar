@@ -131,6 +131,8 @@ flash:
       seller_to_reassign_not_found: Aucun autre vendeur n'est disponible pour gérer ce véhicule.
       assign_to_non_garage_member: Il n'est pas possible d'assigner à ce véhicule, un vendeur qui n'est pas membre de son garage
   warning:
+    video_insert:
+      unloadable: L'encart vidéo n'a pu être chargé. Tentez de recharger la page.
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user:
@@ -174,7 +176,6 @@ global:
     search: Rechercher
     send: Envoyer
     send_message: Envoyer un message
-    contact_freely: Contacter gratuitement
     complete: Compléter
     more_information: Plus d'information
     dislike: Je n'aime plus
@@ -1046,11 +1047,12 @@ user:
       all_empty: Vous pouvez ajouter une vidéo et un texte explicatif vous présentant afin d'aider les particulier à mieux vous connaître.
   video_insert:
     video:
+      empty_playlist: La playlist est vide ou en erreur. Merci de vérifier l'identifiant de la playlist.
       statistics:
         view: "[0,1] %count% vue | [2, Inf[ %count% vues"
       show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
-    title: Les véhicules que je vous propose
+    title: Mes annonces
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%

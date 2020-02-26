@@ -213,12 +213,12 @@ $profil-image-offset: rem-calc(40);
   &-seller {
 
     &-main {
-      background-color: #eff0f2;
+      background-color: $light-gray-peexeo;
     }
 
     &-header {
       // to blacken the image
-      background-color: #888888;
+      background-color: #BBBBBB;
       background-blend-mode: multiply;
 
       background-clip: border-box;
@@ -237,7 +237,7 @@ $profil-image-offset: rem-calc(40);
       }
 
       > div {
-        padding-top: rem-calc(150);
+        padding-top: rem-calc(200);
 
         @include breakpoint(medium) {
           padding-top: 0;
@@ -246,12 +246,12 @@ $profil-image-offset: rem-calc(40);
 
       .profil-image {
         position: absolute;
-        top: rem-calc(150-50); // parent:padding-top - image.height / 2
+        top: rem-calc(200-50); // parent:padding-top - image.height / 2
         margin: 0;
       }
 
       .profile-titles {
-        height: 300px;
+        height: 250px;
         background-color: #ffffff;
         padding-top: rem-calc(75);
         padding-left: rem-calc(15);
@@ -261,6 +261,11 @@ $profil-image-offset: rem-calc(40);
           padding-top: rem-calc(50);
           background-color: transparent;
         }
+
+        .no-phone-button {
+          margin-top: 35px;
+        }
+
 
         .title-actions {
           margin-top: rem-calc(-120px);
@@ -374,11 +379,18 @@ $profil-image-offset: rem-calc(40);
       .profil-image {
         min-width: rem-calc(100); // To keep the image round
       }
-    }
+    } // End of &-summary
 
     &-vehicles {
+      padding: rem-calc(25) rem-calc(15);
+      background-color: $body-background;
       margin-bottom: rem-calc(25);
-    }
+
+      @include breakpoint(medium){
+        padding: rem-calc(25) rem-calc(25);
+      }
+
+    } // End of &-vehicles
 
     &-delete-section {
       padding: rem-calc(25);
@@ -442,9 +454,5 @@ $profil-image-offset: rem-calc(40);
         }
       }
     }
-  }
-
-  // End of &-seller
-
-
+  } // End of &-seller
 }

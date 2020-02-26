@@ -7,6 +7,7 @@ namespace AppBundle\Services\User;
 use AppBundle\Form\DTO\UserVideosInsertDTO;
 use AppBundle\Form\DTO\UserYoutubePlaylistInsertDTO;
 use GoogleApi\GoogleYoutubeApiService;
+use GuzzleHttp\Exception\ConnectException;
 use Wamcar\User\BaseUser;
 use Wamcar\User\UserRepository;
 use Wamcar\User\VideosInsert;
@@ -41,19 +42,16 @@ class UserVideosInsertService
 
     /**
      * @param VideosInsert $videosInsert
+     * @param int|null $currentPageIdx
      * @param string|null $pageToken
-     * @return VideosInsert|null
+     * @return VideosInsert
      */
     public function getVideosInsertData(VideosInsert $videosInsert, ?int $currentPageIdx = 1, string $pageToken = null)
     {
         if ($videosInsert instanceof YoutubePlaylistInsert) {
-            try {
-                $playlistData = $this->gooleYoutubeApliService->fetchPlaylistVideos($videosInsert->getPlaylistId(), $pageToken);
-                $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
-                $videosInsert->setPlaylistData($playlistData);
-            }catch (\Google_Service_Exception $google_Service_Exception){
-                return null;
-            }
+            $playlistData = $this->gooleYoutubeApliService->fetchPlaylistVideos($videosInsert->getPlaylistId(), $pageToken);
+            $playlistData->setCurrentPageIdx(empty($pageToken) ? 1 : $currentPageIdx + 1);
+            $videosInsert->setPlaylistData($playlistData);
         }
         return $videosInsert;
     }

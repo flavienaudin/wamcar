@@ -136,7 +136,7 @@
                                 <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                             </div>
                         {% else %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1">
+                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1 hide-for-small-only">
                                 <div class="column small-12 large-8 text-justify">
                                     <h2>{{ "user.affinity.section.our_affinities"|trans }}
                                         {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
@@ -362,9 +362,13 @@
             <div class="column small-12">
                 <div class="profil-videos-insert">
                     <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
-                    <div class="is-hidden" id="addVideosInsertForm" data-toggler="is-hidden">
+                    <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
+                        {% set formAttr = (not addVideosInsertForm.vars.valid?{
+                            'id' : addVideosInsertForm.vars.id,
+                            'data-scroll-to-now':addVideosInsertForm.vars.id}
+                            :{}) %}
                         {{ form_start(addVideosInsertForm, {
-                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                            'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
                         }) }}
 
                         {{ form_widget(addVideosInsertForm.title, {
@@ -380,6 +384,7 @@
                                 'required_class': 'show-for-sr',
                                 'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
                             }) }}
+                            {{ form_errors(addVideosInsertForm.playlistId) }}
                         {% endif %}
 
                         <div class="is-flex align-right">
@@ -392,14 +397,16 @@
         {% endif %}
 
         {% if vehicles.totalHits > 0 %}
-            <div class="js-pro-profil-vehicles profil-seller-vehicles column small-12">
-                <h2>{{ 'user.vehicles.title'|trans }}</h2>
-                {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
-                    'pagination_route': 'front_view_pro_user_info',
-                    'pagination_route_params': {'slug':user.slug},
-                    'displayNbOfResult' : false,
-                    'isEditableByCurrentUser' : false
-                } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
+            <div class="js-pro-profil-vehicles column small-12">
+                <div class="profil-seller-vehicles">
+                    <h2>{{ 'user.vehicles.title'|trans }}</h2>
+                    {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                        'pagination_route': 'front_view_pro_user_info',
+                        'pagination_route_params': {'slug':user.slug},
+                        'displayNbOfResult' : false,
+                        'isEditableByCurrentUser' : false
+                    } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
+                </div>
             </div>
         {% endif %}
 

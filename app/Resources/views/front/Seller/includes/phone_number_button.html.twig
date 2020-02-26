@@ -12,11 +12,10 @@
            data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ phoneOwner|wtToDataAttrValue }}">
             {{ "global.button.call"|trans }}</a>
     {% else %}
-        <a class="js-showphone-action button square" data-href="{{ path('front_show_number') }}"
+        <a class="js-see-number js-showphone-action button square" data-href="{{ path('front_show_number') }}"
               data-wtaction="{{ showphone_action }}" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-              data-wtto="{{ phoneOwner|wtToDataAttrValue }}">
-            {{ "global.button.display_phone_number"|trans }}
-        </a>
+              data-wtto="{{ phoneOwner|wtToDataAttrValue }}">{{ "global.button.display_phone_number"|trans }}</a>
+        <button class="js-phone-number is-hidden button square">{{ phoneNumber|phoneFormat }}</button>
     {% endif %}
 {% else %}
     {% if is_mobile() %}

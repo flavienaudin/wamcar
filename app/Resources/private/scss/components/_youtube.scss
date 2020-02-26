@@ -47,15 +47,25 @@
     }
 
     .play {
-      height: 72px;
-      width: 72px;
+      background-image: url(#{$img-folder}/video/player/play.png);
+      background-repeat: no-repeat;
+      background-size: 36px 36px;
+      height: 36px;
+      width: 36px;
       left: 50%;
       top: 50%;
-      margin-left: -36px;
-      margin-top: -36px;
+      margin-left: -18px;
+      margin-top: -18px;
       position: absolute;
-      background: url("//i.imgur.com/TxzC70f.png") no-repeat;
       cursor: pointer;
+
+      @include breakpoint(medium){
+        background-size: 72px 72px;
+        height: 72px;
+        width: 72px;
+        margin-left: -36px;
+        margin-top: -36px;
+      }
     }
   }
 }
