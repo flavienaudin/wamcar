@@ -16,4 +16,11 @@
             {% endif %}
         </div>
     </div>
+{% else %}
+    {% if userIsMe %}
+        <div class="column small-12">
+        <div class="callout warning small">
+            <i class="icon-warning2">{{ 'user.video_insert.video.empty_playlist'|trans }}</i>
+        </div>
+        </div>{% endif %}
 {% endfor %}

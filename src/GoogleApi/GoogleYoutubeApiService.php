@@ -6,6 +6,7 @@ namespace GoogleApi;
 
 use GoogleApi\youtube\YoutubePlaylist;
 use GoogleApi\youtube\YoutubeVideo;
+use GuzzleHttp\Exception\ConnectException;
 
 class GoogleYoutubeApiService
 {
@@ -71,9 +72,14 @@ class GoogleYoutubeApiService
             $options['pageToken'] = $pageToken;
         }
 
-        /** @var \Google_Service_YouTube_PlaylistItemListResponse $playlistListResponse */
-        $playlistListResponse = $this->youtubeApi->playlistItems->listPlaylistItems('snippet', $options);
-        return $this->convertPlaylistListResponseToYoutubePlaylist($playlistListResponse);
+        try {
+            /** @var \Google_Service_YouTube_PlaylistItemListResponse $playlistListResponse */
+            $playlistListResponse = $this->youtubeApi->playlistItems->listPlaylistItems('snippet', $options);
+            return $this->convertPlaylistListResponseToYoutubePlaylist($playlistListResponse);
+        } catch (\Google_Service_Exception | ConnectException $exception) {
+            $emptyYoutubePlaylist = new YoutubePlaylist();
+            return $emptyYoutubePlaylist;
+        }
     }
 
     /**
@@ -139,13 +145,19 @@ class GoogleYoutubeApiService
                 }
             }
         }
-        $this->fetchPlaylistVideosData($videoIdsPositions, $youtubePlaylist);
+        try {
+            // Try to complete video data
+            $this->fetchPlaylistVideosData($videoIdsPositions, $youtubePlaylist);
+        }catch (\Google_Service_Exception | ConnectException $exception){
+            // Nothing to do
+        }
         return $youtubePlaylist;
     }
 
     /**
+     * Retrieve the videos'stats to complete their data
      * @param array $videoIdsPositions with key as Youtube Video Id and value as Playlist position
-     * @param YoutubePlaylist $playlist The YoutubePlaylistto complete
+     * @param YoutubePlaylist $playlist The YoutubePlaylist to complete
      */
     public function fetchPlaylistVideosData(array $videoIdsPositions, YoutubePlaylist $playlist)
     {
