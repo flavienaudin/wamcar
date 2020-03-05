@@ -7,6 +7,9 @@
 {% block title %}{{ is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) and app.user.isPro and app.user.isMemberOfGarage(garage) ? 'garage.my_garage'|trans : garage.name}}{% endblock %}
 {% block canonical %}{{ url('front_garage_view', {'slug':garage.slug}) }}{% endblock canonical %}
 
+{% set seo_img_url = garage|banner('garage_banner') %}
+{% set image_alt = garage.name %}
+
 {% set breadcrumbs = [
     {
         'name': block('title'),
