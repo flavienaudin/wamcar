@@ -24,8 +24,8 @@
             <a  href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-price red-peexeo-color">
                 {% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</a>
             <a class="vehicle-bottom block-grid" href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
-                <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
-                <time class="vehicle-time black-color small-auto">
+                <span class="peexeo-vehicle-city black-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
+                <time class="vehicle-time dark-blue-peexeo-color small-auto">
                     <span class="hide-for-large">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
                     <span class="show-for-large">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM YYYY, HH'h'mm")}) }}</span>
                 </time>

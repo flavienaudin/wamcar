@@ -1,5 +1,5 @@
 {% set excludedVehicle = excludedVehicle|default(null) %}
-<div class="row peexeo-vehicle-list small-up-1 medium-up-3 large-up-4">
+<div class="row peexeo-vehicle-list small-up-2 medium-up-3 large-up-4">
     {% if vehiclesToList is defined %}
         {% for vehicle in vehiclesToList|filter( vehicle => excludedVehicle != vehicle) %}
             {% include 'front/Vehicle/Listing/includes/vehicle_item_peexeo.html.twig' %}

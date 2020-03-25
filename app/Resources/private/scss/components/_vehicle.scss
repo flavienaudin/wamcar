@@ -1006,12 +1006,6 @@
     List
     ===================================== */
   &-list{
-    @include breakpoint(small only) {
-      max-width: 250px !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
   }
 
   /*
@@ -1066,5 +1060,12 @@
     @include breakpoint(xlarge) {
       margin-bottom: 0.5rem;
     }
+  }
+
+  /*
+    City
+    ===================================== */
+  &-city {
+    font-size: rem-calc(12);
   }
 }
