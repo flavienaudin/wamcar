@@ -25,7 +25,7 @@
 
 <div class="block-grid column small-12 align-bottom">
     {% if displayNbOfResult is not defined or displayNbOfResult %}
-        <h2 class="column no-margin">
+        <h2>
             <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
         </h2>
     {% endif %}
