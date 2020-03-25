@@ -278,10 +278,10 @@
 
     & .vehicle-price,
     & .like {
-      font-size: rem-calc(24);
+      font-size: rem-calc(18);
 
-      @include breakpoint(small only) {
-        font-size: rem-calc(18);
+      @include breakpoint(medium) {
+        font-size: rem-calc(24);
       }
     }
   }
@@ -997,4 +997,74 @@
     }
   }
 
+}
+
+
+.peexeo-vehicle {
+
+  /*
+    List
+    ===================================== */
+  &-list{
+    @include breakpoint(small only) {
+      max-width: 250px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+  }
+
+  /*
+    Item
+    ===================================== */
+  &-item{
+    margin-bottom: rem-calc(10);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(20);
+    }
+
+    &-info {
+      height: 125px;
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+      display: flex;
+      flex-direction: column;
+
+      @include breakpoint(medium) {
+        height: 150px;
+        padding-top: rem-calc(20);
+        padding-bottom: rem-calc(20);
+      }
+
+      @include breakpoint(large) {
+        height: 175px;
+      }
+
+
+      & .vehicle-price {
+        font-weight: bold;
+      }
+    }
+  }
+
+  /*
+    Name
+    ===================================== */
+  &-name {
+    color: $dark-blue-peexeo;
+    font-weight: bold;
+
+    @include breakpoint(large down) {
+      margin-bottom: rem-calc(2);
+    }
+
+    @include breakpoint(320 down) {
+      margin-bottom: rem-calc(-3);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-bottom: 0.5rem;
+    }
+  }
 }

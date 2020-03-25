@@ -1,0 +1,35 @@
+{% set balise = balise|default('h2') %}
+{% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
+{% set detailUrlTarget = detailUrlTarget|default('_self') %}
+
+<article class="peexeo-vehicle-item column">
+    <div class="white-bg">
+        <div class="full-width" id="{{ vehicle.id }}">
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
+                <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}"
+                     class="full-width">
+            </a>
+            <div class="vehicle-count-pics">
+                <span class="icon-pics">{{ vehicle.pictures|length }}</span>
+            </div>
+        </div>
+
+        <div class="peexeo-vehicle-item-info column">
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
+                <{{ balise }} class="peexeo-vehicle-name">
+                    {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
+                </{{ balise }}>
+            </a>
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-years dark-blue-peexeo-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</a>
+            <a  href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-price red-peexeo-color">
+                {% if vehicle.price is defined %}{{ vehicle.price|localizednumber }} €{% else %}&nbsp;{% endif %}</a>
+            <a class="vehicle-bottom block-grid" href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
+                <span class="vehicle-city primary-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
+                <time class="vehicle-time black-color small-auto">
+                    <span class="hide-for-large">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
+                    <span class="show-for-large">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM YYYY, HH'h'mm")}) }}</span>
+                </time>
+            </a>
+        </div>
+    </div>
+</article>
