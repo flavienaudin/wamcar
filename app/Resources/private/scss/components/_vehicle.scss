@@ -1039,6 +1039,14 @@
       & .vehicle-price {
         font-weight: bold;
       }
+
+      & .vehicle-like {
+        right: 0;
+
+        & .like {
+          font-size: 1rem;
+        }
+      }
     }
   }
 

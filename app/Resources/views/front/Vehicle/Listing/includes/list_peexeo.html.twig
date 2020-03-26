@@ -1,5 +1,6 @@
 {% set excludedVehicle = excludedVehicle|default(null) %}
 {% set columnsSizes = columnsSizes|default("small-up-2 medium-up-3 large-up-4") %}
+{% set ajax_like = true %}
 
 <div class="row peexeo-vehicle-list {{ columnsSizes }}">
     {% if vehiclesToList is defined %}

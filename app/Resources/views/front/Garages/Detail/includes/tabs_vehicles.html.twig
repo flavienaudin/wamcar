@@ -23,7 +23,7 @@
     {{ form_end(searchForm) }}
 {% endif %}
 
-<div class="block-grid column small-12 align-bottom">
+<div class="block-grid column small-12 align-bottom input-margin">
     {% if displayNbOfResult is not defined or displayNbOfResult %}
         <h2>
             <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
