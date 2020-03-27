@@ -1,3 +1,5 @@
+{% set form_container_class = form_container_class|default('') %}
+
 {# On mobile device : button to send a message fixed at screen bottom #}
 <div class="user-contact-form show-for-small-only block-grid small-12">
     <div class="column small-collapse small-12">
@@ -8,7 +10,7 @@
     <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 
     <div class="off-canvas-content-element">
-        <div class="js-pro-profil-contact-form-container user-contact-form-container margin-top-1"
+        <div class="js-pro-profil-contact-form-container user-contact-form-container {{ form_container_class }}"
              data-responsivedom-destination="{{ responsiveDomDestination }}"
              data-responsivedom-appendto="{{ responsiveDomAppendTo }}">
             <h3 class="{{ title_class|default('') }}">{{ 'user.pro_contact.title'|trans }}</h3>
