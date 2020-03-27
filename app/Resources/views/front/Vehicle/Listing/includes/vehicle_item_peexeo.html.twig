@@ -8,9 +8,9 @@
 {% set ajax_like = ajax_like|default(false) %}
 
 
-<article class="peexeo-vehicle-item column">
+<article class="peexeo-vehicle-item column" id="{{ vehicle.id }}">
     <div class="white-bg">
-        <div class="full-width is-relative" id="{{ vehicle.id }}">
+        <div class="full-width is-relative" >
             <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
                 <img src="{{ vehicle.mainPicture|vehiclePicture('vehicle_thumbnail') }}" alt="{{ vehicle.name }}"
                      class="full-width">
