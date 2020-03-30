@@ -257,6 +257,9 @@ $profil-image-offset: rem-calc(40);
         padding-left: rem-calc(15);
         padding-right: rem-calc(15);
 
+        @include breakpoint(small only) {
+          @include lightShadow;
+        }
         @include breakpoint(medium) {
           padding-top: rem-calc(50);
           background-color: transparent;
@@ -359,7 +362,6 @@ $profil-image-offset: rem-calc(40);
       }
 
       @include breakpoint(medium) {
-        border: 1px solid #AEAEAE;
         margin-top: 0;
         display: flex;
       }
