@@ -73,9 +73,17 @@
     padding: rem-calc(30);
   }
 
+  &-border-without-padding {
+    border: rem-calc(1) solid $border-color;
+  }
+
   /*
     Shadow
     ===================================== */
+  &-no-shadow {
+    box-shadow: none !important;
+  }
+
   &-shadow {
     @include shadow;
   }
