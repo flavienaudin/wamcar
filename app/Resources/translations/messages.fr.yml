@@ -565,6 +565,7 @@ vehicle:
   edit: Modifier ce véhicule
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
+  selled_by: "Voiture vendue par :"
   detail:
     personal:
       title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'

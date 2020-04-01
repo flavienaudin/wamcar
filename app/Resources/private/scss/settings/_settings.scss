@@ -80,12 +80,12 @@ $light-gray: #e5e5e5;
 $light-gray-peexeo: #eaeef4;
 $medium-gray: #7a7a7a;
 $dark-gray: #2c2c2c;
-$dark-gray-peexeo: #8299af;
+$blue-gray-peexeo: #8299af;
 $gray-alt: #f7f7f7;
 $gray-alt2: #f2f2f2;
 $gray-peexeo: #d3d9e3;
 $dark-blue: #17303b;
-$dark-blue-peexeo: #2d3155;
+$dark-gray-blue-peexeo: #2d3155;
 $blue-peexeo: #3955eb;
 $black: #0a0a0a;
 $white: #fefefe;
@@ -155,11 +155,13 @@ $block-grid-max: $grid-column-count;
 // 4. Base Typography
 // ------------------
 
-$header-font-family: $body-font-family;
+$font-family-itcavantgardepro: 'ITCAvantGardeProBk', 'Muli', Arial, sans-serif;
+$font-family-itcavantgardeprobold: 'ITCAvantGardeProBold', 'Muli', Arial, sans-serif;
+$header-font-family: $font-family-itcavantgardeprobold;
 $header-font-weight: bold;
 $header-font-style: normal;
 $font-family-monospace: Consolas, 'Liberation Mono', Courier, monospace;
-$header-color: $dark-gray;
+$header-color: $dark-gray-blue-peexeo;
 $header-lineheight: 1.4;
 $header-margin-bottom: rem-calc(25);
 $header-styles: (

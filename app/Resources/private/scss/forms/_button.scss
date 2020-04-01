@@ -137,7 +137,7 @@ a.button {
     }
 
     &.gray-light {
-        @include buttonTheme(white, $dark-blue-peexeo, $dark-blue);
+        @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-blue);
     }
 
     /* Add */

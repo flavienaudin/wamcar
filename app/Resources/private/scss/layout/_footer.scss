@@ -5,7 +5,7 @@
 .l-footer {
   margin-top: auto;
   background: $light-gray-peexeo;
-  color: $dark-blue-peexeo;
+  color: $dark-gray-blue-peexeo;
 
   /*
      Top
@@ -25,7 +25,7 @@
     background: $white;
 
     a {
-      color: $dark-blue-peexeo;
+      color: $dark-gray-blue-peexeo;
 
       &:not(.social-networks-link):hover {
         text-decoration: underline;
@@ -38,7 +38,7 @@
     padding-top: rem-calc(10);
     padding-bottom: rem-calc(10);
 
-    color: $dark-gray-peexeo;
+    color: $blue-gray-peexeo;
 
     .copyright {
       text-align: center;
@@ -54,7 +54,7 @@
       }
 
       a {
-        color: $dark-gray-peexeo;
+        color: $blue-gray-peexeo;
       }
     }
   }

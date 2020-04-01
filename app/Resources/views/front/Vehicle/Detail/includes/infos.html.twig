@@ -11,6 +11,8 @@
     {label: "vehicle.section.infos.imported.label"|trans, value: vehicle.isImported is null ? null : vehicle.isImported ? 'global.yes'|trans : 'global.no'|trans },
 ] %}
 
+{% set titleClass = titleClass|default('separator medium primary-color') %}
+
 {% if isUserPro or isEditableByCurrentUser %}
     {% set infos_vehicle = infos_vehicle|merge([
         { label: "vehicle.section.infos.immatriculation.label"|trans, value: vehicle.registrationPlateNumber },
@@ -18,7 +20,7 @@
     ]) %}
 {% endif %}
 
-<h2 class="separator medium primary-color">{{ 'vehicle.section.infos.title'|trans }}</h2>
+<h2 class="{{ titleClass }}">{{ 'vehicle.section.infos.title'|trans }}</h2>
 <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
     {% for info in infos_vehicle %}
         {% if info.value %}

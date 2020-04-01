@@ -17,6 +17,48 @@
 
 
 /*
+   ITCAvantGardePro
+   ===================================== */
+
+@font-face {
+  font-family: ITCAvantGardeProBk;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bk'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bk.ttf#{$assets-version}');
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+.font-itcavantgardeprobk {
+  font-family: 'ITCAvantGardeProBk', 'Muli', Arial, sans-serif;
+}
+
+@font-face {
+  font-family: ITCAvantGardeProBold;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bold'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bold.otf#{$assets-version}');
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+}
+.font-itcavantgardeprobold {
+  font-family: 'ITCAvantGardeProBold', 'Muli', Arial, sans-serif;
+}
+
+@font-face {
+  font-family: ITCAvantGardeStd;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardestd-bold'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardestd-bold.otf#{$assets-version}');
+
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+.font-itcavantgardestd {
+  font-family: 'ITCAvantGardeStd', 'Muli', Arial, sans-serif;
+}
+
+
+/*
    Muli
    ===================================== */
 

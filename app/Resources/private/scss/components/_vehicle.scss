@@ -1003,6 +1003,38 @@
 .peexeo-vehicle {
 
   /*
+    Header
+    ===================================== */
+  &-header {
+
+
+    h1, .h1 {
+    }
+  }
+
+
+  &-seller-infos {
+    .button, button {
+      margin: rem-calc(10) auto;
+      background-color: $white;
+      color: $dark-blue;
+      border: rem-calc(2) solid $dark-blue;
+
+      @include breakpoint(medium) {
+        margin-left: auto;
+        margin-right: auto;
+      }d
+
+      &:hover, &:focus {
+        background-color: $dark-blue;
+        color: $white;
+        border: rem-calc(2) solid $white;
+      }
+    }
+  }
+
+
+  /*
     List
     ===================================== */
   &-list{
@@ -1054,7 +1086,7 @@
     Name
     ===================================== */
   &-name {
-    color: $dark-blue-peexeo;
+    color: $dark-gray-blue-peexeo;
     font-weight: bold;
 
     @include breakpoint(large down) {

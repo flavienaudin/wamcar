@@ -26,7 +26,7 @@
                     {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
                 </{{ balise }}>
             </a>
-            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-years dark-blue-peexeo-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</a>
+            <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-years dark-gray-blue-peexeo-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</a>
 
 
             <div class="vehicle-middle block-grid is-relative">
@@ -48,7 +48,7 @@
 
             <a class="vehicle-bottom block-grid" href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
                 <span class="peexeo-vehicle-city black-color small-12">{{ vehicle.cityPostalCodeAndName|upper }}</span>
-                <time class="vehicle-time dark-blue-peexeo-color small-auto">
+                <time class="vehicle-time dark-gray-blue-peexeo-color small-auto">
                     <span class="hide-for-large">{{ vehicle.createdAt.date|localizeddate(format = "d MMM, HH'h'mm") }}</span>
                     <span class="show-for-large">{{ "vehicle.publish_at"|trans({'%createdAt%':vehicle.createdAt.date|localizeddate(format = "d MMM YYYY, HH'h'mm")}) }}</span>
                 </time>

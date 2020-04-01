@@ -1,4 +1,6 @@
-<h2 class="separator medium primary-color">{{ 'vehicle.section.guarantee.title'|trans }}</h2>
+{% set titleClass = titleClass|default('separator medium primary-color') %}
+
+<h2 class="{{ titleClass }}">{{ 'vehicle.section.guarantee.title'|trans }}</h2>
 <ul class="vehicle-guarantees-list list-border tiny no-bullet no-margin">
     {% if vehicle.guarantee %}
         <li class="dark-gray-color block-grid">

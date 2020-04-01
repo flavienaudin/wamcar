@@ -34,4 +34,13 @@
   &-footer {
     margin: auto;
   }
+
+  &-vehicle {
+    margin-bottom: rem-calc(25);
+
+    & > div {
+      padding: rem-calc(25);
+      background-color: $body-background;
+    }
+  }
 }
