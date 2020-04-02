@@ -292,9 +292,8 @@
      ===================================== */
 
   &-infos-list {
-    @include breakpoint(large only) {
-      columns: 2;
-      column-gap: rem-calc(40);
+    & li {
+      font-family: $font-family-notosansjp;
     }
   }
 
@@ -1003,15 +1002,8 @@
 .peexeo-vehicle {
 
   /*
-    Header
+    Seller infos
     ===================================== */
-  &-header {
-
-
-    h1, .h1 {
-    }
-  }
-
 
   &-seller-infos {
     .button, button {

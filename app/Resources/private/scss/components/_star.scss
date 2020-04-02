@@ -87,12 +87,19 @@
                 }
             }
         } // End checkedd + &
+
         /* Error state */
         &.is-invalid-label {
             color: $alert-color;
         }
+
+        /* Exception */
         &.google-rating {
             color: #EB6E00;
+        }
+
+        .vehicle-infos-list & {
+            color: $dark-gray-blue-peexeo;
         }
     }
 

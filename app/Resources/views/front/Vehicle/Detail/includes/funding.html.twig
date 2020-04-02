@@ -3,25 +3,25 @@
 <h2 class="{{ titleClass }}">{{ 'vehicle.section.funding.title'|trans }}</h2>
 <ul class="vehicle-funding-list list-border tiny no-bullet no-margin">
     {% if vehicle.catalogPrice %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.funding.catalogPrice.label"|trans}}</strong>
             {{ vehicle.catalogPrice|localizednumber }}€
         </li>
     {% endif %}
     {% if vehicle.discount %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.funding.discount.label"|trans}}</strong>
             {{ vehicle.discount|localizednumber }}%
         </li>
     {% endif %}
     {% if vehicle.funding %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.funding.funding.label"|trans}}</strong>
             {{ vehicle.funding.key|trans([], 'enumeration') }}
         </li>
     {% endif %}
     {% if vehicle.otherFunding %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.funding.otherFunding.label"|trans}}</strong>
             {{ vehicle.otherFunding|raw|nl2br }}
         </li>

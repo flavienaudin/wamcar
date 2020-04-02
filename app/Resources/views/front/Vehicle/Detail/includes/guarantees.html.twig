@@ -3,15 +3,15 @@
 <h2 class="{{ titleClass }}">{{ 'vehicle.section.guarantee.title'|trans }}</h2>
 <ul class="vehicle-guarantees-list list-border tiny no-bullet no-margin">
     {% if vehicle.guarantee %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.guarantee.label"|trans}}</strong>
-            {{ vehicle.guarantee.key|trans([], 'enumeration') }}
+            <span class="small-auto">{{ vehicle.guarantee.key|trans([], 'enumeration') }}</span>
         </li>
     {% endif %}
     {% if vehicle.otherGuarantee %}
-        <li class="dark-gray-color block-grid">
+        <li class="block-grid">
             <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.otherGuarantee.label"|trans}}</strong>
-            {{ vehicle.otherGuarantee|raw|nl2br }}
+            <span class="small-auto">{{ vehicle.otherGuarantee|raw|nl2br }}</span>
         </li>
     {% endif %}
 </ul>
