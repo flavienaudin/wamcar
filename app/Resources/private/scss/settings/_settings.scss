@@ -96,7 +96,7 @@ $orange-peexeo: #f79918;
 $border-color: #e5e5e5;
 $body-background: white;
 $body-font-color: $medium-gray;
-$body-font-family: 'Muli', sans-serif;
+$body-font-family: Arial, sans-serif;
 $body-antialiased: true;
 $global-margin: 1rem;
 $global-padding: 1rem;
@@ -158,6 +158,7 @@ $block-grid-max: $grid-column-count;
 $font-family-itcavantgardepro: 'ITCAvantGardeProBk', 'Muli', Arial, sans-serif;
 $font-family-itcavantgardeprobold: 'ITCAvantGardeProBold', 'Muli', Arial, sans-serif;
 $font-family-notosansjp: 'NotoSansJP', 'Muli', Arial, sans-serif;
+
 $header-font-family: $font-family-itcavantgardeprobold;
 $header-font-weight: bold;
 $header-font-style: normal;
@@ -189,6 +190,7 @@ $header-styles: (
 $header-text-rendering: optimizeLegibility;
 $small-font-size: 100%;
 $header-small-font-color: $medium-gray;
+$body-font-family: $font-family-notosansjp;
 $paragraph-lineheight: 1.5;
 $paragraph-margin-bottom: rem-calc(30);
 $paragraph-text-rendering: optimizeLegibility;
