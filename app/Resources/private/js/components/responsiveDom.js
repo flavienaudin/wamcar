@@ -90,6 +90,33 @@ if($proProfilVehicles.length){
   });
 }*/
 
+/*** PRO VEHICLE PAGE (PEEXEO) ***/
+
+const vehicleAsideMediaQuery = '(min-width: 1024px)';
+const $asideContentPrice = $('#js-aside-content-price');
+if($asideContentPrice.length){
+  $asideContentPrice.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
+const $asideContentSelledBy = $('#js-aside-content-selledby');
+if($asideContentSelledBy.length){
+  $asideContentSelledBy.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
+const $asideContentSellerItem = $('#js-aside-content-seller-item');
+if($asideContentSellerItem.length){
+  $asideContentSellerItem.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
 
 /*** HOMEPAGE PEEXEO ***/
 

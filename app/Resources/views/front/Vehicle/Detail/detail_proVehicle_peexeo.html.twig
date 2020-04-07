@@ -88,12 +88,15 @@
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
-    <div class="">
+    <div class="row peexeo-vehicle">
         {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
         {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
 
-        <div class="row margin-bottom-1">
-            <div class="column small-12 medium-8 block-grid align-middle margin-bottom-1">
+        {# Left Column #}
+        <div class="column small-12 large-7 xlarge-8">
+
+            {# Make Model #}
+            <div class="vehicle-title block-grid align-middle">
                 <h1 id="header-{{ vehicle.id }}" class="small-auto dark-gray-blue-peexeo-color margin-bottom-0">
                     {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
                 </h1>
@@ -105,20 +108,26 @@
                     </a>
                 </span>
             </div>
+            {# END Make Model #}
 
-            <div class="column small-12 medium-4 text-center">
+            {# Price #}
+            <div id="js-aside-content-price" class="vehicle-price text-center">
                 {% if vehicle.price is defined %}<h2 class="h1 margin-bottom-0">{{ vehicle.price|localizednumber }}&nbsp;€</h2>{% endif %}
             </div>
+            {# END Price #}
 
-            <div class="column small-12 medium-8 margin-bottom-1 blue-gray-peexeo-color font-itcavantgardeprobold">
+            {# Subtitle data #}
+            <div class="blue-gray-peexeo-color font-itcavantgardeprobold text-center medium-text-left">
                 <strong>
                     {{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}&nbsp;km&nbsp;&dash;&nbsp;
                     {{ vehicle.postalCode }} {{ vehicle.cityName|upper }},
                     {{ "vehicle.publish_at"|trans({"%createdAt%":vehicle.createdAt|localizeddate('short', 'none')}) }}
                 </strong>
             </div>
+            {# End Subtitle data #}
 
-            <section class="column small-12 medium-8 medium-order-2 margin-bottom-1">
+            {# Carousel #}
+            <section class="vehicle-carousel">
                 {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
                     'carouselId':'js-carousel-vehicle',
                     'carouselClass':'',
@@ -126,13 +135,15 @@
                     'modalIdToOpen':'js-modal-carousel-vehicle'
                 } %}
             </section>
+            {# END Carousel #}
 
-            <div class="column small-12 medium-4 medium-order-1 margin-bottom-1 blue-gray-peexeo-color font-itcavantgardeprobold is-flex align-bottom align-center">
+            {# Seller info & contact #}
+            <div id="js-aside-content-selledby" class="vehicle-selled-by">
                 <strong>{{ "vehicle.selled_by"|trans }}</strong>
             </div>
-
-            <aside class="column small-12 medium-4 medium-order-3">
+            <div id="js-aside-content-seller-item" class="vehicle-seller-item">
                 {% include 'front/Vehicle/Detail/includes/seller_item.html.twig' with {
+                    'itemClass' : 'block-light-shadow',
                     'proUser' : vehicle.seller,
                     'compact' : true
                 } %}
@@ -140,17 +151,12 @@
                 {% if isEditableByCurrentUser %}
                     {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
                 {% endif %}
-            </aside>
-        </div>
-
-        <section class="row dark-gray-blue-peexeo-color">
-            <div class="column small-12 large-8 section-vehicle is-sticky">
-                {% include 'front/Vehicle/Detail/includes/magellan.html.twig' with {
-                    'magellanClass' : 'block-shadow'
-                } %}
             </div>
+            {# END Seller info & contact #}
+
+            {# Description #}
             {% if vehicle.additionalInformation|trim|length > 0 %}
-                <div class="column small-12 large-8 section-vehicle wysiwyg" id="js-additional-information"
+                <div class="section-vehicle wysiwyg" id="js-additional-information"
                      data-magellan-target="js-additional-information">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' with {
@@ -159,7 +165,9 @@
                     </div>
                 </div>
             {% endif %}
-            <div class="column small-12 large-8 section-vehicle wysiwyg" id="js-infos"
+            {# END Description #}
+
+            <div class="section-vehicle wysiwyg" id="js-infos"
                  data-magellan-target="js-infos">
                 <div class="block-light-shadow">
                     {% include 'front/Vehicle/Detail/includes/infos.html.twig' with {
@@ -168,7 +176,7 @@
                 </div>
             </div>
             {% if state_block is not empty %}
-                <div class="column small-12 large-8 section-vehicle wysiwyg" id="js-state"
+                <div class="section-vehicle wysiwyg" id="js-state"
                      data-magellan-target="js-state">
                     <div class="block-light-shadow">
                         <h2>{{ 'vehicle.section.states.title'|trans }}</h2>
@@ -179,7 +187,7 @@
                 </div>
             {% endif %}
             {% if vehicle.guarantee or vehicle.otherGuarantee %}
-                <div class="column small-12 large-8 section-vehicle" id="js-guarantees"
+                <div class="section-vehicle" id="js-guarantees"
                      data-magellan-target="js-guarantees">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' with {
@@ -189,7 +197,7 @@
                 </div>
             {% endif %}
             {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
-                <div class="column small-12 large-8 section-vehicle" id="js-funding"
+                <div class="section-vehicle" id="js-funding"
                      data-magellan-target="js-funding">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/funding.html.twig' with {
@@ -199,7 +207,7 @@
                 </div>
             {% endif %}
             {% if vehicle.additionalServices|trim|length > 0 %}
-                <div class="column small-12 large-8 section-vehicle wysiwyg">
+                <div class="section-vehicle wysiwyg">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/additionalServices.html.twig' with {
                             'titleClass' : ' '
@@ -209,7 +217,7 @@
             {% endif %}
 
             {% if positiveLikes.all|length > 0 %}
-                <div class="column small-12 large-8 section-vehicle" id="js-interested_users"
+                <div class="section-vehicle" id="js-interested_users"
                      data-magellan-target="js-interested_users">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' with {
@@ -227,7 +235,14 @@
                     <a href="{{ path('front_garage_view', {'slug': vehicle.garage.slug}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
                 </div>
             {% endif %}
-        </section>
+        </div>
+        {# END Left Column #}
+
+        {# Right Column #}
+        <aside id="js-vehicle-aside" class="column hide-for-small-only large-5 xlarge-4">
+            {# empty for small. Filled on large using ResponsiveDom#}
+        </aside>
+        {# END Right Column #}
     </div>
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
