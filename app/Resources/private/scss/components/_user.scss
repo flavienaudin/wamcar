@@ -53,18 +53,42 @@
     top: initial;
     padding-bottom: 0;
 
-    .button {
-      height: rem-calc(60);
-      line-height: 1.1;
-      border-radius: 0;
-      margin-bottom: 0;
+    .button-container {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
 
-      &::before {
-        font-size: rem-calc(20);
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+
+      background: $primary-color;
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        height: 48px;
+        width: 48px;
+        font-size: 1rem;
+
+        &:before{
+          margin: auto;
+          color: $white;
+        }
       }
 
-      &.white {
-        border: 0;
+      .button {
+        height: rem-calc(60);
+        line-height: 1.1;
+        border-radius: 0;
+        margin-bottom: 0;
+
+        &::before {
+          font-size: rem-calc(20);
+        }
+
+        &.white {
+          border: 0;
+        }
       }
     }
 
