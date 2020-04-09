@@ -1,5 +1,5 @@
 {% if not app.request.cookies.get('cookie-disclaimer') %}
-    <div id="js-cookie-bar" class="cookie-bar block-primary white-color full-width">
+    <div id="js-cookie-bar" class="cookie-bar block-primary white-color full-width ">
         <div class="row align-middle full-width">
             <p class="cookie-bar-body no-margin column medium-7"><b>{{ 'cookie.instruction'|trans }} <a href="{{ path('privacy_policy') }}" target="_blank" class="text-underline">{{ 'cookie.more_link'|trans }}</a></b></p>
             <div class="column shrink small-right">
@@ -22,7 +22,7 @@
             let d=new Date;d.setTime(d.getTime()+31536e6);
             let expires="expires="+d.toUTCString();document.cookie="cookie-disclaimer=true; "+expires;
 
-            $cookieBar.style.transform = 'translate3d(0, ' + cookiebarHeight + 'px, 0)';
+            $cookieBar.classList.add('hide');
             document.body.style.marginBottom = '0px';
         });
     </script>
