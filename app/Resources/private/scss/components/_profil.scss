@@ -385,6 +385,12 @@ $profil-image-offset: rem-calc(40);
 
     &-vehicles {
       padding: rem-calc(25) 0;
+      border-top: $dark-gray-blue-peexeo dotted 3px;
+
+      @include breakpoint(xlarge) {
+        padding-top: rem-calc(30);
+      }
+
       margin-bottom: rem-calc(25);
 
       @include breakpoint(medium){

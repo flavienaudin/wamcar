@@ -1,21 +1,35 @@
 {% set formContainerClass = formContainerClass|default('') %}
 
+{% set responsiveDomBreakpoint = responsiveDomBreakpoint|default('medium') %}
+{% if responsiveDomBreakpoint == 'medium' %}
+    {% set buttonVisibilyClass = 'hide-for-medium' %}
+    {% set responsiveDomSize = '640' %}
+{% elseif responsiveDomBreakpoint == 'large' %}
+    {% set buttonVisibilyClass = 'hide-for-large' %}
+    {% set responsiveDomSize = '1024' %}
+{% else %}
+    {% set buttonVisibilyClass = '' %}
+    {% set responsiveDomSize = '100000' %}
+{% endif %}
+
+
 {# On mobile device : button to send a message fixed at screen bottom #}
-<div class="user-contact-form show-for-small-only block-grid small-12">
-    <div class="button-container">
+<div class="user-contact-form {{ buttonVisibilyClass }} block-grid small-12">
+    <div class="button-container ">
         <span class="icon-message" data-toggle="contactFormOffCanvas"
         alt="{{ 'global.button.send_message'|trans }}" title="{{ 'global.button.send_message'|trans }}"></span>
     </div>
 </div>
-<div class="show-for-small-only off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
+<div class="{{ buttonVisibilyClass }}  off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
     <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 
     <div class="off-canvas-content-element">
         <div class="js-pro-profil-contact-form-container user-contact-form-container {{ formContainerClass }}"
              data-responsivedom-destination="{{ responsiveDomDestination }}"
-             data-responsivedom-appendto="{{ responsiveDomAppendTo }}">
-            <h3 class="{{ titleClass|default('') }}">{{ 'user.pro_contact.title'|trans }}</h3>
-            <button class="show-for-small-only user-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
+             data-responsivedom-appendto="{{ responsiveDomAppendTo }}"
+             data-responsivedom-mediaquerysize="{{ responsiveDomSize|default('640') }}">
+            <h3 class="{{ titleClass|default('') }}">{{ 'user.pro_contact.title'|trans({'%username%' : user.firstName}) }}</h3>
+            <button class="{{ buttonVisibilyClass }}  user-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
             </button>
 

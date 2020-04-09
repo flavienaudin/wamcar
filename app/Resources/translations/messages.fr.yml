@@ -1130,7 +1130,7 @@ user:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
   pro_contact:
-    title: Me contacter
+    title: Contacter %username%
     form.field:
       firstname:
         label: Prénom

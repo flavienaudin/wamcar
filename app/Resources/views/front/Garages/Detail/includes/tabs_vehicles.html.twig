@@ -37,9 +37,10 @@
 </div>
 
 {% if vehicles.totalHits > 0 %}
-    {% set balise = 'h3' %}
-    {% set vehiclesToList = vehicles.hits %}
-    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' %}
+    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+        'vehiclesToList': vehicles.hits,
+        'balise' : 'h3'
+    } %}
 
     {% set tabVehiclesBlock %}
         {%- include 'front/Layout/includes/pagination.html.twig' with {

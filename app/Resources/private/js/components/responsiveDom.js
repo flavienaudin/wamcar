@@ -61,8 +61,9 @@ if($proProfilImage.length){
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
 if($proProfilContactForm.length > 0){
   $proProfilContactForm.each((index, element) => {
+    const breakpoint = $(element).data('responsivedom-mediaquerysize');
     let options = {
-      mediaQuery: '(min-width: 640px)'
+      mediaQuery: '(min-width: ' + breakpoint + 'px)'
     };
     const destination = $(element).data('responsivedom-destination');
     const appendTo = $(element).data('responsivedom-appendto');

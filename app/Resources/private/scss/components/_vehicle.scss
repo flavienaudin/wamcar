@@ -1075,6 +1075,16 @@
     }
   }
 
+  .other-vehicles {
+    border-top: $dark-gray-blue-peexeo dotted 3px;
+    padding-top: rem-calc(24);
+    margin-top: rem-calc(24);
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(30);
+      margin-top: rem-calc(30);
+    }
+  }
 
   /*
     Seller infos
@@ -1134,9 +1144,10 @@
         height: 175px;
       }
 
-
       & .vehicle-price {
         font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 0;
       }
 
       & .vehicle-like {

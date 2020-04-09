@@ -156,8 +156,7 @@
 
             {# Description #}
             {% if vehicle.additionalInformation|trim|length > 0 %}
-                <div class="section-vehicle wysiwyg" id="js-additional-information"
-                     data-magellan-target="js-additional-information">
+                <div class="section-vehicle wysiwyg" id="js-additional-information">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' with {
                             'titleClass' : ' '
@@ -167,8 +166,7 @@
             {% endif %}
             {# END Description #}
 
-            <div class="section-vehicle wysiwyg" id="js-infos"
-                 data-magellan-target="js-infos">
+            <div class="section-vehicle wysiwyg" id="js-infos">
                 <div class="block-light-shadow">
                     {% include 'front/Vehicle/Detail/includes/infos.html.twig' with {
                         'titleClass' : ' '
@@ -176,8 +174,7 @@
                 </div>
             </div>
             {% if state_block is not empty %}
-                <div class="section-vehicle wysiwyg" id="js-state"
-                     data-magellan-target="js-state">
+                <div class="section-vehicle wysiwyg" id="js-state">
                     <div class="block-light-shadow">
                         <h2>{{ 'vehicle.section.states.title'|trans }}</h2>
                         <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
@@ -187,8 +184,7 @@
                 </div>
             {% endif %}
             {% if vehicle.guarantee or vehicle.otherGuarantee %}
-                <div class="section-vehicle" id="js-guarantees"
-                     data-magellan-target="js-guarantees">
+                <div class="section-vehicle" id="js-guarantees">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' with {
                             'titleClass' : ' '
@@ -197,8 +193,7 @@
                 </div>
             {% endif %}
             {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
-                <div class="section-vehicle" id="js-funding"
-                     data-magellan-target="js-funding">
+                <div class="section-vehicle" id="js-funding">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/funding.html.twig' with {
                             'titleClass' : ' '
@@ -217,8 +212,7 @@
             {% endif %}
 
             {% if positiveLikes.all|length > 0 %}
-                <div class="section-vehicle" id="js-interested_users"
-                     data-magellan-target="js-interested_users">
+                <div class="section-vehicle" id="js-interested_users">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' with {
                             'titleClass' : ' '
@@ -228,11 +222,17 @@
             {% endif %}
 
             {% if vehiclesToList|length > 0 %}
-                <div class="separator-section column small-12" id="js-associate" data-magellan-target="js-associate">
-                    <h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
-                    {% include ':front/Vehicle/Detail/includes:list_vehicles.html.twig' with {'vehiclesToList': vehiclesToList} %}
+                <div class="other-vehicles" id="js-associate">
+                    <h2 class="">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
+                    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+                        'vehiclesToList' : vehiclesToList,
+                        'balise' : 'h3',
+                        'columnsSizes': 'small-up-2'
+                    } %}
                     <br>
-                    <a href="{{ path('front_garage_view', {'slug': vehicle.garage.slug}) }}" class="button small-12 medium-8 large-7 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+                    <a href="{{ path('front_garage_view', {'slug': vehicle.garage.slug}) }}"
+                       class="button small-12 medium-6 large-12 full-width">{{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+
                 </div>
             {% endif %}
         </div>
@@ -247,11 +247,12 @@
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
             'user': vehicle.seller,
-            'titleClass' : 'no-margin h2 text-center hide-for-medium',
+            'titleClass' : 'no-margin h2 text-center large-text-left',
             'formClass':'form-compact',
             'formContainerClass' : 'margin-top-1 block-no-shadow',
             'responsiveDomDestination':'.js-seller-infos',
             'responsiveDomAppendTo':true,
+            'responsiveDomBreakpoint': 'large',
             'vehicle': vehicle
         }) }}
     {% endif %}
