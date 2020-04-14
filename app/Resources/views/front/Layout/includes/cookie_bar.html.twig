@@ -12,10 +12,14 @@
         let $cookieBar = document.getElementById('js-cookie-bar');
         let $cookieBarButton = document.querySelector('.js-cookie-bar-button');
         let cookiebarHeight;
+        let $proUserContactFormButtonConainter = document.querySelector('.user-contact-form > .button-container');
 
         setTimeout(function() {
             cookiebarHeight = $cookieBar.offsetHeight;
             document.body.style.marginBottom = cookiebarHeight + 'px';
+            if($proUserContactFormButtonConainter){
+              $proUserContactFormButtonConainter.style.bottom = (20 + cookiebarHeight) + 'px';
+            }
         }, 500);
 
         $cookieBarButton.addEventListener('click', function(e) {
@@ -24,6 +28,9 @@
 
             $cookieBar.classList.add('hide');
             document.body.style.marginBottom = '0px';
+              if($proUserContactFormButtonConainter){
+                $proUserContactFormButtonConainter.style.bottom = '20px';
+              }
         });
     </script>
 {% endif %}
