@@ -172,20 +172,8 @@ $profil-image-offset: rem-calc(40);
       margin: auto;
     }
   }
-
   // End of &-section-action
 
-  /*
-     Videos Insert
-     ===================================== */
-
-  &-videos-insert {
-    padding: rem-calc(25);
-    background-color: $body-background;
-    margin-bottom: rem-calc(25);
-  }
-
-  // End &-video-insert
 
   /* Video
      ===================================== */
@@ -214,6 +202,7 @@ $profil-image-offset: rem-calc(40);
 
     &-main {
       background-color: $light-gray-peexeo;
+      padding-bottom: 0;
     }
 
     &-header {
@@ -319,23 +308,15 @@ $profil-image-offset: rem-calc(40);
       }
 
       .profile-actions {
-        @include breakpoint(medium) {
-          display: flex;
-          // align-center-midle :
-          justify-content: center;
-          align-items: center;
-          align-content: center;
-        }
-
         .button,
         button {
           margin: rem-calc(10) auto;
           background-color: $white;
-          color: $dark-blue;
-          border: rem-calc(2) solid $dark-blue;
+          color: $dark-gray-blue-peexeo;
+          border: rem-calc(2) solid $dark-gray-blue-peexeo;
 
           &:hover, &:focus {
-            background-color: $dark-blue;
+            background-color: $dark-gray-blue-peexeo;
             color: $white;
             border: rem-calc(2) solid $white;
           }
@@ -384,25 +365,21 @@ $profil-image-offset: rem-calc(40);
     } // End of &-summary
 
     &-vehicles {
+      margin-bottom: rem-calc(25);
       padding: rem-calc(25) 0;
+
       border-top: $dark-gray-blue-peexeo dotted 3px;
 
       @include breakpoint(xlarge) {
         padding-top: rem-calc(30);
       }
 
-      margin-bottom: rem-calc(25);
 
       @include breakpoint(medium){
         padding: rem-calc(25) 0;
       }
 
     } // End of &-vehicles
-
-    &-delete-section {
-      padding: rem-calc(25);
-      background-color: $body-background;
-    }
 
     &-left-column {
       > .profil-section {
@@ -419,8 +396,8 @@ $profil-image-offset: rem-calc(40);
         background-color: $body-background;
 
         @include breakpoint(medium down) {
-          margin-top: rem-calc(30);
-          margin-bottom: rem-calc(30);
+          margin-top: rem-calc(25);
+          margin-bottom: rem-calc(25);
         }
       }
 

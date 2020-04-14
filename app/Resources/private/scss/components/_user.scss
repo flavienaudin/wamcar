@@ -126,11 +126,6 @@
     }
 
     &-container {
-
-      @include breakpoint(medium){
-        @include lightShadow;
-      }
-
       h3 {
         margin-top: 1rem;
       }

@@ -126,32 +126,32 @@ a.button {
 
     &.dark-blue {
         background-color: $white;
-        color: $dark-blue;
-        border-color: $dark-blue;
+        color: $dark-gray-blue-peexeo;
+        border-color: $dark-gray-blue-peexeo;
         &:hover,
         &:focus {
             background-color: $gray-alt2;
-            color: $dark-blue;
+            color: $dark-gray-blue-peexeo;
             border-color: $white;
         }
     }
 
     &.gray-light {
-        @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-blue);
+        @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-gray-blue-peexeo);
     }
 
     /* Add */
     &.add {
-        background: $dark-gray;
+        background: $dark-gray-blue-peexeo;
         color: white;
-        border-color: $dark-gray;
+        border-color: $dark-gray-blue-peexeo;
         &::before {
             font-size: rem-calc(16);
             color: $primary-color;
         }
         &:hover {
             background: white;
-            color: $dark-gray;
+            color: $dark-gray-blue-peexeo;
         }
     }
     &.reverse {

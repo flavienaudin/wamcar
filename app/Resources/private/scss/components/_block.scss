@@ -35,7 +35,7 @@
   }
 
   &-gray {
-    background: #f7f7f7;
+    background: $gray-alt;
 
     &.has-border-bottom {
       border-bottom: rem-calc(1) solid $border-color;
@@ -51,7 +51,7 @@
   }
 
   &-dark-blue {
-    background: $dark-blue;
+    background: $dark-gray-blue-peexeo !important;
     color: white;
 
     h2 {
@@ -60,7 +60,7 @@
   }
 
   &-white {
-    background: white;
+    background: white !important;
     border: rem-calc(1) solid $light-gray;
   }
 

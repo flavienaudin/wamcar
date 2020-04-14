@@ -76,20 +76,15 @@ if($proProfilContactForm.length > 0){
   });
 }
 
-/*const $proProfilVehicles = $('.js-pro-profil-vehicles');
-if($proProfilVehicles.length){
-  $proProfilVehicles.responsiveDom({
-    appendTo: '.js-profil-seller-left-column',
-    mediaQuery: '(min-width: 1024px)',
-    callback: (matched) => {
-      if(matched){
-        $proProfilVehicles.removeClass('column small-12');
-      }else{
-        $proProfilVehicles.addClass('column small-12');
-      }
-    }
+/*** PRO USER PAGE (PEEXEO) ***/
+
+const $proProfilSellerServices = $('.js-seller-services');
+if($proProfilSellerServices.length > 0){
+  $proProfilSellerServices.responsiveDom({
+    appendTo: '.js-profil-seller-right-column',
+    mediaQuery: '(min-width: 1024px)'
   });
-}*/
+}
 
 /*** PRO VEHICLE PAGE (PEEXEO) ***/
 

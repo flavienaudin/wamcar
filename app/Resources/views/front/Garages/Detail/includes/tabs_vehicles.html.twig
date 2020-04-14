@@ -23,18 +23,20 @@
     {{ form_end(searchForm) }}
 {% endif %}
 
-<div class="block-grid column small-12 align-bottom input-margin">
-    {% if displayNbOfResult is not defined or displayNbOfResult %}
-        <h2>
-            <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
-        </h2>
-    {% endif %}
-    {% if isEditableByCurrentUser %}
-    <div class="small-12 medium-shrink medium-right">
-        <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+{% if displayNbOfResult is not defined or displayNbOfResult or isEditableByCurrentUser %}
+    <div class="block-grid column small-12 align-bottom input-margin">
+        {% if displayNbOfResult is not defined or displayNbOfResult %}
+            <h2>
+                <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
+            </h2>
+        {% endif %}
+        {% if isEditableByCurrentUser %}
+        <div class="small-12 medium-shrink medium-right">
+            <a href="{{ path('front_vehicle_pro_add',{'garage_id':garage.id}) }}" class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-</div>
+{% endif %}
 
 {% if vehicles.totalHits > 0 %}
     {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
@@ -42,7 +44,7 @@
         'balise' : 'h3'
     } %}
 
-    {% set tabVehiclesBlock %}
+    {% set tabVehiclesPaginationBlock %}
         {%- include 'front/Layout/includes/pagination.html.twig' with {
             'route': pagination_route,
             'route_params': pagination_route_params,
@@ -50,11 +52,11 @@
             'lastPage': lastPage
         } -%}
     {% endset %}
-    {% if tabVehiclesBlock is not empty %}
+    {% if tabVehiclesPaginationBlock is not empty %}
         <br>
         <div class="block-grid small-12 align-middle input-margin">
             <div class="small-12">
-                {{ tabVehiclesBlock }}
+                {{ tabVehiclesPaginationBlock }}
             </div>
         </div>
     {% endif %}
