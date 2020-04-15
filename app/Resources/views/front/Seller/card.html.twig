@@ -27,280 +27,278 @@
 {% block body %}
     {% include 'front/User/includes/seller_profil_header.html.twig' %}
 
-    <section class="row">
-        <div class="profil-body column small-12">
-            <div class="row">
-                {# Left column #}
-                <div class="js-profil-seller-left-column profil-seller-left-column column small-12 large-8">
-                    {% if not isLogged %}
-                        <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
-                            <div class="column small-12 large-8 text-justify">
-                                {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
-                            <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                                   class="button expand-height square dark-blue">
-                                    {{ 'global.button.register'|trans }}</a>
-                            </div>
+    <section class="row profil-body">
+        {# Left column #}
+        <div class="js-profil-seller-left-column profil-seller-left-column column small-12 large-8">
+            {# Registration Blue Block #}
+            {% if not isLogged %}
+                <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow">
+                    <div class="column small-12 large-8 text-justify">
+                        {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
+                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                        <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
+                           class="button expand-height square dark-blue">
+                            {{ 'global.button.register'|trans }}</a>
+                    </div>
+                </div>
+            {% endif %}
+            {# END Registration Blue Block #}
+
+            {# User Description Block #}
+            {% if user.description is not empty or presentationForm is not null %}
+                <div class="profil-section block-light-shadow">
+                    {% if presentationForm is not null %}
+                        {{ form_start(presentationForm, {
+                            'attr': {'class': 'form-compact', 'data-abide' : '','novalidate': 'novalidate'}
+                        }) }}
+                    {% endif %}
+                    <h2>
+                        {% if presentationForm is not null %}
+                            <span class="profil-section-action icon-pen"
+                                  data-toggle="jsPresentationTitleInput jsDescriptionInput jsDescriptionText jsSubmitInput">
+                            </span>
+                        {% endif %}
+                        {{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}
+                    </h2>
+
+                    {% if presentationForm is not null %}
+                        <div id="jsPresentationTitleInput" class="is-hidden" data-toggler="is-hidden">
+                            {{ form_widget(presentationForm.presentationTitle, {
+                                'label': 'user.profile.edit.form.presentationTitle.label'|trans,
+                                'required': false,
+                                'required_class': 'show-for-sr',
+                                'attr' : {
+                                    'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
+                                    'maxlength': 50
+                                }
+                            }) }}
                         </div>
                     {% endif %}
 
-                    {% if user.description is not empty or presentationForm is not null %}
-                        <div class="profil-section ">
-                            {% if presentationForm is not null %}
-                                {{ form_start(presentationForm, {
-                                    'attr': {'class': 'form-compact', 'data-abide' : '','novalidate': 'novalidate'}
-                                }) }}
-                            {% endif %}
-                            <h2>
-                                {% if presentationForm is not null %}
-                                    <span class="profil-section-action icon-pen"
-                                          data-toggle="jsPresentationTitleInput jsDescriptionInput jsDescriptionText jsSubmitInput">
-                                    </span>
-                                {% endif %}
-                                {{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}
-                            </h2>
+                    <div id="jsDescriptionText" data-toggler="is-hidden" class="text-justify">
+                        {% if user.description %}
+                            {{ user.description|nl2br }}
+                        {% elseif userIsMe %}
+                            {{ 'user.presentation.empty'|trans }}
+                        {% endif %}
+                    </div>
 
-                            {% if presentationForm is not null %}
-                                <div id="jsPresentationTitleInput" class="is-hidden" data-toggler="is-hidden">
-                                    {{ form_widget(presentationForm.presentationTitle, {
-                                        'label': 'user.profile.edit.form.presentationTitle.label'|trans,
-                                        'required': false,
-                                        'required_class': 'show-for-sr',
-                                        'attr' : {
-                                            'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
-                                            'maxlength': 50
-                                        }
-                                    }) }}
-                                </div>
-                            {% endif %}
-
-                            <div id="jsDescriptionText" data-toggler="is-hidden" class="text-justify">
-                                {% if user.description %}
-                                    {{ user.description|nl2br }}
-                                {% elseif userIsMe %}
-                                    {{ 'user.presentation.empty'|trans }}
-                                {% endif %}
-                            </div>
-
-                            {% if presentationForm is not null %}
-                                <div id="jsDescriptionInput" class="is-hidden" data-toggler="is-hidden">
-                                    {{ form_widget(presentationForm.description, {
-                                        'label': 'user.profile.edit.form.presentation.label'|trans,
-                                        'required': false,
-                                        'required_class': 'show-for-sr'
-                                    }) }}
-                                </div>
-                                <div id="jsSubmitInput" class="is-flex align-right is-hidden" data-toggler="is-hidden">
-                                    <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
-                                </div>
-                            {% endif %}
-
-                            {% if presentationForm is not null %}{{ form_end(presentationForm) }}{% endif %}
+                    {% if presentationForm is not null %}
+                        <div id="jsDescriptionInput" class="is-hidden" data-toggler="is-hidden">
+                            {{ form_widget(presentationForm.description, {
+                                'label': 'user.profile.edit.form.presentation.label'|trans,
+                                'required': false,
+                                'required_class': 'show-for-sr'
+                            }) }}
+                        </div>
+                        <div id="jsSubmitInput" class="is-flex align-right is-hidden" data-toggler="is-hidden">
+                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
                         </div>
                     {% endif %}
 
-                    {% if user.appointmentText is not empty %}
-                        <div class="block-grid align-middle block-dark-blue padding-bottom-1 padding-top-1 margin-bottom-1">
-                            <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
-                            <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                                   class="button expand-height square dark-blue" data-wtaction="LM RDV"
-                                   data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
-                                    {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
-                            </div>
-                        </div>
-                    {% endif %}
+                    {% if presentationForm is not null %}{{ form_end(presentationForm) }}{% endif %}
+                </div>
+            {% endif %}
+            {# END User Description Block #}
 
-                    {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
-                    {% if userIsMe %}
-                        <div class="profil-section">
-                            <h2>{{ "user.affinity.section.title"|trans }}</h2>
-                            {% if user.affinityAnswer is null %}
-                                {{ 'user.affinity.section.explanation.pro'|trans({
-                                    '%affinity_form_url%': path('front_affinity_pro_form'),
-                                    '%datawtattr%' : lwaWTattr|raw
-                                })|raw }}
-                            {% else %}
-                                <p>{{ 'user.affinity.section.edit.pro'|trans({
-                                        '%affinity_form_url%': path('front_affinity_pro_form'),
-                                        '%datawtattr%' : lwaWTattr|raw
-                                    })|raw }}</p>
-                            {% endif %}
+            {# Applointment Block #}
+            {% if user.appointmentText is not empty %}
+                <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow">
+                    <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
+                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                        <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
+                           class="button expand-height square dark-blue" data-wtaction="LM RDV"
+                           data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
+                            {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
+                    </div>
+                </div>
+            {% endif %}
+            {# END Applointment Block #}
+
+            {# Affinity Blocks (according to (un)logged user) #}
+            {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
+            {% if userIsMe %}
+                <div class="profil-section block-light-shadow">
+                    <h2>{{ "user.affinity.section.title"|trans }}</h2>
+                    {% if user.affinityAnswer is null %}
+                        {{ 'user.affinity.section.explanation.pro'|trans({
+                            '%affinity_form_url%': path('front_affinity_pro_form'),
+                            '%datawtattr%' : lwaWTattr|raw
+                        })|raw }}
+                    {% else %}
+                        <p>{{ 'user.affinity.section.edit.pro'|trans({
+                                '%affinity_form_url%': path('front_affinity_pro_form'),
+                                '%datawtattr%' : lwaWTattr|raw
+                            })|raw }}</p>
+                    {% endif %}
+                </div>
+            {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
+                {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+                {% if userAffinity is not null %}
+                    <div class="profil-section block-light-shadow">
+                        <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                            {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                        <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
+                    </div>
+                {% else %}
+                    <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow hide-for-small-only">
+                        <div class="column small-12 large-8 text-justify">
+                            <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                            {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
+                            : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
                         </div>
-                    {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
-                        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-                        {% if userAffinity is not null %}
-                            <div class="profil-section">
-                                <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
-                            </div>
+                        <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                            <a href="{{ path('front_affinity_personal_form') }}"
+                               class="button expand-height square dark-blue" {{ lwaWTattr }}>
+                                {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {# END Affinity Blocks #}
+
+            {# Presentation Video Block #}
+            {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
+                <div class="profil-section block-light-shadow">
+                    <h2>
+                        {% if videoPresentationForm is not null %}
+                            <span class="profil-section-action icon-pen"
+                                  data-toggle="jsVideoPresentationPreview jsVideoPresentationForm">
+                            </span>
+                        {% endif %}
+                        {% if user.videoTitle is not empty %}
+                            {{ user.videoTitle }}
                         {% else %}
-                            <div class="block-grid align-middle block-dark-blue block-shadow padding-bottom-1 padding-top-1 margin-bottom-1 hide-for-small-only">
-                                <div class="column small-12 large-8 text-justify">
-                                    <h2>{{ "user.affinity.section.our_affinities"|trans }}
-                                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
-                                    {{ isLogged ? 'user.affinity.degree.explanation.personal.logged'|trans({'%username%':user.firstname|title})
-                                    : 'user.affinity.degree.explanation.personal.unlogged'|trans({'%username%':user.firstname|title}) }}
-                                </div>
-                                <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
-                                    <a href="{{ path('front_affinity_personal_form') }}"
-                                       class="button expand-height square dark-blue" {{ lwaWTattr }}>
-                                        {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
-                                </div>
+                            {{ 'user.video.title'|trans }}
+                        {% endif %}
+                    </h2>
+                    <div id="jsVideoPresentationPreview"
+                         data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
+                        {% set userYoutubeVideoId =  user.youtubeVideoId %}
+                        {% if userYoutubeVideoId is not empty %}
+                            <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
+                        {% elseif videoPresentationForm is not null %}
+                            <div>
+                                {% if user.videoText is empty %}
+                                    <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
+                                {% else %}
+                                    <div class="callout warning small">
+                                        <i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i>
+                                    </div>
+                                {% endif %}
                             </div>
                         {% endif %}
-                    {% endif %}
 
-                    {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
-                        <div class="profil-section">
-                            <h2>
-                                {% if videoPresentationForm is not null %}
-                                    <span class="profil-section-action icon-pen"
-                                          data-toggle="jsVideoPresentationPreview jsVideoPresentationForm">
-                                    </span>
-                                {% endif %}
-                                {% if user.videoTitle is not empty %}
-                                    {{ user.videoTitle }}
-                                {% else %}
-                                    {{ 'user.video.title'|trans }}
-                                {% endif %}
-                            </h2>
-                            <div id="jsVideoPresentationPreview"
-                                 data-toggler="is-hidden" {{ videoPresentationForm is not null and not videoPresentationForm.vars.valid ? 'class="is-hidden"' }}>
-                                {% set userYoutubeVideoId =  user.youtubeVideoId %}
-                                {% if userYoutubeVideoId is not empty %}
-                                    <div class="youtube-player" data-id="{{ userYoutubeVideoId }}"></div>
-                                {% elseif videoPresentationForm is not null %}
-                                    <div>
-                                        {% if user.videoText is empty %}
-                                            <i>{{ 'user.video.placeholder.all_empty'|trans }}</i>
-                                        {% else %}
-                                            <div class="callout warning small">
-                                                <i class="icon-warning2">{{ 'user.video.placeholder.with_text'|trans }}</i>
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-
-                                {% if user.videoText is not empty %}
-                                    <div class="profil-video margin-top-2">
-                                        {{ user.videoText|raw }}
-                                    </div>
-                                {% endif %}
+                        {% if user.videoText is not empty %}
+                            <div class="profil-video margin-top-2">
+                                {{ user.videoText|raw }}
                             </div>
-                            {% if videoPresentationForm is not null %}
-                                <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
-                                    {{ form_start(videoPresentationForm, {
-                                        'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
-                                    }) }}
+                        {% endif %}
+                    </div>
+                    {% if videoPresentationForm is not null %}
+                        <div id="jsVideoPresentationForm" {{ videoPresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                            {{ form_start(videoPresentationForm, {
+                                'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                            }) }}
 
-                                    {{ form_widget(videoPresentationForm.videoTitle, {
-                                        'label' : 'user.profile.edit.form.video.title.label'|trans,
-                                        'required' : false,
-                                        'required_class': 'show-for-sr',
-                                        'attr': {'placeholder': 'user.video.title'|trans}
-                                    }) }}
+                            {{ form_widget(videoPresentationForm.videoTitle, {
+                                'label' : 'user.profile.edit.form.video.title.label'|trans,
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'user.video.title'|trans}
+                            }) }}
 
-                                    {{ form_widget(videoPresentationForm.youtubeVideoUrl, {
-                                        'label' : 'user.profile.edit.form.video.youtubeVideoUrl.label'|trans,
-                                        'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage'|trans,
-                                        'required': false,
-                                        'required_class': 'show-for-sr',
-                                        'attr': {
-                                            'placeholder': 'user.profile.edit.form.video.youtubeVideoUrl.placeholder'|trans,
-                                        }
-                                    }) }}
-                                    {{ form_errors(videoPresentationForm.youtubeVideoUrl) }}
+                            {{ form_widget(videoPresentationForm.youtubeVideoUrl, {
+                                'label' : 'user.profile.edit.form.video.youtubeVideoUrl.label'|trans,
+                                'error_message': 'user.profile.edit.form.video.youtubeVideoUrl.invalidMEssage'|trans,
+                                'required': false,
+                                'required_class': 'show-for-sr',
+                                'attr': {
+                                    'placeholder': 'user.profile.edit.form.video.youtubeVideoUrl.placeholder'|trans,
+                                }
+                            }) }}
+                            {{ form_errors(videoPresentationForm.youtubeVideoUrl) }}
 
-                                    {{ form_row(videoPresentationForm.videoText, {
-                                        'label': 'user.profile.edit.form.video.videoText.label'|trans,
-                                        'required': false,
-                                        'required_class': 'show-for-sr'
-                                    }) }}
+                            {{ form_row(videoPresentationForm.videoText, {
+                                'label': 'user.profile.edit.form.video.videoText.label'|trans,
+                                'required': false,
+                                'required_class': 'show-for-sr'
+                            }) }}
 
-                                    <div class="is-flex align-right">
-                                        <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
-                                    </div>
-                                    {{ form_end(videoPresentationForm) }}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endif %}
-                </div> {# End Left Column #}
-
-                {# Right column #}
-                <div class="js-pro-profil-right-column profil-seller-right-column column small-12 large-4">
-                    {% if userIsMe %}
-                        <div class="profil-section garages-card">
-                            {% include 'front/User/includes/brand_list.html.twig' %}
-                        </div>
-                    {% endif %}
-
-                    {% set userSpecialities = user.proUserSpecialities %}
-                    {% set proServices = user.proUserServices(true, true) %}
-                    {% set userHobbies = user.hobbies %}
-                    {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
-                        <div class="seller-services">
-                            {% if userIsMe or userSpecialities |length > 0 %}
-                                <div>
-                                    <h2>
-                                        {% if userIsMe %}
-                                            <a href="{{ path('front_edit_prouser_specialities') }}" class="profil-section-action icon-pen"></a>
-                                        {% endif %}
-                                        {{ 'user.profile.proservices.specialities.title'|trans }}</h2>
-                                    <div class="tag-container">
-                                        {% for proUserProSpeciality in userSpecialities %}
-                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
-                                               class="tag">{{ proUserProSpeciality.proService.name }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            {% if userIsMe or proServices|length > 0 %}
-                                <div>
-                                    <h2>
-                                        {% if userIsMe %}
-                                            <a href="{{ path('front_edit_prouser_proservices') }}" class="profil-section-action icon-pen"></a>
-                                        {% endif %}
-                                        {{ 'user.profile.proservices.services.title'|trans }}</h2>
-                                    <div class="tag-container">
-                                        {% for proUserServices in proServices %}
-                                            <a href="{{ path('front_directory_by_service_view', {'speciality': proUserServices.slug}) }}"
-                                               class="tag">{{ proUserServices.name }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            {% if userHobbies|length > 0 %}
-                                <div>
-                                    <h2>{{ 'user.profile.hobbies.title'|trans }}</h2>
-                                    <div class="hobby-container">
-                                        {% for userHobby in userHobbies %}
-                                            <span class="hobby-icon" title="{{ userHobby.name }}">
-                                                <img src="{{ asset('assets/images/hobbies/'~userHobby.icon) }}" alt="{{ userHobby.name }}">
-                                            </span>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
+                            <div class="is-flex align-right">
+                                <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                            </div>
+                            {{ form_end(videoPresentationForm) }}
                         </div>
                     {% endif %}
                 </div>
-            </div>
-        </div>
+            {% endif %}
+            {# END Presentation Video Block #}
 
-        {% for videosInsert in videosInserts %}
-            <div class="column small-12" id="videos-encart-{{ videosInsert.id }}">
-                <div class="profil-videos-insert">
+            {# User Specialities & Services Block #}
+            {% set userSpecialities = user.proUserSpecialities %}
+            {% set proServices = user.proUserServices(true, true) %}
+            {% set userHobbies = user.hobbies %}
+            {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
+                <div class="js-seller-services profil-section seller-services block-light-shadow">
+                    {% if userIsMe or userSpecialities |length > 0 %}
+                        <div>
+                            <h2>
+                                {% if userIsMe %}
+                                    <a href="{{ path('front_edit_prouser_specialities') }}" class="profil-section-action icon-pen"></a>
+                                {% endif %}
+                                {{ 'user.profile.proservices.specialities.title'|trans }}</h2>
+                            <div class="tag-container">
+                                {% for proUserProSpeciality in userSpecialities %}
+                                    <a href="{{ path('front_directory_by_service_view', {'speciality': proUserProSpeciality.proService.slug}) }}"
+                                       class="tag">{{ proUserProSpeciality.proService.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if userIsMe or proServices|length > 0 %}
+                        <div>
+                            <h2>
+                                {% if userIsMe %}
+                                    <a href="{{ path('front_edit_prouser_proservices') }}" class="profil-section-action icon-pen"></a>
+                                {% endif %}
+                                {{ 'user.profile.proservices.services.title'|trans }}</h2>
+                            <div class="tag-container">
+                                {% for proUserServices in proServices %}
+                                    <a href="{{ path('front_directory_by_service_view', {'speciality': proUserServices.slug}) }}"
+                                       class="tag">{{ proUserServices.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if userHobbies|length > 0 %}
+                        <div>
+                            <h2>{{ 'user.profile.hobbies.title'|trans }}</h2>
+                            <div class="hobby-container">
+                                {% for userHobby in userHobbies %}
+                                    <span class="hobby-icon" title="{{ userHobby.name }}">
+                                        <img src="{{ asset('assets/images/hobbies/'~userHobby.icon) }}" alt="{{ userHobby.name }}">
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {# END User Specialities & Services Block #}
+
+            {# Videos Inserts Blocks #}
+            {% for videosInsert in videosInserts %}
+                <div id="videos-encart-{{ videosInsert.id }}" class="profil-section block-light-shadow">
                     {% if videosInsert.title is not empty or editVideosInsertFormViews[videosInsert.id] is defined %}
                         <h2>
                             {% if editVideosInsertFormViews[videosInsert.id] is defined %}
                                 <span class="profil-section-action icon-pen"
                                       data-toggle="jsEditVideoInsert-{{ videosInsert.id }} jsVideoInsertVideos-{{ videosInsert.id }}">
-                                    </span>
+                                </span>
                             {% endif %}
                             {{ videosInsert.title }}
                         </h2>
@@ -355,79 +353,96 @@
                         </div>
                     {% endif %}
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+            {# END Videos Inserts Blocks #}
 
-        {% if addVideosInsertForm is not null %}
-            <div class="column small-12">
-                <div class="profil-videos-insert">
-                    <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
-                    <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
-                        {% set formAttr = (not addVideosInsertForm.vars.valid?{
-                            'id' : addVideosInsertForm.vars.id,
-                            'data-scroll-to-now':addVideosInsertForm.vars.id}
-                            :{}) %}
-                        {{ form_start(addVideosInsertForm, {
-                            'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
-                        }) }}
+            {# Add Videos Inserts Block #}
+            {% if addVideosInsertForm is not null %}
+            <div class="profil-section block-light-shadow">
+                <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
+                <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
+                    {% set formAttr = (not addVideosInsertForm.vars.valid?{
+                        'id' : addVideosInsertForm.vars.id,
+                        'data-scroll-to-now':addVideosInsertForm.vars.id}
+                        :{}) %}
+                    {{ form_start(addVideosInsertForm, {
+                        'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
+                    }) }}
 
-                        {{ form_widget(addVideosInsertForm.title, {
-                            'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                    {{ form_widget(addVideosInsertForm.title, {
+                        'label' : 'user.profile.edit.form.video_insert.title.label'|trans,
+                        'required' : false,
+                        'required_class': 'show-for-sr',
+                        'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                    }) }}
+                    {% if addVideosInsertForm.playlistId %}
+                        {{ form_widget(addVideosInsertForm.playlistId, {
+                            'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
                             'required' : false,
                             'required_class': 'show-for-sr',
-                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.title.placeholder'|trans}
+                            'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
                         }) }}
-                        {% if addVideosInsertForm.playlistId %}
-                            {{ form_widget(addVideosInsertForm.playlistId, {
-                                'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
-                                'required' : false,
-                                'required_class': 'show-for-sr',
-                                'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
-                            }) }}
-                            {{ form_errors(addVideosInsertForm.playlistId) }}
-                        {% endif %}
+                        {{ form_errors(addVideosInsertForm.playlistId) }}
+                    {% endif %}
 
-                        <div class="is-flex align-right">
-                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
-                        </div>
-                        {{ form_end(addVideosInsertForm) }}
+                    <div class="is-flex align-right">
+                        <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
                     </div>
+                    {{ form_end(addVideosInsertForm) }}
                 </div>
             </div>
-        {% endif %}
+            {% endif %}
+            {# END Add Videos Inserts Block #}
 
-        {% if vehicles.totalHits > 0 %}
-            <div class="js-pro-profil-vehicles column small-12">
+            {# User Vehicles Block #}
+            {% if vehicles.totalHits > 0 %}
                 <div class="profil-seller-vehicles">
                     <h2>{{ 'user.vehicles.title'|trans }}</h2>
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                         'pagination_route': 'front_view_pro_user_info',
                         'pagination_route_params': {'slug':user.slug},
                         'displayNbOfResult' : false,
-                        'isEditableByCurrentUser' : false
+                        'isEditableByCurrentUser' : false,
+                        'columnsSizes' : 'small-up-2 medium-up-3'
                     } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+            {# END User Vehicles Block #}
 
-        {% if userIsMe %}
-            <div class="column small-12">
-                <div class="profil-seller-delete-section">
+            {# Delete Account Block #}
+            {% if userIsMe %}
+                <div class="profil-section block-light-shadow">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
                     <p>{{ 'user.profile.delete.link.information'|trans }}
                         <a href="{{ path('front_user_delete') }}"
                            class="text-underline">{{ 'global.button.delete'|trans }}</a>
                     </p>
                 </div>
-            </div>
-        {% endif %}
+            {% endif %}
+            {# END Delete Account Block #}
+        </div>
+        {# END Left column #}
+
+        {# Right column #}
+        <div class="js-profil-seller-right-column profil-seller-right-column column small-12 large-4">
+            {# User Garages Management Block #}
+            {% if userIsMe %}
+                <div class="profil-section garages-card block-light-shadow">
+                    {% include 'front/User/includes/brand_list.html.twig' %}
+                </div>
+            {% endif %}
+            {# END User Garages Management Block #}
+        </div>
+        {# END Right column #}
     </section>
 
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
-            'responsiveDomDestination':'.js-pro-profil-right-column',
+            'responsiveDomDestination':'.js-profil-seller-right-column',
             'responsiveDomAppendTo':false,
-            'title_class':'h2'
+            'responsiveDomBreakpoint': 'large',
+            'titleClass':'h2',
+            'formClass':'form-compact',
         }) }}
     {% endif %}
 {% endblock body %}

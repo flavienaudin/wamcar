@@ -105,11 +105,11 @@
             <div class="column block-grid small-12">
                 <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'':'separator' }} column small-12">
                     <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
-                    <div class="row">
-                        {% set balise = 'h3' %}
-                        {% set vehiclesToList = user.vehicles %}
-                        {% include 'front/Vehicle/Listing/includes/list.html.twig' %}
-                    </div>
+                    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+                        'vehiclesToList': user.vehicles,
+                        'balise': 'h3'
+                    } %}
+
                     {% if userIsMe %}
                         <div class="small-12 medium-6 large-4 margin-top-1">
                             <a href="{{ path('front_vehicle_personal_add') }}"

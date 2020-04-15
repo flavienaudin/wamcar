@@ -313,7 +313,7 @@
       background-image: none;
 
       p, h2 {
-        color: $dark-blue-peexeo;
+        color: $dark-gray-blue-peexeo;
       }
 
       .wamaffinity-experience {
@@ -326,7 +326,7 @@
       }
 
       .row:not(:last-child) {
-        border-bottom: $dark-blue-peexeo dotted 3px;
+        border-bottom: $dark-gray-blue-peexeo dotted 3px;
         padding-bottom: rem-calc(40);
         margin-bottom: rem-calc(40);
 
@@ -349,7 +349,7 @@
 
 
     #reinsurance_wamcar {
-      background-color: $dark-blue-peexeo;
+      background-color: $dark-gray-blue-peexeo;
       background-image: none;
 
       .reinsurance {

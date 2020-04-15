@@ -37,8 +37,12 @@
         background: white;
       }
 
-      &::before { left: 0; }
-      &::after { right: 0; }
+      &::before {
+        left: 0;
+      }
+      &::after {
+        right: 0;
+      }
     }
 
     /* Components */
@@ -80,6 +84,7 @@
     }
 
   }
+
   // End &-filter
 
   /*
@@ -105,6 +110,7 @@
         margin-bottom: rem-calc(40);
       }
     }
+
     // End .section &
 
     .vehicle-other & {
@@ -125,6 +131,7 @@
       }
     }
   }
+
   // End &-list
 
   /*
@@ -152,7 +159,9 @@
 
     @include breakpoint(xlarge) {
       transition: $global-transition;
-      &:hover { box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .2); }
+      &:hover {
+        box-shadow: 0 rem-calc(5) rem-calc(10) rgba(black, .2);
+      }
     }
 
     /* Exceptions */
@@ -164,7 +173,7 @@
     }
 
     .separator-section &,
-    .section &{
+    .section & {
       margin-right: rem-calc(10);
       margin-left: rem-calc(10);
 
@@ -193,6 +202,7 @@
     }
 
   }
+
   // End &-item
 
   /*
@@ -278,13 +288,14 @@
 
     & .vehicle-price,
     & .like {
-      font-size: rem-calc(24);
+      font-size: rem-calc(18);
 
-      @include breakpoint(small only) {
-        font-size: rem-calc(18);
+      @include breakpoint(medium) {
+        font-size: rem-calc(24);
       }
     }
   }
+
   // End &-infos
 
   /*
@@ -292,9 +303,8 @@
      ===================================== */
 
   &-infos-list {
-    @include breakpoint(large only) {
-      columns: 2;
-      column-gap: rem-calc(40);
+    & li {
+      font-family: $font-family-notosansjp;
     }
   }
 
@@ -486,7 +496,7 @@
   &-aside-container {
     z-index: 2;
 
-    .affinity-score{
+    .affinity-score {
       width: 40px;
     }
   }
@@ -567,14 +577,21 @@
         border-radius: 0;
         margin-bottom: 0;
 
-        &::before { font-size: rem-calc(20); }
-        &.white { border: 0; }
+        &::before {
+          font-size: rem-calc(20);
+        }
+
+        &.white {
+          border: 0;
+        }
       }
     }
 
     .icon-heart {
       @include breakpoint(large) {
-        &::before { margin-right: 0; }
+        &::before {
+          margin-right: 0;
+        }
       }
     }
   }
@@ -616,6 +633,7 @@
     }
 
   }
+
   // End &-editing
 
   &-edit-profile {
@@ -724,6 +742,7 @@
       }
     }
   }
+
   // End &-form
 
   /*
@@ -760,6 +779,7 @@
       margin-bottom: 0;
     }
   }
+
   // End &-header
 
   /*
@@ -803,6 +823,7 @@
       width: 40px;
     }
   }
+
   // End &-user-info
 
   /*
@@ -853,7 +874,10 @@
 
       > li {
         padding-left: rem-calc(10);
-        &:not(:last-child) { margin-bottom: 0; }
+
+        &:not(:last-child) {
+          margin-bottom: 0;
+        }
       }
     }
 
@@ -864,10 +888,13 @@
       > li {
         padding-top: rem-calc(5);
 
-        &:not(:last-child) { padding-bottom: rem-calc(5); }
+        &:not(:last-child) {
+          padding-bottom: rem-calc(5);
+        }
       }
     }
   }
+
   // End &-yser-greetings
 
   /*
@@ -997,4 +1024,166 @@
     }
   }
 
+}
+
+
+.peexeo-vehicle {
+  $two-columns-breakpoint: medium;
+
+  /*  Vehicle page's components
+  ===================================== */
+
+
+  .vehicle-title {
+    margin-bottom: 1rem;
+  }
+
+  .vehicle-carousel {
+    margin-bottom: 2rem;
+  }
+
+  .vehicle-price {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    @include breakpoint($two-columns-breakpoint) {
+      margin-top: 0;
+    }
+  }
+
+  .vehicle-selled-by {
+    color: $blue-gray-peexeo;
+    font-family: $font-family-itcavantgardeprobold;
+    text-align: center;
+
+    @include breakpoint($two-columns-breakpoint) {
+      margin-bottom: rem-calc(20); // same as carousel padding  (Slick slid > li )
+    }
+  }
+
+  .vehicle-seller-item {
+    margin-bottom: 1rem;
+
+    @include breakpoint(medium only) {
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @include breakpoint($two-columns-breakpoint) {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .other-vehicles {
+    border-top: $dark-gray-blue-peexeo dotted 3px;
+    padding-top: rem-calc(24);
+    margin-top: rem-calc(24);
+
+    @include breakpoint(xlarge) {
+      padding-top: rem-calc(30);
+      margin-top: rem-calc(30);
+    }
+  }
+
+  /*
+    Seller infos
+    ===================================== */
+
+  &-seller-infos {
+    .button, button {
+      margin: rem-calc(10) auto;
+      background-color: $white;
+      color: $dark-blue;
+      border: rem-calc(2) solid $dark-blue;
+
+      @include breakpoint(medium) {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      &:hover, &:focus {
+        background-color: $dark-blue;
+        color: $white;
+        border: rem-calc(2) solid $white;
+      }
+    }
+  }
+
+
+  /*
+    List
+    ===================================== */
+  &-list {
+  }
+
+  /*
+    Item
+    ===================================== */
+  &-item {
+    margin-bottom: rem-calc(10);
+
+    @include breakpoint(medium) {
+      margin-bottom: rem-calc(20);
+    }
+
+    &-info {
+      height: 125px;
+      padding-top: rem-calc(10);
+      padding-bottom: rem-calc(10);
+      display: flex;
+      flex-direction: column;
+
+      @include breakpoint(medium) {
+        height: 150px;
+        padding-top: rem-calc(20);
+        padding-bottom: rem-calc(20);
+      }
+
+      @include breakpoint(large) {
+        height: 175px;
+      }
+
+      & .vehicle-price {
+        font-weight: bold;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      & .vehicle-like {
+        right: 0;
+
+        & .like {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  /*
+    Name
+    ===================================== */
+  &-name {
+    color: $dark-gray-blue-peexeo;
+    font-weight: bold;
+
+    @include breakpoint(large down) {
+      margin-bottom: rem-calc(2);
+    }
+
+    @include breakpoint(320 down) {
+      margin-bottom: rem-calc(-3);
+    }
+
+    @include breakpoint(xlarge) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  /*
+    City
+    ===================================== */
+  &-city {
+    font-size: rem-calc(12);
+  }
 }

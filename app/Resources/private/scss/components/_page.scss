@@ -58,7 +58,7 @@
     h1, .h1 {
       padding-top: rem-calc(20);
       padding-bottom: rem-calc(20);
-      color: $dark-blue-peexeo;
+      color: $dark-gray-blue-peexeo;
 
       @include breakpoint(small only) {
         font-size: rem-calc(20);

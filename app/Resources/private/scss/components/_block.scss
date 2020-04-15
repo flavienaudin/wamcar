@@ -1,6 +1,26 @@
 /* ===========================================================================
    Block
    =========================================================================== */
+  /*
+   Block mixin
+   ===================================== */
+
+
+@mixin shadow {
+  box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .6);
+  transition: box-shadow 83ms;
+}
+
+@mixin lightShadow {
+  box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .2);
+  transition: box-shadow 83ms;
+}
+
+
+/*
+   Block Class
+   ===================================== */
+
 
 .block {
 
@@ -15,7 +35,7 @@
   }
 
   &-gray {
-    background: #f7f7f7;
+    background: $gray-alt;
 
     &.has-border-bottom {
       border-bottom: rem-calc(1) solid $border-color;
@@ -31,7 +51,7 @@
   }
 
   &-dark-blue {
-    background: $dark-blue;
+    background: $dark-gray-blue-peexeo !important;
     color: white;
 
     h2 {
@@ -40,7 +60,7 @@
   }
 
   &-white {
-    background: white;
+    background: white !important;
     border: rem-calc(1) solid $light-gray;
   }
 
@@ -53,12 +73,23 @@
     padding: rem-calc(30);
   }
 
+  &-border-without-padding {
+    border: rem-calc(1) solid $border-color;
+  }
+
   /*
     Shadow
     ===================================== */
+  &-no-shadow {
+    box-shadow: none !important;
+  }
+
   &-shadow {
-    box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .6);
-    transition: box-shadow 83ms;
+    @include shadow;
+  }
+
+  &-light-shadow {
+    @include lightShadow;
   }
 
   /*

@@ -5,7 +5,7 @@
             {% include 'front/Vehicle/Listing/includes/vehicle_item.html.twig' %}
         {% else %}
             <div class="column small-12">
-                {# ne doit pas arriver car le block sont souvent cachés si pas de véhicule #}
+                {# ne doit pas arriver car le block est souvent caché si pas de véhicule #}
                 <p>{{ 'vehicle.list.empty_list'|trans }}</p>
             </div>
         {% endfor %}

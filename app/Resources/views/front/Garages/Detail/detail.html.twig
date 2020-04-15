@@ -2,7 +2,7 @@
 
 {% set page_garage = true %}
 
-{% block mainClass %}no-padding-top{% endblock %}
+{% block mainClass %}no-padding-top light-gray-peexeo-bg{% endblock %}
 
 {% block title %}{{ is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) and app.user.isPro and app.user.isMemberOfGarage(garage) ? 'garage.my_garage'|trans : garage.name}}{% endblock %}
 {% block canonical %}{{ url('front_garage_view', {'slug':garage.slug}) }}{% endblock canonical %}
@@ -63,9 +63,10 @@
                 </div>
                 <div class="tabs-content" data-tabs-content="js-garage-tabs">
                     {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
-                        <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }}">
+                        <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }} light-gray-peexeo-bg">
                             <div class="tab-panel-vehicles">
                             {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                                'columnsSizes' : 'small-up-2 medium-up-3',
                                 'pagination_route': 'front_garage_view',
                                 'pagination_route_params': {'slug':garage.slug}
                             } %}

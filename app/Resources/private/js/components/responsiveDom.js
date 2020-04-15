@@ -61,8 +61,9 @@ if($proProfilImage.length){
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
 if($proProfilContactForm.length > 0){
   $proProfilContactForm.each((index, element) => {
+    const breakpoint = $(element).data('responsivedom-mediaquerysize');
     let options = {
-      mediaQuery: '(min-width: 640px)'
+      mediaQuery: '(min-width: ' + breakpoint + 'px)'
     };
     const destination = $(element).data('responsivedom-destination');
     const appendTo = $(element).data('responsivedom-appendto');
@@ -75,21 +76,43 @@ if($proProfilContactForm.length > 0){
   });
 }
 
-/*const $proProfilVehicles = $('.js-pro-profil-vehicles');
-if($proProfilVehicles.length){
-  $proProfilVehicles.responsiveDom({
-    appendTo: '.js-profil-seller-left-column',
-    mediaQuery: '(min-width: 1024px)',
-    callback: (matched) => {
-      if(matched){
-        $proProfilVehicles.removeClass('column small-12');
-      }else{
-        $proProfilVehicles.addClass('column small-12');
-      }
-    }
-  });
-}*/
+/*** PRO USER PAGE (PEEXEO) ***/
 
+const $proProfilSellerServices = $('.js-seller-services');
+if($proProfilSellerServices.length > 0){
+  $proProfilSellerServices.responsiveDom({
+    appendTo: '.js-profil-seller-right-column',
+    mediaQuery: '(min-width: 1024px)'
+  });
+}
+
+/*** PRO VEHICLE PAGE (PEEXEO) ***/
+
+const vehicleAsideMediaQuery = '(min-width: 1024px)';
+const $asideContentPrice = $('#js-aside-content-price');
+if($asideContentPrice.length){
+  $asideContentPrice.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
+const $asideContentSelledBy = $('#js-aside-content-selledby');
+if($asideContentSelledBy.length){
+  $asideContentSelledBy.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
+const $asideContentSellerItem = $('#js-aside-content-seller-item');
+if($asideContentSellerItem.length){
+  $asideContentSellerItem.responsiveDom({
+    appendTo: '#js-vehicle-aside',
+    mediaQuery: vehicleAsideMediaQuery,
+    /*callback: (matched) => {}*/
+  });
+}
 
 /*** HOMEPAGE PEEXEO ***/
 

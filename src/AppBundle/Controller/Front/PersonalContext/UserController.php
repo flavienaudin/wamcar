@@ -87,7 +87,7 @@ use Wamcar\User\YoutubePlaylistInsert;
 
 class UserController extends BaseController
 {
-    const NB_VEHICLES_PER_PAGE = 10;
+    const NB_VEHICLES_PER_PAGE = 12;
 
     /** @var FormFactoryInterface */
     protected $formFactory;

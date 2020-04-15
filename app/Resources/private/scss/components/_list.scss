@@ -7,10 +7,8 @@
 @mixin listBorder {
   > li {
     padding-top: rem-calc(20);
+    padding-bottom: rem-calc(20);
 
-    &:not(:last-child) {
-      padding-bottom: rem-calc(20);
-    }
     &:not(:first-child) {
       border-top: rem-calc(1) solid $border-color;
     }
@@ -81,18 +79,6 @@
     .mission & {
       > li {
         border-color: rgba(white, .1);
-      }
-    }
-
-    &.vehicle-infos-list,
-    &.vehicle-funding-list,
-    &.vehicle-guarantees-list {
-      > li {
-        @include breakpoint(large only) {
-          &:first-child {
-            border-top: rem-calc(1) solid $border-color;
-          }
-        }
       }
     }
 
