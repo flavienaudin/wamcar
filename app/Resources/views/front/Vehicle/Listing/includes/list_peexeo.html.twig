@@ -1,0 +1,16 @@
+{% set excludedVehicle = excludedVehicle|default(null) %}
+{% set columnsSizes = columnsSizes|default("small-up-2 medium-up-3 large-up-4") %}
+{% set ajax_like = true %}
+
+<div class="row peexeo-vehicle-list {{ columnsSizes }}">
+    {% if vehiclesToList is defined %}
+        {% for vehicle in vehiclesToList|filter( vehicle => excludedVehicle != vehicle) %}
+            {% include 'front/Vehicle/Listing/includes/vehicle_item_peexeo.html.twig' %}
+        {% else %}
+            <div class="column small-12">
+                {# ne doit pas arriver car le block est souvent caché si pas de véhicule #}
+                <p>{{ 'vehicle.list.empty_list'|trans }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>

@@ -1,4 +1,5 @@
 {% set itemClass = itemClass|default('') %}
+{% set compact = compact is defined ? compact : false %}
 
 <div class="{{ itemClass }} seller-item">
     <div class="profil-image margin-bottom-2">
@@ -9,9 +10,11 @@
     <a href="{{ path('front_view_pro_user_info', {'slug': proUser.slug}) }}">
         <h2 class="text-center margin-bottom-1">{{ proUser.fullName }}</h2></a>
 
-    <div class="margin-bottom-1 text-center black-color">
-        {{ proUser.presentationTitle }}&nbsp;
-    </div>
+    {% if proUser.presentationTitle is not empty or not compact %}
+        <div class="margin-bottom-1 text-center black-color">
+            {{ proUser.presentationTitle }}&nbsp;
+        </div>
+    {% endif %}
 
     {% set userGarages = proUser.garagesOrderByGoogleRating %}
     <p class="icon-location primary-color align-center">
@@ -25,15 +28,17 @@
             {% endif %}
         </span>
     </p>
-    <div class="tag-container text-center">
-        {% set nbProSpeciality = proUser.proUserSpecialities|length %}
-        {% for proSpeciality in proUser.proUserSpecialities(highlightSpecialities ?? [])|slice(0,2) %}
-            <a href="{{ path('front_directory_by_service_view', {'speciality': proSpeciality.proService.slug}) }}"
-               class="tag">{{ proSpeciality.proService.name }}</a>
-        {% endfor %}
-        {% if nbProSpeciality > 2 %}
-            <a href="{{ path('front_view_pro_user_info', {'slug': proUser.slug}) }}"
-               class="tag">+{{ nbProSpeciality - 2 }}</a>
-        {% endif %}
-    </div>
+    {% block bottomContainer %}
+        <div class="tag-container text-center">
+            {% set nbProSpeciality = proUser.proUserSpecialities|length %}
+            {% for proSpeciality in proUser.proUserSpecialities(highlightSpecialities ?? [])|slice(0,2) %}
+                <a href="{{ path('front_directory_by_service_view', {'speciality': proSpeciality.proService.slug}) }}"
+                   class="tag">{{ proSpeciality.proService.name }}</a>
+            {% endfor %}
+            {% if nbProSpeciality > 2 %}
+                <a href="{{ path('front_view_pro_user_info', {'slug': proUser.slug}) }}"
+                   class="tag">+{{ nbProSpeciality - 2 }}</a>
+            {% endif %}
+        </div>
+    {% endblock bottomContainer %}
 </div>

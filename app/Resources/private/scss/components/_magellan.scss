@@ -38,6 +38,7 @@
             opacity: 1;
         }
     }
+
     /* Exceptions */
     &.vehicle-magellan {
         margin-bottom: 0;
@@ -46,3 +47,60 @@
         }
     }
 }
+
+.peexeo-magellan {
+    background-color: white;
+    color: $dark-gray-blue-peexeo;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    height: rem-calc(50);
+    margin-left: 0;
+    overflow-x: auto;
+
+    @include breakpoint(medium) {
+        height: rem-calc(60);
+        overflow-x: hidden;
+    }
+
+    @include breakpoint(large only) {
+        justify-content: center;
+    }
+
+    @include breakpoint(xlarge) {
+
+    }
+
+    /* Components */
+    a {
+        display: inline-block;
+        font-weight: normal;
+        color: $dark-gray-blue-peexeo;
+        transition: $global-transition;
+
+        margin-right: rem-calc(15);
+
+        @include breakpoint(medium) {
+            margin-right: rem-calc(25);
+        }
+
+        &:not(:last-child) {
+            border-right: 1px solid $dark-gray-blue-peexeo;
+        }
+
+        &.is-active {
+            font-weight: bold;
+        }
+
+        &:not(.is-active) {
+            opacity: 0.6;
+        }
+
+        &:focus {
+            opacity: 1;
+        }
+    }
+
+}
+
+

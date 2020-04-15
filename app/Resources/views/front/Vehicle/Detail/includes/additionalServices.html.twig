@@ -1,3 +1,5 @@
-<h2 class="separator medium primary-color no-margin-top">{{ 'vehicle.section.additionalServices.title'|trans }}</h2>
+{% set titleClass = titleClass|default('separator medium primary-color') %}
+
+<h2 class="{{ titleClass  }}">{{ 'vehicle.section.additionalServices.title'|trans }}</h2>
 <div>{{ vehicle.additionalServices|raw|nl2br }}</div>
 

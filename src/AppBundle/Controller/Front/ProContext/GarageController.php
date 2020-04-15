@@ -36,7 +36,7 @@ class GarageController extends BaseController
 {
     use VehicleTrait;
 
-    const NB_VEHICLES_PER_PAGE = 10;
+    const NB_VEHICLES_PER_PAGE = 12;
 
     /** @var FormFactoryInterface */
     protected $formFactory;

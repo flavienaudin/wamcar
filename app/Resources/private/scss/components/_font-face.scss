@@ -17,6 +17,48 @@
 
 
 /*
+   ITCAvantGardePro
+   ===================================== */
+
+@font-face {
+  font-family: ITCAvantGardeProBk;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bk'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bk.ttf#{$assets-version}');
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+.font-itcavantgardeprobk {
+  font-family: $font-family-itcavantgardepro;
+}
+
+@font-face {
+  font-family: ITCAvantGardeProBold;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bold'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardepro-bold.otf#{$assets-version}');
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+}
+.font-itcavantgardeprobold {
+  font-family: $font-family-itcavantgardeprobold;
+}
+
+@font-face {
+  font-family: ITCAvantGardeStd;
+  src: local('#{$fonts-folder}/itcavantgardepro/itcavantgardestd-bold'),
+       url('#{$fonts-folder}/itcavantgardepro/itcavantgardestd-bold.otf#{$assets-version}');
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+}
+
+.font-itcavantgardestd {
+  font-family: 'ITCAvantGardeStd', 'Muli', Arial, sans-serif;
+}
+
+
+/*
    Muli
    ===================================== */
 
@@ -50,4 +92,29 @@
        url('#{$fonts-folder}/muli/muli-bold-italic.woff#{$assets-version}') format('woff');
   font-weight: bold;
   font-style: italic;
+}
+
+
+/*
+   NotoSans JP
+   ===================================== */
+
+@font-face {
+  font-family: 'NotoSansJP';
+  src: local('#{$fonts-folder}/notosansjp/notosansjp-regular'),
+       url('#{$fonts-folder}/notosansjp/notosansjp-regular.otf#{$assets-version}');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NotoSansJP';
+  src: local('#{$fonts-folder}/notosansjp/notosansjp-bold'),
+       url('#{$fonts-folder}/notosansjp/notosansjp-bold.otf#{$assets-version}');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.font-notosansjp {
+  font-family: $font-family-notosansjp;
 }

@@ -173,8 +173,9 @@
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
             'user': vehicle.seller,
-            'title_class' : 'no-margin',
-            'form_class':'form-compact',
+            'titleClass' : 'no-margin',
+            'formClass':'form-compact',
+            'formContainerClass' : 'margin-top-1',
             'responsiveDomDestination':'.js-seller-infos',
             'responsiveDomAppendTo':true,
             'vehicle': vehicle

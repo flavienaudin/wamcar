@@ -34,4 +34,14 @@
   &-footer {
     margin: auto;
   }
+
+  &-vehicle {
+    margin-bottom: 1rem;
+    font-family: $font-family-notosansjp;
+
+    & > div {
+      padding: rem-calc(25);
+      background-color: $body-background;
+    }
+  }
 }

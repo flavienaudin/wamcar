@@ -8,7 +8,7 @@
     { label: "vehicle.field.timingBeltState.label"|trans(), value: vehicle.timingBeltState is null ? null : vehicle.timingBeltState.key|trans([], 'enumeration') },
 ] %}
 {% for state in state_infos|filter(s => s.value)  %}
-    <li class="dark-gray-color block-grid">
+    <li class="block-grid">
         {% if state.value matches '/^\\d+$/' %}
             <strong class="small-12 medium-4 large-5 xlarge-3">{{ state.label }}</strong>
             <span class="small-12 medium-8 large-7 xlarge-9 star-list-container">
