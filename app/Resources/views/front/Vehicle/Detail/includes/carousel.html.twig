@@ -14,7 +14,7 @@
     {% endfor %}
 </ul>
 
-{% if carouselNavigationId is defined %}
+{% if carouselNavigationId is defined and vehicle.pictures|length > 1 %}
     <nav id="{{ carouselNavigationId }}" class="carousel carousel-navigation">
     {% for picture in vehicle.pictures %}
         <img src="{{ picture|vehiclePicture('vehicle_mini_thumbnail') }}" alt="{{ vehicle.name ~ ' ' ~ vehicle.cityName }}">
