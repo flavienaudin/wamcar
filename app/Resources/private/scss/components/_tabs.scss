@@ -13,7 +13,7 @@
   /* Exceptions */
 
   &.vertical-small {
-    @include breakpoint(medium down) {
+    @include breakpoint(small only) {
       display: list-item;
     }
   }
