@@ -169,14 +169,14 @@
             <div class="section-vehicle wysiwyg" id="js-infos">
                 <div class="block-light-shadow">
                     {% include 'front/Vehicle/Detail/includes/infos.html.twig' with {
-                        'titleClass' : ' '
+                        'titleClass' : 'is-breaking-word'
                     } %}
                 </div>
             </div>
             {% if state_block is not empty %}
                 <div class="section-vehicle wysiwyg" id="js-state">
                     <div class="block-light-shadow">
-                        <h2>{{ 'vehicle.section.states.title'|trans }}</h2>
+                        <h2 class="is-breaking-word">{{ 'vehicle.section.states.title'|trans }}</h2>
                         <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
                             {{ state_block }}
                         </ul>
@@ -187,7 +187,7 @@
                 <div class="section-vehicle" id="js-guarantees">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' with {
-                            'titleClass' : ' '
+                            'titleClass' : 'is-breaking-word'
                         } %}
                     </div>
                 </div>
@@ -196,7 +196,7 @@
                 <div class="section-vehicle" id="js-funding">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/funding.html.twig' with {
-                            'titleClass' : ' '
+                            'titleClass' : 'is-breaking-word'
                         } %}
                     </div>
                 </div>
@@ -205,7 +205,7 @@
                 <div class="section-vehicle wysiwyg">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/additionalServices.html.twig' with {
-                            'titleClass' : ' '
+                            'titleClass' : 'is-breaking-word'
                         } %}
                     </div>
                 </div>
@@ -215,7 +215,7 @@
                 <div class="section-vehicle" id="js-interested_users">
                     <div class="block-light-shadow">
                         {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' with {
-                            'titleClass' : ' '
+                            'titleClass' : 'is-breaking-word'
                         } %}
                     </div>
                 </div>
@@ -223,7 +223,7 @@
 
             {% if vehiclesToList|length > 0 %}
                 <div class="other-vehicles" id="js-associate">
-                    <h2 class="">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
+                    <h2 class="is-breaking-word">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
                     {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
                         'vehiclesToList' : vehiclesToList,
                         'balise' : 'h3',

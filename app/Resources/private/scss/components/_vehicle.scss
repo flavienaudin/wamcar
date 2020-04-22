@@ -1128,14 +1128,13 @@
     }
 
     &-info {
-      height: 125px;
+      height: 150px;
       padding-top: rem-calc(10);
       padding-bottom: rem-calc(10);
       display: flex;
       flex-direction: column;
 
       @include breakpoint(medium) {
-        height: 150px;
         padding-top: rem-calc(20);
         padding-bottom: rem-calc(20);
       }

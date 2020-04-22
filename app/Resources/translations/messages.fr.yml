@@ -656,9 +656,15 @@ vehicle:
       pro: Ils aiment ce véhicule
       personal: Ils aiment cette annonce
     tabs:
-      all: Tous (%nb%)
-      pro: Professionnels (%nb%)
-      personal: Particuliers (%nb%)
+      all:
+        abbr: Tous (%nb%)
+        long: Tous (%nb%)
+      pro:
+        abbr: Pro. (%nb%)
+        long: Professionnels (%nb%)
+      personal:
+        abbr: Part. (%nb%)
+        long: Particuliers (%nb%)
   field:
     plateNumber:
       label: Immatriculation
