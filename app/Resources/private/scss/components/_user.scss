@@ -132,6 +132,10 @@
           margin-top: 0;
         }
       }
+
+      textarea {
+        max-height: 300px;
+      }
     }
   }
 }
