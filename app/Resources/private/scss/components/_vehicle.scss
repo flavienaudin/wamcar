@@ -506,14 +506,8 @@
      ===================================== */
 
   &-aside {
-    padding-top: rem-calc(25);
-
-    @include breakpoint(medium) {
-      padding-top: rem-calc(30);
-    }
-
     @include breakpoint(large) {
-      padding-top: 0;
+      margin-top: rem-calc(30);
     }
 
     @media screen and (min-height: rem-calc(900)) {
@@ -561,9 +555,8 @@
      ===================================== */
 
   &-editing {
-
     @include breakpoint(medium down) {
-      position: fixed;
+      position: sticky;
       right: 0;
       bottom: 0;
       left: 0;
@@ -614,28 +607,6 @@
         margin-bottom: rem-calc(30);
       }
     }
-  }
-
-  /*
-     Editing
-     ===================================== */
-
-  &-editing {
-
-    @include breakpoint(medium down) {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 3;
-
-      .button {
-        height: rem-calc(60);
-        border-radius: 0;
-        margin-bottom: 0;
-      }
-    }
-
   }
 
   // End &-editing
