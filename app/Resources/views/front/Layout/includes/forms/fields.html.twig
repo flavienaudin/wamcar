@@ -208,7 +208,7 @@
         {{ required ? 'required' }}
     >{{ value }}</textarea>
     {% if help_message is not empty %}
-        <small class="{{ help_message_class }}">{{ help_message }}</small>
+        <small class="help-message {{ help_message_class }}">{{ help_message }}</small>
     {% endif %}
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
