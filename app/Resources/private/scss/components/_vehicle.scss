@@ -584,6 +584,10 @@
         &.white {
           border: 0;
         }
+
+        &.remove {
+          width: 100%;
+        }
       }
     }
 
@@ -1165,6 +1169,11 @@
   &-name {
     color: $dark-gray-blue-peexeo;
     font-weight: bold;
+    overflow: hidden;
+    height: rem-calc(2 * map-get(map-get(map-get($header-styles, small), 'h3'), 'font-size') * map-get(map-get(map-get($header-styles, small), 'h3'), 'line-height'));
+    @include breakpoint(large) {
+      height: rem-calc(2 * map-get(map-get(map-get($header-styles, large), 'h3'), 'font-size') * map-get(map-get(map-get($header-styles, large), 'h3'), 'line-height'));
+    }
 
     @include breakpoint(large down) {
       margin-bottom: rem-calc(2);

@@ -1,4 +1,13 @@
 <div class="js-vehicle-actions vehicle-aside vehicle-editing block-grid small-12">
-    <span class="column small-collapse small-auto large-uncollapse"><a href="{{ vehicle.isPro?path('front_vehicle_pro_edit', {'vehicle_id': vehicle.id}) :path('front_vehicle_personal_edit', {'id': vehicle.id}) }}" class="button add icon-pen">{{ 'vehicle.edit'|trans }}</a></span>
-    <span class="column small-collapse small-shrink large-uncollapse large-left-collapse"><button type="button" title="{{ 'vehicle.delete'|trans }}" class="button remove icon-remove" data-open="js-modal-remove-vehicle"><span class="show-for-sr">{{ 'vehicle.delete'|trans }}</span></button></span>
+    <span class="column small-collapse small-auto large-uncollapse">
+        <a href="{{ vehicle.isPro?path('front_vehicle_pro_edit', {'vehicle_id': vehicle.id}) :path('front_vehicle_personal_edit', {'id': vehicle.id}) }}"
+           class="button add icon-pen">
+            <span class="show-for-medium">{{ 'vehicle.edit'|trans }}</span>
+        </a>
+    </span>
+    <span class="column small-collapse small-auto medium-shrink large-uncollapse large-left-collapse">
+        <button type="button" title="{{ 'vehicle.delete'|trans }}" class="button remove icon-remove" data-open="js-modal-remove-vehicle">
+            <span class="show-for-sr">{{ 'vehicle.delete'|trans }}</span>
+        </button>
+    </span>
 </div>
