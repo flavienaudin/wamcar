@@ -241,7 +241,7 @@
             {% set proServices = user.proUserServices(true, true) %}
             {% set userHobbies = user.hobbies %}
             {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
-                <div class="js-seller-services profil-section seller-services block-light-shadow">
+                <div class="profil-section seller-services block-light-shadow">
                     {% if userIsMe or userSpecialities |length > 0 %}
                         <div>
                             <h2>

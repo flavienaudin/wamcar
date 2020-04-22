@@ -63,7 +63,10 @@ if($proProfilContactForm.length > 0){
   $proProfilContactForm.each((index, element) => {
     const breakpoint = $(element).data('responsivedom-mediaquerysize');
     let options = {
-      mediaQuery: '(min-width: ' + breakpoint + 'px)'
+      mediaQuery: '(min-width: ' + breakpoint + 'px)',
+      callback: (matched) => {
+        $(element).toggleClass('is-sticky');
+      }
     };
     const destination = $(element).data('responsivedom-destination');
     const appendTo = $(element).data('responsivedom-appendto');
@@ -73,16 +76,6 @@ if($proProfilContactForm.length > 0){
       options.prependTo = destination;
     }
     $(element).responsiveDom(options);
-  });
-}
-
-/*** PRO USER PAGE (PEEXEO) ***/
-
-const $proProfilSellerServices = $('.js-seller-services');
-if($proProfilSellerServices.length > 0){
-  $proProfilSellerServices.responsiveDom({
-    appendTo: '.js-profil-seller-right-column',
-    mediaQuery: '(min-width: 1024px)'
   });
 }
 
