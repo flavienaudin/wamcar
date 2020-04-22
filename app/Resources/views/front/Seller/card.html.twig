@@ -438,11 +438,11 @@
 
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
+            'titleClass':'h2 text-center large-text-left',
+            'formClass':'form-compact',
             'responsiveDomDestination':'.js-profil-seller-right-column',
             'responsiveDomAppendTo':false,
-            'responsiveDomBreakpoint': 'large',
-            'titleClass':'h2',
-            'formClass':'form-compact',
+            'responsiveDomBreakpoint': 'large'
         }) }}
     {% endif %}
 {% endblock body %}

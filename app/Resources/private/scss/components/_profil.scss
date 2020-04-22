@@ -391,13 +391,13 @@ $profil-image-offset: rem-calc(40);
 
     &-right-column {
       > div {
+        margin-top: rem-calc(25);
         margin-bottom: rem-calc(25);
         padding: rem-calc(25);
         background-color: $body-background;
 
-        @include breakpoint(medium down) {
-          margin-top: rem-calc(25);
-          margin-bottom: rem-calc(25);
+        @include breakpoint(medium) {
+          margin-top: 0;
         }
       }
 

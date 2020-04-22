@@ -1061,6 +1061,18 @@
     }
   }
 
+
+  /*
+    Aside (right column)
+    ===================================== */
+  &-aside {
+    .user-contact-form-container {
+      margin-bottom: rem-calc(25);
+      padding: rem-calc(25);
+      background-color: $body-background;
+    }
+  }
+
   /*
     Seller infos
     ===================================== */

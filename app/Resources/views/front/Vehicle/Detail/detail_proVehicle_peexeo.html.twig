@@ -239,7 +239,7 @@
         {# END Left Column #}
 
         {# Right Column #}
-        <aside id="js-vehicle-aside" class="column hide-for-small-only large-5 xlarge-4">
+        <aside id="js-vehicle-aside" class="peexeo-vehicle-aside column hide-for-small-only large-5 xlarge-4">
             {# empty for small. Filled on large using ResponsiveDom#}
         </aside>
         {# END Right Column #}
@@ -247,10 +247,9 @@
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
             'user': vehicle.seller,
-            'titleClass' : 'no-margin h3 text-center large-text-left',
+            'titleClass' : 'h2 text-center large-text-left',
             'formClass':'form-compact',
-            'formContainerClass' : 'margin-top-1',
-            'responsiveDomDestination':'.js-seller-infos',
+            'responsiveDomDestination':'#js-vehicle-aside',
             'responsiveDomAppendTo':true,
             'responsiveDomBreakpoint': 'large',
             'vehicle': vehicle
