@@ -651,6 +651,7 @@ vehicle:
         owner: Mes autres véhicules
       button:
         garage: Voir tous les véhicules du garage
+        personal: Voir tous les véhicules de %firstname%
   interested_user:
     title:
       pro: Ils aiment ce véhicule
@@ -1394,6 +1395,7 @@ favorites:
   my_likes:
     title: Mes likes
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+    empty: Aucun véhicule liké pour le moment
   my_experts:
     title: Mes experts
     no_expert: Consultez les profils et sélectionnez vos experts favoris!

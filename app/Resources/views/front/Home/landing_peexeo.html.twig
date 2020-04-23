@@ -33,9 +33,9 @@
                     <div class="orbit-wrapper">
                         <div class="orbit-container">
                             {% for proUser in proProfils %}
-                                {{ include('front/Directory/includes/seller_item.html.twig', {
-                                    "itemClass" : "orbit-slide "~(loop.index0 == 0 ? "is-active"),
-                                    "proUser" : proUser
+                                {{ include('front/Directory/includes/advisor_item.html.twig', {
+                                    'itemClass' : "orbit-slide "~(loop.index0 == 0 ? "is-active"),
+                                    'seller' : proUser
                                 }) }}
                             {% endfor %}
                         </div>

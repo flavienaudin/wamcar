@@ -1,4 +1,4 @@
-<h2 class="separator medium primary-color">{{ isEditableByCurrentUser?'user.project.my_project'|trans:'user.project.seller_project'|trans({'%seller_firstname%':vehicle.seller.firstname}) }}</h2>
+<h2 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.my_project'|trans:'user.project.seller_project'|trans({'%seller_firstname%':vehicle.seller.firstname}) }}</h2>
 
 {% set project = vehicle.ownerProject %}
 {% if project is not null and (project.budget is not null or project.projectVehicles|length>0 or project.description|length>0) %}
@@ -27,10 +27,11 @@
 
 {% set sellerLikes = vehicle.seller.positiveLikes %}
 {% if sellerLikes|length > 0 %}
-    <h3 class=""><strong class="primary-color">{{ isEditableByCurrentUser?'user.project.favorites.owner'|trans:'user.project.favorites.title'|trans({'%user_firstname%': vehicle.seller.firstname}) }}</strong></h3>
-    <div class="row">
-        {% include ':front/Favorites/includes:list.html.twig' with {'likeToList':sellerLikes} %}
-    </div>
+    <h3 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.favorites.owner'|trans:'user.project.favorites.title'|trans({'%user_firstname%': vehicle.seller.firstname}) }}</h3>
+    {{ include('front/Favorites/includes/list.html.twig', {
+        'likeToList': sellerLikes,
+        'columnsSizes': 'small-up-2'
+    }) }}
 {% endif %}
 
 

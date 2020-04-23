@@ -2,7 +2,7 @@
 
 {% set page_favorites = true %}
 
-{% block mainClass %}no-padding-top{% endblock %}
+{% block mainClass %}no-padding-top light-gray-peexeo-bg{% endblock %}
 
 {% block title %}{{ "favorites.page_title"|trans }}{% endblock %}
 
@@ -17,13 +17,15 @@
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     {% include 'front/Layout/includes/page_header.html.twig' with {
-        title: block('title')
+        title: block('title'),
+        page_header_class: 'no-margin light-gray-peexeo-bg',
+        title_class: ' '
     } %}
 
 
-    <div class="row margin-bottom-2">
+    <div class="row">
         <div class="column small-12">
-            <h2 class="primary-color">{{ 'favorites.my_likes.title'|trans }}<br>
+            <h2>{{ 'favorites.my_likes.title'|trans }}<br>
                 <small>{{ 'favorites.my_likes.ordering_indication'|trans }}</small>
             </h2>
 
@@ -42,19 +44,19 @@
         </div>
     </div>
 
-    <div class="row white-bg">
+    <div class="row light-gray-peexeo-bg">
         <div class="directory-result column small-12">
-            <h2 class="primary-color">{{ 'favorites.my_experts.title'|trans }}</h2>
-            <div>
-                {% if user_experts|length > 0 %}
-                    {% for expert in user_experts %}
-                        {{ include('front/Directory/includes/pro_user_item.html.twig', {
-                            'proUser' : expert
+            <h2>{{ 'favorites.my_experts.title'|trans }}</h2>
+            <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
+                {% for expert in user_experts %}
+                    <div class="column">
+                        {{ include('front/Directory/includes/advisor_item.html.twig', {
+                            'seller' : expert
                         }) }}
-                    {% endfor %}
+                    </div>
                 {% else %}
                     <p>{{ 'favorites.my_experts.no_expert'|trans }}</p>
-                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

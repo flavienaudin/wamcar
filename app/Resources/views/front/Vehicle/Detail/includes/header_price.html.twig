@@ -1,0 +1,11 @@
+{# Price (vehicle) #}
+<div id="js-aside-content-price" class="vehicle-price text-center {{ vehicle.price is not defined ? 'show-for-large'}}">
+    <h2 class="h1 margin-bottom-0">
+        {% if vehicle.price is defined %}
+            {{ vehicle.price|localizednumber }}&nbsp;€
+        {% else %}
+            &nbsp;
+        {% endif %}
+    </h2>
+</div>
+{# END Price #}

@@ -1,0 +1,12 @@
+{% extends 'front/User/includes/seller_item.html.twig' %}
+
+{% block userLocation %}
+    {% set userGarages = seller.garagesOrderByGoogleRating %}
+    {% if userGarages|length > 1 %}
+        Multi-sites
+    {% elseif userGarages|length == 1 %}
+        {{ userGarages[0].garage.city }}
+    {% else %}
+        &ndash;
+    {% endif %}
+{% endblock userLocation %}

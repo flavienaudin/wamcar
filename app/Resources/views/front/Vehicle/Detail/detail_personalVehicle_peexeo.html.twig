@@ -6,15 +6,17 @@
     {% set page_search = true %}
 {% endif %}
 
-{% set vehiclesToList = vehicle.garage.getProVehicles(4, vehicle) %}
+{% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
 {% endset %}
+{% set ownersProject = vehicle.ownerProject %}
+{% set displayProjectBlock = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
 
 {% block mainClass %}medium-no-padding-top light-gray-peexeo-bg{% endblock %}
 
 {% block title %}
-    {{ 'vehicle.detail.pro.title'|trans({
+    {{ 'vehicle.detail.personal.title'|trans({
         '%vehicleName%': vehicle.make|vehicleMakeFormat('make') ~ ' ' ~ vehicle.modelName|vehicleModelFormat('model'),
         '%vehicleCityName%':vehicle.cityName|upper,
         '%vehicleStatus%':vehicle.status|trans({},'enumeration'),
@@ -22,14 +24,13 @@
     }) }}
 {% endblock %}
 {%- block meta_description %}
-    {% if vehicle.discount is not null %}
-        {{ 'vehicle.detail.pro.meta_description.discount'|trans({'%vehicleDiscount%':vehicle.discount}) }}
-    {% else %}
-        {{ 'vehicle.detail.pro.meta_description.vehicle'|trans }}
-    {% endif %}
-    {{ vehicle.fuelName|lower}} {{ vehicle.transmission|trans({}, 'enumeration')|lower }}
-    {{ 'vehicle.detail.pro.meta_description.price'|trans({'%vehiclePrice%':vehicle.price}) }}
-    {{ 'vehicle.detail.pro.meta_description.published_at'|trans({'%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')}) }}
+    {{ 'vehicle.detail.personal.meta_description'|trans({
+        '%vehicleFuelName%':vehicle.fuelName|lower,
+        '%vehicleTransmission%':vehicle.transmission|trans({}, 'enumeration')|lower,
+        '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
+        '%vehicleMileage%': vehicle.mileage,
+        '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
+    }) }}
 {% endblock -%}
 {% block og_type %}article{% endblock %}
 
@@ -48,10 +49,13 @@
 {% endblock additional_meta %}
 
 {% block body %}
+    {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
+    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
+
     {% set breadcrumbs = [
         {
-            'name': vehicle.garage.name,
-            'href': path('front_garage_view', {'slug': vehicle.garage.slug})
+            'name': vehicleSellerName,
+            'href': path('front_view_personal_user_info', {'slug': vehicle.seller.slug})
         },
         {
             'name': vehicle.name,
@@ -63,27 +67,8 @@
     {
     "@context": "http://schema.org",
     "@type": "Person",
-    "name" : "{{ vehicle.sellerName }}",
-    "makesOffer" : {
-            "@type" :"Offer",
-            "priceSpecification" : {
-                "@type" : "UnitPriceSpecification",
-                "priceCurrency" : "EUR",
-                "price" : "{{ vehicle.price }}" },
-            "itemOffered" : {
-                "@type" : "Car",
-                "name" : "{{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}",
-                {# Ne pas mettre de quote autour : ajouter par le json_encode + raw #}
-                "description" : {{ vehicle.additionalInformation|json_encode|raw }},
-            "image" : "",
-            "vehicleEngine" : {
-                "@type": "EngineSpecification",
-                "name" : "{{ vehicle.modelName }}"
-                }
-            }
-        }
+    "name" : "{{ vehicleSellerName }}"
     }
-
     </script>
 
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
@@ -94,11 +79,10 @@
 
         {# Left Column #}
         <div class="column small-12 large-7 xlarge-8">
+
             {% include 'front/Vehicle/Detail/includes/header_title.html.twig' %}
             {% include 'front/Vehicle/Detail/includes/header_price.html.twig' %}
             {% include 'front/Vehicle/Detail/includes/header_subtitle.html.twig' %}
-
-
 
             {# Carousel #}
             <section class="vehicle-carousel">
@@ -116,7 +100,7 @@
                 <strong>{{ "vehicle.selled_by"|trans }}</strong>
             </div>
             <div id="js-aside-content-seller-item" class="vehicle-seller-item">
-                {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
+                {% include 'front/Vehicle/Detail/includes/seller_personal_item.html.twig' with {
                     'itemClass' : 'block-light-shadow',
                     'seller' : vehicle.seller,
                     'compact' : true
@@ -124,6 +108,8 @@
 
                 {% if isEditableByCurrentUser %}
                     {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                {% else %}
+                    {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
                 {% endif %}
             </div>
             {# END Seller info & contact #}
@@ -150,7 +136,6 @@
             </div>
             {# END Main information #}
 
-            {# Vehicle states #}
             {% if state_block is not empty %}
                 <div class="section-vehicle wysiwyg" id="js-state">
                     <div class="block-light-shadow">
@@ -161,43 +146,14 @@
                     </div>
                 </div>
             {% endif %}
-            {# END Vehicle states #}
 
-            {# Vehicle guarantees #}
-            {% if vehicle.guarantee or vehicle.otherGuarantee %}
-                <div class="section-vehicle" id="js-guarantees">
+            {% if displayProjectBlock %}
+                <div class="section-vehicle" id="js-project">
                     <div class="block-light-shadow">
-                        {% include 'front/Vehicle/Detail/includes/guarantees.html.twig' with {
-                            'titleClass' : 'is-breaking-word'
-                        } %}
+                        {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
                     </div>
                 </div>
             {% endif %}
-            {# END Vehicle guarantees #}
-
-            {# Vehicle fundings #}
-            {% if vehicle.funding or vehicle.otherFunding or vehicle.catalogPrice or vehicle.discount %}
-                <div class="section-vehicle" id="js-funding">
-                    <div class="block-light-shadow">
-                        {% include 'front/Vehicle/Detail/includes/funding.html.twig' with {
-                            'titleClass' : 'is-breaking-word'
-                        } %}
-                    </div>
-                </div>
-            {% endif %}
-            {# END Vehicle fundings #}
-
-            {# Additional services #}
-            {% if vehicle.additionalServices|trim|length > 0 %}
-                <div class="section-vehicle wysiwyg">
-                    <div class="block-light-shadow">
-                        {% include 'front/Vehicle/Detail/includes/additionalServices.html.twig' with {
-                            'titleClass' : 'is-breaking-word'
-                        } %}
-                    </div>
-                </div>
-            {% endif %}
-            {# END Additional services #}
 
             {# Likes #}
             {% if positiveLikes.all|length > 0 %}
@@ -214,19 +170,22 @@
             {# Other vehicles #}
             {% if vehiclesToList|length > 0 %}
                 <div class="other-vehicles" id="js-associate">
-                    <h2 class="is-breaking-word">{{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.pro'|trans }}</h2>
+                    <h2 class="is-breaking-word">
+                        {{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}
+                    </h2>
                     {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
                         'vehiclesToList' : vehiclesToList,
                         'balise' : 'h3',
                         'columnsSizes': 'small-up-2'
                     } %}
                     <div class="is-flex align-center">
-                        <a href="{{ path('front_garage_view', {'slug': vehicle.garage.slug}) }}" class="button">
-                            {{ 'vehicle.section.other_vehicle.button.garage'|trans }}</a>
+                        <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}"
+                           class="button">{{ 'vehicle.section.other_vehicle.button.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}</a>
                     </div>
                 </div>
             {% endif %}
             {# END Other vehicles #}
+
         </div>
         {# END Left Column #}
 
@@ -236,17 +195,6 @@
         </aside>
         {# END Right Column #}
     </div>
-    {% if contactForm is not null %}
-        {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
-            'user': vehicle.seller,
-            'titleClass' : 'h2 text-center large-text-left',
-            'formClass':'form-compact',
-            'responsiveDomDestination':'#js-vehicle-aside',
-            'responsiveDomAppendTo':true,
-            'responsiveDomBreakpoint': 'large',
-            'vehicle': vehicle
-        }) }}
-    {% endif %}
 {% endblock body %}
 
 {% block modal %}

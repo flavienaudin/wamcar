@@ -1,11 +1,16 @@
-<div class="vehicle-list small-12">
-    {% if likeToList is defined %}
-        {% for like in likeToList %}
-            {% include 'front/Vehicle/Listing/includes/vehicle_item.html.twig' with {'vehicle':like.vehicle}%}
-        {% else %}
-            <div class="column small-12">
-                <p>Aucun véhicule liké pour le moment</p>
-            </div>
-        {% endfor %}
-    {% endif %}
+{% set excludedVehicle = excludedVehicle|default(null) %}
+{% set columnsSizes = columnsSizes|default("small-up-2 medium-up-3 large-up-4") %}
+{% set ajax_like = true %}
+
+<div class="row peexeo-vehicle-list {{ columnsSizes }}">
+    {% for like in likeToList|default({}) %}
+        {{ include('front/Vehicle/Listing/includes/vehicle_item_peexeo.html.twig',{
+            'vehicle':like.vehicle
+        }) }}
+    {% else %}
+        <div class="column small-12">
+            {# ne doit pas arriver car le block est souvent caché si pas de véhicule #}
+            <p>{{ 'favorites.my_likes.empty'|trans }}</p>
+        </div>
+    {% endfor %}
 </div>
