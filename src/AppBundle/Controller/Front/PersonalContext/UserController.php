@@ -944,7 +944,7 @@ class UserController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_PRO_ADMIN')) {
             return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->userInformationService->getProUsersStatistics($request->query->all()));
@@ -969,7 +969,7 @@ class UserController extends BaseController
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->isGranted('ROLE_PRO_ADMIN')) {
             return new JsonResponse(['admin only'], Response::HTTP_UNAUTHORIZED);
         }
         return new JsonResponse($this->userInformationService->getPersonalUsersStatistics($request->query->all()));
