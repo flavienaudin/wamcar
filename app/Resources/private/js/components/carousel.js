@@ -27,8 +27,8 @@ if ($carousel) {
         slidesToShow: 6,
         slidesToScroll: 1,
         asNavFor: '#js-carousel-vehicle',
-        nextArrow: '<button type="button" class="carousel-button next icon-arrow-right-2 slick-next"><span class="show-for-sr">Suivant</span></button>',
-        prevArrow: '<button type="button" class="carousel-button prev icon-arrow-left-2 slick-prev"><span class="show-for-sr">Précédent</span></button>',
+        nextArrow: '<button type="button" class="carousel-button next button button-icon small icon-arrow-right-2 slick-next"><span class="show-for-sr">Suivant</span></button>',
+        prevArrow: '<button type="button" class="carousel-button prev button button-icon small icon-arrow-left-2 slick-prev"><span class="show-for-sr">Précédent</span></button>',
         dots: false,
         focusOnSelect: true,
         infinite: false,
@@ -59,8 +59,8 @@ if ($carousel) {
           slidesToShow: 1,
           slidesToScroll: 1,
           arrows: true,
-          nextArrow: '<button type="button" class="carousel-button next icon-arrow-right-2 slick-next"><span class="show-for-sr">Suivant</span></button>',
-          prevArrow: '<button type="button" class="carousel-button prev icon-arrow-left-2 slick-prev"><span class="show-for-sr">Précédent</span></button>',
+          nextArrow: '<button type="button" class="carousel-button next button button-icon icon-arrow-right-2 slick-next"><span class="show-for-sr">Suivant</span></button>',
+          prevArrow: '<button type="button" class="carousel-button prev button button-icon icon-arrow-left-2 slick-prev"><span class="show-for-sr">Précédent</span></button>',
           fade: false,
           infinite: true
         });

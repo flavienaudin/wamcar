@@ -311,15 +311,6 @@ $profil-image-offset: rem-calc(40);
         .button,
         button {
           margin: rem-calc(10) auto;
-          background-color: $white;
-          color: $dark-gray-blue-peexeo;
-          border: rem-calc(2) solid $dark-gray-blue-peexeo;
-
-          &:hover, &:focus {
-            background-color: $dark-gray-blue-peexeo;
-            color: $white;
-            border: rem-calc(2) solid $white;
-          }
 
           @include breakpoint(medium) {
             margin-left: rem-calc(10);

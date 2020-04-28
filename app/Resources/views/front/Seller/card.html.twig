@@ -37,7 +37,7 @@
                         {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
                     <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                         <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                           class="button expand-height square dark-blue">
+                           class="button expand-height dark-blue">
                             {{ 'global.button.register'|trans }}</a>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                     <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
                     <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                         <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                           class="button expand-height square dark-blue" data-wtaction="LM RDV"
+                           class="button expand-height dark-blue" data-wtaction="LM RDV"
                            data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
                             {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
                     </div>
@@ -150,7 +150,7 @@
                         </div>
                         <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                             <a href="{{ path('front_affinity_personal_form') }}"
-                               class="button expand-height square dark-blue" {{ lwaWTattr }}>
+                               class="button expand-height dark-blue" {{ lwaWTattr }}>
                                 {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
                         </div>
                     </div>

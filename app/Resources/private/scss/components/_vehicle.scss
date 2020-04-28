@@ -1080,19 +1080,10 @@
   &-seller-infos {
     .button, button {
       margin: rem-calc(10) auto;
-      background-color: $white;
-      color: $dark-blue;
-      border: rem-calc(2) solid $dark-blue;
 
       @include breakpoint(medium) {
         margin-left: auto;
         margin-right: auto;
-      }
-
-      &:hover, &:focus {
-        background-color: $dark-blue;
-        color: $white;
-        border: rem-calc(2) solid $white;
       }
     }
   }
