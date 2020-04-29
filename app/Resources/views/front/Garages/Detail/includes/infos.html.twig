@@ -6,26 +6,28 @@
 <ul class="list-bullet">
     <li>
         <address>{{ garage.address.address?garage.address.address~', ':'' }}{{ garage.address.postalCode }} {{ garage.address.cityName }}</address>
-        <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="text-underline">Voir sur Google Maps</a>
+        <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="button small icon-external-link">{{ 'garage.infos.see_on_gmaps'|trans }}</a>
     </li>
     {% if garage.openingHours %}
         <li><span class="text-underline">{{ 'garage.infos.opening_hours'|trans }}&nbsp;:</span><br>
             {{ garage.openingHours|nl2br }}</li>
     {% endif %}
     {% if garage.phone %}
-        <li class="is-flex">Téléphone&nbsp;:&nbsp;
-            {{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+        <li>Téléphone&nbsp;:&nbsp
+            {{ include('front/Seller/includes/phone_number_button.html.twig', {
                 'phoneOwner': garage,
                 'phoneNumber': garage.phone,
                 'showphone_subaction': '1',
-                'disabledLoggedProtection':true
-            }) }}</li>
+                'disabledLoggedProtection' : true,
+                'buttonClass': 'small'
+            }) }}
+        </li>
     {% endif %}
     {% if isEditableByCurrentUser %}
         <li>{{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
-            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="text-underline">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
+            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
     {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}
-    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.edit'|trans }}</a>
+    <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="button">{{ 'garage.action.edit'|trans }}</a>
 {% endif %}

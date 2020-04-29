@@ -435,6 +435,7 @@ garage:
     edit: Modifier mon garage
     join: Rejoindre ce garage
   infos:
+    see_on_gmaps: Voir sur Google Maps
     opening_hours: Horaires
     auto_vehicles_import_request:
       presentation: "Demander l'import automatisé de votre stock:"

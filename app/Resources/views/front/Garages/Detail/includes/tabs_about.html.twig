@@ -4,7 +4,7 @@
         <p>{{ garage.presentation|nl2br|raw }}</p>
     {% elseif isEditableByCurrentUser %}
         <p>Présenter en quelques mots votre société, vos offres, vos avantages concurrentiels qui vous distingueront de vos concurrents !</p>
-        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="text-underline">{{ 'garage.action.edit'|trans }}</a>
+        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="button small">{{ 'garage.action.edit'|trans }}</a>
     {% endif %}
 </div>
 

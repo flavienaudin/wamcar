@@ -60,9 +60,9 @@
     text-align: center;
     background: $white;
     font-weight: bold;
-    border-radius: 5px;
     color: $dark-gray-blue-peexeo;
     border: 2px solid $dark-gray-blue-peexeo;
+    border-radius: $button-radius;
     transition: $global-transition;
 
     &:hover,
