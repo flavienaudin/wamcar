@@ -17,7 +17,7 @@
 
   > a {
     &::before {
-      font-size: rem-calc(13);
+      font-size: 0.75rem;
       margin-right: 0;
     }
   }
@@ -30,8 +30,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: rem-calc(40);
-    height: rem-calc(40);
+    width: rem-calc(32);
+    height: rem-calc(32);
     background-color: $white;
     border-radius: 50%;
     color: $dark-gray-blue-peexeo;
@@ -45,11 +45,6 @@
       @include breakpoint(medium) {
         margin-left: rem-calc(15);
       }
-    }
-
-    @include breakpoint(medium) {
-      width: rem-calc(50);
-      height: rem-calc(50);
     }
 
     &:hover {
