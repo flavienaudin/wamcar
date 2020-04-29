@@ -116,6 +116,9 @@ $profil-image-offset: rem-calc(40);
     padding-top: rem-calc(20);
 
     .profil-section {
+      border-radius: $global-radius;
+
+
       &:not(:last-child) {
         margin-bottom: rem-calc(25);
         padding-bottom: rem-calc(25);
@@ -241,6 +244,7 @@ $profil-image-offset: rem-calc(40);
 
       .profile-titles {
         height: 250px;
+        border-radius: $global-radius;
         background-color: #ffffff;
         padding-top: rem-calc(75);
         padding-left: rem-calc(15);
@@ -326,6 +330,7 @@ $profil-image-offset: rem-calc(40);
       background-color: white;
       padding: rem-calc(15);
       display: block;
+      border-radius: $global-radius;
 
       @include breakpoint(small only) {
         > :first-child {
@@ -386,6 +391,7 @@ $profil-image-offset: rem-calc(40);
         margin-bottom: rem-calc(25);
         padding: rem-calc(25);
         background-color: $body-background;
+        border-radius: $global-radius;
 
         @include breakpoint(medium) {
           margin-top: 0;
