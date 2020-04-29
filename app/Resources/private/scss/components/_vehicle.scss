@@ -1105,6 +1105,15 @@
       margin-bottom: rem-calc(20);
     }
 
+    & > div {
+      border-radius: $global-radius;
+    }
+
+    &-picture {
+      border-top-right-radius: $global-radius;
+      border-top-left-radius: $global-radius;
+    }
+
     &-info {
       height: 150px;
       padding-top: rem-calc(10);
