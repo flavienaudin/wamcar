@@ -124,6 +124,7 @@
   &-item{
     background-color: $white;
     padding: rem-calc(15);
+    border-radius: $global-radius;
 
     p {
       margin-bottom: 0;
