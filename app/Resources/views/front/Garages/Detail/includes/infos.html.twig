@@ -6,7 +6,7 @@
 <ul class="list-bullet">
     <li>
         <address>{{ garage.address.address?garage.address.address~', ':'' }}{{ garage.address.postalCode }} {{ garage.address.cityName }}</address>
-        <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="button small icon-external-link">{{ 'garage.infos.see_on_gmaps'|trans }}</a>
+        <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="button icon-external-link">{{ 'garage.infos.see_on_gmaps'|trans }}</a>
     </li>
     {% if garage.openingHours %}
         <li><span class="text-underline">{{ 'garage.infos.opening_hours'|trans }}&nbsp;:</span><br>
@@ -18,14 +18,14 @@
                 'phoneOwner': garage,
                 'phoneNumber': garage.phone,
                 'showphone_subaction': '1',
-                'disabledLoggedProtection' : true,
-                'buttonClass': 'small'
+                'disabledLoggedProtection': true,
+                'buttonClass': 'icon-tel'
             }) }}
         </li>
     {% endif %}
     {% if isEditableByCurrentUser %}
         <li>{{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
-            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
+            <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a></li>
     {% endif %}
 </ul>
 {% if isEditableByCurrentUser %}
