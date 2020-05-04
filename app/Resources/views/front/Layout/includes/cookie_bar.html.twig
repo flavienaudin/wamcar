@@ -1,7 +1,12 @@
 {% if not app.request.cookies.get('cookie-disclaimer') %}
-    <div id="js-cookie-bar" class="cookie-bar block-primary white-color full-width ">
+    <div id="js-cookie-bar" class="cookie-bar full-width white-bg">
         <div class="row align-middle full-width">
-            <p class="cookie-bar-body no-margin column medium-7"><b>{{ 'cookie.instruction'|trans }} <a href="{{ path('privacy_policy') }}" target="_blank" class="text-underline">{{ 'cookie.more_link'|trans }}</a></b></p>
+            <p class="cookie-bar-body no-margin column medium-7">
+                <b>{{ 'cookie.instruction'|trans }}
+                    <a href="{{ path('privacy_policy') }}" target="_blank" class="text-underline">
+                        {{ 'cookie.more_link'|trans }}</a>
+                </b>
+            </p>
             <div class="column shrink small-right">
                 <button type="button" class="js-cookie-bar-button button reverse no-margin">{{ 'cookie.button.accept'|trans }}</button>
             </div>
@@ -9,28 +14,28 @@
     </div>
 
     <script>
-        let $cookieBar = document.getElementById('js-cookie-bar');
-        let $cookieBarButton = document.querySelector('.js-cookie-bar-button');
-        let cookiebarHeight;
-        let $proUserContactFormButtonConainter = document.querySelector('.user-contact-form > .button-container');
+      let $cookieBar = document.getElementById('js-cookie-bar');
+      let $cookieBarButton = document.querySelector('.js-cookie-bar-button');
+      let cookiebarHeight;
+      let $proUserContactFormButtonConainter = document.querySelector('.user-contact-form > .button-container');
 
-        setTimeout(function() {
-            cookiebarHeight = $cookieBar.offsetHeight;
-            document.body.style.marginBottom = cookiebarHeight + 'px';
-            if($proUserContactFormButtonConainter){
-              $proUserContactFormButtonConainter.style.bottom = (20 + cookiebarHeight) + 'px';
-            }
-        }, 500);
+      setTimeout(function () {
+        cookiebarHeight = $cookieBar.offsetHeight;
+        if ($proUserContactFormButtonConainter) {
+          $proUserContactFormButtonConainter.style.bottom = (20 + cookiebarHeight) + 'px';
+        }
+      }, 500);
 
-        $cookieBarButton.addEventListener('click', function(e) {
-            let d=new Date;d.setTime(d.getTime()+31536e6);
-            let expires="expires="+d.toUTCString();document.cookie="cookie-disclaimer=true; "+expires;
+      $cookieBarButton.addEventListener('click', function (e) {
+        let d = new Date;
+        d.setTime(d.getTime() + 31536e6);
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = "cookie-disclaimer=true; " + expires;
 
-            $cookieBar.classList.add('hide');
-            document.body.style.marginBottom = '0px';
-              if($proUserContactFormButtonConainter){
-                $proUserContactFormButtonConainter.style.bottom = '20px';
-              }
-        });
+        $cookieBar.classList.add('hide');
+        if ($proUserContactFormButtonConainter) {
+          $proUserContactFormButtonConainter.style.bottom = '20px';
+        }
+      });
     </script>
 {% endif %}
