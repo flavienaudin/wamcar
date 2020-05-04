@@ -1435,8 +1435,8 @@ directory:
   field:
     filter.label: "Spécialités"
     text:
-      label: Marque
-      placeholder: Marque
+      label: Recherche
+      placeholder: Nom, Marque, ...
     speciality:
       label: Spécialité
       placeholder: Spécialité

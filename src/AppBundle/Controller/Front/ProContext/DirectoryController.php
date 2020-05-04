@@ -61,9 +61,9 @@ class DirectoryController extends BaseController
         $searchProDTO = new SearchProDTO();
 
         // Champ libre
-        /*if ($request->query->has('q')) {
+        if ($request->query->has('q')) {
             $searchProDTO->text = $request->query->get('q');
-        }*/
+        }
 
         // Services
         $querySelectedService = null;

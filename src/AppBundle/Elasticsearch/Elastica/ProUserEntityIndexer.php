@@ -30,8 +30,8 @@ class ProUserEntityIndexer extends EntityIndexer
         $mainBoolQuery = $qb->query()->bool();
         $mainQueryPartsCounter = 0;
 
-        // Not in use : handle text query
-        /*if (!empty($searchProDTO->text)) {
+        // handle text query
+        if (!empty($searchProDTO->text)) {
             $textBoolQuery = $qb->query()->bool();
 
             $textMultiMatchQuery = $qb->query()->multi_match();
@@ -52,7 +52,7 @@ class ProUserEntityIndexer extends EntityIndexer
             $textBoolQuery->addShould($textNestedGaragesQuery);
 
             $mainBoolQuery->addMust($textBoolQuery);
-        }*/
+        }
 
         // handle location filter
         if (!empty($searchProDTO->latitude) && !empty($searchProDTO->longitude)) {
