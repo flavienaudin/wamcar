@@ -70,7 +70,7 @@ notifyProUserOfContactMessageCreated:
     vehicle: "Demande d'information sur l'un de vos véhicule"
   body:
     message: "%senderFullname% vous a laissé le message suivant :"
-    vehicle: 'Cette personne vous a contacté depuis la fiche véhicule <a href="vehicleUrl">%vehicleMakeModel%</a>'
+    vehicle: 'Cette personne vous a contacté depuis la fiche véhicule <a href="%vehicleUrl%">%vehicleMakeModel%</a>'
   action_label:
     email: Répondre par e-mail
     phone: Appeler le %phoneNumber%

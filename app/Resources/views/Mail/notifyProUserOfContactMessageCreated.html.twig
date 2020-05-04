@@ -23,6 +23,7 @@
             {% if vehicle is not null %}
                 <br>
                 {{ 'notifyProUserOfContactMessageCreated.body.vehicle'|trans({
+                    '%vehicleUrl%': vehicleUrl,
                     '%vehicleMakeModel%': vehicle.name
                 })|raw }}
                 {{ encart_vehicle(thumbnailUrl, vehicleUrl, vehicle.make, vehicle.modelName, vehicle.mileage, vehiclePrice) }}
