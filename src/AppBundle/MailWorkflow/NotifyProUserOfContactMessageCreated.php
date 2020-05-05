@@ -78,10 +78,28 @@ class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler imp
             'utm_term' => $trackingKeywords
         ];
         $pathImg = null;
+        $vehicleUrl = null;
+        $vehiclePrice = null;
         if ($proContactMessage->getVehicle()) {
             $pathImg = $this->pathVehiclePicture->getPath($proContactMessage->getVehicle()->getMainPicture(), 'vehicle_mini_thumbnail');
-        }
 
+            if ($proContactMessage->getVehicle() instanceof ProVehicle) {
+                $vehicleUrl = $this->router->generate(
+                    "front_vehicle_pro_detail",
+                    array_merge($commonUTM, [
+                        'slug' => $proContactMessage->getVehicle()->getSlug(),
+                        'utm_content' => 'vehicle'
+                    ]),
+                    UrlGeneratorInterface::ABSOLUTE_URL);
+                $vehiclePrice = $proContactMessage->getVehicle()->getPrice();
+            } elseif ($proContactMessage->getVehicle() instanceof PersonalVehicle) {
+                $vehicleUrl = $this->router->generate("front_vehicle_personal_detail", array_merge(
+                    $commonUTM, [
+                    'slug' => $proContactMessage->getVehicle()->getSlug(),
+                    'utm_content' => 'vehicle',
+                ]), UrlGeneratorInterface::ABSOLUTE_URL);
+            }
+        }
         $this->send(
             $emailObject,
             'Mail/notifyProUserOfContactMessageCreated.html.twig',
@@ -109,20 +127,8 @@ class NotifyProUserOfContactMessageCreated extends AbstractEmailEventHandler imp
                 'contactPhonenumber' => $proContactMessage->getPhonenumber(),
                 'message' => $proContactMessage->getMessage(),
                 'vehicle' => $proContactMessage->getVehicle(),
-                'vehicleUrl' => $proContactMessage->getVehicle() instanceof ProVehicle ?
-                    $this->router->generate("front_vehicle_pro_detail", array_merge(
-                        $commonUTM, [
-                        'slug' => $proContactMessage->getVehicle()->getSlug(),
-                        'utm_content' => 'vehicle'
-                    ]), UrlGeneratorInterface::ABSOLUTE_URL)
-                    : $proContactMessage->getVehicle() instanceof PersonalVehicle ?
-                        $this->router->generate("front_vehicle_personal_detail", array_merge(
-                            $commonUTM, [
-                            'slug' => $proContactMessage->getVehicle()->getSlug(),
-                            'utm_content' => 'vehicle',
-                        ]), UrlGeneratorInterface::ABSOLUTE_URL)
-                        : null,
-                'vehiclePrice' => ($proContactMessage->getVehicle() instanceof ProVehicle ? $proContactMessage->getVehicle()->getPrice() : null),
+                'vehicleUrl' => $vehicleUrl,
+                'vehiclePrice' => $vehiclePrice,
                 'thumbnailUrl' => $pathImg
             ],
             new EmailRecipientList([$this->createUserEmailContact($proUser)]),

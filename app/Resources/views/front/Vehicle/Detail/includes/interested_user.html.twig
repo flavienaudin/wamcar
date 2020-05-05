@@ -3,12 +3,16 @@
 <div class="vehicle-users">
     <h2 class="{{ titleClass }}">{{ vehicle.isPro?'vehicle.interested_user.title.pro'|trans:'vehicle.interested_user.title.personal'|trans }}</h2>
     {% if positiveLikes.all|length > 0 %}
-        <ul class="tabs" data-tabs id="example-tabs">
+        <ul class="tabs interested-users-tabs" data-tabs id="example-tabs">
             {% for userType , likes in positiveLikes %}
-                <li class="tabs-title {{ loop.first?'is-active' }}"><a href="#tab_panel_{{ userType }}" {{ loop.first?'aria-selected="true"' }}>{{ ('vehicle.interested_user.tabs.'~userType)|trans({'%nb%':likes|length}) }}</a></li>
+                <li class="tabs-title {{ loop.first?'is-active' }}">
+                    <a href="#tab_panel_{{ userType }}" {{ loop.first?'aria-selected="true"' }}>
+                        <span class="hide-for-medium">{{ ('vehicle.interested_user.tabs.'~userType~'.abbr')|trans({'%nb%':likes|length}) }}</span>
+                        <span class="show-for-medium">{{ ('vehicle.interested_user.tabs.'~userType~'.long')|trans({'%nb%':likes|length}) }}</span>
+                    </a></li>
             {% endfor %}
         </ul>
-        <div class="tabs-content" data-tabs-content="example-tabs">
+        <div class="tabs-content interested-users-tabs-content" data-tabs-content="example-tabs">
             {% for userType , likes in positiveLikes %}
                 <div class="tabs-panel {{ loop.first?'is-active' }}" id="tab_panel_{{ userType }}">
                     <ul class="seller-list no-bullet list-border tiny no-margin">
@@ -26,7 +30,7 @@
                                 {% if not like.user.is(app.user) %}
                                     {# attributes data-wt are on <a> and child <span> to be detected by GTM the user click on the icon or the text #}
                                     <a href="{{ path('front_conversation_create', {'id': like.user.id,'vehicleId':vehicle.id,'_fragment':'message-answer-block'}) }}"
-                                       class="icon-message small-right secondary-color" title="{{ 'global.button.send_message'|trans }}"
+                                       class="button small primary-button icon-message small-right send-message-button" title="{{ 'global.button.send_message'|trans }}"
                                        data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ like.user|wtToDataAttrValue }}">
                                         <span class="show-for-medium" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
                                               data-wtto="{{ like.user|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</span>

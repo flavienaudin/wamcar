@@ -59,16 +59,6 @@ $directory-item-min-height: 182;
       color: $dark-blue;
     }
 
-    button[type=submit] {
-      background-color: $dark-blue;
-      border-color: $dark-blue;
-
-      &:hover {
-        color: $dark-blue;
-        background-color: white;
-      }
-    }
-
     .search-filter {
       background-color: $dark-blue;
       border-color: $dark-blue;

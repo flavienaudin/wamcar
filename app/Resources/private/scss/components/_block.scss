@@ -78,6 +78,17 @@
   }
 
   /*
+      Border Radius
+      ===================================== */
+  &-border-radius {
+    border-radius: $global-radius;
+  }
+
+  &-no-border-radius {
+    border-radius: 0;
+  }
+
+  /*
     Shadow
     ===================================== */
   &-no-shadow {

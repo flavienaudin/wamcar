@@ -1,0 +1,17 @@
+/* ===========================================================================
+   Interested Users
+   =========================================================================== */
+
+.interested-users {
+
+
+  &-tabs-content {
+    .send-message-button {
+      @include breakpoint(small only){
+        @include buttonIcon;
+        width: rem-calc(30);
+        height: rem-calc(30);
+      }
+    }
+  }
+}

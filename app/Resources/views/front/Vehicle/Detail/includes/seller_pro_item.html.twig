@@ -1,14 +1,14 @@
-{% extends 'front/Directory/includes/seller_item.html.twig' %}
+{% extends 'front/User/includes/seller_pro_item.html.twig' %}
 
 {% block bottomContainer %}
     <div class="js-seller-infos peexeo-vehicle-seller-infos">
-        {% if proUser.phone is not empty or proUser.phonePro is not empty %}
+        {% if seller.phone is not empty or seller.phonePro is not empty %}
             <div class="is-flex">
             {{ include('front/Seller/includes/phone_number_button.html.twig', {
                 'disabledLoggedProtection': true,
-                'phoneOwner': proUser,
-                'phoneNumber': proUser.phone is not empty ? proUser.phone : proUser.phonePro ,
-                'showphone_subaction': proUser.phone is not empty ? "1" : "2"
+                'phoneOwner': seller,
+                'phoneNumber': seller.phone is not empty ? seller.phone : seller.phonePro ,
+                'showphone_subaction': seller.phone is not empty ? "1" : "2"
             }) }}
             </div>
         {% endif %}

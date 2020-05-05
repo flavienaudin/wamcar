@@ -116,6 +116,9 @@ $profil-image-offset: rem-calc(40);
     padding-top: rem-calc(20);
 
     .profil-section {
+      border-radius: $global-radius;
+
+
       &:not(:last-child) {
         margin-bottom: rem-calc(25);
         padding-bottom: rem-calc(25);
@@ -241,6 +244,7 @@ $profil-image-offset: rem-calc(40);
 
       .profile-titles {
         height: 250px;
+        border-radius: $global-radius;
         background-color: #ffffff;
         padding-top: rem-calc(75);
         padding-left: rem-calc(15);
@@ -311,15 +315,6 @@ $profil-image-offset: rem-calc(40);
         .button,
         button {
           margin: rem-calc(10) auto;
-          background-color: $white;
-          color: $dark-gray-blue-peexeo;
-          border: rem-calc(2) solid $dark-gray-blue-peexeo;
-
-          &:hover, &:focus {
-            background-color: $dark-gray-blue-peexeo;
-            color: $white;
-            border: rem-calc(2) solid $white;
-          }
 
           @include breakpoint(medium) {
             margin-left: rem-calc(10);
@@ -335,6 +330,7 @@ $profil-image-offset: rem-calc(40);
       background-color: white;
       padding: rem-calc(15);
       display: block;
+      border-radius: $global-radius;
 
       @include breakpoint(small only) {
         > :first-child {
@@ -391,13 +387,14 @@ $profil-image-offset: rem-calc(40);
 
     &-right-column {
       > div {
+        margin-top: rem-calc(25);
         margin-bottom: rem-calc(25);
         padding: rem-calc(25);
         background-color: $body-background;
+        border-radius: $global-radius;
 
-        @include breakpoint(medium down) {
-          margin-top: rem-calc(25);
-          margin-bottom: rem-calc(25);
+        @include breakpoint(medium) {
+          margin-top: 0;
         }
       }
 

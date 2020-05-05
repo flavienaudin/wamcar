@@ -12,12 +12,12 @@
                     {% if ( (garage.optionAdminVisible or membership.role.value != constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') )
                             and membership.requestedAt is null) or userIsMe or userIsGarageAdministrator %}
                         <li>
-                            <a href="{{ path('front_view_pro_user_info', {'slug': membership.proUser.slug}) }}" >
+                            <a href="{{ path('front_view_pro_user_info', {'slug': membership.proUser.slug}) }}">
                                 <figure class="block-grid align-middle" role="group">
                                     <span class="user-thumbnail-mini margin-right-1">
                                         <img src="{{ membership.proUser.avatar|avatar('user_mini_thumbnail', membership.proUser.firstName) }}"
                                              alt="{{ membership.proUser.fullName }}"></span>
-                                    <span class="h2">{{ membership.proUser.fullName }}</span>
+                                    <span class="h2 no-margin">{{ membership.proUser.fullName }}</span>
                                 </figure>
                             </a>
 
@@ -32,28 +32,27 @@
                             {% endif %}
 
                             {% if userIsMe %}
-                                <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="text-underline">{{ 'user.profile.edit.action'|trans }}</a></p>
+                                <p class="is-inline-block"><a href="{{ path('front_edit_user_info') }}" class="button small">{{ 'user.profile.edit.action'|trans }}</a></p>
                             {% else %}
                                 <div class="is-flex">
-                                    <span class="icon-message primary-color">
-                                        <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block" class="text-underline"
-                                           data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ membership.prouser|wtToDataAttrValue }}">
-                                        {{ 'global.button.send_message'|trans }}</a></span>
+                                    <a href="{{ path('front_conversation_create', {'id': membership.prouser.id}) }}#message-answer-block"
+                                       class="button small primary-button icon-message"
+                                       data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ membership.prouser|wtToDataAttrValue }}">
+                                        {{ 'global.button.send_message'|trans }}</a>
                                     {% if membership.proUser.phonePro %}
-                                        <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                        <span class="small-auto medium-shrink">{{ include('front/Seller/includes/phone_number_button.html.twig', {
                                                 'phoneOwner': membership.proUser,
                                                 'phoneNumber': membership.proUser.phonePro,
                                                 'showphone_subaction': "2",
-                                                'buttonClass': 'margin-left-1'
+                                                'buttonClass': 'small icon-tel margin-left-1'
                                             }) }}</span>
                                     {% endif %}
                                     {% if membership.proUser.phone %}
-                                        <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
+                                        <span class="small-auto medium-shrink">{{ include('front/Seller/includes/phone_number_button.html.twig', {
                                                 'phoneOwner': membership.proUser,
                                                 'phoneNumber': membership.proUser.phone,
                                                 'showphone_subaction': "1",
-                                                'buttonClass': 'margin-left-1',
-                                                'icontel': 'icon-mobile'
+                                                'buttonClass': 'small icon-mobile margin-left-1'
                                             }) }}</span>
                                     {% endif %}
                                 </div>
@@ -64,28 +63,29 @@
                                     <p class="is-inline-block">
                                         <i class="black-color">{{ 'user.garage.pending_request.member'|trans({'%garage_name%':garage.name}) }}&nbsp;:</i>
                                         <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
-                                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                                           class="button small">{{ 'user.garage.cancel_request'|trans }}</a></p>
                                 {% else %}
                                     <p class="is-inline-block">
                                         <i class="black-color">{{ 'user.garage.pending_request.administrator'|trans({
                                                 '%seller_name%': membership.proUser.fullName,
                                                 '%garage_name%': garage.name
                                             }) }}&nbsp;:</i>
-                                        <a href="{{ path('front_garage_assign',  {'garage_id':garage.id,'user_id':membership.prouser.id}) }}" class="text-underline">{{ 'user.garage.accept_request'|trans }}</a> -
+                                        <a href="{{ path('front_garage_assign',  {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
+                                           class="button small">{{ 'user.garage.accept_request'|trans }}</a> -
                                         <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
-                                           class="text-underline">{{ 'user.garage.decline_request'|trans }}</a></p>
+                                           class="button small">{{ 'user.garage.decline_request'|trans }}</a></p>
                                 {% endif %}
                             {% elseif userIsGarageAdministrator and not userIsMe%}
                                 <p class="is-inline-block">
                                     <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
-                                       class="js-confirm-box text-underline"
+                                       class="js-confirm-box button small"
                                        data-id="detach-{{ membership.prouser.id }}"
                                        data-title="Attention!"
                                        data-message="Confirmez-vous le détachement de ce membre de ce garage ?">
                                         {{ 'user.garage.remove_member'|trans }}</a>
                                     <br>
                                     <a href="{{ path('front_garage_toogle_member_role', {'garage_id':garage.id,'user_id':membership.prouser.id}) }}"
-                                       class="js-confirm-box text-underline"
+                                       class="js-confirm-box button small"
                                        data-id="detach-{{ membership.prouser.id }}"
                                        data-title="Attention!"
                                        data-message="Confirmez-vous l'action de changer le rôle de ce membre ?">
@@ -101,7 +101,7 @@
                 {% endfor %}
                 {% if isUserPro and not app.user.isMemberOfGarage(garage, true) %}
                     <li>
-                        <a href="{{ path('front_garage_request_to_join', {'garage_id': garage.id}) }}" class="text-underline">{{ 'garage.action.join'|trans }}</a>
+                        <a href="{{ path('front_garage_request_to_join', {'garage_id': garage.id}) }}" class="button small">{{ 'garage.action.join'|trans }}</a>
                     </li>
                 {% endif %}
             </ul>
@@ -116,6 +116,7 @@
                         'action' : path('front_garage_view', {'slug':garage.slug,'_fragment':'sellers'}),
                         'attr' : {
                             'id' : 'js-garage-member-invitation-form',
+                            'class' : 'form-compact',
                             'data-abide' : 'data-abide',
                             'novalidate' : 'novalidate'
                         }

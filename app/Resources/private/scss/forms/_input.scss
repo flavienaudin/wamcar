@@ -15,7 +15,7 @@ $input-line-height-compact: $input-height-compact;
 $input-font-size: rem-calc(16);
 $input-font-size-compact: rem-calc(14);
 $input-border: rem-calc(1) solid $border-color;
-$input-border-radius: 0;
+$input-border-radius: 5px;
 $input-color: black;
 $input-focus-shadow: inset 0 0 2px #13171B;
 $input-focus-border: #13171B;
@@ -120,6 +120,7 @@ textarea {
 
   .form-compact &:not(textarea) {
     @include buttonHeightCompact;
+    @include buttonPaddingCompact;
     line-height: $input-line-height-compact;
   }
 

@@ -14,6 +14,10 @@
     }
 }
 
+@mixin buttonHeightSmall {
+    height: rem-calc(32);
+}
+
 @mixin buttonHeightCompact {
     height: rem-calc(32);
     @include breakpoint(medium) {
@@ -26,6 +30,26 @@
     padding-left: rem-calc(20);
 }
 
+@mixin buttonPaddingCompact {
+    padding-right: rem-calc(10);
+    padding-left: rem-calc(10);
+}
+
+@mixin buttonIcon {
+  width: rem-calc(60);
+  height: rem-calc(60);
+  border-radius: 50%;
+  &::before {
+    margin-right: 0;
+  }
+}
+
+@mixin buttonIconSmall {
+    width: rem-calc(32);
+    height: rem-calc(32);
+}
+
+
 @mixin buttonStyle {
     @include buttonHeight;
     @include buttonPadding;
@@ -34,12 +58,31 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: $primary-color;
+    background: $white;
     font-weight: bold;
-    border-radius: rem-calc(30);
-    color: white;
-    border: rem-calc(2) solid $primary-color;
+    color: $dark-gray-blue-peexeo;
+    border: 2px solid $dark-gray-blue-peexeo;
+    border-radius: $button-radius;
     transition: $global-transition;
+
+    &:hover,
+    &:focus {
+        background-color: $light-gray-peexeo;
+
+        .loader {
+            .loader-child {
+                &:before {
+                    background-color: $light-gray-peexeo;
+                }
+            }
+        }
+    }
+
+    &.is-active,
+    &.is-current{
+        background-color: $dark-gray-blue-peexeo;
+        color: $white;
+    }
 }
 
 
@@ -47,19 +90,20 @@
    Theme
    ===================================== */
 
-@mixin buttonTheme($background, $color, $hover: false) {
-    background: $background;
+@mixin buttonTheme($bg-color, $color, $border-color, $hover: false, $hover-bg-coolor: null, $hover-color: null, $hover-border-color: null ) {
+    background: $bg-color;
     color: $color;
-    border-color: currentColor;
+    border-color: $border-color;
+
     &:hover,
     &:focus {
         @if $hover {
-            background: $hover;
-            border-color: $hover;
-            color: white;
+            background: $hover-bg-coolor;
+            border-color: $hover-border-color;
+            color: $hover-color;
         }
         @else {
-            background: transparent;
+            opacity: 0.7;
         }
     }
 }
@@ -69,48 +113,42 @@
    Class
    ===================================== */
 
-button {
-    color: $body-font-color;
+button, .button {
     cursor: pointer;
 }
 
 a.button {
     display: flex;
+
+    &:hover,
     &:focus {
-        background: $primary-color;
-        color: $white;
+        color: $dark-gray-blue-peexeo;
     }
 }
 
 .button {
     @include buttonStyle;
-    &:hover {
-        background: white;
-        color: $primary-color;
-        .loader {
-            .loader-child {
-                &:before {
-                    background-color: $primary-color;
-                }
-            }
-        }
-    }
+
     &::before {
         font-weight: normal;
+        /* TODO to delete
         @include breakpoint(xlarge) {
             font-size: rem-calc(20);
-        }
-    }
-    /* Size */
-    .form-compact & {
-        @include buttonHeightCompact;
+        }*/
     }
 
+    /* Size */
     &.small {
-        @include breakpoint(medium) {
-            height: rem-calc(50);
-        }
+        @include buttonHeightSmall;
+        @include buttonPaddingCompact;
+        font-size: 0.75rem;
     }
+
+    .form-compact & {
+        @include buttonHeightCompact;
+        @include buttonPaddingCompact;
+    }
+
     &.expand-height {
         height: auto;
         min-height: rem-calc(40);
@@ -120,10 +158,17 @@ a.button {
     }
 
     /* Theme */
+    &.primary-button {
+        @include buttonTheme($primary-color, $white, $primary-color,
+                true, $red-hover-peexeo, $white, $red-hover-peexeo);
+    }
+
+    /* TODO delete
     &.white {
         @include buttonTheme(white, $primary-color, $primary-color);
     }
-
+    */
+    /*
     &.dark-blue {
         background-color: $white;
         color: $dark-gray-blue-peexeo;
@@ -135,12 +180,14 @@ a.button {
             border-color: $white;
         }
     }
-
+    */
+    /* TODO delete
     &.gray-light {
         @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-gray-blue-peexeo);
     }
-
+    */
     /* Add */
+    /* TODO delete
     &.add {
         background: $dark-gray-blue-peexeo;
         color: white;
@@ -154,6 +201,8 @@ a.button {
             color: $dark-gray-blue-peexeo;
         }
     }
+     */
+    /* TODO delete
     &.reverse {
         background: white;
         color: $primary-color;
@@ -173,14 +222,23 @@ a.button {
         }
 
     }
-    /* remove */
-    &.remove {
-        width: rem-calc(60);
-        height: rem-calc(60);
-        background: $medium-gray;
-        border-color: $medium-gray;
+    */
+
+    /* button icon only*/
+    &.button-icon {
+        @include buttonIcon;
+
+        &.small {
+            @include buttonIconSmall;
+        }
+
+      /* TODO adapt ?
+      width: rem-calc(60);
+      height: rem-calc(60);
+      background: $medium-gray;
+      border-color: $medium-gray;
+      color: white;
         border-radius: 50%;
-        color: white;
         &::before {
             margin-right: 0;
         }
@@ -188,7 +246,11 @@ a.button {
             background: white;
             color: $medium-gray;
         }
+        */
     }
+
+    // TODO delete ".remove" class and calls
+
     /* Form margin */
     form & {
         margin-top: rem-calc(10);
@@ -206,7 +268,5 @@ a.button {
         }
     }
 
-    &.square {
-        border-radius: 0;
-    }
+    // TODO delete ".square" class and calls
 }

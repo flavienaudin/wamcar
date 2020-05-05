@@ -506,14 +506,8 @@
      ===================================== */
 
   &-aside {
-    padding-top: rem-calc(25);
-
-    @include breakpoint(medium) {
-      padding-top: rem-calc(30);
-    }
-
     @include breakpoint(large) {
-      padding-top: 0;
+      margin-top: rem-calc(30);
     }
 
     @media screen and (min-height: rem-calc(900)) {
@@ -561,9 +555,8 @@
      ===================================== */
 
   &-editing {
-
     @include breakpoint(medium down) {
-      position: fixed;
+      position: sticky;
       right: 0;
       bottom: 0;
       left: 0;
@@ -583,6 +576,10 @@
 
         &.white {
           border: 0;
+        }
+
+        &.remove {
+          width: 100%;
         }
       }
     }
@@ -610,28 +607,6 @@
         margin-bottom: rem-calc(30);
       }
     }
-  }
-
-  /*
-     Editing
-     ===================================== */
-
-  &-editing {
-
-    @include breakpoint(medium down) {
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      z-index: 3;
-
-      .button {
-        height: rem-calc(60);
-        border-radius: 0;
-        margin-bottom: 0;
-      }
-    }
-
   }
 
   // End &-editing
@@ -1086,6 +1061,19 @@
     }
   }
 
+
+  /*
+    Aside (right column)
+    ===================================== */
+  &-aside {
+    .user-contact-form-container {
+      margin-bottom: rem-calc(25);
+      padding: rem-calc(25);
+      background-color: $body-background;
+      border-radius: $global-radius;
+    }
+  }
+
   /*
     Seller infos
     ===================================== */
@@ -1093,19 +1081,10 @@
   &-seller-infos {
     .button, button {
       margin: rem-calc(10) auto;
-      background-color: $white;
-      color: $dark-blue;
-      border: rem-calc(2) solid $dark-blue;
 
       @include breakpoint(medium) {
         margin-left: auto;
         margin-right: auto;
-      }
-
-      &:hover, &:focus {
-        background-color: $dark-blue;
-        color: $white;
-        border: rem-calc(2) solid $white;
       }
     }
   }
@@ -1127,15 +1106,23 @@
       margin-bottom: rem-calc(20);
     }
 
+    & > div {
+      border-radius: $global-radius;
+    }
+
+    &-picture {
+      border-top-right-radius: $global-radius;
+      border-top-left-radius: $global-radius;
+    }
+
     &-info {
-      height: 125px;
+      height: 150px;
       padding-top: rem-calc(10);
       padding-bottom: rem-calc(10);
       display: flex;
       flex-direction: column;
 
       @include breakpoint(medium) {
-        height: 150px;
         padding-top: rem-calc(20);
         padding-bottom: rem-calc(20);
       }
@@ -1166,6 +1153,11 @@
   &-name {
     color: $dark-gray-blue-peexeo;
     font-weight: bold;
+    overflow: hidden;
+    height: rem-calc(2 * map-get(map-get(map-get($header-styles, small), 'h3'), 'font-size') * map-get(map-get(map-get($header-styles, small), 'h3'), 'line-height'));
+    @include breakpoint(large) {
+      height: rem-calc(2 * map-get(map-get(map-get($header-styles, large), 'h3'), 'font-size') * map-get(map-get(map-get($header-styles, large), 'h3'), 'line-height'));
+    }
 
     @include breakpoint(large down) {
       margin-bottom: rem-calc(2);

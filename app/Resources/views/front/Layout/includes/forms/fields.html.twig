@@ -208,7 +208,7 @@
         {{ required ? 'required' }}
     >{{ value }}</textarea>
     {% if help_message is not empty %}
-        <small class="{{ help_message_class }}">{{ help_message }}</small>
+        <small class="help-message {{ help_message_class }}">{{ help_message }}</small>
     {% endif %}
     {% if required %}
         <small class="form-error {{ required_class }}">{{ required_message }}</small>
@@ -465,6 +465,8 @@
     {% set label = label|default(false) %}
     {% set label_class = label_class|default('') %}
     {% set list_class = list_class|default('small-up-2') %}
+    {% set list_item_class = list_item_class|default(null) %}
+    {% set list_item_label_class = list_item_label_class|default('white-bg block-border-radius') %}
     {% set values_translation_domain = values_translation_domain|default('message')%}
 
     {% if label %}
@@ -473,9 +475,9 @@
     <ul class="block-grid {{ list_class }}">
         {% for child in form %}
             {% if child.vars.value %}
-                <li class="column small-collapse js-radio-item-container">
+                <li class="column small-collapse js-radio-item-container {{ list_item_class }}">
                     {{ form_widget(child) }}
-                    <label for="{{ child.vars.id }}" class="radio-item {{ not required?'js-radio-deselectable' }}">
+                    <label for="{{ child.vars.id }}" class="radio-item {{ list_item_label_class }} {{ not required?'js-radio-deselectable' }}">
                         {{ child.vars.value|trans({}, values_translation_domain) }} {% include 'front/Layout/includes/svg/check_alt.html.twig' %}
                     </label>
                 </li>

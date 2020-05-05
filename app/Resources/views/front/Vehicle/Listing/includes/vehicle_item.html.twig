@@ -7,7 +7,7 @@
 {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 {% set detailUrlTarget = detailUrlTarget|default('_self') %}
 
-<article class="vehicle-item is-flex">
+<article class="vehicle-item is-flex white-bg">
     <div class="is-flex full-width is-relative">
         <div class="vehicle-picture small-auto">
             <div class="is-relative"  id="{{ vehicle.id }}">

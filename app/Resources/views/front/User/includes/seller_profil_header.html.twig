@@ -19,14 +19,14 @@
                 {{ form_end(avatarForm) }}
             {% endif %}
         </div>
-        <div class="column">
+        <div class="column ">
             <div class="profile-titles">
                 {% set profilActionsBlock %}{% spaceless %}
                     {% if userIsMe %}
-                        <a href="{{ path('front_edit_user_info') }}" class="button square">
+                        <a href="{{ path('front_edit_user_info') }}" class="button">
                             {{ 'user.profile.header.cat.edit_profile'|trans }}</a>
                         {% if user.affinityAnswer is null %}
-                            <a href="{{ path('front_affinity_pro_form') }}" class="button square">
+                            <a href="{{ path('front_affinity_pro_form') }}" class="button">
                                 {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
                         {% endif %}
                     {% else %}

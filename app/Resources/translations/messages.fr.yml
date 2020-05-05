@@ -435,6 +435,7 @@ garage:
     edit: Modifier mon garage
     join: Rejoindre ce garage
   infos:
+    see_on_gmaps: Voir sur Google Maps
     opening_hours: Horaires
     auto_vehicles_import_request:
       presentation: "Demander l'import automatisé de votre stock:"
@@ -651,14 +652,21 @@ vehicle:
         owner: Mes autres véhicules
       button:
         garage: Voir tous les véhicules du garage
+        personal: Voir tous les véhicules de %firstname%
   interested_user:
     title:
       pro: Ils aiment ce véhicule
       personal: Ils aiment cette annonce
     tabs:
-      all: Tous (%nb%)
-      pro: Professionnels (%nb%)
-      personal: Particuliers (%nb%)
+      all:
+        abbr: Tous (%nb%)
+        long: Tous (%nb%)
+      pro:
+        abbr: Pro. (%nb%)
+        long: Professionnels (%nb%)
+      personal:
+        abbr: Part. (%nb%)
+        long: Particuliers (%nb%)
   field:
     plateNumber:
       label: Immatriculation
@@ -1388,6 +1396,7 @@ favorites:
   my_likes:
     title: Mes likes
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+    empty: Aucun véhicule liké pour le moment
   my_experts:
     title: Mes experts
     no_expert: Consultez les profils et sélectionnez vos experts favoris!
@@ -1426,8 +1435,8 @@ directory:
   field:
     filter.label: "Spécialités"
     text:
-      label: Marque
-      placeholder: Marque
+      label: Recherche
+      placeholder: Nom, Marque, ...
     speciality:
       label: Spécialité
       placeholder: Spécialité

@@ -95,6 +95,7 @@
 
     .carousel-button {
       margin: 0 0 rem-calc(10);
+      border-radius: 0;
     }
 
     .slick-prev,
@@ -130,7 +131,8 @@
         margin: 0 auto;
         border-radius: 50%;
         font-size: 2em;
-        color: $body-font-color;
+        color: $dark-gray-blue-peexeo;
+        border: 2px solid $dark-gray-blue-peexeo;
         background-color: rgba($light-gray-peexeo, 0.7);
         opacity: $slick-opacity-default;
         -webkit-font-smoothing: antialiased;
@@ -152,15 +154,10 @@
      ===================================== */
 
   &-button {
+    margin-top: auto;
+    margin-bottom: auto;
     align-items: center;
     justify-content: center;
-    width: rem-calc(30);
-    background: #e6e6e6;
-    color: $dark-gray;
-
-    @include breakpoint(medium) {
-      width: rem-calc(40);
-    }
 
     &::before {
       width: 100%;

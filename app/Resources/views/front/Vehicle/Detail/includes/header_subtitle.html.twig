@@ -1,0 +1,9 @@
+{# Subtitle data (vehicle) #}
+<div class="blue-gray-peexeo-color font-itcavantgardeprobold text-center medium-text-left">
+    <strong>
+        {{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}&nbsp;km&nbsp;&dash;&nbsp;
+        {{ vehicle.postalCode }} {{ vehicle.cityName|upper }},
+        {{ "vehicle.publish_at"|trans({"%createdAt%":vehicle.createdAt|localizeddate('short', 'none')}) }}
+    </strong>
+</div>
+{# End Subtitle data #}

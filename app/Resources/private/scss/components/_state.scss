@@ -3,7 +3,6 @@
    =========================================================================== */
 
 
-
 /*
    Block
    ===================================== */
@@ -15,7 +14,6 @@
 .is-block-inherit{ display: inherit; }
 .is-scrollable   { overflow: auto; }
 .is-flex         { display: flex; }
-
 
 
 /*
@@ -38,7 +36,6 @@
     top: 0;
   }
 }
-
 
 
 /*
@@ -67,14 +64,12 @@
 }
 
 
-
 /*
    Size
    ===================================== */
 
 .full-width { width: 100%; }
 .full-height { height: 100%; }
-
 
 
 /*
@@ -126,8 +121,8 @@
 .primary-bg { background-color: $primary-color; }
 .secondary-bg { background-color: $secondary-color; }
 .body-font-bg { background-color: $body-font-color; }
-.black-bg { background-color: black; }
-.white-bg { background-color: white; }
+.black-bg { background-color: $black; }
+.white-bg { background-color: $white; }
 .light-gray-peexeo-bg { background-color: $light-gray-peexeo; }
 .medium-gray-bg { background-color: $medium-gray; }
 .gray-peexeo-bg { background-color: $gray-peexeo; }
@@ -142,11 +137,6 @@
 .success-bg { background-color: $success-color; }
 .warning-bg { background-color: $warning-color; }
 .danger-bg { background-color: $alert-color; }
-
-/*
-  Background color
-   ===================================== */
-.white-bg { background-color: white; }
 
 
 /*

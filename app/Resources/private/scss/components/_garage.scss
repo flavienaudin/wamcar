@@ -30,18 +30,13 @@
   &-header {
     position: relative;
     background: #f7f7f7;
+    border-radius: $global-radius;
 
     @include breakpoint(large) {
       background: white;
       border: rem-calc(1) solid $border-color;
     }
-
-    @media screen and (min-height: rem-calc(800)) {
-      position: sticky;
-      top: $header-height-medium + rem-calc(40);
-    }
   }
-
 
   /*
      Logo
@@ -61,17 +56,19 @@
       width: rem-calc(70);
       height: rem-calc(70);
       position: absolute;
-      top: rem-calc(-55);
+      top: rem-calc(-35);
       right: rem-calc(20);
     }
 
     @include breakpoint(medium only) {
       width: rem-calc(100);
       height: rem-calc(100);
-      top: rem-calc(-75);
+      top: rem-calc(-50);
     }
 
     @include breakpoint(large) {
+      border-top-left-radius: $global-radius;
+      border-top-right-radius: $global-radius;
       height: rem-calc(180);
       border-width: 0 0 rem-calc(1);
     }

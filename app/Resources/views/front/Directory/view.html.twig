@@ -37,12 +37,11 @@
             </header>
             {% if result.totalHits > 0 %}
                 <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
-
                     {% for hit in result.hits %}
                         <div class="column">
-                            {{ include('front/Directory/includes/seller_item.html.twig', {
+                            {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
-                                "proUser" : hit,
+                                "seller" : hit,
                                 "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
                             }) }}
                         </div>
