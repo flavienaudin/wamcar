@@ -57,7 +57,7 @@
             {% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
             {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
             {# Garage Info Block #}
-            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow">
+            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow is-sticky">
                 <h1 class="h2 primary-color no-margin text-center">{{ garage.name }}</h1>
 
                 <div class="text-center">
@@ -109,45 +109,99 @@
             {# END Garage Info Block #}
 
             {# Presentation Block #}
-            <div class="insert-block block-light-shadow">
-                <h2>
+            {% if garagePresentationForm is not null or garagePresentationForm is not null %}
+                <div class="insert-block block-light-shadow">
+                    <h2>
+                        {% if garagePresentationForm is not null %}
+                            <span class="peexeo-garage-insert-action icon-pen"
+                                  data-toggle="jsPresentation jsPresentationForm">
+                                </span>
+                        {% endif %}
+                        {{ 'garage.presentation.title'|trans }}
+                    </h2>
+                    <div id="jsPresentation" data-toggler="is-hidden">
+                        {% if garage.presentation %}
+                            <p>{{ garage.presentation|nl2br|raw }}</p>
+                        {% elseif isEditableByCurrentUser %}
+                            <p>{{ 'garage.form.field.presentation.placeholder'|trans }}</p>
+                        {% endif %}
+                    </div>
+
                     {% if garagePresentationForm is not null %}
-                        <span class="peexeo-garage-insert-action icon-pen"
-                              data-toggle="jsPresentation jsPresentationForm">
-                            </span>
-                    {% endif %}
-                    {{ 'garage.presentation.title'|trans }}
-                </h2>
-                <div id="jsPresentation" data-toggler="is-hidden">
-                    {% if garage.presentation %}
-                        <p>{{ garage.presentation|nl2br|raw }}</p>
-                    {% elseif isEditableByCurrentUser %}
-                        <p>{{ 'garage.form.field.presentation.placeholder'|trans }}</p>
+                        <div id="jsPresentationForm" {{ garagePresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                            {{ form_start(garagePresentationForm, {
+                                'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                            }) }}
+
+                            {{ form_widget(garagePresentationForm.presentation, {
+                                'label' : 'garage.form.field.presentation.label'|trans,
+                                'label_class' : 'show-for-sr',
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'garage.form.field.presentation.placeholder'|trans}
+                            }) }}
+
+                            <div class="is-flex align-right">
+                                <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                            </div>
+                            {{ form_end(garagePresentationForm) }}
+                        </div>
                     {% endif %}
                 </div>
+            {% endif %}
+            {# END Presentation Block #}
 
-                {% if garagePresentationForm is not null %}
-                    <div id="jsPresentationForm" {{ garagePresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
-                        {{ form_start(garagePresentationForm, {
-                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+            {# Sellers Block #}
+            <div class="peexeo-garage-sellers row">
+                {% for membership in garage.enabledMembers %}
+                    <div class="column small-6">
+                        {{ include('front/Garages/Detail/includes/seller_item.html.twig', {
+                            "itemClass" : "width-100 block-light-shadow",
+                            "membership" : membership
                         }) }}
-
-                        {{ form_widget(garagePresentationForm.presentation, {
-                            'label' : 'garage.form.field.presentation.label'|trans,
-                            'label_class' : 'show-for-sr',
-                            'required' : false,
-                            'required_class': 'show-for-sr',
-                            'attr': {'placeholder': 'garage.form.field.presentation.placeholder'|trans}
-                        }) }}
-
-                        <div class="is-flex align-right">
-                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
-                        </div>
-                        {{ form_end(garagePresentationForm) }}
                     </div>
+                {% endfor %}
+            </div>
+            {# END Sellers Block #}
+
+            {# Opinion Block #}
+            <div class="insert-block block-light-shadow">
+                <h2>{{ 'garage.tabs.opinions.title'|trans }}</h2>
+                {% if garageReviews is not null %}
+                    <ul class="no-bullet">
+                        {% for review in garageReviews %}
+                            <li class="review">
+                                <figure class="block-grid align-top" role="group">
+                                    <a href="{{ review.author_url }}" class="seller-pic" target="_blank">
+                                        <img src="{{ review.profile_photo_url }}" alt="{{ review.author_name }}"></a>
+                                    <div>
+                                        <a href="{{ review.author_url }}" class="primary-color h3" target="_blank"><b>{{ review.author_name }}</b></a>
+                                        {{ include('front/Garages/Detail/includes/google_rating.html.twig', {'garageRating' : review.rating}) }}
+                                        <small>{{ review.relative_time_description }}</small>
+                                    </div>
+                                </figure>
+                                <p class="review-text">{{ review.text }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div>{{ 'garage.tabs.opinions.no_opinion'|trans }}</div>
                 {% endif %}
             </div>
-            {# END Presentation Block #}
+            {# END Opinions Block #}
+
+            {# Vehicles Block #}
+            {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
+                <div class="insert-block block-light-shadow">
+                    {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                        'titleClass' : ' ',
+                        'columnsSizes' : 'small-up-2',
+                        'pagination_route': 'front_garage_view',
+                        'pagination_route_params': {'slug':garage.slug}
+                    } %}
+                </div>
+            {% endif %}
+            {# END Vehicles Block #}
 
         </div>
 

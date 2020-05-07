@@ -38,6 +38,7 @@ $banner-height: 200px;
       margin: auto;
     }
   }
+
   // End of &-section-action
 
   &-banner {
@@ -114,6 +115,13 @@ $banner-height: 200px;
     .star-list {
       justify-content: center;
     }
+  }
+
+  /*
+     Sellers
+     ===================================== */
+  &-sellers {
+    margin-bottom: rem-calc(25);
   }
 }
 
