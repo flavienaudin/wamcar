@@ -2,6 +2,122 @@
    Garage
    =========================================================================== */
 
+$banner-height: 200px;
+
+.peexeo-garage {
+
+  &-left-column,
+  &-aside {
+    > .insert-block {
+      margin-bottom: rem-calc(25);
+      padding: rem-calc(25);
+      background-color: $body-background;
+      border-radius: $global-radius;
+    }
+  }
+
+  /* Garage section action (in block title)
+     ===================================== */
+  &-insert-action {
+    float: right;
+
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    &:hover {
+      background-color: $light-gray-peexeo;
+      border-radius: 50%;
+    }
+
+    &[class*="icon-"]::before {
+      font-size: 1rem;
+      font-weight: normal;
+      color: $body-font-color;
+      margin: auto;
+    }
+  }
+  // End of &-section-action
+
+  &-banner {
+    height: $banner-height;
+    margin-bottom: rem-calc(25);
+    border-radius: $global-radius;
+    background-color: $body-background;
+    background-position: center;
+    background-size: cover;
+  }
+
+  /*
+     Logo
+     ===================================== */
+
+  &-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    padding: rem-calc(10);
+    border-radius: $global-radius;
+    background: $white;
+
+
+    position: absolute;
+    top: rem-calc(40);
+    right: rem-calc(15);
+    width: rem-calc(70);
+    max-width: rem-calc(70);
+    height: rem-calc(70);
+    max-height: rem-calc(70);
+    border: 1px solid $border-color;
+
+    @include breakpoint(medium) {
+      top: rem-calc(55);
+      right: rem-calc(25);
+      width: rem-calc(100);
+      max-width: rem-calc(100);
+      height: rem-calc(100);
+      max-height: rem-calc(100);
+    }
+
+    @include breakpoint(large) {
+      position: relative;
+      top: unset;
+      right: unset;
+      width: 100%;
+      max-width: 100%;
+      height: $banner-height;
+      max-height: $banner-height;
+      margin-bottom: rem-calc(25);
+      border: none;
+    }
+
+    /* Components */
+
+    img {
+      border-radius: $global-radius;
+    }
+  }
+
+  /*
+     Info
+     ===================================== */
+  &-info {
+
+    @include breakpoint(large) {
+      position: sticky;
+    }
+
+    /* Component */
+
+    .star-list {
+      justify-content: center;
+    }
+  }
+}
+
+
 .garage {
 
   /*
@@ -99,7 +215,9 @@
     @include breakpoint(xlarge) {
       padding: rem-calc(40);
     }
-  } // End &-infos
+  }
+
+  // End &-infos
 
   &-google-autocomplete {
     border: rem-calc(1) solid $border-color;
@@ -117,7 +235,9 @@
           margin-bottom: 0;
         }
       }
-    } // End p
+    }
+
+    // End p
   }
 
   /*

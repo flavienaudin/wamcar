@@ -30,14 +30,23 @@ if ($($movePicturesList).length) {
   });
 }
 
-const $moveGaragePicture = '#js-move-garage-picture';
-const $garagePicture = '#js-garage-picture';
+const $garageAside = $('#js-garage-aside');
+if ($garageAside.length) {
+  const $garageLogo = $('#js-garage-logo');
+  if ($garageLogo.length) {
+    $garageLogo.responsiveDom({
+      appendTo: $garageAside,
+      mediaQuery: '(min-width: 1024px)'
+    });
+  }
 
-if ($($garagePicture).length) {
-  $($garagePicture).responsiveDom({
-    appendTo: $moveGaragePicture,
-    mediaQuery: '(min-width: 1024px)'
-  });
+  const $garageInfos = $('#js-garage-info');
+  if ($garageInfos.length) {
+    $garageInfos.responsiveDom({
+      appendTo: $garageAside,
+      mediaQuery: '(min-width: 1024px)'
+    });
+  }
 }
 
 const $moveVehicleActions = '.js-vehicle-actions';
@@ -89,7 +98,7 @@ if($asideContentSellerItem.length){
 /*** Pro User Contact Form ***/
 
 const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
-if($proProfilContactForm.length > 0){
+if($proProfilContactForm.length){
   $proProfilContactForm.each((index, element) => {
     const breakpoint = $(element).data('responsivedom-mediaquerysize');
     let options = {

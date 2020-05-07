@@ -1,0 +1,222 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_garage = true %}
+
+{% block mainClass %}medium-no-padding-top light-gray-peexeo-bg{% endblock %}
+
+{% block title %}
+    {% if is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) and app.user.isPro and app.user.isMemberOfGarage(garage) %}
+        {{ 'garage.my_garage'|trans }}
+    {% else %}
+        {{  garage.name}}
+    {% endif %}
+{% endblock %}
+
+{% block canonical %}{{ url('front_garage_view', {'slug':garage.slug}) }}{% endblock canonical %}
+
+{% set seo_img_url = garage|banner('garage_banner') %}
+{% set image_alt = garage.name %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set garageReviews = (garagePlaceDetail is not null and garagePlaceDetail.reviews is defined and garagePlaceDetail.reviews|length > 0)?garagePlaceDetail.reviews:null %}
+
+{% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
+    {% set activeTab = "vehicles" %}
+{% elseif garage.presentation or isEditableByCurrentUser %}
+    {% set activeTab = "about" %}
+{% elseif garageReviews is not null  %}
+    {% set activeTab = "opinions" %}
+{% else %}
+    {% set activeTab = "sellers" %}
+{% endif %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <div class="row peexeo-garage">
+        {# Left Column #}
+        <div class="peexeo-garage-left-column column small-12 large-7">
+
+            {# TODO delete template : 'front/Garages/Detail/includes/picture.html.twig' #}
+            <div class="peexeo-garage-banner block-light-shadow" style="background-image: url('{{ garage|banner('garage_banner') }}')">
+                {#<img src="{{ garage|banner('garage_banner') }}" alt="{{ garage.name }}" class="">#}
+            </div>
+
+            {# TODO delete template : front/Garages/Detail/includes/logo.html.twig#}
+            <div id="js-garage-logo" class="peexeo-garage-logo block-light-shadow">
+                <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
+            </div>
+
+            {# TODO delete template : 'front/Garages/Detail/includes/infos.html.twig' #}
+            {% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
+            {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
+            {# Garage Info Block #}
+            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow">
+                <h1 class="h2 primary-color no-margin text-center">{{ garage.name }}</h1>
+
+                <div class="text-center">
+                    {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+                        poweredByGoogleDisplay : true,
+                        isCenter : true
+                    }) }}
+                </div>
+
+                <div class="separator small">
+                    <address>
+                        {{ garage.address.address?garage.address.address:'' }}<br>
+                        {{ garage.address.postalCode }} {{ garage.address.cityName }}
+                    </address>
+                    <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer" class="button small icon-external-link">{{ 'garage.infos.see_on_gmaps'|trans }}</a>
+                </div>
+
+                {% if garage.openingHours %}
+                    <div class="separator small">
+                        <h3 class="no-margin">{{ 'garage.infos.opening_hours'|trans }}&nbsp;:</h3>
+                        {{ garage.openingHours|nl2br }}
+                    </div>
+                {% endif %}
+
+                {% if garage.phone %}
+                    <div class="separator small">
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'phoneOwner': garage,
+                            'phoneNumber': garage.phone,
+                            'showphone_subaction': '1',
+                            'disabledLoggedProtection': true,
+                            'buttonClass': 'icon-tel small'
+                        }) }}
+                    </div>
+                {% endif %}
+
+                {% if isEditableByCurrentUser %}
+                    <div class="separator small">
+                        {{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
+                        <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a>
+                    </div>
+                    <div class="separator small">
+                        <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}" class="button primary-button">
+                            {{ 'vehicle.add'|trans }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            {# END Garage Info Block #}
+
+            {# Presentation Block #}
+            <div class="insert-block block-light-shadow">
+                <h2>
+                    {% if garagePresentationForm is not null %}
+                        <span class="peexeo-garage-insert-action icon-pen"
+                              data-toggle="jsPresentation jsPresentationForm">
+                            </span>
+                    {% endif %}
+                    {{ 'garage.presentation.title'|trans }}
+                </h2>
+                <div id="jsPresentation" data-toggler="is-hidden">
+                    {% if garage.presentation %}
+                        <p>{{ garage.presentation|nl2br|raw }}</p>
+                    {% elseif isEditableByCurrentUser %}
+                        <p>{{ 'garage.form.field.presentation.placeholder'|trans }}</p>
+                    {% endif %}
+                </div>
+
+                {% if garagePresentationForm is not null %}
+                    <div id="jsPresentationForm" {{ garagePresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                        {{ form_start(garagePresentationForm, {
+                            'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                        }) }}
+
+                        {{ form_widget(garagePresentationForm.presentation, {
+                            'label' : 'garage.form.field.presentation.label'|trans,
+                            'label_class' : 'show-for-sr',
+                            'required' : false,
+                            'required_class': 'show-for-sr',
+                            'attr': {'placeholder': 'garage.form.field.presentation.placeholder'|trans}
+                        }) }}
+
+                        <div class="is-flex align-right">
+                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                        </div>
+                        {{ form_end(garagePresentationForm) }}
+                    </div>
+                {% endif %}
+            </div>
+            {# END Presentation Block #}
+
+        </div>
+
+        {# Right Column #}
+        <aside id="js-garage-aside" class="peexeo-garage-aside column show-for-large large-4">
+
+        </aside>
+    </div>
+
+
+    {# OLD#}
+
+    <div class="row hide">
+        <div class="garage-container block-grid small-12">
+            <header class="column small-collapse small-12 large-4 large-uncollapse">
+                <div class="garage-header block-grid">
+                    {% include 'front/Garages/Detail/includes/picture.html.twig' %}
+                    {% include 'front/Garages/Detail/includes/logo.html.twig' %}
+                    <div class="garage-infos medium-9 large-12">
+                        {% include 'front/Garages/Detail/includes/infos.html.twig' %}
+                    </div>
+                </div>
+            </header>
+
+            <section class="column small-12 small-collapse large-8 large-uncollapse xlarge-right-collapse">
+                <div class="js-banner-full-container">
+                    <div class="js-banner-full banner-full is-hidden" aria-hidden="true"></div>
+                    <div id="js-move-garage-picture"></div>
+                    <ul id="js-garage-tabs" class="tabs" data-tabs data-deep-link="true" data-update-history="true">
+                        {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
+                            <li class="tabs-title {{ activeTab == "vehicles"?'is-active':'' }}"><a href="#vehicles" aria-selected="true">{{ "garage.tabs.vehicles.title"|trans }}</a></li>
+                        {% endif %}
+                        {% if garage.presentation or isEditableByCurrentUser %}
+                            <li class="tabs-title {{ activeTab == "about"?'is-active':'' }}"><a data-tabs-target="about" href="#about">{{ "garage.tabs.about"|trans }}</a></li>
+                        {% endif %}
+                        {% if garageReviews is not null %}
+                            <li class="tabs-title {{ activeTab == "opinions"?'is-active':'' }}"><a data-tabs-target="opinions" href="#opinions">{{ "garage.tabs.opinions.title"|trans }}</a></li>
+                        {% endif %}
+                        <li class="tabs-title {{ activeTab == "sellers"?'is-active':'' }}"><a data-tabs-target="sellers" href="#sellers">{{ 'garage.tabs.sellers'|trans }}</a></li>
+                    </ul>
+                </div>
+                <div class="tabs-content" data-tabs-content="js-garage-tabs">
+                    {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
+                        <div id="vehicles" class="tabs-panel {{ activeTab == "vehicles"?'is-active':'' }} light-gray-peexeo-bg">
+                            <div class="tab-panel-vehicles">
+                            {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                                'columnsSizes' : 'small-up-2 medium-up-3',
+                                'pagination_route': 'front_garage_view',
+                                'pagination_route_params': {'slug':garage.slug}
+                            } %}
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if garage.presentation or isEditableByCurrentUser %}
+                        <div id="about" class="tabs-panel {{ activeTab == "about"?'is-active':'' }}">
+                            {% include 'front/Garages/Detail/includes/tabs_about.html.twig' %}
+                        </div>
+                    {% endif %}
+                    {% if garageReviews is not null %}
+                        <div id="opinions" class="tabs-panel {{ activeTab == "opinions"?'is-active':'' }}">
+                            {% include 'front/Garages/Detail/includes/tabs_opinions.html.twig' %}
+                        </div>
+                    {% endif %}
+                    <div id="sellers" class="tabs-panel {{ activeTab == "sellers"?'is-active':'' }}">
+                        {% include 'front/Garages/Detail/includes/tabs_sellers.html.twig' %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock body %}
+

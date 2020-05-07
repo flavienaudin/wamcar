@@ -9,7 +9,9 @@ use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\GaragePresentationDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Form\Type\GaragePresentationType;
 use AppBundle\Form\Type\GarageProInvitationType;
 use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\SearchVehicleType;
@@ -204,7 +206,24 @@ class GarageController extends BaseController
             }
         }
 
-        return $this->render('front/Garages/Detail/detail.html.twig', [
+
+        $garagePresentationForm = null;
+        if ($this->isGranted(GarageVoter::EDIT, $garage)) {
+            $garagePresentationDTO = new GaragePresentationDTO($garage);
+            $garagePresentationForm = $this->formFactory->create(GaragePresentationType::class, $garagePresentationDTO);
+            $garagePresentationForm->handleRequest($request);
+            if ($garagePresentationForm->isSubmitted() && $garagePresentationForm->isValid()) {
+                if ($garagePresentationForm->isValid()) {
+                    $this->garageEditionService->editPresentationInformations($garagePresentationDTO, $garage);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.edit');
+                    return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+                } else {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.garage.edit');
+                }
+            }
+        }
+
+        return $this->render('front/Garages/Detail/detail_peexeo.html.twig', [
             'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
             'currentUserIsMemberOfGarage' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->isMemberOfGarage($garage) : false,
             'garage' => $garage,
@@ -213,7 +232,8 @@ class GarageController extends BaseController
             'lastPage' => $lastPage ?? null,
             'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
             'searchForm' => $searchForm ? $searchForm->createView() : null,
-            'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null
+            'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null,
+            'garagePresentationForm' => $garagePresentationForm ? $garagePresentationForm->createView() : null
         ]);
     }
 

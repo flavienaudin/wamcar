@@ -116,6 +116,7 @@ flash:
       unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accèder aux véhicles à déclarer de ce conseiller.
       saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
+      edit: Les modifications n'ont pas pu être enregistrées. Merci de vérifier votre saisie et valider à nouveau.
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
       unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
@@ -440,6 +441,8 @@ garage:
     auto_vehicles_import_request:
       presentation: "Demander l'import automatisé de votre stock:"
       form: Formulaire
+  presentation:
+    title: Présentation
   tabs:
     vehicles:
       title: Véhicules
@@ -463,6 +466,13 @@ garage:
         placeholder: Rechercher sur Google
       location:
         placeholder: Ville ou code postal
+      presentation:
+        label: Présentation
+        placeholder: >
+          Présenter en quelques mots votre société, vos offres, vos avantages concurrentiels qui vous
+          distingueront de vos concurrents !
+      opening_hours:
+        label: Horaires d'ouverture
     auto_vehicles_import_request:
       title: Import automatisé de votre stock de véhicule
       presentation: >

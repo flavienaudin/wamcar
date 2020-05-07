@@ -118,7 +118,6 @@ $profil-image-offset: rem-calc(40);
     .profil-section {
       border-radius: $global-radius;
 
-
       &:not(:last-child) {
         margin-bottom: rem-calc(25);
         padding-bottom: rem-calc(25);
@@ -153,7 +152,7 @@ $profil-image-offset: rem-calc(40);
   // End &-body
 
 
-  /* Profil section acition (in section title)
+  /* Profil section action (in section title)
      ===================================== */
   &-section-action {
     float: right;

@@ -10,6 +10,7 @@ use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\GaragePresentationDTO;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use GoogleApi\GoogleMapsApiConnector;
@@ -139,6 +140,19 @@ class GarageEditionService
 
             return $garage;
         }
+    }
+
+    /**
+     * @param GaragePresentationDTO $garagePresentationDTO
+     * @param Garage $garage
+     * @return Garage
+     */
+    public function editPresentationInformations(GaragePresentationDTO $garagePresentationDTO, Garage $garage): Garage
+    {
+        $garage->setPresentation($garagePresentationDTO->presentation);
+        $garage = $this->garageRepository->update($garage);
+        $this->eventBus->handle(new GarageUpdated($garage));
+        return $garage;
     }
 
     /**
