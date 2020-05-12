@@ -24,11 +24,10 @@ $banner-height: 200px;
     width: 35px;
     height: 35px;
     margin-left: 5px;
-    margin-right: 5px;
+    border-radius: 50%;
 
     &:hover {
       background-color: $light-gray-peexeo;
-      border-radius: 50%;
     }
 
     &[class*="icon-"]::before {
@@ -37,6 +36,8 @@ $banner-height: 200px;
       color: $body-font-color;
       margin: auto;
     }
+
+
   }
 
   // End of &-section-action
@@ -48,6 +49,21 @@ $banner-height: 200px;
     background-color: $body-background;
     background-position: center;
     background-size: cover;
+
+    &-form {
+      position: relative;
+      height: 100%;
+    }
+
+    /* Components */
+
+    .edit-button {
+      position: absolute;
+      top: rem-calc(25);
+      right: rem-calc(25);
+      margin: 0;
+      z-index: 2;
+    }
   }
 
   /*

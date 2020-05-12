@@ -110,7 +110,7 @@ button, .button {
 }
 
 a.button {
-    display: flex;
+    display: inline-flex;
 
     &:hover,
     &:focus {

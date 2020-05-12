@@ -249,8 +249,10 @@ class GarageController extends BaseController
         }
 
         return $this->render('front/Garages/Detail/detail_peexeo.html.twig', [
-            'isEditableByCurrentUser' => $this->garageEditionService->canEdit($this->getUser(), $garage),
+            'isEditableByCurrentUser' => $this->isGranted(GarageVoter::EDIT, $garage),
+            'isAdministrableByCurrentUser' => $this->isGranted(GarageVoter::ADMINISTRATE, $garage),
             'currentUserIsMemberOfGarage' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->isMemberOfGarage($garage) : false,
+            'currentUserGarageMemberShip' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null,
             'garage' => $garage,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
@@ -258,7 +260,7 @@ class GarageController extends BaseController
             'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null,
-            /*'garageBannerForm' => $garageBannerForm ? $garageBannerForm->createView() : null,*/
+            'garageBannerForm' => $garageBannerForm ? $garageBannerForm->createView() : null,
             'garageLogoForm' => $garageLogoForm ? $garageLogoForm->createView() : null,
             'garagePresentationForm' => $garagePresentationForm ? $garagePresentationForm->createView() : null
         ]);

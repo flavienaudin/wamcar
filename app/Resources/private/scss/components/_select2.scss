@@ -29,7 +29,11 @@
     border-radius: $global-radius;
     margin-bottom: $input-margin-bottom;
 
-    .search-filter-form-body & {
+    .invite-sellers-form & {
+      margin-bottom: 0;
+    }
+
+    .search-filter-form-body {
       border: 0;
       margin-bottom: 0;
     }
