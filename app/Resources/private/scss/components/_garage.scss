@@ -59,10 +59,9 @@ $banner-height: 200px;
     align-items: center;
     justify-content: center;
     margin: auto;
-    padding: rem-calc(10);
+    padding: 0;
     border-radius: $global-radius;
     background: $white;
-
 
     position: absolute;
     top: rem-calc(40);
@@ -92,9 +91,16 @@ $banner-height: 200px;
       max-height: $banner-height;
       margin-bottom: rem-calc(25);
       border: none;
+      padding: rem-calc(25);
     }
 
     /* Components */
+
+    .edit-button {
+      position: absolute;
+      right: rem-calc(25);
+      z-index: 1;
+    }
 
     img {
       border-radius: $global-radius;

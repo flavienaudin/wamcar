@@ -54,10 +54,11 @@
                     <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
                 {% else %}
                     {{ form_start(garageLogoForm, { 'attr' : { 'class': 'garage-logo-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                    {# Small pencil icon in righttop corner #}
+                    <label for="{{ garageLogoForm.file.vars.id }}" class="show-for-large peexeo-garage-insert-action icon-pen edit-button"></label>
                     {{ form_widget(garageLogoForm, {
                         'label': false,
                         'required': false,
-                        'required_class': '',
                         'classPreview': 'file-preview-garage preview-garage-logo',
                         'input_class': 'js-onchange-submit',
                         'removable_button_class': 'js-file-preview-remove-submit',

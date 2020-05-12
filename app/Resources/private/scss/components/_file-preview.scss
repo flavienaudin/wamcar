@@ -81,7 +81,7 @@
     background: $secondary-color;
     color: white;
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       bottom: rem-calc(18);
       right: rem-calc(20);
       width: rem-calc(45);
@@ -171,6 +171,7 @@
     &.preview-garage-banner,
     &.preview-garage-logo{
       border:none;
+      margin-bottom: 0;
     }
   }
 
