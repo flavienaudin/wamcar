@@ -44,7 +44,10 @@ if ($garageAside.length) {
   if ($garageInfos.length) {
     $garageInfos.responsiveDom({
       appendTo: $garageAside,
-      mediaQuery: '(min-width: 1024px)'
+      mediaQuery: '(min-width: 1024px)',
+      callback: (matched) => {
+        $(element).toggleClass('is-sticky');
+      }
     });
   }
 }

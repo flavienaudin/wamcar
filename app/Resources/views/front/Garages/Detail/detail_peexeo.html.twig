@@ -54,7 +54,7 @@
                     <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
                 {% else %}
                     {{ form_start(garageLogoForm, { 'attr' : { 'class': 'garage-logo-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
-                    {# Small pencil icon in righttop corner #}
+                    {# Small pencil icon in right-top corner #}
                     <label for="{{ garageLogoForm.file.vars.id }}" class="show-for-large peexeo-garage-insert-action icon-pen edit-button"></label>
                     {{ form_widget(garageLogoForm, {
                         'label': false,
@@ -77,8 +77,13 @@
             {% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
             {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
             {# Garage Info Block #}
-            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow is-sticky">
-                <h1 class="h2 primary-color no-margin text-center">{{ garage.name }}</h1>
+            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow">
+                <h1 class="h2 primary-color no-margin text-center">
+                    {% if isEditableByCurrentUser  %}
+                        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" class="peexeo-garage-insert-action icon-pen"></a>
+                    {% endif %}
+                    {{ garage.name }}
+                </h1>
 
                 <div class="text-center">
                     {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
