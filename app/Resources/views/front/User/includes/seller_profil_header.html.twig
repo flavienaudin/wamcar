@@ -96,7 +96,7 @@
                             {% if userGarages|length > 1 %}
                                 {{ 'user.profile.header.location.multigarages'|trans }}
                             {% elseif userGarages|length == 1 %}
-                                {{ userGarages[0].garage.city }}
+                                {{ (userGarages|first).garage.city }}
                             {% else %}
                                 &ndash;
                             {% endif %}
