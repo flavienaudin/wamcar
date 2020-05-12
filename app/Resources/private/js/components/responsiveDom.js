@@ -46,7 +46,7 @@ if ($garageAside.length) {
       appendTo: $garageAside,
       mediaQuery: '(min-width: 1024px)',
       callback: (matched) => {
-        $(element).toggleClass('is-sticky');
+        $garageInfos.toggleClass('is-sticky');
       }
     });
   }
