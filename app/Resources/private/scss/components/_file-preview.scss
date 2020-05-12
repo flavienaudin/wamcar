@@ -95,6 +95,8 @@
 
     /* Exceptions */
 
+    .garage-banner-form &,
+    .garage-logo-form &,
     .user-form & {
       bottom: 0;
       right: 0;
@@ -164,6 +166,11 @@
 
     .file-preview-image {
       position: relative;
+    }
+
+    &.preview-garage-banner,
+    &.preview-garage-logo{
+      border:none;
     }
   }
 

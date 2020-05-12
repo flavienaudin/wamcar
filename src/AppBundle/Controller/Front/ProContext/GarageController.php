@@ -9,8 +9,10 @@ use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\GaragePictureDTO;
 use AppBundle\Form\DTO\GaragePresentationDTO;
 use AppBundle\Form\DTO\SearchVehicleDTO;
+use AppBundle\Form\Type\GaragePictureType;
 use AppBundle\Form\Type\GaragePresentationType;
 use AppBundle\Form\Type\GarageProInvitationType;
 use AppBundle\Form\Type\GarageType;
@@ -207,8 +209,31 @@ class GarageController extends BaseController
         }
 
 
+        $garageBannerForm = null;
+        $garageLogoForm = null;
         $garagePresentationForm = null;
         if ($this->isGranted(GarageVoter::EDIT, $garage)) {
+            // Garage Banner Form
+            $garageBannerDTO = new GaragePictureDTO($garage->getBannerFile());
+            $garageBannerForm = $this->formFactory->createNamed('garage_banner', GaragePictureType::class, $garageBannerDTO);
+            $garageBannerForm->handleRequest($request);
+            if($garageBannerForm->isSubmitted() && $garageBannerForm->isValid()){
+                $this->garageEditionService->editBanner($garageBannerDTO, $garage);
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.edit');
+                return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+            }
+
+            // Garage Logo Form
+            $garageLogoDTO = new GaragePictureDTO($garage->getLogoFile());
+            $garageLogoForm = $this->formFactory->createNamed('garage_logo', GaragePictureType::class, $garageLogoDTO);
+            $garageLogoForm->handleRequest($request);
+            if($garageLogoForm->isSubmitted() && $garageLogoForm->isValid()){
+                $this->garageEditionService->editLogo($garageLogoDTO, $garage);
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.edit');
+                return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+            }
+
+            // Presentation Form
             $garagePresentationDTO = new GaragePresentationDTO($garage);
             $garagePresentationForm = $this->formFactory->create(GaragePresentationType::class, $garagePresentationDTO);
             $garagePresentationForm->handleRequest($request);
@@ -233,6 +258,8 @@ class GarageController extends BaseController
             'garagePlaceDetail' => $this->garageEditionService->getGooglePlaceDetails($garage),
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'inviteSellerForm' => $inviteSellerForm ? $inviteSellerForm->createView() : null,
+            /*'garageBannerForm' => $garageBannerForm ? $garageBannerForm->createView() : null,*/
+            'garageLogoForm' => $garageLogoForm ? $garageLogoForm->createView() : null,
             'garagePresentationForm' => $garagePresentationForm ? $garagePresentationForm->createView() : null
         ]);
     }

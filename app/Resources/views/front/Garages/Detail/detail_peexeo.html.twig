@@ -50,7 +50,26 @@
 
             {# TODO delete template : front/Garages/Detail/includes/logo.html.twig#}
             <div id="js-garage-logo" class="peexeo-garage-logo block-light-shadow">
-                <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
+                {% if garageLogoForm is not defined or garageLogoForm is null %}
+                    <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
+                {% else %}
+                    {{ form_start(garageLogoForm, { 'attr' : { 'class': 'garage-logo-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                    {{ form_widget(garageLogoForm, {
+                        'label': false,
+                        'required': false,
+                        'required_class': '',
+                        'classPreview': 'file-preview-garage preview-garage-logo',
+                        'input_class': 'js-onchange-submit',
+                        'removable_button_class': 'js-file-preview-remove-submit',
+                        'setRemovableButtonLoader': true,
+                        'loaderClass': 'center',
+                        'imgPreview':  garage|logo('garage_logo'),
+                        'defaultImage': 'garage_logo'|defaultLogo
+                    }) }}
+
+                    {{ form_widget(garageLogoForm) }}
+                    {{ form_end(garageLogoForm) }}
+                {% endif %}
             </div>
 
             {# TODO delete template : 'front/Garages/Detail/includes/infos.html.twig' #}
@@ -185,7 +204,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <div>{{ 'garage.tabs.opinions.no_opinion'|trans }}</div>
+                    <div>{{ 'garage.tabs.opinigarage.sons.no_opinion'|trans }}</div>
                 {% endif %}
             </div>
             {# END Opinions Block #}

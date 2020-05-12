@@ -41,7 +41,7 @@ import './components/vehicle';
 import './components/star';
 import './components/radio';
 import './components/project';
-import './components/avatar';
+import './components/form_event';
 import './components/notification';
 import './components/phone_number';
 import './components/affinity';
