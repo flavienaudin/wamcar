@@ -29,7 +29,7 @@
     {% if messageForm.selectVehicle is defined %}
         {{ form_widget(messageForm.selectVehicle, {
             'label': 'conversation.answer.field.vehicle.select'|trans,
-            'class': 'messages-vehicle-button text-underline'
+            'class': 'button small'
         }) }}
     {% endif %}
     {# Supprimer pour simplifier dans un premier temps : toujours rediriger vers liste des véhicules (vide)
@@ -58,7 +58,7 @@
     <div class="block-grid">
         {{ form_widget(messageForm.send, {
             'label': 'global.button.send'|trans,
-            'class': 'small-12 medium-10 large-6 messages-send-btn button',
+            'class': 'small-12 medium-10 large-6 messages-send-btn button primary-button',
             'loader': true,
             'loaderClass': 'dark-gray-blue-peexeo',
             'attr': {

@@ -117,12 +117,6 @@
     }
   }
 
-  &-vehicle-button {
-    display: inline-block;
-    margin-top: rem-calc(10);
-    font-size: rem-calc(14);
-  }
-
   /*
      List
      ===================================== */
@@ -311,14 +305,14 @@
       &-field {
         label {
           font-size: rem-calc(14);
-          margin-bottom: rem-calc(10);
+          margin-bottom: rem-calc(5);
+          margin-top: 0;
         }
 
         span.icon-close {
           margin-left: 5px;
           cursor: pointer;
           font-size: rem-calc(14);
-          margin-bottom: rem-calc(5);
         }
 
         &-list {
@@ -403,8 +397,7 @@
 
     label {
       font-size: rem-calc(14);
-      margin-bottom: rem-calc(10);
-      color: $secondary-color;
+      display: inline-flex;
     }
 
     textarea {

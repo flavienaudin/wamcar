@@ -358,6 +358,7 @@ if ($step) {
     });
 
     $registerForm.addEventListener('pictureAdd', () => step.autoHeight());
+    $(window).on('resize', () => step.autoHeight());
   }
 
   function showPrevButton() {
