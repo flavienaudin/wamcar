@@ -81,7 +81,7 @@
 .text-underline {
   font-weight: bold;
   color: $header-color;
-  border-bottom: rem-calc(1) solid $primary-color;
+  border-bottom: rem-calc(1) solid $header-color;
   text-decoration: none;
   transition: $global-transition;
   &:before {color: $primary-color;}

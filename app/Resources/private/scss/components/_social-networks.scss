@@ -75,7 +75,7 @@
     font-weight: bold;
     transition: $global-transition;
     height: rem-calc(50);
-    border-radius: 50%;
+    border-radius: $global-radius;
 
     &,
     &:hover,
@@ -114,6 +114,7 @@
     width: rem-calc(50);
     max-width: rem-calc(50);
     margin-bottom: rem-calc(10);
+    border-radius: 50%;
   }
 
   &-login-button {
@@ -122,11 +123,12 @@
     @include breakpoint(small only) {
       width: rem-calc(50);
       margin-right: rem-calc(20);
+      border-radius: 50%;
     }
 
     @include breakpoint(medium) {
       height: rem-calc(60);
-      border-radius: rem-calc(30);
+      border-radius: $global-radius;
       margin-bottom: rem-calc(30);
 
       &::before {
