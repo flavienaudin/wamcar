@@ -488,8 +488,8 @@ garage:
           instruction: Séparer les e-mails par un espace ou un point-virgule, ou valider chaque adresse e-mail en tapant sur "Entrée".
           error:
             empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant d'envoyer les invitations. Merci de réessayer."
-    request:
-      title: Rejoindre un garage
+    pending_request:
+      title: Demandes pour rejoindre %garage_name%
   administrator:
     invisible: Ce gestionnaire du garage n'est pas visible des autres utilisateurs.
     contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
@@ -1172,17 +1172,18 @@ user:
     seller_for: Vendeur pour
     add: Ajouter un garage
     join: Rejoindre un garage
-    remove_member: Détacher ce vendeur
+    remove_member: Dissocier
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande
     decline_request: Refuser la demande
     pending_request:
       member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
       administrator: "%seller_name% souhaite rejoindre %garage_name%"
+      instructions: Les vendeurs présentés ci-dessous souhaite rejoindre votre garage et attendent votre réponse.
     toogle_role:
-      to_administrator: Désigner en tant que gestionnaire
+      to_administrator: Rendre gestionnaire
       replace_administrator: Désigner en tant que gestionnaire vous remplaçant
-      to_simple_membre: Retirer le rôle de gestionnaire
+      to_simple_membre: Rendre simple membre
   affinity:
     page_title: Wam Affinity
     section:

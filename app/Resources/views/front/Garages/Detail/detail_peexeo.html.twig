@@ -141,6 +141,7 @@
             </div>
             {# END Garage Info Block #}
 
+            {# Actions about garage Block #}
             {% if currentUserGarageMemberShip is not null %}
                 {# User has a garage membership about this garage #}
                 {% if currentUserGarageMemberShip.requestedAt is not null %}
@@ -157,13 +158,12 @@
                        class="button small">{{ 'garage.action.join'|trans }}</a>
                 </div>
             {% endif %}
+            {# END Actions about garage Block #}
 
             {# Sellers Management Block #}
             {% if inviteSellerForm is not null %}
                 <div class="insert-block block-light-shadow">
-                    <h2>{{ 'garage.assignation.invitation.title'|trans({
-                            '%garage_name%':garage.name
-                        }) }}</h2>
+                    <h2>{{ 'garage.assignation.invitation.title'|trans({'%garage_name%':garage.name}) }}</h2>
 
                     {{ form_start(inviteSellerForm, {
                         'action' : path('front_garage_view', {'slug':garage.slug,'_fragment':'sellers'}),
@@ -204,6 +204,27 @@
                 </div>
             {% endif %}
             {# END Sellers Management Block #}
+
+            {# Pending Request Block #}
+            {% set pendingRequests = garage.pendingRequests %}
+            {% if isAdministrableByCurrentUser and pendingRequests is not empty %}
+                <div class="insert-block block-light-shadow">
+                    <h2>{{ 'garage.assignation.pending_request.title'|trans({'%garage_name%':garage.name}) }}</h2>
+                    <i>{{ 'user.garage.pending_request.instructions'|trans }}</i>
+                    <div class="row">
+                    {% for pendingRequest in pendingRequests  %}
+                        <div class="column small-6">
+                            {{ include('front/Garages/Detail/includes/pending_request_item.html.twig', {
+                                "compact" : true,
+                                "itemClass" : "width-100 height-100 block-border",
+                                "membership" : pendingRequest
+                            }) }}
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            {# END Pending Request Block #}
 
             {# Presentation Block #}
             {% if garagePresentationForm is not null or garagePresentationForm is not null %}
@@ -247,13 +268,13 @@
             {# END Presentation Block #}
 
             {# Sellers Block #}
-            <div class="peexeo-garage-sellers row">
+            <div class="peexeo-garage-sellers row" id="sellers">
                 {% for membership in garage.enabledMembers %}
                     {% if ( (garage.optionAdminVisible or membership.role.value != constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ))
                         or membership.proUser.is(app.user) or isAdministrableByCurrentUser %}
                         <div class="column small-6">
                             {{ include('front/Garages/Detail/includes/seller_item.html.twig', {
-                                "itemClass" : "width-100 block-light-shadow",
+                                "itemClass" : "width-100 height-100 block-light-shadow",
                                 "membership" : membership
                             }) }}
                         </div>
@@ -283,7 +304,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <div>{{ 'garage.tabs.opinigarage.sons.no_opinion'|trans }}</div>
+                    <div>{{ 'garage.tabs.opinions.no_opinion'|trans }}</div>
                 {% endif %}
             </div>
             {# END Opinions Block #}

@@ -247,12 +247,13 @@ class GarageController extends BaseController
                 }
             }
         }
-
+        /** @var GarageProUser $currentUserGarageMemberShip */
+        $currentUserGarageMemberShip = $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null;
         return $this->render('front/Garages/Detail/detail_peexeo.html.twig', [
             'isEditableByCurrentUser' => $this->isGranted(GarageVoter::EDIT, $garage),
             'isAdministrableByCurrentUser' => $this->isGranted(GarageVoter::ADMINISTRATE, $garage),
-            'currentUserIsMemberOfGarage' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->isMemberOfGarage($garage) : false,
-            'currentUserGarageMemberShip' => $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null,
+            'currentUserGarageMemberShip' => $currentUserGarageMemberShip,
+            'currentUserIsMemberOfGarage' => $currentUserGarageMemberShip != null && $currentUserGarageMemberShip->getRequestedAt() == null,
             'garage' => $garage,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
@@ -429,10 +430,6 @@ class GarageController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.garage.assign_member'
                 );
-                return $this->redirectToRoute('front_garage_view', [
-                    'slug' => $garage->getSlug(),
-                    '_fragment' => 'sellers'
-                ]);
             } else {
                 // New pending request
                 $this->garageEditionService->addMember($garage, $proApplicationUser, false, false);
@@ -441,7 +438,10 @@ class GarageController extends BaseController
                     'flash.success.garage.request_sent_to_administrator'
                 );
             }
-            return $this->redirectToRoute('front_view_current_user_info');
+            return $this->redirectToRoute('front_garage_view', [
+                'slug' => $garage->getSlug(),
+                '_fragment' => 'sellers'
+            ]);
         }
     }
 

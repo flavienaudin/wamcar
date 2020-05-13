@@ -1,6 +1,7 @@
 {% extends 'front/User/includes/seller_pro_item.html.twig' %}
 
 {% set seller = membership.proUser %}
+{% set sellerIsCurrentUser = seller.is(app.user)%}
 
 {% block bottomContainer %}
     <div class="tag-container text-center">
@@ -17,31 +18,48 @@
 
     {# TODO finish add buttons #}
     <div class="margin-top-1 text-center">
-        {% if seller.is(app.user) %}
-            <a href="{{ path('front_edit_user_info') }}" class="button full-width">
+        {% if sellerIsCurrentUser %}
+            <a href="{{ path('front_edit_user_info') }}" class="button small full-width">
                 {{ 'user.profile.edit.action'|trans }}
             </a>
-        {% endif %}
-        {% if isEditableByCurrentUser %}
-
         {% else %}
-            <a href="{{ path('front_conversation_create', {'id': seller.id}) }}" title="{{ 'global.button.send_message'|trans }}"
-               class="button primary-button icon-message margin-bottom-1 full-width" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-               data-wtto="{{ seller|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
-            {% if seller.phonePro %}
-                {{ include('front/Seller/includes/phone_number_button.html.twig', {
-                    'phoneOwner': seller,
-                    'phoneNumber': seller.phonePro,
-                    'showphone_subaction': "2",
-                    'buttonClass': 'icon-tel 1 full-width'
-                }) }}
-            {% elseif seller.phone %}
-                {{ include('front/Seller/includes/phone_number_button.html.twig', {
-                    'phoneOwner': seller,
-                    'phoneNumber': seller,
-                    'showphone_subaction': "1",
-                    'buttonClass': 'icon-mobile full-width'
-                }) }}
+            {% if isAdministrableByCurrentUser %}
+                <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':seller.id}) }}"
+                   class="js-confirm-box button small full-width input-margin-small"
+                   data-id="detach-{{ seller.id }}"
+                   data-title="Attention!"
+                   data-message="Confirmez-vous le détachement de ce membre de ce garage ?">
+                    {{ 'user.garage.remove_member'|trans }}</a>
+                <a href="{{ path('front_garage_toogle_member_role', {'garage_id':garage.id,'user_id':seller.id}) }}"
+                   class="js-confirm-box button small full-width"
+                   data-id="detach-{{ seller.id }}"
+                   data-title="Attention!"
+                   data-message="Confirmez-vous l'action de changer le rôle de ce membre ?">
+                    {% if membership.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                        {{ 'user.garage.toogle_role.to_simple_membre'|trans }}
+                    {% else %}
+                        {{ 'user.garage.toogle_role.to_administrator'|trans }}
+                    {% endif %}
+                </a>
+            {% else %}
+                <a href="{{ path('front_conversation_create', {'id': seller.id}) }}" title="{{ 'global.button.send_message'|trans }}"
+                   class="button primary-button icon-message input-margin-small full-width" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
+                   data-wtto="{{ seller|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
+                {% if seller.phonePro %}
+                    {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                        'phoneOwner': seller,
+                        'phoneNumber': seller.phonePro,
+                        'showphone_subaction': "2",
+                        'buttonClass': 'icon-tel 1 full-width'
+                    }) }}
+                {% elseif seller.phone %}
+                    {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                        'phoneOwner': seller,
+                        'phoneNumber': seller,
+                        'showphone_subaction': "1",
+                        'buttonClass': 'icon-mobile full-width'
+                    }) }}
+                {% endif %}
             {% endif %}
         {% endif %}
     </div>

@@ -1,5 +1,6 @@
 {% set itemClass = itemClass|default('') %}
 {% set compact = compact is defined ? compact : false %}
+{% set displayPresentationTitle = displayPresentationTitle ?? true %}
 {% set userProfileUrl = seller.isPro ?
     path('front_view_pro_user_info', {'slug': seller.slug}) :
     path('front_view_personal_user_info', {'slug': seller.slug}) %}
@@ -12,7 +13,7 @@
     </div>
     <a href="{{ userProfileUrl }}"><h2 class="text-center margin-bottom-1">{{ seller.fullName }}</h2></a>
 
-    {% if seller.presentationTitle is defined and (seller.presentationTitle is not empty or not compact) %}
+    {% if displayPresentationTitle and seller.presentationTitle is defined and (seller.presentationTitle is not empty or not compact) %}
         <div class="margin-bottom-1 text-center black-color">
             {{ seller.presentationTitle }}&nbsp;
         </div>

@@ -132,6 +132,9 @@
 
     button, .button {
       @include buttonHeightCompact;
+      &.small{
+        @include buttonHeightSmall;
+      }
     }
 
     @include breakpoint (medium) {
