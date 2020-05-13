@@ -132,6 +132,8 @@
                         {{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
                         <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small full-width">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a>
                     </div>
+                {% endif %}
+                {% if currentUserIsMemberOfGarage %}
                     <div class="separator small">
                         <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}" class="button primary-button full-width">
                             {{ 'vehicle.add'|trans }}
@@ -311,9 +313,10 @@
 
             {# Vehicles Block #}
             {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
-                <div class="insert-block block-light-shadow">
+                <div class="insert-block block-light-shadow" id="vehicles">
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                         'titleClass' : ' ',
+                        'canAddVehicle' : currentUserIsMemberOfGarage,
                         'columnsSizes' : 'small-up-2',
                         'pagination_route': 'front_garage_view',
                         'pagination_route_params': {'slug':garage.slug}

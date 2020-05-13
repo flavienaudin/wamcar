@@ -1,11 +1,21 @@
-{% if displayNbOfResult is not defined or displayNbOfResult or isEditableByCurrentUser %}
+{% set displayNbOfResult = displayNbOfResult ?? true %}
+{% set canAddVehicle = canAddVehicle ?? false %}
+
+
+{% if displayNbOfResult or canAddVehicle %}
     {% set titleClass = titleClass|default('block-grid column small-12 align-bottom input-margin') %}
-    <div class="">
-        {% if displayNbOfResult is not defined or displayNbOfResult %}
-            <h2>
-                <span class="primary-color">{{ vehicles.totalHits }}</span> {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
-            </h2>
-        {% endif %}
+    <div class="{{ titleContainerClass|default('') }}">
+        <h2>
+            {% if canAddVehicle %}
+                <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}"
+                   class="peexeo-garage-insert-action icon-plus"
+                    title="{{ 'vehicle.add'|trans }}"></a>
+            {% endif %}
+            {% if displayNbOfResult %}
+                <span class="primary-color">{{ vehicles.totalHits }}</span>
+                {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
+            {% endif %}
+        </h2>
     </div>
 {% endif %}
 
