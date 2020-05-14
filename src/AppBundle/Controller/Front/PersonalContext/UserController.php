@@ -15,6 +15,7 @@ use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
 use AppBundle\Form\DTO\ProPresentationVideoDTO;
@@ -38,6 +39,7 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPreferencesType;
+use AppBundle\Form\Type\UserPresentationType;
 use AppBundle\Form\Type\YoutubePlaylistInsertType;
 use AppBundle\Security\Voter\ProUserVoter;
 use AppBundle\Security\Voter\SellerPerformancesVoter;
@@ -661,8 +663,14 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
+
+        /* ====================================== *
+         * Formumlaires d'édition de la page profil
+         * ====================================== */
         $avatarForm = null;
+        $presentationForm = null;
         if ($this->isGranted(UserVoter::EDIT, $user)) {
+            // Avatar
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
@@ -670,10 +678,25 @@ class UserController extends BaseController
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.avatar');
                 return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()]);
             }
+
+            // Encart Présentation : formulaire d'édition
+            $userPresentationDTO = new UserPresentationDTO($user);
+            $presentationForm = $this->formFactory->create(UserPresentationType::class, $userPresentationDTO);
+            $presentationForm->handleRequest($request);
+            if ($presentationForm->isSubmitted()) {
+                if ($presentationForm->isValid()) {
+                    $this->userEditionService->editPresentationInformations($user, $userPresentationDTO);
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
+                    return $this->redirectToRoute('front_view_personal_user_info', ['slug' => $user->getSlug()]);
+                } else {
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
+                }
+            }
         }
 
         return $this->render('front/User/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'userIsMe' => $user->is($this->getUser()),
             'user' => $user
         ]);

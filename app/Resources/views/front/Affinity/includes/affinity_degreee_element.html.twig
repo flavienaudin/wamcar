@@ -4,6 +4,8 @@
     {% if userAffinityDegree is not null %}
         {{ include('front/Affinity/includes/affinity_degree.html.twig') }}
     {% else %}
-        {{ include('front/Affinity/includes/unknown_affinity_degree.html.twig') }}
+        {{ include('front/Affinity/includes/unknown_affinity_degree.html.twig',{
+            'isLogged':is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED'))
+        }) }}
     {% endif %}
 {% endif %}

@@ -6,7 +6,7 @@
     path('front_view_personal_user_info', {'slug': seller.slug}) %}
 
 <div class="{{ itemClass }} seller-item">
-    <div class="profil-image margin-bottom-2">
+    <div class="profile-image margin-bottom-2">
         <a href="{{ userProfileUrl }}">
             <img src="{{ seller.avatar|avatar('user_thumbnail', seller.fullName) }}"
                  alt="{{ seller.fullName }}"></a>

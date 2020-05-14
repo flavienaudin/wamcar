@@ -1,0 +1,168 @@
+<header class="profile-header" style="background-image: url('{{ user.banner|userBanner('user_banner') }}')">
+    <div class="row align-center-middle">
+        <div class="js-profile-image is-invisible profile-image">
+            {% if avatarForm is not defined or avatarForm is null %}
+                <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName }}"
+                     width="100%">
+            {% else %}
+                {{ form_start(avatarForm, { 'attr' : { 'class': 'block-grid small-12 user-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                {{ form_widget(avatarForm.avatar, {
+                    'label': false,
+                    'required': false,
+                    'required_class': '',
+                    'classPreview': 'file-preview-avatar',
+                    'input_class': 'js-onchange-submit',
+                    'imgPreview':  user.avatar|avatar('user_thumbnail', user.fullName),
+                    'isRemovable': false
+                }) }}
+                {{ form_widget(avatarForm) }}
+                {{ form_end(avatarForm) }}
+            {% endif %}
+        </div>
+        <div class="column ">
+            <div class="profile-titles">
+                {% set profileActionsBlock %}{% spaceless %}
+                    {% if userIsMe %}
+                        <a href="{{ path('front_edit_user_info') }}" class="button">
+                            {{ 'user.profile.header.cat.edit_profile'|trans }}</a>
+                        {% if user.affinityAnswer is null %}
+                            {% if isUserPro %}
+                                <a href="{{ path('front_affinity_pro_form') }}" class="button">
+                                    {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
+                            {% elseif isUserPersonall %}
+                                <a href="{{ path('front_affinity_personal_form') }}" class="button">
+                                    {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        {% if user.phone is not empty  %}
+                            {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                                'disabledLoggedProtection': isUserProPageProfile,
+                                'phoneOwner': user,
+                                'phoneNumber': user.phone,
+                                'showphone_subaction': "1",
+                                'buttonClass': 'icon-mobile'
+                            }) }}
+                        {% elseif user.phonePro is defined and user.phonePro is not empty %}
+                            {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                                'disabledLoggedProtection': isUserProPageProfile,
+                                'phoneOwner': user,
+                                'phoneNumber': user.phonePro ,
+                                'showphone_subaction': "2",
+                                'buttonClass': 'icon-tel'
+                            }) }}
+                        {% endif %}
+                    {% endif %}
+                {% endspaceless %}{% endset %}
+
+                <h1 class="{{ profileActionsBlock is empty ? 'no-phone-button'}}">{{ user.fullName(not(isUserProPageProfile or userIsMe or isUserPro)) }}</h1>
+
+                {% if not userIsMe and isUserProPageProfile %}
+                    <div class="title-actions is-flex align-right">
+                        {{ include('front/Favorites/includes/expert_define_component.html.twig', {
+                            'expertUser' : user,
+                            'cssClasses': 'primary-color'
+                        }) }}
+                        {#<a class="icon-share22" href=""></a>#}
+                    </div>
+                {% endif %}
+
+                {% if user.presentationTitle is defined %}
+                    <h2>{{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}</h2>
+                {% endif %}
+
+                {% if profileActionsBlock is not empty %}
+                    <div class="profile-actions is-flex align-center-middle">
+                        {{ profileActionsBlock  }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</header>
+
+
+{% include 'front/Layout/includes/breadcrumb.html.twig' with {
+    'breadcrumb_container_class' : 'breadcrumb-profile'
+} %}
+
+<div class="row">
+    <div class="column">
+        <div class="js-profile-summary profile-summary block-light-shadow align-spaced align-middle">
+            {% if not userIsMe %}
+                <div class="row small-up-2 align-middle">
+                    <div class="column text-right">
+                        <h3 class="margin-0">{{ 'user.affinity.section.affinity_rate'|trans }}</h3>
+                    </div>
+                    <div class="column text-left">
+                        {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {
+                            'user':user,
+                            'display_if_no_answer':true,
+                            'always_displays':true
+                        }) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% set userGarages = isUserProPageProfile ? user.garagesOrderByGoogleRating : null %}
+            <div>
+                <div class="icon-location">
+                    <div class="is-block">
+                        <div>{{ 'user.profile.header.location.label'|trans }}</div>
+                        <div>
+                            <b class="dark-gray-blue-peexeo-color">
+                                {% if isUserProPageProfile %}
+                                    {% if userGarages|length > 1 %}
+                                        {{ 'user.profile.header.location.multigarages'|trans }}
+                                    {% elseif userGarages|length == 1 %}
+                                        {{ (userGarages|first).garage.city }}
+                                    {% else %}
+                                        &ndash;
+                                    {% endif %}
+                                {% else %}
+                                    {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
+                                        {{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}
+                                    {% endif %}
+                                {% endif %}
+                            </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="icon-suitcase">
+                    <div class="is-block">
+                        <div>
+                            {{ isUserProPageProfile?'user.profile.header.garage.label'|trans:'user.profile.header.project.label'|trans }}
+                        </div>
+                        <div class="dark-gray-blue-peexeo-color">
+                            {% if isUserProPageProfile %}
+                                {% for userGarage in userGarages %}
+                                    {% set garage = userGarage.garage %}
+                                    <a href="{{ path('front_garage_view', {'slug':garage.slug}) }}"
+                                       class="directory-item-garage is-block dark-gray-blue-peexeo-color">
+                                        <b>{{ garage.name|title }}</b>
+                                    </a>
+                                {% else %}
+                                    <div class="directory-item-garage">&ndash;</div>
+                                {% endfor %}
+                            {% else %}
+                                {% if user.orientation == constant('Wamcar\\User\\Enum\\PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY')
+                                    or user.orientation == constant('Wamcar\\User\\Enum\\PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH') %}
+                                    <b>Achat</b>
+                                {% endif %}
+                                {% if user.orientation == constant('Wamcar\\User\\Enum\\PersonalOrientationChoices::PERSONAL_ORIENTATION_SELL')
+                                    or user.orientation == constant('Wamcar\\User\\Enum\\PersonalOrientationChoices::PERSONAL_ORIENTATION_BOTH') %}
+                                    <b>Reprise</b>
+                                {% endif %}
+                                {% if user.orientation == null %}&ndash;{% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

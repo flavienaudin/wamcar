@@ -61,11 +61,11 @@ if ($($moveVehicleActions).length) {
   });
 }
 
-const $proProfilImage = $('.js-pro-profil-image');
-if($proProfilImage.length){
-  $proProfilImage.removeClass('is-invisible');
-  $proProfilImage.responsiveDom({
-    prependTo: '.js-pro-profil-summary',
+const $proProfileImage = $('.js-profile-image');
+if($proProfileImage.length){
+  $proProfileImage.removeClass('is-invisible');
+  $proProfileImage.responsiveDom({
+    prependTo: '.js-profile-summary',
     mediaQuery: '(min-width: 640px)'
   });
 }
@@ -100,7 +100,7 @@ if($asideContentSellerItem.length){
 
 /*** Pro User Contact Form ***/
 
-const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
+const $proProfilContactForm = $('.js-pro-profile-contact-form-container');
 if($proProfilContactForm.length){
   $proProfilContactForm.each((index, element) => {
     const breakpoint = $(element).data('responsivedom-mediaquerysize');

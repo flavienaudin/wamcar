@@ -938,6 +938,8 @@ user:
         multigarages: Multi-sites
       garage:
         label: Travaille chez
+      project:
+        label: Projet
       cat:
         edit_profile: Editer mon profil
         answer_wamaffinity_form: Remplir le questionnaire WamAffinity
@@ -1078,6 +1080,7 @@ user:
       show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
     title: Mes annonces
+    personal: "[0,1] Véhicule en vente | [2,Inf[ Véhicules en vente"
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
@@ -1085,6 +1088,7 @@ user:
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
+    published_at: Annonce déposée le %createdAt%
     defined_budget: Budget de %budget_ammount%€
     undefined_budget: Budget non défini
     field:
@@ -1208,11 +1212,11 @@ user:
         personal: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> en cliquant ici.</a>
         pro: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici</a>.
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> en cliquant ici</a>.
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
@@ -1224,7 +1228,13 @@ user:
           unlogged: >
             Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
             d'autres conseillers(ères) automobiles.
-        pro: Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec ce particulier.
+        pro:
+          logged: >
+            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
+            d'autres particuliers.
+          unlogged: >
+            Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec
+            %username% et d'autres particuliers.
       calltoaction:
         fill_form: Remplir le questionnaire
       element.alt:
