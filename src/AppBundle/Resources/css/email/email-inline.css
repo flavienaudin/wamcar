@@ -980,9 +980,9 @@ table.button {
       display: inline-block;
       padding: 20px 18px 20px 18px;
       border: 0 solid #e30613;
-      border-radius: 3px; }
+      border-radius: 5px; }
   table.button.radius table td {
-    border-radius: 3px;
+    border-radius: 5px;
     border: none; }
   table.button.rounded table td {
     border-radius: 500px;
@@ -1147,7 +1147,7 @@ th.callout-inner {
   line-height: 0;
   max-width: 100%;
   transition: box-shadow 200ms ease-out;
-  border-radius: 3px;
+  border-radius: 5px;
   margin-bottom: 16px; }
   .thumbnail:hover, .thumbnail:focus {
     box-shadow: 0 0 6px 1px rgba(227, 6, 19, 0.5); }
@@ -1422,7 +1422,7 @@ table.container {
   font-weight: bold; }
 
 .content table.button table td {
-  border-radius: 100px; }
+  border-radius: 5px; }
   .content table.button table td a {
     padding: 20px 30px;
     font-size: 16px;
