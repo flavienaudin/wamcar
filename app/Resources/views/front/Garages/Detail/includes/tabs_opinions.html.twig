@@ -1,7 +1,7 @@
 {% set garageReviews = garageReviews|default(null) %}
 
 <div class="column">
-    <h2>{{ 'garage.tabs.opinions.title'|trans }}</h2>
+    <h2>{{ 'garage.opinions.title'|trans }}</h2>
     {% if garageReviews is not null %}
         <ul class="no-bullet">
             {% for review in garageReviews %}
@@ -20,6 +20,6 @@
             {% endfor %}
         </ul>
     {% else %}
-        <p>{{ 'garage.tabs.opinions.no_opinion'|trans }}</p>
+        <p>{{ 'garage.opinions.no_opinion'|trans }}</p>
     {% endif %}
 </div>

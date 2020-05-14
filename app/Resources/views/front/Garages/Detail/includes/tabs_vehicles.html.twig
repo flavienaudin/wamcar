@@ -13,7 +13,7 @@
             {% endif %}
             {% if displayNbOfResult %}
                 <span class="primary-color">{{ vehicles.totalHits }}</span>
-                {{ 'garage.tabs.vehicles.list.title'|transchoice(vehicles.totalHits) }}
+                {{ 'garage.vehicles.list.title'|transchoice(vehicles.totalHits) }}
             {% endif %}
         </h2>
     </div>
@@ -68,10 +68,10 @@
     {% endif %}
 {% else %}
     {% if searchForm is not null and searchForm.vars.submitted %}
-        <p>{{ 'garage.tabs.vehicles.list.empty_result'|trans }}</p>
+        <p>{{ 'garage.vehicles.list.empty_result'|trans }}</p>
     {% elseif currentUserIsMemberOfGarage %}
-        <p>{{ 'garage.tabs.vehicles.list.member_empty'|trans }}</p>
+        <p>{{ 'garage.vehicles.list.member_empty'|trans }}</p>
     {% else %}
-        <p>{{ 'garage.tabs.vehicles.list.empty_list'|trans }}</p>
+        <p>{{ 'garage.vehicles.list.empty_list'|trans }}</p>
     {% endif %}
 {% endif %}

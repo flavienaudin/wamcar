@@ -436,26 +436,32 @@ garage:
     edit: Modifier mon garage
     join: Rejoindre ce garage
   infos:
+    edit: Edition du profil
     see_on_gmaps: Voir sur Google Maps
     opening_hours: Horaires
     auto_vehicles_import_request:
       presentation: "Demander l'import automatisé de votre stock:"
       form: Formulaire
+  banner:
+    edit: Edition de la bannière
+  logo:
+    edit: Edition du logo
   presentation:
     title: Présentation
-  tabs:
-    vehicles:
-      title: Véhicules
-      list:
-        title: "[0,1] véhicule en vente|[2,Inf[ véhicules en vente"
-        member_empty: Vous n'avez aucun véhicule en vente.
-        empty_list: Aucun véhicule n'est en vente.
-        empty_result: Aucun véhicule en vente ne correspond à votre recherche.
-    about: A propos
-    opinions:
-      title: Avis
-      no_opinion: Aucun avis n'est connu pour ce garage
-    sellers: Vendeurs
+    edit: Edition de la présentation
+  vehicles:
+    title: Véhicules
+    list:
+      title: "[0,1] véhicule en vente|[2,Inf[ véhicules en vente"
+      member_empty: Vous n'avez aucun véhicule en vente.
+      empty_list: Aucun véhicule n'est en vente.
+      empty_result: Aucun véhicule en vente ne correspond à votre recherche.
+  about: A propos
+  opinions:
+    title: Avis
+    no_opinion: Aucun avis n'est connu pour ce garage
+  sellers:
+    title: Equipe
   google_rating:
     unknown: Note inconnue
 
@@ -1183,7 +1189,7 @@ user:
     toogle_role:
       to_administrator: Rendre gestionnaire
       replace_administrator: Désigner en tant que gestionnaire vous remplaçant
-      to_simple_membre: Rendre simple membre
+      to_simple_membre: Rendre simple collaborateur
   affinity:
     page_title: Wam Affinity
     section:
