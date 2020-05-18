@@ -17,14 +17,19 @@
       let $cookieBar = document.getElementById('js-cookie-bar');
       let $cookieBarButton = document.querySelector('.js-cookie-bar-button');
       let cookiebarHeight;
-      let $proUserContactFormButtonConainter = document.querySelector('.user-contact-form > .button-container');
+      let proUserContactFormButtonContainer =
+        document.querySelectorAll('.user-contact-form > .button-container, .messages-l-main, .affinity-form.l-main');
 
-      setTimeout(function () {
+      function updateWhenCookieBarHeightChanged() {
         cookiebarHeight = $cookieBar.offsetHeight;
-        if ($proUserContactFormButtonConainter) {
-          $proUserContactFormButtonConainter.style.bottom = (20 + cookiebarHeight) + 'px';
+
+        for (i = 0; i < proUserContactFormButtonContainer.length; i++) {
+          proUserContactFormButtonContainer[i].style.bottom = (20 + cookiebarHeight) + 'px';
         }
-      }, 500);
+      }
+
+      setTimeout(updateWhenCookieBarHeightChanged, 500);
+      window.onresize = updateWhenCookieBarHeightChanged;
 
       $cookieBarButton.addEventListener('click', function (e) {
         let d = new Date;
@@ -33,8 +38,8 @@
         document.cookie = "cookie-disclaimer=true; " + expires;
 
         $cookieBar.classList.add('hide');
-        if ($proUserContactFormButtonConainter) {
-          $proUserContactFormButtonConainter.style.bottom = '20px';
+        for (i = 0; i < proUserContactFormButtonContainer.length; i++) {
+          proUserContactFormButtonContainer[i].style.bottom = '20px';
         }
       });
     </script>

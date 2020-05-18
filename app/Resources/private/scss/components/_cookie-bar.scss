@@ -16,22 +16,17 @@
     padding-bottom: rem-calc(20);
   }
 
-
-
   /*
       Accepted
       ===================================== */
-
   &.is-accepted {
     transform: translate3d(0, 100%, 0);
   }
 
 
-
   /*
      Components
      ===================================== */
-
   p {
     @include breakpoint(small only) {
       font-size: rem-calc(11);
@@ -40,11 +35,9 @@
   }
 
 
-
   /*
      Body
      ===================================== */
-
   &-body {
     color: $dark-gray-blue-peexeo;
 
@@ -54,10 +47,14 @@
 
       @include breakpoint(large) {
         transition: $global-transition;
-        &:hover { opacity: 1; }
+        &:hover {
+          opacity: 1;
+        }
       }
     }
 
-  } // End &-body
+  }
+
+  // End &-body
 
 }
