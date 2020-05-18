@@ -7,10 +7,13 @@ use AppBundle\Form\DTO\RegistrationDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
@@ -54,6 +57,18 @@ class RegistrationType extends AbstractType
             ->add('accept', CheckboxType::class, [
                 "mapped" => false,
             ]);
+        $builder->addEventListener(FormEvents::POST_SET_DATA, function (FormEvent $formEvent) {
+            /** @var RegistrationDTO $data */
+            $data = $formEvent->getData();
+            if (!empty($data->target_path)) {
+                $form = $formEvent->getForm();
+                $form->add('target_path', HiddenType::class, [
+                    'required' => false,
+                    'label' => false,
+                    'label_attr' => ['class' => 'show-for-sr']
+                ]);
+            }
+        });
     }
 
     /**

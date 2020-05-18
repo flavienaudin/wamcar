@@ -1160,7 +1160,7 @@ user:
           suggestion: "Mes suggestions : "
   personal_contact:
     unlogged:
-      title: Connectez-vous pour appeler %firstname%
+      title: Connectez-vous pour contacter %firstname%
   pro_contact:
     title: Contacter %username%
     form.field:

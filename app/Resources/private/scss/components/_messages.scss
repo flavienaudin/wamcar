@@ -22,6 +22,10 @@
     @include breakpoint(large) {
       top: $header-height-medium + rem-calc(20);
     }
+
+    + .cookie-bar {
+      position: absolute;
+    }
   }
 
   /*
