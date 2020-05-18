@@ -88,14 +88,19 @@
                     <h2>{{ 'user.personal_contact.unlogged.title'|trans({'%firstname%':user.firstname|title}) }}</h2>
 
                     <div class="input-margin">
-                        {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+                        {{ include(':front/Security/Register/includes:social_networks_login_row.html.twig', {
+                            'destination':url('front_view_personal_user_info',{'slug':user.slug}),
+                        }) }}
                     </div>
-                    {% include('front/User/includes/form_login.html.twig') %}
+                    {{ include('front/User/includes/form_login.html.twig', {
+                        'target_path':url('front_view_personal_user_info',{'slug':user.slug}),
+                        'submitButtonClass':'primary-button'
+                    }) }}
 
                     <div>
                         <h3>{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</h3>
-                        <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
-                        <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans }}</a>
+                        <a href="{{ path('register', {'next_action':url('front_view_personal_user_info',{'slug':user.slug})}) }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
+                        <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE"),'next_action':url('front_view_personal_user_info',{'slug':user.slug})}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans }}</a>
                     </div>
 
                     {{ include('front/User/includes/modal_password_lost.html.twig', {

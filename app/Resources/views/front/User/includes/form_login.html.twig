@@ -21,7 +21,10 @@
             id: 'password_side'
         } %}
     </div>
+    {% if target_path|default(null) is not empty %}
+        <input type="hidden" name="_target_path" value="{{ target_path }}"/>
+    {% endif %}
     <div class="input-margin">
-        <button type="submit" id="form-side-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
+        <button type="submit" id="form-side-login-submit" class="button full-width {{ submitButtonClass|default("")}}">{{ 'global.button.connexion'|trans({},'messages') }}</button>
     </div>
 </form>
