@@ -683,6 +683,7 @@ vehicle:
       personal:
         abbr: Part. (%nb%)
         long: Particuliers (%nb%)
+    date: a aimé le %date%
   field:
     plateNumber:
       label: Immatriculation
