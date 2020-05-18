@@ -32,6 +32,7 @@
      ===================================== */
 
   &-name {
+    color: $dark-gray-blue-peexeo;
   }
 
   /*
@@ -90,8 +91,7 @@
     .seller-list & {
       width: rem-calc(24);
       height: rem-calc(24);
-      margin-left: rem-calc(20);
-      margin-right: rem-calc(10);
+      margin-right: rem-calc(5);
     }
 
     img {
