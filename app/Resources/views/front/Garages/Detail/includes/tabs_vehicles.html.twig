@@ -22,7 +22,7 @@
 {% if searchForm is not null %}
     {% set searchFormAttr = searchForm.vars.submitted ? {'data-scroll-to-now':'vehicles'}:{} %}
     {{ form_start(searchForm, {'attr':{
-        'id' : 'js-garage-vehicle-search-form'
+        'id' : 'js-garage-vehicle-search-form','class':'form-compact'
     }|merge(searchFormAttr)}) }}
 
     <div class="row">

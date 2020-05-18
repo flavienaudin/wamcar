@@ -345,11 +345,11 @@
 
             {# User Vehicles Block #}
             {% if vehicles.totalHits > 0 %}
-                <div class="profile-seller-vehicles">
+                <div class="profile-seller-vehicles" id="vehicles">
                     <h2>{{ 'user.vehicles.title'|trans }}</h2>
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                         'pagination_route': 'front_view_pro_user_info',
-                        'pagination_route_params': {'slug':user.slug},
+                        'pagination_route_params': {'slug':user.slug,'_fragment':'vehicles'},
                         'displayNbOfResult' : false,
                         'columnsSizes' : 'small-up-2 medium-up-3'
                     } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
