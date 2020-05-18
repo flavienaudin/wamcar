@@ -71,6 +71,40 @@
             {% endif %}
             {# END Vehicules Block #}
 
+            {# Contact or Connexion form Block #}
+            {% if contactForm is not null %}
+                {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
+                    'titleClass':'h2 text-center large-text-left',
+                    'formClass':'form-compact',
+                    'responsiveDomDestination':'.js-profile-right-column',
+                    'responsiveDomAppendTo':false,
+                    'responsiveDomBreakpoint': 'large'
+                }) }}
+
+            {% elseif userIsMe %}
+                {# TODO définir ce qu'on peut mettre pour son propre profil #}
+            {% else %}
+                <div class="js-contact-login-block profile-section block-light-shadow">
+                    <h2>{{ 'user.personal_contact.unlogged.title'|trans({'%firstname%':user.firstname|title}) }}</h2>
+
+                    <div class="input-margin">
+                        {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+                    </div>
+                    {% include('front/User/includes/form_login.html.twig') %}
+
+                    <div>
+                        <h3>{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</h3>
+                        <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
+                        <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans }}</a>
+                    </div>
+
+                    {{ include('front/User/includes/modal_password_lost.html.twig', {
+                        'modalId': 'js-password-lost-personal-contact-form'
+                    }) }}
+                </div>
+            {% endif %}
+            {# END Contact or Connexion form Block #}
+
             {# Affinity Block #}
             {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
             {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}

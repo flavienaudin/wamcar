@@ -663,6 +663,9 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $userIsCurrentUser = $user->is($currentUser);
 
         /* ====================================== *
          * Formumlaires d'édition de la page profil
@@ -694,10 +697,47 @@ class UserController extends BaseController
             }
         }
 
+        /**
+         * Contact Form
+         */
+        $contactForm = null;
+        if (!$userIsCurrentUser) {
+            try {
+                $this->conversationAuthorizationChecker->canCommunicate($currentUser, $user);
+
+                // $currentUser is logged and can communicate with Wamcar messaging service
+                $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $user);
+                if ($conversation instanceof Conversation) {
+                    // Useless check ?
+                    //$this->conversationAuthorizationChecker->memberOfConversation($currentUser, $conversation);
+                    $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
+                } else {
+                    $messageDTO = new MessageDTO(null, $currentUser, $user);
+                }
+                $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
+                $contactForm->handleRequest($request);
+                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
+                    $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                    $this->session->getFlashBag()->add(
+                        self::FLASH_LEVEL_INFO,
+                        'flash.success.conversation_update'
+                    );
+                    return $this->redirectToRoute('front_conversation_edit', [
+                        'id' => $conversation->getId(),
+                        '_fragment' => 'last-message']);
+
+                }
+
+            } catch (AccessDeniedHttpException $exception) {
+                // No contact form, just form to connect => $contactForm is null
+            }
+        }
+
         return $this->render('front/User/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
-            'userIsMe' => $user->is($this->getUser()),
+            'contactForm' => $contactForm ? $contactForm->createView() : null,
+            'userIsMe' => $userIsCurrentUser,
             'user' => $user
         ]);
     }

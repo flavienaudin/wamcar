@@ -1157,6 +1157,9 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
+  personal_contact:
+    unlogged:
+      title: Connectez-vous pour appeler %firstname%
   pro_contact:
     title: Contacter %username%
     form.field:

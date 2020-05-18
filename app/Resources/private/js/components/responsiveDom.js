@@ -98,6 +98,18 @@ if($asideContentSellerItem.length){
   });
 }
 
+
+/*** Personal User Contact/Login Form ***/
+
+const $loginBlock = $('.js-contact-login-block');
+if($loginBlock.length){
+  $loginBlock.responsiveDom({
+    appendTo: '.js-profile-right-column',
+    mediaQuery: '(min-width: 1024px)',
+    /*callback: (matched) => {}*/
+  });
+}
+
 /*** Pro User Contact Form ***/
 
 const $proProfilContactForm = $('.js-pro-profile-contact-form-container');
