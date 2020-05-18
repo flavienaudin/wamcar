@@ -32,7 +32,7 @@ inte_garage_detail:
     path: /garage/toyota
     defaults:
         _controller: FrameworkBundle:Template:template
-        template: front/Garages/Detail/detail.html.twig
+        template: front/Garages/Detail/detail_peexeo.html.twig
 
 inte_garage_edit:
     path: /garage/toyota/editer

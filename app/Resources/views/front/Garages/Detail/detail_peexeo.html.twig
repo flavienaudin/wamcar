@@ -33,7 +33,6 @@
         {# Left Column #}
         <div class="peexeo-garage-left-column column small-12 large-7">
 
-            {# TODO delete template : 'front/Garages/Detail/includes/picture.html.twig' #}
             <div class="peexeo-garage-banner block-light-shadow" style="background-image: url('{{ garage|banner('garage_banner') }}')">
                 {% if garageBannerForm is defined and garageBannerForm is not null %}
                     {{ form_start(garageBannerForm, { 'attr' : { 'class': 'peexeo-garage-banner-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
@@ -56,7 +55,6 @@
                 {#<img src="{{ garage|banner('garage_banner') }}" alt="{{ garage.name }}" class="">#}
             </div>
 
-            {# TODO delete template : front/Garages/Detail/includes/logo.html.twig#}
             <div id="js-garage-logo" class="peexeo-garage-logo block-light-shadow">
                 {% if garageLogoForm is not defined or garageLogoForm is null %}
                     <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
@@ -80,7 +78,6 @@
                 {% endif %}
             </div>
 
-            {# TODO delete template : 'front/Garages/Detail/includes/infos.html.twig' #}
             {% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
             {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
             {# Garage Info Block #}
