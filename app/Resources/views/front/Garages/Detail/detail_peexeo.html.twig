@@ -98,7 +98,7 @@
                 </div>
 
                 <div class="separator small">
-                    <address>
+                    <address class="margin-bottom-1">
                         {{ garage.address.address?garage.address.address:'' }}<br>
                         {{ garage.address.postalCode }} {{ garage.address.cityName }}
                     </address>
@@ -277,7 +277,7 @@
                     {% for membership in garage.enabledMembers %}
                         {% if ( (garage.optionAdminVisible or membership.role.value != constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ))
                             or membership.proUser.is(app.user) or isAdministrableByCurrentUser %}
-                            <div class="column small-6">
+                            <div class="column small-6 margin-bottom-1">
                                 {{ include('front/Garages/Detail/includes/seller_item.html.twig', {
                                     "itemClass" : "width-100 height-100 block-light-shadow",
                                     "membership" : membership
