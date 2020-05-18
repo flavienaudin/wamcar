@@ -1,9 +1,10 @@
 {% set poweredByGoogleDisplay = poweredByGoogleDisplay|default(false)%}
 {% set garageRating = garageRating|default(null) %}
+{% set centerClass = isCenter is defined and isCenter ? 'text-center' : '' %}
 
 {% if garageRating is not null %}
     {% if garageSlug is defined %}<a href="{{ path('front_garage_view', {"slug":garageSlug,"_fragment":"opinions"}) }}">{% endif %}
-    <div class="star-list">
+    <div class="star-list {{ centerClass }}">
         <span class="star-item star-item-small google-rating google-rating-label" >{{ garageRating }}</span>
         {% for i in 5..1 %}
             {% set starClass = garageRating < i ? (garageRating > i-1 ? "star-half":"star-empty"):"star-full" %}
@@ -12,7 +13,7 @@
     </div>
     {% if garageSlug is defined %}</a>{% endif %}
     {% if poweredByGoogleDisplay %}
-        <div>
+        <div class="{{ centerClass }}">
             <img src="{{ asset('assets/images/google/powered_by_google_on_white.png') }}" alt="Powered by google" title="Powered by google">
         </div>
     {% endif %}

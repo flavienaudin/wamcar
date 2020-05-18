@@ -60,18 +60,17 @@
                     {% include 'front/Security/Register/includes/vehicle_offer.html.twig' with { 'vehicleForm' : proVehicleForm } %}
                 </li>
             </ul>
-            <nav id="js-step-navigation" class="column small-12">
-                <div class="register-navigation block-grid small-12 align-middle">
-                    <div class="small-6 large-7">
-                        <a class="js-carousel-prev text-underline is-hidden">{{ 'global.button.previous_step'|trans }}</a>
+            <nav id="js-step-navigation" class="column small-12 large-7">
+                <div class="register-navigation block-grid  is-flex">
+                    <div class="small-6">
+                        <a class="js-carousel-prev button is-hidden">{{ 'global.button.previous_step'|trans }}</a>
                     </div>
-                        <div class="small-6 large-5 xlarge-4 xlarge-offset-1 column">
-                        <button type="button" class="js-carousel-next button step-button-next small-12 medium-8 large-7 full-width">{{ 'global.button.next_step'|trans }}</button>
+                    <div class="small-6">
+                        <button type="button" class="js-carousel-next button primary-button step-button-next">{{ 'global.button.next_step'|trans }}</button>
                     </div>
                 </div>
             </nav>
             {{ form_end(proVehicleForm) }}
-
         </section>
 
     </div>

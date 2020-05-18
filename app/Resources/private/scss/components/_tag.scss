@@ -6,13 +6,26 @@
 .tag {
   display: inline-block;
   background-color: $white;
-  color: $blue-gray-peexeo;
+  color: $dark-gray-blue-peexeo;
   font-weight: 700;
   margin: 2px;
   padding: 5px 15px;
   border-radius: rem-calc(20);
-  border: 1px solid $blue-gray-peexeo;
+  border: 1px solid $dark-gray-blue-peexeo;
 
+
+  &:hover,
+  &:focus {
+    color: $dark-gray-blue-peexeo;
+    background-color: $light-gray-peexeo;
+  }
+
+
+  &.is-active,
+  &.is-current{
+    background-color: $dark-gray-blue-peexeo;
+    color: $white;
+  }
 
   &-container {
   }

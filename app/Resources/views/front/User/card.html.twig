@@ -1,11 +1,9 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding-top personal-user-profil{% endblock %}
+{% block mainClass %}no-padding-top profile-main profile-personal-main{% endblock %}
 
-{% set isUserProPageProfil = (user.isPro) %}
+{% set isUserProPageProfile = (user.isPro) %}
 {% set isUserPersonalPageProfil = (user.isPersonal) %}
-
-{% set page_garage = userIsMe %}
 
 {% block title %}
     {% if userIsMe %}
@@ -22,113 +20,147 @@
     }
 ] %}
 
-{% set presentation_block %}{% spaceless %}
-    {% if user.description or userIsMe %}
-        <h2>{{ 'user.presentation.title.personal'|trans }}</h2>
-        {% if user.description %}
-            <p>{{ user.description|nl2br }}</p>
-        {% elseif userIsMe %}
-            <p>Présentez-vous en quelques mots.</p>
-        {% endif %}
-    {% endif %}
-
-    {% if userIsMe %}
-        <a href="{{ path('front_edit_user_info') }}" class="text-underline">Modifier mes informations</a>
-    {% endif %}
-{% endspaceless %}{% endset %}
-
-{% set affinity_block %}{% spaceless %}
-    {% if userIsMe %}
-        <h2>{{ "user.affinity.section.title"|trans }}</h2>
-
-        {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
-        {% if user.affinityAnswer is null %}
-            <p>{{ 'user.affinity.section.explanation.personal'|trans({
-                    '%affinity_form_url%': path('front_affinity_personal_form'),
-                    '%datawtattr%': lwaWTattr|raw
-                })|raw }}</p>
-        {% else %}
-            <p>{{ 'user.affinity.section.edit.personal'|trans({
-                    '%affinity_form_url%': path('front_affinity_personal_form'),
-                    '%datawtattr%': lwaWTattr|raw
-                })|raw }}</p>
-        {% endif %}
-    {% else %}
-        {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
-        {% if userAffinity is not null %}
-            <h2>{{ "user.affinity.section.our_affinities"|trans }}</h2>
-            <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
-        {% endif %}
-    {% endif %}
-{% endspaceless %}{% endset %}
-
-{% set user_project_block %}{% spaceless %}
-    {% if (user.project and not user.project.empty) or userIsMe %}
-        <h2 id="user_project_section">{{ userIsMe ? "Mon projet" : "Le projet de "~user.firstName }}</h2>
-        {% if user.project and not user.project.empty %}
-            {% set project = user.project %}
-            {{ include('front/User/includes/personal_user_project.html.twig') }}
-        {% elseif userIsMe %}
-            <p class="text-justify">Je n'ai pas renseigné de projet de rachat.</p>
-        {% endif %}
-        {% if userIsMe %}
-            <br><a href="{{ path('front_edit_user_project') }}" class="text-underline">Gérer mon projet</a>
-        {% endif %}
-    {% endif %}
-{% endspaceless %}{% endset %}
-
 {% block body %}
-    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
-    {% include 'front/User/includes/personal_profil_header.html.twig' %}
+    {% include 'front/User/includes/seller_profile_header.html.twig' %}
 
-    <section class="row">
-        <div class="profil-body column block-grid small-12 small-up-1 large-up-2">
-            {% if presentation_block is not empty %}
-                <div class="column">
-                    {{ presentation_block }}
+    <section class="row profile-body">
+
+        {# Left column #}
+        <div class="js-profile-left-column profile-left-column column small-12 large-8">
+            {# User Description Block #}
+            {{ include('front/User/includes/user_description_profile_block.html.twig') }}
+            {# END User Description Block #}
+
+            {# Project Block #}
+            {% if (user.project and not user.project.empty) or userIsMe %}
+                <div class="profile-section block-light-shadow">
+                    <h2 id="user_project_section">
+                        {% if userIsMe %}
+                            <a href="{{ path('front_edit_user_project') }}"class="profile-section-action icon-pen"
+                            title="{{ 'user.project.edit'|trans }}"></a>
+                        {% endif %}
+                        {{ userIsMe ? 'user.project.my_project'|trans : 'user.project.seller_project'|trans({'%seller_firstname%':user.firstName}) }}
+                    </h2>
+                    {% if user.project and not user.project.empty %}
+                        {% set project = user.project %}
+                        {{ include('front/User/includes/personal_user_project.html.twig') }}
+                    {% elseif userIsMe %}
+                        <p class="text-justify">Je n'ai pas renseigné de projet de rachat.</p>
+                    {% endif %}
                 </div>
             {% endif %}
+            {# END Project Block #}
 
-            {% if user_project_block is not empty %}
-                <div class="column">
-                    {{ user_project_block }}
+            {# Vehicules Block #}
+            {% if user.vehicles|length > 0 or userIsMe %}
+                <div class="profile-section block-light-shadow">
+                    <h2 id="user_vehicles_section">
+                        {% if userIsMe %}
+                            <a href="{{ path('front_vehicle_personal_add') }}"
+                               class="profile-section-action icon-plus" title="{{ 'vehicle.add'|trans }}"></a>
+                        {% endif %}
+                        {{ 'user.vehicles.personal'|transchoice(user.vehicles|length)}}
+                    </h2>
+
+                    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+                        'vehiclesToList': user.vehicles,
+                        'balise': 'h3',
+                        'columnsSizes': 'small-up-2'
+                    } %}
                 </div>
             {% endif %}
+            {# END Vehicules Block #}
 
-            {% if affinity_block is not empty %}
-                <div class="column">
-                    {{ affinity_block }}
+            {# Contact or Connexion form Block #}
+            {% if contactForm is not null %}
+                {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
+                    'titleClass':'h2 text-center large-text-left',
+                    'formClass':'form-compact',
+                    'responsiveDomDestination':'.js-profile-right-column',
+                    'responsiveDomAppendTo':false,
+                    'responsiveDomBreakpoint': 'large'
+                }) }}
+
+            {% elseif userIsMe %}
+                {# TODO définir ce qu'on peut mettre pour son propre profil #}
+            {% else %}
+                <div class="js-contact-login-block profile-section block-light-shadow">
+                    <h2>{{ 'user.personal_contact.unlogged.title'|trans({'%firstname%':user.firstname|title}) }}</h2>
+
+                    <div class="input-margin">
+                        {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+                    </div>
+                    {% include('front/User/includes/form_login.html.twig') %}
+
+                    <div>
+                        <h3>{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name}) }}</h3>
+                        <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans }}</a>
+                        <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans }}</a>
+                    </div>
+
+                    {{ include('front/User/includes/modal_password_lost.html.twig', {
+                        'modalId': 'js-password-lost-personal-contact-form'
+                    }) }}
+                </div>
+            {% endif %}
+            {# END Contact or Connexion form Block #}
+
+            {# Affinity Block #}
+            {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
+            {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
+            {% if userIsMe or userAffinity is not null %}
+                <div class="profile-section block-light-shadow">
+                    {% if userIsMe %}
+                        <h2>{{ "user.affinity.section.title"|trans }}</h2>
+
+                        {% if user.affinityAnswer is null %}
+                            <p>{{ 'user.affinity.section.explanation.personal'|trans({
+                                    '%affinity_form_url%': path('front_affinity_personal_form'),
+                                    '%datawtattr%': lwaWTattr|raw
+                                })|raw }}</p>
+                        {% else %}
+                            <p>{{ 'user.affinity.section.edit.personal'|trans({
+                                    '%affinity_form_url%': path('front_affinity_personal_form'),
+                                    '%datawtattr%': lwaWTattr|raw
+                                })|raw }}</p>
+                        {% endif %}
+                    {% elseif userAffinity is not null %}
+                        <h2>{{ "user.affinity.section.our_affinities"|trans }}</h2>
+                        <canvas class="js-radar-chart" data-dataset="{{ userAffinity.radarChartData|json_encode }}"></canvas>
+                    {% endif %}
+                </div>
+            {% elseif app.user is null or app.user.isPro %}
+                <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
+                    <div class="column small-12 large-8 text-justify">
+                        <h2>{{ "user.affinity.section.our_affinities"|trans }}
+                            {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
+                        {{ isLogged ? 'user.affinity.degree.explanation.pro.logged'|trans({'%username%':user.firstname|title})
+                        : 'user.affinity.degree.explanation.pro.unlogged'|trans({'%username%':user.firstname|title}) }}
+                    </div>
+                    <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
+                        <a href="{{ path('front_affinity_personal_form') }}"
+                           class="button expand-height dark-blue" {{ lwaWTattr }}>
+                            {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
+                    </div>
+                </div>
+            {% endif %}
+            {# END Affinity Block #}
+
+            {% if userIsMe %}
+                <div class="profile-section block-light-shadow">
+                    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+                    <p>{{ 'user.profile.delete.link.information'|trans }}
+                        <a href="{{ path('front_user_delete') }}"
+                           class="button small">{{ 'global.button.delete'|trans }}</a></p>
                 </div>
             {% endif %}
         </div>
-        {% if user.vehicles|length > 0 or userIsMe %}
-            <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty?'':'separator' }} column small-12">
-                    <h2 id="user_vehicles_section">{{ userIsMe ? "Mes": "Ses" }} véhicules en vente</h2>
-                    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
-                        'vehiclesToList': user.vehicles,
-                        'balise': 'h3'
-                    } %}
+        {# END Left column #}
 
-                    {% if userIsMe %}
-                        <div class="small-12 medium-6 large-4 margin-top-1">
-                            <a href="{{ path('front_vehicle_personal_add') }}"
-                               class="button add icon-plus">{{ 'vehicle.add'|trans }}</a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
+        {# Right column #}
+        <div class="js-profile-right-column profile-right-column column small-12 large-4">
 
-        {% if userIsMe %}
-            <div class="column block-grid small-12">
-                <div class="{{ presentation_block is empty and user_project_block is empty and affinity_block is empty and user.vehicles|length ==  0?'no-padding':'separator' }} column section small-12">
-                    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
-                    <p>{{ 'user.profile.delete.link.information'|trans }}<a href="{{ path('front_user_delete') }}"
-                                                                            class="text-underline">{{ 'global.button.delete'|trans }}</a>
-                    </p>
-                </div>
-            </div>
-        {% endif %}
+        </div>
+        {# END Right column #}
     </section>
 {% endblock body %}

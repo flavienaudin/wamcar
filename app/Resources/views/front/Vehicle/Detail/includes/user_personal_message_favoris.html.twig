@@ -6,10 +6,10 @@
     <span class="column small-collapse small-6 large-12 large-uncollapse">
         <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}"
            data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ vehicle.seller|wtToDataAttrValue }}"
-           class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>
+           class="button primary-button full-width large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>
     </span>
     <span class="column small-collapse small-6 large-12 large-uncollapse">
         <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug }) }}"
-           class="button reverse like like-button {{ likeIcon }}" {{ wtLikeDataAttr|raw }}>{{ likeButtonLabel|trans }}</a>
+           class="button full-width like like-button {{ likeIcon }}" {{ wtLikeDataAttr|raw }}>{{ likeButtonLabel|trans }}</a>
     </span>
 </div>

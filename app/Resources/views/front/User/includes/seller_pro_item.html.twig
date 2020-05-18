@@ -5,7 +5,7 @@
     {% if userGarages|length > 1 %}
         Multi-sites
     {% elseif userGarages|length == 1 %}
-        {{ userGarages[0].garage.city }}
+        {{ (userGarages|first).garage.city }}
     {% else %}
         &ndash;
     {% endif %}

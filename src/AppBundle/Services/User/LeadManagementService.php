@@ -119,7 +119,7 @@ class LeadManagementService
             $nbSales = count($lead->getSaleDeclarations());
             $action = '<ul class="no-bullet no-margin">';
             $action .= '<li>' . $this->translator->transChoice('lead.table.sales', $nbSales, ['%nbSales%' => $nbSales]) . '</li>';
-            $action .= '<li><a href="' . $this->router->generate('front_sale_declaration_new', [
+            $action .= '<li><a class="button primary-button small" href="' . $this->router->generate('front_sale_declaration_new', [
                     'leadId' => $lead->getId()
                 ], UrlGeneratorInterface::ABSOLUTE_URL) . '">' . $this->translator->trans('lead.add_sale') . '</a></li>';
             $action .= '</ul>';

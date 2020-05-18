@@ -1,0 +1,337 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% set page_garage = true %}
+
+{% block mainClass %}medium-no-padding-top light-gray-peexeo-bg{% endblock %}
+
+{% block title %}
+    {% if is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) and app.user.isPro and app.user.isMemberOfGarage(garage) %}
+        {{ 'garage.my_garage'|trans }}
+    {% else %}
+        {{  garage.name}}
+    {% endif %}
+{% endblock %}
+
+{% block canonical %}{{ url('front_garage_view', {'slug':garage.slug}) }}{% endblock canonical %}
+
+{% set seo_img_url = garage|banner('garage_banner') %}
+{% set image_alt = garage.name %}
+
+{% set breadcrumbs = [
+    {
+        'name': block('title'),
+        'href': app.request.requestUri
+    }
+] %}
+
+{% set garageReviews = (garagePlaceDetail is not null and garagePlaceDetail.reviews is defined and garagePlaceDetail.reviews|length > 0)?garagePlaceDetail.reviews:null %}
+
+{% block body %}
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <div class="row peexeo-garage">
+        {# Left Column #}
+        <div class="peexeo-garage-left-column column small-12 large-7">
+
+            <div class="peexeo-garage-banner block-light-shadow" style="background-image: url('{{ garage|banner('garage_banner') }}')">
+                {% if garageBannerForm is defined and garageBannerForm is not null %}
+                    {{ form_start(garageBannerForm, { 'attr' : { 'class': 'peexeo-garage-banner-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                    {# Small pencil icon in right-top corner #}
+                    <label for="{{ garageBannerForm.file.vars.id }}" title="{{ 'garage.banner.edit'|trans }}"
+                           class="show-for-large peexeo-garage-insert-action icon-pen edit-button"></label>
+                    {{ form_widget(garageBannerForm, {
+                        'label': false,
+                        'required': false,
+                        'classPreview': 'file-preview-garage preview-garage-banner',
+                        'input_class': 'js-onchange-submit',
+                        'removable_button_class': 'js-file-preview-remove-submit',
+                        'setRemovableButtonLoader': true,
+                        'loaderClass': 'center',
+                        'imgPreview':  garage|banner('garage_banner'),
+                        'defaultImage': 'garage_banner'|defaultBanner
+                    }) }}
+                    {{ form_end(garageBannerForm) }}
+                {% endif %}
+                {#<img src="{{ garage|banner('garage_banner') }}" alt="{{ garage.name }}" class="">#}
+            </div>
+
+            <div id="js-garage-logo" class="peexeo-garage-logo block-light-shadow">
+                {% if garageLogoForm is not defined or garageLogoForm is null %}
+                    <img src="{{ garage|logo('garage_logo') }}" alt="Logo {{ garage.name }}">
+                {% else %}
+                    {{ form_start(garageLogoForm, { 'attr' : { 'class': 'peexeo-garage-logo-form', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+                    {# Small pencil icon in right-top corner #}
+                    <label for="{{ garageLogoForm.file.vars.id }}" title="{{ 'garage.logo.edit'|trans }}"
+                           class="show-for-large peexeo-garage-insert-action icon-pen edit-button"></label>
+                    {{ form_widget(garageLogoForm, {
+                        'label': false,
+                        'required': false,
+                        'classPreview': 'file-preview-garage preview-garage-logo',
+                        'input_class': 'js-onchange-submit',
+                        'removable_button_class': 'js-file-preview-remove-submit',
+                        'setRemovableButtonLoader': true,
+                        'loaderClass': 'center',
+                        'imgPreview':  garage|logo('garage_logo'),
+                        'defaultImage': 'garage_logo'|defaultLogo
+                    }) }}
+                    {{ form_end(garageLogoForm) }}
+                {% endif %}
+            </div>
+
+            {% set garageRating = (garagePlaceDetail is not null and garagePlaceDetail.rating|default(null) is not empty)?garagePlaceDetail.rating:garage.googleRating %}
+            {% set garageGoogleMapsUrl = (garagePlaceDetail is not null and garagePlaceDetail.url is not empty) ? garagePlaceDetail.url : 'https://google.com/maps/search/?q='~garage.name~'&q_place_id='~garage.googlePlaceId %}
+            {# Garage Info Block #}
+            <div id="js-garage-info" class="peexeo-garage-info insert-block block-light-shadow">
+                <h1 class="h2 primary-color no-margin text-center">
+                    {% if isEditableByCurrentUser  %}
+                        <a href="{{ path('front_garage_edit', {'id': garage.id}) }}" title="{{ 'garage.infos.edit'|trans }}"
+                           class="peexeo-garage-insert-action icon-pen"></a>
+                    {% endif %}
+                    {{ garage.name }}
+                </h1>
+
+                <div class="text-center">
+                    {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+                        poweredByGoogleDisplay : true,
+                        isCenter : true
+                    }) }}
+                </div>
+
+                <div class="separator small">
+                    <address class="margin-bottom-1">
+                        {{ garage.address.address?garage.address.address:'' }}<br>
+                        {{ garage.address.postalCode }} {{ garage.address.cityName }}
+                    </address>
+                    <div class="text-center">
+                        <a href="{{ garageGoogleMapsUrl }}" target="_blank" rel="noopener noreferrer"
+                           class="button small full-width icon-external-link">{{ 'garage.infos.see_on_gmaps'|trans }}</a>
+                    </div>
+                </div>
+
+                {% if garage.openingHours %}
+                    <div class="separator small">
+                        <h3 class="no-margin">{{ 'garage.infos.opening_hours'|trans }}&nbsp;:</h3>
+                        {{ garage.openingHours|nl2br }}
+                    </div>
+                {% endif %}
+
+                {% if garage.phone %}
+                    <div class="separator small text-center">
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'phoneOwner': garage,
+                            'phoneNumber': garage.phone,
+                            'showphone_subaction': '1',
+                            'disabledLoggedProtection': true,
+                            'buttonClass': 'icon-tel small full-width is-center'
+                        }) }}
+                    </div>
+                {% endif %}
+
+                {% if isEditableByCurrentUser %}
+                    <div class="separator small">
+                        {{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
+                        <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small full-width">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a>
+                    </div>
+                {% endif %}
+                {% if currentUserIsMemberOfGarage %}
+                    <div class="separator small">
+                        <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}" class="button primary-button full-width">
+                            {{ 'vehicle.add'|trans }}
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            {# END Garage Info Block #}
+
+            {# Actions about garage Block #}
+            {% if currentUserGarageMemberShip is not null %}
+                {# User has a garage membership about this garage #}
+                {% if currentUserGarageMemberShip.requestedAt is not null %}
+                    {# Pending request #}
+                    <div class="insert-block block-light-shadow">
+                        <i class="black-color">{{ 'user.garage.pending_request.member'|trans({'%garage_name%':garage.name}) }}&nbsp;:</i>
+                        <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':currentUserGarageMemberShip.prouser.id}) }}"
+                           class="button small">{{ 'user.garage.cancel_request'|trans }}</a></div>
+                {% endif %}
+            {% elseif isUserPro %}
+                {# Current ProUser is not a garage member #}
+                <div class="insert-block block-light-shadow">
+                    <a href="{{ path('front_garage_request_to_join', {'garage_id': garage.id}) }}"
+                       class="button small">{{ 'garage.action.join'|trans }}</a>
+                </div>
+            {% endif %}
+            {# END Actions about garage Block #}
+
+            {# Presentation Block #}
+            {% if garagePresentationForm is not null or garagePresentationForm is not null %}
+                <div class="insert-block block-light-shadow">
+                    <h2>
+                        {% if garagePresentationForm is not null %}
+                            <span class="peexeo-garage-insert-action icon-pen" title="{{ 'garage.presentation.edit'|trans }}"
+                                  data-toggle="jsPresentation jsPresentationForm"></span>
+                        {% endif %}
+                        {{ 'garage.presentation.title'|trans }}
+                    </h2>
+                    <div id="jsPresentation" data-toggler="is-hidden">
+                        {% if garage.presentation %}
+                            <p>{{ garage.presentation|nl2br|raw }}</p>
+                        {% elseif isEditableByCurrentUser %}
+                            <p>{{ 'garage.form.field.presentation.placeholder'|trans }}</p>
+                        {% endif %}
+                    </div>
+
+                    {% if garagePresentationForm is not null %}
+                        <div id="jsPresentationForm" {{ garagePresentationForm.vars.valid ? 'class="is-hidden"' }} data-toggler="is-hidden">
+                            {{ form_start(garagePresentationForm, {
+                                'attr':{'data-abide': 'data-abide', 'novalidate': 'novalidate'}
+                            }) }}
+
+                            {{ form_widget(garagePresentationForm.presentation, {
+                                'label' : 'garage.form.field.presentation.label'|trans,
+                                'label_class' : 'show-for-sr',
+                                'required' : false,
+                                'required_class': 'show-for-sr',
+                                'attr': {'placeholder': 'garage.form.field.presentation.placeholder'|trans}
+                            }) }}
+
+                            <div class="is-flex align-right">
+                                <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                            </div>
+                            {{ form_end(garagePresentationForm) }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {# END Presentation Block #}
+
+            {# Sellers Management Block #}
+            {% if inviteSellerForm is not null %}
+                <div class="insert-block block-light-shadow">
+                    <h2>{{ 'garage.assignation.invitation.title'|trans({'%garage_name%':garage.name}) }}</h2>
+
+                    {{ form_start(inviteSellerForm, {
+                        'action' : path('front_garage_view', {'slug':garage.slug,'_fragment':'sellers'}),
+                        'attr' : {
+                            'id' : 'js-garage-member-invitation-form',
+                            'class' : 'form-compact invite-sellers-form',
+                            'data-abide' : 'data-abide',
+                            'novalidate' : 'novalidate'
+                        }
+                    } ) }}
+
+                    <div class="row align-middle">
+                        <div class="column small-12 medium-auto">
+                            {{ form_widget(inviteSellerForm.emails, {
+                                'class':'js-garage-pro-invitation-emails',
+                                'label':'garage.assignation.invitation.field.email.label'|trans,
+                                'label_class':'show-for-sr',
+                                'required' : true,
+                                'required_message': 'garage.assignation.invitation.field.email.error.empty'|trans,
+                                'multiple':'multiple',
+                                'attr':{
+                                    'data-placeholder':'garage.assignation.invitation.field.email.placeholder'|trans
+                                }
+                            }) }}
+                        </div>
+                        <div class="column small-12 medium-shrink">
+                            <button type="submit" class="button no-margin full-width">{{ 'global.button.invite'|trans }}</button>
+                        </div>
+                    </div>
+
+                    <p><i>{{ 'garage.assignation.invitation.field.email.instruction'|trans }}</i></p>
+                    <p class="no-margin">{{ 'garage.administrator.contact'|trans({
+                            '%contactUrl%': url('contact'),
+                            '%garage_name%': garage.name
+                        })|raw }}</p>
+
+                    {{ form_end(inviteSellerForm ) }}
+                </div>
+            {% endif %}
+            {# END Sellers Management Block #}
+
+            {# Pending Request Block #}
+            {% set pendingRequests = garage.pendingRequests %}
+            {% if isAdministrableByCurrentUser and pendingRequests is not empty %}
+                <div class="insert-block block-light-shadow">
+                    <h2>{{ 'garage.assignation.pending_request.title'|trans({'%garage_name%':garage.name}) }}</h2>
+                    <i>{{ 'user.garage.pending_request.instructions'|trans }}</i>
+                    <div class="row">
+                    {% for pendingRequest in pendingRequests  %}
+                        <div class="column small-6">
+                            {{ include('front/Garages/Detail/includes/pending_request_item.html.twig', {
+                                "compact" : true,
+                                "itemClass" : "width-100 height-100 block-light-shadow",
+                                "membership" : pendingRequest
+                            }) }}
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            {# END Pending Request Block #}
+
+            {# Sellers Block #}
+            <div class="insert-block block-light-shadow" id="sellers">
+                <h2>{{ 'garage.sellers.title'|trans }}</h2>
+                <div class="row">
+                    {% for membership in garage.enabledMembers %}
+                        {% if ( (garage.optionAdminVisible or membership.role.value != constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') ))
+                            or membership.proUser.is(app.user) or isAdministrableByCurrentUser %}
+                            <div class="column small-6 margin-bottom-1">
+                                {{ include('front/Garages/Detail/includes/seller_item.html.twig', {
+                                    "itemClass" : "width-100 height-100 block-light-shadow",
+                                    "membership" : membership
+                                }) }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {# END Sellers Block #}
+
+            {# Opinion Block #}
+            <div class="insert-block block-light-shadow">
+                {% if garageReviews is not null %}
+                    <ul class="no-bullet">
+                        {% for review in garageReviews %}
+                            <li class="review">
+                                <figure class="block-grid align-top" role="group">
+                                    <a href="{{ review.author_url }}" class="seller-pic" target="_blank">
+                                        <img src="{{ review.profile_photo_url }}" alt="{{ review.author_name }}"></a>
+                                    <div>
+                                        <a href="{{ review.author_url }}" class="primary-color h3" target="_blank"><b>{{ review.author_name }}</b></a>
+                                        {{ include('front/Garages/Detail/includes/google_rating.html.twig', {'garageRating' : review.rating}) }}
+                                        <small>{{ review.relative_time_description }}</small>
+                                    </div>
+                                </figure>
+                                <p class="review-text">{{ review.text }}</p>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div>{{ 'garage.opinions.no_opinion'|trans }}</div>
+                {% endif %}
+            </div>
+            {# END Opinions Block #}
+
+            {# Vehicles Block #}
+            {% if (searchForm is not null and searchForm.vars.submitted) or vehicles.totalHits > 0 or currentUserIsMemberOfGarage %}
+                <div class="insert-block block-light-shadow" id="vehicles">
+                    {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
+                        'titleClass' : ' ',
+                        'canAddVehicle' : currentUserIsMemberOfGarage,
+                        'columnsSizes' : 'small-up-2',
+                        'pagination_route': 'front_garage_view',
+                        'pagination_route_params': {'slug':garage.slug}
+                    } %}
+                </div>
+            {% endif %}
+            {# END Vehicles Block #}
+
+        </div>
+
+        {# Right Column #}
+        <aside id="js-garage-aside" class="peexeo-garage-aside column show-for-large large-4"></aside>
+    </div>
+{% endblock body %}
+

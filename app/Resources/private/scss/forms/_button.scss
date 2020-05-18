@@ -68,14 +68,6 @@
     &:hover,
     &:focus {
         background-color: $light-gray-peexeo;
-
-        .loader {
-            .loader-child {
-                &:before {
-                    background-color: $light-gray-peexeo;
-                }
-            }
-        }
     }
 
     &.is-active,
@@ -118,7 +110,7 @@ button, .button {
 }
 
 a.button {
-    display: flex;
+    display: inline-flex;
 
     &:hover,
     &:focus {
@@ -255,18 +247,6 @@ a.button {
     form & {
         margin-top: rem-calc(10);
     }
-    /* Loader */
-    .loader {
-        opacity: 0;
-        visibility: hidden;
-        transition: $global-transition;
-    }
-    &.loader-visible {
-        .loader {
-            opacity: 1;
-            visibility: visible;
-        }
-    }
 
     // TODO delete ".square" class and calls
-}
+} // END .button

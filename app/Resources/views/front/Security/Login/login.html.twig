@@ -17,8 +17,8 @@
             <aside class="register-right small-12 medium-6">
                 <h2 class="column small-12 black-color">{{ 'sidebar.account_creation.title'|trans({'%sitename%':site_name},'messages') }}</h2>
                 <div class="column small-12">
-                    <a href="{{ path('register') }}" class="button white input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
-                    <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button white">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
+                    <a href="{{ path('register') }}" class="button full-width input-margin">{{ 'sidebar.account_creation.personal'|trans({},'messages') }}</a>
+                    <a href="{{ path('register', { 'type' : constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="button full-width">{{ 'sidebar.account_creation.professionnal'|trans({},'messages') }}</a>
                 </div>
             </aside>
 
@@ -26,7 +26,7 @@
                 <h2 class="black-color column small-12">{{ 'user.login.account'|trans({'%sitename%':site_name},'messages') }}</h2>
 
                 <div class="small-12 medium-9 medium-offset-1 input-margin">
-                    {% include(':front/Security/Register/includes:social_networks_login_row.html.twig') %}
+                    {% include('front/Security/Register/includes/social_networks_login_row.html.twig') %}
                 </div>
 
                 <div class="small-12">
@@ -57,7 +57,7 @@
                             required_message: 'user.field.password.first.error'|trans
                         } %}
                         <div class="column small-12">
-                           <button type="submit" id="form-login-submit" class="button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
+                           <button type="submit" id="form-login-submit" class="button primary-button full-width">{{ 'global.button.connexion'|trans({},'messages') }}</button>
                         </div>
                     </form>
                 </div>

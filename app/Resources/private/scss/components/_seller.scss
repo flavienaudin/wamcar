@@ -132,6 +132,9 @@
 
     button, .button {
       @include buttonHeightCompact;
+      &.small{
+        @include buttonHeightSmall;
+      }
     }
 
     @include breakpoint (medium) {
@@ -141,7 +144,7 @@
         margin-bottom: rem-calc(30);
       }
 
-      .profil-image {
+      .profile-image {
         margin: 0 auto;
       }
     }
