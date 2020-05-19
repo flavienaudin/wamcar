@@ -1,6 +1,6 @@
 {% set titleClass = titleClass|default('separator medium') %}
 
-<div class="vehicle-users" id="interested-users">
+<div class="vehicle-users interested-users" id="interested-users">
     <h2 class="{{ titleClass }}">{{ vehicle.isPro?'vehicle.interested_user.title.pro'|trans:'vehicle.interested_user.title.personal'|trans }}</h2>
     {% if positiveLikes.all|length > 0 %}
         <ul class="tabs interested-users-tabs" data-tabs id="interested-users-tabs">

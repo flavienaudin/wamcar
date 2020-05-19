@@ -4,14 +4,26 @@
 
 .interested-users {
 
+  &-tabs {
 
-  &-tabs-content {
-    .send-message-button {
-      @include breakpoint(small only){
-        @include buttonIcon;
-        width: rem-calc(30);
-        height: rem-calc(30);
+    &-content {
+      border: 1px solid $border-color;
+      border-bottom: none;
+
+      .send-message-button {
+        @include breakpoint(small only) {
+          @include buttonIcon;
+          width: rem-calc(30);
+          height: rem-calc(30);
+        }
       }
+    }
+  }
+
+  .seller-list {
+    > li {
+      padding-left: $tab-content-padding;
+      padding-right: $tab-content-padding;
     }
   }
 }
