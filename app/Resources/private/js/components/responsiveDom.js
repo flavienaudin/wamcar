@@ -106,7 +106,9 @@ if($loginBlock.length){
   $loginBlock.responsiveDom({
     appendTo: '.js-profile-right-column',
     mediaQuery: '(min-width: 1024px)',
-    /*callback: (matched) => {}*/
+    callback: (matched) => {
+      $loginBlock.toggleClass('is-sticky');
+    }
   });
 }
 
