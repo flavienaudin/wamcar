@@ -8,7 +8,7 @@
 
     &-content {
       border: 1px solid $border-color;
-      border-bottom: none;
+      border-top: none;
 
       .send-message-button {
         @include breakpoint(small only) {
