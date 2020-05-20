@@ -1,6 +1,7 @@
 {% set action = isUserPro ? path('front_search') : isUserPersonal ? path('front_directory_view') : path('front_default') %}
 
 <a href="{{ action }}" class="logo-container column shrink {{ isLogged ? 'small-collapse large-uncollapse is-logged' }}">
-    <img src="{{ asset('assets/images/logo/w_denicheur.svg') }}" alt="Wamcar" class="logo show-for-small-only">
+    <img src="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}" alt="Wamcar" class="logo logo-very-small-show">
+    <img src="{{ asset('assets/images/logo/w_denicheur.svg') }}" alt="Wamcar" class="logo logo-small-show show-for-small-only">
     <img src="{{ asset('assets/images/logo/wamcar_denicheur.svg') }}" alt="Wamcar" class="logo hide-for-small-only">
 </a>

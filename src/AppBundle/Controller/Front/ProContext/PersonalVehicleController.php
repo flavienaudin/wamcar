@@ -264,7 +264,7 @@ class PersonalVehicleController extends BaseController
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
         }
-        return $this->render('front/Vehicle/Detail/detail_personalVehicle.html.twig', [
+        return $this->render('front/Vehicle/Detail/detail_personalVehicle_peexeo.html.twig', [
             'isEditableByCurrentUser' => $this->personalVehicleEditionService->canEdit($this->getUser(), $vehicle),
             'vehicle' => $vehicle,
             'positiveLikes' => $vehicle->getPositiveLikesByUserType(),

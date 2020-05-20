@@ -4,14 +4,14 @@
 <ul class="vehicle-guarantees-list list-border tiny no-bullet no-margin">
     {% if vehicle.guarantee %}
         <li class="block-grid">
-            <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.guarantee.label"|trans}}</strong>
-            <span class="small-auto">{{ vehicle.guarantee.key|trans([], 'enumeration') }}</span>
+            <strong class="small-12 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.guarantee.label"|trans}}</strong>
+            <span class="small-12 medium-auto">{{ vehicle.guarantee.key|trans([], 'enumeration') }}</span>
         </li>
     {% endif %}
     {% if vehicle.otherGuarantee %}
         <li class="block-grid">
-            <strong class="small-5 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.otherGuarantee.label"|trans}}</strong>
-            <span class="small-auto">{{ vehicle.otherGuarantee|raw|nl2br }}</span>
+            <strong class="small-12 medium-4 large-5 xlarge-3">{{ "vehicle.section.guarantee.otherGuarantee.label"|trans}}</strong>
+            <span class="small-12 medium-auto">{{ vehicle.otherGuarantee|raw|nl2br }}</span>
         </li>
     {% endif %}
 </ul>

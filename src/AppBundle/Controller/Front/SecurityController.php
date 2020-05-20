@@ -134,6 +134,9 @@ class SecurityController extends BaseController
         if ($request->query->has('email_registration')) {
             $data->email = $request->query->get('email_registration');
         }
+        if ($request->query->has('next_action')) {
+            $data->target_path = $request->query->get('next_action');
+        }
 
         $registrationForm = $this->formFactory->create(RegistrationType::class, $data);
         $registrationForm->handleRequest($request);
@@ -151,7 +154,8 @@ class SecurityController extends BaseController
 
                 return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
                     'form' => $registrationForm->createView(),
-                    'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
+                    'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY),
+                    'destination' => $data->target_path
                 ]);
             }
 
@@ -170,7 +174,11 @@ class SecurityController extends BaseController
                     }
                 }
                 return $this->redirect($redirectTo);
-            } else if ($type == ProUser::TYPE) {
+            } elseif (!empty($registrationDTO->target_path)){
+                $redirectTo = $registrationDTO->target_path;
+                return $this->redirect($redirectTo);
+            }
+            else if ($type == ProUser::TYPE) {
                 $this->session->getFlashBag()->add(
                     self::FLASH_LEVEL_INFO,
                     'flash.success.registration_success_pro'
@@ -183,7 +191,8 @@ class SecurityController extends BaseController
 
         return $this->render(sprintf('front/Security/Register/user_%s.html.twig', $type), [
             'form' => $registrationForm->createView(),
-            'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY)
+            'assitant_registration_mode' => $this->session->has(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY),
+            'destination' => $data->target_path
         ]);
     }
 
@@ -236,16 +245,6 @@ class SecurityController extends BaseController
             'flash.error.registration_unconfirmed'
         );
         return $this->redirectToRoute('front_default');
-    }
-
-    /**
-     * @param Request $request
-     * @return Response
-     * @throws \InvalidArgumentException
-     */
-    public function loginAction(Request $request): Response
-    {
-        return $this->render('front/User/includes/form_login.html.twig');
     }
 
     /**

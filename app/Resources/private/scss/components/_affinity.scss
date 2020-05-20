@@ -18,6 +18,10 @@
       @include breakpoint(large) {
         top: $header-height-medium;
       }
+
+      + .cookie-bar {
+        position: absolute;
+      }
     }
   }
 

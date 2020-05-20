@@ -2,5 +2,5 @@
 
 <h2 class="{{ titleClass }}">{{ 'vehicle.section.additionalInformation.title'|trans }}</h2>
 {%  if vehicle.additionalInformation|trim|length > 0 %}
-    <div>{{ vehicle.additionalInformation|raw|nl2br }}</div>
+    <div class="is-breaking-word">{{ vehicle.additionalInformation|raw|nl2br }}</div>
 {% endif %}

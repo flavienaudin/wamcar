@@ -116,6 +116,7 @@ flash:
       unauthorized_to_get_vehicle_to_declare: Vous n'êtes pas autorisé à accèder aux véhicles à déclarer de ce conseiller.
       saving: Une erreur est survenue lors de la sauvegarde de la transaction. Merci de vérifier votre saisie et de recommencer.
     garage:
+      edit: Les modifications n'ont pas pu être enregistrées. Merci de vérifier votre saisie et valider à nouveau.
       not_member: Cet utilisateur n'est pas membre de ce garage.
       no_pending_request: Cet utilisateur n'a pas fait de demande pour rejoindre votre garage
       unauthorized_to_administrate: Vous n'êtes pas autorisés à administrer ce garage.
@@ -435,23 +436,32 @@ garage:
     edit: Modifier mon garage
     join: Rejoindre ce garage
   infos:
+    edit: Edition du profil
+    see_on_gmaps: Voir sur Google Maps
     opening_hours: Horaires
     auto_vehicles_import_request:
       presentation: "Demander l'import automatisé de votre stock:"
       form: Formulaire
-  tabs:
-    vehicles:
-      title: Véhicules
-      list:
-        title: "[0,1] véhicule en vente|[2,Inf[ véhicules en vente"
-        member_empty: Vous n'avez aucun véhicule en vente.
-        empty_list: Aucun véhicule n'est en vente.
-        empty_result: Aucun véhicule en vente ne correspond à votre recherche.
-    about: A propos
-    opinions:
-      title: Avis
-      no_opinion: Aucun avis n'est connu pour ce garage
-    sellers: Vendeurs
+  banner:
+    edit: Edition de la bannière
+  logo:
+    edit: Edition du logo
+  presentation:
+    title: Présentation
+    edit: Edition de la présentation
+  vehicles:
+    title: Véhicules
+    list:
+      title: "[0,1] véhicule en vente|[2,Inf[ véhicules en vente"
+      member_empty: Vous n'avez aucun véhicule en vente.
+      empty_list: Aucun véhicule n'est en vente.
+      empty_result: Aucun véhicule en vente ne correspond à votre recherche.
+  about: A propos
+  opinions:
+    title: Avis
+    no_opinion: Aucun avis n'est connu pour ce garage
+  sellers:
+    title: Equipe
   google_rating:
     unknown: Note inconnue
 
@@ -462,6 +472,13 @@ garage:
         placeholder: Rechercher sur Google
       location:
         placeholder: Ville ou code postal
+      presentation:
+        label: Présentation
+        placeholder: >
+          Présenter en quelques mots votre société, vos offres, vos avantages concurrentiels qui vous
+          distingueront de vos concurrents !
+      opening_hours:
+        label: Horaires d'ouverture
     auto_vehicles_import_request:
       title: Import automatisé de votre stock de véhicule
       presentation: >
@@ -477,8 +494,8 @@ garage:
           instruction: Séparer les e-mails par un espace ou un point-virgule, ou valider chaque adresse e-mail en tapant sur "Entrée".
           error:
             empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant d'envoyer les invitations. Merci de réessayer."
-    request:
-      title: Rejoindre un garage
+    pending_request:
+      title: Demandes pour rejoindre %garage_name%
   administrator:
     invisible: Ce gestionnaire du garage n'est pas visible des autres utilisateurs.
     contact: "<a href=\"%contactUrl%\" target=\"_blank\">Contactez-nous</a> pour toute demande concernant la gestion de %garage_name%."
@@ -651,14 +668,22 @@ vehicle:
         owner: Mes autres véhicules
       button:
         garage: Voir tous les véhicules du garage
+        personal: Voir tous les véhicules de %firstname%
   interested_user:
     title:
       pro: Ils aiment ce véhicule
       personal: Ils aiment cette annonce
     tabs:
-      all: Tous (%nb%)
-      pro: Professionnels (%nb%)
-      personal: Particuliers (%nb%)
+      all:
+        abbr: Tous (%nb%)
+        long: Tous (%nb%)
+      pro:
+        abbr: Pro. (%nb%)
+        long: Professionnels (%nb%)
+      personal:
+        abbr: Part. (%nb%)
+        long: Particuliers (%nb%)
+    date: a aimé le %date%
   field:
     plateNumber:
       label: Immatriculation
@@ -914,6 +939,8 @@ user:
         multigarages: Multi-sites
       garage:
         label: Travaille chez
+      project:
+        label: Projet
       cat:
         edit_profile: Editer mon profil
         answer_wamaffinity_form: Remplir le questionnaire WamAffinity
@@ -1054,6 +1081,7 @@ user:
       show_x_more: "[0,1] Voir %nbRemainingVideos% supplémentaire | [2, Inf[ Voir %nbRemainingVideos% supplémentaires"
   vehicles:
     title: Mes annonces
+    personal: "[0,1] Véhicule en vente | [2,Inf[ Véhicules en vente"
   project:
     my_project: Mon projet
     seller_project: Projet de %seller_firstname%
@@ -1061,6 +1089,7 @@ user:
     edit: Editer mon projet
     answer: Répondre à son projet
     empty_placeholder: Le vendeur n'a pas renseigné de projet de rachat.
+    published_at: Annonce déposée le %createdAt%
     defined_budget: Budget de %budget_ammount%€
     undefined_budget: Budget non défini
     field:
@@ -1129,6 +1158,9 @@ user:
           first_contact_preference:
             waiting: "Je suis pleinement disponible pour répondre à toutes vos questions."
           suggestion: "Mes suggestions : "
+  personal_contact:
+    unlogged:
+      title: Connectez-vous pour contacter %firstname%
   pro_contact:
     title: Contacter %username%
     form.field:
@@ -1154,17 +1186,18 @@ user:
     seller_for: Vendeur pour
     add: Ajouter un garage
     join: Rejoindre un garage
-    remove_member: Détacher ce vendeur
+    remove_member: Dissocier
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande
     decline_request: Refuser la demande
     pending_request:
       member: Votre demande est en attente d'acceptation par le gestionnaire de %garage_name%
       administrator: "%seller_name% souhaite rejoindre %garage_name%"
+      instructions: Les vendeurs présentés ci-dessous souhaite rejoindre votre garage et attendent votre réponse.
     toogle_role:
-      to_administrator: Désigner en tant que gestionnaire
+      to_administrator: Rendre gestionnaire
       replace_administrator: Désigner en tant que gestionnaire vous remplaçant
-      to_simple_membre: Retirer le rôle de gestionnaire
+      to_simple_membre: Rendre simple collaborateur
   affinity:
     page_title: Wam Affinity
     section:
@@ -1183,11 +1216,11 @@ user:
         personal: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           professionnels qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici.</a>
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> en cliquant ici.</a>
         pro: >
           Vous avez déjà répondu au questionnaire WamAffinity. Vous pouvez consulter vos affinités avec les
           particuliers qui ont eux aussi participé. Vous pouvez répondre à nouveau au questionnaire WamAffinity
-          <a href="%affinity_form_url%" class="text-underline" %datawtattr%> en cliquant ici</a>.
+          <a href="%affinity_form_url%" class="button small" %datawtattr%> en cliquant ici</a>.
     degree:
       calculation_in_progress: Vos affinités avec cet utilisateur va être disponible d'ici quelques instants, calcul en cours
       himself: Vous avez rempli le formulaire. Consultez d'autres profils pour connaître votre affinité.
@@ -1199,7 +1232,13 @@ user:
           unlogged: >
             Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
             d'autres conseillers(ères) automobiles.
-        pro: Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec ce particulier.
+        pro:
+          logged: >
+            Répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec %username% et
+            d'autres particuliers.
+          unlogged: >
+            Inscrivez-vous et répondez au questionnaire Wamcar Affinity pour découvrir vos affinités avec
+            %username% et d'autres particuliers.
       calltoaction:
         fill_form: Remplir le questionnaire
       element.alt:
@@ -1388,6 +1427,7 @@ favorites:
   my_likes:
     title: Mes likes
     ordering_indication: Vos likes sont affichés du plus récent au plus ancien.
+    empty: Aucun véhicule liké pour le moment
   my_experts:
     title: Mes experts
     no_expert: Consultez les profils et sélectionnez vos experts favoris!
@@ -1426,8 +1466,8 @@ directory:
   field:
     filter.label: "Spécialités"
     text:
-      label: Marque
-      placeholder: Marque
+      label: Recherche
+      placeholder: Nom, Marque, ...
     speciality:
       label: Spécialité
       placeholder: Spécialité

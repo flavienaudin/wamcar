@@ -18,6 +18,7 @@ use AppBundle\Form\DTO\ProUserProSpecialitiesDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
+use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Security\HasPasswordResettable;
 use AppBundle\Security\Repository\UserWithResettablePasswordProvider;
 use AppBundle\Security\UserRegistrationService;
@@ -226,15 +227,22 @@ class UserEditionService
     }
 
     /**
-     * @param ProUser $user
-     * @param ProUserPresentationDTO $proUserPresentationDTO
-     * @return ProUser
+     * @param BaseUser $user
+     * @param UserPresentationDTO $userPresentationDTO
+     * @return BaseUser
      */
-    public function editPresentationInformations(ProUser $user, ProUserPresentationDTO $proUserPresentationDTO)
+    public function editPresentationInformations(BaseUser $user, UserPresentationDTO $userPresentationDTO)
     {
-        $user->setPresentationTitle($proUserPresentationDTO->presentationTitle);
-        $user->setDescription($proUserPresentationDTO->description);
+        $user->setDescription($userPresentationDTO->description);
+        if($userPresentationDTO instanceof ProUserPresentationDTO && $user instanceof ProUser) {
+            $user->setPresentationTitle($userPresentationDTO->presentationTitle);
+        }
         $this->userRepository->update($user);
+        if ($user instanceof PersonalUser) {
+            $this->eventBus->handle(new PersonalUserUpdated($user));
+        } else if ($user instanceof ProUser) {
+            $this->eventBus->handle(new ProUserUpdated($user));
+        }
         return $user;
     }
 

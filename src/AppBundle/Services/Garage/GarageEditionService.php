@@ -3,6 +3,8 @@
 namespace AppBundle\Services\Garage;
 
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\GarageBanner;
+use AppBundle\Doctrine\Entity\GarageLogo;
 use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
@@ -10,6 +12,8 @@ use AppBundle\Exception\Garage\ExistingGarageException;
 use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
+use AppBundle\Form\DTO\GaragePictureDTO;
+use AppBundle\Form\DTO\GaragePresentationDTO;
 use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use GoogleApi\GoogleMapsApiConnector;
@@ -139,6 +143,55 @@ class GarageEditionService
 
             return $garage;
         }
+    }
+
+    /**
+     * @param GaragePictureDTO $garagePictureDTO
+     * @param Garage $garage
+     * @return Garage
+     */
+    public function editBanner(GaragePictureDTO $garagePictureDTO, Garage $garage): Garage
+    {
+        if($garagePictureDTO->isRemoved){
+            $garage->removeBanner();
+        }else{
+            $banner = new GarageBanner($garage, $garagePictureDTO->file);
+            $garage->setBanner($banner);
+        }
+        $garage = $this->garageRepository->update($garage);
+        $this->eventBus->handle(new GarageUpdated($garage));
+        return $garage;
+    }
+
+    /**
+     * @param GaragePictureDTO $garagePictureDTO
+     * @param Garage $garage
+     * @return Garage
+     */
+    public function editLogo(GaragePictureDTO $garagePictureDTO, Garage $garage): Garage
+    {
+        if($garagePictureDTO->isRemoved){
+            $garage->removeLogo();
+        }else{
+            $logo = new GarageLogo($garage, $garagePictureDTO->file);
+            $garage->setLogo($logo);
+        }
+        $garage = $this->garageRepository->update($garage);
+        $this->eventBus->handle(new GarageUpdated($garage));
+        return $garage;
+    }
+
+    /**
+     * @param GaragePresentationDTO $garagePresentationDTO
+     * @param Garage $garage
+     * @return Garage
+     */
+    public function editPresentationInformations(GaragePresentationDTO $garagePresentationDTO, Garage $garage): Garage
+    {
+        $garage->setPresentation($garagePresentationDTO->presentation);
+        $garage = $this->garageRepository->update($garage);
+        $this->eventBus->handle(new GarageUpdated($garage));
+        return $garage;
     }
 
     /**

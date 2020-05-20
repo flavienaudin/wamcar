@@ -1,15 +1,7 @@
-{% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-{% set likeButtonLabel = like is not null and like.value > 0?'global.button.dislike':'global.button.like_vehicle' %}
-{% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
-
-<div class="js-vehicle-actions vehicle-editing block-grid small-12">
-    <span class="column small-collapse small-6 large-12 large-uncollapse">
+<div class="peexeo-vehicle-aside">
+    <div class="send-message-button-container">
         <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}"
            data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ vehicle.seller|wtToDataAttrValue }}"
-           class="button add large-m-b-1 icon-message">{{ 'global.button.send_message'|trans }}</a>
-    </span>
-    <span class="column small-collapse small-6 large-12 large-uncollapse">
-        <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug }) }}"
-           class="button reverse like like-button {{ likeIcon }}" {{ wtLikeDataAttr|raw }}>{{ likeButtonLabel|trans }}</a>
-    </span>
+           class="icon-message"></a>
+    </div>
 </div>

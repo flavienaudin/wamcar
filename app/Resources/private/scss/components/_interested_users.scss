@@ -1,0 +1,29 @@
+/* ===========================================================================
+   Interested Users
+   =========================================================================== */
+
+.interested-users {
+
+  &-tabs {
+
+    &-content {
+      border: 1px solid $border-color;
+      border-top: none;
+
+      .send-message-button {
+        @include breakpoint(small only) {
+          @include buttonIcon;
+          width: rem-calc(30);
+          height: rem-calc(30);
+        }
+      }
+    }
+  }
+
+  .seller-list {
+    > li {
+      padding-left: $tab-content-padding;
+      padding-right: $tab-content-padding;
+    }
+  }
+}

@@ -4,17 +4,22 @@
 
 @mixin separatorMixin {
   border-top: rem-calc(1) solid $border-color;
-  margin-top: rem-calc(30);
-  padding-top: rem-calc(25);
+  margin-top: rem-calc(20);
+  padding-top: rem-calc(20);
 
   @include breakpoint(medium) {
-    margin-top: rem-calc(35);
+    margin-top: rem-calc(30);
     padding-top: rem-calc(30);
   }
 }
 
 .separator {
   @include separatorMixin;
+
+  &.small {
+    margin-top: rem-calc(15);
+    padding-top: rem-calc(15);
+  }
 
   &.strong {
     border-top-width: rem-calc(2);

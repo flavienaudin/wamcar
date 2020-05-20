@@ -30,14 +30,26 @@ if ($($movePicturesList).length) {
   });
 }
 
-const $moveGaragePicture = '#js-move-garage-picture';
-const $garagePicture = '#js-garage-picture';
+const $garageAside = $('#js-garage-aside');
+if ($garageAside.length) {
+  const $garageLogo = $('#js-garage-logo');
+  if ($garageLogo.length) {
+    $garageLogo.responsiveDom({
+      appendTo: $garageAside,
+      mediaQuery: '(min-width: 1024px)'
+    });
+  }
 
-if ($($garagePicture).length) {
-  $($garagePicture).responsiveDom({
-    appendTo: $moveGaragePicture,
-    mediaQuery: '(min-width: 1024px)'
-  });
+  const $garageInfos = $('#js-garage-info');
+  if ($garageInfos.length) {
+    $garageInfos.responsiveDom({
+      appendTo: $garageAside,
+      mediaQuery: '(min-width: 1024px)',
+      callback: (matched) => {
+        $garageInfos.toggleClass('is-sticky');
+      }
+    });
+  }
 }
 
 const $moveVehicleActions = '.js-vehicle-actions';
@@ -49,40 +61,12 @@ if ($($moveVehicleActions).length) {
   });
 }
 
-const $proProfilImage = $('.js-pro-profil-image');
-if($proProfilImage.length){
-  $proProfilImage.removeClass('is-invisible');
-  $proProfilImage.responsiveDom({
-    prependTo: '.js-pro-profil-summary',
+const $proProfileImage = $('.js-profile-image');
+if($proProfileImage.length){
+  $proProfileImage.removeClass('is-invisible');
+  $proProfileImage.responsiveDom({
+    prependTo: '.js-profile-summary',
     mediaQuery: '(min-width: 640px)'
-  });
-}
-
-const $proProfilContactForm = $('.js-pro-profil-contact-form-container');
-if($proProfilContactForm.length > 0){
-  $proProfilContactForm.each((index, element) => {
-    const breakpoint = $(element).data('responsivedom-mediaquerysize');
-    let options = {
-      mediaQuery: '(min-width: ' + breakpoint + 'px)'
-    };
-    const destination = $(element).data('responsivedom-destination');
-    const appendTo = $(element).data('responsivedom-appendto');
-    if(appendTo){
-      options.appendTo = destination;
-    }else{
-      options.prependTo = destination;
-    }
-    $(element).responsiveDom(options);
-  });
-}
-
-/*** PRO USER PAGE (PEEXEO) ***/
-
-const $proProfilSellerServices = $('.js-seller-services');
-if($proProfilSellerServices.length > 0){
-  $proProfilSellerServices.responsiveDom({
-    appendTo: '.js-profil-seller-right-column',
-    mediaQuery: '(min-width: 1024px)'
   });
 }
 
@@ -111,6 +95,43 @@ if($asideContentSellerItem.length){
     appendTo: '#js-vehicle-aside',
     mediaQuery: vehicleAsideMediaQuery,
     /*callback: (matched) => {}*/
+  });
+}
+
+
+/*** Personal User Contact/Login Form ***/
+
+const $loginBlock = $('.js-contact-login-block');
+if($loginBlock.length){
+  $loginBlock.responsiveDom({
+    appendTo: '.js-profile-right-column',
+    mediaQuery: '(min-width: 1024px)',
+    callback: (matched) => {
+      $loginBlock.toggleClass('is-sticky');
+    }
+  });
+}
+
+/*** Pro User Contact Form ***/
+
+const $proProfilContactForm = $('.js-pro-profile-contact-form-container');
+if($proProfilContactForm.length){
+  $proProfilContactForm.each((index, element) => {
+    const breakpoint = $(element).data('responsivedom-mediaquerysize');
+    let options = {
+      mediaQuery: '(min-width: ' + breakpoint + 'px)',
+      callback: (matched) => {
+        $(element).toggleClass('is-sticky block-light-shadow');
+      }
+    };
+    const destination = $(element).data('responsivedom-destination');
+    const appendTo = $(element).data('responsivedom-appendto');
+    if(appendTo){
+      options.appendTo = destination;
+    }else{
+      options.prependTo = destination;
+    }
+    $(element).responsiveDom(options);
   });
 }
 

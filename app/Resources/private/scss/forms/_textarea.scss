@@ -49,4 +49,13 @@ textarea {
       padding: 0 rem-calc(20);
     }
   }
+
+  /*
+    Help message
+   ===================================== */
+
+  & ~ small.help-message {
+    font-size: 80%;
+    font-style: italic;
+  }
 }

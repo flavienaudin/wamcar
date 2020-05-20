@@ -3,7 +3,6 @@
    =========================================================================== */
 
 
-
 /*
    Block
    ===================================== */
@@ -15,7 +14,6 @@
 .is-block-inherit{ display: inherit; }
 .is-scrollable   { overflow: auto; }
 .is-flex         { display: flex; }
-
 
 
 /*
@@ -38,7 +36,6 @@
     top: 0;
   }
 }
-
 
 
 /*
@@ -67,14 +64,12 @@
 }
 
 
-
 /*
    Size
    ===================================== */
 
 .full-width { width: 100%; }
 .full-height { height: 100%; }
-
 
 
 /*
@@ -86,7 +81,7 @@
 .text-underline {
   font-weight: bold;
   color: $header-color;
-  border-bottom: rem-calc(1) solid $primary-color;
+  border-bottom: rem-calc(1) solid $header-color;
   text-decoration: none;
   transition: $global-transition;
   &:before {color: $primary-color;}
@@ -126,8 +121,8 @@
 .primary-bg { background-color: $primary-color; }
 .secondary-bg { background-color: $secondary-color; }
 .body-font-bg { background-color: $body-font-color; }
-.black-bg { background-color: black; }
-.white-bg { background-color: white; }
+.black-bg { background-color: $black; }
+.white-bg { background-color: $white; }
 .light-gray-peexeo-bg { background-color: $light-gray-peexeo; }
 .medium-gray-bg { background-color: $medium-gray; }
 .gray-peexeo-bg { background-color: $gray-peexeo; }
@@ -143,10 +138,30 @@
 .warning-bg { background-color: $warning-color; }
 .danger-bg { background-color: $alert-color; }
 
+
 /*
-  Background color
+   Before Color
    ===================================== */
-.white-bg { background-color: white; }
+
+.primary-before-color:before { color: $primary-color; }
+.secondary-before-color:before { color: $secondary-color; }
+.body-before-font-color:before { color: $body-font-color; }
+.black-before-color:before { color: black; }
+.white-before-color:before { color: white; }
+.light-gray-peexeo-before-color:before { color: $light-gray-peexeo; }
+.medium-gray-before-color:before { color: $medium-gray; }
+.gray-peexeo-before-color:before { color: $gray-peexeo; }
+.dark-gray-before-color:before { color: $dark-gray; }
+.blue-gray-peexeo-before-color:before { color: $blue-gray-peexeo; }
+.blue-peexeo-before-color:before { color: $blue-peexeo; }
+.dark-gray-blue-peexeo-before-color:before { color: $dark-gray-blue-peexeo; }
+.red-peexeo-before-color:before { color: $red-peexeo; }
+.red-pastel-peexeo-before-color:before { color: $red-pastel-peexeo; }
+.green-peexeo-before-color:before { color: $green-peexeo; }
+.orange-peexeo-before-color:before { color: $orange-peexeo; }
+.success-before-color:before { color: $success-color; }
+.warning-before-color:before { color: $warning-color; }
+.danger-before-color:before { color: $alert-color; }
 
 
 /*

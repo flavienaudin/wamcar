@@ -42,6 +42,7 @@
     & > div {
       padding: rem-calc(25);
       background-color: $body-background;
+      border-radius: $global-radius;
     }
   }
 }

@@ -11,7 +11,7 @@
                     <p class="black-color">
                         <i>{{ 'user.garage.pending_request.member'|trans({'%garage_name%':membership.garage.name}) }}&nbsp;:</i>
                         <a href="{{ path('front_garage_unassign', {'garage_id':membership.garage.id,'user_id':app.user.id}) }}"
-                           class="text-underline">{{ 'user.garage.cancel_request'|trans }}</a></p>
+                           class="button small full-width">{{ 'user.garage.cancel_request'|trans }}</a></p>
                 {% endif %}
             </li>
         {% endif %}
@@ -19,7 +19,7 @@
 {% endspaceless %}{% endset %}
 
 {% if brandListBlock is not empty %}
-    <span class="profil-section-action icon-plus" data-toggle="jsAddGarageForm"></span>
+    <span class="profile-section-action icon-plus" data-toggle="jsAddGarageForm"></span>
 {% endif %}
 
 {% if addGarageForm is not null %}

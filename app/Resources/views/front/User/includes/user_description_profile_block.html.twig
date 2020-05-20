@@ -1,0 +1,52 @@
+{% if user.description is not empty or presentationForm is not null %}
+    <div class="profile-section block-light-shadow">
+        {% if presentationForm is not null %}
+            {{ form_start(presentationForm, {
+                'attr': {'class': 'form-compact', 'data-abide' : '','novalidate': 'novalidate'}
+            }) }}
+        {% endif %}
+        <h2>
+            {% if presentationForm is not null %}
+                <span class="profile-section-action icon-pen" data-toggle="jsPresentationView jsPresentationForm"></span>
+            {% endif %}
+            {{ userTitle|default(user.isPro ? 'user.presentation.title.pro'|trans : 'user.presentation.title.personal'|trans) }}
+        </h2>
+
+        <div id="jsPresentationView" data-toggler="is-hidden" {{ presentationForm is not null and not presentationForm.vars.valid ? 'class="is-hidden"' }}>
+            <div class="text-justify">
+                {% if user.description %}
+                    {{ user.description|nl2br }}
+                {% elseif userIsMe %}
+                    {{ 'user.presentation.empty'|trans }}
+                {% endif %}
+            </div>
+        </div>
+
+        {% if presentationForm is not null %}
+            <div id="jsPresentationForm" data-toggler="is-hidden" {{ presentationForm.vars.valid ? 'class="is-hidden"' }}>
+                {% if presentationForm.presentationTitle is defined %}
+                    {{ form_widget(presentationForm.presentationTitle, {
+                        'label': 'user.profile.edit.form.presentationTitle.label'|trans,
+                        'required': false,
+                        'required_class': 'show-for-sr',
+                        'attr' : {
+                            'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
+                            'maxlength': 50
+                        }
+                    }) }}
+                {% endif %}
+
+                {{ form_widget(presentationForm.description, {
+                    'label': 'user.profile.edit.form.presentation.label'|trans,
+                    'required': false,
+                    'required_class': 'show-for-sr'
+                }) }}
+
+                <div class="is-flex align-right ">
+                    <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
+                </div>
+            </div>
+        {% endif %}
+        {% if presentationForm is not null %}{{ form_end(presentationForm) }}{% endif %}
+    </div>
+{% endif %}

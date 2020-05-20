@@ -1,24 +1,23 @@
-{% set balise_budget = balise_budget|default('h3') %}
+<time class="margin-bottom-1">
+    {{ "user.project.published_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}
+</time>
 
-<{{ balise_budget }}>
-    <strong class="primary-color">{{ project.budget ? 'user.project.defined_budget'|trans({'%budget_ammount%': project.budget|localizednumber}):'user.project.undefined_budget'|trans }}</strong>
-</{{ balise_budget }}>
+<div class="h3">
+    {{ project.budget ? 'user.project.defined_budget'|trans({'%budget_ammount%': project.budget|localizednumber}):'user.project.undefined_budget'|trans }}
+</div>
 
 {% if project.isFleet == true %}
     <p>Il s'agit d'une flotte.</p>
 {% endif %}
 <ul class="list-bullet">
     {% for projectVehicle in project.projectVehicles %}
-        <li><strong class="black-color">{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
+        <li><strong class="">{{ projectVehicle.make }} {{ projectVehicle.model }}</strong>
             {{ (projectVehicle.yearMin) ? '/ '~projectVehicle.yearMin~"+ " : '' }}
             {{ (projectVehicle.mileageMax) ? '/ '~projectVehicle.mileageMax|localizednumber~"km" : '' }}
         </li>
     {% endfor %}
 </ul>
-<div class="seller-project-details dark-gray-color">
+<div class="seller-project-details">
     <p class="text-justify">{{ project.description|nl2br }}</p>
 </div>
 
-<time>
-    <span>{{ "vehicle.publish_at"|trans({'%createdAt%':project.updatedAt.date|localizeddate(format = "d MMM, HH'h'mm")}) }}</span>
-</time>

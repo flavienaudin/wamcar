@@ -1,0 +1,18 @@
+{% extends 'front/User/includes/seller_personal_item.html.twig' %}
+
+{% block bottomContainer %}
+    {% if isAbleToSeeFullInformation %}
+        {% if seller.isPhoneDisplay and seller.phone is not empty %}
+            <div class="js-seller-infos peexeo-vehicle-seller-infos">
+                <div class="is-flex">
+                    {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                        'phoneOwner': seller,
+                        'phoneNumber': seller.phone,
+                        'showphone_subaction':'1',
+                        'icontel': 'icon-mobile'
+                    }) }}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock bottomContainer %}

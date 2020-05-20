@@ -36,6 +36,17 @@
     {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
+    <div class="column small-12 ">
+        {{ form_widget(searchProForm.text, {
+            'class' : '',
+            'label' : 'directory.field.text.label'|trans,
+            'label_class' : '',
+            'required' : false,
+            'required_class': 'show-for-sr',
+            'placeholder': 'directory.field.text.placeholder'|trans
+        }) }}
+    </div>
+
     {% set largeSize = searchProForm.vars.mainFilters|length > 0 ? max(min(12/searchProForm.vars.mainFilters|length, 6), 3) : 12 %}
     {% if searchProForm.vars.mainFilters|length > 0 %}
         <div class="column small-12">
@@ -52,16 +63,6 @@
             }) }}
         </div>
     {% endfor %}
-    {#<div class="column small-12 medium-6 large-3">
-        {{ form_widget(searchProForm.text, {
-            'class' : '',
-            'label' : 'directory.field.text.label'|trans,
-            'label_class' : '',
-            'required' : false,
-            'required_class': 'show-for-sr',
-            'placeholder': 'directory.field.text.placeholder'|trans
-        }) }}
-    </div>#}
 
     <div class="column small-12 medium-8 large-4">
         {{ form_widget(searchProForm.postalCode, {
@@ -93,7 +94,7 @@
 
     <div class="column show-for-medium medium4 large-2">
         <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
-        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+        <button type="submit" class="button primary-button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
 
     <div class="block-grid small-12 medium-order-3 align-middle">
@@ -109,7 +110,7 @@
     </div>
 
     <div class="hide-for-medium column small-12 medium-order-3 input-margin">
-        <button type="submit" class="button full-width">{{ 'global.button.search'|trans }}</button>
+        <button type="submit" class="button primary-button full-width">{{ 'global.button.search'|trans }}</button>
     </div>
 
     {% if form_criteria is not empty %}

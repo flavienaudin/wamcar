@@ -1,0 +1,205 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% if app.user and vehicle.seller.id == app.user.id %}
+    {% set page_garage = true %}
+{% else %}
+    {% set page_search = true %}
+{% endif %}
+
+{% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
+{% set state_block %}
+    {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
+{% endset %}
+{% set ownersProject = vehicle.ownerProject %}
+{% set displayProjectBlock = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
+
+{% block mainClass %}medium-no-padding-top light-gray-peexeo-bg{% endblock %}
+
+{% block title %}
+    {{ 'vehicle.detail.personal.title'|trans({
+        '%vehicleName%': vehicle.make|vehicleMakeFormat('make') ~ ' ' ~ vehicle.modelName|vehicleModelFormat('model'),
+        '%vehicleCityName%':vehicle.cityName|upper,
+        '%vehicleStatus%':vehicle.status|trans({},'enumeration'),
+        '%vehicleYear%':vehicle.years
+    }) }}
+{% endblock %}
+{%- block meta_description %}
+    {{ 'vehicle.detail.personal.meta_description'|trans({
+        '%vehicleFuelName%':vehicle.fuelName|lower,
+        '%vehicleTransmission%':vehicle.transmission|trans({}, 'enumeration')|lower,
+        '%vehicleRegistrationDate%':vehicle.registrationDate|localizeddate('short', 'none'),
+        '%vehicleMileage%': vehicle.mileage,
+        '%publishedAt%':vehicle.createdAt|localizeddate('short', 'none')
+    }) }}
+{% endblock -%}
+{% block og_type %}article{% endblock %}
+
+{% set seo_img_url = vehicle.pictures|length>0?vehicle.mainPicture|vehiclePicture('vehicle_picture'):'vehicle_placeholder_picture'|defaultVehiclePicture %}
+{%- block seo_img_block %}
+    {% for picture in vehicle.pictures %}
+        <meta name="og:image" content="{{ picture|vehiclePicture('vehicle_picture') }}">
+    {% else %}
+        <meta name="og:image" content="{{ 'vehicle_placeholder_picture'|defaultVehiclePicture }}">
+    {% endfor %}
+{% endblock -%}
+
+{% block additional_meta %}
+    <meta property="article:published_time" content="{{ vehicle.createdAt|date('c') }}">{# datetime ISO 8601#}
+    <meta property="article:modified_time" content="{{ vehicle.updatedAt|date('c') }}">{# datetime ISO 8601#}
+{% endblock additional_meta %}
+
+{% block body %}
+    {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
+    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
+
+    {% set breadcrumbs = [
+        {
+            'name': vehicleSellerName,
+            'href': path('front_view_personal_user_info', {'slug': vehicle.seller.slug})
+        },
+        {
+            'name': vehicle.name,
+            'href': app.request.requestUri
+        }
+    ] %}
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org",
+    "@type": "Person",
+    "name" : "{{ vehicleSellerName }}"
+    }
+    </script>
+
+    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+
+    <div class="row peexeo-vehicle">
+        {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
+        {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+
+        {# Left Column #}
+        <div class="column small-12 large-7 xlarge-8">
+
+            {% include 'front/Vehicle/Detail/includes/header_title.html.twig' %}
+            {% include 'front/Vehicle/Detail/includes/header_price.html.twig' %}
+            {% include 'front/Vehicle/Detail/includes/header_subtitle.html.twig' %}
+
+            {# Carousel #}
+            <section class="vehicle-carousel">
+                {% include 'front/Vehicle/Detail/includes/carousel.html.twig' with {
+                    'carouselId':'js-carousel-vehicle',
+                    'carouselClass':'',
+                    'carouselNavigationId' :'js-carousel-navigation-vehicle',
+                    'modalIdToOpen':'js-modal-carousel-vehicle'
+                } %}
+            </section>
+            {# END Carousel #}
+
+            {# Seller info & contact #}
+            <div id="js-aside-content-selledby" class="vehicle-selled-by">
+                <strong>{{ "vehicle.selled_by"|trans }}</strong>
+            </div>
+            <div id="js-aside-content-seller-item" class="vehicle-seller-item">
+                {% include 'front/Vehicle/Detail/includes/seller_personal_item.html.twig' with {
+                    'itemClass' : 'block-light-shadow',
+                    'seller' : vehicle.seller,
+                    'compact' : true
+                } %}
+
+                {% if isEditableByCurrentUser %}
+                    {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}
+                {% else %}
+                    {% include 'front/Vehicle/Detail/includes/user_personal_message_favoris.html.twig' %}
+                {% endif %}
+            </div>
+            {# END Seller info & contact #}
+
+            {# Description #}
+            {% if vehicle.additionalInformation|trim|length > 0 %}
+                <div class="section-vehicle wysiwyg" id="js-additional-information">
+                    <div class="block-light-shadow">
+                        {% include 'front/Vehicle/Detail/includes/additionalInformations.html.twig' with {
+                            'titleClass' : 'is-breaking-word'
+                        } %}
+                    </div>
+                </div>
+            {% endif %}
+            {# END Description #}
+
+            {# Main information #}
+            <div class="section-vehicle wysiwyg" id="js-infos">
+                <div class="block-light-shadow">
+                    {% include 'front/Vehicle/Detail/includes/infos.html.twig' with {
+                        'titleClass' : 'is-breaking-word'
+                    } %}
+                </div>
+            </div>
+            {# END Main information #}
+
+            {% if state_block is not empty %}
+                <div class="section-vehicle wysiwyg" id="js-state">
+                    <div class="block-light-shadow">
+                        <h2 class="is-breaking-word">{{ 'vehicle.section.states.title'|trans }}</h2>
+                        <ul class="vehicle-infos-list list-border tiny no-bullet no-margin">
+                            {{ state_block }}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if displayProjectBlock %}
+                <div class="section-vehicle" id="js-project">
+                    <div class="block-light-shadow">
+                        {% include 'front/Vehicle/Detail/includes/seller_project.html.twig' %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {# Likes #}
+            {% if positiveLikes.all|length > 0 %}
+                <div class="section-vehicle" id="js-interested_users">
+                    <div class="block-light-shadow">
+                        {% include 'front/Vehicle/Detail/includes/interested_user.html.twig' with {
+                            'titleClass' : 'is-breaking-word'
+                        } %}
+                    </div>
+                </div>
+            {% endif %}
+            {# END Likes #}
+
+            {# Other vehicles #}
+            {% if vehiclesToList|length > 0 %}
+                <div class="other-vehicles" id="js-associate">
+                    <h2 class="is-breaking-word">
+                        {{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}
+                    </h2>
+                    {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+                        'vehiclesToList' : vehiclesToList,
+                        'balise' : 'h3',
+                        'columnsSizes': 'small-up-2'
+                    } %}
+                    <div class="is-flex align-center">
+                        <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}"
+                           class="button">{{ 'vehicle.section.other_vehicle.button.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}</a>
+                    </div>
+                </div>
+            {% endif %}
+            {# END Other vehicles #}
+
+        </div>
+        {# END Left Column #}
+
+        {# Right Column #}
+        <aside id="js-vehicle-aside" class="peexeo-vehicle-aside column hide-for-small-only large-5 xlarge-4">
+            {# empty for small. Filled on large using ResponsiveDom#}
+        </aside>
+        {# END Right Column #}
+    </div>
+{% endblock body %}
+
+{% block modal %}
+    {% if isEditableByCurrentUser %}
+        {% include 'front/Vehicle/Detail/includes/modal_remove_vehicle.html.twig' %}
+    {% endif %}
+    {% include 'front/Vehicle/Detail/includes/modal_carousel.html.twig' %}
+{% endblock %}

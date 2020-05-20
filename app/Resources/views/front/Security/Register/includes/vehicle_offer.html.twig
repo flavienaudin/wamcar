@@ -81,12 +81,13 @@
     </div>
 
     {# Button submit #}
-    <div class="block-grid column small-12 align-middle">
-        <div class="input-margin small-12">
-            <button type="submit" class="button full-width">{{ vehicle ? 'global.button.edit_this_vehicle'|trans : 'global.button.add_this_vehicle'|trans }}</button>
+    <div class="column small-12 is-flex">
+        <div class="small-6">
+            <button type="button" class="js-carousel-prev button">{{ 'global.button.previous_step'|trans }}</button>
         </div>
-        <div class="small-12">
-            <button type="button" class="js-carousel-prev text-underline"><b class="black-color">{{ 'global.button.previous_step'|trans }}</b></button>
+        <div class="small-6">
+            <button type="submit" class="button primary-button step-button-next">
+                {{ vehicle ? 'global.button.edit_this_vehicle'|trans : 'global.button.add_this_vehicle'|trans }}</button>
         </div>
     </div>
 </section>

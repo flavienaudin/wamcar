@@ -1,8 +1,8 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% block mainClass %}no-padding-top profil-seller-main{% endblock %}
+{% block mainClass %}no-padding-top profile-main profile-seller-main{% endblock %}
 
-{% set isUserProPageProfil = (user.isPro) %}
+{% set isUserProPageProfile = (user.isPro) %}
 {% set isUserPersonalPageProfil = (user.isPersonal) %}
 
 {% block title %}
@@ -25,19 +25,19 @@
 ] %}
 
 {% block body %}
-    {% include 'front/User/includes/seller_profil_header.html.twig' %}
+    {% include 'front/User/includes/seller_profile_header.html.twig' %}
 
-    <section class="row profil-body">
+    <section class="row profile-body">
         {# Left column #}
-        <div class="js-profil-seller-left-column profil-seller-left-column column small-12 large-8">
+        <div class="js-profile-left-column profile-left-column column small-12 large-8">
             {# Registration Blue Block #}
             {% if not isLogged %}
-                <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow">
+                <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">
                         {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
                     <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                         <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
-                           class="button expand-height square dark-blue">
+                           class="button expand-height dark-blue">
                             {{ 'global.button.register'|trans }}</a>
                     </div>
                 </div>
@@ -45,69 +45,18 @@
             {# END Registration Blue Block #}
 
             {# User Description Block #}
-            {% if user.description is not empty or presentationForm is not null %}
-                <div class="profil-section block-light-shadow">
-                    {% if presentationForm is not null %}
-                        {{ form_start(presentationForm, {
-                            'attr': {'class': 'form-compact', 'data-abide' : '','novalidate': 'novalidate'}
-                        }) }}
-                    {% endif %}
-                    <h2>
-                        {% if presentationForm is not null %}
-                            <span class="profil-section-action icon-pen"
-                                  data-toggle="jsPresentationTitleInput jsDescriptionInput jsDescriptionText jsSubmitInput">
-                            </span>
-                        {% endif %}
-                        {{ user.presentationTitle is not null ? user.presentationTitle : 'user.presentation.title.pro'|trans }}
-                    </h2>
-
-                    {% if presentationForm is not null %}
-                        <div id="jsPresentationTitleInput" class="is-hidden" data-toggler="is-hidden">
-                            {{ form_widget(presentationForm.presentationTitle, {
-                                'label': 'user.profile.edit.form.presentationTitle.label'|trans,
-                                'required': false,
-                                'required_class': 'show-for-sr',
-                                'attr' : {
-                                    'placeholder': 'user.profile.edit.form.presentationTitle.placeholder'|trans,
-                                    'maxlength': 50
-                                }
-                            }) }}
-                        </div>
-                    {% endif %}
-
-                    <div id="jsDescriptionText" data-toggler="is-hidden" class="text-justify">
-                        {% if user.description %}
-                            {{ user.description|nl2br }}
-                        {% elseif userIsMe %}
-                            {{ 'user.presentation.empty'|trans }}
-                        {% endif %}
-                    </div>
-
-                    {% if presentationForm is not null %}
-                        <div id="jsDescriptionInput" class="is-hidden" data-toggler="is-hidden">
-                            {{ form_widget(presentationForm.description, {
-                                'label': 'user.profile.edit.form.presentation.label'|trans,
-                                'required': false,
-                                'required_class': 'show-for-sr'
-                            }) }}
-                        </div>
-                        <div id="jsSubmitInput" class="is-flex align-right is-hidden" data-toggler="is-hidden">
-                            <input type="submit" class="button" value="{{ 'global.button.validate'|trans }}">
-                        </div>
-                    {% endif %}
-
-                    {% if presentationForm is not null %}{{ form_end(presentationForm) }}{% endif %}
-                </div>
-            {% endif %}
+            {{ include('front/User/includes/user_description_profile_block.html.twig', {
+                'userTitle': user.presentationTitle
+            }) }}
             {# END User Description Block #}
 
             {# Applointment Block #}
             {% if user.appointmentText is not empty %}
-                <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow">
+                <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">{{ user.appointmentText }}</div>
                     <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                         <a href="{{ path('front_conversation_create', {'id': user.id, (constant("AppBundle\\Controller\\Front\\ProContext\\ConversationController::QUERYPARAM_APPOINTMENT")):true, '_fragment':'message-answer-block'}) }}"
-                           class="button expand-height square dark-blue" data-wtaction="LM RDV"
+                           class="button expand-height dark-blue" data-wtaction="LM RDV"
                            data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ user|wtToDataAttrValue }}">
                             {{ 'user.appointment.call_to_action'|trans({'%username%':user.firstName|title}) }}</a>
                     </div>
@@ -118,7 +67,7 @@
             {# Affinity Blocks (according to (un)logged user) #}
             {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
             {% if userIsMe %}
-                <div class="profil-section block-light-shadow">
+                <div class="profile-section block-light-shadow">
                     <h2>{{ "user.affinity.section.title"|trans }}</h2>
                     {% if user.affinityAnswer is null %}
                         {{ 'user.affinity.section.explanation.pro'|trans({
@@ -135,13 +84,13 @@
             {% elseif user.affinityAnswer is not null and (app.user is null or app.user.isPersonal) %}
                 {% set userAffinity = user.getAffinityDegreesWith(app.user) %}
                 {% if userAffinity is not null %}
-                    <div class="profil-section block-light-shadow">
+                    <div class="profile-section block-light-shadow">
                         <h2>{{ "user.affinity.section.our_affinities"|trans }}
                             {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                         <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                     </div>
                 {% else %}
-                    <div class="profil-section block-grid align-middle block-dark-blue block-light-shadow hide-for-small-only">
+                    <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow hide-for-small-only">
                         <div class="column small-12 large-8 text-justify">
                             <h2>{{ "user.affinity.section.our_affinities"|trans }}
                                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
@@ -150,7 +99,7 @@
                         </div>
                         <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                             <a href="{{ path('front_affinity_personal_form') }}"
-                               class="button expand-height square dark-blue" {{ lwaWTattr }}>
+                               class="button expand-height dark-blue" {{ lwaWTattr }}>
                                 {{ isLogged ? 'user.affinity.degree.calltoaction.fill_form'|trans:'global.button.register'|trans }}</a>
                         </div>
                     </div>
@@ -160,10 +109,10 @@
 
             {# Presentation Video Block #}
             {% if user.youtubeVideoUrl is not empty or videoPresentationForm is not null %}
-                <div class="profil-section block-light-shadow">
+                <div class="profile-section block-light-shadow">
                     <h2>
                         {% if videoPresentationForm is not null %}
-                            <span class="profil-section-action icon-pen"
+                            <span class="profile-section-action icon-pen"
                                   data-toggle="jsVideoPresentationPreview jsVideoPresentationForm">
                             </span>
                         {% endif %}
@@ -191,7 +140,7 @@
                         {% endif %}
 
                         {% if user.videoText is not empty %}
-                            <div class="profil-video margin-top-2">
+                            <div class="profile-video margin-top-2">
                                 {{ user.videoText|raw }}
                             </div>
                         {% endif %}
@@ -241,12 +190,12 @@
             {% set proServices = user.proUserServices(true, true) %}
             {% set userHobbies = user.hobbies %}
             {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
-                <div class="js-seller-services profil-section seller-services block-light-shadow">
+                <div class="profile-section seller-services block-light-shadow">
                     {% if userIsMe or userSpecialities |length > 0 %}
                         <div>
                             <h2>
                                 {% if userIsMe %}
-                                    <a href="{{ path('front_edit_prouser_specialities') }}" class="profil-section-action icon-pen"></a>
+                                    <a href="{{ path('front_edit_prouser_specialities') }}" class="profile-section-action icon-pen"></a>
                                 {% endif %}
                                 {{ 'user.profile.proservices.specialities.title'|trans }}</h2>
                             <div class="tag-container">
@@ -262,7 +211,7 @@
                         <div>
                             <h2>
                                 {% if userIsMe %}
-                                    <a href="{{ path('front_edit_prouser_proservices') }}" class="profil-section-action icon-pen"></a>
+                                    <a href="{{ path('front_edit_prouser_proservices') }}" class="profile-section-action icon-pen"></a>
                                 {% endif %}
                                 {{ 'user.profile.proservices.services.title'|trans }}</h2>
                             <div class="tag-container">
@@ -292,11 +241,11 @@
 
             {# Videos Inserts Blocks #}
             {% for videosInsert in videosInserts %}
-                <div id="videos-encart-{{ videosInsert.id }}" class="profil-section block-light-shadow">
+                <div id="videos-encart-{{ videosInsert.id }}" class="profile-section block-light-shadow">
                     {% if videosInsert.title is not empty or editVideosInsertFormViews[videosInsert.id] is defined %}
                         <h2>
                             {% if editVideosInsertFormViews[videosInsert.id] is defined %}
-                                <span class="profil-section-action icon-pen"
+                                <span class="profile-section-action icon-pen"
                                       data-toggle="jsEditVideoInsert-{{ videosInsert.id }} jsVideoInsertVideos-{{ videosInsert.id }}">
                                 </span>
                             {% endif %}
@@ -358,7 +307,7 @@
 
             {# Add Videos Inserts Block #}
             {% if addVideosInsertForm is not null %}
-            <div class="profil-section block-light-shadow">
+            <div class="profile-section block-light-shadow">
                 <div class="icon-plus" data-toggle="addVideosInsertForm">{{ "user.profile.edit.form.video_insert.add.youtube_playlist"|trans }}</div>
                 <div id="addVideosInsertForm" data-toggler="is-hidden" {{ addVideosInsertForm.vars.valid ? 'class="is-hidden"' }}>
                     {% set formAttr = (not addVideosInsertForm.vars.valid?{
@@ -396,13 +345,12 @@
 
             {# User Vehicles Block #}
             {% if vehicles.totalHits > 0 %}
-                <div class="profil-seller-vehicles">
+                <div class="profile-seller-vehicles" id="vehicles">
                     <h2>{{ 'user.vehicles.title'|trans }}</h2>
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
                         'pagination_route': 'front_view_pro_user_info',
-                        'pagination_route_params': {'slug':user.slug},
+                        'pagination_route_params': {'slug':user.slug,'_fragment':'vehicles'},
                         'displayNbOfResult' : false,
-                        'isEditableByCurrentUser' : false,
                         'columnsSizes' : 'small-up-2 medium-up-3'
                     } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
                 </div>
@@ -411,7 +359,7 @@
 
             {# Delete Account Block #}
             {% if userIsMe %}
-                <div class="profil-section block-light-shadow">
+                <div class="profile-section block-light-shadow">
                     <h2>{{ 'user.profile.delete.title'|trans }}</h2>
                     <p>{{ 'user.profile.delete.link.information'|trans }}
                         <a href="{{ path('front_user_delete') }}"
@@ -424,10 +372,10 @@
         {# END Left column #}
 
         {# Right column #}
-        <div class="js-profil-seller-right-column profil-seller-right-column column small-12 large-4">
+        <div class="js-profile-right-column profile-right-column column small-12 large-4">
             {# User Garages Management Block #}
             {% if userIsMe %}
-                <div class="profil-section garages-card block-light-shadow">
+                <div class="profile-section garages-card block-light-shadow">
                     {% include 'front/User/includes/brand_list.html.twig' %}
                 </div>
             {% endif %}
@@ -438,11 +386,11 @@
 
     {% if contactForm is not null %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
-            'responsiveDomDestination':'.js-profil-seller-right-column',
-            'responsiveDomAppendTo':false,
-            'responsiveDomBreakpoint': 'large',
-            'titleClass':'h2',
+            'titleClass':'h2 text-center large-text-left',
             'formClass':'form-compact',
+            'responsiveDomDestination':'.js-profile-right-column',
+            'responsiveDomAppendTo':false,
+            'responsiveDomBreakpoint': 'large'
         }) }}
     {% endif %}
 {% endblock body %}

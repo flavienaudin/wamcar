@@ -50,7 +50,6 @@
   }
 
 
-
   /*
      Image
      ===================================== */
@@ -81,7 +80,7 @@
     background: $secondary-color;
     color: white;
 
-    @include breakpoint(medium) {
+    @include breakpoint(large) {
       bottom: rem-calc(18);
       right: rem-calc(20);
       width: rem-calc(45);
@@ -95,6 +94,8 @@
 
     /* Exceptions */
 
+    .peexeo-garage-banner-form &,
+    .peexeo-garage-logo-form &,
     .user-form & {
       bottom: 0;
       right: 0;
@@ -111,7 +112,7 @@
     width: rem-calc(100);
     height: rem-calc(100);
     border-radius: 50%;
-    border: 1px solid darken(#ededed,20%);
+    border: 1px solid darken(#ededed, 20%);
 
     img {
       border-radius: 50%;
@@ -164,6 +165,27 @@
 
     .file-preview-image {
       position: relative;
+    }
+
+    &.preview-garage-logo {
+      border: none;
+      margin-bottom: 0;
+    }
+
+    &.preview-garage-banner {
+      border: none;
+      width: 100%;
+      height: 100%;
+
+      .file-preview-image-container {
+        display: none;
+      }
+
+      .file-preview-remove {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
     }
   }
 

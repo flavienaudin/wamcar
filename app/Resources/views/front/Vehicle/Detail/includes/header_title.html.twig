@@ -1,0 +1,15 @@
+{# Make Model (vehicle, likeIcon, wtLikeDataAttr, positiveLikes)
+#}
+<div class="vehicle-title block-grid align-middle">
+    <h1 id="header-{{ vehicle.id }}" class="small-10 medium-auto dark-gray-blue-peexeo-color margin-bottom-0">
+        {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
+    </h1>
+    <span class="small-shrink no-border normal-fw" data-tooltip title="{{ 'favorites.tooltip.like'|trans }}"
+          tabindex="1" data-position="bottom" data-alignment="center">
+        <a href="{{ path('front_user_like_'~vehicle.type~'_vehicle', {'slug': vehicle.slug}) }}"
+                class="like {{ likeIcon }}" {{ wtLikeDataAttr|raw }}>
+            <sub {{ wtLikeDataAttr|raw }}>{{ positiveLikes[constant('AppBundle\\Controller\\Front\\ProContext\\FavoriteController::FAVORITES_ALL')]|length }}</sub>
+        </a>
+    </span>
+</div>
+{# END Make Model #}

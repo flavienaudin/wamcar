@@ -1,0 +1,28 @@
+{% set itemClass = itemClass|default('') %}
+{% set compact = compact is defined ? compact : false %}
+{% set displayPresentationTitle = displayPresentationTitle ?? true %}
+{% set userProfileUrl = seller.isPro ?
+    path('front_view_pro_user_info', {'slug': seller.slug}) :
+    path('front_view_personal_user_info', {'slug': seller.slug}) %}
+
+<div class="{{ itemClass }} seller-item">
+    <div class="profile-image margin-bottom-2">
+        <a href="{{ userProfileUrl }}">
+            <img src="{{ seller.avatar|avatar('user_thumbnail', seller.fullName) }}"
+                 alt="{{ seller.fullName }}"></a>
+    </div>
+    <a href="{{ userProfileUrl }}"><h2 class="text-center margin-bottom-1">{{ seller.fullName }}</h2></a>
+
+    {% if displayPresentationTitle and seller.presentationTitle is defined and (seller.presentationTitle is not empty or not compact) %}
+        <div class="margin-bottom-1 text-center black-color">
+            {{ seller.presentationTitle }}&nbsp;
+        </div>
+    {% endif %}
+
+    <p class="icon-location primary-color align-center">
+        <span class="body-font-color">
+            {% block userLocation %}{% endblock userLocation %}
+        </span>
+    </p>
+    {% block bottomContainer %}{% endblock bottomContainer %}
+</div>

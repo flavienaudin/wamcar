@@ -24,7 +24,7 @@
     <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 
     <div class="off-canvas-content-element">
-        <div class="js-pro-profil-contact-form-container user-contact-form-container {{ formContainerClass }}"
+        <div class="js-pro-profile-contact-form-container user-contact-form-container {{ formContainerClass }}"
              data-responsivedom-destination="{{ responsiveDomDestination }}"
              data-responsivedom-appendto="{{ responsiveDomAppendTo }}"
              data-responsivedom-mediaquerysize="{{ responsiveDomSize|default('640') }}">
@@ -110,7 +110,7 @@
                     {{ form_errors(contactForm.content) }}
                 </div>
             {% endif %}
-            <button type="submit" class="button square full-width">{{ 'global.button.send'|trans }}</button>
+            <button type="submit" class="button primary-button full-width">{{ 'global.button.send'|trans }}</button>
             {{ form_end(contactForm) }}
         </div>
     </div>

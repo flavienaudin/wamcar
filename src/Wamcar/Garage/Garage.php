@@ -416,6 +416,14 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     /**
      * @return Collection
      */
+    public function getPendingRequests(): Collection
+    {
+        return $this->members->matching(new Criteria(Criteria::expr()->neq('requestedAt', null)));
+    }
+
+    /**
+     * @return Collection
+     */
     public function getAvailableSellers(): Collection
     {
         /** @var ArrayCollection $enabledMembers */

@@ -17,6 +17,7 @@
   .button {
     margin-top: 35px;
     margin-bottom: 35px;
+    border-radius: $global-radius;
   }
 
   .go-to a {
@@ -24,7 +25,7 @@
   }
 
   table.button table td {
-    border-radius: 100px;
+    border-radius: $global-radius;
 
     a {
       padding: 20px 30px;

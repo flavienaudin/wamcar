@@ -1,8 +1,8 @@
-<aside class="profil-header small-12">
+<aside class="profile-header small-12">
     <header class="row text-center medium-text-left align-middle">
         <div class="column small-12 medium-shrink medium-order-2 medium-collapse">
-            <h1 class="profil-name">
-                {{ user.fullName(not(isUserProPageProfil or userIsMe or isUserPro)) }}
+            <h1 class="profile-name">
+                {{ user.fullName(not(isUserProPageProfile or userIsMe or isUserPro)) }}
                 {{ include('front/Affinity/includes/affinity_degreee_element.html.twig') }}
 
                 {% if isUserPro %}
@@ -14,14 +14,14 @@
                     </span>
                 {% endif %}
                 <br>
-                <small class="profil-city">
+                <small class="profile-city">
                     {% if (user.city is not null and not user.city.isEmpty) or userIsMe %}
                         {{ user.city ?? (userIsMe ? 'user.city.empty'|trans) }}&nbsp;&mdash;&nbsp;
                     {% endif %}
                     {{ 'user.profile.member_since'|trans({'%year%':user.createdAt|date('Y')}) }}
                 </small>
             </h1>
-            <div class="profil-action">
+            <div class="profile-action">
                 {% if user.userProfile.phone is not empty and (isUserPro and user.isPhoneDisplay or userIsMe) %}
                     <span class="small-auto medium-shrink">{{ include('front/Garages/Detail/includes/phone_number.html.twig', {
                             'phoneOwner': user,
@@ -42,7 +42,7 @@
             </div>
         </div>
         <div class="column medium-shrink medium-order-1">
-            <div class="profil-image">
+            <div class="profile-image">
                 {% if avatarForm is not defined or avatarForm is null %}
                     <img src="{{ user.avatar|avatar('user_thumbnail', user.fullName) }}" alt="{{ user.fullName(user.isPersonal) }}" width="100%">
                 {% else %}
