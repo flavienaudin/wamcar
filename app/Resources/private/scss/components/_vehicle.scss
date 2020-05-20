@@ -1072,6 +1072,31 @@
       background-color: $body-background;
       border-radius: $global-radius;
     }
+
+    .send-message-button-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+
+      background: $primary-color;
+
+      [class^="icon-"],
+      [class*=" icon-"] {
+        height: 48px;
+        width: 48px;
+        font-size: 1rem;
+
+        &:before{
+          margin: auto;
+          color: $white;
+        }
+      }
+    }
+
   }
 
   /*
