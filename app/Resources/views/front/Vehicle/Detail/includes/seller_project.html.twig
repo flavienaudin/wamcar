@@ -1,3 +1,5 @@
+{# TODO Cet encart peut être factoriser avec le block "Projet" de la page profil du particulier (User/Card.html.twig "Project Block" #}
+
 <h2 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.my_project'|trans:'user.project.seller_project'|trans({'%seller_firstname%':vehicle.seller.firstname}) }}</h2>
 
 {% set project = vehicle.ownerProject %}
