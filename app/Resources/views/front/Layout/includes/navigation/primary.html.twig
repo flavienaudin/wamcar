@@ -4,11 +4,11 @@
 
 {% set directoryAction = path('front_directory_view') %}
 
-{% set visibilityConfigClass =  isLogged ? 'hide-for-small-only' : 'show-for-large' %}
+{% set visibilityConfigClass =  visibilityConfigClass ?? (isLogged ? 'hide-for-small-only' : 'show-for-large') %}
 
-<nav id="{{ not isLogged ? 'js-navigation' }}"
+<nav id="{# Recherche dans le header supprimée #}{#{{ not isLogged ? 'js-navigation' }}#}"
      class="l-navigation column large-text-center is-hidden {{ navigation_class }} {{ visibilityConfigClass }}">
-    {% if isLogged %}
+    {% block navigation %}
         <div class="l-navigation-header-search {{ visibilityConfigClass }}">
             <form id="header-search-form" method="post" action="{{ path('front_search') }}">
                 <div class="{{ visibilityConfigClass }} is-flex">
@@ -44,6 +44,5 @@
                 </div>
             </form>
         </div>
-    {% endif %}
-    {% block navigation %}{% endblock %}
+    {% endblock %}
 </nav>

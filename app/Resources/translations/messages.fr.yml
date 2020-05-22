@@ -505,6 +505,9 @@ search:
     title: Annonces de voitures
     breadcrumbs: Annonces
     field:
+      services:
+        label: Votre recherche
+        placeholder: Services
       text:
         label: Votre recherche
         placeholder: Ex. Citröen C3

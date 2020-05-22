@@ -6,6 +6,7 @@ import $ from 'jquery';
 import 'ResponsiveDom';
 import 'foundation-sites';
 
+/** Nouvelle barre de recherche de conseiller
 const $navigation = '#js-navigation';
 const $offCanvasNavigation = '#js-off-canvas-navigation';
 
@@ -19,6 +20,20 @@ $($navigation).responsiveDom({
     }
   }
 });
+*/
+
+
+
+const $advisorsHeaderSearch = $('#seller-header-search-form');
+if($advisorsHeaderSearch.length) {
+  const $navigationHeaderSearch = $('.js-navigation-header-search');
+
+  $($advisorsHeaderSearch).responsiveDom({
+    appendTo: $navigationHeaderSearch,
+    mediaQuery: '(min-width: 1024px)'
+  });
+}
+
 
 const $movePicturesList = '#js-move-pictures-list';
 const $picturesList = '#js-pictures-list';
