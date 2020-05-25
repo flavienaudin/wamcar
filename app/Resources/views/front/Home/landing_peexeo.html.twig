@@ -60,7 +60,7 @@
                               data-fourth="{{ 'landing.peexeo.baseline.fourth'|trans }}"
                         ></span>
                     </h1>
-                    <a href="{{ findAdvisorLink }}" class="button primary-button">
+                    <a href="{{ findAdvisorLink }}" class="button primary-button full-width margin-bottom-1">
                         {{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
                 </div>
             </div>
@@ -82,20 +82,9 @@
             <div class="column small-12 large-6 large-order-1 wamaffinity-experience">
                 <h2 class="section-title h1">{{ 'landing.peexeo.wamaffinity.title'|trans }}</h2>
                 <p class="body-font-color">{{ 'landing.peexeo.wamaffinity.content'|trans }}</p>
-                <div class="row">
-                    <div class="column small-12 margin-bottom-1 medium-6 ">
-                        <a class="button square gray-light"
+                <div class="full-width text-center">
+                        <a class="button"
                            href="{{ path('register') }}">{{ 'landing.peexeo.wamaffinity.actions.registration'|trans }}</a>
-                    </div>
-                    {# Simplification
-                    <div class="column small-12 margin-bottom-1 medium-6">
-                        <a class="button square"
-                           href="{{ findAdvisorLink }}">{{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
-                    </div>
-                    <div class="column small-12 margin-bottom-1 medium-6 ">
-                        <a class="button square gray-light"
-                           href="{{ path('front_directory_view') }}">{{ 'landing.peexeo.wamaffinity.actions.all_advisors'|trans }}</a>
-                    </div>#}
                 </div>
             </div>
         </div>
@@ -107,8 +96,8 @@
 
             {% set reinsurance_class = '' %}
             {% include 'front/Layout/includes/reinsurance/reinsurance_wamaffinity.html.twig' with {'reinsurance_class': 'no-margin'} %}
-            <div class="column small-12 medium-4 medium-offset-4 large-2 large-offset-5">
-                <a class="button square gray-light" href="{{ path('register') }}">{{ 'landing.peexeo.wamaffinity.actions.registration'|trans }}</a>
+            <div class="full-width text-center">
+                <a class="button" href="{{ path('register') }}">{{ 'landing.peexeo.wamaffinity.actions.registration'|trans }}</a>
             </div>
 
             {#{% include 'front/Home/includes/modal_concept_video.html.twig' %}#}
