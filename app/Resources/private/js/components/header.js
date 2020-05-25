@@ -43,3 +43,9 @@ if ($headerSearchForm.length) {
     $submitActor = $(evt.currentTarget);
   });
 }
+
+const $advisorsHeaderSearchForm = $('#advisors-header-search-form');
+if($advisorsHeaderSearchForm.length){
+  const $searchField = $advisorsHeaderSearchForm.find('#advisor-header-search-text');
+  console.log($searchField);
+}

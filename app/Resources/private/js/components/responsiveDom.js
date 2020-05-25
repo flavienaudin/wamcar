@@ -24,13 +24,18 @@ $($navigation).responsiveDom({
 
 
 
-const $advisorsHeaderSearch = $('#seller-header-search-form');
-if($advisorsHeaderSearch.length) {
+const $advisorsHeaderSearchForm = $('#advisors-header-search-form');
+if($advisorsHeaderSearchForm.length) {
   const $navigationHeaderSearch = $('.js-navigation-header-search');
 
-  $($advisorsHeaderSearch).responsiveDom({
+  $($advisorsHeaderSearchForm).responsiveDom({
     appendTo: $navigationHeaderSearch,
-    mediaQuery: '(min-width: 1024px)'
+    mediaQuery: '(min-width: 1024px)',
+    callback: (matched) => {
+      if(matched) {
+        $('#advisors-header-search').addClass('is-hidden');
+      }
+    }
   });
 }
 

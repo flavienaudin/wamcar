@@ -32,12 +32,6 @@
       }
     }
 
-    &-header-advidors-header-search {
-      width: 100vw;
-      left: 0 !important;
-      right: 0 !important;
-    }
-
     &-header-search-links {
       @include breakpoint(360px down) {
         width: 100vw;

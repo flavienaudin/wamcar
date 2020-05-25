@@ -17,12 +17,13 @@
         {% endif %}
         #}
     {% endblock %}
-<div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
+
+    <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
         {% block header_right %}
 
             {# Common advisor header search button #}
             <button class="l-navigation-item is-logged l-header-button icon-search l-header-button hide-for-large"
-                    data-toggle="advisors_header_search"></button>
+                    data-toggle="advisors-header-search"></button>
 
             {% if isLogged %}
                 {# Recherche dans le header supprimée #}
@@ -75,30 +76,36 @@
             {% endif %}
         {% endblock %}
     </div>
+
+
+    {# Recherche de conseillers : champ proposition de mots-clés #}
+    <div id="advisors-header-search" class="row advisors-header-search is-hidden" data-toggler="is-hidden">
+        <div class="column small-shrink is-flex align-middle">
+            <button class="icon-arrow-left-2" data-toggle="advisors-header-search"></button>
+        </div>
+        <div class="column is-flex align-middle">
+            <div class="full-width">
+                <form id="advisors-header-search-form" class="form-compact" method="post" action="{{ path('front_directory_view') }}">
+                    <div class="row  large-collapse">
+                        <div class="column">
+                            <label for="advisor-header-search-text" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
+                            <input type="search" name="search_pro[text]" id="advisor-header-search-text" class="input no-margin"
+                                   placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
+                                   data-toggle="header_search_dropdown_pane">
+                            <input type="hidden" name="search_pro[radius]" value="50">
+                            <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
+                        </div>
+                        <div class="column small-shrink">
+                            <button type="submit" class="button no-margin">{{ 'global.button.search'|trans }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </header>
 
 {# Dropdowns et off-Canvas manipulables par les liens et icones de l'en-tête #}
-
-{# Dropdown pour la recherche de conseiller : champ, proposition de mots-clés #}
-<div id="advisors_header_search" class="dropdown-pane dropdown-pane-header-advidors-header-search hide-for-large"
-     data-dropdown data-position="bottom" data-auto-focus="true">
-    <form id="seller-header-search-form" class="form-compact" method="post" action="{{ path('front_directory_view') }}">
-        <div class="is-flex">
-            <div class="">
-                <label for="js-header-search" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
-                <input type="search" name="search_pro[text]" id="js-header-search" class="input no-margin"
-                       placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
-                       data-toggle="header_search_dropdown_pane">
-                <input type="hidden" name="search_pro[radius]" value="50">
-                <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
-            </div>
-            <div>
-                <button type="submit" class="button no-margin">{{ 'global.button.search'|trans }}</button>
-            </div>
-        </div>
-    </form>
-</div>
-
 {% if isLogged %}
     {# Nouvelle barre de recherche de conseiller #}
     {# Dropdown avec les liens de recherche (voiture/conseiller) pour mobile #}
