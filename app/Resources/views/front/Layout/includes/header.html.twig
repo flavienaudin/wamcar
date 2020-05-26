@@ -22,8 +22,49 @@
         {% block header_right %}
 
             {# Common advisor header search button #}
-            <button class="l-navigation-item is-logged l-header-button icon-search l-header-button hide-for-large"
-                    data-toggle="advisors-header-search"></button>
+            <button class="l-navigation-item is-logged l-header-button icon-search l-header-button" data-toggle="advisors-header-search"></button>
+
+            {# Recherche de conseillers : champ proposition de mots-clés #}
+            <div id="advisors-header-search" class="advisors-header-search is-hidden block-light-shadow" data-toggler="is-hidden">
+                <form id="advisors-header-search-form" class="form-compact" method="post" action="{{ path('front_directory_view') }}">
+                    <div class="row align-bottom margin-bottom-1">
+                        <div class="column">
+                            <label for="advisor-header-search-text" class="">{{ 'search.common.field.header.label'|trans }}</label>
+                            <input type="search" name="search_pro[text]" id="advisor-header-search-text" class="input no-margin"
+                                   placeholder="{{ 'search.common.field.header.label'|trans }}" autocomplete="off">
+                            <input type="hidden" name="search_pro[radius]" value="50">
+                            <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
+                        </div>
+                        <div class="column small-shrink">
+                            <button type="submit" class="button no-margin">{{ 'global.button.search'|trans }}</button>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="column suggestions-title">{{ 'search.common.field.suggestions'|trans }}</div>
+                    </div>
+                    <div class="row suggestions-group">
+                        <div class="column small-12 medium-4 h3 suggestions-group-name">
+                            Type de véhicules
+                        </div>
+                        <div class="column small-12 medium-8 suggestions-group-options tag-container">
+                            <span class="tag">Autoroute</span>
+                            <span class="tag">Bébé</span>
+                            <span class="tag">Long voyage</span>
+                        </div>
+                    </div>
+                    <div class="row suggestions-group">
+                        <div class="column small-12 medium-4 h3 suggestions-group-name">
+                            Origine
+                        </div>
+                        <div class="column small-12 medium-8 suggestions-group-options tag-container">
+                            <span class="tag">Française</span>
+                            <span class="tag">Allemande</span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
 
             {% if isLogged %}
                 {# Recherche dans le header supprimée #}
@@ -77,32 +118,6 @@
         {% endblock %}
     </div>
 
-
-    {# Recherche de conseillers : champ proposition de mots-clés #}
-    <div id="advisors-header-search" class="row advisors-header-search is-hidden" data-toggler="is-hidden">
-        <div class="column small-shrink is-flex align-middle">
-            <button class="icon-arrow-left-2" data-toggle="advisors-header-search"></button>
-        </div>
-        <div class="column is-flex align-middle">
-            <div class="full-width">
-                <form id="advisors-header-search-form" class="form-compact" method="post" action="{{ path('front_directory_view') }}">
-                    <div class="row  large-collapse">
-                        <div class="column">
-                            <label for="advisor-header-search-text" class="show-for-sr">{{ 'search.common.field.text.label'|trans }}</label>
-                            <input type="search" name="search_pro[text]" id="advisor-header-search-text" class="input no-margin"
-                                   placeholder="{{ 'search.common.field.text.label'|trans }}" autocomplete="off"
-                                   data-toggle="header_search_dropdown_pane">
-                            <input type="hidden" name="search_pro[radius]" value="50">
-                            <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
-                        </div>
-                        <div class="column small-shrink">
-                            <button type="submit" class="button no-margin">{{ 'global.button.search'|trans }}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </header>
 
 {# Dropdowns et off-Canvas manipulables par les liens et icones de l'en-tête #}

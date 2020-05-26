@@ -44,6 +44,11 @@ if ($headerSearchForm.length) {
   });
 }
 
+
+/**
+ * Formulaire de recherche des conseillers dans l'en-tête
+ */
+
 const $advisorsHeaderSearchForm = $('#advisors-header-search-form');
 if($advisorsHeaderSearchForm.length){
   const $searchField = $advisorsHeaderSearchForm.find('#advisor-header-search-text');

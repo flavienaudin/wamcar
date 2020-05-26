@@ -508,6 +508,9 @@ search:
       services:
         label: Votre recherche
         placeholder: Services
+      header:
+        label: Recherche libre
+      suggestions: Suggestions
       text:
         label: Votre recherche
         placeholder: Ex. Citröen C3

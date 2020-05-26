@@ -23,7 +23,7 @@ $($navigation).responsiveDom({
 */
 
 
-
+/*
 const $advisorsHeaderSearchForm = $('#advisors-header-search-form');
 if($advisorsHeaderSearchForm.length) {
   const $navigationHeaderSearch = $('.js-navigation-header-search');
@@ -38,6 +38,8 @@ if($advisorsHeaderSearchForm.length) {
     }
   });
 }
+*/
+
 
 
 const $movePicturesList = '#js-move-pictures-list';

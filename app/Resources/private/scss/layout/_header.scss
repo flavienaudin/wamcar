@@ -130,19 +130,58 @@ $header-background: white;
 }
 
 
-
 /*
    Header
    ===================================== */
 
-.advisors-header{
-  &-search{
+.advisors-header {
+  &-search {
     position: absolute;
-    top: 0;
-    bottom: 0;
+    top: $header-height; /* fixed header height*/
     left: 0;
     right: 0;
+    height: auto;
+    max-width: rem-calc(720);
+    margin-left: auto;
+    margin-right: auto;
     background-color: $white;
+    border: 1px solid $border-color;
+    padding: rem-calc(10px);
+    @include lightShadow;
+
+    @include breakpoint(large) {
+      top: $header-height-medium; /* fixed header height*/
+      padding: rem-calc(20px);
+    }
+
+
+    .suggestions {
+      &-title{
+        color: $primary-color;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      &-group {
+        margin-bottom: 1rem;
+
+        &-name {
+          color: $dark-gray-blue-peexeo;
+          margin-bottom: 0;
+
+        }
+
+        &:not(:last-child) {
+
+          .suggestions-group-options {
+            border-bottom: 2px dotted $dark-gray-blue-peexeo;
+            padding-bottom: 1rem;
+          }
+
+
+        }
+      }
+    }
   }
 }
 
