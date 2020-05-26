@@ -39,12 +39,13 @@ class ProServiceService
     }
 
     /**
-     * @param string $slug
-     * @return ProService|object|null
+     * @param array $proServiceNames
+     * @param bool $orderByName
+     * @return mixed
      */
-    public function getProServiceByNames(array $proServiceNames)
+    public function getProServiceByNames(array $proServiceNames, bool $orderByName = true)
     {
-        return $this->proServiceRepository->findByNames($proServiceNames);
+        return $this->proServiceRepository->findByNames($proServiceNames,$orderByName);
     }
 
     public function deleteProService(ProService $proService)

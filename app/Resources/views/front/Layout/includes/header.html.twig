@@ -40,28 +40,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="column suggestions-title">{{ 'search.common.field.suggestions'|trans }}</div>
-                    </div>
-                    <div class="row suggestions-group">
-                        <div class="column small-12 medium-4 h3 suggestions-group-name">
-                            Type de véhicules
-                        </div>
-                        <div class="column small-12 medium-8 suggestions-group-options tag-container">
-                            <span class="tag">Autoroute</span>
-                            <span class="tag">Bébé</span>
-                            <span class="tag">Long voyage</span>
-                        </div>
-                    </div>
-                    <div class="row suggestions-group">
-                        <div class="column small-12 medium-4 h3 suggestions-group-name">
-                            Origine
-                        </div>
-                        <div class="column small-12 medium-8 suggestions-group-options tag-container">
-                            <span class="tag">Française</span>
-                            <span class="tag">Allemande</span>
-                        </div>
-                    </div>
+                    {{ render(controller('AppBundle:Front/Default:advisorsSearchKeywords')) }}
 
                 </form>
             </div>
