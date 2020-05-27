@@ -188,9 +188,10 @@ class ProUserEntityIndexer extends EntityIndexer
 
     /**
      * Retrieve list of specialities selected by pros.
+     * @param string|null $query
      * @return array
      */
-    public function getProServices()
+    public function getProServices(string $query = null)
     {
         $mainQuery = new Query();
         $qb = new QueryBuilder();
@@ -198,9 +199,13 @@ class ProUserEntityIndexer extends EntityIndexer
         $proServicesAgg = $qb->aggregation()->terms('proServices');
         $proServicesAgg->setField('proServices');
         $proServicesAgg->setSize(1000);
+
+        if(!empty($query)){
+            $proServicesAgg->setInclude(".*".$query.".*");
+        }
+
         $mainQuery->addAggregation($proServicesAgg);
         $mainQuery->setSize(0);
-
         $resultSet = $this->search($mainQuery);
 
         $specialities = array_map(function ($aggDetails) {

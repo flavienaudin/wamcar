@@ -12,7 +12,9 @@ use AppBundle\Form\Type\SearchProType;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Wamcar\User\ProService;
 use Wamcar\User\ProServiceCategory;
 
@@ -137,5 +139,25 @@ class DirectoryController extends BaseController
             'page' => $page,
             'lastPage' => ElasticUtils::numberOfPages($resultSet)
         ]);
+    }
+
+    public function headerSearchKeywordsAction(Request $request): JsonResponse
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        $terms = $request->get('term');
+        $autocompleteResults = ['results' => []];
+        $proServices = $this->proServiceService->getProServiceByNames($this->proUserEntityIndexer->getProServices($terms), false);
+
+        /** @var ProService $proService */
+        foreach ($proServices as $proService) {
+            $autocompleteResults['results'][] = [
+                'id' => $proService->getSlug(),
+                'text' => $proService->getName()
+            ];
+        }
+        return new JsonResponse($autocompleteResults);
     }
 }

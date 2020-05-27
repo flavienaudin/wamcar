@@ -182,6 +182,12 @@ $header-background: white;
         }
       }
     }
+
+
+    // Select2 component
+    .select2-container--open{
+      z-index: $header-zindex +10;
+    }
   }
 }
 

@@ -39,6 +39,11 @@ parameters:
       char_filter:
         custom_char_filter:
           type: html_strip
+      normalizer:
+        myLowercase:
+          type: custom
+          filter: [ "lowercase" ]
+
   vehicle_info.index_builder.config:
     settings:
       index: '%common_settings%'
@@ -389,6 +394,7 @@ parameters:
                 type: float
           proServices:
             type: keyword
+            normalizer: myLowercase
           proSpecialities:
             type: keyword
 
