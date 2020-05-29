@@ -350,7 +350,8 @@ class VehicleController extends BaseController
         $currentUser = $this->getUser();
         $userIsCurrentUser = $vehicle->getSeller()->is($currentUser);
         $contactForm = null;
-        if (!$userIsCurrentUser) {
+        // Disabled waiting  for Captcha
+        if (false && !$userIsCurrentUser) {
             try {
                 $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
 
