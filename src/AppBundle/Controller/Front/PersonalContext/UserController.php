@@ -486,10 +486,10 @@ class UserController extends BaseController
         }
 
         /*
-         * Contact Form
+         * Contact Form : Disabled
          */
         $contactForm = null;
-        if (!$userIsCurrentUser) {
+        if (false && !$userIsCurrentUser) {
             try {
                 $this->conversationAuthorizationChecker->canCommunicate($currentUser, $user);
 
