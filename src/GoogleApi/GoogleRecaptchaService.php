@@ -49,7 +49,6 @@ class GoogleRecaptchaService implements CaptchaVerificator
                 ]
             ]);
             $responseData = json_decode($validationResponse->getBody(), true);
-            dump($responseData);
             return [
                 'success' => $responseData['success'],
                 'error' => $responseData['error-codes'] ?? []
