@@ -54,7 +54,6 @@ services:
                 aliases:
                     - service.php
         environment:
-            - XDEBUG_CONFIG
             - LOCAL_USER_ID=$USER_ID
 
     nginx:

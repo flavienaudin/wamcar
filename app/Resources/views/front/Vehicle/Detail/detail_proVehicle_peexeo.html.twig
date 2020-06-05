@@ -242,7 +242,8 @@
             'responsiveDomDestination':'#js-vehicle-aside',
             'responsiveDomAppendTo':true,
             'responsiveDomBreakpoint': 'large',
-            'vehicle': vehicle
+            'vehicle': vehicle,
+            'captchaAction': 'provehicle_contact_form'
         }) }}
     {% endif %}
 {% endblock body %}
@@ -253,3 +254,14 @@
     {% endif %}
     {% include 'front/Vehicle/Detail/includes/modal_carousel.html.twig' %}
 {% endblock %}
+
+{% block javascripts %}
+    {% if contactForm is not null %}
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script>
+          function captchaOnSubmit(token) {
+            document.getElementById("procontact-form").submit();
+          }
+        </script>
+    {% endif %}
+{% endblock javascripts %}
