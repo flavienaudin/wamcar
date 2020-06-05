@@ -15,6 +15,7 @@ use AppBundle\Form\Type\ContactProType;
 use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\ProVehicleType;
 use AppBundle\Security\Voter\ProVehicleVoter;
+use AppBundle\Services\App\CaptchaVerificator;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\User\CanBeGarageMember;
@@ -69,6 +70,8 @@ class VehicleController extends BaseController
     private $translator;
     /** @var MessageBus */
     protected $eventBus;
+    /** @var CaptchaVerificator $captchaService */
+    protected $captchaService;
 
     /**
      * GarageController constructor.
@@ -82,6 +85,7 @@ class VehicleController extends BaseController
      * @param SessionMessageManager $sessionMessageManager
      * @param TranslatorInterface $translator
      * @param MessageBus $eventBus
+     * @param CaptchaVerificator $captchaService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -93,7 +97,8 @@ class VehicleController extends BaseController
         ApiConnector $autoDataConnector,
         SessionMessageManager $sessionMessageManager,
         TranslatorInterface $translator,
-        MessageBus $eventBus
+        MessageBus $eventBus,
+        CaptchaVerificator $captchaService
     )
     {
         $this->formFactory = $formFactory;
@@ -106,6 +111,7 @@ class VehicleController extends BaseController
         $this->sessionMessageManager = $sessionMessageManager;
         $this->translator = $translator;
         $this->eventBus = $eventBus;
+        $this->captchaService = $captchaService;
     }
 
     /**
@@ -350,8 +356,7 @@ class VehicleController extends BaseController
         $currentUser = $this->getUser();
         $userIsCurrentUser = $vehicle->getSeller()->is($currentUser);
         $contactForm = null;
-        // Disabled waiting  for Captcha
-        if (false && !$userIsCurrentUser) {
+        if (!$userIsCurrentUser) {
             try {
                 $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
 
@@ -385,14 +390,23 @@ class VehicleController extends BaseController
                 $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
                 $contactForm->handleRequest($request);
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-                    $proContactMessageDTO->vehicle = $vehicle;
-                    $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
-                    $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
-                        $this->translator->trans('flash.success.pro_contact_message.sent', [
-                            '%proUserName%' => $vehicle->getSellerName()
-                        ]));
-                    return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
+                    // Check ReCaptcha validation
+                    $captchaVerificationReturn = $this->captchaService->verify($request->get($this->captchaService->getClientSidePostParameters()));
+                    if(!$captchaVerificationReturn['success']){
+                        $this->session->getFlashBag()->add(
+                            self::FLASH_LEVEL_WARNING,
+                            'flash.error.captcha_validation'
+                        );
+                    }else {
+                        $proContactMessageDTO->vehicle = $vehicle;
+                        $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                        $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                            $this->translator->trans('flash.success.pro_contact_message.sent', [
+                                '%proUserName%' => $vehicle->getSellerName()
+                            ]));
+                        return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
+                    }
                 }
             }
         }
