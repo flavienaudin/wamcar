@@ -34,7 +34,7 @@
             </button>
 
             {{ form_start(contactForm, {
-                'attr': {'class': formClass|default(''), 'data-abide' : 'data-abide','novalidate' : 'novalidate'}
+                'attr': {'id' : 'procontact-form', 'class': formClass|default(''), 'data-abide' : 'data-abide','novalidate' : 'novalidate'}
             }) }}
             {% if contactForm.firstname is defined %}
                 <div>
@@ -110,7 +110,14 @@
                     {{ form_errors(contactForm.content) }}
                 </div>
             {% endif %}
-            <button type="submit" class="button primary-button full-width">{{ 'global.button.send'|trans }}</button>
+            <button type="submit" class="button primary-button full-width {{ contactForm.message is defined ? 'g-recaptcha' }}"
+                    {% if contactForm.message is defined %}
+                    data-sitekey="{{ google_captcha_sitekey }}"
+                    data-callback='captchaOnSubmit'
+                    data-action='{{ captchaAction }}'
+                    {% endif %}
+            >{{ 'global.button.send'|trans }}</button>
+
             {{ form_end(contactForm) }}
         </div>
     </div>

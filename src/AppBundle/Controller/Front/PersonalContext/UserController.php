@@ -46,6 +46,7 @@ use AppBundle\Security\Voter\SellerPerformancesVoter;
 use AppBundle\Security\Voter\UserVoter;
 use AppBundle\Security\Voter\VideosInsertVoter;
 use AppBundle\Services\Affinity\AffinityAnswerCalculationService;
+use AppBundle\Services\App\CaptchaVerificator;
 use AppBundle\Services\Conversation\ConversationAuthorizationChecker;
 use AppBundle\Services\Conversation\ConversationEditionService;
 use AppBundle\Services\Garage\GarageEditionService;
@@ -129,6 +130,8 @@ class UserController extends BaseController
     protected $conversationEditionService;
     /** @var UserVideosInsertService $userVideosInsertService */
     protected $userVideosInsertService;
+    /** @var CaptchaVerificator $captchaService */
+    protected $captchaService;
 
     /**
      * UserController constructor.
@@ -151,6 +154,7 @@ class UserController extends BaseController
      * @param ConversationRepository $conversationRepository
      * @param ConversationEditionService $conversationEditionService
      * @param UserVideosInsertService $userVideosInsertService
+     * @param CaptchaVerificator $captchaService
      */
     public function __construct(
         FormFactoryInterface $formFactory,
@@ -171,7 +175,8 @@ class UserController extends BaseController
         ConversationAuthorizationChecker $conversationAuthorizationChecker,
         ConversationRepository $conversationRepository,
         ConversationEditionService $conversationEditionService,
-        UserVideosInsertService $userVideosInsertService
+        UserVideosInsertService $userVideosInsertService,
+        CaptchaVerificator $captchaService
     )
     {
         $this->formFactory = $formFactory;
@@ -193,6 +198,7 @@ class UserController extends BaseController
         $this->conversationRepository = $conversationRepository;
         $this->conversationEditionService = $conversationEditionService;
         $this->userVideosInsertService = $userVideosInsertService;
+        $this->captchaService = $captchaService;
     }
 
     /**
@@ -513,7 +519,6 @@ class UserController extends BaseController
                     return $this->redirectToRoute('front_conversation_edit', [
                         'id' => $conversation->getId(),
                         '_fragment' => 'last-message']);
-
                 }
 
             } catch (AccessDeniedHttpException $exception) {
@@ -522,13 +527,22 @@ class UserController extends BaseController
                 $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
                 $contactForm->handleRequest($request);
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-                    $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
-                    $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
-                        $this->translator->trans('flash.success.pro_contact_message.sent', [
-                            '%proUserName%' => $user->getFullName()
-                        ]));
-                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                    // Check ReCaptcha validation
+                    $captchaVerificationReturn = $this->captchaService->verify(['token' => $request->get($this->captchaService->getClientSidePostParameters())]);
+                    if(!$captchaVerificationReturn['success']){
+                        $this->session->getFlashBag()->add(
+                            self::FLASH_LEVEL_WARNING,
+                            'flash.error.captcha_validation'
+                        );
+                    }else {
+                        $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                        $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                            $this->translator->trans('flash.success.pro_contact_message.sent', [
+                                '%proUserName%' => $user->getFullName()
+                            ]));
+                        return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                    }
                 }
             }
         }

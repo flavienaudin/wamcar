@@ -24,3 +24,12 @@ services:
     public: false
     arguments:
       $applicationName: '%sitename%'
+
+
+  GoogleApi\GoogleRecaptchaService:
+    autowire: true
+    autoconfigure: true
+    public: false
+    arguments:
+      - '%env(GOOGLE_RECAPTCHA_VERIFY_URL)%'
+      - '%env(GOOGLE_RECAPTCHA_SECRET)%'
