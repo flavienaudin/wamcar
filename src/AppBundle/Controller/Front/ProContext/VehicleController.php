@@ -391,7 +391,7 @@ class VehicleController extends BaseController
                 $contactForm->handleRequest($request);
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
                     // Check ReCaptcha validation
-                    $captchaVerificationReturn = $this->captchaService->verify($request->get($this->captchaService->getClientSidePostParameters()));
+                    $captchaVerificationReturn = $this->captchaService->verify(['token' => $request->get($this->captchaService->getClientSidePostParameters())]);
                     if(!$captchaVerificationReturn['success']){
                         $this->session->getFlashBag()->add(
                             self::FLASH_LEVEL_WARNING,
