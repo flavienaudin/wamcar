@@ -390,7 +390,8 @@
             'formClass':'form-compact',
             'responsiveDomDestination':'.js-profile-right-column',
             'responsiveDomAppendTo':false,
-            'responsiveDomBreakpoint': 'large'
+            'responsiveDomBreakpoint': 'large',
+            'captchaAction':'prouser_contact_form'
         }) }}
     {% endif %}
 {% endblock body %}
@@ -486,6 +487,15 @@
         <script type="text/javascript"
                 src="https://maps.googleapis.com/maps/api/js?key={{ google_api_client_key }}&libraries=places&callback=initAutocomplete&language={{ app.request.locale|slice(0, 2) }}"
                 defer async></script>
+    {% endif %}
+
+    {% if contactForm is not null %}
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        <script>
+          function captchaOnSubmit(token) {
+            document.getElementById("procontact-form").submit();
+          }
+        </script>
     {% endif %}
 {% endblock javascripts %}
 
