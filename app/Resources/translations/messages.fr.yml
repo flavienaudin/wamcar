@@ -248,6 +248,7 @@ header:
     search:
       vehicle: Rechercher une voiture
       directory: Rechercher un professionnel
+      no_keyword: Rechercher "%queryTerms%"
     my_profile: Mon profil
     my_selections: Mes sélections
     conversations: Messagerie

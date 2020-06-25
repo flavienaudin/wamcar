@@ -15,8 +15,10 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\VehicleInformationType;
 use AppBundle\Services\User\ProServiceService;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Authorization\Voter\AuthenticatedVoter;
 use Symfony\Component\Translation\TranslatorInterface;
 use Wamcar\User\Enum\PersonalOrientationChoices;
@@ -103,6 +105,26 @@ class DefaultController extends BaseController
             'title' => $this->translator->trans('search.common.field.suggestions'),
             'groups' => $keywordsGroups
 
+        ]);
+    }
+
+    /**
+     * @return Response
+     */
+    public function ajaxSearchKeywordsCloudAction(Request $request): Response
+    {
+        if(!$request->isXmlHttpRequest()){
+            throw new BadRequestHttpException();
+        }
+
+        $terms = $request->get('term');
+        $proServices = $this->proServiceService->getProServiceByNames($this->proUserEntityIndexer->getProServices($terms), false);
+
+        return new JsonResponse([
+            'html' => $this->renderTemplate('front/Layout/includes/search_keywords_cloud.html.twig', [
+                'services' => $proServices,
+                'query' => $terms
+            ])
         ]);
     }
 

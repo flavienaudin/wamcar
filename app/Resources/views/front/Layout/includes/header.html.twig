@@ -7,11 +7,8 @@
     {% include "front/Layout/includes/logo.html.twig" %}
 
     {% block header_center %}
-        {# TODO Not in use as the block is display under the header.
-            To delete if the center of the header is not fill by the input field on large screen #}
         {% include "front/Layout/includes/navigation/sellers_search.html.twig" %}
-        {# Nouvelle barre de recherche de conseiller #}
-        {#
+        {# TODO a supprimer : Nouvelle barre de recherche de conseiller
         {% if isLogged %}
             {% include "front/Layout/includes/navigation/primary.html.twig" %}
         {% else %}
@@ -22,45 +19,10 @@
 
     <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">
         {% block header_right %}
-
-            {# Common advisor header search button #}
-            <button class="l-navigation-item is-logged l-header-button icon-search l-header-button" data-toggle="advisors-header-search"></button>
-
-            {# Recherche de conseillers : champ proposition de mots-clés #}
-            <div id="advisors-header-search" class="advisors-header-search is-hidden block-light-shadow" data-toggler="is-hidden">
-                <form id="advisors-header-search-form" class="form-compact" method="post" action="{{ path('front_directory_view') }}">
-                    <div class="row align-bottom margin-bottom-1">
-                        <div class="column">
-                            <label for="advisor-header-search-field" class="">{{ 'search.common.field.header.label'|trans }}</label>
-
-                            <select type="text" name="search_pro[text]" id="advisor-header-search-field" class="input no-margin"
-                                    data-placeholder="{{ 'search.common.field.header.label'|trans }}"
-                                    data-autocomplete-url="{{ url('front_directory_proservice_autocomplete') }}"
-                                    data-directory-service-search="{{ path('front_directory_by_service_view', {'speciality': '_serviceslug_'}) }}">
-                            </select>
-                            {#<input type="search" name="search_pro[text]" id="advisor-header-search-field" class="input no-margin"
-                                   placeholder="{{ 'search.common.field.header.label'|trans }}" autocomplete="off">#}
-
-
-                            <input type="hidden" name="search_pro[radius]" value="50">
-                            <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
-                        </div>
-                        <div class="column small-shrink">
-                            <button type="submit" class="button no-margin">{{ 'global.button.search'|trans }}</button>
-                        </div>
-                    </div>
-
-                    {{ render(controller('AppBundle:Front/Default:advisorsSearchKeywords')) }}
-
-                </form>
-            </div>
+            {# Mobile : header-search-display button #}
+            <button class="l-navigation-item is-logged l-header-button icon-search l-header-button hide-for-large" data-toggle="advisors-header-search"></button>
 
             {% if isLogged %}
-                {# Recherche dans le header supprimée #}
-                {# <button class="l-navigation-item is-logged l-header-button icon-search body-font-color l-header-button show-for-small-only"
-                        data-toggle="header_search_links">
-                </button>#}
-
                 <a href="{{ path('front_conversation_list') }}"
                    class="l-navigation-item is-logged l-header-button icon-message body-font-color l-header-button"
                     data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ wtNoneValue() }}">
@@ -93,16 +55,10 @@
                     </li>
                 </ul>
             {% else %}
-                {# Recherche dans le header supprimée #}
-                {# <button class="l-header-button icon-search small-right hide-for-large" data-toggle="header_search_links"></button>#}
                 <button type="button" class="l-header-button icon-user small-right" id="open-side-login"
                         data-toggle="js-off-canvas-user" title="{{ 'header.anonyme.log'|trans }}">
                     <span class="show-for-xlarge">{{ 'header.anonyme.log'|trans }}</span>
                 </button>
-                {# Nouvelle barre de recherche de conseiller #}
-                {#<button class="l-header-button hamburger primary-color hide-for-large" data-toggle="js-off-canvas-navigation">
-                    <span class="hamburger-line"></span>
-                </button>#}
             {% endif %}
         {% endblock %}
     </div>
@@ -110,19 +66,6 @@
 
 {# Dropdowns et off-Canvas manipulables par les liens et icones de l'en-tête #}
 {% if isLogged %}
-    {# Nouvelle barre de recherche de conseiller #}
-    {# Dropdown avec les liens de recherche (voiture/conseiller) pour mobile #}
-    {#<div id="header_search_links"
-         class="dropdown-pane dropdown-pane-header-search-links {{ isLogged ? 'show-for-small-only':'hide-for-large' }}"
-         data-dropdown  data-position="bottom" data-alignement="right" data-close-on-click="true">
-        <div class="dropdown-pane-body {{ isLogged ? 'show-for-small-only':'hide-for-large' }}">
-            <ul class="no-bullet no-margin">
-                <li><a href="{{ path('front_search') }}" class="black-color">{{ 'header.common.search.vehicle'|trans }}</a></li>
-                <li><a href="{{ path('front_directory_view') }}" class="black-color">{{ 'header.common.search.directory'|trans }}</a></li>
-            </ul>
-        </div>
-    </div>
-    #}
     {# Dropdown contenant les notifications de l'utilisateur connecté #}
     <div id="notifications-dropdown" class="dropdown-pane dropdown-pane-notifications show-for-medium" data-dropdown
          data-position="bottom" data-alignment="right" data-auto-focus="true">
@@ -138,7 +81,4 @@
          data-content-scroll="false" data-off-canvas>
         {% include 'front/Layout/includes/off_canvas_user.html.twig' %}
     </div>
-    {# Nouvelle barre de recherche de conseiller #}
-    {#<div id="js-off-canvas-navigation" class="off-canvas position-right is-closed off-canvas-navigation"
-         data-content-scroll="false" data-off-canvas aria-hidden="true"></div>#}
 {% endif %}

@@ -58,9 +58,9 @@ legacy_directory_view:
         page: 1
 
 # Autocompletion des services
-front_directory_proservice_autocomplete:
+front_search_keywords_cloud_autocomplete:
     path: /proservices/autocomplete
-    controller: AppBundle:Front\ProContext\Directory:headerSearchKeywords
+    controller: AppBundle:Front\Default:ajaxSearchKeywordsCloud
 
 # Autocompletion des villes
 front_city_autocomplete:

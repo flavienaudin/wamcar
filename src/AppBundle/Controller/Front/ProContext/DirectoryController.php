@@ -140,24 +140,4 @@ class DirectoryController extends BaseController
             'lastPage' => ElasticUtils::numberOfPages($resultSet)
         ]);
     }
-
-    public function headerSearchKeywordsAction(Request $request): JsonResponse
-    {
-        if (!$request->isXmlHttpRequest()) {
-            throw new BadRequestHttpException();
-        }
-
-        $terms = $request->get('term');
-        $autocompleteResults = ['results' => []];
-        $proServices = $this->proServiceService->getProServiceByNames($this->proUserEntityIndexer->getProServices($terms), false);
-
-        /** @var ProService $proService */
-        foreach ($proServices as $proService) {
-            $autocompleteResults['results'][] = [
-                'id' => $proService->getSlug(),
-                'text' => $proService->getName()
-            ];
-        }
-        return new JsonResponse($autocompleteResults);
-    }
 }

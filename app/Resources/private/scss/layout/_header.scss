@@ -137,56 +137,33 @@ $header-background: white;
 .advisors-header {
   &-search {
     position: absolute;
-    top: $header-height; /* fixed header height*/
+    top: 0;
     left: 0;
     right: 0;
-    height: auto;
-    max-width: rem-calc(720);
-    margin-left: auto;
-    margin-right: auto;
+    height: $header-height;
+    max-width: 100%;
     background-color: $white;
-    border: 1px solid $border-color;
     padding: rem-calc(10px);
-    @include lightShadow;
+    z-index: 1;
 
     @include breakpoint(large) {
-      top: $header-height-medium; /* fixed header height*/
-      padding: rem-calc(20px);
+      position: relative;
+      height: $header-height-medium;
+      padding: rem-calc(20px) 0;
     }
 
+    .keywords-cloud{
+      &-container{
+        margin-left: auto;
+        margin-right: auto;
+        background-color: $white;
+        padding: rem-calc(20px);
+        @include lightShadow;
 
-    .suggestions {
-      &-title{
-        color: $primary-color;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-      }
-
-      &-group {
-        margin-bottom: 1rem;
-
-        &-name {
-          color: $dark-gray-blue-peexeo;
-          margin-bottom: 0;
-
-        }
-
-        &:not(:last-child) {
-
-          .suggestions-group-options {
-            border-bottom: 2px dotted $dark-gray-blue-peexeo;
-            padding-bottom: 1rem;
-          }
-
-
+        .loader {
+          position: relative;
         }
       }
-    }
-
-
-    // Select2 component
-    .select2-container--open{
-      z-index: $header-zindex +10;
     }
   }
 }

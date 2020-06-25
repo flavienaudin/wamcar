@@ -13,7 +13,6 @@
   border-radius: rem-calc(20);
   border: 1px solid $dark-gray-blue-peexeo;
 
-
   &:hover,
   &:focus {
     color: $dark-gray-blue-peexeo;
@@ -22,7 +21,7 @@
 
 
   &.is-active,
-  &.is-current{
+  &.is-current {
     background-color: $dark-gray-blue-peexeo;
     color: $white;
   }
