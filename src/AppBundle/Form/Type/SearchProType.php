@@ -42,7 +42,7 @@ class SearchProType extends AbstractType
         $data = $builder->getData();
 
         $builder
-            ->add('text', TextType::class, [
+            ->add('text', HiddenType::class, [
                 'required' => false
             ])
             ->add('radius', HiddenType::class, [

@@ -133,6 +133,7 @@ class DirectoryController extends BaseController
         $proUserResult = $this->userEditionService->getUsersBySearchResult($resultSet);
 
         return $this->render('front/Directory/view.html.twig', [
+            'header_search' => !empty($searchProDTO->text) ? $searchProDTO->text : ($querySelectedService != null ? $querySelectedService->getName(): null) ,
             'searchProForm' => $searchProForm->createView(),
             'result' => $proUserResult,
             'filterData' => (array)$searchProForm->getData(),

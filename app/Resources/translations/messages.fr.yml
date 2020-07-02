@@ -1466,6 +1466,9 @@ notifications:
 
 directory:
   page_tile: Voir les conseillers
+  result_number:
+    with_search: '{0,1} %nb% résultat pour "%search%"|[2,Inf[ %nb% résultats pour "%search%"'
+    without_search: '{0,1} %nb% résultat|[2,Inf[ %nb% résultats'
   breadcrumb: Voir les conseillers
   description: Rencontrez votre conseiller automobile
   form:

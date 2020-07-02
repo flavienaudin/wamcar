@@ -12,9 +12,9 @@
                         <button type="button" class="icon-arrow-left-2 hide-for-large" data-toggle="advisors-header-search"></button>
                     </div>
                     <div class="column height-100">
-                        <label for="advisor-header-search-field" class="show-for-sr">{{ 'search.common.field.header.label'|trans }}</label>
-
+                        <label for="advisor-header-search-text" class="show-for-sr">{{ 'search.common.field.header.label'|trans }}</label>
                         <input type="search" name="search_pro[text]" id="advisor-header-search-text" class="input no-margin height-100"
+                               value="{{ app.request.request.get('search_pro').text ?? header_search ?? '' }}"
                                placeholder="{{ 'search.common.field.header.label'|trans }}" autocomplete="off"
                                data-autocomplete-url="{{ url('front_search_keywords_cloud_autocomplete') }}">
 

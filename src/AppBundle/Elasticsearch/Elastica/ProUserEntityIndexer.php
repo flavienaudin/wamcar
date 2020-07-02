@@ -23,6 +23,13 @@ class ProUserEntityIndexer extends EntityIndexer
     const OFFSET = 0;
 
 
+    /**
+     * @param SearchProDTO $searchProDTO
+     * @param int $page
+     * @param BaseUser|null $currentUser
+     * @param int $limit
+     * @return ResultSet
+     */
     public function getQueryDirectoryProUserResult(SearchProDTO $searchProDTO, int $page = 1, ?BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
     {
         $qb = new QueryBuilder();
