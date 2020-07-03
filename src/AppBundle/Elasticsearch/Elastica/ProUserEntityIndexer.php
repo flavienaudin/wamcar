@@ -208,7 +208,7 @@ class ProUserEntityIndexer extends EntityIndexer
         $proServicesAgg->setSize(1000);
 
         if(!empty($query)){
-            $proServicesAgg->setInclude(".*".$query.".*");
+            $proServicesAgg->setInclude(".*".strtolower($query).".*");
         }
 
         $mainQuery->addAggregation($proServicesAgg);
