@@ -34,9 +34,9 @@
 
     <div class="row">
         <div class="directory-result">
-            {% if result.totalHits > 0 %}
+            {% if proUsers.result.totalHits > 0 %}
                 <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
-                    {% for hit in result.hits %}
+                    {% for hit in proUsers.result.hits %}
                         <div class="column">
                             {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
@@ -47,14 +47,26 @@
                     {% endfor %}
                     {% include 'front/Layout/includes/pagination.html.twig' with {
                         'route': 'front_directory_view',
-                        'page': page,
-                        'lastPage': lastPage
+                        'page': proUsers.page,
+                        'lastPage': proUsers.lastPage
                     } %}
                 </div>
             {% else %}
                 <div class="column">
                     <p class="padding-1 white-bg">{{ 'directory.result.empty'|trans }}</p>
                 </div>
+            {% endif %}
+
+            {% if vehicles.result.totalHits > 0 %}
+                <div class="garage-container search-result-vehicle search-result-personal">
+                    {% set balise = 'h2' %}
+                    {% include 'front/Search/includes/list_all.html.twig' with {
+                        'result' : vehicles.result
+                    }%}
+                </div>
+            {% else %}
+                <br>
+                <p>Aucun résultat n'a été trouvé, rééssayez votre recherche.</p>
             {% endif %}
 
             {% if not isLogged %}

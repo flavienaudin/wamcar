@@ -7,14 +7,15 @@ use AppBundle\Controller\Front\BaseController;
 use AppBundle\Elasticsearch\Elastica\CityEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\ElasticUtils;
 use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
+use AppBundle\Elasticsearch\Elastica\SearchResultProvider;
 use AppBundle\Form\DTO\SearchProDTO;
+use AppBundle\Form\DTO\SearchVehicleDTO;
 use AppBundle\Form\Type\SearchProType;
 use AppBundle\Services\User\ProServiceService;
 use AppBundle\Services\User\UserEditionService;
+use AppBundle\Utils\SearchTypeChoice;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Wamcar\User\ProService;
 use Wamcar\User\ProServiceCategory;
 
@@ -31,6 +32,8 @@ class DirectoryController extends BaseController
     private $proServiceService;
     /** @var CityEntityIndexer */
     private $cityEntityIndexer;
+    /** @var SearchResultProvider */
+    private $searchResultProvider;
 
     /**
      * DirectoryController constructor.
@@ -38,21 +41,24 @@ class DirectoryController extends BaseController
      * @param ProUserEntityIndexer $proUserEntityIndexer
      * @param UserEditionService $userEditionService
      * @param ProServiceService $proServiceService
-     * @param CityEntityIndexer $cityEntityIndexe
+     * @param CityEntityIndexer $cityEntityIndexer
+     * @param SearchResultProvider $searchResultProvider
      */
     public function __construct(
         FormFactoryInterface $formFactory,
         ProUserEntityIndexer $proUserEntityIndexer,
         UserEditionService $userEditionService,
         ProServiceService $proServiceService,
-        CityEntityIndexer $cityEntityIndexe
+        CityEntityIndexer $cityEntityIndexer,
+        SearchResultProvider $searchResultProvider
     )
     {
         $this->formFactory = $formFactory;
         $this->proUserEntityIndexer = $proUserEntityIndexer;
         $this->userEditionService = $userEditionService;
         $this->proServiceService = $proServiceService;
-        $this->cityEntityIndexer = $cityEntityIndexe;
+        $this->cityEntityIndexer = $cityEntityIndexer;
+        $this->searchResultProvider = $searchResultProvider;
     }
 
     public function viewAction(Request $request, int $page = 1)
@@ -60,12 +66,17 @@ class DirectoryController extends BaseController
         // Normal use is query param. Attribute $page if for legacy purpose
         $page = $request->query->get('page', $page);
 
+        // Search advisors
         $searchProDTO = new SearchProDTO();
+        $searchProDTO->searchTextInService = true;
+
+        // Search vehicles
+        $searchVehicleDTO = new SearchVehicleDTO();
+        $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
 
         // Champ libre
-        if ($request->query->has('q')) {
-            $searchProDTO->text = $request->query->get('q');
-        }
+        $searchProDTO->text = $request->query->get('q');
+        $searchVehicleDTO->text = $request->query->get('q');
 
         // Services
         $querySelectedService = null;
@@ -89,6 +100,11 @@ class DirectoryController extends BaseController
                             $searchProDTO->cityName = $hit['cityName'];
                             $searchProDTO->latitude = $hit['latitude'];
                             $searchProDTO->longitude = $hit['longitude'];
+
+                            $searchVehicleDTO->postalCode = $hit['postalCode'];
+                            $searchVehicleDTO->cityName = $hit['cityName'];
+                            $searchVehicleDTO->latitude = $hit['latitude'];
+                            $searchVehicleDTO->longitude = $hit['longitude'];
                             break;
                         }
                     }
@@ -128,17 +144,28 @@ class DirectoryController extends BaseController
                 $searchProDTO->filters[$categoryFieldName] = $filterData;
             }
         }
+        $searchVehicleDTO->text = $searchProDTO->text;
 
-        $resultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
-        $proUserResult = $this->userEditionService->getUsersBySearchResult($resultSet);
+        $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
+        $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
+
+        $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser());
+        $searchVehiclesItems = $this->userEditionService->getMixedBySearchItemResult($searchVehiclesResultSet);
 
         return $this->render('front/Directory/view.html.twig', [
-            'header_search' => !empty($searchProDTO->text) ? $searchProDTO->text : ($querySelectedService != null ? $querySelectedService->getName(): null) ,
+            'header_search' => !empty($searchProDTO->text) ? $searchProDTO->text : ($querySelectedService != null ? $querySelectedService->getName() : null),
             'searchProForm' => $searchProForm->createView(),
-            'result' => $proUserResult,
             'filterData' => (array)$searchProForm->getData(),
-            'page' => $page,
-            'lastPage' => ElasticUtils::numberOfPages($resultSet)
+            'proUsers' => [
+                'result' => $proUserResult,
+                'page' => $page,
+                'lastPage' => ElasticUtils::numberOfPages($proUsersResultSet)
+            ],
+            'vehicles' => [
+                'result' => $searchVehiclesItems,
+                'page' => $page,
+                'lastPage' => ElasticUtils::numberOfPages($searchVehiclesResultSet)
+            ]
         ]);
     }
 }

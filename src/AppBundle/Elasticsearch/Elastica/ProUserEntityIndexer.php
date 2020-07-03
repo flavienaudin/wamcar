@@ -41,6 +41,18 @@ class ProUserEntityIndexer extends EntityIndexer
         if (!empty($searchProDTO->text)) {
             $textBoolQuery = $qb->query()->bool();
 
+            if($searchProDTO->searchTextInService) {
+                $textServicesBoolQuery = $qb->query()->bool();
+                $serviceTermQuery = $qb->query()->term(['proServices' => $searchProDTO->text]);
+                $textServicesBoolQuery->addShould($serviceTermQuery);
+
+                $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $searchProDTO->text]);
+                $textServicesBoolQuery->addShould($specialitiesTermQuery);
+
+                $textServicesBoolQuery->setMinimumShouldMatch(1);
+                $textBoolQuery->addShould($textServicesBoolQuery);
+            }
+
             $textMultiMatchQuery = $qb->query()->multi_match();
             $textMultiMatchQuery->setFields(['firstName', 'lastName', 'description']);
             $textMultiMatchQuery->setOperator(Query\MultiMatch::OPERATOR_OR);

@@ -36,13 +36,13 @@
     <header>
         <h1 class="h2">
             {% if header_search is not empty %}
-                {{ 'directory.result_number.with_search'|transchoice(result.totalHits, {
-                    "%nb%":result.totalHits,
+                {{ 'directory.result_number.with_search'|transchoice(proUsers.result.totalHits, {
+                    "%nb%":proUsers.result.totalHits,
                     "%search%": header_search
                 }) }}
             {% else %}
-                {{ 'directory.result_number.without_search'|transchoice(result.totalHits, {
-                    "%nb%":result.totalHits
+                {{ 'directory.result_number.without_search'|transchoice(proUsers.result.totalHits, {
+                    "%nb%":proUsers.result.totalHits
                 }) }}
             {% endif %}
         </h1>
