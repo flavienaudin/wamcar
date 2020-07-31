@@ -73,6 +73,8 @@ class DirectoryController extends BaseController
         // Search vehicles
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
+        $seeAllVehicleSearchRouteName = 'front_search';
+        $seeAllVehicleSearchRouteParam = ['type' => SearchController::QP_TYPE_PRO_VEHICLES];
 
         // Champ libre
         $searchProDTO->text = $request->query->get('q');
@@ -101,10 +103,6 @@ class DirectoryController extends BaseController
                             $searchProDTO->latitude = $hit['latitude'];
                             $searchProDTO->longitude = $hit['longitude'];
 
-                            $searchVehicleDTO->postalCode = $hit['postalCode'];
-                            $searchVehicleDTO->cityName = $hit['cityName'];
-                            $searchVehicleDTO->latitude = $hit['latitude'];
-                            $searchVehicleDTO->longitude = $hit['longitude'];
                             break;
                         }
                     }
@@ -144,12 +142,32 @@ class DirectoryController extends BaseController
                 $searchProDTO->filters[$categoryFieldName] = $filterData;
             }
         }
+
+
+        // Construction de la recherche de voitures : Filtre selon la localisation
+        if (!empty($searchProDTO->postalCode) && !empty($searchProDTO->cityName) && !empty($searchProDTO->latitude && !empty($searchProDTO->longitude))) {
+            $searchVehicleDTO->postalCode = $searchProDTO->postalCode;
+            $searchVehicleDTO->cityName = $searchProDTO->cityName;
+            $searchVehicleDTO->latitude = $searchProDTO->latitude;
+            $searchVehicleDTO->longitude = $searchProDTO->longitude;
+
+            $seeAllVehicleSearchRouteName = 'front_search_by_city';
+
+            // Ajout de la ville dans le querystring de l'url "tout voir"
+            $seeAllVehicleSearchRouteParam['city'] = explode('/', $searchProDTO->postalCode)[0] . '-' . urlencode($searchProDTO->cityName);
+        }
+
+        // Recherche par champ libre
         $searchVehicleDTO->text = $searchProDTO->text;
+        if(!empty($searchProDTO->text)) {
+            // Ajout du champ libre dans le querystring de l'url "tout voir"
+            $seeAllVehicleSearchRouteParam['q'] = $searchProDTO->text;
+        }
 
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
 
-        $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser());
+        $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser(), 4);
         $searchVehiclesItems = $this->userEditionService->getMixedBySearchItemResult($searchVehiclesResultSet);
 
         return $this->render('front/Directory/view.html.twig', [
@@ -164,7 +182,8 @@ class DirectoryController extends BaseController
             'vehicles' => [
                 'result' => $searchVehiclesItems,
                 'page' => $page,
-                'lastPage' => ElasticUtils::numberOfPages($searchVehiclesResultSet)
+                'lastPage' => ElasticUtils::numberOfPages($searchVehiclesResultSet),
+                'see_all_vehicle_search_url' => $this->router->generate($seeAllVehicleSearchRouteName, $seeAllVehicleSearchRouteParam)
             ]
         ]);
     }

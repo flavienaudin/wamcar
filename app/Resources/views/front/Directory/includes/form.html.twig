@@ -34,21 +34,21 @@
 
 <div class="column directory-form-container">
     <header>
-        <h1 class="h2">
+        <h1 class="h2 no-margin">
             {% if header_search is not empty %}
-                {{ 'directory.result_number.with_search'|transchoice(proUsers.result.totalHits, {
-                    "%nb%":proUsers.result.totalHits,
+                {{ 'directory.result_number.with_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
+                    "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits),
                     "%search%": header_search
                 }) }}
             {% else %}
-                {{ 'directory.result_number.without_search'|transchoice(proUsers.result.totalHits, {
-                    "%nb%":proUsers.result.totalHits
+                {{ 'directory.result_number.without_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
+                    "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits)
                 }) }}
             {% endif %}
         </h1>
     </header>
 
-    {% set searchFormAttr =  {'class':'search-form row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
+    {% set searchFormAttr =  {'class':'row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
     {{ form_start(searchProForm, {'attr': searchFormAttr}) }}
 
     {{ form_widget(searchProForm.text, {
@@ -61,11 +61,15 @@
     }) }}
 
     <div class="column small-12">
-        <a class="" data-toggle="filters">Filtres</a>
+        <a class="dark-gray-blue-peexeo-color" data-toggle="filters js-more-criteria js-less-criteria">
+            <span id="js-more-criteria" data-toggler=".is-hidden"
+                  class="icon-plus-circle">{{ 'directory.more_criteria'|trans }}</span>
+            <span id="js-less-criteria" data-toggler=".is-hidden"
+                  class="icon-minus-circle is-hidden">{{ 'directory.less_criteria'|trans }}</span></a>
     </div>
-    <div id="filters" class="column small-12 is-hidden" data-toggler="is-hidden">
-        <div class="row ">
 
+    <div id="filters" class="column small-12 margin-top-1 is-hidden" data-toggler="is-hidden">
+        <div class="row ">
             {% set largeSize = searchProForm.vars.mainFilters|length > 0 ? max(min(12/searchProForm.vars.mainFilters|length, 6), 3) : 12 %}
             {% if searchProForm.vars.mainFilters|length > 0 %}
                 <div class="column small-12">
@@ -111,27 +115,21 @@
                 }) }}
             </div>
 
-            <div class="column show-for-medium medium4 large-2">
+            <div class="column small-12 medium-4 large-2">
                 <label for="search-label" class="show-for-medium is-invisible">{{ 'global.button.search'|trans }}</label>
                 <button type="submit" class="button primary-button full-width">{{ 'global.button.search'|trans }}</button>
             </div>
-
-            <div class="block-grid small-12 medium-order-3 align-middle">
-                <div class="block-grid column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
-                    {{ form_widget(searchProForm.sorting, {
-                        'id':'js-search-sorting-select',
-                        'label' : 'directory.field.sorting.label'|trans,
-                        'label_class' : 'show-for-sr',
-                        'class' : 'sorting',
-                        'required' : true
-                    }) }}
-                </div>
-            </div>
-
-            <div class="hide-for-medium column small-12 medium-order-3 input-margin">
-                <button type="submit" class="button primary-button full-width">{{ 'global.button.search'|trans }}</button>
-            </div>
         </div>
+    </div>
+
+    <div class="column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
+        {{ form_widget(searchProForm.sorting, {
+            'id':'js-search-sorting-select',
+            'label' : 'directory.field.sorting.label'|trans,
+            'label_class' : 'show-for-sr',
+            'class' : 'sorting margin-0',
+            'required' : true
+        }) }}
     </div>
 
     {% if form_criteria is not empty %}
