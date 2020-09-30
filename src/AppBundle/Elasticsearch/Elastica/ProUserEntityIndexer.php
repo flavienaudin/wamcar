@@ -35,7 +35,6 @@ class ProUserEntityIndexer extends EntityIndexer
         $qb = new QueryBuilder();
         $mainQuery = new Query();
         $mainBoolQuery = $qb->query()->bool();
-        $mainQueryPartsCounter = 0;
 
         // handle text query
         if (!empty($searchProDTO->text)) {
@@ -62,12 +61,8 @@ class ProUserEntityIndexer extends EntityIndexer
 
             $textNestedGaragesQuery = $qb->query()->nested();
             $textNestedGaragesQuery->setPath('garages');
-            $textGarageMultiMatchQuery = $qb->query()->multi_match();
-            $textGarageMultiMatchQuery->setFields(['garages.garageName', 'garages.garagePresentation']);
-            $textGarageMultiMatchQuery->setOperator(Query\MultiMatch::OPERATOR_OR);
-            $textGarageMultiMatchQuery->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
-            $textGarageMultiMatchQuery->setQuery($searchProDTO->text);
-            $textNestedGaragesQuery->setQuery($textGarageMultiMatchQuery);
+            $textGarageMatchQuery = $qb->query()->match('garages.garageName', $searchProDTO->text);
+            $textNestedGaragesQuery->setQuery($textGarageMatchQuery);
             $textBoolQuery->addShould($textNestedGaragesQuery);
 
             $mainBoolQuery->addMust($textBoolQuery);
@@ -86,11 +81,10 @@ class ProUserEntityIndexer extends EntityIndexer
                 ['lat' => $searchProDTO->latitude, 'lon' => $searchProDTO->longitude],
                 $radius . 'km'));
             $mainBoolQuery->addFilter($locationNestedGaragesQuery);
-            $mainQueryPartsCounter++;
         }
 
         $services = [];
-        if (count($searchProDTO->filters) > 0) {
+        if ($searchProDTO->filters && count($searchProDTO->filters) > 0) {
             /** @var ArrayCollection $filterValues */
             foreach ($searchProDTO->filters as $filterName => $filterValues) {
                 $services[$filterName] = [];
@@ -106,29 +100,32 @@ class ProUserEntityIndexer extends EntityIndexer
                 $servicesBoolQuery = $qb->query()->bool();
                 $specialitiesBoolQuery = $qb->query()->bool();
                 foreach ($services as $categoryService => $servicesValues) {
-                    $servicesByFilterBoolQuery = $qb->query()->bool();
+                    if(!empty($servicesValues)) {
+                        $servicesByFilterBoolQuery = $qb->query()->bool();
 
-                    foreach ($servicesValues as $service) {
-                        $serviceTermQuery = $qb->query()->term(['proServices' => $service]);
-                        $servicesByFilterBoolQuery->addShould($serviceTermQuery);
+                        foreach ($servicesValues as $service) {
+                            $serviceTermQuery = $qb->query()->term(['proServices' => $service]);
+                            $servicesByFilterBoolQuery->addShould($serviceTermQuery);
 
-                        $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $service]);
-                        $specialitiesBoolQuery->addShould($specialitiesTermQuery);
+                            $specialitiesTermQuery = $qb->query()->term(['proSpecialities' => $service]);
+                            $specialitiesBoolQuery->addShould($specialitiesTermQuery);
+                        }
+                        $servicesByFilterBoolQuery->setMinimumShouldMatch(1);
+                        $servicesBoolQuery->addMust($servicesByFilterBoolQuery);
                     }
-                    $servicesByFilterBoolQuery->setMinimumShouldMatch(1);
-                    $servicesBoolQuery->addMust($servicesByFilterBoolQuery);
                 }
-                $mainBoolQuery->addMust($servicesBoolQuery);
+                if($servicesBoolQuery->count() > 0 ) {
+                    $mainBoolQuery->addMust($servicesBoolQuery);
 
-                $specialitiesBoolQuery->setMinimumShouldMatch(0);
-                $specialitiesBoolQuery->setBoost(2);
-                $mainBoolQuery->addShould($specialitiesBoolQuery);
+                    $specialitiesBoolQuery->setMinimumShouldMatch(0);
+                    $specialitiesBoolQuery->setBoost(2);
+                    $mainBoolQuery->addShould($specialitiesBoolQuery);
 
-                $mainQueryPartsCounter++;
+                }
             }
         }
 
-        if ($mainQueryPartsCounter > 0) {
+        if ($mainBoolQuery->count() > 0) {
             $mainQuery->setQuery($mainBoolQuery);
         } else {
             $mainQuery->setQuery($qb->query()->match_all());

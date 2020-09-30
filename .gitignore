@@ -1,4 +1,6 @@
 /.env
+/.env.docker
+/.env.local
 /.web-server-pid
 /app/config/parameters.yml
 /app/config/googleApi/*.json

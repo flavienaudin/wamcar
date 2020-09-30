@@ -80,11 +80,21 @@ class DirectoryController extends BaseController
         $searchProDTO->text = $request->query->get('q');
         $searchVehicleDTO->text = $request->query->get('q');
 
-        // Services
+        // Service/Spécialité par URL
         $querySelectedService = null;
-        if (($serviceName = $request->get('speciality')) !== null) {
-            $querySelectedService = $this->proServiceService->getProServiceBySlug($serviceName);
+        if (($serviceSLug = $request->get('speciality')) !== null) {
+            $querySelectedService = $this->proServiceService->getProServiceBySlug($serviceSLug);
         }
+
+        // Service/Spécialité via la sélection dans l'entête => recherche libre
+        if (($serviceSLug = $request->query->get('keyword')) !== null) {
+            if ( ($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
+                $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
+                $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
+            }
+        }
+
+
 
         // Deal with ByCity action
         if (($city = $request->get('city')) !== null) {
@@ -159,14 +169,14 @@ class DirectoryController extends BaseController
 
         // Recherche par champ libre
         $searchVehicleDTO->text = $searchProDTO->text;
-        if(!empty($searchProDTO->text)) {
+        if (!empty($searchProDTO->text)) {
             // Ajout du champ libre dans le querystring de l'url "tout voir"
             $seeAllVehicleSearchRouteParam['q'] = $searchProDTO->text;
         }
 
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
-
+        $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser(), 4);
         $searchVehiclesItems = $this->userEditionService->getMixedBySearchItemResult($searchVehiclesResultSet);
 
