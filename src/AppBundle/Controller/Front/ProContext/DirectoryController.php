@@ -89,7 +89,7 @@ class DirectoryController extends BaseController
         // Service/Spécialité via la sélection dans l'entête => recherche libre
         if (($serviceSLug = $request->query->get('keyword')) !== null) {
             if ( ($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
-                // $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
+                $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
                 //$searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
             }
         }
