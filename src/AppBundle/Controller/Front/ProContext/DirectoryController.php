@@ -90,7 +90,7 @@ class DirectoryController extends BaseController
         if (($serviceSLug = $request->query->get('keyword')) !== null) {
             if ( ($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
                 $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
-                $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
+                // $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
             }
         }
 
