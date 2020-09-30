@@ -1069,7 +1069,9 @@ user:
     title:
       personal: Présentation
       pro: Laissez-moi vous guider
-    empty: Présentez-vous en quelques mots pour mettre en confiance vos clients.
+    empty:
+      pro: Présentez-vous en quelques mots pour mettre en confiance vos clients.
+      personal: Présentez-vous en quelques mots pour avoir une réponse adaptée à vos besoins.
     edit: Modifier mes informations
   city:
     title:
