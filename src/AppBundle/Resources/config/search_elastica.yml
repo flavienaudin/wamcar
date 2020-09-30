@@ -27,7 +27,7 @@ parameters:
       filter:
         french_stopwords:
           type:       stop
-          stopwords:  [_french_]
+          stopwords:  [_french_,"véhicule","voiture"]
           ignore_case: true
         french_snowball:
           type:       snowball
