@@ -168,10 +168,9 @@ class DirectoryController extends BaseController
         }
 
         // Recherche par champ libre
-        $searchVehicleDTO->text = $searchProDTO->text;
-        if (!empty($searchProDTO->text)) {
+        if (!empty($searchVehicleDTO->text)) {
             // Ajout du champ libre dans le querystring de l'url "tout voir"
-            $seeAllVehicleSearchRouteParam['q'] = $searchProDTO->text;
+            $seeAllVehicleSearchRouteParam['q'] = $searchVehicleDTO->text;
         }
 
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
