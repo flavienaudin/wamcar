@@ -248,6 +248,7 @@ header:
     search:
       vehicle: Rechercher une voiture
       directory: Rechercher un professionnel
+      no_keyword: Rechercher "%queryTerms%"
     my_profile: Mon profil
     my_selections: Mes sélections
     conversations: Messagerie
@@ -506,6 +507,12 @@ search:
     title: Annonces de voitures
     breadcrumbs: Annonces
     field:
+      services:
+        label: Votre recherche
+        placeholder: Services
+      header:
+        label: Recherche libre
+      suggestions: Suggestions
       text:
         label: Votre recherche
         placeholder: Ex. Citröen C3
@@ -1459,6 +1466,13 @@ notifications:
 
 directory:
   page_tile: Voir les conseillers
+  result_number:
+    with_search: '{0,1} %nb% résultat pour "%search%"|[2,Inf[ %nb% résultats pour "%search%"'
+    without_search: '{0,1} %nb% résultat|[2,Inf[ %nb% résultats'
+  vehicle_result_number:
+    with_search: Résultat des voitures pour "%search%"
+    without_search: Résultat des voitures pour la recherche
+  see_all: Tout voir
   breadcrumb: Voir les conseillers
   description: Rencontrez votre conseiller automobile
   form:
@@ -1479,6 +1493,8 @@ directory:
       label: Rayon de
     sorting:
       label: "Trier par :"
+  more_criteria: Plus de filtres
+  less_criteria: Moins de filtres
   result:
     empty: Aucun résultat n'a été trouvé, rééssayez votre recherche.
     no_garage: Pas de garage renseigné pour l'instant

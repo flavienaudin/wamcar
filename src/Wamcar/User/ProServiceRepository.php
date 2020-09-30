@@ -38,9 +38,10 @@ interface ProServiceRepository
     /**
      * Find ProServices by their names
      * @param array $proServiceNames
+     * @param bool $orderByName
      * @return mixed
      */
-    public function findByNames(array $proServiceNames);
+    public function findByNames(array $proServiceNames, bool $orderByName = true);
 
     /**
      * @param ProService $proService

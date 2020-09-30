@@ -1,0 +1,37 @@
+{% extends 'front/Layout/includes/navigation/primary.html.twig' %}
+
+{% set visibilityConfigClass =  ' ' %}
+
+{% block navigation %}
+    <div class="js-navigation-header-search l-navigation-header-search {{ visibilityConfigClass }}">
+        {# Recherche de conseillers : champ proposition de mots-clés #}
+        <div id="advisors-header-search" class="advisors-header-search is-hidden" data-toggler="is-hidden">
+            <form id="advisors-header-search-form" class="height-100 form-compact" method="post" action="{{ path('front_directory_view') }}">
+                <div class="row align-middle height-100">
+                    <div class="column-shrink hide-for-large">
+                        <button type="button" class="icon-arrow-left-2 hide-for-large" data-toggle="advisors-header-search"></button>
+                    </div>
+                    <div class="column height-100">
+                        <label for="advisor-header-search-text" class="show-for-sr">{{ 'search.common.field.header.label'|trans }}</label>
+                        <input type="search" name="search_pro[text]" id="advisor-header-search-text" class="input no-margin height-100"
+                               value="{{ app.request.request.get('search_pro').text ?? header_search ?? '' }}"
+                               placeholder="{{ 'search.common.field.header.label'|trans }}" autocomplete="off"
+                               data-autocomplete-url="{{ url('front_search_keywords_cloud_autocomplete') }}">
+
+                        <div class="js-keywords-cloud-container keywords-cloud-container is-hidden">
+                            <div class="loader-container is-hidden">
+                                {{ include('front/Layout/includes/forms/loader.html.twig', {'loaderClass': 'dark-gray-blue-peexeo'}) }}
+                            </div>
+
+                            <div class="tag-container text-left">
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="search_pro[radius]" value="50">
+                        <input type="hidden" name="search_pro[sorting]" value="{{ constant('Wamcar\\Vehicle\\Enum\\Sorting::SEARCH_SORTING_DATE') }}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock navigation %}

@@ -129,6 +129,46 @@ $header-background: white;
   // End &-button
 }
 
+
+/*
+   Header
+   ===================================== */
+
+.advisors-header {
+  &-search {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $header-height;
+    max-width: 100%;
+    background-color: $white;
+    padding: rem-calc(10px);
+    z-index: 1;
+
+    @include breakpoint(large) {
+      position: relative;
+      height: $header-height-medium;
+      padding: rem-calc(20px) 0;
+    }
+
+    .keywords-cloud{
+      &-container{
+        margin-left: auto;
+        margin-right: auto;
+        background-color: $white;
+        padding: rem-calc(20px);
+        @include lightShadow;
+
+        .loader {
+          position: relative;
+        }
+      }
+    }
+  }
+}
+
+
 :target:before {
   content: "";
   display: block;
