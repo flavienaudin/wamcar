@@ -17,7 +17,7 @@
                 {% if user.description %}
                     {{ user.description|nl2br }}
                 {% elseif userIsMe %}
-                    {{ 'user.presentation.empty'|trans }}
+                    {{ user.isPro ? 'user.presentation.empty.pro'|trans : 'user.presentation.empty.personal'|trans }}
                 {% endif %}
             </div>
         </div>
