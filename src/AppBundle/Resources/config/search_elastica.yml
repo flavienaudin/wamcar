@@ -360,6 +360,8 @@ parameters:
             fields:
               keyword:
                 type: keyword
+          presentationTitle:
+            type: text
           description:
             type: text
             fields:

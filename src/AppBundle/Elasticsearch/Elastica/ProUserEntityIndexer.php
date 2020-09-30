@@ -53,7 +53,7 @@ class ProUserEntityIndexer extends EntityIndexer
             }
 
             $textMultiMatchQuery = $qb->query()->multi_match();
-            $textMultiMatchQuery->setFields(['firstName', 'lastName', 'description']);
+            $textMultiMatchQuery->setFields(['firstName', 'lastName', 'description','presentationTitle']);
             $textMultiMatchQuery->setOperator(Query\MultiMatch::OPERATOR_OR);
             $textMultiMatchQuery->setType(Query\MultiMatch::TYPE_CROSS_FIELDS);
             $textMultiMatchQuery->setQuery($searchProDTO->text);
