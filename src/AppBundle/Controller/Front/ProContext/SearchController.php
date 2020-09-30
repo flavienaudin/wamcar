@@ -164,7 +164,7 @@ class SearchController extends BaseController
         }
         if (Request::METHOD_POST !== $request->getMethod()) {
             // Form not submitted as POST method : we compute the default value of 'type' field
-            // If methode POST then the "type" field is defined by submitted data
+            // If method POST then the "type" field is defined by submitted data
             if ($type != null) {
                 // URL param for the type of search object
                 if (!is_array($type)) {
@@ -218,7 +218,7 @@ class SearchController extends BaseController
 
         // Champ libre
         if ($request->query->has('q')) {
-            $searchVehicleDTO->text = $request->query->get('q');
+            $searchVehicleDTO->text = urldecode($request->query->get('q'));
         }
 
         // Deal with ByCity action

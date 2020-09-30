@@ -15,7 +15,7 @@ final class Version20191125155941 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE pro_service_category (id INT AUTO_INCREMENT NOT NULL, `label` VARCHAR(191) NOT NULL, choice_multiple TINYINT(1) NOT NULL, position_main_filter INT DEFAULT NULL, position_more_filter INT DEFAULT NULL, UNIQUE INDEX UNIQ_42CDCDBFEA750E8 (`label`), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE pro_service_category (id INT AUTO_INCREMENT NOT NULL, `label` VARCHAR(191) NOT NULL, choice_multiple TINYINT(1) NOT NULL DEFAULT false, position_main_filter INT DEFAULT NULL, position_more_filter INT DEFAULT NULL, UNIQUE INDEX UNIQ_42CDCDBFEA750E8 (`label`), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('INSERT INTO pro_service_category (id, label) VALUES (1, \'sans\')');
         $this->addSql('ALTER TABLE pro_service ADD category_id INT NOT NULL');
         $this->addSql('UPDATE pro_service SET category_id = 1');

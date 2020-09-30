@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="column suggestions-title">{{ title }}</div>
+</div>
+
+{% for group in groups %}
+    <div class="row suggestions-group">
+        <div class="column small-12 medium-4 h3 suggestions-group-name">
+            {{ group.category.label }}
+        </div>
+        <div class="column small-12 medium-8 suggestions-group-options tag-container">
+            {% for service in group.services|slice(0,5) %}
+                <a href="{{ path('front_directory_by_service_view', {'speciality': service.slug}) }}" class="tag">{{ service.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}

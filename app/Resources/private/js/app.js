@@ -22,6 +22,7 @@ import 'waypoints/lib/noframework.waypoints';
 import 'waypoints/lib/shortcuts/inview';
 import * as Toastr from 'toastr';
 
+import './components/utils';
 import './components/responsiveDom';
 import './components/search';
 import './components/header';

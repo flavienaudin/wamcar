@@ -1,0 +1,6 @@
+{% for service in services|slice(0,10) %}
+    <a href="{{ path('front_directory_view', {'keyword': service.slug}) }}"
+       class="tag">{{ service.name }}</a>
+{% else %}
+    <button type="submit" class="button">{{ 'header.common.search.no_keyword'|trans({'%queryTerms%': query}) }}</button>
+{% endfor %}

@@ -19,6 +19,8 @@ class IndexableProUser implements Indexable
     private $firstName;
     /** @var null|string $lastName */
     private $lastName;
+    /** @var null|string $presentationTitle */
+    private $presentationTitle;
     /** @var null|string $description */
     private $description;
     /** @var null|int $descriptionLength */
@@ -43,6 +45,7 @@ class IndexableProUser implements Indexable
      * @param int $id
      * @param string $firstName
      * @param null|string $lastName
+     * @param null|string $presentationTitle
      * @param null|string $description
      * @param array|null $garages
      * @param int|null $hasAvatar
@@ -54,6 +57,7 @@ class IndexableProUser implements Indexable
     private function __construct(int $id,
                                  string $firstName,
                                  ?string $lastName,
+                                 ?string $presentationTitle,
                                  ?string $description,
                                  array $garages = [],
                                  int $hasAvatar = 0,
@@ -65,6 +69,7 @@ class IndexableProUser implements Indexable
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+        $this->presentationTitle = $presentationTitle;
         $this->description = $description;
         $this->descriptionLength = $this->description?strlen($this->description):0;
         $this->garages = $garages;
@@ -81,6 +86,7 @@ class IndexableProUser implements Indexable
             $proApplicationUser->getId(),
             $proApplicationUser->getFirstName(),
             $proApplicationUser->getLastName(),
+            $proApplicationUser->getPresentationTitle(),
             $proApplicationUser->getDescription(),
             [],
             ($proApplicationUser->getAvatar() != null?1:0), // int for function score
@@ -152,6 +158,7 @@ class IndexableProUser implements Indexable
             'id' => $this->id,
             'firstName' => $this->firstName,
             'lastName' => $this->lastName,
+            'presentationTitle' => $this->presentationTitle,
             'description' => $this->description,
             'descriptionLength' => $this->descriptionLength,
             'garages' => array_values($this->garages),

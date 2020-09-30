@@ -63,9 +63,11 @@ class SearchResultProvider
     /**
      * @param SearchVehicleDTO $searchVehicleDTO
      * @param int $page
+     * @param BaseUser|null $currentUser
+     * @param int $limit
      * @return ResultSet
      */
-    public function getSearchResult(SearchVehicleDTO $searchVehicleDTO, int $page, ?BaseUser $currentUser = null): ResultSet
+    public function getSearchResult(SearchVehicleDTO $searchVehicleDTO, int $page, ?BaseUser $currentUser = null, int $limit = self::LIMIT): ResultSet
     {
         if (empty($searchVehicleDTO->type)) {
             $searchVehicleDTO->type = SearchTypeChoice::getTypeChoice();
@@ -363,8 +365,8 @@ class SearchResultProvider
         }
 
         $mainQuery->setQuery($mainBoolQuery);
-        $mainQuery->setFrom(self::OFFSET + ($page - 1) * self::LIMIT);
-        $mainQuery->setSize(self::LIMIT);
+        $mainQuery->setFrom(self::OFFSET + ($page - 1) * $limit);
+        $mainQuery->setSize($limit);
         $mainQuery->setExplain(true);
         $mainQuery->setTrackScores();
 
@@ -413,8 +415,13 @@ class SearchResultProvider
 
                 // Query to apply certain score functions to relevant documents
                 $vehicleEntityQuery = $qb->query()->bool();
-                $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
-                $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
+                if(in_array(SearchTypeChoice::SEARCH_PRO_VEHICLE, $searchVehicleDTO->type)) {
+                    $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PRO_VEHICLE]));
+                }
+
+                if(in_array(SearchTypeChoice::SEARCH_PERSONAL_VEHICLE, $searchVehicleDTO->type)) {
+                    $vehicleEntityQuery->addShould($qb->query()->term(['searchType' => SearchTypeChoice::SEARCH_PERSONAL_VEHICLE]));
+                }
 
                 // WamAffinity : Importance : 5/5
                 // Script value between [0;1] => factor 5 => [0;5]

@@ -3,14 +3,14 @@
 namespace AppBundle\Form\DTO;
 
 
-use Wamcar\User\ProService;
-
 class SearchProDTO
 {
     /** @var array */
     public $filters;
     /** @var string */
     public $text;
+    /** @var bool */
+    public $searchTextInService = false;
     /** @var string */
     public $postalCode;
     /** @var string */

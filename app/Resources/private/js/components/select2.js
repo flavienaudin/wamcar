@@ -48,6 +48,11 @@ $.fn.select2.amd.define('NbSelectedItemSelectionAdapter', ['select2/utils', 'sel
     return adapter;
   });
 
+
+/* ======================== */
+/*** Search Pro : filters ***/
+/* ======================== */
+
 const selec2tInputs = document.querySelectorAll('.js-select2-input');
 [...selec2tInputs].forEach((select) => {
   const $select2 = $(select);
@@ -66,8 +71,8 @@ const selec2tInputs = document.querySelectorAll('.js-select2-input');
     options.selectionAdapter = $.fn.select2.amd.require('NbSelectedItemSelectionAdapter');
     options.templateSelection = (data) => {
       if (data.selected.length > 1) {
-        return `${data.selected[0].text} +${data.selected.length-1}`;
-      }else{
+        return `${data.selected[0].text} +${data.selected.length - 1}`;
+      } else {
         return `${data.selected[0].text}`;
       }
     };
@@ -79,4 +84,3 @@ const selec2tInputs = document.querySelectorAll('.js-select2-input');
     $searchfield.prop('disabled', true);
   });
 });
-

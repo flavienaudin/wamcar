@@ -1,5 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
-{% block mainClass %}no-padding-top directory-page{% endblock %}
+{% block mainClass %}directory-page{% endblock %}
 
 {% block title %}{{ 'directory.page_tile'|trans }}{% endblock %}
 {% block meta_description %}{{ 'directory.description'|trans }}{% endblock %}
@@ -15,9 +15,11 @@
 
 {% block body %}
 
-    {% include 'front/Layout/includes/breadcrumb.html.twig' %}
+    {{ include('front/Layout/includes/breadcrumb.html.twig',{
+        "breadcrumb_container_class" : 'is-hidden'
+    }) }}
 
-    <div class="row">
+    <div class="row is-hidden">
         {% include 'front/Layout/includes/page_header.html.twig' with {
             title: block('title'),
             page_header_class: 'column directory-page-header'
@@ -32,12 +34,9 @@
 
     <div class="row">
         <div class="directory-result">
-            <header class="column small-12 margin-bottom-1">
-                <strong class="h2 no-margin ">{{ result.totalHits }} résultat(s)</strong>
-            </header>
-            {% if result.totalHits > 0 %}
+            {% if proUsers.result.totalHits > 0 %}
                 <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
-                    {% for hit in result.hits %}
+                    {% for hit in proUsers.result.hits|slice(0,6) %}
                         <div class="column">
                             {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
@@ -46,15 +45,52 @@
                             }) }}
                         </div>
                     {% endfor %}
-                    {% include 'front/Layout/includes/pagination.html.twig' with {
-                        'route': 'front_directory_view',
-                        'page': page,
-                        'lastPage': lastPage
-                    } %}
                 </div>
             {% else %}
                 <div class="column">
                     <p class="padding-1 white-bg">{{ 'directory.result.empty'|trans }}</p>
+                </div>
+            {% endif %}
+
+            {% if vehicles.result.totalHits > 0 %}
+                <div class="column">
+                    <div class="column block-white">
+                        <div class="margin-top-1 margin-bottom-1">{% if header_search is not empty %}
+                                {{ 'directory.vehicle_result_number.with_search'|trans({"%search%": header_search}) }}
+                            {% else %}
+                                {{ 'directory.vehicle_result_number.without_search'|trans }}
+                            {% endif %}
+                            {% if vehicles.see_all_vehicle_search_url is not empty %}
+                                <a class="float-right" href="{{ vehicles.see_all_vehicle_search_url }}">{{ "directory.see_all"|trans }}</a>
+                            {% endif %}
+                        </div>
+
+                        {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
+                            'vehiclesToList' : vehicles.result.hits,
+                            'balise' : 'h3',
+                            'columnsSizes': 'small-up-2 medium-up-4'
+                        } %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if proUsers.result.totalHits > 6 %}
+                <div class="seller-item-container row is-collapse-child small-up-1 small-12 medium-up-2 large-up-3">
+                    {% for hit in proUsers.result.hits|slice(6) %}
+                        <div class="column">
+                            {{ include('front/Directory/includes/advisor_item.html.twig', {
+                                "itemClass" : "width-100",
+                                "seller" : hit,
+                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
+                            }) }}
+                        </div>
+                    {% endfor %}
+
+                    {% include 'front/Layout/includes/pagination.html.twig' with {
+                        'route': 'front_directory_view',
+                        'page': proUsers.page,
+                        'lastPage': proUsers.lastPage
+                    } %}
                 </div>
             {% endif %}
 

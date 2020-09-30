@@ -124,6 +124,7 @@ doctrine:
         dbname: '%env(MYSQL_DATABASE)%'
         user: '%env(MYSQL_USER)%'
         password: '%env(MYSQL_PASSWORD)%'
+        server_version: '5.7.31'
         charset:  utf8mb4
         default_table_options:
             charset: utf8mb4

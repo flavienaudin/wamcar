@@ -33,7 +33,7 @@ class ImportPersonalProjectCommand extends BaseCommand
         $io = new SymfonyStyle($input, $output);
 
         $personalProjectIndexer = $this->getContainer()->get('personal_project.indexer');
-        $personalProjectRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\ProjectRepository');
+        $personalProjectRepository = $this->getContainer()->get('Wamcar\User\ProjectRepository');
 
         $projects = $personalProjectRepository->findAll();
         $personalProjectDocuments = [];

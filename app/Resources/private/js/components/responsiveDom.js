@@ -6,6 +6,7 @@ import $ from 'jquery';
 import 'ResponsiveDom';
 import 'foundation-sites';
 
+/** TODO : A supprimer avec la Nouvelle barre de recherche des conseillers/voitures
 const $navigation = '#js-navigation';
 const $offCanvasNavigation = '#js-off-canvas-navigation';
 
@@ -19,6 +20,26 @@ $($navigation).responsiveDom({
     }
   }
 });
+*/
+
+
+// TODO nettoyer
+const $advisorsHeaderSearchForm = $('#advisors-header-search-form');
+if($advisorsHeaderSearchForm.length) {
+  //const $navigationHeaderSearch = $('.js-navigation-header-search');
+
+  $($advisorsHeaderSearchForm).responsiveDom({
+    /*appendTo: $navigationHeaderSearch,*/
+    mediaQuery: '(min-width: 1024px)',
+    callback: (matched) => {
+      if(matched) {
+        $('#advisors-header-search').removeClass('is-hidden');
+      }
+    }
+  });
+}
+
+
 
 const $movePicturesList = '#js-move-pictures-list';
 const $picturesList = '#js-pictures-list';

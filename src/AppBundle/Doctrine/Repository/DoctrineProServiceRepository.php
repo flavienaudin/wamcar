@@ -14,7 +14,7 @@ class DoctrineProServiceRepository extends EntityRepository implements ProServic
     /**
      * {@inheritdoc}
      */
-    public function findByNames(array  $proServiceNames){
+    public function findByNames(array  $proServiceNames, bool $orderByName = true){
         $qb = $this->createQueryBuilder('s');
         if(!empty($proServiceNames)){
             $qb->where($qb->expr()->in("s.name", $proServiceNames));
@@ -22,7 +22,12 @@ class DoctrineProServiceRepository extends EntityRepository implements ProServic
             $qb->where($qb->expr()->eq("s.name", ":falseName"));
             $qb->setParameter('falseName', 'xFalseName');
         }
-        $qb->orderBy('s.name', 'ASC');
+        if($orderByName) {
+            $qb->orderBy('s.name', 'ASC');
+        }else{
+            $qb->orderBy($qb->expr()->asc('FIELD(s.name, :orderedNames) '));
+            $qb->setParameter('orderedNames', $proServiceNames);
+        }
         return $qb->getQuery()->getResult();
     }
 

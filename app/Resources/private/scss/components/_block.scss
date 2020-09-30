@@ -1,20 +1,6 @@
 /* ===========================================================================
    Block
    =========================================================================== */
-  /*
-   Block mixin
-   ===================================== */
-
-
-@mixin shadow {
-  box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .6);
-  transition: box-shadow 83ms;
-}
-
-@mixin lightShadow {
-  box-shadow: 0 rem-calc(3) rem-calc(5) rgba(black, .2);
-  transition: box-shadow 83ms;
-}
 
 
 /*
