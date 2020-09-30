@@ -89,8 +89,8 @@ class DirectoryController extends BaseController
         // Service/Spécialité via la sélection dans l'entête => recherche libre
         if (($serviceSLug = $request->query->get('keyword')) !== null) {
             if ( ($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
-                $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
-                // $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
+                // $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
+                //$searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
             }
         }
 
@@ -168,12 +168,14 @@ class DirectoryController extends BaseController
         }
 
         // Recherche par champ libre
+        $searchVehicleDTO->text = $searchProDTO->text;
         if (!empty($searchVehicleDTO->text)) {
             // Ajout du champ libre dans le querystring de l'url "tout voir"
             $seeAllVehicleSearchRouteParam['q'] = $searchVehicleDTO->text;
         }
 
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
+        dump($proUsersResultSet->getQuery()->getQuery()->toArray());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
         $searchVehicleDTO = new SearchVehicleDTO();
         $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser(), 4);
