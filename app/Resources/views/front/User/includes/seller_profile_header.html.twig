@@ -24,15 +24,12 @@
                 {% set profileActionsBlock %}{% spaceless %}
                     {% if userIsMe %}
                         <a href="{{ path('front_edit_user_info') }}" class="button">
-                            {{ 'user.profile.header.cat.edit_profile'|trans }}</a>
+                            {{ 'user.profile.header.actions.edit_contact_details'|trans }}</a>
                         {% if user.affinityAnswer is null %}
-                            {% if isUserPro %}
-                                <a href="{{ path('front_affinity_pro_form') }}" class="button">
-                                    {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
-                            {% elseif isUserPersonal %}
-                                <a href="{{ path('front_affinity_personal_form') }}" class="button">
-                                    {{ 'user.profile.header.cat.answer_wamaffinity_form'|trans }}</a>
-                            {% endif %}
+                            <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}"
+                               class="button">
+                                {{ 'user.profile.header.actions.answer_wamaffinity_form'|trans }}</a>
+
                         {% endif %}
                     {% else %}
                         {% if user.phone is not empty  %}
@@ -57,7 +54,17 @@
 
                 <h1 class="{{ profileActionsBlock is empty ? 'no-phone-button'}}">{{ user.fullName(not(isUserProPageProfile or userIsMe or isUserPro)) }}</h1>
 
-                {% if not userIsMe and isUserProPageProfile %}
+                {% if userBannerForm is defined and userBannerForm is not null %}
+                    <div class="title-actions is-flex align-right">
+                        {{ form_start(userBannerForm, { 'attr' : {'class': 'user-banner-form','data-abide' : '','novalidate': 'novalidate'}}) }}
+                        {{ form_widget(userBannerForm.banner, {
+                            'input_class': 'js-onchange-submit',
+                            'iconButton':  'icon-picture-o no-margin'
+                        }) }}
+                        {{ form_widget(userBannerForm) }}
+                        {{ form_end(userBannerForm) }}
+                    </div>
+                {% elseif not userIsMe and isUserProPageProfile %}
                     <div class="title-actions is-flex align-right">
                         {{ include('front/Favorites/includes/expert_define_component.html.twig', {
                             'expertUser' : user,

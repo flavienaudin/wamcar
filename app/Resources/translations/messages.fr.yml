@@ -5,6 +5,7 @@ flash:
         videos_insert: L'encart vidéo a bien été ajouté à votre profil.
       edit:
         avatar: Votre avatar a été mis à jour.
+        banner: Votre image de couverture a été mise à jour.
         profile: Les modifications de votre profil ont été enregistrées.
         videos_insert: L'encart vidéo a bien été modifié.
         prouser_services: Vos services ont été mis à jour.
@@ -949,8 +950,8 @@ user:
         label: Travaille chez
       project:
         label: Projet
-      cat:
-        edit_profile: Editer mon profil
+      actions:
+        edit_contact_details: Editer mes coordonnées
         answer_wamaffinity_form: Remplir le questionnaire WamAffinity
     proservices:
       specialities.title: Mes spécialités
@@ -1505,6 +1506,7 @@ directory:
 form:
   picture:
     add_photo: Ajouter une photo
+    edit_photo: Changer la photo
     remove_photo: Supprimer la photo
 
 phone_number:

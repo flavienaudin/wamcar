@@ -227,6 +227,27 @@ class UserEditionService
     }
 
     /**
+     * @param ProUser $user
+     * @param ProUserInformationDTO $proUserInformationDTO
+     * @return ProUser
+     */
+    public function editUserBanner(ProUser $user, ProUserInformationDTO $proUserInformationDTO): ProUser
+    {
+        if ($proUserInformationDTO->banner) {
+            if ($proUserInformationDTO->banner->isRemoved) {
+                $user->setBanner(null);
+            } elseif ($proUserInformationDTO->banner->file) {
+                $picture = new UserBanner($user, $proUserInformationDTO->banner->file);
+                $user->setBanner($picture);
+            }
+        }
+
+        $this->userRepository->update($user);
+        $this->eventBus->handle(new ProUserUpdated($user));
+        return $user;
+    }
+
+    /**
      * @param BaseUser $user
      * @param UserPresentationDTO $userPresentationDTO
      * @return BaseUser

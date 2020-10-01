@@ -365,7 +365,7 @@
     {% if label %}
         <label for="{{ id }}" {% if label_class %}class="{{ label_class }}"{% endif %}>{{ label|raw }} {% if not required %}<span class="{{ required_class }}">{{ 'global.facultative'|trans }}</span>{% endif %}</label>
     {% endif %}
-    <div class="js-file-preview file-preview js-file-index {{ classPreview }}">
+    <div class="js-file-preview file-preview js-file-index {{ classPreview}}">
         {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
         {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
         <label for="{{ form.vars.id }}_file" title="{{ 'form.picture.add_photo'|trans }}" class="js-file-preview-image-container file-preview-image-container">
@@ -384,6 +384,21 @@
             </button>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block icon_picture_widget %}
+    {{ form_widget(form.file, { 'attr' : { 'class' : 'js-file-preview-input is-hidden ' ~ input_class } }) }}
+    {{ form_widget(form.isRemoved, { 'attr' : { 'class' : 'js-file-remove-input is-hidden' } }) }}
+    {% if value and value.file ? true : false %}
+        <a class="js-file-preview-remove-submit black-color icon-remove" title="{{ 'form.picture.remove_photo'|trans }}">
+            <span class="show-for-sr">{{ 'form.picture.remove_photo'|trans }}</span>
+        </a>
+    {% else %}
+        <label for="{{ form.vars.id }}_file" title="{{ 'form.picture.add_photo'|trans }}">
+            <a class="{{ iconButton }}"></a>
+            <span class="show-for-sr">{{ 'form.picture.add_photo'|trans }}</span>
+        </label>
+    {% endif %}
 {% endblock %}
 
 {% block _message_attachments_entry_widget %}
@@ -713,6 +728,10 @@
 
 {% block _user_avatar_avatar_widget %}
     {{ block('picture_widget') }}
+{% endblock %}
+
+{% block _user_banner_banner_widget %}
+    {{ block('icon_picture_widget') }}
 {% endblock %}
 
 {%- block _garage_banner_widget -%}

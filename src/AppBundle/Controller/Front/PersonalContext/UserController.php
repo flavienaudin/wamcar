@@ -37,6 +37,7 @@ use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\ProUserPresentationType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
+use AppBundle\Form\Type\UserBannerType;
 use AppBundle\Form\Type\UserDeletionType;
 use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Form\Type\UserPresentationType;
@@ -398,6 +399,7 @@ class UserController extends BaseController
          * Formumlaires d'édition de la page profil
          * ====================================== */
         $avatarForm = null;
+        $userBannerForm = null;
         $addGarageForm = null;
         $presentationForm = null;
         $videoPresentationForm = null;
@@ -414,6 +416,15 @@ class UserController extends BaseController
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editAvatar($user, $avatarForm->getData());
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.avatar');
+                return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+            }
+
+            // User Banner
+            $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($currentUser));
+            $userBannerForm->handleRequest($request);
+            if($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()){
+                $this->userEditionService->editUserBanner($user, $userBannerForm->getData());
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.banner');
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
@@ -565,6 +576,7 @@ class UserController extends BaseController
 
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
