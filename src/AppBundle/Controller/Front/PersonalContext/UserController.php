@@ -32,6 +32,7 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProPresentationVideoType;
+use AppBundle\Form\Type\ProUserContactDetailsType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\ProUserPresentationType;
@@ -401,6 +402,7 @@ class UserController extends BaseController
         $avatarForm = null;
         $userBannerForm = null;
         $addGarageForm = null;
+        $contactDetailsForm = null;
         $presentationForm = null;
         $videoPresentationForm = null;
         $addVideosInsertForm = null;
@@ -409,17 +411,16 @@ class UserController extends BaseController
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
         if ($this->isGranted(ProUserVoter::EDIT, $user)) {
-            // Avatar
+            // Avatar Form
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
-
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editAvatar($user, $avatarForm->getData());
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.avatar');
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
-            // User Banner
+            // User Banner Form
             $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($currentUser));
             $userBannerForm->handleRequest($request);
             if($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()){
@@ -432,6 +433,20 @@ class UserController extends BaseController
             $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                 'only_google_fields' => true,
                 'action' => $this->generateRoute('front_garage_create')]);
+
+            // User Contact Details Form
+            $contactDetailsForm = $this->formFactory->create(ProUserContactDetailsType::class, new ProUserInformationDTO($currentUser));
+            $contactDetailsForm->handleRequest($request);
+            if($contactDetailsForm->isSubmitted()){
+                if($contactDetailsForm->isValid()){
+                    $this->userEditionService->editContactDetails($user, $contactDetailsForm->getData());
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }else{
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.contact_details');
+                }
+
+            }
 
             // Encart Présentation : formulaire d'édition
             $proUserPresentationDTO = new ProUserPresentationDTO($user);
@@ -577,6 +592,7 @@ class UserController extends BaseController
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
+            'contactDetailsForm' => $contactDetailsForm ? $contactDetailsForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,

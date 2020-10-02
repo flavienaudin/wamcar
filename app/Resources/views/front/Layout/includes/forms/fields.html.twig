@@ -697,19 +697,23 @@
 
 {%- block _personal_user_information_title_widget -%}
     {{ block('yesno_widget') }}
-{%- endblock _personal_user_information_title_widget -%}
+{%- endblock -%}
 
 {%- block _pro_user_information_title_widget -%}
     {{ block('yesno_widget') }}
-{%- endblock _pro_user_information_title_widget -%}
+{%- endblock -%}
+
+{%- block _pro_user_contact_details_title_widget -%}
+    {{ block('yesno_widget') }}
+{%- endblock -%}
 
 {%- block _search_vehicle_type_widget -%}
     {{ block('yesno_widget') }}
-{%- endblock _search_vehicle_type_widget -%}
+{%- endblock -%}
 
 {%- block _project_isFleet_widget -%}
     {{ block('fleet_widget') }}
-{%- endblock _project_isFleet_widget -%}
+{%- endblock -%}
 
 {% block _pro_user_information_avatar_widget %}
     {{ block('picture_widget') }}

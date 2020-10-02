@@ -247,6 +247,25 @@ class UserEditionService
         return $user;
     }
 
+
+    /**
+     * @param ProUser $user
+     * @param ProUserPresentationDTO $proUserPresentationDTO
+     * @return BaseUser
+     */
+    public function editContactDetails(ProUser $user, ProUserInformationDTO $proUserInformationDTO)
+    {
+        $user->getUserProfile()->setTitle($proUserInformationDTO->title);
+        $user->getUserProfile()->setFirstName($proUserInformationDTO->firstName);
+        $user->getUserProfile()->setLastName($proUserInformationDTO->lastName);
+        $user->getUserProfile()->setPhone($proUserInformationDTO->phone);
+        $user->setPhonePro($proUserInformationDTO->phonePro);
+
+        $this->userRepository->update($user);
+        $this->eventBus->handle(new ProUserUpdated($user));
+        return $user;
+    }
+
     /**
      * @param BaseUser $user
      * @param UserPresentationDTO $userPresentationDTO
@@ -255,7 +274,7 @@ class UserEditionService
     public function editPresentationInformations(BaseUser $user, UserPresentationDTO $userPresentationDTO)
     {
         $user->setDescription($userPresentationDTO->description);
-        if($userPresentationDTO instanceof ProUserPresentationDTO && $user instanceof ProUser) {
+        if ($userPresentationDTO instanceof ProUserPresentationDTO && $user instanceof ProUser) {
             $user->setPresentationTitle($userPresentationDTO->presentationTitle);
         }
         $this->userRepository->update($user);

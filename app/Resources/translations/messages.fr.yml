@@ -106,6 +106,7 @@ flash:
       add:
         videos_insert: Une erreur dans le formulaire empêche l'enregistrement de votre nouvel encart vidéo. Merci de corriger votre saisie.
       edit:
+        contact_details: Une erreur dans le formulaire empêche l'enregistrement de vos coordonnées. Merci de corriger votre saisie.
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
         videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
@@ -951,8 +952,15 @@ user:
       project:
         label: Projet
       actions:
-        edit_contact_details: Editer mes coordonnées
-        answer_wamaffinity_form: Remplir le questionnaire WamAffinity
+        edit_contact_details:
+          small: Mes coordonnées
+          medium: Editer mes coordonnées
+        answer_wamaffinity_form:
+          small: Mon WamAffinity
+          medium: Remplir le questionnaire WamAffinity
+    contact_details:
+      modal:
+        title: Editer mes coordonnées
     proservices:
       specialities.title: Mes spécialités
       services.title: Mes services

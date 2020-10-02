@@ -1,0 +1,59 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-edit-contact-details' %}
+
+{% block title %}{{ 'user.profile.contact_details.modal.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ form_start(contactDetailsForm, { 'attr' : { 'class': 'row form-compact', 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+    <div class="columns small-12 input-margin">
+        {{ form_widget(contactDetailsForm.title, {
+            'label': 'user.profile.edit.form.title.label'|trans,
+            'required_class': '',
+            'list_class': '',
+            'required': false
+        }) }}
+    </div>
+    <div class="columns small-12 input-margin">
+        {{ form_widget(contactDetailsForm.firstName, {
+            'label': 'user.profile.edit.form.firstName.label'|trans,
+            'required': true
+        }) }}
+    </div>
+    <div class="columns small-12 input-margin">
+        {{ form_widget(contactDetailsForm.lastName, {
+            'label': 'user.profile.edit.form.lastName.label'|trans,
+            'required': false
+        }) }}
+    </div>
+    <div class="columns small-12 input-margin">
+        {{ form_widget(contactDetailsForm.phone, {
+            'label': 'user.profile.edit.form.phone.label'|trans,
+            'placeholder': 'user.profile.edit.form.phone.placeholder'|trans,
+            'required': false,
+            'type' : 'tel',
+            'attr' : {'maxlength':10, 'minlength':10},
+            'error_message' : 'user.profile.edit.form.phone.invalid_format'|trans,
+        }) }}
+
+    </div>
+    <div class="columns small-12 input-margin">
+        {{ form_widget(contactDetailsForm.phonePro, {
+            'label': 'user.profile.edit.form.phonePro.label'|trans,
+            'placeholder': 'user.profile.edit.form.phonePro.placeholder'|trans,
+            'required': false,
+            'type' : 'tel',
+            'attr' : {'maxlength':10},
+            'error_message' : 'user.profile.edit.form.phonePro.invalid_format'|trans,
+        }) }}
+    </div>
+
+    <div class="columns small-12 right">
+        <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+    </div>
+
+    {{ form_end(contactDetailsForm) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

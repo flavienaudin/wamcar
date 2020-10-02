@@ -23,13 +23,20 @@
             <div class="profile-titles">
                 {% set profileActionsBlock %}{% spaceless %}
                     {% if userIsMe %}
-                        <a href="{{ path('front_edit_user_info') }}" class="button">
-                            {{ 'user.profile.header.actions.edit_contact_details'|trans }}</a>
+                        {% if contactDetailsForm %}
+                            <a data-open="js-edit-contact-details" class="button">
+                                <span class="show-for-small-only">{{ 'user.profile.header.actions.edit_contact_details.small'|trans }}</span>
+                                <span class="show-for-medium">{{ 'user.profile.header.actions.edit_contact_details.medium'|trans }}</span>
+                            </a>
+                            {{ include('front/User/includes/modal_edit_contact-details.html.twig', {
+                                'contactDetailsForm': contactDetailsForm
+                            }) }}
+                        {% endif %}
                         {% if user.affinityAnswer is null %}
-                            <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}"
-                               class="button">
-                                {{ 'user.profile.header.actions.answer_wamaffinity_form'|trans }}</a>
-
+                            <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}" class="button">
+                                <span class="show-for-small-only">{{ 'user.profile.header.actions.answer_wamaffinity_form.small'|trans }}</span>
+                                <span class="show-for-medium">{{ 'user.profile.header.actions.answer_wamaffinity_form.medium'|trans }}</span>
+                            </a>
                         {% endif %}
                     {% else %}
                         {% if user.phone is not empty  %}
