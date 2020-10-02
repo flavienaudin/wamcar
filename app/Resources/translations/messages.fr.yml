@@ -7,6 +7,7 @@ flash:
         avatar: Votre avatar a été mis à jour.
         banner: Votre image de couverture a été mise à jour.
         profile: Les modifications de votre profil ont été enregistrées.
+        password: Votre mot de passe a été modifié.
         videos_insert: L'encart vidéo a bien été modifié.
         prouser_services: Vos services ont été mis à jour.
         prouser_specialities: Vos spécialités ont été mises à jour.
@@ -108,6 +109,7 @@ flash:
       edit:
         contact_details: Une erreur dans le formulaire empêche l'enregistrement de vos coordonnées. Merci de corriger votre saisie.
         presentation: Une erreur dans le formulaire empêche l'enregistrement des informations de votre présentation. Merci de corriger votre saisie.
+        password: Une erreur dans le formulaire de modification de votre mot de passe empêche l'enregistrement de votre nouveau mot de passe. Merci de corriger votre saisie.
         video: Une erreur dans le formulaire empêche l'enregistrement des informations de votre vidéo de présentation. Merci de corriger votre saisie.
         videos_insert: Une erreur dans le formulaire empêche la mise à jour des informations de votre encart vidéo. Merci de corriger votre saisie.
         prouser_specialities.no_service: Vous devez avoir sélectionné des services pour pouvoir définir vos spécialités.
@@ -982,10 +984,12 @@ user:
         email:
           label: Mail
         password:
-          button: Modifier mon mot de passe
+          edit: Modifier mon mot de passe
           old_label: Mot de passe
           new_label: Nouveau mot de passe
           second_new_label: Confirmer le mot de passe
+          error:
+            repeated: Les mots de passe doivent être identiques
         title:
           label: Civilité
         firstName:
@@ -1034,6 +1038,8 @@ user:
         banner:
           label: Image de couverture
         submit: Enregistrer mes modifications
+    account:
+      title: Gestion de mon compte
     delete:
       title: Suppression de mon compte
       link.information: "Je souhaite supprimer mon compte : "

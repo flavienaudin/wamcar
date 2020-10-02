@@ -17,6 +17,7 @@ use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\ProUserProSpecialitiesDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\DTO\UserPasswordDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Security\HasPasswordResettable;
@@ -413,6 +414,22 @@ class UserEditionService
         $this->userRepository->update($user);
 
         return $user;
+    }
+
+    /**
+     * @param HasPasswordResettable $user
+     * @param UserPasswordDTO $userPasswordDTO
+     * @throws \Exception
+     */
+    public function editUserPassword(HasPasswordResettable $user, UserPasswordDTO $userPasswordDTO)
+    {
+        if (!empty($userPasswordDTO->newPassword)) {
+            $isValid = $this->passwordEncoder->isPasswordValid($user->getPassword(), $userPasswordDTO->oldPassword, $user->getSalt());
+            if (!$isValid) {
+                throw new \InvalidArgumentException('Password should be the current');
+            }
+            $this->editPassword($user, $userPasswordDTO->newPassword);
+        }
     }
 
     /**

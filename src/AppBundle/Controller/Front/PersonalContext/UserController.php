@@ -15,6 +15,7 @@ use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\UserPasswordDTO;
 use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
@@ -40,6 +41,7 @@ use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
 use AppBundle\Form\Type\UserBannerType;
 use AppBundle\Form\Type\UserDeletionType;
+use AppBundle\Form\Type\UserPasswordType;
 use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Form\Type\UserPresentationType;
 use AppBundle\Form\Type\YoutubePlaylistInsertType;
@@ -404,6 +406,7 @@ class UserController extends BaseController
         $addGarageForm = null;
         $contactDetailsForm = null;
         $presentationForm = null;
+        $passwordForm = null;
         $videoPresentationForm = null;
         $addVideosInsertForm = null;
         /** @var FormInterface[] $editVideosInsertForm */
@@ -459,6 +462,20 @@ class UserController extends BaseController
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
+                }
+            }
+
+            // Encart Gestion de mon compte : Edition du mot de passe
+            $passwordForm = $this->formFactory->create(UserPasswordType::class, new UserPasswordDTO());
+            $passwordForm->handleRequest($request);
+            if($passwordForm->isSubmitted()){
+                if ($passwordForm->isValid()){
+                    $this->userEditionService->editUserPassword($user, $passwordForm->getData());
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.password');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }else{
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.password');
+
                 }
             }
 
@@ -594,6 +611,7 @@ class UserController extends BaseController
             'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
             'contactDetailsForm' => $contactDetailsForm ? $contactDetailsForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
+            'passwordForm' => $passwordForm ? $passwordForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
             'editVideosInsertFormViews' => !empty($editVideosInsertFormViews) ? $editVideosInsertFormViews : null,
