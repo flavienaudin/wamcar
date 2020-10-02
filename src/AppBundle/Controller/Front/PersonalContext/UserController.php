@@ -211,47 +211,31 @@ class UserController extends BaseController
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request, ?ProUser $proUser): Response
+    public function editInformationsAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
-        if ($proUser != null && $this->isGranted('ROLE_PRO_ADMIN')) {
-            // Only from easyadmin action and only for ProUser
-            $user = $proUser;
-        } else {
-            /** @var BaseUser $user */
-            $user = $this->getUser();
+        /** @var BaseUser $user */
+        $user = $this->getUser();
+        if($user instanceof ProUser){
+            // Edition d'un profil pro se fait directement depuis la consultation de son propre profil
+            return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        $userProfileTemplate = [
-            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
-            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
-        ];
-        $userDTOs = [
-            ProApplicationUser::TYPE => ProUserInformationDTO::class,
-            PersonalApplicationUser::TYPE => UserInformationDTO::class
-        ];
         /** @var UserInformationDTO $userInformationDTO */
-        $userInformationDTO = new $userDTOs[$user->getType()]($user);
+        $userInformationDTO = new UserInformationDTO($user);
 
         $editForm = $this->createEditForm($user, $userInformationDTO);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
-
-            if ($user instanceof ProUser) {
-                return $this->redirectToRoute('front_view_pro_user_info', [
-                    'slug' => $user->getSlug()
-                ]);
-            } else {
-                return $this->redirectToRoute('front_view_personal_user_info', [
-                    'slug' => $user->getSlug()
-                ]);
-            }
+            return $this->redirectToRoute('front_view_personal_user_info', [
+                'slug' => $user->getSlug()
+            ]);
         }
 
-        return $this->render($userProfileTemplate[$user->getType()], [
+        return $this->render('front/User/edit.html.twig', [
             'editUserForm' => $editForm->createView(),
             'user' => $user
         ]);
@@ -424,7 +408,7 @@ class UserController extends BaseController
             }
 
             // User Banner Form
-            $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($currentUser));
+            $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($user));
             $userBannerForm->handleRequest($request);
             if($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()){
                 $this->userEditionService->editUserBanner($user, $userBannerForm->getData());
@@ -432,13 +416,15 @@ class UserController extends BaseController
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
-            // Form to add garage
-            $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
-                'only_google_fields' => true,
-                'action' => $this->generateRoute('front_garage_create')]);
+            // Form to add garage only if current user is the user of profile
+            if($userIsCurrentUser) {
+                $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
+                    'only_google_fields' => true,
+                    'action' => $this->generateRoute('front_garage_create')]);
+            }
 
             // User Contact Details Form
-            $contactDetailsForm = $this->formFactory->create(ProUserContactDetailsType::class, new ProUserInformationDTO($currentUser));
+            $contactDetailsForm = $this->formFactory->create(ProUserContactDetailsType::class, new ProUserInformationDTO($user));
             $contactDetailsForm->handleRequest($request);
             if($contactDetailsForm->isSubmitted()){
                 if($contactDetailsForm->isValid()){

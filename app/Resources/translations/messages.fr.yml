@@ -969,9 +969,7 @@ user:
     hobbies:
       title: Centres d'intérêt
     edit:
-      title:
-        mine: Editer mon profil
-        other: Editer le profil de %username%
+      title: Editer mon profil
       action: Editer mon profil
       form:
         titles:

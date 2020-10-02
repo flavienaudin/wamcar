@@ -22,7 +22,7 @@
         <div class="column ">
             <div class="profile-titles">
                 {% set profileActionsBlock %}{% spaceless %}
-                    {% if userIsMe %}
+                    {% if contactDetailsForm %}
                         {% if contactDetailsForm %}
                             <a data-open="js-edit-contact-details" class="button">
                                 <span class="show-for-small-only">{{ 'user.profile.header.actions.edit_contact_details.small'|trans }}</span>
@@ -32,12 +32,12 @@
                                 'contactDetailsForm': contactDetailsForm
                             }) }}
                         {% endif %}
-                        {% if user.affinityAnswer is null %}
-                            <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}" class="button">
-                                <span class="show-for-small-only">{{ 'user.profile.header.actions.answer_wamaffinity_form.small'|trans }}</span>
-                                <span class="show-for-medium">{{ 'user.profile.header.actions.answer_wamaffinity_form.medium'|trans }}</span>
-                            </a>
-                        {% endif %}
+                    {% endif %}
+                    {% if userIsMe and user.affinityAnswer is null %}
+                        <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}" class="button">
+                            <span class="show-for-small-only">{{ 'user.profile.header.actions.answer_wamaffinity_form.small'|trans }}</span>
+                            <span class="show-for-medium">{{ 'user.profile.header.actions.answer_wamaffinity_form.medium'|trans }}</span>
+                        </a>
                     {% else %}
                         {% if user.phone is not empty  %}
                             {{ include('front/Seller/includes/phone_number_button.html.twig', {
