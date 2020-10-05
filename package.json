@@ -1,6 +1,6 @@
 {
   "name": "wamcar",
-  "version": "1.0.0",
+  "version": "3.1.0",
   "description": "Wamcar main website",
   "scripts": {
     "start": "./node_modules/.bin/webpack --config app/Resources/build/webpack.dev.js --progress --colors --watch",
@@ -8,7 +8,7 @@
     "proxy": "./node_modules/.bin/browser-sync start --proxy 127.0.0.1 --files app/**/**/*.twig, web/assets/bundle/bundle.js",
     "dl-font": "./node_modules/.bin/goog-webfont-dl -w -W -d web/assets/bundle/fonts Muli"
   },
-  "author": "Novaway",
+  "author": "Wamcar",
   "license": "UNLICENSED",
   "devDependencies": {
     "autoprefixer": "^7.0.0",
