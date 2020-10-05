@@ -174,4 +174,21 @@
       }
     }
   }
+
+  /*
+     Seller account
+     ===================================== */
+  &-account {
+
+    > div:not(:last-child) {
+      border-bottom: $dark-gray-blue-peexeo dotted 3px;
+      padding-bottom: rem-calc(12);
+      margin-bottom: rem-calc(12);
+
+      @include breakpoint(xlarge) {
+        padding-bottom: rem-calc(20);
+        margin-bottom: rem-calc(20);
+      }
+    }
+  }
 }

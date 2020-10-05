@@ -12,8 +12,8 @@ class UserAvatarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('avatar', UserPictureType::class, [
-        'error_bubbling' => true
-    ]);
+            'error_bubbling' => true
+        ]);
     }
 
     /**

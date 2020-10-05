@@ -191,7 +191,7 @@
             {% set userHobbies = user.hobbies %}
             {% if userIsMe or userSpecialities |length > 0 or proServices|length > 0 or userHobbies|length > 0 %}
                 <div class="profile-section seller-services block-light-shadow">
-                    {% if userIsMe or userSpecialities |length > 0 %}
+                    {% if userIsMe or userSpecialities|length > 0 %}
                         <div>
                             <h2>
                                 {% if userIsMe %}
@@ -327,8 +327,7 @@
                     {% if addVideosInsertForm.playlistId %}
                         {{ form_widget(addVideosInsertForm.playlistId, {
                             'label' : 'user.profile.edit.form.video_insert.youtube_playlist_id.label'|trans,
-                            'required' : false,
-                            'required_class': 'show-for-sr',
+                            'required' : true,
                             'attr': {'placeholder': 'user.profile.edit.form.video_insert.youtube_playlist_id.placeholder'|trans}
                         }) }}
                         {{ form_errors(addVideosInsertForm.playlistId) }}
@@ -357,17 +356,63 @@
             {% endif %}
             {# END User Vehicles Block #}
 
-            {# Delete Account Block #}
+            {# Account Block #}
             {% if userIsMe %}
-                <div class="profile-section block-light-shadow">
-                    <h2>{{ 'user.profile.delete.title'|trans }}</h2>
+                <div class="profile-section seller-account block-light-shadow">
+                    <h2>{{ 'user.profile.account.title'|trans }}</h2>
+                    {% if passwordForm is defined and passwordForm is not null %}
+                        <div>
+                            <h3>{{ 'user.profile.edit.form.titles.id'|trans }}</h3>
+                            <p>{{ 'user.profile.edit.form.email.label'|trans }} : {{ user.email }} <br>
+                                <a class="text-underline" data-toggle="js-update-password">{{ 'user.profile.edit.form.password.edit'|trans }}</a>
+                            </p>
+                            <div id="js-update-password" {{ passwordForm.vars.valid ? 'class="is-hidden"' }} data-toggler=".is-hidden">
+                                {% set formAttr = (not passwordForm.vars.valid?{
+                                    'id' : passwordForm.vars.id,
+                                    'data-scroll-to-now':passwordForm.vars.id
+                                    }:{}) %}
+                                {{ form_start(passwordForm, {
+                                    'attr':formAttr|merge({'data-abide': 'data-abide', 'novalidate': 'novalidate'})
+                                }) }}
+
+                                {# Ancien mot de passe #}
+                                {{ form_widget(passwordForm.oldPassword, {
+                                    'label': 'user.profile.edit.form.password.old_label'|trans
+                                }) }}
+                                {{ form_errors(passwordForm.oldPassword) }}
+                                <div class="row small-12">
+                                    {# Nouveau mot de passe #}
+                                    <div class="column small-12 large-6">
+                                        {{ form_widget(passwordForm.newPassword.first, {
+                                            'label': 'user.profile.edit.form.password.new_label'|trans,
+                                        }) }}
+                                    </div>
+
+                                    {# Nouveau mot de passe confirmation #}
+                                    <div class="column small-12 large-6">
+                                        {{ form_widget(passwordForm.newPassword.second, {
+                                            'label': 'user.profile.edit.form.password.second_new_label'|trans,
+
+                                            'equalTo' : passwordForm.newPassword.first.vars.id,
+                                            'equalTo_message': 'user.profile.edit.form.password.error.repeated'|trans
+                                        }) }}
+                                    </div>
+                                </div>
+                                <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+
+                                {{ form_end(passwordForm) }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <h3>{{ 'user.profile.delete.title'|trans }}</h3>
                     <p>{{ 'user.profile.delete.link.information'|trans }}
                         <a href="{{ path('front_user_delete') }}"
                            class="text-underline">{{ 'global.button.delete'|trans }}</a>
                     </p>
                 </div>
             {% endif %}
-            {# END Delete Account Block #}
+            {# END Account Block #}
         </div>
         {# END Left column #}
 

@@ -17,6 +17,7 @@ use AppBundle\Form\DTO\ProUserPresentationDTO;
 use AppBundle\Form\DTO\ProUserProSpecialitiesDTO;
 use AppBundle\Form\DTO\RegistrationDTO;
 use AppBundle\Form\DTO\UserInformationDTO;
+use AppBundle\Form\DTO\UserPasswordDTO;
 use AppBundle\Form\DTO\UserPreferencesDTO;
 use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Security\HasPasswordResettable;
@@ -227,6 +228,46 @@ class UserEditionService
     }
 
     /**
+     * @param ProUser $user
+     * @param ProUserInformationDTO $proUserInformationDTO
+     * @return ProUser
+     */
+    public function editUserBanner(ProUser $user, ProUserInformationDTO $proUserInformationDTO): ProUser
+    {
+        if ($proUserInformationDTO->banner) {
+            if ($proUserInformationDTO->banner->isRemoved) {
+                $user->setBanner(null);
+            } elseif ($proUserInformationDTO->banner->file) {
+                $picture = new UserBanner($user, $proUserInformationDTO->banner->file);
+                $user->setBanner($picture);
+            }
+        }
+
+        $this->userRepository->update($user);
+        $this->eventBus->handle(new ProUserUpdated($user));
+        return $user;
+    }
+
+
+    /**
+     * @param ProUser $user
+     * @param ProUserPresentationDTO $proUserPresentationDTO
+     * @return BaseUser
+     */
+    public function editContactDetails(ProUser $user, ProUserInformationDTO $proUserInformationDTO)
+    {
+        $user->getUserProfile()->setTitle($proUserInformationDTO->title);
+        $user->getUserProfile()->setFirstName($proUserInformationDTO->firstName);
+        $user->getUserProfile()->setLastName($proUserInformationDTO->lastName);
+        $user->getUserProfile()->setPhone($proUserInformationDTO->phone);
+        $user->setPhonePro($proUserInformationDTO->phonePro);
+
+        $this->userRepository->update($user);
+        $this->eventBus->handle(new ProUserUpdated($user));
+        return $user;
+    }
+
+    /**
      * @param BaseUser $user
      * @param UserPresentationDTO $userPresentationDTO
      * @return BaseUser
@@ -234,7 +275,7 @@ class UserEditionService
     public function editPresentationInformations(BaseUser $user, UserPresentationDTO $userPresentationDTO)
     {
         $user->setDescription($userPresentationDTO->description);
-        if($userPresentationDTO instanceof ProUserPresentationDTO && $user instanceof ProUser) {
+        if ($userPresentationDTO instanceof ProUserPresentationDTO && $user instanceof ProUser) {
             $user->setPresentationTitle($userPresentationDTO->presentationTitle);
         }
         $this->userRepository->update($user);
@@ -373,6 +414,22 @@ class UserEditionService
         $this->userRepository->update($user);
 
         return $user;
+    }
+
+    /**
+     * @param HasPasswordResettable $user
+     * @param UserPasswordDTO $userPasswordDTO
+     * @throws \Exception
+     */
+    public function editUserPassword(HasPasswordResettable $user, UserPasswordDTO $userPasswordDTO)
+    {
+        if (!empty($userPasswordDTO->newPassword)) {
+            $isValid = $this->passwordEncoder->isPasswordValid($user->getPassword(), $userPasswordDTO->oldPassword, $user->getSalt());
+            if (!$isValid) {
+                throw new \InvalidArgumentException('Password should be the current');
+            }
+            $this->editPassword($user, $userPasswordDTO->newPassword);
+        }
     }
 
     /**
