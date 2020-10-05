@@ -115,49 +115,49 @@ class SearchController extends BaseController
         $searchVehicleDTO = new SearchVehicleDTO();
 
         // Result types of the search
-        $type = null;
+        $searchTypes = null;
         if ($request->query->has('type')) {
             // Current version
             $qpType = $request->query->get('type');
             $types = explode(',', $qpType);
-            $type = [];
+            $searchTypes = [];
             if(in_array(self::QP_TYPE_PERSONAL_VEHICLES, $types)){
-                $type[] = SearchTypeChoice::SEARCH_PERSONAL_VEHICLE;
+                $searchTypes[] = SearchTypeChoice::SEARCH_PERSONAL_VEHICLE;
             }
             if(in_array(self::QP_TYPE_PRO_VEHICLES, $types)){
-                $type[] = SearchTypeChoice::SEARCH_PRO_VEHICLE;
+                $searchTypes[] = SearchTypeChoice::SEARCH_PRO_VEHICLE;
             }
             if(in_array(self::QP_TYPE_PERSONAL_PROJECT, $types)){
-                $type[] = SearchTypeChoice::SEARCH_PERSONAL_PROJECT;
+                $searchTypes[] = SearchTypeChoice::SEARCH_PERSONAL_PROJECT;
             }
-            if(empty($type)){
-                $type = null;
+            if(empty($searchTypes)){
+                $searchTypes = null;
             }
         } elseif ($request->query->has('search_vehicle')) {
             // legacy GET form submission
             $searchVehicleQueryParam = $request->query->get('search_vehicle');
             if (is_array($searchVehicleQueryParam) && isset($searchVehicleQueryParam['tab'])) {
                 // legacy GET form submission
-                $type = $searchVehicleQueryParam['tab'];
+                $searchTypes = $searchVehicleQueryParam['tab'];
                 // do not exist anymore in SearchVehicleType
                 unset($searchVehicleQueryParam['tab']);
 
                 // Legacy conversion
-                switch ($type) {
+                switch ($searchTypes) {
                     case self::LEGACY_TAB_PERSONAL:
-                        $type = SearchTypeChoice::SEARCH_PERSONAL_VEHICLE;
+                        $searchTypes = [SearchTypeChoice::SEARCH_PERSONAL_VEHICLE];
                         break;
                     case self::LEGACY_TAB_PRO:
-                        $type = SearchTypeChoice::SEARCH_PRO_VEHICLE;
+                        $searchTypes = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
                         break;
                     case self::LEGACY_TAB_PROJECT:
-                        $type = SearchTypeChoice::SEARCH_PERSONAL_PROJECT;
+                        $searchTypes = [SearchTypeChoice::SEARCH_PERSONAL_PROJECT];
                         break;
                     default:
-                        $type = null;
+                        $searchTypes = null;
                 }
-                if ($type != null) {
-                    $searchVehicleQueryParam['type'] = $type;
+                if ($searchTypes != null) {
+                    $searchVehicleQueryParam['type'] = $searchTypes;
                 }
                 $request->query->replace(['search_vehicle' => $searchVehicleQueryParam]);
             }
@@ -165,12 +165,12 @@ class SearchController extends BaseController
         if (Request::METHOD_POST !== $request->getMethod()) {
             // Form not submitted as POST method : we compute the default value of 'type' field
             // If method POST then the "type" field is defined by submitted data
-            if ($type != null) {
+            if ($searchTypes != null) {
                 // URL param for the type of search object
-                if (!is_array($type)) {
-                    $type = [$type];
+                if (!is_array($searchTypes)) {
+                    $searchTypes = [$searchTypes];
                 }
-                $searchVehicleDTO->type = $type;
+                $searchVehicleDTO->type = $searchTypes;
             } else if ($this->isGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED, $this->getUser())) {
                 if ($this->getUser() instanceof PersonalUser) {
                     $searchVehicleDTO->type = [SearchTypeChoice::SEARCH_PRO_VEHICLE];
@@ -201,7 +201,11 @@ class SearchController extends BaseController
         $searchVehicleData = $request->get('search_vehicle', []);
         if(isset($searchVehicleData['type'])) {
             // submitted value
-            $types =$searchVehicleData['type'];
+            if(is_array($searchVehicleData['type'])){
+                $types = $searchVehicleData['type'];
+            }else{
+                $types = [$searchVehicleData['type']];
+            }
         }else {
             // value computed earlier
             $types = $searchVehicleDTO->type;
@@ -256,7 +260,7 @@ class SearchController extends BaseController
      * @param Request $request
      * @return JsonResponse
      */
-    public function updateSeacrhVehicleFormAction(Request $request): JsonResponse
+    public function updateSearchVehicleFormAction(Request $request): JsonResponse
     {
         $filters = $request->get('filters', []);
         $searchTypes = $request->get('type', []);

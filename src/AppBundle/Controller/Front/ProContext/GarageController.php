@@ -109,13 +109,18 @@ class GarageController extends BaseController
     {
         /** @var Garage $garage */
         $garage = $this->garageRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
-        if ($garage->getDeletedAt() != null) {
+        if ($garage === null || $garage->getDeletedAt() != null) {
+            if($garage!=null) {
+                $url = $this->generateUrl('front_directory_by_city_view', [
+                    'city' => $garage->getCity()->getPostalCode() . "-" . urlencode($garage->getCity()->getName())
+                ]);
+            }else{
+                $url = $this->generateUrl('front_directory_view');
+            }
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.garage.deleted.title',
                 'messageKey' => 'error_page.garage.deleted.body',
-                'redirectionUrl' => $this->generateUrl('front_directory_by_city_view', [
-                    'city' => $garage->getCity()->getPostalCode() . "-" . urlencode($garage->getCity()->getName())
-                ])
+                'redirectionUrl' => $url
             ]);
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
@@ -217,7 +222,7 @@ class GarageController extends BaseController
             $garageBannerDTO = new GaragePictureDTO($garage->getBannerFile());
             $garageBannerForm = $this->formFactory->createNamed('garage_banner', GaragePictureType::class, $garageBannerDTO);
             $garageBannerForm->handleRequest($request);
-            if($garageBannerForm->isSubmitted() && $garageBannerForm->isValid()){
+            if ($garageBannerForm->isSubmitted() && $garageBannerForm->isValid()) {
                 $this->garageEditionService->editBanner($garageBannerDTO, $garage);
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.edit');
                 return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
@@ -227,7 +232,7 @@ class GarageController extends BaseController
             $garageLogoDTO = new GaragePictureDTO($garage->getLogoFile());
             $garageLogoForm = $this->formFactory->createNamed('garage_logo', GaragePictureType::class, $garageLogoDTO);
             $garageLogoForm->handleRequest($request);
-            if($garageLogoForm->isSubmitted() && $garageLogoForm->isValid()){
+            if ($garageLogoForm->isSubmitted() && $garageLogoForm->isValid()) {
                 $this->garageEditionService->editLogo($garageLogoDTO, $garage);
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.garage.edit');
                 return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
