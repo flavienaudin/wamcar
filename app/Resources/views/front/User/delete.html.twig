@@ -83,7 +83,7 @@
             <p class="text-justify no-margin">{{ 'user.profile.delete.information'|trans }}</p>
             <div class="checkbox-container">
                 {{ form_row(userDeletionForm.confirmation, {
-                    'label_attr': {'class': 'show-for-sr'},
+                    'label': '<b>' ~ ('user.profile.delete.field.confirmation.label'|trans) ~ '</b>',
                     'errorMsg' : 'user.profile.delete.field.confirmation.error'|trans
                 }) }}
             </div>
