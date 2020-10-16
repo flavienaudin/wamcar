@@ -55,13 +55,16 @@
             {% if vehicles.result.totalHits > 0 %}
                 <div class="column">
                     <div class="column block-white">
-                        <div class="margin-top-1 margin-bottom-1">{% if header_search is not empty %}
+                        <div class="margin-top-1 margin-bottom-1 is-flex align-justify">
+                            <span>
+                            {% if header_search is not empty %}
                                 {{ 'directory.vehicle_result_number.with_search'|trans({"%search%": header_search}) }}
                             {% else %}
                                 {{ 'directory.vehicle_result_number.without_search'|trans }}
                             {% endif %}
+                                </span>
                             {% if vehicles.see_all_vehicle_search_url is not empty %}
-                                <a class="float-right" href="{{ vehicles.see_all_vehicle_search_url }}">{{ "directory.see_all"|trans }}</a>
+                                <a class="no-wrap" href="{{ vehicles.see_all_vehicle_search_url }}">{{ "directory.see_all"|trans }}</a>
                             {% endif %}
                         </div>
 

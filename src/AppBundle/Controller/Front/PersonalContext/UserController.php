@@ -15,6 +15,7 @@ use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\MessageDTO;
+use AppBundle\Form\DTO\UserPasswordDTO;
 use AppBundle\Form\DTO\UserPresentationDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProjectDTO;
@@ -32,12 +33,15 @@ use AppBundle\Form\Type\MessageType;
 use AppBundle\Form\Type\PersonalUserInformationType;
 use AppBundle\Form\Type\ProjectType;
 use AppBundle\Form\Type\ProPresentationVideoType;
+use AppBundle\Form\Type\ProUserContactDetailsType;
 use AppBundle\Form\Type\ProUserInformationType;
 use AppBundle\Form\Type\ProUserPreferencesType;
 use AppBundle\Form\Type\ProUserPresentationType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Form\Type\UserAvatarType;
+use AppBundle\Form\Type\UserBannerType;
 use AppBundle\Form\Type\UserDeletionType;
+use AppBundle\Form\Type\UserPasswordType;
 use AppBundle\Form\Type\UserPreferencesType;
 use AppBundle\Form\Type\UserPresentationType;
 use AppBundle\Form\Type\YoutubePlaylistInsertType;
@@ -207,47 +211,31 @@ class UserController extends BaseController
      * @return Response
      * @throws \Exception
      */
-    public function editInformationsAction(Request $request, ?ProUser $proUser): Response
+    public function editInformationsAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
 
-        if ($proUser != null && $this->isGranted('ROLE_PRO_ADMIN')) {
-            // Only from easyadmin action and only for ProUser
-            $user = $proUser;
-        } else {
-            /** @var BaseUser $user */
-            $user = $this->getUser();
+        /** @var BaseUser $user */
+        $user = $this->getUser();
+        if($user instanceof ProUser){
+            // Edition d'un profil pro se fait directement depuis la consultation de son propre profil
+            return $this->redirectToRoute('front_view_current_user_info');
         }
 
-        $userProfileTemplate = [
-            ProApplicationUser::TYPE => 'front/Seller/edit.html.twig',
-            PersonalApplicationUser::TYPE => 'front/User/edit.html.twig',
-        ];
-        $userDTOs = [
-            ProApplicationUser::TYPE => ProUserInformationDTO::class,
-            PersonalApplicationUser::TYPE => UserInformationDTO::class
-        ];
         /** @var UserInformationDTO $userInformationDTO */
-        $userInformationDTO = new $userDTOs[$user->getType()]($user);
+        $userInformationDTO = new UserInformationDTO($user);
 
         $editForm = $this->createEditForm($user, $userInformationDTO);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->userEditionService->editInformations($user, $userInformationDTO);
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
-
-            if ($user instanceof ProUser) {
-                return $this->redirectToRoute('front_view_pro_user_info', [
-                    'slug' => $user->getSlug()
-                ]);
-            } else {
-                return $this->redirectToRoute('front_view_personal_user_info', [
-                    'slug' => $user->getSlug()
-                ]);
-            }
+            return $this->redirectToRoute('front_view_personal_user_info', [
+                'slug' => $user->getSlug()
+            ]);
         }
 
-        return $this->render($userProfileTemplate[$user->getType()], [
+        return $this->render('front/User/edit.html.twig', [
             'editUserForm' => $editForm->createView(),
             'user' => $user
         ]);
@@ -398,8 +386,11 @@ class UserController extends BaseController
          * Formumlaires d'édition de la page profil
          * ====================================== */
         $avatarForm = null;
+        $userBannerForm = null;
         $addGarageForm = null;
+        $contactDetailsForm = null;
         $presentationForm = null;
+        $passwordForm = null;
         $videoPresentationForm = null;
         $addVideosInsertForm = null;
         /** @var FormInterface[] $editVideosInsertForm */
@@ -407,20 +398,44 @@ class UserController extends BaseController
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
         if ($this->isGranted(ProUserVoter::EDIT, $user)) {
-            // Avatar
+            // Avatar Form
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
-
             if ($avatarForm && $avatarForm->isSubmitted() && $avatarForm->isValid()) {
                 $this->userEditionService->editAvatar($user, $avatarForm->getData());
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.avatar');
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
-            // Form to add garage
-            $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
-                'only_google_fields' => true,
-                'action' => $this->generateRoute('front_garage_create')]);
+            // User Banner Form
+            $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($user));
+            $userBannerForm->handleRequest($request);
+            if($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()){
+                $this->userEditionService->editUserBanner($user, $userBannerForm->getData());
+                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.banner');
+                return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+            }
+
+            // Form to add garage only if current user is the user of profile
+            if($userIsCurrentUser) {
+                $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
+                    'only_google_fields' => true,
+                    'action' => $this->generateRoute('front_garage_create')]);
+            }
+
+            // User Contact Details Form
+            $contactDetailsForm = $this->formFactory->create(ProUserContactDetailsType::class, new ProUserInformationDTO($user));
+            $contactDetailsForm->handleRequest($request);
+            if($contactDetailsForm->isSubmitted()){
+                if($contactDetailsForm->isValid()){
+                    $this->userEditionService->editContactDetails($user, $contactDetailsForm->getData());
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }else{
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.contact_details');
+                }
+
+            }
 
             // Encart Présentation : formulaire d'édition
             $proUserPresentationDTO = new ProUserPresentationDTO($user);
@@ -433,6 +448,20 @@ class UserController extends BaseController
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
                 } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.presentation');
+                }
+            }
+
+            // Encart Gestion de mon compte : Edition du mot de passe
+            $passwordForm = $this->formFactory->create(UserPasswordType::class, new UserPasswordDTO());
+            $passwordForm->handleRequest($request);
+            if($passwordForm->isSubmitted()){
+                if ($passwordForm->isValid()){
+                    $this->userEditionService->editUserPassword($user, $passwordForm->getData());
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.password');
+                    return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
+                }else{
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.password');
+
                 }
             }
 
@@ -565,7 +594,10 @@ class UserController extends BaseController
 
         return $this->render('front/Seller/card.html.twig', [
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
+            'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
+            'contactDetailsForm' => $contactDetailsForm ? $contactDetailsForm->createView() : null,
             'presentationForm' => $presentationForm ? $presentationForm->createView() : null,
+            'passwordForm' => $passwordForm ? $passwordForm->createView() : null,
             'videoPresentationForm' => $videoPresentationForm ? $videoPresentationForm->createView() : null,
             'addVideosInsertForm' => $addVideosInsertForm ? $addVideosInsertForm->createView() : null,
             'editVideosInsertFormViews' => !empty($editVideosInsertFormViews) ? $editVideosInsertFormViews : null,

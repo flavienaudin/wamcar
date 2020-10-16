@@ -184,7 +184,7 @@ class BackendController extends AdminController
         $id = $this->request->query->get('id');
         $entity = $this->em->getRepository(BaseUser::class)->find($id);
         if ($entity instanceof ProUser) {
-            return $this->redirectToRoute('admin_pro_user_edit', [
+            return $this->redirectToRoute('front_view_pro_user_info', [
                 'slug' => $entity->getSlug()
             ]);
         } elseif ($entity instanceof PersonalUser) {

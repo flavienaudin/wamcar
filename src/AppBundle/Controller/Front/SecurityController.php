@@ -183,7 +183,7 @@ class SecurityController extends BaseController
                     self::FLASH_LEVEL_INFO,
                     'flash.success.registration_success_pro'
                 );
-                return $this->redirectToRoute('front_affinity_pro_form', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
+                return $this->redirectToRoute('front_view_current_user_info', [self::INSCRIPTION_QUERY_PARAM => 'pro-emailc']);
             } else {
                 return $this->redirectToRoute('register_orientation', [self::INSCRIPTION_QUERY_PARAM => 'personal-emailc']);
             }

@@ -189,6 +189,11 @@ $radio-checked-margin-left: $radio-border-width;
 
   &-item {
     @include buttonHeight;
+
+    .form-compact & {
+      @include buttonHeightCompact;
+    }
+
     justify-content: center;
     border: rem-calc(1) solid $border-color;
     color: $body-font-color;

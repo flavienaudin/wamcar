@@ -15,10 +15,6 @@ admin_pro_user_list:
     path: /user/pro/list
     controller: AppBundle:Front\PersonalContext\User:proUserslist
 
-admin_pro_user_edit:
-    path: /user/pro/edit/{slug}
-    controller: AppBundle:Front\PersonalContext\User:editInformations
-
 admin_pro_user_statistics:
     path: /user/pro/statistics
     controller: AppBundle:Front\PersonalContext\User:proUsersStatistics

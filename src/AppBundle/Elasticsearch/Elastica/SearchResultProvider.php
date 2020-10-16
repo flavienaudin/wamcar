@@ -424,7 +424,7 @@ class SearchResultProvider
                 }
 
                 // WamAffinity : Importance : 5/5
-                // Script value between [0;1] => factor 5 => [0;5]
+                // Script value between [0;1] => factor 1 => [0;1]
                 if ($currentUser != null) {
                     $script = new Script("return (params.affinityDegrees[doc.userId.value] ?: params.default) / 100",
                         ["affinityDegrees" => $currentUser->getAffinityDegreesAsArray(), 'default' => 0],
@@ -434,18 +434,20 @@ class SearchResultProvider
                 }
 
                 // Nb likes positifs : Value [0; 5] => Sqrt [0;2,23] => Factor 0 => [ 0;2,23]
-                $functionScoreQuery->addFieldValueFactorFunction(
-                    'vehicle.nbPositiveLikes', 1,
-                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
-                    0, null, $vehicleEntityQuery
-                );
+                if($vehicleEntityQuery->count()> 0) {
+                    $functionScoreQuery->addFieldValueFactorFunction(
+                        'vehicle.nbPositiveLikes', 1,
+                        Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_SQRT,
+                        0, null, $vehicleEntityQuery
+                    );
 
-                // Nb Photos : Value [0;20] => LogNep1P [0; ~3] => Factor 1 => [0;3]
-                $functionScoreQuery->addFieldValueFactorFunction(
-                    'vehicle.nbPictures', 1,
-                    Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
-                    -2, 2, $vehicleEntityQuery
-                );
+                    // Nb Photos : Value [0;20] => LogNep1P [0; ~3] => Factor 1 => [0;3]
+                    $functionScoreQuery->addFieldValueFactorFunction(
+                        'vehicle.nbPictures', 1,
+                        Query\FunctionScore::FIELD_VALUE_FACTOR_MODIFIER_LN1P,
+                        -2, 2, $vehicleEntityQuery
+                    );
+                }
 
                 // Google rating [0;5] => factor 1 => [0;5]
                 $functionScoreQuery->addFieldValueFactorFunction(
