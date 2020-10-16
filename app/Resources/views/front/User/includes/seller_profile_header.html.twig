@@ -33,29 +33,23 @@
                             }) }}
                         {% endif %}
                     {% endif %}
-                    {% if userIsMe and user.affinityAnswer is null %}
-                        <a href="{{ path(isUserPro ? 'front_affinity_pro_form' : 'front_affinity_personal_form') }}" class="button">
-                            <span class="show-for-small-only">{{ 'user.profile.header.actions.answer_wamaffinity_form.small'|trans }}</span>
-                            <span class="show-for-medium">{{ 'user.profile.header.actions.answer_wamaffinity_form.medium'|trans }}</span>
-                        </a>
-                    {% else %}
-                        {% if user.phone is not empty  %}
-                            {{ include('front/Seller/includes/phone_number_button.html.twig', {
-                                'disabledLoggedProtection': isUserProPageProfile,
-                                'phoneOwner': user,
-                                'phoneNumber': user.phone,
-                                'showphone_subaction': "1",
-                                'buttonClass': 'icon-mobile'
-                            }) }}
-                        {% elseif user.phonePro is defined and user.phonePro is not empty %}
-                            {{ include('front/Seller/includes/phone_number_button.html.twig', {
-                                'disabledLoggedProtection': isUserProPageProfile,
-                                'phoneOwner': user,
-                                'phoneNumber': user.phonePro ,
-                                'showphone_subaction': "2",
-                                'buttonClass': 'icon-tel'
-                            }) }}
-                        {% endif %}
+
+                    {% if user.phone is not empty  %}
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'disabledLoggedProtection': isUserProPageProfile,
+                            'phoneOwner': user,
+                            'phoneNumber': user.phone,
+                            'showphone_subaction': "1",
+                            'buttonClass': 'icon-mobile'
+                        }) }}
+                    {% elseif user.phonePro is defined and user.phonePro is not empty %}
+                        {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                            'disabledLoggedProtection': isUserProPageProfile,
+                            'phoneOwner': user,
+                            'phoneNumber': user.phonePro ,
+                            'showphone_subaction': "2",
+                            'buttonClass': 'icon-tel'
+                        }) }}
                     {% endif %}
                 {% endspaceless %}{% endset %}
 

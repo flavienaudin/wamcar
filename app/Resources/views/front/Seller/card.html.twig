@@ -30,8 +30,8 @@
     <section class="row profile-body">
         {# Left column #}
         <div class="js-profile-left-column profile-left-column column small-12 large-8">
-            {# Registration Blue Block #}
-            {% if not isLogged %}
+            {# Registration Blue Block : désactivé #}
+            {% if false%}
                 <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">
                         {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
@@ -89,7 +89,7 @@
                             {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                         <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                     </div>
-                {% else %}
+                {% elseif isLogged %}{# Désactivé pour les non connecté#}
                     <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow hide-for-small-only">
                         <div class="column small-12 large-8 text-justify">
                             <h2>{{ "user.affinity.section.our_affinities"|trans }}
