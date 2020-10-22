@@ -32,7 +32,7 @@ class CityEntityIndexer extends EntityIndexer
         $boolQuery->setMinimumShouldMatch(1);
 
         foreach (explode(' ', $terms) as $term) {
-            if(is_int($term[0]) ) { // to deal with Corse CP 2A.../2B...
+            if(is_numeric($term[0]) ) { // to deal with Corse CP 2A.../2B...
                 $postalCodeQuery = $qb->query()->prefix(['postalCode' => $term]);
                 $boolQuery->addShould($postalCodeQuery);
 
