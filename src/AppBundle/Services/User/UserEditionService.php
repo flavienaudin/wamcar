@@ -311,6 +311,7 @@ class UserEditionService
     {
         $proUser->setAskForPublication(true);
         $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
         $this->eventBus->handle(new ProUserPublished($proUser));
         return $proUser;
     }
@@ -323,6 +324,7 @@ class UserEditionService
     {
         $proUser->setAskForPublication(false);
         $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUpdated($proUser));
         $this->eventBus->handle(new ProUserUnpublished($proUser));
         return $proUser;
     }
