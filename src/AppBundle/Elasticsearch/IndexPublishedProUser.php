@@ -51,7 +51,9 @@ class IndexPublishedProUser implements UserEventHandler
             $indexableProVehiclesIds = $proUser->getVehicles()->map(function (ProVehicle $proVehicle) {
                 return $proVehicle->getId();
             })->toArray();
-            $this->proVehicleEntityIndexer->deleteByIds($indexableProVehiclesIds);
+            if(count($indexableProVehiclesIds) > 0) {
+                $this->proVehicleEntityIndexer->deleteByIds($indexableProVehiclesIds);
+            }
         }
     }
 
