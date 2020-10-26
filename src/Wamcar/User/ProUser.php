@@ -440,7 +440,6 @@ class ProUser extends BaseUser
         } else {
             $missings[] = 'photo';
         }
-        dump('filled ', $filled);
         return ['missings' => $missings, 'rate' => intval($filled / 3.0 * 100)];
     }
 
