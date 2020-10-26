@@ -30,6 +30,9 @@ Wamcar\User\ProUser:
         appointmentAutofillMessage:
             type: text
             nullable: true
+        askForPublication:
+            type: boolean
+            nullable: false
 
     oneToMany:
         garageMemberships:

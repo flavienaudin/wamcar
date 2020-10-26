@@ -385,6 +385,7 @@ class UserController extends BaseController
         /* ====================================== *
          * Formumlaires d'édition de la page profil
          * ====================================== */
+        $profileFillingData = null;
         $avatarForm = null;
         $userBannerForm = null;
         $addGarageForm = null;
@@ -398,6 +399,9 @@ class UserController extends BaseController
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
         if ($this->isGranted(ProUserVoter::EDIT, $user)) {
+            // Filling Profile Data
+            $profileFillingData = $user->getProfileFillingData();
+
             // Avatar Form
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
@@ -593,6 +597,7 @@ class UserController extends BaseController
         }
 
         return $this->render('front/Seller/card.html.twig', [
+            'profileFillingData' => $profileFillingData,
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
             'contactDetailsForm' => $contactDetailsForm ? $contactDetailsForm->createView() : null,
@@ -611,6 +616,42 @@ class UserController extends BaseController
             'page' => $page ?? null,
             'lastPage' => $lastPage ?? null,
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function proUserAskForPublicationAction(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+        $user = $this->getUser();
+
+        if(!($user instanceof ProUser)){
+            throw new BadRequestHttpException();
+        }
+
+        if($user->isProfileEnoughFilled()){
+            $this->userEditionService->publishProUserProfile($user);
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,'flash.success.user.published');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }else{
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,'flash.warning.user.profile.not_filled_enough');
+            return $this->redirectToRoute('front_view_current_user_info',
+                ['%missings%' => join(', ', $user->getProfileFillingData()['missings'])]);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function proUserCancelPublicationAction(Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_FULLY);
+        $this->userEditionService->unpublishProUserProfile($this->getUser());
+        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,'flash.success.user.unpublished');
+        return $this->redirectToRoute('front_view_current_user_info');
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace AppBundle\Elasticsearch\Type;
 
 use Novaway\ElasticsearchClient\Indexable;
+use Wamcar\User\ProUser;
 
 class IndexableProVehicle implements Indexable
 {
@@ -54,6 +55,8 @@ class IndexableProVehicle implements Indexable
     private $googleRating;
     /** @var int */
     private $nbPositiveLikes;
+    /** @var boolean */
+    private $isSellerPublished;
 
     /**
      * IndexableProVehicle constructor.
@@ -76,7 +79,7 @@ class IndexableProVehicle implements Indexable
      * @param string $picture
      * @param int $nbPicture
      * @param int $garageId
-     * @param int $sellerId
+     * @param null|ProUser $seller
      * @param \DateTime|null $deletedAt
      * @param null|float $googleRating
      * @param int $nbPositiveLikes
@@ -85,7 +88,7 @@ class IndexableProVehicle implements Indexable
                                 string $detailUrl,
                                 string $make,
                                 string $model,
-                                string $modelVersion = null,
+                                ?string $modelVersion,
                                 string $engine,
                                 string $transmission,
                                 string $fuel,
@@ -100,7 +103,7 @@ class IndexableProVehicle implements Indexable
                                 string $picture,
                                 int $nbPicture,
                                 int $garageId,
-                                int $sellerId,
+                                ?ProUser $seller,
                                 ?\DateTime $deletedAt,
                                 ?float $googleRating,
                                 int $nbPositiveLikes
@@ -125,7 +128,10 @@ class IndexableProVehicle implements Indexable
         $this->picture = $picture;
         $this->nbPicture = $nbPicture;
         $this->garageId = $garageId;
-        $this->sellerId = $sellerId;
+        if($seller != null) {
+            $this->sellerId = $seller->getId();
+            $this->isSellerPublished = $seller->isPublishable();
+        }
         $this->deletedAt = $deletedAt;
         $this->googleRating = $googleRating;
         $this->nbPositiveLikes = $nbPositiveLikes;
@@ -144,7 +150,7 @@ class IndexableProVehicle implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return $this->deletedAt === null;
+        return $this->deletedAt === null && $this->isSellerPublished;
     }
 
     /**

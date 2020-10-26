@@ -15,6 +15,8 @@ flash:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
         videos_insert: L'encart vidéo a bien été supprimé.
+      published: Félicitations! Votre profil est maintenant publié dans notre annuaire.
+      unpublished: Votre profil a été retiré de notre annuaire. Vous pouvez le publier à nouveau à tout moment.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -142,6 +144,8 @@ flash:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user:
+      profile:
+        not_filled_enough: "Votre profil n'est pas assez complet pour être publié. Merci de remplir les informations manquantes : %missings%"
       unauthorized:
         to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
         edit_prouser_proservices: Seules les conseillers automobile peuvent éditer leurs services.
@@ -971,6 +975,9 @@ user:
     edit:
       title: Editer mon profil
       action: Editer mon profil
+      publication:
+        ask: Publier mon profil
+        cancel: Dépublier mon profil
       form:
         titles:
           id: Identifiants de connexion

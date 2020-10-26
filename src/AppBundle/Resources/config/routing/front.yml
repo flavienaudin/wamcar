@@ -127,6 +127,14 @@ front_user_delete:
     defaults:
       id: null
 
+front_publish_prouser_profil:
+    path: /user/publish
+    controller: AppBundle:Front\PersonalContext\User:proUserAskForPublication
+
+front_unpublish_prouser_profil:
+    path: /user/unpublish
+    controller: AppBundle:Front\PersonalContext\User:proUserCancelPublication
+
 front_view_pro_user_info:
     path: /conseiller-auto/{slug}
     controller: AppBundle:Front\PersonalContext\User:proUserViewInformation

@@ -44,6 +44,21 @@
             {% endif %}
             {# END Registration Blue Block #}
 
+            {# ProUser published Block #}
+            {% if profileFillingData != null%}
+                <div class="profile-section block-light-shadow">
+                    Taux de remplissage du formulaire : {{ profileFillingData.rate~'%' }}<br>
+                    {% if not user.askForPublication  %}
+                        <a href="{{ path('front_publish_prouser_profil') }}" class="button primary-button {{ profileFillingData.rate < 100 ? 'is-disabled':'' }}">
+                            {{ 'user.profile.edit.publication.ask'|trans }}</a>
+                    {% else %}
+                        <a href="{{ path('front_unpublish_prouser_profil') }}" class="button">
+                            {{ 'user.profile.edit.publication.cancel'|trans }}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            {# END ProUser published Block #}
+
             {# User Description Block #}
             {{ include('front/User/includes/user_description_profile_block.html.twig', {
                 'userTitle': user.presentationTitle

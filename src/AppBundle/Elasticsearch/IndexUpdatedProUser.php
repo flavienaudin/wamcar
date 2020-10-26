@@ -4,7 +4,6 @@ namespace AppBundle\Elasticsearch;
 
 
 use AppBundle\Doctrine\Entity\ProApplicationUser;
-use AppBundle\Elasticsearch\Elastica\EntityIndexer;
 use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
 use AppBundle\Elasticsearch\Type\IndexableProUser;
 use Wamcar\Garage\Event\GarageMemberAssignedEvent;
@@ -20,18 +19,14 @@ class IndexUpdatedProUser implements UserEventHandler
     /** @var ProUserEntityIndexer $proUserEntityIndexer */
     private $proUserEntityIndexer;
 
-    /** @var EntityIndexer $searchItemEntityIndexer */
-    private $searchItemEntityIndexer;
 
     /**
      * IndexUpdatedProUser constructor.
      * @param ProUserEntityIndexer $proUserEntityIndexer
-     * @param EntityIndexer $searchItemEntityIndexer
      */
-    public function __construct(ProUserEntityIndexer $proUserEntityIndexer, EntityIndexer $searchItemEntityIndexer)
+    public function __construct(ProUserEntityIndexer $proUserEntityIndexer)
     {
         $this->proUserEntityIndexer = $proUserEntityIndexer;
-        $this->searchItemEntityIndexer = $searchItemEntityIndexer;
     }
 
     /**
@@ -46,7 +41,6 @@ class IndexUpdatedProUser implements UserEventHandler
         }
         /** @var ProApplicationUser $proUser */
         $proUser = $event->getUser();
-
         $this->proUserEntityIndexer->updateIndexable(IndexableProUser::createFromProApplicationUser($proUser));
     }
 

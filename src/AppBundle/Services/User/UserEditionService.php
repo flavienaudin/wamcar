@@ -42,7 +42,9 @@ use Wamcar\User\Event\PersonalProjectRemoved;
 use Wamcar\User\Event\PersonalProjectUpdated;
 use Wamcar\User\Event\PersonalUserRemoved;
 use Wamcar\User\Event\PersonalUserUpdated;
+use Wamcar\User\Event\ProUserPublished;
 use Wamcar\User\Event\ProUserRemoved;
+use Wamcar\User\Event\ProUserUnpublished;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProjectRepository;
@@ -299,6 +301,30 @@ class UserEditionService
         $user->setVideoText($proPresentationVideoDTO->videoText);
         $this->userRepository->update($user);
         return $user;
+    }
+
+    /**
+     * @param ProUser $proUser
+     * @return ProUser
+     */
+    public function publishProUserProfile(ProUser $proUser)
+    {
+        $proUser->setAskForPublication(true);
+        $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserPublished($proUser));
+        return $proUser;
+    }
+
+    /**
+     * @param ProUser $proUser
+     * @return ProUser
+     */
+    public function unpublishProUserProfile(ProUser $proUser)
+    {
+        $proUser->setAskForPublication(false);
+        $this->userRepository->update($proUser);
+        $this->eventBus->handle(new ProUserUnpublished($proUser));
+        return $proUser;
     }
 
     /**

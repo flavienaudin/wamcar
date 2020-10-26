@@ -40,6 +40,8 @@ class ProUser extends BaseUser
     protected $proContactMessages;
     /** @var Collection */
     protected $proUserProServices;
+    /** @var boolean */
+    protected $askForPublication;
 
     /**
      * ProUser constructor.
@@ -386,6 +388,74 @@ class ProUser extends BaseUser
     }
 
     /**
+     * @return bool
+     */
+    public function isAskForPublication(): bool
+    {
+        return $this->askForPublication;
+    }
+
+    /**
+     * @param bool $askForPublication
+     */
+    public function setAskForPublication(bool $askForPublication): void
+    {
+        $this->askForPublication = $askForPublication;
+    }
+
+
+    /**
+     * Tell if the profile is filled enough to be published
+     * @return bool
+     */
+    public function isProfileEnoughFilled(): bool
+    {
+        return $this->hasGarage()
+            && count($this->getProUserServices(false, true)) >= 2
+            && $this->getAvatar() != null;
+    }
+
+    /**
+     * Information sur remplissage du profil :
+     *  - rate: taux de remplissage
+     *  - missing:
+     * @return array
+     */
+    public function getProfileFillingData(): array
+    {
+        $filled = 0;
+        $missings = [];
+        if ($this->hasGarage()) {
+            $filled++;
+        } else {
+            $missings[] = 'garage';
+        }
+        if (count($this->getProUserServices(false, true)) >= 2) {
+            $filled++;
+        } else {
+            $missings[] = 'services (min 2)';
+        }
+        if ($this->getAvatar() != null) {
+            $filled++;
+        } else {
+            $missings[] = 'photo';
+        }
+        dump('filled ', $filled);
+        return ['missings' => $missings, 'rate' => intval($filled / 3.0 * 100)];
+    }
+
+    /**
+     * Conditions :
+     * - Profile filled enough
+     * - User asked for publication
+     * @return bool
+     */
+    public function isPublishable(): bool
+    {
+        return $this->isProfileEnoughFilled() && $this->askForPublication;
+    }
+
+    /**
      * @return Collection
      */
     public function getProUserProServices(): Collection
@@ -452,7 +522,7 @@ class ProUser extends BaseUser
         /** @var ProUserProService $proUserProService */
         foreach ($this->proUserProServices as $proUserProService) {
             $proService = $proUserProService->getProService();
-            if($proService->getCategory()->isEnabled()) {
+            if ($proService->getCategory()->isEnabled()) {
                 if (!isset($proServicesByCategory[$proService->getCategory()->getLabel()])) {
                     $proServicesByCategory[$proService->getCategory()->getLabel()] = [];
                 }

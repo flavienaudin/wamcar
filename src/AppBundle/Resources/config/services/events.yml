@@ -68,13 +68,22 @@ services:
         autowire: true
         arguments:
             - '@pro_user.indexer'
-            - '@search_item.indexer'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserRemoved, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
+
+    wamcar.event.elasticsearch.pro_user_published.index:
+        class: AppBundle\Elasticsearch\IndexPublishedProUser
+        autowire: true
+        arguments:
+            - '@pro_vehicle.indexer'
+            - '@AppBundle\Elasticsearch\Builder\IndexableProVehicleBuilder'
+        tags:
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserPublished, method: notify }
+            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUnpublished, method: notify }
 
     wamcar.event.elasticsearch.garage_updated.index:
         class: AppBundle\Elasticsearch\IndexUpdatedGarage
