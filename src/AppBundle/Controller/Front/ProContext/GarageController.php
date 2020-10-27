@@ -125,6 +125,21 @@ class GarageController extends BaseController
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
         }
+
+        /** @var GarageProUser $currentUserGarageMemberShip */
+        $currentUserGarageMemberShip = $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null;
+
+        if($garage->getPublishableMembers()->count() == 0 && $currentUserGarageMemberShip == null){
+            $response = $this->render('front/Exception/error_message.html.twig', [
+                'titleKey' => 'error_page.garage.unpublished.title',
+                'messageKey' => 'error_page.garage.unpublished.body',
+                'messageParams' => ['%firstname%' => $garage->getMainAdministrator()->getFirstName()],
+                'redirectionUrl' => $this->generateUrl('front_directory_view')
+            ]);
+            $response->setStatusCode(Response::HTTP_OK);
+            return $response;
+        }
+
         $searchForm = null;
         if (count($garage->getProVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
@@ -146,7 +161,7 @@ class GarageController extends BaseController
         } else {
             $vehicles = [
                 'totalHits' => count($garage->getProVehicles()),
-                'hits' => $this->proVehicleEditionService->getVehiclesByGarage($garage)
+                'hits' => $garage->getProVehicles()
             ];
         }
 
@@ -252,8 +267,6 @@ class GarageController extends BaseController
                 }
             }
         }
-        /** @var GarageProUser $currentUserGarageMemberShip */
-        $currentUserGarageMemberShip = $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null;
         return $this->render('front/Garages/Detail/detail_peexeo.html.twig', [
             'isEditableByCurrentUser' => $this->isGranted(GarageVoter::EDIT, $garage),
             'isAdministrableByCurrentUser' => $this->isGranted(GarageVoter::ADMINISTRATE, $garage),

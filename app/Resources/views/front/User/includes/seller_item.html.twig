@@ -11,7 +11,8 @@
             <img src="{{ seller.avatar|avatar('user_thumbnail', seller.fullName) }}"
                  alt="{{ seller.fullName }}"></a>
     </div>
-    <a href="{{ userProfileUrl }}"><h2 class="text-center margin-bottom-1">{{ seller.fullName }}</h2></a>
+    <a href="{{ userProfileUrl }}"><h2 class="text-center margin-bottom-1 {{ not seller.isPublishable ? 'icon-warning2' }}"
+        {% if not seller.isPublishable %}title="Profil non publié"{% endif %}>{{ seller.fullName }}</h2></a>
 
     {% if displayPresentationTitle and seller.presentationTitle is defined and (seller.presentationTitle is not empty or not compact) %}
         <div class="margin-bottom-1 text-center black-color">

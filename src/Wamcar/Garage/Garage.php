@@ -427,7 +427,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function getAvailableSellers(): Collection
     {
         /** @var ArrayCollection $enabledMembers */
-        $enabledMembers = $this->getEnabledMembers();
+        $enabledMembers = $this->getPublishableMembers();
         if ($this->optionAdminSellers === false) {
             return $enabledMembers->filter(function (GarageProUser $gpu) {
                 return !GarageRole::GARAGE_ADMINISTRATOR()->equals($gpu->getRole());
@@ -436,8 +436,19 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return $enabledMembers;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getPublishableMembers(): Collection
+    {
+        return $this->getEnabledMembers()->filter(function (GarageProUser $gpu) {
+            return $gpu->getProUser()->isPublishable();
+        });
+    }
+
 
     /**
+     * Retourne un tableau contenant les vendeurs avec le meilleur score par rapport à leurs affinités
      * @param ProVehicle $proVehicle
      * @param ProUser|null $excludedProUser
      * @return array
@@ -505,7 +516,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
             }
         }
         if (count($bestSellers) == 0) {
-            return null;
+            return [];
         }
 
         // Tri par score décroissant
@@ -557,20 +568,28 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
-     * @param null|int $limit
      * @param null|ProVehicle $excludedVehicle
      * @return Collection
      */
-    public function getProVehicles(?int $limit = 0, ProVehicle $excludedVehicle = null): Collection
+    public function getProVehicles(?int $limit = 0, ProVehicle $excludedVehicle = null, ?bool $onlyPublishable = true): Collection
     {
-        $criteria = Criteria::create();
-        if ($excludedVehicle != null) {
-            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+        $filteredVehicles = $this->proVehicles->filter(function (ProVehicle $proVehicle) use ($excludedVehicle, $onlyPublishable) {
+            $selectThisVehicle = true;
+            if ($excludedVehicle != null) {
+                $selectThisVehicle = $selectThisVehicle && $proVehicle->getId() != $excludedVehicle->getId();
+            }
+            if ($onlyPublishable) {
+                $selectThisVehicle = $selectThisVehicle && $proVehicle->getSeller()->isPublishable();
+            }
+            return $selectThisVehicle;
+        });
+        if($limit > 0){
+            $criteria = Criteria::create();
+            $criteria ->setMaxResults($limit);
+            return $filteredVehicles->matching($criteria);
+        }else{
+            return $filteredVehicles;
         }
-        if ($limit > 0) {
-            $criteria->setMaxResults($limit);
-        }
-        return $this->proVehicles->matching($criteria);
     }
 
     /**
@@ -579,7 +598,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
      */
     public function addProVehicle(ProVehicle $proVehicle): Garage
     {
-        $this->getProVehicles()->add($proVehicle);
+        $this->proVehicles->add($proVehicle);
 
         return $this;
     }
@@ -602,12 +621,11 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function hasVehicle(ProVehicle $proVehicle): bool
     {
         /** @var ProVehicle $existProVehicle */
-        foreach ($this->getProVehicles() as $existProVehicle) {
+        foreach ($this->proVehicles as $existProVehicle) {
             if ($existProVehicle->getId() === $proVehicle->getId()) {
                 return true;
             }
         }
-
         return false;
     }
 

@@ -11,13 +11,13 @@ use Wamcar\Vehicle\ProVehicle;
 trait ProVehicleIndexerTrait
 {
     /** @var ProVehicleEntityIndexer */
-    private $proVehicleEntityIndexer;
+    protected $proVehicleEntityIndexer;
     /** @var IndexableProVehicleBuilder */
-    private $indexableProVehicleBuilder;
+    protected $indexableProVehicleBuilder;
     /** @var EntityIndexer */
-    private $searchItemEntityIndexer;
+    protected $searchItemEntityIndexer;
     /** @var IndexableSearchItemBuilder */
-    private $indexableSearchItemBuilder;
+    protected $indexableSearchItemBuilder;
 
     /**
      * IndexUpdatedProVehicle constructor.

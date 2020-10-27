@@ -18,6 +18,10 @@ class ProUser extends BaseUser
 {
     const TYPE = 'pro';
 
+    /** @var null|\DateTime */
+    protected $publishedAt;
+    /** @var null|\DateTime */
+    protected $unpublishedAt;
     /** @var  string */
     protected $phonePro;
     /** @var  string|null */
@@ -40,8 +44,6 @@ class ProUser extends BaseUser
     protected $proContactMessages;
     /** @var Collection */
     protected $proUserProServices;
-    /** @var boolean */
-    protected $askForPublication;
 
     /**
      * ProUser constructor.
@@ -60,7 +62,38 @@ class ProUser extends BaseUser
         $this->proContactMessages = new ArrayCollection();
         $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
-        $this->askForPublication = false;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getPublishedAt(): ?\DateTime
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTime|null $publishedAt
+     */
+    public function setPublishedAt(?\DateTime $publishedAt): void
+    {
+        $this->publishedAt = $publishedAt;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
+    }
+
+    /**
+     * @param \DateTime|null $unpublishedAt
+     */
+    public function setUnpublishedAt(?\DateTime $unpublishedAt): void
+    {
+        $this->unpublishedAt = $unpublishedAt;
     }
 
     /**
@@ -389,27 +422,10 @@ class ProUser extends BaseUser
     }
 
     /**
+     * Indique si les informations obligatoires sont renseignées
      * @return bool
      */
-    public function isAskForPublication(): bool
-    {
-        return $this->askForPublication;
-    }
-
-    /**
-     * @param bool $askForPublication
-     */
-    public function setAskForPublication(bool $askForPublication): void
-    {
-        $this->askForPublication = $askForPublication;
-    }
-
-
-    /**
-     * Tell if the profile is filled enough to be published
-     * @return bool
-     */
-    public function isProfileEnoughFilled(): bool
+    public function isRequiredInformationFilled(): bool
     {
         return $this->hasGarage()
             && count($this->getProUserServices(false, true)) >= 2
@@ -417,42 +433,35 @@ class ProUser extends BaseUser
     }
 
     /**
-     * Information sur remplissage du profil :
-     *  - rate: taux de remplissage
-     *  - missing:
-     * @return array
-     */
-    public function getProfileFillingData(): array
-    {
-        $filled = 0;
-        $missings = [];
-        if ($this->hasGarage()) {
-            $filled++;
-        } else {
-            $missings[] = 'garage';
-        }
-        if (count($this->getProUserServices(false, true)) >= 2) {
-            $filled++;
-        } else {
-            $missings[] = 'services (min 2)';
-        }
-        if ($this->getAvatar() != null) {
-            $filled++;
-        } else {
-            $missings[] = 'photo';
-        }
-        return ['missings' => $missings, 'rate' => intval($filled / 3.0 * 100)];
-    }
-
-    /**
-     * Conditions :
-     * - Profile filled enough
-     * - User asked for publication
+     * Indique si le profil est publiable. Conditions actuelles :
+     * - Informations obligatoires renseeignées
+     *
      * @return bool
      */
     public function isPublishable(): bool
     {
-        return $this->isProfileEnoughFilled() && $this->askForPublication;
+        return $this->isRequiredInformationFilled();
+    }
+
+    /**
+     * Information sur remplissage du profil :
+     *  - missing_items : array, éléments manquants
+     *  - required_nb : int, nombre d'éléments requis
+     * @return array
+     */
+    public function getProfileFillingData(): array
+    {
+        $missingItems = [];
+        if (!$this->hasGarage()) {
+            $missingItems[] = 'user.profile.publish.required.garage';
+        }
+        if (count($this->getProUserServices(false, true)) < 2) {
+            $missingItems[] = 'user.profile.publish.required.service';
+        }
+        if ($this->getAvatar() == null) {
+            $missingItems[] = 'user.profile.publish.required.avatar';
+        }
+        return ['missing_items' => $missingItems, 'required_nb' => 3];
     }
 
     /**

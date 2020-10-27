@@ -347,16 +347,27 @@ class VehicleController extends BaseController
             return $response;
         }
 
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $sellerIsCurrentUser = $vehicle->getSeller()->is($currentUser);
+
+        if(!$vehicle->getSeller()->isPublishable() && !$sellerIsCurrentUser){
+            $response = $this->render('front/Exception/error_message.html.twig', [
+                'titleKey' => 'error_page.vehicle.unpublished.title',
+                'messageKey' => 'error_page.vehicle.unpublished.body',
+                'redirectionUrl' => $this->generateUrl('front_search')
+            ]);
+            $response->setStatusCode(Response::HTTP_OK);
+            return $response;
+        }
+
         $userLike = null;
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
         }
 
-        /** @var BaseUser|ApplicationUser $currentUser */
-        $currentUser = $this->getUser();
-        $userIsCurrentUser = $vehicle->getSeller()->is($currentUser);
         $contactForm = null;
-        if (!$userIsCurrentUser) {
+        if (!$sellerIsCurrentUser) {
             try {
                 $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
 

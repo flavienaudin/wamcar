@@ -53,6 +53,8 @@ class IndexableSearchItem implements Indexable
     private $vehicleGarageId;
     /** @var null|float */
     private $vehicleGarageGoogleRating;
+    /** @var boolean */
+    private $isVehiclePublishable;
 
     // PROJECT DATA
     /** @var null|\DateTime */
@@ -100,6 +102,7 @@ class IndexableSearchItem implements Indexable
      * @param int $vehicleNbPositiveLikes
      * @param int|null $vehicleGarageId
      * @param float|null $vehicleGarageGoogleRating
+     * @param bool $isVehiclePublishable
      */
     public function setVehicle(string $vehicleType, ?\DateTime $vehicleDeletedAt,
                                string $vehicleLatitude, string $vehicleLongitude,
@@ -107,7 +110,7 @@ class IndexableSearchItem implements Indexable
                                string $vehicleMake, string $vehicleModel, string $vehicleFuel, string $vehicleTransmission,
                                string $vehicleYears, int $vehicleMileage, ?int $vehiclePrice,
                                \DateTime $vehicleCreatedAt, int $vehicleNbPictures, int $vehicleNbPositiveLikes,
-                               ?int $vehicleGarageId, ?float $vehicleGarageGoogleRating)
+                               ?int $vehicleGarageId, ?float $vehicleGarageGoogleRating, bool $isVehiclePublishable)
     {
         $this->vehicleType = $vehicleType;
         $this->vehicleDeletedAt = $vehicleDeletedAt;
@@ -126,6 +129,7 @@ class IndexableSearchItem implements Indexable
         $this->vehicleNbPositiveLikes = $vehicleNbPositiveLikes;
         $this->vehicleGarageId = $vehicleGarageId;
         $this->vehicleGarageGoogleRating = $vehicleGarageGoogleRating;
+        $this->isVehiclePublishable = $isVehiclePublishable;
     }
 
 
@@ -172,7 +176,7 @@ class IndexableSearchItem implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return (!empty($this->vehicleType) && $this->vehicleDeletedAt == null)
+        return (!empty($this->vehicleType) && $this->vehicleDeletedAt == null && $this->isVehiclePublishable)
             || ($this->projectDeletedAt == null && (!empty($this->projectDescription) || !empty($this->projectBudget) || !empty($this->projectModels)));
     }
 

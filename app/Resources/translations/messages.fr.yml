@@ -16,7 +16,6 @@ flash:
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
         videos_insert: L'encart vidéo a bien été supprimé.
       published: Félicitations! Votre profil est maintenant publié dans notre annuaire.
-      unpublished: Votre profil a été retiré de notre annuaire. Vous pouvez le publier à nouveau à tout moment.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -144,8 +143,6 @@ flash:
     registration_recognition_failed: Une erreur est survenue lors de la reconnaissance de la plaque d'immatriculation.
     vehicle.multiple_vehicle_types: Plusieurs modèles de véhicule ont été trouvés pour votre immatriculation. Merci de vérifier les données sélectionnées.
     user:
-      profile:
-        not_filled_enough: "Votre profil n'est pas assez complet pour être publié. Merci de remplir les informations manquantes : %missings%"
       unauthorized:
         to_access_profile: Vous devez être connecté afin d'accèder au profil de cette utilisateur.
         edit_prouser_proservices: Seules les conseillers automobile peuvent éditer leurs services.
@@ -228,6 +225,9 @@ error_page:
     body: >
       <p>Oups! La page que vous recherchez n'existe plus, faites donc une <a href="%searchUrl%" class="text-underline">nouvelle recherche</a>.</p>
   vehicle:
+    unpublished:
+      title: Page en cours d'édition
+      body: %firstname% est en train de compléter son profil. Ses véhicules ne sont pas encore disponible. En attendant, vous pouvez consulter les <a href="%redirection_url%" class="text-underline">autres véhicules</a>.
     removed:
       title: Annonce supprimée
       body: L'annonce n'est plus en ligne. Recherchez dès à présent un <a href="%redirection_url%" class="text-underline">véhicule similaire</a>.
@@ -236,10 +236,16 @@ error_page:
       title: Projet supprimé
       body: Le projet de ce particulier n'est plus d'actualité. Faites <a href="%redirection_url%" class="text-underline">une recherche</a> parmi les projets en cours.
   pro_user:
+    unpublished:
+      title: Page en cours d'édition
+      body: %firstname% est en train de compléter son profil. Celui-ci sera prochainement mis en ligne. En attendant, vous pouvez consulter les autres conseillers automobile dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>
     deleted:
       title: Conseiller automobile parti
       body: Ce conseiller automobile a quitté Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le meilleur professionnel pour vous accompagner.
   garage:
+    unpublished:
+      title: Page en cours d'édition
+      body: %firstname% est le gestionnaire de ce garage et est en train de compléter son profil. Celui-ci sera prochainement mis en ligne ainsi que son garage. En attendant, vous pouvez consulter les autres conseillers automobile dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>
     deleted:
       title: Garage supprimé
       body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
@@ -972,6 +978,12 @@ user:
       services.title: Mes services
     hobbies:
       title: Centres d'intérêt
+    publish:
+      missing_items: "Vous devez renseigner les éléments suivants pour que votre profil soit publié :"
+      required:
+        garage: Vous devez être membre d'un garage
+        service: Vous devez indiquer au moins 2 services/compétences
+        avatar: Vous devez ajouter une photo de profil
     edit:
       title: Editer mon profil
       action: Editer mon profil

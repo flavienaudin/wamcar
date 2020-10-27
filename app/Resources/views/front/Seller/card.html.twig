@@ -45,16 +45,14 @@
             {# END Registration Blue Block #}
 
             {# ProUser published Block #}
-            {% if profileFillingData != null%}
+            {% if profileFillingData != null and profileFillingData.missing_items|length > 0 %}
                 <div class="profile-section block-light-shadow">
-                    Taux de remplissage du formulaire : {{ profileFillingData.rate~'%' }}<br>
-                    {% if not user.askForPublication  %}
-                        <a href="{{ path('front_publish_prouser_profil') }}" class="button primary-button {{ profileFillingData.rate < 100 ? 'is-disabled':'' }}">
-                            {{ 'user.profile.edit.publication.ask'|trans }}</a>
-                    {% else %}
-                        <a href="{{ path('front_unpublish_prouser_profil') }}" class="button">
-                            {{ 'user.profile.edit.publication.cancel'|trans }}</a>
-                    {% endif %}
+                    {{ 'user.profile.publish.missing_items'|trans }} ({{ (profileFillingData.required_nb-profileFillingData.missing_items|length) ~ '/' ~ profileFillingData.required_nb }})
+                    <ul>
+                        {% for missingItem in profileFillingData.missing_items %}
+                            <li>{{ missingItem |trans }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
             {% endif %}
             {# END ProUser published Block #}
