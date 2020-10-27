@@ -60,6 +60,7 @@ class ProUser extends BaseUser
         $this->proContactMessages = new ArrayCollection();
         $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
+        $this->askForPublication = false;
     }
 
     /**
