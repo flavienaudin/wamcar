@@ -43,10 +43,6 @@ Wamcar\User\ProUser:
             targetEntity: Wamcar\Garage\GarageProUser
             mappedBy: proUser
             cascade: ["persist", "merge"]
-        vehicles:
-            targetEntity: Wamcar\Vehicle\ProVehicle
-            mappedBy: seller
-            cascade: ["persist", "merge", "remove"]
         leads:
             targetEntity: Wamcar\User\Lead
             mappedBy: proUser

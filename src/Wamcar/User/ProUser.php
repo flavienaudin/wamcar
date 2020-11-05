@@ -8,11 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Wamcar\Conversation\ProContactMessage;
-use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\Sale\Declaration;
-use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
 {
@@ -32,8 +30,6 @@ class ProUser extends BaseUser
     protected $appointmentAutofillMessage;
     /** @var  Collection */
     protected $garageMemberships;
-    /** @var  Collection */
-    protected $vehicles;
     /** @var null|int */
     protected $landingPosition;
     /** @var Collection */
@@ -56,7 +52,6 @@ class ProUser extends BaseUser
     {
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
-        $this->vehicles = new ArrayCollection();
         $this->leads = new ArrayCollection();
         $this->saleDeclarations = new ArrayCollection();
         $this->proContactMessages = new ArrayCollection();
@@ -275,29 +270,6 @@ class ProUser extends BaseUser
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection
-    {
-        $criteria = Criteria::create();
-        if ($excludedVehicle != null) {
-            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
-        }
-        if ($limit > 0) {
-            $criteria->setMaxResults($limit);
-        }
-        return $this->vehicles->matching($criteria);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVehiclesOfGarage(Garage $garage): Collection
-    {
-        return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
-    }
-
-    /**
      * @return int|null
      */
     public function getLandingPosition(): ?int
@@ -400,15 +372,6 @@ class ProUser extends BaseUser
     public function removeProContactMessage(ProContactMessage $proContactMessage): void
     {
         $this->proContactMessages->removeElement($proContactMessage);
-    }
-
-    /**
-     * @param BaseUser|null $user null if user not connected
-     * @return bool
-     */
-    public function canSeeMyVehicles(BaseUser $user = null): bool
-    {
-        return true;
     }
 
     /**

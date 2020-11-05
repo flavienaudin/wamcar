@@ -155,16 +155,11 @@ class ProVehicleEditionService
      * @param ProUser|null $seller
      * @return ProVehicle
      */
-    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage, ProUser $seller = null): ProVehicle
+    public function createInformations(CanBeProVehicle $proVehicleDTO, Garage $garage): ProVehicle
     {
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::newVehicleFromDTO($proVehicleDTO);
         $proVehicle->setGarage($garage);
-        if ($seller == null) {
-            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
-            $seller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
-        }
-        $proVehicle->setSeller($seller);
 
         if (!$garage->hasVehicle($proVehicle)) {
             $garage->addProVehicle($proVehicle);
@@ -186,52 +181,10 @@ class ProVehicleEditionService
     {
         /** @var ProVehicle $proVehicle */
         $proVehicle = $this->vehicleBuilder[get_class($proVehicleDTO)]::editVehicleFromDTO($proVehicleDTO, $vehicle);
-        if ($proVehicle->getGarage()->isOptionAdminSellers() === false) {
-            // Check if actual seller is not an admin
-            $availableSellers = $proVehicle->getGarage()->getAvailableSellers()->map(function (GarageProUser $memberShip) {
-                return $memberShip->getProUser();
-            });
-            // Admins can't be sellers
-            if (!$availableSellers->contains($proVehicle->getSeller())) {
-                // The actual seller is an admin but it's not allowed by the garage option
-                $sellerCandidates = $proVehicle->getGarage()->getBestSellersForVehicle($proVehicle);
-                $seller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
-                $proVehicle->setSeller($seller);
-            }
-        }
-
         $this->vehicleRepository->update($proVehicle);
         $this->eventBus->handle(new ProVehicleUpdated($vehicle));
 
         return $vehicle;
-    }
-
-    /**
-     * Assign the vehicle to another seller.
-     * @param ProVehicle $proVehicle
-     * @param ProApplicationUser|null $newSeller
-     * @return ProVehicle
-     * @throws \InvalidArgumentException|NewSellerToAssignNotFoundException
-     */
-    public function assignSeller(ProVehicle $proVehicle, ProApplicationUser $newSeller = null): ProVehicle
-    {
-        if ($newSeller == null) {
-            // Search for a new seller among garage'sellers
-            /** @var ProUser[] $sellerCandidates */
-            $sellerCandidates = $proVehicle->getGarage()->getBestSellersForVehicle($proVehicle, $proVehicle->getSeller());
-            if (count($sellerCandidates) > 0) {
-                $newSeller = $sellerCandidates[array_rand($sellerCandidates)]['seller'];
-            } else {
-                throw new NewSellerToAssignNotFoundException($proVehicle);
-            }
-        }
-        if (!$newSeller->isMemberOfGarage($proVehicle->getGarage())) {
-            throw new \InvalidArgumentException('flash.error.vehicle.assign_to_non_garage_member');
-        }
-        $proVehicle->setSeller($newSeller);
-        $this->vehicleRepository->update($proVehicle);
-        $this->eventBus->handle(new ProVehicleUpdated($proVehicle));
-        return $proVehicle;
     }
 
     /**
@@ -303,7 +256,7 @@ class ProVehicleEditionService
      */
     public function canEdit($user, ProVehicle $vehicle): bool
     {
-        return $vehicle !== null && $vehicle->canEditMe($user);
+        return $vehicle->canEditMe($user);
     }
 
     /**

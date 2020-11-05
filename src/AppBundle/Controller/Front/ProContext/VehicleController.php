@@ -273,7 +273,7 @@ class VehicleController extends BaseController
                 $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage, $user);
+                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
                 $flashMessage = 'flash.success.vehicle_create';
             }
 
@@ -284,45 +284,6 @@ class VehicleController extends BaseController
         return $this->render('front/Vehicle/Add/add.html.twig', [
             'proVehicleForm' => $proVehicleForm->createView(),
             'vehicle' => $vehicle
-        ]);
-    }
-
-    /**
-     * @ParamConverter("proVehicle", options={"id" = "vehicle_id"})
-     * @ParamConverter("proApplicationUser", options={"id" = "pro_user_id"})
-     * @param ProVehicle $proVehicle
-     * @param ProApplicationUser $proApplicationUser
-     * @return RedirectResponse
-     */
-    public function assignAction(ProVehicle $proVehicle, ?ProApplicationUser $proApplicationUser): RedirectResponse
-    {
-        if (!$proVehicle->getSeller()->is($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                'flash.error.vehicle.unauthorized_to_assign'
-            );
-        } else {
-            try {
-                $this->proVehicleEditionService->assignSeller($proVehicle, $proApplicationUser);
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.vehicle.assign_new_seller'
-                );
-            } catch (NewSellerToAssignNotFoundException $e) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    'flash.error.vehicle.seller_to_reassign_not_found'
-                );
-            } catch (\InvalidArgumentException $e) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    $e->getMessage()
-                );
-            }
-        }
-
-        return $this->redirectToRoute('front_vehicle_pro_detail', [
-            'slug' => $proVehicle->getSlug()
         ]);
     }
 
@@ -349,17 +310,7 @@ class VehicleController extends BaseController
 
         /** @var BaseUser|ApplicationUser $currentUser */
         $currentUser = $this->getUser();
-        $sellerIsCurrentUser = $vehicle->getSeller()->is($currentUser);
-
-        if(!$vehicle->getSeller()->isPublishable() && !$sellerIsCurrentUser){
-            $response = $this->render('front/Exception/error_message.html.twig', [
-                'titleKey' => 'error_page.vehicle.unpublished.title',
-                'messageKey' => 'error_page.vehicle.unpublished.body',
-                'redirectionUrl' => $this->generateUrl('front_search')
-            ]);
-            $response->setStatusCode(Response::HTTP_OK);
-            return $response;
-        }
+        $currentUserCanEditThisProVehicle = $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle);
 
         $userLike = null;
         if ($this->isUserAuthenticated()) {
@@ -367,7 +318,9 @@ class VehicleController extends BaseController
         }
 
         $contactForm = null;
-        if (!$sellerIsCurrentUser) {
+        /* TODO ajouter un sélecteur au formulaire si nécessaire = multivendeur
+        if (!$currentUserCanEditThisProVehicle) {
+
             try {
                 $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
 
@@ -420,7 +373,7 @@ class VehicleController extends BaseController
                     }
                 }
             }
-        }
+        }*/
 
         return $this->render('front/Vehicle/Detail/detail_proVehicle_peexeo.html.twig', [
             'isEditableByCurrentUser' => $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle),

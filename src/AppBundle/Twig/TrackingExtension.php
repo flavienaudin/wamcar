@@ -14,6 +14,7 @@ use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\BaseVehicle;
+use Wamcar\Vehicle\PersonalVehicle;
 
 class TrackingExtension extends AbstractExtension
 {
@@ -90,20 +91,23 @@ class TrackingExtension extends AbstractExtension
 
     /**
      * @param BaseUser|null $fromUser The user, connected or not, who is (un)liking
-     * @param BaseUser $toUser The seller of the vehicle
      * @param BaseLikeVehicle|null $likeVehicle The like or null
      * @param BaseVehicle $vehicle The vehicle to (un)like
      * @return string
      */
-    public function getLikeWtDataAttributes(?BaseUser $fromUser, BaseUser $toUser, ?BaseLikeVehicle $likeVehicle, BaseVehicle $vehicle): string
+    public function getLikeWtDataAttributes(?BaseUser $fromUser, ?BaseLikeVehicle $likeVehicle, BaseVehicle $vehicle): string
     {
         if ($likeVehicle == null || $likeVehicle->getValue() === 0) {
             $action = 'LI';
         } else {
             $action = 'UL';
         }
-        return ' data-wtaction="' . $action . ' ' . $vehicle->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser)
-            . '" data-wtto="' . $this->getWtToDataAttrValue($toUser) . '"';
+        $wtto = '';
+        if($vehicle instanceof PersonalVehicle){
+            $wtto = ' data-wtto="' . $this->getWtToDataAttrValue($vehicle->getSeller()) . '"';
+        }
+        return ' data-wtaction="' . $action . ' ' . $vehicle->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser) . '"'
+            . $wtto;
     }
 
     /**

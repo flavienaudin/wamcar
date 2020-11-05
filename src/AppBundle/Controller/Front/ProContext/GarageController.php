@@ -19,6 +19,7 @@ use AppBundle\Form\Type\GarageType;
 use AppBundle\Form\Type\SearchVehicleType;
 use AppBundle\Security\Voter\GarageVoter;
 use AppBundle\Services\Garage\GarageEditionService;
+use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use AppBundle\Session\SessionMessageManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
@@ -126,8 +127,9 @@ class GarageController extends BaseController
             return $response;
         }
 
+        $currentUser = $this->getUser();
         /** @var GarageProUser $currentUserGarageMemberShip */
-        $currentUserGarageMemberShip = $this->getUser() instanceof ProApplicationUser ? $this->getUser()->getMembershipByGarage($garage) : null;
+        $currentUserGarageMemberShip = $currentUser instanceof CanBeGarageMember ? $currentUser->getMembershipByGarage($garage) : null;
 
         if($garage->getPublishableMembers()->count() == 0 && $currentUserGarageMemberShip == null){
             $response = $this->render('front/Exception/error_message.html.twig', [

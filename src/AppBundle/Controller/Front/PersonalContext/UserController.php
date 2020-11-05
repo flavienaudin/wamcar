@@ -366,7 +366,7 @@ class UserController extends BaseController
             throw new AccessDeniedException();
         }
 
-
+        /*
         $searchForm = null;
         if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
@@ -393,6 +393,7 @@ class UserController extends BaseController
                 'hits' => $userVehicles
             ];
         }
+        */
 
         /* ====================================== *
          * Formumlaires d'édition de la page profil
@@ -623,10 +624,12 @@ class UserController extends BaseController
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,
             'user' => $user,
+            /*
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
-            'lastPage' => $lastPage ?? null,
+            'lastPage' => $lastPage ?? null
+            */
         ]);
     }
 

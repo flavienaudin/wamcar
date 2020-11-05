@@ -23,6 +23,7 @@ class ConversationUser
      * ConversationUser constructor.
      * @param Conversation $conversation
      * @param CanBeInConversation $user
+     * @throws \Exception
      */
     public function __construct(Conversation $conversation, CanBeInConversation $user)
     {

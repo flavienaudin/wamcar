@@ -9,7 +9,6 @@ use AppBundle\Doctrine\Entity\PersonalApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Exception\Garage\AlreadyGarageMemberException;
 use AppBundle\Exception\Garage\ExistingGarageException;
-use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\Builder\Garage\GarageFromDTOBuilder;
 use AppBundle\Form\DTO\GarageDTO;
 use AppBundle\Form\DTO\GaragePictureDTO;
@@ -32,7 +31,6 @@ use Wamcar\Garage\GarageProUserRepository;
 use Wamcar\Garage\GarageRepository;
 use Wamcar\User\Event\EmailsInvitationsEvent;
 use Wamcar\User\UserRepository;
-use Wamcar\Vehicle\ProVehicle;
 
 
 class GarageEditionService
@@ -152,9 +150,9 @@ class GarageEditionService
      */
     public function editBanner(GaragePictureDTO $garagePictureDTO, Garage $garage): Garage
     {
-        if($garagePictureDTO->isRemoved){
+        if ($garagePictureDTO->isRemoved) {
             $garage->removeBanner();
-        }else{
+        } else {
             $banner = new GarageBanner($garage, $garagePictureDTO->file);
             $garage->setBanner($banner);
         }
@@ -170,9 +168,9 @@ class GarageEditionService
      */
     public function editLogo(GaragePictureDTO $garagePictureDTO, Garage $garage): Garage
     {
-        if($garagePictureDTO->isRemoved){
+        if ($garagePictureDTO->isRemoved) {
             $garage->removeLogo();
-        }else{
+        } else {
             $logo = new GarageLogo($garage, $garagePictureDTO->file);
             $garage->setLogo($logo);
         }
@@ -300,9 +298,6 @@ class GarageEditionService
         if (null === $member) {
             throw new \InvalidArgumentException('User should be member of the garage');
         }
-        if (count($member->getProUser()->getVehiclesOfGarage($garage)) > 0) {
-            throw new \InvalidArgumentException('User should not have vehicle to sell');
-        }
         $wasPendingRequest = $member->getRequestedAt() != null;
         $garage->removeMember($member);
         $this->garageProUserRepository->remove($member);
@@ -338,29 +333,8 @@ class GarageEditionService
                 if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMemberShip->getRole())) {
                     $result['memberRemovedErrorMessage'] = 'flash.error.garage.remove_administrator';
                 } else {
-                    $userVehicles = $garageMemberShip->getProUser()->getVehiclesOfGarage($garageMemberShip->getGarage());
-                    if (count($userVehicles) > 0) {
-                        // Vehicle distribution to other garage members
-
-                        /** @var ProVehicle $vehicle */
-                        foreach ($userVehicles as $vehicle) {
-                            try {
-                                $this->proVehicleEditionService->assignSeller($vehicle);
-                            } catch (NewSellerToAssignNotFoundException $e) {
-                                $result['vehiclesNotReassignedErrorMessages'][] = 'flash.error.vehicle.seller_to_reassign_not_found';
-                            } catch (\InvalidArgumentException $e) {
-                                $result['vehiclesNotReassignedErrorMessages'][] = $e->getMessage();
-                            }
-                        }
-
-                        if (count($result['vehiclesNotReassignedErrorMessages']) == 0) {
-                            $this->removeMember($garageMemberShip->getGarage(), $garageMemberShip->getProUser(), false);
-                            $result['memberRemovedSuccessMessage'] = 'flash.success.garage.remove_member_with_reassignation';
-                        }
-                    } else {
-                        $this->removeMember($garageMemberShip->getGarage(), $garageMemberShip->getProUser(), false);
-                        $result['memberRemovedSuccessMessage'] = 'flash.success.garage.remove_member';
-                    }
+                    $this->removeMember($garageMemberShip->getGarage(), $garageMemberShip->getProUser(), false);
+                    $result['memberRemovedSuccessMessage'] = 'flash.success.garage.remove_member';
                 }
             } else {
                 // Pending request

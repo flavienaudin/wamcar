@@ -4,7 +4,7 @@
 
 {% set like = app.user?vehicle.getLikeOfUser(app.user):null %}
 {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-{% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+{% set wtLikeDataAttr = wtLikeDataAttributes(app.user, like, vehicle) %}
 {% set ajax_like = ajax_like|default(false) %}
 
 

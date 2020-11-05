@@ -87,10 +87,12 @@ class IndexUpdatedProUser implements UserEventHandler
                 $proUser->setUnpublishedAt(null);
                 $this->userRepository->update($proUser);
 
+                /** TODO Vérifier les véhicules du garage => s'il y avait déjà un vendeur dispo
                 $indexableProVehiclesDocuments = $proUser->getVehicles()->map(function (ProVehicle $proVehicle) {
                     return $this->proVehicleEntityIndexer->buildDocument($this->indexableProVehicleBuilder->buildFromVehicle($proVehicle));
                 })->toArray();
                 $this->proVehicleEntityIndexer->indexAllDocuments($indexableProVehiclesDocuments, true);
+                 */
             }
         } else {
             // ProUser non indexé
@@ -100,6 +102,7 @@ class IndexUpdatedProUser implements UserEventHandler
                 $proUser->setUnpublishedAt(new \DateTime());
                 $this->userRepository->update($proUser);
 
+                /** TODO Vérifier au sein des garages => s'il y a toujours un vendeur dispo
                 // Gestion des véhicules
                 foreach ($proUser->getVehicles() as $proVehicle) {
                     try {
@@ -108,7 +111,7 @@ class IndexUpdatedProUser implements UserEventHandler
                         // MaJ ES ProVehicule pour le déréférencer car pas de nouveau vendeur pour ré-affectation
                         $this->indexProVehicle($proVehicle);
                     }
-                }
+                }*/
             }
         }
     }

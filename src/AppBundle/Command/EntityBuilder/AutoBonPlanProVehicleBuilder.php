@@ -423,11 +423,6 @@ class AutoBonPlanProVehicleBuilder extends ProVehicleBuilder
                 }
             }
 
-            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
-            if(count($sellerCandidates) == 0){
-                throw new VehicleImportRGFailedException('RG-TRI-Oblig-NoSellerAvailable');
-            }
-            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
             $proVehicle->setGarage($garage);
         }
         return $proVehicle;

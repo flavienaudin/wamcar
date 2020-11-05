@@ -26,6 +26,7 @@ class VehicleEditionService
 
     /**
      * @param BaseVehicle $vehicle
+     * @throws \Doctrine\ORM\ORMException
      */
     public function deleteAssociationWithMessage(BaseVehicle $vehicle): void
     {

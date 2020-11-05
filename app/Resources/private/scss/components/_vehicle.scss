@@ -1048,6 +1048,24 @@
     @include breakpoint($two-columns-breakpoint) {
       margin-bottom: 2rem;
     }
+
+    .suggested-sellers-tabs {
+
+      .tabs {
+        padding: rem-calc(15);
+
+        .tabs-title {
+          &.is-active  {
+            display: none;
+          }
+
+          & > a {
+            padding: 0;
+            border: 0;
+          }
+        }
+      }
+    }
   }
 
   .other-vehicles {
@@ -1090,7 +1108,7 @@
         width: 48px;
         font-size: 1rem;
 
-        &:before{
+        &:before {
           margin: auto;
           color: $white;
         }

@@ -225,9 +225,6 @@ error_page:
     body: >
       <p>Oups! La page que vous recherchez n'existe plus, faites donc une <a href="%searchUrl%" class="text-underline">nouvelle recherche</a>.</p>
   vehicle:
-    unpublished:
-      title: Page en cours d'édition
-      body: %firstname% est en train de compléter son profil. Ses véhicules ne sont pas encore disponible. En attendant, vous pouvez consulter les <a href="%redirection_url%" class="text-underline">autres véhicules</a>.
     removed:
       title: Annonce supprimée
       body: L'annonce n'est plus en ligne. Recherchez dès à présent un <a href="%redirection_url%" class="text-underline">véhicule similaire</a>.

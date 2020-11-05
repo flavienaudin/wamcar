@@ -1,11 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% if app.user and vehicle.seller.id == app.user.id %}
-    {% set page_garage = true %}
-{% else %}
-    {% set page_search = true %}
-{% endif %}
-
 {% set vehiclesToList = vehicle.garage.getProVehicles(4, vehicle) %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
@@ -59,38 +53,11 @@
         }
     ] %}
 
-    <script type="application/ld+json">
-    {
-    "@context": "http://schema.org",
-    "@type": "Person",
-    "name" : "{{ vehicle.sellerName }}",
-    "makesOffer" : {
-            "@type" :"Offer",
-            "priceSpecification" : {
-                "@type" : "UnitPriceSpecification",
-                "priceCurrency" : "EUR",
-                "price" : "{{ vehicle.price }}" },
-            "itemOffered" : {
-                "@type" : "Car",
-                "name" : "{{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}",
-                {# Ne pas mettre de quote autour : ajouter par le json_encode + raw #}
-                "description" : {{ vehicle.additionalInformation|json_encode|raw }},
-            "image" : "",
-            "vehicleEngine" : {
-                "@type": "EngineSpecification",
-                "name" : "{{ vehicle.modelName }}"
-                }
-            }
-        }
-    }
-
-    </script>
-
     {% include 'front/Layout/includes/breadcrumb.html.twig' %}
 
     <div class="row peexeo-vehicle">
         {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-        {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+        {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, like, vehicle) %}
 
         {# Left Column #}
         <div class="column small-12 large-7 xlarge-8">
@@ -114,11 +81,39 @@
                 <strong>{{ "vehicle.selled_by"|trans }}</strong>
             </div>
             <div id="js-aside-content-seller-item" class="vehicle-seller-item">
-                {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
-                    'itemClass' : 'block-light-shadow',
-                    'seller' : vehicle.seller,
-                    'compact' : true
-                } %}
+                {% set suggestedSellers = vehicle.suggestedSellers(false, app.user) %}
+                {% if suggestedSellers|length == 1 %}
+                    {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
+                        'itemClass' : 'block-light-shadow',
+                        'seller' : (suggestedSellers|first).seller,
+                        'compact' : true
+                    } %}
+                {% elseif suggestedSellers|length > 1 %}
+                    <div class="suggested-sellers-tabs white-bg block-light-shadow">
+                        <div class="tabs-content" data-tabs-content="sellers-tabs">
+                            {% for scoreSeller in suggestedSellers %}
+                                <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}" id="seller-{{ scoreSeller.seller.id }}">
+                                    {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
+                                        'itemClass' : '',
+                                        'seller' : scoreSeller.seller,
+                                        'compact' : true
+                                    } %}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <ul class="tabs seller-contacts" data-tabs id="sellers-tabs">
+                        {% for scoreSeller in suggestedSellers %}
+                            <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
+                                <a class="avatar-small" href="#seller-{{ scoreSeller.seller.id }}" {% if loop.index0 == 0 %}aria-selected="true"{% endif %}>
+                                    <img src="{{ scoreSeller.seller.avatar|avatar('user_mini_thumbnail', scoreSeller.seller.fullName) }}"
+                                    alt="{{ scoreSeller.seller.fullName }}">
+                                </a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
                 {% if isEditableByCurrentUser %}
                     {% include 'front/Vehicle/Detail/includes/user_editing.html.twig' %}

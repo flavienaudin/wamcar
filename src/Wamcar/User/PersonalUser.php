@@ -43,6 +43,17 @@ class PersonalUser extends BaseUser
         }
     }
 
+
+    /**
+     * Indique si le profil est publiable. Conditions actuelles : aucune
+     *
+     * @return bool
+     */
+    public function isPublishable(): bool
+    {
+        return true;
+    }
+
     /**
      * @return PersonalOrientationChoices|null
      */
@@ -101,6 +112,14 @@ class PersonalUser extends BaseUser
     }
 
     /**
+     * @return int Number of user's vehicles
+     */
+    public function countVehicles(): int
+    {
+        return count($this->getVehicles());
+    }
+
+    /**
      * @param PersonalVehicle $personalVehicle
      */
     public function addPersonalVehicle(PersonalVehicle $personalVehicle)
@@ -132,15 +151,6 @@ class PersonalUser extends BaseUser
         }
 
         return false;
-    }
-
-    /**
-     * @param BaseUser|null $user null if user not connected
-     * @return bool
-     */
-    public function canSeeMyVehicles(BaseUser $user = null): bool
-    {
-        return true;
     }
 
     /**

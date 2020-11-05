@@ -15,11 +15,11 @@ class MessageDTO
 {
     /** @var string */
     public $id;
-    /** @var  BaseUser */
+    /** @var BaseUser */
     public $user;
-    /** @var  BaseUser */
+    /** @var BaseUser */
     public $interlocutor;
-    /**  @var  string */
+    /**  @var string */
     public $content;
     /** @var null|BaseVehicle */
     public $vehicleHeader;

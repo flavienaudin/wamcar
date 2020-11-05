@@ -247,14 +247,6 @@ front_vehicle_pro_edit:
       garage: null
       plateNumber: null
 
-front_vehicle_pro_reassign:
-    path: /vehicule/reassign/{vehicle_id}
-    controller: AppBundle:Front\ProContext\Vehicle:assign
-
-front_vehicle_pro_assign_seller:
-    path: /vehicule/assign/{vehicle_id}/{pro_user_id}
-    controller: AppBundle:Front\ProContext\Vehicle:assign
-
 front_vehicle_pro_delete:
     path: /vehicule/delete/{id}
     controller: AppBundle:Front\ProContext\Vehicle:delete

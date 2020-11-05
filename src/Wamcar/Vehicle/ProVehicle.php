@@ -39,31 +39,63 @@ class ProVehicle extends BaseVehicle
     private $reference;
     /** @var Garage */
     private $garage;
-    /** @var ProUser */
-    private $seller;
     /** @var Declaration|null */
     private $saleDeclaration;
 
-    // Garage and Seller must be set manually
+
+
+    /**
+     * ProVehicle constructor
+     * NOTE : Garage must be set manually
+     *
+     * @param ModelVersion $modelVersion
+     * @param Transmission $transmission
+     * @param Registration|null $registration
+     * @param \DateTimeInterface $registrationDate
+     * @param bool $isUsed
+     * @param int $mileage
+     * @param array $pictures
+     * @param \DateTimeInterface|null $safetyTestDate
+     * @param SafetyTestState|null $safetyTestState
+     * @param int|null $bodyState
+     * @param int|null $engineState
+     * @param int|null $tyreState
+     * @param MaintenanceState|null $maintenanceState
+     * @param TimingBeltState|null $timingBeltState
+     * @param bool|null $isImported
+     * @param bool|null $isFirstHand
+     * @param string|null $additionalInformation
+     * @param City|null $city
+     * @param float $price
+     * @param float|null $catalogPrice
+     * @param float|null $discount
+     * @param Guarantee|null $guarantee
+     * @param string|null $otherGuarantee
+     * @param Funding|null $funding
+     * @param string|null $otherFunding
+     * @param string|null $additionalServices
+     * @param string|null $reference
+     * @throws \Exception
+     */
     public function __construct(
         ModelVersion $modelVersion,
         Transmission $transmission,
-        Registration $registration = null,
+        ?Registration $registration,
         \DateTimeInterface $registrationDate,
         bool $isUsed,
         int $mileage,
         array $pictures,
-        \DateTimeInterface $safetyTestDate = null,
-        SafetyTestState $safetyTestState = null,
-        int $bodyState = null,
-        int $engineState = null,
-        int $tyreState = null,
-        MaintenanceState $maintenanceState = null,
-        TimingBeltState $timingBeltState = null,
-        bool $isImported = null,
-        bool $isFirstHand = null,
-        string $additionalInformation = null,
-        City $city = null,
+        ?\DateTimeInterface $safetyTestDate,
+        ?SafetyTestState $safetyTestState,
+        ?int $bodyState,
+        ?int $engineState,
+        ?int $tyreState,
+        ?MaintenanceState $maintenanceState,
+        ?TimingBeltState $timingBeltState,
+        ?bool $isImported,
+        ?bool $isFirstHand,
+        ?string $additionalInformation,
+        ?City $city,
         float $price,
         float $catalogPrice = null,
         float $discount = null,
@@ -113,19 +145,13 @@ class ProVehicle extends BaseVehicle
     }
 
     /**
-     * @return ProUser|null
+     * @param bool $onlyMaxScore
+     * @param BaseUser|null $userVisiting
+     * @return array
      */
-    public function getSeller(): ?ProUser
+    public function getSuggestedSellers(bool $onlyMaxScore, ?BaseUser $userVisiting): array
     {
-        return $this->seller;
-    }
-
-    /**
-     * @param ProUser $seller
-     */
-    public function setSeller(ProUser $seller): void
-    {
-        $this->seller = $seller;
+        return $this->garage->getBestSellersForVehicle($this, $onlyMaxScore, $userVisiting);
     }
 
     /**
@@ -320,6 +346,6 @@ class ProVehicle extends BaseVehicle
      */
     public function canDeclareSale(BaseUser $user = null): bool
     {
-        return $this->getSeller()->is($user);
+        return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($this->getGarage());;
     }
 }

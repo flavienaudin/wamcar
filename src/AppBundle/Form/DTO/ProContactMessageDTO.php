@@ -22,7 +22,7 @@ class ProContactMessageDTO
     public $email;
     /** @var string|null */
     public $message;
-    /** @var ProVehicle */
+    /** @var ProVehicle|null */
     public $vehicle;
 
     /**

@@ -21,7 +21,7 @@
         </div>
     {% elseif vehicle is not null %}
         {% if vehicle.isPro %}
-            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>' %}
+            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':message.user.fullName}) ~'</strong>' %}
         {% else %}
             {% set label = vehicle.seller.id == app.user.id ?
                 '<strong class="secondary-color">'~ "conversation.vehicle_to_sell"|trans ~'</strong>' :
