@@ -100,7 +100,9 @@ class IndexUpdatedProUser implements UserEventHandler
                             }
                         }
                         $this->proVehicleEntityIndexer->indexAllDocuments($indexableProVehiclesDocumentsToIndex, true);
-                        $this->proVehicleEntityIndexer->deleteByIds($indexableProVehiclesIdsToDelete);
+                        if(count($indexableProVehiclesIdsToDelete) > 0) {
+                            $this->proVehicleEntityIndexer->deleteByIds($indexableProVehiclesIdsToDelete);
+                        }
 
                         $indexableProVehicleSearchItemsDocumentsToIndex = [];
                         $indexableProVehicleSearchItemsIdsToDelete = [];
@@ -113,7 +115,9 @@ class IndexUpdatedProUser implements UserEventHandler
                             }
                         };
                         $this->searchItemEntityIndexer->indexAllDocuments($indexableProVehicleSearchItemsDocumentsToIndex, true);
-                        $this->searchItemEntityIndexer->deleteByIds($indexableProVehicleSearchItemsIdsToDelete);
+                        if(count($indexableProVehicleSearchItemsIdsToDelete)> 0) {
+                            $this->searchItemEntityIndexer->deleteByIds($indexableProVehicleSearchItemsIdsToDelete);
+                        }
                     }
                 }
             }
