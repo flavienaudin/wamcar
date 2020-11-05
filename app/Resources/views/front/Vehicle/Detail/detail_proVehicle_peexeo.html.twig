@@ -85,7 +85,8 @@
                     {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
                         'itemClass' : 'block-light-shadow',
                         'seller' : (suggestedSellers|first).seller,
-                        'compact' : true
+                        'compact' : true,
+                        'garage': vehicle.garage
                     } %}
                 {% elseif suggestedSellers|length > 1 %}
                     <div class="suggested-sellers-tabs white-bg block-light-shadow">
@@ -95,16 +96,17 @@
                                     {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
                                         'itemClass' : '',
                                         'seller' : scoreSeller.seller,
-                                        'compact' : true
+                                        'compact' : true,
+                                        'garage': vehicle.garage
                                     } %}
                                 </div>
                             {% endfor %}
                         </div>
-
+                        <div class="suggested-sellers-indication">{{ 'vehicle.select_sellers'|trans }}</div>
                         <ul class="tabs seller-contacts" data-tabs id="sellers-tabs">
                         {% for scoreSeller in suggestedSellers %}
                             <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
-                                <a class="avatar-small" href="#seller-{{ scoreSeller.seller.id }}" {% if loop.index0 == 0 %}aria-selected="true"{% endif %}>
+                                <a class="avatar-medium" href="#seller-{{ scoreSeller.seller.id }}" {% if loop.index0 == 0 %}aria-selected="true"{% endif %}>
                                     <img src="{{ scoreSeller.seller.avatar|avatar('user_mini_thumbnail', scoreSeller.seller.fullName) }}"
                                     alt="{{ scoreSeller.seller.fullName }}">
                                 </a>

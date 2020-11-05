@@ -1051,7 +1051,19 @@
 
     .suggested-sellers-tabs {
 
+      .tabs-panel {
+        padding-top: 0;
+      }
+
+      .suggested-sellers-indication{
+        padding: 0 rem-calc(15);
+      }
+
       .tabs {
+        &.seller-contacts {
+          margin-left: 0;
+        }
+
         padding: rem-calc(15);
 
         .tabs-title {

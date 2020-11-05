@@ -20,10 +20,7 @@
         </div>
     {% endif %}
 
-    <p class="icon-location primary-color align-center">
-        <span class="body-font-color">
-            {% block userLocation %}{% endblock userLocation %}
-        </span>
-    </p>
+    {% block userLocation %}{% endblock userLocation %}
+
     {% block bottomContainer %}{% endblock bottomContainer %}
 </div>

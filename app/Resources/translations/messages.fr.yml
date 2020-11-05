@@ -602,6 +602,7 @@ vehicle:
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
   selled_by: "Voiture vendue par :"
+  select_sellers: Sélectionner un autre membre de l'équipe
   detail:
     personal:
       title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'

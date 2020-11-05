@@ -17,6 +17,10 @@
             }
         }
 
+        &.centered-star-list{
+            justify-content: center;
+        }
+
         &.vehicle-state {
             width: rem-calc(115); // 5 * (star-item's width + margin-right)
 

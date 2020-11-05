@@ -1,5 +1,7 @@
 {% extends 'front/User/includes/seller_item.html.twig' %}
 
 {% block userLocation %}
-    {{ seller.city }}
+    <p class="icon-location primary-color align-center">
+        <span class="body-font-color">{{ seller.city }}</span>
+    </p>
 {% endblock userLocation %}
