@@ -81,7 +81,6 @@
                 <strong>{{ "vehicle.selled_by"|trans }}</strong>
             </div>
             <div id="js-aside-content-seller-item" class="vehicle-seller-item">
-                {% set suggestedSellers = vehicle.suggestedSellers(false, app.user) %}
                 {% if suggestedSellers|length == 1 %}
                     {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
                         'itemClass' : 'block-light-shadow',

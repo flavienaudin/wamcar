@@ -57,7 +57,8 @@ class IndexableProVehicleBuilder
             $vehicle->getGarage() ? $vehicle->getGarage()->getId() : null,
             $vehicle->getDeletedAt(),
             $vehicle->getGarage() ? $vehicle->getGarage()->getGoogleRating() : null,
-            count($vehicle->getPositiveLikes())
+            count($vehicle->getPositiveLikes()),
+            count($vehicle->getSuggestedSellers(false, null)) > 0
         );
     }
 

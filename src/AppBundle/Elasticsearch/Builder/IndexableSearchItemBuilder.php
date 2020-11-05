@@ -52,7 +52,8 @@ class IndexableSearchItemBuilder
                     $personalVehicule->getNbPictures(),
                     count($personalVehicule->getPositiveLikes()),
                     null,
-                    null
+                    null,
+                    $personalVehicule->getSeller() != null
                 );
 
                 if ($personalUser->getProject() != null && !$personalUser->getProject()->isEmpty()) {
@@ -99,7 +100,8 @@ class IndexableSearchItemBuilder
             $proVehicle->getNbPictures(),
             count($proVehicle->getPositiveLikes()),
             $proVehicle->getGarage()->getId(),
-            $proVehicle->getGarage()->getGoogleRating()
+            $proVehicle->getGarage()->getGoogleRating(),
+            count($proVehicle->getSuggestedSellers(false)) > 0
         );
         return $indexableSearchItem;
     }

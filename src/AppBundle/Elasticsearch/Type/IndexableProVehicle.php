@@ -52,6 +52,8 @@ class IndexableProVehicle implements Indexable
     private $googleRating;
     /** @var int */
     private $nbPositiveLikes;
+    /** @var bool */
+    private $hasSuggestedSellers ;
 
     /**
      * IndexableProVehicle constructor.
@@ -77,6 +79,7 @@ class IndexableProVehicle implements Indexable
      * @param \DateTime|null $deletedAt
      * @param null|float $googleRating
      * @param int $nbPositiveLikes
+     * @param bool $hasSuggestedSellers
      */
     public function __construct(string $id,
                                 string $detailUrl,
@@ -99,7 +102,8 @@ class IndexableProVehicle implements Indexable
                                 int $garageId,
                                 ?\DateTime $deletedAt,
                                 ?float $googleRating,
-                                int $nbPositiveLikes
+                                int $nbPositiveLikes,
+                                bool $hasSuggestedSellers
     )
     {
         $this->id = $id;
@@ -124,6 +128,7 @@ class IndexableProVehicle implements Indexable
         $this->deletedAt = $deletedAt;
         $this->googleRating = $googleRating;
         $this->nbPositiveLikes = $nbPositiveLikes;
+        $this->hasSuggestedSellers = $hasSuggestedSellers;
     }
 
     /**
@@ -139,7 +144,7 @@ class IndexableProVehicle implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return $this->deletedAt === null;
+        return $this->deletedAt === null && $this->hasSuggestedSellers;
     }
 
     /**

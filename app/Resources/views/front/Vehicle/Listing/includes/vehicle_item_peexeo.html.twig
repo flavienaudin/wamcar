@@ -22,12 +22,12 @@
 
         <div class="peexeo-vehicle-item-info column">
             <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
-                <{{ balise }} class="peexeo-vehicle-name">
+                <{{ balise }} class="peexeo-vehicle-name {{ vehicle.suggestedSellers(false,null)|length == 0 ? "icon-warning2" }}"
+                    {% if vehicle.suggestedSellers(false,null)|length == 0 %}title="Pas de vendeur"{% endif %}>
                     {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
                 </{{ balise }}>
             </a>
             <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-years dark-gray-blue-peexeo-color">{{ vehicle.years }}&nbsp;-&nbsp;{{ vehicle.mileage|localizednumber }}km</a>
-
 
             <div class="vehicle-middle block-grid is-relative">
                 <a  href="{{ detailUrl }}" target="{{ detailUrlTarget }}" class="vehicle-price red-peexeo-color">

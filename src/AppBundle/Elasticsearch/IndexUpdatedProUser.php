@@ -11,17 +11,16 @@ use AppBundle\Elasticsearch\Elastica\ProUserEntityIndexer;
 use AppBundle\Elasticsearch\Elastica\ProVehicleEntityIndexer;
 use AppBundle\Elasticsearch\Traits\ProVehicleIndexerTrait;
 use AppBundle\Elasticsearch\Type\IndexableProUser;
-use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Services\Vehicle\ProVehicleEditionService;
 use Wamcar\Garage\Event\GarageMemberAssignedEvent;
 use Wamcar\Garage\Event\GarageMemberUnassignedEvent;
+use Wamcar\Garage\Garage;
 use Wamcar\User\Event\ProUserCreated;
 use Wamcar\User\Event\ProUserRemoved;
 use Wamcar\User\Event\ProUserUpdated;
 use Wamcar\User\Event\UserEvent;
 use Wamcar\User\Event\UserEventHandler;
 use Wamcar\User\UserRepository;
-use Wamcar\Vehicle\ProVehicle;
 
 class IndexUpdatedProUser implements UserEventHandler
 {
@@ -87,12 +86,36 @@ class IndexUpdatedProUser implements UserEventHandler
                 $proUser->setUnpublishedAt(null);
                 $this->userRepository->update($proUser);
 
-                /** TODO Vérifier les véhicules du garage => s'il y avait déjà un vendeur dispo
-                $indexableProVehiclesDocuments = $proUser->getVehicles()->map(function (ProVehicle $proVehicle) {
-                    return $this->proVehicleEntityIndexer->buildDocument($this->indexableProVehicleBuilder->buildFromVehicle($proVehicle));
-                })->toArray();
-                $this->proVehicleEntityIndexer->indexAllDocuments($indexableProVehiclesDocuments, true);
-                 */
+                /** @var Garage $garage */
+                foreach ($proUser->getGarages() as $garage) {
+                    if(count($garage->getAvailableSellers()) == 1){ // Premier vendeur disponible
+                        $indexableProVehiclesDocumentsToIndex = [];
+                        $indexableProVehiclesIdsToDelete = [];
+                        foreach ($garage->getProVehicles() as $proVehicle ){
+                            $indexableProVehicle = $this->indexableProVehicleBuilder->buildFromVehicle($proVehicle);
+                            if($indexableProVehicle->shouldBeIndexed()) {
+                                $indexableProVehiclesDocumentsToIndex[] = $this->proUserEntityIndexer->buildDocument($indexableProVehicle);
+                            }else{
+                                $indexableProVehiclesIdsToDelete[] = $indexableProVehicle->getId();
+                            }
+                        }
+                        $this->proVehicleEntityIndexer->indexAllDocuments($indexableProVehiclesDocumentsToIndex, true);
+                        $this->proVehicleEntityIndexer->deleteByIds($indexableProVehiclesIdsToDelete);
+
+                        $indexableProVehicleSearchItemsDocumentsToIndex = [];
+                        $indexableProVehicleSearchItemsIdsToDelete = [];
+                        foreach($garage->getProVehicles() as $proVehicle) {
+                            $indexableSearchItem = $this->indexableSearchItemBuilder->createSearchItemFromProVehicle($proVehicle);
+                            if($indexableSearchItem->shouldBeIndexed()) {
+                                $indexableProVehicleSearchItemsDocumentsToIndex[] = $this->searchItemEntityIndexer->buildDocument($indexableSearchItem);
+                            }else{
+                                $indexableProVehicleSearchItemsIdsToDelete[] = $indexableSearchItem->getId();
+                            }
+                        };
+                        $this->searchItemEntityIndexer->indexAllDocuments($indexableProVehicleSearchItemsDocumentsToIndex, true);
+                        $this->searchItemEntityIndexer->deleteByIds($indexableProVehicleSearchItemsIdsToDelete);
+                    }
+                }
             }
         } else {
             // ProUser non indexé
@@ -102,16 +125,16 @@ class IndexUpdatedProUser implements UserEventHandler
                 $proUser->setUnpublishedAt(new \DateTime());
                 $this->userRepository->update($proUser);
 
-                /** TODO Vérifier au sein des garages => s'il y a toujours un vendeur dispo
                 // Gestion des véhicules
-                foreach ($proUser->getVehicles() as $proVehicle) {
-                    try {
-                        $this->proVehicleEditionService->assignSeller($proVehicle);
-                    } catch (\InvalidArgumentException|NewSellerToAssignNotFoundException $newSellerToAssignNotFoundException) {
-                        // MaJ ES ProVehicule pour le déréférencer car pas de nouveau vendeur pour ré-affectation
-                        $this->indexProVehicle($proVehicle);
+                /** @var Garage $garage */
+                foreach ($proUser->getGarages() as $garage) {
+                    if(count($garage->getAvailableSellers()) == 0){
+                        foreach ($garage->getProVehicles() as $proVehicle) {
+                            // MaJ ES ProVehicule pour le déréférencer car pas de vendeur disponible
+                            $this->indexProVehicle($proVehicle);
+                        }
                     }
-                }*/
+                }
             }
         }
     }

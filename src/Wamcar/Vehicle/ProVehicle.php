@@ -37,7 +37,7 @@ class ProVehicle extends BaseVehicle
     private $additionalServices;
     /** @var string */
     private $reference;
-    /** @var Garage */
+    /** @var null|Garage */
     private $garage;
     /** @var Declaration|null */
     private $saleDeclaration;
@@ -46,7 +46,7 @@ class ProVehicle extends BaseVehicle
 
     /**
      * ProVehicle constructor
-     * NOTE : Garage must be set manually
+     * NOTE : Garage must be set manually just after the creation
      *
      * @param ModelVersion $modelVersion
      * @param Transmission $transmission
@@ -149,7 +149,7 @@ class ProVehicle extends BaseVehicle
      * @param BaseUser|null $userVisiting
      * @return array
      */
-    public function getSuggestedSellers(bool $onlyMaxScore, ?BaseUser $userVisiting): array
+    public function getSuggestedSellers(bool $onlyMaxScore, ?BaseUser $userVisiting = null): array
     {
         return $this->garage->getBestSellersForVehicle($this, $onlyMaxScore, $userVisiting);
     }

@@ -294,7 +294,8 @@ class VehicleController extends BaseController
      */
     public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
-        if ($vehicle->getDeletedAt() != null) {
+        $suggestedSellers = $vehicle->getSuggestedSellers(false, $this->getUser());
+        if ($vehicle->getDeletedAt() != null || count($suggestedSellers) == 0) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.vehicle.removed.title',
                 'messageKey' => 'error_page.vehicle.removed.body',
@@ -381,6 +382,7 @@ class VehicleController extends BaseController
             'positiveLikes' => $vehicle->getPositiveLikesByUserType(),
             'like' => $userLike,
             'contactForm' => $contactForm ? $contactForm->createView() : null,
+            'suggestedSellers' => $suggestedSellers
         ]);
     }
 
