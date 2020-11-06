@@ -14,31 +14,32 @@
 
 
 {# On mobile device : button to send a message fixed at screen bottom #}
-<div class="user-contact-form {{ buttonVisibilyClass }} block-grid small-12">
+<div id="js-contact-form-mobile-button-{{ user.id }}" class="user-contact-form {{ buttonVisibilyClass }} block-grid small-12 {{ isHidden?'is-hidden' }}">
     <div class="button-container ">
-        <span class="icon-message" data-toggle="contactFormOffCanvas"
+        <span class="icon-message" data-toggle="js-contact-form-offcanvas-{{ user.id }}"
         alt="{{ 'global.button.send_message'|trans }}" title="{{ 'global.button.send_message'|trans }}"></span>
     </div>
 </div>
-<div class="{{ buttonVisibilyClass }}  off-canvas position-bottom is-closed" id="contactFormOffCanvas" data-off-canvas>
+<div class="{{ buttonVisibilyClass }} off-canvas position-bottom is-closed" id="js-contact-form-offcanvas-{{ user.id }}" data-off-canvas>
     <a class="close-action" aria-label="close contact form" data-close><span aria-hidden="true">&mdash;</span></a>
 
     <div class="off-canvas-content-element">
-        <div class="js-pro-profile-contact-form-container user-contact-form-container {{ formContainerClass }}"
+        <div id="js-contact-form-container-{{ user.id }}" class="js-pro-profile-contact-form-container user-contact-form-container {{ formContainerClass }} {{ isHidden?'is-hidden' }}"
              data-responsivedom-destination="{{ responsiveDomDestination }}"
              data-responsivedom-appendto="{{ responsiveDomAppendTo }}"
              data-responsivedom-mediaquerysize="{{ responsiveDomSize|default('640') }}">
             <h3 class="{{ titleClass|default('') }}">{{ 'user.pro_contact.title'|trans({'%username%' : user.firstName}) }}</h3>
-            <button class="{{ buttonVisibilyClass }}  user-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
+            <button class="{{ buttonVisibilyClass }} user-contact-form-close-button close-button" aria-label="Close contact form" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
             </button>
 
             {{ form_start(contactForm, {
-                'attr': {'id' : 'procontact-form', 'class': formClass|default(''), 'data-abide' : 'data-abide','novalidate' : 'novalidate'}
+                'attr': {'id' : 'procontact-form-'~user.id, 'class': formClass|default(''), 'data-abide' : 'data-abide','novalidate' : 'novalidate' }
             }) }}
             {% if contactForm.firstname is defined %}
                 <div>
                     {{ form_widget(contactForm.firstname, {
+                        'required':'true',
                         'label': 'user.pro_contact.form.field.firstname.label'|trans,
                         'label_class': 'show-for-sr',
                         'placeholder': 'user.pro_contact.form.field.firstname.placeholder'|trans
@@ -70,7 +71,7 @@
             {% if contactForm.email is defined %}
                 <div>
                     {{ form_widget(contactForm.email, {
-                        'required': true,
+                        'required':'true',
                         'label': 'user.pro_contact.form.field.email.label'|trans,
                         'label_class': 'show-for-sr',
                         'placeholder': 'user.pro_contact.form.field.email.placeholder'|trans
@@ -85,6 +86,7 @@
                         'label': 'user.pro_contact.form.field.message.label'|trans,
                         'label_class': 'show-for-sr',
                         'placeholder': 'user.pro_contact.form.field.message.placeholder'|trans,
+                        'required':'true',
                         'class': 'margin-bottom-0',
                         'help_message': vehicle is defined and vehicle is not null ? 'conversation.answer.field.message.vehicle_help_message'|trans : null,
                         'help_message_class': vehicle is defined and vehicle is not null ? 'margin-top-0' : null
@@ -113,7 +115,7 @@
             <button type="submit" class="button primary-button full-width {{ contactForm.message is defined ? 'g-recaptcha' }}"
                     {% if contactForm.message is defined %}
                     data-sitekey="{{ google_captcha_sitekey }}"
-                    data-callback='captchaOnSubmit'
+                    data-callback='{{ captchaOnSubmit }}'
                     data-action='{{ captchaAction }}'
                     {% endif %}
             >{{ 'global.button.send'|trans }}</button>

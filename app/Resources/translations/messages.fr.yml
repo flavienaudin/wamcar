@@ -79,6 +79,8 @@ flash:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
   error:
+    pro_contact_message:
+      invalid-form: Le formulaire de contact de %proUserName% est incomplet. Merci de renseigner les champs obligatoires.
     captcha_validation: Votre qualité d'humain n'a pu être validée. Merci de valider le captcha.
     bad_credentials: Votre email et/ou votre mot de passe sont incorrects. Merci de les saisir à nouveau.
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.

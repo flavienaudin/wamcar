@@ -38,3 +38,22 @@ if ($isUsedInputController.length > 0) {
     });
   });
 }
+
+const $suggestedSellersTabs = $('#suggested-sellers-tabs');
+if($suggestedSellersTabs) {
+
+  $suggestedSellersTabs.on('change.zf.tabs', function (event) {
+    const $inactiveTabs = $(event.currentTarget).children(':not(.is-active)');
+    const $activeTabs = $(event.currentTarget).children('.is-active');
+    $inactiveTabs.each((index, li) => {
+      const targets = $(li).data('targets');
+      $(targets).addClass('is-hidden');
+    });
+    $activeTabs.each((index, li) => {
+      const targets = $(li).data('targets');
+      $(targets).removeClass('is-hidden');
+    });
+
+  });
+
+}

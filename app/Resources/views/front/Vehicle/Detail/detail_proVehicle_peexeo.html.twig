@@ -90,9 +90,9 @@
                     } %}
                 {% elseif suggestedSellers|length > 1 %}
                     <div class="suggested-sellers-tabs white-bg block-light-shadow">
-                        <div class="tabs-content" data-tabs-content="sellers-tabs">
+                        <div class="tabs-content" data-tabs-content="suggested-sellers-tabs">
                             {% for scoreSeller in suggestedSellers %}
-                                <div class="tabs-panel {{ loop.index0 == 0 ? 'is-active' }}" id="seller-{{ scoreSeller.seller.id }}">
+                                <div class="tabs-panel {{ activeSuggestedSeller.id == scoreSeller.seller.id ? 'is-active' }}" id="js-seller-{{ scoreSeller.seller.id }}">
                                     {% include 'front/Vehicle/Detail/includes/seller_pro_item.html.twig' with {
                                         'itemClass' : '',
                                         'seller' : scoreSeller.seller,
@@ -103,10 +103,11 @@
                             {% endfor %}
                         </div>
                         <div class="suggested-sellers-indication">{{ 'vehicle.select_sellers'|trans }}</div>
-                        <ul class="tabs seller-contacts" data-tabs id="sellers-tabs">
+                        <ul class="tabs seller-contacts" data-tabs id="suggested-sellers-tabs">
                         {% for scoreSeller in suggestedSellers %}
-                            <li class="tabs-title {{ loop.index0 == 0 ? 'is-active' }}">
-                                <a class="avatar-medium" href="#seller-{{ scoreSeller.seller.id }}" {% if loop.index0 == 0 %}aria-selected="true"{% endif %}>
+                            <li class="tabs-title {{ activeSuggestedSeller.id == scoreSeller.seller.id ? 'is-active' }}"
+                                data-targets="#js-contact-form-mobile-button-{{ scoreSeller.seller.id }},#js-contact-form-container-{{ scoreSeller.seller.id }}">
+                                <a class="avatar-medium" href="#js-seller-{{ scoreSeller.seller.id }}" {% if activeSuggestedSeller.id == scoreSeller.seller.id %}aria-selected="true"{% endif %}>
                                     <img src="{{ scoreSeller.seller.avatar|avatar('user_mini_thumbnail', scoreSeller.seller.fullName) }}"
                                     alt="{{ scoreSeller.seller.fullName }}">
                                 </a>
@@ -230,18 +231,22 @@
         </aside>
         {# END Right Column #}
     </div>
-    {% if contactForm is not null %}
+
+    {% for sellerId,contactFormData in contactForms %}
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
-            'user': vehicle.seller,
+            'user': contactFormData['seller'],
+            'contactForm': contactFormData['form'],
             'titleClass' : 'h2 text-center large-text-left',
             'formClass':'form-compact',
+            'isHidden': activeSuggestedSeller.id != sellerId,
             'responsiveDomDestination':'#js-vehicle-aside',
             'responsiveDomAppendTo':true,
             'responsiveDomBreakpoint': 'large',
             'vehicle': vehicle,
+            'captchaOnSubmit': 'captchaOnSubmit'~ sellerId,
             'captchaAction': 'provehicle_contact_form'
         }) }}
-    {% endif %}
+    {% endfor %}
 {% endblock body %}
 
 {% block modal %}
@@ -252,12 +257,14 @@
 {% endblock %}
 
 {% block javascripts %}
-    {% if contactForm is not null %}
+    {% if contactForms|length > 0 %}
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <script>
-          function captchaOnSubmit(token) {
-            document.getElementById("procontact-form").submit();
-          }
+            {% for sellerId,contactFormData in contactForms %}
+                  function captchaOnSubmit{{ sellerId }}(token) {
+                    document.getElementById("procontact-form-{{ sellerId }}").submit();
+                  }
+            {% endfor %}
         </script>
     {% endif %}
 {% endblock javascripts %}

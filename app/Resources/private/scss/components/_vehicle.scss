@@ -1068,7 +1068,9 @@
 
         .tabs-title {
           &.is-active  {
-            display: none;
+            transition: $global-transition;
+            opacity: 0.5;
+            pointer-events: none;
           }
 
           & > a {
