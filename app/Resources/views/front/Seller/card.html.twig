@@ -446,9 +446,11 @@
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
             'titleClass':'h2 text-center large-text-left',
             'formClass':'form-compact',
+            'isHidden': false,
             'responsiveDomDestination':'.js-profile-right-column',
             'responsiveDomAppendTo':false,
             'responsiveDomBreakpoint': 'large',
+            'captchaOnSubmit': 'captchaOnSubmit',
             'captchaAction':'prouser_contact_form'
         }) }}
     {% endif %}

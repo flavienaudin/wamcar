@@ -11,7 +11,7 @@
     {% set buttonVisibilyClass = '' %}
     {% set responsiveDomSize = '100000' %}
 {% endif %}
-
+{% set isHidden = isHidden is defined ? isHidden : false %}
 
 {# On mobile device : button to send a message fixed at screen bottom #}
 <div id="js-contact-form-mobile-button-{{ user.id }}" class="user-contact-form {{ buttonVisibilyClass }} block-grid small-12 {{ isHidden?'is-hidden' }}">
