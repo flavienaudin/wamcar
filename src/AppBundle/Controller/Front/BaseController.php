@@ -25,6 +25,7 @@ abstract class BaseController
     const REQUEST_HEADER_REFERER = 'referer';
 
     const LIKE_REDIRECT_TO_SESSION_KEY = "vehicle.like.target_path";
+    const PROVEHICLE_SELLER_SELECTION_TO_SESSION_KEY = "vehicle.seller.selection";
 
     /** @var EngineInterface */
     protected $templatingEngine;

@@ -5,6 +5,7 @@ namespace AppBundle\Controller\Front\ProContext;
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
+use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
@@ -321,9 +322,14 @@ class VehicleController extends BaseController
         $contactForms = [];
         $activeSuggestedSeller = null;
         if (!$currentUserCanEditThisProVehicle) {
+            $selectedSellerIdInSession = $this->session->get(self::PROVEHICLE_SELLER_SELECTION_TO_SESSION_KEY.'/'.$vehicle->getId());
+
             foreach ($suggestedSellers as $suggestedSellerAndScore) {
                 /** @var ProUser $suggestedSeller */
                 $suggestedSeller = $suggestedSellerAndScore['seller'];
+                if($suggestedSeller->getId() === $selectedSellerIdInSession){
+                    $activeSuggestedSeller = $suggestedSeller;
+                }
                 try {
                     $this->conversationAuthorizationChecker->canCommunicate($currentUser, $suggestedSeller);
 
@@ -409,6 +415,26 @@ class VehicleController extends BaseController
             'suggestedSellers' => $suggestedSellers,
             'activeSuggestedSeller' => $activeSuggestedSeller != null ? $activeSuggestedSeller : array_first($suggestedSellers)['seller']
         ]);
+    }
+
+
+    /**
+     * Enregistrement en session du vendeur sélectionné pour un véhicule (exempple : clic sur l'avatar dans l'encart vendeur)
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':provehicle_slug})")
+     * @Entity("proUser", expr="repository.findIgnoreSoftDeletedOneBy({'id':seller_id})")
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @param ProApplicationUser $proUser
+     * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function ajaxSellerSelectAction(Request $request, ProVehicle $vehicle, ProApplicationUser $proUser): Response
+    {
+        if(!$request->isXmlHttpRequest()){
+            throw new BadRequestHttpException();
+        }
+        $this->session->set(self::PROVEHICLE_SELLER_SELECTION_TO_SESSION_KEY . '/' . $vehicle->getId(), $proUser->getId());
+        return new JsonResponse(true);
     }
 
     /**

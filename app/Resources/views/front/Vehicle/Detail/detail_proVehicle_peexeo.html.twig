@@ -107,7 +107,8 @@
                         {% for scoreSeller in suggestedSellers %}
                             <li class="tabs-title {{ activeSuggestedSeller.id == scoreSeller.seller.id ? 'is-active' }}"
                                 data-targets="#js-contact-form-mobile-button-{{ scoreSeller.seller.id }},#js-contact-form-container-{{ scoreSeller.seller.id }}">
-                                <a class="avatar-medium" href="#js-seller-{{ scoreSeller.seller.id }}" {% if activeSuggestedSeller.id == scoreSeller.seller.id %}aria-selected="true"{% endif %}>
+                                <a class="avatar-medium" href="#js-seller-{{ scoreSeller.seller.id }}" {% if activeSuggestedSeller.id == scoreSeller.seller.id %}aria-selected="true"{% endif %}
+                                    data-href="{{ path('front_vehicle_pro_seller_select', {'provehicle_slug':vehicle.slug, 'seller_id': scoreSeller.seller.id }) }}">
                                     <img src="{{ scoreSeller.seller.avatar|avatar('user_mini_thumbnail', scoreSeller.seller.fullName) }}"
                                     alt="{{ scoreSeller.seller.fullName }}">
                                 </a>

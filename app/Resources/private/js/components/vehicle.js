@@ -52,6 +52,19 @@ if($suggestedSellersTabs) {
     $activeTabs.each((index, li) => {
       const targets = $(li).data('targets');
       $(targets).removeClass('is-hidden');
+      const ajaxActivatedAction = $(li).children('a');
+      ajaxActivatedAction.each((index, link)=>{
+        const $link = $(link);
+        const ajaxUrl = $link.data('href');
+        if(ajaxUrl !== '') {
+          $.ajax({
+            url: ajaxUrl,
+            method: 'GET'
+          }).done(function (success) {
+          }).fail(function (jqXHR, textStatus) {
+          });
+        }
+      });
     });
 
   });

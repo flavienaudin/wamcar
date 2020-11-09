@@ -231,6 +231,13 @@ legacy_vehicle_pro_detail:
     path: /vehicule/detail/{id}
     controller: AppBundle:Front\ProContext\Vehicle:legacyDetail
 
+front_vehicle_pro_seller_select:
+    path: /provehicule/{provehicle_slug}/seller-select/{seller_id}
+    controller: AppBundle:Front\ProContext\Vehicle:ajaxSellerSelect
+    requirements:
+      provehicle_slug: '.+'
+      seller_id: '.+'
+
 front_vehicle_pro_add:
     path: /vehicule/vendeur/ajouter/{garage_id}/{plateNumber}
     controller: AppBundle:Front\ProContext\Vehicle:save
