@@ -339,10 +339,6 @@ class UserEditionService
                         $deleteMembershipResult = $this->garageEditionService->removeMemberShip($garageMembership, $currentUser);
                         if ($deleteMembershipResult['memberRemovedErrorMessage'] != null) {
                             $resultMessages['errorMessages'][] = $deleteMembershipResult['memberRemovedErrorMessage'];
-                        } elseif (count($deleteMembershipResult['vehiclesNotReassignedErrorMessages']) > 0) {
-                            foreach ($deleteMembershipResult['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
-                                $resultMessages['errorMessages'][] = $errorMessage;
-                            }
                         } elseif (!empty($deleteMembershipResult['memberRemovedSuccessMessage'])) {
                             $resultMessages['successMessages'][$garageId] = $deleteMembershipResult['memberRemovedSuccessMessage'];
                         }

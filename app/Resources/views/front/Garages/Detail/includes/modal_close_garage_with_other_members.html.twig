@@ -1,0 +1,33 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-closes-garage-with-other-members' %}
+
+{% block title %}{{ 'user.garage.close_name'|trans({'%garage_name%': garage.name}) }}{% endblock %}
+
+{% block content %}
+    {{ 'user.profile.delete.pro.garage.require_new_administrator'|trans }}
+    <ul class="list-square">
+        {% for garageMember in garage.enabledMembers %}
+            <li>
+                {% if garageMember.role.value == constant('Wamcar\\Garage\\Enum\\GarageRole::GARAGE_ADMINISTRATOR') %}
+                    <b>{{ garageMember.proUser.fullName }} est gestionnaire : </b>
+                    <a href="{{ path('front_garage_toogle_member_role', {
+                        'garage_id': garage.id,
+                        'user_id': garageMember.proUser.id}) }}">{{ 'user.garage.toogle_role.to_simple_membre'|trans }}</a>
+
+                {% else %}
+                    {{ garageMember.proUser.fullName }} : <a
+                        href="{{ path('front_garage_designate_as_administrator', {
+                            'garage_id': garage.id,
+                            'user_id': garageMember.proUser.id}) }}">{{ 'user.garage.toogle_role.replace_administrator'|trans }}</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    {{ 'user.profile.delete.pro.garage.force_delete'|trans({
+        '%deleteGarageUrl%':path('front_garage_remove', {'id': garage.id}),
+        '%garageId%':garage.id
+    })|raw }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

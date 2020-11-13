@@ -1228,6 +1228,9 @@ user:
     seller_for: Vendeur pour
     add: Ajouter un garage
     join: Rejoindre un garage
+    quit: Quitter ce garage
+    close: Fermer ce garage
+    close_name: Fermer %garage_name%
     remove_member: Dissocier
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande

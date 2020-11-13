@@ -111,11 +111,11 @@ class GarageController extends BaseController
         /** @var Garage $garage */
         $garage = $this->garageRepository->findIgnoreSoftDeletedOneBy(['slug' => $slug]);
         if ($garage === null || $garage->getDeletedAt() != null) {
-            if($garage!=null) {
+            if ($garage != null) {
                 $url = $this->generateUrl('front_directory_by_city_view', [
                     'city' => $garage->getCity()->getPostalCode() . "-" . urlencode($garage->getCity()->getName())
                 ]);
-            }else{
+            } else {
                 $url = $this->generateUrl('front_directory_view');
             }
             $response = $this->render('front/Exception/error410.html.twig', [
@@ -131,7 +131,7 @@ class GarageController extends BaseController
         /** @var GarageProUser $currentUserGarageMemberShip */
         $currentUserGarageMemberShip = $currentUser instanceof CanBeGarageMember ? $currentUser->getMembershipByGarage($garage) : null;
 
-        if($garage->getPublishableMembers()->count() == 0 && $currentUserGarageMemberShip == null){
+        if ($garage->getPublishableMembers()->count() == 0 && $currentUserGarageMemberShip == null) {
             $response = $this->render('front/Exception/error_message.html.twig', [
                 'titleKey' => 'error_page.garage.unpublished.title',
                 'messageKey' => 'error_page.garage.unpublished.body',
@@ -363,8 +363,10 @@ class GarageController extends BaseController
 
             if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
                 return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
+            } elseif ($this->getUser() instanceof ProUser) {
+                return $this->redirectToRoute('front_view_current_user_info');
             } else {
-                return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+                return $this->redirectToRoute('front_directory_view');
             }
         }
 
@@ -389,11 +391,13 @@ class GarageController extends BaseController
             );
             return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
         }
-        if ($request->headers->has(self::REQUEST_HEADER_REFERER)) {
+        if ($request->headers->has(self::REQUEST_HEADER_REFERER) &&
+            $this->generateUrl('front_garage_view', ['slug' => $garage->getSlug()]) != $request->headers->get(self::REQUEST_HEADER_REFERER)) {
             return $this->redirect($request->headers->get(self::REQUEST_HEADER_REFERER));
-        } else {
-            return $this->redirectToRoute('front_garage_view', ['slug' => $garage->getSlug()]);
+        } elseif ($this->getUser() instanceof ProUser) {
+            return $this->redirectToRoute('front_view_current_user_info');
         }
+        return $this->redirectToRoute('front_directory_view');
     }
 
     /**
@@ -486,13 +490,6 @@ class GarageController extends BaseController
             $result = $this->garageEditionService->removeMemberShip($garageMemberShip, $this->getUser());
             if ($result['memberRemovedErrorMessage'] != null) {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $result['memberRemovedErrorMessage']);
-            } elseif (count($result['vehiclesNotReassignedErrorMessages']) > 0) {
-                foreach ($result['vehiclesNotReassignedErrorMessages'] as $errorMessage) {
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, $errorMessage);
-                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,
-                        'flash.error.garage.unable_to_detach_seller.due_to_attached_vehicle'
-                    );
-                }
             } else {
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, $result['memberRemovedSuccessMessage']);
             }

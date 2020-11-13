@@ -284,7 +284,6 @@ class GarageEditionService
 
     /**
      * Warnings :
-     *  - All $proApplicationser's pro vehicles have to be reassigned to an other garage member
      *  - No verification if $proApplicationser is the last member/admin of the garage
      * @param Garage $garage
      * @param ProApplicationUser $proApplicationUser
@@ -315,7 +314,7 @@ class GarageEditionService
     }
 
     /**
-     * Remove a GarageProUser, and if necessaery re-assign vehicles
+     * Remove a GarageProUser
      * @param GarageProUser $garageMemberShip
      * @param ApplicationUser $currentUser
      * @return array
@@ -324,13 +323,13 @@ class GarageEditionService
     {
         $result = [
             'memberRemovedErrorMessage' => null,
-            'vehiclesNotReassignedErrorMessages' => [],
             'memberRemovedSuccessMessage' => null
         ];
         try {
             if ($garageMemberShip->getRequestedAt() == null) {
                 // Unassign garage member
-                if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMemberShip->getRole())) {
+                if (GarageRole::GARAGE_ADMINISTRATOR()->equals($garageMemberShip->getRole()) && count($garageMemberShip->getGarage()->getAdministrators()) <= 1) {
+                    // Unique administrator
                     $result['memberRemovedErrorMessage'] = 'flash.error.garage.remove_administrator';
                 } else {
                     $this->removeMember($garageMemberShip->getGarage(), $garageMemberShip->getProUser(), false);
