@@ -22,8 +22,8 @@
 
         <div class="peexeo-vehicle-item-info column">
             <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
-                <{{ balise }} class="peexeo-vehicle-name {{ vehicle.suggestedSellers(false,null)|length == 0 ? "icon-warning2" }}"
-                    {% if vehicle.suggestedSellers(false,null)|length == 0 %}title="Pas de vendeur"{% endif %}>
+                <{{ balise }} class="peexeo-vehicle-name {{ vehicle.isPro and vehicle.suggestedSellers(false,null)|length == 0 ? "icon-warning2" }}"
+                    {% if vehicle.isPro and vehicle.suggestedSellers(false,null)|length == 0 %}title="Pas de vendeur"{% endif %}>
                     {{ vehicle.make|vehicleMakeFormat('make') }} {{ vehicle.modelName|vehicleModelFormat('model') }}
                 </{{ balise }}>
             </a>
