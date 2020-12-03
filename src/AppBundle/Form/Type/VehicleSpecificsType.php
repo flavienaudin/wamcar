@@ -4,7 +4,6 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Form\DataTransformer\EnumDataTransformer;
 use AppBundle\Form\DataTransformer\VehicleStatutDataTransformer;
-use AppBundle\Form\DataTransformer\YesNoDataTransformer;
 use AppBundle\Form\DTO\VehicleSpecificsDTO;
 use AppBundle\Form\Type\SpecificField\AmountType;
 use AppBundle\Form\Type\SpecificField\StarType;
@@ -12,9 +11,7 @@ use AppBundle\Form\Type\SpecificField\VehicleStatutType;
 use AppBundle\Form\Type\SpecificField\YesNoType;
 use AppBundle\Form\Type\Traits\AutocompleteableCityTrait;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\{
-    ChoiceType, DateType, TextareaType
-};
+use Symfony\Component\Form\Extension\Core\Type\{ChoiceType, DateType, TextareaType};
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Wamcar\Vehicle\Enum\MaintenanceState;
@@ -37,8 +34,10 @@ class VehicleSpecificsType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 'attr' => [
                     'data-view' => 'years',
-                    'data-date-format' => 'dd-mm-yyyy'
-                ]
+                    'data-date-format' => 'dd-mm-yyyy',
+                    'pattern' => '^\d{2}-\d{2}-\d{4}$'
+                ],
+
             ])
             ->add('isUsed', VehicleStatutType::class, [
                 'required' => true,
@@ -61,7 +60,8 @@ class VehicleSpecificsType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 'attr' => [
                     'data-view' => 'years',
-                    'data-date-format' => 'dd-mm-yyyy'
+                    'data-date-format' => 'dd-mm-yyyy',
+                    'pattern' => '^\d{2}-\d{2}-\d{4}$'
                 ]
             ])
             ->add('safetyTestState', ChoiceType::class, [

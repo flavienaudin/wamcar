@@ -9,6 +9,7 @@ const $datepicker = $('.js-datepicker');
 
 if ($datepicker) {
   $datepicker.datepicker({
-    language: 'fr'
+    'language': 'fr',
+    'autoclose': true
   });
 }

@@ -747,7 +747,7 @@ vehicle:
       required_message: Veuillez préciser si le véhicule est neuf ou d'occasion
     registrationDate:
       label: Date de 1ère mise en circulation
-      required_message: Veuillez indiquer la date de 1ère mise en circulation
+      required_message: Veuillez indiquer la date de 1ère mise en circulation (JJ-MM-AAAA)
     mileage:
       label: Kilométrage
       required_message: Veuillez indiquer le kilométrage de votre véhicule
