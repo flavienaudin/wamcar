@@ -97,7 +97,8 @@
                 {% include 'front/Vehicle/Detail/includes/seller_personal_item.html.twig' with {
                     'itemClass' : 'block-light-shadow',
                     'seller' : vehicle.seller,
-                    'compact' : true
+                    'compact' : true,
+                    'wholeClickable': false
                 } %}
 
                 {% if isEditableByCurrentUser %}

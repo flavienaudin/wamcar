@@ -35,7 +35,8 @@
                             {% for proUser in proProfils %}
                                 {{ include('front/Directory/includes/advisor_item.html.twig', {
                                     'itemClass' : "orbit-slide "~(loop.index0 == 0 ? "is-active"),
-                                    'seller' : proUser
+                                    'seller' : proUser,
+                                    'wholeClickable' : true
                                 }) }}
                             {% endfor %}
                         </div>

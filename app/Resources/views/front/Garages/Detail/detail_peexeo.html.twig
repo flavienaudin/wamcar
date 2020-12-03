@@ -284,7 +284,8 @@
                                 {{ include('front/Garages/Detail/includes/seller_item.html.twig', {
                                     "itemClass" : "width-100 height-100 block-light-shadow",
                                     "membership" : membership,
-                                    "garage": garage
+                                    "garage": garage,
+                                    "wholeClickable" : not (isAdministrableByCurrentUser or membership.proUser.is(app.user))
                                 }) }}
                             </div>
                         {% endif %}
