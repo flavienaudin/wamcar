@@ -22,6 +22,8 @@ use Wamcar\User\PersonalUser;
 use Wamcar\User\ProUser;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\User\UserRepository;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class LeadManagementService
 {
@@ -183,7 +185,7 @@ class LeadManagementService
                     $lead->getProUser()->getFullName() . ' (' . $lead->getProUser()->getId() . ')</a>';
             } else {
                 // TODO récupérer les pros soft deleted ! Vérifier si pro supprimé définitivement si leads aussi ?
-                $proUserInfos = '<span class="text-line-through">Utilisateur supprimé'/* . $lead->getProUser()->getFullName() . '(' . $lead->getProUser()->getId() . */. ')</span>';
+                $proUserInfos = '<span class="text-line-through">Utilisateur supprimé'/* . $lead->getProUser()->getFullName() . '(' . $lead->getProUser()->getId() . */ . ')</span>';
             }
             $leadInfos = $lead->getUserLead() != null ?
                 '<a href="' . $this->router->generate($lead->getUserLead()->isPro() ? 'front_view_pro_user_info' : 'front_view_personal_user_info', [
@@ -216,7 +218,7 @@ class LeadManagementService
             }
 
             $affinityDegrees = null;
-            if($lead->getProUser() != null) {
+            if ($lead->getProUser() != null) {
                 $affinityDegrees = $lead->getProUser()->getAffinityDegreesWith($lead->getUserLead());
             }
 
@@ -345,53 +347,68 @@ class LeadManagementService
                 $io->progressAdvance();
             }
             $liker = $likeVehicle->getUser();
-            $seller = $likeVehicle->getVehicle()->getSeller();
+            $likedVehicle = $likeVehicle->getVehicle();
+            $sellers = [];
+            if ($likedVehicle instanceof ProVehicle) {
+                $sellers = $likedVehicle->getSuggestedSellers(false, $liker);
+                $sellers = array_map(function ($suggestedSeller) {
+                    return $suggestedSeller['seller'];
+                }, $sellers);
+            } elseif ($likedVehicle instanceof PersonalVehicle) {
+                $sellers = [$likedVehicle->getOwner()];
+            }
             if ($liker instanceof ProUser) {
-                if (isset($leads[$liker->getId()]) && isset($leads[$liker->getId()][$seller->getId()])) {
-                    $lead = $leads[$liker->getId()][$seller->getId()];
-                } else {
-                    $lead = $this->getLead($liker, $liker, $seller, false);
-                    if ($lead != null) {
-                        if (!isset($leads[$liker->getId()])) {
-                            $leads[$liker->getId()] = [];
+                foreach ($sellers as $seller) {
+                    if (!$liker->is($seller)) {
+                        if (isset($leads[$liker->getId()]) && isset($leads[$liker->getId()][$seller->getId()])) {
+                            $lead = $leads[$liker->getId()][$seller->getId()];
+                        } else {
+                            $lead = $this->getLead($liker, $liker, $seller, false);
+                            if ($lead != null) {
+                                if (!isset($leads[$liker->getId()])) {
+                                    $leads[$liker->getId()] = [];
+                                }
+                                $leads[$liker->getId()][$seller->getId()] = $lead;
+                            }
                         }
-                        $leads[$liker->getId()][$seller->getId()] = $lead;
-                    }
-                }
-                if ($lead != null) {
-                    $lead->increaseNbProLikes();
-                    // update createdAt/updateAt when generating lead from old data
-                    if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
-                        $lead->setCreatedAt($likeVehicle->getUpdatedAt());
-                    }
-                    if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
-                        ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
-                        $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                        if ($lead != null) {
+                            $lead->increaseNbProLikes();
+                            // update createdAt/updateAt when generating lead from old data
+                            if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
+                                $lead->setCreatedAt($likeVehicle->getUpdatedAt());
+                            }
+                            if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
+                                ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
+                                $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                            }
+                        }
                     }
                 }
             }
-            if ($seller instanceof ProUser) {
-                if (isset($leads[$seller->getId()]) && isset($leads[$seller->getId()][$liker->getId()])) {
-                    $lead = $leads[$seller->getId()][$liker->getId()];
-                } else {
-                    $lead = $this->getLead($seller, $liker, $liker, false);
-                    if ($lead != null) {
-                        if (!isset($leads[$seller->getId()])) {
-                            $leads[$seller->getId()] = [];
+            foreach ($sellers as $seller) {
+                if ($seller instanceof ProUser && !$seller->is($liker)) {
+                    if (isset($leads[$seller->getId()]) && isset($leads[$seller->getId()][$liker->getId()])) {
+                        $lead = $leads[$seller->getId()][$liker->getId()];
+                    } else {
+                        $lead = $this->getLead($seller, $liker, $liker, false);
+                        if ($lead != null) {
+                            if (!isset($leads[$seller->getId()])) {
+                                $leads[$seller->getId()] = [];
+                            }
+                            $leads[$seller->getId()][$liker->getId()] = $lead;
                         }
-                        $leads[$seller->getId()][$liker->getId()] = $lead;
                     }
-                }
-                if ($lead != null) {
-                    $lead->increaseNbLeadLikes();
+                    if ($lead != null) {
+                        $lead->increaseNbLeadLikes();
 
-                    // update createdAt/lastContactedAt when generating lead from old data
-                    if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
-                        $lead->setCreatedAt($likeVehicle->getUpdatedAt());
-                    }
-                    if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
-                        ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
-                        $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                        // update createdAt/lastContactedAt when generating lead from old data
+                        if ($lead->getCreatedAt() == null || $lead->getCreatedAt() > $likeVehicle->getUpdatedAt()) {
+                            $lead->setCreatedAt($likeVehicle->getUpdatedAt());
+                        }
+                        if ($lead->getLastContactedAt() == null || $lead->getLastContactedAt() < $likeVehicle->getUpdatedAt() ||
+                            ($lead->getNbPhoneProActionByPro() + $lead->getNbPhoneProActionByLead() + $lead->getNbPhoneActionByPro() + $lead->getNbPhoneActionByLead() == 0)) {
+                            $lead->setLastContactedAt($likeVehicle->getUpdatedAt());
+                        }
                     }
                 }
             }

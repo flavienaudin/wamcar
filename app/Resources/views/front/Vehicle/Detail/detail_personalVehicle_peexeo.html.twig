@@ -44,7 +44,7 @@
 
 {% block body %}
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
-    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
+    {% set vehicleSellerName = vehicle.ownerName(not isAbleToSeeFullInformation) %}
 
     {% set breadcrumbs = [
         {

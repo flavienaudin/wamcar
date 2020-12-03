@@ -5,10 +5,10 @@ namespace AppBundle\MailWorkflow;
 
 
 use AppBundle\MailWorkflow\Model\EmailRecipientList;
-use Wamcar\Vehicle\BaseVehicle;
 use Wamcar\Vehicle\Event\PersonalVehicleRemoved;
 use Wamcar\Vehicle\Event\VehicleEvent;
 use Wamcar\Vehicle\Event\VehicleEventHandler;
+use Wamcar\Vehicle\PersonalVehicle;
 
 class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements VehicleEventHandler
 {
@@ -18,28 +18,26 @@ class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements V
     public function notify(VehicleEvent $event)
     {
         $this->checkEventClass($event, PersonalVehicleRemoved::class);
-
-        /** @var BaseVehicle $user */
+        /** @var PersonalVehicle $vehicle */
         $vehicle = $event->getVehicle();
-        $vehicleOwner = $vehicle->getSeller();
-        $trackingKeywords = ($vehicleOwner->isPro() ? 'advisor' : 'customer') . $vehicleOwner->getId();
+        $this->checkEventClass($event, PersonalVehicle::class);
 
         $commonUTM = [
             'utm_source' => 'notifications',
             'utm_medium' => 'email',
             'utm_campaign' => 'classifiedads_deleted',
-            'utm_term' => $trackingKeywords
+            'utm_term' => 'customer' . $vehicle->getOwner()->getId()
         ];
         $this->send(
             $this->translator->trans('notifyOwnerOfVehicleRemoved.object', [], 'email'),
             'Mail/notifyOwnerOfVehicleRemoved.html.twig',
             [
                 'common_utm' => $commonUTM,
-                'username' => $vehicle->getSellerName(true),
+                'username' => $vehicle->getOwnerName(true),
                 'name' => $vehicle->getName(),
                 'annee' => $vehicle->getYears()
             ],
-            new EmailRecipientList([$this->createUserEmailContact($vehicle->getSeller())])
+            new EmailRecipientList([$this->createUserEmailContact($vehicle->getOwner())])
         );
     }
 }

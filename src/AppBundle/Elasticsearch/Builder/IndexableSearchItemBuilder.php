@@ -53,7 +53,7 @@ class IndexableSearchItemBuilder
                     count($personalVehicule->getPositiveLikes()),
                     null,
                     null,
-                    $personalVehicule->getSeller() != null
+                    $personalVehicule->getOwner() != null
                 );
 
                 if ($personalUser->getProject() != null && !$personalUser->getProject()->isEmpty()) {

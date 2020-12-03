@@ -450,7 +450,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
 
     /**
      * Retourne un tableau contenant les vendeurs potentiel du véhicule classé par pertinence vis à vis des membres du
-     * garage et du visisteur si renseigné
+     * garage et du visiteur si renseigné
      *
      * @param ProVehicle $proVehicle
      * @param bool $onlyMaxScore

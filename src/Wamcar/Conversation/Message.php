@@ -269,7 +269,7 @@ class Message
             }
 
         }elseif($vehicle instanceof PersonalVehicle){
-            return $vehicle->getSeller();
+            return $vehicle->getOwner();
         }
         return null;
     }

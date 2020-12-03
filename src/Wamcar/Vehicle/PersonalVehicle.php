@@ -25,21 +25,12 @@ class PersonalVehicle extends BaseVehicle
     }
 
     /**
-     * @return PersonalUser
-     */
-    public function getSeller(): PersonalUser
-    {
-        return $this->getOwner();
-    }
-
-
-    /**
      * @param bool $restrictedName
      * @return string|null
      */
-    public function getSellerName(bool $restrictedName = false): ?string
+    public function getOwnerName(bool $restrictedName = false): ?string
     {
-        $seller = $this->getSeller();
+        $seller = $this->getOwner();
         if ($restrictedName) {
             return $seller->getFirstName();
         } else {
@@ -52,7 +43,7 @@ class PersonalVehicle extends BaseVehicle
      */
     public function getSellerAvatar(): ?UserPicture
     {
-        return $this->getSeller()->getAvatar();
+        return $this->getOwner()->getAvatar();
     }
 
     /**
