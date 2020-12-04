@@ -52,14 +52,20 @@ class EntityIndexer
     /**
      * Index (Add/Update) or Delete the given Indexable
      * @param Indexable $indexable
-     * @return Response
+     * @return array : [indexed => boolean, response => Response
      */
     public function updateIndexable(Indexable $indexable)
     {
         if ($indexable->shouldBeIndexed()) {
-            return $this->indexAllDocuments([$indexable], false);
+            return [
+                'indexed'=> true,
+                'response' => $this->indexAllDocuments([$indexable], false)
+            ];
         } else {
-            return $this->deleteByIds([$indexable->getId()]);
+            return [
+                'indexed'=> false,
+                'response' => $this->deleteByIds([$indexable->getId()])
+            ];
         }
     }
 

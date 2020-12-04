@@ -51,7 +51,9 @@ class IndexableSearchItemBuilder
                     $personalVehicule->getCreatedAt(),
                     $personalVehicule->getNbPictures(),
                     count($personalVehicule->getPositiveLikes()),
-                    null, null
+                    null,
+                    null,
+                    $personalVehicule->getOwner() != null
                 );
 
                 if ($personalUser->getProject() != null && !$personalUser->getProject()->isEmpty()) {
@@ -82,7 +84,7 @@ class IndexableSearchItemBuilder
      */
     public function createSearchItemFromProVehicle(ProVehicle $proVehicle): IndexableSearchItem
     {
-        $indexableSearchItem = new IndexableSearchItem($proVehicle->getId(), $proVehicle->getSeller()->getId());
+        $indexableSearchItem = new IndexableSearchItem($proVehicle->getId(), null);
         $indexableSearchItem->setVehicle(ProVehicle::TYPE,
             $proVehicle->getDeletedAt(),
             $proVehicle->getLatitude(), $proVehicle->getLongitude(),
@@ -98,7 +100,8 @@ class IndexableSearchItemBuilder
             $proVehicle->getNbPictures(),
             count($proVehicle->getPositiveLikes()),
             $proVehicle->getGarage()->getId(),
-            $proVehicle->getGarage()->getGoogleRating()
+            $proVehicle->getGarage()->getGoogleRating(),
+            count($proVehicle->getSuggestedSellers(false)) > 0
         );
         return $indexableSearchItem;
     }

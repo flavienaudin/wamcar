@@ -21,11 +21,11 @@
         </div>
     {% elseif vehicle is not null %}
         {% if vehicle.isPro %}
-            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>' %}
+            {% set label = '<strong class="secondary-color">'~ "conversation.vehicle_presented_by"|trans({'%ownerName%':message.user.fullName}) ~'</strong>' %}
         {% else %}
             {% set label = vehicle.seller.id == app.user.id ?
                 '<strong class="secondary-color">'~ "conversation.vehicle_to_sell"|trans ~'</strong>' :
-                '<strong class="secondary-color">'~ "conversation.personal_vehicle_of"|trans({'%ownerName%':vehicle.sellerName}) ~'</strong>'
+                '<strong class="secondary-color">'~ "conversation.personal_vehicle_of"|trans({'%ownerName%':vehicle.ownerName}) ~'</strong>'
             %}
             {% if isNew is defined and isNew == true %}
                 {% set label = label ~ '<div>'~"conversation.auto_added"|trans~'</div>' %}

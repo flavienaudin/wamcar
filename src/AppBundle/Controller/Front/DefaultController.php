@@ -268,6 +268,9 @@ class DefaultController extends BaseController
     public function landingPeexeoAction(Request $request): Response
     {
         $proProfils = $this->proUserRepository->findProUsersForHomepage();
+         $proProfils = array_filter($proProfils, function(ProUser $proUser){
+            return $proUser->isPublishable();
+        });
 
         return $this->render(
             '/front/Home/landing_peexeo.html.twig',

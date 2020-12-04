@@ -44,6 +44,19 @@
             {% endif %}
             {# END Registration Blue Block #}
 
+            {# ProUser published Block #}
+            {% if profileFillingData != null and profileFillingData.missing_items|length > 0 %}
+                <div class="profile-section block-light-shadow">
+                    {{ 'user.profile.publish.missing_items'|trans }} ({{ (profileFillingData.required_nb-profileFillingData.missing_items|length) ~ '/' ~ profileFillingData.required_nb }})
+                    <ul>
+                        {% for missingItem in profileFillingData.missing_items %}
+                            <li>{{ missingItem |trans }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            {# END ProUser published Block #}
+
             {# User Description Block #}
             {{ include('front/User/includes/user_description_profile_block.html.twig', {
                 'userTitle': user.presentationTitle
@@ -342,8 +355,8 @@
             {% endif %}
             {# END Add Videos Inserts Block #}
 
-            {# User Vehicles Block #}
-            {% if vehicles.totalHits > 0 %}
+            {# User Vehicles Block : Désactivé car plus d'affectations de véhicule aux vendeurs #}
+            {#{% if vehicles.totalHits > 0 %}
                 <div class="profile-seller-vehicles" id="vehicles">
                     <h2>{{ 'user.vehicles.title'|trans }}</h2>
                     {% include 'front/Garages/Detail/includes/tabs_vehicles.html.twig' with {
@@ -351,9 +364,9 @@
                         'pagination_route_params': {'slug':user.slug,'_fragment':'vehicles'},
                         'displayNbOfResult' : false,
                         'columnsSizes' : 'small-up-2 medium-up-3'
-                    } %}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}
+                    } %}#}{# isEditableByCurrentUser is false to hide link "Add a vehicle" because no garage is selected in case of multi-garage #}{#
                 </div>
-            {% endif %}
+            {% endif %}#}
             {# END User Vehicles Block #}
 
             {# Account Block #}
@@ -433,9 +446,11 @@
         {{ include('front/Seller/includes/prouser_contact_form.html.twig', {
             'titleClass':'h2 text-center large-text-left',
             'formClass':'form-compact',
+            'isHidden': false,
             'responsiveDomDestination':'.js-profile-right-column',
             'responsiveDomAppendTo':false,
             'responsiveDomBreakpoint': 'large',
+            'captchaOnSubmit': 'captchaOnSubmit',
             'captchaAction':'prouser_contact_form'
         }) }}
     {% endif %}

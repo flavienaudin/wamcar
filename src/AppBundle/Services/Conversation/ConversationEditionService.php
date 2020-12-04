@@ -50,13 +50,21 @@ class ConversationEditionService
 
     /**
      * @param MessageDTO $messageDTO
-     * @param null|ApplicationConversation $conversation
+     * @param ApplicationConversation|null $conversation
      * @return Conversation
+     * @throws \Exception
      */
     public function saveConversation(MessageDTO $messageDTO, ?ApplicationConversation $conversation = null): Conversation
     {
         $conversation = ConversationFromDTOBuilder::buildFromDTO($messageDTO, $conversation);
-        $message = new Message($conversation, $messageDTO->user, $messageDTO->content, $messageDTO->vehicleHeader, $messageDTO->vehicle, $messageDTO->isFleet, $messageDTO->attachments);
+        $message = new Message(
+            $conversation, $messageDTO->user,
+            $messageDTO->content,
+            $messageDTO->vehicleHeader,
+            $messageDTO->vehicle,
+            $messageDTO->isFleet,
+            $messageDTO->attachments
+        );
         $this->treatsMessageLinkPreviews($message);
 
         $conversation->addMessage($message);

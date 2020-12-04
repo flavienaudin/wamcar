@@ -217,7 +217,7 @@ class UserController extends BaseController
 
         /** @var BaseUser $user */
         $user = $this->getUser();
-        if($user instanceof ProUser){
+        if ($user instanceof ProUser) {
             // Edition d'un profil pro se fait directement depuis la consultation de son propre profil
             return $this->redirectToRoute('front_view_current_user_info');
         }
@@ -345,16 +345,28 @@ class UserController extends BaseController
             $response->setStatusCode(Response::HTTP_GONE);
             return $response;
         }
+
         /** @var BaseUser|ApplicationUser $currentUser */
         $currentUser = $this->getUser();
         $userIsCurrentUser = $user->is($currentUser);
+
+        if (!$user->isPublishable() && !$userIsCurrentUser) {
+            $response = $this->render('front/Exception/error_message.html.twig', [
+                'titleKey' => 'error_page.pro_user.unpublished.title',
+                'messageKey' => 'error_page.pro_user.unpublished.body',
+                'messageParams' => ['%firstname%' => $user->getFirstName()],
+                'redirectionUrl' => $this->generateUrl('front_directory_view')
+            ]);
+            $response->setStatusCode(Response::HTTP_OK);
+            return $response;
+        }
 
         if (!$user->canSeeMyProfile($currentUser)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.warning.user.unauthorized.to_access_profile');
             throw new AccessDeniedException();
         }
 
-
+        /*
         $searchForm = null;
         if (count($user->getVehicles()) > self::NB_VEHICLES_PER_PAGE) {
             $searchVehicleDTO = new SearchVehicleDTO();
@@ -381,10 +393,12 @@ class UserController extends BaseController
                 'hits' => $userVehicles
             ];
         }
+        */
 
         /* ====================================== *
          * Formumlaires d'édition de la page profil
          * ====================================== */
+        $profileFillingData = null;
         $avatarForm = null;
         $userBannerForm = null;
         $addGarageForm = null;
@@ -398,6 +412,9 @@ class UserController extends BaseController
         /** @var FormView[] $editVideosInsertForm */
         $editVideosInsertFormViews = [];
         if ($this->isGranted(ProUserVoter::EDIT, $user)) {
+            // Filling Profile Data
+            $profileFillingData = $user->getProfileFillingData();
+
             // Avatar Form
             $avatarForm = $this->createAvatarForm();
             $avatarForm->handleRequest($request);
@@ -410,14 +427,14 @@ class UserController extends BaseController
             // User Banner Form
             $userBannerForm = $this->formFactory->create(UserBannerType::class, new ProUserInformationDTO($user));
             $userBannerForm->handleRequest($request);
-            if($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()){
+            if ($userBannerForm && $userBannerForm->isSubmitted() && $userBannerForm->isValid()) {
                 $this->userEditionService->editUserBanner($user, $userBannerForm->getData());
                 $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.banner');
                 return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
             }
 
             // Form to add garage only if current user is the user of profile
-            if($userIsCurrentUser) {
+            if ($userIsCurrentUser) {
                 $addGarageForm = $this->formFactory->create(GarageType::class, new GarageDTO(), [
                     'only_google_fields' => true,
                     'action' => $this->generateRoute('front_garage_create')]);
@@ -426,12 +443,12 @@ class UserController extends BaseController
             // User Contact Details Form
             $contactDetailsForm = $this->formFactory->create(ProUserContactDetailsType::class, new ProUserInformationDTO($user));
             $contactDetailsForm->handleRequest($request);
-            if($contactDetailsForm->isSubmitted()){
-                if($contactDetailsForm->isValid()){
+            if ($contactDetailsForm->isSubmitted()) {
+                if ($contactDetailsForm->isValid()) {
                     $this->userEditionService->editContactDetails($user, $contactDetailsForm->getData());
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.profile');
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
-                }else{
+                } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.contact_details');
                 }
 
@@ -454,12 +471,12 @@ class UserController extends BaseController
             // Encart Gestion de mon compte : Edition du mot de passe
             $passwordForm = $this->formFactory->create(UserPasswordType::class, new UserPasswordDTO());
             $passwordForm->handleRequest($request);
-            if($passwordForm->isSubmitted()){
-                if ($passwordForm->isValid()){
+            if ($passwordForm->isSubmitted()) {
+                if ($passwordForm->isValid()) {
                     $this->userEditionService->editUserPassword($user, $passwordForm->getData());
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO, 'flash.success.user.edit.password');
                     return $this->redirectToRoute('front_view_pro_user_info', ['slug' => $user->getSlug()]);
-                }else{
+                } else {
                     $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.user.edit.password');
 
                 }
@@ -558,12 +575,12 @@ class UserController extends BaseController
                 if ($contactForm->isSubmitted() && $contactForm->isValid()) {
                     // Check ReCaptcha validation
                     $captchaVerificationReturn = $this->captchaService->verify(['token' => $request->get($this->captchaService->getClientSidePostParameters())]);
-                    if(!$captchaVerificationReturn['success']){
+                    if (!$captchaVerificationReturn['success']) {
                         $this->session->getFlashBag()->add(
                             self::FLASH_LEVEL_WARNING,
                             'flash.error.captcha_validation'
                         );
-                    }else {
+                    } else {
                         $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
                         $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
                         $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
@@ -593,6 +610,7 @@ class UserController extends BaseController
         }
 
         return $this->render('front/Seller/card.html.twig', [
+            'profileFillingData' => $profileFillingData,
             'avatarForm' => $avatarForm ? $avatarForm->createView() : null,
             'userBannerForm' => $userBannerForm ? $userBannerForm->createView() : null,
             'contactDetailsForm' => $contactDetailsForm ? $contactDetailsForm->createView() : null,
@@ -606,12 +624,15 @@ class UserController extends BaseController
             'contactForm' => $contactForm ? $contactForm->createView() : null,
             'userIsMe' => $userIsCurrentUser,
             'user' => $user,
+            /*
             'searchForm' => $searchForm ? $searchForm->createView() : null,
             'vehicles' => $vehicles,
             'page' => $page ?? null,
-            'lastPage' => $lastPage ?? null,
+            'lastPage' => $lastPage ?? null
+            */
         ]);
     }
+
 
     /**
      * @param VideosInsert $videosInsert

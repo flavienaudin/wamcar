@@ -8,13 +8,6 @@
 
     {% block header_center %}
         {% include "front/Layout/includes/navigation/sellers_search.html.twig" %}
-        {# TODO a supprimer : Nouvelle barre de recherche de conseiller
-        {% if isLogged %}
-            {% include "front/Layout/includes/navigation/primary.html.twig" %}
-        {% else %}
-            {% include "front/Layout/includes/navigation/primary_unlogged.html.twig" %}
-        {% endif %}
-        #}
     {% endblock %}
 
     <div class="l-header-right block-grid column small-collapse small-right shrink xlarge-uncollapse {{ is_register_page ? 'is-hidden' : '' }}">

@@ -36,6 +36,7 @@ class ImportSearchItemCommand extends BaseCommand
         $searchItemEntityIndexer = $this->getContainer()->get('search_item.indexer');
 
         // Personal Users
+        $io->text('[START] Personal User indexed as Search Item');
         $personalUserRepository = $this->getContainer()->get('AppBundle\Doctrine\Repository\DoctrinePersonalUserRepository');
         $indexableSearchItemBuilder = $this->getContainer()->get('AppBundle\Elasticsearch\Builder\IndexableSearchItemBuilder');
         $personalUsers = $personalUserRepository->findAll();
@@ -53,15 +54,15 @@ class ImportSearchItemCommand extends BaseCommand
         $io->progressFinish();
         $io->text('Indexing ' . count($personaUserSearchItemDocumentsToIndex) . ' search items about personal users');
         $searchItemEntityIndexer->indexAllDocuments($personaUserSearchItemDocumentsToIndex, true);
-        $io->text('Personal User indexed as Search Item');
 
         $io->text('Deleting ' . count($personaUserSearchItemIdsToDelete) . ' search items about personal users');
         if (count($personaUserSearchItemIdsToDelete) > 0) {
             $searchItemEntityIndexer->deleteByIds($personaUserSearchItemIdsToDelete);
         }
-        $io->text('Personal User indexed as Search Item');
+        $io->text('[END] Personal User indexed as Search Item');
 
         // Pro Vehicles
+        $io->text('[START] Pro Vehicles indexed as Search Item');
         $proVehicleRepository = $this->getContainer()->get('Wamcar\Vehicle\ProVehicleRepository');
         $proVehicles = $proVehicleRepository->findAll();
         $proVehicleDocuments = [];
@@ -78,7 +79,7 @@ class ImportSearchItemCommand extends BaseCommand
         $io->progressFinish();
         $io->text('Indexing ' . count($proVehicleDocuments) . ' search items about pro vehicles');
         $searchItemEntityIndexer->indexAllDocuments($proVehicleDocuments, true);
-        $io->text('Pro Vehicles indexed as Search Item');
+        $io->text('[END] Pro Vehicles indexed as Search Item');
         $io->success("Done at " . date(self::DATE_FORMAT));
     }
 

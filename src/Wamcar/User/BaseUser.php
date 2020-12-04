@@ -814,27 +814,6 @@ abstract class BaseUser implements HasApiCredential
     }
 
     /**
-     * @param BaseUser|null $user null if user not connected
-     * @return bool
-     */
-    abstract public function canSeeMyVehicles(BaseUser $user = null): bool;
-
-    /**
-     * @param null|int $limit
-     * @param null|BaseVehicle $excludedVehicle
-     * @return Collection
-     */
-    abstract public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection;
-
-    /**
-     * @return int Number of user's vehicles
-     */
-    public function countVehicles(): int
-    {
-        return count($this->getVehicles());
-    }
-
-    /**
      * @return int
      */
     public function getCreditPoints(): int

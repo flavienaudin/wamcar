@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Wamcar\Garage\Enum\GarageRole;
 use Wamcar\Location\City;
+use Wamcar\User\BaseUser;
 use Wamcar\User\ProUser;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -427,7 +428,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function getAvailableSellers(): Collection
     {
         /** @var ArrayCollection $enabledMembers */
-        $enabledMembers = $this->getEnabledMembers();
+        $enabledMembers = $this->getPublishableMembers();
         if ($this->optionAdminSellers === false) {
             return $enabledMembers->filter(function (GarageProUser $gpu) {
                 return !GarageRole::GARAGE_ADMINISTRATOR()->equals($gpu->getRole());
@@ -436,86 +437,108 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
         return $enabledMembers;
     }
 
+    /**
+     * @return Collection
+     */
+    public function getPublishableMembers(): Collection
+    {
+        return $this->getEnabledMembers()->filter(function (GarageProUser $gpu) {
+            return $gpu->getProUser()->isPublishable();
+        });
+    }
+
 
     /**
+     * Retourne un tableau contenant les vendeurs potentiel du véhicule classé par pertinence vis à vis des membres du
+     * garage et du visiteur si renseigné
+     *
      * @param ProVehicle $proVehicle
-     * @param ProUser|null $excludedProUser
+     * @param bool $onlyMaxScore
+     * @param BaseUser|null $userVisiting
      * @return array
      */
-    public function getBestSellersForVehicle(ProVehicle $proVehicle, ?ProUser $excludedProUser = null): array
+    public function getBestSellersForVehicle(ProVehicle $proVehicle, bool $onlyMaxScore = false, ?BaseUser $userVisiting = null): array
     {
         $bestSellers = [];
 
         /** @var GarageProUser $garageMemberShip */
         foreach ($this->getAvailableSellers() as $garageMemberShip) {
             $seller = $garageMemberShip->getProUser();
-            if ($excludedProUser == null || !$excludedProUser->is($seller)) {
 
-                // initialize seller score
-                $bestSellers[$seller->getId()] = [
-                    'seller' => $seller,
-                    'score' => 0
-                ];
-                if ($seller->getAffinityAnswer() != null) {
-                    $proAffinityAnswer = $seller->getAffinityAnswer()->getAffinityProAnswers();
+            // initialize seller score
+            $bestSellers[$seller->getId()] = [
+                'seller' => $seller,
+                'score' => 0
+            ];
 
-                    // Price affinity
-                    foreach ($proAffinityAnswer->getPricesAsArray() as $priceRange) {
-                        switch ($priceRange) {
-                            case "Moins de 5 000 €":
-                                if ($proVehicle->getPrice() < 5000) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                            case "5 000 € à 10 000 €":
-                                if (5000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 10000) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                            case "10 000 à 20 000 €":
-                                if (10000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 20000) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                            case "20 000 à 40 000 €":
-                                if (20000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 40000) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                            case "40 000 à 70 000 €":
-                                if (40000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 70000) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                            case "Plus de 70 000 €":
-                                if (70000 <= $proVehicle->getPrice()) {
-                                    $bestSellers[$seller->getId()]['score']++;
-                                }
-                                break;
-                        }
+            if($userVisiting != null && $userVisiting->hasExpert($seller)){
+                // User visiting has selected a member of the vehicle's garage as one of its experts
+                $bestSellers[$seller->getId()]['score'] = $bestSellers[$seller->getId()]['score'] + 100;
+            }
+
+            if ($seller->getAffinityAnswer() != null && ($proAffinityAnswer = $seller->getAffinityAnswer()->getAffinityProAnswers()) != null) {
+
+                // Price affinity
+                foreach ($proAffinityAnswer->getPricesAsArray() as $priceRange) {
+                    switch ($priceRange) {
+                        case "Moins de 5 000 €":
+                            if ($proVehicle->getPrice() < 5000) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
+                        case "5 000 € à 10 000 €":
+                            if (5000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 10000) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
+                        case "10 000 à 20 000 €":
+                            if (10000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 20000) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
+                        case "20 000 à 40 000 €":
+                            if (20000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 40000) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
+                        case "40 000 à 70 000 €":
+                            if (40000 <= $proVehicle->getPrice() && $proVehicle->getPrice() < 70000) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
+                        case "Plus de 70 000 €":
+                            if (70000 <= $proVehicle->getPrice()) {
+                                $bestSellers[$seller->getId()]['score']++;
+                            }
+                            break;
                     }
+                }
 
-                    // Brands affinities
-                    foreach ($proAffinityAnswer->getBrandsAsArray() as $brand) {
-                        if (strtolower($brand) === strtolower($proVehicle->getMake())) {
-                            $bestSellers[$seller->getId()]['score']++;
-                        }
+                // Brands affinities
+                foreach ($proAffinityAnswer->getBrandsAsArray() as $brand) {
+                    if (strtolower($brand) === strtolower($proVehicle->getMake())) {
+                        $bestSellers[$seller->getId()]['score']++;
                     }
                 }
             }
         }
+
         if (count($bestSellers) == 0) {
-            return null;
+            return [];
         }
 
         // Tri par score décroissant
         uasort($bestSellers, function ($entryA, $entryB) {
-            return $entryA['score'] - $entryB['score'];
+            return $entryB['score'] - $entryA['score'];
         });
-        $maxScore = array_first($bestSellers)['score'];
-        return array_filter($bestSellers, function ($entry) use ($maxScore) {
-            return $entry['score'] === $maxScore;
-        });
+        if($onlyMaxScore) {
+            $maxScore = array_first($bestSellers)['score'];
+            return array_filter($bestSellers, function ($entry) use ($maxScore) {
+                return $entry['score'] === $maxScore;
+            });
+        }else{
+            return $bestSellers;
+        }
     }
 
     /**
@@ -557,20 +580,26 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     }
 
     /**
-     * @param null|int $limit
-     * @param null|ProVehicle $excludedVehicle
+     * @param int|null $limit
+     * @param ProVehicle|null $excludedVehicle
      * @return Collection
      */
     public function getProVehicles(?int $limit = 0, ProVehicle $excludedVehicle = null): Collection
     {
-        $criteria = Criteria::create();
         if ($excludedVehicle != null) {
-            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
+            $filteredVehicles = $this->proVehicles->filter(function (ProVehicle $proVehicle) use ($excludedVehicle) {
+                return $proVehicle->getId() != $excludedVehicle->getId();
+            });
+        }else{
+            $filteredVehicles = $this->proVehicles;
         }
         if ($limit > 0) {
+            $criteria = Criteria::create();
             $criteria->setMaxResults($limit);
+            return $filteredVehicles->matching($criteria);
+        } else {
+            return $filteredVehicles;
         }
-        return $this->proVehicles->matching($criteria);
     }
 
     /**
@@ -579,7 +608,7 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
      */
     public function addProVehicle(ProVehicle $proVehicle): Garage
     {
-        $this->getProVehicles()->add($proVehicle);
+        $this->proVehicles->add($proVehicle);
 
         return $this;
     }
@@ -602,12 +631,11 @@ class Garage implements \Serializable, UserInterface, HasApiCredential
     public function hasVehicle(ProVehicle $proVehicle): bool
     {
         /** @var ProVehicle $existProVehicle */
-        foreach ($this->getProVehicles() as $existProVehicle) {
+        foreach ($this->proVehicles as $existProVehicle) {
             if ($existProVehicle->getId() === $proVehicle->getId()) {
                 return true;
             }
         }
-
         return false;
     }
 

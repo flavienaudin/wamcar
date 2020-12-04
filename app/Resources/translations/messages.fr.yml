@@ -15,6 +15,7 @@ flash:
         soft: L'utilisateur a bien été supprimé.
         hard: L'utilisateur a bien été supprimé DEFINITIVEMENT.
         videos_insert: L'encart vidéo a bien été supprimé.
+      published: Félicitations! Votre profil est maintenant publié dans notre annuaire.
     user_preferences:
       edit: Vos préférences ont été enregistrées.
     expert:
@@ -78,6 +79,8 @@ flash:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
   error:
+    pro_contact_message:
+      invalid-form: Le formulaire de contact de %proUserName% est incomplet. Merci de renseigner les champs obligatoires.
     captcha_validation: Votre qualité d'humain n'a pu être validée. Merci de valider le captcha.
     bad_credentials: Votre email et/ou votre mot de passe sont incorrects. Merci de les saisir à nouveau.
     user_no_exist: Aucun utilisateur utilisant cet email n'est enregistré sur Wamcar. Merci de vérifier votre email.
@@ -89,6 +92,7 @@ flash:
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
     select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
     pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
+    add_vehicle_need_published: Votre profil doit être publié pour pouvoir déposer une nouvelle annonce de véhicule.
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
@@ -232,10 +236,16 @@ error_page:
       title: Projet supprimé
       body: Le projet de ce particulier n'est plus d'actualité. Faites <a href="%redirection_url%" class="text-underline">une recherche</a> parmi les projets en cours.
   pro_user:
+    unpublished:
+      title: Page en cours d'édition
+      body: %firstname% est en train de compléter son profil. Celui-ci sera prochainement mis en ligne. En attendant, vous pouvez consulter les autres conseillers automobile dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>
     deleted:
       title: Conseiller automobile parti
       body: Ce conseiller automobile a quitté Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le meilleur professionnel pour vous accompagner.
   garage:
+    unpublished:
+      title: Page en cours d'édition
+      body: %firstname% est le gestionnaire de ce garage et est en train de compléter son profil. Celui-ci sera prochainement mis en ligne ainsi que son garage. En attendant, vous pouvez consulter les autres conseillers automobile dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>
     deleted:
       title: Garage supprimé
       body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
@@ -595,6 +605,7 @@ vehicle:
   delete: Supprimer ce véhicule
   publish_at: publiée le %createdAt%
   selled_by: "Voiture vendue par :"
+  select_sellers: Sélectionner un autre membre de l'équipe
   detail:
     personal:
       title: '%vehicleName% - %vehicleCityName% - Voiture %vehicleStatus% de %vehicleYear%'
@@ -737,7 +748,7 @@ vehicle:
       required_message: Veuillez préciser si le véhicule est neuf ou d'occasion
     registrationDate:
       label: Date de 1ère mise en circulation
-      required_message: Veuillez indiquer la date de 1ère mise en circulation
+      required_message: Veuillez indiquer la date de 1ère mise en circulation (JJ-MM-AAAA)
     mileage:
       label: Kilométrage
       required_message: Veuillez indiquer le kilométrage de votre véhicule
@@ -968,9 +979,18 @@ user:
       services.title: Mes services
     hobbies:
       title: Centres d'intérêt
+    publish:
+      missing_items: "Vous devez renseigner les éléments suivants pour que votre profil soit publié :"
+      required:
+        garage: Vous devez être membre d'un garage
+        service: Vous devez indiquer au moins 2 services/compétences
+        avatar: Vous devez ajouter une photo de profil
     edit:
       title: Editer mon profil
       action: Editer mon profil
+      publication:
+        ask: Publier mon profil
+        cancel: Dépublier mon profil
       form:
         titles:
           id: Identifiants de connexion
@@ -1209,6 +1229,9 @@ user:
     seller_for: Vendeur pour
     add: Ajouter un garage
     join: Rejoindre un garage
+    quit: Quitter ce garage
+    close: Fermer ce garage
+    close_name: Fermer %garage_name%
     remove_member: Dissocier
     cancel_request: Annuler ma demande
     accept_request: Accepter la demande

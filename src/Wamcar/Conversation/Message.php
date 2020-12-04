@@ -4,6 +4,7 @@
 namespace Wamcar\Conversation;
 
 
+use AppBundle\Services\User\CanBeGarageMember;
 use AppBundle\Services\User\CanBeInConversation;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -45,20 +46,21 @@ class Message
      * Message constructor.
      * @param Conversation $conversation
      * @param CanBeInConversation $user
-     * @param string $content
-     * @param null|BaseVehicle $vehicleHeader
-     * @param null|BaseVehicle $vehicle
+     * @param string|null $content
+     * @param BaseVehicle|null $vehicleHeader
+     * @param BaseVehicle|null $vehicle
      * @param bool|null $isFleet
-     * @param array|Collection $attachments
+     * @param array $attachments
+     * @throws \Exception
      */
     public function __construct(
         Conversation $conversation,
         CanBeInConversation $user,
-        ?string $content = '',
-        ?BaseVehicle $vehicleHeader = null,
-        ?BaseVehicle $vehicle = null,
-        ?bool $isFleet = false,
-        $attachments = null
+        ?string $content,
+        ?BaseVehicle $vehicleHeader,
+        ?BaseVehicle $vehicle,
+        ?bool $isFleet,
+        array $attachments
     )
     {
         $this->conversation = $conversation;
@@ -210,7 +212,7 @@ class Message
     /**
      * @param BaseVehicle $vehicle
      */
-    public function assignVehicleHeader(BaseVehicle $vehicle): void
+    private function assignVehicleHeader(BaseVehicle $vehicle): void
     {
         if ($vehicle instanceof ProVehicle) {
             $this->proVehicleHeader = $vehicle;
@@ -246,7 +248,30 @@ class Message
      */
     public function getVehicle(): ?BaseVehicle
     {
-        return $this->getPersonalVehicle() ?: $this->getProVehicle();
+        return $this->getPersonalVehicle() ?? $this->getProVehicle();
+    }
+
+    /**
+     * @return null|BaseUser
+     */
+    public function getVehicleSeller(): ?BaseUser
+    {
+        $vehicle = $this->getVehicleHeader();
+        if($vehicle instanceof ProVehicle){
+            if($this->user instanceof CanBeGarageMember && $this->user->isMemberOfGarage($vehicle->getGarage())) {
+                return $this->user;
+            }else{
+                $availableSellers = $this->conversation->getConversationUsers()->filter(function (ConversationUser $conversationUser) use ($vehicle){
+                    $user = $conversationUser->getUser();
+                    return $user instanceof CanBeGarageMember && $user->isMemberOfGarage($vehicle->getGarage());
+                });
+                return ($availableSellers->first())->getUser();
+            }
+
+        }elseif($vehicle instanceof PersonalVehicle){
+            return $vehicle->getOwner();
+        }
+        return null;
     }
 
     /**

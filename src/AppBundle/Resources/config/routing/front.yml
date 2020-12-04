@@ -231,6 +231,13 @@ legacy_vehicle_pro_detail:
     path: /vehicule/detail/{id}
     controller: AppBundle:Front\ProContext\Vehicle:legacyDetail
 
+front_vehicle_pro_seller_select:
+    path: /provehicule/{provehicle_slug}/seller-select/{seller_id}
+    controller: AppBundle:Front\ProContext\Vehicle:ajaxSellerSelect
+    requirements:
+      provehicle_slug: '.+'
+      seller_id: '.+'
+
 front_vehicle_pro_add:
     path: /vehicule/vendeur/ajouter/{garage_id}/{plateNumber}
     controller: AppBundle:Front\ProContext\Vehicle:save
@@ -246,14 +253,6 @@ front_vehicle_pro_edit:
     defaults:
       garage: null
       plateNumber: null
-
-front_vehicle_pro_reassign:
-    path: /vehicule/reassign/{vehicle_id}
-    controller: AppBundle:Front\ProContext\Vehicle:assign
-
-front_vehicle_pro_assign_seller:
-    path: /vehicule/assign/{vehicle_id}/{pro_user_id}
-    controller: AppBundle:Front\ProContext\Vehicle:assign
 
 front_vehicle_pro_delete:
     path: /vehicule/delete/{id}

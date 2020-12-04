@@ -88,13 +88,14 @@ class ProVehicleEntityIndexer extends EntityIndexer
 
 
     /**
+     * @deprecated plus d'affectation de véhicules aux vendeurs
      * @param int $sellerId
      * @param string|null $text
      * @param int $page
      * @param int $limit
      * @return null|ResultSet
      */
-    public function getQueryVehiclesByProUserResult(int $sellerId, string $text = null, int $page, int $limit = self::LIMIT): ?ResultSet
+    public function getQueryVehiclesByProUserResult(int $sellerId, ?string $text, int $page, int $limit = self::LIMIT): ?ResultSet
     {
         $mainQuery = new Query();
 

@@ -20,7 +20,8 @@ class ContactProType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'required' => true
+                'required' => true,
+                'constraints' => [new NotBlank()]
             ])
             ->add('lastname', TextType::class, [
                 'required' => false
@@ -31,7 +32,7 @@ class ContactProType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'required' => true,
-                'constraints' => [new Email()]
+                'constraints' => [new NotBlank(), new Email()]
             ])
             ->add('message', TextareaType::class, [
                 'required' => true,

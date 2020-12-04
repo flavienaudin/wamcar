@@ -257,7 +257,8 @@ class ConversationController extends BaseController
 
     /**
      * @param MessageDTO $messageDTO
-     * @return null|RedirectResponse
+     * @return RedirectResponse|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     protected function redirectIfExistConversation(MessageDTO $messageDTO): ?RedirectResponse
     {

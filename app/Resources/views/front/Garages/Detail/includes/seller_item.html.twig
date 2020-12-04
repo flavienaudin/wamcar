@@ -18,9 +18,37 @@
 
     <div class="margin-top-1 text-center">
         {% if sellerIsCurrentUser %}
-            <a href="{{ path('front_edit_user_info') }}" class="button small full-width">
-                {{ 'user.profile.edit.action'|trans }}
-            </a>
+            <a href="{{ path('front_edit_user_info') }}" class="button small full-width input-margin-small">
+                {{ 'user.profile.edit.action'|trans }}</a>
+
+            {% if not isAdministrableByCurrentUser  %}
+                {# Non gestionnaire du garage : peut quitter le garage #}
+                <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':seller.id}) }}"
+                   class="js-confirm-box button small full-width"
+                   data-id="garage-quit-{{ seller.id }}"
+                   data-title="Attention!"
+                   data-message="Souhaitez-vous vraiment quitter de ce garage ?">{{ 'user.garage.quit'|trans }}</a>
+            {% elseif garage.enabledMembers|length == 1 %}
+                {# Seul membre du garage : fermer le garage #}
+                <a href="{{ path('front_garage_remove', {'id':garage.id}) }}"
+                   class="js-confirm-box button small full-width"
+                   data-id="garage-close-{{ seller.id }}"
+                   data-title="Attention!"
+                   data-message="Souhaitez-vous vraiment fermer ce garage ?">{{ 'user.garage.close'|trans }}</a>
+            {% elseif garage.administrators|length > 1 %}
+                {# Gestionnaire non unique du garage : peut quitter le garage #}
+                <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':seller.id}) }}"
+                   class="js-confirm-box button small full-width"
+                   data-id="garage-quit-{{ seller.id }}"
+                   data-title="Attention!"
+                   data-message="Souhaitez-vous vraiment quitter de ce garage ?">{{ 'user.garage.quit'|trans }}</a>
+            {% else %}
+                {# Unique gestionnaire d'un garage avec d'autres membres simples collaborateurs #}
+                <a data-open="js-closes-garage-with-other-members" class="button small full-width">
+                    {{ 'user.garage.close'|trans }}</a>
+                {{ include('front/Garages/Detail/includes/modal_close_garage_with_other_members.html.twig') }}
+
+            {% endif %}
         {% elseif isAdministrableByCurrentUser %}
             <a href="{{ path('front_garage_unassign', {'garage_id':garage.id,'user_id':seller.id}) }}"
                class="js-confirm-box button small full-width input-margin-small"

@@ -8,6 +8,8 @@ use Wamcar\Conversation\Event\MessageCreated;
 use Wamcar\User\BaseUser;
 use Wamcar\User\Event\UserLikeVehicleEvent;
 use Wamcar\User\ProUser;
+use Wamcar\Vehicle\PersonalVehicle;
+use Wamcar\Vehicle\ProVehicle;
 
 class LeadEventListener
 {
@@ -51,13 +53,24 @@ class LeadEventListener
     {
         $likeVehicle = $event->getLikeVehicle();
         $liker = $likeVehicle->getUser();
-        $seller = $likeVehicle->getVehicle()->getSeller();
-
-        if ($liker instanceof ProUser) {
-            $this->leadManagementService->updateNbProLikes($liker, $seller, $likeVehicle->getValue() == 1);
+        $sellers = [];
+        if ($likeVehicle instanceof ProVehicle) {
+            $sellers = $likeVehicle->getSuggestedSellers(false, $liker);
+            $sellers = array_map(function ($suggestedSeller) {
+                return $suggestedSeller['seller'];
+            }, $sellers);
+        } elseif ($likeVehicle instanceof PersonalVehicle) {
+            $sellers = [$likeVehicle->getOwner()];
         }
-        if ($seller instanceof ProUser) {
-            $this->leadManagementService->updateNbLeadLikes($seller, $liker, $likeVehicle->getValue() == 1);
+        foreach ($sellers as $seller) {
+            if(!$seller->is($liker)) {
+                if ($liker instanceof ProUser) {
+                    $this->leadManagementService->updateNbProLikes($liker, $seller, $likeVehicle->getValue() == 1);
+                }
+                if ($seller instanceof ProUser) {
+                    $this->leadManagementService->updateNbLeadLikes($seller, $liker, $likeVehicle->getValue() == 1);
+                }
+            }
         }
     }
 

@@ -23,7 +23,7 @@
 {% for message in messages %}
     <!-- Véhicule lié -->
     {% if message.vehicleHeader %}
-        {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': message.vehicleHeader} %}
+        {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': message.vehicleHeader,'vehicleSeller':message.vehicleSeller} %}
     {% endif %}
 
     <div class="messages-item block-grid no-bullet no-margin"

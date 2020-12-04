@@ -1,12 +1,16 @@
 {% extends 'front/User/includes/seller_item.html.twig' %}
 
 {% block userLocation %}
-    {% set userGarages = seller.garagesOrderByGoogleRating %}
-    {% if userGarages|length > 1 %}
-        Multi-sites
-    {% elseif userGarages|length == 1 %}
-        {{ (userGarages|first).garage.city }}
-    {% else %}
-        &ndash;
-    {% endif %}
+    <p class="icon-location primary-color align-center">
+        <span class="body-font-color">
+            {% set userGarages = seller.garagesOrderByGoogleRating %}
+            {% if userGarages|length > 1 %}
+                Multi-sites
+            {% elseif userGarages|length == 1 %}
+                {{ (userGarages|first).garage.city }}
+            {% else %}
+                &ndash;
+            {% endif %}
+        </span>
+    </p>
 {% endblock userLocation %}

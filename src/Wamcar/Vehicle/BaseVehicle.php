@@ -9,7 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Ramsey\Uuid\Uuid;
 use Wamcar\Location\City;
-use Wamcar\User\{BaseLikeVehicle, BaseUser, Picture as UserPicture};
+use Wamcar\User\BaseLikeVehicle;
+use Wamcar\User\BaseUser;
 use Wamcar\Vehicle\Enum\{MaintenanceState, SafetyTestState, TimingBeltState, Transmission};
 
 abstract class BaseVehicle implements Vehicle
@@ -89,12 +90,13 @@ abstract class BaseVehicle implements Vehicle
      * @param bool|null $isImported
      * @param bool|null $isFirstHand
      * @param string|null $additionalInformation
-     * @param City $city
+     * @param City|null $city
+     * @throws \Exception
      */
     public function __construct(
         ModelVersion $modelVersion,
         Transmission $transmission,
-        Registration $registration = null,
+        ?Registration $registration,
         \DateTimeInterface $registrationDate,
         bool $isUsed,
         int $mileage,
@@ -825,40 +827,6 @@ abstract class BaseVehicle implements Vehicle
     public function setUpdatedAt(\DateTimeInterface $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * @return BaseUser
-     */
-    abstract public function getSeller();
-
-    /**
-     * @return null|string
-     */
-    public function getSellerName(bool $restrictedName = false): ?string
-    {
-        $seller = $this->getSeller();
-        if (!$seller instanceof BaseUser) {
-            throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
-        }
-        if ($restrictedName) {
-            return $seller->getFirstName();
-        } else {
-            return $seller->getFullName();
-        }
-    }
-
-    /**
-     * @return null|UserPicture
-     */
-    public function getSellerAvatar(): ?UserPicture
-    {
-        $seller = $this->getSeller();
-        if (!$seller instanceof BaseUser) {
-            throw new \LogicException(sprintf('Seller must be an instance of %s, %s given', BaseUser::class, get_class($seller)));
-        }
-
-        return $seller->getAvatar();
     }
 
     /**
