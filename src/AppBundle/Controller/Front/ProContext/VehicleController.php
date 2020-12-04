@@ -133,13 +133,17 @@ class VehicleController extends BaseController
         /* BaseUser $user */
         $user = $this->getUser();
 
-        if (!$user instanceof CanBeGarageMember) {
+        if (!$user instanceof CanBeGarageMember && !$user instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.not_pro_user_no_garage');
             return $this->redirectToRoute("front_view_current_user_info");
         }
         if (!$user->hasGarage()) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
             return $this->redirectToRoute("front_garage_create");
+        }
+        if (!$user->isPublishable()) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.add_vehicle_need_published');
+            return $this->redirectToRoute("front_view_current_user_info");
         }
 
         /* Check request parameters */

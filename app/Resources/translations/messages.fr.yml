@@ -92,6 +92,7 @@ flash:
     social_account_without_email: Impossible de vous inscrire. Votre compte social n'est relié à aucune adresse e-mail.
     select_garage_first: Veuillez vous rendre dans le garage auquel vous souhaitez ajouter le véhicule
     pro_user_need_garage: Vous devez créer votre page garage pour ajouter des véhicules en vitrine et les proposer sur Wamcar
+    add_vehicle_need_published: Votre profil doit être publié pour pouvoir déposer une nouvelle annonce de véhicule.
     not_pro_user_no_garage: Seuls les professionnels peuvent avoir un garage.
     already_registered_siren_by_user: Le compte %userFullName% a déjà enregistré cette adresse. <a href="%contactUrl%" target="_blank">Contactez-nous</a> pour vous ajouter comme vendeur à ce garage.
     only_personal_can_have_project: Seul les particuliers peuvent avoir des projets.
