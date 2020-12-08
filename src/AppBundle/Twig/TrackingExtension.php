@@ -111,7 +111,7 @@ class TrackingExtension extends AbstractExtension
             $sellerIds= [];
             foreach ($suggestedUsers as $suggestedUser) {
                 // If user liking is a seller of this vehicle that doesn't count
-                if(!$fromUser->is($suggestedUser['seller'])) {
+                if($fromUser == null || !$fromUser->is($suggestedUser['seller'])) {
                     $sellerIds[] = $this->getWtToDataAttrValue($suggestedUser['seller']);
                 }
             }
