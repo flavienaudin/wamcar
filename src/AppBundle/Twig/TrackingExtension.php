@@ -116,7 +116,7 @@ class TrackingExtension extends AbstractExtension
                 }
             }
             if(!empty($sellerIds)){
-                $wtto = ' data-wtto="' . join('|', $sellerIds) . '"';
+                $wtto = ' data-wtto="' . join(' to ', $sellerIds) . '"';
             }
         }
         return ' data-wtaction="' . $action . ' ' . $vehicle->getSlug() . '" data-wtfrom="' . $this->getWtFromDataAttrValue($fromUser) . '"'
