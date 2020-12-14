@@ -23,13 +23,13 @@ class IndexableProUser implements Indexable
     private $presentationTitle;
     /** @var null|string $description */
     private $description;
-    /** @var null|int $descriptionLength */
+    /** @var int $descriptionLength */
     private $descriptionLength;
     /** @var array */
     private $garages = [];
     /** @var float */
     private $maxGarageGoogleRating;
-    /** @var null|int */
+    /** @var int */
     private $hasAvatar;
     /** @var (Role|string)[] */
     private $roles;
@@ -37,8 +37,10 @@ class IndexableProUser implements Indexable
     private $proServices;
     /** @var string[] (ProService->name[] if ProUserProService->isSpeciality == true) */
     private $proSpecialities;
-    /** @var \DateTime */
+    /** @var null|\DateTime */
     private $deletedAt;
+    /** @var boolean */
+    private $isPublishable;
 
     /**
      * IndexableProUser constructor.
@@ -47,11 +49,11 @@ class IndexableProUser implements Indexable
      * @param null|string $lastName
      * @param null|string $presentationTitle
      * @param null|string $description
-     * @param array|null $garages
-     * @param int|null $hasAvatar
-     * @param array|null $roles
-     * @param array|null $proServices
-     * @param array|null $proSpecialities
+     * @param array $garages
+     * @param int $hasAvatar
+     * @param array $roles
+     * @param array $proServices
+     * @param array $proSpecialities
      * @param null|\DateTime $deletedAt
      */
     private function __construct(int $id,
@@ -59,12 +61,12 @@ class IndexableProUser implements Indexable
                                  ?string $lastName,
                                  ?string $presentationTitle,
                                  ?string $description,
-                                 array $garages = [],
-                                 int $hasAvatar = 0,
-                                 array $roles = [],
-                                 array $proServices = [],
-                                 array $proSpecialities = [],
-                                 ?\DateTime $deletedAt = null)
+                                 array $garages,
+                                 int $hasAvatar,
+                                 array $roles,
+                                 array $proServices,
+                                 array $proSpecialities,
+                                 ?\DateTime $deletedAt)
     {
         $this->id = $id;
         $this->firstName = $firstName;
@@ -99,6 +101,8 @@ class IndexableProUser implements Indexable
             }, $proApplicationUser->getProUserSpecialities()->toArray()),
             $proApplicationUser->getDeletedAt()
         );
+        $indexableProUser->isPublishable = $proApplicationUser->isPublishable();
+
         $indexableProUser->maxGarageGoogleRating = -1;
         /** @var GarageProUser $garageMembership */
         foreach ($proApplicationUser->getEnabledGarageMemberships() as $garageMembership) {
@@ -146,7 +150,7 @@ class IndexableProUser implements Indexable
      */
     public function shouldBeIndexed(): bool
     {
-        return $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles);
+        return $this->deletedAt == null && !in_array('ROLE_ADMIN', $this->roles) && $this->isPublishable;
     }
 
     /**

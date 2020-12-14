@@ -1,16 +1,31 @@
 {% extends 'front/User/includes/seller_pro_item.html.twig' %}
 
-{% block bottomContainer %}
+{% block userLocation %}
     <div class="js-seller-infos peexeo-vehicle-seller-infos">
         {% if seller.phone is not empty or seller.phonePro is not empty %}
             <div class="is-flex">
-            {{ include('front/Seller/includes/phone_number_button.html.twig', {
-                'disabledLoggedProtection': true,
-                'phoneOwner': seller,
-                'phoneNumber': seller.phone is not empty ? seller.phone : seller.phonePro ,
-                'showphone_subaction': seller.phone is not empty ? "1" : "2"
-            }) }}
+                {{ include('front/Seller/includes/phone_number_button.html.twig', {
+                    'disabledLoggedProtection': true,
+                    'phoneOwner': seller,
+                    'phoneNumber': seller.phone is not empty ? seller.phone : seller.phonePro ,
+                    'showphone_subaction': seller.phone is not empty ? "1" : "2"
+                }) }}
             </div>
         {% endif %}
+    </div>
+{% endblock userLocation %}
+
+{% block bottomContainer %}
+    <div class="text-center">
+        <a href="{{ path('front_garage_view', {'slug': garage.slug}) }}" class="primary-color h3 text-wrap "><b>{{ garage.name }}</b></a>
+
+        {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+            garageRating : garage.googleRating,
+            poweredByGoogleDisplay : true,
+            garageSlug : garage.slug,
+            isCenter: true
+        }) }}
+
+        <span class="icon-location primary-color align-center"><span class="body-font-color">{{ garage.address.cityName|upper }}</span></span>
     </div>
 {% endblock bottomContainer %}

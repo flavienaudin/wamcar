@@ -4,8 +4,10 @@ namespace AppBundle\Doctrine\Repository;
 
 
 use Doctrine\ORM\EntityRepository;
+use Wamcar\Garage\GarageProUser;
 use Wamcar\User\BaseUser;
 use Wamcar\User\ProLikeVehicle;
+use Wamcar\User\ProUser;
 use Wamcar\User\UserLikeVehicleRepository;
 use Wamcar\Vehicle\ProVehicle;
 
@@ -37,7 +39,7 @@ class DoctrineLikeProVehicleRepository extends EntityRepository implements UserL
     /**
      * @inheritDoc
      */
-    public function getCountReceivedLikes(BaseUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int
+    public function getCountReceivedLikes(ProUser $user, ?int $sinceDays = 30, ?\DateTimeInterface $referenceDate = null): int
     {
         if (empty($referenceDate)) {
             $referenceDate = new \DateTime();
@@ -45,14 +47,18 @@ class DoctrineLikeProVehicleRepository extends EntityRepository implements UserL
         $firstDate = clone $referenceDate;
         $firstDate->sub(new \DateInterval('P' . $sinceDays . 'D'));
 
+        $userGaragesIds = $user->getEnabledGarageMemberships()->map(function (GarageProUser $garageProUser) {
+                return $garageProUser->getGarage()->getId();
+            })->toArray();
+
         $qb = $this->createQueryBuilder('l');
         $qb->select('COUNT(l.id)')
             ->join('l.vehicle', 'v')
-            ->where($qb->expr()->eq('v.seller', ':user'))
+            ->where($qb->expr()->in('v.garage', ':garagesIds'))
             ->andWhere($qb->expr()->isNull('v.deletedAt'))
             ->andwhere($qb->expr()->gte('l.updatedAt', ':firstDate'))
             ->andWhere($qb->expr()->lte('l.updatedAt', ':referenceDate'))
-            ->setParameter('user', $user)
+            ->setParameter('garagesIds', $userGaragesIds )
             ->setParameter('firstDate', $firstDate)
             ->setParameter('referenceDate', $referenceDate);
         return $qb->getQuery()->getSingleScalarResult();

@@ -1,11 +1,5 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% if app.user and vehicle.seller.id == app.user.id %}
-    {% set page_garage = true %}
-{% else %}
-    {% set page_search = true %}
-{% endif %}
-
 {% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
@@ -50,7 +44,7 @@
 
 {% block body %}
     {% set isAbleToSeeFullInformation = isEditableByCurrentUser or isUserPro %}
-    {% set vehicleSellerName = vehicle.sellerName(not isAbleToSeeFullInformation) %}
+    {% set vehicleSellerName = vehicle.ownerName(not isAbleToSeeFullInformation) %}
 
     {% set breadcrumbs = [
         {
@@ -75,7 +69,7 @@
 
     <div class="row peexeo-vehicle">
         {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-        {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+        {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, like, vehicle) %}
 
         {# Left Column #}
         <div class="column small-12 large-7 xlarge-8">
@@ -103,7 +97,8 @@
                 {% include 'front/Vehicle/Detail/includes/seller_personal_item.html.twig' with {
                     'itemClass' : 'block-light-shadow',
                     'seller' : vehicle.seller,
-                    'compact' : true
+                    'compact' : true,
+                    'wholeClickable': false
                 } %}
 
                 {% if isEditableByCurrentUser %}

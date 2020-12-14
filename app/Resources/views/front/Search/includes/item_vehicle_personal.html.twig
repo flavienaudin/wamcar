@@ -2,7 +2,7 @@
 
 {% set balise = balise|default('h2') %}
 {% set sellerUrl = path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) %}
-{% set vehicleSellerName = (vehicle.seller.is(app.user)?"global.you"|trans:vehicle.sellerName(not isLogged or isUserPersonal))|title %}
+{% set vehicleSellerName = (vehicle.seller.is(app.user)?"global.you"|trans:vehicle.ownerName(not isLogged or isUserPersonal))|title %}
 
 {% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">

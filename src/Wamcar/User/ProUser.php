@@ -8,16 +8,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Wamcar\Conversation\ProContactMessage;
-use Wamcar\Garage\Garage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\Sale\Declaration;
-use Wamcar\Vehicle\BaseVehicle;
 
 class ProUser extends BaseUser
 {
     const TYPE = 'pro';
 
+    /** @var null|\DateTime */
+    protected $publishedAt;
+    /** @var null|\DateTime */
+    protected $unpublishedAt;
     /** @var  string */
     protected $phonePro;
     /** @var  string|null */
@@ -28,8 +30,6 @@ class ProUser extends BaseUser
     protected $appointmentAutofillMessage;
     /** @var  Collection */
     protected $garageMemberships;
-    /** @var  Collection */
-    protected $vehicles;
     /** @var null|int */
     protected $landingPosition;
     /** @var Collection */
@@ -52,12 +52,43 @@ class ProUser extends BaseUser
     {
         parent::__construct($email, $firstName, $name, null, $city);
         $this->garageMemberships = new ArrayCollection();
-        $this->vehicles = new ArrayCollection();
         $this->leads = new ArrayCollection();
         $this->saleDeclarations = new ArrayCollection();
         $this->proContactMessages = new ArrayCollection();
         $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getPublishedAt(): ?\DateTime
+    {
+        return $this->publishedAt;
+    }
+
+    /**
+     * @param \DateTime|null $publishedAt
+     */
+    public function setPublishedAt(?\DateTime $publishedAt): void
+    {
+        $this->publishedAt = $publishedAt;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
+    }
+
+    /**
+     * @param \DateTime|null $unpublishedAt
+     */
+    public function setUnpublishedAt(?\DateTime $unpublishedAt): void
+    {
+        $this->unpublishedAt = $unpublishedAt;
     }
 
     /**
@@ -239,29 +270,6 @@ class ProUser extends BaseUser
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getVehicles(?int $limit = 0, BaseVehicle $excludedVehicle = null): Collection
-    {
-        $criteria = Criteria::create();
-        if ($excludedVehicle != null) {
-            $criteria->where(Criteria::expr()->neq('id', $excludedVehicle->getId()));
-        }
-        if ($limit > 0) {
-            $criteria->setMaxResults($limit);
-        }
-        return $this->vehicles->matching($criteria);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getVehiclesOfGarage(Garage $garage): Collection
-    {
-        return $this->vehicles->matching(new Criteria(Criteria::expr()->eq('garage', $garage)));
-    }
-
-    /**
      * @return int|null
      */
     public function getLandingPosition(): ?int
@@ -367,15 +375,6 @@ class ProUser extends BaseUser
     }
 
     /**
-     * @param BaseUser|null $user null if user not connected
-     * @return bool
-     */
-    public function canSeeMyVehicles(BaseUser $user = null): bool
-    {
-        return true;
-    }
-
-    /**
      * Tell if the $user is authorized to see $this's profile
      * @param BaseUser|null $user
      * @return bool
@@ -383,6 +382,49 @@ class ProUser extends BaseUser
     public function canSeeMyProfile(?BaseUser $user): bool
     {
         return true;
+    }
+
+    /**
+     * Indique si les informations obligatoires sont renseignées
+     * @return bool
+     */
+    public function isRequiredInformationFilled(): bool
+    {
+        return $this->hasGarage()
+            && count($this->getProUserServices(false, true)) >= 2
+            && $this->getAvatar() != null;
+    }
+
+    /**
+     * Indique si le profil est publiable. Conditions actuelles :
+     * - Informations obligatoires renseeignées
+     *
+     * @return bool
+     */
+    public function isPublishable(): bool
+    {
+        return $this->isRequiredInformationFilled();
+    }
+
+    /**
+     * Information sur remplissage du profil :
+     *  - missing_items : array, éléments manquants
+     *  - required_nb : int, nombre d'éléments requis
+     * @return array
+     */
+    public function getProfileFillingData(): array
+    {
+        $missingItems = [];
+        if (!$this->hasGarage()) {
+            $missingItems[] = 'user.profile.publish.required.garage';
+        }
+        if (count($this->getProUserServices(false, true)) < 2) {
+            $missingItems[] = 'user.profile.publish.required.service';
+        }
+        if ($this->getAvatar() == null) {
+            $missingItems[] = 'user.profile.publish.required.avatar';
+        }
+        return ['missing_items' => $missingItems, 'required_nb' => 3];
     }
 
     /**
@@ -452,7 +494,7 @@ class ProUser extends BaseUser
         /** @var ProUserProService $proUserProService */
         foreach ($this->proUserProServices as $proUserProService) {
             $proService = $proUserProService->getProService();
-            if($proService->getCategory()->isEnabled()) {
+            if ($proService->getCategory()->isEnabled()) {
                 if (!isset($proServicesByCategory[$proService->getCategory()->getLabel()])) {
                     $proServicesByCategory[$proService->getCategory()->getLabel()] = [];
                 }

@@ -51,7 +51,8 @@
                 {% for expert in user_experts %}
                     <div class="column">
                         {{ include('front/Directory/includes/advisor_item.html.twig', {
-                            'seller' : expert
+                            'seller' : expert,
+                            'wholeClickable' : true
                         }) }}
                     </div>
                 {% else %}

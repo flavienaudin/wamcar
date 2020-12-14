@@ -38,3 +38,35 @@ if ($isUsedInputController.length > 0) {
     });
   });
 }
+
+const $suggestedSellersTabs = $('#suggested-sellers-tabs');
+if($suggestedSellersTabs) {
+
+  $suggestedSellersTabs.on('change.zf.tabs', function (event) {
+    const $inactiveTabs = $(event.currentTarget).children(':not(.is-active)');
+    const $activeTabs = $(event.currentTarget).children('.is-active');
+    $inactiveTabs.each((index, li) => {
+      const targets = $(li).data('targets');
+      $(targets).addClass('is-hidden');
+    });
+    $activeTabs.each((index, li) => {
+      const targets = $(li).data('targets');
+      $(targets).removeClass('is-hidden');
+      const ajaxActivatedAction = $(li).children('a');
+      ajaxActivatedAction.each((index, link)=>{
+        const $link = $(link);
+        const ajaxUrl = $link.data('href');
+        if(ajaxUrl !== '') {
+          $.ajax({
+            url: ajaxUrl,
+            method: 'GET'
+          }).done(function (success) {
+          }).fail(function (jqXHR, textStatus) {
+          });
+        }
+      });
+    });
+
+  });
+
+}

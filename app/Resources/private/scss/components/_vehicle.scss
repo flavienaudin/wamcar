@@ -1048,6 +1048,38 @@
     @include breakpoint($two-columns-breakpoint) {
       margin-bottom: 2rem;
     }
+
+    .suggested-sellers-tabs {
+
+      .tabs-panel {
+        padding-top: 0;
+      }
+
+      .suggested-sellers-indication{
+        padding: 0 rem-calc(15);
+      }
+
+      .tabs {
+        &.seller-contacts {
+          margin-left: 0;
+        }
+
+        padding: rem-calc(15);
+
+        .tabs-title {
+          &.is-active  {
+            transition: $global-transition;
+            opacity: 0.5;
+            pointer-events: none;
+          }
+
+          & > a {
+            padding: 0;
+            border: 0;
+          }
+        }
+      }
+    }
   }
 
   .other-vehicles {
@@ -1090,7 +1122,7 @@
         width: 48px;
         font-size: 1rem;
 
-        &:before{
+        &:before {
           margin: auto;
           color: $white;
         }

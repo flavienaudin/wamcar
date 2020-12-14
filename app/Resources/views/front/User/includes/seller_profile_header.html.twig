@@ -22,16 +22,14 @@
         <div class="column ">
             <div class="profile-titles">
                 {% set profileActionsBlock %}{% spaceless %}
-                    {% if contactDetailsForm %}
-                        {% if contactDetailsForm %}
-                            <a data-open="js-edit-contact-details" class="button">
-                                <span class="show-for-small-only">{{ 'user.profile.header.actions.edit_contact_details.small'|trans }}</span>
-                                <span class="show-for-medium">{{ 'user.profile.header.actions.edit_contact_details.medium'|trans }}</span>
-                            </a>
-                            {{ include('front/User/includes/modal_edit_contact-details.html.twig', {
-                                'contactDetailsForm': contactDetailsForm
-                            }) }}
-                        {% endif %}
+                    {% if contactDetailsForm is defined and contactDetailsForm is not null  %}
+                        <a data-open="js-edit-contact-details" class="button">
+                            <span class="show-for-small-only">{{ 'user.profile.header.actions.edit_contact_details.small'|trans }}</span>
+                            <span class="show-for-medium">{{ 'user.profile.header.actions.edit_contact_details.medium'|trans }}</span>
+                        </a>
+                        {{ include('front/User/includes/modal_edit_contact-details.html.twig', {
+                            'contactDetailsForm': contactDetailsForm
+                        }) }}
                     {% endif %}
 
                     {% if user.phone is not empty  %}

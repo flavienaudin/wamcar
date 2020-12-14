@@ -104,10 +104,9 @@
   &-contacts {
     margin-left: rem-calc(10);
 
+    .avatar-medium ,
     .avatar-small{
       display: inline-block;
-      height: rem-calc(24);
-      width: rem-calc(24);
       margin-left: rem-calc(5);
 
       img {
@@ -115,6 +114,14 @@
         border-radius: 50%;
         object-fit: cover;
       }
+    }
+    .avatar-small{
+      height: rem-calc(24);
+      width: rem-calc(24);
+    }
+    .avatar-medium{
+      height: rem-calc(32);
+      width: rem-calc(32);
     }
   }
 
@@ -125,6 +132,10 @@
     background-color: $white;
     padding: rem-calc(15);
     border-radius: $global-radius;
+
+    &[onclick] {
+      cursor: pointer;
+    }
 
     p {
       margin-bottom: 0;

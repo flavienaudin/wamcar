@@ -67,8 +67,7 @@ services:
         class: AppBundle\Elasticsearch\IndexUpdatedProUser
         autowire: true
         arguments:
-            - '@pro_user.indexer'
-            - '@search_item.indexer'
+          $searchItemEntityIndexer: '@search_item.indexer'
         tags:
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
             - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }

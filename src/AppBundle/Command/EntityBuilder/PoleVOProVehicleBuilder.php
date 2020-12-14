@@ -184,8 +184,6 @@ class PoleVOProVehicleBuilder extends ProVehicleBuilder
             }
 
             $proVehicle->setGarage($garage);
-            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
-            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
 
         }
         return $proVehicle;

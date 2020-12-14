@@ -5,6 +5,7 @@ namespace Wamcar\Vehicle;
 use Wamcar\Location\City;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
+use Wamcar\User\Picture as UserPicture;
 use Wamcar\User\Project;
 use Wamcar\User\ProUser;
 
@@ -21,6 +22,28 @@ class PersonalVehicle extends BaseVehicle
     public function getOwner(): PersonalUser
     {
         return $this->owner;
+    }
+
+    /**
+     * @param bool $restrictedName
+     * @return string|null
+     */
+    public function getOwnerName(bool $restrictedName = false): ?string
+    {
+        $seller = $this->getOwner();
+        if ($restrictedName) {
+            return $seller->getFirstName();
+        } else {
+            return $seller->getFullName();
+        }
+    }
+
+    /**
+     * @return null|UserPicture
+     */
+    public function getSellerAvatar(): ?UserPicture
+    {
+        return $this->getOwner()->getAvatar();
     }
 
     /**
@@ -74,13 +97,4 @@ class PersonalVehicle extends BaseVehicle
     {
         return $this->city;
     }
-
-    /**
-     * @return PersonalUser
-     */
-    public function getSeller(): PersonalUser
-    {
-        return $this->getOwner();
-    }
-
 }

@@ -18,6 +18,7 @@ class ProVehicleBuilder implements VehicleBuilder
     /**
      * @param CanBeProVehicle $vehicleDTO
      * @return ProVehicle
+     * @throws \Exception
      */
     public static function newVehicleFromDTO(CanBeProVehicle $vehicleDTO): ProVehicle
     {
@@ -69,6 +70,7 @@ class ProVehicleBuilder implements VehicleBuilder
      * @param CanBeProVehicle $vehicleDTO
      * @param ProVehicle $vehicle
      * @return ProVehicle
+     * @throws \Exception
      */
     public static function editVehicleFromDTO(CanBeProVehicle $vehicleDTO, ProVehicle $vehicle): ProVehicle
     {

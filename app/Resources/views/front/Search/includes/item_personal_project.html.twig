@@ -31,7 +31,7 @@
             {% set vehicle = project.personalUser.vehicles.first %}
             {% set like = isLogged?vehicle.getLikeOfUser(app.user):null %}
             {% set likeIcon = like is not null and like.value > 0?'icon-thumbs-up':'icon-thumbs-o-up' %}
-            {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, vehicle.seller, like, vehicle) %}
+            {% set wtLikeDataAttr = wtLikeDataAttributes(app.user, like, vehicle) %}
             {% set detailUrl = detailUrl|default(vehicle.isPro?path('front_vehicle_pro_detail', {'slug': vehicle.slug}):path('front_vehicle_personal_detail', {'slug': vehicle.slug})) %}
 
             <div class="vehicle-picture small-auto">

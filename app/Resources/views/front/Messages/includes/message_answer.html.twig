@@ -1,7 +1,7 @@
 
 <!-- Véhicule lié -->
 {% if vehicleHeader %}
-    {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader} %}
+    {% include 'front/Messages/includes/vehicle_related.html.twig' with {'vehicle': vehicleHeader, 'vehicleSeller': interlocutor} %}
 {% endif %}
 <!-- Message answer -->
 <div class="messages-item-answer" id="message-answer-block">

@@ -7,7 +7,6 @@ use AppBundle\Controller\Front\SecurityController;
 use AppBundle\Doctrine\Entity\ApplicationUser;
 use AppBundle\Doctrine\Entity\ProApplicationUser;
 use AppBundle\Elasticsearch\Elastica\VehicleInfoEntityIndexer;
-use AppBundle\Exception\Vehicle\NewSellerToAssignNotFoundException;
 use AppBundle\Form\DTO\MessageDTO;
 use AppBundle\Form\DTO\ProContactMessageDTO;
 use AppBundle\Form\DTO\ProVehicleDTO;
@@ -80,7 +79,7 @@ class VehicleController extends BaseController
      * @param ProVehicleEditionService $proVehicleEditionService
      * @param ConversationRepository $conversationRepository
      * @param ConversationAuthorizationChecker $conversationAuthorizationChecker
-     * @param ConversationEditionService $conversationEditionService,
+     * @param ConversationEditionService $conversationEditionService
      * @param ApiConnector $autoDataConnector
      * @param SessionMessageManager $sessionMessageManager
      * @param TranslatorInterface $translator
@@ -134,13 +133,17 @@ class VehicleController extends BaseController
         /* BaseUser $user */
         $user = $this->getUser();
 
-        if (!$user instanceof CanBeGarageMember) {
+        if (!$user instanceof CanBeGarageMember && !$user instanceof ProUser) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.not_pro_user_no_garage');
             return $this->redirectToRoute("front_view_current_user_info");
         }
         if (!$user->hasGarage()) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.pro_user_need_garage');
             return $this->redirectToRoute("front_garage_create");
+        }
+        if (!$user->isPublishable()) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.add_vehicle_need_published');
+            return $this->redirectToRoute("front_view_current_user_info");
         }
 
         /* Check request parameters */
@@ -273,7 +276,7 @@ class VehicleController extends BaseController
                 $this->proVehicleEditionService->updateInformations($vehicleDTO, $vehicle);
                 $flashMessage = 'flash.success.vehicle_update';
             } else {
-                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage, $user);
+                $vehicle = $this->proVehicleEditionService->createInformations($vehicleDTO, $garage);
                 $flashMessage = 'flash.success.vehicle_create';
             }
 
@@ -288,52 +291,16 @@ class VehicleController extends BaseController
     }
 
     /**
-     * @ParamConverter("proVehicle", options={"id" = "vehicle_id"})
-     * @ParamConverter("proApplicationUser", options={"id" = "pro_user_id"})
-     * @param ProVehicle $proVehicle
-     * @param ProApplicationUser $proApplicationUser
-     * @return RedirectResponse
-     */
-    public function assignAction(ProVehicle $proVehicle, ?ProApplicationUser $proApplicationUser): RedirectResponse
-    {
-        if (!$proVehicle->getSeller()->is($this->getUser())) {
-            $this->session->getFlashBag()->add(
-                self::FLASH_LEVEL_DANGER,
-                'flash.error.vehicle.unauthorized_to_assign'
-            );
-        } else {
-            try {
-                $this->proVehicleEditionService->assignSeller($proVehicle, $proApplicationUser);
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_INFO,
-                    'flash.success.vehicle.assign_new_seller'
-                );
-            } catch (NewSellerToAssignNotFoundException $e) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    'flash.error.vehicle.seller_to_reassign_not_found'
-                );
-            } catch (\InvalidArgumentException $e) {
-                $this->session->getFlashBag()->add(
-                    self::FLASH_LEVEL_DANGER,
-                    $e->getMessage()
-                );
-            }
-        }
-
-        return $this->redirectToRoute('front_vehicle_pro_detail', [
-            'slug' => $proVehicle->getSlug()
-        ]);
-    }
-
-    /**
      * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':slug})")
+     * @param Request $request
      * @param ProVehicle $vehicle
      * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function detailAction(Request $request, ProVehicle $vehicle): Response
     {
-        if ($vehicle->getDeletedAt() != null) {
+        $suggestedSellers = $vehicle->getSuggestedSellers(false, $this->getUser());
+        if ($vehicle->getDeletedAt() != null || count($suggestedSellers) == 0) {
             $response = $this->render('front/Exception/error410.html.twig', [
                 'titleKey' => 'error_page.vehicle.removed.title',
                 'messageKey' => 'error_page.vehicle.removed.body',
@@ -347,66 +314,98 @@ class VehicleController extends BaseController
             return $response;
         }
 
+        /** @var BaseUser|ApplicationUser $currentUser */
+        $currentUser = $this->getUser();
+        $currentUserCanEditThisProVehicle = $this->proVehicleEditionService->canEdit($this->getUser(), $vehicle);
+
         $userLike = null;
         if ($this->isUserAuthenticated()) {
             $userLike = $vehicle->getLikeOfUser($this->getUser());
         }
 
-        /** @var BaseUser|ApplicationUser $currentUser */
-        $currentUser = $this->getUser();
-        $userIsCurrentUser = $vehicle->getSeller()->is($currentUser);
-        $contactForm = null;
-        if (!$userIsCurrentUser) {
-            try {
-                $this->conversationAuthorizationChecker->canCommunicate($currentUser, $vehicle->getSeller());
+        $contactForms = [];
+        $activeSuggestedSeller = null;
+        if (!$currentUserCanEditThisProVehicle) {
+            $selectedSellerIdInSession = $this->session->get(self::PROVEHICLE_SELLER_SELECTION_TO_SESSION_KEY.'/'.$vehicle->getId());
 
-                // $currentUser is logged and can communicate with Wamcar messaging service
-                $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $vehicle->getSeller());
-                if ($conversation instanceof Conversation) {
-                    // Useless check ?
-                    //$this->conversationAuthorizationChecker->memberOfConversation($currentUser, $conversation);
-                    $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
-                } else {
-                    $messageDTO = new MessageDTO(null, $currentUser, $vehicle->getSeller());
+            foreach ($suggestedSellers as $suggestedSellerAndScore) {
+                /** @var ProUser $suggestedSeller */
+                $suggestedSeller = $suggestedSellerAndScore['seller'];
+                if($suggestedSeller->getId() === $selectedSellerIdInSession){
+                    $activeSuggestedSeller = $suggestedSeller;
                 }
-                $messageDTO->vehicleHeader = $vehicle;
-                $contactForm = $this->formFactory->create(MessageType::class, $messageDTO, ['isContactForm' => true]);
-                $contactForm->handleRequest($request);
-                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-                    $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
-                    $this->session->getFlashBag()->add(
-                        self::FLASH_LEVEL_INFO,
-                        'flash.success.conversation_update'
-                    );
-                    return $this->redirectToRoute('front_conversation_edit', [
-                        'id' => $conversation->getId(),
-                        '_fragment' => 'last-message']);
+                try {
+                    $this->conversationAuthorizationChecker->canCommunicate($currentUser, $suggestedSeller);
 
-                }
-
-            } catch (AccessDeniedHttpException $exception) {
-                // $currentUser is unlogged or can't communicate directly => contact form for unlogged user
-                $proContactMessageDTO = new ProContactMessageDTO($vehicle->getSeller());
-                $contactForm = $this->formFactory->create(ContactProType::class, $proContactMessageDTO);
-                $contactForm->handleRequest($request);
-                if ($contactForm->isSubmitted() && $contactForm->isValid()) {
-                    // Check ReCaptcha validation
-                    $captchaVerificationReturn = $this->captchaService->verify(['token' => $request->get($this->captchaService->getClientSidePostParameters())]);
-                    if(!$captchaVerificationReturn['success']){
-                        $this->session->getFlashBag()->add(
-                            self::FLASH_LEVEL_WARNING,
-                            'flash.error.captcha_validation'
-                        );
-                    }else {
-                        $proContactMessageDTO->vehicle = $vehicle;
-                        $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
-                        $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
-                        $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
-                            $this->translator->trans('flash.success.pro_contact_message.sent', [
-                                '%proUserName%' => $vehicle->getSellerName()
-                            ]));
-                        return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
+                    // $currentUser is logged and can communicate with Wamcar messaging service
+                    $conversation = $this->conversationRepository->findByUserAndInterlocutor($currentUser, $suggestedSeller);
+                    if ($conversation instanceof Conversation) {
+                        $messageDTO = MessageDTO::buildFromConversation($conversation, $currentUser);
+                    } else {
+                        $messageDTO = new MessageDTO(null, $currentUser, $suggestedSeller);
                     }
+                    $messageDTO->vehicleHeader = $vehicle;
+                    $contactForm = $this->formFactory->createNamed("MessageForm" . $suggestedSeller->getId(), MessageType::class, $messageDTO, ['isContactForm' => true]);
+                    $contactForm->handleRequest($request);
+                    if ($contactForm->isSubmitted()) {
+                        if ($contactForm->isValid()) {
+                            $conversation = $this->conversationEditionService->saveConversation($messageDTO, $conversation);
+                            $this->session->getFlashBag()->add(
+                                self::FLASH_LEVEL_INFO,
+                                'flash.success.conversation_update'
+                            );
+                            return $this->redirectToRoute('front_conversation_edit', [
+                                'id' => $conversation->getId(),
+                                '_fragment' => 'last-message']);
+
+                        } else {
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER,
+                                $this->translator->trans('flash.error.pro_contact_message.invalid-form', [
+                                    '%proUserName%' => $suggestedSeller->getFullName()
+                                ]));
+                            $activeSuggestedSeller = $suggestedSeller;
+                        }
+                    }
+                    $contactForms[$suggestedSeller->getId()] = [
+                        'form' => $contactForm->createView(),
+                        'seller' => $suggestedSeller
+                    ];
+                } catch (AccessDeniedHttpException $exception) {
+                    // $currentUser is unlogged or can't communicate directly => contact form for unlogged user
+                    $proContactMessageDTO = new ProContactMessageDTO($suggestedSeller);
+                    $contactForm = $this->formFactory->createNamed("ContactProForm" . $suggestedSeller->getId(), ContactProType::class, $proContactMessageDTO);
+                    $contactForm->handleRequest($request);
+                    if ($contactForm->isSubmitted()) {
+                        if ($contactForm->isValid()) {
+                            // Check ReCaptcha validation
+                            $captchaVerificationReturn = $this->captchaService->verify(['token' => $request->get($this->captchaService->getClientSidePostParameters())]);
+                            if (!$captchaVerificationReturn['success']) {
+                                $this->session->getFlashBag()->add(
+                                    self::FLASH_LEVEL_WARNING,
+                                    'flash.error.captcha_validation'
+                                );
+                            } else {
+                                $proContactMessageDTO->vehicle = $vehicle;
+                                $proContactMessage = $this->conversationEditionService->saveProContactMessage($proContactMessageDTO);
+                                $this->eventBus->handle(new ProContactMessageCreated($proContactMessage));
+                                $this->session->getFlashBag()->add(self::FLASH_LEVEL_INFO,
+                                    $this->translator->trans('flash.success.pro_contact_message.sent', [
+                                        '%proUserName%' => $suggestedSeller->getFullName()
+                                    ]));
+                                return $this->redirectToRoute('front_vehicle_pro_detail', ['slug' => $vehicle->getSlug()]);
+                            }
+                        } else {
+                            $this->session->getFlashBag()->add(self::FLASH_LEVEL_DANGER,
+                                $this->translator->trans('flash.error.pro_contact_message.invalid-form', [
+                                    '%proUserName%' => $suggestedSeller->getFullName()
+                                ]));
+                            $activeSuggestedSeller = $suggestedSeller;
+                        }
+                    }
+                    $contactForms[$suggestedSeller->getId()] = [
+                        'form' => $contactForm->createView(),
+                        'seller' => $suggestedSeller
+                    ];
                 }
             }
         }
@@ -416,8 +415,30 @@ class VehicleController extends BaseController
             'vehicle' => $vehicle,
             'positiveLikes' => $vehicle->getPositiveLikesByUserType(),
             'like' => $userLike,
-            'contactForm' => $contactForm ? $contactForm->createView() : null,
+            'contactForms' => $contactForms,
+            'suggestedSellers' => $suggestedSellers,
+            'activeSuggestedSeller' => $activeSuggestedSeller != null ? $activeSuggestedSeller : array_first($suggestedSellers)['seller']
         ]);
+    }
+
+
+    /**
+     * Enregistrement en session du vendeur sélectionné pour un véhicule (exempple : clic sur l'avatar dans l'encart vendeur)
+     * @Entity("vehicle", expr="repository.findIgnoreSoftDeletedOneBy({'slug':provehicle_slug})")
+     * @Entity("proUser", expr="repository.findIgnoreSoftDeletedOneBy({'id':seller_id})")
+     * @param Request $request
+     * @param ProVehicle $vehicle
+     * @param ProApplicationUser $proUser
+     * @return Response
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function ajaxSellerSelectAction(Request $request, ProVehicle $vehicle, ProApplicationUser $proUser): Response
+    {
+        if(!$request->isXmlHttpRequest()){
+            throw new BadRequestHttpException();
+        }
+        $this->session->set(self::PROVEHICLE_SELLER_SELECTION_TO_SESSION_KEY . '/' . $vehicle->getId(), $proUser->getId());
+        return new JsonResponse(true);
     }
 
     /**
@@ -518,7 +539,7 @@ class VehicleController extends BaseController
         }
 
         $currentUser = $this->getUser();
-        if(!$currentUser instanceof ProUser){
+        if (!$currentUser instanceof ProUser) {
             return new JsonResponse($this->translator->trans('flash.error.sale.unauthorized_to_get_vehicle_to_declare'), Response::HTTP_UNAUTHORIZED);
         }
 

@@ -4,6 +4,7 @@ namespace AppBundle\Command\EntityBuilder;
 
 
 use AppBundle\Doctrine\Entity\ProVehiclePicture;
+use AppBundle\Exception\Vehicle\VehicleImportRGFailedException;
 use Wamcar\Garage\Garage;
 use Wamcar\Vehicle\Engine;
 use Wamcar\Vehicle\Enum\Guarantee;
@@ -283,8 +284,6 @@ class AutosManuelProVehicleBuilder extends ProVehicleBuilder
             }
 
             $proVehicle->setGarage($garage);
-            $sellerCandidates = $garage->getBestSellersForVehicle($proVehicle);
-            $proVehicle->setSeller($sellerCandidates[array_rand($sellerCandidates)]['seller']);
         }
 
         return $proVehicle;

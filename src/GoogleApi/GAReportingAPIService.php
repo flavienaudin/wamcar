@@ -125,6 +125,8 @@ class GAReportingAPIService
             'slug' => $proUser->getSlug()
         ])));
         $profileAndVehiclesPagesDimensionFilters[] = $profilePageDimensionFilter;
+
+        /* Plus d'affectation des véhicules aux vendeurs
         foreach ($proUser->getVehicles() as $vehicle) {
             // Vehicle Page Dimension Filter : ga:pagePath== Vehicle page
             $vehiclePageDimensionFilter = new \Google_Service_AnalyticsReporting_DimensionFilter();
@@ -134,7 +136,7 @@ class GAReportingAPIService
                 'slug' => $vehicle->getSlug()
             ])));
             $profileAndVehiclesPagesDimensionFilters[] = $vehiclePageDimensionFilter;
-        }
+        }*/
 
         $profileAndVehiclesPagesDimensionFilterClause->setFilters($profileAndVehiclesPagesDimensionFilters);
 
@@ -333,7 +335,6 @@ class GAReportingAPIService
             }
             $reportArray['rows'][join(',', $row->getDimensions())] = $rowData;
         }
-
 
         return $reportArray;
     }

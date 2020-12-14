@@ -23,8 +23,8 @@ class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler impl
         /** @var PersonalVehicle $vehicle */
         $vehicle = $event->getVehicle();
         $this->checkEventClass($vehicle, PersonalVehicle::class);
-        $vehicleSeller = $vehicle->getSeller();
-        $trackingKeywords = ($vehicleSeller ->isPro() ? 'advisor' : 'customer') . $vehicleSeller ->getId();
+        $vehicleSeller = $vehicle->getOwner();
+        $trackingKeywords = ($vehicleSeller->isPro() ? 'advisor' : 'customer') . $vehicleSeller->getId();
 
         $commonUTM = [
             'utm_source' => 'notifications',
@@ -36,12 +36,12 @@ class NotifyUserOfAddingPicturesToVehicle extends AbstractEmailEventHandler impl
             $this->translator->trans('notifyUserOfAddingPicturesToVehicle.object', [], 'email'),
             'Mail/notifyUserOfAddingPicturesToVehicle.html.twig',
             [
-                'common_utm' => $commonUTM ,
-                'username' => $vehicle->getSellerName(true),
+                'common_utm' => $commonUTM,
+                'username' => $vehicle->getOwnerName(true),
                 'url_vehicle_page' => $this->router->generate('front_vehicle_personal_detail', array_merge(
                     $commonUTM, [
-                        'utm_content' => 'button_add_pictures',
-                        'slug' => $vehicle->getSlug()
+                    'utm_content' => 'button_add_pictures',
+                    'slug' => $vehicle->getSlug()
                 ]), UrlGeneratorInterface::ABSOLUTE_URL)
             ],
             new EmailRecipientList([$this->createUserEmailContact($vehicle->getOwner())])

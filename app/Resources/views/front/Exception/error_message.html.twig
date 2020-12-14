@@ -1,0 +1,12 @@
+{% extends 'front/Layout/error.html.twig' %}
+
+{% block mainClass %}no-padding{% endblock %}
+
+{% block title %}{{ titleKey|trans }}{% endblock %}
+
+{% set messageParams = {'%redirection_url%':redirectionUrl}|merge(messageParams|default({})) %}
+{% block errorBody %}
+    <p>{{ messageKey|trans(messageParams)|raw }}</p>
+{% endblock %}
+
+{% block reinsurance %}{% endblock %}

@@ -59,7 +59,7 @@ class SessionMessage
      * @param SessionMessage $sessionMessage
      * @param null|BaseVehicle $vehicle
      */
-    protected function assignVehicleHeader(SessionMessage $sessionMessage, ?BaseVehicle $vehicle = null): void
+    private function assignVehicleHeader(SessionMessage $sessionMessage, ?BaseVehicle $vehicle): void
     {
         if ($vehicle instanceof ProVehicle) {
             $sessionMessage->proVehicleHeaderId = $vehicle->getId();
@@ -72,7 +72,7 @@ class SessionMessage
      * @param SessionMessage $sessionMessage
      * @param null|BaseVehicle $vehicle
      */
-    protected function assignVehicle(SessionMessage $sessionMessage, ?BaseVehicle $vehicle = null): void
+    private function assignVehicle(SessionMessage $sessionMessage, ?BaseVehicle $vehicle = null): void
     {
         if ($vehicle instanceof ProVehicle) {
             $sessionMessage->proVehicleId = $vehicle->getId();

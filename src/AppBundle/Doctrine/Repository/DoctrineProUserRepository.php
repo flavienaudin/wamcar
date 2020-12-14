@@ -8,7 +8,6 @@ use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Wamcar\User\PersonalUser;
 use Wamcar\User\UserRepository;
-use Wamcar\Vehicle\Enum\LeadCriteriaSelection;
 use Wamcar\Vehicle\PersonalVehicle;
 
 class DoctrineProUserRepository extends EntityRepository implements UserRepository, UserProviderInterface, UserWithResettablePasswordProvider

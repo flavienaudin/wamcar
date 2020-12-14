@@ -41,7 +41,8 @@
                             {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
                                 "seller" : hit,
-                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
+                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : [],
+                                "wholeClickable" : true
                             }) }}
                         </div>
                     {% endfor %}
@@ -84,7 +85,8 @@
                             {{ include('front/Directory/includes/advisor_item.html.twig', {
                                 "itemClass" : "width-100",
                                 "seller" : hit,
-                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : []
+                                "highlightSpecialities" : filterData.speciality is defined ? [filterData.speciality] : [],
+                                "wholeClickable": true
                             }) }}
                         </div>
                     {% endfor %}

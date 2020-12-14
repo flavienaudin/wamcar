@@ -26,7 +26,7 @@ class IndexUpdatedPersonalVehicle implements VehicleEventHandler
         $personalVehicle = $event->getVehicle();
 
         $this->indexPersonalVehicle($personalVehicle);
-        $this->indexPersonalUserSearchItems($personalVehicle->getSeller(), $event);
+        $this->indexPersonalUserSearchItems($personalVehicle->getOwner(), $event);
     }
 
 }

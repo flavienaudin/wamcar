@@ -1,22 +1,37 @@
 {% extends 'front/Vehicle/Listing/includes/vehicle_item.html.twig'%}
 
 {% set balise = balise|default('h2') %}
-{% set sellerUrl = path('front_view_pro_user_info', {'slug': vehicle.seller.slug}) %}
+{% set suggestedSellers = vehicle.suggestedSellers(true, app.user) %}
+{# TODO : Afficher les autres vendeurs suggérés sous le garage dans l'encart de droite ? #}
+{% if suggestedSellers|length > 0 %}
+    {% set vehicleSeller = (suggestedSellers|first).seller %}
+    {% set sellerUrl = path('front_view_pro_user_info', {'slug': vehicleSeller.slug}) %}
+    {% set sellerPicture = vehicleSeller.avatar|avatar('user_mini_thumbnail', vehicleSeller.fullName) %}
+    {% set sellerName = vehicleSeller.fullName %}
+
+{% else %}
+    {% set sellerUrl = path('front_garage_view',{'slug':vehicle.garage.slug}) %}
+    {% set sellerPicture = vehicle.garage|logo('garage_logo') %}
+    {% set sellerName = vehicle.garage.name %}
+{% endif %}
 
 {% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">
         <div class="vehicle-user-pic">
             <a href="{{ sellerUrl }}">
-                <img src="{{ vehicle.sellerAvatar|avatar('user_mini_thumbnail', vehicle.sellerName) }}"
-                     alt="{{ vehicle.sellerName }}"></a>
+                <img src="{{ sellerPicture }}"
+                     alt="{{ sellerName }}"></a>
         </div>
-
         <div class="small-12 dark-gray-color align-self-top">
             <div>
-                <a href="{{ sellerUrl }}"><strong class="primary-color">{{ vehicle.sellerName|title }}</strong></a>
-                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
+                <a href="{{ sellerUrl }}"><strong class="primary-color">{{ sellerName|title }}</strong></a>
+                {% if vehicleSeller is defined and vehicleSeller is not null %}
+                    {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicleSeller}) }}
+                {% endif %}
             </div>
-            <div><a href="{{ path('front_garage_view', {'slug':vehicle.garage.slug}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></div>
+            {% if vehicleSeller is defined and vehicleSeller is not null %}
+                <div><a href="{{ path('front_garage_view', {'slug':vehicle.garage.slug}) }}" class="dark-gray-color">{{ vehicle.garageName }}</a></div>
+            {% endif %}
 
             {{ include('front/Garages/Detail/includes/google_rating.html.twig', {poweredByGoogleDisplay:true, garageRating:vehicle.garage.googleRating|default(null)}) }}
         </div>
