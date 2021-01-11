@@ -1,8 +1,8 @@
 {% extends 'front/Vehicle/Listing/includes/vehicle_item.html.twig' %}
 
 {% set balise = balise|default('h2') %}
-{% set sellerUrl = path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) %}
-{% set vehicleSellerName = (vehicle.seller.is(app.user)?"global.you"|trans:vehicle.ownerName(not isLogged or isUserPersonal))|title %}
+{% set sellerUrl = path('front_view_personal_user_info', {'slug': vehicle.owner.slug}) %}
+{% set vehicleSellerName = (vehicle.owner.is(app.user)?"global.you"|trans:vehicle.ownerName(not isLogged or isUserPersonal))|title %}
 
 {% block complementary_block %}
     <div class="vehicle-user-infos small-12 medium-auto">
@@ -14,9 +14,9 @@
         <div class="small-12 align-self-top">
             <div>
                 <a href="{{ sellerUrl }}" class="primary-color"><strong>{{ vehicleSellerName }}</strong></a>
-                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.seller}) }}
+                {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {'user':vehicle.owner}) }}
                 {% if isUserPro %}
-                    {% set contacts = getUserContactsOfGarages(vehicle.seller, app.user.garages) %}
+                    {% set contacts = getUserContactsOfGarages(vehicle.owner, app.user.garages) %}
                     <span class="seller-contacts">
                         {% for contact in contacts|filter(c => not c.is(app.user)) %}
                             {{ include('front/User/includes/contacted_by.html.twig') }}
@@ -55,7 +55,7 @@
                 </ul>
             {% else %}
                 <div class="dark-gray-color text-justify">
-                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':vehicle.seller.firstName|title}) }}</strong>
+                    <strong>{{ 'vehicle.item.no_project.title'|trans({'%username%':vehicle.owner.firstName|title}) }}</strong>
                     {{ 'vehicle.item.no_project.subtitle'|trans }}
                 </div>
             {% endif %}
