@@ -1,11 +1,11 @@
 {% extends 'front/Layout/layout.html.twig' %}
 
-{% set vehiclesToList = vehicle.seller.getVehicles(4, vehicle) %}
+{% set vehiclesToList = vehicle.owner.getVehicles(4, vehicle) %}
 {% set state_block %}
     {%- include 'front/Vehicle/Detail/includes/state.html.twig' -%}
 {% endset %}
 {% set ownersProject = vehicle.ownerProject %}
-{% set displayProjectBlock = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.seller.positiveLikes|length > 0 %}
+{% set displayProjectBlock = (ownersProject is not null and (ownersProject.budget is not null or ownersProject.projectVehicles|length>0 or ownersProject.description|length>0)) or vehicle.owner.positiveLikes|length > 0 %}
 
 {% block mainClass %}medium-no-padding-top light-gray-peexeo-bg{% endblock %}
 
@@ -49,7 +49,7 @@
     {% set breadcrumbs = [
         {
             'name': vehicleSellerName,
-            'href': path('front_view_personal_user_info', {'slug': vehicle.seller.slug})
+            'href': path('front_view_personal_user_info', {'slug': vehicle.owner.slug})
         },
         {
             'name': vehicle.name,
@@ -96,7 +96,7 @@
             <div id="js-aside-content-seller-item" class="vehicle-seller-item">
                 {% include 'front/Vehicle/Detail/includes/seller_personal_item.html.twig' with {
                     'itemClass' : 'block-light-shadow',
-                    'seller' : vehicle.seller,
+                    'seller' : vehicle.owner,
                     'compact' : true,
                     'wholeClickable': false
                 } %}
@@ -166,7 +166,7 @@
             {% if vehiclesToList|length > 0 %}
                 <div class="other-vehicles" id="js-associate">
                     <h2 class="is-breaking-word">
-                        {{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}
+                        {{ isEditableByCurrentUser?'vehicle.section.other_vehicle.title.owner'|trans:'vehicle.section.other_vehicle.title.personal'|trans({'%firstname%':vehicle.owner.firstname}) }}
                     </h2>
                     {% include 'front/Vehicle/Listing/includes/list_peexeo.html.twig' with {
                         'vehiclesToList' : vehiclesToList,
@@ -174,8 +174,8 @@
                         'columnsSizes': 'small-up-2'
                     } %}
                     <div class="is-flex align-center">
-                        <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.seller.slug}) }}"
-                           class="button">{{ 'vehicle.section.other_vehicle.button.personal'|trans({'%firstname%':vehicle.seller.firstname}) }}</a>
+                        <a href="{{ path('front_view_personal_user_info', {'slug': vehicle.owner.slug}) }}"
+                           class="button">{{ 'vehicle.section.other_vehicle.button.personal'|trans({'%firstname%':vehicle.owner.firstname}) }}</a>
                     </div>
                 </div>
             {% endif %}

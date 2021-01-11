@@ -1,7 +1,7 @@
 <div class="peexeo-vehicle-aside">
     <div class="send-message-button-container">
-        <a href="{{ path('front_conversation_create',{'id':vehicle.seller.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}"
-           data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ vehicle.seller|wtToDataAttrValue }}"
+        <a href="{{ path('front_conversation_create',{'id':vehicle.owner.id, 'vehicleId':vehicle.id, '_fragment':'message-answer-block'}) }}"
+           data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}" data-wtto="{{ vehicle.owner|wtToDataAttrValue }}"
            class="icon-message"></a>
     </div>
 </div>

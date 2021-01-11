@@ -1,6 +1,6 @@
 {# TODO Cet encart peut être factoriser avec le block "Projet" de la page profil du particulier (User/Card.html.twig "Project Block" #}
 
-<h2 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.my_project'|trans:'user.project.seller_project'|trans({'%seller_firstname%':vehicle.seller.firstname}) }}</h2>
+<h2 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.my_project'|trans:'user.project.seller_project'|trans({'%seller_firstname%':vehicle.owner.firstname}) }}</h2>
 
 {% set project = vehicle.ownerProject %}
 {% if project is not null and (project.budget is not null or project.projectVehicles|length>0 or project.description|length>0) %}
@@ -10,9 +10,9 @@
         {% if isEditableByCurrentUser %}
             <a href="{{ path('front_edit_user_project') }}" class="button seller-project-button">{{ 'user.project.edit'|trans }}</a>
         {% else %}
-            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
+            <a href="{{ path('front_conversation_create', {'id': vehicle.owner.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
                class="button primary-button full-width seller-project-button" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-            data-wtto="{{ vehicle.seller|wtToDataAttrValue }}">{{ 'user.project.answer'|trans }}</a>
+            data-wtto="{{ vehicle.owner|wtToDataAttrValue }}">{{ 'user.project.answer'|trans }}</a>
         {% endif %}
     </div>
 {% else %}
@@ -20,16 +20,16 @@
         {% if isEditableByCurrentUser %}
             <a href="{{ path('front_edit_user_project') }}" class="button seller-project-button">{{ 'user.project.create'|trans }}</a>
         {% else %}
-            <a href="{{ path('front_conversation_create', {'id': vehicle.seller.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
+            <a href="{{ path('front_conversation_create', {'id': vehicle.owner.id, 'vehicleId': vehicle.id, '_fragment':'message-answer-block' }) }}"
                class="button primary-button full-width seller-project-button" data-wtaction="LM" data-wtfrom="{{ app.user|wtFromDataAttrValue }}"
-               data-wtto="{{ vehicle.seller|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
+               data-wtto="{{ vehicle.owner|wtToDataAttrValue }}">{{ 'global.button.send_message'|trans }}</a>
         {% endif %}
     </div>
 {% endif %}
 
-{% set sellerLikes = vehicle.seller.positiveLikes %}
+{% set sellerLikes = vehicle.owner.positiveLikes %}
 {% if sellerLikes|length > 0 %}
-    <h3 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.favorites.owner'|trans:'user.project.favorites.title'|trans({'%user_firstname%': vehicle.seller.firstname}) }}</h3>
+    <h3 class="is-breaking-word">{{ isEditableByCurrentUser?'user.project.favorites.owner'|trans:'user.project.favorites.title'|trans({'%user_firstname%': vehicle.owner.firstname}) }}</h3>
     {{ include('front/Favorites/includes/list.html.twig', {
         'likeToList': sellerLikes,
         'columnsSizes': 'small-up-2'
