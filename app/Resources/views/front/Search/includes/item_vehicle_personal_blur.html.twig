@@ -1,0 +1,20 @@
+{% set balise = balise|default('h2') %}
+{% set detailUrl = pro_site_url %}
+{% set detailUrlTarget = detailUrlTarget|default('_self') %}
+
+<article class="vehicle-item is-flex white-bg">
+    <div class="is-flex full-width is-relative">
+        <div class="vehicle-picture small-auto">
+            <div class="is-relative">
+                <a href="{{ detailUrl }}" target="{{ detailUrlTarget }}">
+                    <img src="{{ asset('assets/images/placeholders/vehicle/Placeholder-Avant.png') }}">
+                </a>
+            </div>
+        </div>
+        <div class="vehicle-infos small-shrink full-width align-center-middle">
+            <h2 class="no-margin">Page réservée aux abonnés <a href="{{ detailUrl }}" class="button primary-button">Je m'abonne</a></h2>
+        </div>
+    </div>
+
+    {% block complementary_block %}{% endblock %}
+</article>

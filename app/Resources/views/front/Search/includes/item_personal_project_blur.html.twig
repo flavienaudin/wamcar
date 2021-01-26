@@ -1,0 +1,22 @@
+{% set balise = balise|default('h2') %}
+{% set sellerUrl = pro_site_url %}
+{% set detailUrl = pro_site_url  %}
+
+<article class="vehicle-item is-flex">
+    <div class="is-flex full-width is-relative">
+        <div class="vehicle-picture small-auto">
+            <div class="is-relative">
+                {% if project.personalUser.vehicles|length == 0 %}
+                    <img src="{{ asset('assets/images/placeholders/vehicle/no-vehicle-to-sell.png')|imagine_filter('vehicle_thumbnail') }}" alt="{{ 'search.common.result.no_vehicle_to_sell.alt'|trans }}">
+                {% elseif project.personalUser.vehicles|length == 1 %}
+                    <img src="{{ asset('assets/images/placeholders/vehicle/Placeholder-Avant.png') }}">
+                {% else %}
+                    {% include 'front/Layout/includes/svg/2cars_big.html.twig' %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="vehicle-infos small-shrink full-width align-center-middle">
+            <h2 class="no-margin">Page réservée aux abonnés <a href="{{ detailUrl }}" class="button primary-button">Je m'abonne</a></h2>
+        </div>
+    </div>
+</article>
