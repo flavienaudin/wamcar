@@ -426,11 +426,11 @@ landing:
       title: Annonces
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
   peexeo:
-    title: "Dénicheur de conseillers auto"
+    title: "Prenez des conseils auprès d'un spécialiste automobile"
     baseline:
-      main: Dans quelques clics vous aurez trouvé un conseiller auto
+      main: Prenez des conseils auprès d'un spécialiste automobile
       first: à l'écoute
-      second: fidèle
+      second: sympathique
       third: enfin disponible
       fourth: sur-mesure
     description: >
@@ -440,6 +440,8 @@ landing:
       title: L'expérience WamAffinity
       content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
       actions:
+        search_specialist: Rechercher un spécialiste
+        iam_specialist: Je suis un spécialiste
         find_advisor: Trouver mon conseiller
         all_advisors: Voir les conseillers
         registration: Inscription
