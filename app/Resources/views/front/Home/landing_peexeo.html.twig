@@ -62,7 +62,11 @@
                         ></span>
                     </h1>
                     <a href="{{ findAdvisorLink }}" class="button primary-button full-width margin-bottom-1">
-                        {{ 'landing.peexeo.wamaffinity.actions.find_advisor'|trans }}</a>
+                        {{ 'landing.peexeo.wamaffinity.actions.search_specialist'|trans }}</a>
+                    <p class="text-center">
+                    <a href="{{ path('register', {'type':constant("Wamcar\\User\\ProUser::TYPE")}) }}" class="text-underline margin-bottom-1">
+                        {{ 'landing.peexeo.wamaffinity.actions.iam_specialist'|trans }}</a>
+                    </p>
                 </div>
             </div>
 
