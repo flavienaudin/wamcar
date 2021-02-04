@@ -60,15 +60,15 @@
         'placeholder': 'directory.field.text.placeholder'|trans
     }) }}
 
-    <div class="column small-12">
+    {#<div class="column small-12">
         <a class="dark-gray-blue-peexeo-color" data-toggle="filters js-more-criteria js-less-criteria">
             <span id="js-more-criteria" data-toggler=".is-hidden"
                   class="icon-plus-circle">{{ 'directory.more_criteria'|trans }}</span>
             <span id="js-less-criteria" data-toggler=".is-hidden"
                   class="icon-minus-circle is-hidden">{{ 'directory.less_criteria'|trans }}</span></a>
-    </div>
+    </div>#}
 
-    <div id="filters" class="column small-12 margin-top-1 is-hidden" data-toggler="is-hidden">
+    <div id="filters" class="column small-12 margin-top-1 {#is-hidden#}" {#data-toggler="is-hidden"#}>
         <div class="row ">
             {% set largeSize = searchProForm.vars.mainFilters|length > 0 ? max(min(12/searchProForm.vars.mainFilters|length, 6), 3) : 12 %}
             {% if searchProForm.vars.mainFilters|length > 0 %}
