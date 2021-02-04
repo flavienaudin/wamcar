@@ -115,7 +115,7 @@ class ProUserEntityIndexer extends EntityIndexer
                     }
                 }
                 if($servicesBoolQuery->count() > 0 ) {
-                    $mainBoolQuery->addMust($servicesBoolQuery);
+                    $mainBoolQuery->addShould($servicesBoolQuery);
 
                     $specialitiesBoolQuery->setMinimumShouldMatch(0);
                     $specialitiesBoolQuery->setBoost(2);

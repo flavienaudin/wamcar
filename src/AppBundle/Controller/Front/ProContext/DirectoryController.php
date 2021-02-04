@@ -88,12 +88,11 @@ class DirectoryController extends BaseController
 
         // Service/Spécialité via la sélection dans l'entête => recherche libre
         if (($serviceSLug = $request->query->get('keyword')) !== null) {
-            if ( ($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
-                $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService ->getName();
-                //$searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService ->getName();
+            if (($keywordService = $this->proServiceService->getProServiceBySlug($serviceSLug)) != null) {
+                $searchProDTO->text .= (!empty($searchProDTO->text) ? ' ' : '') . $keywordService->getName();
+                $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? ' ' : '') . $keywordService->getName();
             }
         }
-
 
 
         // Deal with ByCity action
@@ -142,6 +141,7 @@ class DirectoryController extends BaseController
         ]);
 
         $searchProForm->handleRequest($request);
+        $textQueryValues = [];
         foreach ($mainFilters as $positionMainFilter => $filterParam) {
             /** @var ProServiceCategory $filterCategory */
             $filterCategory = $filterParam['category'];
@@ -150,9 +150,20 @@ class DirectoryController extends BaseController
             $filterForm = $searchProForm->get($categoryFieldName);
             if ($filterForm != null && !empty($filterData = $filterForm->getData())) {
                 $searchProDTO->filters[$categoryFieldName] = $filterData;
+
+                if ($filterCategory->isChoiceMultiple()) {
+                    foreach ($filterData as $key => $proService) {
+                        $textQueryValues[] = $proService->getName();
+                    };
+                } else {
+                    $textQueryValues[] = $filterData->getName();
+                }
             }
         }
-
+        if(count($textQueryValues)>0) {
+            $searchProDTO->text = (!empty($searchProDTO->text) ? $searchProDTO->text. " " : '') . join(' ', $textQueryValues);
+            $searchVehicleDTO->text .= (!empty($searchVehicleDTO->text) ? $searchVehicleDTO->text." " : '') . join(' ', $textQueryValues);
+        }
 
         // Construction de la recherche de voitures : Filtre selon la localisation
         if (!empty($searchProDTO->postalCode) && !empty($searchProDTO->cityName) && !empty($searchProDTO->latitude && !empty($searchProDTO->longitude))) {
@@ -173,7 +184,6 @@ class DirectoryController extends BaseController
             // Ajout du champ libre dans le querystring de l'url "tout voir"
             $seeAllVehicleSearchRouteParam['q'] = $searchVehicleDTO->text;
         }
-
         $proUsersResultSet = $this->proUserEntityIndexer->getQueryDirectoryProUserResult($searchProDTO, $page, $this->getUser());
         $proUserResult = $this->userEditionService->getUsersBySearchResult($proUsersResultSet);
         $searchVehiclesResultSet = $this->searchResultProvider->getSearchResult($searchVehicleDTO, $page, $this->getUser(), 4);
