@@ -8,7 +8,8 @@
   justify-content: center;
   align-items: center;
   height: rem-calc(150);
-  color: $dark-gray-blue-peexeo;
+  background-color: $dark-gray-blue-peexeo;
+  color: $primary-color;
   margin-bottom: rem-calc(25);
   z-index: 1;
 
@@ -28,7 +29,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: url('#{$img-folder}/logo/logo-wamcar-tiny.svg') center #{rem-calc(-40)}/ #{rem-calc(500)} no-repeat;
+    // background: url('#{$img-folder}/logo/logo-wamcar-tiny.svg') center #{rem-calc(-40)}/ #{rem-calc(500)} no-repeat;
     opacity: .09;
     z-index: -1;
 
@@ -45,7 +46,7 @@
 
   /* Components */
   h1, .h1 {
-    color: $dark-gray-blue-peexeo;
+    color: $white;
 
     @include breakpoint(small only) {
       font-size: rem-calc(20);

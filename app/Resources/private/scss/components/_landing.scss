@@ -237,8 +237,8 @@
       background-color: $light-gray-peexeo;
 
       @include breakpoint (medium) {
-        background: $light-gray-peexeo url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
-        background-blend-mode: overlay;
+        /*background: $light-gray-peexeo url(#{$img-folder}/logo/logo-wamcar-tiny-transp.svg) 140% center/50% no-repeat;
+        background-blend-mode: overlay;*/
 
       }
 
