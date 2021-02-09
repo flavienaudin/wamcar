@@ -1,7 +1,10 @@
 {% set action = isUserPro ? path('front_view_current_user_info') : isUserPersonal ? path('front_directory_view') : path('front_default') %}
 
 <a href="{{ action }}" class="logo-container column shrink {{ isLogged ? 'small-collapse large-uncollapse is-logged' }}">
-    <img src="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}" alt="Wamcar" class="logo logo-very-small-show">
-    <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar" class="logo logo-small-show show-for-small-only">
-    <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar" class="logo hide-for-small-only">
+{#    <img src="{{ asset('assets/images/logo/logo-wamcar-small.svg') }}" alt="Wamcar" class="logo logo-very-small-show">#}
+{#    <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar" class="logo logo-small-show show-for-small-only">#}
+{#    <img src="{{ asset('assets/images/logo/logo-wamcar.svg') }}" alt="Wamcar" class="logo hide-for-small-only">#}
+    <img src="{{ asset('assets/images/logo/logo-dpeople.png') }}" alt="Wamcar" class="logo logo-very-small-show">
+    <img src="{{ asset('assets/images/logo/logo-dpeople.png') }}" alt="Wamcar" class="logo logo-small-show show-for-small-only">
+    <img src="{{ asset('assets/images/logo/logo-dpeople.png') }}" alt="Wamcar" class="logo hide-for-small-only">
 </a>

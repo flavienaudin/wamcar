@@ -47,8 +47,8 @@ module.exports = {
   },
   plugins: [
     new WebpackNotifierPlugin({
-      title: 'Wamcar',
-      contentImage: path.join(__dirname, '../../..', 'web/images/favicon/android-chrome-192x192.png'),
+      title: 'D\'People',
+      contentImage: path.join(__dirname, '../../..', 'web/images/favicon/dpeople-favicon-32x32.png'),
       alwaysNotify: true
     })
   ]
