@@ -53,7 +53,7 @@ class GarageType extends AbstractType
                 ])
                 ->add('address', TextType::class)
                 ->add('phone', TextType::class, [
-                    'attr' => ['pattern' => '^0\d{9}$']
+                    'attr' => ['pattern' => '^0\d{8,9}$']
                 ])
                 ->add('banner', GaragePictureType::class, [
                     'error_bubbling' => true
