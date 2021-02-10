@@ -4,6 +4,7 @@
 
 .logo {
   max-width: rem-calc(120);
+  max-height: 100%;
 
   @include breakpoint(medium) {
     max-width: rem-calc(300);
@@ -30,6 +31,14 @@
      ===================================== */
 
   &-container {
+    height: $header-height;
+    padding: rem-calc(10px);
+
+    @include breakpoint(large) {
+      height: $header-height-medium;
+      padding: rem-calc(20px) 0;
+    }
+
     &.is-logged {
       @include breakpoint(small only) {
         padding-left: rem-calc(3);
