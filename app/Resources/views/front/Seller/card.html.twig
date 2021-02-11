@@ -34,7 +34,7 @@
             {% if false%}
                 <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow">
                     <div class="column small-12 large-8 text-justify">
-                        {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title})|raw }}</div>
+                        {{ 'user.registration.block_insert'|trans({'%username%':user.firstname|title,'%sitename%':site_name})|raw }}</div>
                     <div class="column small-12 medium-6 medium-offset-3 large-4 large-offset-0">
                         <a href="{{ path('register', {'type': constant("Wamcar\\User\\PersonalUser::TYPE")}) }}"
                            class="button expand-height dark-blue">

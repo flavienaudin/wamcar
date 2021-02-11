@@ -426,16 +426,31 @@ landing:
       title: Annonces
       subtitle: Découvrez les véhicules neufs ou d'occasion vendus par votre conseiller préféré.
   peexeo:
-    title: "Prenez des conseils auprès d'un spécialiste automobile"
+    title: "Besoin de conseils ? Découvrez nos spécialistes !"
     baseline:
-      main: Prenez des conseils auprès d'un spécialiste automobile
-      first: à l'écoute
-      second: sympathique
-      third: enfin disponible
-      fourth: sur-mesure
+      main: "Besoin de conseils ? Découvrez nos spécialistes !"
+      first: Achat
+      second: Réparation
+      third: Entretien
+      fourth: Reprise
     description: >
       Wamcar vous aide à trouver le conseiller automobile qui saura répondre à vos besoins. Déposez votre annonce,
       découvrez les occasions, changez de voiture !
+    dpeople:
+      title: Notre vision 2025
+      content: >
+        <p>Véhicules électriques et connectés, digitalisation de l’expérience, sharing economy et développement durable bouleversent le monde de la mobilité.</p>
+        <p>Plus que jamais au cœur de ces changements et de la multitude de challenges qu’ils font émerger, D’Ieteren s’est fixé pour mission d’œuvrer à la construction d’une mobilité fluide et durable pour tous, considérant notamment qu’un véhicule n’est plus seulement un produit, mais un ensemble de services mobiles et connectés, destinés à faciliter la vie au quotidien.
+        <p>Dans cette optique, D’Ieteren a développé une nouvelle vision, qui s’étend au-delà de la distribution automobile, avec l’ambition de devenir d’ici 2025 le choix naturel en matière de mobilité en Belgique, quel que soit le mode de transport utilisé, et de faire de la mobilité un levier de développement durable pour les générations à venir.
+        <p>4 axes stratégiques ont ainsi été établis :
+          <ul>
+            <li>Customer experience : améliorer la vie de nos clients en visant l’excellence dans leur expérience de mobilité</li>
+            <li>People : offrir à nos collaborateurs actuels et aux talents à venir “a great place to work” en y faisant vivre nos valeurs.</li>
+            <li>Product & Service portfolio : créer et adapter un portefeuille durable de produits et de services en ligne avec les besoins des clients</li>
+            <li>Mobility ecosystem : construire un écosystème cohérent de solutions couvrant tous les besoins liés à la mobilité durable, via nos canaux, notre réseau et nos partenaires</li>
+        <p>
+        <p class="">Par-dessus tout, nous réaliserons cette ambition de manière responsable, respectueuse de l’environnement, de nos clients, de nos collègues et des communautés qui nous entourent.</p>
+
     wamaffinity:
       title: L'expérience WamAffinity
       content: Découvrez quel conseiller automobile est fait pour vous grâce au formulaire WamAffinity !
@@ -577,7 +592,7 @@ search:
 vehicle:
   inscription:
     title: Inscription, description et état de ma voiture
-    description: Inscrivez-vous sur Wamcar pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
+    description: Inscrivez-vous sur %sitename% pour pouvoir déposer votre annonce, définir votre projet d'achat, mettre de coté des annonces, discuter avec des professionnels de votre région
   form:
     step_navigation:
       identification: Identification du véhicule
@@ -822,7 +837,7 @@ user:
     pro:
       title: Inscription pour les professionnels de l'automobile
       meta_description: En créant votre compte Conseiller Automobile, vous aurez accès à de nombreux leads de qualité provenant de votre région. Demultiplier vos revenus grâce Wamcar. Commencez dès aujourd'hui
-      banner: Inscrivez-vous sur Wamcar pour générer des rendez-vous clients de qualité !
+      banner: Inscrivez-vous sur %sitename% pour générer des rendez-vous clients de qualité !
     personal:
       title: Inscription rapide pour les particuliers
       meta_description: Formulaire d'inscription rapide pour les particuliers. Un email, un mot de passe et vous êtes inscrit !
@@ -833,7 +848,7 @@ user:
     block_insert: >
       Inscrivez-vous gratuitement pour : <ul class="margin-bottom-0">
       <li>appeler %username% sur sa ligne de téléphone directe,</li>
-      <li>le contacter via la messagerie sécurisée Wamcar,</li>
+      <li>le contacter via la messagerie sécurisée %sitename%,</li>
       <li>obtenir une offre de reprise pour votre véhicule actuel</li>
       </ul>
   confirmation:

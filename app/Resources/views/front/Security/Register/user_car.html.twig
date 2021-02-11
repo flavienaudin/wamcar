@@ -6,7 +6,7 @@
 {% set is_register_page = true %}
 
 {% block title %}{{ 'vehicle.inscription.title'|trans }}{% endblock %}
-{% block meta_description %}{{ 'vehicle.inscription.description'|trans }}{% endblock %}
+{% block meta_description %}{{ 'vehicle.inscription.description'|trans({'%sitename%': site_name}) }}{% endblock %}
 
 {% block body %}
     <section class="small-12">

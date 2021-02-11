@@ -13,7 +13,7 @@
 {% block body %}
     {% include 'front/Layout/includes/page_header.html.twig' with {
         page_header_class: 'column register-page-header',
-        title: 'user.registration.pro.banner'|trans,
+        title: 'user.registration.pro.banner'|trans({'%sitename%':site_name}),
         title_class: 'dark-blue-color'
     } %}
 
