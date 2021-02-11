@@ -7,7 +7,7 @@
     {% if is_granted(constant('Symfony\\Component\\Security\\Core\\Authorization\\Voter\\AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED')) and app.user.isPro and app.user.isMemberOfGarage(garage) %}
         {{ 'garage.my_garage'|trans }}
     {% else %}
-        {{  garage.name}}
+        {{ garage.name|raw }}
     {% endif %}
 {% endblock %}
 
