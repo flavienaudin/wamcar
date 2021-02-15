@@ -34,18 +34,7 @@
 
 <div class="column directory-form-container">
     <header>
-        <h1 class="h2 no-margin">
-            {% if header_search is not empty %}
-                {{ 'directory.result_number.with_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
-                    "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits),
-                    "%search%": header_search
-                }) }}
-            {% else %}
-                {{ 'directory.result_number.without_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
-                    "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits)
-                }) }}
-            {% endif %}
-        </h1>
+        <h1 class="h2 no-margin">{{ 'directory.form.header'|trans }}</h1>
     </header>
 
     {% set searchFormAttr =  {'class':'row gtm-dom-ready', 'id':'js-search-form'}|merge(wtDirectorySearchFormDataAttributes(searchProForm, app.user)) %}
@@ -122,14 +111,32 @@
         </div>
     </div>
 
-    <div class="column small-12 medium-6 medium-offset-6 large-4 large-offset-8">
-        {{ form_widget(searchProForm.sorting, {
-            'id':'js-search-sorting-select',
-            'label' : 'directory.field.sorting.label'|trans,
-            'label_class' : 'show-for-sr',
-            'class' : 'sorting margin-0',
-            'required' : true
-        }) }}
+    <div class="column small-12">
+        <div class="row margin-0">
+            <div class="column small-12 medium-shrink medium-collapse dark-gray-blue-peexeo-color search-nb-result"><b>
+                {% if header_search is not empty %}
+                    {{ 'directory.result_number.with_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
+                        "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits),
+                        "%search%": header_search
+                    }) }}
+                {% else %}
+                    {{ 'directory.result_number.without_search'|transchoice((proUsers.result.totalHits + vehicles.result.totalHits), {
+                        "%nb%": (proUsers.result.totalHits + vehicles.result.totalHits)
+                    }) }}
+                {% endif %}
+                <span class="hide-for-small-only">&nbsp;-&nbsp;</span></b>
+            </div>
+
+            <div class="column small-12 medium-6 medium-collapse large-4">
+                {{ form_widget(searchProForm.sorting, {
+                    'id':'js-search-sorting-select',
+                    'label' : 'directory.field.sorting.label'|trans,
+                    'label_class' : 'show-for-sr',
+                    'class' : 'sorting margin-0 padding-0 dark-gray-blue-peexeo-color',
+                    'required' : true
+                }) }}
+            </div>
+        </div>
     </div>
 
     {% if form_criteria is not empty %}
