@@ -67,6 +67,22 @@ $directory-item-min-height: 182;
         color: $black;
       }
     }
+
+    .search-nb-result {
+      font-size: rem-calc(13);
+      @include breakpoint(small only) {
+        text-align: center;
+      }
+
+      @include breakpoint(medium) {
+        font-size: rem-calc(16);
+      }
+
+      @include breakpoint(large) {
+        font-size: rem-calc(17);
+      }
+
+    }
   }
 
   &-result {
