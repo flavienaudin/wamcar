@@ -1,6 +1,6 @@
 {% extends 'front/User/includes/seller_pro_item.html.twig' %}
 
-{% block bottomContainer %}
+{% block userLocation %}
     <div class="tag-container text-center">
         {% set nbProSpeciality = seller.proUserSpecialities|length %}
         {% for proSpeciality in seller.proUserSpecialities(highlightSpecialities ?? [])|slice(0,2) %}
@@ -11,5 +11,21 @@
             <a href="{{ path('front_view_pro_user_info', {'slug': seller.slug}) }}"
                class="tag">+{{ nbProSpeciality - 2 }}</a>
         {% endif %}
+    </div>
+{% endblock userLocation %}
+
+{% block bottomContainer %}
+    {% set userGarageBest = (seller.garagesOrderByGoogleRating|first).garage %}
+    <div class="text-center margin-top-1">
+        <span class="icon-location primary-color align-center"><span class="body-font-color">{{ userGarageBest.address.cityName|upper }}</span></span>
+
+        <a href="{{ path('front_garage_view', {'slug': userGarageBest.slug}) }}" class="primary-color h3 text-wrap "><b>{{ userGarageBest.name }}</b></a>
+
+        {{ include('front/Garages/Detail/includes/google_rating.html.twig', {
+            garageRating : userGarageBest.googleRating,
+            poweredByGoogleDisplay : true,
+            garageSlug : userGarageBest.slug,
+            isCenter: true
+        }) }}
     </div>
 {% endblock bottomContainer %}

@@ -91,6 +91,12 @@
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
+@include breakpoint(medium) {
+  .medium-text-left  {
+    text-align: left;
+  }
+}
+
 
 /*
    Color
