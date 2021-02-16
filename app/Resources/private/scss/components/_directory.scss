@@ -70,6 +70,7 @@ $directory-item-min-height: 182;
 
     .search-nb-result {
       font-size: rem-calc(13);
+
       @include breakpoint(small only) {
         text-align: center;
       }
