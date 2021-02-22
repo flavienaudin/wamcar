@@ -1,7 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
-var WebpackNotifierPlugin = require('webpack-notifier');
-
+const webpack = require('webpack');
+const path = require('path');
+const WebpackNotifierPlugin = require('webpack-notifier');
+require('dotenv').config();
 
 
 // Global configuration
@@ -16,7 +16,6 @@ module.exports = {
   bundleJS: 'bundle.js',
   bundleCSS: 'bundle.css',
   publicPath: path.resolve(__dirname, '../../..', 'web/assets/bundle'),
-  nodeModulesPath: path.resolve(__dirname, '../../..', 'node_modules'),
   externals: {
     jquery: 'jQuery'
   },

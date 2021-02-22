@@ -62,6 +62,7 @@
 //  57. Slick
 
 @import '~foundation-sites/scss/util/util';
+@import 'theme';
 
 // 1. Global
 // ---------
@@ -70,11 +71,11 @@ $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #e30613,
-  secondary: #2c2c2c,
-  success: #3adb76,
-  warning: #ffae00,
-  alert: #e30613
+  primary: $theme-primary ,
+  secondary: $theme-secondary,
+  success: $theme-success,
+  warning: $theme-warning,
+  alert: $theme-alert
 );
 $light-gray: #e5e5e5;
 $light-gray-peexeo: #eaeef4;

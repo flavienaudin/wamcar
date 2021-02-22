@@ -1,16 +1,7 @@
-var webpack = require('webpack');
-var path = require('path');
-var config = require('./config');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var postcss = [
-  require('css-mqpacker')({
-    sort: true
-  }),
-  require('autoprefixer')
-];
-var WebpackNotifierPlugin = require('webpack-notifier');
-
+const config = require('./config');
+const webpack = require('webpack');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // Loaders
 // - - - - - - - - - - - -
@@ -28,17 +19,29 @@ config.module.rules = config.module.rules.concat([
           }
         },
         'postcss-loader',
-        'sass-loader'
+        {
+          loader: 'sass-loader',
+          options: {
+            includePaths: [process.env.THEME],
+          }
+        }
       ]
     })
   }
 ]);
 
+config.plugins = config.plugins.concat([
+  new ProgressBarPlugin(),
+  new ExtractTextPlugin(config.bundleCSS),
+  new webpack.optimize.UglifyJsPlugin({
+    comments: false,
+    sourceMap: true
+  })
+]);
 
 
 // Webpack
 // - - - - - - - - - - - -
-
 module.exports = {
   entry: {
     app: config.entryApp
@@ -50,23 +53,5 @@ module.exports = {
   module: {
     rules: config.module.rules,
   },
-  resolve: config.resolve,
-  plugins: [
-    new ProgressBarPlugin(),
-    new ExtractTextPlugin(config.bundleCSS),
-    new webpack.optimize.UglifyJsPlugin({
-      comments: false,
-      sourceMap: true
-    }),
-    new WebpackNotifierPlugin({
-      title: 'Wamcar',
-      contentImage: path.join(__dirname, '../../..', 'app/Resources/build/icon-notification.png'),
-      alwaysNotify: true
-    }),
-    new webpack.LoaderOptionsPlugin({
-      options: {
-        postcss: postcss
-      }
-    })
-  ]
+  plugins: config.plugins,
 };

@@ -1,7 +1,4 @@
-var webpack = require('webpack');
-var config = require('./config');
-
-
+const config = require('./config');
 
 // Loaders
 // - - - - - - - - - - - -
@@ -12,7 +9,12 @@ config.module.rules = config.module.rules.concat([
     use: [
       { loader: 'style-loader' },
       { loader: 'css-loader' },
-      { loader: 'sass-loader' }
+      {
+        loader: 'sass-loader',
+        options: {
+          includePaths: [process.env.THEME],
+        }
+      }
     ]
   }
 ]);
@@ -30,10 +32,8 @@ module.exports = {
     path: config.publicPath,
     filename: config.bundleJS
   },
-  // devtool: 'inline-source-map',
   module: {
     rules: config.module.rules,
   },
-  resolve: config.resolve,
   plugins: config.plugins
 };
