@@ -135,7 +135,6 @@ class GarageController extends BaseController
             $response = $this->render('front/Exception/error_message.html.twig', [
                 'titleKey' => 'error_page.garage.unpublished.title',
                 'messageKey' => 'error_page.garage.unpublished.body',
-                'messageParams' => ['%firstname%' => $garage->getMainAdministrator()->getFirstName()],
                 'redirectionUrl' => $this->generateUrl('front_directory_view')
             ]);
             $response->setStatusCode(Response::HTTP_OK);
