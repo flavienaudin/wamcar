@@ -245,7 +245,10 @@ error_page:
   garage:
     unpublished:
       title: Page en cours d'édition
-      body: %firstname% est le gestionnaire de ce garage et est en train de compléter son profil. Celui-ci sera prochainement mis en ligne ainsi que son garage. En attendant, vous pouvez consulter les autres conseillers automobile dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>
+      body: >
+        Le gestionnaire de ce garage est en train de compléter son profil. Celui-ci sera prochainement mis en ligne ainsi
+        que son garage. En attendant, vous pouvez consulter les autres conseillers automobile dans
+        <a href="%redirection_url%" class="text-underline">notre annuaire</a>
     deleted:
       title: Garage supprimé
       body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
