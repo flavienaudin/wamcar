@@ -1,0 +1,52 @@
+{% extends 'front/Layout/layout.html.twig' %}
+
+{% block bodyClass %}l-main no-padding-top light-gray-peexeo-bg video-coaching{% endblock %}
+
+{% block title %}{{ 'coaching_video.dashboard.page.title'|trans }}{% endblock %}
+
+{% block body %}
+
+    <section class="row">
+        <div class="colum small-12 section block-peexeo block-light-shadow">
+            <h1>
+                {%  if createdVideoProjectForm is defined %}
+                    <span class="section-action icon-plus" data-open="js-create-videoproject">
+                        <span class="show-for-sr">{{ 'coaching_video.video_project.action.add'|trans }}</span></span>
+
+                    {{ include('front/VideoCoaching/VideoProject/includes/modal_create_video_project.html.twig', {
+                        'createdVideoProjectForm': createdVideoProjectForm
+                    }) }}
+                {% endif %}
+                {{ 'coaching_video.video_project.list.user.title'|trans }}
+            </h1>
+
+            {% if createdVideoProjectViewers|length > 0 %}
+                <ol>
+                    {% for creatorVideoProjectViewer in createdVideoProjectViewers %}
+                        <li>
+                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': creatorVideoProjectViewer.videoProject.id}) }}">{{ creatorVideoProjectViewer.videoProject.title }}</a>
+                            {% set videoVersion = creatorVideoProjectViewer.videoProject.videoVersions|first|default(null) %}
+                            {% if videoVersion %}
+                                <span class="js-youtube-video-thumbnail youtube-video-thumbnail" data-id="{{ videoVersion.youtubeVideoId }}"
+                                   data-alt="{{ videoVersion.title }}"></span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </div>
+        {% if followedVideoProjectViewers|length > 0 %}
+            <div class="colum small-12 section block-peexeo block-light-shadow">
+                <h1>{{ 'coaching_video.video_project.list.followed.title'|trans }}</h1>
+
+                <ol>
+                    {% for followedVideoProject in followedVideoProjectViewers %}
+                        <li>
+                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': followedVideoProject.videoProject.id}) }}">{{ followedVideoProject.videoProject.title }}</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        {% endif %}
+    </section>
+{% endblock body %}

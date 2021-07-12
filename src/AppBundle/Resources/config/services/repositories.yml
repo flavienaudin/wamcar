@@ -140,3 +140,12 @@ services:
   Wamcar\User\HobbyRepository:
     factory: ['@doctrine.orm.entity_manager', 'getRepository']
     arguments: ['Wamcar\User\Hobby']
+
+  Wamcar\VideoCoaching\VideoProjectRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\VideoCoaching\VideoProject']
+
+  Wamcar\VideoCoaching\VideoVersionRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\VideoCoaching\VideoVersion']
+

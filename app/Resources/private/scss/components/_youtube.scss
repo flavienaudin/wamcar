@@ -68,5 +68,12 @@
       }
     }
   }
+
+  &-video-thumbnail {
+    height: rem-calc(150px);
+    img {
+      height: rem-calc(150px);
+    }
+  }
 }
 

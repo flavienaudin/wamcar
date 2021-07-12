@@ -75,6 +75,13 @@ flash:
       delete: La categorie de service %servicecategory% a été supprimée
     hobby:
       delete: "Le centre d'intérêt %hobbyName% a été supprimé"
+    videoproject:
+      save: Le projet a été enregistré avec succès.
+      delete: Le projet a été supprimé avec succès.
+    videoversion:
+      save: La version vidéo a bien été ajouté au projet.
+      update: La version vidéo a bien été mise à jour.
+      delete: La version vidéo a été supprimer du projet.
   danger:
     registration_duplicate: Un compte utilise déjà cet email.
     not_personal_user_logged: Vous devez être connecté en tant que particulier pour accèder à cette page.
@@ -102,6 +109,13 @@ flash:
         edit: Vous n'êtes pas autorisé à modifier ce véhicule
       videos_insert:
         delete: Vous n'êtes pas autorisé à supprimer cet encart vidéo
+      video_coaching:
+        video_project:
+          view: Vous n'avez pas le droit de visualiser ce projet vidéo.
+          delete: Vous n'avez pas le droit de supprimer ce projet vidéo.
+        video_version:
+          delete: Vous n'avez pas le droit de supprimer cette version de vidéo.
+        module_access: Vous n'avez pas accès au module de suivi/coaching vidéo. Contactez-nous pour vous abonner au service.
     notification:
       unauthorized: Cette notification ne vous est pas destinée.
     user:
@@ -178,37 +192,41 @@ global:
   facultative: Facultatif
   garage_administrator: Gestionnaire
   button:
+    add: Ajouter
+    add_this_vehicle: Ajouter le véhicule
+    back: Retour
+    call: Appeler
+    cancel: Annuler
     close: Fermer
+    complete: Compléter
     connect: Se connecter
     connexion: Connexion
+    create: Créer
+    delete: Supprimer
+    dislike: Je n'aime plus
+    display_phone_number: Afficher le numéro
+    edit: Editer
+    edit_this_vehicle: Editer le véhicule
+    invite: Inviter
+    like: J'aime
+    like_vehicle: J'aime ce véhicule
+    link: lien
     login: S'inscrire
     logout: Déconnexion
-    search: Rechercher
-    send: Envoyer
-    send_message: Envoyer un message
-    complete: Compléter
     more_information: Plus d'information
-    dislike: Je n'aime plus
-    like_vehicle: J'aime ce véhicule
-    like: J'aime
-    add_this_vehicle: Ajouter le véhicule
-    edit_this_vehicle: Editer le véhicule
-    previous_step: Etape précédente
-    next_step: Etape suivante
-    back: Retour
     next: Suivant
-    validate: Valider
-    display_phone_number: Afficher le numéro
+    next_step: Etape suivante
+    previous_step: Etape précédente
+    register: "S'inscrire sur Wamcar"
+    search: Rechercher
     see_phone_number: Voir le numéro
     see_user_profile: Voir le profil
-    call: Appeler
-    invite: Inviter
-    delete: Supprimer
-    cancel: Annuler
-    show_more: Voir plus
+    send: Envoyer
+    send_message: Envoyer un message
     show_less: Voir moins
-    register: "S'inscrire sur Wamcar"
-    link: lien
+    show_more: Voir plus
+    update: Rafraîchir
+    validate: Valider
   pagination:
     pagination: Pagination
     first: Première page
@@ -253,7 +271,6 @@ error_page:
       title: Garage supprimé
       body: Ce garage n'est plus référencé sur Wamcar. Recherchez dès à présent dans <a href="%redirection_url%" class="text-underline">notre annuaire</a>, le garage où vous trouverez votre future voiture.
 
-
 header:
   anonyme:
     see_search: Voir les annonces
@@ -270,6 +287,7 @@ header:
     my_selections: Mes sélections
     conversations: Messagerie
   pro:
+    coaching_video_module: Mes projets vidéos
     my_garage: Mon garage
     my_garages: Mes garages
     dashboard: Tableau de bord
@@ -284,8 +302,6 @@ header:
     directory: Annuaire Pro
   admin:
     adminstration: Administration
-
-
 
 breadcrumb:
   home: Accueil
@@ -448,8 +464,6 @@ landing:
         find_advisor: Trouver mon conseiller
         all_advisors: Voir les conseillers
         registration: Inscription
-
-
 
 garage:
   my_garage: Mon garage
@@ -816,7 +830,6 @@ vehicle:
   sale:
     sold_by: "Vendu par %sellerName%"
     i_sold: "Déclarer sa vente"
-
 
 user:
   registration:
@@ -1418,7 +1431,6 @@ lead:
   add_sale: "Nouvelle transaction"
   explication_no_contact: "Vous souhaitez déclarer une vente sans l'associer à un de vos contacts en particulier :"
 
-
 pro_user_performances:
   page:
     title:
@@ -1463,7 +1475,6 @@ sellers_performances:
     title: Les performances de mon équipe
   link:
     his_garages: Ses garages
-
 
 boost:
   link: Booster mes pages
@@ -1555,3 +1566,38 @@ phone_number:
   tooltip:
     display: Vous devez être connecté pour pouvoir afficher le numéro
     call: Vous devez être connecté pour pouvoir appeler directement
+
+coaching_video:
+  dashboard:
+    page.title: Mes projets videos
+  video_project:
+    action:
+      add: Créer un nouveau projet video
+    create:
+      title: Créer un projet vidéo
+    view:
+      title: "Projet vidéo : %title%"
+    list:
+      user:
+        title: Mes projets vidéos
+      followed:
+        title: Les projets vidéos que je suis
+    form:
+      field:
+        title:
+          label: Titre du projet
+        description:
+          label: Description du projet
+  video_version:
+    view:
+      title: Versions du projet
+    create:
+      title: Ajouter une nouvelle version au projet
+    form:
+      field:
+        title:
+          label: Titre de la version
+        url:
+          label: URL de la vidéo Youtube
+  project_discussion:
+    title: Discussions

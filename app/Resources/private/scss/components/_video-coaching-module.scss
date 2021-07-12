@@ -1,0 +1,28 @@
+.video-coaching {
+
+  .section {
+    margin-bottom: rem-calc(25);
+    padding: rem-calc(25);
+    background-color: $body-background;
+
+    &-action {
+      float: right;
+
+      width: 35px;
+      height: 35px;
+      margin-left: 5px;
+      border-radius: 50%;
+
+      &:hover {
+        background-color: $light-gray-peexeo;
+      }
+
+      &[class*="icon-"]::before {
+        font-size: 1rem;
+        font-weight: normal;
+        color: $body-font-color;
+        margin: auto;
+      }
+    }
+  }
+}

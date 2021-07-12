@@ -1,0 +1,45 @@
+Wamcar\VideoCoaching\VideoProjectViewer:
+
+  type: entity
+  table: video_project_viewer
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoProjectViewerRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: true
+
+  constraints:
+    - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+        fields: [videoProject, viewer]
+        errorPath: viewer
+        message: 'This user is already following this project.'
+
+  id:
+    viewer:
+      associationKey: true
+    videoProject:
+      associationKey: true
+
+  fields:
+    isCreator:
+      type: boolean
+    visitedAt:
+      type: datetime
+      nullable: true
+    deletedAt:
+      type: datetime
+      nullable: true
+
+  manyToOne:
+    viewer:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: videoProjects
+      joinColumn:
+        name: pro_user_id
+        referencedColumnName: id
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: viewers
+      joinColumn:
+        name: video_project_id
+        referencedColumnName: id

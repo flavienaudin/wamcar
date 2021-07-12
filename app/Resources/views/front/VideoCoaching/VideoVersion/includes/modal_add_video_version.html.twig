@@ -1,0 +1,14 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-add-videoversion' %}
+
+{% block title %}{{ 'coaching_video.video_version.create.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/VideoVersion/includes/save_form.html.twig', {
+        'videoVersionForm' : createVideoVersionForm,
+        'formClass' : 'row form-compact'
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

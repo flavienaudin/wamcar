@@ -1,0 +1,68 @@
+Wamcar\VideoCoaching\VideoProject:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoProjectRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: true
+  exclusion_policy: ALL
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  oneToMany:
+    viewers:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectViewer
+      mappedBy: videoProject
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+    videoVersions:
+      targetEntity: Wamcar\VideoCoaching\VideoVersion
+      mappedBy: videoProject
+      cascade: ["persist", "merge", "remove"]
+      orderBy:
+        createdAt: 'DESC'
+    messages:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectMessage
+      mappedBy: videoProject
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+      orderBy:
+        publishedAt: "DESC"
+
+  fields:
+    title:
+      type: string
+    description:
+      type: string
+      nullable: true
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: datetime
+      nullable: true
+    slug:
+      type: string
+      length: 512
+      gedmo:
+        slug:
+          unique: true
+          separator: -
+          style: default
+          updatable: false
+          fields:
+            - title
+            - id

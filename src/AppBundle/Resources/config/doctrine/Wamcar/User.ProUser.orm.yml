@@ -36,7 +36,8 @@ Wamcar\User\ProUser:
         unpublishedAt:
             type: datetime
             nullable: true
-
+        videoModuleAccess:
+            type: boolean
 
     oneToMany:
         garageMemberships:
@@ -60,4 +61,12 @@ Wamcar\User\ProUser:
         proContactMessages:
             targetEntity: Wamcar\Conversation\ProContactMessage
             mappedBy: proUser
+            cascade: ["persist", "merge", "remove"]
+        videoProjects:
+            targetEntity: Wamcar\VideoCoaching\VideoProjectViewer
+            mappedBy: viewer
+            cascade: ["persist", "merge", "remove"]
+        videoProjectMessages:
+            targetEntity: Wamcar\VideoCoaching\VideoProjectMessage
+            mappedBy: author
             cascade: ["persist", "merge", "remove"]

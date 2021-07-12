@@ -451,6 +451,27 @@ front_affinity_pro_redirection:
     path: /affinity/professionnel/soumis
     controller: AppBundle:Front\PersonalContext\Affinity:proFormSubmited
 
+# Module "Suivi/Coaching Vidéo"
+front_coaching_video_dashboard:
+    path: /module/video
+    controller: AppBundle:Front\ModuleContext\VideoCoaching:dashboard
+
+front_coachingvideo_videoproject_view:
+  path: /module/video/videoproject/{id}
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:view
+
+front_coachingvideo_videoproject_delete:
+    path: /module/video/videoproject/delete/{id}
+    controller: AppBundle:Front\ModuleContext\VideoCoaching:delete
+
+front_coachingvideo_videoversion_delete:
+    path: /module/video/videoversion/delete/{id}
+    controller: AppBundle:Front\ModuleContext\VideoCoaching:deleteVideoVersion
+
+front_coachingvideo_videoproject_messages_get:
+    path: /module/video/videoproject/{id}/discussion
+    controller: AppBundle:Front\ModuleContext\VideoCoaching:getMessages
+
 
 
 # TEST GOOGLE YOUTUBE API
