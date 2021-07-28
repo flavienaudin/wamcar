@@ -145,6 +145,10 @@ services:
     factory: ['@doctrine.orm.entity_manager', 'getRepository']
     arguments: ['Wamcar\VideoCoaching\VideoProject']
 
+  Wamcar\VideoCoaching\VideoProjectMessageRepository:
+    factory: ['@doctrine.orm.entity_manager', 'getRepository']
+    arguments: ['Wamcar\VideoCoaching\VideoProjectMessage']
+
   Wamcar\VideoCoaching\VideoVersionRepository:
     factory: ['@doctrine.orm.entity_manager', 'getRepository']
     arguments: ['Wamcar\VideoCoaching\VideoVersion']

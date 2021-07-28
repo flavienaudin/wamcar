@@ -6,7 +6,9 @@ namespace AppBundle\Controller\Front\ModuleContext;
 
 use AppBundle\Controller\Front\BaseController;
 use AppBundle\Form\DTO\VideoProjectDTO;
+use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use AppBundle\Form\DTO\VideoVersionDTO;
+use AppBundle\Form\Type\VideoProjectMessageType;
 use AppBundle\Form\Type\VideoProjectType;
 use AppBundle\Form\Type\VideoVersionType;
 use AppBundle\Security\Voter\VideoCoachingVoter;
@@ -14,6 +16,7 @@ use AppBundle\Services\VideoCoaching\VideoProjectService;
 use AppBundle\Services\VideoCoaching\VideoVersionService;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -43,6 +46,10 @@ class VideoCoachingController extends BaseController
         $this->videoVersionService = $videoVersionService;
     }
 
+    /**
+     * @param Request $request
+     * @return RedirectResponse|Response
+     */
     public function dashboardAction(Request $request)
     {
         $this->denyAccessUnlessGranted(AuthenticatedVoter::IS_AUTHENTICATED_REMEMBERED);
@@ -77,10 +84,17 @@ class VideoCoachingController extends BaseController
     /**
      * @param Request $request
      * @param VideoProject $videoProject
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return RedirectResponse|Response
      */
     public function viewAction(Request $request, VideoProject $videoProject)
     {
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.module_access');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.view');
             return $this->redirectToRoute('front_coaching_video_dashboard');
@@ -89,7 +103,6 @@ class VideoCoachingController extends BaseController
         $editVideoProjectForm = null;
         $createVideoVersionForm = null;
         $editVideoVersionFormViews = [];
-
         // Formulaire d'édition du projet vidéo
         if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
             $videoProjectDTO = VideoProjectDTO::buildFromVideoProject($videoProject);
@@ -102,7 +115,6 @@ class VideoCoachingController extends BaseController
                     'id' => $videoProject->getId()
                 ]);
             }
-
 
             // Formulaire d'ajout d'une nouvelle version au projet
             $videoVersionDTO = new VideoVersionDTO();
@@ -133,21 +145,31 @@ class VideoCoachingController extends BaseController
             }
         }
 
+        // Form submission handle in dedicated action for ajax management
+        $messageForm = $this->formFactory->create(VideoProjectMessageType::class, new VideoProjectMessageDTO($videoProject, $currentUser));
 
         return $this->render('front/VideoCoaching/VideoProject/view.html.twig', [
             'videoProject' => $videoProject,
             'editVideoProjectForm' => $editVideoProjectForm ? $editVideoProjectForm->createView() : null,
             'createVideoVersionForm' => $createVideoVersionForm ? $createVideoVersionForm->createView() : null,
-            'editVideoVersionForms' => $editVideoVersionFormViews
+            'editVideoVersionForms' => $editVideoVersionFormViews,
+            'discussionMessageForm' => $messageForm ? $messageForm->createView() : null
         ]);
     }
 
     /**
      * @param VideoProject $videoProject
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteAction(VideoProject $videoProject)
     {
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.module_access');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_DELETE, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_project.delete');
             return $this->redirectToRoute('front_coaching_video_dashboard');
@@ -159,10 +181,17 @@ class VideoCoachingController extends BaseController
 
     /**
      * @param VideoVersion $videoVersion
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     public function deleteVideoVersionAction(VideoVersion $videoVersion)
     {
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.module_access');
+            return $this->redirectToRoute('front_view_current_user_info');
+        }
+
         $videoProject = $videoVersion->getVideoProject();
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
             $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING, 'flash.error.unauthorized.video_coaching.video_version.delete');
@@ -178,28 +207,92 @@ class VideoCoachingController extends BaseController
         ]);
     }
 
+
+    /**
+     * Ajax request to post a message of video project
+     * @param VideoProject $videoProject
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function postVideoProjectMessageAction(VideoProject $videoProject, Request $request)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.module_access'), Response::HTTP_FORBIDDEN);
+        }
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
+            return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.video_project.view'), Response::HTTP_FORBIDDEN);
+        }
+
+        $messageDTO = new VideoProjectMessageDTO($videoProject, $currentUser);
+        $messageForm = $this->formFactory->create(VideoProjectMessageType::class, $messageDTO);
+        $messageForm->handleRequest($request);
+        if ($messageForm->isSubmitted()) {
+            if ($messageForm->isValid()) {
+                $this->videoProjectService->addMessage($messageDTO);
+
+                $messageDTO = new VideoProjectMessageDTO($videoProject, $currentUser);
+                $messageForm = $this->formFactory->create(VideoProjectMessageType::class, $messageDTO);
+            }
+            return new JsonResponse([
+                'messageForm' => $this->renderTemplate(
+                    'front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', [
+                        'videoProject' => $videoProject,
+                        'messageForm' => $messageForm ? $messageForm->createView() : null,
+                        'formClass' => 'form-compact row'
+                    ]
+                )
+            ]);
+        }
+        return new JsonResponse(['error' => 'no submitted form'], Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * Ajax request to get last messages of video project
+     * @param VideoProject $videoProject
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Exception
+     */
     public function getMessagesAction(VideoProject $videoProject, Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
             throw new BadRequestHttpException();
         }
 
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.module_access'), Response::HTTP_FORBIDDEN);
+        }
         if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
             return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.video_project.view'), Response::HTTP_FORBIDDEN);
         }
 
-        $start = $request->get('start', null);
-        $end = $request->get('end', null);
+        $start = null;
+        $startParam = $request->get('start', null);
+        if ($startParam) {
+            $start = new \DateTime();
+            $start->setTimestamp(intval($startParam));
+        }
 
-        dump($start);
-        dump($end);
+        $end = null;
+        $endParam = $request->get('end', null);
+        if ($endParam) {
+            $end = new \DateTime();
+            $end->setTimestamp(intval($endParam));
+        }
 
-        // TODO récupérer les messages entre "start" si fourni et "end"
+        $messages = $this->videoProjectService->getMessages($videoProject, $start, $end);
         return new JsonResponse([
-            "start" => $start,
-            "end" => $end,
-            "messages" => []
+            "start" => $start ? $start->getTimestamp() : null,
+            "end" => $end->getTimestamp(),
+            "messages" => $this->renderTemplate('front/VideoCoaching/VideoProject/Messages/includes/view.html.twig', ['messages' => $messages])
         ]);
-
     }
 }

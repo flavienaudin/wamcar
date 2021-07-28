@@ -4,8 +4,11 @@
 namespace Wamcar\VideoCoaching;
 
 
-interface VideoProjectMessageRepository
+use AppBundle\Doctrine\Repository\EntityRepository;
+
+interface VideoProjectMessageRepository extends EntityRepository
 {
+
     /** {@inheritdoc} */
     public function add(VideoProjectMessage $videoProjectMessage): void;
 
@@ -14,4 +17,13 @@ interface VideoProjectMessageRepository
 
     /** {@inheritdoc} */
     public function remove(VideoProjectMessage $videoProjectMessage): void;
+
+    /**
+     * @param VideoProject $videoProject
+     * @param \DateTime|null $start Optionnal min of the interval
+     * @param \DateTime|null $end Optionnal max of the interval
+     * @return mixed
+     */
+    public function findByVideoProjectAndTimeInterval(VideoProject $videoProject, ?\DateTime $start, ?\DateTime $end);
+
 }

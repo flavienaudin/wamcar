@@ -1601,3 +1601,8 @@ coaching_video:
           label: URL de la vidéo Youtube
   project_discussion:
     title: Discussions
+    form:
+      field:
+        content:
+          label: Votre message
+          placeholder: Tapez votre message ici...

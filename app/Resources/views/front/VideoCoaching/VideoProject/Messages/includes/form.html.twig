@@ -1,0 +1,20 @@
+{{ form_start(messageForm,
+    { 'action': path('front_coachingvideo_videoproject_messages_post', {
+        'id': videoProject.id
+    }), 'attr' : {
+        'id': 'js_message_form',
+        'class': formClass|default('row'),
+        'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+<div class="columns small-12 input-margin">
+    {{ form_widget(messageForm.content, {
+        'label': 'coaching_video.project_discussion.form.field.content.label'|trans,
+        'placeholder': 'coaching_video.project_discussion.form.field.content.placeholder'|trans
+    }) }}
+</div>
+
+{{ form_rest(messageForm) }}
+<div class="columns small-12 right">
+    <button type="submit" class="button primary-button full-width">{{ 'global.button.send'|trans }}</button>
+</div>
+{{ form_end(messageForm) }}

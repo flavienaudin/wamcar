@@ -105,12 +105,23 @@
 
         <div class="colum small-12 section block-peexeo block-light-shadow">
             <h2>
-                <span id="js_discussion_update" data-update-section="#js_video_project_discussion" class="section-action icon-loop21">
+                <span id="js_discussion_update" class="section-action icon-loop21">
                     <span class="show-for-sr">{{ 'global.button.update'|trans }}</span></span>
                 {{ 'coaching_video.project_discussion.title'|trans }}</h2>
-            <div id="js_video_project_discussion"
-                 data-url="{{ url('front_coachingvideo_videoproject_messages_get', {'id':videoProject.id}) }}"
-            ></div>
+
+            <div id="js_video_project_discussion">
+                {% if discussionMessageForm %}
+                    <div id="js_video_project_discussion_writer">
+                        {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {
+                            'videoProject': videoProject,
+                            'messageForm' : discussionMessageForm,
+                            'formClass' : 'form-compact row'
+                        }) }}
+                    </div>
+                {% endif %}
+                <div id="js_video_project_discussion_messages"
+                     data-url="{{ url('front_coachingvideo_videoproject_messages_get', {'id':videoProject.id}) }}"></div>
+            </div>
         </div>
     </section>
 {% endblock body %}
