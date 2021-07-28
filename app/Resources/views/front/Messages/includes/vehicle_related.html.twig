@@ -14,7 +14,7 @@
             <a href="{{ vehicleSeller|userInfoUrl }}" target="_blank">
                 {{ vehicle.isPro ?
                     'conversation.vehicle_presented_by'|trans({'%ownerName%':vehicleSeller.fullName}) :
-                    ( vehicle.seller.id == app.user.id ?
+                    ( vehicleSeller.id == app.user.id ?
                             'conversation.my_vehicle'|trans:
                             'conversation.personal_vehicle_of'|trans({'%ownerName%':vehicleSeller.fullName})
                     )
