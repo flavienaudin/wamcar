@@ -4,6 +4,7 @@
 namespace AppBundle\Services\VideoCoaching;
 
 
+use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use Wamcar\User\ProUser;
@@ -12,9 +13,13 @@ use Wamcar\VideoCoaching\VideoProjectMessage;
 use Wamcar\VideoCoaching\VideoProjectMessageRepository;
 use Wamcar\VideoCoaching\VideoProjectRepository;
 use Wamcar\VideoCoaching\VideoProjectViewer;
+use Wamcar\VideoCoaching\VideoProjectViewerRepository;
 
 class VideoProjectService
 {
+    const VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS = "share_videoproject.success";
+    const VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL = "share_videoproject.fail";
+
 
     /** @var VideoProjectRepository */
     private $videoProjectRepository;
@@ -22,15 +27,25 @@ class VideoProjectService
     /** @var VideoProjectMessageRepository */
     private $videoProjectMessageRepository;
 
+    /** @var VideoProjectViewerRepository */
+    private $videoProjectViewRepository;
+
+    /** @var DoctrineProUserRepository */
+    private $proUserRepository;
+
     /**
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
      * @param VideoProjectMessageRepository $videoProjectMessageRepository
+     * @param VideoProjectViewerRepository $videoProjectViewRepository
+     * @param DoctrineProUserRepository $proUserRepository
      */
-    public function __construct(VideoProjectRepository $videoProjectRepository, VideoProjectMessageRepository $videoProjectMessageRepository)
+    public function __construct(VideoProjectRepository $videoProjectRepository, VideoProjectMessageRepository $videoProjectMessageRepository, VideoProjectViewerRepository $videoProjectViewRepository, DoctrineProUserRepository $proUserRepository)
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
+        $this->videoProjectViewRepository = $videoProjectViewRepository;
+        $this->proUserRepository = $proUserRepository;
     }
 
     /**
@@ -68,6 +83,33 @@ class VideoProjectService
     {
         // TODO vérifier s'il y a des associations à supprimer manuellement
         $this->videoProjectRepository->remove($videoProject);
+    }
+
+
+    /**
+     * @param VideoProject $videoProject
+     * @param array $emails
+     * @return array
+     */
+    public function shareVideoProjectToUsersByEmails(VideoProject $videoProject, array $emails): array
+    {
+        $results = [
+            self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS => [],
+            self::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL => []
+        ];
+        foreach ($emails as $email) {
+            /** @var ProUser|null $proUser */
+            $proUser = $this->proUserRepository->findOneByEmail($email);
+            if ($proUser && $proUser->hasVideoModuleAccess()) {
+                $follower = new VideoProjectViewer($videoProject, $proUser, false);
+                $videoProject->addViewer($follower);
+                $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][] = $email;
+            } else {
+                $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL][] = $email;
+            }
+        }
+        $this->videoProjectRepository->update($videoProject);
+        return $results;
     }
 
     /**

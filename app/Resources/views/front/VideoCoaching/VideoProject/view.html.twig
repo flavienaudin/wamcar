@@ -13,25 +13,48 @@
                 <span><a href="{{ path('front_coaching_video_dashboard') }}" class="icon-arrow-left-2"><span
                                 class="show-for-sr">{{ 'global.button.back'|trans }}</span></a></span>
                 {{ videoProject.title }}
-                {% if editVideoProjectForm is not null %}
+                {% if shareVideoProjectForm is not null or editVideoProjectForm is not null %}
                     <span>
-                        <span data-toggle="js-edit-videoproject js-videoproject-info" class="section-action icon-pen">
-                            <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span>
-                        </span>
-                        <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
-                           class="js-confirm-box section-action icon-remove"
-                           data-id="videoProject-deletion-{{ videoProject.id }}"
-                           data-title="Attention!"
-                           data-message="Confirmez-vous la suppression de ce projet vidéo ?">
-                                <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                        {% if shareVideoProjectForm %}
+                            <span data-open="js-share-videoproject-modal" class="section-action icon-share22">
+                                <span class="show-for-sr">{{ 'global.button.share'|trans }}</span>
+                            </span>
+                            {{ include('front/VideoCoaching/VideoProject/includes/modal_share_video_project.html.twig', {
+                                'shareVideoProjectForm': shareVideoProjectForm
+                            }) }}
+                        {% endif %}
+                        {% if editVideoProjectForm is not null %}
+                            <span data-toggle="js-edit-videoproject js-videoproject-info" class="section-action icon-pen">
+                                    <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
+                            <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
+                               class="js-confirm-box section-action icon-remove"
+                               data-id="videoProject-deletion-{{ videoProject.id }}"
+                               data-title="Attention!"
+                               data-message="Confirmez-vous la suppression de ce projet vidéo ?">
+                                    <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
+                        {% endif %}
                     </span>
+                {% else %}
+                    <span></span>
                 {% endif %}
             </h1>
-            <div id="js-edit-videoproject" class="is-hidden" data-toggler="is-hidden">
-                {{ include('front/VideoCoaching/VideoProject/includes/save_form.html.twig', {
-                    'videoProjectForm':editVideoProjectForm
-                }) }}
+
+            <div class="tag-container">
+                {%for creator in videoProject.creators %}
+                    <span class="tag no-focus is-active">{{ creator.viewer.fullname|title }}</span>
+                {% endfor %}
+                {%for follower in videoProject.viewers(true) %}
+                    <span class="tag no-focus">{{ follower.viewer.fullname|title }}</span>
+                {% endfor %}
             </div>
+
+            {% if editVideoProjectForm is not null %}
+                <div id="js-edit-videoproject" class="is-hidden" data-toggler="is-hidden">
+                    {{ include('front/VideoCoaching/VideoProject/includes/save_form.html.twig', {
+                        'videoProjectForm':editVideoProjectForm
+                    }) }}
+                </div>
+            {% endif %}
             <div id="js-videoproject-info" data-toggler="is-hidden">
                 {% if videoProject.description is not empty %}
                     <p>{{ videoProject.description|raw }}</p>
@@ -41,13 +64,15 @@
 
         <div class="colum small-12 section block-peexeo block-light-shadow">
             <h2>
-                <span data-open="js-add-videoversion" class="section-action icon-plus">
-                    <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
-                </span>
+                {% if createVideoVersionForm is not null %}
+                    <span data-open="js-add-videoversion" class="section-action icon-plus">
+                        <span class="show-for-sr">{{ 'global.button.add'|trans }}</span>
+                    </span>
+                    {{ include('front/VideoCoaching/VideoVersion/includes/modal_add_video_version.html.twig', {
+                        'createVideoVersionForm': createVideoVersionForm
+                    }) }}
+                {% endif %}
                 {{ 'coaching_video.video_version.view.title'|trans }}
-                {{ include('front/VideoCoaching/VideoVersion/includes/modal_add_video_version.html.twig', {
-                    'createVideoVersionForm': createVideoVersionForm
-                }) }}
             </h2>
             {% if videoProject.videoVersions|length > 0 %}
                 <ul class="tabs video-selector" data-tabs id="video-versions-tabs" data-deep-link="true"

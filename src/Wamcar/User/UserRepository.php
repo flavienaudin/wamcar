@@ -2,34 +2,10 @@
 
 namespace Wamcar\User;
 
-use Doctrine\ORM\QueryBuilder;
+use AppBundle\Doctrine\Repository\EntityRepository;
 
-interface UserRepository
+interface UserRepository extends EntityRepository
 {
-
-    /**
-     * Creates a new QueryBuilder instance that is prepopulated for this entity name.
-     *
-     * @param string $alias
-     * @param string $indexBy The index for the from.
-     *
-     * @return QueryBuilder
-     */
-    public function createQueryBuilder($alias, $indexBy = null);
-
-    /**
-     * @param int $userId
-     *
-     * @return BaseUser
-     */
-    public function findOne(int $userId): ?BaseUser;
-
-    /**
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @return BaseUser
-     */
-    public function findOneBy(array $criteria, array $orderBy = NULL);
 
     /**
      * @param string $email
@@ -37,10 +13,6 @@ interface UserRepository
      */
     public function findOneByEmail(string $email);
 
-    /**
-     * @return BaseUser[]
-     */
-    public function findAll();
 
     /**
      * @param $ids array Array of entities'id

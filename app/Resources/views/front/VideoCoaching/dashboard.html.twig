@@ -37,12 +37,17 @@
         </div>
         {% if followedVideoProjectViewers|length > 0 %}
             <div class="colum small-12 section block-peexeo block-light-shadow">
-                <h1>{{ 'coaching_video.video_project.list.followed.title'|trans }}</h1>
+                <h2>{{ 'coaching_video.video_project.list.followed.title'|trans }}</h2>
 
                 <ol>
                     {% for followedVideoProject in followedVideoProjectViewers %}
                         <li>
                             <a href="{{ path('front_coachingvideo_videoproject_view', {'id': followedVideoProject.videoProject.id}) }}">{{ followedVideoProject.videoProject.title }}</a>
+                            {% set videoVersion = followedVideoProject.videoProject.videoVersions|first|default(null) %}
+                            {% if videoVersion %}
+                                <span class="js-youtube-video-thumbnail youtube-video-thumbnail" data-id="{{ videoVersion.youtubeVideoId }}"
+                                      data-alt="{{ videoVersion.title }}"></span>
+                            {% endif %}
                         </li>
                     {% endfor %}
                 </ol>

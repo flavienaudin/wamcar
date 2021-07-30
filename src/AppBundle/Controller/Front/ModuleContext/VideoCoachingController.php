@@ -9,6 +9,7 @@ use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use AppBundle\Form\DTO\VideoVersionDTO;
 use AppBundle\Form\Type\VideoProjectMessageType;
+use AppBundle\Form\Type\VideoProjectShareType;
 use AppBundle\Form\Type\VideoProjectType;
 use AppBundle\Form\Type\VideoVersionType;
 use AppBundle\Security\Voter\VideoCoachingVoter;
@@ -103,8 +104,10 @@ class VideoCoachingController extends BaseController
         $editVideoProjectForm = null;
         $createVideoVersionForm = null;
         $editVideoVersionFormViews = [];
+        $shareVideoProjectForm = null;
         // Formulaire d'édition du projet vidéo
         if ($this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_EDIT, $videoProject)) {
+            // Formulaire d'édition des informations du projet video (title, description)
             $videoProjectDTO = VideoProjectDTO::buildFromVideoProject($videoProject);
             $editVideoProjectForm = $this->formFactory->create(VideoProjectType::class, $videoProjectDTO);
             $editVideoProjectForm->handleRequest($request);
@@ -143,6 +146,23 @@ class VideoCoachingController extends BaseController
                 }
                 $editVideoVersionFormViews[$videoVersion->getId()] = $editVideoVersionForm->createView();
             }
+
+            // Formulaire de partage du projet vidéo avec d'autres utilisateurs
+            $shareVideoProjectForm = $this->formFactory->create(VideoProjectShareType::class);
+            $shareVideoProjectForm->handleRequest($request);
+            if ($shareVideoProjectForm->isSubmitted() && $shareVideoProjectForm->isValid()) {
+                $results = $this->videoProjectService->shareVideoProjectToUsersByEmails($videoProject, $shareVideoProjectForm->get('emails')->getData());
+                if (count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]) > 0) {
+                    $emailsNotFoundList = join(', ', array_values($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]));
+                    $this->session->getFlashBag()->add(self::FLASH_LEVEL_WARNING,
+                        $this->translator->transChoice('flash.warning.video_project.share.not_found',
+                            count($results[VideoProjectService::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL]),
+                            ['%prousers_notfound_list%' => $emailsNotFoundList]
+                        ));
+                }
+
+                return $this->redirectToRoute('front_coachingvideo_videoproject_view', ['id' => $videoProject->getId()]);
+            }
         }
 
         // Form submission handle in dedicated action for ajax management
@@ -153,7 +173,8 @@ class VideoCoachingController extends BaseController
             'editVideoProjectForm' => $editVideoProjectForm ? $editVideoProjectForm->createView() : null,
             'createVideoVersionForm' => $createVideoVersionForm ? $createVideoVersionForm->createView() : null,
             'editVideoVersionForms' => $editVideoVersionFormViews,
-            'discussionMessageForm' => $messageForm ? $messageForm->createView() : null
+            'discussionMessageForm' => $messageForm ? $messageForm->createView() : null,
+            'shareVideoProjectForm' => $shareVideoProjectForm ? $shareVideoProjectForm->createView() : null
         ]);
     }
 

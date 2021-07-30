@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\Timestampable\Traits\Timestampable;
+use Wamcar\User\ProUser;
 
 class VideoProject
 {
@@ -109,6 +110,19 @@ class VideoProject
         }
         return $this->viewers;
     }
+
+    /**
+     * Return the VideoProjectViewer or null, of the given ProUser
+     * @param ProUser $proUser
+     * @return null|VideoProjectViewer
+     */
+    public function getViewerInfo(ProUser $proUser): VideoProjectViewer
+    {
+        return $this->viewers->filter(function (VideoProjectViewer $videoProjectViewer) use ($proUser) {
+            return $videoProjectViewer->getViewer()->is($proUser);
+        })->first();
+    }
+
 
     /**
      * @param Collection $viewers

@@ -179,9 +179,12 @@ flash:
         Le garage que vous souhaitez créer, existe déjà. Cliquez sur <a href="%requestUrl%" class="text-underline">"Rejoindre ce garage"</a>
         pour envoyer une demande à l'adminstrateur.
       invitations:
-        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[  Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
+        personal: "{1} L'e-mail %prousers_personal_list% est utilisée par un particulier. Il ne peut pas être invité à rejoindre %garage_name% |[2,Inf[ Les e-mails %prousers_personal_list% sont utilisées par des particuliers. Ils ne peuvent pas être invités à rejoindre %garage_name%"
     personal_orientation:
       invalid_choice: Choix invalide. Merci de choisir une option valide.
+    video_project:
+      share:
+        not_found: "{1} L'e-mail %prousers_notfound_list% ne correspond pas à une utilisateur ayant accès au module de coaching vidéo. |[2,Inf[ Les e-mails %prousers_notfound_list% ne correspondend pas à des utilisateurs ayant accès au module de coaching vidéo."
 
 global:
   yes: Oui
@@ -223,6 +226,7 @@ global:
     see_user_profile: Voir le profil
     send: Envoyer
     send_message: Envoyer un message
+    share: Partager
     show_less: Voir moins
     show_more: Voir plus
     update: Rafraîchir
@@ -1582,6 +1586,15 @@ coaching_video:
         title: Mes projets vidéos
       followed:
         title: Les projets vidéos que je suis
+    share:
+      title: Partager ce projet
+      form:
+        field:
+          email:
+            label: E-mails des collaborateurs
+            placeholder: E-mails des collaborateurs
+            error:
+              empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant de valider. Merci de réessayer."
     form:
       field:
         title:
