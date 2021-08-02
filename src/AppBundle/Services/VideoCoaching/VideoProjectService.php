@@ -135,4 +135,21 @@ class VideoProjectService
     {
         return $this->videoProjectMessageRepository->findByVideoProjectAndTimeInterval($videoProject, $start, $end);
     }
+
+    /**
+     * @param VideoProject $videoProject
+     * @param ProUser $proUser
+     * @return bool
+     * @throws \Exception
+     */
+    public function updateVisitedAt(VideoProject $videoProject, ProUser $proUser)
+    {
+        $videoProjectViewer = $videoProject->getViewerInfo($proUser);
+        if ($videoProjectViewer) {
+            $videoProjectViewer->setVisitedAt(new \DateTime());
+            $this->videoProjectViewRepository->update($videoProjectViewer);
+            return true;
+        }
+        return false;
+    }
 }

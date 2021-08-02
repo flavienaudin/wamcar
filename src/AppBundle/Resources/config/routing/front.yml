@@ -478,6 +478,11 @@ front_coachingvideo_videoproject_messages_get:
   methods: POST
   controller: AppBundle:Front\ModuleContext\VideoCoaching:getMessages
 
+front_coachingvideo_videoproject_discussion_visited:
+  path: /module/video/videoproject/{id}/discussion/visite
+  controller: AppBundle:Front\ModuleContext\VideoCoaching:visiteDiscussion
+
+
 # TEST GOOGLE YOUTUBE API
 dev_youtube_api:
   path: /youtube

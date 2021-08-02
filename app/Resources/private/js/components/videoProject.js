@@ -6,10 +6,16 @@ import 'select2';
 
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
+let updateLastVisitedAtURL = undefined,
+  setTimeoutIdentifier = undefined,
+  updateLastVisitedCallLockFree = true,
+  $showPreviousMessagesButton;
+
 if ($videoProjectDiscussion.length) {
+  // Get URL to update last VisitedAt
+  updateLastVisitedAtURL = $videoProjectDiscussion.data('discussion-update-visitedat-url');
 
   // Get messages
-  var setTimeoutIdentifier;
   getMessages();
 
   const $manualUpdateButton = $('#js_discussion_update');
@@ -19,17 +25,32 @@ if ($videoProjectDiscussion.length) {
 
   // Post a message
   initMessageFormSubmission();
+
+  // Show previous messages
+  $showPreviousMessagesButton = $('#js_show_previous_messages');
+  if ($showPreviousMessagesButton.length > 0) {
+    $showPreviousMessagesButton.on('click', (event) => {
+      event.preventDefault();
+      getMessages(true);
+    });
+  }
 }
 
 /** Ajax request to get video project messages and set the timeout for the next request */
-function getMessages() {
+function getMessages(showPrevious = false) {
   if (setTimeoutIdentifier !== undefined) {
     clearTimeout(setTimeoutIdentifier);
   }
   const $discussionMessagesSection = $('#js_video_project_discussion_messages');
   const url = $discussionMessagesSection.data('url');
-  const startTimestamp = parseInt($discussionMessagesSection.data('start'));
-  const endTimestamp = parseInt(new Date().getTime() / 1000);
+  const startTimestamp = showPrevious ? undefined : parseInt($discussionMessagesSection.data('start'));
+  let searchEndTimestamp = undefined;
+  if (showPrevious) {
+    const $olderMessage = $discussionMessagesSection.children().last();
+    searchEndTimestamp = $olderMessage.data('postedat');
+  }
+  const endTimestamp = searchEndTimestamp ? searchEndTimestamp : parseInt(new Date().getTime() / 1000);
+
   $.ajax({
     url: url,
     type: 'POST',
@@ -38,17 +59,36 @@ function getMessages() {
       end: endTimestamp
     }
   }).done(function (responseData) {
-    $discussionMessagesSection.prepend(responseData.messages);
+    if (showPrevious) {
+      $discussionMessagesSection.append(responseData.messages);
+      if (responseData.messages.length === 0 && $showPreviousMessagesButton.length > 0) {
+        $showPreviousMessagesButton.addClass('is-hidden');
+        $('#js_nomore_previous_message').removeClass('is-hidden');
+      }
+    } else {
+      $discussionMessagesSection.prepend(responseData.messages);
+    }
+    // Set next start timestamp with the "end" param of last request
     $discussionMessagesSection.data('start', responseData.end);
 
     const $unreadMessages = $discussionMessagesSection.children('.unread:not(.withwaypoint)');
     $unreadMessages.each(function (idx, element) {
       $(element).addClass('withwaypoint');
-      let w = new Waypoint.Inview({
+      new Waypoint.Inview({
         element: element,
         enter: function (direction) {
           setTimeout(() => {
             $(element).removeClass('unread withwaypoint');
+
+            // Update last visited update
+            if (updateLastVisitedCallLockFree) {
+              updateLastVisitedCallLockFree = false;
+              $.ajax({
+                url: updateLastVisitedAtURL
+              }).always(() => {
+                updateLastVisitedCallLockFree = true;
+              });
+            }
           }, 5000);
           this.destroy();
         }

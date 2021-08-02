@@ -312,11 +312,40 @@ class VideoCoachingController extends BaseController
         $messages = $this->videoProjectService->getMessages($videoProject, $start, $end);
         return new JsonResponse([
             "start" => $start ? $start->getTimestamp() : null,
-            "end" => $end->getTimestamp(),
+            "end" => $end ? $end->getTimestamp() : null,
             "messages" => $this->renderTemplate('front/VideoCoaching/VideoProject/Messages/includes/view.html.twig', [
                 'messages' => $messages,
                 'videoProjectViewer' => $videoProject->getViewerInfo($currentUser)
             ])
         ]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param VideoProject $videoProject
+     * @return JsonResponse
+     * @throws \Exception
+     */
+    public function visiteDiscussionAction(Request $request, VideoProject $videoProject): JsonResponse
+    {
+        if (!$request->isXmlHttpRequest()) {
+            throw new BadRequestHttpException();
+        }
+
+        /** @var ProUser $currentUser */
+        $currentUser = $this->getUser();
+        if (!$this->isGranted(VideoCoachingVoter::MODULE_ACCESS, $currentUser)) {
+            return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.module_access'), Response::HTTP_FORBIDDEN);
+        }
+        if (!$this->isGranted(VideoCoachingVoter::VIDEO_PROJECT_VIEW, $videoProject)) {
+            return new JsonResponse($this->translator->trans('flash.error.unauthorized.video_coaching.video_project.view'), Response::HTTP_FORBIDDEN);
+        }
+
+        if ($this->videoProjectService->updateVisitedAt($videoProject, $currentUser)) {
+            return new JsonResponse('Ok');
+        } else {
+            return new JsonResponse('unauthorized', Response::HTTP_FORBIDDEN);
+        }
     }
 }

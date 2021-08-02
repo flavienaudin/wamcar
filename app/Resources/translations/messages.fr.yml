@@ -1614,6 +1614,9 @@ coaching_video:
           label: URL de la vidéo Youtube
   project_discussion:
     title: Discussions
+    previous_messages:
+      show: Voir les messages antérieurs
+      no_more: Pas de message antérieur
     form:
       field:
         content:
