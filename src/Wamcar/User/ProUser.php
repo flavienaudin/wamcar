@@ -11,6 +11,8 @@ use Wamcar\Conversation\ProContactMessage;
 use Wamcar\Garage\GarageProUser;
 use Wamcar\Location\City;
 use Wamcar\Sale\Declaration;
+use Wamcar\VideoCoaching\VideoProjectViewer;
+use Wamcar\VideoCoaching\VideoProjectMessage;
 
 class ProUser extends BaseUser
 {
@@ -41,6 +43,13 @@ class ProUser extends BaseUser
     /** @var Collection */
     protected $proUserProServices;
 
+    /** @var boolean */
+    protected $videoModuleAccess;
+    /** @var Collection of VideoProject accessible (creator/follower) by the user */
+    protected $videoProjects;
+    /** @var Collection of VideoProjectMessage */
+    protected $videoProjectMessages;
+
     /**
      * ProUser constructor.
      * @param string $email
@@ -57,6 +66,9 @@ class ProUser extends BaseUser
         $this->proContactMessages = new ArrayCollection();
         $this->proUserProServices = new ArrayCollection();
         $this->landingPosition = null;
+        $this->videoModuleAccess = false;
+        $this->videoProjects = new ArrayCollection();
+        $this->videoProjectMessages = new ArrayCollection();
     }
 
     /**
@@ -521,4 +533,90 @@ class ProUser extends BaseUser
         $this->proUserProServices->removeElement($proUserProService);
     }
 
+    /**
+     * @return bool
+     */
+    public function hasVideoModuleAccess(): bool
+    {
+        return $this->videoModuleAccess;
+    }
+
+    /**
+     * @param bool $videoModuleAccess
+     */
+    public function setVideoModuleAccess(bool $videoModuleAccess): void
+    {
+        $this->videoModuleAccess = $videoModuleAccess;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getVideoProjects(): Collection
+    {
+        return $this->videoProjects;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getFollowedVideoProjects(): Collection
+    {
+        return $this->videoProjects->filter(function (VideoProjectViewer $videoProjectViewer) {
+            return !$videoProjectViewer->isCreator();
+        });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getCreatedVideoProjects(): Collection
+    {
+        return $this->videoProjects->filter(function (VideoProjectViewer $videoProjectViewer) {
+            return $videoProjectViewer->isCreator();
+        });
+    }
+
+    /**
+     * @param VideoProjectViewer $videoProjectViewer
+     */
+    public function addVideoProject(VideoProjectViewer $videoProjectViewer)
+    {
+        $this->videoProjects->add($videoProjectViewer);
+    }
+
+    /**
+     *
+     * @param VideoProjectViewer $videoProjectViewer
+     */
+    public function removeVideoProject(VideoProjectViewer $videoProjectViewer)
+    {
+        $this->videoProjects->removeElement($videoProjectViewer);
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function getVideoProjectMessages(): Collection
+    {
+        return $this->videoProjectMessages;
+    }
+
+    /**
+     * @param VideoProjectMessage $videoProjectMessage
+     */
+    public function addVideoProjectMessages(VideoProjectMessage $videoProjectMessage)
+    {
+        $this->videoProjectMessages->add($videoProjectMessage);
+    }
+
+    /**
+     *
+     * @param VideoProjectMessage $videoProjectMessage
+     */
+    public function removeVideoProjectMessages(VideoProjectMessage $videoProjectMessage)
+    {
+        $this->videoProjectMessages->removeElement($videoProjectMessage);
+    }
 }

@@ -180,6 +180,10 @@
     {% endif %}
 {%- endblock text_widget -%}
 
+{%- block url_widget -%}
+    {{ block('text_widget') }}
+{%- endblock url_widget -%}
+
 {%- block textarea_widget -%}
     {% set class_field = class_field|default('') %}
     {% set class = class|default('') %}

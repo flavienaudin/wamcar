@@ -39,6 +39,8 @@ if ($showMoreVideos.length > 0) {
    ===================================== */
 initYoutubePlayer($('.youtube-player'));
 
+initYoutubeThumbnail($('.js-youtube-video-thumbnail'));
+
 /*
    Light embeded youtube video : functions
    ===================================== */
@@ -46,16 +48,26 @@ function initYoutubePlayer(elements) {
   $(elements).each((n, element) => {
     let div = document.createElement('div');
     div.setAttribute('data-id', element.dataset.id);
-    div.innerHTML = labnolThumb(element.dataset.id);
+    div.innerHTML = labnolThumb(element.dataset.id, element.dataset.alt);
     div.onclick = labnolIframe;
     element.appendChild(div);
   });
 }
 
-function labnolThumb(id) {
-  let thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg">',
+function initYoutubeThumbnail(elements) {
+  $(elements).each((n, element) => {
+    let div = document.createElement('div');
+    div.setAttribute('data-id', element.dataset.id);
+    div.innerHTML = labnolThumb(element.dataset.id, true);
+    element.appendChild(div);
+  });
+}
+
+function labnolThumb(id, alt = null, noPlay = false) {
+  let altAttr = alt ? alt : 'youtube-video-id-' + id;
+  let thumb = '<img src="https://i.ytimg.com/vi/ID/hqdefault.jpg" alt="' + altAttr + '">',
     play = '<div class="play"></div>';
-  return thumb.replace('ID', id) + play;
+  return thumb.replace('ID', id) + (!noPlay ? play : '');
 }
 
 function labnolIframe(event) {

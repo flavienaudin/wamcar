@@ -13,10 +13,12 @@
   border-radius: rem-calc(20);
   border: 1px solid $dark-gray-blue-peexeo;
 
-  &:hover,
-  &:focus {
-    color: $dark-gray-blue-peexeo;
-    background-color: $light-gray-peexeo;
+  &:not(.no-focus) {
+    &:hover,
+    &:focus {
+      color: $dark-gray-blue-peexeo;
+      background-color: $light-gray-peexeo;
+    }
   }
 
 

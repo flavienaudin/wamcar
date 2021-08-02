@@ -1,0 +1,21 @@
+<div>
+    {{ form_start(videoVersionForm,
+        { 'attr' : { 'class': formClass|default('row'), 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+    <div class="columns small-12 input-margin">
+        {{ form_widget(videoVersionForm.title, {
+            'label': 'coaching_video.video_version.form.field.title.label'|trans
+        }) }}
+    </div>
+    <div class="columns small-12 input-margin">
+        {{ form_widget(videoVersionForm.url, {
+            'label': 'coaching_video.video_version.form.field.url.label'|trans
+        }) }}
+    </div>
+
+    {{ form_rest(videoVersionForm) }}
+    <div class="columns small-12 right">
+        <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+    </div>
+    {{ form_end(videoVersionForm) }}
+</div>

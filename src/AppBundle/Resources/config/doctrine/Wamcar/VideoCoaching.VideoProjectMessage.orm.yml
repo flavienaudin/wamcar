@@ -1,0 +1,48 @@
+Wamcar\VideoCoaching\VideoProjectMessage:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoProjectMessageRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: true
+
+  id:
+    id:
+      type: integer
+      id: true
+      generator:
+        strategy: AUTO
+
+  fields:
+    content:
+      type: text
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: datetime
+      nullable: true
+
+  manyToOne:
+    author:
+      targetEntity: Wamcar\User\ProUser
+      inversedBy: videoProjectMessages
+      joinColumn:
+        name: author_id
+        referencedColumnName: id
+        nullable: false
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: messages
+      joinColumn:
+        name: video_project_id
+        referencedColumnName: id
+        nullable: false
