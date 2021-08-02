@@ -50,7 +50,9 @@ class DoctrineVideoProjectMessageRepository extends EntityRepository implements 
         $qb->where($qb->expr()->eq('m.videoProject', ':videoProjectId'));
         if ($start) {
             $qb->andWhere($qb->expr()->gte('m.createdAt', ':startDate'))
-                ->setParameter(':startDate', $start);;
+                ->setParameter(':startDate', $start);
+        }else{
+            $qb->setMaxResults(25);
         }
         if ($end) {
             $qb->andWhere($qb->expr()->lt('m.createdAt', ':endDate'))
