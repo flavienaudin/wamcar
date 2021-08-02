@@ -241,6 +241,14 @@ services:
     tags:
       - { name: event_subscriber, subscribes_to: \Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent, method: notify }
 
+  wamcar.event.video_project_sharing_success.notification:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyNewFollowersOfProjectVideoSharingSuccess
+    arguments:
+      $type: video_project_sharing_success
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent, method: notify }
+
   googleApi.event.place_detail_error:
     parent: wamcar.event.mail.abstract_event_handler
     class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError

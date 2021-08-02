@@ -10,6 +10,7 @@ use AppBundle\Form\DTO\VideoProjectMessageDTO;
 use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
+use Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent;
 use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectMessage;
 use Wamcar\VideoCoaching\VideoProjectMessageRepository;
@@ -114,12 +115,13 @@ class VideoProjectService
             if ($proUser && $proUser->hasVideoModuleAccess()) {
                 $follower = new VideoProjectViewer($videoProject, $proUser, false);
                 $videoProject->addViewer($follower);
-                $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][] = $email;
+                $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS][$email] = $follower;
             } else {
                 $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_FAIL][] = $email;
             }
         }
         $this->videoProjectRepository->update($videoProject);
+        $this->eventBus->handle(new VideoProjectSharingSuccessEvent($videoProject, $results[self::VIDEOCOACHING_SHARE_VIDEOPROJECT_SUCCESS]));
         return $results;
     }
 

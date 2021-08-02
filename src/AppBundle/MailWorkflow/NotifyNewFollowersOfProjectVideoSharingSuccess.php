@@ -9,18 +9,17 @@ use AppBundle\MailWorkflow\Services\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Symfony\Component\Translation\TranslatorInterface;
-use Wamcar\VideoCoaching\Event\VideoProjectMessageEvent;
-use Wamcar\VideoCoaching\Event\VideoProjectMessageEventHandler;
-use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
-use Wamcar\VideoCoaching\VideoProjectMessage;
+use Wamcar\VideoCoaching\Event\VideoProjectShareEvent;
+use Wamcar\VideoCoaching\Event\VideoProjectShareEventHandler;
+use Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent;
+use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectViewer;
 
-class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmailEventHandler implements VideoProjectMessageEventHandler
+class NotifyNewFollowersOfProjectVideoSharingSuccess extends AbstractEmailEventHandler implements VideoProjectShareEventHandler
 {
 
-
     /**
-     * NotifyFollowerOfProjectVideoMessagePostedEventHandler constructor.
+     * NotifyProUserOfProjectVideoSharingEventHandler constructor.
      * @param Mailer $mailer
      * @param UrlGeneratorInterface $router
      * @param EngineInterface $templating
@@ -39,18 +38,20 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
     }
 
     /**
-     * @param VideoProjectMessageEvent $event
+     * @param VideoProjectShareEvent $event
      */
-    public function notify(VideoProjectMessageEvent $event)
+    public function notify(VideoProjectShareEvent $event)
     {
-        $this->checkEventClass($event, VideoProjectMessagePostedEvent::class);
+        $this->checkEventClass($event, VideoProjectSharingSuccessEvent::class);
 
-        /** @var VideoProjectMessage $videoProjectMessage */
-        $videoProjectMessage = $event->getVideoProjectMessage();
-        $author = $videoProjectMessage->getAuthor();
-        $followers = $videoProjectMessage->getVideoProject()->getViewers(true);
+        /** @var VideoProject $videoProject */
+        $videoProject = $event->getVideoProject();
+        /** @var array $followers */
+        $followers = $event->getFollowers();
+
+        /** @var string $email */
         /** @var VideoProjectViewer $follower */
-        foreach ($followers as $follower) {
+        foreach ($followers as $email => $follower) {
 
             /*if ($author->getPreferences()->isPrivateMessageEmailEnabled() &&
                 NotificationFrequency::IMMEDIATELY()->equals($author->getPreferences()->getGlobalEmailFrequency())
@@ -58,23 +59,24 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
                 // && $interlocutor->getPreferences()->getPrivateMessageEmailFrequency()->getValue() === NotificationFrequency::IMMEDIATELY
             ) {*/
 
-            $emailObject = $this->translator->trans('notifyFollowersOfVideoProjectMessagePosted.object', [
-                '%authorFullName%' => $author->getFullName(),
-                '%videoProjectTitle%' => $videoProjectMessage->getVideoProject()->getTitle()
+            $creatorFullName = $videoProject->getCreators()->first()->getViewer()->getFullName();
+            $emailObject = $this->translator->trans('notifyNewFollowersOfVideoProjectSharingSuccess.object', [
+                '%authorFullName%' => $creatorFullName,
+                '%videoProjectTitle%' => $videoProject->getTitle()
             ], 'email');
 
-            $trackingKeywords = 'videoProject' . $videoProjectMessage->getVideoProject()->getId().'-follower'. $follower->getViewer()->getId();
+            $trackingKeywords = 'videoProject' . $videoProject->getId() . '-follower' . $follower->getViewer()->getId();
 
             $commonUTM = [
                 'utm_source' => 'notifications',
                 'utm_medium' => 'email',
-                'utm_campaign' => 'video_project_message_follower',
+                'utm_campaign' => 'video_project_sharing_success',
                 'utm_term' => $trackingKeywords
             ];
 
             $this->send(
                 $emailObject,
-                'Mail/notifyFollowersOfVideoProjectMessagePosted.html.twig',
+                'Mail/notifyNewFollowersOfVideoProjectSharingSuccess.html.twig',
                 [
                     'emailObject' => $emailObject,
                     'common_utm' => $commonUTM,
@@ -95,15 +97,15 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
 //                    'cc' => 'opened', // Campaign content
 //                ],
                     'username' => $follower->getViewer()->getFirstName(),
-                    'authorFullName' => $author->getFullName(),
-                    'videoProjectTitle' => $videoProjectMessage->getVideoProject()->getTitle(),
+                    'authorFullName' => $creatorFullName,
+                    'videoProjectTitle' => $videoProject->getTitle(),
                     'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
-                        'id' => $videoProjectMessage->getVideoProject()->getId()
+                        'id' => $videoProject->getId()
                     ], UrlGeneratorInterface::ABSOLUTE_URL)
                 ],
                 new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),
                 [],
-                $author->getFullName()
+                $creatorFullName
             );
             //}
         }
