@@ -1,0 +1,14 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-share-videoproject-modal' %}
+
+{% block title %}{{ 'coaching_video.video_project.share.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/VideoProject/includes/share_form.html.twig', {
+        'shareVideoProjectForm' : shareVideoProjectForm,
+        'formClass' : 'row form-compact'
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

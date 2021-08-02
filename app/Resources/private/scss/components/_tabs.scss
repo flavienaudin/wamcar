@@ -122,6 +122,14 @@
           padding-left: rem-calc(10);
         }
       }
+
+      .video-selector & {
+        height: rem-calc(150px);
+
+        img {
+          height: rem-calc(150px);
+        }
+      }
     }
     // End > a
 

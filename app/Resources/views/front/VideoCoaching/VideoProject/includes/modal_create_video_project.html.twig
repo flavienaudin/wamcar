@@ -1,0 +1,14 @@
+{% extends 'front/Layout/modal.html.twig' %}
+
+{% set modalId = 'js-create-videoproject' %}
+
+{% block title %}{{ 'coaching_video.video_project.create.title'|trans }}{% endblock %}
+
+{% block content %}
+    {{ include('front/VideoCoaching/VideoProject/includes/save_form.html.twig', {
+        'videoProjectForm' : createdVideoProjectForm,
+        'formClass' : 'row form-compact'
+    }) }}
+{% endblock %}
+
+{% block includeFile %}{% endblock %}

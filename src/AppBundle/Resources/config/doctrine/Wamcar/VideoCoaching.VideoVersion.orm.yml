@@ -1,0 +1,42 @@
+Wamcar\VideoCoaching\VideoVersion:
+
+  type: entity
+  repositoryClass: AppBundle\Doctrine\Repository\DoctrineVideoVersionRepository
+  gedmo:
+    soft_deleteable:
+      field_name: deletedAt
+      time_aware: true
+  exclusion_policy: ALL
+
+  id:
+    id:
+      type: uuid
+
+  manyToOne:
+    videoProject:
+      targetEntity: Wamcar\VideoCoaching\VideoProject
+      inversedBy: videoVersions
+      joinColumn:
+        name: video_project_id
+        referencedColumnName: id
+
+  fields:
+    title:
+      type: string
+      nullable: false
+    youtubeVideoUrl:
+      type: string
+      nullable: false
+    createdAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: create
+    updatedAt:
+      type: datetime
+      gedmo:
+        timestampable:
+          on: update
+    deletedAt:
+      type: datetime
+      nullable: true

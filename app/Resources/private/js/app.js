@@ -50,6 +50,7 @@ import './components/datatable';
 import './components/sales';
 import './components/expert';
 import './components/video';
+import './components/videoProject';
 import scrollTo from './components/scrollTo';
 
 import {default as autosize} from 'autosize';

@@ -1,0 +1,24 @@
+<div>
+    {{ form_start(shareVideoProjectForm,
+        { 'attr' : { 'class': formClass|default('row'), 'data-abide' : '', 'novalidate': 'novalidate'} }) }}
+
+    <div class="columns small-12 input-margin">
+        {{ form_widget(shareVideoProjectForm.emails, {
+            'class':'js-videoproject-share-emails',
+            'label':'coaching_video.video_project.share.form.field.email.label'|trans,
+            'label_class':'show-for-sr',
+            'required' : true,
+            'required_message': 'coaching_video.video_project.share.form.field.email.error.empty'|trans,
+            'multiple':'multiple',
+            'attr':{
+                'data-placeholder':'coaching_video.video_project.share.form.field.email.placeholder'|trans
+            }
+        }) }}
+    </div>
+
+    {{ form_rest(shareVideoProjectForm) }}
+    <div class="columns small-12 right">
+        <button type="submit" class="button primary-button full-width">{{ 'global.button.validate'|trans }}</button>
+    </div>
+    {{ form_end(shareVideoProjectForm) }}
+</div>

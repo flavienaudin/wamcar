@@ -3,7 +3,6 @@
 namespace AppBundle\Command;
 
 
-use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Services\User\LeadManagementService;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,14 +16,12 @@ class GenerateProUserLeadsCommand extends BaseCommand
 
     /**
      * GenerateProUserLeadsCommand constructor.
-     * @param DoctrineProUserRepository $proUserRepository
      * @param LeadManagementService $leadManagementService
      */
-    public function __construct(DoctrineProUserRepository $proUserRepository, LeadManagementService $leadManagementService)
+    public function __construct(LeadManagementService $leadManagementService)
     {
         parent::__construct('wamcar:generate:pro_user_leads');
         $this->setDescription('Generate missing "leads" of pro users');
-        $this->proUserRepository = $proUserRepository;
         $this->leadManagementService = $leadManagementService;
     }
 
