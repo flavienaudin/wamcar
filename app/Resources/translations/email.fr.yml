@@ -202,6 +202,16 @@ inviteByEmailToRegister:
         </ul>
   action.register: S'inscrire
 
+notifyFollowersOfVideoProjectMessagePosted:
+  object: "[Wamcar projet Vidéo \"%videoProjectTitle%\"] %authorFullName% a posté un nouveau message"
+  body: "%authorFullName% a posté un nouveau message au sujet du projet vidéo \"%videoProjectTitle%\". Consultez la page en suivant le lien <a href=\"%videoProjectUrl%\">%videoProjectUrl%</a>"
+  action.view_video_project: Voir le projet vidéo
+
+notifyNewFollowersOfVideoProjectSharingSuccess:
+  object: "[Wamcar projet Vidéo \"%videoProjectTitle%\"] %authorFullName% a partagé un project vidéo avec vous"
+  body: "%authorFullName% a partagé avec vous son project vidéo \"%videoProjectTitle%\". Consultez la page en suivant le lien <a href=\"%videoProjectUrl%\">%videoProjectUrl%</a>"
+  action.view_video_project: Voir le projet vidéo
+
 notifyAdminOfGoogleApiReturn:
   object: "Wamcar ADMIN-Google API Return Error"
   body: >

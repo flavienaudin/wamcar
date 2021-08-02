@@ -1,0 +1,23 @@
+{% extends ':Mail/Layout:email.html.twig' %}
+
+{% trans_default_domain 'email' %}
+{% from ':Mail/Layout:email.html.twig' import action_button, encart_vehicle %}
+
+{% block title %}
+    {{ emailObject }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        <div>
+            {{ 'notifyNewFollowersOfVideoProjectSharingSuccess.body'|trans({
+                '%authorFullName%': authorFullName,
+                '%videoProjectTitle%': videoProjectTitle,
+                '%videoProjectUrl%': videoProjectUrl
+            })|raw }}
+
+            <p>{{ action_button(videoProjectUrl, 'notifyFollowersOfVideoProjectMessagePosted.action.view_video_project'|trans, true) }}</p>
+
+        </div>
+    </div>
+{% endblock %}
