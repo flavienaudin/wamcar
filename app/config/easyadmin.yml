@@ -99,6 +99,7 @@ easy_admin:
           - { property: 'email', label: 'E-mail', type: 'email' }
           - { property: 'slug'}
           - { property: 'apiClientId'}
+          - { property: 'videoModuleAccess'}
           - { property: 'landingPosition', label: 'HP-pos.' }
           - { property: 'countVehicles', label: '#Vhl.'}
           - { property: 'numberOfGarages', label: '#Garages.'}

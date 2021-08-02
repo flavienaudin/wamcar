@@ -40,6 +40,22 @@ function getMessages() {
   }).done(function (responseData) {
     $discussionMessagesSection.prepend(responseData.messages);
     $discussionMessagesSection.data('start', responseData.end);
+
+    const $unreadMessages = $discussionMessagesSection.children('.unread:not(.withwaypoint)');
+    $unreadMessages.each(function (idx, element) {
+      $(element).addClass('withwaypoint');
+      let w = new Waypoint.Inview({
+        element: element,
+        enter: function (direction) {
+          setTimeout(() => {
+            $(element).removeClass('unread withwaypoint');
+          }, 5000);
+          this.destroy();
+        }
+      });
+    });
+
+
   }).always(function () {
     setTimeoutIdentifier = setTimeout(getMessages, 20000);
   });

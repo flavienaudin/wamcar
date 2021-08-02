@@ -25,4 +25,15 @@
       }
     }
   }
+
+  .videoproject-messages {
+    div {
+      margin: 1px 0;
+      border-radius: 5px;
+    }
+
+    .unread {
+      background-color: $light-gray-peexeo;
+    }
+  }
 }
