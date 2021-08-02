@@ -312,7 +312,7 @@ class VideoCoachingController extends BaseController
         $messages = $this->videoProjectService->getMessages($videoProject, $start, $end);
         return new JsonResponse([
             "start" => $start ? $start->getTimestamp() : null,
-            "end" => $end->getTimestamp(),
+            "end" => $end ? $end->getTimestamp() : null,
             "messages" => $this->renderTemplate('front/VideoCoaching/VideoProject/Messages/includes/view.html.twig', [
                 'messages' => $messages,
                 'videoProjectViewer' => $videoProject->getViewerInfo($currentUser)

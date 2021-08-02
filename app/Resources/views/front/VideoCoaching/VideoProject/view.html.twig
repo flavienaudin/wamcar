@@ -138,7 +138,7 @@
             <div id="js_video_project_discussion"
                  data-discussion-update-visitedat-url="{{ path('front_coachingvideo_videoproject_discussion_visited', {'id':videoProject.id}) }}">
                 {% if discussionMessageForm %}
-                    <div id="js_video_project_discussion_writer">
+                    <div id="js_video_project_discussion_writer" class="margin-bottom-1">
                         {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {
                             'videoProject': videoProject,
                             'messageForm' : discussionMessageForm,
@@ -146,8 +146,13 @@
                         }) }}
                     </div>
                 {% endif %}
-                <div id="js_video_project_discussion_messages" class="videoproject-messages"
-                     data-url="{{ url('front_coachingvideo_videoproject_messages_get', {'id':videoProject.id}) }}"></div>
+                <div id="js_video_project_discussion_messages" class="videoproject-messages margin-bottom-1"
+                     data-url="{{ url('front_coachingvideo_videoproject_messages_get', {'id':videoProject.id}) }}">
+                </div>
+                <div>
+                    <a id="js_show_previous_messages" class="button small">{{ "coaching_video.project_discussion.previous_messages.show"|trans }}</a>
+                    <i id="js_nomore_previous_message" class="is-hidden">{{ "coaching_video.project_discussion.previous_messages.no_more"|trans }}</i>
+                </div>
             </div>
         </div>
     </section>
