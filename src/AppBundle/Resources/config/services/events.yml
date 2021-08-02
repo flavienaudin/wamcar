@@ -1,244 +1,251 @@
 services:
-    wamcar.event.mail.abstract_event_handler:
-        abstract: true
-        class: AppBundle\MailWorkflow\AbstractEmailEventHandler
-        arguments:
-          - '@wamcar.mail_workflow.mailer'
-          - '@router'
-          - '@templating'
-          - '@translator'
+  wamcar.event.mail.abstract_event_handler:
+    abstract: true
+    class: AppBundle\MailWorkflow\AbstractEmailEventHandler
+    arguments:
+      - '@wamcar.mail_workflow.mailer'
+      - '@router'
+      - '@templating'
+      - '@translator'
 
-    wamcar.event.password_reset_token_generated:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyUserOfPasswordResetTokenGenerated
-        arguments:
-          - password_reset_token_generated
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserPasswordResetTokenGenerated, method: notify }
+  wamcar.event.password_reset_token_generated:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyUserOfPasswordResetTokenGenerated
+    arguments:
+      - password_reset_token_generated
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserPasswordResetTokenGenerated, method: notify }
 
-    wamcar.event.registration_token_generated:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyUserOfRegistrationTokenGenerated
-        arguments:
-          - registration_token_generated
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserCreated, method: notify }
+  wamcar.event.registration_token_generated:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyUserOfRegistrationTokenGenerated
+    arguments:
+      - registration_token_generated
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserCreated, method: notify }
 
-    wamcar.event.registration_pro:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyProUserOfRegistration
-        arguments:
-          - registration_pro
-          - '%salespersons_emails%'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
+  wamcar.event.registration_pro:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyProUserOfRegistration
+    arguments:
+      - registration_pro
+      - '%salespersons_emails%'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
 
-    wamcar.event.vehicle_updated:
-        class: Wamcar\Vehicle\Event\ResolveLiipImagineCache
-        arguments:
-           - '@AppBundle\Services\Picture\PathVehiclePicture'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleUpdated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
+  wamcar.event.vehicle_updated:
+    class: Wamcar\Vehicle\Event\ResolveLiipImagineCache
+    arguments:
+      - '@AppBundle\Services\Picture\PathVehiclePicture'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\VehicleUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
 
-    wamcar.event.vehicle_removed:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyOwnerOfVehicleRemoved
-        arguments:
-           - vehicle_removed
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
+  wamcar.event.vehicle_removed:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyOwnerOfVehicleRemoved
+    arguments:
+      - vehicle_removed
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
-    wamcar.event.elasticsearch.personal_project_updated.index:
-            class: AppBundle\Elasticsearch\IndexUpdatedPersonalProject
-            autowire: true
-            arguments:
-                - '@personal_project.indexer'
-                - '@search_item.indexer'
-            tags:
-                - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectUpdated, method: notify }
-                - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectRemoved, method: notify }
+  wamcar.event.elasticsearch.personal_project_updated.index:
+    class: AppBundle\Elasticsearch\IndexUpdatedPersonalProject
+    autowire: true
+    arguments:
+      - '@personal_project.indexer'
+      - '@search_item.indexer'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\PersonalProjectRemoved, method: notify }
 
-    wamcar.event.elasticsearch.pro_user_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedProUser
-        autowire: true
-        arguments:
-          $searchItemEntityIndexer: '@search_item.indexer'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserRemoved, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
+  wamcar.event.elasticsearch.pro_user_updated.index:
+    class: AppBundle\Elasticsearch\IndexUpdatedProUser
+    autowire: true
+    arguments:
+      $searchItemEntityIndexer: '@search_item.indexer'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\ProUserRemoved, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
 
-    wamcar.event.elasticsearch.garage_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedGarage
-        autowire: true
-        arguments:
-            $searchItemEntityIndexer: '@search_item.indexer'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageUpdated, method: notify }
+  wamcar.event.elasticsearch.garage_updated.index:
+    class: AppBundle\Elasticsearch\IndexUpdatedGarage
+    autowire: true
+    arguments:
+      $searchItemEntityIndexer: '@search_item.indexer'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageUpdated, method: notify }
 
-    wamcar.event.elasticsearch.pro_vehicle_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedProVehicle
-        arguments:
-            $searchItemEntityIndexer: '@search_item.indexer'
-        autowire: true
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
+  wamcar.event.elasticsearch.pro_vehicle_updated.index:
+    class: AppBundle\Elasticsearch\IndexUpdatedProVehicle
+    arguments:
+      $searchItemEntityIndexer: '@search_item.indexer'
+    autowire: true
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\ProVehicleRemoved, method: notify }
 
-    wamcar.event.elasticsearch.personal_vehicle_updated.index:
-        class: AppBundle\Elasticsearch\IndexUpdatedPersonalVehicle
-        autowire: true
-        arguments:
-            $searchItemEntityIndexer: '@search_item.indexer'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
+  wamcar.event.elasticsearch.personal_vehicle_updated.index:
+    class: AppBundle\Elasticsearch\IndexUpdatedPersonalVehicle
+    autowire: true
+    arguments:
+      $searchItemEntityIndexer: '@search_item.indexer'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleCreated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleUpdated, method: notify }
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\PersonalVehicleRemoved, method: notify }
 
-    wamcar.event.adding_pictures_to_vehicle_notification:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyUserOfAddingPicturesToVehicle
-        arguments:
-            - sell.adding_pictures_to_vehicle_notification
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification, method: notify }
+  wamcar.event.adding_pictures_to_vehicle_notification:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyUserOfAddingPicturesToVehicle
+    arguments:
+      - sell.adding_pictures_to_vehicle_notification
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Vehicle\Event\AddingPicturesToVehicleNotification, method: notify }
 
-    wamcar.event.message_created:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyUserOfMessageCreated
-        arguments:
-            - message_created
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
+  wamcar.event.message_created:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyUserOfMessageCreated
+    arguments:
+      - message_created
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\MessageCreated, method: notify }
 
-    wamcar.event.pro_contact_message_created.pro_notification:
-      parent: wamcar.event.mail.abstract_event_handler
-      class: AppBundle\MailWorkflow\NotifyProUserOfContactMessageCreated
-      arguments:
-        $type: pro_contact_message_created
-        $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
-      tags:
-        - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\ProContactMessageCreated, method: notify }
+  wamcar.event.pro_contact_message_created.pro_notification:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyProUserOfContactMessageCreated
+    arguments:
+      $type: pro_contact_message_created
+      $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\ProContactMessageCreated, method: notify }
 
-    wamcar.event.pro_contact_message_created.registration_encouragement:
-      parent: wamcar.event.mail.abstract_event_handler
-      class: AppBundle\MailWorkflow\EncourageToRegisterAfterProContact
-      arguments:
-        $type: pro_contact_message_created
-      tags:
-        - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\ProContactMessageCreated, method: notify }
+  wamcar.event.pro_contact_message_created.registration_encouragement:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\EncourageToRegisterAfterProContact
+    arguments:
+      $type: pro_contact_message_created
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Conversation\Event\ProContactMessageCreated, method: notify }
 
-    wamcar.event.user_like_vehicle:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\Notifications\LikeNotificationsHandler
-        arguments:
-            $type: new_like_vehicle
-            $notificationsManager: '@mgilet.notification'
-            $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
+  wamcar.event.user_like_vehicle:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\LikeNotificationsHandler
+    arguments:
+      $type: new_like_vehicle
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+      $pathVehiclePicture: '@AppBundle\Services\Picture\PathVehiclePicture'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\UserLikeVehicleEvent, method: notify }
 
-    wamcar.event.lead_new_registation:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\Notifications\LeadNewRegistrationEventHandler
-        arguments:
-            $type: lead_new_registration
-            $notificationsManager: '@mgilet.notification'
-            $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\LeadNewRegistrationEvent, method: notify }
+  wamcar.event.lead_new_registation:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\LeadNewRegistrationEventHandler
+    arguments:
+      $type: lead_new_registration
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\LeadNewRegistrationEvent, method: notify }
 
-    wamcar.event.affinity_degree_calculated:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyUserOfAffinityDegreeCalculated
-        arguments:
-            $type: affinity_degree_calculated
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\AffinityDegreeCalculatedEvent, method: notify }
+  wamcar.event.affinity_degree_calculated:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyUserOfAffinityDegreeCalculated
+    arguments:
+      $type: affinity_degree_calculated
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\AffinityDegreeCalculatedEvent, method: notify }
 
-    wamcar.event.pending_request_to_join_garage_created:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\Notifications\PendingRequestToJoinGarageCreatedEventHandler
-        arguments:
-            $type: pending_request_to_join_garage_created
-            $notificationManager: '@mgilet.notification'
-            $notificationManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-        tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent, method: notify }
+  wamcar.event.pending_request_to_join_garage_created:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\PendingRequestToJoinGarageCreatedEventHandler
+    arguments:
+      $type: pending_request_to_join_garage_created
+      $notificationManager: '@mgilet.notification'
+      $notificationManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCreatedEvent, method: notify }
 
-    wamcar.event.pending_request_to_join_garage_accepted:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\Notifications\PendingRequestToJoinGarageAcceptedEventHandler
-            arguments:
-                $type: pending_request_to_join_garage_accepted
-                $notificationsManager: '@mgilet.notification'
-                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            tags:
-                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageAcceptedEvent, method: notify }
+  wamcar.event.pending_request_to_join_garage_accepted:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\PendingRequestToJoinGarageAcceptedEventHandler
+    arguments:
+      $type: pending_request_to_join_garage_accepted
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageAcceptedEvent, method: notify }
 
-    wamcar.event.pending_request_to_join_garage_declined:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\Notifications\PendingRequestToJoinGarageDeclinedEventHandler
-            arguments:
-                $type: pending_request_to_join_garage_declined
-                $notificationsManager: '@mgilet.notification'
-                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            tags:
-                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageDeclinedEvent, method: notify }
+  wamcar.event.pending_request_to_join_garage_declined:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\PendingRequestToJoinGarageDeclinedEventHandler
+    arguments:
+      $type: pending_request_to_join_garage_declined
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageDeclinedEvent, method: notify }
 
-    wamcar.event.pending_request_to_join_garage_cancelled:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\Notifications\PendingRequestToJoinGarageCancelledEventHandler
-            arguments:
-                $type: pending_request_to_join_garage_declined
-                $notificationsManager: '@mgilet.notification'
-                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            tags:
-                - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCancelledEvent, method: notify }
+  wamcar.event.pending_request_to_join_garage_cancelled:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\PendingRequestToJoinGarageCancelledEventHandler
+    arguments:
+      $type: pending_request_to_join_garage_declined
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\PendingRequestToJoinGarageCancelledEvent, method: notify }
 
-    wamcar.event.garage_member_assigned:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\Notifications\GarageMemberAssignedEventHandler
-            arguments:
-                $type: garage_member_assigned
-                $notificationsManager: '@mgilet.notification'
-                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
+  wamcar.event.garage_member_assigned:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\GarageMemberAssignedEventHandler
+    arguments:
+      $type: garage_member_assigned
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberAssignedEvent, method: notify }
 
-    wamcar.event.garage_member_unassigned:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\Notifications\GarageMemberUnassignedEventHandler
-            arguments:
-                $type: garage_member_unassigned
-                $notificationsManager: '@mgilet.notification'
-                $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
-            tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
+  wamcar.event.garage_member_unassigned:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\Notifications\GarageMemberUnassignedEventHandler
+    arguments:
+      $type: garage_member_unassigned
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\Garage\Event\GarageMemberUnassignedEvent, method: notify }
 
-    wamcar.event.garage_emails_invitations:
-            parent: wamcar.event.mail.abstract_event_handler
-            class: AppBundle\MailWorkflow\EmailsInvitationsEventHandler
-            arguments:
-                $type: garage_emails_invitations
-            tags:
-            - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\EmailsInvitationsEvent, method: notify }
+  wamcar.event.garage_emails_invitations:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\EmailsInvitationsEventHandler
+    arguments:
+      $type: garage_emails_invitations
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\User\Event\EmailsInvitationsEvent, method: notify }
 
+  wamcar.event.video_project_message_posted.followers_notification:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyFollowerOfProjectVideoMessagePostedEventHandler
+    arguments:
+      $type: video_project_message_posted
+    tags:
+      - { name: event_subscriber, subscribes_to: \Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent, method: notify }
 
-    googleApi.event.place_detail_error:
-        parent: wamcar.event.mail.abstract_event_handler
-        class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
-        arguments:
-            $type: place_detail_error
-            $monitorsEmails: '%monitors_emails%'
-        tags:
-            - { name: event_subscriber, subscribes_to: \GoogleApi\Event\PlaceDetailError, method: notify }
+  googleApi.event.place_detail_error:
+    parent: wamcar.event.mail.abstract_event_handler
+    class: AppBundle\MailWorkflow\NotifyAdminOfGoogleApiReturnError
+    arguments:
+      $type: place_detail_error
+      $monitorsEmails: '%monitors_emails%'
+    tags:
+      - { name: event_subscriber, subscribes_to: \GoogleApi\Event\PlaceDetailError, method: notify }

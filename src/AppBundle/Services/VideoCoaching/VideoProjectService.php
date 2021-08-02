@@ -7,7 +7,9 @@ namespace AppBundle\Services\VideoCoaching;
 use AppBundle\Doctrine\Repository\DoctrineProUserRepository;
 use AppBundle\Form\DTO\VideoProjectDTO;
 use AppBundle\Form\DTO\VideoProjectMessageDTO;
+use SimpleBus\Message\Bus\MessageBus;
 use Wamcar\User\ProUser;
+use Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent;
 use Wamcar\VideoCoaching\VideoProject;
 use Wamcar\VideoCoaching\VideoProjectMessage;
 use Wamcar\VideoCoaching\VideoProjectMessageRepository;
@@ -33,19 +35,28 @@ class VideoProjectService
     /** @var DoctrineProUserRepository */
     private $proUserRepository;
 
+    /** @var MessageBus */
+    private $eventBus;
+
     /**
      * VideoProjectService constructor.
      * @param VideoProjectRepository $videoProjectRepository
      * @param VideoProjectMessageRepository $videoProjectMessageRepository
      * @param VideoProjectViewerRepository $videoProjectViewRepository
      * @param DoctrineProUserRepository $proUserRepository
+     * @param MessageBus $eventBus
      */
-    public function __construct(VideoProjectRepository $videoProjectRepository, VideoProjectMessageRepository $videoProjectMessageRepository, VideoProjectViewerRepository $videoProjectViewRepository, DoctrineProUserRepository $proUserRepository)
+    public function __construct(VideoProjectRepository $videoProjectRepository,
+                                VideoProjectMessageRepository $videoProjectMessageRepository,
+                                VideoProjectViewerRepository $videoProjectViewRepository,
+                                DoctrineProUserRepository $proUserRepository,
+                                MessageBus $eventBus)
     {
         $this->videoProjectRepository = $videoProjectRepository;
         $this->videoProjectMessageRepository = $videoProjectMessageRepository;
         $this->videoProjectViewRepository = $videoProjectViewRepository;
         $this->proUserRepository = $proUserRepository;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -123,6 +134,8 @@ class VideoProjectService
         $videoProjectMessage->setContent($messageDTO->getContent());
 
         $this->videoProjectMessageRepository->add($videoProjectMessage);
+
+        $this->eventBus->handle(new VideoProjectMessagePostedEvent($videoProjectMessage));
     }
 
     /**
