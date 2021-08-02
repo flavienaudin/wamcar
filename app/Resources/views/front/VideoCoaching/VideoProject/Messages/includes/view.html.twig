@@ -1,5 +1,5 @@
 {% for message in messages %}
-    <div>
+    <div class="{{ videoProjectViewer.visitedAt < message.createdAt ? "unread"}}">
         {{ message.createdAt|localizeddate('short','short') }} <b>{{ message.author.fullname|title }}</b>
         : {{ message.content }}
     </div>

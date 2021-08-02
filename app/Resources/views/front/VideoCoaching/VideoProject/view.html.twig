@@ -24,7 +24,8 @@
                             }) }}
                         {% endif %}
                         {% if editVideoProjectForm is not null %}
-                            <span data-toggle="js-edit-videoproject js-videoproject-info" class="section-action icon-pen">
+                            <span data-toggle="js-edit-videoproject js-videoproject-info"
+                                  class="section-action icon-pen">
                                     <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
                             <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
                                class="js-confirm-box section-action icon-remove"
@@ -40,10 +41,10 @@
             </h1>
 
             <div class="tag-container">
-                {%for creator in videoProject.creators %}
+                {% for creator in videoProject.creators %}
                     <span class="tag no-focus is-active">{{ creator.viewer.fullname|title }}</span>
                 {% endfor %}
-                {%for follower in videoProject.viewers(true) %}
+                {% for follower in videoProject.viewers(true) %}
                     <span class="tag no-focus">{{ follower.viewer.fullname|title }}</span>
                 {% endfor %}
             </div>
@@ -134,7 +135,8 @@
                     <span class="show-for-sr">{{ 'global.button.update'|trans }}</span></span>
                 {{ 'coaching_video.project_discussion.title'|trans }}</h2>
 
-            <div id="js_video_project_discussion">
+            <div id="js_video_project_discussion"
+                 data-discussion-update-visitedat-url="{{ path('front_coachingvideo_videoproject_discussion_visited', {'id':videoProject.id}) }}">
                 {% if discussionMessageForm %}
                     <div id="js_video_project_discussion_writer">
                         {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {

@@ -6,10 +6,15 @@ import 'select2';
 
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
+let updateLastVisitedAtURL = undefined,
+  setTimeoutIdentifier = undefined,
+  updateLastVisitedCallLockFree = true;
+
 if ($videoProjectDiscussion.length) {
+  // Get URL to update last VisitedAt
+  updateLastVisitedAtURL = $videoProjectDiscussion.data('discussion-update-visitedat-url');
 
   // Get messages
-  var setTimeoutIdentifier;
   getMessages();
 
   const $manualUpdateButton = $('#js_discussion_update');
@@ -44,11 +49,21 @@ function getMessages() {
     const $unreadMessages = $discussionMessagesSection.children('.unread:not(.withwaypoint)');
     $unreadMessages.each(function (idx, element) {
       $(element).addClass('withwaypoint');
-      let w = new Waypoint.Inview({
+      new Waypoint.Inview({
         element: element,
         enter: function (direction) {
           setTimeout(() => {
             $(element).removeClass('unread withwaypoint');
+
+            // Update last visited update
+            if(updateLastVisitedCallLockFree) {
+              updateLastVisitedCallLockFree = false;
+              $.ajax({
+                url: updateLastVisitedAtURL
+              }).always(() => {
+                updateLastVisitedCallLockFree = true;
+              });
+            }
           }, 5000);
           this.destroy();
         }
