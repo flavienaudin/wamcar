@@ -33,7 +33,7 @@ Wamcar\VideoCoaching\VideoProject:
       cascade: ["persist", "merge", "remove"]
       orphanRemoval: true
       orderBy:
-        publishedAt: "DESC"
+        createdAt: "DESC"
 
   fields:
     title:

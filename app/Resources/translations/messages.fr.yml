@@ -1332,6 +1332,10 @@ user:
         label: Quand on m'envoie un message privé
       like:
         label: Quand on like une de mes annonces
+      videoProjectNewMessage:
+        label: Quand un message est posté sur un projet vidéo
+      videoProjectSharing:
+        label: Quand on partage un projet vidéo avec moi
       lead:
         enabled.label: A l'inscription d'un lead qui m'intéresse
         localisation.label: "{0,1}Nb de Km autour de mon garage|[2,Inf[ Nb de Km autour de mes garages"
@@ -1521,6 +1525,8 @@ notifications:
     pending_request_to_join_garage_declined: "Votre demande pour rejoindre le garage <b>%garage_name%</b> a été refusé par un gestionnaire."
     garage_member_assigned: "Vous avez été rattaché au garage <b>%garage_name%</b> par un gestionnaire."
     garage_member_unassigned: "Vous avez été détaché du garage <b>%garage_name%</b> par un gestionnaire."
+    video_project_posted: "<b>%author%</b> a posté un message sur le projet vidéo <b>%videoProjectTitle%</b>"
+    video_project_shared: "<b>%creator%</b> a partagé avec vous son projet vidéo <b>%videoProjectTitle%</b>"
 
 directory:
   page_tile: Voir les conseillers
@@ -1593,6 +1599,7 @@ coaching_video:
           email:
             label: E-mails des collaborateurs
             placeholder: E-mails des collaborateurs
+            instruction: Séparer les e-mails par un espace ou un point-virgule, ou valider chaque adresse e-mail en tapant sur "Entrée".
             error:
               empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant de valider. Merci de réessayer."
     form:

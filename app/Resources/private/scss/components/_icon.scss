@@ -42,7 +42,15 @@
 /*
    Icon list
    ===================================== */
-
+.icon-play2:before {
+  content: "\e91e";
+}
+.icon-film2:before {
+  content: "\e91f";
+}
+.icon-video-camera2:before {
+  content: "\e920";
+}
 .icon-loop21:before {
   content: "\ea2f";
 }

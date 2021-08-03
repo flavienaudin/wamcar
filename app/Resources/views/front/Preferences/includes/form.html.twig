@@ -44,6 +44,32 @@
         {% if isUserPro %}
             <div class="row input-margin align-middle">
                 <div class="column small-12 medium-6 black-color medium-text-right">
+                    {{ 'user.preference.field.videoProjectNewMessage.label'|trans }}</div>
+                <div class="column small-12 medium-6 large-3">
+                    {{ form_widget(userPreferenceForm.videoProjectNewMessageEmailEnabled, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.videoProjectNewMessage.label'|trans
+                    }) }}
+                </div>
+            </div>
+
+            <div class="row input-margin align-middle">
+                <div class="column small-12 medium-6 black-color medium-text-right">
+                    {{ 'user.preference.field.videoProjectSharing.label'|trans }}</div>
+                <div class="column small-12 medium-6 large-3">
+                    {{ form_widget(userPreferenceForm.videoProjectSharingEmailEnabled, {
+                        'switch':true,
+                        'switch_inners':['global.yes'|trans,'global.no'|trans],
+                        'switch_class':'large no-margin',
+                        'label' : 'user.preference.common.email_send'|trans~"_"~'user.preference.field.videoProjectSharing.label'|trans
+                    }) }}
+                </div>
+            </div>
+
+            <div class="row input-margin align-middle">
+                <div class="column small-12 medium-6 black-color medium-text-right">
                     {{ 'user.preference.field.lead.enabled.label'|trans }}</div>
                 <div class="column small-12 medium-6 large-3">
                     {{ form_widget(userPreferenceForm.leadEmailEnabled, {
