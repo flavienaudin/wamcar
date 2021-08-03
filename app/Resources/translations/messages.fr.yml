@@ -1593,6 +1593,7 @@ coaching_video:
           email:
             label: E-mails des collaborateurs
             placeholder: E-mails des collaborateurs
+            instruction: Séparer les e-mails par un espace ou un point-virgule, ou valider chaque adresse e-mail en tapant sur "Entrée".
             error:
               empty: "Vous n'avez pas indiqué d'e-mail ou vous n'avez pas tapé sur la touche Entrée avant de valider. Merci de réessayer."
     form:
