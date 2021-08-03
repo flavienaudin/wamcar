@@ -16,6 +16,12 @@ class ProUserPreferencesType extends UserPreferencesType
     {
         parent::buildForm($builder, $options);
         $builder
+            ->add('videoProjectNewMessageEmailEnabled', CheckboxType::class, [
+                'required' => false
+            ])
+            ->add('videoProjectSharingEmailEnabled', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('leadEmailEnabled', CheckboxType::class, [
                 'required' => false
             ])

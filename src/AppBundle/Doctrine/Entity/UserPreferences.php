@@ -23,6 +23,16 @@ class UserPreferences
     /** @var NotificationFrequency */
     private $likeEmailFrequency;
 
+    // Video Coaching Module Preferences
+    /** @var bool */
+    private $videoProjectSharingEmailEnabled;
+    /** @var NotificationFrequency */
+    private $videoProjectSharingEmailFrequency;
+    /** @var bool */
+    private $videoProjectNewMessageEmailEnabled;
+    /** @var NotificationFrequency */
+    private $videoProjectNewMessageEmailFrequency;
+
     // Leads suggestion
     /** @var bool $leadEmailEnabled */
     private $leadEmailEnabled;
@@ -45,6 +55,8 @@ class UserPreferences
      * @param NotificationFrequency|null $globalEmailFrequency
      * @param bool $privateMessageEmailEnabled
      * @param bool $likeEmailEnabled
+     * @param bool $videoProjectSharingEmailEnabled
+     * @param bool $videoProjectNewMessageEmailEnabled
      * @param bool $leadEmailEnabled
      * @param bool $leadOnlyPartExchange
      * @param bool $leadOnlyProject
@@ -59,12 +71,16 @@ class UserPreferences
                                 NotificationFrequency $globalEmailFrequency = null,
                                 bool $privateMessageEmailEnabled = true,
                                 bool $likeEmailEnabled = true,
+                                bool $videoProjectSharingEmailEnabled = true,
+                                bool $videoProjectNewMessageEmailEnabled = true,
                                 bool $leadEmailEnabled = true,
                                 bool $leadOnlyPartExchange = true,
                                 bool $leadOnlyProject = true,
                                 bool $leadProjectWithPartExchange = true,
                                 NotificationFrequency $privateMessageEmailFrequency = null,
                                 NotificationFrequency $likeEmailFrequency = null,
+                                NotificationFrequency $videoProjectSharingEmailFrequency = null,
+                                NotificationFrequency $videoProjectNewMessageEmailFrequency = null,
                                 int $leadLocalizationRadiusCriteria = 50,
                                 int $leadPartExchangeKmMaxCriteria = null,
                                 int $leadProjectBudgetMinCriteria = null
@@ -78,6 +94,11 @@ class UserPreferences
 
         $this->likeEmailEnabled = $likeEmailEnabled;
         $this->likeEmailFrequency = $likeEmailFrequency ?? NotificationFrequency::ONCE_A_DAY();
+
+        $this->videoProjectSharingEmailEnabled = $videoProjectSharingEmailEnabled;
+        $this->videoProjectSharingEmailFrequency = $videoProjectSharingEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
+        $this->videoProjectNewMessageEmailEnabled = $videoProjectNewMessageEmailEnabled;
+        $this->videoProjectNewMessageEmailFrequency = $videoProjectNewMessageEmailFrequency ?? NotificationFrequency::IMMEDIATELY();
 
         $this->leadEmailEnabled = $leadEmailEnabled;
         $this->leadOnlyPartExchange = $leadOnlyPartExchange;
@@ -144,6 +165,70 @@ class UserPreferences
     public function setPrivateMessageEmailFrequency(NotificationFrequency $privateMessageEmailFrequency): void
     {
         $this->privateMessageEmailFrequency = $privateMessageEmailFrequency;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVideoProjectSharingEmailEnabled(): bool
+    {
+        return $this->videoProjectSharingEmailEnabled;
+    }
+
+    /**
+     * @param bool $videoProjectSharingEmailEnabled
+     */
+    public function setVideoProjectSharingEmailEnabled(bool $videoProjectSharingEmailEnabled): void
+    {
+        $this->videoProjectSharingEmailEnabled = $videoProjectSharingEmailEnabled;
+    }
+
+    /**
+     * @return NotificationFrequency
+     */
+    public function getVideoProjectSharingEmailFrequency(): NotificationFrequency
+    {
+        return $this->videoProjectSharingEmailFrequency;
+    }
+
+    /**
+     * @param NotificationFrequency $videoProjectSharingEmailFrequency
+     */
+    public function setVideoProjectSharingEmailFrequency(NotificationFrequency $videoProjectSharingEmailFrequency): void
+    {
+        $this->videoProjectSharingEmailFrequency = $videoProjectSharingEmailFrequency;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVideoProjectNewMessageEmailEnabled(): bool
+    {
+        return $this->videoProjectNewMessageEmailEnabled;
+    }
+
+    /**
+     * @param bool $videoProjectNewMessageEmailEnabled
+     */
+    public function setVideoProjectNewMessageEmailEnabled(bool $videoProjectNewMessageEmailEnabled): void
+    {
+        $this->videoProjectNewMessageEmailEnabled = $videoProjectNewMessageEmailEnabled;
+    }
+
+    /**
+     * @return NotificationFrequency
+     */
+    public function getVideoProjectNewMessageEmailFrequency(): NotificationFrequency
+    {
+        return $this->videoProjectNewMessageEmailFrequency;
+    }
+
+    /**
+     * @param NotificationFrequency $videoProjectNewMessageEmailFrequency
+     */
+    public function setVideoProjectNewMessageEmailFrequency(NotificationFrequency $videoProjectNewMessageEmailFrequency): void
+    {
+        $this->videoProjectNewMessageEmailFrequency = $videoProjectNewMessageEmailFrequency;
     }
 
     /**

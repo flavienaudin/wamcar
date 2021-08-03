@@ -532,8 +532,12 @@ class UserEditionService
             $userPreferencesDTO->getGlobalEmailFrequency(),
             $userPreferencesDTO->isPrivateMessageEmailEnabled(),
             $userPreferencesDTO->isLikeEmailEnabled(),
+            $userPreferencesDTO->isVideoProjectSharingEmailEnabled(),
+            $userPreferencesDTO->isVideoProjectNewMessageEmailEnabled(),
             $userPreferencesDTO->getPrivateMessageEmailFrequency(),
             $userPreferencesDTO->getLikeEmailFrequency(),
+            $userPreferencesDTO->getVideoProjectSharingEmailFrequency(),
+            $userPreferencesDTO->getVideoProjectNewMessageEmailFrequency(),
             $userPreferencesDTO->isLeadEmailEnabled(),
             $userPreferencesDTO->isLeadOnlyPartExchange(),
             $userPreferencesDTO->isLeadOnlyProject(),
@@ -610,8 +614,12 @@ class UserEditionService
                 $personalUser->getPreferences()->getGlobalEmailFrequency(),
                 $personalUser->getPreferences()->isPrivateMessageEmailEnabled(),
                 $personalUser->getPreferences()->isLikeEmailEnabled(),
+                $personalUser->getPreferences()->isVideoProjectSharingEmailEnabled(),
+                $personalUser->getPreferences()->isVideoProjectNewMessageEmailEnabled(),
                 $personalUser->getPreferences()->getPrivateMessageEmailFrequency(),
-                $personalUser->getPreferences()->getLikeEmailFrequency()
+                $personalUser->getPreferences()->getLikeEmailFrequency(),
+                $personalUser->getPreferences()->getVideoProjectSharingEmailFrequency(),
+                $personalUser->getPreferences()->getVideoProjectNewMessageEmailFrequency()
             );
 
             /** @var BaseLikeVehicle $like */

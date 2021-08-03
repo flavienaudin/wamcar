@@ -20,6 +20,14 @@ AppBundle\Doctrine\Entity\UserPreferences:
               type: boolean
         likeEmailFrequency:
             type: notificationfrequency
+        videoProjectSharingEmailEnabled:
+            type: boolean
+        videoProjectSharingEmailFrequency:
+            type: notificationfrequency
+        videoProjectNewMessageEmailEnabled:
+            type: boolean
+        videoProjectNewMessageEmailFrequency:
+            type: notificationfrequency
         leadEmailEnabled:
             type: boolean
         leadOnlyPartExchange:

@@ -238,6 +238,8 @@ services:
     class: AppBundle\MailWorkflow\NotifyFollowerOfProjectVideoMessagePostedEventHandler
     arguments:
       $type: video_project_message_posted
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
     tags:
       - { name: event_subscriber, subscribes_to: \Wamcar\VideoCoaching\Event\VideoProjectMessagePostedEvent, method: notify }
 
@@ -246,6 +248,8 @@ services:
     class: AppBundle\MailWorkflow\NotifyNewFollowersOfProjectVideoSharingSuccess
     arguments:
       $type: video_project_sharing_success
+      $notificationsManager: '@mgilet.notification'
+      $notificationsManagerExtended: '@AppBundle\Services\Notification\NotificationManagerExtended'
     tags:
       - { name: event_subscriber, subscribes_to: \Wamcar\VideoCoaching\Event\VideoProjectSharingSuccessEvent, method: notify }
 

@@ -683,8 +683,12 @@ abstract class BaseUser implements HasApiCredential
         NotificationFrequency $globalEmailFrequency,
         bool $privateMessageEmailEnabled,
         bool $likeEmailEnabled,
+        bool $videoProjectSharingEmailEnabled,
+        bool $videoProjectNewMessageEmailEnabled,
         NotificationFrequency $privateMessageEmailFrequency,
         NotificationFrequency $likeEmailFrequency,
+        NotificationFrequency $videoProjectSharingEmailFrequency,
+        NotificationFrequency $videoProjectNewMessageEmailFrequency,
         bool $leadEmailEnabled,
         bool $leadOnlyPartExchange,
         bool $leadOnlyProject,
@@ -703,6 +707,14 @@ abstract class BaseUser implements HasApiCredential
         $this->getPreferences()->setLikeEmailEnabled($likeEmailEnabled);
         // Use global Email Frequency
         $this->getPreferences()->setLikeEmailFrequency($globalEmailFrequency);
+
+        $this->getPreferences()->setVideoProjectSharingEmailEnabled($videoProjectSharingEmailEnabled);
+        // Use global Email Frequency
+        $this->getPreferences()->setVideoProjectSharingEmailFrequency($globalEmailFrequency);
+
+        $this->getPreferences()->setVideoProjectNewMessageEmailEnabled($videoProjectNewMessageEmailEnabled);
+        // Use global Email Frequency
+        $this->getPreferences()->setVideoProjectNewMessageEmailFrequency($globalEmailFrequency);
 
         $this->getPreferences()->setLeadEmailEnabled($leadEmailEnabled);
         $this->getPreferences()->setLeadLocalizationRadiusCriteria($leadLocalizationRadius);
