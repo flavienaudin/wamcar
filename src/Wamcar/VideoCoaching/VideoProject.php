@@ -205,7 +205,7 @@ class VideoProject
         })->toArray();
 
         if ($olderFirst) {
-            // Messages are already order by publishedAt Desc (newer first)
+            // Messages are already order by createdAt Desc (newer first)
             $videoVersionMessages = array_reverse($videoVersionMessages);
         }
 

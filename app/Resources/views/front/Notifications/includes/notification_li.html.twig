@@ -56,6 +56,22 @@
     {% set notificator_img = notification.subject|logo('garage_mini_logo') %}
     {% set notificator_alt = notification.subject.name %}
     {% set notification_icon = '<span class="icon-close primary-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\VideoCoaching\\Event\\VideoProjectMessagePostedEvent') %}
+    {% set subject = 'notifications.message.video_project_posted'|trans({
+        '%author%' : notification.subject.author.fullname,
+        '%videoProjectTitle%' : notification.subject.videoProject.title
+    }) %}
+    {% set notificator_img = notification.subject.author.avatar|avatar('user_mini_thumbnail', notification.subject.author.firstName) %}
+    {% set notificator_alt = notification.subject.author.fullname %}
+    {% set notification_icon = '<span class="icon-envelop dark-gray-blue-peexeo-color"></span>' %}
+{% elseif notification.notificationEvent is same as('Wamcar\\VideoCoaching\\Event\\VideoProjectSharingSuccessEvent') %}
+    {% set subject = 'notifications.message.video_project_shared'|trans({
+        '%creator%' : notification.subject.creators.first.viewer.fullname,
+        '%videoProjectTitle%' : notification.subject.title
+    }) %}
+    {% set notificator_img = notification.subject.creators.first.viewer.avatar|avatar('user_mini_thumbnail', notification.subject.creators.first.viewer.firstName) %}
+    {% set notificator_alt = notification.subject.creators.first.viewer.fullname %}
+    {% set notification_icon = '<span class="icon-film2 dark-gray-blue-peexeo-color"></span>' %}
 {% else %}
     {% set subject = notification.notifiableNotification.notification.subject %}
     {% set message = notification.notifiableNotification.notification.message %}
