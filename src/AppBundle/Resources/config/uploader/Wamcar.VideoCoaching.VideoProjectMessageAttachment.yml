@@ -1,0 +1,7 @@
+Wamcar\VideoCoaching\VideoProjectMessageAttachment:
+    file:
+        mapping:           videoproject_message_attachment
+        filename_property: fileName
+        size:              fileSize
+        mime_type:         fileMimeType
+        original_name:     fileOriginalName

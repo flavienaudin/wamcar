@@ -265,7 +265,7 @@ class VideoCoachingController extends BaseController
                     'front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', [
                         'videoProject' => $videoProject,
                         'messageForm' => $messageForm ? $messageForm->createView() : null,
-                        'formClass' => 'form-compact row'
+                        'formClass' => 'form-compact row messages-item-answer'
                     ]
                 )
             ]);

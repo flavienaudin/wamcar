@@ -3,6 +3,7 @@
 
 namespace AppBundle\Twig;
 
+use AppBundle\Doctrine\Entity\FileHolder;
 use AppBundle\Doctrine\Repository\DoctrineConversationUserRepository;
 use AppBundle\Doctrine\Repository\DoctrineMessageRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +13,6 @@ use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Wamcar\Conversation\Conversation;
 use Wamcar\Conversation\ConversationUser;
 use Wamcar\Conversation\Message;
-use Wamcar\Conversation\MessageAttachment;
 use Wamcar\User\BaseUser;
 use Wamcar\User\PersonalUser;
 
@@ -88,10 +88,10 @@ class ConversationExtension extends AbstractExtension
     }
 
     /**
-     * @param MessageAttachment $attachment
+     * @param FileHolder $attachment
      * @return null|string
      */
-    public function getAttachmentLinkFunction(MessageAttachment $attachment, Request $request = null): ?string
+    public function getAttachmentLinkFunction(FileHolder $attachment, Request $request = null): ?string
     {
         if ($request === null) {
             return $this->uploaderHelper->asset($attachment, 'file');

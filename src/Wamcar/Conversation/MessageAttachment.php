@@ -19,14 +19,13 @@ class MessageAttachment implements FileHolder
 
     /**
      * MessageAttachment constructor.
-     * @param null $id
      * @param File $file
      * @param Message $message
      * @throws
      */
-    public function __construct($id = null, File $file, Message $message)
+    public function __construct(File $file, Message $message)
     {
-        $this->id = $id ?: Uuid::uuid4();
+        $this->id = Uuid::uuid4();
         $this->setFile($file);
         $this->message = $message;
     }

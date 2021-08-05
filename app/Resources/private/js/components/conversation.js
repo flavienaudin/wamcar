@@ -44,39 +44,44 @@ $('.messages-read:last').css('display', 'block');
 
 
 /* Attachements list*/
-let $attachmentsCollectionHolder = $('#js-attachments-list');
-if ($attachmentsCollectionHolder.length) {
-  let $div = $attachmentsCollectionHolder.children('div');
-  if ($div.length === 0) {
-    addAttachmentInput();
-  } else {
-    // Security : if data where submitted then set event listeners
-    $div.each((index, div) => {
-      $(div).find('.js-delete-attachment').on('click', (event) => {
-        $(div).remove();
-      });
+initAttachmentsListForm();
 
-      $(div).change((event) => {
-        let fullPath = $(event.currentTarget).find('input:file').val();
-        if (fullPath) {
-          let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
-          let filename = fullPath.substring(startIndex);
-          if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
-            filename = filename.substring(1);
+export function initAttachmentsListForm() {
+  const $attachmentsCollectionHolder = $('#js-attachments-list');
+  if ($attachmentsCollectionHolder.length) {
+
+    const $div = $attachmentsCollectionHolder.children('div');
+    if ($div.length === 0) {
+      addAttachmentInput($attachmentsCollectionHolder);
+    } else {
+      // Security : if data where submitted then set event listeners
+      $div.each((index, div) => {
+        $(div).find('.js-delete-attachment').on('click', (event) => {
+          $(div).remove();
+        });
+
+        $(div).change((event) => {
+          let fullPath = $(event.currentTarget).find('input:file').val();
+          if (fullPath) {
+            let startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+            let filename = fullPath.substring(startIndex);
+            if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+              filename = filename.substring(1);
+            }
+
+            $(div).find('label').html(filename);
+            $(div).find('label').removeClass('text-underline');
+
+            $(div).find('.js-delete-attachment').removeClass('is-hidden');
           }
+        });
 
-          $(div).find('label').html(filename);
-          $(div).find('label').removeClass('text-underline');
-
-          $(div).find('.js-delete-attachment').removeClass('is-hidden');
-        }
       });
-
-    });
+    }
   }
 }
 
-function addAttachmentInput() {
+function addAttachmentInput($attachmentsCollectionHolder  ) {
   if ($attachmentsCollectionHolder.find('input:file').filter(function () {
     return $(this).val() === '';
   }).length === 0) {
@@ -104,7 +109,7 @@ function addAttachmentInput() {
 
         $newForm.find('.js-delete-attachment').removeClass('is-hidden');
       }
-      addAttachmentInput();
+      addAttachmentInput($attachmentsCollectionHolder );
     });
   }
 }

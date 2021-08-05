@@ -72,7 +72,7 @@ class Message
         if ($attachments != null) {
             foreach ($attachments as $attachment) {
                 if (!empty($attachment)) {
-                    $this->addAttachment(new MessageAttachment(null, $attachment, $this));
+                    $this->addAttachment(new MessageAttachment($attachment, $this));
                 }
             }
         }

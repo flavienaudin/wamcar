@@ -31,6 +31,13 @@ Wamcar\VideoCoaching\VideoProjectMessage:
       type: datetime
       nullable: true
 
+  oneToMany:
+    attachments:
+      targetEntity: Wamcar\VideoCoaching\VideoProjectMessageAttachment
+      mappedBy: videoProjectMessage
+      cascade: ["persist", "merge", "remove"]
+      orphanRemoval: true
+
   manyToOne:
     author:
       targetEntity: Wamcar\User\ProUser
