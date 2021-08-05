@@ -43,6 +43,7 @@ parameters:
             x: '/assets/images/placeholders/user/letters/x.png'
             y: '/assets/images/placeholders/user/letters/y.png'
             z: '/assets/images/placeholders/user/letters/z.png'
+            +: '/assets/images/placeholders/user/letters/plus.png'
             unknown: '/assets/images/placeholders/user/letters/unknown.png'
         user_banner: '/assets/images/placeholders/user/banner.jpg'
         banner: '/assets/images/placeholders/garages/banner.png'

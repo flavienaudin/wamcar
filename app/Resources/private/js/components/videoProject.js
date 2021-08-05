@@ -142,7 +142,8 @@ if ($selects.length) {
         width: '100%',
         tags: true,
         tokenSeparators: [';', ',', ' '],
-        AttachContainer: true
+        AttachContainer: true,
+        selectOnClose: true
       });
 
       $select.on('select2:close', function (e) {
