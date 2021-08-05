@@ -13,44 +13,51 @@
                 <span><a href="{{ path('front_coaching_video_dashboard') }}" class="icon-arrow-left-2"><span
                                 class="show-for-sr">{{ 'global.button.back'|trans }}</span></a></span>
                 {{ videoProject.title }}
-                {% if shareVideoProjectForm is not null or editVideoProjectForm is not null %}
+                {% if editVideoProjectForm is not null %}
                     <span>
-                        {% if shareVideoProjectForm %}
-                            <span data-open="js-share-videoproject-modal" class="section-action icon-share22">
-                                <span class="show-for-sr">{{ 'global.button.share'|trans }}</span>
-                            </span>
-                            {{ include('front/VideoCoaching/VideoProject/includes/modal_share_video_project.html.twig', {
-                                'shareVideoProjectForm': shareVideoProjectForm
-                            }) }}
-                        {% endif %}
-                        {% if editVideoProjectForm is not null %}
-                            <span data-toggle="js-edit-videoproject js-videoproject-info"
-                                  class="section-action icon-pen">
-                                    <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
-                            <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
-                               class="js-confirm-box section-action icon-remove"
-                               data-id="videoProject-deletion-{{ videoProject.id }}"
-                               data-title="Attention!"
-                               data-message="Confirmez-vous la suppression de ce projet vidéo ?">
-                                    <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
-                        {% endif %}
+                        <span data-toggle="js-edit-videoproject js-videoproject-info" class="section-action icon-pen">
+                            <span class="show-for-sr">{{ 'global.button.edit'|trans }}</span></span>
+                        <a href="{{ path('front_coachingvideo_videoproject_delete', {'id': videoProject.id}) }}"
+                           class="js-confirm-box section-action icon-remove"
+                           data-id="videoProject-deletion-{{ videoProject.id }}"
+                           data-title="Attention!"
+                           data-message="Confirmez-vous la suppression de ce projet vidéo ?">
+                                <span class="show-for-sr">{{ 'global.button.delete'|trans }}</span></a>
                     </span>
                 {% else %}
                     <span></span>
                 {% endif %}
             </h1>
 
-            <div class="tag-container">
+            <div class="videoproject-viwers">
                 {% for creator in videoProject.creators %}
-                    <span class="tag no-focus is-active">{{ creator.viewer.fullname|title }}</span>
+                    <span class="avatar">
+                        <img class="creator"
+                             src="{{ creator.viewer.avatar|avatar('user_mini_thumbnail', creator.viewer.fullName) }}"
+                             alt="{{ creator.viewer.fullname|title }}" title="{{ creator.viewer.fullname|title }}">
+                    </span>
                 {% endfor %}
                 {% for follower in videoProject.viewers(true) %}
-                    <span class="tag no-focus">{{ follower.viewer.fullname|title }}</span>
+                    <span class="avatar">
+                        <img src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
+                             alt="{{ follower.viewer.fullName|title }}" title="{{ follower.viewer.fullName|title }}">
+                    </span>
                 {% endfor %}
+
+                {% if shareVideoProjectForm is not null %}
+                    <span data-open="js-share-videoproject-modal" class="avatar">
+                        <img src="{{ null|avatar('user_mini_thumbnail', '+') }}"
+                             alt="{{ 'global.button.share'|trans }}" title="{{ 'global.button.share'|trans }}">
+                    </span>
+                    {{ include('front/VideoCoaching/VideoProject/includes/modal_share_video_project.html.twig', {
+                        'shareVideoProjectForm': shareVideoProjectForm
+                    }) }}
+                {% endif %}
+
             </div>
 
             {% if editVideoProjectForm is not null %}
-                <div id="js-edit-videoproject" class="is-hidden" data-toggler="is-hidden">
+                <div id="js-edit-videoproject" class="is-hidden margin-top-1" data-toggler="is-hidden">
                     {{ include('front/VideoCoaching/VideoProject/includes/save_form.html.twig', {
                         'videoProjectForm':editVideoProjectForm
                     }) }}
@@ -142,7 +149,7 @@
                         {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {
                             'videoProject': videoProject,
                             'messageForm' : discussionMessageForm,
-                            'formClass' : 'form-compact row'
+                            'formClass' : 'form-compact row messages-item-answer'
                         }) }}
                     </div>
                 {% endif %}
@@ -150,8 +157,10 @@
                      data-url="{{ url('front_coachingvideo_videoproject_messages_get', {'id':videoProject.id}) }}">
                 </div>
                 <div>
-                    <a id="js_show_previous_messages" class="button small">{{ "coaching_video.project_discussion.previous_messages.show"|trans }}</a>
-                    <i id="js_nomore_previous_message" class="is-hidden">{{ "coaching_video.project_discussion.previous_messages.no_more"|trans }}</i>
+                    <a id="js_show_previous_messages"
+                       class="button small">{{ "coaching_video.project_discussion.previous_messages.show"|trans }}</a>
+                    <i id="js_nomore_previous_message"
+                       class="is-hidden">{{ "coaching_video.project_discussion.previous_messages.no_more"|trans }}</i>
                 </div>
             </div>
         </div>

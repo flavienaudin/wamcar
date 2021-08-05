@@ -1,0 +1,28 @@
+Wamcar\VideoCoaching\VideoProjectMessageAttachment:
+
+    type: entity
+    table: videocoaching_vpm_attachment
+
+    id:
+        id:
+            type: uuid
+
+    fields:
+        fileName:
+            type: string
+        fileSize:
+            type: integer
+        fileMimeType:
+            type: string
+        fileOriginalName:
+            type: string
+
+
+    manyToOne:
+        videoProjectMessage:
+            targetEntity: Wamcar\VideoCoaching\VideoProjectMessage
+            inversedBy: attachments
+            joinColumn:
+                nullable: false
+                name: vpmessage_id
+                referencedColumnName: id

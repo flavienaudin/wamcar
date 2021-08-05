@@ -4,6 +4,7 @@
 namespace AppBundle\Form\DTO;
 
 
+use Symfony\Component\HttpFoundation\File\File;
 use Wamcar\User\ProUser;
 use Wamcar\VideoCoaching\VideoProject;
 
@@ -16,6 +17,8 @@ class VideoProjectMessageDTO
     private $author;
     /**  @var null|string */
     private $content;
+    /** @var File[] */
+    private $attachments;
 
     /**
      * VideoProjectMessageDTO constructor.
@@ -26,6 +29,7 @@ class VideoProjectMessageDTO
     {
         $this->videoProject = $videoProject;
         $this->author = $author;
+        $this->attachments = [];
     }
 
     /**
@@ -58,5 +62,21 @@ class VideoProjectMessageDTO
     public function setContent(string $content): void
     {
         $this->content = $content;
+    }
+
+    /**
+     * @return File[]
+     */
+    public function getAttachments(): array
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param File[] $attachments
+     */
+    public function setAttachments(array $attachments): void
+    {
+        $this->attachments = $attachments;
     }
 }

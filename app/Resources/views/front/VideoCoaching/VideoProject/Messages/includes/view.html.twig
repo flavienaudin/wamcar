@@ -1,6 +1,16 @@
 {% for message in messages %}
-    <div class="{{ videoProjectViewer.visitedAt < message.createdAt ? "unread"}}" data-postedat="{{ message.createdAt.timestamp }}">
+    <div class="{{ videoProjectViewer.visitedAt < message.createdAt ? "unread" }}"
+         data-postedat="{{ message.createdAt.timestamp }}">
         {{ message.createdAt|localizeddate('short','short') }} <b>{{ message.author.fullname|title }}</b>
         : {{ message.content }}
+        {% if message.attachments|length > 0 %}
+            <div class="full-width is-flex">
+                {% for attachment in message.attachments %}
+                    <a href="{{ getAttachmentLink(attachment) }}" target="_blank"
+                       class="button small margin-right-1">{{ attachment.fileOriginalName }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
     </div>
 {% endfor %}

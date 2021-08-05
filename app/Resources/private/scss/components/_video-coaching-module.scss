@@ -26,6 +26,26 @@
     }
   }
 
+  .videoproject-viwers {
+    .avatar {
+      display: inline-block;
+      margin-left: rem-calc(5);
+      height: rem-calc(45);
+      width: rem-calc(45);
+      vertical-align: middle;
+
+      img {
+        max-height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+
+        &.creator {
+          border: 4px solid $dark-gray-blue-peexeo;
+        }
+      }
+    }
+  }
+
   .videoproject-messages {
     div {
       margin: 1px 0;

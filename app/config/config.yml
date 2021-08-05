@@ -43,6 +43,7 @@ parameters:
             x: '/assets/images/placeholders/user/letters/x.png'
             y: '/assets/images/placeholders/user/letters/y.png'
             z: '/assets/images/placeholders/user/letters/z.png'
+            +: '/assets/images/placeholders/user/letters/plus.png'
             unknown: '/assets/images/placeholders/user/letters/unknown.png'
         user_banner: '/assets/images/placeholders/user/banner.jpg'
         banner: '/assets/images/placeholders/garages/banner.png'
@@ -264,6 +265,16 @@ vich_uploader:
         message_attachment:
             uri_prefix:         /uploads/attachments/conversations/message
             upload_destination: '%env(UPLOAD_DIR)%/attachments/conversations/message'
+            namer:              vich_uploader.namer_hash
+            directory_namer:
+                service: vich_uploader.directory_namer_subdir
+                options: {chars_per_dir: 3, dirs: 2}
+            inject_on_load:     true
+            delete_on_remove: true
+            delete_on_update: true
+        videoproject_message_attachment:
+            uri_prefix:         /uploads/attachments/videocoaching/videoproject/message
+            upload_destination: '%env(UPLOAD_DIR)%/attachments/videocoaching/videoproject/message'
             namer:              vich_uploader.namer_hash
             directory_namer:
                 service: vich_uploader.directory_namer_subdir
