@@ -3,6 +3,7 @@
    =========================================================================== */
 
 import 'select2';
+import { initAttachmentsListForm } from './conversation';
 
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
@@ -108,13 +109,20 @@ function initMessageFormSubmission() {
     $messageForm.on('submit', (event) => {
       event.preventDefault();
       const $formAction = $messageForm.attr('action');
+      let form = $('#js_message_form')[0];
+      let formData = new FormData(form);
 
       $.ajax({
         url: $formAction,
         type: 'POST',
-        data: $messageForm.serializeArray()
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+        cache: false
       }).done(function (data, textStatus) {
         $('#js_video_project_discussion_writer').html(data.messageForm);
+        initAttachmentsListForm();
         initMessageFormSubmission();
 
         // wait at least 1s as end timestamp is in second

@@ -404,6 +404,10 @@
     </div>
 {% endblock %}
 
+{% block _video_project_message_attachments_entry_widget %}
+    {{ block('_message_attachments_entry_widget') }}
+{% endblock %}
+
 {% block _project_projectVehicles_entry_widget %}
     {% set index = index|default('__name__') %}
     <li class="wish-item block-gray">

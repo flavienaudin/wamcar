@@ -127,16 +127,12 @@ class VideoProjectService
 
     /**
      * @param VideoProjectMessageDTO $messageDTO Les données du message
+     * @throws \Exception
      */
     public function addMessage(VideoProjectMessageDTO $messageDTO)
     {
-        $videoProjectMessage = new VideoProjectMessage();
-        $videoProjectMessage->setVideoProject($messageDTO->getVideoProject());
-        $videoProjectMessage->setAuthor($messageDTO->getAuthor());
-        $videoProjectMessage->setContent($messageDTO->getContent());
-
+        $videoProjectMessage = new VideoProjectMessage($messageDTO->getContent(), $messageDTO->getAuthor(), $messageDTO->getVideoProject(), $messageDTO->getAttachments());
         $this->videoProjectMessageRepository->add($videoProjectMessage);
-
         $this->eventBus->handle(new VideoProjectMessagePostedEvent($videoProjectMessage));
     }
 

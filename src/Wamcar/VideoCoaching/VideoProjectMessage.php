@@ -3,6 +3,8 @@
 namespace Wamcar\VideoCoaching;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteable;
 use Gedmo\Timestampable\Traits\Timestampable;
 use Wamcar\User\ProUser;
@@ -21,6 +23,32 @@ class VideoProjectMessage
     private $author;
     /** @var VideoProject */
     private $videoProject;
+    /** @var Collection|array */
+    private $attachments;
+
+    /**
+     * VideoProjectMessage constructor.
+     * @param string $content
+     * @param ProUser $author
+     * @param VideoProject $videoProject
+     * @param array|Collection $attachments
+     * @throws \Exception
+     */
+    public function __construct(string $content, ProUser $author, VideoProject $videoProject, $attachments)
+    {
+        $this->content = $content;
+        $this->author = $author;
+        $this->videoProject = $videoProject;
+        $this->attachments = new ArrayCollection();
+        if ($attachments != null) {
+            foreach ($attachments as $attachment) {
+                if (!empty($attachment)) {
+                    $this->addAttachment(new VideoProjectMessageAttachment($attachment, $this));
+                }
+            }
+        }
+    }
+
 
     /**
      * @return int
@@ -76,5 +104,24 @@ class VideoProjectMessage
     public function setVideoProject(VideoProject $videoProject): void
     {
         $this->videoProject = $videoProject;
+    }
+
+
+    /**
+     * @return Collection
+     */
+    public function getAttachments(): Collection
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * @param VideoProjectMessageAttachment $attachment
+     */
+    public function addAttachment(VideoProjectMessageAttachment $attachment): void
+    {
+        if ($attachment->getId()) {
+            $this->attachments[] = $attachment;
+        }
     }
 }
