@@ -1589,9 +1589,9 @@ coaching_video:
       title: "Projet vidéo : %title%"
     list:
       user:
-        title: Mes projets vidéos
+        title: Mes projets
       followed:
-        title: Les projets vidéos que je suis
+        title: Partagés avec moi
     share:
       title: Partager ce projet
       form:
