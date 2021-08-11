@@ -29,7 +29,7 @@
                 {% endif %}
             </h1>
 
-            <div class="videoproject-viwers">
+            <div class="videoproject-viewers">
                 {% for creator in videoProject.creators %}
                     <span class="avatar">
                         <img class="creator"
@@ -145,11 +145,10 @@
             <div id="js_video_project_discussion"
                  data-discussion-update-visitedat-url="{{ path('front_coachingvideo_videoproject_discussion_visited', {'id':videoProject.id}) }}">
                 {% if discussionMessageForm %}
-                    <div id="js_video_project_discussion_writer" class="margin-bottom-1">
+                    <div id="js_video_project_discussion_writer" class="videoproject-discussion-writer is-sticky margin-bottom-1 padding-1 blue-gray-peexeo-bg">
                         {{ include('front/VideoCoaching/VideoProject/Messages/includes/form.html.twig', {
                             'videoProject': videoProject,
-                            'messageForm' : discussionMessageForm,
-                            'formClass' : 'form-compact row messages-item-answer'
+                            'messageForm' : discussionMessageForm
                         }) }}
                     </div>
                 {% endif %}

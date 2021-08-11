@@ -23,10 +23,16 @@
         color: $body-font-color;
         margin: auto;
       }
+
+      &.rotate {
+        animation: rotation 2s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
     }
   }
 
-  .videoproject-viwers {
+  .videoproject-viewers {
     .avatar {
       display: inline-block;
       margin-left: rem-calc(5);
@@ -46,14 +52,82 @@
     }
   }
 
-  .videoproject-messages {
-    div {
-      margin: 1px 0;
-      border-radius: 5px;
-    }
+  .videoproject-discussion {
+    &-writer {
+      margin-left: rem-calc(-25);
+      margin-right: rem-calc(-25);
 
-    .unread {
-      background-color: $light-gray-peexeo;
+      .attachments-field-list {
+        label {
+          display: inline-flex;
+        }
+
+        .icon-close::before {
+          color: $white;
+        }
+      }
     }
+  }
+
+  .videoproject-messages {
+
+    > div {
+      margin: rem-calc(32px) 0;
+      padding: rem-calc(16px);
+      border-radius: 10px;
+      background-color: $gray-alt2;
+      width: 95%;
+
+      @include breakpoint(medium) {
+        width: 80%;
+      }
+
+      &.unread {
+        background-color: $light-gray-peexeo;
+      }
+
+      &.is-author {
+        margin-left: auto;
+      }
+
+      .avatar {
+        display: inline-block;
+        margin-right: rem-calc(5);
+        height: rem-calc(32);
+        width: rem-calc(32);
+        vertical-align: middle;
+
+        img {
+          max-height: 100%;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+
+      .message-content {
+        margin-left: rem-calc(37)
+      }
+
+      .attachments-container {
+        a {
+          width: 100%;
+
+          @include breakpoint(medium) {
+            width: auto;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
   }
 }

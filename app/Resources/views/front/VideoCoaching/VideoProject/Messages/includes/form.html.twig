@@ -3,18 +3,24 @@
         'id': videoProject.id
     }), 'attr' : {
         'id': 'js_message_form',
-        'class': formClass|default('row'),
+        'class': 'row',
         'data-abide' : '', 'novalidate': 'novalidate'} }) }}
 
-<div class="columns small-12 input-margin">
+<div class="columns small-auto">
     {{ form_widget(messageForm.content, {
         'label': 'coaching_video.project_discussion.form.field.content.label'|trans,
+        'label_class' : 'show-for-sr',
         'placeholder': 'coaching_video.project_discussion.form.field.content.placeholder'|trans
     }) }}
+    {{ form_errors(messageForm.content) }}
 </div>
 
-<div class="columns small-12 input-margin">
-    <div id="js-attachments-list" class="messages-item-attachments-field-list" data-index="{{ messageForm.attachments|length }}"
+<div class="columns small-shrink">
+    <button type="submit" class="button button-icon icon-check no-margin"><span class="show-for-sr">{{ 'global.button.send'|trans }}</span></button>
+</div>
+
+<div class="columns small-12">
+    <div id="js-attachments-list" class="attachments-field-list no-margin" data-index="{{ messageForm.attachments|length }}"
          data-prototype="{{ form_widget(messageForm.attachments.vars.prototype)|e('html_attr') }}">
         {{ form_label(messageForm.attachments, 'conversation.answer.field.attachments.label'|trans,
             {'label_attr':{'class':'is-hidden'}}
@@ -23,10 +29,5 @@
             {{ form_widget(attachment) }}
         {% endfor %}
     </div>
-</div>
-
-{{ form_rest(messageForm) }}
-<div class="columns small-12 right">
-    <button type="submit" class="button primary-button full-width">{{ 'global.button.send'|trans }}</button>
 </div>
 {{ form_end(messageForm) }}
