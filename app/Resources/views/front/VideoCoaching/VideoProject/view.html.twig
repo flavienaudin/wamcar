@@ -31,17 +31,17 @@
 
             <div class="videoproject-viewers">
                 {% for creator in videoProject.creators %}
-                    <span class="avatar">
+                    <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': creator.viewer.slug}) }}">
                         <img class="creator"
                              src="{{ creator.viewer.avatar|avatar('user_mini_thumbnail', creator.viewer.fullName) }}"
                              alt="{{ creator.viewer.fullname|title }}" title="{{ creator.viewer.fullname|title }}">
-                    </span>
+                    </a>
                 {% endfor %}
                 {% for follower in videoProject.viewers(true) %}
-                    <span class="avatar">
+                    <a class="avatar" href="{{ path('front_view_pro_user_info', {'slug': follower.viewer.slug}) }}">
                         <img src="{{ follower.viewer.avatar|avatar('user_mini_thumbnail', follower.viewer.fullName) }}"
                              alt="{{ follower.viewer.fullName|title }}" title="{{ follower.viewer.fullName|title }}">
-                    </span>
+                    </a>
                 {% endfor %}
 
                 {% if shareVideoProjectForm is not null %}
@@ -136,7 +136,7 @@
             {% endif %}
         </div>
 
-        <div class="colum small-12 section block-peexeo block-light-shadow">
+        <div id="videoproject-discussion-target" class="colum small-12 section block-peexeo block-light-shadow">
             <h2>
                 <span id="js_discussion_update" class="section-action icon-loop21">
                     <span class="show-for-sr">{{ 'global.button.update'|trans }}</span></span>

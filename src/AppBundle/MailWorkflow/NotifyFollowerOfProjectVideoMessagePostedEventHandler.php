@@ -124,7 +124,8 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
                         'authorFullName' => $author->getFullName(),
                         'videoProjectTitle' => $videoProjectMessage->getVideoProject()->getTitle(),
                         'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
-                            'id' => $videoProjectMessage->getVideoProject()->getId()
+                            'id' => $videoProjectMessage->getVideoProject()->getId(),
+                            '_fragment' => 'videoproject-discussion-target'
                         ], UrlGeneratorInterface::ABSOLUTE_URL)
                     ],
                     new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),
