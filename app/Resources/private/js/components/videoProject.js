@@ -3,26 +3,30 @@
    =========================================================================== */
 
 import 'select2';
-import { initAttachmentsListForm } from './conversation';
+import {initAttachmentsListForm} from './conversation';
 
 // Discussion
 const $videoProjectDiscussion = $('#js_video_project_discussion');
 let updateLastVisitedAtURL = undefined,
   setTimeoutIdentifier = undefined,
   updateLastVisitedCallLockFree = true,
-  $showPreviousMessagesButton;
+  $showPreviousMessagesButton, $manualUpdateButton;
 
 if ($videoProjectDiscussion.length) {
   // Get URL to update last VisitedAt
   updateLastVisitedAtURL = $videoProjectDiscussion.data('discussion-update-visitedat-url');
 
+
+  $manualUpdateButton = $('#js_discussion_update');
+  if ($manualUpdateButton.length > 0) {
+    $manualUpdateButton.on('click', () => {
+      // Ne pas appeler directement getMessages() sinon il y a une erreur à l'exécution de la fonction
+      getMessages();
+    });
+  }
+
   // Get messages
   getMessages();
-
-  const $manualUpdateButton = $('#js_discussion_update');
-  if ($manualUpdateButton.length > 0) {
-    $manualUpdateButton.on('click', getMessages);
-  }
 
   // Post a message
   initMessageFormSubmission();
@@ -52,12 +56,14 @@ function getMessages(showPrevious = false) {
   }
   const endTimestamp = searchEndTimestamp ? searchEndTimestamp : parseInt(new Date().getTime() / 1000);
 
+  $manualUpdateButton.addClass('rotate');
   $.ajax({
     url: url,
     type: 'POST',
     data: {
       start: isNaN(startTimestamp) ? undefined : startTimestamp,
-      end: endTimestamp
+      end: endTimestamp,
+      showPrevious: showPrevious
     }
   }).done(function (responseData) {
     if (showPrevious) {
@@ -98,6 +104,10 @@ function getMessages(showPrevious = false) {
 
 
   }).always(function () {
+    // Stop the rotation with a minimum of 1s of duration
+    setTimeout(() => {
+      $manualUpdateButton.removeClass('rotate');
+    }, 1000);
     setTimeoutIdentifier = setTimeout(getMessages, 20000);
   });
 }
@@ -108,6 +118,10 @@ function initMessageFormSubmission() {
   if ($messageForm.length) {
     $messageForm.on('submit', (event) => {
       event.preventDefault();
+      const $submitButton = $messageForm.find('button[type=submit]');
+      $submitButton.attr('disabled', 'disabled');
+      $submitButton.addClass('is-disabled');
+
       const $formAction = $messageForm.attr('action');
       let form = $('#js_message_form')[0];
       let formData = new FormData(form);

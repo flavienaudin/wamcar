@@ -8,73 +8,79 @@
    ===================================== */
 
 @mixin buttonHeight {
-    height: rem-calc(40);
-    @include breakpoint(medium) {
-        height: rem-calc(60);
-    }
+  height: rem-calc(40);
+  @include breakpoint(medium) {
+    height: rem-calc(60);
+  }
 }
 
 @mixin buttonHeightSmall {
-    height: rem-calc(32);
+  height: rem-calc(32);
 }
 
 @mixin buttonHeightCompact {
-    height: rem-calc(32);
-    @include breakpoint(medium) {
-        height: rem-calc(48);
-    }
+  height: rem-calc(32);
+  @include breakpoint(medium) {
+    height: rem-calc(48);
+  }
 }
 
 @mixin buttonPadding {
-    padding-right: rem-calc(20);
-    padding-left: rem-calc(20);
+  padding-right: rem-calc(20);
+  padding-left: rem-calc(20);
 }
 
 @mixin buttonPaddingCompact {
-    padding-right: rem-calc(10);
-    padding-left: rem-calc(10);
+  padding-right: rem-calc(10);
+  padding-left: rem-calc(10);
 }
 
 @mixin buttonIcon {
-  width: rem-calc(60);
-  height: rem-calc(60);
+  width: rem-calc(40);
+  height: rem-calc(40);
   border-radius: 50%;
   &::before {
     margin-right: 0;
   }
+
+  @include breakpoint(medium) {
+    width: rem-calc(60);
+    height: rem-calc(60);
+
+  }
 }
 
 @mixin buttonIconSmall {
-    width: rem-calc(32);
-    height: rem-calc(32);
+  width: rem-calc(32);
+  height: rem-calc(32);
 }
 
 
 @mixin buttonStyle {
-    @include buttonHeight;
-    @include buttonPadding;
-    position: relative;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: $white;
-    font-weight: bold;
-    color: $dark-gray-blue-peexeo;
-    border: 2px solid $dark-gray-blue-peexeo;
-    border-radius: $button-radius;
-    transition: $global-transition;
+  @include buttonHeight;
+  @include buttonPadding;
+  position: relative;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: $white;
+  font-weight: bold;
+  color: $dark-gray-blue-peexeo;
+  border: 2px solid $dark-gray-blue-peexeo;
+  border-radius: $button-radius;
+  transition: $global-transition;
 
-    &:hover,
-    &:focus {
-        background-color: $light-gray-peexeo;
-    }
+  &:hover,
+  &:focus {
+    background-color: $light-gray-peexeo;
+  }
 
-    &.is-active,
-    &.is-current{
-        background-color: $dark-gray-blue-peexeo;
-        color: $white;
-    }
+  &.is-active,
+  &.is-current {
+    background-color: $dark-gray-blue-peexeo;
+    color: $white;
+  }
 }
 
 
@@ -83,21 +89,20 @@
    ===================================== */
 
 @mixin buttonTheme($bg-color, $color, $border-color, $hover: false, $hover-bg-coolor: null, $hover-color: null, $hover-border-color: null ) {
-    background: $bg-color;
-    color: $color;
-    border-color: $border-color;
+  background: $bg-color;
+  color: $color;
+  border-color: $border-color;
 
-    &:hover,
-    &:focus {
-        @if $hover {
-            background: $hover-bg-coolor;
-            border-color: $hover-border-color;
-            color: $hover-color;
-        }
-        @else {
-            opacity: 0.7;
-        }
+  &:hover,
+  &:focus {
+    @if $hover {
+      background: $hover-bg-coolor;
+      border-color: $hover-border-color;
+      color: $hover-color;
+    } @else {
+      opacity: 0.7;
     }
+  }
 }
 
 
@@ -106,147 +111,149 @@
    ===================================== */
 
 button, .button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 a.button {
-    display: inline-flex;
+  display: inline-flex;
 
-    &:hover,
-    &:focus {
-        color: $dark-gray-blue-peexeo;
-    }
+  &:hover,
+  &:focus {
+    color: $dark-gray-blue-peexeo;
+  }
 }
 
 .button {
-    @include buttonStyle;
+  @include buttonStyle;
 
-    &::before {
-        font-weight: normal;
-        /* TODO to delete
-        @include breakpoint(xlarge) {
-            font-size: rem-calc(20);
-        }*/
+  &::before {
+    font-weight: normal;
+    /* TODO to delete
+    @include breakpoint(xlarge) {
+        font-size: rem-calc(20);
+    }*/
+  }
+
+  /* Size */
+  &.small {
+    @include buttonHeightSmall;
+    @include buttonPaddingCompact;
+    font-size: 0.75rem;
+  }
+
+  .form-compact & {
+    @include buttonHeightCompact;
+    @include buttonPaddingCompact;
+  }
+
+  &.expand-height {
+    height: auto;
+    min-height: rem-calc(40);
+    @include breakpoint(medium) {
+      min-height: rem-calc(60);
     }
+  }
 
-    /* Size */
-    &.small {
-        @include buttonHeightSmall;
-        @include buttonPaddingCompact;
-        font-size: 0.75rem;
-    }
+  /* Theme */
+  &.primary-button {
+    @include buttonTheme($primary-color, $white, $primary-color,
+            true, $red-hover-peexeo, $white, $red-hover-peexeo);
+  }
 
-    .form-compact & {
-        @include buttonHeightCompact;
-        @include buttonPaddingCompact;
-    }
-
-    &.expand-height {
-        height: auto;
-        min-height: rem-calc(40);
-        @include breakpoint(medium) {
-            min-height: rem-calc(60);
-        }
-    }
-
-    /* Theme */
-    &.primary-button {
-        @include buttonTheme($primary-color, $white, $primary-color,
-                true, $red-hover-peexeo, $white, $red-hover-peexeo);
-    }
-
-    /* TODO delete
-    &.white {
-        @include buttonTheme(white, $primary-color, $primary-color);
-    }
-    */
-    /*
-    &.dark-blue {
-        background-color: $white;
-        color: $dark-gray-blue-peexeo;
-        border-color: $dark-gray-blue-peexeo;
-        &:hover,
-        &:focus {
-            background-color: $gray-alt2;
-            color: $dark-gray-blue-peexeo;
-            border-color: $white;
-        }
-    }
-    */
-    /* TODO delete
-    &.gray-light {
-        @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-gray-blue-peexeo);
-    }
-    */
-    /* Add */
-    /* TODO delete
-    &.add {
-        background: $dark-gray-blue-peexeo;
-        color: white;
-        border-color: $dark-gray-blue-peexeo;
-        &::before {
-            font-size: rem-calc(16);
-            color: $primary-color;
-        }
-        &:hover {
-            background: white;
-            color: $dark-gray-blue-peexeo;
-        }
-    }
-     */
-    /* TODO delete
-    &.reverse {
-        background: white;
-        color: $primary-color;
-        border-color: $primary-color;
-        &::before {
-            font-size: rem-calc(16);
-            color: $primary-color;
-        }
-
-        &:hover {
-            background: $primary-color;
-            color: white;
-            border-color: white;
-            &::before {
-                color: white;
-            }
-        }
-
-    }
-    */
-
-    /* button icon only*/
-    &.button-icon {
-        @include buttonIcon;
-
-        &.small {
-            @include buttonIconSmall;
-        }
-
-      /* TODO adapt ?
-      width: rem-calc(60);
-      height: rem-calc(60);
-      background: $medium-gray;
-      border-color: $medium-gray;
+  /* TODO delete
+  &.white {
+      @include buttonTheme(white, $primary-color, $primary-color);
+  }
+  */
+  /*
+  &.dark-blue {
+      background-color: $white;
+      color: $dark-gray-blue-peexeo;
+      border-color: $dark-gray-blue-peexeo;
+      &:hover,
+      &:focus {
+          background-color: $gray-alt2;
+          color: $dark-gray-blue-peexeo;
+          border-color: $white;
+      }
+  }
+  */
+  /* TODO delete
+  &.gray-light {
+      @include buttonTheme(white, $dark-gray-blue-peexeo, $dark-gray-blue-peexeo);
+  }
+  */
+  /* Add */
+  /* TODO delete
+  &.add {
+      background: $dark-gray-blue-peexeo;
       color: white;
-        border-radius: 50%;
-        &::before {
-            margin-right: 0;
-        }
-        &:hover {
-            background: white;
-            color: $medium-gray;
-        }
-        */
+      border-color: $dark-gray-blue-peexeo;
+      &::before {
+          font-size: rem-calc(16);
+          color: $primary-color;
+      }
+      &:hover {
+          background: white;
+          color: $dark-gray-blue-peexeo;
+      }
+  }
+   */
+  /* TODO delete
+  &.reverse {
+      background: white;
+      color: $primary-color;
+      border-color: $primary-color;
+      &::before {
+          font-size: rem-calc(16);
+          color: $primary-color;
+      }
+
+      &:hover {
+          background: $primary-color;
+          color: white;
+          border-color: white;
+          &::before {
+              color: white;
+          }
+      }
+
+  }
+  */
+
+  /* button icon only*/
+  &.button-icon {
+    @include buttonIcon;
+
+    &.small {
+      @include buttonIconSmall;
     }
 
-    // TODO delete ".remove" class and calls
+    /* TODO adapt ?
+    width: rem-calc(60);
+    height: rem-calc(60);
+    background: $medium-gray;
+    border-color: $medium-gray;
+    color: white;
+      border-radius: 50%;
+      &::before {
+          margin-right: 0;
+      }
+      &:hover {
+          background: white;
+          color: $medium-gray;
+      }
+      */
+  }
 
-    /* Form margin */
-    form & {
-        margin-top: rem-calc(10);
-    }
+  // TODO delete ".remove" class and calls
 
-    // TODO delete ".square" class and calls
-} // END .button
+  /* Form margin */
+  form & {
+    margin-top: rem-calc(10);
+  }
+
+  // TODO delete ".square" class and calls
+}
+
+// END .button
