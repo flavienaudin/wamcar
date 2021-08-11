@@ -1,16 +1,39 @@
 {% for message in messages %}
-    <div class="{{ videoProjectViewer.visitedAt < message.createdAt ? "unread" }}"
+    {% if showPrevious == true and loop.index0 == 0 and end|localizeddate('short','none') != message.createdAt|localizeddate('short','none') %}
+        <hr class="hr-text" data-content="{{ end|localizeddate('short','none') }}">
+    {% elseif olderMessageDate is defined and olderMessageDate|localizeddate('short','none') != message.createdAt|localizeddate('short','none') %}
+        <hr class="hr-text" data-content="{{ olderMessageDate|localizeddate('short','none') }}">
+    {% endif %}
+
+    <div class="{{ not message.author.is(app.user) and videoProjectViewer.visitedAt < message.createdAt ? "unread" }} {{ message.author.is(app.user) ? "is-author" }}"
          data-postedat="{{ message.createdAt.timestamp }}">
-        {{ message.createdAt|localizeddate('short','short') }} <b>{{ message.author.fullname|title }}</b>
-        : {{ message.content }}
+        <span class="is-flex align-justify margin-bottom-1">
+            <span>
+                <span class="avatar">
+                    <img src="{{ message.author.avatar|avatar('user_mini_thumbnail', message.author.fullName) }}"
+                         alt="{{ message.author.fullName|title }}" title="{{ message.author.fullName|title }}">
+
+                </span><b>{{ message.author.firstname|title }}</b>
+            </span>
+
+            <span>{{ message.createdAt|localizeddate('none','short') }}</span>
+        </span>
+        <span class="message-content">{{ message.content }}</span>
         {% if message.attachments|length > 0 %}
-            <div class="full-width is-flex">
+            <div class="full-width attachments-container">
                 {% for attachment in message.attachments %}
-                    <a href="{{ getAttachmentLink(attachment) }}" target="_blank"
-                       class="button small margin-right-1">{{ attachment.fileOriginalName }}</a>
+                    {% if attachment.FileMimeType starts with('image') %}
+                        <a href="{{ getAttachmentLink(attachment) }}" target="_blank">
+                            <img src="{{ getAttachmentLink(attachment) }}" alt="{{ attachment.fileOriginalName }}">
+                        </a>
+
+                    {% else %}
+                        <a href="{{ getAttachmentLink(attachment) }}" target="_blank"
+                           class="button small margin-right-1">{{ attachment.fileOriginalName }}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
         {% endif %}
-
     </div>
+    {% set olderMessageDate = message.createdAt %}
 {% endfor %}

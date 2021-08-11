@@ -9,7 +9,7 @@
     <section class="row">
         <div class="colum small-12 section block-peexeo block-light-shadow">
             <h1>
-                {%  if createdVideoProjectForm is defined %}
+                {% if createdVideoProjectForm is defined %}
                     <span class="section-action icon-plus" data-open="js-create-videoproject">
                         <span class="show-for-sr">{{ 'coaching_video.video_project.action.add'|trans }}</span></span>
 
@@ -23,13 +23,16 @@
             {% if createdVideoProjectViewers|length > 0 %}
                 <ol>
                     {% for creatorVideoProjectViewer in createdVideoProjectViewers %}
-                        <li>
-                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': creatorVideoProjectViewer.videoProject.id}) }}">{{ creatorVideoProjectViewer.videoProject.title }}</a>
-                            {% set videoVersion = creatorVideoProjectViewer.videoProject.videoVersions|first|default(null) %}
-                            {% if videoVersion %}
-                                <span class="js-youtube-video-thumbnail youtube-video-thumbnail" data-id="{{ videoVersion.youtubeVideoId }}"
-                                   data-alt="{{ videoVersion.title }}"></span>
-                            {% endif %}
+                        <li class="margin-bottom-2">
+                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': creatorVideoProjectViewer.videoProject.id}) }}">
+                                {{ creatorVideoProjectViewer.videoProject.title }}<br><br>
+                                {% set videoVersion = creatorVideoProjectViewer.videoProject.videoVersions|first|default(null) %}
+                                {% if videoVersion %}
+                                    <span class="js-youtube-video-thumbnail youtube-video-thumbnail"
+                                          data-id="{{ videoVersion.youtubeVideoId }}"
+                                          data-alt="{{ videoVersion.title }}"></span>
+                                {% endif %}
+                            </a>
                         </li>
                     {% endfor %}
                 </ol>
@@ -41,13 +44,16 @@
 
                 <ol>
                     {% for followedVideoProject in followedVideoProjectViewers %}
-                        <li>
-                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': followedVideoProject.videoProject.id}) }}">{{ followedVideoProject.videoProject.title }}</a>
-                            {% set videoVersion = followedVideoProject.videoProject.videoVersions|first|default(null) %}
-                            {% if videoVersion %}
-                                <span class="js-youtube-video-thumbnail youtube-video-thumbnail" data-id="{{ videoVersion.youtubeVideoId }}"
-                                      data-alt="{{ videoVersion.title }}"></span>
-                            {% endif %}
+                        <li class="margin-bottom-2">
+                            <a href="{{ path('front_coachingvideo_videoproject_view', {'id': followedVideoProject.videoProject.id}) }}">
+                                {{ followedVideoProject.videoProject.title }}<br><br>
+                                {% set videoVersion = followedVideoProject.videoProject.videoVersions|first|default(null) %}
+                                {% if videoVersion %}
+                                    <span class="js-youtube-video-thumbnail youtube-video-thumbnail"
+                                          data-id="{{ videoVersion.youtubeVideoId }}"
+                                          data-alt="{{ videoVersion.title }}"></span>
+                                {% endif %}
+                            </a>
                         </li>
                     {% endfor %}
                 </ol>
