@@ -67,43 +67,44 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
 
         /** @var VideoProjectViewer $follower */
         foreach ($followers as $follower) {
-            // Create notification
-            $notifications = $this->notificationsManagerExtended->createNotification(
-                get_class($videoProjectMessage),
-                get_class($event),
-                $notificationData,
-                $this->router->generate('front_coachingvideo_videoproject_view', ['id' => $videoProjectMessage->getVideoProject()->getId()])
-            );
-            try {
-                $this->notificationsManager->addNotification([$follower->getViewer()], $notifications, true);
-            } catch (OptimisticLockException $e) {
-                // tant pis pour la notification, on ne bloque pas l'action
-            }
+            if (!$author->is($follower)) {
+                // Create notification
+                $notifications = $this->notificationsManagerExtended->createNotification(
+                    get_class($videoProjectMessage),
+                    get_class($event),
+                    $notificationData,
+                    $this->router->generate('front_coachingvideo_videoproject_view', ['id' => $videoProjectMessage->getVideoProject()->getId()])
+                );
+                try {
+                    $this->notificationsManager->addNotification([$follower->getViewer()], $notifications, true);
+                } catch (OptimisticLockException $e) {
+                    // tant pis pour la notification, on ne bloque pas l'action
+                }
 
-            // Send email according to user preference
-            if ($follower->getViewer()->getPreferences()->isVideoProjectNewMessageEmailEnabled() &&
-                NotificationFrequency::IMMEDIATELY()->equals($follower->getViewer()->getPreferences()->getVideoProjectNewMessageEmailFrequency())
-            ) {
-                $emailObject = $this->translator->trans('notifyFollowersOfVideoProjectMessagePosted.object', [
-                    '%authorFullName%' => $author->getFullName(),
-                    '%videoProjectTitle%' => $videoProjectMessage->getVideoProject()->getTitle()
-                ], 'email');
+                // Send email according to user preference
+                if ($follower->getViewer()->getPreferences()->isVideoProjectNewMessageEmailEnabled() &&
+                    NotificationFrequency::IMMEDIATELY()->equals($follower->getViewer()->getPreferences()->getVideoProjectNewMessageEmailFrequency())
+                ) {
+                    $emailObject = $this->translator->trans('notifyFollowersOfVideoProjectMessagePosted.object', [
+                        '%authorFullName%' => $author->getFullName(),
+                        '%videoProjectTitle%' => $videoProjectMessage->getVideoProject()->getTitle()
+                    ], 'email');
 
-                $trackingKeywords = 'videoProject' . $videoProjectMessage->getVideoProject()->getId() . '-follower' . $follower->getViewer()->getId();
+                    $trackingKeywords = 'videoProject' . $videoProjectMessage->getVideoProject()->getId() . '-follower' . $follower->getViewer()->getId();
 
-                $commonUTM = [
-                    'utm_source' => 'notifications',
-                    'utm_medium' => 'email',
-                    'utm_campaign' => 'video_project_message_follower',
-                    'utm_term' => $trackingKeywords
-                ];
+                    $commonUTM = [
+                        'utm_source' => 'notifications',
+                        'utm_medium' => 'email',
+                        'utm_campaign' => 'video_project_message_follower',
+                        'utm_term' => $trackingKeywords
+                    ];
 
-                $this->send(
-                    $emailObject,
-                    'Mail/notifyFollowersOfVideoProjectMessagePosted.html.twig',
-                    [
-                        'emailObject' => $emailObject,
-                        'common_utm' => $commonUTM,
+                    $this->send(
+                        $emailObject,
+                        'Mail/notifyFollowersOfVideoProjectMessagePosted.html.twig',
+                        [
+                            'emailObject' => $emailObject,
+                            'common_utm' => $commonUTM,
 //                'transparentPixel' => [
 //                    'tid' => 'UA-73946027-1',
 //                    'cid' => $author->getUserID(),
@@ -120,18 +121,19 @@ class NotifyFollowerOfProjectVideoMessagePostedEventHandler extends AbstractEmai
 //                    'ck' => $trackingKeywords, // Campaign Keyword (/ terms)
 //                    'cc' => 'opened', // Campaign content
 //                ],
-                        'username' => $follower->getViewer()->getFirstName(),
-                        'authorFullName' => $author->getFullName(),
-                        'videoProjectTitle' => $videoProjectMessage->getVideoProject()->getTitle(),
-                        'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
-                            'id' => $videoProjectMessage->getVideoProject()->getId(),
-                            '_fragment' => 'videoproject-discussion-target'
-                        ], UrlGeneratorInterface::ABSOLUTE_URL)
-                    ],
-                    new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),
-                    [],
-                    $author->getFullName()
-                );
+                            'username' => $follower->getViewer()->getFirstName(),
+                            'authorFullName' => $author->getFullName(),
+                            'videoProjectTitle' => $videoProjectMessage->getVideoProject()->getTitle(),
+                            'videoProjectUrl' => $this->router->generate('front_coachingvideo_videoproject_view', [
+                                'id' => $videoProjectMessage->getVideoProject()->getId(),
+                                '_fragment' => 'videoproject-discussion-target'
+                            ], UrlGeneratorInterface::ABSOLUTE_URL)
+                        ],
+                        new EmailRecipientList([$this->createUserEmailContact($follower->getViewer())]),
+                        [],
+                        $author->getFullName()
+                    );
+                }
             }
         }
     }
