@@ -47,10 +47,10 @@ notifyUserOfPasswordResetTokenGenerated:
 
 notifyOwnerOfVehicleRemoved:
   object: "Votre annonce a bien été supprimée - Wamcar"
-  body: >
-    <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
-    <p>Donnez votre avis sur Wamcar en remplissant notre formulaire de satisfaction.</p>
-  action_label: Donner votre avis
+  body: <p>La suppression de votre annonce %name% %annee% a bien été prise en compte.</p>
+  coment_save_as_typeform_disabled:
+    body: <p>Donnez votre avis sur Wamcar en remplissant notre formulaire de satisfaction.</p>
+    action_label: Donnez votre avis
 
 notifyUserOfAddingPicturesToVehicle:
   object: "Améliorez votre annonce en la complétant - Wamcar"

@@ -78,7 +78,8 @@
             {# END Applointment Block #}
 
             {# Affinity Blocks (according to (un)logged user) #}
-            {% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
+            {# TypeForm désactivé #}
+            {#{% set lwaWTattr = 'data-wtaction="LWA" data-wtfrom="'~ app.user|wtFromDataAttrValue ~'" data-wtcontext="'~user|wtToDataAttrValue~'"' %}
             {% if userIsMe %}
                 <div class="profile-section block-light-shadow">
                     <h2>{{ "user.affinity.section.title"|trans }}</h2>
@@ -102,7 +103,7 @@
                             {{ include('front/Affinity/includes/affinity_degreee_element.html.twig', {enable_dropdown : false}) }}</h2>
                         <canvas class="js-radar-chart" data-dataset="{{ userAffinity is not null ? userAffinity.radarChartData|json_encode }}"></canvas>
                     </div>
-                {% elseif isLogged %}{# Désactivé pour les non connecté#}
+                {% elseif isLogged %}#}{# Désactivé pour les non connecté#}{#
                     <div class="profile-section block-grid align-middle block-dark-blue block-light-shadow hide-for-small-only">
                         <div class="column small-12 large-8 text-justify">
                             <h2>{{ "user.affinity.section.our_affinities"|trans }}
@@ -117,7 +118,7 @@
                         </div>
                     </div>
                 {% endif %}
-            {% endif %}
+            {% endif %}#}
             {# END Affinity Blocks #}
 
             {# Presentation Video Block #}

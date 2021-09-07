@@ -328,7 +328,10 @@ class RegistrationController extends BaseController
                         return $this->redirectToRoute('front_vehicle_personal_add', $inscQueryParam);
                     }
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
+                    /* TYPEFORM désactivé : on redirige directement vers la page du particulier
                     return $this->redirectToRoute('front_affinity_personal_form', $inscQueryParam);
+                    */
+                    return $this->redirectToRoute('front_edit_user_project', $inscQueryParam);
                 default:
                     $this->session->remove(RegistrationController::PERSONAL_ORIENTATION_ACTION_SESSION_KEY);
                     $this->session->getFlashBag()->add(
@@ -352,7 +355,10 @@ class RegistrationController extends BaseController
                         return $this->redirectToRoute('front_vehicle_personal_add');
                     }
                 case PersonalOrientationChoices::PERSONAL_ORIENTATION_BUY():
+                    /* TYPEFORM désactivé : on redirige directement vers la page du particulier
                     return $this->redirectToRoute('front_affinity_personal_form');
+                    */
+                    return $this->redirectToRoute('front_edit_user_project');
                 default:
                     $this->session->getFlashBag()->add(
                         self::FLASH_LEVEL_WARNING,
