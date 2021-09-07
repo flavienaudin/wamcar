@@ -53,7 +53,11 @@
                             <div class="column small-12">
                                 <label>{{ 'landing.mixte.field.social_connect.label'|trans }}</label>
                             </div>
+
+                            {# TypeForm WamAff est désactivé
                             {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_affinity_pro_form')} %}
+                            #}
+                            {% include 'front/Security/Register/includes/social_networks_login_row.html.twig' with {'context':constant("Wamcar\\User\\ProUser::TYPE"),'destination':url('front_view_current_user_info')} %}
                         </div>
 
                         <div class="">

@@ -20,7 +20,7 @@ class NotifyOwnerOfVehicleRemoved extends AbstractEmailEventHandler implements V
         $this->checkEventClass($event, PersonalVehicleRemoved::class);
         /** @var PersonalVehicle $vehicle */
         $vehicle = $event->getVehicle();
-        $this->checkEventClass($event, PersonalVehicle::class);
+        $this->checkEventClass($vehicle, PersonalVehicle::class);
 
         $commonUTM = [
             'utm_source' => 'notifications',
