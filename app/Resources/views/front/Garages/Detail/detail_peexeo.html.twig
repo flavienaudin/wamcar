@@ -126,12 +126,12 @@
                     </div>
                 {% endif %}
 
-                {% if isEditableByCurrentUser %}
+                {#{% if isEditableByCurrentUser %}
                     <div class="separator small">
                         {{ 'garage.infos.auto_vehicles_import_request.presentation'|trans }}
                         <a href="{{ typeform_ubiflow_request }}" id="ubiflow_request" class="button small full-width">{{ 'garage.infos.auto_vehicles_import_request.form'|trans }}</a>
                     </div>
-                {% endif %}
+                {% endif %}#}
                 {% if currentUserIsMemberOfGarage %}
                     <div class="separator small">
                         <a href="{{ path('front_vehicle_pro_add', {'garage_id': garage.id}) }}" class="button primary-button full-width">
